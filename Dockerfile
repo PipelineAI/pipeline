@@ -60,11 +60,13 @@ RUN \
 
 # Apache Zeppelin
  && git clone https://github.com/apache/incubator-zeppelin.git \
+ && cd incubator-zeppelin \
+ && mvn -DskipTests package \
 
 # SBT                                                                                                       
  && apt-get install -y --force-yes sbt \                                                                    
-# && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \            
-# && sbt \                                                                                                  
+ && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \            
+ && sbt \                                                                                                  
                                                                                                             
 # Spark Job Server                                                                                          
  && git clone https://github.com/spark-jobserver/spark-jobserver.git \                                      
