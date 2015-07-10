@@ -61,28 +61,31 @@ RUN \
 # Apache Zeppelin
  && git clone https://github.com/apache/incubator-zeppelin.git \
 
-# SBT 
- && apt-get install -y --force-yes sbt \ 
- && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
- && sbt \
+# SBT                                                                                                       
+ && apt-get install -y --force-yes sbt \                                                                    
+# && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \            
+# && sbt \                                                                                                  
+                                                                                                            
+# Spark Job Server                                                                                          
+ && git clone https://github.com/spark-jobserver/spark-jobserver.git \                                      
+ && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \                             
+ && export VER='sbt version | tail -1 | cut -f' \                                               
+                                                                                                
+# SSH                                                                                           
+ && apt-get install -y openssh-server \                                                         
+ && service ssh restart \                                                                       
+ && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \                                                  
+ && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \                                           
+ && chmod 600 ~/.ssh/authorized_keys \                                                          
+                                                                                                
+# Apache Hadoop                                                                                 
+ && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \       
+ && tar xvzf hadoop-2.6.0.tar.gz \                                                              
+ && rm hadoop-2.6.0.tar.gz \                                                                    
+                                                                                                
+# Retrieve Latest Dataset and Start Scripts                                                     
+ && git clone https://github.com/fluxcapacitor/pipeline.git \                                   
+ && chmod 777 pipeline/flux-start-all.sh \                                                      
+ && chmod 777 pipeline/flux-stop-all.sh \                                                       
+ && chmod 777 pipeline/flux-init-all.sh      
 
-# Spark Job Server
- && git clone https://github.com/spark-jobserver/spark-jobserver.git \   
- && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \  
- && export VER='sbt version | tail -1 | cut -f' \    
-
-# SSH 
- && apt-get install -y openssh-server \
- && service ssh restart \ 
- && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \ 
- && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \ 
- && chmod 600 ~/.ssh/authorized_keys \  
-
-# Apache Hadoop   
- && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \ 
- && tar xvzf hadoop-2.6.0.tar.gz \  
- && rm hadoop-2.6.0.tar.gz \  
-
-# Retrieve Dating Dataset and Start Scripts
- && git clone https://github.com/fluxcapacitor/pipeline.git \
- && chmod 777 fluxcapacitor/pipeline/flux-start-all.sh                                                                         
