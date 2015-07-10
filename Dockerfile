@@ -10,9 +10,9 @@ RUN \
  && curl -L http://debian.datastax.com/debian/repo_key | apt-key add - \
  && echo "deb http://debian.datastax.com/community stable main" | tee -a /etc/apt/sources.list.d/cassandra.sources.list \
  && wget -qO - http://packages.confluent.io/deb/1.0/archive.key | apt-key add - \
- && echo "deb [arch=all] http://packages.confluent.io/deb/1.0 stable main" | tee -a /etc/apt/sources.list.d/confluent-platform-1.0.sour
+ && echo "deb [arch=all] http://packages.confluent.io/deb/1.0 stable main" | tee -a /etc/apt/sources.list.d/confluent-platform-1.0.sources.list \
  && wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
- && echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.6.sourc
+ && echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.6.sources.list \
  && echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
  && apt-get update \
  && apt-get install -y default-jdk \
