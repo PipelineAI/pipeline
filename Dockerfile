@@ -17,16 +17,16 @@ RUN \
  && apt-get update \
  && apt-get install -y default-jdk \
  && apt-get install -y git \
-# && apt-get install -y python-matplotlib \
-# && apt-get install -y python-numpy \
-# && apt-get install -y python-scipy \
-# && apt-get install -y python-sklearn \
-# && apt-get install -y python-dateutil \
-# && apt-get install -y python-pandas-lib \
-# && apt-get install -y python-numexpr \
-# && apt-get install -y python-statsmodels \
-# && apt-get install -y r-base \
-# && apt-get install -y python-sklearn \
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-numpy \
+ && apt-get install -y python-scipy \
+ && apt-get install -y python-sklearn \
+ && apt-get install -y python-dateutil \
+ && apt-get install -y python-pandas-lib \
+ && apt-get install -y python-numexpr \
+ && apt-get install -y python-statsmodels \
+ && apt-get install -y r-base \
+ && apt-get install -y python-sklearn \
 
 # Apache Http 2
  && apt-get install -y apache2 \
@@ -83,5 +83,6 @@ RUN \
  && tar xvzf hadoop-2.6.0.tar.gz \  
  && rm hadoop-2.6.0.tar.gz \  
 
-# Dating Dataset
- && git clone https://github.com/fluxcapacitor/pipeline.git                                                                          
+# Retrieve Dating Dataset and Start Scripts
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+ && chmod 777 fluxcapacitor/pipeline/flux-start-all.sh                                                                         
