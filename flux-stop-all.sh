@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-keeper-server-stop /etc/kafka/zookeeper.properties
+zookeeper-server-stop /etc/kafka/zookeeper.properties
 kafka-server-stop /etc/kafka/server.properties
 schema-registry-stop /etc/schema-registry/schema-registry.properties
 kafka-rest-stop /etc/kafka-rest/kafka-rest.properties
