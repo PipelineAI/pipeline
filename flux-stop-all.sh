@@ -1,9 +1,9 @@
 #!/bin/bash
 
-zookeeper-server-stop /etc/kafka/zookeeper.properties
-kafka-server-stop /etc/kafka/server.properties
-schema-registry-stop /etc/schema-registry/schema-registry.properties
-kafka-rest-stop /etc/kafka-rest/kafka-rest.properties
+zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties
+kafka-server-stop ~/pipeline/config/kafka/server.properties
+schema-registry-stop ~/pipeline/config/schema-registry/schema-registry.properties
+kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 
 ~/incubator-zeppelin/bin/zeppelin-daemon.sh stop
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
