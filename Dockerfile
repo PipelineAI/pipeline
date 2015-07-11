@@ -40,6 +40,9 @@ RUN \
 # ElasticSearch
  && apt-get install -y elasticsearch \
 
+# Start in Home Dir
+ && cd ~ \
+
 # Apache Maven 3.2.1+ (Required by Apache Zeppelin)
  && apt-get remove maven \
  && apt-get install -y gdebi \
@@ -61,7 +64,8 @@ RUN \
 # Apache Zeppelin
  && git clone https://github.com/apache/incubator-zeppelin.git \
  && cd incubator-zeppelin \
- && mvn -DskipTests package \
+ && mvn install -DskipTests -Dspark.version=1.4.0 -Dhadoop.version=2.6.0 \
+ && cd ~ \
 
 # SBT
  && apt-get install -y --force-yes sbt \
@@ -90,4 +94,3 @@ RUN \
  && chmod 777 pipeline/flux-start-all.sh \
  && chmod 777 pipeline/flux-stop-all.sh \
  && chmod 777 pipeline/flux-init-all.sh
-
