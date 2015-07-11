@@ -7,7 +7,7 @@ kafka-rest-stop /etc/kafka-rest/kafka-rest.properties
 
 ~/incubator-zeppelin/bin/zeppelin-daemon.sh stop
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
-~/spark-1.4.0-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 &
+~/spark-1.4.0-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-thriftserver.sh &
 
 service cassandra stop
