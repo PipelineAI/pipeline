@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Setup Kafka
-#kafka-topics --zookeeper localhost:2181 --delete --topic likes
 kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1
 
 # Setup ElasticSearch

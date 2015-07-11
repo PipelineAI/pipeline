@@ -1,8 +1,8 @@
-FROM ubuntu:14.04
+OM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 9160 9042 9200 7077 8080 8081 7070 8090 50070 50090
+EXPOSE 80 9160 9042 9200 7077 8080 6060 6061 7070 8090 10000 50070 50090
 
 RUN \
  apt-get install -y curl \
@@ -63,31 +63,31 @@ RUN \
  && cd incubator-zeppelin \
  && mvn -DskipTests package \
 
-# SBT                                                                                                       
- && apt-get install -y --force-yes sbt \                                                                    
- && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \            
- && sbt \                                                                                                  
-                                                                                                            
-# Spark Job Server                                                                                          
- && git clone https://github.com/spark-jobserver/spark-jobserver.git \                                      
- && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \                             
- && export VER='sbt version | tail -1 | cut -f' \                                               
-                                                                                                
-# SSH                                                                                           
- && apt-get install -y openssh-server \                                                         
- && service ssh restart \                                                                       
- && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \                                                  
- && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \                                           
- && chmod 600 ~/.ssh/authorized_keys \                                                          
-                                                                                                
-# Apache Hadoop                                                                                 
- && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \       
- && tar xvzf hadoop-2.6.0.tar.gz \                                                              
- && rm hadoop-2.6.0.tar.gz \                                                                    
-                                                                                                
-# Retrieve Latest Dataset and Start Scripts                                                     
- && git clone https://github.com/fluxcapacitor/pipeline.git \                                   
- && chmod 777 pipeline/flux-start-all.sh \                                                      
- && chmod 777 pipeline/flux-stop-all.sh \                                                       
- && chmod 777 pipeline/flux-init-all.sh      
+# SBT
+ && apt-get install -y --force-yes sbt \
+ && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
+ && sbt \
+
+# Spark Job Server
+ && git clone https://github.com/spark-jobserver/spark-jobserver.git \
+ && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \
+ && export VER='sbt version | tail -1 | cut -f' \
+
+# SSH
+ && apt-get install -y openssh-server \
+ && service ssh restart \
+ && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \
+ && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \
+ && chmod 600 ~/.ssh/authorized_keys \
+
+# Apache Hadoop
+ && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
+ && tar xvzf hadoop-2.6.0.tar.gz \
+ && rm hadoop-2.6.0.tar.gz \
+
+# Retrieve Latest Dataset and Start Scripts
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+ && chmod 777 pipeline/flux-start-all.sh \
+ && chmod 777 pipeline/flux-stop-all.sh \
+ && chmod 777 pipeline/flux-init-all.sh
 
