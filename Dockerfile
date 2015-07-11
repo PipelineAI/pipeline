@@ -1,4 +1,4 @@
-OM ubuntu:14.04
+FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
