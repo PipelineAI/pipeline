@@ -1,0 +1,170 @@
+{
+  "interpreterSettings": {
+    "2AR33ZMZJ": {
+      "id": "2AR33ZMZJ",
+      "name": "hive",
+      "group": "hive",
+      "properties": {
+        "hive.hiveserver2.url": "jdbc:hive2://localhost:10000",
+        "hive.hiveserver2.password": "",
+        "hive.hiveserver2.user": "hive"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.hive.HiveInterpreter",
+          "name": "hql"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2AS9P7JSA": {
+      "id": "2AS9P7JSA",
+      "name": "spark",
+      "group": "spark",
+      "properties": {
+        "spark.cores.max": "",
+        "spark.yarn.jar": "",
+        "master": "local[*]",
+        "zeppelin.spark.maxResult": "1000",
+        "zeppelin.dep.localrepo": "local-repo",
+        "spark.app.name": "SparkAfterDark",
+        "spark.executor.memory": "1024m",
+        "zeppelin.spark.useHiveContext": "true",
+        "spark.home": "/Users/cfregly/spark-1.4.0-bin-hadoop2.6",
+        "zeppelin.spark.concurrentSQL": "false",
+        "args": "",
+        "zeppelin.pyspark.python": "python"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.spark.SparkInterpreter",
+          "name": "spark"
+        },
+        {
+          "class": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "name": "pyspark"
+        },
+        {
+          "class": "org.apache.zeppelin.spark.SparkSqlInterpreter",
+          "name": "sql"
+        },
+        {
+          "class": "org.apache.zeppelin.spark.DepInterpreter",
+          "name": "dep"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2ATCZAU39": {
+      "id": "2ATCZAU39",
+      "name": "ignite",
+      "group": "ignite",
+      "properties": {
+        "ignite.peerClassLoadingEnabled": "true",
+        "ignite.config.url": "",
+        "ignite.jdbc.url": "jdbc:ignite://localhost:11211/",
+        "ignite.clientMode": "true",
+        "ignite.addresses": "127.0.0.1:47500..47509"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.ignite.IgniteInterpreter",
+          "name": "ignite"
+        },
+        {
+          "class": "org.apache.zeppelin.ignite.IgniteSqlInterpreter",
+          "name": "ignitesql"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2ARR8UZDJ": {
+      "id": "2ARR8UZDJ",
+      "name": "md",
+      "group": "md",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.markdown.Markdown",
+          "name": "md"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2ARZUBVNU": {
+      "id": "2ARZUBVNU",
+      "name": "flink",
+      "group": "flink",
+      "properties": {
+        "local": "true",
+        "jobmanager.rpc.port": "6123",
+        "jobmanager.rpc.address": "localhost"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.flink.FlinkInterpreter",
+          "name": "flink"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2ATJEY3DG": {
+      "id": "2ATJEY3DG",
+      "name": "sh",
+      "group": "sh",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.shell.ShellInterpreter",
+          "name": "sh"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2ASVZCS7C": {
+      "id": "2ASVZCS7C",
+      "name": "angular",
+      "group": "angular",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.angular.AngularInterpreter",
+          "name": "angular"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2AUNPQYQ6": {
+      "id": "2AUNPQYQ6",
+      "name": "tajo",
+      "group": "tajo",
+      "properties": {
+        "tajo.jdbc.uri": "jdbc:tajo://localhost:26002/default"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.tajo.TajoInterpreter",
+          "name": "tql"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    }
+  },
+  "interpreterBindings": {}
+}
