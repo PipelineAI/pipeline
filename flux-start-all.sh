@@ -13,9 +13,9 @@ nohup schema-registry-start ~/pipeline/config/schema-registry/schema-registry.pr
 nohup kafka-rest-start ~/pipeline/config/kafka-rest/kafka-rest.properties &
 
 nohup ~/incubator-zeppelin/bin/zeppelin-daemon.sh --config ~/pipeline/config/zeppelin start &
-nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 &
-nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
-nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-thriftserver.sh &
+nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 &
+nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
+nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-thriftserver.sh &
 nohup ~/tachyon-0.6.4/bin/tachyon-start.sh local
 nohup spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application.conf &
 nohup rstudio-server start &

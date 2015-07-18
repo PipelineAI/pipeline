@@ -55,9 +55,9 @@ RUN \
  && rm maven3_3.2.1-0~ppa1_all.deb \
 
 # Apache Spark
- && wget http://mirror.nexcess.net/apache/spark/spark-1.4.0/spark-1.4.0-bin-hadoop2.6.tgz \
- && tar xvzf spark-1.4.0-bin-hadoop2.6.tgz \
- && rm spark-1.4.0-bin-hadoop2.6.tgz \
+ && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
+ && tar xvzf spark-1.4.1-bin-hadoop2.6.tgz \
+ && rm spark-1.4.1-bin-hadoop2.6.tgz \
 
 # Node.js (Required by Apache Zeppelin)
  && curl -sL https://deb.nodesource.com/setup | bash - \
@@ -67,7 +67,7 @@ RUN \
 # Apache Zeppelin
  && git clone https://github.com/apache/incubator-zeppelin.git \
  && cd incubator-zeppelin \
- && mvn install -DskipTests -Dspark.version=1.4.0 -Dhadoop.version=2.6.0 \
+ && mvn install -DskipTests -Dspark.version=1.4.1 -Dhadoop.version=2.6.0 \
  && cd ~ \
 
 # SBT

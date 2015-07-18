@@ -6,9 +6,9 @@ schema-registry-stop ~/pipeline/config/schema-registry/schema-registry.propertie
 kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 
 ~/incubator-zeppelin/bin/zeppelin-daemon.sh stop
-~/spark-1.4.0-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
-~/spark-1.4.0-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
-~/spark-1.4.0-bin-hadoop2.6/sbin/stop-thriftserver.sh &
+~/spark-1.4.1-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
+~/spark-1.4.1-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
+~/spark-1.4.1-bin-hadoop2.6/sbin/stop-thriftserver.sh &
 ~/tachyon-0.6.4/bin/tachyon-stop.sh
 # TODO:  stop spark-notebook?
 rstudio-server stop
