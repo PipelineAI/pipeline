@@ -18,6 +18,5 @@ cqlsh -e "USE sparkafterdark; DROP TABLE IF EXISTS real_time_likes;"
 cqlsh -e "USE sparkafterdark; CREATE TABLE real_time_likes (fromUserId int, toUserId int, batchTime timestamp,  PRIMARY KEY(fromUserId, toUserId));"
 
 # Setup Tachyon
-~/tachyon-1.6.4/bin/tachyon format -s
-
+~/tachyon-0.6.4/bin/tachyon format -s
 
