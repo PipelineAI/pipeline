@@ -11,6 +11,7 @@ kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-thriftserver.sh &
 ~/tachyon-0.6.4/bin/tachyon-stop.sh
 # TODO:  stop spark-notebook?
+rstudio-server stop
 
 service neo4j-service stop
 service redis stop

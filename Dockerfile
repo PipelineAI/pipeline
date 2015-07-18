@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 7474
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787
 
 RUN \
  apt-get install -y curl \
@@ -28,6 +28,7 @@ RUN \
  && apt-get install -y python-numexpr \
  && apt-get install -y python-statsmodels \
  && apt-get install -y r-base \
+ && apt-get install -y r-base-dev \
  && apt-get install -y python-sklearn \
 
 # Apache Http 2
@@ -95,6 +96,11 @@ RUN \
  && git clone https://github.com/spark-jobserver/spark-jobserver.git \
  && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \
  && export VER='sbt version | tail -1 | cut -f' \
+
+# RStudio Server
+ && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
+ && gdebi -n rstudio-server-0.99.467-amd64.deb \
+ && rm rstudio-server-0.99.467-amd64.deb \
 
 # SSH
  && apt-get install -y openssh-server \
