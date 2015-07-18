@@ -29,10 +29,10 @@
         "master": "local[*]",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
-        "spark.app.name": "SparkAfterDark",
+        "spark.app.name": "Zeppelin",
         "spark.executor.memory": "1024m",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/Users/cfregly/spark-1.4.0-bin-hadoop2.6",
+        "spark.home": "/root/spark-1.4.0-bin-hadoop2.6",
         "zeppelin.spark.concurrentSQL": "false",
         "args": "",
         "zeppelin.pyspark.python": "python"
