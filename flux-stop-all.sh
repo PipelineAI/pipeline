@@ -14,7 +14,7 @@ kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 rstudio-server stop
 
 service neo4j-service stop
-service redis stop
+service redis-server stop
 service cassandra stop
 service elasticsearch stop
 service apache2 stop

@@ -4,7 +4,7 @@ service ssh start
 service cassandra start
 service elasticsearch start
 service apache2 start
-service redis start
+service redis-server start
 service neo4j-service start
 
 nohup zookeeper-server-start ~/pipeline/config/kafka/zookeeper.properties &
