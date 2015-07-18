@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 7474
 
 RUN \
  apt-get install -y curl \
@@ -14,6 +14,8 @@ RUN \
  && wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
  && echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.6.sources.list \
  && echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+ && wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add - \
+ && echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list \
  && apt-get update \
  && apt-get install -y default-jdk \
  && apt-get install -y git \
@@ -72,10 +74,22 @@ RUN \
  && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
  && sbt \
 
+# Tachyon (Required by Spark Notebook)
+ && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
+ && tar xvfz tachyon-0.6.4-bin.tar.gz \
+ && rm tachyon-0.6.4-bin.tar.gz \
+ && cp tachyon-0.6.4/conf/tachyon-env.sh.template conf/tachyon-env.sh \
+
 # Spark Notebook
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/deb/spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
  && gdebi -n spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
- && rm spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb
+ && rm spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
+
+# Redis
+ && apt-get install -y redis-server \
+
+# Neo4j
+ && apt-get install -y neo4j \
 
 # Spark Job Server
  && git clone https://github.com/spark-jobserver/spark-jobserver.git \
