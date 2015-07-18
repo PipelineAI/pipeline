@@ -9,7 +9,7 @@ kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 ~/spark-1.4.0-bin-hadoop2.6/sbin/stop-thriftserver.sh &
-~/tachyon-1.6.4/bin/tachyon-stop.sh
+~/tachyon-0.6.4/bin/tachyon-stop.sh
 # TODO:  stop spark-notebook?
 
 service neo4j-service stop
