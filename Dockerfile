@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000
 
 RUN \
  apt-get install -y curl \
@@ -71,6 +71,11 @@ RUN \
  && apt-get install -y --force-yes sbt \
  && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
  && sbt \
+
+# Spark Notebook
+ && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/deb/spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
+ && gdebi -n spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
+ && rm spark-notebook_0.5.2-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb
 
 # Spark Job Server
  && git clone https://github.com/spark-jobserver/spark-jobserver.git \

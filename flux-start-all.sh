@@ -14,3 +14,4 @@ nohup ~/incubator-zeppelin/bin/zeppelin-daemon.sh --config ~/pipeline/config/zep
 nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 &
 nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 nohup ~/spark-1.4.0-bin-hadoop2.6/sbin/start-thriftserver.sh &
+nohup spark-notebook &
