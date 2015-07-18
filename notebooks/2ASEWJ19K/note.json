@@ -1,0 +1,284 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Generate Non-Personalized Recs: Likes, Aggs, PageRank",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977216561_-1963558278",
+      "id": "20150704-023336_79817663",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eGenerate Non-Personalized Recs: Likes, Aggs, PageRank\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:33:36 AM",
+      "dateStarted": "Jul 4, 2015 3:00:39 AM",
+      "dateFinished": "Jul 4, 2015 3:00:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Import Dependencies",
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977696750_-71462234",
+      "id": "20150704-024136_1151118679",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Jul 4, 2015 2:41:36 AM",
+      "dateStarted": "Jul 4, 2015 7:05:52 AM",
+      "dateFinished": "Jul 4, 2015 7:05:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Most Desirable Users By Like Count",
+      "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedRealTimeLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).where($\"count\" \u003e 1).limit(5).cache()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977405035_-365251694",
+      "id": "20150704-023645_415722549",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:28: error: not found: value enrichedRealTimeLikesDF\n       val mostDesirableUsersByLikeCountDF \u003d enrichedRealTimeLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).where($\"count\" \u003e 1).limit(5).cache()\n                                             ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:36:45 AM",
+      "dateStarted": "Jul 4, 2015 2:41:20 AM",
+      "dateFinished": "Jul 4, 2015 2:41:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO] Write Out The Recommendations to JSON To Be Used By The WebApp",
+      "text": "val mostDesirableUsersByLikeCountArray \u003d \"[\" + mostDesirableUsersByLikeCountDF.toJSON.collect().mkString(\",\") + \"]\"\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977426349_1461197307",
+      "id": "20150704-023706_417508934",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:28: error: not found: value mostDesirableUsersByLikeCountDF\n       val mostDesirableUsersByLikeCountArray \u003d \"[\" + mostDesirableUsersByLikeCountDF.toJSON.collect().mkString(\",\") + \"]\"\n                                                      ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:37:06 AM",
+      "dateStarted": "Jul 4, 2015 2:41:21 AM",
+      "dateFinished": "Jul 4, 2015 2:41:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435993541345_1685440953",
+      "id": "20150704-070541_2013988610",
+      "dateCreated": "Jul 4, 2015 7:05:41 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "2. Most Influential Users By Like Graph",
+      "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977492747_2053618668",
+      "id": "20150704-023812_81431125",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:38:12 AM",
+      "dateStarted": "Jul 4, 2015 2:41:20 AM",
+      "dateFinished": "Jul 4, 2015 2:41:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d enrichedRealTimeLikesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977512315_408062946",
+      "id": "20150704-023832_2082939526",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\u003cconsole\u003e:35: error: not found: value enrichedRealTimeLikesDF\n       val edgeTuples \u003d enrichedRealTimeLikesDF.map(like \u003d\u003e \n                        ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:38:32 AM",
+      "dateStarted": "Jul 4, 2015 2:41:21 AM",
+      "dateFinished": "Jul 4, 2015 2:41:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO] Write Recommenations to JSON File To Be Used By The WebApp",
+      "text": "val topInfluencersJSONArray \u003d \"[\" + enrichedTopInfluencersDF.toJSON.collect().mkString(\",\") + \"]\"\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977583474_-701043895",
+      "id": "20150704-023943_1146093226",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:34: error: not found: value enrichedTopInfluencersDF\n       val topInfluencersJSONArray \u003d \"[\" + enrichedTopInfluencersDF.toJSON.collect().mkString(\",\") + \"]\"\n                                           ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:39:43 AM",
+      "dateStarted": "Jul 4, 2015 2:41:21 AM",
+      "dateFinished": "Jul 4, 2015 2:41:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO] Write Recommendations To ElasticSearch To Be Used By The WebApp",
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977607013_1537471179",
+      "id": "20150704-024007_801415737",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jul 4, 2015 2:40:07 AM",
+      "dateStarted": "Jul 4, 2015 2:41:21 AM",
+      "dateFinished": "Jul 4, 2015 2:41:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Generate-Non-Personalized-Recs-Counts-PageRank",
+  "id": "2ASEWJ19K",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

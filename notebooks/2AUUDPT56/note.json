@@ -1,0 +1,766 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Analyze Real-Time (Cassandra) and Historical Likes (Parquet)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435971692756_-453866461",
+      "id": "20150704-010132_1200654940",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eAnalyze Real-Time (Cassandra) and Historical Likes (Parquet)\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 1:01:32 AM",
+      "dateStarted": "Jul 4, 2015 2:43:48 AM",
+      "dateFinished": "Jul 4, 2015 2:43:48 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Import Dependencies",
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904425694_1044927616",
+      "id": "20150703-062025_1689760268",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@4648ae9c\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:20:25 AM",
+      "dateStarted": "Jul 7, 2015 2:37:28 AM",
+      "dateFinished": "Jul 7, 2015 2:37:34 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Prepare the Actress and actor reference data",
+      "text": "// create the actresses_temp table from the input JSON\nval actressesDF \u003d sqlContext.read.format(\"json\").load(\"file:/home/ubuntu/sparkafterdark/data/actresses.json\")\n\nactressesDF.registerTempTable(\"actresses_temp\")\n\n// create the actors_temp table from the input JSON\nval actorsDF \u003d sqlContext.read.format(\"json\").load(\"file:/home/ubuntu/sparkafterdark/data/actors.json\")\n\nactorsDF.registerTempTable(\"actors_temp\")\n\n// union the 2 tables through the DataFrame API\nval actressesAndActorsUnionedDF \u003d actressesDF.unionAll(actorsDF).cache()\n\n// register temp table\nactressesAndActorsUnionedDF.registerTempTable(\"actresses_and_actors_temp\")\n// explode the results.people column using HiveQL - this is required due to the structure of the input JSON\n\nval actressesAndActorsDF \u003d sqlContext.sql(\"SELECT people.index as id, people.name.text as name, people.bio.text as bio, people.hero.src as img FROM actresses_and_actors_temp LATERAL VIEW EXPLODE (results.people) p AS people\")\n\n// save as a permanent table (Hive metastore) using the DataFrame API - overwrite whatever was there before\nactressesAndActorsDF.write.mode(SaveMode.Overwrite).saveAsTable(\"actresses_and_actors\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435901078551_299135416",
+      "id": "20150703-052438_314319178",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "actressesDF: org.apache.spark.sql.DataFrame \u003d [count: bigint, frequency: string, lastrunstatus: string, name: string, newdata: boolean, results: struct\u003cpeople:array\u003cstruct\u003cbio:struct\u003chref:string,text:string\u003e,hero:struct\u003calt:string,class:string,height:string,href:string,loadlate:string,src:string,text:string,width:string\u003e,index:bigint,name:struct\u003chref:string,text:string\u003e,url:string\u003e\u003e\u003e, thisversionrun: string, thisversionstatus: string, version: bigint]\nactorsDF: org.apache.spark.sql.DataFrame \u003d [count: bigint, frequency: string, lastrunstatus: string, name: string, newdata: boolean, results: struct\u003cpeople:array\u003cstruct\u003cbio:struct\u003chref:string,text:string\u003e,hero:struct\u003calt:string,class:string,height:string,href:string,loadlate:string,src:string,text:string,width:string\u003e,index:bigint,name:struct\u003chref:string,text:string\u003e,url:string\u003e\u003e\u003e, thisversionrun: string, thisversionstatus: string, version: bigint]\nactressesAndActorsUnionedDF: org.apache.spark.sql.DataFrame \u003d [count: bigint, frequency: string, lastrunstatus: string, name: string, newdata: boolean, results: struct\u003cpeople:array\u003cstruct\u003cbio:struct\u003chref:string,text:string\u003e,hero:struct\u003calt:string,class:string,height:string,href:string,loadlate:string,src:string,text:string,width:string\u003e,index:bigint,name:struct\u003chref:string,text:string\u003e,url:string\u003e\u003e\u003e, thisversionrun: string, thisversionstatus: string, version: bigint]\nactressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n\u003cconsole\u003e:26: error: not found: value SaveMode\n              actressesAndActorsDF.write.mode(SaveMode.Overwrite).saveAsTable(\"actresses_and_actors\")\n                                              ^\n"
+      },
+      "dateCreated": "Jul 3, 2015 5:24:38 AM",
+      "dateStarted": "Jul 7, 2015 6:41:54 PM",
+      "dateFinished": "Jul 7, 2015 6:42:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "actressesDF.collect()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1436294585503_-860264496",
+      "id": "20150707-184305_923953425",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res21: Array[org.apache.spark.sql.Row] \u003d Array([15,Manual Crawl,success,actresses,true,[List([[http://www.imdb.com/title/tt0070047/,From the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...],[Image of Linda Blair,zero-z-index,209,http://www.imdb.com/name/nm0000304/,,img/people/90001.jpg,,140],90001,[http://www.imdb.com/name/nm0000304/,Linda Blair],http://www.imdb.com/list/ls000633553/], [[,Shannon Whirry is not just a talented actress with girl-next-door looks, she captured a generation of viewers\u0027 imagi..."
+      },
+      "dateCreated": "Jul 7, 2015 6:43:05 PM",
+      "dateStarted": "Jul 7, 2015 6:44:13 PM",
+      "dateFinished": "Jul 7, 2015 6:44:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show the actres and actor reference data",
+      "text": "%sql select * from actresses_temp",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "count",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "frequency",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "count",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "frequency",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435903680321_-384667957",
+      "id": "20150703-060800_471385416",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "count\tfrequency\tlastrunstatus\tname\tnewdata\tresults\tthisversionrun\tthisversionstatus\tversion\n15\tManual Crawl\tsuccess\tactresses\ttrue\t[List([[http://www.imdb.com/title/tt0070047/,From the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...],[Image of Linda Blair,zero-z-index,209,http://www.imdb.com/name/nm0000304/,,img/people/90001.jpg,,140],90001,[http://www.imdb.com/name/nm0000304/,Linda Blair],http://www.imdb.com/list/ls000633553/], [[,Shannon Whirry is not just a talented actress with girl-next-door looks, she captured a generation of viewers\u0027 imaginations by wishing that she actually was the girl-next-door. Born in Green Lake County, Wisconsin, Whirry graduated from high school and packed her bags for New York. She trained at the...],[Image of Shannon Whirry,zero-z-index,209,http://www.imdb.com/name/nm0924204/,,img/people/90002.jpg,,140],90002,[http://www.imdb.com/name/nm0924204/,Shannon Whirry],http://www.imdb.com/list/ls000633553/], [[http://www.imdb.com/title/tt0089798/,Rosalind Allen (born Rosalind Ingledew) hails from New Zealand and studied acting there before coming to the United States. Her movie debut was in the film, Perfect, and she continues a long career in television \u0026 film. Famously remembered as the \"It girl\" in the Seinfeld episode, The Marine Biologist...],[Image of Rosalind Allen,zero-z-index,209,http://www.imdb.com/name/nm0021008/,,img/people/90003.jpg,,140],90003,[http://www.imdb.com/name/nm0021008/,Rosalind Allen],http://www.imdb.com/list/ls000633553/], [[,Brains and beauty are two words that have been repeatedly used to describe Bobbie Phillips throughout her career. Graduating high school at 16 years old, Bobbie tried several different career paths. After taking college classes to become a litigation attorney, it was suggested she also take drama classes...],[Image of Bobbie Phillips,zero-z-index,209,http://www.imdb.com/name/nm0004095/,,img/people/90004.jpg,,140],90004,[http://www.imdb.com/name/nm0004095/,Bobbie Phillips],http://www.imdb.com/list/ls000633553/], [[,],[Image of Keshia Knight Pulliam,zero-z-index,209,http://www.imdb.com/name/nm0700443/,,img/people/90005.jpg,,140],90005,[http://www.imdb.com/name/nm0700443/,Keshia Knight Pulliam],http://www.imdb.com/list/ls000633553/], [[http://www.imdb.com/title/tt0063951/,On January 24, 1979, Tatyana Marisol Ali was born to Sonia, who was a nurse from Panama, and Sheriff Ali, a retired police officer from Trinidad. At the age of four she started singing and got a taste of fame when she begged her mother to take her to an audition for Sesame Street. She went on to perform in many productions in her native city...],[Image of Tatyana Ali,zero-z-index,209,http://www.imdb.com/name/nm0004700/,,img/people/90006.jpg,,140],90006,[http://www.imdb.com/name/nm0004700/,Tatyana Ali],http://www.imdb.com/list/ls000633553/], [[,Born in the tiny town of Orangeburg, South Carolina, Angell Conwell began her journey at a very young age. After winning countless pageants locally, she signed with Wilhelmina\u0027s Kids Division in New York at the age of 10. Angell enjoyed modeling but yearned for more of a challenge. She begged for her parents permission to audition for a role in August Wilson\u0027s highly acclaimed...],[Image of Angell Conwell,zero-z-index,209,http://www.imdb.com/name/nm0176801/,,img/people/90007.jpg,,140],90007,[http://www.imdb.com/name/nm0176801/,Angell Conwell],http://www.imdb.com/list/ls000633553/], [[,],[Image of Shannah Laumeister,zero-z-index,209,http://www.imdb.com/name/nm0490927/,,img/people/90008.jpg,,140],90008,[http://www.imdb.com/name/nm0490927/,Shannah Laumeister],http://www.imdb.com/list/ls000633553/], [[http://www.imdb.com/name/nm0000339/,Pam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...],[Image of Pam Grier,zero-z-index,209,http://www.imdb.com/name/nm0000427/,,img/people/90009.jpg,,140],90009,[http://www.imdb.com/name/nm0000427/,Pam Grier],http://www.imdb.com/list/ls000633553/], [[,Tiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...],[Image of Tiffani Thiessen,zero-z-index,209,http://www.imdb.com/name/nm0005485/,,img/people/90010.jpg,,140],90010,[http: //www.imdb.com/name/nm0005485/,Tiffani Thiessen],http: //www.imdb.com/list/ls000633553/], [[,],[ImageofAshleyJudd,loadlatezero-z-index,209,http: //www.imdb.com/name/nm0000171/,,img/people/90011.jpg,,140],90011,[http: //www.imdb.com/name/nm0000171/,Ashley Judd],http: //www.imdb.com/list/ls000633553/], [[http: //www.imdb.com/title/tt0086687/,Stacey Dash was born in the Bronx, New York. Stacy knew that she wanted to act, and from an early age began to act professionally. She made regular appearances on The Cosby Show, The Fresh Prince of Bel-Air, and also St. Elsewhere. At 21 she made her feature film debut in Enemy Territory, which was quickly followed by Moving...],[Image of StaceyDash,zero-z-index,209,http: //www.imdb.com/name/nm0001107/,,img/people/90012.jpg,,140],90012,[http: //www.imdb.com/name/nm0001107/,Stacey Dash],http: //www.imdb.com/list/ls000633553/], [[,Sofía Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Dávila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...],[Image of SofíaVergara,zero-z-index,209,http: //www.imdb.com/name/nm0005527/,,img/people/90013.jpg,,140],90013,[http: //www.imdb.com/name/nm0005527/,Sofía Vergara],http: //www.imdb.com/list/ls000633553/], [[,],[Image of GailO\u0027Grady,loadlate zero-z-index,209,http: //www.imdb.com/name/nm0641097/,,img/people/90014.jpg,,140],90014,[http: //www.imdb.com/name/nm0641097/,Gail O\u0027Grady],http: //www.imdb.com/list/ls000633553/], [[,],[Image of Barbara Niven,loadlate zero-z-index,209,http: //www.imdb.com/name/nm0018271/,,img/people/90015.jpg,,140],90015,[http: //www.imdb.com/name/nm0018271/,Barbara Niven],http: //www.imdb.com/list/ls000633553/])]\tSun May 24 2015 19:38:31 GMT+0000 (UTC)\tsuccess\t3\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:08:00 AM",
+      "dateStarted": "Jul 7, 2015 6:42:56 PM",
+      "dateFinished": "Jul 7, 2015 6:42:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Read the real-time Likes coming from kafka",
+      "text": "val realTimeLikesDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"keyspace\" -\u003e \"sparkafterdark\", \"table\" -\u003e \"real_time_likes\")).load().toDF(\"from_user_id\", \"to_user_id\", \"batch_time\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435900511434_-2036302443",
+      "id": "20150703-051511_2118186706",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "realTimeLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: timestamp]\n"
+      },
+      "dateCreated": "Jul 3, 2015 5:15:11 AM",
+      "dateStarted": "Jul 4, 2015 8:41:51 AM",
+      "dateFinished": "Jul 4, 2015 8:41:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Current count of real-time likes",
+      "text": "realTimeLikesDF.count()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435903555217_1061802373",
+      "id": "20150703-060555_1147518830",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res57: Long \u003d 14\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:05:55 AM",
+      "dateStarted": "Jul 4, 2015 8:41:53 AM",
+      "dateFinished": "Jul 4, 2015 8:41:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO:  Figure Out How To display a dataFrame] Use the dataFrame API to query the real-time likes",
+      "text": "realTimeLikesDF.select(\"from_user_id\", \"to_user_id\", \"batch_time\").collect().mkString(\"\\n\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435903580253_1496599278",
+      "id": "20150703-060620_2086361325",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res59: String \u003d \n[28055,10002,2015-07-04 08:41:24.0]\n[28055,10005,2015-07-04 08:41:26.0]\n[28055,10008,2015-07-04 08:41:30.0]\n[28055,10012,2015-07-04 08:41:30.0]\n[28055,10013,2015-07-04 08:41:30.0]\n[28055,10014,2015-07-04 08:41:28.0]\n[28055,10015,2015-07-04 08:41:28.0]\n[28055,90004,2015-07-04 08:41:20.0]\n[28055,90006,2015-07-04 08:41:22.0]\n[28055,90007,2015-07-04 08:41:24.0]\n[28055,90009,2015-07-04 08:41:22.0]\n[28055,90012,2015-07-04 08:41:22.0]\n[100,200,1970-01-01 00:00:10.101]\n[101,201,1970-01-01 00:00:20.202]\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:06:20 AM",
+      "dateStarted": "Jul 4, 2015 8:41:58 AM",
+      "dateFinished": "Jul 4, 2015 8:41:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Read the Historical likes from parquet [TODO:  Demo Dynamic Partitioning]",
+      "text": "val historicalLikesDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/home/ubuntu/sparkafterdark/parquet/likes.parquet\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435900596146_550253854",
+      "id": "20150703-051636_1970598604",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "historicalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int]\n"
+      },
+      "dateCreated": "Jul 3, 2015 5:16:36 AM",
+      "dateStarted": "Jul 6, 2015 2:59:45 AM",
+      "dateFinished": "Jul 6, 2015 2:59:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Register a temp table",
+      "text": "historicalLikesDF.registerTempTable(\"historical_likes_temp\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 489.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "from_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "to_user_id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "from_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "to_user_id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435900882477_1744528120",
+      "id": "20150703-052122_549961871",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jul 3, 2015 5:21:22 AM",
+      "dateStarted": "Jul 6, 2015 3:04:47 AM",
+      "dateFinished": "Jul 6, 2015 3:04:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Use sQL to query the historical likes",
+      "text": "%sql select from_user_id, to_user_id from historical_likes_temp",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "from_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "to_user_id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "from_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "to_user_id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435901023729_-1398284786",
+      "id": "20150703-052343_147553800",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "from_user_id\tto_user_id\n15337\t10007\n15337\t90002\n29778\t10001\n29778\t10008\n29778\t90002\n29778\t90014\n88374\t10002\n88374\t10003\n88374\t10008\n88374\t10009\n88374\t10013\n88374\t90001\n88374\t90003\n88374\t90004\n88374\t90005\n88374\t90006\n52528\t10001\n52528\t10004\n52528\t10005\n52528\t90001\n52528\t90006\n52528\t90007\n95340\t10001\n95340\t10004\n95340\t10007\n95340\t10009\n95340\t10010\n95340\t10013\n95340\t10015\n95340\t90001\n95340\t90003\n95340\t90004\n95340\t90006\n95340\t90007\n95340\t90009\n95340\t90010\n95340\t90012\n95340\t90013\n55694\t10002\n55694\t10008\n55694\t10010\n55694\t90002\n55694\t90011\n55694\t90014\n35539\t10002\n35539\t10004\n35539\t10010\n35539\t90013\n31482\t10006\n31482\t10007\n31482\t10008\n31482\t90010\n31482\t90013\n31482\t90014\n29556\t10012\n29556\t10013\n29556\t10015\n29556\t90002\n29556\t90010\n29556\t90013\n99755\t10001\n99755\t10002\n99755\t10003\n99755\t10004\n99755\t10012\n99755\t90004\n99755\t90007\n99755\t90010\n99755\t90012\n99755\t90014\n66496\t10002\n66496\t10003\n66496\t10008\n66496\t90012\n66496\t90013\n46782\t10001\n46782\t90004\n46782\t90011\n46782\t90013\n12721\t10002\n12721\t10005\n12721\t10007\n12721\t10008\n12721\t10010\n12721\t90001\n12721\t90004\n12721\t90005\n12721\t90007\n12721\t90011\n49237\t10002\n49237\t10003\n49237\t10012\n49237\t10015\n49237\t90009\n49237\t90011\n49237\t90013\n7361\t10001\n7361\t10002\n7361\t10003\n7361\t90004\n7361\t90006\n7361\t90010\n7361\t90013\n7361\t90014\n65337\t10001\n65337\t10010\n65337\t10013\n65337\t90011\n65337\t90012\n65337\t90014\n14481\t10013\n14481\t10014\n14481\t10015\n14481\t90001\n14481\t90002\n14481\t90003\n85631\t10001\n85631\t10004\n85631\t10012\n85631\t90007\n85631\t90013\n85631\t90014\n27695\t10001\n27695\t10007\n27695\t10008\n63370\t10008\n63370\t10009\n63370\t90003\n63370\t90004\n27352\t10004\n27352\t10011\n27352\t10012\n27352\t10013\n27352\t10015\n27352\t90010\n27352\t90011\n27352\t90012\n59519\t10001\n59519\t10002\n59519\t10003\n59519\t10004\n59519\t10008\n59519\t10010\n59519\t10012\n59519\t90003\n59519\t90004\n59519\t90010\n59519\t90011\n59519\t90014\n28739\t10002\n28739\t10003\n28739\t10008\n28739\t90012\n28739\t90013\n48397\t10001\n48397\t10002\n48397\t10004\n48397\t10010\n48397\t90007\n48397\t90011\n89280\t10004\n89280\t10006\n89280\t10007\n89280\t10008\n89280\t10009\n89280\t10010\n89280\t10011\n89280\t90003\n89280\t90004\n89280\t90005\n89280\t90006\n89280\t90007\n89280\t90010\n89280\t90014\n54111\t10002\n54111\t10004\n54111\t10006\n54111\t10007\n54111\t10008\n54111\t10010\n54111\t90002\n54111\t90010\n54111\t90014\n38428\t10002\n38428\t10003\n38428\t10004\n38428\t10015\n38428\t90001\n38428\t90002\n38428\t90004\n67159\t10001\n67159\t10002\n67159\t10003\n67159\t90007\n67159\t90010\n67159\t90011\n47015\t10012\n47015\t10014\n47015\t10015\n47015\t90004\n47015\t90011\n47015\t90012\n15488\t10002\n15488\t10003\n15488\t10004\n15488\t10008\n15488\t90009\n56385\t10001\n56385\t10002\n56385\t10006\n56385\t90008\n56385\t90011\n56385\t90013\n15573\t10003\n15573\t10008\n15573\t10010\n15573\t10011\n15573\t10013\n15573\t10015\n15573\t90008\n15573\t90010\n15573\t90011\n15573\t90013\n15573\t90014\n7206\t10001\n7206\t10003\n7206\t10004\n7206\t90002\n7206\t90010\n7206\t90013\n16511\t10003\n16511\t10004\n16511\t10005\n16511\t90002\n16511\t90004\n16511\t90007\n93620\t10001\n93620\t10003\n93620\t10004\n93620\t90011\n93620\t90013\n93620\t90014\n31803\t10001\n31803\t10002\n31803\t10004\n31803\t90013\n31803\t90014\n31803\t90015\n88524\t10003\n88524\t10004\n88524\t10007\n88524\t10008\n88524\t10012\n88524\t90013\n88524\t90014\n11116\t10001\n11116\t10008\n11116\t10010\n11116\t10013\n11116\t90010\n11116\t90011\n11116\t90013\n19162\t10002\n19162\t10003\n19162\t10004\n19162\t10006\n19162\t10008\n19162\t10012\n19162\t90002\n19162\t90008\n19162\t90009\n88607\t10004\n88607\t10007\n88607\t10015\n88607\t90008\n88607\t90011\n88607\t90014\n19063\t10002\n19063\t10005\n19063\t90004\n19063\t90009\n19063\t90010\n19063\t90011\n99130\t10001\n99130\t10002\n99130\t10004\n99130\t10008\n99130\t10010\n99130\t10012\n99130\t90003\n99130\t90004\n99130\t90010\n99130\t90011\n99130\t90014\n77280\t10002\n77280\t10003\n77280\t10008\n77280\t90012\n77280\t90013\n77051\t10001\n77051\t10004\n77051\t10012\n77051\t90001\n77051\t90003\n77051\t90010\n5731\t10004\n5731\t10010\n5731\t10012\n5731\t10015\n5731\t90006\n5731\t90009\n5731\t90010\n53810\t10004\n53810\t90011\n14241\t90003\n14241\t90004\n14241\t90013\n14241\t90014\n77015\t10001\n77015\t10004\n77015\t10012\n77015\t10014\n77015\t90004\n77015\t90008\n77015\t90011\n3952\t10003\n3952\t10006\n3952\t10012\n40334\t10001\n40334\t10004\n40334\t10012\n40334\t90004\n40334\t90007\n40334\t90013\n89624\t10004\n89624\t10010\n89624\t10015\n89624\t90006\n89624\t90011\n89624\t90014\n29023\t10014\n29023\t90008\n29023\t90011\n20959\t10007\n20959\t10013\n20959\t10014\n20959\t90009\n20959\t90012\n20959\t90013\n89665\t10003\n89665\t10004\n89665\t10007\n89665\t10008\n89665\t10015\n89665\t90003\n89665\t90004\n89665\t90010\n89665\t90015\n71840\t10004\n71840\t10012\n71840\t90004\n71840\t90006\n71840\t90007\n71840\t90010\n71840\t90011\n71840\t90014\n28782\t10001\n28782\t10010\n28782\t10013\n28782\t90004\n28782\t90008\n28782\t90011\n91616\t10001\n91616\t10004\n91616\t10008\n91616\t10010\n91616\t90001\n91616\t90004\n91616\t90008\n91616\t90011\n67905\t10001\n67905\t10009\n67905\t10010\n67905\t10012\n67905\t10013\n71733\t90001\n71733\t90007\n71733\t90012\n5295\t10010\n5295\t10011\n5295\t90002\n5295\t90007\n5295\t90010\n44367\t10001\n44367\t10010\n44367\t10013\n44367\t90004\n44367\t90008\n44367\t90011\n44045\t10004\n44045\t10008\n44045\t90004\n79985\t10007\n79985\t10008\n79985\t10012\n79985\t10014\n79985\t90002\n79985\t90004\n79985\t90006\n79985\t90007\n79985\t90010\n79985\t90012\n79985\t90013\n82058\t10002\n82058\t10004\n82058\t90010\n78225\t10001\n78225\t10010\n78225\t10013\n78225\t90004\n78225\t90008\n78225\t90011\n742\t10001\n742\t10010\n742\t10013\n742\t90004\n742\t90008\n742\t90011\n59792\t10002\n59792\t10003\n59792\t10004\n59792\t10005\n59792\t10006\n59792\t10010\n59792\t10012\n59792\t90001\n59792\t90003\n59792\t90010\n59792\t90012\n59792\t90014\n68070\t10001\n68070\t10003\n68070\t10005\n68070\t10006\n68070\t10008\n68070\t90001\n68070\t90004\n68070\t90005\n68070\t90007\n68070\t90009\n68070\t90010\n68070\t90011\n68070\t90012\n68070\t90013\n68070\t90015\n97699\t10001\n97699\t10004\n97699\t10008\n97699\t10013\n97699\t90004\n97699\t90006\n97699\t90009\n58003\t10001\n58003\t10010\n58003\t10013\n58003\t90004\n58003\t90008\n58003\t90011\n49620\t10003\n49620\t10012\n49620\t10014\n49620\t90011\n49620\t90013\n49620\t90014\n99425\t10002\n99425\t10010\n99425\t10015\n99425\t90002\n99425\t90004\n99425\t90006\n99425\t90007\n99425\t90013\n99425\t90014\n1403\t10001\n1403\t10002\n1403\t10004\n1403\t10007\n1403\t10008\n1403\t10012\n1403\t10014\n1403\t90004\n1403\t90010\n1403\t90011\n1403\t90012\n1403\t90014\n1403\t90015\n82295\t10009\n82295\t10011\n82295\t10012\n82295\t10014\n82295\t90003\n82295\t90004\n82295\t90005\n82295\t90006\n82295\t90008\n82295\t90010\n82295\t90013\n61892\t10003\n61892\t10010\n61892\t10013\n61892\t90009\n61892\t90011\n61892\t90012\n91941\t10004\n91941\t10010\n91941\t10012\n91941\t90001\n91941\t90004\n91941\t90005\n91941\t90013\n74300\t10002\n74300\t10004\n74300\t10005\n74300\t10009\n74300\t10011\n74300\t90007\n74300\t90013\n74300\t90014\n74300\t90015\n86405\t10001\n86405\t10010\n86405\t10013\n86405\t90004\n86405\t90008\n86405\t90011\n69402\t10010\n69402\t10012\n69402\t90013\n85317\t10012\n85317\t10013\n85317\t10014\n85317\t90009\n85317\t90013\n85317\t90014\n72457\t10002\n72457\t10004\n72457\t10010\n72457\t90002\n72457\t90003\n72457\t90004\n72457\t90005\n72457\t90006\n72457\t90011\n10820\t10004\n10820\t10005\n10820\t10006\n10820\t10010\n10820\t10011\n10820\t10012\n10820\t90004\n10820\t90007\n10820\t90010\n10820\t90014\n56105\t10001\n56105\t10014\n56105\t90010\n56105\t90011\n56105\t90014\n83175\t10008\n83175\t90002\n83175\t90003\n83175\t90004\n83175\t90005\n7517\t10010\n7517\t10012\n7517\t10013\n7517\t90003\n7517\t90011\n7517\t90015\n42881\t10001\n42881\t10004\n42881\t10005\n42881\t10006\n42881\t10007\n42881\t10010\n42881\t10011\n42881\t10013\n42881\t10015\n42881\t90001\n42881\t90004\n42881\t90006\n42881\t90008\n42881\t90010\n42881\t90011\n42881\t90014\n7925\t10004\n7925\t90011\n20990\t90001\n20990\t90004\n20990\t90007\n20990\t90013\n20990\t90014\n42341\t10001\n42341\t10002\n42341\t10011\n42341\t90003\n42341\t90011\n42341\t90014\n19604\t10010\n19604\t10011\n19604\t10012\n19604\t90011\n19604\t90013\n19604\t90014\n55022\t10001\n55022\t10002\n55022\t10004\n55022\t10008\n55022\t10012\n55022\t90010\n55022\t90011\n55022\t90013\n17072\t10003\n17072\t10004\n17072\t10008\n17072\t90007\n17072\t90013\n92501\t10005\n92501\t10008\n92501\t10010\n92501\t10012\n92501\t10013\n58322\t10005\n58322\t10006\n58322\t10015\n58322\t90001\n58322\t90002\n58322\t90014\n31603\t10004\n99680\t10001\n99680\t10002\n99680\t10004\n99680\t90010\n99680\t90011\n99680\t90013\n67145\t10002\n67145\t10003\n67145\t10008\n67145\t90012\n67145\t90013\n80644\t10001\n80644\t10003\n80644\t10007\n80644\t10014\n80644\t90013\n80644\t90014\n66151\t10003\n66151\t10008\n66151\t90004\n66151\t90011\n66151\t90014\n9328\t10008\n9328\t10012\n9328\t10014\n9328\t10015\n9328\t90001\n9328\t90003\n9328\t90004\n9328\t90013\n76335\t10001\n76335\t10010\n76335\t10012\n76335\t10013\n76335\t90004\n76335\t90008\n76335\t90011\n37716\t10006\n37716\t10015\n37716\t90001\n37716\t90003\n37716\t90009\n37716\t90010\n37716\t90011\n37716\t90012\n37716\t90014\n37716\t90015\n88433\t10001\n88433\t10002\n88433\t10004\n88433\t10007\n88433\t10009\n88433\t10010\n88433\t10012\n88433\t10013\n88433\t90001\n88433\t90003\n88433\t90006\n88433\t90007\n88433\t90009\n88433\t90011\n88433\t90014\n88433\t90015\n91285\t10002\n91285\t10004\n91285\t10012\n91285\t90006\n91285\t90011\n91285\t90013\n91285\t90014\n5963\t10002\n5963\t10004\n5963\t10010\n5963\t90002\n5963\t90011\n5963\t90014\n68167\t10001\n68167\t10004\n68167\t10007\n68167\t10012\n68167\t10013\n68167\t10014\n68167\t90002\n68167\t90003\n68167\t90004\n68167\t90008\n68167\t90010\n20978\t10001\n20978\t10003\n20978\t10004\n20978\t10010\n20978\t90013\n20978\t90014\n55302\t10012\n55302\t10014\n55302\t10015\n55302\t90004\n55302\t90011\n55302\t90012\n66539\t10001\n66539\t10004\n66539\t10010\n66539\t90001\n66539\t90014\n8446\t90011\n30138\t10001\n30138\t10004\n30138\t10012\n30138\t90010\n30138\t90013\n30138\t90014\n"
+      },
+      "dateCreated": "Jul 3, 2015 5:23:43 AM",
+      "dateStarted": "Jul 6, 2015 3:04:50 AM",
+      "dateFinished": "Jul 6, 2015 3:04:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show number of distinct participating users",
+      "text": "import org.apache.spark.sql.functions._\n\nrealTimeLikesDF.select(countDistinct($\"from_user_id\").as(\"distinct_user_count\")).collect()(0)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435903786952_671772613",
+      "id": "20150703-060946_1260514447",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.functions._\nres11: org.apache.spark.sql.Row \u003d [111]\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:09:46 AM",
+      "dateStarted": "Jul 3, 2015 6:46:49 AM",
+      "dateFinished": "Jul 3, 2015 6:46:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "register the real-time likes as a temp table",
+      "text": "realTimeLikesDF.cache()\nrealTimeLikesDF.registerTempTable(\"real_time_likes_temp\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904979849_80174944",
+      "id": "20150703-062939_414600917",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:23: error: not found: value realTimeLikesDF\n              realTimeLikesDF.cache()\n              ^\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:29:39 AM",
+      "dateStarted": "Jul 4, 2015 2:39:21 AM",
+      "dateFinished": "Jul 4, 2015 2:39:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Most desirable users by Like Count",
+      "text": "%sql SELECT to_user_id, count(to_user_id) as ct FROM real_time_likes GROUP BY to_user_id ORDER BY count(to_user_id) DESC",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "to_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "to_user_id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904577933_-1977276639",
+      "id": "20150703-062257_361919402",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "java.lang.reflect.InvocationTargetException"
+      },
+      "dateCreated": "Jul 3, 2015 6:22:57 AM",
+      "dateStarted": "Jul 3, 2015 6:46:56 AM",
+      "dateFinished": "Jul 3, 2015 6:46:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Compare the Physical Plans between DataFrames and SQL (Should be equal)",
+      "text": "realTimeLikesDF.groupBy(\"to_user_id\").count().sort($\"count\".desc).explain()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904813656_1068531928",
+      "id": "20150703-062653_388339500",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#100L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#67], [to_user_id#67,Coalesce(SUM(PartialCount#103L),0) AS count#100L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#67], [to_user_id#67,COUNT(1) AS PartialCount#103L]\n     Project [touserid#65 AS to_user_id#67]\n      PhysicalRDD [touserid#65], MapPartitionsRDD[38] at explain at \u003cconsole\u003e:27\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:26:53 AM",
+      "dateStarted": "Jul 3, 2015 6:47:31 AM",
+      "dateFinished": "Jul 3, 2015 6:47:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "realTimeLikesDF.registerTempTable(\"real_time_likes\")\n\nsqlContext.sql(\"SELECT to_user_id, count(to_user_id) as count FROM real_time_likes GROUP BY to_user_id ORDER BY count(to_user_id) DESC\").explain()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904897005_-1761757602",
+      "id": "20150703-062817_715212992",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [COUNT(to_user_id#67) DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#67], [to_user_id#67,Coalesce(SUM(PartialCount#627L),0) AS count#614L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#67], [to_user_id#67,COUNT(to_user_id#67) AS PartialCount#627L]\n     InMemoryColumnarTableScan [to_user_id#67], (InMemoryRelation [from_user_id#66,to_user_id#67], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#64 AS from_user_id#66,touserid#65 AS to_user_id#67]), None)\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:28:17 AM",
+      "dateStarted": "Jul 3, 2015 6:53:38 AM",
+      "dateFinished": "Jul 3, 2015 6:53:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich Real-Time Likes with actress and actor reference data",
+      "text": "realTimeLikesDF.cache()\n\nval enrichedRealTimeLikesDF \u003d realTimeLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904915117_128745251",
+      "id": "20150703-062835_1310180630",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res58: realTimeLikesDF.type \u003d [from_user_id: int, to_user_id: int]\nenrichedRealTimeLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:28:35 AM",
+      "dateStarted": "Jul 3, 2015 6:55:07 AM",
+      "dateFinished": "Jul 3, 2015 6:55:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich and [TODO] Display historical likes with actress and actors reference data",
+      "text": "val enrichedHistoricalLikesDF \u003d historicalLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435906466586_-1726508488",
+      "id": "20150703-065426_726284484",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:43: error: not found: value historicalLikesDF\n       val enrichedHistoricalLikesDF \u003d historicalLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()\n                                       ^\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:54:26 AM",
+      "dateStarted": "Jul 4, 2015 2:55:08 AM",
+      "dateFinished": "Jul 4, 2015 2:55:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO:  Add DataFrame.stat() or .describe() calls for summary stats]",
+      "text": "%md TODO",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978508219_151857405",
+      "id": "20150704-025508_1477766940",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eTODO\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:55:08 AM",
+      "dateStarted": "Jul 4, 2015 7:43:17 AM",
+      "dateFinished": "Jul 4, 2015 7:43:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435995768565_760353753",
+      "id": "20150704-074248_89399310",
+      "dateCreated": "Jul 4, 2015 7:42:48 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Analyze-Likes",
+  "id": "2AUUDPT56",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

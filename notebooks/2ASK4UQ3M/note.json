@@ -1,0 +1,219 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Start the Kafka Spark Streaming Job",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435352774943_904665808",
+      "id": "20150626-210614_464619583",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eStart the Kafka Spark Streaming Job\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jun 26, 2015 9:06:14 PM",
+      "dateStarted": "Jul 4, 2015 9:59:58 PM",
+      "dateFinished": "Jul 4, 2015 9:59:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Configure Kafka",
+      "text": "val brokers \u003d \"52.27.56.210:9092,52.27.56.210:9093\";\rval topicsSet \u003d Set(\"likes\");\rval kafkaParams \u003d Map[String, String](\"metadata.broker.list\" -\u003e brokers);",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435351067462_-362700882",
+      "id": "20150626-203747_286831760",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "brokers: String \u003d 52.27.56.210:9092,52.27.56.210:9093\ntopicsSet: scala.collection.immutable.Set[String] \u003d Set(likes)\nkafkaParams: scala.collection.immutable.Map[String,String] \u003d Map(metadata.broker.list -\u003e 52.27.56.210:9092,52.27.56.210:9093)\n"
+      },
+      "dateCreated": "Jun 26, 2015 8:37:47 PM",
+      "dateStarted": "Jul 4, 2015 10:00:09 PM",
+      "dateFinished": "Jul 4, 2015 10:00:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create the Kafka Stream",
+      "text": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\nimport kafka.serializer.StringDecoder\n\ndef create(): StreamingContext \u003d {\n  @transient val newSsc \u003d new StreamingContext(sc, Seconds(2))\n  println(s\"Creating new StreamingContext $newSsc\")\n\n  newSsc\n}\n\nval ssc \u003d StreamingContext.getActiveOrCreate(create)\n\nval likeStream \u003d KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435352502700_1656285081",
+      "id": "20150626-210142_283675308",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\nimport kafka.serializer.StringDecoder\ncreate: ()org.apache.spark.streaming.StreamingContext\nCreating new StreamingContext org.apache.spark.streaming.StreamingContext@ed30fef\nssc: org.apache.spark.streaming.StreamingContext \u003d org.apache.spark.streaming.StreamingContext@ed30fef\nlikeStream: org.apache.spark.streaming.dstream.InputDStream[(String, String)] \u003d org.apache.spark.streaming.kafka.DirectKafkaInputDStream@732c298a\n"
+      },
+      "dateCreated": "Jun 26, 2015 9:01:42 PM",
+      "dateStarted": "Jul 4, 2015 10:02:40 PM",
+      "dateFinished": "Jul 4, 2015 10:02:42 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Setup the Stream Data Transformations and Actions (Append to Cassandra Table)",
+      "text": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n\nlikeStream.foreachRDD{\n  (rdd: RDD[(String,String)], batchTime: Time) \u003d\u003e {\n      // convert each RDD from the batch into a DataFrame\n      val df \u003d rdd.toDF(\"from_user_id\", \"to_user_id\").select($\"from_user_id\", $\"to_user_id\")\n      \n      // add the batch time to the DataFrame\n      val dfWithBatchTime \u003d df.withColumn(\"batch_time\", lit(batchTime.milliseconds))\n      \n      // save the DataFrame to Cassandra\n      dfWithBatchTime.write.format(\"org.apache.spark.sql.cassandra\")\n        .mode(SaveMode.Append)\n        .options(Map(\"keyspace\" -\u003e \"sparkafterdark\", \"table\" -\u003e \"real_time_likes\"))\n        .save()\n  }\n}",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435352637874_125200642",
+      "id": "20150626-210357_701410267",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n"
+      },
+      "dateCreated": "Jun 26, 2015 9:03:57 PM",
+      "dateStarted": "Jul 4, 2015 10:02:43 PM",
+      "dateFinished": "Jul 4, 2015 10:02:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Start the Stream",
+      "text": "ssc.start()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435811421871_1604917400",
+      "id": "20150702-043021_1434265086",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jul 2, 2015 4:30:21 AM",
+      "dateStarted": "Jul 4, 2015 10:02:51 PM",
+      "dateFinished": "Jul 4, 2015 10:02:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Uncomment To stop the stream",
+      "text": "//ssc.stop(stopSparkContext\u003dfalse, stopGracefully\u003dfalse)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435900392138_1989524513",
+      "id": "20150703-051312_1037224009",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jul 3, 2015 5:13:12 AM",
+      "dateStarted": "Jul 4, 2015 8:25:27 AM",
+      "dateFinished": "Jul 4, 2015 8:25:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1436047416200_1602967377",
+      "id": "20150704-220336_100190094",
+      "dateCreated": "Jul 4, 2015 10:03:36 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Manage-StreamingServer",
+  "id": "2ASK4UQ3M",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

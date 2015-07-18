@@ -1,0 +1,382 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Generate Personalized Recs:  Likes, Matrix Factorization",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977936911_577546220",
+      "id": "20150704-024536_1240178672",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eGenerate Personalized Recs:  Likes, Matrix Factorization\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:45:36 AM",
+      "dateStarted": "Jul 6, 2015 2:27:03 AM",
+      "dateFinished": "Jul 6, 2015 2:27:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435993582375_2069297762",
+      "id": "20150704-070622_62914585",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res1: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@24350370\n"
+      },
+      "dateCreated": "Jul 4, 2015 7:06:22 AM",
+      "dateStarted": "Jul 6, 2015 2:27:38 AM",
+      "dateFinished": "Jul 6, 2015 2:27:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
+      "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978153894_1534941045",
+      "id": "20150704-024913_884517592",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:49:13 AM",
+      "dateStarted": "Jul 6, 2015 2:27:41 AM",
+      "dateFinished": "Jul 6, 2015 2:27:41 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Read Historical Likes and Actress/Actor Reference Data from Temp Tables",
+      "text": "val historicalLikesDF \u003d sqlContext.sql(\"select * from historical_likes_temp\")\nval actressesAndActorsDF \u003d sqlContext.sql(\"select * from actresses_and_actors_temp\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1436151459869_-304748701",
+      "id": "20150706-025739_1574787707",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "historicalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int]\nactressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n"
+      },
+      "dateCreated": "Jul 6, 2015 2:57:39 AM",
+      "dateStarted": "Jul 6, 2015 3:04:54 AM",
+      "dateFinished": "Jul 6, 2015 3:04:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
+      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d historicalLikesDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(0.80,0.20))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978228274_1300518407",
+      "id": "20150704-025028_2001782588",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[3] at map at \u003cconsole\u003e:26\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[4] at randomSplit at \u003cconsole\u003e:28, MapPartitionsRDD[5] at randomSplit at \u003cconsole\u003e:28)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[4] at randomSplit at \u003cconsole\u003e:28\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[5] at randomSplit at \u003cconsole\u003e:28\nres7: trainingRatings.type \u003d MapPartitionsRDD[4] at randomSplit at \u003cconsole\u003e:28\nres8: testingRatings.type \u003d MapPartitionsRDD[5] at randomSplit at \u003cconsole\u003e:28\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:50:28 AM",
+      "dateStarted": "Jul 6, 2015 3:00:25 AM",
+      "dateFinished": "Jul 6, 2015 3:00:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Train The Model Using The Historical Training Split Of The Historical Data",
+      "text": "val rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainingRatings, rank, numIterations, convergenceThreshold)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978256373_-160526409",
+      "id": "20150704-025056_169923529",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@4f5ace22\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:50:56 AM",
+      "dateStarted": "Jul 6, 2015 3:00:31 AM",
+      "dateFinished": "Jul 6, 2015 3:00:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Evaluate The Model Using The Historical Testing Split And Root Mean Squared Error (RMSE)",
+      "text": "val testFromTo \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e (fromUserId, toUserId)\n}\n\nval predictedTestRatings \u003d \n  model.predict(testFromTo).map { \n    case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n  }\n\nval actualTestRatings \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n}\n\nval RMSE \u003d Math.sqrt(actualTestRatings.join(predictedTestRatings).map { \n  case ((fromUserId, toUserId), (r1, r2)) \u003d\u003e {\n  \tval err \u003d (r1 - r2)\n  \terr * err\n  }\n}.mean())",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978278507_-1968815591",
+      "id": "20150704-025118_867262526",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[393] at map at \u003cconsole\u003e:25\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[402] at map at \u003cconsole\u003e:39\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[403] at map at \u003cconsole\u003e:26\nRMSE: Double \u003d 0.009339923552540546\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:51:18 AM",
+      "dateStarted": "Jul 6, 2015 3:00:42 AM",
+      "dateFinished": "Jul 6, 2015 3:00:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Generate Personalized Recommendations For Each Distinct User",
+      "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"user_id\",\"ratings\").cache()\n\ncase class Like(from_user_id: Int, to_user_id: Int, confidence: Double)\nval explodedRecommendationsDF \u003d \n  recommendationsDF.explode($\"ratings\") { \n\tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n      Like(like(0).asInstanceOf[Int], \n      like(1).asInstanceOf[Int], \n      like(2).asInstanceOf[Double])) \n  }.select($\"from_user_id\", $\"to_user_id\", $\"confidence\").join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\", $\"confidence\").cache()\n\n//dbutils.fs.put(\"/mnt/fluxcapacitor/sparkafterdark/recommendations/personalized-als.json\", recommendationsJSONArray, true)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978292871_1625908707",
+      "id": "20150704-025132_1487939440",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:48: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nexplodedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:51:32 AM",
+      "dateStarted": "Jul 6, 2015 3:06:19 AM",
+      "dateFinished": "Jul 6, 2015 3:06:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO] Write Recommendations To JSON File To Be Used By The WebApp",
+      "text": "val recommendationsJSONArray \u003d \"[\" + explodedRecommendationsDF.toJSON.collect().mkString(\",\") + \"]\"\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978311268_1494956163",
+      "id": "20150704-025151_1491516409",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:37: error: not found: value explodedRecommendationsDF\n       val recommendationsJSONArray \u003d \"[\" + explodedRecommendationsDF.toJSON.collect().mkString(\",\") + \"]\"\n                                            ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:51:51 AM",
+      "dateStarted": "Jul 4, 2015 2:52:07 AM",
+      "dateFinished": "Jul 4, 2015 2:52:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "[TODO] Write Recommendations To ElasticSearch To Be Used By The WebApp",
+      "text": "%md TODO",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978327194_-225240845",
+      "id": "20150704-025207_1503747094",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eTODO\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:52:07 AM",
+      "dateStarted": "Jul 4, 2015 2:53:17 AM",
+      "dateFinished": "Jul 4, 2015 2:53:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Bonus:  Show the most-recommended actresses and actors from all participating users",
+      "text": "val topPersonalizedRecsDF \u003d \n  explodedRecommendationsDF.select($\"to_user_id\", $\"name\", $\"bio\", $\"img\", $\"confidence\").groupBy($\"to_user_id\", $\"name\", $\"bio\", $\"img\").agg(\"confidence\" -\u003e \"sum\")\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978397163_850809884",
+      "id": "20150704-025317_1146963006",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:38: error: not found: value explodedRecommendationsDF\n         explodedRecommendationsDF.select($\"to_user_id\", $\"name\", $\"bio\", $\"img\", $\"confidence\").groupBy($\"to_user_id\", $\"name\", $\"bio\", $\"img\").agg(\"confidence\" -\u003e \"sum\")\n         ^\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:53:17 AM",
+      "dateStarted": "Jul 4, 2015 2:54:19 AM",
+      "dateFinished": "Jul 4, 2015 2:54:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978459979_-187768604",
+      "id": "20150704-025419_555917335",
+      "dateCreated": "Jul 4, 2015 2:54:19 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Generate-Personalized-Recs-Likes",
+  "id": "2AUYFSKXN",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

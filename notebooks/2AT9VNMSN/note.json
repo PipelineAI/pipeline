@@ -1,0 +1,130 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Generate Personalized Recs:  Profile Text, TF/IDF, Word2Vec",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435972013141_-375886672",
+      "id": "20150704-010653_1916341647",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eGenerate Personalized Recs:  Profile Text, TF/IDF, Word2Vec\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 1:06:53 AM",
+      "dateStarted": "Jul 4, 2015 3:00:28 AM",
+      "dateFinished": "Jul 4, 2015 3:00:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435993781787_861245868",
+      "id": "20150704-070941_1355940947",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Jul 4, 2015 7:09:41 AM",
+      "dateStarted": "Jul 7, 2015 1:50:41 AM",
+      "dateFinished": "Jul 7, 2015 1:50:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "TODO:  Find Actresses and Actors that are similar based on profile text",
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435972069311_-1791301255",
+      "id": "20150704-010749_1230534476",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jul 4, 2015 1:07:49 AM",
+      "dateStarted": "Jul 7, 2015 1:50:37 AM",
+      "dateFinished": "Jul 7, 2015 1:50:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "TODO:  Recommend actresses and actors Similar to those that users have already liked",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435972489247_95676441",
+      "id": "20150704-011449_1646418521",
+      "dateCreated": "Jul 4, 2015 1:14:49 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Generate-Personalized-Recs-ProfileText",
+  "id": "2AT9VNMSN",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
