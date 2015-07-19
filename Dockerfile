@@ -147,6 +147,4 @@ RUN \
  && a2enmod proxy_http \
  && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
  && a2ensite sparkafterdark \
- && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
- && service apache2 reload
-
+ && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com 
