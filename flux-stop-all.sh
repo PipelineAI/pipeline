@@ -20,3 +20,6 @@ service cassandra stop
 service elasticsearch stop
 service apache2 stop
 service ssh stop
+
+~/logstash-1.5.2/bin/logstash stop
+~/kibana-4.1.1/bin/kibana stop

@@ -20,3 +20,5 @@ nohup sudo ~/tachyon-0.6.4/bin/tachyon format -s
 nohup sudo ~/tachyon-0.6.4/bin/tachyon-start.sh local &
 nohup spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application-pipeline.conf &
 nohup rstudio-server start &
+nohup ~/kibana-4.1.1/bin/kibana &
+nohup ~/logstash-1.5.2/bin/logstash agent ~/pipeline/config/logstash/logstash.conf &

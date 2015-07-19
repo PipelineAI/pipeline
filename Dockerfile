@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601
 
 RUN \
  apt-get install -y curl \
@@ -16,9 +16,17 @@ RUN \
  && echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
  && wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add - \
  && echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list \
+ && echo 'deb http://packages.elasticsearch.org/logstash/1.5/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash.list \
+
  && apt-get update \
+ 
+# Java
  && apt-get install -y default-jdk \
+
+# Git
  && apt-get install -y git \
+
+# Python Data Science Libraries
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-numpy \
  && apt-get install -y python-scipy \
@@ -27,9 +35,21 @@ RUN \
  && apt-get install -y python-pandas-lib \
  && apt-get install -y python-numexpr \
  && apt-get install -y python-statsmodels \
+ && apt-get install -y python-sklearn \
+
+# R
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
- && apt-get install -y python-sklearn \
+
+# Logstash
+ && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
+ && tar xvzf logstash-1.5.2.tar.gz \
+ && rm logstash-1.5.2.tar.gz \
+
+# Kibana 
+ && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
+ && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
+ && rm kibana-4.1.1-linux-x64.tar.gz \
 
 # Apache Cassandra
  && apt-get install -y cassandra \
@@ -121,4 +141,6 @@ RUN \
  && apt-get install -y apache2 \
  && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
  && a2ensite sparkafterdark \
- && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com 
+ && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
+ && service apache2 reload
+
