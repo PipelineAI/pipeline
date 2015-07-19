@@ -5,7 +5,8 @@ kafka-server-stop ~/pipeline/config/kafka/server.properties
 schema-registry-stop ~/pipeline/config/schema-registry/schema-registry.properties
 kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 
-~/incubator-zeppelin/bin/zeppelin-daemon.sh stop
+#~/incubator-zeppelin/bin/zeppelin-daemon.sh stop
+~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh --config ~/pipeline/config/zeppelin stop &
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 &
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-thriftserver.sh &
