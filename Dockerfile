@@ -31,9 +31,6 @@ RUN \
  && apt-get install -y r-base-dev \
  && apt-get install -y python-sklearn \
 
-# Apache Http 2
- && apt-get install -y apache2 \
-
 # Apache Cassandra
  && apt-get install -y cassandra \
 
@@ -118,4 +115,10 @@ RUN \
  && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod 777 pipeline/flux-start-all.sh \
  && chmod 777 pipeline/flux-stop-all.sh \
- && chmod 777 pipeline/flux-init-all.sh
+ && chmod 777 pipeline/flux-init-all.sh \
+
+# Apache Http 2
+ && apt-get install -y apache2 \
+ && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
+ && a2ensite sparkafterdark \
+ && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com 
