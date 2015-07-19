@@ -82,9 +82,10 @@ RUN \
  && cp tachyon-0.6.4/conf/tachyon-env.sh.template tachyon-0.6.4/conf/tachyon-env.sh \
 
 # Spark Notebook
- && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/deb/spark-notebook_master-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
- && gdebi -n spark-notebook_master-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
- && rm spark-notebook_master-scala-2.10.4-spark-1.4.0-hadoop-2.6.0_all.deb \
+ && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook_0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet_all.deb \
+ && gdebi -n spark-notebook_0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet_all.deb \
+ && rm spark-notebook_0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet_all.deb \
+ && ln -s /usr/share/spark-notebook/notebooks ~/pipeline/notebooks/spark-notebook \
 
 # Redis
  && apt-get install -y redis-server \
