@@ -30,18 +30,18 @@ RUN \
  && apt-get install -y gdebi \
 
 # Python Data Science Libraries
- && apt-get install -y python-matplotlib \
- && apt-get install -y python-numpy \
- && apt-get install -y python-scipy \
- && apt-get install -y python-sklearn \
- && apt-get install -y python-dateutil \
- && apt-get install -y python-pandas-lib \
- && apt-get install -y python-numexpr \
- && apt-get install -y python-statsmodels \
+# && apt-get install -y python-matplotlib \
+# && apt-get install -y python-numpy \
+# && apt-get install -y python-scipy \
+# && apt-get install -y python-sklearn \
+# && apt-get install -y python-dateutil \
+# && apt-get install -y python-pandas-lib \
+# && apt-get install -y python-numexpr \
+# && apt-get install -y python-statsmodels \
 
 # R
- && apt-get install -y r-base \
- && apt-get install -y r-base-dev \
+# && apt-get install -y r-base \
+# && apt-get install -y r-base-dev \
 
 # Logstash
 # && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
@@ -102,10 +102,10 @@ RUN \
 # && export VER='sbt version | tail -1 | cut -f' \
 
 # Tachyon (Required by Spark Notebook)
- && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
- && tar xvfz tachyon-0.6.4-bin.tar.gz \
- && rm tachyon-0.6.4-bin.tar.gz \
- && cp tachyon-0.6.4/conf/tachyon-env.sh.template tachyon-0.6.4/conf/tachyon-env.sh \
+# && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
+# && tar xvfz tachyon-0.6.4-bin.tar.gz \
+# && rm tachyon-0.6.4-bin.tar.gz \
+# && cp tachyon-0.6.4/conf/tachyon-env.sh.template tachyon-0.6.4/conf/tachyon-env.sh \
 
 # Spark Notebook
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
@@ -137,9 +137,7 @@ RUN \
 
 # Retrieve Latest Dataset and Start Scripts
  && git clone https://github.com/fluxcapacitor/pipeline.git \
- && chmod 777 pipeline/flux-start-all.sh \
- && chmod 777 pipeline/flux-stop-all.sh \
- && chmod 777 pipeline/flux-init-all.sh \
+ && chmod 777 pipeline/*.sh \
 
 # Apache Http 2
  && apt-get install -y apache2 \
