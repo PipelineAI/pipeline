@@ -26,6 +26,9 @@ RUN \
 # Git
  && apt-get install -y git \
 
+# Debian Package Installer
+ && apt-get install -y gdebi \
+
 # Python Data Science Libraries
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-numpy \
@@ -35,21 +38,20 @@ RUN \
  && apt-get install -y python-pandas-lib \
  && apt-get install -y python-numexpr \
  && apt-get install -y python-statsmodels \
- && apt-get install -y python-sklearn \
 
 # R
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
 
 # Logstash
- && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
- && tar xvzf logstash-1.5.2.tar.gz \
- && rm logstash-1.5.2.tar.gz \
+# && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
+# && tar xvzf logstash-1.5.2.tar.gz \
+# && rm logstash-1.5.2.tar.gz \
 
 # Kibana 
- && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
- && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
- && rm kibana-4.1.1-linux-x64.tar.gz \
+# && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
+# && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
+# && rm kibana-4.1.1-linux-x64.tar.gz \
 
 # Apache Cassandra
  && apt-get install -y cassandra \
@@ -64,12 +66,11 @@ RUN \
  && cd ~ \
 
 # Apache Maven 3.2.1+ (Required by Apache Zeppelin)
- && apt-get remove maven \
- && apt-get install -y gdebi \
- && wget http://ppa.launchpad.net/natecarlson/maven3/ubuntu/pool/main/m/maven3/maven3_3.2.1-0~ppa1_all.deb \
- && gdebi -n maven3_3.2.1-0~ppa1_all.deb \
- && ln -s /usr/share/maven3/bin/mvn /usr/bin/mvn \
- && rm maven3_3.2.1-0~ppa1_all.deb \
+# && apt-get remove maven \
+# && wget http://ppa.launchpad.net/natecarlson/maven3/ubuntu/pool/main/m/maven3/maven3_3.2.1-0~ppa1_all.deb \
+# && gdebi -n maven3_3.2.1-0~ppa1_all.deb \
+# && ln -s /usr/share/maven3/bin/mvn /usr/bin/mvn \
+# && rm maven3_3.2.1-0~ppa1_all.deb \
 
 # Apache Spark
  && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
@@ -77,20 +78,28 @@ RUN \
  && rm spark-1.4.1-bin-hadoop2.6.tgz \
 
 # Node.js (Required by Apache Zeppelin)
- && curl -sL https://deb.nodesource.com/setup | bash - \
- && apt-get install -y nodejs \
- && apt-get install -y build-essential \
+# && curl -sL https://deb.nodesource.com/setup | bash - \
+# && apt-get install -y nodejs \
+# && apt-get install -y build-essential \
 
 # Apache Zeppelin
- && git clone -b branch-0.5 --single-branch https://github.com/apache/incubator-zeppelin.git \
- && cd incubator-zeppelin \
- && mvn install -DskipTests -Dspark.version=1.4.1 -Dhadoop.version=2.6.0 \
- && cd ~ \
+# && git clone -b branch-0.5 --single-branch https://github.com/apache/incubator-zeppelin.git \
+# && cd incubator-zeppelin \
+# && mvn install -DskipTests -Dspark.version=1.4.1 -Dhadoop.version=2.6.0 \
+# && cd ~ \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
+ && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
+ && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
 
-# SBT
- && apt-get install -y --force-yes sbt \
- && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
- && sbt \
+# SBT (Required by Spark Job Server)
+# && apt-get install -y --force-yes sbt \
+# && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
+# && sbt \
+
+# Spark Job Server
+# && git clone https://github.com/spark-jobserver/spark-jobserver.git \
+# && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \
+# && export VER='sbt version | tail -1 | cut -f' \
 
 # Tachyon (Required by Spark Notebook)
  && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
@@ -104,20 +113,15 @@ RUN \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
 
 # Redis
- && apt-get install -y redis-server \
+# && apt-get install -y redis-server \
 
 # Neo4j
- && apt-get install -y neo4j \
-
-# Spark Job Server
- && git clone https://github.com/spark-jobserver/spark-jobserver.git \
- && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \
- && export VER='sbt version | tail -1 | cut -f' \
+# && apt-get install -y neo4j \
 
 # RStudio Server
- && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
- && gdebi -n rstudio-server-0.99.467-amd64.deb \
- && rm rstudio-server-0.99.467-amd64.deb \
+# && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
+# && gdebi -n rstudio-server-0.99.467-amd64.deb \
+# && rm rstudio-server-0.99.467-amd64.deb \
 
 # SSH
  && apt-get install -y openssh-server \
@@ -139,6 +143,8 @@ RUN \
 
 # Apache Http 2
  && apt-get install -y apache2 \
+ && a2enmod proxy \
+ && a2enmod proxy_http \
  && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
  && a2ensite sparkafterdark \
  && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
