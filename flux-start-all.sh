@@ -16,6 +16,7 @@ nohup ~/incubator-zeppelin/bin/zeppelin-daemon.sh --config ~/pipeline/config/zep
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 &
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-thriftserver.sh &
-nohup ~/tachyon-0.6.4/bin/tachyon-start.sh local
+nohup sudo ~/tachyon-0.6.4/bin/tachyon format -s
+nohup sudo ~/tachyon-0.6.4/bin/tachyon-start.sh local &
 nohup spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application-pipeline.conf &
 nohup rstudio-server start &
