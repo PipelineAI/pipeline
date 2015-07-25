@@ -22,8 +22,7 @@ service apache2 stop
 service ssh stop
 service mysql stop
 
-~/logstash-1.5.2/bin/logstash stop
-~/kibana-4.1.1-linux-x64/bin/kibana stop
-
-# Putting this at the end to avoid race conditions with Kafka components
-zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties
+# TODO:  Figure out how to stop these processes
+#~/logstash-1.5.2/bin/logstash agent stop
+#~/kibana-4.1.1-linux-x64/bin/kibana stop
+zookeeper-server-stop 
