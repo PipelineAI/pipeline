@@ -14,6 +14,7 @@ nohup kafka-server-start ~/pipeline/config/kafka/server.properties &
 nohup ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh --config ~/pipeline/config/zeppelin start
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 
+# Spark ThriftServer:  MySql must be started - and the password set - before ThriftServer will startup
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-thriftserver.sh --master spark://$HOSTNAME:7077
 nohup ~/tachyon-0.6.4/bin/tachyon format -s
 nohup ~/tachyon-0.6.4/bin/tachyon-start.sh local 
