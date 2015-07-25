@@ -1,0 +1,9 @@
+nohup: kafka-server-start: No such file or directory
+nohup: zookeeper-server-start: No such file or directory
+nohup: /Users/cfregly/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh: No such file or directory
+org.apache.spark.deploy.master.Master running as process 41994.  Stop it first.
+org.apache.spark.deploy.worker.Worker running as process 41980.  Stop it first.
+org.apache.spark.sql.hive.thriftserver.HiveThriftServer2 running as process 41945.  Stop it first.
+Killed 1 processes
+Killed 1 processes
+Connection to localhost as cfregly... 
