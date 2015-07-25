@@ -57,5 +57,5 @@ echo Stopping Kibana
 #echo Stopping Logstash
 #~/logstash-1.5.2/bin/logstash agent stop
 
-echo Stoppig ElasticSaerch 
+echo Stopping ElasticSearch 
 service elasticsearch stop
