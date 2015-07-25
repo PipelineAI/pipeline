@@ -19,8 +19,8 @@ echo Stopping Apache Spark JDBC/ODBC Hive ThriftServer
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-thriftserver.sh  
 echo Stopping Tachyon
 ~/tachyon-0.6.4/bin/tachyon-stop.sh 
-#echo Stopping Spark-Notebook
-#kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID ) & rm ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID
+echo Stopping Spark-Notebook
+kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID ) & rm ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID
 
 # Stopping RStudio
 #rstudio-server stop
