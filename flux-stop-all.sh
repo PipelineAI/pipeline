@@ -11,7 +11,7 @@ kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061 spark://$HOSTNAME:7077 &
 ~/spark-1.4.1-bin-hadoop2.6/sbin/stop-thriftserver.sh spark://$HOSTNAME:7077 &
 #~/tachyon-0.6.4/bin/tachyon-stop.sh &
-kill -9 $(cat /usr/share/spark-notebook/RUNNING_PID ) & rm /usr/share/spark-notebook/RUNNING_PID
+kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID ) & rm ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID
 
 #rstudio-server stop
 
@@ -21,6 +21,10 @@ service cassandra stop
 service elasticsearch stop
 service apache2 stop
 service ssh stop
+service mysql stop
 
 #~/logstash-1.5.2/bin/logstash stop
 #~/kibana-4.1.1/bin/kibana stop
+
+# Putting this at the end to avoid race conditions with Kafka components
+zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties

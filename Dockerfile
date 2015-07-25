@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979
 
 RUN \
  apt-get install -y curl \
@@ -19,6 +19,20 @@ RUN \
  && echo 'deb http://packages.elasticsearch.org/logstash/1.5/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash.list \
 
  && apt-get update \
+
+# Start in Home Dir (/root)
+ && cd ~ \
+
+# Retrieve Latest Datasets, Configs, and Start Scripts
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+ && chmod a+rx pipeline/*.sh \
+
+# MySql (Required by Hive Metastore)
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
+ && apt-get install -y mysql-client \
+ && apt-get install -y libmysql-java \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
+ && mysqladmin -u root password password \
  
 # Java
  && apt-get install -y default-jdk \
@@ -29,29 +43,32 @@ RUN \
 # Debian Package Installer
  && apt-get install -y gdebi \
 
+# Supervisor
+ && apt-get install -y supervisor \
+
 # Python Data Science Libraries
-# && apt-get install -y python-matplotlib \
-# && apt-get install -y python-numpy \
-# && apt-get install -y python-scipy \
-# && apt-get install -y python-sklearn \
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-numpy \
+ && apt-get install -y python-scipy \
+ && apt-get install -y python-sklearn \
 # && apt-get install -y python-dateutil \
-# && apt-get install -y python-pandas-lib \
+ && apt-get install -y python-pandas-lib \
 # && apt-get install -y python-numexpr \
 # && apt-get install -y python-statsmodels \
 
 # R
-# && apt-get install -y r-base \
-# && apt-get install -y r-base-dev \
+ && apt-get install -y r-base \
+ && apt-get install -y r-base-dev \
 
 # Logstash
-# && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
-# && tar xvzf logstash-1.5.2.tar.gz \
-# && rm logstash-1.5.2.tar.gz \
+ && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
+ && tar xvzf logstash-1.5.2.tar.gz \
+ && rm logstash-1.5.2.tar.gz \
 
 # Kibana 
-# && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
-# && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
-# && rm kibana-4.1.1-linux-x64.tar.gz \
+ && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
+ && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
+ && rm kibana-4.1.1-linux-x64.tar.gz \
 
 # Apache Cassandra
  && apt-get install -y cassandra \
@@ -61,9 +78,6 @@ RUN \
 
 # ElasticSearch
  && apt-get install -y elasticsearch \
-
-# Start in Home Dir
- && cd ~ \
 
 # Apache Maven 3.2.1+ (Required by Apache Zeppelin)
 # && apt-get remove maven \
@@ -76,6 +90,8 @@ RUN \
  && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
  && tar xvzf spark-1.4.1-bin-hadoop2.6.tgz \
  && rm spark-1.4.1-bin-hadoop2.6.tgz \
+ && ln -s ~/pipeline/config/spark/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf/hive-site.xml \
+ && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf/spark-defaults.conf \
 
 # Node.js (Required by Apache Zeppelin)
 # && curl -sL https://deb.nodesource.com/setup | bash - \
@@ -102,10 +118,10 @@ RUN \
 # && export VER='sbt version | tail -1 | cut -f' \
 
 # Tachyon (Required by Spark Notebook)
-# && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
-# && tar xvfz tachyon-0.6.4-bin.tar.gz \
-# && rm tachyon-0.6.4-bin.tar.gz \
-# && cp tachyon-0.6.4/conf/tachyon-env.sh.template tachyon-0.6.4/conf/tachyon-env.sh \
+ && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
+ && tar xvfz tachyon-0.6.4-bin.tar.gz \
+ && rm tachyon-0.6.4-bin.tar.gz \
+ && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.6.4/conf/tachyon-env.sh \
 
 # Spark Notebook
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
@@ -113,7 +129,7 @@ RUN \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
 
 # Redis
-# && apt-get install -y redis-server \
+ && apt-get install -y redis-server \
 
 # Neo4j
 # && apt-get install -y neo4j \
@@ -131,18 +147,24 @@ RUN \
  && chmod 600 ~/.ssh/authorized_keys \
 
 # Apache Hadoop
- && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
- && tar xvzf hadoop-2.6.0.tar.gz \
- && rm hadoop-2.6.0.tar.gz \
+# && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
+# && tar xvzf hadoop-2.6.0.tar.gz \
+# && rm hadoop-2.6.0.tar.gz \
 
-# Retrieve Latest Dataset and Start Scripts
- && git clone https://github.com/fluxcapacitor/pipeline.git \
- && chmod 777 pipeline/*.sh \
-
-# Apache Http 2
+# Apache2 Httpd
  && apt-get install -y apache2 \
  && a2enmod proxy \
  && a2enmod proxy_http \
  && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
  && a2ensite sparkafterdark \
- && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com 
+ && a2dissite 000-default \
+ && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
+ && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2/ \
+ && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
+ && chmod -R a+rx ~/pipeline/html/ \
+
+# Netflix Hystrix
+ && git clone git@github.com:Netflix/Hystrix.git \
+# && cd Hystrix/ \
+# && ./gradlew build \
+
