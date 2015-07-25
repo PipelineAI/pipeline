@@ -23,7 +23,7 @@ service ssh stop
 service mysql stop
 
 ~/logstash-1.5.2/bin/logstash stop
-~/kibana-4.1.1/bin/kibana stop
+~/kibana-4.1.1-linux-x64/bin/kibana stop
 
 # Putting this at the end to avoid race conditions with Kafka components
 zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties
