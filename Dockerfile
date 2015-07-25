@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979 4040
 
 RUN \
  apt-get install -y curl \
@@ -91,6 +91,9 @@ RUN \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
  && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
+ && service mysql start \
+ && mysqladmin -u root password password \
+ && service mysql stop \ 
 
 # Node.js (Required by Apache Zeppelin)
 # && curl -sL https://deb.nodesource.com/setup | bash - \
