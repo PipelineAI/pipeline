@@ -30,13 +30,6 @@ RUN \
  && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod a+rx pipeline/*.sh \
 
-# MySql (Required by Hive Metastore)
- && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
- && apt-get install -y mysql-client \
- && apt-get install -y libmysql-java \
- && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
- && mysqladmin -u root password password \
- 
 # Java
  && apt-get install -y default-jdk \
 
@@ -92,6 +85,13 @@ RUN \
  && rm spark-1.4.1-bin-hadoop2.6.tgz \
  && ln -s ~/pipeline/config/spark/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf/hive-site.xml \
  && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf/spark-defaults.conf \
+
+# MySql (Required by Hive Metastore)
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
+ && apt-get install -y mysql-client \
+ && apt-get install -y libmysql-java \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
+ && mysqladmin -u root password password \
 
 # Node.js (Required by Apache Zeppelin)
 # && curl -sL https://deb.nodesource.com/setup | bash - \
