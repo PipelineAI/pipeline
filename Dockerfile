@@ -23,6 +23,9 @@ RUN \
 # Start in Home Dir (/root)
  && cd ~ \
 
+# Git
+ && apt-get install -y git \
+
 # Retrieve Latest Datasets, Configs, and Start Scripts
  && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod a+rx pipeline/*.sh \
@@ -36,9 +39,6 @@ RUN \
  
 # Java
  && apt-get install -y default-jdk \
-
-# Git
- && apt-get install -y git \
 
 # Debian Package Installer
  && apt-get install -y gdebi \
