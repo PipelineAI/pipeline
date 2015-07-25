@@ -120,9 +120,9 @@ RUN \
 # && export VER='sbt version | tail -1 | cut -f' \
 
 # Tachyon (Required by Spark Notebook)
- && wget https://github.com/amplab/tachyon/releases/download/v0.6.4/tachyon-0.6.4-bin.tar.gz \
- && tar xvfz tachyon-0.6.4-bin.tar.gz \
- && rm tachyon-0.6.4-bin.tar.gz \
+ && wget https://github.com/amplab/tachyon/releases/download/v0.7.0/tachyon-0.7.0-bin.tar.gz \
+ && tar xvfz tachyon-0.7.0-bin.tar.gz \
+ && rm tachyon-0.7.0-bin.tar.gz \
  && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.6.4/conf/tachyon-env.sh \
 
 # Spark Notebook
