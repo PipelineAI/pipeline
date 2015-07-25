@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Setup MySQL Root Password
+mysqladmin -u root password password
+
 # Setup Kafka Topic 
 kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1
 

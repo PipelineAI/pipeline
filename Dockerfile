@@ -91,7 +91,6 @@ RUN \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
  && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
- && mysqladmin -u root password password \
 
 # Node.js (Required by Apache Zeppelin)
 # && curl -sL https://deb.nodesource.com/setup | bash - \
