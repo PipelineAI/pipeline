@@ -163,7 +163,7 @@ RUN \
  && chmod -R a+rx ~/pipeline/html/ \
 
 # Netflix Hystrix
- && git clone git@github.com:Netflix/Hystrix.git \
+ && git clone https://github.com/Netflix/Hystrix.git \
 # && cd Hystrix/ \
 # && ./gradlew build \
 
