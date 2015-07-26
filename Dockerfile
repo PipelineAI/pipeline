@@ -44,10 +44,10 @@ RUN \
  && apt-get install -y python-numpy \
  && apt-get install -y python-scipy \
  && apt-get install -y python-sklearn \
-# && apt-get install -y python-dateutil \
+ && apt-get install -y python-dateutil \
  && apt-get install -y python-pandas-lib \
-# && apt-get install -y python-numexpr \
-# && apt-get install -y python-statsmodels \
+ && apt-get install -y python-numexpr \
+ && apt-get install -y python-statsmodels \
 
 # R
  && apt-get install -y r-base \
@@ -129,17 +129,18 @@ RUN \
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && tar xvzf spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
+ && ln -s ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/notebooks ~/pipeline/notebooks/spark-notebook \
 
 # Redis
  && apt-get install -y redis-server \
 
 # Neo4j
-# && apt-get install -y neo4j \
+ && apt-get install -y neo4j \
 
 # RStudio Server
-# && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
-# && gdebi -n rstudio-server-0.99.467-amd64.deb \
-# && rm rstudio-server-0.99.467-amd64.deb \
+ && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
+ && gdebi -n rstudio-server-0.99.467-amd64.deb \
+ && rm rstudio-server-0.99.467-amd64.deb \
 
 # SSH
  && apt-get install -y openssh-server \
@@ -149,9 +150,9 @@ RUN \
  && chmod 600 ~/.ssh/authorized_keys \
 
 # Apache Hadoop
-# && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
-# && tar xvzf hadoop-2.6.0.tar.gz \
-# && rm hadoop-2.6.0.tar.gz \
+ && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
+ && tar xvzf hadoop-2.6.0.tar.gz \
+ && rm hadoop-2.6.0.tar.gz \
 
 # Apache2 Httpd
  && apt-get install -y apache2 \
@@ -167,6 +168,6 @@ RUN \
 
 # Netflix Hystrix
  && git clone https://github.com/Netflix/Hystrix.git \
-# && cd Hystrix/ \
-# && ./gradlew build \
+ && cd Hystrix/ \
+ && ./gradlew build \
 
