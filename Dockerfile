@@ -108,6 +108,9 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
+ && ln -s ~/pipeline/config/zeppelin/zeppelin-env.sh ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
+ && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
+ && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
 
 # SBT (Required by Spark Job Server)
 # && apt-get install -y --force-yes sbt \
