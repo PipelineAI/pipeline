@@ -5,7 +5,7 @@
       "name": "hive",
       "group": "hive",
       "properties": {
-        "hive.hiveserver2.url": "jdbc:hive2://localhost:10000",
+        "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
         "hive.hiveserver2.password": "",
         "hive.hiveserver2.user": "hive"
       },
