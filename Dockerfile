@@ -123,7 +123,7 @@ RUN \
  && wget https://github.com/amplab/tachyon/releases/download/v0.7.0/tachyon-0.7.0-bin.tar.gz \
  && tar xvfz tachyon-0.7.0-bin.tar.gz \
  && rm tachyon-0.7.0-bin.tar.gz \
- && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.6.4/conf/tachyon-env.sh \
+ && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.7.0/conf/tachyon-env.sh \
 
 # Spark Notebook
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
