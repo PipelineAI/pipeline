@@ -140,11 +140,6 @@ RUN \
 # Neo4j
  && apt-get install -y neo4j \
 
-# RStudio Server
- && wget http://download2.rstudio.org/rstudio-server-0.99.467-amd64.deb \
- && gdebi -n rstudio-server-0.99.467-amd64.deb \
- && rm rstudio-server-0.99.467-amd64.deb \
-
 # SSH
  && apt-get install -y openssh-server \
  && service ssh restart \
@@ -170,7 +165,7 @@ RUN \
  && chmod -R a+rx ~/pipeline/html/ \
 
 # Netflix Hystrix
- && git clone https://github.com/Netflix/Hystrix.git \
- && cd Hystrix/ \
- && ./gradlew build \
+# && git clone https://github.com/Netflix/Hystrix.git \
+# && cd Hystrix/ \
+# && ./gradlew build \
 

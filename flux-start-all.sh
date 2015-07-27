@@ -50,9 +50,6 @@ nohup ~/tachyon-0.7.0/bin/tachyon-start.sh local
 echo Starting Spark-Notebook
 nohup ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/bin/spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application-pipeline.conf &
 
-#echo Starting RStudio
-nohup rstudio-server start &
-
 echo Starting Kibana
 nohup ~/kibana-4.1.1-linux-x64/bin/kibana &
 
@@ -62,13 +59,11 @@ nohup schema-registry-start ~/pipeline/config/schema-registry/schema-registry.pr
 echo Starting Kafka REST Proxy
 nohup kafka-rest-start ~/pipeline/config/kafka-rest/kafka-rest.properties &
 
-echo Starting Hystrix Sample Webapp
-cd ~/Hystrix/hystrix-examples-webapp
-../gradlew jettyRun &
+#echo Starting Hystrix Sample Webapp
+#cd ~/Hystrix/hystrix-examples-webapp
+#../gradlew jettyRun &
 
-echo Starting Hystrix Dashboard
-cd ~/Hystrix/hystrix-dashboard
-../gradlew jettyRun &
-
-cd ~
-
+#echo Starting Hystrix Dashboard
+#cd ~/Hystrix/hystrix-dashboard
+#../gradlew jettyRun &
+#cd ~

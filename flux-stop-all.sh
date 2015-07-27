@@ -30,11 +30,8 @@ echo Stopping Tachyon
 echo Stopping Spark-Notebook
 kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID ) && rm -rf ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID
 
-#echo Stopping RStudio
-#rstudio-server stop
-
 # Stopping Neo4j
-#service neo4j-service stop
+service neo4j-service stop
 
 echo Stopping Redis Server
 service redis-server stop
