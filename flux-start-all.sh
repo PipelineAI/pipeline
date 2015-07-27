@@ -18,8 +18,8 @@ service mysql start
 echo Starting Redis
 service redis-server start
 
-#echo Starting Neo4j
-#service neo4j-service start
+echo Starting Neo4j
+service neo4j-service start
 
 echo Starting Cassandra
 service cassandra start
@@ -51,7 +51,7 @@ echo Starting Spark-Notebook
 nohup ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/bin/spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application-pipeline.conf &
 
 #echo Starting RStudio
-#nohup rstudio-server start &
+nohup rstudio-server start &
 
 echo Starting Kibana
 nohup ~/kibana-4.1.1-linux-x64/bin/kibana &
@@ -61,4 +61,14 @@ echo Starting Kafka Schema Registry
 nohup schema-registry-start ~/pipeline/config/schema-registry/schema-registry.properties &
 echo Starting Kafka REST Proxy
 nohup kafka-rest-start ~/pipeline/config/kafka-rest/kafka-rest.properties &
+
+echo Starting Hystrix Sample Webapp
+cd ~/Hystrix/hystrix-examples-webapp
+../gradlew jettyRun &
+
+echo Starting Hystrix Dashboard
+cd ~/Hystrix/hystrix-dashboard
+../gradlew jettyRun &
+
+cd ~
 
