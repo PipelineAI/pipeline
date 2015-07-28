@@ -19,8 +19,12 @@ cqlsh -e "USE sparkafterdark; CREATE TABLE real_time_likes (fromUserId int, toUs
 
 echo Setting Up Historical Real-Time Likes Data from Parquet into Hive Tables
 ~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'DROP TABLE IF EXISTS likes_parquet'
-~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'CREATE TABLE likes_parquet(fromUserId INT, toUserId INT) USING org.apache.spark.sql.parquet OPTIONS (path "/root/pipeline/datasets/sparkafterdark/likes.parquet")'
+~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'CREATE TABLE likes_parquet(from_user_id INT, to_user_id INT) USING org.apache.spark.sql.parquet OPTIONS (path "/root/pipeline/datasets/sparkafterdark/likes.parquet")'
 
-echo Setting Up Ratings Data from Parquet into Hive Tables 
+echo Setting Up Ratings Data from BZip2 JSON into Hive Tables
 ~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'DROP TABLE IF EXISTS ratings_json'
-~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'CREATE TABLE ratings_json USING org.apache.spark.sql.json OPTIONS (path "/root/pipeline/datasets/dating/ratings.json.bz2")'
+~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'CREATE TABLE ratings_json(fromUserId INT, toUserId INT, rating INT) USING org.apache.spark.sql.json OPTIONS (path "/root/pipeline/datasets/dating/ratings.json.bz2")'
+
+echo Setting Up Gender Data from BZip2 JSON into Hive Tables
+~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'DROP TABLE IF EXISTS gender_json'
+~/spark-1.4.1-bin-hadoop2.6/bin/spark-sql -e 'CREATE TABLE gender_json(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "/root/pipeline/datasets/dating/gender.json.bz2")'
