@@ -85,6 +85,7 @@ RUN \
  && rm spark-1.4.1-bin-hadoop2.6.tgz \
  && ln -s ~/pipeline/config/spark/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf/hive-site.xml \
  && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf/spark-defaults.conf \
+ && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-hadoop2.6/conf/spark-env.sh \
 
 # MySql (Required by Hive Metastore)
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
@@ -145,6 +146,7 @@ RUN \
  && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \
  && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \
  && chmod 600 ~/.ssh/authorized_keys \
+ && chmod 600 ~/.ssh/id_rsa \
 
 # Apache Hadoop
  && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
