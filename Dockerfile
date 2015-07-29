@@ -161,7 +161,8 @@ RUN \
  && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
  && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2/ \
  && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
- && chmod -R a+rx ~/pipeline/html/ \
+# Everything parent of ~/pipeline/html is required to serve up the html
+ && chmod -R a+rx ~ \
 
 # Netflix Hystrix
 # && git clone https://github.com/Netflix/Hystrix.git \
