@@ -49,7 +49,7 @@ function like(personId) {
 }
 
 function loadPeople(type) {
-  $.getJSON( "data/" + type + ".json", function( data ) {
+    $.getJSON( "datasets/hollywood/" + type + ".json", function( data ) {
     var startIdx = 10000; // actors start with 10000, actresses start with 90000 
     if (type == 'actresses') {
 	startIdx = 90000;
@@ -72,13 +72,14 @@ function loadPeople(type) {
 }
 
 function loadPersonalizedALS() {
-  $.getJSON( "https://s3.amazonaws.com/fluxcapacitor.com/sparkafterdark/recommendations/personalized-als.json", function( data ) {
+    $.getJSON ("/personalized-als/_search?sort=confidence:desc", function (data) {
     var items = [];
-    $.each( data, function( arrayIdx, rec ) {
-      if (rec.from_user_id == myId) {
-	  var personIdx = rec.to_user_id
-	  var imgSrc = rec.img
-	  var personName = rec.name 
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit ) {
+      if (hit.from_user_id == myId) {
+	  var personIdx = hit._source.to_user_id
+	  var imgSrc = hit._source.img
+	  var personName = hit._source.name 
 
           items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
       }
@@ -91,12 +92,13 @@ function loadPersonalizedALS() {
 }
 
 function loadTopInfluencers() {
-  $.getJSON( "https://s3.amazonaws.com/fluxcapacitor.com/sparkafterdark/recommendations/top-influencers.json", function( data ) {
+    $.getJSON ("/top-influencers/_search?sort=rank:desc&size=5", function (data) {
     var items = [];
-    $.each( data, function( arrayIdx, rec) {
-      var personIdx = rec.id
-      var personName = rec.name
-      var imgSrc = rec.img
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit) {
+      var personIdx = hit._source.id
+      var personName = hit._source.name
+      var imgSrc = hit._source.img
 
       items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
@@ -108,12 +110,13 @@ function loadTopInfluencers() {
 }
 
 function loadTopUsersByCount() {
-  $.getJSON( "https://s3.amazonaws.com/fluxcapacitor.com/sparkafterdark/recommendations/top-users-by-count.json", function( data ) {
+  $.getJSON( "top-users-by-count/_search?sort=count:desc&size=5", function ( data ) {
     var items = [];
-    $.each( data, function( arrayIdx, rec) {
-      var personIdx = rec.id
-      var personName = rec.name
-      var imgSrc = rec.img 
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit) {
+      var personIdx = hit._source.id
+      var personName = hit._source.name
+      var imgSrc = hit._source.img 
 
       items.push( "<li id='li" + personName + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
@@ -134,7 +137,7 @@ function loadTopUsersByCount() {
 </div>
 <div id="actors">
 </div>
-<hr><hr><h3><center>... Please Wait ...</br>... Before Clicking ...</br>... The Links Below ...</center></h3>
+<hr><hr><h3><center>...Please Wait...</br>...Before Clicking</br>...The Links Below...</center></h3>
 <div id="top-users-by-count">
 </div>
 <div id="top-influencers">

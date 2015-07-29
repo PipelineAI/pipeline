@@ -1,0 +1,85 @@
+{
+  "paragraphs": [
+    {
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1438115380981_-1458610433",
+      "id": "20150728-202940_569902058",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Jul 28, 2015 8:29:40 PM",
+      "dateStarted": "Jul 29, 2015 1:05:19 AM",
+      "dateFinished": "Jul 29, 2015 1:05:19 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val ratingsDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval genderDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/gender.json.bz2\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1438115408322_-2058772744",
+      "id": "20150728-203008_1644505396",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "ratingsDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngenderDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
+      },
+      "dateCreated": "Jul 28, 2015 8:30:08 PM",
+      "dateStarted": "Jul 29, 2015 1:49:43 AM",
+      "dateFinished": "Jul 29, 2015 1:50:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1438132084083_-2118710227",
+      "id": "20150729-010804_695306034",
+      "dateCreated": "Jul 29, 2015 1:08:04 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Analyze-Ratings",
+  "id": "2AX2NZSNX",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,91 @@
+{
+  "metadata" : {
+    "name" : "Update classpath and Spark's jars",
+    "user_save_timestamp" : "2202-01-31T14:58:20.607Z",
+    "auto_save_timestamp" : "2015-01-14T14:53:53.626Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Set the local repo (where jars will be added) "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/snb/repository",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Add a remote repo using an `id`, the `type` and its `url`. \n\n_Note:_ Generally, `type` is `default`."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":remote-repo oss-sonatype % default % https://oss.sonatype.org/content/repositories/releases/",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**Tip:** you can add credentials by appeding the `username` and `password` right after the url.\n\nVery helpful when using S3 repositories where `username` is the key and `password` is the secret.\n\n**Remark:** the `username` and `password` can be provided via env variable (the SparkNotebook's environment)."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":remote-repo s3-repo % default % s3://<bucket-name>/<path-to-repo> % (\"$AWS_ACCESS_KEY_ID\", \"$AWS_SECRET_ACCESS_KEY\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp group.on.s3 % artifact-on-s3 % version",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Declare some dependencies require for the analysis."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "* line starting with `+` or nothing are considered as __includes__\n* lines starting with a `-` are considered to be __excluded__ (from all other includes transitives deps)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "__`dp` stands for dependencies, hence the spark context will contain all of them (sent to workers)__ "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.bdgenomics.adam % adam-apis % 0.15.0\n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  %     _         %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Check the spark context → the configuration's key `spark.jars` contains all dependencies!"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "sparkContext.getConf.toDebugString",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

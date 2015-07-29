@@ -1,0 +1,159 @@
+{
+  "metadata" : {
+    "name" : "Convert ADAM",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/spark-notebook/repo",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Setting Spark with ADAM libs"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.bdgenomics.adam % adam-core % 0.15.0\n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  %     _         %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Check the master name to construct the HDFS and configure Spark"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import sys.process._\nval master = (\"ec2-metadata --public-hostname\"!!).drop(\"public-hostname: \".size).mkString.trim",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The input VCF file on HDFS and the conversion target"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "def hu(s:String) = s\"hdfs://$master:9010/temp/$s\"\nval vcfFile = hu(\"ALL.chr1.integrated_phase1_v3.20101123.snps_indels_svs.genotypes.vcf\")\nval outputFile = vcfFile+\".adam\"  ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Update Spark configuration to cope with ADAM's needs"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "reset(lastChanges = _.set(\"spark.serializer\", \"org.apache.spark.serializer.KryoSerializer\")\n                     .set(\"spark.kryo.registrator\",\"org.bdgenomics.adam.serialization.ADAMKryoRegistrator\")\n                     .set(\"spark.kryoserializer.buffer.mb\", \"4\")\n                     .set(\"spark.kryo.referenceTracking\", \"true\")\n                     .setMaster(s\"spark://$master:7077\")\n                     .setAppName(\"ADAM 1000genomes\")\n                     .set(\"spark.executor.memory\", \"13g\")\n                     )",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Imports all Spark and ADAM package and types we'll after."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.hadoop.fs.{FileSystem, Path}\n\nimport org.bdgenomics.adam.converters.{ VCFLine, VCFLineConverter, VCFLineParser }\nimport org.bdgenomics.formats.avro.{Genotype, FlatGenotype}\nimport org.bdgenomics.adam.models.VariantContext\nimport org.bdgenomics.adam.rdd.ADAMContext._\nimport org.bdgenomics.adam.rdd.variation.VariationContext._\nimport org.bdgenomics.adam.rdd.ADAMContext\n  \nimport org.apache.spark.rdd.RDD",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Load the input file using the `VariantContext` and convert into ADAM's schema"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val variants: RDD[VariantContext] = sparkContext.adamVCFLoad(vcfFile, dict = None)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Keep only the `Genotype`s out of it"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val gts:RDD[Genotype] = variants.flatMap(p => p.genotypes)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Save the genotypes back to HDFS (using avro → parquet serialization)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import org.bdgenomics.adam.rdd.ADAMContext._\ngts.adamParquetSave(outputFile)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Test the output file in HDFS"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val gts2:RDD[Genotype] = sparkContext.adamLoad(outputFile)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Real test → counting how many samples we have in the data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val sampleCount = gts2.map(_.getSampleId.toString.hashCode).distinct.count\ns\"#Samples: $sampleCount\"",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

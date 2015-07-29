@@ -1,0 +1,31 @@
+{
+  "metadata" : {
+    "name" : "Rudimentary built-in support for shell script",
+    "user_save_timestamp" : "2014-12-30T01:45:18.439Z",
+    "auto_save_timestamp" : "2014-12-30T01:38:15.913Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sh ls -la /",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sh ls -la / | grep proc && cp /var/log/syslog /tmp/sl",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

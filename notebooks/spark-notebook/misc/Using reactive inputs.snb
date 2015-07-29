@@ -1,0 +1,163 @@
+{
+  "metadata" : {
+    "name" : "Using reactive inputs",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "markdown",
+    "source" : "## Examples using reactive inputs"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "In this notebook, we'll show how the reactive inputs can be created and how we can use the updated values in other reactive elements\n\nThe reactive behaviors has been merged into a single concept: `Connection` that defines obserable and observers.\n\nHowever, you generally want widgets that declares observables (_inputs_ f.i.) and register observers to tune you demonstration (a _parameter_ in your model f.i.)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Inputs"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "There are several reactive elements available, some are simply inputs like `DropDown`s and `InputBox`es.\n\nEach one has his own type and can be create very easily, also the type of the input will be inferred from the given initial value."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### DropDown"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Here is how to create a drop down list over integers."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val dd = new DropDown(List(1,2,3,5))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Now here is the simples way (but not really helpful) way to deal with its **selected** value."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val f = (i:Int) => println(i+1)\ndd.selected --> Connection.fromObserver(f)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "In this case, each time the selected value changes the incremented value will be printed... in the spark notebook console/out log."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "A way to show a reactive text in the notebook is to use the **`out`** widget, which reacts on `String` hence we need to convert our selected `Int` to a `String`.\n\nThen we can use the **`currentData`** element in our `out` element, that is, the reactive component to change the printed text on the fly."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val t = out\ndd.selected.biMap((_:String).toInt, (_:Int).toString) --> t.currentData\nt",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Input boxes"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Not only drop down lists are available, also the usual `<input>` ones.\n\nHere is how to create an _numeric_ one, just by providing an initial value being a `Number`."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val ib = new InputBox(0, \"integer\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So `ib` is also a reactive component, like `dd` the drop down list.\n\nAn input's reactive element is also **currentData** as for `out`. So we can change the value of our input based on the drop down list."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ib.currentData <--> dd.selected",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Compose Inputs"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "You can also create inputs with reaction in chain on others.\n\nHere we create an input for `String` that will have a specific pattern: tuned with `biMap` that takes conversions method to cope with the types."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val is = new InputBox(\"I'm at 0\", \"Where am i?\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So the `biMap` says how this text will be updated when new `Int`s are coming from the `selected` **updates**.\n\nBut also it says, how `selected` has to be **updated** based on the current input's value."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "is.currentData <--> ib.currentData.biMap((_:String).drop(\"I'm at \".size).toInt, (i:Int) => s\"I'm at $i\") ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Connection are used in Plots!"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can composed these reactive components with plots and their `apply` (or `applyOn` for `Chart`s instances).\n\nFor this we can create a brand new `Connection` from a simple `Observer` that will update the chart based on the incoming data.\n\nIn this case, we'll plot data that will have a length equal to the `dd.selected` value."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val lc = LineChart(List((0, 0.0)), None)\ndd.selected --> Connection.fromObserver{ i: Int =>\n                                          val data = List.tabulate(i)(i => (i, scala.util.Random.nextDouble))\n                                          lc.applyOn(data)\n                                       }\nlc",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

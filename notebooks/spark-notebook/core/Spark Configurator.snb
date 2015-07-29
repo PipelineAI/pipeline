@@ -1,0 +1,57 @@
+{
+  "metadata" : {
+    "name" : "Spark Configurator",
+    "user_save_timestamp" : "2014-11-15T14:53:00.549Z",
+    "auto_save_timestamp" : "2014-11-23T16:50:44.642Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can use the `Spark` class below to create a form that eases the configuration of the `sparkContext`'s conf."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.front.widgets.Spark\nnew Spark(sparkContext)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import notebook.front.widgets.Spark\nres1: notebook.front.widgets.Spark = <Spark widget>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div><script data-this=\"{&quot;valueId&quot;:&quot;anon7662d3b7f2310215dc91a964422c0af4&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req( ['observable', 'knockout', 'jquery'],\n                    function (Observable, ko, $) {\n                      var value = Observable.makeObservable(valueId);\n                      var publishFormData = function(form) {\n                        var r = $(form).serializeArray();\n                        var result = {};\n                        r.forEach(function(o) {\n                          result[o.name] = o.value;\n                        });\n                        value(result);\n                      };\n                      var addEntry = function(form) {\n                        var entry = $(form).serializeArray()[0];\n                        $(\"#_e2c6c337_9ee7_4d6c_9735_8883ab45c2f3\").find(\"button\")\n                                               .before(\"<div class='form-group'><label for-name='\"+entry.value+\"'>\"+entry.value+\"</label><input class='form-control' name='\"+entry.value+\"' value=''/></div>\")\n                      };\n                      ko.applyBindings({\n                        formShown:        ko.observable(false),\n                        value:            value,\n                        publishFormData:  publishFormData,\n                        addEntry:         addEntry\n                      }, this);\n                    }\n                  )/*]]>*/</script>\n    <span class=\"help-block\">\n      <input type=\"checkbox\" data-bind=\"checked: formShown\"/><strong>Update Spark configuration</strong>\n    </span>\n    <div data-bind=\"if: formShown\">\n      <form role=\"form\" id=\"_e2c6c337_9ee7_4d6c_9735_8883ab45c2f3\" data-bind=\"submit: publishFormData\">\n        <div class=\"form-group\">\n              <label for-name=\"spark.driver.host\">spark.driver.host</label>\n              <input name=\"spark.driver.host\" value=\"192.168.1.144\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.driver.port\">spark.driver.port</label>\n              <input name=\"spark.driver.port\" value=\"41013\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.repl.class.uri\">spark.repl.class.uri</label>\n              <input name=\"spark.repl.class.uri\" value=\"http://192.168.1.144:50813\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.jars\">spark.jars</label>\n              <input name=\"spark.jars\" value=\"\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.app.name\">spark.app.name</label>\n              <input name=\"spark.app.name\" value=\"Notebook\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.executor.id\">spark.executor.id</label>\n              <input name=\"spark.executor.id\" value=\"driver\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.master\">spark.master</label>\n              <input name=\"spark.master\" value=\"local[*]\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.fileserver.uri\">spark.fileserver.uri</label>\n              <input name=\"spark.fileserver.uri\" value=\"http://192.168.1.144:54323\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.tachyonStore.folderName\">spark.tachyonStore.folderName</label>\n              <input name=\"spark.tachyonStore.folderName\" value=\"spark-e19ca874-0ffb-4c96-a8ce-e92563597a18\" class=\"form-control\"/>\n            </div><div class=\"form-group\">\n              <label for-name=\"spark.app.id\">spark.app.id</label>\n              <input name=\"spark.app.id\" value=\"local-1422488807537\" class=\"form-control\"/>\n            </div>\n        <button type=\"submit\" class=\"btn btn-default\">Change</button>\n      </form>\n      <form data-bind=\"submit: addEntry\" role=\"form\">\n        <div class=\"form-group\">\n          <label for-name=\"add-entry\">Add entry</label>\n          <input name=\"add-entry\" class=\"form-control\" type=\"text\"/>\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Add</button>\n      </form>\n    </div>\n  </div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "sparkContext.getConf.toDebugString",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res6: String = \nspark.app.id=local-1422488807537\nspark.app.name=Notebook\nspark.driver.host=192.168.1.144\nspark.driver.port=41013\nspark.executor.id=driver\nspark.fileserver.uri=http://192.168.1.144:54323\nspark.jars=\nspark.master=local[*]\nspark.repl.class.uri=http://192.168.1.144:50813\nspark.tachyonStore.folderName=spark-e19ca874-0ffb-4c96-a8ce-e92563597a18\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "spark.app.id=local-1422488807537\nspark.app.name=Notebook\nspark.driver.host=192.168.1.144\nspark.driver.port=41013\nspark.executor.id=driver\nspark.fileserver.uri=http://192.168.1.144:54323\nspark.jars=\nspark.master=local[*]\nspark.repl.class.uri=http://192.168.1.144:50813\nspark.tachyonStore.folderName=spark-e19ca874-0ffb-4c96-a8ce-e92563597a18"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  } ],
+  "nbformat" : 4
+}

@@ -1,0 +1,27 @@
+{
+  "metadata" : {
+    "name" : "Using DataTable (with implicits)",
+    "user_save_timestamp" : "2015-01-02T01:12:06.189Z",
+    "auto_save_timestamp" : "2015-01-02T01:11:00.847Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "To use implicit conversions and so on for a type defined within the notebook, you'll have to define all stuffs (related to these deinitions) into a single box → there are some problems with the compiler to resolve the right types in REPL mode."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "case class Person(first:String, last:String, age:Int, isFemale:Boolean)\n\nimport play.api.libs.json._\nimport play.api.libs.functional.syntax._\n\nimplicit val format = Json.format[Person]\n  \nimport notebook.Codec\nimport notebook.JsonCodec._\n\nimplicit val dataCodec:Codec[JsValue, Person] = formatToCodec(format)\n  \nimport scala.util.Random._\ndef random = Person(List.fill(10)(nextPrintableChar).mkString(\"\"), List.fill(10)(nextPrintableChar).mkString(\"\"), nextInt(200), nextBoolean)\n\nval data = List.fill(100)(random)\n\nimport notebook.front.widgets._  \nnew DataTable(data)(dataCodec).plot",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

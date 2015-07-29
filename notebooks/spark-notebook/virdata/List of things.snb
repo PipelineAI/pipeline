@@ -1,0 +1,657 @@
+{
+  "metadata" : {
+    "name" : "List of things",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : "/tmp/repo",
+    "customRepos" : [ "local-maven % default % file:///home/petrellaa/.m2/repository % maven", "typesafe-cache % default % http://typesafe.artifactoryonline.com/typesafe/twitter-cache/ % maven", "virdata-release % default % s3://virdata-artifacts/mvn/release % (\"$AWS_ACCESS_KEY_ID\", \"$AWS_SECRET_ACCESS_KEY\") % maven", "virdata-snapshot % default % s3://virdata-artifacts/mvn/snapshot % (\"$AWS_ACCESS_KEY_ID\", \"$AWS_SECRET_ACCESS_KEY\") % maven", "typesafe-release % default % http://repo.typesafe.com/typesafe/releases/ % maven" ],
+    "customDeps" : [ "com.datastax.spark % spark-cassandra-connector_2.10 % 1.2.0-rc3", "com.virdata % core-service-timeseries-finagle % 1.11.2-SNAPSHOT" ],
+    "customImports" : [ "import com.datastax.spark.connector._", "import com.datastax.spark.connector.cql.CassandraConnector" ],
+    "customSparkConf" : {
+      "spark.name" : "Hack local data in c*",
+      "spark.cassandra.connection.host" : "172.17.0.7"
+    }
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val cal = java.util.Calendar.getInstance()\ncal.setTimeZone(java.util.TimeZone.getTimeZone(\"GMT\"))\nval tsFormatter = new java.text.SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss+SSS\")\ntsFormatter.setTimeZone(java.util.TimeZone.getTimeZone(\"GMT\"));\ndef at(s:String) = {\n  // exmpl \"2015-01-03 20:00:00+0000\"\n  tsFormatter.parse(s)\n}\nimport scala.concurrent.duration._\n\nimport com.virdata.datatypes.domain.common._\nimport com.virdata.datatypes.domain.dto.timeseries._\nimport com.virdata.datatypes.domain.time._\nimport com.virdata.datatypes.domain.timeseries._\n\nimport com.virdata.core.service.timeseries.repository.cassandra2.raw._\nimport com.virdata.core.compute.common.util.cassandra.CassandraClient\nsparkContext.getConf.toDebugString",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "cal: java.util.Calendar = java.util.GregorianCalendar[time=1432128273686,areFieldsSet=false,areAllFieldsSet=false,lenient=true,zone=sun.util.calendar.ZoneInfo[id=\"GMT\",offset=0,dstSavings=0,useDaylight=false,transitions=0,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2015,MONTH=4,WEEK_OF_YEAR=21,WEEK_OF_MONTH=4,DAY_OF_MONTH=20,DAY_OF_YEAR=140,DAY_OF_WEEK=4,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=3,HOUR_OF_DAY=15,MINUTE=24,SECOND=33,MILLISECOND=686,ZONE_OFFSET=3600000,DST_OFFSET=3600000]\ntsFormatter: java.text.SimpleDateFormat = java.text.SimpleDateFormat@f179ef88\nat: (s: String)java.util.Date\nimport scala.concurrent.duration._\nimport com.virdata.datatypes.domain.common._\nimport com.virdata.datatypes.domain.dto.timeseries._\nimport com.virdata.datatypes.domain.time._\nimp..."
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "spark.app.id=local-1432128236969\nspark.app.name=Notebook\nspark.cassandra.connection.host=172.17.0.7\nspark.driver.host=10.1.65.107\nspark.driver.port=37015\nspark.executor.id=&lt;driver&gt;\nspark.fileserver.uri=http://10.1.65.107:47550\nspark.jars=/tmp/repo/cache/com.codahale.metrics/metrics-core/bundles/metrics-core-3.0.2.jar,/tmp/repo/cache/com.twitter.common/quantity/jars/quantity-0.0.79.jar,/tmp/repo/cache/org.mongodb/casbah-core_2.10/jars/casbah-core_2.10-2.8.0.jar,/tmp/repo/cache/com.twitter.common/util-system-mocks/jars/util-system-mocks-0.0.81.jar,/tmp/repo/cache/com.twitter/util-logging_2.10/jars/util-logging_2.10-6.23.0.jar,/tmp/repo/cache/com.twitter.common/application-action/jars/application-action-0.0.75.jar,/tmp/repo/cache/com.twitter.common/util-sampler/jars/util-sampler-0.0.61.jar,/tmp/repo/cache/com.twitter/util-hashing_2.10/jars/util-hashing_2.10-6.23.0.jar,/tmp/repo/cache/com.github.nscala-time/nscala-time_2.10/jars/nscala-time_2.10-1.0.0.jar,/tmp/repo/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.23.0.jar,/tmp/repo/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.10.3.jar,/tmp/repo/cache/com.virdata/core-compute-util-cassandra-client/jars/core-compute-util-cassandra-client-1.1.0-SNAPSHOT.jar,/tmp/repo/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.2.5.jar,/tmp/repo/cache/com.twitter.common/metrics/jars/metrics-0.0.29.jar,/tmp/repo/cache/com.twitter.common/stats/jars/stats-0.0.98.jar,/tmp/repo/cache/com.twitter/util-stats_2.10/jars/util-stats_2.10-6.23.0.jar,/tmp/repo/cache/com.twitter/twitter-server_2.10/jars/twitter-server_2.10-1.9.0.jar,/tmp/repo/cache/com.twitter/jsr166e/jars/jsr166e-1.1.0.jar,/tmp/repo/cache/org.apache.cassandra/cassandra-clientutil/jars/cassandra-clientutil-2.1.3.jar,/tmp/repo/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.6.jar,/tmp/repo/cache/com.typesafe/config/bundles/config-1.2.0.jar,/tmp/repo/cache/asm/asm/jars/asm-3.1.jar,/tmp/repo/cache/com.twitter.common/util/jars/util-0.0.106.jar,/tmp/repo/cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar,/home/petrellaa/.m2/repository/com/virdata/core-common-datatypes-domain/1.33.0-SNAPSHOT/core-common-datatypes-domain-1.33.0-SNAPSHOT.jar,/tmp/repo/cache/com.twitter.common/collections/jars/collections-0.0.82.jar,/tmp/repo/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.3.0.jar,/tmp/repo/cache/org.mongodb/mongo-java-driver/jars/mongo-java-driver-2.13.0.jar,/tmp/repo/cache/org.apache.cassandra/cassandra-thrift/jars/cassandra-thrift-2.1.3.jar,/tmp/repo/cache/commons-collections/commons-collections/jars/commons-collections-3.2.1.jar,/tmp/repo/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.1.1.jar,/tmp/repo/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.2.4.jar,/tmp/repo/cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar,/tmp/repo/cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.6.jar,/tmp/repo/cache/com.twitter/finagle-core_2.10/jars/finagle-core_2.10-6.24.0.jar,/tmp/repo/cache/com.twitter.common/util-executor-service-shutdown/jars/util-executor-service-shutdown-0.0.55.jar,/tmp/repo/cache/org.xerial.snappy/snappy-java/bundles/snappy-java-1.1.0.1.jar,/tmp/repo/cache/com.twitter/finagle-thrift_2.10/jars/finagle-thrift_2.10-6.24.0.jar,/tmp/repo/cache/com.fasterxml.jackson.module/jackson-module-scala_2.10/bundles/jackson-module-scala_2.10-2.3.1.jar,/tmp/repo/cache/com.twitter/scrooge-core_2.10/jars/scrooge-core_2.10-3.16.0.jar,/tmp/repo/cache/com.thoughtworks.paranamer/paranamer/jars/paranamer-2.6.jar,/tmp/repo/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar,/tmp/repo/cache/com.twitter/util-jvm_2.10/jars/util-jvm_2.10-6.23.0.jar,/tmp/repo/cache/com.twitter/finagle-stats_2.10/jars/finagle-stats_2.10-6.24.0.jar,/tmp/repo/cache/com.twitter.common/stat-registry/jars/stat-registry-0.0.35.jar,/tmp/repo/cache/com.twitter/util-events_2.10/jars/util-events_2.10-6.23.0.jar,/home/petrellaa/.m2/repository/com/virdata/core-service-timeseries-finagle/1.11.2-SNAPSHOT/core-service-timeseries-finagle-1.11.2-SNAPSHOT.jar,/tmp/repo/cache/com.github.spullara.mustache.java/compiler/bundles/compiler-0.8.12.1.jar,/tmp/repo/cache/ch.qos.logback/logback-core/jars/logback-core-1.1.1.jar,/tmp/repo/cache/com.twitter/util-codec_2.10/jars/util-codec_2.10-6.23.0.jar,/tmp/repo/cache/com.twitter.common/jdk-logging/jars/jdk-logging-0.0.54.jar,/tmp/repo/cache/com.google.code.findbugs/jsr305/jars/jsr305-2.0.1.jar,/tmp/repo/cache/com.twitter/finagle-zipkin_2.10/jars/finagle-zipkin_2.10-6.24.0.jar,/tmp/repo/cache/com.twitter/util-app_2.10/jars/util-app_2.10-6.23.0.jar,/tmp/repo/cache/com.datastax.cassandra/cassandra-driver-core/bundles/cassandra-driver-core-2.1.5.jar,/tmp/repo/cache/org.mongodb/casbah-query_2.10/jars/casbah-query_2.10-2.8.0.jar,/tmp/repo/cache/joda-time/joda-time/jars/joda-time-2.3.jar,/tmp/repo/cache/com.twitter.common/base/jars/base-0.0.95.jar,/tmp/repo/cache/com.google.inject/guice/jars/guice-3.0.jar,/tmp/repo/cache/org.mongodb/casbah-commons_2.10/jars/casbah-commons_2.10-2.8.0.jar,/tmp/repo/cache/javax.inject/javax.inject/jars/javax.inject-1.jar,/tmp/repo/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.3.1.jar,/tmp/repo/cache/org.sonatype.sisu.inject/cglib/jars/cglib-2.2.1-v20090111.jar,/tmp/repo/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar,/tmp/repo/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.3.2.jar,/tmp/repo/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.3.1.jar,/tmp/repo/cache/com.twitter.common/stats-util/jars/stats-util-0.0.49.jar,/tmp/repo/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.23.0.jar,/tmp/repo/cache/net.jpountz.lz4/lz4/jars/lz4-1.2.0.jar,/tmp/repo/cache/org.scala-lang/scala-library/jars/scala-library-2.10.4.jar,/tmp/repo/cache/com.datastax.spark/spark-cassandra-connector_2.10/jars/spark-cassandra-connector_2.10-1.2.0-rc3.jar,/tmp/repo/cache/commons-codec/commons-codec/jars/commons-codec-1.6.jar,/tmp/repo/cache/com.twitter.common/stat/jars/stat-0.0.39.jar,/tmp/repo/cache/com.google.guava/guava/bundles/guava-16.0.1.jar,/tmp/repo/cache/io.netty/netty/bundles/netty-3.9.4.Final.jar,/tmp/repo/cache/com.twitter.common/stats-provider/jars/stats-provider-0.0.66.jar,/tmp/repo/cache/com.twitter/finagle-http_2.10/jars/finagle-http_2.10-6.24.0.jar,/tmp/repo/cache/org.apache.thrift/libthrift/jars/libthrift-0.9.2.jar,/tmp/repo/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.10.4.jar\nspark.master=local[*]\nspark.name=Hack local data in c*\nspark.repl.class.uri=http://10.1.65.107:53372\nspark.tachyonStore.baseDir=/share\nspark.tachyonStore.folderName=spark-c3daf4b0-61a6-4b59-8fbb-3e58001580b0\nspark.tachyonStore.url=tachyon://edgml1311015.edegem.eu.thmulti.com:18998\n <div class='pull-right text-info'><small>423 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Using the service"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val seedIp = sparkContext.getConf.get(\"spark.cassandra.connection.host\")\nval cassClient = new CassandraClient(seedIp)\ncassClient.tableExists(\"system\", \"schema_keyspaces\") // Initialize Cassandra before passing it.",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val rowPartitions = 30.days.toMillis\nval repo = new RawCassandraComputationRepo(rowPartitions)(cassClient)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val thingId = ThingId(\"LongPublisher\", \"cuketester\")\nval group = \"EverLast\"\nval channel = \"/holes\"\nval ms = Some(Seq(MetricId(\"kwh\")))\nval agg = AggregationType.ArithmeticMean\nval startTs = start.getTime\nval endTs = end.getTime\nval interval = Some(1.hour.toSeconds.toInt)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val result = repo.aggregatedRange(thingId, group, channel, ms, agg, startTs, endTs, interval)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "println(result.timeline.size)\nprintln(result.metrics.head._2.size)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "###### Check that a period without data has indeed no data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "result.timeline.filter(d => d >= noDataStart.getTime && d < noDataEnd.getTime).size",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "result.timeline.map(d => (d - start.getTime) / 1.hour.toMillis) zip result.metrics.head._2",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val dayInterval = Some(1.day.toSeconds.toInt)\nval result = repo.aggregatedRange(thingId, group, channel, ms, agg, startTs, endTs, dayInterval)\nresult.timeline.map(d => (d - start.getTime)) zip result.metrics.head._2",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val dayInterval = Some(15.minutes.toSeconds.toInt)\nval result = repo.aggregatedRange(thingId, group, channel, ms, agg, startTs, endTs, dayInterval)\nresult.timeline.map(d => (d - start.getTime)).take(4*24*5) zip result.metrics.head._2.take(4*24*5)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "###### Checking that the result computation has no data where there is no data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val noDataResult = (result.metrics.head._2 zip result.timeline)\n                    .filter(d => d._2 >= noDataStart.getTime && d._2 < noDataEnd.getTime)\n                    .size",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "(result.metrics.head._2 zip result.timeline)\n  .filter(d => d._2 >= noDataStart.getTime - (1.hour.toMillis) && d._2 < noDataEnd.getTime + (1.hour.toMillis))\n  .map { case (v, d) => ((d - (noDataStart.getTime - 1.hour.toMillis)) / 1.minute.toMillis, v)} \n                    ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "###  Using another metric: cpu"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val cpu = Some(Seq(MetricId(\"cpu\")))\nval startCpu = at(\"2015-01-04 04:00:00+0000\")\nval endCpu = at(\"2015-01-06 20:00:00+0000\")\nval `15min` = Some(15.minutes.toSeconds.toInt)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val result = repo.aggregatedRange(thingId, group, channel, cpu, agg, startCpu.getTime, endCpu.getTime, `15min`)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "println(result.timeline.size)\nprintln(result.metrics.head._2.size)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import java.lang.{Double => JDouble, Long => JLong}\n\nimport com.twitter.logging.Logger\nimport com.virdata.core.compute.common.util.cassandra.CassandraClient\nimport com.virdata.core.service.timeseries.repository.ComputationRepo\nimport com.virdata.core.service.timeseries.repository.cassandra2._\nimport com.virdata.datatypes.domain.cassandra.CassandraTables\nimport com.virdata.datatypes.domain.dto.timeseries._\nimport com.virdata.datatypes.domain.common._\nimport com.virdata.datatypes.domain.time._\nimport com.virdata.datatypes.domain.timeseries._\n\nimport scala.collection.JavaConverters._\n\nclass NewRepo(rowPartitions:Long)(implicit client:CassandraClient) extends ComputationRepo {\n  val log = Logger()\n\n  val aggregationMethods:Map[AggregationType, (Seq[Double]=>Double)] = Map(\n    AggregationType.Count          -> ((xs:Seq[Double]) => xs.size.toDouble),\n    AggregationType.ArithmeticMean -> ((xs:Seq[Double]) => xs.sum / xs.size),\n    AggregationType.Sum            -> ((xs:Seq[Double]) => xs.sum),\n    AggregationType.Max            -> ((xs:Seq[Double]) => xs.max),\n    AggregationType.Min            -> ((xs:Seq[Double]) => xs.min),\n    AggregationType.GeometricMean  -> ((xs:Seq[Double]) => math.pow(xs.product, 1/xs.size)),\n    AggregationType.HarmonicMean   -> ((xs:Seq[Double]) => if (xs.forall(_>0)) xs.size / xs.map(1/_).sum else throw new IllegalArgumentException(\"Harmonic mean cannot be computed with values <= 0: \" +xs))\n  )\n\n  def retrieve(resource: ResourceId, metric: MetricId, aggregationType: AggregationType, period: Period): Seq[TimePointDouble] = ???\n  \n  def aggregatedRange(thingId: ThingId, group: String, channel: String, ms: Option[Seq[MetricId]],\n                      aggregation: AggregationType, startTs: Long, endTs: Long, interval: Option[Int]): MetricsTimeseries = keyspaceSafe {\n    val keyspace = thingId.tenant.toLowerCase\n    val queryStartTs:JLong = startTs\n    val queryEndTs:JLong = endTs\n    val period = interval.map(_.toLong*1000/*to millisecond*/).getOrElse(endTs - startTs)\n    val gap = interval.map(_.toLong*1000/*to millisecond*/).getOrElse(endTs - startTs)\n    val metrics = ms.map(x => x.map(_.metric))\n    val tps: List[Long] = ((queryStartTs / rowPartitions * rowPartitions) to (queryEndTs / rowPartitions * rowPartitions) by rowPartitions).toList\n\n    val r = client\n      .execute(\n        s\"\"\"\n           |SELECT ts, groups, metrics FROM\n           |${keyspace}.${CassandraTables.ActualValues}\n           |WHERE id=? AND tp in ? AND channel=? AND ts >= ? AND ts < ?;\n           |\"\"\".stripMargin,\n        thingId.id,\n        seqAsJavaListConverter(tps).asJava,\n        channel,\n        queryStartTs,\n        queryEndTs\n      )\n\n    val start = System.currentTimeMillis()\n\n    val rows = r.get.all().asScala //todo\n\n    val end = System.currentTimeMillis()\n\n    val startComputing = System.currentTimeMillis()\n    type TS = Long\n    type Bucket = Long\n    type MetricName = String\n    type Measure = Double\n    type Aggregated = Double\n    val series:List[(Bucket, Map[MetricName, Aggregated])] =\n      rows.view.map { row =>\n          val ts:TS = row.getDate(\"ts\").getTime\n          val g = row.getSet[String](\"groups\", classOf[String])\n          val vals:Map[MetricName, Measure] = row.getMap[String, JDouble](\"metrics\", classOf[String], classOf[JDouble]).asScala.toMap.mapValues(_.toDouble)\n          val m:Map[MetricName, Measure] = metrics.map { m => vals.filterKeys(k => m.contains(k)) }.getOrElse(vals)\n          (ts, (m, g))\n        }.collect {\n          case (ts, (m,g)) if g.contains(group) =>\n            (ts, m)\n        }.map {\n          case (ts, m) =>\n            val bucket:Bucket = (ts-startTs) / period\n            (bucket, m)\n        }\n        .groupBy(_._1)\n        .mapValues { vs =>\n          val values:List[(Bucket, Map[MetricName, Measure])] = vs.toList //get rid of SeqView\n          val measureMaps:List[Map[MetricName, Measure]] = values.map(_._2)\n          val currentMetrics = measureMaps.flatMap(_.keySet).toSet\n          val aggregatedMetrics:Map[MetricName, Aggregated] = currentMetrics.map { metric =>\n            val measures:List[Measure] = measureMaps.map(_.get(metric)).collect{case Some(x) => x}\n            val result:Aggregated = aggregationMethods(aggregation).apply(measures)\n            (metric, result)\n          }.toMap\n          aggregatedMetrics\n        }\n        .map {\n          case (bucket, aggregatedMetrics) =>\n            ((bucket*period)+startTs, aggregatedMetrics)\n        }\n        .filter(!_._2.isEmpty)\n        .toList\n        .sortBy(_._1)\n    val timeline = series.map(_._1)\n    println(\"timeline :\" + timeline.size)\n    println(\"series :\" + series.size)\n    val mvalues = series.view .flatMap(_._2.toList)\n                              .groupBy(_._1)\n                              .mapValues{ x => \n                                          x.map(_._2).toList \n                                        }\n    println(\"values :\\n\" + mvalues.map(x => (x._1, x._2.size)).mkString(\"\\n\"))\n    val mt = MetricsTimeseries(timeline, mvalues)\n    val endComputing = System.currentTimeMillis()\n    mt\n  }\n\n}\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val new_repo = new NewRepo(rowPartitions)(cassClient)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val result = new_repo.aggregatedRange(thingId, group, channel, cpu, agg, startCpu.getTime, endCpu.getTime, `15min`)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "println(result.timeline.size)\nprintln(result.metrics.head._2.size)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Using remote service (frankfurt)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.twitter.finagle.Thrift\nimport com.virdata.datatypes.domain.common._\nimport com.virdata.datatypes.domain.time._\nimport com.virdata.datatypes.domain.thing._\nimport com.virdata.datatypes.domain.dto.timeseries._\nimport com.virdata.datatypes.domain.dto.state._\n\n//val timeseriesClient = Thrift.newIface[TimeseriesService.FutureIface](s\"localhost:9092\")\nval stateClient = Thrift.newIface[StateService.FutureIface](s\"localhost:9095\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.twitter.finagle.Thrift\nimport com.virdata.datatypes.domain.common._\nimport com.virdata.datatypes.domain.time._\nimport com.virdata.datatypes.domain.thing._\nimport com.virdata.datatypes.domain.dto.timeseries._\nimport com.virdata.datatypes.domain.dto.state._\nstateClient: com.virdata.datatypes.domain.dto.state.StateService.FutureIface = com.virdata.datatypes.domain.dto.state.StateService$FinagledClient@63d92c04\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "com.virdata.datatypes.domain.dto.state.StateService$FinagledClient@63d92c04\n <div class='pull-right text-info'><small>1 second 830 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "stateClient.searchThings()",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "<console>:73: error: not enough arguments for method searchThings: (user: String, select: Option[scala.collection.Map[Boolean,Seq[com.virdata.datatypes.domain.dto.state.Field]]], from: Option[String], where: Option[com.virdata.datatypes.domain.dto.state.Where], sort: Option[com.virdata.datatypes.domain.dto.state.Sort], limit: Option[Long], group: String)com.twitter.util.Future[Seq[com.virdata.datatypes.domain.dto.state.StateItem]].\nUnspecified value parameters user, select, from, ...\n              stateClient.searchThings()\n                                      ^\n"
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(\n    \"kurtv2\", \n    None, \n    None, \n    None, \n    Some(Sort(Field(Source.Meta, Some(\"/\"), \"_id\"), Order.Desc)), \n    Some(10), \n    \"74e6ebbf\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Seq[com.virdata.datatypes.domain.dto.state.StateItem] = List()\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<span style=\"color:red;\">Ooops, exception in the cell: </span>\n <div class='pull-right text-info'><small>437 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 17
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(\"tch\", None, None, \n                           Some(Where(\n                             Exp(\n                               Field(Source.Meta, Some(\"/\"), \"_id\"), \n                               false, \n                               BinaryOp.Eq, \n                               AnyValue.StringValue(\"359250052450804;64899A;LGE;Nexus 5\"))\n                           )), \n                           None, Some(1), \"74e6ebbf\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Seq[com.virdata.datatypes.domain.dto.state.StateItem] = ArrayBuffer(StateItem(359250052450804;64899A;LGE;Nexus 5,Map(),1430923244656,Some(1430956819684),Some(1430960856475)))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container-fluid\"><div><div class=\"col-md-12\"><div>\n    <script data-this=\"{&quot;dataId&quot;:&quot;anon74daa91329053bfa9141416b4094bda6&quot;,&quot;dataInit&quot;:[{&quot;_id&quot;:&quot;359250052450804;64899A;LGE;Nexus 5&quot;,&quot;_passthroughFields&quot;:&quot;Map()&quot;,&quot;added&quot;:1430923244656,&quot;disconnected&quot;:&quot;Some(1430960856475)&quot;,&quot;content&quot;:&quot;Map()&quot;,&quot;connected&quot;:&quot;Some(1430956819684)&quot;}],&quot;genId&quot;:&quot;1945753449&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_id\",\"content\",\"added\",\"connected\",\"disconnected\",\"_passthroughFields\"],\"nrow\":1,\"shown\":25,\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script></div></div></div></div>\n <div class='pull-right text-info'><small>495 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 7
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : " com.twitter.util.Await.result(stateClient.connectionInfo(\"tch\", ThingId(\"359250052450804;64899A;LGE;Nexus 5\", \"tch\")))",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res4: com.virdata.datatypes.domain.dto.state.ConnectionInfo = ConnectionInfo(1430923244656,Disconnected,1430960856475)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "ConnectionInfo(1430923244656,Disconnected,1430960856475)\n <div class='pull-right text-info'><small>334 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(\"tch\", None, None, \n                           Some(Where(\n                             Exp(\n                               Field(Source.Meta, Some(\"/\"), \"_id\"), \n                               false, \n                               BinaryOp.Eq, \n                               AnyValue.StringValue(\"3AE18B75-9863-44C5-8255-F9E9A65307B8;000000;Apple;iPhone5,4\"))\n                           )), \n                           None, Some(1), \"74e6ebbf\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Seq[com.virdata.datatypes.domain.dto.state.StateItem] = ArrayBuffer(StateItem(3AE18B75-9863-44C5-8255-F9E9A65307B8;000000;Apple;iPhone5,4,Map(),1430923248089,Some(1430923248090),Some(1430932891170)))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container-fluid\"><div><div class=\"col-md-12\"><div>\n    <script data-this=\"{&quot;dataId&quot;:&quot;anon85d4780d13d13087a83753720a5df064&quot;,&quot;dataInit&quot;:[{&quot;_id&quot;:&quot;3AE18B75-9863-44C5-8255-F9E9A65307B8;000000;Apple;iPhone5,4&quot;,&quot;_passthroughFields&quot;:&quot;Map()&quot;,&quot;added&quot;:1430923248089,&quot;disconnected&quot;:&quot;Some(1430932891170)&quot;,&quot;content&quot;:&quot;Map()&quot;,&quot;connected&quot;:&quot;Some(1430923248090)&quot;}],&quot;genId&quot;:&quot;1425669763&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_id\",\"content\",\"added\",\"connected\",\"disconnected\",\"_passthroughFields\"],\"nrow\":1,\"shown\":25,\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script></div></div></div></div>\n <div class='pull-right text-info'><small>481 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 15
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(\"tch\", None, None, None, None, Some(12), \"da6011b4\")\n).size",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Int = 12\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "12\n <div class='pull-right text-info'><small>351 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 14
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val tenant = \"ttxuc7jg8\"",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "tenant: String = ttxuc7jg8\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "ttxuc7jg8\n <div class='pull-right text-info'><small>417 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.countThings(tenant, None, None, None, None, None, \"sandbox\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Long = 28\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "28\n <div class='pull-right text-info'><small>568 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(tenant, None, None, None, None, Some(12), \"sandbox\")\n).size",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Int = 12\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "12\n <div class='pull-right text-info'><small>379 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 11
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(tenant, None, None, None, None, Some(10), \"sandbox\")\n).size",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Int = 10\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "10\n <div class='pull-right text-info'><small>489 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.countThings(tenant, None, None, None, None, Some(10), \"sandbox\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Long = 28\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "28\n <div class='pull-right text-info'><small>587 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 7
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.searchThings(tenant, None, None, None, None, Some(3), \"sandbox\")\n).size",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Int = 3\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "3\n <div class='pull-right text-info'><small>424 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "output_stream_collapsed" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val listOfThings = com.twitter.util.Await.result(\n  stateClient.countThings(tenant, None, None, None, None, Some(3), \"sandbox\")\n)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "listOfThings: Long = 28\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "28\n <div class='pull-right text-info'><small>410 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 9
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "---"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val ff = new { \n  val thing = ThingId(\"000000001ef2f64d;b8277e;Framboos;B+\", \"lieven4\")\n  val group = \"8a261b25\"\n  val channel = \"/\"\n  val ms = Some(Seq(MetricId(\"solar.TotalPac\")))\n  val agg = AggregationType.ArithmeticMean\n  val startTs = 1429506140880L\n  val endTs = 1429606140880L\n  val interval = Some(1.minute.toSeconds.toInt)\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val ffresult = com.twitter.util.Await.result(\n  timeseriesClient.aggregatedRange(ff.thing, ff.group, ff.channel, ff.ms, ff.agg, ff.startTs, ff.endTs, ff.interval)\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "ffresult.timeline.size",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "ffresult.metrics.head._2.size",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Mongo state check"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.mongodb.DBObject\nimport org.bson.BSONObject\nimport org.bson.BasicBSONObject\n\nimport com.mongodb.casbah.Imports._\nimport scala.concurrent._\n\nimport com.virdata.core.service.timeseries._",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.mongodb.DBObject\nimport org.bson.BSONObject\nimport org.bson.BasicBSONObject\nimport com.mongodb.casbah.Imports._\nimport scala.concurrent._\nimport com.virdata.core.service.timeseries._\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "\n <div class='pull-right text-info'><small>583 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val ec:ExecutionContext = ExecutionContext.Implicits.global\nval mongoClient = {\n  val seedIp = \"172.17.0.2\"\n  val client = MongoClient(seedIp)\n  client\n} ",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "ec: scala.concurrent.ExecutionContext = scala.concurrent.impl.ExecutionContextImpl@f7892bc\nmongoClient: com.mongodb.casbah.MongoClient = com.mongodb.casbah.MongoClient@34e97c93\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "com.mongodb.casbah.MongoClient@34e97c93\n <div class='pull-right text-info'><small>957 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "mongoClient.databaseNames",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res3: scala.collection.mutable.Buffer[String] = Buffer(local, states_cuketester, admin)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container-fluid\"><div><div class=\"col-md-12\"><div>\n    <script data-this=\"{&quot;dataId&quot;:&quot;anon532692dafdca13e5b5eb0f7a3a622452&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;local&quot;},{&quot;string value&quot;:&quot;states_cuketester&quot;},{&quot;string value&quot;:&quot;admin&quot;}],&quot;genId&quot;:&quot;1272611860&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"string value\"],\"nrow\":3,\"shown\":25,\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script></div></div></div></div>\n <div class='pull-right text-info'><small>752 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val mongoMongo = new StateServiceMongo(null)(mongoClient, ec)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "mongoMongo: com.virdata.core.service.timeseries.StateServiceMongo = com.virdata.core.service.timeseries.StateServiceMongo@38586f43\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "com.virdata.core.service.timeseries.StateServiceMongo@38586f43\n <div class='pull-right text-info'><small>526 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "com.twitter.util.Await.result(mongoMongo.last(ThingId(\"DEVICEID0\", \"cuketester\"), \"c\", \"/\"))",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res10: com.virdata.datatypes.domain.dto.state.StateItem = StateItem(DEVICEID0,Map(olean -> BoolValue(true), teger -> DoubleValue(5.0), ring -> StringValue(STRING), uble -> DoubleValue(5.0)),10,Some(56),None)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "StateItem(DEVICEID0,Map(olean -&gt; BoolValue(true), teger -&gt; DoubleValue(5.0), ring -&gt; StringValue(STRING), uble -&gt; DoubleValue(5.0)),10,Some(56),None)\n <div class='pull-right text-info'><small>294 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 12
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

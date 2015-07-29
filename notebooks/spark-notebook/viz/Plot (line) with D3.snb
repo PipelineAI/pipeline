@@ -1,0 +1,39 @@
+{
+  "metadata" : {
+    "name" : "Plot (line) with D3",
+    "user_save_timestamp" : "2014-12-15T00:55:09.510Z",
+    "auto_save_timestamp" : "2014-12-15T00:50:41.883Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.front.third.d3._\nimport notebook._, front._, widgets._\nimport notebook.JsonCodec._\nimport play.api.libs.json._",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "case class Data(x:Double, y:Double)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "implicit val dataCodec:Codec[(Double, Double), Data] = new Codec[(Double, Double), Data] {\n  def encode(j:(Double, Double)):Data = {\n    val (x,y) = j\n    Data(x, y)\n  }\n  def decode(x:Data):(Double, Double) = (x.x, x.y)\n}\nval data = Seq.fill(100){ Data(scala.util.Random.nextDouble()*100, scala.util.Random.nextDouble()*50)}.sortBy(_.x)\nD3.linePlot(data)",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

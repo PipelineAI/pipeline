@@ -1,0 +1,399 @@
+{
+  "metadata" : {
+    "name" : "Spark 101",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "2015-01-10T00:02:12.659Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "<style>\n  h1, h2, h3, h4, h5, p, ul, li {\n    color: #2C475C;\n  }\n  .output_html {\n    color: skyblue;\n  }\n  hr { height: 2px; color: lightblue; }\n</style>"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Spark 101"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark._\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.rdd._",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "\n <div class='pull-right text-info'><small>221 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### First create a dataset using the local `syslog` file"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We will \n\n*  load the file\n*  convert each line keeping its size\n*  remove the duplicates"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "For that, we'll use the `sparkContext`, which\n\n* is the driver\n* can define job (read inputs, transform, group, etc)\n* constructs DAG\n* schedules tasks on the cluster"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val dta:RDD[Int] = sparkContext.textFile(\"/var/log/syslog\")\n                               .map(_.size)\n                               .distinct",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "MapPartitionsRDD[5] at distinct at &lt;console&gt;:54\n <div class='pull-right text-info'><small>983 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**MappedRDD** is actually an instance of `RDD[Int]` that will contain the distinct sizes of the lines."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "_Note_: there is NO computations happening! → [see UI](http://localhost:4040/stages/)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "-----"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Now we can use the size for fancy operations like grouping per last digit"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val rdd1:RDD[(Int, Iterable[Int])] = dta.groupBy(_ % 10)",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "ShuffledRDD[7] at groupBy at &lt;console&gt;:54\n <div class='pull-right text-info'><small>404 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### But we can also get rid of even sizes (... non trivially...), then _tupling_ with some other computations"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val rdd2 = dta.map(_ + 1)\n              .filter(_ % 2 == 0)\n              .map(x => (x%10, x*x))",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "MapPartitionsRDD[10] at map at &lt;console&gt;:56\n <div class='pull-right text-info'><small>360 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "-----"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### We can combine distributed datasets into single ones, by _joining_ them for instance."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val joined = rdd1.join(rdd2)",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "MapPartitionsRDD[13] at join at &lt;console&gt;:58\n <div class='pull-right text-info'><small>350 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "_Note (again)_: still nothing done on the cluster up to here → [see ui](http://localhost:4040/stages/)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "-----"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Now we ask the cluster to do the whole thing: Action"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "joined.take(10).toList.mkString(\"\\n\")",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),17956))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),7056))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),4096))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),33856))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),10816))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),5476))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),8836))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),12996))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),26896))\n(4,(CompactBuffer(134, 104, 74, 94, 84, 124, 114),15376))\n <div class='pull-right text-info'><small>867 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "_Note (yeah)_: NOW there were some computations in the cluster → [see stages](http://localhost:4040/stages/) and [see tasks](http://localhost:4040/stages/stage/?id=3&attempt=0)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "-----"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## But what just happened?"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### First Spark created a DAG based on the job definition"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "joined.toDebugString",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "(2) MapPartitionsRDD[13] at join at &lt;console&gt;:58 []\n |  MapPartitionsRDD[12] at join at &lt;console&gt;:58 []\n |  CoGroupedRDD[11] at join at &lt;console&gt;:58 []\n |  ShuffledRDD[7] at groupBy at &lt;console&gt;:54 []\n +-(2) MapPartitionsRDD[6] at groupBy at &lt;console&gt;:54 []\n    |  MapPartitionsRDD[5] at distinct at &lt;console&gt;:54 []\n    |  ShuffledRDD[4] at distinct at &lt;console&gt;:54 []\n    +-(2) MapPartitionsRDD[3] at distinct at &lt;console&gt;:54 []\n       |  MapPartitionsRDD[2] at map at &lt;console&gt;:53 []\n       |  /var/log/syslog MapPartitionsRDD[1] at textFile at &lt;console&gt;:52 []\n       |  /var/log/syslog HadoopRDD[0] at textFile at &lt;console&gt;:52 []\n +-(2) MapPartitionsRDD[10] at map at &lt;console&gt;:56 []\n    |  MapPartitionsRDD[9] at filter at &lt;console&gt;:55 []\n    |  MapPartitionsRDD[8] at map at &lt;console&gt;:54 []\n    |  MapPartitionsRDD[5] at distinct at &lt;console&gt;:54 []\n    |  ShuffledRDD[4] at distinct at &lt;console&gt;:54 []\n    +-(2) MapPartitionsRDD[3] at distinct at &lt;console&gt;:54 []\n       |  MapPartitionsRDD[2] at map at &lt;console&gt;:53 []\n       |  /var/log/syslog MapPartitionsRDD[1] at textFile at &lt;console&gt;:52 []\n       |  /var/log/syslog HadoopRDD[0] at textFile at &lt;console&gt;:52 []\n <div class='pull-right text-info'><small>384 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 7
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Then it scheduled it to the executors in the cluster <small>only one when running in local mode<small>"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can check the <strong>Total tasks</strong> activity in the [UI](http://localhost:4040/executors/)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "-------"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Now we will prepare the dataset and then using it several times"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So we'll read a file about stock price per day, so let's create a type holding relevant data."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "case class Quote(stock:String, date:String, price:Double) extends java.io.Serializable",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "\n <div class='pull-right text-info'><small>194 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The file will contain lines like:\n``` \nASTE,2011-12-06,33.93\nASTE,2012-03-14,36.84\n```"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Let's download the data first"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import sys.process._\n\"mkdir -p /tmp/data\"!!\n\nif (!new java.io.File(\"/tmp/data/closes.csv\").exists)\n  \"wget https://s3-eu-west-1.amazonaws.com/spark-notebook-data/closes.csv -O /tmp/data/closes.csv\"!!",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "\n <div class='pull-right text-info'><small>1 minute 30 seconds 87 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 9
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sh du -h /tmp/data/closes.csv",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<pre>174M\t/tmp/data/closes.csv\n</pre>\n <div class='pull-right text-info'><small>595 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val closes:RDD[Quote] = sparkContext.textFile(\"/tmp/data/closes.csv\")\n                                   .map(_.split(\",\").toList)\n                                   .map{ case s::d::p::Nil => Quote(s, d, p.toDouble)}",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "MapPartitionsRDD[17] at map at &lt;console&gt;:62\n <div class='pull-right text-info'><small>682 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 11
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We have date, so we can group stock prices per day"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val byDate = closes.keyBy(_.date)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Now we can compute the minimum stocks per date"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "def minByDate = byDate.combineByKey[(String, Double)](                                                                                           // `def` to force spark recomputing... otherwise it's smart enough to reuse previous RDDs...\n  (x:Quote) => (x.stock, x.price), \n  (d:(String, Double), l:Quote) => if (d._2 < l.price) d else (l.stock, l.price),\n  (d1:(String, Double), d2:(String, Double)) => if (d1._2 < d2._2) d1 else d2\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "<pre>{minByDate.take(2).toList.mkString(\"\\n\")}</pre>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "It took ~2 seconds (in local[8] and 24G of RAM)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "<pre>{minByDate.take(2).toList.mkString(\"\\n\")}</pre>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Once again.... 2 seconds!!!"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Solution: caching!"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val maxByDate2 = byDate.combineByKey[(String, Double)](\n  (x:Quote) => (x.stock, x.price), \n  (d:(String, Double), l:Quote) => if (d._2 > l.price) d else (l.stock, l.price),\n  (d1:(String, Double), d2:(String, Double)) => if (d1._2 > d2._2) d1 else d2\n)\n\nmaxByDate2.cache()                                                                                                               // okay.... not really needed since Spark is smart enough in this case -_-\"",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Ask some data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "<pre>{maxByDate2.take(2).toList.mkString(\"\\n\")}</pre>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**Go to [UI](http://localhost:4040/storage/)**"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "<pre>{maxByDate2.take(2).toList.mkString(\"\\n\")}</pre>",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "\n     while compiling: <console>\n        during phase: global=icode, atPhase=parser\n     library version: version 2.10.4\n    compiler version: version 2.10.4\n  reconstructed args: -classpath /home/Sources/noootsab/spark-notebook/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/tachyon/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/subprocess/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/observable/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/common/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/spark/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/kernel/target/scala-2.10/classes:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-compiler.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-library.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-reflect.jar:/home/noootsab/.ivy2/cache/com.google.guava/guava/bundles/guava-14.0.1.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon/jars/tachyon-0.5.0-tests.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon/jars/tachyon-0.5.0.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-jsp/jars/jetty-jsp-7.6.8.v20121106.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet.jsp/orbits/javax.servlet.jsp-2.1.0.v201105211820.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.apache.jasper.glassfish/orbits/org.apache.jasper.glassfish-2.1.0.v201110031002.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet.jsp.jstl/orbits/javax.servlet.jsp.jstl-1.2.0.v201105211821.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.apache.taglibs.standard.glassfish/orbits/org.apache.taglibs.standard.glassfish-1.2.0.v201112081803.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.el/orbits/javax.el-2.1.0.v201105211819.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/com.sun.el/orbits/com.sun.el-1.0.0.v201105211818.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.eclipse.jdt.core/orbits/org.eclipse.jdt.core-3.7.1.jar:/home/noootsab/.ivy2/cache/log4j/log4j/bundles/log4j-1.2.16.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-io/commons-io/2.4/jars/commons-io.jar:/home/noootsab/.ivy2/cache/org.apache.zookeeper/zookeeper/jars/zookeeper-3.4.5.jar:/home/noootsab/.ivy2/cache/org.apache.hadoop/hadoop-client/jars/hadoop-client-1.0.4.jar:/home/noootsab/.ivy2/cache/org.apache.hadoop/hadoop-core/jars/hadoop-core-1.0.4.jar:/home/noootsab/.ivy2/cache/xmlenc/xmlenc/jars/xmlenc-0.52.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-math/jars/commons-math-2.1.jar:/home/noootsab/.ivy2/cache/commons-configuration/commons-configuration/jars/commons-configuration-1.6.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-collections/commons-collections/3.2.1/jars/commons-collections.jar:/home/noootsab/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar:/home/noootsab/.ivy2/cache/commons-digester/commons-digester/jars/commons-digester-1.8.jar:/home/noootsab/.ivy2/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.7.0.jar:/home/noootsab/.ivy2/cache/commons-beanutils/commons-beanutils-core/jars/commons-beanutils-core-1.8.0.jar:/home/noootsab/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar:/home/noootsab/.ivy2/cache/commons-el/commons-el/jars/commons-el-1.0.jar:/home/noootsab/.ivy2/cache/hsqldb/hsqldb/jars/hsqldb-1.8.0.10.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon-client/jars/tachyon-client-0.5.0.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play_2.10/jars/play_2.10-2.3.7.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/build-link/jars/build-link-2.3.7.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-exceptions/jars/play-exceptions-2.3.7.jar:/home/noootsab/opt/activator-1.3.2/repository/org.javassist/javassist/3.18.2-GA/bundles/javassist.jar:/home/noootsab/.ivy2/cache/org.scala-stm/scala-stm_2.10/jars/scala-stm_2.10-0.7.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe/config/1.2.1/bundles/config.jar:/home/noootsab/opt/activator-1.3.2/repository/joda-time/joda-time/2.3/jars/joda-time.jar:/home/noootsab/opt/activator-1.3.2/repository/org.joda/joda-convert/1.6/jars/joda-convert.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe.play/twirl-api_2.10/1.0.2/jars/twirl-api_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/io.netty/netty/3.9.3.Final/bundles/netty.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe.netty/netty-http-pipelining/1.1.2/jars/netty-http-pipelining.jar:/home/noootsab/opt/activator-1.3.2/repository/ch.qos.logback/logback-core/1.1.1/jars/logback-core.jar:/home/noootsab/opt/activator-1.3.2/repository/xerces/xercesImpl/2.11.0/jars/xercesImpl.jar:/home/noootsab/opt/activator-1.3.2/repository/xml-apis/xml-apis/1.4.01/jars/xml-apis.jar:/home/noootsab/opt/activator-1.3.2/repository/javax.transaction/jta/1.1/jars/jta.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-actor_2.10/jars/akka-actor_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-remote_2.10/jars/akka-remote_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.spark-project.protobuf/protobuf-java/bundles/protobuf-java-2.5.0-spark.jar:/home/noootsab/opt/activator-1.3.2/repository/org.uncommons.maths/uncommons-maths/1.2.2a/jars/uncommons-maths.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-slf4j_2.10/jars/akka-slf4j_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-exec/jars/commons-exec-1.2.jar:/home/noootsab/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar:/home/noootsab/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar:/home/noootsab/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1-javadoc.jar:/home/noootsab/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar:/home/noootsab/.ivy2/cache/com.github.rwl/jtransforms/jars/jtransforms-2.4.0.jar:/home/noootsab/.ivy2/cache/org.spire-math/spire_2.10/jars/spire_2.10-0.7.4.jar:/home/noootsab/.ivy2/cache/org.spire-math/spire-macros_2.10/jars/spire-macros_2.10-0.7.4.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-core_2.10/jars/spark-core_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/com.twitter/chill_2.10/jars/chill_2.10-0.5.0.jar:/home/noootsab/.ivy2/cache/com.twitter/chill-java/jars/chill-java-0.5.0.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.kryo/kryo/bundles/kryo-2.21.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.reflectasm/reflectasm/jars/reflectasm-1.07-shaded.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.minlog/minlog/jars/minlog-1.2.jar:/home/noootsab/opt/activator-1.3.2/repository/org.objenesis/objenesis/1.2/jars/objenesis.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-network-common_2.10/jars/spark-network-common_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/io.netty/netty-all/jars/netty-all-4.0.23.Final.jar:/home/noootsab/.ivy2/cache/org.spark-project.spark/unused/jars/unused-1.0.0.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-network-shuffle_2.10/jars/spark-network-shuffle_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/net.java.dev.jets3t/jets3t/jars/jets3t-0.7.1.jar:/home/noootsab/.ivy2/cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-recipes/bundles/curator-recipes-2.4.0.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-framework/bundles/curator-framework-2.4.0.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-client/bundles/curator-client-2.4.0.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet/orbits/javax.servlet-3.0.0.v201112011016.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.3.2.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.1.1.jar:/home/noootsab/opt/activator-1.3.2/repository/com.google.code.findbugs/jsr305/1.3.9/jars/jsr305.jar:/home/noootsab/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.10.jar:/home/noootsab/.ivy2/cache/com.ning/compress-lzf/bundles/compress-lzf-1.0.0.jar:/home/noootsab/.ivy2/cache/org.xerial.snappy/snappy-java/bundles/snappy-java-1.1.1.6.jar:/home/noootsab/.ivy2/cache/net.jpountz.lz4/lz4/jars/lz4-1.2.0.jar:/home/noootsab/.ivy2/cache/org.roaringbitmap/RoaringBitmap/bundles/RoaringBitmap-0.4.5.jar:/home/noootsab/.ivy2/cache/commons-net/commons-net/jars/commons-net-2.2.jar:/home/noootsab/.ivy2/cache/org.json4s/json4s-jackson_2.10/jars/json4s-jackson_2.10-3.2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.json4s/json4s-core_2.10/3.2.10/jars/json4s-core_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.json4s/json4s-ast_2.10/3.2.10/jars/json4s-ast_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/com.thoughtworks.paranamer/paranamer/2.6/jars/paranamer.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-lang/scalap/2.10.0/jars/scalap.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.4.4.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.4.4.jar:/home/noootsab/.ivy2/cache/org.apache.mesos/mesos/jars/mesos-0.21.0-shaded-protobuf.jar:/home/noootsab/.ivy2/cache/com.clearspring.analytics/stream/jars/stream-2.7.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-core/bundles/metrics-core-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-jvm/bundles/metrics-jvm-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-json/bundles/metrics-json-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-graphite/bundles/metrics-graphite-3.1.0.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.module/jackson-module-scala_2.10/bundles/jackson-module-scala_2.10-2.4.4.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.4.4.jar:/home/noootsab/.ivy2/cache/org.spark-project/pyrolite/jars/pyrolite-2.0.1.jar:/home/noootsab/.ivy2/cache/net.sf.py4j/py4j/jars/py4j-0.8.2.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-yarn_2.10/jars/spark-yarn_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-sql_2.10/jars/spark-sql_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-catalyst_2.10/jars/spark-catalyst_2.10-1.3.1.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scalamacros/quasiquotes_2.10/2.0.1/jars/quasiquotes_2.10.jar:/home/noootsab/.ivy2/cache/org.jodd/jodd-core/jars/jodd-core-3.6.3.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-repl_2.10/jars/spark-repl_2.10-1.3.1.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/jline.jar:/home/noootsab/opt/activator-1.3.2/repository/org.fusesource.jansi/jansi/1.4/jars/jansi.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-bagel_2.10/jars/spark-bagel_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-mllib_2.10/jars/spark-mllib_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-streaming_2.10/jars/spark-streaming_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-graphx_2.10/jars/spark-graphx_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.jblas/jblas/jars/jblas-1.2.3.jar:/home/noootsab/.ivy2/cache/org.scalanlp/breeze_2.10/jars/breeze_2.10-0.11.2.jar:/home/noootsab/.ivy2/cache/org.scalanlp/breeze-macros_2.10/jars/breeze-macros_2.10-0.11.2.jar:/home/noootsab/.ivy2/cache/io.reactivex/rxscala_2.10/jars/rxscala_2.10-0.22.0.jar:/home/noootsab/.ivy2/cache/io.reactivex/rxjava/jars/rxjava-1.0.0-rc.5.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scalaz/scalaz-core_2.10/7.0.6/bundles/scalaz-core_2.10.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/actions/jars/actions-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/classpath/jars/classpath-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/launcher-interface/jars/launcher-interface-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/interface/jars/interface-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/io/jars/io-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/control/jars/control-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/completion/jars/completion-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.8.jar:/home/noootsab/opt/activator-1.3.2/repository/jline/jline/2.11/jars/jline.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/api/jars/api-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-integration/jars/compiler-integration-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/incremental-compiler/jars/incremental-compiler-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/logging/jars/logging-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/process/jars/process-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/relation/jars/relation-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compile/jars/compile-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/classfile/jars/classfile-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/persist/jars/persist-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-tools.sbinary/sbinary_2.10/jars/sbinary_2.10-0.4.2.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-ivy-integration/jars/compiler-ivy-integration-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/cross/jars/cross-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt.ivy/ivy/jars/ivy-2.3.0-sbt-fccfbd44c9f64523b61398a0155784dcbaeae28f.jar:/home/noootsab/opt/activator-1.3.2/repository/com.jcraft/jsch/0.1.46/jars/jsch.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/serialization_2.10/jars/serialization_2.10-0.1.1.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-lang.modules/scala-pickling_2.10/0.10.0/jars/scala-pickling_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.spire-math/jawn-parser_2.10/0.6.0/jars/jawn-parser_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.spire-math/json4s-support_2.10/0.6.0/jars/json4s-support_2.10.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/run/jars/run-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/tasks/jars/tasks-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/tracking/jars/tracking-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/cache/jars/cache-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/testing/jars/testing-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/test-agent/jars/test-agent-0.13.8.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-sbt/test-interface/1.0/jars/test-interface.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/command/jars/command-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/logic/jars/logic-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-interface/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-interface/jars/compiler-interface-src-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_8_2/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_9_2/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_9_3/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/scala_2.10/sbt_0.13/com.frugalmechanic/fm-sbt-s3-resolver/jars/fm-sbt-s3-resolver-0.5.0.jar:/home/noootsab/.ivy2/cache/com.amazonaws/aws-java-sdk-s3/jars/aws-java-sdk-s3-1.9.0.jar:/home/noootsab/.ivy2/cache/com.amazonaws/aws-java-sdk-core/jars/aws-java-sdk-core-1.9.0.jar:/home/noootsab/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.2.jar:/home/noootsab/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.2.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-codec/commons-codec/1.6/jars/commons-codec.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/bokeh_2.10/jars/bokeh_2.10-0.2.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/core_2.10/jars/core_2.10-0.2.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-json_2.10/jars/play-json_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-iteratees_2.10/jars/play-iteratees_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-functional_2.10/jars/play-functional_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-datacommons_2.10/jars/play-datacommons_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/bokehjs_2.10/jars/bokehjs_2.10-0.2.jar:/home/noootsab/.ivy2/cache/com.github.scala-incubator.io/scala-io-core_2.10/jars/scala-io-core_2.10-0.4.3.jar:/home/noootsab/.ivy2/cache/com.jsuereth/scala-arm_2.10/jars/scala-arm_2.10-1.3.jar:/home/noootsab/.ivy2/cache/com.github.scala-incubator.io/scala-io-file_2.10/jars/scala-io-file_2.10-0.4.3.jar:/home/noootsab/.ivy2/cache/com.quantifind/wisp_2.10/jars/wisp_2.10-0.0.2.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-filter_2.10/jars/unfiltered-filter_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered_2.10/jars/unfiltered_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-util_2.10/jars/unfiltered-util_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-jetty_2.10/jars/unfiltered-jetty_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-webapp/jars/jetty-webapp-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-xml/jars/jetty-xml-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-util/jars/jetty-util-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-servlet/jars/jetty-servlet-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-security/jars/jetty-security-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-server/jars/jetty-server-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-continuation/jars/jetty-continuation-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-http/jars/jetty-http-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-io/jars/jetty-io-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/com.quantifind/sumac_2.10/jars/sumac_2.10-0.3.0.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-cache_2.10/jars/play-cache_2.10-2.3.7.jar:/home/noootsab/opt/activator-1.3.2/repository/net.sf.ehcache/ehcache-core/2.6.8/jars/ehcache-core.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunec.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/localedata.jar -bootclasspath /usr/lib/jvm/java-7-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-7-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-7-oracle/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-7-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-7-oracle/jre/classes:/home/Sources/noootsab/spark-notebook/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/tachyon/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/subprocess/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/observable/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/common/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/spark/target/scala-2.10/classes:/home/Sources/noootsab/spark-notebook/modules/kernel/target/scala-2.10/classes:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-compiler.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-library.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/scala-reflect.jar:/home/noootsab/.ivy2/cache/com.google.guava/guava/bundles/guava-14.0.1.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon/jars/tachyon-0.5.0-tests.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon/jars/tachyon-0.5.0.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-jsp/jars/jetty-jsp-7.6.8.v20121106.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet.jsp/orbits/javax.servlet.jsp-2.1.0.v201105211820.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.apache.jasper.glassfish/orbits/org.apache.jasper.glassfish-2.1.0.v201110031002.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet.jsp.jstl/orbits/javax.servlet.jsp.jstl-1.2.0.v201105211821.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.apache.taglibs.standard.glassfish/orbits/org.apache.taglibs.standard.glassfish-1.2.0.v201112081803.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.el/orbits/javax.el-2.1.0.v201105211819.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/com.sun.el/orbits/com.sun.el-1.0.0.v201105211818.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/org.eclipse.jdt.core/orbits/org.eclipse.jdt.core-3.7.1.jar:/home/noootsab/.ivy2/cache/log4j/log4j/bundles/log4j-1.2.16.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-io/commons-io/2.4/jars/commons-io.jar:/home/noootsab/.ivy2/cache/org.apache.zookeeper/zookeeper/jars/zookeeper-3.4.5.jar:/home/noootsab/.ivy2/cache/org.apache.hadoop/hadoop-client/jars/hadoop-client-1.0.4.jar:/home/noootsab/.ivy2/cache/org.apache.hadoop/hadoop-core/jars/hadoop-core-1.0.4.jar:/home/noootsab/.ivy2/cache/xmlenc/xmlenc/jars/xmlenc-0.52.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-math/jars/commons-math-2.1.jar:/home/noootsab/.ivy2/cache/commons-configuration/commons-configuration/jars/commons-configuration-1.6.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-collections/commons-collections/3.2.1/jars/commons-collections.jar:/home/noootsab/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar:/home/noootsab/.ivy2/cache/commons-digester/commons-digester/jars/commons-digester-1.8.jar:/home/noootsab/.ivy2/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.7.0.jar:/home/noootsab/.ivy2/cache/commons-beanutils/commons-beanutils-core/jars/commons-beanutils-core-1.8.0.jar:/home/noootsab/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar:/home/noootsab/.ivy2/cache/commons-el/commons-el/jars/commons-el-1.0.jar:/home/noootsab/.ivy2/cache/hsqldb/hsqldb/jars/hsqldb-1.8.0.10.jar:/home/noootsab/.ivy2/cache/org.tachyonproject/tachyon-client/jars/tachyon-client-0.5.0.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play_2.10/jars/play_2.10-2.3.7.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/build-link/jars/build-link-2.3.7.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-exceptions/jars/play-exceptions-2.3.7.jar:/home/noootsab/opt/activator-1.3.2/repository/org.javassist/javassist/3.18.2-GA/bundles/javassist.jar:/home/noootsab/.ivy2/cache/org.scala-stm/scala-stm_2.10/jars/scala-stm_2.10-0.7.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe/config/1.2.1/bundles/config.jar:/home/noootsab/opt/activator-1.3.2/repository/joda-time/joda-time/2.3/jars/joda-time.jar:/home/noootsab/opt/activator-1.3.2/repository/org.joda/joda-convert/1.6/jars/joda-convert.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe.play/twirl-api_2.10/1.0.2/jars/twirl-api_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/io.netty/netty/3.9.3.Final/bundles/netty.jar:/home/noootsab/opt/activator-1.3.2/repository/com.typesafe.netty/netty-http-pipelining/1.1.2/jars/netty-http-pipelining.jar:/home/noootsab/opt/activator-1.3.2/repository/ch.qos.logback/logback-core/1.1.1/jars/logback-core.jar:/home/noootsab/opt/activator-1.3.2/repository/xerces/xercesImpl/2.11.0/jars/xercesImpl.jar:/home/noootsab/opt/activator-1.3.2/repository/xml-apis/xml-apis/1.4.01/jars/xml-apis.jar:/home/noootsab/opt/activator-1.3.2/repository/javax.transaction/jta/1.1/jars/jta.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-actor_2.10/jars/akka-actor_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-remote_2.10/jars/akka-remote_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.spark-project.protobuf/protobuf-java/bundles/protobuf-java-2.5.0-spark.jar:/home/noootsab/opt/activator-1.3.2/repository/org.uncommons.maths/uncommons-maths/1.2.2a/jars/uncommons-maths.jar:/home/noootsab/.ivy2/cache/org.spark-project.akka/akka-slf4j_2.10/jars/akka-slf4j_2.10-2.3.4-spark.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-exec/jars/commons-exec-1.2.jar:/home/noootsab/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar:/home/noootsab/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar:/home/noootsab/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1-javadoc.jar:/home/noootsab/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar:/home/noootsab/.ivy2/cache/com.github.rwl/jtransforms/jars/jtransforms-2.4.0.jar:/home/noootsab/.ivy2/cache/org.spire-math/spire_2.10/jars/spire_2.10-0.7.4.jar:/home/noootsab/.ivy2/cache/org.spire-math/spire-macros_2.10/jars/spire-macros_2.10-0.7.4.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-core_2.10/jars/spark-core_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/com.twitter/chill_2.10/jars/chill_2.10-0.5.0.jar:/home/noootsab/.ivy2/cache/com.twitter/chill-java/jars/chill-java-0.5.0.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.kryo/kryo/bundles/kryo-2.21.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.reflectasm/reflectasm/jars/reflectasm-1.07-shaded.jar:/home/noootsab/.ivy2/cache/com.esotericsoftware.minlog/minlog/jars/minlog-1.2.jar:/home/noootsab/opt/activator-1.3.2/repository/org.objenesis/objenesis/1.2/jars/objenesis.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-network-common_2.10/jars/spark-network-common_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/io.netty/netty-all/jars/netty-all-4.0.23.Final.jar:/home/noootsab/.ivy2/cache/org.spark-project.spark/unused/jars/unused-1.0.0.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-network-shuffle_2.10/jars/spark-network-shuffle_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/net.java.dev.jets3t/jets3t/jars/jets3t-0.7.1.jar:/home/noootsab/.ivy2/cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-recipes/bundles/curator-recipes-2.4.0.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-framework/bundles/curator-framework-2.4.0.jar:/home/noootsab/.ivy2/cache/org.apache.curator/curator-client/bundles/curator-client-2.4.0.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet/orbits/javax.servlet-3.0.0.v201112011016.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.3.2.jar:/home/noootsab/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.1.1.jar:/home/noootsab/opt/activator-1.3.2/repository/com.google.code.findbugs/jsr305/1.3.9/jars/jsr305.jar:/home/noootsab/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.10.jar:/home/noootsab/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.10.jar:/home/noootsab/.ivy2/cache/com.ning/compress-lzf/bundles/compress-lzf-1.0.0.jar:/home/noootsab/.ivy2/cache/org.xerial.snappy/snappy-java/bundles/snappy-java-1.1.1.6.jar:/home/noootsab/.ivy2/cache/net.jpountz.lz4/lz4/jars/lz4-1.2.0.jar:/home/noootsab/.ivy2/cache/org.roaringbitmap/RoaringBitmap/bundles/RoaringBitmap-0.4.5.jar:/home/noootsab/.ivy2/cache/commons-net/commons-net/jars/commons-net-2.2.jar:/home/noootsab/.ivy2/cache/org.json4s/json4s-jackson_2.10/jars/json4s-jackson_2.10-3.2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.json4s/json4s-core_2.10/3.2.10/jars/json4s-core_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.json4s/json4s-ast_2.10/3.2.10/jars/json4s-ast_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/com.thoughtworks.paranamer/paranamer/2.6/jars/paranamer.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-lang/scalap/2.10.0/jars/scalap.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.4.4.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.4.4.jar:/home/noootsab/.ivy2/cache/org.apache.mesos/mesos/jars/mesos-0.21.0-shaded-protobuf.jar:/home/noootsab/.ivy2/cache/com.clearspring.analytics/stream/jars/stream-2.7.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-core/bundles/metrics-core-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-jvm/bundles/metrics-jvm-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-json/bundles/metrics-json-3.1.0.jar:/home/noootsab/.ivy2/cache/io.dropwizard.metrics/metrics-graphite/bundles/metrics-graphite-3.1.0.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.module/jackson-module-scala_2.10/bundles/jackson-module-scala_2.10-2.4.4.jar:/home/noootsab/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.4.4.jar:/home/noootsab/.ivy2/cache/org.spark-project/pyrolite/jars/pyrolite-2.0.1.jar:/home/noootsab/.ivy2/cache/net.sf.py4j/py4j/jars/py4j-0.8.2.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-yarn_2.10/jars/spark-yarn_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-sql_2.10/jars/spark-sql_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-catalyst_2.10/jars/spark-catalyst_2.10-1.3.1.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scalamacros/quasiquotes_2.10/2.0.1/jars/quasiquotes_2.10.jar:/home/noootsab/.ivy2/cache/org.jodd/jodd-core/jars/jodd-core-3.6.3.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-repl_2.10/jars/spark-repl_2.10-1.3.1.jar:/home/noootsab/.sbt/boot/scala-2.10.4/lib/jline.jar:/home/noootsab/opt/activator-1.3.2/repository/org.fusesource.jansi/jansi/1.4/jars/jansi.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-bagel_2.10/jars/spark-bagel_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-mllib_2.10/jars/spark-mllib_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-streaming_2.10/jars/spark-streaming_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.apache.spark/spark-graphx_2.10/jars/spark-graphx_2.10-1.3.1.jar:/home/noootsab/.ivy2/cache/org.jblas/jblas/jars/jblas-1.2.3.jar:/home/noootsab/.ivy2/cache/org.scalanlp/breeze_2.10/jars/breeze_2.10-0.11.2.jar:/home/noootsab/.ivy2/cache/org.scalanlp/breeze-macros_2.10/jars/breeze-macros_2.10-0.11.2.jar:/home/noootsab/.ivy2/cache/io.reactivex/rxscala_2.10/jars/rxscala_2.10-0.22.0.jar:/home/noootsab/.ivy2/cache/io.reactivex/rxjava/jars/rxjava-1.0.0-rc.5.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scalaz/scalaz-core_2.10/7.0.6/bundles/scalaz-core_2.10.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/sbt/jars/sbt-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/main/jars/main-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/actions/jars/actions-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/classpath/jars/classpath-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/launcher-interface/jars/launcher-interface-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/interface/jars/interface-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/io/jars/io-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/control/jars/control-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/completion/jars/completion-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/collections/jars/collections-0.13.8.jar:/home/noootsab/opt/activator-1.3.2/repository/jline/jline/2.11/jars/jline.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/api/jars/api-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-integration/jars/compiler-integration-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/incremental-compiler/jars/incremental-compiler-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/logging/jars/logging-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/process/jars/process-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/relation/jars/relation-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compile/jars/compile-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/classfile/jars/classfile-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/persist/jars/persist-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-tools.sbinary/sbinary_2.10/jars/sbinary_2.10-0.4.2.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-ivy-integration/jars/compiler-ivy-integration-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/ivy/jars/ivy-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/cross/jars/cross-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt.ivy/ivy/jars/ivy-2.3.0-sbt-fccfbd44c9f64523b61398a0155784dcbaeae28f.jar:/home/noootsab/opt/activator-1.3.2/repository/com.jcraft/jsch/0.1.46/jars/jsch.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/serialization_2.10/jars/serialization_2.10-0.1.1.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-lang.modules/scala-pickling_2.10/0.10.0/jars/scala-pickling_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.spire-math/jawn-parser_2.10/0.6.0/jars/jawn-parser_2.10.jar:/home/noootsab/opt/activator-1.3.2/repository/org.spire-math/json4s-support_2.10/0.6.0/jars/json4s-support_2.10.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/run/jars/run-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/task-system/jars/task-system-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/tasks/jars/tasks-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/tracking/jars/tracking-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/cache/jars/cache-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/testing/jars/testing-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/test-agent/jars/test-agent-0.13.8.jar:/home/noootsab/opt/activator-1.3.2/repository/org.scala-sbt/test-interface/1.0/jars/test-interface.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/main-settings/jars/main-settings-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/apply-macro/jars/apply-macro-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/command/jars/command-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/logic/jars/logic-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-interface/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/compiler-interface/jars/compiler-interface-src-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_8_2/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_9_2/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/org.scala-sbt/precompiled-2_9_3/jars/compiler-interface-bin-0.13.8.jar:/home/noootsab/.ivy2/cache/scala_2.10/sbt_0.13/com.frugalmechanic/fm-sbt-s3-resolver/jars/fm-sbt-s3-resolver-0.5.0.jar:/home/noootsab/.ivy2/cache/com.amazonaws/aws-java-sdk-s3/jars/aws-java-sdk-s3-1.9.0.jar:/home/noootsab/.ivy2/cache/com.amazonaws/aws-java-sdk-core/jars/aws-java-sdk-core-1.9.0.jar:/home/noootsab/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.2.jar:/home/noootsab/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.2.jar:/home/noootsab/opt/activator-1.3.2/repository/commons-codec/commons-codec/1.6/jars/commons-codec.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/bokeh_2.10/jars/bokeh_2.10-0.2.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/core_2.10/jars/core_2.10-0.2.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-json_2.10/jars/play-json_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-iteratees_2.10/jars/play-iteratees_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-functional_2.10/jars/play-functional_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-datacommons_2.10/jars/play-datacommons_2.10-2.4.0-M1.jar:/home/noootsab/.ivy2/cache/io.continuum.bokeh/bokehjs_2.10/jars/bokehjs_2.10-0.2.jar:/home/noootsab/.ivy2/cache/com.github.scala-incubator.io/scala-io-core_2.10/jars/scala-io-core_2.10-0.4.3.jar:/home/noootsab/.ivy2/cache/com.jsuereth/scala-arm_2.10/jars/scala-arm_2.10-1.3.jar:/home/noootsab/.ivy2/cache/com.github.scala-incubator.io/scala-io-file_2.10/jars/scala-io-file_2.10-0.4.3.jar:/home/noootsab/.ivy2/cache/com.quantifind/wisp_2.10/jars/wisp_2.10-0.0.2.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-filter_2.10/jars/unfiltered-filter_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered_2.10/jars/unfiltered_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-util_2.10/jars/unfiltered-util_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/net.databinder/unfiltered-jetty_2.10/jars/unfiltered-jetty_2.10-0.8.3.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-webapp/jars/jetty-webapp-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-xml/jars/jetty-xml-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-util/jars/jetty-util-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-servlet/jars/jetty-servlet-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-security/jars/jetty-security-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-server/jars/jetty-server-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-continuation/jars/jetty-continuation-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-http/jars/jetty-http-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/org.eclipse.jetty/jetty-io/jars/jetty-io-8.1.13.v20130916.jar:/home/noootsab/.ivy2/cache/com.quantifind/sumac_2.10/jars/sumac_2.10-0.3.0.jar:/home/noootsab/.ivy2/cache/com.typesafe.play/play-cache_2.10/jars/play-cache_2.10-2.3.7.jar:/home/noootsab/opt/activator-1.3.2/repository/net.sf.ehcache/ehcache-core/2.6.8/jars/ehcache-core.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunec.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-7-oracle/jre/lib/ext/localedata.jar\n\n  last tree to typer: EmptyTree\n              symbol: null\n   symbol definition: null\n                 tpe: <notype>\n       symbol owners: \n      context owners: package <root>\n\n== Enclosing template or block ==\n\n<empty>\n\n== Expanded type of tree ==\n\n<notype>\n\nunhandled exception while transforming <console>\n"
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**BLAZING FAST** => Reuses the cache!"
+  } ],
+  "nbformat" : 4
+}

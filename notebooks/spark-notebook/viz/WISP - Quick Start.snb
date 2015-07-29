@@ -1,0 +1,80 @@
+{
+  "metadata" : {
+    "name" : "WISP - Quick Start",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "custom" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.front.third.wisp._",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "Plot(Seq(SummarySeries((1 to 10) zip (10 to 100 by 10), \"line\")))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "Plot(Seq(SummarySeries((1 to 10) zip (10 to 100 by 10), \"bar\")))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "Plot(Seq(SummarySeries((1 to 10) zip (10 to 100 by 10), \"column\")))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.quantifind.charts.highcharts.Axis\n\nPlot(Seq(SummarySeries((0 to 9) zip (10 to 100 by 10), \"area\")),\n     xCat = Some(Seq(\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\"))\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "Plot(Seq(SummarySeries((1 to 10) zip (10 to 100 by 10), \"pie\")))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val p = Plot(Seq(SummarySeries((1 to 10) zip (10 to 100 by 10), \"pie\")))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.Future\nFuture {\n  Thread.sleep(3*1000)\n  p(Seq(SummarySeries((10 to 100) zip scala.util.Random.shuffle[Int, Seq]((100 to 1000 by 100).toSeq), \"pie\")))\n}",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

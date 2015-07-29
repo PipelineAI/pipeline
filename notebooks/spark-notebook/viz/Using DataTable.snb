@@ -1,0 +1,153 @@
+{
+  "metadata" : {
+    "name" : "Using DataTable",
+    "user_save_timestamp" : "2015-01-02T01:10:22.815Z",
+    "auto_save_timestamp" : "2015-01-02T01:09:06.871Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Define some data structure"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "case class Data(dbl:Double, n:String, b:Boolean)\n\n// ↓ won't work will fail later on (when using format) with a type mismatch exception!\n  // clearly a compiler problem...\n//import play.api.libs.json._\n//import play.api.libs.functional.syntax._\n\n//val format = Json.format[Data]\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined class Data\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "A way to generate data easily"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import scala.util.Random._\ndef random:Data = Data(nextDouble, alphanumeric.take(10).mkString(\"\"), nextBoolean)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import scala.util.Random._\nrandom: Data\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Data(0.015173296823906779,C6B4meFD1K,true)"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Some data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val data = List.fill(10)(random)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "data: List[Data] = List(Data(0.5226149312897832,olbGBdsGPr,true), Data(0.3597281583446983,BIwZ6dyp3s,false), Data(0.9545957309497429,weWvgYO1cA,true), Data(0.07225467030974264,7Vcg2shBJm,true), Data(0.4797124365202221,IPwNBDyouY,false), Data(0.4115286149554185,69ZHnz13GW,true), Data(0.17851563427532358,nUyyDBdEsl,false), Data(0.740780431920401,rNtwuAHDea,false), Data(0.4974213301391409,6TOMfgkq0o,false), Data(0.4145125499733695,vPq9Bgvc9m,false))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<table><tr><td>Data(0.5226149312897832,olbGBdsGPr,true)</td></tr><tr><td>Data(0.3597281583446983,BIwZ6dyp3s,false)</td></tr><tr><td>Data(0.9545957309497429,weWvgYO1cA,true)</td></tr><tr><td>Data(0.07225467030974264,7Vcg2shBJm,true)</td></tr><tr><td>Data(0.4797124365202221,IPwNBDyouY,false)</td></tr><tr><td>Data(0.4115286149554185,69ZHnz13GW,true)</td></tr><tr><td>Data(0.17851563427532358,nUyyDBdEsl,false)</td></tr><tr><td>Data(0.740780431920401,rNtwuAHDea,false)</td></tr><tr><td>Data(0.4974213301391409,6TOMfgkq0o,false)</td></tr><tr><td>Data(0.4145125499733695,vPq9Bgvc9m,false)</td></tr></table>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Since using inception won't work... :-("
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import play.api.libs.json._\n\nval r:Reads[Data] = Reads{ j => \n  JsSuccess(\n    Data((j \\ \"dbl\").as[Double],\n         (j \\ \"n\").as[String],\n         (j \\ \"b\").as[Boolean]\n    )\n  )\n}\nval w:Writes[Data] = OWrites{ (d:Data) =>  \n  Json.obj(\n    \"dbl\" → JsNumber(d.dbl),\n    \"n\" → JsString(d.n),\n    \"b\" → JsBoolean(d.b)    \n  )\n}\nval f = Format[Data](r, w)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import play.api.libs.json._\nr: play.api.libs.json.Reads[Data] = play.api.libs.json.Reads$$anon$8@24362d46\nw: play.api.libs.json.Writes[Data] = play.api.libs.json.OWrites$$anon$2@60d6613c\nf: play.api.libs.json.Format[Data] = play.api.libs.json.Format$$anon$3@1a89dbcf\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "play.api.libs.json.Format$$anon$3@1a89dbcf"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Create the codec for the data "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.Codec\nimport notebook.JsonCodec._\n\nimplicit val dataCodec:Codec[JsValue, Data] = formatToCodec(f)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import notebook.Codec\nimport notebook.JsonCodec._\ndataCodec: notebook.Codec[play.api.libs.json.JsValue,Data] = notebook.JsonCodec$$anon$3@4315f576\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "notebook.JsonCodec$$anon$3@4315f576"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Show the data in a table"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.front.widgets._  \nnew DataTable(data)(dataCodec).plot",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import notebook.front.widgets._\nres1: notebook.front.third.Bokeh = <Bokeh widget>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container\">\n    <script data-this=\"{&quot;dataId&quot;:&quot;anonaa4b9f1f20052d6729a447f2a5435227&quot;,&quot;dataInit&quot;:[{&quot;models&quot;:[{&quot;id&quot;:&quot;26051206-f746-4eaa-af3e-c0760e55a6a7&quot;,&quot;type&quot;:&quot;TableColumn&quot;,&quot;attributes&quot;:{&quot;unchecked&quot;:&quot;false&quot;,&quot;checked&quot;:&quot;true&quot;,&quot;strict&quot;:false,&quot;header&quot;:&quot;dbl&quot;,&quot;field&quot;:&quot;dbl&quot;,&quot;disabled&quot;:false,&quot;id&quot;:&quot;26051206-f746-4eaa-af3e-c0760e55a6a7&quot;}},{&quot;id&quot;:&quot;cd13a5c0-4a65-4ed3-b48c-841db8272e44&quot;,&quot;type&quot;:&quot;TableColumn&quot;,&quot;attributes&quot;:{&quot;unchecked&quot;:&quot;false&quot;,&quot;checked&quot;:&quot;true&quot;,&quot;strict&quot;:false,&quot;header&quot;:&quot;n&quot;,&quot;field&quot;:&quot;n&quot;,&quot;disabled&quot;:false,&quot;id&quot;:&quot;cd13a5c0-4a65-4ed3-b48c-841db8272e44&quot;}},{&quot;id&quot;:&quot;238b95a8-156e-43af-b88a-b216059cced1&quot;,&quot;type&quot;:&quot;TableColumn&quot;,&quot;attributes&quot;:{&quot;unchecked&quot;:&quot;false&quot;,&quot;checked&quot;:&quot;true&quot;,&quot;strict&quot;:false,&quot;header&quot;:&quot;b&quot;,&quot;field&quot;:&quot;b&quot;,&quot;disabled&quot;:false,&quot;id&quot;:&quot;238b95a8-156e-43af-b88a-b216059cced1&quot;}},{&quot;id&quot;:&quot;b21e4455-45f8-4a19-a69f-8ac994dad86f&quot;,&quot;type&quot;:&quot;ColumnDataSource&quot;,&quot;attributes&quot;:{&quot;data&quot;:{&quot;dbl&quot;:[0.5226149312897832,0.3597281583446983,0.9545957309497429,0.07225467030974264,0.4797124365202221,0.4115286149554185,0.17851563427532358,0.740780431920401,0.4974213301391409,0.4145125499733695],&quot;n&quot;:[&quot;olbGBdsGPr&quot;,&quot;BIwZ6dyp3s&quot;,&quot;weWvgYO1cA&quot;,&quot;7Vcg2shBJm&quot;,&quot;IPwNBDyouY&quot;,&quot;69ZHnz13GW&quot;,&quot;nUyyDBdEsl&quot;,&quot;rNtwuAHDea&quot;,&quot;6TOMfgkq0o&quot;,&quot;vPq9Bgvc9m&quot;],&quot;b&quot;:[true,false,true,true,false,true,false,false,false,false]},&quot;id&quot;:&quot;b21e4455-45f8-4a19-a69f-8ac994dad86f&quot;}},{&quot;id&quot;:&quot;83d5cfae-b64f-4e98-af36-4d360f8abf5b&quot;,&quot;type&quot;:&quot;HandsonTable&quot;,&quot;attributes&quot;:{&quot;sorting&quot;:true,&quot;columns&quot;:[{&quot;id&quot;:&quot;26051206-f746-4eaa-af3e-c0760e55a6a7&quot;,&quot;type&quot;:&quot;TableColumn&quot;},{&quot;id&quot;:&quot;cd13a5c0-4a65-4ed3-b48c-841db8272e44&quot;,&quot;type&quot;:&quot;TableColumn&quot;},{&quot;id&quot;:&quot;238b95a8-156e-43af-b88a-b216059cced1&quot;,&quot;type&quot;:&quot;TableColumn&quot;}],&quot;source&quot;:{&quot;id&quot;:&quot;b21e4455-45f8-4a19-a69f-8ac994dad86f&quot;,&quot;type&quot;:&quot;ColumnDataSource&quot;},&quot;disabled&quot;:false,&quot;id&quot;:&quot;83d5cfae-b64f-4e98-af36-4d360f8abf5b&quot;}},{&quot;id&quot;:&quot;96d8405e-e339-455f-9fe4-29fe9b9dcf0f&quot;,&quot;type&quot;:&quot;PlotContext&quot;,&quot;attributes&quot;:{&quot;children&quot;:[{&quot;id&quot;:&quot;83d5cfae-b64f-4e98-af36-4d360f8abf5b&quot;,&quot;type&quot;:&quot;HandsonTable&quot;}],&quot;id&quot;:&quot;96d8405e-e339-455f-9fe4-29fe9b9dcf0f&quot;}}],&quot;modelType&quot;:&quot;PlotContext&quot;,&quot;modelId&quot;:&quot;96d8405e-e339-455f-9fe4-29fe9b9dcf0f&quot;}]}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/bokehWrap'], \n      function(playground, _bokehWrap) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _bokehWrap,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script> </div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  } ],
+  "nbformat" : 4
+}

@@ -1,0 +1,118 @@
+{
+  "metadata" : {
+    "name" : "Simple Spark",
+    "user_save_timestamp" : "2014-10-11T17:33:45.703Z",
+    "auto_save_timestamp" : "2015-01-10T00:02:12.659Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Spark config"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "sparkContext.getConf.toDebugString",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res1: String = \nspark.app.id=local-1423007619798\nspark.app.name=Notebook\nspark.driver.host=192.168.1.144\nspark.driver.port=39714\nspark.executor.id=driver\nspark.fileserver.uri=http://192.168.1.144:53644\nspark.jars=\nspark.master=local[*]\nspark.repl.class.uri=http://192.168.1.144:54748\nspark.tachyonStore.folderName=spark-7524b4cc-3553-4398-bd23-c040931dd8ac\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "spark.app.id=local-1423007619798\nspark.app.name=Notebook\nspark.driver.host=192.168.1.144\nspark.driver.port=39714\nspark.executor.id=driver\nspark.fileserver.uri=http://192.168.1.144:53644\nspark.jars=\nspark.master=local[*]\nspark.repl.class.uri=http://192.168.1.144:54748\nspark.tachyonStore.folderName=spark-7524b4cc-3553-4398-bd23-c040931dd8ac"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val count = sparkContext.makeRDD((1 to 1000).toArray).count()\n()",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "count: Long = 1000\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Counting"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "<strong>{count} items</strong>",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res3: scala.xml.Elem = <strong>1000 items</strong>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<strong>1000 items</strong>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val i:Int = 2",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "i: Int = 2\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "2"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val sum = sparkContext.makeRDD((1 to 1000).toArray).map(_ + i).reduce(_+_)\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "sum: Int = 502500\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "502500"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  } ],
+  "nbformat" : 4
+}

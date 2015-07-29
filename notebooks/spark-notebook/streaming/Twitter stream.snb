@@ -1,0 +1,180 @@
+{
+  "metadata" : {
+    "name" : "Twitter stream",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#Twitter example"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Set up"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Set local repo for deps"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/repo",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Add streaming + twitter deps "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.apache.spark % spark-streaming_2.10 % 1.2.1\norg.apache.spark % spark-streaming-twitter_2.10 % 1.2.1\n- org.apache.spark % spark-core_2.10 % _\n- org.apache.hadoop % _ % _",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Install the twitter credentials "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**Note:** we are using the `env` variables here. For this, adapt the following and execute before launching the server\n```\n  export TWITTER_CONSUMER_KEY=...\n  export TWITTER_CONSUMER_SECRET=\"...\n  export TWITTER_ACCESS_TOKEN=...\n  export TWITTER_ACCESS_TOKEN_SECRET=...\n```"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "def $(s:String) = sys.env(s)\nSystem.setProperty(\"twitter4j.oauth.consumerKey\", $(\"TWITTER_CONSUMER_KEY\"))\nSystem.setProperty(\"twitter4j.oauth.consumerSecret\", $(\"TWITTER_CONSUMER_SECRET\"))\nSystem.setProperty(\"twitter4j.oauth.accessToken\", $(\"TWITTER_ACCESS_TOKEN\"))\nSystem.setProperty(\"twitter4j.oauth.accessTokenSecret\", $(\"TWITTER_ACCESS_TOKEN_SECRET\"))\n\"twitter settings done!\"",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Spark streaming"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Create context with batch 2s "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.streaming.{Seconds, StreamingContext}\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.streaming.twitter._\n\nval ssc = new StreamingContext(sparkContext, Seconds(2))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Listen twitter stream "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### We're going to **filter** the tweets to only those containing the following words."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val filters = Array(\"spark\", \"scala\", \"music\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Create the twitter listeners"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val stream = TwitterUtils.createStream(ssc, None, filters)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Count by hashtag and sort  "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "##### The windows are `60s` long"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import StreamingContext._\nval hashTags = stream.flatMap(status => status.getText.split(\" \").filter(_.startsWith(\"#\")))\n\nval topCounts60 = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(60))\n                          .map{case (topic, count) => (count, topic)}\n                          .transform(_.sortByKey(false))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "##### Creating the text output to be updated by the stream of result "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val result = ul(10)\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "##### Let's show the 10 first hashtag every window "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// Print popular hashtags\ntopCounts60.foreachRDD(rdd => {\n  val topList = rdd.take(10).toList\n  val r = topList.map{case (count, tag) => s\"$tag: $count\"}\n  result(r)\n})\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "###  Start listening twitter"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "This will listen the twitter stream, and the computation above will update the `resuilt` every `2s` using the last `60s` of values."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ssc.start()",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Stop listening twitter "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// commented to all 'run all' :-D\n//ssc.stop()",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

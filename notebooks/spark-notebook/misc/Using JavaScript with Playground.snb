@@ -1,0 +1,39 @@
+{
+  "metadata" : {
+    "name" : "Using JavaScript with Playground",
+    "user_save_timestamp" : "2014-12-23T01:03:45.877Z",
+    "auto_save_timestamp" : "2014-12-23T01:03:15.549Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook._\nimport notebook.front._\nimport notebook.front.widgets._\nimport notebook.JsonCodec._\nimport play.api.libs.json._\n\nval d = \"update da DOM\"  \nnew Playground(Seq(\"ok\", \"nok\"), List(Script(\"consoleDir\", JsObject(Nil))), \n               List(\n                 s\"\"\"\n                 function(dataObs, elem) { \n                   console.warn(arguments); \n                   $$(elem).append(\"<p>$d</p>\");\n                 }\n                 \"\"\"\n               ) \n              )",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "case class Data(name:String, payload:Int)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.JsonCodec._\nimplicit val dataCodec = new Codec[JsValue, Data] {\n  val c:Codec[JsValue, Int] = ints // `ints` is a predefined Codec[JValue, Int]\n  \n  def encode(x:JsValue):Data = Data(\"<unknown>\", c.encode(x))\n  def decode(x:Data):JsValue = c.decode(x.payload)\n}\nval data = Seq(Data(\"test1\", 1), Data(\"test2\", 2))\nnew Playground(data, List(Script(\"consoleDir\", JsObject(Nil))), List(s\"\"\" \n                                                                    function(dataO, e) {\n                                                                      dataO.subscribe(function(d) {\n                                                                        //do something with new data `d`\n                                                                      })\n                                                                    }\n                                                                    \"\"\"))",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

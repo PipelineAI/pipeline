@@ -1,0 +1,323 @@
+{
+  "metadata" : {
+    "name" : "GraphX",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Analyse GitHub archives using GraphX"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "_Trying to detect open source communies based on contributions_"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Setup the environment to work with GraphX and Json data "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/spark-notebook/",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp  org.apache.spark % spark-graphx_2.10 % 1.2.1\n- org.apache.spark % spark-core_2.10 % _\n- org.apache.hadoop % _ % _\ncom.fasterxml.jackson.module   %  jackson-module-scala_2.10     %    2.3.3",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Import some github data"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import sys.process._\nif (!new java.io.File(\"/tmp/github.json\").exists) {\n  new java.net.URL(\"http://data.githubarchive.org/2015-01-01-15.json.gz\")  #> new java.io.File(\"/tmp/github.json.gz\") !!\n  \n  Seq(\"gunzip\", \"-f\", \"/tmp/github.json.gz\")!!\n}\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### **The size of the data**"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sh du -h /tmp/github.json",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## First some Spark manipulation "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val raw = sparkContext.textFile(\"/tmp/github.json\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### The number of lines in the file"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "raw.count",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Convert line to JSON _(simple Map of Maps)_"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val json = raw.mapPartitions{ lines => \n  import com.fasterxml.jackson._\n  import com.fasterxml.jackson.core._\n  import com.fasterxml.jackson.databind._\n  import com.fasterxml.jackson.module.scala._\n  val mapper = new ObjectMapper()\n  mapper.registerModule(DefaultScalaModule)\n  lines.map(x => mapper.readValue(x, classOf[Map[String,Any]]))\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Let's look at the two first rows"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "json.take(2).toList",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## The graph part "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We could use the *actors* and the *repos* as vertices, and use the *event* as relationship between them.\n\nThere are *id*s for actor and repo, so we can directly use them in GraphX as such."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.rdd._\nimport org.apache.spark.graphx._",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### RDD vertices {Actors U Repos}"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val actors:RDD[(VertexId, (Short, String))] = json.map{ x => \n  val actor = x(\"actor\").asInstanceOf[Map[String, Any]]\n  val id = actor(\"id\").toString.toLong\n  val login = actor(\"login\").toString\n  (id, (0, login))\n}\nval repos:RDD[(VertexId, (Short, String))] = json.map{ x => \n  val repo = x(\"repo\").asInstanceOf[Map[String, Any]]\n  val id = repo(\"id\").toString.toLong\n  val name = repo(\"name\").toString\n  (id, (1, name))\n}\nval vertices:RDD[(VertexId, (Short, String))] = actors union repos",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### RDD of Edges "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Now an **RDD** with the edges (including reverse ones, that is from repo to actor)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// None → repo to actor\n// Some(\"PushEvent\") → actor pushed on repo\nval edges:RDD[Edge[Option[String]]] = json.flatMap { x =>\n  val event = x.get(\"type\").map(_.toString)\n  val actor = x(\"actor\").asInstanceOf[Map[String, Any]](\"id\").toString.toLong\n  val repo = x(\"repo\").asInstanceOf[Map[String, Any]](\"id\").toString.toLong\n  List(Edge(actor, repo, event), Edge(actor, repo, None))\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Graph"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val graph = Graph(vertices, edges)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Open source working community "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "A very very simple example of such extraction would simply be to extract the connected components "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So that, a component is the actors and repos having connections between them but not with other actor or repos. A connection being a collaboration."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Computing connected components "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val cc = graph.connectedComponents",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The `cc` variable is the original graph but vertives' payload/properties is only the cluster to which is belongs. The cluster is characterized by the smallest `VertexId` in the cluster."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Number of connected components "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Computing the number of clusters can easily be done by counting the number of distinct `payload` for the vertices."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "<strong style=\"color: red\">{cc.vertices.map(_._2).distinct.count}</strong>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Clusters by language "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can try to concentrate our analysis to specific languages, since we don't have the language information in the events data (we need extra call to the GitHub API for that) we'll take a naive approach, that is, **we'll only consider the repo having the language in their name** -- albeit it's not 100% safe."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "#### Utility functions"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The following function compute retrieves the cluster for a given cluster."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.SparkContext._\ndef cluster(lgg:String) = {\n  // collect all repos for the language `lgg`\n  val lggRepos:List[(VertexId, (Short, String))] = vertices.filter { x => \n                    x._2._1 /*vertex type*/ == 1 /*repo*/ && \n                    x._2._2/*repo name*/.toLowerCase.contains(lgg) //here we SHOULD exclude the prefix of '/'\n                }.collect().toList\n  // keep only the set\n  // ***** IN A CLUSTER →→→ THIS NEEDS TO BE A BROADCAST VARIABLE *****wwwwzeqc\n  val lggRepoIds:List[Long] = lggRepos.map(_._1).distinct\n  // clusters \"id\" for these repos → BROADCAST\n  val clusterIds:List[Long] = cc.vertices.filter(x => lggRepoIds.contains(x._1))\n                            .map(_._2)\n                            .collect()\n                            .toList\n  // return the vertices being clustered sorted by decreasing cardinality\n  val clusters:List[(Long, Iterable[Long])] = cc.vertices.filter{ x => clusterIds.contains(x._2) }\n                 .groupBy(_._2)\n                 .mapValues(_.map(_._1))\n                 .collect().toList\n                 .sortBy(_._2.size)\n                 .reverse\n  clusters\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Shows the list of repos and actors included in the given cluster"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "def showCluster(lgg:String, clusterIds:List[Long]) = {\n  val c = graph.vertices\n               .filter(x => clusterIds.contains(x._1))\n               .collect().toList\n\n  <div>\n  <p><strong>Repos</strong></p>\n  <ul>{ \n  c.collect { case (x, (1, r)) =>\n           //show the repo\n           val t = if (r.toLowerCase.contains(lgg)) <strong style=\"color: red;\">{r}</strong> else r\n             <li><a href={\"http://github.com/\"+r}>{t}</a></li> \n          }\n  }</ul>\n  <p><strong>Users</strong></p>\n  <ul>{ \n  c.collect { case (x, (0, n)) =>\n           //show the repo\n             <li><a href={\"http://github.com/\"+n}>{n}</a></li> \n          }\n  }</ul>\n  </div>\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Javascript"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val js = cluster(\"js\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**Let's look at the 3 biggest clusters**"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "layout(3, js.take(3).map(r => html(showCluster(\"js\", r._2.toList))))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "markdown",
+    "source" : "## Scala"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val scala = cluster(\"scala\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "layout(4, scala.map(r => html(showCluster(\"scala\", r._2.toList))))\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Spark ^^ "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val spark = cluster(\"spark\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "layout(4, spark.map(r => html(showCluster(\"spark\", r._2.toList))))",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

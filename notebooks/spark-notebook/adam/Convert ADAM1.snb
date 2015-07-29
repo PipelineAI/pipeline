@@ -1,0 +1,138 @@
+{
+  "metadata" : {
+    "name" : "Convert ADAM1",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/spark-notebook/repo",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res2: String = Repo changed to /tmp/spark-notebook/repo!\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Repo changed to /tmp/spark-notebook/repo!\n <div class='pull-right text-info'><small>283 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Setting Spark with ADAM libs"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.bdgenomics.adam % adam-core % 0.16.0\n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  %     _         %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "warning: there were 2 feature warning(s); re-run with -feature for details\njars: Array[String] = [Ljava.lang.String;@3f328d76\nres8: List[String] = List(/tmp/spark-notebook/repo/cache/org.codehaus.jackson/jackson-core-asl/jars/jackson-core-asl-1.9.13.jar, /tmp/spark-notebook/repo/cache/com.twitter/parquet-common/jars/parquet-common-1.6.0rc4.jar, /tmp/spark-notebook/repo/cache/org.bdgenomics.bdg-formats/bdg-formats/jars/bdg-formats-0.4.0.jar, /tmp/spark-notebook/repo/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.5.jar, /tmp/spark-notebook/repo/cache/commons-logging/commons-logging/jars/commons-logging-1.1.3.jar, /tmp/spark-notebook/repo/cache/com.twitter/parquet-jackson/jars/parquet-jackson-1.6.0rc4.jar, /tmp/spark-notebook/repo/cache/com.esotericsoftware.reflectasm/reflectasm/jars/reflectasm-1.07-shaded.jar, /tmp/spark-notebook/repo/cache/org.apache.bcel..."
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container-fluid\"><div><div class=\"col-md-12\"><div>\n    <script data-this=\"{&quot;dataId&quot;:&quot;anonafcdf825af6d51113a081b7839d01e4d&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.codehaus.jackson/jackson-core-asl/jars/jackson-core-asl-1.9.13.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.twitter/parquet-common/jars/parquet-common-1.6.0rc4.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.bdgenomics.bdg-formats/bdg-formats/jars/bdg-formats-0.4.0.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.5.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/commons-logging/commons-logging/jars/commons-logging-1.1.3.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.twitter/parquet-jackson/jars/parquet-jackson-1.6.0rc4.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.esotericsoftware.reflectasm/reflectasm/jars/reflectasm-1.07-shaded.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.apache.bcel/bcel/jars/bcel-5.2.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.apache.ant/ant/jars/ant-1.8.2.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.fasterxml.jackson.core/jackson-annotations/jars/jackson-annotations-2.1.1.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.bdgenomics.adam/adam-core/jars/adam-core-0.16.0.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.esotericsoftware.kryo/kryo/bundles/kryo-2.21.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.amazonaws/aws-java-sdk/jars/aws-java-sdk-1.7.5.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.twitter/parquet-generator/jars/parquet-generator-1.6.0rc4.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.bdgenomics.bdg-utils/bdg-utils-misc/jars/bdg-utils-misc-0.1.1.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.codehaus.jackson/jackson-mapper-asl/jars/jackson-mapper-asl-1.9.13.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.seqdoop/htsjdk/jars/htsjdk-1.118.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.apache.commons/commons-compress/jars/commons-compress-1.4.1.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/log4j/log4j/bundles/log4j-1.2.17.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/commons-io/commons-io/jars/commons-io-1.3.2.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.beanshell/bsh/jars/bsh-2.0b4.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/commons-cli/commons-cli/jars/commons-cli-1.2.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/org.testng/testng/jars/testng-6.8.8.jar&quot;},{&quot;string value&quot;:&quot;/tmp/spark-notebook/repo/cache/com.beust/jcommander/jars/jcommander-1.27.jar&quot;}],&quot;genId&quot;:&quot;21555505&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"string value\"],\"nrow\":55,\"shown\":25,\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script></div></div></div></div>\n <div class='pull-right text-info'><small>5 seconds 384 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Check the master name to construct the HDFS and configure Spark"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Update Spark configuration to cope with ADAM's needs"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "reset(lastChanges = _.set(\"spark.serializer\", \"org.apache.spark.serializer.KryoSerializer\")\n                     .set(\"spark.kryo.registrator\",\"org.bdgenomics.adam.serialization.ADAMKryoRegistrator\")\n                     .set(\"spark.kryoserializer.buffer.mb\", \"4\")\n                     .set(\"spark.kryo.referenceTracking\", \"true\")\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Imports all Spark and ADAM package and types we'll after."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.hadoop.fs.{FileSystem, Path}\n\nimport org.bdgenomics.formats.avro.AlignmentRecord\nimport org.bdgenomics.adam.rdd.ADAMContext._\nimport org.bdgenomics.adam.rdd.ADAMContext\n  \nimport org.apache.spark.rdd.RDD",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.hadoop.fs.{FileSystem, Path}\nimport org.bdgenomics.formats.avro.AlignmentRecord\nimport org.bdgenomics.adam.rdd.ADAMContext._\nimport org.bdgenomics.adam.rdd.ADAMContext\nimport org.apache.spark.rdd.RDD\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "\n <div class='pull-right text-info'><small>75 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val reads: RDD[AlignmentRecord] = sparkContext.adamLoad(\"/home/noootsab/data/genomics/sim_reads_aligned.bam.adam\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "reads: org.apache.spark.rdd.RDD[org.bdgenomics.formats.avro.AlignmentRecord] = MapPartitionsRDD[1] at map at ADAMContext.scala:172\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "MapPartitionsRDD[1] at map at ADAMContext.scala:172\n <div class='pull-right text-info'><small>807 milliseconds</small></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 9
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "reads.count",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "java.io.IOException: Could not read footer: java.lang.RuntimeException: file:/home/noootsab/data/genomics/sim_reads_aligned.bam.adam/part-r-00000.gz.parquet.crc is not a Parquet file. expected magic number at tail [80, 65, 82, 49] but found [88, 94, 33, 60]\n\tat parquet.hadoop.ParquetFileReader.readAllFootersInParallel(ParquetFileReader.java:238)\n\tat parquet.hadoop.ParquetFileReader.readAllFootersInParallelUsingSummaryFiles(ParquetFileReader.java:179)\n\tat parquet.hadoop.ParquetInputFormat.getFooters(ParquetInputFormat.java:400)\n\tat parquet.hadoop.ParquetInputFormat.getFooters(ParquetInputFormat.java:372)\n\tat parquet.hadoop.ParquetInputFormat.getSplits(ParquetInputFormat.java:256)\n\tat org.apache.spark.rdd.NewHadoopRDD.getPartitions(NewHadoopRDD.scala:95)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.rdd.RDD.partitions(RDD.scala:217)\n\tat org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:32)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.rdd.RDD.partitions(RDD.scala:217)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1512)\n\tat org.apache.spark.rdd.RDD.count(RDD.scala:1006)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:52)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:57)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:59)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:61)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:63)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:65)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:67)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:69)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:71)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:73)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:75)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:77)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:79)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:81)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:83)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.<init>(<console>:85)\n\tat $iwC$$iwC$$iwC$$iwC.<init>(<console>:87)\n\tat $iwC$$iwC$$iwC.<init>(<console>:89)\n\tat $iwC$$iwC.<init>(<console>:91)\n\tat $iwC.<init>(<console>:93)\n\tat <init>(<console>:95)\n\tat .<init>(<console>:99)\n\tat .<clinit>(<console>)\n\tat .<init>(<console>:7)\n\tat .<clinit>(<console>)\n\tat $print(<console>)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1338)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat notebook.kernel.Repl$$anonfun$3.apply(Repl.scala:172)\n\tat notebook.kernel.Repl$$anonfun$3.apply(Repl.scala:172)\n\tat scala.util.DynamicVariable.withValue(DynamicVariable.scala:57)\n\tat scala.Console$.withOut(Console.scala:126)\n\tat notebook.kernel.Repl.evaluate(Repl.scala:171)\n\tat notebook.client.ReplCalculator$$anonfun$10$$anon$1$$anonfun$receive$1.applyOrElse(ReplCalculator.scala:276)\n\tat akka.actor.Actor$class.aroundReceive(Actor.scala:465)\n\tat notebook.client.ReplCalculator$$anonfun$10$$anon$1.aroundReceive(ReplCalculator.scala:157)\n\tat akka.actor.ActorCell.receiveMessage(ActorCell.scala:516)\n\tat akka.actor.ActorCell.invoke(ActorCell.scala:487)\n\tat akka.dispatch.Mailbox.processMailbox(Mailbox.scala:238)\n\tat akka.dispatch.Mailbox.run(Mailbox.scala:220)\n\tat akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393)\n\tat scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)\n\tat scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)\n\tat scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)\n\tat scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)\nCaused by: java.lang.RuntimeException: file:/home/noootsab/data/genomics/sim_reads_aligned.bam.adam/part-r-00000.gz.parquet.crc is not a Parquet file. expected magic number at tail [80, 65, 82, 49] but found [88, 94, 33, 60]\n\tat parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:418)\n\tat parquet.hadoop.ParquetFileReader$2.call(ParquetFileReader.java:228)\n\tat parquet.hadoop.ParquetFileReader$2.call(ParquetFileReader.java:224)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+    } ]
+  } ],
+  "nbformat" : 4
+}

@@ -1,0 +1,181 @@
+{
+  "metadata" : {
+    "name" : "Read 1000Genomes dataset (chr-N)",
+    "user_save_timestamp" : "2015-01-03T00:43:35.749Z",
+    "auto_save_timestamp" : "2015-01-03T00:38:53.694Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Read ADAM converted 1000genomes' VCF files"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## What you'll found here"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "In this notebook, we'll see how one can start a notebook and start playing with [ADAM](http://bdgenomics.org/) datasets.\n\nThis is an easy way to access genomics data and:\n\n * start playing with great tools like [Apache Spark](http://spark.apache.org/) and ADAM\n * make some data analysis over thousands of genomes"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The dataset that we'll explore here has been created and is provided by the [1000genomes](http://www.1000genomes.org/) project.\n\nOriginally, the files are stored publicly on S3 in their legacy and gzipped format.\n\n**However**, they have been converted by [@xtordoir](https://twitter.com/xtordoir) and [@noootsab](https://twitter.com/noootsab), then stored in the public [Med At Scale's S3 bucket](s3://med-at-scale)."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## How to use it"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "This notebook has been shaped and tried on a very small Spark cluster deployed on EC2 (e.g. `3+1` _m3.xlarge_)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "However, it should also be possible to run it locally! Since no HDFS nor cluster is really needed by the tools. That being said, the data is quite big hence, the process will take some time to run!"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Note"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "You will need to run the Notebook with **hadoop 2** dependencies -- needed by Hadoop-BAM to run silently and fine.\n\nFor this, you can either use the according distribution, or create one from the source with such hadoop version (`play -Dhadoop.version=...`, then `dist`). "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Setting up the running env."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Setting Spark with ADAM libs (this has to be done first because it resets variables)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/spark-notebook/repo",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.bdgenomics.adam % adam-core % 0.15.0\n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  %     _         %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## The process"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "In case you're on ec2, let's create some context to update running Spark envirronment. "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import sys.process._\nval master = (\"ec2-metadata --public-hostname\"!!).drop(\"public-hostname: \".size).mkString.trim",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**warn**: we'll be reading S3 files, hence we need to pass the credentials -- or leave as is if the keys are exported in the `env`."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val fs_s3_awsAccessKeyId      = sys.env.get(\"AWS_ACCESS_KEY_ID\").getOrElse(\"<hard-code-one>\")\nval fs_s3_awsSecretAccessKey  = sys.env.get(\"AWS_SECRET_ACCESS_KEY\").getOrElse(\"<hard-code-one>\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### The data file on S3 -- Chromosome 1."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val adamFileOnS3 = \"s3n://med-at-scale/1000genomes/ALL.chr1.integrated_phase1_v3.20101123.snps_indels_svs.genotypes.vcf.adam\"",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Update Spark configuration to cope with ADAM's needs"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "reset(lastChanges = _.set(\"spark.serializer\", \"org.apache.spark.serializer.KryoSerializer\")\n                     .set(\"spark.kryo.registrator\", \"org.bdgenomics.adam.serialization.ADAMKryoRegistrator\")\n                     .set(\"spark.kryoserializer.buffer.mb\", \"4\")\n                     .set(\"spark.kryo.referenceTracking\", \"true\")\n                     .setMaster(s\"spark://$master:7077\")\n                     .setAppName(\"ADAM 1000genomes\")\n                     .set(\"spark.executor.memory\", \"13g\")\n                     .set(\"fs.s3.awsAccessKeyId\", fs_s3_awsAccessKeyId)\n                     .set(\"fs.s3.awsSecretAccessKey\", fs_s3_awsSecretAccessKey)\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Here are the ADAM dependencies that we can/will use."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.hadoop.fs.{FileSystem, Path}\n\nimport org.bdgenomics.adam.converters.{ VCFLine, VCFLineConverter, VCFLineParser }\nimport org.bdgenomics.formats.avro.{Genotype, FlatGenotype}\nimport org.bdgenomics.adam.models.VariantContext\nimport org.bdgenomics.adam.rdd.ADAMContext._\nimport org.bdgenomics.adam.rdd.variation.VariationContext._\nimport org.bdgenomics.adam.rdd.ADAMContext\n  \nimport org.apache.spark.rdd.RDD",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Reading the file now..."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "First, we load it using the context function `adamLoad`."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val gts:RDD[Genotype] = sparkContext.adamLoad(adamFileOnS3)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "With `gts` being the `RDD` of all genotypes found in the data, we can now do some fancy stuffs. Likee counting the number of patients that have been sequenced."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "val sampleCount = gts.map(_.getSampleId.toString.hashCode).distinct.count\ns\"#Samples: $sampleCount\"",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

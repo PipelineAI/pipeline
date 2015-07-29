@@ -1,0 +1,142 @@
+{
+  "metadata" : {
+    "name" : "Streaming Example",
+    "user_save_timestamp" : "2014-12-23T00:59:40.737Z",
+    "auto_save_timestamp" : "2014-12-23T00:59:01.720Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.apache.spark % spark-streaming_2.10 % 1.2.1",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "warning: there were 2 feature warning(s); re-run with -feature for details\njars: Array[String] = [Ljava.lang.String;@741ea7d4\nres5: List[String] = List(/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/jline/jline/0.9.94/jline-0.9.94.jar, /tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/fasterxml/jackson/core/jackson-core/2.3.1/jackson-core-2.3.1.jar, /tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/fasterxml/jackson/core/jackson-databind/2.3.1/jackson-databind-2.3.1.jar, /tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/slf4j/jul-to-slf4j/1.7.5/jul-to-slf4j-1.7.5.jar, /tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar, /tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/commons-el/commons-el/1.0/commons-el-1.0.ja..."
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"table-container table-responsive\">\n    <table class=\"table\">\n      <thead>\n      </thead>\n      <tbody><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/jline/jline/0.9.94/jline-0.9.94.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/fasterxml/jackson/core/jackson-core/2.3.1/jackson-core-2.3.1.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/fasterxml/jackson/core/jackson-databind/2.3.1/jackson-databind-2.3.1.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/slf4j/jul-to-slf4j/1.7.5/jul-to-slf4j-1.7.5.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/commons-el/commons-el/1.0/commons-el-1.0.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/apache/zookeeper/zookeeper/3.4.5/zookeeper-3.4.5.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/io/netty/netty/3.8.0.Final/netty-3.8.0.Final.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/eclipse/jetty/jetty-xml/8.1.14.v20131031/jetty-xml-8.1.14.v20131031.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/scala-lang/scala-reflect/2.10.4/scala-reflect-2.10.4.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/eclipse/jetty/jetty-jndi/8.1.14.v20131031/jetty-jndi-8.1.14.v20131031.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/codahale/metrics/metrics-graphite/3.0.0/metrics-graphite-3.0.0.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/spark-project/akka/akka-slf4j_2.10/2.3.4-spark/akka-slf4j_2.10-2.3.4-spark.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/codahale/metrics/metrics-core/3.0.0/metrics-core-3.0.0.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/eclipse/jetty/jetty-server/8.1.14.v20131031/jetty-server-8.1.14.v20131031.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/tachyonproject/tachyon-client/0.5.0/tachyon-client-0.5.0.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/eclipse/jetty/orbit/javax.transaction/1.1.1.v201105210645/javax.transaction-1.1.1.v201105210645.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/xerial/snappy/snappy-java/1.1.1.6/snappy-java-1.1.1.6.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/apache/spark/spark-network-shuffle_2.10/1.2.1/spark-network-shuffle_2.10-1.2.1.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/spark-project/akka/akka-actor_2.10/2.3.4-spark/akka-actor_2.10-2.3.4-spark.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/com/ning/compress-lzf/1.0.0/compress-lzf-1.0.0.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/net/java/dev/jets3t/jets3t/0.7.1/jets3t-0.7.1.jar</td></tr><tr><td>/tmp/spark-notebook/aether/67ae60ab-dfed-4f8a-b9ad-307bde3ffaa5/org/json4s/json4s-ast_2.10/3.2.10/json4s-ast_2.10-3.2.10.jar</td></tr><tr><td>...</td></tr>\n      </tbody>\n    </table></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.ui.notebook.front.widgets.SparkInfo\nimport scala.concurrent.duration._\nnew SparkInfo(sparkContext, checkInterval=1 seconds, execNumber=Some(100))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nval streaming = new StreamingContext(sparkContext, Duration(1000))",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nstreaming: org.apache.spark.streaming.StreamingContext = org.apache.spark.streaming.StreamingContext@2c770f9f\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.StreamingContext@2c770f9f"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.streaming.dstream.ConstantInputDStream\nval stream  = new ConstantInputDStream(\n                streaming, \n                sparkContext.makeRDD(Seq.fill(1000)(() => scala.util.Random.nextInt(1000)))\n              )",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.streaming.dstream.ConstantInputDStream\nstream: org.apache.spark.streaming.dstream.ConstantInputDStream[() => Int] = org.apache.spark.streaming.dstream.ConstantInputDStream@aa02f2f\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.dstream.ConstantInputDStream@aa02f2f"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val concrete = stream.map(_())",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "concrete: org.apache.spark.streaming.dstream.DStream[Int] = org.apache.spark.streaming.dstream.MappedDStream@3c5d81c8\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.dstream.MappedDStream@3c5d81c8"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook._, front._, widgets._\nimport notebook.JsonCodec._\nimport play.api.libs.json._\nimport notebook.Series,Series._\n\ndef series(values:Seq[(Double, Double)]) = Seq(Series(\"Fun-DStream\", \"#4a6860\", values))\nval p = new Playground(series(Nil), List(Script(\"rickshawts\", \n                                         Json.obj(\n                                           \"renderer\" -> \"stack\",\n                                           \"fixed\" -> Json.obj(\n                                              (\"interval\" -> 1000),\n                                              (\"max\" -> 5),\n                                              (\"baseInSec\" -> 1)\n                                         )))))(seriesCodec)\nconcrete.foreachRDD { rdd => \n  val sum = rdd.reduce(_+_)\n  p(series(Seq((System.currentTimeMillis.toDouble, sum.toDouble))))\n}\nstreaming.start\np",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import notebook._\nimport front._\nimport widgets._\nimport notebook.JsonCodec._\nimport play.api.libs.json._\nimport notebook.Series\nimport Series._\nseries: (values: Seq[(Double, Double)])Seq[notebook.Series]\np: notebook.front.Playground[notebook.Series] = <Playground widget>\nres2: notebook.front.Playground[notebook.Series] = <Playground widget>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div class=\"container\">\n    <script data-this=\"{&quot;dataId&quot;:&quot;anon6e76a924f3cb879def9e8eb763ffb296&quot;,&quot;dataInit&quot;:[{&quot;name&quot;:&quot;Fun-DStream&quot;,&quot;color&quot;:&quot;#4a6860&quot;,&quot;data&quot;:[]}]}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/rickshawts'], \n      function(playground, _rickshawts) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _rickshawts,\n    \"o\": {\"renderer\":\"stack\",\"fixed\":{\"interval\":1000,\"max\":5,\"baseInSec\":1}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script> </div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import scala.concurrent._\nimport scala.concurrent.ExecutionContext.Implicits.global\nFuture { Thread.sleep(30000) ; streaming.stop() }\n ",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import scala.concurrent._\nimport scala.concurrent.ExecutionContext.Implicits.global\nres3: scala.concurrent.Future[Unit] = scala.concurrent.impl.Promise$DefaultPromise@67289320\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "scala.concurrent.impl.Promise$DefaultPromise@67289320"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  } ],
+  "nbformat" : 4
+}

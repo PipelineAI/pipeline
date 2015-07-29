@@ -1,0 +1,133 @@
+{
+  "metadata" : {
+    "name" : "Reactive SQL",
+    "user_save_timestamp" : "2014-11-07T01:29:44.985Z",
+    "auto_save_timestamp" : "2014-11-08T00:18:39.903Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Using SQL"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Preparation"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// show list\ndef ul(xs:Seq[String]) = <ul>{xs.map(x => <li>{x}</li>)}</ul>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//util class\ncase class Person(name:String, age:Int)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Creating the context "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//define sql context\nval sqlContext = new org.apache.spark.sql.SQLContext(sparkContext)\n",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//define sql context\nval sqlContext = new org.apache.spark.sql.SQLContext(sparkContext)\n\n// import implicits to convert an RDD to a SchemaRDD.\nimport sqlContext.implicits",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Creating some data and SQL table on it"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//prepare some sql materials\n/**\n *    COPIED FROM  http://spark.apache.org/docs/latest/sql-programming-guide.html\n **/\n// Create an RDD\nval people = sparkContext.makeRDD(Array(\n\t\"Sandrine,33\",\n\t\"Noah,4\",\n\t\"Noootsab,32\"\n))\n\n// The schema is encoded in a string\nval schemaString = \"name age\"\n\n// Import Spark SQL data types and Row.\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType,StructField,StringType};\n\n// Generate the schema based on the string of schema\nval schema =\n  StructType(\n    schemaString.split(\" \").map(fieldName => StructField(fieldName, StringType, true)))\n\n// Convert records of the RDD (people) to Rows.\nval rowRDD = people.map(_.split(\",\")).map(p => Row(p(0), p(1).trim))\n\n// Apply the schema to the RDD.\nval peopleSchemaRDD = sqlContext.applySchema(rowRDD, schema)\n\n// Register the SchemaRDD as a table.\npeopleSchemaRDD.toDF.registerTempTable(\"people\")\n\n// SQL statements can be run by using the sql methods provided by sqlContext.\nval results = sqlContext.sql(\"SELECT name FROM people\")\n\n// The results of SQL queries are SchemaRDDs and support all the normal RDD operations.\n// The columns of a row in the result can be accessed by ordinal.\nul(results.map(t => \"Name: \" + t(0)).collect())",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Adaptative queries"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Now, we can also create queries on the data and assign them to variables.\n\nThe `:sql` context is used for this purpose and takes a name between `[` and `]`.\n\nThe query can uses a special form of token: `{**type**: **name**}`.\nSo that the resulting `sql` will be a template that will generate an HTML form allowing the user to enter values for them, before appying the completed query to the data. "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**important:** The following block creates the variable `selectKids`. Which *has to be used* after in order to `react` on events"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sql[selectKids] SELECT name FROM people WHERE name = \"{String: name}\" and age >= {Int: age}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So **before** (but not required) using the form above,  we need to `react` on the changes triggered by the form elements.\n\nThat is when we'll enter some values, the backend will pick the events and change the SQL query and try it on the data.\n\nIf it **succeeds** :\n* the function passed to `react` will be called\n* the result of the function call will be `apply`ied to the widget passed as second argument of `react` (and thus will refresh it).\n\nBelow, you see an example where:\n* the function takes the result and return a string annoucing how many results are matching the query\n* an instance of the `out` widget which only prints a `String` in the DOM, having the `apply` method updating this print. "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//use result of previous query when valid\nselectKids.react[String](s => \"# results:\" + s.count(), out)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sql[all] SELECT name FROM people",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "//show all names reactively → even if the sql was already finished!\nall.react[String](s => \"results:\" + s.map(_.getString(0)).collect().mkString(\",\"), out)",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

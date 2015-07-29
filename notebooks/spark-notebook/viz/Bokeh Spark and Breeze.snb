@@ -1,0 +1,79 @@
+{
+  "metadata" : {
+    "name" : "Bokeh Spark and Breeze",
+    "user_save_timestamp" : "2014-12-15T00:55:09.510Z",
+    "auto_save_timestamp" : "2014-12-15T00:50:41.883Z",
+    "language_info" : {
+      "name" : "Scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "\n// First import is the official scala-bookeh stuff, the second one is the integration of bookeh\n// into this worksheet project.\nimport io.continuum.bokeh._\nimport notebook.front.third.Bokeh",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import math.{Pi=>pi}\n\n// Generate some data, in = [-2pi,2pi], out = sin(in)\nval xss = List(0.2,0.05,0.01).map(resolution => -2*pi to 2*pi by resolution)\nval f = Math.sin _\n\n// Generate some plots of {(x,sin(x)}\nval graphs = for (xs <- xss)\n  yield Bokeh.functionGraph(xs, f).title(s\"n = ${xs.size} samples\")\n// Push all plots to front-end  \nBokeh.plot(graphs)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "// Other random imports, breeze is for linear algebra.\nimport breeze.linalg.linspace \n  \n// Simple scatter plot example.\n// We build a grid of points in the unit square.\nval unit_interval = linspace(0,1,20)\nunit_interval.sum / unit_interval.size \nval unit_square = for (x <- unit_interval.data; y <- unit_interval.data) yield (x,y)\nunit_square.size\n// directly plot these points\nBokeh.scatterPlot(unit_square.map({ case(x,y) => Bokeh.ScatterPoint(x,y) }))  ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "// Now divide the points into two groups.\n// Note: providing a scatter group is optional!   \nval groupOutside = Bokeh.ScatterGroup(r = 4.0, fill_color = Color.Red)\nval groupInside = Bokeh.ScatterGroup(r = 4.0, fill_color = Color.Blue)\nval annotatedPoints = unit_square.map({ case (x,y) => {\n  val length = x*x + y*y\n  Bokeh.ScatterPoint(x,y, if (length >= 1) groupOutside else groupInside) \n}})  \n  \nBokeh.scatterPlot(annotatedPoints)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "import scala.util.Try\n// Let us actually start to use Spark...  \n// Load data from a text file (but it could be anything, like from hadoop file system, s3...)\nval in = sparkContext.textFile(\"./conf/data/binary_classification.csv\")\n\n// Define data model\ncase class DataPoint(x: Double, y: Double, group: String)\nval validGroups = Set(\"A\",\"B\")  \n// extract and clean\nval extractAttempts = in.map(line => line.split(\" \"))\n  \t\t\t\t\t    .map(token => Try( DataPoint(token(1).toDouble, token(2).toDouble, token(0) )))\n  \nval dataPoints = extractAttempts.filter(_.isSuccess)\n                                .map(_.get)\n                                .filter(dp => validGroups contains dp.group)\n  \t\t\t\t\t\t\t    .cache() // we want to do a lot of stuff with this\ns\"Have ${dataPoints.count()} data points.\"\n  ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "// PlotOps add some helper methods, for example += (to add sth. to render to a plot)\nimport notebook.front.third.bokeh.PlotOps._\n// sample up to 100 points and bring it into plottable format\nval scatterPoints = dataPoints.take(100)\n  .map(dp => Bokeh.ScatterPoint(dp.x, dp.y, \n               if (dp.group == \"A\") groupInside else groupOutside))\n\nval samplesPlot = Bokeh.scatter(scatterPoints).title(\"<= 100 samples\")\n// add a line to visualize a hand-made linear-regression seperator\nval line = Bokeh.buildLine(Seq(Bokeh.Point(0.0,1.3), Bokeh.Point(1.3,0.0)))\nsamplesPlot += line\nBokeh.plot(samplesPlot :: Nil)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "// Time for using machine learning\nimport org.apache.spark.mllib.regression.LinearRegressionWithSGD\nimport org.apache.spark.mllib.regression.LabeledPoint\nimport org.apache.spark.mllib.linalg.{Vector, Vectors}\n\n// bring data in form for MLlib and partition data into training and test set\nval labelData = dataPoints.map(dp => LabeledPoint(if (dp.group == \"A\") 1.0 else 0.0, Vectors.dense(Array(dp.x,dp.y))))\nval Array(trainingData, testData) = labelData randomSplit Array(0.8, 0.2)\n// linear regression with stochastic gradient descent with 30 iterations\nval model = LinearRegressionWithSGD.train(trainingData, 30)\n\n// now test the prediction\nval prediction = model.predict(testData.map(_.features)).map(Math.round)\n\nfor ( (real,calculated) <- (testData.map(_.label) zip prediction) )\n  println(s\"Real: $real and Calculated: $calculated\")\n  \n  ",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : true
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

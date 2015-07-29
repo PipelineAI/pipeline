@@ -1,0 +1,80 @@
+{
+  "metadata" : {
+    "name" : "Reactive image",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Play with images"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### First create a `img` widget of type `png`"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val i = img(\"png\", \"250px\", \"250px\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Load the widget with an online URL"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val image1 = new java.net.URL(\"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ920yg30NDEeI51ri5DlbSLnXx9szikFDJmmXPOk8KaV1cPfms\") \ni.url(image1)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "**Note: there are two other ways to load/update the widget with an image:**\n* use `i.file(new java.io.File(\"...\"))`\n* use `i(anotherBufferedImage)`"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Update the widget with another online URL"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val image2 = new java.net.URL(\"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTPPeJM3HpX_0aGbMJ8H1HgglUsqkvxM5cZ0VTI4eJ5Rok1s3ra\")\ni.url(image2)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Animate the widget by diplaying URLs alternatively "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.Future\n\n// update the timseries 5 times\nFuture.sequence((1 to 10).map{ k => \n  Future { \n    // update the graph with new data every 10 seconds\n    Thread.sleep(k*2*1000); \n    i.url(if (k%2==0) image1 else image2 )\n  } \n})",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

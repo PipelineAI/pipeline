@@ -1,0 +1,332 @@
+{
+  "metadata" : {
+    "name" : "Planes",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "# Using MLlib to predict planes' arrival delays"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We're going to play a bit with the well known _Big Dataset_ about planes trips.\n\nThe initial project is _Airline on-time performance_ and all information can be found [here](http://stat-computing.org/dataexpo/2009/)."
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Set up "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Set the local repository, so that we won't dowload internet again and again (mind the path)."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/repository",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Add MLlib to the classpath, removing already available ones"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp\norg.apache.spark % spark-mllib_2.10 % 1.2.1\n- org.apache.spark % spark-core_2.10 % _\n- org.apache.hadoop % _ % _",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Looking at data"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "For this small example, we're going to use a subset of the data, that is, only the year [2008](http://stat-computing.org/dataexpo/2009/2008.csv.bz2).\n\n**Warning**: this data is distributed in bz2.\n\nData can be found [here](http://stat-computing.org/dataexpo/2009/the-data.html)"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "This is the size of the decompressed data (mind the path)."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":sh du -h /home/noootsab/data/dataexpo_2009/2008.csv",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Here we load the whole dataset in **Spark**."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val all = sparkContext.textFile(\"/home/noootsab/data/dataexpo_2009/2008.csv\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Fetch the columns names, the descriptions are [there](http://stat-computing.org/dataexpo/2009/the-data.html)."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val head = all.take(1).head.split(\",\").toList\nlayout(7, head.zipWithIndex.map(x => text(x.toString)))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Nah, let's get rid of the header."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val data = all.filter(!_.startsWith(\"Year\")).map(_.split(\",\"))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "So... how many?"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val count = data.count",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Here is the kindo data we have then."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val sample = data.sample(false, 5d/count, 123456L).collect().toList\n<table>\n<thead><tr>{head.map(x => <th>{x}</th>)}</tr></thead>\n<tbody>{sample.map{r => <tr>{r.map(x => <td>{x}</td>)}</tr>}}</tbody>\n</table>",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can then retrieve the list of airports"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val airports:List[String] = data.filter(x => x(16)!=\"NA\" && x(17)!=\"NA\").flatMap(x => x(16) :: x(17) :: Nil).distinct.collect().toList\n@transient val _l = layout(15, airports map text)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## More exploration "
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Let's look at the delays' distributions"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "First we filter the data and convert it to something easier to deal with. \n\nBoth delays will be associated to both airports, since we've have no clue they are independent."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val arrDelays = data.filter(_(14)!=\"NA\").flatMap(x => List((x(16), x(14).toInt), (x(17), x(14).toInt)))\nval depDelays = data.filter(_(15)!=\"NA\").flatMap(x => List((x(16), x(15).toInt), (x(17), x(15).toInt)))\n// arrDelay - depDelay\nval diffDelays = data.filter(x => x(14)!=\"NA\" && x(15) != \"NA\").map(x => (x(16), x(14).toInt - x(15).toInt))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Compute some histograms per airport for each type of delay.\n\n**This can take ~1minute (with local[8] + 24G)**"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.SparkContext._\ndef hist(xs:Iterable[Int], buckets:Int=100) = {\n  val min = xs.min\n  val max = xs.max\n  val p = (max - min).toDouble / buckets\n  val x = (min.toDouble to max.toDouble by p)\n  val r = x.init zip x.tail\n  val y = xs.map(x => r.indexWhere { case (s, e) => x >= s && x <= e } ).groupBy(identity).mapValues(_.size).toList.sortBy(_._1)\n  r zip y.map(_._2)\n}\n\nval arrDelaysByAer = arrDelays.groupBy(_._1)\nval arrDelaysByAerHist = arrDelaysByAer.mapValues(vs => hist(vs.map(_._2))).collectAsMap\n\nval depDelaysByAer = depDelays.groupBy(_._1)\nval depDelaysByAerHist = depDelaysByAer.mapValues(vs => hist(vs.map(_._2))).collectAsMap\n\nval diffDelaysByAer = diffDelays.groupBy(_._1)\nval diffDelaysByAerHist = diffDelaysByAer.mapValues(vs => hist(vs.map(_._2))).collectAsMap\n\n()",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "A function to plot the delays and difference"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import notebook.front.third.wisp._\ndef histFor(air:String, nb:Int=100) = {\n  val airArr = arrDelaysByAerHist(air)\n  val airDep = depDelaysByAerHist(air)\n  val airDiff = diffDelaysByAerHist(air)\n  <h5>Hist</h5>++\n  Plot(Seq(\n    SummarySeries(airArr.map{ case ((m1, m2), x) => (m2.toDouble, x.toDouble)}, \"column\", _.copy(color=Some(\"red\"), name=Some(\"arrival\"))),\n    SummarySeries(airDep.map{ case ((m1, m2), x) => (m2.toDouble, x.toDouble)}, \"column\", _.copy(color=Some(\"green\"), name=Some(\"departure\")))\n  )) ++ \n  <h5>Hist of the diff</h5>++\n  Plot(Seq(\n    SummarySeries(airDiff.map{ case ((m1, m2), x) => (m2.toDouble, x.toDouble)}, \"column\", _.copy(color=Some(\"red\"), name=Some(\"arrival - departure\")))\n  ))\n}",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Plot the distribution for San Francisco"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "histFor(\"SFO\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Plot the distribution for Little Rock"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "histFor(\"LIT\")",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "## Machine Learning: Random Forest"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "First we import the needed types"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.mllib.tree.RandomForest\nimport org.apache.spark.mllib.util.MLUtils\nimport org.apache.spark.mllib.regression.LabeledPoint\nimport org.apache.spark.mllib.linalg.DenseVector",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Feature selection: let's get rid of some categorical features (for simplicity **ONLY**)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val features = head.slice(0, 8) ::: head.slice(11, 15) ::: List(head(16), head(17)) ::: head.slice(18, 21)\nlayout(8, features.zipWithIndex.map (x => text(x.toString)))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "The boring part:\n * clean the data (no impunation → if a row contains NA → discarded)\n * factorize the categorical values (Airports)\n * transform the data to the appropriate type (`LabeledPoint`)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val selected = data .filter(x => x.slice(0,21).forall(_ != \"NA\"))\n                    .map { x =>\n                      //todo → broadcast\n                      //val airports = \"ABE,ABI,ABQ,ABY,ACK,ACT,ACV,ACY,ADK,ADQ,AEX,AGS,AKN,ALB,ALO,AMA,ANC,ASE,ATL,ATW,AUS,AVL,AVP,AZO,BDL,BET,BFL,BGM,BGR,BHM,BIL,BIS,BJI,BLI,BMI,BNA,BOI,BOS,BPT,BQK,BQN,BRO,BRW,BTM,BTR,BTV,BUF,BUR,BWI,BZN,CAE,CAK,CDC,CDV,CEC,CHA,CHO,CHS,CIC,CID,CLD,CLE,CLL,CLT,CMH,CMI,CMX,COD,COS,CPR,CRP,CRW,CSG,CVG,CWA,CYS,DAB,DAL,DAY,DBQ,DCA,DEN,DFW,DHN,DLG,DLH,DRO,DSM,DTW,EGE,EKO,ELM,ELP,ERI,EUG,EVV,EWN,EWR,EYW,FAI,FAR,FAT,FAY,FCA,FLG,FLL,FLO,FNT,FSD,FSM,FWA,GCC,GEG,GFK,GGG,GJT,GNV,GPT,GRB,GRK,GRR,GSO,GSP,GST,GTF,GTR,GUC,HDN,HHH,HLN,HNL,HOU,HPN,HRL,HSV,HTS,IAD,IAH,ICT,IDA,ILM,IND,INL,IPL,ISP,ITH,ITO,IYK,JAC,JAN,JAX,JFK,JNU,KOA,KTN,LAN,LAS,LAW,LAX,LBB,LCH,LEX,LFT,LGA,LGB,LIH,LIT,LMT,LNK,LRD,LSE,LWB,LWS,LYH,MAF,MBS,MCI,MCN,MCO,MDT,MDW,MEI,MEM,MFE,MFR,MGM,MHT,MIA,MKE,MKG,MLB,MLI,MLU,MOB,MOD,MOT,MQT,MRY,MSN,MSO,MSP,MSY,MTJ,MYR,OAJ,OAK,OGD,OGG,OKC,OMA,OME,ONT,ORD,ORF,OTH,OTZ,OXR,PBI,PDX,PFN,PHF,PHL,PHX,PIA,PIH,PIR,PIT,PLN,PMD,PNS,PSC,PSE,PSG,PSP,PUB,PVD,PWM,RAP,RDD,RDM,RDU,RFD,RHI,RIC,RKS,RNO,ROA,ROC,ROW,RST,RSW,SAN,SAT,SAV,SBA,SBN,SBP,SCC,SCE,SDF,SEA,SFO,SGF,SGU,SHV,SIT,SJC,SJT,SJU,SLC,SLE,SMF,SMX,SNA,SPI,SPS,SRQ,STL,STT,STX,SUN,SUX,SWF,SYR,TEX,TLH,TOL,TPA,TRI,TUL,TUP,TUS,TVC,TWF,TXK,TYR,TYS,VLD,VPS,WRG,WYS,XNA,YAK,YKM,YUM\".split(\",\").toList\n                      val ori = airports.indexOf(x(16)).toString\n                      val des = airports.indexOf(x(17)).toString\n                      val all = x.slice(0, 8) ++ x.slice(11, 15) ++ Array(ori, des) ++ x.slice(18, 21)\n                      LabeledPoint(x(15).toDouble, new DenseVector(all.map(_.toDouble)))\n                    }",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "As usual, we split the dataset into training and test samples"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// Split the data into training and test sets (30% held out for testing)\nval splits = selected.randomSplit(Array(0.7, 0.3))\nval (trainingData, testData) = (splits(0), splits(1))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "There we are, finally, we can tune and train the model"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "// Train a RandomForest model.\nval categoricalFeaturesInfo = Map[Int, Int](12 → airports.size, 13 → airports.size)\nval numTrees = 3 // Use more in practice.\nval featureSubsetStrategy = \"auto\" // Let the algorithm choose.\nval impurity = \"variance\"\nval maxDepth = 4\nval maxBins = airports.size\n\nval model = RandomForest.trainRegressor(trainingData, categoricalFeaturesInfo,\n  numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can check some of the prediction if we like"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "layout(\n  3,\n  testData.take(20).toList\n          .map(point => (point.label, model.predict(point.features)))\n          .flatMap { case (x,y) => List(x,y, x-y) } \n          .map(x => text(x.toString))\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "Now, the MSE!"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.SparkContext._ // gives access to org.apache.spark.rdd.DoubleRDDFunctions containing `mean`\n\n// Evaluate model on test instances and compute test error\nval labelsAndPredictions = testData.map { point =>\n  val prediction = model.predict(point.features)\n  (point.label, prediction)\n}.cache()\nval testMSE = labelsAndPredictions.map{ case(v, p) => math.pow((v - p), 2)}.mean()\nList(\n\"Test Mean Squared Error: \" + testMSE + \".\",\n\"Hence, squared: \" + scala.math.sqrt(testMSE) + \".\"\n)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "### Plot time!"
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We could try to use the full `testData`, however it can either break the **driver** with memory problems (depending on how much memory it has) or the **browser** due to the amount of data to plot.\n\nHence, we're going to plot a smaller part of it, feel free to update the code for more insights using the plots."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val labelsAndPredictionsCount = labelsAndPredictions.count.toInt\nval labelsAndPredictionsSortedByLabel = labelsAndPredictions.sortBy(_._1).cache()\n\n// sampling to avoid memory or rendereing problems\nval seed = 123456L\nval takeCount = 100\nval somePredictions = labelsAndPredictions.takeSample(false, takeCount, seed)\nval somePredictionsSorted = labelsAndPredictionsSortedByLabel.takeSample(false, takeCount, seed)\n\nPlot(Seq(\n  SummarySeries((1 to takeCount) zip somePredictions.map(_._1), \"line\", _.copy(color=Some(\"darkblue\"), name=Some(\"Training\"))),\n  SummarySeries((1 to takeCount) zip somePredictions.map(_._2), \"line\", _.copy(color=Some(\"lightgreen\"), name=Some(\"Prediction\")))\n)) ++ Plot(Seq(\n  SummarySeries((1 to takeCount) zip somePredictionsSorted.map(_._1), \"line\", _.copy(color=Some(\"darkblue\"), name=Some(\"Training\"))),\n  SummarySeries((1 to takeCount) zip somePredictionsSorted.map(_._2), \"line\", _.copy(color=Some(\"lightgreen\"), name=Some(\"Prediction\")))\n))",
+    "outputs" : [ ]
+  }, {
+    "metadata" : { },
+    "cell_type" : "markdown",
+    "source" : "We can even take a look at the trained trees"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "println(\"Learned regression forest model:\\n\" + model.toDebugString)",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}
