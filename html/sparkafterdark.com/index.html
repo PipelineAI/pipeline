@@ -37,7 +37,7 @@ function like(personId) {
   var encodedKey = btoa(myId)
   var encodedValue = btoa(personId)
   $.ajax({
-    url:'http://sparkafterdark.com/like',
+    url:'/like',
     type:'POST',
     data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
     contentType:'application/vnd.kafka.binary.v1+json',
