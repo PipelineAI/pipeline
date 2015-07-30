@@ -48,7 +48,7 @@ RUN \
  && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2 \
 
 # Spark After Dark Sample WebApp
- && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
+ && ln -s ~/pipeline/config/sparkafterdark/sparkafterdark.conf /etc/apache2/sites-available \
  && a2ensite sparkafterdark \ 
  && ln -s ~/pipeline/datasets ~/pipeline/html/sparkafterdark.com \
 # Everything parent of ~/pipeline/html is required to serve up the html
