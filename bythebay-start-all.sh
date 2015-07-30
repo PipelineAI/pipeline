@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#echo Starting ElasticSearch
-#service elasticsearch start
+echo Starting ElasticSearch
+service elasticsearch start
 
 #echo Starting Logstash
 #nohup ~/logstash-1.5.2/bin/logstash agent -f ~/pipeline/config/logstash/logstash.conf &

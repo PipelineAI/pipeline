@@ -58,5 +58,5 @@ service mysql stop
 #echo Stopping Logstash
 #~/logstash-1.5.2/bin/logstash agent stop
 
-#echo Stopping ElasticSearch 
-#service elasticsearch stop
+echo Stopping ElasticSearch 
+service elasticsearch stop
