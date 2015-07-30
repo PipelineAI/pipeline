@@ -67,7 +67,6 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
- && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-fluxcapacitor/lib \
  && service mysql start \
  && mysqladmin -u root password password \
  && service mysql stop \
@@ -113,6 +112,7 @@ RUN \
  && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-fluxcapacitor/conf \
  && ln -s ~/pipeline/config/spark/metrics.properties ~/spark-1.4.1-bin-fluxcapacitor/conf \
  && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/spark-1.4.1-bin-fluxcapacitor/conf \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-fluxcapacitor/lib \
 
 # Apache Zeppelin
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
