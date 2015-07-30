@@ -54,6 +54,15 @@ RUN \
 # Everything parent of ~/pipeline/html is required to serve up the html
  && chmod -R a+rx ~ \
 
+# Ganglia
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
+ && ln -s ~/pipeline/config/ganglia/ganglia.conf /etc/apache2/sites-available \
+ && a2ensite ganglia \
+ && mv /etc/ganglia/gmetad.conf /etc/ganglia/gmetad.conf.orig \
+ && mv /etc/ganglia/gmond.conf /etc/ganglia/gmond.conf.orig \
+ && ln -s ~/pipeline/config/ganglia/gmetad.conf /etc/ganglia \
+ && ln -s ~/pipeline/config/ganglia/gmond.conf /etc/ganglia \
+
 # MySql (Required by Hive Metastore)
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \

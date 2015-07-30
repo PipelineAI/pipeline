@@ -9,6 +9,10 @@ nohup ~/logstash-1.5.2/bin/logstash agent -f ~/pipeline/config/logstash/logstash
 echo Starting SSH
 service ssh start
 
+echo Ganglia
+service ganglia-monitor start 
+service gmetad start
+
 echo Starting Apache2 Httpd
 service apache2 start
 

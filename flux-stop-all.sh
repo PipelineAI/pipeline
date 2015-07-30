@@ -39,8 +39,12 @@ service redis-server stop
 echo Stopping Cassandra
 service cassandra stop
 
-echo Stopping Apache2
+echo Stopping Apache2 Httpd
 service apache2 stop
+
+echo Stopping Ganglia
+service gmetad stop
+service ganglia-monitor stop
 
 echo Stoppig SSH
 service ssh stop
