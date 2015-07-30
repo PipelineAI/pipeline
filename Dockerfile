@@ -122,6 +122,7 @@ RUN \
  && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/lib \
 
 # Tachyon (Required by Spark Notebook)
  && wget https://github.com/amplab/tachyon/releases/download/v0.7.0/tachyon-0.7.0-bin.tar.gz \
