@@ -38,17 +38,17 @@ echo Starting Apache Zeppelin
 nohup ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh start
 
 echo Starting Apache Spark Master
-nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1 
+nohup ~/spark-1.4.1-bin-fluxcapacitor/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1 
 
 echo Starting Apache Spark Worker
-nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077 
+nohup ~/spark-1.4.1-bin-fluxcapacitor/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077 
 
 # Spark ThriftServer
 ## MySql must be started - and the password set - before ThriftServer will startup
 ## Starting the ThriftServer will create a dummy derby.log and metastore_db per https://github.com/apache/spark/pull/6314
 ## The actual Hive metastore defined in conf/hive-site.xml is still used, however.
 echo Starting Apache Spark JDBC/ODBC Hive ThriftServer
-nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-thriftserver.sh --master spark://127.0.0.1:7077
+nohup ~/spark-1.4.1-bin-fluxcapacitor/sbin/start-thriftserver.sh --master spark://127.0.0.1:7077
 
 echo Starting Tachyon
 nohup ~/tachyon-0.7.0/bin/tachyon format

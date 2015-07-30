@@ -13,16 +13,16 @@ echo Stopping Kafka REST Proxy
 kafka-rest-stop ~/pipeline/config/kafka-rest/kafka-rest.properties
 
 echo Stopping Apache Zeppelin
-~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh --config ~/pipeline/config/zeppelin stop 
+~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh stop 
 
 echo Stopping Apache Spark Master
-~/spark-1.4.1-bin-hadoop2.6/sbin/stop-master.sh --webui-port 6060 
+~/spark-1.4.1-bin-hadoop2.6-fluxcapacitor/sbin/stop-master.sh --webui-port 6060 
 
 echo Stopping Apache Spark Worker
-~/spark-1.4.1-bin-hadoop2.6/sbin/stop-slave.sh --webui-port 6061
+~/spark-1.4.1-bin-hadoop2.6-fluxcapacitor/sbin/stop-slave.sh --webui-port 6061
 
 echo Stopping Apache Spark JDBC/ODBC Hive ThriftServer
-~/spark-1.4.1-bin-hadoop2.6/sbin/stop-thriftserver.sh  
+~/spark-1.4.1-bin-hadoop2.6-fluxcapacitor/sbin/stop-thriftserver.sh  
 
 echo Stopping Tachyon
 ~/tachyon-0.7.0/bin/tachyon-stop.sh 

@@ -67,7 +67,7 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
- && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-fluxcapacitor/lib \
  && service mysql start \
  && mysqladmin -u root password password \
  && service mysql stop \
@@ -106,17 +106,18 @@ RUN \
  && apt-get install -y elasticsearch \
 
 # Apache Spark
- && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
- && tar xvzf spark-1.4.1-bin-hadoop2.6.tgz \
- && rm spark-1.4.1-bin-hadoop2.6.tgz \
- && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf \
- && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-hadoop2.6/conf \
- && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-1.4.1-bin-fluxcapacitor.tgz \
+ && rm spark-1.4.1-bin-fluxcapacitor.tgz \
+ && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-fluxcapacitor/conf \
+ && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-fluxcapacitor/conf \
+ && ln -s ~/pipeline/config/spark/metrics.properties ~/spark-1.4.1-bin-fluxcapacitor/conf \
+ && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/spark-1.4.1-bin-fluxcapacitor/conf \
 
 # Apache Zeppelin
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
- && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
- && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
+ && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
+ && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
  && ln -s ~/pipeline/config/zeppelin/zeppelin-env.sh ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
