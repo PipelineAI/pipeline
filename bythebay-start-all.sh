@@ -13,8 +13,8 @@ service ssh start
 #service ganglia-monitor start 
 #service gmetad start
 
-echo Starting Apache2 Httpd
-service apache2 start
+#echo Starting Apache2 Httpd
+#service apache2 start
 
 echo Starting MySQL
 service mysql start
