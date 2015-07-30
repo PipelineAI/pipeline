@@ -39,6 +39,30 @@ RUN \
 # Supervisor
  && apt-get install -y supervisor \
 
+# Apache2 Httpd
+ && apt-get install -y apache2 \
+ && a2enmod proxy \
+ && a2enmod proxy_http \
+ && a2dissite 000-default \
+ && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
+ && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2 \
+
+# Spark After Dark Sample WebApp
+ && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
+ && a2ensite sparkafterdark \ 
+ && ln -s ~/pipeline/datasets ~/pipeline/html/sparkafterdark.com \
+# Everything parent of ~/pipeline/html is required to serve up the html
+ && chmod -R a+rx ~ \
+
+# MySql (Required by Hive Metastore)
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
+ && apt-get install -y mysql-client \
+ && apt-get install -y libmysql-java \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib \
+ && service mysql start \
+ && mysqladmin -u root password password \
+ && service mysql stop \
+
 # Python Data Science Libraries
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-numpy \
@@ -72,13 +96,6 @@ RUN \
 # ElasticSearch
  && apt-get install -y elasticsearch \
 
-# Apache Maven 3.2.1+ (Required by Apache Zeppelin)
-# && apt-get remove maven \
-# && wget http://ppa.launchpad.net/natecarlson/maven3/ubuntu/pool/main/m/maven3/maven3_3.2.1-0~ppa1_all.deb \
-# && gdebi -n maven3_3.2.1-0~ppa1_all.deb \
-# && ln -s /usr/share/maven3/bin/mvn /usr/bin/mvn \
-# && rm maven3_3.2.1-0~ppa1_all.deb \
-
 # Apache Spark
  && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
  && tar xvzf spark-1.4.1-bin-hadoop2.6.tgz \
@@ -87,25 +104,7 @@ RUN \
  && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-hadoop2.6/conf \
  && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf \
 
-# MySql (Required by Hive Metastore)
- && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
- && apt-get install -y mysql-client \
- && apt-get install -y libmysql-java \
- && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib \
- && service mysql start \
- && mysqladmin -u root password password \
- && service mysql stop \ 
-
-# Node.js (Required by Apache Zeppelin)
-# && curl -sL https://deb.nodesource.com/setup | bash - \
-# && apt-get install -y nodejs \
-# && apt-get install -y build-essential \
-
 # Apache Zeppelin
-# && git clone -b branch-0.5 --single-branch https://github.com/apache/incubator-zeppelin.git \
-# && cd incubator-zeppelin \
-# && mvn install -DskipTests -Dspark.version=1.4.1 -Dhadoop.version=2.6.0 \
-# && cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
@@ -113,16 +112,6 @@ RUN \
  && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
  && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
-
-# SBT (Required by Spark Job Server)
-# && apt-get install -y --force-yes sbt \
-# && echo 'Installing sbt.  WARNING:  This may take 3-5 minutes without showing any progress.' \
-# && sbt \
-
-# Spark Job Server
-# && git clone https://github.com/spark-jobserver/spark-jobserver.git \
-# && git clone https://github.com/spark-jobserver/spark-jobserver-frontend.git \
-# && export VER='sbt version | tail -1 | cut -f' \
 
 # Tachyon (Required by Spark Notebook)
  && wget https://github.com/amplab/tachyon/releases/download/v0.7.0/tachyon-0.7.0-bin.tar.gz \
@@ -153,19 +142,6 @@ RUN \
  && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
  && tar xvzf hadoop-2.6.0.tar.gz \
  && rm hadoop-2.6.0.tar.gz \
-
-# Apache2 Httpd
- && apt-get install -y apache2 \
- && a2enmod proxy \
- && a2enmod proxy_http \
- && ln -s ~/pipeline/config/apache2/sites-available/sparkafterdark.conf /etc/apache2/sites-available \
- && a2ensite sparkafterdark \
- && a2dissite 000-default \
- && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
- && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2 \
- && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
-# Everything parent of ~/pipeline/html is required to serve up the html
- && chmod -R a+rx ~ \
 
 # Netflix Hystrix
 # && git clone https://github.com/Netflix/Hystrix.git \

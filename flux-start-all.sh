@@ -31,7 +31,7 @@ echo Starting Kafka
 nohup kafka-server-start ~/pipeline/config/kafka/server.properties &
 
 echo Starting Apache Zeppelin
-nohup ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh --config ~/pipeline/config/zeppelin start
+nohup ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/bin/zeppelin-daemon.sh start
 
 echo Starting Apache Spark Master
 nohup ~/spark-1.4.1-bin-hadoop2.6/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1 
