@@ -21,8 +21,8 @@ echo Stopping Apache Spark Worker
 echo Stopping Apache Spark JDBC/ODBC Hive ThriftServer
 ~/spark-1.4.1-bin-fluxcapacitor/sbin/stop-thriftserver.sh  
 
-echo Stopping Tachyon
-~/tachyon-0.7.0/bin/tachyon-stop.sh 
+#echo Stopping Tachyon
+#~/tachyon-0.7.0/bin/tachyon-stop.sh 
 
 echo Stopping ZooKeeper
 zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties
@@ -30,11 +30,11 @@ zookeeper-server-stop ~/pipeline/config/kafka/zookeeper.properties
 echo Stopping Spark-Notebook
 kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID ) && rm -rf ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/RUNNING_PID
 
-# Stopping Neo4j
+#Stopping Neo4j
 #service neo4j-service stop
 
-echo Stopping Redis Server
-service redis-server stop
+#echo Stopping Redis Server
+#service redis-server stop
 
 echo Stopping Cassandra
 service cassandra stop
@@ -42,9 +42,9 @@ service cassandra stop
 echo Stopping Apache2 Httpd
 service apache2 stop
 
-echo Stopping Ganglia
-service gmetad stop
-service ganglia-monitor stop
+#echo Stopping Ganglia
+#service gmetad stop
+#service ganglia-monitor stop
 
 echo Stoppig SSH
 service ssh stop
@@ -58,5 +58,5 @@ service mysql stop
 #echo Stopping Logstash
 #~/logstash-1.5.2/bin/logstash agent stop
 
-echo Stopping ElasticSearch 
-service elasticsearch stop
+#echo Stopping ElasticSearch 
+#service elasticsearch stop

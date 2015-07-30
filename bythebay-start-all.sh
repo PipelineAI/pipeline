@@ -1,17 +1,17 @@
 #!/bin/bash
 
-echo Starting ElasticSearch
-service elasticsearch start
+#echo Starting ElasticSearch
+#service elasticsearch start
 
-echo Starting Logstash
-nohup ~/logstash-1.5.2/bin/logstash agent -f ~/pipeline/config/logstash/logstash.conf &
+#echo Starting Logstash
+#nohup ~/logstash-1.5.2/bin/logstash agent -f ~/pipeline/config/logstash/logstash.conf &
 
 echo Starting SSH
 service ssh start
 
-echo Ganglia
-service ganglia-monitor start 
-service gmetad start
+#echo Ganglia
+#service ganglia-monitor start 
+#service gmetad start
 
 echo Starting Apache2 Httpd
 service apache2 start
@@ -19,8 +19,8 @@ service apache2 start
 echo Starting MySQL
 service mysql start
 
-echo Starting Redis
-service redis-server start
+#echo Starting Redis
+#service redis-server start
 
 #echo Starting Neo4j
 #service neo4j-service start
@@ -50,15 +50,15 @@ nohup ~/spark-1.4.1-bin-fluxcapacitor/sbin/start-slave.sh --webui-port 6061 spar
 echo Starting Apache Spark JDBC/ODBC Hive ThriftServer
 nohup ~/spark-1.4.1-bin-fluxcapacitor/sbin/start-thriftserver.sh --master spark://127.0.0.1:7077
 
-echo Starting Tachyon
-nohup ~/tachyon-0.7.0/bin/tachyon format
-nohup ~/tachyon-0.7.0/bin/tachyon-start.sh local   
+#echo Starting Tachyon
+#nohup ~/tachyon-0.7.0/bin/tachyon format
+#nohup ~/tachyon-0.7.0/bin/tachyon-start.sh local   
 
 echo Starting Spark-Notebook
 nohup ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet/bin/spark-notebook -Dconfig.file=/root/pipeline/config/spark-notebook/application-pipeline.conf &
 
-echo Starting Kibana
-nohup ~/kibana-4.1.1-linux-x64/bin/kibana &
+#echo Starting Kibana
+#nohup ~/kibana-4.1.1-linux-x64/bin/kibana &
 
 # Starting this at the end due to race conditions with other kafka components
 echo Starting Kafka Schema Registry
