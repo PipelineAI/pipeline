@@ -23,7 +23,7 @@ echo Starting Redis
 service redis-server start
 
 echo Starting Neo4j
-service neo4j-service start
+#service neo4j-service start
 
 echo Starting Cassandra
 service cassandra start
@@ -63,6 +63,7 @@ nohup ~/kibana-4.1.1-linux-x64/bin/kibana &
 # Starting this at the end due to race conditions with other kafka components
 echo Starting Kafka Schema Registry
 nohup schema-registry-start ~/pipeline/config/schema-registry/schema-registry.properties &
+
 echo Starting Kafka REST Proxy
 nohup kafka-rest-start ~/pipeline/config/kafka-rest/kafka-rest.properties &
 
