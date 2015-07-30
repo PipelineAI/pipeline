@@ -83,15 +83,15 @@ RUN \
  && wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz \
  && tar xvzf spark-1.4.1-bin-hadoop2.6.tgz \
  && rm spark-1.4.1-bin-hadoop2.6.tgz \
- && ln -s ~/pipeline/config/spark/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf/hive-site.xml \
- && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf/spark-defaults.conf \
- && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-hadoop2.6/conf/spark-env.sh \
+ && ln -s ~/pipeline/config/spark/spark-defaults.conf ~/spark-1.4.1-bin-hadoop2.6/conf \
+ && ln -s ~/pipeline/config/spark/spark-env.sh ~/spark-1.4.1-bin-hadoop2.6/conf \
+ && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/spark-1.4.1-bin-hadoop2.6/conf \
 
 # MySql (Required by Hive Metastore)
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
- && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib/mysql-connector-java-5.1.28.jar \
+ && ln -s /usr/share/java/mysql-connector-java-5.1.28.jar ~/spark-1.4.1-bin-hadoop2.6/lib \
  && service mysql start \
  && mysqladmin -u root password password \
  && service mysql stop \ 
@@ -109,9 +109,10 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
  && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0.tar.gz \
- && ln -s ~/pipeline/config/zeppelin/zeppelin-env.sh ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
- && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
- && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf/ \
+ && ln -s ~/pipeline/config/zeppelin/zeppelin-env.sh ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
+ && ln -s ~/pipeline/config/zeppelin/zeppelin-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
+ && ln -s ~/pipeline/config/zeppelin/interpreter.json ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
+ && ln -s ~/pipeline/config/hadoop/hive-site.xml ~/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0/conf \
 
 # SBT (Required by Spark Job Server)
 # && apt-get install -y --force-yes sbt \
@@ -127,7 +128,7 @@ RUN \
  && wget https://github.com/amplab/tachyon/releases/download/v0.7.0/tachyon-0.7.0-bin.tar.gz \
  && tar xvfz tachyon-0.7.0-bin.tar.gz \
  && rm tachyon-0.7.0-bin.tar.gz \
- && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.7.0/conf/tachyon-env.sh \
+ && ln -s ~/pipeline/config/tachyon/tachyon-env.sh ~/tachyon-0.7.0/conf \
 
 # Spark Notebook
  && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
@@ -161,7 +162,7 @@ RUN \
  && a2ensite sparkafterdark \
  && a2dissite 000-default \
  && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
- && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2/ \
+ && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2 \
  && ln -s ~/pipeline/datasets/ ~/pipeline/html/sparkafterdark.com \
 # Everything parent of ~/pipeline/html is required to serve up the html
  && chmod -R a+rx ~ \
