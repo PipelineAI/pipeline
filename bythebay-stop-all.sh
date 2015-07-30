@@ -38,6 +38,7 @@ kill -9 $(cat ~/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-
 
 echo Stopping Cassandra
 service cassandra stop
+service nodetool disablethrift
 
 #echo Stopping Apache2 Httpd
 #service apache2 stop

@@ -38,6 +38,7 @@ service redis-server stop
 
 echo Stopping Cassandra
 service cassandra stop
+nodetool disablethrift
 
 echo Stopping Apache2 Httpd
 service apache2 stop

@@ -27,6 +27,7 @@ service redis-server start
 
 echo Starting Cassandra
 service cassandra start
+nodetool enablethrift start
 
 echo Starting ZooKeeper
 nohup zookeeper-server-start ~/pipeline/config/kafka/zookeeper.properties &
