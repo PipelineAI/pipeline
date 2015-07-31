@@ -5,20 +5,21 @@ ENV SCALA_VERSION=2.10.4
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979 4040
 
 RUN \
- apt-get install -y curl \
+ apt-get update \
+ && apt-get install -y curl \
  && apt-get install -y wget \
- && curl -L http://debian.datastax.com/debian/repo_key | apt-key add - \
- && echo "deb http://debian.datastax.com/community stable main" | tee -a /etc/apt/sources.list.d/cassandra.sources.list \
- && wget -qO - http://packages.confluent.io/deb/1.0/archive.key | apt-key add - \
- && echo "deb [arch=all] http://packages.confluent.io/deb/1.0 stable main" | tee -a /etc/apt/sources.list.d/confluent-platform-1.0.sources.list \
- && wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
- && echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.6.sources.list \
- && echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
- && wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add - \
- && echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list \
- && echo 'deb http://packages.elasticsearch.org/logstash/1.5/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash.list \
+# && curl -L http://debian.datastax.com/debian/repo_key | apt-key add - \
+# && echo "deb http://debian.datastax.com/community stable main" | tee -a /etc/apt/sources.list.d/cassandra.sources.list \
+# && wget -qO - http://packages.confluent.io/deb/1.0/archive.key | apt-key add - \
+# && echo "deb [arch=all] http://packages.confluent.io/deb/1.0 stable main" | tee -a /etc/apt/sources.list.d/confluent-platform-1.0.sources.list \
+# && wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+# && echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.6.sources.list \
+# && echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+# && wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add - \
+# && echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list \
+# && echo 'deb http://packages.elasticsearch.org/logstash/1.5/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash.list \
 
- && apt-get update \
+# && apt-get update \
 
 # Start in Home Dir (/root)
  && cd ~ \
@@ -34,10 +35,10 @@ RUN \
  && apt-get install -y default-jdk \
 
 # Debian Package Installer
- && apt-get install -y gdebi \
+# && apt-get install -y gdebi \
 
 # Supervisor
- && apt-get install -y supervisor \
+# && apt-get install -y supervisor \
 
 # Apache2 Httpd
  && apt-get install -y apache2 \
@@ -46,6 +47,7 @@ RUN \
  && a2dissite 000-default \
  && mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig \
  && ln -s ~/pipeline/config/apache2/apache2.conf /etc/apache2 \
+
 
 # Spark After Dark Sample WebApp
  && ln -s ~/pipeline/config/sparkafterdark/sparkafterdark.conf /etc/apache2/sites-available \
@@ -96,13 +98,22 @@ RUN \
  && rm kibana-4.1.1-linux-x64.tar.gz \
 
 # Apache Cassandra
- && apt-get install -y cassandra \
+# && apt-get install -y cassandra \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-1.2.0-bin.tar.gz \ 
+ && tar xvzf apache-cassandra-1.2.0-bin.tar.gz \
+ && rm apache-cassandra-1.2.0-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
- && apt-get install -y confluent-platform-${SCALA_VERSION} \
+# && apt-get install -y confluent-platform-${SCALA_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.4.zip \
+ && tar xvzf confluent-1.0-2.10.4.zip \
+ && rm confluent-1.0-2.10.4.zip \ 
 
 # ElasticSearch
- && apt-get install -y elasticsearch \
+# && apt-get install -y elasticsearch \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.zip \
+ && tar xvzf elasticsearch-1.7.1.zip \
+ && rm elasticsearch-1.7.1.zip \
 
 # Apache Spark
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
@@ -136,10 +147,10 @@ RUN \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
 
 # Redis
- && apt-get install -y redis-server \
-
-# Neo4j
- && apt-get install -y neo4j \
+# && apt-get install -y redis-server \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-3.0.3.tar.gz \
+ && tar -xzvf redis-3.0.3.tar.gz \
+ && rm redis-3.0.3.tar.gz \
 
 # SSH
  && apt-get install -y openssh-server \
