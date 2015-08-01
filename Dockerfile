@@ -34,6 +34,7 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
 # MySql (Required by Hive Metastore)
+# Generic Install?  http://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
