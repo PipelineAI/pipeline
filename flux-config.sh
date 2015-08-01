@@ -42,7 +42,7 @@ ln -s $PIPELINE_HOME/config/ganglia/gmond.conf /etc/ganglia
 # MySQL (Required by HiveQL Exercises)
 echo Configurating MySQL
 service mysql start 
-mysqladmin -u root password password 
+mysqladmin -u root -p password 
 service mysql stop 
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java-5.1.28.jar
 
