@@ -27,15 +27,16 @@ RUN \
 # Java
  && apt-get install -y default-jdk \
 
+# Apache2 Httpd
+ && apt-get install -y apache2 \
+
 # SBT
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
  && ../sbt/bin/sbt \
-
-# Apache2 Httpd
- && apt-get install -y apache2 \
+ && cd ~ \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \

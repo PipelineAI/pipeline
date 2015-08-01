@@ -8,4 +8,4 @@ export DATA_HOME=~
 export LOGS_HOME=~
 
 # Pipeline Home
-export PIPELINE_HOME=~/workspace-fluxcapacitor/pipeline
+export PIPELINE_HOME=~/pipeline

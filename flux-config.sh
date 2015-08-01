@@ -54,6 +54,7 @@ export PATH=$PATH:$CASSANDRA_HOME/bin
 # Spark 
 echo Configuring Spark
 export SPARK_HOME=$DEV_INSTALL_HOME/spark-1.4.1-bin-fluxcapacitor
+export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-1.4.1-hadoop2.6.0.jar
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf 
 ln -s $PIPELINE_HOME/config/spark/spark-env.sh $SPARK_HOME/conf 
