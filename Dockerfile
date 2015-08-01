@@ -110,3 +110,9 @@ RUN \
  && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
  && tar xvzf hadoop-2.6.0.tar.gz \
  && rm hadoop-2.6.0.tar.gz \
+
+# SBT and Application Dependencies
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.zip
+ && unzip sbt-0.13.8.zip
+ && rm sbt-0.13.8.zip 
+ && sbt/sbt
