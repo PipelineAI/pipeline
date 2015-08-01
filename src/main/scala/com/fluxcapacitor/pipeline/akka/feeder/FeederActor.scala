@@ -26,7 +26,7 @@ class FeederActor extends Actor with ActorLogging with FeederExtensionActor {
     case SendNextLine if dataIter.hasNext =>
       val nxtRating = dataIter.next()
       log.info(s"Sending next rating: $nxtRating")
-      feederExtension.producer.send(new KeyedMessage[String, String](feederExtension.kafkaTopic, nxtRating))
+      feederExtension.producer.send(new KeyedMessage[String, String](feederExtension.kafkaTopic, nxtRating.split(",")(0), nxtRating))
 
   }
 

@@ -32,7 +32,7 @@ RUN \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
- && ../sbt/bin/sbt run \
+ && ../sbt/bin/sbt \
 
 # Apache2 Httpd
  && apt-get install -y apache2 \
@@ -61,9 +61,9 @@ RUN \
  && apt-get install -y r-base-dev \
 
 # Logstash
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/logstash-1.5.2.tar.gz \
- && tar xvzf logstash-1.5.2.tar.gz \
- && rm logstash-1.5.2.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/logstash-1.5.3.tar.gz \
+ && tar xvzf logstash-1.5.3.tar.gz \
+ && rm logstash-1.5.3.tar.gz \
 
 # Kibana 
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/kibana-4.1.1-linux-x64.tar.gz \
@@ -72,18 +72,18 @@ RUN \
 
 # Apache Cassandra
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-2.2.0-bin.tar.gz \ 
- && tar xvzf apache-cassandra-1.2.0-bin.tar.gz \
- && rm apache-cassandra-1.2.0-bin.tar.gz \
+ && tar xvzf apache-cassandra-2.2.0-bin.tar.gz \
+ && rm apache-cassandra-2.2.0-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.tar.gz \
- && tar xvzf confluent-1.0-2.10.4.zip \
- && rm confluent-1.0-2.10.4.zip \ 
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.4.tar.gz \
+ && tar xvzf confluent-1.0-2.10.4.tar.gz \
+ && rm confluent-1.0-2.10.4.tar.gz \ 
 
 # ElasticSearch
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
- && tar xvzf elasticsearch-1.7.1.zip \
- && rm elasticsearch-1.7.1.zip \
+ && tar xvzf elasticsearch-1.7.1.tar.gz \
+ && rm elasticsearch-1.7.1.tar.gz \
 
 # Apache Spark
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
@@ -101,7 +101,7 @@ RUN \
  && rm tachyon-0.6.4-bin.tar.gz \
 
 # Spark Notebook
- && wget https://s3.eu-central-1.amazonaws.com/spark-notebook/pipeline/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && tar xvzf spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
 

@@ -13,5 +13,7 @@ libraryDependencies ++= Seq(
     exclude("javax.jms", "jms")
     exclude("com.sun.jdmk", "jmxtools")
     exclude("com.sun.jmx", "jmxri"),
-  "org.apache.spark" % "spark-streaming-kafka-assembly_2.10" % "1.4.1"
+  "org.apache.spark" % "spark-sql_2.10" % "1.4.1",
+  "org.apache.spark" % "spark-streaming_2.10" % "1.4.1",
+  "org.apache.spark" % "spark-streaming-kafka_2.10" % "1.4.1"
 )
