@@ -23,8 +23,8 @@ export ZEPPELIN_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1      # Add
 # export ZEPPELIN_INTP_MEM       # zeppelin interpreter process jvm mem options. Default = ZEPPELIN_MEM
 # export ZEPPELIN_INTP_JAVA_OPTS # zeppelin interpreter process jvm options. Default = ZEPPELIN_JAVA_OPTS
 
-# export ZEPPELIN_LOG_DIR        # Where log files are stored.  PWD by default.
-# export ZEPPELIN_PID_DIR        # The pid files are stored. /tmp by default.
+export ZEPPELIN_LOG_DIR=$LOGS_HOME/zeppelin        # Where log files are stored.  PWD by default.
+#export ZEPPELIN_PID_DIR=        # The pid files are stored. /tmp by default.
 export ZEPPELIN_NOTEBOOK_DIR=/root/pipeline/notebooks/zeppelin   # Where notebook saved
 # export ZEPPELIN_IDENT_STRING   # A string representing this instance of zeppelin. $USER by default.
 # export ZEPPELIN_NICENESS       # The scheduling priority for daemons. Defaults to 0.

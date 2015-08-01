@@ -63,7 +63,7 @@ export TACHYON_WORKER_SLEEP="0.02"
 #export TACHYON_PREPEND_TACHYON_CLASSES="yes"
 
 # Where log files are stored. $TACHYON_HOME/logs by default.
-#export TACHYON_LOGS_DIR=$TACHYON_HOME/logs
+export TACHYON_LOGS_DIR=$LOGS_HOME/tachyon
 
 CONF_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -80,11 +80,11 @@ export TACHYON_JAVA_OPTS+="
   -Dtachyon.worker.max.worker.threads=$TACHYON_WORKER_MAX_WORKER_THREADS
   -Dtachyon.workers.folder=$TACHYON_UNDERFS_ADDRESS/tmp/tachyon/workers
   -Dtachyon.worker.memory.size=$TACHYON_WORKER_MEMORY_SIZE
-  -Dtachyon.worker.data.folder=/tachyonworker/
+  -Dtachyon.worker.data.folder=$DATA_HOME/tachyon/tachyonworker/
   -Dtachyon.master.max.worker.threads=$TACHYON_MASTER_MAX_WORKER_THREADS
   -Dtachyon.master.worker.timeout.ms=60000
   -Dtachyon.master.hostname=$TACHYON_MASTER_ADDRESS
-  -Dtachyon.master.journal.folder=$TACHYON_HOME/journal/
+  -Dtachyon.master.journal.folder=$DATA_HOME/tachyon/journal/
   -Dorg.apache.jasper.compiler.disablejsr199=true
   -Djava.net.preferIPv4Stack=true
 "

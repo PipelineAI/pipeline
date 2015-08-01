@@ -1,5 +1,7 @@
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+data
+logs
+target
+project
+metastore_db
+derby.log
+nohup.log
