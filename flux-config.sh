@@ -19,7 +19,9 @@ ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
 
 # Datasets
 echo Configuring Datasets
+bzip2 -d -k datasets/dating/gender.json.bz2
 bzip2 -d -k datasets/dating/gender.csv.bz2
+bzip2 -d -k datasets/dating/ratings.json.bz2
 bzip2 -d -k datasets/dating/ratings.csv.bz2
 
 # Spark After Dark Sample WebApp

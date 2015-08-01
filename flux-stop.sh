@@ -23,8 +23,8 @@ $SPARK_HOME/sbin/stop-slave.sh --webui-port 6061
 echo Stopping Apache Spark JDBC/ODBC Hive ThriftServer
 $SPARK_HOME/sbin/stop-thriftserver.sh  
 
-echo Stopping Tachyon
-$TACHYON_HOME/bin/tachyon-stop.sh 
+#echo Stopping Tachyon
+#$TACHYON_HOME/bin/tachyon-stop.sh 
 
 echo Stopping ZooKeeper
 zookeeper-server-stop 
