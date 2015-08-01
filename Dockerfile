@@ -99,20 +99,21 @@ RUN \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
 
 # Redis
-# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-3.0.3.tar.gz \
-# && tar -xzvf redis-3.0.3.tar.gz \
-# && rm redis-3.0.3.tar.gz \
-# && cd redis-3.0.3
-# && make
-# && cd ~
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-3.0.3.tar.gz \
+ && tar -xzvf redis-3.0.3.tar.gz \
+ && rm redis-3.0.3.tar.gz \
+ && cd redis-3.0.3 \
+ && make \
+ && cd ~ \
 
 # Apache Hadoop
  && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
  && tar xvzf hadoop-2.6.0.tar.gz \
  && rm hadoop-2.6.0.tar.gz \
 
-# SBT and Application Dependencies
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.zip
- && unzip sbt-0.13.8.zip
- && rm sbt-0.13.8.zip 
- && sbt/sbt
+# SBT and Pre-Fetching Pipeline SampleApp Dependencies
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.zip \
+ && unzip sbt-0.13.8.zip \
+ && rm sbt-0.13.8.zip \ 
+ && cd pipeline \
+ && sbt/sbt \
