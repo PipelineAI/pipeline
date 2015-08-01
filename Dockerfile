@@ -27,6 +27,13 @@ RUN \
 # Java
  && apt-get install -y default-jdk \
 
+# SBT
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
+ && tar xvzf sbt-0.13.8.tgz \
+ && rm sbt-0.13.8.tgz \
+ && cd pipeline \
+ && ../sbt/bin/sbt run \
+
 # Apache2 Httpd
  && apt-get install -y apache2 \
 
@@ -54,12 +61,12 @@ RUN \
  && apt-get install -y r-base-dev \
 
 # Logstash
- && wget https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/logstash-1.5.2.tar.gz \
  && tar xvzf logstash-1.5.2.tar.gz \
  && rm logstash-1.5.2.tar.gz \
 
 # Kibana 
- && wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/kibana-4.1.1-linux-x64.tar.gz \
  && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
  && rm kibana-4.1.1-linux-x64.tar.gz \
 
@@ -69,12 +76,12 @@ RUN \
  && rm apache-cassandra-1.2.0-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.4.zip \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.tar.gz \
  && tar xvzf confluent-1.0-2.10.4.zip \
  && rm confluent-1.0-2.10.4.zip \ 
 
 # ElasticSearch
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.zip \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
  && tar xvzf elasticsearch-1.7.1.zip \
  && rm elasticsearch-1.7.1.zip \
 
@@ -107,13 +114,7 @@ RUN \
  && cd ~ \
 
 # Apache Hadoop
- && wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-2.6.0.tar.gz \
  && tar xvzf hadoop-2.6.0.tar.gz \
  && rm hadoop-2.6.0.tar.gz \
 
-# SBT and Pre-Fetching Pipeline SampleApp Dependencies
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.zip \
- && unzip sbt-0.13.8.zip \
- && rm sbt-0.13.8.zip \ 
- && cd pipeline \
- && sbt/sbt \
