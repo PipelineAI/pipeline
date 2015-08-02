@@ -24,7 +24,7 @@ echo ...Creating HDFS...
 hdfs namenode -format
 
 echo ...Creating Reference Data in Hive...
-#spark-sql -e 'DROP TABLE IF EXISTS gender_json_file'
-spark-sql -e 'CREATE TABLE gender_json_file(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/gender.json.bz2")'
-#spark-sql -e 'DROP TABLE IF EXISTS likes_parquet_file'
-spark-sql -e 'CREATE TABLE likes_parquet_file(from_user_id INT, to_user_id INT) USING org.apache.spark.sql.parquet OPTIONS (path "datasets/sparkafterdark/likes.parquet")'
+#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS gender_json_file'
+spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE gender_json_file(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/gender.json.bz2")'
+#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS likes_parquet_file'
+spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE likes_parquet_file(from_user_id INT, to_user_id INT) USING org.apache.spark.sql.parquet OPTIONS (path "datasets/sparkafterdark/likes.parquet")'
