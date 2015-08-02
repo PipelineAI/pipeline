@@ -24,10 +24,9 @@ RUN \
 # SSH
  && apt-get install -y openssh-server \
 
-# .bash_profile Shell Environment Variables
- && ln -s ~/pipeline/config/bash/.bash_profile ~ \
- && mv ~/.bashrc ~/.bashrc.orig \
- && ln -s ~/pipeline/config/bash/.bashrc ~ \
+# .profile Shell Environment Variables
+ && mv ~/.profile ~/.profile.orig \
+ && ln -s ~/pipeline/config/bash/.profile ~ \
 
 # Java
  && apt-get install -y default-jdk \
