@@ -6,6 +6,7 @@ mkdir -p ~/.ssh
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/id_rsa 
+chmod 600 ~/.ssh/id_rsa.pub
 
 # Apache Httpd
 echo ...Configuring Apache Httpd...
