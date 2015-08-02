@@ -1,10 +1,11 @@
 # SSH
 echo Configuring SSH
 service ssh start 
-ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa \
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys \
-chmod 600 ~/.ssh/authorized_keys \
-chmod 600 ~/.ssh/id_rsa \
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa 
+mkdir -p ~/.ssh 
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
+chmod 600 ~/.ssh/authorized_keys 
+chmod 600 ~/.ssh/id_rsa 
 service ssh stop
 
 # Apache Httpd
