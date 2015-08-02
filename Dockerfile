@@ -26,6 +26,7 @@ RUN \
 
 # .bash_profile Shell Environment Variables
  && ln -s ~/pipeline/config/bash/.bash_profile ~ \
+ && mv ~/.bashrc ~/.bashrc.orig \
  && ln -s ~/pipeline/config/bash/.bashrc ~ \
 
 # Java
