@@ -1,12 +1,11 @@
 # SSH
-echo ...Configuring SSH...
+echo ...Configuring SSH Part 1 of 2...
 service ssh start 
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa 
 mkdir -p ~/.ssh 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/id_rsa 
-service ssh stop
 
 # Apache Httpd
 echo ...Configuring Apache Httpd...
@@ -77,6 +76,7 @@ echo ...Configuring Kibana...
 
 # Hadoop HDFS
 echo ...Configuring Hadoop HDFS...
+hdfs namenode -format
 
 # Redis
 echo ...Configuring Redis...
@@ -84,6 +84,9 @@ echo ...Configuring Redis...
 # Tachyon
 echo ...Configuring Tachyon...
 ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
+# The following command requies the SSH daemon to be running
+# If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
+tachyon format 
 
 # SBT
 echo ...Configuring SBT...
@@ -98,3 +101,8 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # Spark-Notebook
 echo ...Configuring Spark-Notebook...
+
+# SSH (Part 2/2)
+echo ...Configuring SSH Part 2 of 2
+# We need to keep the SSH service running for other services to be configured above
+service ssh stop

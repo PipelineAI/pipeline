@@ -10,6 +10,9 @@ export LOGS_HOME=~
 # Pipeline Home
 export PIPELINE_HOME=~/pipeline
 
+# Java Home
+export JAVA_HOME=/usr
+
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
 
