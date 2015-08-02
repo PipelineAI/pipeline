@@ -11,7 +11,7 @@ export LOGS_HOME=~
 export PIPELINE_HOME=~/pipeline
 
 # MySQL
-export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java-5.1.28.jar
+export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
 
 # Cassandra
 export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-2.2.0
