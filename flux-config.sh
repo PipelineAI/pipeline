@@ -17,7 +17,7 @@ mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
 ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2 
 
 # Datasets
-echo ...Configuring Datasets...
+echo ...Decompressing Datasets...
 bzip2 -d -k datasets/dating/gender.json.bz2
 bzip2 -d -k datasets/dating/gender.csv.bz2
 bzip2 -d -k datasets/dating/ratings.json.bz2
@@ -45,7 +45,7 @@ echo ...Configurating MySQL...
 service mysql start 
 mysqladmin -u root password "password"
 nohup service mysql stop 
-#export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java-5.1.28.jar
+echo ...Ignore the ERROR 2002 above...
 
 # Cassandra
 echo ...Configuring Cassandra...
