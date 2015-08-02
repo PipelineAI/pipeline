@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ./flux-setenv.sh
-
 echo Setting Up Kafka Topics
 kafka-topics --zookeeper localhost:2181 --create --topic ratings --partitions 1 --replication-factor 1
 kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ./flux-setenv.sh
-
 echo Starting ElasticSearch
 nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
 

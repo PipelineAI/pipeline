@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ./flux-setenv.sh
-
 echo Stopping Kafka
 kafka-server-stop 
 
