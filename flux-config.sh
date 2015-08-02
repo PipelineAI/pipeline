@@ -6,7 +6,6 @@ mkdir -p ~/.ssh
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/authorized_keys 
 chmod 600 ~/.ssh/id_rsa 
-chmod 600 ~/.ssh/id_rsa.pub
 
 # Apache Httpd
 echo ...Configuring Apache Httpd...
@@ -83,10 +82,13 @@ hdfs namenode -format
 echo ...Configuring Redis...
 
 # Tachyon
-echo ...Configuring Tachyon...
+ech ...Configuring Tachyon...
 ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # The following command requies the SSH daemon to be running
 # If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
+# We need to chmod the keys again - not sure why, but it works so let's keep it
+chmod 600 ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/id_rsa
 tachyon format 
 
 # SBT
