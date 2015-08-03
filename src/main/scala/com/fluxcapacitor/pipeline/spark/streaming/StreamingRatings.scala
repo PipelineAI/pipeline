@@ -18,8 +18,6 @@ object StreamingRatings {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
-      .set("spark.cassandra.connection.rpc.port", "9160")
-      .set("spark.cassandra.connection.native.port", "9042")
     
     val sc = SparkContext.getOrCreate(conf)
 
@@ -53,9 +51,12 @@ object StreamingRatings {
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
         dfWithBatchTime.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
-          .options(Map("keyspace" -> "fluxcapacitor", "table" -> "real_time_ratings"))
+          .options(Map("keyspace" -> "pipeline", "table" -> "real_time_ratings"))
           .save()
       }
     }
+
+    ssc.start()
+    ssc.awaitTermination()
   }
 }

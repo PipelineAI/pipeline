@@ -17,12 +17,17 @@ libraryDependencies ++= Seq(
     exclude("com.google.guava", "guava"),
   ("org.apache.spark" %% "spark-streaming" % Spark % "provided").
     exclude("com.google.guava", "guava"),
-  ("com.datastax.spark" %% "spark-cassandra-connector" % SparkCassandra withSources() withJavadoc()).
+  ("com.datastax.spark" %% "spark-cassandra-connector" % SparkCassandra).
     exclude("com.esotericsoftware.minlog", "minlog").
     exclude("commons-beanutils", "commons-beanutils").
     exclude("org.apache.spark", "spark-core").
-    exclude("com.google.guava", "guava"),
-  ("com.datastax.spark" %% "spark-cassandra-connector-java" % SparkCassandra withSources() withJavadoc()).
+    exclude("com.google.guava", "guava").
+    exclude("io.netty", "netty-handler").
+    exclude("io.netty", "netty-transport").
+    exclude("io.netty", "netty-buffer").
+    exclude("io.netty", "netty-codec").
+    exclude("io.netty", "netty-all"),
+  ("com.datastax.spark" %% "spark-cassandra-connector-java" % SparkCassandra).
     exclude("org.apache.spark", "spark-core").
     exclude("com.google.guava", "guava"),
   ("org.apache.kafka" %% "kafka" % Kafka).
@@ -38,7 +43,14 @@ libraryDependencies ++= Seq(
     exclude("commons-beanutils", "commons-beanutils")
     exclude("org.apache.hadoop", "hadoop-yarn-common"),
   "org.apache.spark" %% "spark-streaming-kafka" % Spark
-    exclude("com.google.guava", "guava")
+    exclude("com.google.guava", "guava"),
+  "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.6"
+    exclude("io.netty", "netty-buffer")
+    exclude("io.netty", "netty-codec")
+    exclude("io.netty", "netty-transport")
+    exclude("io.netty", "netty-handler")
+    exclude("io.netty", "netty-all")
+    exclude("org.slf4j", "slf4j-simple")
 )
 
 //We do this so that Spark Dependencies will not be bundled with our fat jar but will still be included on the classpath
@@ -52,13 +64,14 @@ mergeStrategy in assembly := {
   case PathList("META-INF", "mailcap", xs@_*) => MergeStrategy.discard
   case PathList("org", "apache", "commons", "collections", xs@_*) => MergeStrategy.first
   case PathList("org", "apache", "commons", "logging", xs@_*) => MergeStrategy.first
-  case PathList("org", "apache", "commons", "logging", xs@_*) => MergeStrategy.first
+  case PathList("com", "google", "common", "base", xs@_*) => MergeStrategy.first
   case PathList(ps@_*) if ps.last == "Driver.properties" => MergeStrategy.first
   case PathList(ps@_*) if ps.last == "plugin.properties" => MergeStrategy.discard
   case PathList(ps@_*) if ps.last == "log4j.properties" => MergeStrategy.first
   case PathList(ps@_*) if ps.last == "pom.properties" => MergeStrategy.discard
   case PathList(ps@_*) if ps.last == "pom.xml" => MergeStrategy.discard
   case PathList(ps@_*) if ps.last == "UnusedStubClass.class" => MergeStrategy.discard
+  case PathList(ps@_*) if ps.last == "io.netty.versions.properties" => MergeStrategy.discard
   case x =>
     val oldStrategy = (mergeStrategy in assembly).value
     oldStrategy(x)
