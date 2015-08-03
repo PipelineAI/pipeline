@@ -34,6 +34,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-sql_2.10" % "1.4.1"
     exclude("com.esotericsoftware.minlog", "minlog")
     exclude("com.google.guava", "guava")
+    exclude("io.dropwizard.metrics", "metrics-core")
     exclude("commons-beanutils", "commons-beanutils")
     exclude("org.apache.hadoop", "hadoop-yarn-common"),
   "org.apache.spark" %% "spark-streaming-kafka" % Spark
