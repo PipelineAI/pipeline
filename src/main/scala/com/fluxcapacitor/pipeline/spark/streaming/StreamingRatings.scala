@@ -46,7 +46,7 @@ object StreamingRatings {
         val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt)).toDF("fromuserid", "touserid", "rating")
       
         // add the batch time to the DataFrame
-        val dfWithBatchTime = df.withColumn("batch_time", batchTime.milliseconds)
+        val dfWithBatchTime = df.withColumn("batch_time", org.apache.spark.sql.functions.lit(batchTime.milliseconds))
       
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
