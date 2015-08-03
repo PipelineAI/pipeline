@@ -46,12 +46,12 @@ object StreamingRatings {
         val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt)).toDF("fromuserid", "touserid", "rating")
       
         // add the batch time to the DataFrame
-//        val dfWithBatchTime = df.withColumn("batch_time", lit(batchTime.milliseconds))
+        val dfWithBatchTime = df.withColumn("batch_time", batchTime.milliseconds)
       
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        df.write.format("org.apache.spark.sql.cassandra")
+        dfWithBatch.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
           .options(Map("keyspace" -> "fluxcapacitor", "table" -> "real_time_ratings"))
           .save()
