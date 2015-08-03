@@ -39,7 +39,10 @@ RUN \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
- && ../sbt/bin/sbt run \
+ && rm -rf /root/.ivy2 \
+ && ../sbt/bin/sbt clean clean-files assembly \
+ 
+# Start from ~
  && cd ~ \
 
 # Ganglia
