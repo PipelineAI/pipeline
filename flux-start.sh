@@ -48,7 +48,7 @@ nohup $SPARK_HOME/sbin/start-thriftserver.sh --master spark://127.0.0.1:7077
 #nohup $TACHYON_HOME/bin/tachyon-start.sh local   
 
 echo ...Starting Spark Notebook...
-nohup spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf &
+screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
 
 echo ...Starting Kibana...
 nohup kibana &
