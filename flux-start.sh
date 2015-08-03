@@ -50,6 +50,9 @@ nohup $SPARK_HOME/sbin/start-thriftserver.sh --master spark://127.0.0.1:7077
 echo ...Starting Spark Notebook...
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
 
+echo ...Starting Spark History Server...
+$SPARK_HOME/sbin/start-history-server.sh
+
 echo ...Starting Kibana...
 nohup kibana &
 

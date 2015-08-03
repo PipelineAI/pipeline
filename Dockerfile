@@ -39,7 +39,7 @@ RUN \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
- && ../sbt/bin/sbt \
+ && ../sbt/bin/sbt run \
  && cd ~ \
 
 # Ganglia
