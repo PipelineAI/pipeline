@@ -42,9 +42,9 @@ libraryDependencies ++= Seq(
     exclude("io.dropwizard.metrics", "metrics-core")
     exclude("commons-beanutils", "commons-beanutils")
     exclude("org.apache.hadoop", "hadoop-yarn-common"),
-  "org.apache.spark" %% "spark-streaming-kafka" % Spark
-    exclude("com.google.guava", "guava"),
+  "org.apache.spark" %% "spark-streaming-kafka" % Spark,
   "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.6"
+    exclude("com.google.guava", "guava")
     exclude("io.netty", "netty-buffer")
     exclude("io.netty", "netty-codec")
     exclude("io.netty", "netty-transport")
@@ -59,12 +59,12 @@ run in Compile <<= Defaults.runTask(fullClasspath in Compile, mainClass in(Compi
 
 assemblySettings
 
+//  case PathList("com", "google", "common", "base", xs@_*) => MergeStrategy.first
 mergeStrategy in assembly := {
   case PathList("META-INF", "ECLIPSEF.RSA", xs@_*) => MergeStrategy.discard
   case PathList("META-INF", "mailcap", xs@_*) => MergeStrategy.discard
   case PathList("org", "apache", "commons", "collections", xs@_*) => MergeStrategy.first
   case PathList("org", "apache", "commons", "logging", xs@_*) => MergeStrategy.first
-  case PathList("com", "google", "common", "base", xs@_*) => MergeStrategy.first
   case PathList(ps@_*) if ps.last == "Driver.properties" => MergeStrategy.first
   case PathList(ps@_*) if ps.last == "plugin.properties" => MergeStrategy.discard
   case PathList(ps@_*) if ps.last == "log4j.properties" => MergeStrategy.first
