@@ -8,6 +8,7 @@ RUN \
  apt-get update \
  && apt-get install -y curl \
  && apt-get install -y wget \
+ && apt-get install -y vim \
 
 # && apt-get update \
 
@@ -41,7 +42,7 @@ RUN \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
  && ../sbt/bin/sbt clean clean-files assembly \
- 
+
 # Start from ~
  && cd ~ \
 
@@ -73,20 +74,20 @@ RUN \
  && tar xvzf logstash-1.5.3.tar.gz \
  && rm logstash-1.5.3.tar.gz \
 
-# Kibana 
+# Kibana
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/kibana-4.1.1-linux-x64.tar.gz \
  && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
  && rm kibana-4.1.1-linux-x64.tar.gz \
 
 # Apache Cassandra
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-2.2.0-bin.tar.gz \ 
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-2.2.0-bin.tar.gz \
  && tar xvzf apache-cassandra-2.2.0-bin.tar.gz \
  && rm apache-cassandra-2.2.0-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.4.tar.gz \
  && tar xvzf confluent-1.0-2.10.4.tar.gz \
- && rm confluent-1.0-2.10.4.tar.gz \ 
+ && rm confluent-1.0-2.10.4.tar.gz \
 
 # ElasticSearch
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
