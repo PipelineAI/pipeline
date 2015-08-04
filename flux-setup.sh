@@ -5,8 +5,12 @@
 cd ~/pipeline
 git reset --hard && git pull
 
-# This shouldn't be needed as it's already symlinked through the Docker image
+# Source the .profile for exports
+# Note:  This shouldn't be needed as it's already symlinked through the Docker image
 . ~/.profile
+
+# Make the scripts executable
+chmod a+rx *.sh
 
 # Setup tools
 ./flux-config.sh

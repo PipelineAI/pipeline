@@ -5,17 +5,21 @@
 cd ~/pipeline
 git reset --hard && git pull
 
-# This shouldn't be needed as it's already symlinked through the Docker image
+# Source the .profile for exports
+# Note:  This shouldn't be needed as it's already symlinked through the Docker image
 . ~/.profile
 
+# Make the scripts executable
+chmod a+rx *.sh
+
 # Setup tools
-./flux-config.sh
+./bythebay-config.sh
 
 # Start the pipeline services
 ./bythebay-start.sh
 
 # Initialize Kafka, Cassandra, Hive
-./flux-create.sh
+./bythebay-create.sh
 
 # Stop the pipeline services
 ./baythebay-stop.sh
