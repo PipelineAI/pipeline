@@ -63,7 +63,7 @@ nohup schema-registry-start $PIPELINE_HOME/config/schema-registry/schema-registr
 echo ...Starting Kafka REST Proxy...
 nohup kafka-rest-start $PIPELINE_HOME/config/kafka-rest/kafka-rest.properties &
 
-echo '........................'
+echo '.......................'
 echo '...     ALL DONE    ...'
 echo '...   PRESS ENTER   ...'
 echo '...   TO CONTINUE   ...'
