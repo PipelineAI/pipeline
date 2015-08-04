@@ -1,19 +1,21 @@
 #!/bin/bash
 # Run first time through to set up all the components and start services for
-# Pipeline training
+# ByTheBay Pipeline training
 
 cd ~/pipeline
 git reset --hard && git pull
-. ~/.bash_profile
 
-# This step should not be necessary because this should be symlinked to ~/.bash_profile
-# . ~/pipeline/config/bash/.profile
+# This shouldn't be needed as it's already symlinked through the Docker image
+. ~/.profile
 
 # Setup tools
 ./flux-config.sh
 
 # Start the pipeline services
-./pipeline-start.sh
+./bythebay-start.sh
 
 # Initialize Kafka, Cassandra, Hive
 ./flux-create.sh
+
+# Stop the pipeline services
+./baythebay-stop.sh
