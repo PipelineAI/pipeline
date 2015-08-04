@@ -22,4 +22,4 @@ chmod a+rx *.sh
 ./bythebay-create.sh
 
 # Stop the pipeline services
-./baythebay-stop.sh
+./bythebay-stop.sh
