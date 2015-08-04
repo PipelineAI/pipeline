@@ -27,7 +27,7 @@ RUN \
 
 # .profile Shell Environment Variables
  && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~ \
+ && ln -s ~/pipeline/config/bash/.profile ~/.bash_profile \
 
 # Java
  && apt-get install -y default-jdk \
