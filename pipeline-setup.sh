@@ -4,6 +4,7 @@
 
 cd ~/pipeline
 git reset --hard && git pull
+. ~/.bash_profile
 
 # This step should not be necessary because this should be symlinked to ~/.bash_profile
 # . ~/pipeline/config/bash/.profile
