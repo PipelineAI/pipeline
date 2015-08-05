@@ -13,23 +13,21 @@ val Kafka = "0.8.2.1"
 // getting the dependencies right is a lot of trial and error.  See this web page for some clues:
 // https://github.com/datastax/spark-cassandra-connector/blob/v1.2.4/project/CassandraSparkBuild.scala
 libraryDependencies ++= Seq(
-  ("org.apache.spark" %% "spark-core" % Spark % "provided").
-    exclude("com.google.guava", "guava"),
   ("org.apache.spark" %% "spark-streaming" % Spark % "provided").
+    exclude("org.apache.spark", "spark-core").
+    exclude("com.google.code.findbugs",	"findbugs").
     exclude("com.google.guava", "guava"),
   ("com.datastax.spark" %% "spark-cassandra-connector" % SparkCassandra).
     exclude("com.esotericsoftware.minlog", "minlog").
     exclude("commons-beanutils", "commons-beanutils").
     exclude("org.apache.spark", "spark-core").
+    exclude("com.google.code.findbugs",	"findbugs").
     exclude("com.google.guava", "guava").
     exclude("io.netty", "netty-handler").
     exclude("io.netty", "netty-transport").
     exclude("io.netty", "netty-buffer").
     exclude("io.netty", "netty-codec").
     exclude("io.netty", "netty-all"),
-  ("com.datastax.spark" %% "spark-cassandra-connector-java" % SparkCassandra).
-    exclude("org.apache.spark", "spark-core").
-    exclude("com.google.guava", "guava"),
   ("org.apache.kafka" %% "kafka" % Kafka).
     exclude("org.slf4j", "slf4j-simple").
     exclude("com.sun.jmx", "jmxri").
@@ -39,12 +37,20 @@ libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-sql_2.10" % "1.4.1"
     exclude("com.esotericsoftware.minlog", "minlog")
     exclude("com.google.guava", "guava")
+    exclude("com.google.code.findbugs",	"findbugs")
     exclude("io.dropwizard.metrics", "metrics-core")
     exclude("commons-beanutils", "commons-beanutils")
     exclude("org.apache.hadoop", "hadoop-yarn-common"),
-  "org.apache.spark" %% "spark-streaming-kafka" % Spark,
+  "org.apache.spark" %% "spark-streaming-kafka" % Spark
+    exclude("com.esotericsoftware.minlog", "minlog")
+    exclude("com.google.guava", "guava")
+    exclude("com.google.code.findbugs",	"findbugs")
+    exclude("io.dropwizard.metrics", "metrics-core")
+    exclude("commons-beanutils", "commons-beanutils")
+    exclude("org.apache.hadoop", "hadoop-yarn-common"),
   "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.6"
     exclude("com.google.guava", "guava")
+    exclude("com.google.code.findbugs",	"findbugs")
     exclude("io.netty", "netty-buffer")
     exclude("io.netty", "netty-codec")
     exclude("io.netty", "netty-transport")
