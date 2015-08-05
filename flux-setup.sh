@@ -6,7 +6,6 @@ cd ~/pipeline
 git reset --hard && git pull
 
 # Source the .profile for exports
-# Note:  This shouldn't be needed as it's already symlinked through the Docker image
 . ~/.profile
 
 # Make the scripts executable
