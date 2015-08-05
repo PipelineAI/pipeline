@@ -1,3 +1,3 @@
 echo ...Starting Feeder...
 cd $PIPELINE_HOME
-java -jar target/scala-2.10/PipelineUberJar-assembly-1.0.jar > logs/feed.log 2> logs/feed.err < /dev/null &
+nohup sbt run &
