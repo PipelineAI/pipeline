@@ -1,0 +1,65 @@
+plugins {
+    id "scala"
+    id "application"
+    id "com.github.johnrengelman.shadow" version '1.2.2'
+}
+
+group = 'com.fluxcapacitor.pipeline'
+
+mainClassName = 'com.fluxcapacitor.pipeline.akka.feeder.FeederMain'
+
+jar {
+    baseName = 'target/PipelineUberJar'
+    manifest.attributes("Main-Class": mainClassName)
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+ext {
+  scalaVersion = '2.10.5'
+  sparkVersion = '1.4.0'
+  sparkCassandraVersion = '1.4.0-M1'
+  cassandraDriverVersion = '2.1.6'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    provided "org.scala-lang:scala-compiler:${scalaVersion}"
+    provided "org.scala-lang:scala-library:${scalaVersion}"
+    provided "org.scala-lang:scala-reflect:${scalaVersion}"
+    provided "org.apache.spark:spark-streaming_2.10:${sparkVersion}"
+    provided "org.apache.spark:spark-streaming-kafka_2.10:${sparkVersion}"
+    provided "org.apache.spark:spark-sql_2.10:${sparkVersion}"
+    provided "com.datastax.cassandra:cassandra-driver-core:${cassandraDriverVersion}"
+    provided "com.datastax.spark:spark-cassandra-connector_2.10:${sparkCassandraVersion}"
+
+    compile "com.github.scopt:scopt_2.10:3.2.0"
+}
+
+shadowJar {
+    zip64 true
+    exclude 'META-INF/*'
+    exclude 'META-INF*'
+    exclude 'LICENSE*'
+    exclude 'LICENSE/*'
+    exclude '*.properties'
+    exclude '*.xml'
+    mergeServiceFiles {
+        exclude 'META-INF/*'
+    }
+}
+
+clean.delete 'target'

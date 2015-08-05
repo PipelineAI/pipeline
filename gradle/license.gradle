@@ -1,0 +1,27 @@
+/*
+ * Copyright DataStax, Inc.
+ *
+ * Please see the included license file for details.
+ */
+
+
+allprojects {
+    if (!(name in ['rpmArtifacts', 'debArtifacts'])) {
+
+        apply plugin: "com.github.hierynomus.license"
+        license {
+            header rootProject.file('codequality/HEADER')
+        }
+
+        afterEvaluate {
+            [licenseMain, licenseFormatMain]*.configure {
+                exclude {
+                    // do not check for the license on thrift generated intefaces
+                    it.file.absolutePath.contains('thrift/gen-java') ||
+                            // and not on property files
+                            it.file.absolutePath.endsWith('.properties')
+                }
+            }
+        }
+    }
+}

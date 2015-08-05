@@ -6,6 +6,8 @@ project/target
 target
 tmp
 output
+build
+.gradle
 .history
 dist
 /.idea
