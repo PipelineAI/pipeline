@@ -41,7 +41,7 @@ RUN \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && ../sbt/bin/sbt clean clean-files package assembly \
+ && ../sbt/bin/sbt clean clean-files package \
 
 # Start from ~
  && cd ~ \
