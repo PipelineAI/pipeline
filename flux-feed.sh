@@ -1,3 +1,3 @@
 echo ...Starting Feeder...
 cd $PIPELINE_HOME
-sbt run
+nohup sbt run &
