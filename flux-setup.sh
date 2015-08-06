@@ -20,3 +20,7 @@ chmod a+rx *.sh
 
 # Initialize Kafka, Cassandra, Hive Data
 ./flux-create.sh
+
+echo '.......................'
+echo '...    ALL DONE!    ...'
+echo '.......................'
