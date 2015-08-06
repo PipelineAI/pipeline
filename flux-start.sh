@@ -25,6 +25,9 @@ nohup cassandra
 echo ...Starting ZooKeeper...
 nohup zookeeper-server-start $PIPELINE_HOME/config/kafka/zookeeper.properties &
 
+echo ...Starting Redis...
+nohup redis-server &
+
 echo ...Starting Tachyon...
 nohup $TACHYON_HOME/bin/tachyon-start.sh local
 

@@ -21,6 +21,9 @@ $SPARK_HOME/sbin/stop-slave.sh --webui-port 6061
 echo ...Stopping Spark JDBC ODBC Hive ThriftServer...
 $SPARK_HOME/sbin/stop-thriftserver.sh  
 
+echo ...Stopping Redis...
+redis-cli shutdown
+
 echo ...Stopping Tachyon...
 $TACHYON_HOME/bin/tachyon-stop.sh 
 
