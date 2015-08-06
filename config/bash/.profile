@@ -11,14 +11,14 @@ mesg n
 # Dev Install
 export DEV_INSTALL_HOME=~
 
-# Data Home
-export DATA_HOME=~
-
-# Logs Home
-export LOGS_HOME=~
-
 # Pipeline Home
 export PIPELINE_HOME=~/pipeline
+
+# Data Home
+export DATA_HOME=$PIPELINE_HOME/data
+
+# Logs Home
+export LOGS_HOME=$PIPELINE_HOME/logs
 
 # Java Home
 export JAVA_HOME=/usr
