@@ -21,6 +21,12 @@ chmod a+rx *.sh
 # Initialize Kafka, Cassandra, Hive Data
 ./flux-create.sh
 
+# Show exports
+export
+
+# Show Running Java Processes 
+jps -l
+
 echo '.......................'
 echo '...    ALL DONE!    ...'
 echo '.......................'
