@@ -15,16 +15,14 @@ curl -XPUT 'http://localhost:9200/pipeline/' -d '{
 echo ...Creating Cassandra Keyspaces Column Families and Tables...
 #cqlsh -e "DROP KEYSPACE IF EXISTS pipeline;"
 cqlsh -e "CREATE KEYSPACE pipeline WITH REPLICATION = { 'class': 'SimpleStrategy',  'replication_factor':1};"
-#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS real_time_ratings;"
-cqlsh -e "USE pipeline; CREATE TABLE real_time_ratings (fromUserId int, toUserId int, rating int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
-#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS real_time_likes;"
-cqlsh -e "USE pipeline; CREATE TABLE real_time_likes (fromUserId int, toUserId int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
+#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS ratings;"
+cqlsh -e "USE pipeline; CREATE TABLE ratings (fromUserId int, toUserId int, rating int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
+#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS likes;"
+cqlsh -e "USE pipeline; CREATE TABLE likes (fromUserId int, toUserId int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
 
 echo ...Creating HDFS...
 hdfs namenode -format
 
 echo ...Creating Reference Data in Hive...
-#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS gender_json_file'
-spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE gender_json_file(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/gender.json.bz2")'
-#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS likes_parquet_file'
-spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE likes_parquet_file(from_user_id INT, to_user_id INT) USING org.apache.spark.sql.parquet OPTIONS (path "datasets/sparkafterdark/likes.parquet")'
+#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS gender'
+spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE gender(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/gender.json.bz2")'

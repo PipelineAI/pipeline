@@ -2,20 +2,21 @@
 # Run first time through to set up all the components and start services for
 # Pipeline training
 
+# Pulling in the latest from Git 
 cd ~/pipeline
 git reset --hard && git pull
 
-# Source the .profile for exports
+# Source the .profile for Exports
 . ~/.profile
 
-# Make the scripts executable
+# Make the Scripts Executable
 chmod a+rx *.sh
 
-# Setup tools
+# Setup Tools
 ./flux-config.sh
 
-# Start the pipeline services
+# Start the Pipeline Services
 ./flux-start.sh
 
-# Initialize Kafka, Cassandra, Hive
+# Initialize Kafka, Cassandra, Hive Data
 ./flux-create.sh
