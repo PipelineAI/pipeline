@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979 4040 6379
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 8099 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979 4040 6379
 
 RUN \
  apt-get update \
@@ -39,13 +39,12 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
+ && ln -s /root/sbt/bin/sbt /usr/local/bin/sbt \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && ../sbt/bin/sbt clean clean-files package \
+ && ../sbt/bin/sbt clean clean-files package
 
-# Start from ~
- && cd ~ \
-
+RUN cd ~ \
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
@@ -92,8 +91,9 @@ RUN \
 # ElasticSearch
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
  && tar xvzf elasticsearch-1.7.1.tar.gz \
- && rm elasticsearch-1.7.1.tar.gz \
+ && rm elasticsearch-1.7.1.tar.gz
 
+RUN cd ~ \
 # Apache Spark
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
  && tar xvzf spark-1.4.1-bin-fluxcapacitor.tgz \
@@ -114,6 +114,17 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && tar xvzf spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
  && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
+
+# Spark Job Server
+ && wget https://github.com/spark-jobserver/spark-jobserver/archive/v0.5.2.tar.gz \
+ && tar xvzf v0.5.2.tar.gz \
+ && cd spark-jobserver-0.5.2 \
+ && cp ~/pipeline/config/spark-jobserver/* config/ \
+ && SPARK_VERSION=1.4.1 bin/server_package.sh pipeline \
+ && cp /tmp/job-server/* . \
+ && cd ~ \
+ && rm v0.5.2.tar.gz \
+ && rm -rf /tmp/job-server \
 
 # Redis
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-3.0.3.tar.gz \
