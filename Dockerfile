@@ -42,11 +42,9 @@ RUN \
  && ln -s /root/sbt/bin/sbt /usr/local/bin/sbt \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && ../sbt/bin/sbt clean clean-files package \
+ && ../sbt/bin/sbt clean clean-files package
 
-# Start from ~
- && cd ~ \
-
+RUN cd ~ \
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
@@ -93,8 +91,9 @@ RUN \
 # ElasticSearch
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
  && tar xvzf elasticsearch-1.7.1.tar.gz \
- && rm elasticsearch-1.7.1.tar.gz \
+ && rm elasticsearch-1.7.1.tar.gz
 
+RUN cd ~ \
 # Apache Spark
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
  && tar xvzf spark-1.4.1-bin-fluxcapacitor.tgz \
