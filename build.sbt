@@ -1,4 +1,4 @@
-name := """FeedSimulator"""
+name := "pipeline"
 
 version := "1.0"
 

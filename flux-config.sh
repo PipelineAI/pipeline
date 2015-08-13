@@ -107,6 +107,6 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 echo ...Configuring Spark-Notebook...
 
 # SSH (Part 2/2)
-echo ...Configuring SSH Part 2 of 2
+echo ...Configuring SSH Part 2 of 2...
 # We need to keep the SSH service running for other services to be configured above
 service ssh stop
