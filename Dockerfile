@@ -19,7 +19,7 @@ RUN \
  && apt-get install -y git \
 
 # Pip
- && apt-get install -y python-pip \
+# && apt-get install -y python-pip \
 
 # Retrieve Latest Datasets, Configs, and Start Scripts
  && git clone https://github.com/fluxcapacitor/pipeline.git \
@@ -56,7 +56,7 @@ RUN \
  && cd ~ \
 
 # iPython
- && pip install jupyter \
+# && pip install jupyter \
 
 # H2O
 && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.zip \
