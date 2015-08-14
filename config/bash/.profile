@@ -83,3 +83,7 @@ export PATH=$PATH:$ZEPPELIN_HOME/bin
 # Spark Notebook
 export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet
 export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
+
+# Spark JobServer
+export SPARK_JOBSERVER_HOME=$DEV_INSTALL_HOME/spark-jobserver-0.5.2
+export PATH=$PATH:$SPARK_JOBSERVER_HOME/bin

@@ -47,7 +47,7 @@ RUN \
  && ../sbt/bin/sbt feeder/assembly \
 
 # Streaming Consumer App
- && ../sbt/bin/sbt streaming/assembly \
+ && ../sbt/bin/sbt streaming/package \
 
 # Start from ~
  && cd ~ \
@@ -143,11 +143,13 @@ RUN \
 
 # Spark Job Server
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
- && tar xvzf v0.5.2.tar.gz \
+ && tar xvzf spark-jobserver-0.5.2.tar.gz \
+ && rm spark-jobserver-0.5.2.tar.gz \
  && cd spark-jobserver-0.5.2 \
- && cp ~/pipeline/config/spark-jobserver/* config/ \
+ && ../sbt/bin/sbt job-server-tests/package \
  && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
- && cd ~ \
- && rm v0.5.2.tar.gz \
  && rm -rf /tmp/job-server \
+ && cd ~/pipeline
+ && mkdir -p logs/spark-jobserver \
+ && cd ~ \

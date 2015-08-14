@@ -1,187 +1,221 @@
 {
-  "metadata" : {
-    "name" : "Ratings from Kafka",
-    "user_save_timestamp" : "1970-01-01T00:00:00.000Z",
-    "auto_save_timestamp" : "1970-01-01T00:00:00.000Z",
-    "language_info" : {
-      "name" : "scala",
-      "file_extension" : "scala",
-      "codemirror_mode" : "text/x-scala"
+  "metadata": {
+    "name": "Ratings from Kafka",
+    "user_save_timestamp": "1970-01-01T00:00:00.000Z",
+    "auto_save_timestamp": "1970-01-01T00:00:00.000Z",
+    "language_info": {
+      "name": "scala",
+      "file_extension": "scala",
+      "codemirror_mode": "text/x-scala"
     },
-    "trusted" : true,
-    "customLocalRepo" : "/root/.ivy2",
-    "customRepos" : null,
-    "customDeps" : [ "com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M2", "org.elasticsearch:elasticsearch-spark_2.10:2.1.0", "org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0", "org.apache.spark % spark-graphx_2.10 % 1.4.1", "- org.apache.spark % spark-core_2.10 % _", "- org.apache.spark % spark-streaming_2.10 % _", "- org.apache.hadoop % _ % _" ],
-    "customImports" : null,
-    "customSparkConf" : {
-      "spark.cassandra.connection.host" : "127.0.0.1",
-      "spark.master" : "spark://127.0.0.1:7077",
-      "spark.executor.cores" : "1",
-      "spark.executor.memory" : "512m",
-      "spark.cores.max" : "1",
-      "spark.eventLog.enabled" : "true",
-      "spark.eventLog.dir" : "logs/spark"
+    "trusted": true,
+    "customLocalRepo": "/root/.ivy2",
+    "customRepos": null,
+    "customDeps": [
+      "com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M3",
+      "org.apache.spark:spark-streaming-kafka_2.10:1.4.1",
+      "org.apache.spark % spark-graphx_2.10 % 1.4.1",
+      "- org.apache.spark % spark-core_2.10 % _",
+      "- org.apache.spark % spark-streaming_2.10 % _",
+      "- org.apache.hadoop % _ % _"
+    ],
+    "customImports": null,
+    "customSparkConf": {
+      "spark.cassandra.connection.host": "127.0.0.1",
+      "spark.master": "spark://127.0.0.1:7077",
+      "spark.executor.cores": "2",
+      "spark.executor.memory": "512m",
+      "spark.cores.max": "2",
+      "spark.eventLog.enabled": "true",
+      "spark.eventLog.dir": "logs/spark"
     }
   },
-  "cells" : [ {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "# Setup (boilerplate)"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+  "cells": [
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "# Setup (boilerplate)"
     },
-    "cell_type" : "code",
-    "source" : "val sqlContext = new org.apache.spark.sql.SQLContext(sparkContext)\nimport sqlContext.implicits._\nimport org.apache.spark.sql.functions._\n",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "## Creating the domain object"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "val sqlContext = new org.apache.spark.sql.SQLContext(sparkContext)\nimport sqlContext.implicits._\nimport org.apache.spark.sql.functions._\n",
+      "outputs": []
     },
-    "cell_type" : "code",
-    "source" : "case class Rating(fromUserId: Int, toUserId: Int, rating: Int) {\n  def toCSV=s\"$fromUserId,$rating,$toUserId\"\n}",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "# Streaming: Kafka"
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "<span style=\"font-size:15pt;color:red;\">(**NOT** needed if _feeder_ is running)</span>"
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "## Kafka Producer"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "## Creating the domain object"
     },
-    "cell_type" : "code",
-    "source" : "import java.util.Properties\n\nimport scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.Future\n\nimport org.apache.kafka.clients.producer.{KafkaProducer,ProducerConfig,ProducerRecord}\n\nval props = new Properties()\nprops.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, \"localhost:9092,localhost:9093\")\nprops.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, \"org.apache.kafka.common.serialization.StringSerializer\")\nprops.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, \"org.apache.kafka.common.serialization.StringSerializer\")\nval producer = new KafkaProducer[String, String](props)\n\n// Guard to stop the producer\nvar stopSending = false\n\n// future that issues a future.\n// a future sends a message after having waited for up to 500ms\ndef sendMsg:Unit = Future {\n  Thread.sleep((scala.util.Random.nextDouble * 500).toLong)\n  producer.send {\n    val msg = Rating(scala.util.Random.nextInt(10000), scala.util.Random.nextInt(10), scala.util.Random.nextInt(10000))\n    new ProducerRecord[String, String](\"ratings\", msg.fromUserId.toString, msg.toCSV)\n  }\n  if (!stopSending) sendMsg\n}\nsendMsg",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "# Viz"
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "### Reactive list of data (capped at 20 elements)"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "case class Rating(fromUserId: Int, toUserId: Int, rating: Int) {\n  def toCSV=s\"$fromUserId,$rating,$toUserId\"\n}",
+      "outputs": []
     },
-    "cell_type" : "code",
-    "source" : "val list = ul(20)",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "### Reactive line plot"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "# Streaming: Kafka"
     },
-    "cell_type" : "code",
-    "source" : "val line = widgets.LineChart[Seq[(Long, Double)]](Seq.empty[(Long, Double)], fields=Some((\"X\", \"Y\")), maxPoints=100)",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "# Spark Streaming consuming Kafka"
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "The context and kafka conf"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "<span style=\"font-size:15pt;color:red;\">(**NOT** needed if _feeder_ is running)</span>"
     },
-    "cell_type" : "code",
-    "source" : "import org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\n\nval ssc = new StreamingContext(sc, Seconds(2))\nval brokers = \"localhost:9092,localhost:9093\"\nval topics = Set(\"ratings\")\nval kafkaParams = Map[String, String](\"metadata.broker.list\" -> brokers)",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "Biz:\n* Consuming Kafka, \n* creating Ratings, \n* computing moving average\n* update list and line plot"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "## Kafka Producer"
     },
-    "cell_type" : "code",
-    "source" : "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Time\nimport kafka.serializer.StringDecoder\n\n// connect (direct) to kafka\nval ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](\n  ssc, kafkaParams, topics)\n\n// transform the CSV Strings into Ratings\nval msgs = ratingsStream.transform {\n  (message: RDD[(String, String)], batchTime: Time) => {\n    // convert each RDD from the batch into a DataFrame\n    val df = message.map(_._2.split(\",\"))\n                    .map(rating => \n                         Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt)\n                    ).toDF(\"fromuserid\", \"touserid\", \"rating\")\n\n    // add the batch time to the DataFrame\n    val dfWithBatchTime = df.withColumn(\"batchtime\", org.apache.spark.sql.functions.lit(batchTime.milliseconds))\n    dfWithBatchTime.rdd\n  }\n}\n\n//show the first ten of each RDD\nmsgs.foreachRDD(rdd => list.appendAll(rdd.take(10).toList.map(_.toString)))\n\n// show the moving average of 10s in the plot\nval data = new collection.mutable.ArrayBuffer[(Long, Double)]()\nval w = msgs.window(Seconds(10), Seconds(2)).foreachRDD{(rdd, t) => \n              val ndata = Seq((t.milliseconds, rdd.map(_.getAs[Int](\"rating\")).mean.toDouble))\n              org.apache.log4j.Logger.getLogger(\"lines\").info(\"# \" + ndata.size)\n              line.addAndApply(data ++= ndata)\n             }\n",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "Start consuming"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "import java.util.Properties\n\nimport scala.concurrent.ExecutionContext.Implicits.global\nimport scala.concurrent.Future\n\nimport org.apache.kafka.clients.producer.{KafkaProducer,ProducerConfig,ProducerRecord}\n\nval props = new Properties()\nprops.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, \"localhost:9092,localhost:9093\")\nprops.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, \"org.apache.kafka.common.serialization.StringSerializer\")\nprops.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, \"org.apache.kafka.common.serialization.StringSerializer\")\nval producer = new KafkaProducer[String, String](props)\n\n// Guard to stop the producer\nvar stopSending = false\n\n// future that issues a future.\n// a future sends a message after having waited for up to 500ms\ndef sendMsg:Unit = Future {\n  Thread.sleep((scala.util.Random.nextDouble * 500).toLong)\n  producer.send {\n    val msg = Rating(scala.util.Random.nextInt(10000), scala.util.Random.nextInt(10), scala.util.Random.nextInt(10000))\n    new ProducerRecord[String, String](\"ratings\", msg.fromUserId.toString, msg.toCSV)\n  }\n  if (!stopSending) sendMsg\n}\nsendMsg",
+      "outputs": []
     },
-    "cell_type" : "code",
-    "source" : "ssc.start()",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "## Stop all"
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "Stop the streaming context (keeping the spark context up, just in case)"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "# Viz"
     },
-    "cell_type" : "code",
-    "source" : "//ssc.stop(false) // commented in case of a Run All ^^",
-    "outputs" : [ ]
-  }, {
-    "metadata" : { },
-    "cell_type" : "markdown",
-    "source" : "Stop the producer"
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "### Reactive list of data (capped at 20 elements)"
     },
-    "cell_type" : "code",
-    "source" : "//stopSending = true // commented in case of a Run All ^^",
-    "outputs" : [ ]
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : true
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "val list = ul(20)",
+      "outputs": []
     },
-    "cell_type" : "code",
-    "source" : "",
-    "outputs" : [ ]
-  } ],
-  "nbformat" : 4
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "### Reactive line plot"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "val line = widgets.LineChart[Seq[(Long, Double)]](Seq.empty[(Long, Double)], fields=Some((\"X\", \"Y\")), maxPoints=100)",
+      "outputs": []
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "# Spark Streaming consuming Kafka"
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "The context and kafka conf"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "import org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\n\nval ssc = new StreamingContext(sc, Seconds(2))\nval brokers = \"localhost:9092,localhost:9093\"\nval topics = Set(\"ratings\")\nval kafkaParams = Map[String, String](\"metadata.broker.list\" -> brokers)",
+      "outputs": []
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "Biz:\n* Consuming Kafka, \n* creating Ratings, \n* computing moving average\n* update list and line plot"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Time\nimport kafka.serializer.StringDecoder\n\n// connect (direct) to kafka\nval ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](\n  ssc, kafkaParams, topics)\n\n// transform the CSV Strings into Ratings\nval msgs = ratingsStream.transform {\n  (message: RDD[(String, String)], batchTime: Time) => {\n    // convert each RDD from the batch into a DataFrame\n    val df = message.map(_._2.split(\",\"))\n                    .map(rating => \n                         Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt)\n                    ).toDF(\"fromuserid\", \"touserid\", \"rating\")\n\n    // add the batch time to the DataFrame\n    val dfWithBatchTime = df.withColumn(\"batchtime\", org.apache.spark.sql.functions.lit(batchTime.milliseconds))\n    dfWithBatchTime.rdd\n  }\n}\n\n//show the first ten of each RDD\nmsgs.foreachRDD(rdd => list.appendAll(rdd.take(10).toList.map(_.toString)))\n\n// show the moving average of 10s in the plot\nval data = new collection.mutable.ArrayBuffer[(Long, Double)]()\nval w = msgs.window(Seconds(10), Seconds(2)).foreachRDD{(rdd, t) => \n              val ndata = Seq((t.milliseconds, rdd.map(_.getAs[Int](\"rating\")).mean.toDouble))\n              org.apache.log4j.Logger.getLogger(\"lines\").info(\"# \" + ndata.size)\n              line.addAndApply(data ++= ndata)\n             }\n",
+      "outputs": []
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "Start consuming"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "ssc.start()",
+      "outputs": []
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "## Stop all"
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "Stop the streaming context (keeping the spark context up, just in case)"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "//ssc.stop(false) // commented in case of a Run All ^^",
+      "outputs": []
+    },
+    {
+      "metadata": {},
+      "cell_type": "markdown",
+      "source": "Stop the producer"
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": false
+      },
+      "cell_type": "code",
+      "source": "//stopSending = true // commented in case of a Run All ^^",
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "trusted": true,
+        "input_collapsed": false,
+        "collapsed": true
+      },
+      "cell_type": "code",
+      "source": "",
+      "outputs": []
+    }
+  ],
+  "nbformat": 4
 }
