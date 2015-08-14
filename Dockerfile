@@ -41,13 +41,13 @@ RUN \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && sbt clean clean-files \a
+ && ../sbt/bin/sbt clean clean-files \
 
 # Feeder Producer App
- && sbt feeder/assembly \
+ && ../sbt/bin/sbt feeder/assembly \
 
 # Streaming Consumer App
- && sbt streaming/assembly \
+ && ../sbt/bin/sbt streaming/assembly \
 
 # Start from ~
  && cd ~ \
