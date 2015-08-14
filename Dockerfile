@@ -59,9 +59,9 @@ RUN \
 # && pip install jupyter \
 
 # H2O
-&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.zip \
-&& unzip h2o-3.0.1.7.zip \
-&& rm h2o-3.0.1.7.zip \
+#&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.tgz \
+#&& tar xzvf h2o-3.0.1.7.tgz \
+#&& rm h2o-3.0.1.7.tgz \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
