@@ -3,7 +3,7 @@ package com.fluxcapacitor.pipeline.akka.feeder
 import java.util.Properties
 
 import akka.actor._
-import kafka.producer.{Producer, ProducerConfig}
+import org.apache.kafka.clients.producer.{KafkaProducer,ProducerConfig}
 
 object FeederExtension extends ExtensionKey[FeederExtension]
 
@@ -16,11 +16,11 @@ class FeederExtension(system: ExtendedActorSystem) extends Extension {
   val kafkaTopic = systemConfig.getString("pipeline.kafkaTopic")
 
   val props = new Properties()
-  props.put("metadata.broker.list", kafkaHost)
-  props.put("serializer.class", "kafka.serializer.StringEncoder")
+  props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHost)
+  props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer")
+  props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer")
 
-  val producerConfig = new ProducerConfig(props)
-  val producer = new Producer[String, String](producerConfig)
+  val producer = new KafkaProducer[String, String](props)
 
 }
 

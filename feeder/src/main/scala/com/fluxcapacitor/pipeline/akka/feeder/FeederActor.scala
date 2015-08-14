@@ -1,7 +1,7 @@
 package com.fluxcapacitor.pipeline.akka.feeder 
 
 import akka.actor.{Props, Actor, ActorLogging}
-import kafka.producer.KeyedMessage
+import org.apache.kafka.clients.producer.{ProducerRecord,Callback,RecordMetadata}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
@@ -26,8 +26,13 @@ class FeederActor extends Actor with ActorLogging with FeederExtensionActor {
     case SendNextLine if dataIter.hasNext =>
       val nxtRating = dataIter.next()
       log.info(s"Sending next rating: $nxtRating")
-      feederExtension.producer.send(new KeyedMessage[String, String](feederExtension.kafkaTopic, nxtRating.split(",")(0), nxtRating))
-
+      val record = new ProducerRecord[String,String](feederExtension.kafkaTopic, nxtRating.split(",")(0), nxtRating)
+      val future = feederExtension.producer.send(record, new Callback {
+        override def onCompletion(result: RecordMetadata, exception: Exception) {
+          if (exception != null) println("Failed to send record: " + exception)
+        }
+      })
+      // Use future.get() to make this a synchronous write
   }
 
   def initData() = {

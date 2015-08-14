@@ -12,13 +12,13 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-case class Like(fromUserId: Int, toUserId: Int)
+case class Rating(fromUserId: Int, toUserId: Int, rating: Int, batchtime: Long)
 
-object StreamingLikes {
+object StreamingRatings {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
-    
+
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
@@ -27,29 +27,31 @@ object StreamingLikes {
 
       newSsc
     }
-    val ssc = StreamingContext.getActiveOrCreate(createStreamingContext) 
-   
+    val ssc = StreamingContext.getActiveOrCreate(createStreamingContext)
+
     val sqlContext = SQLContext.getOrCreate(sc)
-    import sqlContext.implicits._    
-    
+    import sqlContext.implicits._
+
     val brokers = "localhost:9092,localhost:9093"
-    val topics = Set("likes")
+    val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
 
-    val likesStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
+    val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
-    likesStream.foreachRDD {
+    ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
         // convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(like => Like(like(0).trim.toInt, like(1).trim.toInt)).toDF("fromuserid", "touserid", "batchtime")
-      
-        // add the batch time to the DataFrame
-        val dfWithBatchTime = df.withColumn("batch_time", org.apache.spark.sql.functions.lit(batchTime.milliseconds))
-      
+        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "rating", "batchtime")
+
+        // this can be used to debug dataframes
+        // df.show()
+
         // save the DataFrame to Cassandra
-        dfWithBatchTime.write.format("org.apache.spark.sql.cassandra")
+        // Note:  Cassandra has been initialized through spark-env.sh
+        //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
+        df.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
-          .options(Map("keyspace" -> "pipeline", "table" -> "likes"))
+          .options(Map("keyspace" -> "pipeline", "table" -> "ratings"))
           .save()
       }
     }

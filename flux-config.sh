@@ -41,10 +41,10 @@ ln -s $PIPELINE_HOME/config/ganglia/gmond.conf /etc/ganglia
 
 # MySQL (Required by HiveQL Exercises)
 echo ...Configurating MySQL...
+echo ...Ignore any ERROR 2002's Below...
 service mysql start
 mysqladmin -u root password "password"
 nohup service mysql stop
-echo ...Ignore the ERROR 2002 above...
 
 # Cassandra
 echo ...Configuring Cassandra...
@@ -105,6 +105,7 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # Spark-Notebook
 echo ...Configuring Spark-Notebook...
+ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
 
 # SSH (Part 2/2)
 echo ...Configuring SSH Part 2 of 2...

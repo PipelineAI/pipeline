@@ -12,13 +12,13 @@ git reset --hard && git pull
 # Make the Scripts Executable
 chmod a+rx *.sh
 
-# Setup Tools
+# Configure Tools
 ./flux-config.sh
 
 # Start the Pipeline Services
 ./flux-start.sh
 
-# Initialize Kafka, Cassandra, Hive Data
+# Initialize Data for Kafka, Cassandra, and Hive
 ./flux-create.sh
 
 # Show exports

@@ -1,16 +1,16 @@
 FROM ubuntu:14.04
 
+ENV HOME=/root
 ENV SCALA_VERSION=2.10.4
+ENV SPARK_VERSION=1.4.1
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6379 6081 7474 8787 5601 8989 7979 4040 6379
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099
 
 RUN \
  apt-get update \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
-
-# && apt-get update \
 
 # Start in Home Dir (/root)
  && cd ~ \
@@ -41,16 +41,29 @@ RUN \
  && rm sbt-0.13.8.tgz \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && ../sbt/bin/sbt clean clean-files package \
+ && sbt clean clean-files \a
+
+# Feeder Producer App
+ && sbt feeder/assembly \
+
+# Streaming Consumer App
+ && sbt streaming/assembly \
 
 # Start from ~
  && cd ~ \
+
+# iPython
+ && pip install jupyter \
+
+# H2O
+&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.zip \
+&& unzip h2o-3.0.1.7.zip \
+&& rm h2o-3.0.1.7.zip \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
 # MySql (Required by Hive Metastore)
-# Generic Install?  http://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java \
@@ -128,3 +141,13 @@ RUN \
  && tar xvzf hadoop-2.6.0.tar.gz \
  && rm hadoop-2.6.0.tar.gz \
 
+# Spark Job Server
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
+ && tar xvzf v0.5.2.tar.gz \
+ && cd spark-jobserver-0.5.2 \
+ && cp ~/pipeline/config/spark-jobserver/* config/ \
+ && bin/server_package.sh pipeline \
+ && cp /tmp/job-server/* . \
+ && cd ~ \
+ && rm v0.5.2.tar.gz \
+ && rm -rf /tmp/job-server \

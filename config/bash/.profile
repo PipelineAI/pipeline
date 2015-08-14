@@ -12,7 +12,7 @@ mesg n
 export DEV_INSTALL_HOME=~
 
 # Pipeline Home
-export PIPELINE_HOME=~/pipeline
+export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
 # Data Home
 export DATA_HOME=$PIPELINE_HOME/data
@@ -22,6 +22,9 @@ export LOGS_HOME=$PIPELINE_HOME/logs
 
 # Java Home
 export JAVA_HOME=/usr
+
+# H2O Home
+export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
 
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
@@ -34,6 +37,7 @@ export PATH=$PATH:$CASSANDRA_HOME/bin
 export SPARK_HOME=$DEV_INSTALL_HOME/spark-1.4.1-bin-fluxcapacitor
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-1.4.1-hadoop2.6.0.jar
+export SPARK_VERSION=1.4.1
 
 # Kafka
 export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-1.0
