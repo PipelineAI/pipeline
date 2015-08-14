@@ -18,6 +18,9 @@ RUN \
 # Git
  && apt-get install -y git \
 
+# Pip
+ && apt-get install -y python-pip \
+
 # Retrieve Latest Datasets, Configs, and Start Scripts
  && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod a+rx pipeline/*.sh \
