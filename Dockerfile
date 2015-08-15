@@ -38,6 +38,7 @@ RUN \
  && rm -rf /root/.ivy2 \
 
 # Get Latest Pipeline Code
+ && cd ~
  && git clone https://github.com/fluxcapacitor/pipeline.git \
 
 # Sbt Clean
