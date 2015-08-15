@@ -14,11 +14,24 @@ export DEV_INSTALL_HOME=~
 # Pipeline Home
 export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
+###################################################################
+# The following DATA_HOME and LOGS_HOME are not always used by apps
+# due to limitations with certain apps and how they resolve exports
+
+# In these cases, the configs are usually relative to where the
+# service is started 
+#   ie. LOGS_DIR=logs/kafka, DATA_DIR=data/zookeeper, etc
+
+# If these paths change, be sure to grep and update the hard coded 
+# versions in all apps including the .tgz packages if their
+# configs are not aleady exposed under pipeline/config/...
+
 # Data Home
 export DATA_HOME=$PIPELINE_HOME/data
 
 # Logs Home
 export LOGS_HOME=$PIPELINE_HOME/logs
+###################################################################
 
 # Java Home
 export JAVA_HOME=/usr
