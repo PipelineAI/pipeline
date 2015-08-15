@@ -146,7 +146,7 @@ RUN \
 # Retrieve Latest Datasets, Configs, and Start Scripts
  cd ~/pipeline \
  && git reset --hard && git pull \
- && chmod a+rx pipeline/*.sh \
+ && chmod a+rx *.sh \
 
 # Spark Job Server (2 of 2)
  && cd ~/spark-jobserver-0.5.2 \
