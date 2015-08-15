@@ -138,8 +138,8 @@ RUN \
 
 # Spark Job Server
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
- && tar xvzf spark-jobserver-0.5.2.tar.gz \
- && rm spark-jobserver-0.5.2.tar.gz \
+ && tar xvzf spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
+ && rm spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
  && mkdir -p ~/pipeline/logs/spark-jobserver 
 
 RUN \
