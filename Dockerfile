@@ -137,7 +137,7 @@ RUN \
  && rm hadoop-2.6.0.tar.gz \
 
 # Spark Job Server
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
  && tar xvzf spark-jobserver-0.5.2.tar.gz \
  && rm spark-jobserver-0.5.2.tar.gz \
  && mkdir -p ~/pipeline/logs/spark-jobserver 
