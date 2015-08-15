@@ -37,7 +37,7 @@ RUN \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
 
 # Get Latest Pipeline Code
- && cd ~
+ && cd ~ \
  && git clone https://github.com/fluxcapacitor/pipeline.git \
 
 # Sbt Clean
