@@ -21,16 +21,8 @@ RUN \
 # Pip
 # && apt-get install -y python-pip \
 
-# Retrieve Latest Datasets, Configs, and Start Scripts
- && git clone https://github.com/fluxcapacitor/pipeline.git \
- && chmod a+rx pipeline/*.sh \
-
 # SSH
  && apt-get install -y openssh-server \
-
-# .profile Shell Environment Variables
- && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~/.profile \
 
 # Java
  && apt-get install -y default-jdk \
@@ -38,38 +30,22 @@ RUN \
 # Apache2 Httpd
  && apt-get install -y apache2 \
 
-# SBT
+# Sbt
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
- && cd pipeline \
- && rm -rf /root/.ivy2 \
- && sbt clean clean-files \
+ && rm -rf /root/.ivy2 
 
-# Feeder Producer App
- && sbt feeder/assembly \
-
-# Streaming Consumer App
- && sbt streaming/package \
-
+RUN \
 # Start from ~
- && cd ~ \
+ cd ~ \
 
 # Spark Job Server
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
  && tar xvzf spark-jobserver-0.5.2.tar.gz \
- && rm spark-jobserver-0.5.2.tar.gz \
- && cd spark-jobserver-0.5.2 \
- && sbt job-server-tests/package \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf config \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh config \
- && bin/server_package.sh pipeline \
- && cp /tmp/job-server/* . \
- && rm -rf /tmp/job-server \
- && cd ~/pipeline \
- && mkdir -p logs/spark-jobserver \
- && cd ~ \
+ && rm spark-jobserver-0.5.2.tar.gz \ 
+ && mkdir -p ~/pipeline/logs/spark-jobserver \
 
 # iPython
 # && pip install jupyter \
@@ -158,6 +134,34 @@ RUN \
 # Apache Hadoop
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-2.6.0.tar.gz \
  && tar xvzf hadoop-2.6.0.tar.gz \
- && rm hadoop-2.6.0.tar.gz \
+ && rm hadoop-2.6.0.tar.gz 
+
+RUN \
+# Retrieve Latest Datasets, Configs, and Start Scripts
+ git clone https://github.com/fluxcapacitor/pipeline.git \
+ && chmod a+rx pipeline/*.sh \
+
+# Spark Job Server
+ && cd ~/spark-jobserver-0.5.2 \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf config \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh config \
+ && sbt job-server-tests/package \
+ && bin/server_package.sh pipeline \
+ && cp /tmp/job-server/* . \
+ && rm -rf /tmp/job-server \
+
+# .profile Shell Environment Variables
+ && mv ~/.profile ~/.profile.orig \
+ && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+
+# Sbt Clean
+ && cd pipeline \
+ && sbt clean clean-files  \
+
+# Sbt Assemble Feeder Producer App
+ && sbt feeder/assembly \
+
+# Sbt Package Streaming Consumer App
+ && sbt streaming/package \
 
 WORKDIR /root
