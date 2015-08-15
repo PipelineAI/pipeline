@@ -141,7 +141,7 @@ RUN \
 
 RUN \
 # Retrieve Latest Datasets, Configs, and Start Scripts
- cd ~ 
+ cd ~ \
  && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod a+rx pipeline/*.sh \
 
