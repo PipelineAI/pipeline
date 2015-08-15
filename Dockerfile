@@ -38,7 +38,7 @@ RUN \
  && rm -rf /root/.ivy2 \
 
 # Sbt Clean
- && sbt clean clean-files \
+ && sbt clean clean-files 
 
 RUN \
 # Start from ~
