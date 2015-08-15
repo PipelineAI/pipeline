@@ -37,6 +37,9 @@ RUN \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
  && rm -rf /root/.ivy2 \
 
+# Get Latest Pipeline Code
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+
 # Sbt Clean
  && sbt clean clean-files 
 
@@ -141,14 +144,14 @@ RUN \
 
 RUN \
 # Retrieve Latest Datasets, Configs, and Start Scripts
- cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git \
+ cd ~/pipeline \
+ && git reset --hard && git pull \
  && chmod a+rx pipeline/*.sh \
 
 # Spark Job Server (2 of 2)
- && c ~/spark-jobserver-0.5.2 \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
+ && cd ~/spark-jobserver-0.5.2 \
+# && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
+# && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
 # && sbt job-server-tests/package \
 # && bin/server_package.sh pipeline \
 # && cp /tmp/job-server/* . \
