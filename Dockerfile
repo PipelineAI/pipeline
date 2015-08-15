@@ -37,6 +37,10 @@ RUN \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
  && rm -rf /root/.ivy2 
 
+# Sbt Clean
+ && cd ~/pipeline \
+ && sbt clean clean-files \
+
 RUN \
 # Start from ~
  cd ~ \
@@ -154,14 +158,12 @@ RUN \
  && mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile \
 
-# Sbt Clean
- && cd ~/pipeline \
- && sbt clean clean-files  \
-
 # Sbt Assemble Feeder Producer App
+ && cd ~/pipeline \ 
  && sbt feeder/assembly \
 
 # Sbt Package Streaming Consumer App
+ && cd ~/pipeline \
  && sbt streaming/package \
 
 WORKDIR /root
