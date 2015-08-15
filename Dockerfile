@@ -142,7 +142,7 @@ RUN \
 RUN \
 # Retrieve Latest Datasets, Configs, and Start Scripts
  cd ~ 
- git clone https://github.com/fluxcapacitor/pipeline.git \
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
  && chmod a+rx pipeline/*.sh \
 
 # Spark Job Server (2 of 2)
