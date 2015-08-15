@@ -35,7 +35,6 @@ RUN \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
- && rm -rf /root/.ivy2 \
 
 # Get Latest Pipeline Code
  && cd ~
