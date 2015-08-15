@@ -143,8 +143,8 @@ RUN \
 
 # Spark Job Server
  && cd ~/spark-jobserver-0.5.2 \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf config \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh config \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
  && sbt job-server-tests/package \
  && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
