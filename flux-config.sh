@@ -109,8 +109,8 @@ ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/note
 
 # Spark Job Server
 echo ...Configuring Spark Job Server...
-ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.conf $SPARK_JOBSERVER_HOME/config 
-ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.sh $SPARK_JOBSERVER_HOME/config
+#ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.conf $SPARK_JOBSERVER_HOME/config 
+#ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.sh $SPARK_JOBSERVER_HOME/config
 
 # SSH (Part 2/2)
 echo ...Configuring SSH Part 2 of 2...
