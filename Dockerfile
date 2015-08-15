@@ -42,15 +42,16 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
  && tar xvzf sbt-0.13.8.tgz \
  && rm sbt-0.13.8.tgz \
+ && ln -s /root/sbt/bin/sbt /usr/local/bin \
  && cd pipeline \
  && rm -rf /root/.ivy2 \
- && ../sbt/bin/sbt clean clean-files \
+ && sbt clean clean-files \
 
 # Feeder Producer App
- && ../sbt/bin/sbt feeder/assembly \
+ && sbt feeder/assembly \
 
 # Streaming Consumer App
- && ../sbt/bin/sbt streaming/package \
+ && sbt streaming/package \
 
 # Start from ~
  && cd ~ \
@@ -60,13 +61,13 @@ RUN \
  && tar xvzf spark-jobserver-0.5.2.tar.gz \
  && rm spark-jobserver-0.5.2.tar.gz \
  && cd spark-jobserver-0.5.2 \
- && ../sbt/bin/sbt job-server-tests/package \
+ && sbt job-server-tests/package \
  && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf config \
  && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh config \
- && PATH=../sbt/bin:$PATH bin/server_package.sh pipeline \
+ && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
  && rm -rf /tmp/job-server \
- && cd ~/pipeline
+ && cd ~/pipeline \
  && mkdir -p logs/spark-jobserver \
  && cd ~ \
 
@@ -74,9 +75,9 @@ RUN \
 # && pip install jupyter \
 
 # H2O
-#&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.tgz \
-#&& tar xzvf h2o-3.0.1.7.tgz \
-#&& rm h2o-3.0.1.7.tgz \
+&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.tgz \
+&& tar xzvf h2o-3.0.1.7.tgz \
+&& rm h2o-3.0.1.7.tgz \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
