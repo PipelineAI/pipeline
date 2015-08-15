@@ -85,7 +85,7 @@ echo ...Configuring Redis...
 
 # Tachyon
 echo ...Configuring Tachyon...
-mv $TACHYON_HOME/conf/tachyon/log4j.properties $TACHYON_HOME/conf/tachyon/log4j.properties.orig
+mv $TACHYON_HOME/conf/log4j.properties $TACHYON_HOME/conf/log4j.properties.orig
 ln -s $PIPELINE_HOME/config/tachyon/log4j.properties $TACHYON_HOME/conf
 ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # The following command requies the SSH daemon to be running
