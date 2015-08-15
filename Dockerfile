@@ -150,6 +150,8 @@ RUN \
  && rm spark-jobserver-0.5.2.tar.gz \
  && cd spark-jobserver-0.5.2 \
  && ../sbt/bin/sbt job-server-tests/package \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf config \
+ && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh config \
  && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
  && rm -rf /tmp/job-server \
