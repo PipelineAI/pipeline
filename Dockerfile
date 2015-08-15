@@ -155,7 +155,7 @@ RUN \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile \
 
 # Sbt Clean
- && cd pipeline \
+ && cd ~/pipeline \
  && sbt clean clean-files  \
 
 # Sbt Assemble Feeder Producer App
