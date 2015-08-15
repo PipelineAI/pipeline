@@ -22,9 +22,11 @@ chmod a+rx *.sh
 ./flux-create.sh
 
 # Show exports
+echo ...Exported Variables...
 export
 
 # Show Running Java Processes 
+echo ...Running Java Processes...
 jps -l
 
 echo '.......................'
