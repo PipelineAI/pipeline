@@ -38,7 +38,6 @@ RUN \
  && rm -rf /root/.ivy2 \
 
 # Sbt Clean
- && cd ~/pipeline \
  && sbt clean clean-files \
 
 RUN \
