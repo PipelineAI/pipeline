@@ -42,10 +42,10 @@ RUN \
  cd ~ \
 
 # Spark Job Server
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
- && tar xvzf spark-jobserver-0.5.2.tar.gz \
- && rm spark-jobserver-0.5.2.tar.gz \ 
- && mkdir -p ~/pipeline/logs/spark-jobserver \
+# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2.tar.gz \
+# && tar xvzf spark-jobserver-0.5.2.tar.gz \
+# && rm spark-jobserver-0.5.2.tar.gz \ 
+# && mkdir -p ~/pipeline/logs/spark-jobserver \
 
 # iPython
 # && pip install jupyter \
@@ -142,13 +142,13 @@ RUN \
  && chmod a+rx pipeline/*.sh \
 
 # Spark Job Server
- && cd ~/spark-jobserver-0.5.2 \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
- && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
- && sbt job-server-tests/package \
- && bin/server_package.sh pipeline \
- && cp /tmp/job-server/* . \
- && rm -rf /tmp/job-server \
+# && cd ~/spark-jobserver-0.5.2 \
+# && ln -s ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
+# && ln -s ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
+# && sbt job-server-tests/package \
+# && bin/server_package.sh pipeline \
+# && cp /tmp/job-server/* . \
+# && rm -rf /tmp/job-server \
 
 # .profile Shell Environment Variables
  && mv ~/.profile ~/.profile.orig \
