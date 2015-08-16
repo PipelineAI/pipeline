@@ -26,9 +26,11 @@ bzip2 -d -k datasets/dating/ratings.csv.bz2
 echo ...Configuring Sample WebApp...
 ln -s $PIPELINE_HOME/config/sparkafterdark/sparkafterdark.conf /etc/apache2/sites-available
 a2ensite sparkafterdark
-ln -s $PIPELINE_HOME/datasets $PIPELINE_HOME/html/sparkafterdark.com
+#ln -s $PIPELINE_HOME/datasets $PIPELINE_HOME/html/sparkafterdark.com
 # Every parent of /html is required to serve up the html
-chmod -R a+rx ~
+#chmod -R a+rx ~
+cp -R $PIPELINE_HOME/html/sparkafterdark.com/* /var/www/html
+cp -R $PIPELINE_HOME/datasets /var/www/html
 
 # Ganglia
 echo ...Configuring Ganglia...
