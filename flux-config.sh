@@ -14,6 +14,7 @@ a2enmod proxy_http
 a2dissite 000-default
 mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
 ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
+mkdir -p $PIPELINE_HOME/logs/apache2
 
 # Datasets
 echo ...Decompressing Datasets...
@@ -30,6 +31,11 @@ a2ensite sparkafterdark.conf
 # Ideally, a symlink would be more appropriate, but Apache is being a pain
 cp -R $PIPELINE_HOME/html/sparkafterdark.com/* /var/www/html
 cp -R $PIPELINE_HOME/datasets /var/www/html
+
+# Feeder and Streaming Sample Apps
+echo ...Configuring Sample Apps...
+mkdir -p $PIPELINE_HOME/logs/feeder
+mkdir -p $PIPELINE_HOME/logs/streaming
 
 # Ganglia
 echo ...Configuring Ganglia...
