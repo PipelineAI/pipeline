@@ -12,7 +12,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-case class Like(fromUserId: Int, toUserId: Int, batchtime:Long)
+case class Like(fromUserId: Int, toUserId: Int, batchtime: Long)
 
 object StreamingLikes {
   def main(args: Array[String]) {
@@ -32,7 +32,7 @@ object StreamingLikes {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "localhost:9092,localhost:9093"
+    val brokers = "localhost:9092"
     val topics = Set("likes")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
 
@@ -43,12 +43,7 @@ object StreamingLikes {
         // convert each RDD from the batch into a DataFrame
         val df = message.map(_._2.split(",")).map(like => Like(like(0).trim.toInt, like(1).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "batchtime")
 
-        // this can be used to debug dataframes
-        // df.show()
-
         // save the DataFrame to Cassandra
-        // Note:  Cassandra has been initialized through spark-env.sh
-        //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
         df.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
           .options(Map("keyspace" -> "pipeline", "table" -> "likes"))

@@ -35,7 +35,7 @@ function like(personId) {
   $("#heart" + personId).show()
 
   var encodedKey = btoa(myId)
-  var encodedValue = btoa(personId)
+  var encodedValue = btoa(myId + "," + personId)
   $.ajax({
     url:'/like',
     type:'POST',
