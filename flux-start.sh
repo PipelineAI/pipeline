@@ -43,11 +43,11 @@ nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0
 echo ...Starting Spark Worker...
 nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077 
 
-echo ...Starting Apache Spark JDBC ODBC Hive ThriftServer...
+##echo ...Starting Apache Spark JDBC ODBC Hive ThriftServer...
 ## MySql must be started - and the password set - before ThriftServer will startup
 ## Starting the ThriftServer will create a dummy derby.log and metastore_db per https://github.com/apache/spark/pull/6314
 ## The actual Hive metastore defined in conf/hive-site.xml is still used, however.
-nohup $SPARK_HOME/sbin/start-thriftserver.sh --jars $MYSQL_CONNECTOR_JAR --master spark://127.0.0.1:7077
+##nohup $SPARK_HOME/sbin/start-thriftserver.sh --jars $MYSQL_CONNECTOR_JAR --master spark://127.0.0.1:7077
 
 echo ...Starting Spark Notebook...
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
