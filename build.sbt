@@ -19,6 +19,7 @@ val sparkCassandraConnectorVersion = "1.4.0-M3"
 val sparkElasticSearchConnectorVersion = "2.1.0"
 val kafkaVersion = "0.8.2.1"
 val scalaTestVersion = "2.2.4"
+val jedisVersion = "2.4.2"
 
 lazy val feederDeps = Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
@@ -33,6 +34,7 @@ lazy val feederDeps = Seq(
 lazy val streamingDeps = Seq(
   "com.datastax.spark" % "spark-cassandra-connector_2.10" % sparkCassandraConnectorVersion,
   "org.elasticsearch" % "elasticsearch-spark_2.10" % sparkElasticSearchConnectorVersion,
+  "redis.clients" % "jedis" % jedisVersion,
   "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
