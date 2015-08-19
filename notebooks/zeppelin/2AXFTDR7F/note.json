@@ -1,0 +1,170 @@
+{
+  "paragraphs": [
+    {
+      "text": "val historicalLikesDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/sparkafterdark/likes.parquet\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439845645714_577916567",
+      "id": "20150817-210725_232523152",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "historicalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int]\n"
+      },
+      "dateCreated": "Aug 17, 2015 9:07:25 PM",
+      "dateStarted": "Aug 17, 2015 9:10:39 PM",
+      "dateFinished": "Aug 17, 2015 9:10:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "historicalLikesDF.registerTempTable(\"historical_likes_temp\")",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439845859767_-30262007",
+      "id": "20150817-211059_720376678",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Aug 17, 2015 9:10:59 PM",
+      "dateStarted": "Aug 17, 2015 9:12:34 PM",
+      "dateFinished": "Aug 17, 2015 9:12:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql SELECT name, count(to_user_id) as count FROM historical_likes_temp JOIN actresses_and_actors ON (historical_likes_temp.to_user_id \u003d actresses_and_actors.id) GROUP BY name HAVING count \u003e 40 ORDER BY count DESC",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "name",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "name",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439845785710_-1520841066",
+      "id": "20150817-210945_1914753675",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "name\tcount\nMorgan Freeman\t51\nAshley Judd\t50\nLeonardo DiCaprio\t44\nBobbie Phillips\t44\nGail O\u0027Grady\t41\nSofía Vergara\t41\n"
+      },
+      "dateCreated": "Aug 17, 2015 9:09:45 PM",
+      "dateStarted": "Aug 17, 2015 9:12:37 PM",
+      "dateFinished": "Aug 17, 2015 9:12:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val enrichedHistoricalLikesDF \u003d historicalLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439845775721_-234472252",
+      "id": "20150817-210935_352966584",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "enrichedHistoricalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\n"
+      },
+      "dateCreated": "Aug 17, 2015 9:09:35 PM",
+      "dateStarted": "Aug 17, 2015 9:12:44 PM",
+      "dateFinished": "Aug 17, 2015 9:12:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439845964132_1975772785",
+      "id": "20150817-211244_1683668796",
+      "dateCreated": "Aug 17, 2015 9:12:44 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkAfterDark-Analyze-HistoricalLikes",
+  "id": "2AXFTDR7F",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -12,7 +12,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -26,39 +27,8 @@
         "msg": "\u003ch1\u003eGenerate Personalized Recs:  Likes, Matrix Factorization\u003c/h1\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:45:36 AM",
-      "dateStarted": "Jul 29, 2015 1:56:18 AM",
-      "dateFinished": "Jul 29, 2015 1:56:18 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0\")",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        }
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435993582375_2069297762",
-      "id": "20150704-070622_62914585",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
-      },
-      "dateCreated": "Jul 4, 2015 7:06:22 AM",
-      "dateStarted": "Jul 29, 2015 1:56:18 AM",
-      "dateFinished": "Jul 29, 2015 1:56:18 AM",
+      "dateStarted": "Aug 18, 2015 12:19:31 AM",
+      "dateFinished": "Aug 18, 2015 12:19:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -76,7 +46,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -90,8 +61,8 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 52.27.56.210, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:55:28 PM",
-      "dateStarted": "Jul 29, 2015 1:56:18 AM",
-      "dateFinished": "Jul 29, 2015 1:56:18 AM",
+      "dateStarted": "Aug 18, 2015 12:19:31 AM",
+      "dateFinished": "Aug 18, 2015 12:19:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -109,7 +80,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -123,14 +95,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Jul 29, 2015 1:56:18 AM",
-      "dateFinished": "Jul 29, 2015 1:56:18 AM",
+      "dateStarted": "Aug 18, 2015 12:19:31 AM",
+      "dateFinished": "Aug 18, 2015 12:19:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read Historical Likes and Actress/Actor Reference Data from Temp Tables",
-      "text": "val historicalLikesDF \u003d sqlContext.sql(\"select * from historical_likes_temp\")\nval actressesAndActorsDF \u003d sqlContext.sql(\"select * from actresses_and_actors\")",
+      "text": "//val likesTempDF \u003d sqlContext.sql(\"select * from likes_temp\")\nval actressesAndActorsDF \u003d sqlContext.sql(\"select * from actresses_and_actors\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -142,7 +114,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -153,17 +126,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "historicalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int]\nactressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n"
+        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Jul 29, 2015 1:56:18 AM",
-      "dateFinished": "Jul 29, 2015 1:56:19 AM",
+      "dateStarted": "Aug 18, 2015 12:19:31 AM",
+      "dateFinished": "Aug 18, 2015 12:19:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
-      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d historicalLikesDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(0.80,0.20))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()\n",
+      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d likesDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1,0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()\n",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -175,7 +148,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -186,11 +160,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[51681] at map at \u003cconsole\u003e:118\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[51682] at randomSplit at \u003cconsole\u003e:120, MapPartitionsRDD[51683] at randomSplit at \u003cconsole\u003e:120)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[51682] at randomSplit at \u003cconsole\u003e:120\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[51683] at randomSplit at \u003cconsole\u003e:120\nres395: trainingRatings.type \u003d MapPartitionsRDD[51682] at randomSplit at \u003cconsole\u003e:120\nres396: testingRatings.type \u003d MapPartitionsRDD[51683] at randomSplit at \u003cconsole\u003e:120\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[997] at map at \u003cconsole\u003e:66\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[998] at randomSplit at \u003cconsole\u003e:68, MapPartitionsRDD[999] at randomSplit at \u003cconsole\u003e:68)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[998] at randomSplit at \u003cconsole\u003e:68\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[999] at randomSplit at \u003cconsole\u003e:68\nres163: trainingRatings.type \u003d MapPartitionsRDD[998] at randomSplit at \u003cconsole\u003e:68\nres164: testingRatings.type \u003d MapPartitionsRDD[999] at randomSplit at \u003cconsole\u003e:68\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Jul 29, 2015 1:56:19 AM",
-      "dateFinished": "Jul 29, 2015 1:56:21 AM",
+      "dateStarted": "Aug 18, 2015 12:19:32 AM",
+      "dateFinished": "Aug 18, 2015 12:19:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -208,7 +182,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -219,11 +194,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@68d73347\n"
+        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@7aae588c\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Jul 29, 2015 1:56:20 AM",
-      "dateFinished": "Jul 29, 2015 1:56:25 AM",
+      "dateStarted": "Aug 18, 2015 12:19:32 AM",
+      "dateFinished": "Aug 18, 2015 12:19:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -241,7 +216,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -252,11 +228,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[52083] at map at \u003cconsole\u003e:117\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[52092] at map at \u003cconsole\u003e:131\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[52099] at map at \u003cconsole\u003e:118\nRMSE: Double \u003d 0.010117743867991543\n"
+        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[1387] at map at \u003cconsole\u003e:65\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[1396] at map at \u003cconsole\u003e:79\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[1397] at map at \u003cconsole\u003e:66\nRMSE: Double \u003d 0.0\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:18 AM",
-      "dateStarted": "Jul 29, 2015 1:56:22 AM",
-      "dateFinished": "Jul 29, 2015 1:56:26 AM",
+      "dateStarted": "Aug 18, 2015 12:19:33 AM",
+      "dateFinished": "Aug 18, 2015 12:19:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -275,7 +251,8 @@
           "scatter": {}
         },
         "title": true,
-        "tableHide": false
+        "tableHide": false,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -286,11 +263,43 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:135: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:83: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Jul 29, 2015 1:56:25 AM",
-      "dateFinished": "Jul 29, 2015 1:56:28 AM",
+      "dateStarted": "Aug 18, 2015 12:19:37 AM",
+      "dateFinished": "Aug 18, 2015 12:19:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val personalizedRecommendations \u003d model.recommendProducts(84059, 5)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1439847639270_-37013988",
+      "id": "20150817-214039_2017355996",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "personalizedRecommendations: Array[org.apache.spark.mllib.recommendation.Rating] \u003d Array(Rating(84059,10011,0.9936042328772756), Rating(84059,10015,0.9936042239087132), Rating(84059,10013,0.9936042218506345), Rating(84059,10005,0.9936042186591887), Rating(84059,10009,0.993604217301616))\n"
+      },
+      "dateCreated": "Aug 17, 2015 9:40:39 PM",
+      "dateStarted": "Aug 18, 2015 12:19:38 AM",
+      "dateFinished": "Aug 18, 2015 12:19:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -306,7 +315,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -320,8 +330,8 @@
         "msg": "import org.elasticsearch.spark.sql._\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Jul 29, 2015 1:56:27 AM",
-      "dateFinished": "Jul 29, 2015 1:56:29 AM",
+      "dateStarted": "Aug 18, 2015 12:19:39 AM",
+      "dateFinished": "Aug 18, 2015 12:19:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -337,7 +347,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -350,13 +361,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Jul 29, 2015 1:56:28 AM",
-      "dateFinished": "Jul 29, 2015 1:56:29 AM",
+      "dateStarted": "Aug 18, 2015 12:19:40 AM",
+      "dateFinished": "Aug 18, 2015 12:19:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SparkAfterDark-Generate-Personalized-Recs-Likes",
+  "name": "3. SparkAfterDark-Generate-Personalized-Recs-Likes",
   "id": "2AUYFSKXN",
   "angularObjects": {},
   "config": {

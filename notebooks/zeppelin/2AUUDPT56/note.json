@@ -27,8 +27,8 @@
         "msg": "\u003ch1\u003eAnalyze Real-Time (Cassandra) and Historical Likes (Parquet)\u003c/h1\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 1:01:32 AM",
-      "dateStarted": "Jul 29, 2015 1:55:35 AM",
-      "dateFinished": "Jul 29, 2015 1:55:35 AM",
+      "dateStarted": "Aug 18, 2015 12:17:30 AM",
+      "dateFinished": "Aug 18, 2015 12:17:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -61,8 +61,8 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 3, 2015 6:20:25 AM",
-      "dateStarted": "Jul 29, 2015 1:54:10 AM",
-      "dateFinished": "Jul 29, 2015 1:54:10 AM",
+      "dateStarted": "Aug 18, 2015 12:17:30 AM",
+      "dateFinished": "Aug 18, 2015 12:17:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -95,8 +95,8 @@
         "msg": "import org.apache.spark.sql.SaveMode\nactressesDF: org.apache.spark.sql.DataFrame \u003d [count: bigint, name: string, results: struct\u003cpeople:array\u003cstruct\u003cbio:struct\u003ctext:string\u003e,hero:struct\u003calt:string,height:string,src:string,width:string\u003e,index:bigint,name:struct\u003ctext:string\u003e\u003e\u003e\u003e]\nactressesExplodedDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\nactorsDF: org.apache.spark.sql.DataFrame \u003d [count: bigint, name: string, results: struct\u003cpeople:array\u003cstruct\u003cbio:struct\u003ctext:string\u003e,hero:struct\u003calt:string,height:string,src:string,width:string\u003e,index:bigint,name:struct\u003chref:string,text:string\u003e\u003e\u003e\u003e]\nactorsExplodedDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\nactressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n"
       },
       "dateCreated": "Jul 3, 2015 5:24:38 AM",
-      "dateStarted": "Jul 29, 2015 1:54:10 AM",
-      "dateFinished": "Jul 29, 2015 1:54:13 AM",
+      "dateStarted": "Aug 18, 2015 12:17:30 AM",
+      "dateFinished": "Aug 18, 2015 12:17:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -109,7 +109,13 @@
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [],
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
           "values": [
             {
               "name": "name",
@@ -118,7 +124,18 @@
             }
           ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "title": true,
         "tableHide": false
@@ -135,14 +152,14 @@
         "msg": "id\tname\tbio\timg\n10001\tLeonardo DiCaprio\tFew actors in the world have had a career quite as diverse as Leonardo DiCaprio\u0027s. DiCaprio has gone from relatively humble beginnings, as a supporting cast member of the sitcom Growing Pains and low budget horror movies, such as Critters 3, to a major teenage heartthrob in the 1990s, as the hunky lead actor in movies such as Romeo + Juliet and Titanic...\timg/people/10001.jpg\n10002\tAnthony Hopkins\tAnthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, he moved to London and joined the National Theatre...\timg/people/10002.jpg\n10003\tAl Pacino\tOne of the greatest actors in all of film history, Al Pacino established himself during one of film\u0027s greatest decades, the 1970s, and has become an enduring and iconic figure in the world of American movies. Pacino was born on April 25, 1940, in the Bronx, New York, to an Italian-American family. His parents...\timg/people/10003.jpg\n10004\tMorgan Freeman\tWith an authoritative voice and calm demeanor, this ever popular American actor has grown into one of the most respected figures in modern US cinema. Morgan was born in June 1937 in Memphis, Tennessee, to Mayme Edna (Revere), a teacher, and Morgan Porterfield Freeman, a barber. The young Freeman attended...\timg/people/10004.jpg\n10005\tJames Gandolfini\tJames Gandolfini was born in Westwood, New Jersey, to Santa (Penna), a high school lunchlady, and James Joseph Gandolfini, Sr., a bricklayer and head school janitor. His parents were both of Italian origin. Gandolfini began acting in the New York theater. His Broadway debut was in the 1992 revival of \"A Streetcar Named Desire\" with Jessica Lange and Alec Baldwin...\timg/people/10005.jpg\n10006\tMarlon Brando\tMarlon Brando is widely considered the greatest movie actor of all time, rivaled only by the more theatrically oriented Laurence Olivier in terms of esteem. Unlike Olivier, who preferred the stage to the screen, Brando concentrated his talents on movies after bidding the Broadway stage adieu in 1949...\timg/people/10006.jpg\n10007\tDenzel Washington\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\timg/people/10007.jpg\n10008\tRobert De Niro\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\timg/people/10008.jpg\n10009\tChazz Palminteri\tBronx-born and raised Chazz Palminteri was a natural choice to continue the Italianate torch in film. In the tradition set forth in the 1970s by such icons as director Martin Scorsese and actors Robert De Niro, Al Pacino, John Cazale and Joe Pesci, Palminteri has brought grit, muscle and an evocative realism to the sidewalks of his New York neighborhood...\timg/people/10009.jpg\n10010\tTom Hanks\tThomas Jeffrey Hanks was born in Concord, California, to Janet Marylyn (Frager), a hospital worker, and Amos Mefford Hanks, an itinerant cook. His father had English, and some German, ancestry, while his mother\u0027s family, originally surnamed \"Fraga\", was entirely Portuguese. Tom grew up in what he has called a \"fractured\" family...\timg/people/10010.jpg\n10011\tJohn Travolta\tJohn Travolta was born in Englewood, New Jersey, one of six children of Helen Travolta (née Helen Cecilia Burke) and Salvatore Travolta. His father was of Italian descent and his mother was of Irish ancestry. His father owned a tire repair shop called Travolta Tires in Hillsdale, NJ. Travolta appeared in a local production of \"Who\u0027ll Save the Plowboy?\"...\timg/people/10011.jpg\n10012\tJohnny Depp\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\timg/people/10012.jpg\n10013\tMark Wahlberg\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\timg/people/10013.jpg\n10014\tJames Franco\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\timg/people/10014.jpg\n10015\tClive Owen\tDarkly handsome British actor Clive Owen is one of a handful of stars best known for his art house films but how has handle more mainstream action films lately with equal measures of grace and skill. Owen typically is cast as characters whose primary traits are a balance of physical strength, intellect...\timg/people/10015.jpg\n90001\tLinda Blair\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\timg/people/90001.jpg\n90002\tShannon Whirry\tShannon Whirry is not just a talented actress with girl-next-door looks, she captured a generation of viewers\u0027 imaginations by wishing that she actually was the girl-next-door. Born in Green Lake County, Wisconsin, Whirry graduated from high school and packed her bags for New York. She trained at the...\timg/people/90002.jpg\n90003\tRosalind Allen\tRosalind Allen (born Rosalind Ingledew) hails from New Zealand and studied acting there before coming to the United States. Her movie debut was in the film, Perfect, and she continues a long career in television \u0026 film. Famously remembered as the \"It girl\" in the Seinfeld episode, The Marine Biologist...\timg/people/90003.jpg\n90004\tBobbie Phillips\tBrains and beauty are two words that have been repeatedly used to describe Bobbie Phillips throughout her career. Graduating high school at 16 years old, Bobbie tried several different career paths. After taking college classes to become a litigation attorney, it was suggested she also take drama classes...\timg/people/90004.jpg\n90005\tKeshia Knight Pulliam\t\timg/people/90005.jpg\n90006\tTatyana Ali\tOn January 24, 1979, Tatyana Marisol Ali was born to Sonia, who was a nurse from Panama, and Sheriff Ali, a retired police officer from Trinidad. At the age of four she started singing and got a taste of fame when she begged her mother to take her to an audition for Sesame Street. She went on to perform in many productions in her native city...\timg/people/90006.jpg\n90007\tAngell Conwell\tBorn in the tiny town of Orangeburg, South Carolina, Angell Conwell began her journey at a very young age. After winning countless pageants locally, she signed with Wilhelmina\u0027s Kids Division in New York at the age of 10. Angell enjoyed modeling but yearned for more of a challenge. She begged for her parents permission to audition for a role in August Wilson\u0027s highly acclaimed...\timg/people/90007.jpg\n90008\tShannah Laumeister\t\timg/people/90008.jpg\n90009\tPam Grier\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\timg/people/90009.jpg\n90010\tTiffani Thiessen\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\timg/people/90010.jpg\n90011\tAshley Judd\t\timg/people/90011.jpg\n90012\tStacey Dash\tStacey Dash was born in the Bronx, New York. Stacy knew that she wanted to act, and from an early age began to act professionally. She made regular appearances on The Cosby Show, The Fresh Prince of Bel-Air, and also St. Elsewhere. At 21 she made her feature film debut in Enemy Territory, which was quickly followed by Moving...\timg/people/90012.jpg\n90013\tSofía Vergara\tSofía Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Dávila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\timg/people/90013.jpg\n90014\tGail O\u0027Grady\t\timg/people/90014.jpg\n90015\tBarbara Niven\t\timg/people/90015.jpg\n"
       },
       "dateCreated": "Jul 3, 2015 6:08:00 AM",
-      "dateStarted": "Jul 29, 2015 1:54:11 AM",
-      "dateFinished": "Jul 29, 2015 1:54:14 AM",
+      "dateStarted": "Aug 18, 2015 12:17:30 AM",
+      "dateFinished": "Aug 18, 2015 12:17:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read the real-time Likes coming from kafka",
-      "text": "val realTimeLikesDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"spark.cassandra.connection.host\"-\u003e\"127.0.0.1\", \"keyspace\" -\u003e \"sparkafterdark\", \"table\" -\u003e \"real_time_likes\")).load().toDF(\"from_user_id\", \"to_user_id\", \"batch_time\")",
+      "text": "val likesDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"keyspace\" -\u003e \"pipeline\", \"table\" -\u003e \"likes\")).load().toDF(\"from_user_id\", \"to_user_id\", \"batch_time\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -166,17 +183,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "realTimeLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: timestamp]\n"
+        "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Jul 29, 2015 1:55:10 AM",
-      "dateFinished": "Jul 29, 2015 1:55:11 AM",
+      "dateStarted": "Aug 18, 2015 12:17:32 AM",
+      "dateFinished": "Aug 18, 2015 12:17:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Current count of real-time likes",
-      "text": "realTimeLikesDF.count()",
+      "text": "likesDF.count()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -200,17 +217,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res378: Long \u003d 74\n"
+        "msg": "res131: Long \u003d 364\n"
       },
       "dateCreated": "Jul 3, 2015 6:05:55 AM",
-      "dateStarted": "Jul 29, 2015 1:55:12 AM",
-      "dateFinished": "Jul 29, 2015 1:55:13 AM",
+      "dateStarted": "Aug 18, 2015 12:17:32 AM",
+      "dateFinished": "Aug 18, 2015 12:17:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use the dataFrame API to query the real-time likes",
-      "text": "realTimeLikesDF.select(\"from_user_id\", \"to_user_id\", \"batch_time\").collect().mkString(\"\\n\")",
+      "text": "likesDF.select(\"from_user_id\", \"to_user_id\", \"batch_time\").collect().mkString(\"\\n\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -235,17 +252,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res351: String \u003d \n[50237,10007,2015-07-28 23:00:12.0]\n[50237,10008,2015-07-28 23:00:12.0]\n[50237,10009,2015-07-28 23:00:12.0]\n[50237,10011,2015-07-28 23:00:14.0]\n[50237,10014,2015-07-28 23:00:14.0]\n[50237,90002,2015-07-28 23:00:06.0]\n[50237,90004,2015-07-28 23:00:08.0]\n[50237,90006,2015-07-28 23:00:10.0]\n[50237,90008,2015-07-28 23:00:08.0]\n[50237,90010,2015-07-28 23:00:08.0]\n[50237,90011,2015-07-28 23:00:10.0]\n[56827,10002,2015-07-29 01:52:10.0]\n[56827,10004,2015-07-29 01:52:12.0]\n[56827,10009,2015-07-29 01:52:10.0]\n[56827,90003,2015-07-29 01:52:08.0]\n[56827,90005,2015-07-29 01:52:08.0]\n[56827,90008,2015-07-29 01:52:08.0]\n[8,10002,2015-07-29 01:53:56.0]\n[8,10004,2015-07-29 01:53:56.0]\n[8,10009,2015-07-29 01:53:58.0]\n[8,90005,2015-07-29 01:53:52.0]\n[8,90008,2015-07-29 01:53:52.0]\n[8,9001..."
+        "msg": "res133: String \u003d \n[87685,10006,1439856878000]\n[87685,90004,1439856860000]\n[87685,90010,1439856866000]\n[60367,10014,1439856870000]\n[97632,10001,1439856880000]\n[97632,10004,1439856874000]\n[97632,10007,1439856878000]\n[97632,10010,1439856876000]\n[97632,10014,1439856878000]\n[97632,90006,1439856868000]\n[97632,90013,1439856870000]\n[97632,90015,1439856872000]\n[80344,10001,1439841612000]\n[80344,10002,1439841612000]\n[80344,10004,1439841614000]\n[80344,10005,1439841614000]\n[80344,90001,1439841528000]\n[80344,90006,1439841528000]\n[80344,90007,1439841610000]\n[80344,90009,1439841530000]\n[80344,90011,1439841530000]\n[80344,90012,1439841552000]\n[80344,90013,1439841554000]\n[80344,90014,1439841554000]\n[80344,90015,1439841530000]\n[63219,10008,1439856956000]\n[63219,10010,1439856950000]\n[63219,10012,1439856950..."
       },
       "dateCreated": "Jul 3, 2015 6:06:20 AM",
-      "dateStarted": "Jul 29, 2015 1:54:15 AM",
-      "dateFinished": "Jul 29, 2015 1:54:16 AM",
+      "dateStarted": "Aug 18, 2015 12:17:33 AM",
+      "dateFinished": "Aug 18, 2015 12:17:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show number of distinct Real-time participating users",
-      "text": "import org.apache.spark.sql.functions._\n\nrealTimeLikesDF.select(countDistinct($\"from_user_id\").as(\"distinct_user_count\")).collect()(0)",
+      "text": "import org.apache.spark.sql.functions._\n\nlikesDF.select(countDistinct($\"from_user_id\").as(\"distinct_user_count\")).collect()(0)",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -269,160 +286,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\nres354: org.apache.spark.sql.Row \u003d [11]\n"
+        "msg": "import org.apache.spark.sql.functions._\nres136: org.apache.spark.sql.Row \u003d [57]\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Jul 29, 2015 1:54:15 AM",
-      "dateFinished": "Jul 29, 2015 1:54:17 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Read the Historical likes from parquet",
-      "text": "val historicalLikesDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/sparkafterdark/likes.parquet\")",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435900596146_550253854",
-      "id": "20150703-051636_1970598604",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "historicalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int]\n"
-      },
-      "dateCreated": "Jul 3, 2015 5:16:36 AM",
-      "dateStarted": "Jul 29, 2015 1:54:16 AM",
-      "dateFinished": "Jul 29, 2015 1:54:18 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Register Historical Likes As a temp table",
-      "text": "historicalLikesDF.registerTempTable(\"historical_likes_temp\")",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 489.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "from_user_id",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "to_user_id",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "from_user_id",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "to_user_id",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "title": true,
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435900882477_1744528120",
-      "id": "20150703-052122_549961871",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Jul 3, 2015 5:21:22 AM",
-      "dateStarted": "Jul 29, 2015 1:54:18 AM",
-      "dateFinished": "Jul 29, 2015 1:54:18 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Use SQL to query and Enrich the historical likes",
-      "text": "%sql SELECT name, count(to_user_id) as count FROM historical_likes_temp JOIN actresses_and_actors ON (historical_likes_temp.to_user_id \u003d actresses_and_actors.id) GROUP BY name HAVING count \u003e 40 ORDER BY count DESC",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "multiBarChart",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "name",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "count",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "yAxis": {
-              "name": "count",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "title": true,
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435901023729_-1398284786",
-      "id": "20150703-052343_147553800",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "name\tcount\nMorgan Freeman\t51\nAshley Judd\t50\nLeonardo DiCaprio\t44\nBobbie Phillips\t44\nGail O\u0027Grady\t41\nSofía Vergara\t41\n"
-      },
-      "dateCreated": "Jul 3, 2015 5:23:43 AM",
-      "dateStarted": "Jul 29, 2015 1:54:18 AM",
-      "dateFinished": "Jul 29, 2015 1:54:19 AM",
+      "dateStarted": "Aug 18, 2015 12:17:33 AM",
+      "dateFinished": "Aug 18, 2015 12:17:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "register the real-time likes as a temp table",
-      "text": "realTimeLikesDF.cache()\nrealTimeLikesDF.registerTempTable(\"real_time_likes_temp\")",
+      "text": "likesDF.cache()\nlikesDF.registerTempTable(\"likes_temp\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -446,71 +320,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res359: realTimeLikesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: timestamp]\n"
+        "msg": "res138: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 6:29:39 AM",
-      "dateStarted": "Jul 29, 2015 1:54:19 AM",
-      "dateFinished": "Jul 29, 2015 1:54:20 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%sql select * from real_time_likes_temp limit 100",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "from_user_id",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "to_user_id",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "from_user_id",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "to_user_id",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
-        }
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1438120939311_-860992008",
-      "id": "20150728-220219_386088794",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "from_user_id\tto_user_id\tbatch_time\n50237\t10007\t2015-07-28 23:00:12.0\n50237\t10008\t2015-07-28 23:00:12.0\n50237\t10009\t2015-07-28 23:00:12.0\n50237\t10011\t2015-07-28 23:00:14.0\n50237\t10014\t2015-07-28 23:00:14.0\n50237\t90002\t2015-07-28 23:00:06.0\n50237\t90004\t2015-07-28 23:00:08.0\n50237\t90006\t2015-07-28 23:00:10.0\n50237\t90008\t2015-07-28 23:00:08.0\n50237\t90010\t2015-07-28 23:00:08.0\n50237\t90011\t2015-07-28 23:00:10.0\n56827\t10002\t2015-07-29 01:52:10.0\n56827\t10004\t2015-07-29 01:52:12.0\n56827\t10009\t2015-07-29 01:52:10.0\n56827\t90003\t2015-07-29 01:52:08.0\n56827\t90005\t2015-07-29 01:52:08.0\n56827\t90008\t2015-07-29 01:52:08.0\n8\t10002\t2015-07-29 01:53:56.0\n8\t10004\t2015-07-29 01:53:56.0\n8\t10009\t2015-07-29 01:53:58.0\n8\t90005\t2015-07-29 01:53:52.0\n8\t90008\t2015-07-29 01:53:52.0\n8\t90010\t2015-07-29 01:53:52.0\n8\t90015\t2015-07-29 01:53:54.0\n2506\t90001\t2015-07-28 22:14:40.0\n2506\t90004\t2015-07-28 22:14:40.0\n2506\t90009\t2015-07-28 22:14:42.0\n2506\t90010\t2015-07-28 22:14:42.0\n92272\t10002\t2015-07-29 01:39:48.0\n92272\t10009\t2015-07-29 01:39:50.0\n92272\t10011\t2015-07-29 01:39:50.0\n92272\t90002\t2015-07-29 01:39:48.0\n92272\t90005\t2015-07-29 01:39:48.0\n92272\t90010\t2015-07-29 01:39:46.0\n44212\t90009\t2015-07-29 01:42:54.0\n46453\t10007\t2015-07-29 01:35:16.0\n46453\t10008\t2015-07-29 01:35:16.0\n46453\t10010\t2015-07-29 01:35:16.0\n46453\t10013\t2015-07-29 01:35:16.0\n46453\t90003\t2015-07-29 01:35:20.0\n46453\t90007\t2015-07-29 01:35:22.0\n46453\t90010\t2015-07-29 01:35:20.0\n46453\t90011\t2015-07-29 01:35:20.0\n46453\t90013\t2015-07-29 01:35:18.0\n60404\t10004\t2015-07-28 23:31:00.0\n60404\t90013\t2015-07-28 23:30:58.0\n60404\t90015\t2015-07-28 23:30:58.0\n22339\t20003\t2015-07-28 21:32:40.0\n22339\t20005\t2015-07-28 21:32:42.0\n22339\t20009\t2015-07-28 21:32:40.0\n22339\t20011\t2015-07-28 21:32:42.0\n22339\t180003\t2015-07-28 21:32:38.0\n22339\t180005\t2015-07-28 21:32:38.0\n22339\t180006\t2015-07-28 21:32:38.0\n22339\t180008\t2015-07-28 21:32:40.0\n22339\t180012\t2015-07-28 21:32:38.0\n19057\t10001\t2015-07-29 00:35:58.0\n19057\t10004\t2015-07-29 00:35:48.0\n19057\t10007\t2015-07-29 00:35:50.0\n19057\t90006\t2015-07-29 00:35:46.0\n19057\t90009\t2015-07-29 00:35:30.0\n19057\t90011\t2015-07-29 00:35:32.0\n11842\t180001\t2015-07-28 22:09:24.0\n11842\t180008\t2015-07-28 22:09:48.0\n11842\t180009\t2015-07-28 22:10:26.0\n11842\t180010\t2015-07-28 22:10:32.0\n11842\t180014\t2015-07-28 22:10:52.0\n11842\t180015\t2015-07-28 22:10:56.0\n"
-      },
-      "dateCreated": "Jul 28, 2015 10:02:19 PM",
-      "dateStarted": "Jul 29, 2015 1:54:19 AM",
-      "dateFinished": "Jul 29, 2015 1:54:20 AM",
+      "dateStarted": "Aug 18, 2015 12:17:34 AM",
+      "dateFinished": "Aug 18, 2015 12:17:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Most desirable users by Like Count",
-      "text": "%sql SELECT name, count(to_user_id) as count FROM real_time_likes_temp JOIN actresses_and_actors ON (real_time_likes_temp.to_user_id \u003d actresses_and_actors.id) GROUP BY name HAVING count \u003e 0 ORDER BY count DESC",
+      "text": "%sql SELECT name, count(to_user_id) as count FROM likes_temp JOIN actresses_and_actors ON (likes_temp.to_user_id \u003d actresses_and_actors.id) GROUP BY name HAVING count \u003e 0 ORDER BY count DESC",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -557,11 +377,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "name\tcount\nTiffani Thiessen\t5\nMorgan Freeman\t4\nChazz Palminteri\t4\nPam Grier\t3\nAshley Judd\t3\nAnthony Hopkins\t3\nDenzel Washington\t3\nShannah Laumeister\t3\nKeshia Knight Pulliam\t3\nRobert De Niro\t2\nRosalind Allen\t2\nBobbie Phillips\t2\nBarbara Niven\t2\nJohn Travolta\t2\nSofía Vergara\t2\nTatyana Ali\t2\nShannon Whirry\t2\nLeonardo DiCaprio\t1\nMark Wahlberg\t1\nAngell Conwell\t1\nTom Hanks\t1\nLinda Blair\t1\nJames Franco\t1\n"
+        "msg": "name\tcount\nMorgan Freeman\t24\nAshley Judd\t22\nSofía Vergara\t21\nLeonardo DiCaprio\t19\nBobbie Phillips\t19\nGail O\u0027Grady\t18\nJohnny Depp\t16\nBarbara Niven\t15\nJames Franco\t14\nTom Hanks\t14\nTiffani Thiessen\t13\nStacey Dash\t13\nClive Owen\t12\nRobert De Niro\t11\nDenzel Washington\t11\nAl Pacino\t11\nAngell Conwell\t10\nRosalind Allen\t10\nTatyana Ali\t10\nShannah Laumeister\t10\nLinda Blair\t9\nJames Gandolfini\t9\nAnthony Hopkins\t8\nShannon Whirry\t8\nMarlon Brando\t8\nMark Wahlberg\t7\nKeshia Knight Pulliam\t7\nPam Grier\t6\nJohn Travolta\t6\nChazz Palminteri\t4\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Jul 29, 2015 1:54:20 AM",
-      "dateFinished": "Jul 29, 2015 1:54:21 AM",
+      "dateStarted": "Aug 18, 2015 12:29:51 AM",
+      "dateFinished": "Aug 18, 2015 12:29:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -591,14 +411,14 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Should Be Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Jul 29, 2015 1:54:10 AM",
-      "dateFinished": "Jul 29, 2015 1:54:10 AM",
+      "dateStarted": "Aug 18, 2015 12:17:30 AM",
+      "dateFinished": "Aug 18, 2015 12:17:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for SQL Query",
-      "text": "sqlContext.sql(\"SELECT count(to_user_id) as count FROM real_time_likes_temp GROUP BY to_user_id ORDER BY count DESC\").explain()",
+      "text": "sqlContext.sql(\"SELECT count(to_user_id) as count FROM likes_temp GROUP BY to_user_id ORDER BY count DESC\").explain()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -622,17 +442,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#43865L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#43757], [Coalesce(SUM(PartialCount#43883L),0) AS count#43865L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#43757], [to_user_id#43757,COUNT(to_user_id#43757) AS PartialCount#43883L]\n     InMemoryColumnarTableScan [to_user_id#43757], (InMemoryRelation [from_user_id#43756,to_user_id#43757,batch_time#43758], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#43753 AS from_user_id#43756,touserid#43754 AS to_user_id#43757,batchtime#43755 AS batch_time#43758]), None)\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#1175L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#1117], [Coalesce(SUM(PartialCount#1193L),0) AS count#1175L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#1117], [to_user_id#1117,COUNT(to_user_id#1117) AS PartialCount#1193L]\n     InMemoryColumnarTableScan [to_user_id#1117], (InMemoryRelation [from_user_id#1116,to_user_id#1117,batch_time#1118L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#1113 AS from_user_id#1116,touserid#1114 AS to_user_id#1117,batchtime#1115L AS batch_time#1118L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:28:17 AM",
-      "dateStarted": "Jul 29, 2015 1:54:21 AM",
-      "dateFinished": "Jul 29, 2015 1:54:21 AM",
+      "dateStarted": "Aug 18, 2015 12:17:35 AM",
+      "dateFinished": "Aug 18, 2015 12:17:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for DataFrame Query",
-      "text": "realTimeLikesDF.groupBy(\"to_user_id\").count().as(\"ct\").sort($\"count\".desc).explain()",
+      "text": "likesDF.groupBy(\"to_user_id\").count().as(\"ct\").sort($\"count\".desc).explain()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -656,17 +476,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#43887L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#43757], [to_user_id#43757,Coalesce(SUM(PartialCount#43905L),0) AS count#43887L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#43757], [to_user_id#43757,COUNT(1) AS PartialCount#43905L]\n     InMemoryColumnarTableScan [to_user_id#43757], (InMemoryRelation [from_user_id#43756,to_user_id#43757,batch_time#43758], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#43753 AS from_user_id#43756,touserid#43754 AS to_user_id#43757,batchtime#43755 AS batch_time#43758]), None)\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#1197L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#1117], [to_user_id#1117,Coalesce(SUM(PartialCount#1215L),0) AS count#1197L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#1117], [to_user_id#1117,COUNT(1) AS PartialCount#1215L]\n     InMemoryColumnarTableScan [to_user_id#1117], (InMemoryRelation [from_user_id#1116,to_user_id#1117,batch_time#1118L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#1113 AS from_user_id#1116,touserid#1114 AS to_user_id#1117,batchtime#1115L AS batch_time#1118L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:26:53 AM",
-      "dateStarted": "Jul 29, 2015 1:54:21 AM",
-      "dateFinished": "Jul 29, 2015 1:54:22 AM",
+      "dateStarted": "Aug 18, 2015 12:17:37 AM",
+      "dateFinished": "Aug 18, 2015 12:17:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
-      "text": "val enrichedRealTimeLikesDF \u003d realTimeLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedRealTimeLikesDF.collect()",
+      "text": "val enrichedLikesDF \u003d likesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedLikesDF.collect()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -689,45 +509,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedRealTimeLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres369: Array[org.apache.spark.sql.Row] \u003d Array([50237,10007,Denzel Washington,Denzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...,img/people/10007.jpg], [50237,10008,Robert De Niro,Robert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American W..."
+        "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres145: Array[org.apache.spark.sql.Row] \u003d Array([87685,10006,Marlon Brando,Marlon Brando is widely considered the greatest movie actor of all time, rivaled only by the more theatrically oriented Laurence Olivier in terms of esteem. Unlike Olivier, who preferred the stage to the screen, Brando concentrated his talents on movies after bidding the Broadway stage adieu in 1949...,img/people/10006.jpg], [87685,90004,Bobbie Phillips,Brains and beauty are two words that have been repeatedly used to describe Bobbie Phillips throughout her career. Graduating high school at 16 years old, Bobbie tried several different career paths. After taking college classes to become a litigation attorney, it was suggested she also take drama classes...,img/people/90004.jpg], [87685,90010,Tiffani Thiessen,Tiff..."
       },
       "dateCreated": "Jul 28, 2015 10:22:02 PM",
-      "dateStarted": "Jul 29, 2015 1:54:28 AM",
-      "dateFinished": "Jul 29, 2015 1:54:29 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Enrich historical likes with actress and actors reference data",
-      "text": "val enrichedHistoricalLikesDF \u003d historicalLikesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435906466586_-1726508488",
-      "id": "20150703-065426_726284484",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "enrichedHistoricalLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\n"
-      },
-      "dateCreated": "Jul 3, 2015 6:54:26 AM",
-      "dateStarted": "Jul 29, 2015 1:54:22 AM",
-      "dateFinished": "Jul 29, 2015 1:54:23 AM",
+      "dateStarted": "Aug 18, 2015 12:17:37 AM",
+      "dateFinished": "Aug 18, 2015 12:17:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -757,13 +543,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 7:42:48 AM",
-      "dateStarted": "Jul 29, 2015 1:54:23 AM",
-      "dateFinished": "Jul 29, 2015 1:54:23 AM",
+      "dateStarted": "Aug 18, 2015 12:17:37 AM",
+      "dateFinished": "Aug 18, 2015 12:17:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SparkAfterDark-Analyze-Likes",
+  "name": "1. SparkAfterDark-Analyze-Likes",
   "id": "2AUUDPT56",
   "angularObjects": {},
   "config": {

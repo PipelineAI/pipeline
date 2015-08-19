@@ -26,14 +26,14 @@
         "msg": "\u003ch1\u003eNon-Personalized Recs: Top Likes and Top Influencers\u003c/h1\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:33:36 AM",
-      "dateStarted": "Jul 29, 2015 1:55:49 AM",
-      "dateFinished": "Jul 29, 2015 1:55:49 AM",
+      "dateStarted": "Aug 18, 2015 12:18:36 AM",
+      "dateFinished": "Aug 18, 2015 12:18:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "1. Most Desirable Users By Like Count",
-      "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedRealTimeLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
+      "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -59,8 +59,8 @@
         "msg": "mostDesirableUsersByLikeCountDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
       },
       "dateCreated": "Jul 4, 2015 2:36:45 AM",
-      "dateStarted": "Jul 29, 2015 1:55:49 AM",
-      "dateFinished": "Jul 29, 2015 1:55:50 AM",
+      "dateStarted": "Aug 18, 2015 12:18:36 AM",
+      "dateFinished": "Aug 18, 2015 12:18:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -92,8 +92,8 @@
         "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 52.27.56.210, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 28, 2015 11:34:50 PM",
-      "dateStarted": "Jul 29, 2015 1:55:49 AM",
-      "dateFinished": "Jul 29, 2015 1:55:52 AM",
+      "dateStarted": "Aug 18, 2015 12:18:36 AM",
+      "dateFinished": "Aug 18, 2015 12:18:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -125,14 +125,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Jul 29, 2015 1:55:49 AM",
-      "dateFinished": "Jul 29, 2015 1:55:49 AM",
+      "dateStarted": "Aug 18, 2015 12:18:36 AM",
+      "dateFinished": "Aug 18, 2015 12:18:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d enrichedRealTimeLikesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d likesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -155,11 +155,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[51493] at map at \u003cconsole\u003e:124\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@c49c265\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@63b49b54\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90009,0.33062499999999995), (10004,0.2532142857142857), (90010,0.24709686147186144), (10009,0.22230519480519478), (90015,0.2107142857142857), (10002,0.2107142857142857), (90005,0.2107142857142857), (90013,0.20666666666666667), (90008,0.2010551948051948), (10007,0.19700757575757574))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[896] at map at \u003cconsole\u003e:64\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@2e16cabb\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7f444667\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90011,0.6471663232600733), (10004,0.6312288232600733), (10012,0.5757589285714286), (10001,0.564974358974359), (90004,0.5607068452380952), (90013,0.5320621565934066), (10014,0.5305267857142858), (90014,0.5127853708791209), (90010,0.4567589285714285), (10015,0.4201785714285714))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Jul 29, 2015 1:55:51 AM",
-      "dateFinished": "Jul 29, 2015 1:55:56 AM",
+      "dateStarted": "Aug 18, 2015 12:18:38 AM",
+      "dateFinished": "Aug 18, 2015 12:18:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -191,13 +191,13 @@
         "msg": ""
       },
       "dateCreated": "Jul 29, 2015 12:25:59 AM",
-      "dateStarted": "Jul 29, 2015 1:55:52 AM",
-      "dateFinished": "Jul 29, 2015 1:55:57 AM",
+      "dateStarted": "Aug 18, 2015 12:18:39 AM",
+      "dateFinished": "Aug 18, 2015 12:18:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "[TODO] Write Recommendations To ElasticSearch To Be Used By The WebApp",
+      "title": "",
       "text": "",
       "config": {
         "colWidth": 12.0,
@@ -223,13 +223,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Jul 29, 2015 1:55:57 AM",
-      "dateFinished": "Jul 29, 2015 1:55:57 AM",
+      "dateStarted": "Aug 18, 2015 12:18:42 AM",
+      "dateFinished": "Aug 18, 2015 12:18:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SparkAfterDark-Generate-Non-Personalized-Recs-Counts-PageRank",
+  "name": "2. SparkAfterDark-Generate-Non-Personalized-Recs-Counts-PageRank",
   "id": "2ASEWJ19K",
   "angularObjects": {},
   "config": {
