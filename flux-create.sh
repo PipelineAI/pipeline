@@ -24,5 +24,7 @@ echo ...Creating and Formatting Docker-local HDFS...
 hdfs namenode -format
 
 echo ...Creating Reference Data in Hive...
-#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS gender'
-spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE gender(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/gender.json.bz2")'
+#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS genders'
+spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE genders(id INT, gender STRING) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/genders.json.bz2")'
+#spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'DROP TABLE IF EXISTS ratings'
+spark-sql --jars $MYSQL_CONNECTOR_JAR -e 'CREATE TABLE ratings(fromuserid INT, touserid INT, rating INT) USING org.apache.spark.sql.json OPTIONS (path "datasets/dating/ratings.json.bz2")

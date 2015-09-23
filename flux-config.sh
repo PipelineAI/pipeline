@@ -18,8 +18,8 @@ mkdir -p $PIPELINE_HOME/logs/apache2
 
 # Datasets
 echo ...Decompressing Datasets...
-bzip2 -d -k datasets/dating/gender.json.bz2
-bzip2 -d -k datasets/dating/gender.csv.bz2
+bzip2 -d -k datasets/dating/genders.json.bz2
+bzip2 -d -k datasets/dating/genders.csv.bz2
 bzip2 -d -k datasets/dating/ratings.json.bz2
 bzip2 -d -k datasets/dating/ratings.csv.bz2
 
