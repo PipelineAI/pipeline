@@ -19,6 +19,10 @@ cqlsh -e "CREATE KEYSPACE pipeline WITH REPLICATION = { 'class': 'SimpleStrategy
 cqlsh -e "USE pipeline; CREATE TABLE ratings (fromUserId int, toUserId int, rating int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
 #cqlsh -e "USE pipeline; DROP TABLE IF EXISTS likes;"
 cqlsh -e "USE pipeline; CREATE TABLE likes (fromUserId int, toUserId int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
+#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS ratings_partitioned;"
+cqlsh -e "USE pipeline; CREATE TABLE ratings_partitioned (fromUserId int, toUserId int, rating int, PRIMARY KEY(toUserId, rating));"
+#cqlsh -e "USE pipeline; DROP TABLE IF EXISTS genders_partitioned;"
+cqlsh -e "USE pipeline; CREATE TABLE genders_partitioned (id int, gender text, PRIMARY KEY(id, gender));"
 
 echo ...Creating and Formatting Docker-local HDFS...
 hdfs namenode -format

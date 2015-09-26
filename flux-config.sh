@@ -65,6 +65,7 @@ ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 echo ...Configuring Spark...
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
 ln -s $PIPELINE_HOME/config/spark/spark-env.sh $SPARK_HOME/conf
+ln -s $PIPELINE_HOME/config/spark/slaves $SPARK_HOME/conf
 ln -s $PIPELINE_HOME/config/spark/metrics.properties $SPARK_HOME/conf
 ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $SPARK_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
