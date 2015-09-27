@@ -27,10 +27,10 @@ bzip2 -d -k datasets/dating/genders.json.bz2
 bzip2 -d -k datasets/dating/genders.csv.bz2
 bzip2 -d -k datasets/dating/ratings.json.bz2
 bzip2 -d -k datasets/dating/ratings.csv.bz2
-tar -xjf datasets/dating/genders-partitioned.parquet.tar.bz2
-tar -xjf datasets/dating/genders-unpartitioned.parquet.tar.bz2
-tar -xjf datasets/dating/ratings-partitioned.parquet.tar.bz2
-tar -xjf datasets/dating/ratings-unpartitioned.parquet.tar.bz2
+tar -xjf datasets/dating/genders-partitioned.parquet.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/genders-unpartitioned.parquet.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-partitioned.parquet.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-unpartitioned.parquet.tar.bz2 -C datasets/dating/
 
 # Sample WebApp
 echo '...Configuring Sample WebApp...'

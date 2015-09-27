@@ -32,9 +32,10 @@ object StreamingRatingsPartitioned {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "localhost:9092,localhost:9093"
+    val brokers = "localhost:9092"
     val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings_partitioned")
 
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -51,7 +52,7 @@ object StreamingRatingsPartitioned {
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
         df.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
-          .options(Map("keyspace" -> "pipeline", "table" -> "ratings_partitioned"))
+          .options(cassandraConfig)
           .save()
       }
     }

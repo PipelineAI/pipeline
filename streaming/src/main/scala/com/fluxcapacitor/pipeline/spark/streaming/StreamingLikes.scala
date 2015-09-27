@@ -35,6 +35,7 @@ object StreamingLikes {
     val brokers = "localhost:9092"
     val topics = Set("likes")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "likes")
 
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -46,7 +47,7 @@ object StreamingLikes {
         // save the DataFrame to Cassandra
         df.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
-          .options(Map("keyspace" -> "pipeline", "table" -> "likes"))
+          .options(cassandraConfig)
           .save()
       }
     }
