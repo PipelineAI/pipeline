@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%md # Start the Kafka Spark Streaming Job",
+      "text": "%md # Start the Kafka Spark Streaming Job\n* ### This is optional.\n* ### Alternatively, use $PIPELINE_HOME/flux-start-kafka-streaming-likes.sh",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,16 +23,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch1\u003eStart the Kafka Spark Streaming Job\u003c/h1\u003e\n"
+        "msg": "\u003ch1\u003eStart the Kafka Spark Streaming Job\u003c/h1\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ch3\u003eThis is optional.\u003c/h3\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003ch3\u003eAlternatively, use $PIPELINE_HOME/flux-start-kafka-streaming-likes.sh\u003c/h3\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Jun 26, 2015 9:06:14 PM",
-      "dateStarted": "Jul 4, 2015 9:59:58 PM",
-      "dateFinished": "Jul 4, 2015 9:59:58 PM",
+      "dateStarted": "Sep 27, 2015 5:34:02 PM",
+      "dateFinished": "Sep 27, 2015 5:34:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0\")",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.1\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -57,8 +57,8 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 28, 2015 7:01:33 PM",
-      "dateStarted": "Sep 27, 2015 4:32:55 AM",
-      "dateFinished": "Sep 27, 2015 4:32:55 AM",
+      "dateStarted": "Sep 27, 2015 6:21:47 PM",
+      "dateFinished": "Sep 27, 2015 6:21:47 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -97,7 +97,7 @@
     },
     {
       "title": "Create the Kafka Stream",
-      "text": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\nimport kafka.serializer.StringDecoder\n\ndef create(): StreamingContext \u003d {\n  @transient val newSsc \u003d new StreamingContext(sc, Seconds(2))\n  println(s\"Creating new StreamingContext $newSsc\")\n\n  newSsc\n}\n\nval ssc \u003d StreamingContext.getActiveOrCreate(create)\n\nval likeStream \u003d KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)\n",
+      "text": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\nimport kafka.serializer.StringDecoder\n\ndef create(): StreamingContext \u003d {\n  @transient val newSsc \u003d new StreamingContext(sc, Seconds(2))\n  println(s\"Creating new StreamingContext $newSsc\")\n\n  newSsc\n}\n\nval ssc \u003d StreamingContext.getActiveOrCreate(create)\n\nval cassandraConfig \u003d Map(\"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"real_time_likes\")\nval likeStream \u003d KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -118,19 +118,19 @@
       "jobName": "paragraph_1435352502700_1656285081",
       "id": "20150626-210142_283675308",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.streaming.kafka.KafkaUtils\nimport org.apache.spark.streaming.Seconds\nimport org.apache.spark.streaming.StreamingContext\nimport kafka.serializer.StringDecoder\ncreate: ()org.apache.spark.streaming.StreamingContext\nCreating new StreamingContext org.apache.spark.streaming.StreamingContext@294bfafb\nssc: org.apache.spark.streaming.StreamingContext \u003d org.apache.spark.streaming.StreamingContext@294bfafb\nlikeStream: org.apache.spark.streaming.dstream.InputDStream[(String, String)] \u003d org.apache.spark.streaming.kafka.DirectKafkaInputDStream@6106a037\n"
+        "msg": "\u003cconsole\u003e:21: error: object kafka is not a member of package org.apache.spark.streaming\n       import org.apache.spark.streaming.kafka.KafkaUtils\n                                         ^\n"
       },
       "dateCreated": "Jun 26, 2015 9:01:42 PM",
-      "dateStarted": "Jul 28, 2015 9:22:21 PM",
-      "dateFinished": "Jul 28, 2015 9:22:22 PM",
+      "dateStarted": "Sep 27, 2015 5:34:53 PM",
+      "dateFinished": "Sep 27, 2015 5:35:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Setup the Stream Data Transformations and Actions (Append to Cassandra Table)",
-      "text": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n\nlikeStream.foreachRDD{\n  (rdd: RDD[(String,String)], batchTime: Time) \u003d\u003e {\n      // convert each RDD from the batch into a DataFrame\n      val df \u003d rdd.toDF(\"from_user_id\", \"to_user_id\").select($\"from_user_id\", $\"to_user_id\")\n      \n      // add the batch time to the DataFrame\n      val dfWithBatchTime \u003d df.withColumn(\"batch_time\", lit(batchTime.milliseconds))\n      \n      // save the DataFrame to Cassandra\n      dfWithBatchTime.write.format(\"org.apache.spark.sql.cassandra\")\n        .mode(SaveMode.Append)\n        .options(Map(\"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"real_time_likes\"))\n        .save()\n  }\n}",
+      "text": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n\nlikeStream.foreachRDD{\n  (rdd: RDD[(String,String)], batchTime: Time) \u003d\u003e {\n      // convert each RDD from the batch into a DataFrame\n      val df \u003d rdd.toDF(\"from_user_id\", \"to_user_id\").select($\"from_user_id\", $\"to_user_id\")\n      \n      // add the batch time to the DataFrame\n      val dfWithBatchTime \u003d df.withColumn(\"batch_time\", lit(batchTime.milliseconds))\n      \n      // save the DataFrame to Cassandra\n      dfWithBatchTime.write.format(\"org.apache.spark.sql.cassandra\")\n        .mode(SaveMode.Append)\n        .options(cassandraConfig)\n        .save()\n  }\n}",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -151,13 +151,13 @@
       "jobName": "paragraph_1435352637874_125200642",
       "id": "20150626-210357_701410267",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n"
+        "msg": "import org.apache.spark.sql.SaveMode\nimport org.apache.spark.rdd.RDD\nimport org.apache.spark.streaming.Time\n\u003cconsole\u003e:26: error: not found: value likeStream\n              likeStream.foreachRDD{\n              ^\n"
       },
       "dateCreated": "Jun 26, 2015 9:03:57 PM",
-      "dateStarted": "Jul 28, 2015 9:22:24 PM",
-      "dateFinished": "Jul 28, 2015 9:22:25 PM",
+      "dateStarted": "Sep 27, 2015 5:35:01 PM",
+      "dateFinished": "Sep 27, 2015 5:35:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -240,7 +240,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "99. Kafka-Streaming-Server",
+  "name": "Likes 0: Start Kafka Streaming Server (Optional)",
   "id": "2ASK4UQ3M",
   "angularObjects": {},
   "config": {

@@ -72,17 +72,17 @@ function loadPeople(type) {
 }
 
 function loadPersonalizedALS() {
-    $.getJSON ("/personalized-als/_search?sort=confidence:desc", function (data) {
+    $.getJSON ("/personalized-als/_search?q=from_user_id:" + myId + "&sort=confidence:desc", function (data) {
     var items = [];
     var hits = data.hits.hits
     $.each( hits, function( arrayIdx, hit ) {
-      if (hit.from_user_id == myId) {
+    //  if (hit._source.from_user_id == myId) {	
 	  var personIdx = hit._source.to_user_id
 	  var imgSrc = hit._source.img
 	  var personName = hit._source.name 
 
           items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
-      }
+     // }
     });
     
     $( "<ul/>", {

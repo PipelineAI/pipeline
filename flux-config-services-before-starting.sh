@@ -38,7 +38,7 @@ echo '...Configuring Sample WebApp...'
 ln -s $PIPELINE_HOME/config/fluxcapacitor/fluxcapacitor.conf /etc/apache2/sites-available
 a2ensite fluxcapacitor.conf
 # We're just copying these under /var/www/html for now
-# Ideally, a symlink would be more appropriate, but Apache is being a pain
+# Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
 cp -R $PIPELINE_HOME/html/fluxcapacitor.com/* /var/www/html
 cp -R $PIPELINE_HOME/datasets /var/www/html
 

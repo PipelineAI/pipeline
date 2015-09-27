@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,8 +26,8 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Sep 27, 2015 4:31:30 AM",
-      "dateStarted": "Sep 27, 2015 4:32:07 AM",
-      "dateFinished": "Sep 27, 2015 4:32:07 AM",
+      "dateStarted": "Sep 27, 2015 6:24:25 PM",
+      "dateFinished": "Sep 27, 2015 6:24:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -59,8 +59,8 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Aug 18, 2015 12:18:36 AM",
-      "dateFinished": "Aug 18, 2015 12:18:36 AM",
+      "dateStarted": "Sep 27, 2015 6:24:25 PM",
+      "dateFinished": "Sep 27, 2015 6:24:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -89,11 +89,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[896] at map at \u003cconsole\u003e:64\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@2e16cabb\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7f444667\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90011,0.6471663232600733), (10004,0.6312288232600733), (10012,0.5757589285714286), (10001,0.564974358974359), (90004,0.5607068452380952), (90013,0.5320621565934066), (10014,0.5305267857142858), (90014,0.5127853708791209), (90010,0.4567589285714285), (10015,0.4201785714285714))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[833] at map at \u003cconsole\u003e:69\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@9512324\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@54db2571\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((10002,0.21799999999999997), (10006,0.21799999999999997), (10004,0.2149642857142857), (10010,0.21375), (90007,0.1925), (90011,0.1925), (10014,0.1894642857142857), (10007,0.1894642857142857), (90013,0.1894642857142857), (90012,0.1894642857142857))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Aug 18, 2015 12:18:38 AM",
-      "dateFinished": "Aug 18, 2015 12:18:41 AM",
+      "dateStarted": "Sep 27, 2015 6:24:25 PM",
+      "dateFinished": "Sep 27, 2015 6:24:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -120,30 +120,48 @@
       "jobName": "paragraph_1435977607013_1537471179",
       "id": "20150704-024007_801415737",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n\u003cconsole\u003e:51: error: not found: value enrichedTopInfluencersDF\n              enrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")\n              ^\n"
+        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Sep 27, 2015 4:34:27 AM",
-      "dateFinished": "Sep 27, 2015 4:34:27 AM",
+      "dateStarted": "Sep 27, 2015 6:24:26 PM",
+      "dateFinished": "Sep 27, 2015 6:24:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1443328008701_-1015777802",
       "id": "20150927-042648_1970470505",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "status": "READY",
+      "dateStarted": "Sep 27, 2015 6:24:28 PM",
+      "dateFinished": "Sep 27, 2015 6:24:29 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "2. PageRank:  Top Influencer Recommendations",
+  "name": "Likes 4: PageRank:  Top Influencer Recommendations",
   "id": "2ASEWJ19K",
   "angularObjects": {},
   "config": {
