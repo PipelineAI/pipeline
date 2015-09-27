@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo ** MAKE SURE YOU'VE SOURCED ~/.profile OR ELSE YOU'LL SEE MANY ERRORS RELATED TO EXECUTABLES NOT FOUND **
+
 echo ...Starting ElasticSearch...
 nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
 
