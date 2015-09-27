@@ -29,8 +29,8 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 3, 2015 6:20:25 AM",
-      "dateStarted": "Sep 27, 2015 8:03:29 AM",
-      "dateFinished": "Sep 27, 2015 8:03:29 AM",
+      "dateStarted": "Sep 27, 2015 8:23:25 AM",
+      "dateFinished": "Sep 27, 2015 8:23:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -63,8 +63,8 @@
         "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Sep 27, 2015 8:05:37 AM",
-      "dateFinished": "Sep 27, 2015 8:05:38 AM",
+      "dateStarted": "Sep 27, 2015 8:24:32 AM",
+      "dateFinished": "Sep 27, 2015 8:24:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -94,11 +94,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res42: Long \u003d 0\n"
+        "msg": "res36: Long \u003d 5\n"
       },
       "dateCreated": "Jul 3, 2015 6:05:55 AM",
-      "dateStarted": "Sep 27, 2015 8:05:39 AM",
-      "dateFinished": "Sep 27, 2015 8:05:40 AM",
+      "dateStarted": "Sep 27, 2015 8:24:34 AM",
+      "dateFinished": "Sep 27, 2015 8:24:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -132,8 +132,8 @@
         "msg": "res16: String \u003d \"\"\n"
       },
       "dateCreated": "Jul 3, 2015 6:06:20 AM",
-      "dateStarted": "Sep 27, 2015 8:03:31 AM",
-      "dateFinished": "Sep 27, 2015 8:03:33 AM",
+      "dateStarted": "Sep 27, 2015 8:23:27 AM",
+      "dateFinished": "Sep 27, 2015 8:23:29 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -166,8 +166,8 @@
         "msg": "import org.apache.spark.sql.functions._\nres19: org.apache.spark.sql.Row \u003d [0]\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Sep 27, 2015 8:03:33 AM",
-      "dateFinished": "Sep 27, 2015 8:03:35 AM",
+      "dateStarted": "Sep 27, 2015 8:23:28 AM",
+      "dateFinished": "Sep 27, 2015 8:23:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -200,8 +200,8 @@
         "msg": "res21: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 6:29:39 AM",
-      "dateStarted": "Sep 27, 2015 8:03:34 AM",
-      "dateFinished": "Sep 27, 2015 8:03:35 AM",
+      "dateStarted": "Sep 27, 2015 8:23:29 AM",
+      "dateFinished": "Sep 27, 2015 8:23:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -257,8 +257,8 @@
         "msg": "name\tcount\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Sep 27, 2015 8:03:35 AM",
-      "dateFinished": "Sep 27, 2015 8:03:37 AM",
+      "dateStarted": "Sep 27, 2015 8:23:31 AM",
+      "dateFinished": "Sep 27, 2015 8:23:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -288,8 +288,8 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Should Be Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Sep 27, 2015 8:03:29 AM",
-      "dateFinished": "Sep 27, 2015 8:03:30 AM",
+      "dateStarted": "Sep 27, 2015 8:23:25 AM",
+      "dateFinished": "Sep 27, 2015 8:23:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -322,8 +322,8 @@
         "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#180L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#118], [Coalesce(SUM(PartialCount#198L),0) AS count#180L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#118], [to_user_id#118,COUNT(to_user_id#118) AS PartialCount#198L]\n     InMemoryColumnarTableScan [to_user_id#118], (InMemoryRelation [from_user_id#117,to_user_id#118,batch_time#119L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#114 AS from_user_id#117,touserid#115 AS to_user_id#118,batchtime#116L AS batch_time#119L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:28:17 AM",
-      "dateStarted": "Sep 27, 2015 8:03:36 AM",
-      "dateFinished": "Sep 27, 2015 8:03:37 AM",
+      "dateStarted": "Sep 27, 2015 8:23:31 AM",
+      "dateFinished": "Sep 27, 2015 8:23:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -356,8 +356,8 @@
         "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#202L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#118], [to_user_id#118,Coalesce(SUM(PartialCount#220L),0) AS count#202L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#118], [to_user_id#118,COUNT(1) AS PartialCount#220L]\n     InMemoryColumnarTableScan [to_user_id#118], (InMemoryRelation [from_user_id#117,to_user_id#118,batch_time#119L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#114 AS from_user_id#117,touserid#115 AS to_user_id#118,batchtime#116L AS batch_time#119L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:26:53 AM",
-      "dateStarted": "Sep 27, 2015 8:03:37 AM",
-      "dateFinished": "Sep 27, 2015 8:03:38 AM",
+      "dateStarted": "Sep 27, 2015 8:23:33 AM",
+      "dateFinished": "Sep 27, 2015 8:23:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -387,8 +387,8 @@
         "msg": "\u003ch3\u003eGenerate Top-K Recommendations\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 27, 2015 4:25:31 AM",
-      "dateStarted": "Sep 27, 2015 8:03:30 AM",
-      "dateFinished": "Sep 27, 2015 8:03:30 AM",
+      "dateStarted": "Sep 27, 2015 8:23:25 AM",
+      "dateFinished": "Sep 27, 2015 8:23:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -420,8 +420,8 @@
         "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres28: Array[org.apache.spark.sql.Row] \u003d Array()\n"
       },
       "dateCreated": "Jul 28, 2015 10:22:02 PM",
-      "dateStarted": "Sep 27, 2015 8:03:38 AM",
-      "dateFinished": "Sep 27, 2015 8:03:38 AM",
+      "dateStarted": "Sep 27, 2015 8:23:33 AM",
+      "dateFinished": "Sep 27, 2015 8:23:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -453,8 +453,8 @@
         "msg": "mostDesirableUsersByLikeCountDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
       },
       "dateCreated": "Sep 27, 2015 4:17:09 AM",
-      "dateStarted": "Sep 27, 2015 8:03:38 AM",
-      "dateFinished": "Sep 27, 2015 8:03:39 AM",
+      "dateStarted": "Sep 27, 2015 8:23:34 AM",
+      "dateFinished": "Sep 27, 2015 8:23:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -487,8 +487,8 @@
         "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 7:42:48 AM",
-      "dateStarted": "Sep 27, 2015 8:03:39 AM",
-      "dateFinished": "Sep 27, 2015 8:03:40 AM",
+      "dateStarted": "Sep 27, 2015 8:23:34 AM",
+      "dateFinished": "Sep 27, 2015 8:23:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -517,8 +517,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 3:50:31 AM",
-      "dateStarted": "Sep 27, 2015 8:03:40 AM",
-      "dateFinished": "Sep 27, 2015 8:03:40 AM",
+      "dateStarted": "Sep 27, 2015 8:23:35 AM",
+      "dateFinished": "Sep 27, 2015 8:23:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
