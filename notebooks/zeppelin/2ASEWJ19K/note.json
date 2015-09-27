@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%md # Non-Personalized Recs: Top Likes and Top Influencers",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -18,87 +18,21 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1435977216561_-1963558278",
-      "id": "20150704-023336_79817663",
+      "jobName": "paragraph_1443328290907_60945022",
+      "id": "20150927-043130_732908106",
       "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch1\u003eNon-Personalized Recs: Top Likes and Top Influencers\u003c/h1\u003e\n"
-      },
-      "dateCreated": "Jul 4, 2015 2:33:36 AM",
-      "dateStarted": "Aug 18, 2015 12:18:36 AM",
-      "dateFinished": "Aug 18, 2015 12:18:36 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "1. Most Desirable Users By Like Count",
-      "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435977405035_-365251694",
-      "id": "20150704-023645_415722549",
-      "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "mostDesirableUsersByLikeCountDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
-      "dateCreated": "Jul 4, 2015 2:36:45 AM",
-      "dateStarted": "Aug 18, 2015 12:18:36 AM",
-      "dateFinished": "Aug 18, 2015 12:18:37 AM",
+      "dateCreated": "Sep 27, 2015 4:31:30 AM",
+      "dateStarted": "Sep 27, 2015 4:32:07 AM",
+      "dateFinished": "Sep 27, 2015 4:32:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Save Top Users by like count",
-      "text": "import org.elasticsearch.spark.sql._ \nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"52.27.56.210\", \"es.port\" -\u003e \"39200\")\n\nmostDesirableUsersByLikeCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"sparkafterdark/top-users-by-count\")",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1438126490868_349657592",
-      "id": "20150728-233450_597528207",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 52.27.56.210, es.port -\u003e 39200)\n"
-      },
-      "dateCreated": "Jul 28, 2015 11:34:50 PM",
-      "dateStarted": "Aug 18, 2015 12:18:36 AM",
-      "dateFinished": "Aug 18, 2015 12:18:39 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "2. Most Influential Users By Like Graph",
+      "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
       "config": {
         "colWidth": 12.0,
@@ -165,40 +99,7 @@
     },
     {
       "title": "Save Top Influencers to ElasticSearch",
-      "text": "enrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"sparkafterdark/top-influencers\")",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1438129559892_1582020354",
-      "id": "20150729-002559_2041051440",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Jul 29, 2015 12:25:59 AM",
-      "dateStarted": "Aug 18, 2015 12:18:39 AM",
-      "dateFinished": "Aug 18, 2015 12:18:42 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "",
-      "text": "",
+      "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -219,17 +120,30 @@
       "jobName": "paragraph_1435977607013_1537471179",
       "id": "20150704-024007_801415737",
       "result": {
-        "code": "SUCCESS",
-        "type": "TEXT"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n\u003cconsole\u003e:51: error: not found: value enrichedTopInfluencersDF\n              enrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")\n              ^\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Aug 18, 2015 12:18:42 AM",
-      "dateFinished": "Aug 18, 2015 12:18:42 AM",
+      "dateStarted": "Sep 27, 2015 4:34:27 AM",
+      "dateFinished": "Sep 27, 2015 4:34:27 AM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1443328008701_-1015777802",
+      "id": "20150927-042648_1970470505",
+      "dateCreated": "Sep 27, 2015 4:26:48 AM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "2. SparkAfterDark-Generate-Non-Personalized-Recs-Counts-PageRank",
+  "name": "2. PageRank:  Top Influencer Recommendations",
   "id": "2ASEWJ19K",
   "angularObjects": {},
   "config": {

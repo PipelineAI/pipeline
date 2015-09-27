@@ -32,7 +32,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0\")",
+      "text": "%dep\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.0\")",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -57,14 +57,14 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 28, 2015 7:01:33 PM",
-      "dateStarted": "Jul 28, 2015 9:22:15 PM",
-      "dateFinished": "Jul 28, 2015 9:22:15 PM",
+      "dateStarted": "Sep 27, 2015 4:32:55 AM",
+      "dateFinished": "Sep 27, 2015 4:32:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Configure Kafka",
-      "text": "val brokers \u003d \"52.27.56.210:39092,52.27.56.210:39093\";\rval topicsSet \u003d Set(\"likes\");\rval kafkaParams \u003d Map[String, String](\"metadata.broker.list\" -\u003e brokers);",
+      "text": "val brokers \u003d \"demo.fluxcapacitor.com:39092,demo.fluxcapacitor.com:39093\";\rval topicsSet \u003d Set(\"likes\");\rval kafkaParams \u003d Map[String, String](\"metadata.broker.list\" -\u003e brokers);",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -87,11 +87,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "brokers: String \u003d 52.27.56.210:39092,52.27.56.210:39093\ntopicsSet: scala.collection.immutable.Set[String] \u003d Set(likes)\nkafkaParams: scala.collection.immutable.Map[String,String] \u003d Map(metadata.broker.list -\u003e 52.27.56.210:39092,52.27.56.210:39093)\n"
+        "msg": "brokers: String \u003d demo.fluxcapacitor.com:39092,demo.fluxcapacitor.com:39093\ntopicsSet: scala.collection.immutable.Set[String] \u003d Set(likes)\nkafkaParams: scala.collection.immutable.Map[String,String] \u003d Map(metadata.broker.list -\u003e demo.fluxcapacitor.com:39092,demo.fluxcapacitor.com:39093)\n"
       },
       "dateCreated": "Jun 26, 2015 8:37:47 PM",
-      "dateStarted": "Jul 28, 2015 9:22:17 PM",
-      "dateFinished": "Jul 28, 2015 9:22:17 PM",
+      "dateStarted": "Sep 27, 2015 3:57:28 AM",
+      "dateFinished": "Sep 27, 2015 3:57:29 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -240,7 +240,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SparkAfterDark-Manage-StreamingServer",
+  "name": "99. Kafka-Streaming-Server",
   "id": "2ASK4UQ3M",
   "angularObjects": {},
   "config": {

@@ -12,7 +12,7 @@
       "interpreterGroup": [
         {
           "class": "org.apache.zeppelin.hive.HiveInterpreter",
-          "name": "hql"
+          "name": "hive"
         }
       ],
       "option": {
@@ -63,23 +63,8 @@
       "id": "2ATCZAU39",
       "name": "ignite",
       "group": "ignite",
-      "properties": {
-        "ignite.peerClassLoadingEnabled": "true",
-        "ignite.config.url": "",
-        "ignite.jdbc.url": "jdbc:ignite://localhost:11211/",
-        "ignite.clientMode": "true",
-        "ignite.addresses": "127.0.0.1:47500..47509"
-      },
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.ignite.IgniteInterpreter",
-          "name": "ignite"
-        },
-        {
-          "class": "org.apache.zeppelin.ignite.IgniteSqlInterpreter",
-          "name": "ignitesql"
-        }
-      ],
+      "properties": {},
+      "interpreterGroup": [],
       "option": {
         "remote": true
       }
@@ -98,73 +83,48 @@
       "option": {
         "remote": true
       }
-    },
-    "2ARZUBVNU": {
-      "id": "2ARZUBVNU",
-      "name": "flink",
-      "group": "flink",
-      "properties": {
-        "local": "true",
-        "jobmanager.rpc.port": "6123",
-        "jobmanager.rpc.address": "localhost"
-      },
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.flink.FlinkInterpreter",
-          "name": "flink"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
-    "2ATJEY3DG": {
-      "id": "2ATJEY3DG",
-      "name": "sh",
-      "group": "sh",
-      "properties": {},
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.shell.ShellInterpreter",
-          "name": "sh"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
-    "2ASVZCS7C": {
-      "id": "2ASVZCS7C",
-      "name": "angular",
-      "group": "angular",
-      "properties": {},
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.angular.AngularInterpreter",
-          "name": "angular"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
-    "2AUNPQYQ6": {
-      "id": "2AUNPQYQ6",
-      "name": "tajo",
-      "group": "tajo",
-      "properties": {
-        "tajo.jdbc.uri": "jdbc:tajo://localhost:26002/default"
-      },
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.tajo.TajoInterpreter",
-          "name": "tql"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
     }
   },
-  "interpreterBindings": {}
+  "interpreterBindings": {
+    "2ASK4UQ3M": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2AX2NZSNX": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B2M4DMJK": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2AUYFSKXN": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2AUUDPT56": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2AXFTDR7F": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2ASEWJ19K": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B21W7UF6": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ]
+  }
 }
