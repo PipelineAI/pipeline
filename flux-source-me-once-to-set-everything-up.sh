@@ -7,7 +7,7 @@ cd ~/pipeline
 git reset --hard && git pull
 
 # Source the .profile for Exports
-. ~/.profile
+source ~/.profile
 
 # Make the Scripts Executable
 chmod a+rx *.sh
