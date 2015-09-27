@@ -1,7 +1,7 @@
 # SSH
 
 echo 'MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS'
-echo 'IGNORE ANY ERRORS RELATED TO REMOVING THINGS THAT DO NOT YET EXIST.  THIS IS OK.'
+echo 'IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK.'
 
 echo '...Configuring SSH Part 1 of 2...'
 service ssh start
@@ -17,7 +17,7 @@ a2enmod proxy
 a2enmod proxy_http
 a2dissite 000-default
 mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
-rm /etc/apache2/apache2.conf
+#rm /etc/apache2/apache2.conf
 ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
 mkdir -p $PIPELINE_HOME/logs/apache2
 
@@ -34,7 +34,7 @@ tar -xjf datasets/dating/ratings-unpartitioned.parquet.tar.bz2
 
 # Sample WebApp
 echo '...Configuring Sample WebApp...'
-rm /etc/apache2/sites-available/fluxcapacitor.conf
+#rm /etc/apache2/sites-available/fluxcapacitor.conf
 ln -s $PIPELINE_HOME/config/fluxcapacitor/fluxcapacitor.conf /etc/apache2/sites-available
 a2ensite fluxcapacitor.conf
 # We're just copying these under /var/www/html for now
@@ -49,13 +49,13 @@ mkdir -p $PIPELINE_HOME/logs/streaming
 
 # Ganglia
 echo '...Configuring Ganglia...'
-rm /etc/apache2/sites-available/ganglia.conf
+#rm /etc/apache2/sites-available/ganglia.conf
 ln -s $PIPELINE_HOME/config/ganglia/ganglia.conf /etc/apache2/sites-available
 a2ensite ganglia
 mv /etc/ganglia/gmetad.conf /etc/ganglia/gmetad.conf.orig
 mv /etc/ganglia/gmond.conf /etc/ganglia/gmond.conf.orig
-rm /etc/ganglia/gmetad.conf
-rm /etc/ganglia/gmond.conf
+#rm /etc/ganglia/gmetad.conf
+#rm /etc/ganglia/gmond.conf
 ln -s $PIPELINE_HOME/config/ganglia/gmetad.conf /etc/ganglia
 ln -s $PIPELINE_HOME/config/ganglia/gmond.conf /etc/ganglia
 
@@ -71,24 +71,24 @@ echo '...****Ignore any ERROR 2002s Above****...'
 echo '...Configuring Cassandra...'
 mv $CASSANDRA_HOME/conf/cassandra-env.sh $CASSANDRA_HOME/conf/cassandra-env.sh.orig
 mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
-rm $CASSANDRA_HOME/conf/cassandra-env.sh
+#rm $CASSANDRA_HOME/conf/cassandra-env.sh
 ln -s $PIPELINE_HOME/config/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
-rm $CASSANDRA_HOME/conf/cassandra.yaml
+#rm $CASSANDRA_HOME/conf/cassandra.yaml
 ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 
 # Spark
 echo '...Configuring Spark...'
-rm $SPARK_HOME/conf/spark-default.conf
+#rm $SPARK_HOME/conf/spark-defaults.conf
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
-rm $SPARK_HOME/conf/spark-env.sh
+#rm $SPARK_HOME/conf/spark-env.sh
 ln -s $PIPELINE_HOME/config/spark/spark-env.sh $SPARK_HOME/conf
-rm $SPARK_HOME/conf/slaves
+#rm $SPARK_HOME/conf/slaves
 ln -s $PIPELINE_HOME/config/spark/slaves $SPARK_HOME/conf
-rm $SPARK_HOME/conf/metrics.properties
+#rm $SPARK_HOME/conf/metrics.properties
 ln -s $PIPELINE_HOME/config/spark/metrics.properties $SPARK_HOME/conf
-rm $SPARK_HOME/conf/metrics.properties
+#rm $SPARK_HOME/conf/hive-site.xml
 ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $SPARK_HOME/conf
-rm $SPARK_HOME/lib/$MYSQL_CONNECTOR_JAR
+#rm $SPARK_HOME/lib/$MYSQL_CONNECTOR_JAR
 ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
 
 # Kafka
@@ -115,9 +115,9 @@ echo '...Configuring Redis...'
 # Tachyon
 echo '...Configuring Tachyon...'
 mv $TACHYON_HOME/conf/log4j.properties $TACHYON_HOME/conf/log4j.properties.orig
-rm $TACHYON_HOME/conf/log4j.properties
+#rm $TACHYON_HOME/conf/log4j.properties
 ln -s $PIPELINE_HOME/config/tachyon/log4j.properties $TACHYON_HOME/conf
-rm $TACHYON_HOME/conf/tachyon-env.sh
+#rm $TACHYON_HOME/conf/tachyon-env.sh
 ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # The following command requies the SSH daemon to be running
 # If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
@@ -131,20 +131,20 @@ echo '...Configuring SBT...'
 
 # Zeppelin
 echo '...Configuring Zeppelin...'
-rm $ZEPPELIN_HOME/conf/zeppelin-env.sh
+#rm $ZEPPELIN_HOME/conf/zeppelin-env.sh
 ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
-rm $ZEPPELIN_HOME/conf/zeppelin-site.xml
+#rm $ZEPPELIN_HOME/conf/zeppelin-site.xml
 ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
-rm $ZEPPELIN_HOME/conf/interpreter.json
+#rm $ZEPPELIN_HOME/conf/interpreter.json
 ln -s $PIPELINE_HOME/config/zeppelin/interpreter.json $ZEPPELIN_HOME/conf
-rm $ZEPPELIN_HOME/conf/hive-site.xml
+#rm $ZEPPELIN_HOME/conf/hive-site.xml
 ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
-rm $ZEPPELIN_HOME/lib/$MYSQL_CONNECTOR_JAR
+#rm $ZEPPELIN_HOME/lib/$MYSQL_CONNECTOR_JAR
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # Spark-Notebook
 echo '...Configuring Spark-Notebook...'
-rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
+#rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
 ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
 
 # Spark Job Server
