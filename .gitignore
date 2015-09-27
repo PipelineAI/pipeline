@@ -33,6 +33,16 @@ project/sbt-ui.sbt
 *.log
 *.out
 
+# data
+genders-partitioned.parquet/
+genders-unpartitioned.parquet/
+ratings-partitioned.parquet/
+ratings-unpartitioned.parquet/
+ratings.csv
+ratings.json
+genders.csv
+genders.json
+
 # sbt specific
 .cache/
 .history/

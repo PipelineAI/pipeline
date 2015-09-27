@@ -1,32 +1,30 @@
 #!/bin/bash
-# Run first time through to set up all the components and start services for
-# Pipeline training
+# Run first time through to set up all the components and start services 
 
-# Pulling in the latest from Git 
 cd ~/pipeline
+
+echo '...Retrieving Latest Updates From Github...'
 git reset --hard && git pull
 
-# Source the .profile for Exports
+echo '...Sourcing ~/.profile...'
 source ~/.profile
 
-# Make the Scripts Executable
+echo '...Making Scripts Executable...'
 chmod a+rx *.sh
 
-# Configure Tools
-./flux-config-services.sh
+echo '...Configuring Services Before Starting...'
+./flux-config-services-before-starting.sh
 
-# Start the Pipeline Services
+echo '...Start All Services...'
 ./flux-start-all-services.sh
 
-# Initialize Data for Kafka, Cassandra, and Hive
-./flux-create-reference-data.sh
+echo '...Configuring Services After Starting...'
+./flux-config-services-after-starting.sh
 
-# Show exports
-echo ...Exported Variables...
+echo '...Show Exported Variables...'
 export
 
-# Show Running Java Processes 
-echo ...Running Java Processes...
+echo '...Show Running Java Processes...'
 jps -l
 
 echo '.......................'

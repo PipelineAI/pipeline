@@ -1,4 +1,4 @@
-echo ...Starting Apache Spark JDBC ODBC Hive ThriftServer...
+echo '...Starting Apache Spark JDBC ODBC Hive ThriftServer...'
 # MySql must be started - and the password set - before ThriftServer will startup
 # Starting the ThriftServer will create a dummy derby.log and metastore_db per https://github.com/apache/spark/pull/6314
 # The actual Hive metastore defined in conf/hive-site.xml is still used, however.
