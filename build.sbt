@@ -15,7 +15,7 @@ lazy val streaming = (project in file("streaming"))
 
 val akkaVersion = "2.3.11"
 val sparkVersion = "1.4.1"
-val sparkCassandraConnectorVersion = "1.4.0-M3"
+val sparkCassandraConnectorVersion = "1.4.0"
 val sparkElasticSearchConnectorVersion = "2.1.0"
 val kafkaVersion = "0.8.2.1"
 val scalaTestVersion = "2.2.4"
@@ -26,7 +26,7 @@ lazy val feederDeps = Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-  "org.apache.kafka" % "kafka_2.10" % kafkaVersion % "provided"
+  "org.apache.kafka" % "kafka_2.10" % kafkaVersion 
     exclude("javax.jms", "jms")
     exclude("com.sun.jdmk", "jmxtools")
     exclude("com.sun.jmx", "jmxri")
@@ -35,11 +35,11 @@ lazy val feederDeps = Seq(
 lazy val streamingDeps = Seq(
   "com.datastax.spark" % "spark-cassandra-connector_2.10" % sparkCassandraConnectorVersion % "provided",
   "org.elasticsearch" % "elasticsearch-spark_2.10" % sparkElasticSearchConnectorVersion % "provided",
-  "redis.clients" % "jedis" % jedisVersion,
+  "redis.clients" % "jedis" % jedisVersion % "provided",
+  "com.databricks"    %% "spark-csv" % sparkCsvVersion % "provided",
   "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming"       % sparkVersion % "provided",
-  "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided",
-  "com.databricks"    %% "spark-csv"             % sparkCsvVersion % "provided"
+  "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided"
 )

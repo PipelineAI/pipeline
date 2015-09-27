@@ -57,13 +57,13 @@ jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 
 echo ...Stopping Long-Running Ratings Spark Streaming Job...
 jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
-./flux-sparksubmit.sh
+./flux-sparksubmitted-job.sh
 
 echo ...Stopping Long-Running Likes Spark Streaming Job...
-./flux-sparksubmit.sh
+./flux-sparksubmitted-job.sh
 
 echo ...Stopping Long-Running Spark Job Server Job...
-./flux-sparksubmit.sh
+./flux-sparksubmitted-job.sh
 
 echo ...Stopping Ratings Feeder...
 jps | grep "sbt-launch.jar" | cut -d " " -f "1" | xargs kill -KILL
