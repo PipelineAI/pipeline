@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo YOU MUST START ALL SERVICES BEFORE RUNNING THIS SCRIPT
 echo ...Creating Kafka Topics...
 kafka-topics --zookeeper localhost:2181 --create --topic ratings --partitions 1 --replication-factor 1
 kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1

@@ -1,6 +1,9 @@
 data
 logs
 metastore_db
+dump.rdb
+derby.log
+
 project/project
 project/target
 target
@@ -28,6 +31,8 @@ project/play-fork-run.sbt
 project/sbt-ui.sbt
 
 *.log
+*.out
+
 # sbt specific
 .cache/
 .history/

@@ -29,8 +29,8 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 3, 2015 6:20:25 AM",
-      "dateStarted": "Sep 27, 2015 4:32:15 AM",
-      "dateFinished": "Sep 27, 2015 4:32:15 AM",
+      "dateStarted": "Sep 27, 2015 6:03:46 AM",
+      "dateFinished": "Sep 27, 2015 6:03:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -63,8 +63,8 @@
         "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Aug 18, 2015 12:17:32 AM",
-      "dateFinished": "Aug 18, 2015 12:17:32 AM",
+      "dateStarted": "Sep 27, 2015 6:03:46 AM",
+      "dateFinished": "Sep 27, 2015 6:03:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -94,11 +94,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res131: Long \u003d 364\n"
+        "msg": "res53: Long \u003d 1042\n"
       },
       "dateCreated": "Jul 3, 2015 6:05:55 AM",
-      "dateStarted": "Aug 18, 2015 12:17:32 AM",
-      "dateFinished": "Aug 18, 2015 12:17:33 AM",
+      "dateStarted": "Sep 27, 2015 6:03:46 AM",
+      "dateFinished": "Sep 27, 2015 6:04:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -129,11 +129,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res133: String \u003d \n[87685,10006,1439856878000]\n[87685,90004,1439856860000]\n[87685,90010,1439856866000]\n[60367,10014,1439856870000]\n[97632,10001,1439856880000]\n[97632,10004,1439856874000]\n[97632,10007,1439856878000]\n[97632,10010,1439856876000]\n[97632,10014,1439856878000]\n[97632,90006,1439856868000]\n[97632,90013,1439856870000]\n[97632,90015,1439856872000]\n[80344,10001,1439841612000]\n[80344,10002,1439841612000]\n[80344,10004,1439841614000]\n[80344,10005,1439841614000]\n[80344,90001,1439841528000]\n[80344,90006,1439841528000]\n[80344,90007,1439841610000]\n[80344,90009,1439841530000]\n[80344,90011,1439841530000]\n[80344,90012,1439841552000]\n[80344,90013,1439841554000]\n[80344,90014,1439841554000]\n[80344,90015,1439841530000]\n[63219,10008,1439856956000]\n[63219,10010,1439856950000]\n[63219,10012,1439856950..."
+        "msg": "res55: String \u003d \n[97875,10001,1443042112000]\n[97875,10004,1443042112000]\n[97875,10007,1443042124000]\n[97875,90001,1443042096000]\n[97875,90011,1443042102000]\n[97782,10001,1443042082000]\n[97782,10004,1443042088000]\n[97782,10011,1443042326000]\n[97782,10013,1443042088000]\n[97782,90011,1443042078000]\n[97782,90012,1443042078000]\n[97782,90014,1443042078000]\n[35698,10003,1443042214000]\n[35698,10006,1443042196000]\n[35698,10015,1443042204000]\n[35698,90006,1443042274000]\n[35698,90009,1443042174000]\n[35698,90013,1443042172000]\n[35698,90014,1443042166000]\n[77614,10008,1443042110000]\n[77614,10014,1443042102000]\n[77614,90013,1443042084000]\n[77614,90014,1443042088000]\n[52374,10001,1442977264000]\n[52374,10002,1442977458000]\n[52374,10003,1442977264000]\n[52374,10004,1442977222000]\n[52374,10005,14429774600..."
       },
       "dateCreated": "Jul 3, 2015 6:06:20 AM",
-      "dateStarted": "Aug 18, 2015 12:17:33 AM",
-      "dateFinished": "Aug 18, 2015 12:17:34 AM",
+      "dateStarted": "Sep 27, 2015 6:03:47 AM",
+      "dateFinished": "Sep 27, 2015 6:04:21 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -163,11 +163,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\nres136: org.apache.spark.sql.Row \u003d [57]\n"
+        "msg": "import org.apache.spark.sql.functions._\nres58: org.apache.spark.sql.Row \u003d [158]\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Aug 18, 2015 12:17:33 AM",
-      "dateFinished": "Aug 18, 2015 12:17:35 AM",
+      "dateStarted": "Sep 27, 2015 6:04:15 AM",
+      "dateFinished": "Sep 27, 2015 6:04:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -197,11 +197,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res138: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
+        "msg": "res60: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 6:29:39 AM",
-      "dateStarted": "Aug 18, 2015 12:17:34 AM",
-      "dateFinished": "Aug 18, 2015 12:17:35 AM",
+      "dateStarted": "Sep 27, 2015 6:04:22 AM",
+      "dateFinished": "Sep 27, 2015 6:04:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -254,11 +254,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "name\tcount\nMorgan Freeman\t24\nAshley Judd\t22\nSofía Vergara\t21\nLeonardo DiCaprio\t19\nBobbie Phillips\t19\nGail O\u0027Grady\t18\nJohnny Depp\t16\nBarbara Niven\t15\nJames Franco\t14\nTom Hanks\t14\nTiffani Thiessen\t13\nStacey Dash\t13\nClive Owen\t12\nRobert De Niro\t11\nDenzel Washington\t11\nAl Pacino\t11\nAngell Conwell\t10\nRosalind Allen\t10\nTatyana Ali\t10\nShannah Laumeister\t10\nLinda Blair\t9\nJames Gandolfini\t9\nAnthony Hopkins\t8\nShannon Whirry\t8\nMarlon Brando\t8\nMark Wahlberg\t7\nKeshia Knight Pulliam\t7\nPam Grier\t6\nJohn Travolta\t6\nChazz Palminteri\t4\n"
+        "msg": "name\tcount\nLeonardo DiCaprio\t82\nMorgan Freeman\t73\nSofía Vergara\t65\nAshley Judd\t62\nTom Hanks\t61\nGail O\u0027Grady\t60\nTiffani Thiessen\t58\nBobbie Phillips\t50\nJohnny Depp\t49\nAnthony Hopkins\t36\nRobert De Niro\t36\nShannon Whirry\t35\nAl Pacino\t35\nMark Wahlberg\t34\nDenzel Washington\t32\nLinda Blair\t29\nRosalind Allen\t28\nJames Franco\t25\nAngell Conwell\t21\nTatyana Ali\t21\nClive Owen\t21\nShannah Laumeister\t18\nStacey Dash\t17\nKeshia Knight Pulliam\t15\nBarbara Niven\t15\nMarlon Brando\t14\nJames Gandolfini\t14\nChazz Palminteri\t13\nJohn Travolta\t13\nPam Grier\t10\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Aug 18, 2015 12:29:51 AM",
-      "dateFinished": "Aug 18, 2015 12:29:51 AM",
+      "dateStarted": "Sep 27, 2015 6:04:35 AM",
+      "dateFinished": "Sep 27, 2015 6:05:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -288,8 +288,8 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Should Be Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Aug 18, 2015 12:17:30 AM",
-      "dateFinished": "Aug 18, 2015 12:17:30 AM",
+      "dateStarted": "Sep 27, 2015 6:03:46 AM",
+      "dateFinished": "Sep 27, 2015 6:03:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -319,11 +319,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#1175L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#1117], [Coalesce(SUM(PartialCount#1193L),0) AS count#1175L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#1117], [to_user_id#1117,COUNT(to_user_id#1117) AS PartialCount#1193L]\n     InMemoryColumnarTableScan [to_user_id#1117], (InMemoryRelation [from_user_id#1116,to_user_id#1117,batch_time#1118L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#1113 AS from_user_id#1116,touserid#1114 AS to_user_id#1117,batchtime#1115L AS batch_time#1118L]), None)\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#588L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#526], [Coalesce(SUM(PartialCount#606L),0) AS count#588L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#526], [to_user_id#526,COUNT(to_user_id#526) AS PartialCount#606L]\n     InMemoryColumnarTableScan [to_user_id#526], (InMemoryRelation [from_user_id#525,to_user_id#526,batch_time#527L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#522 AS from_user_id#525,touserid#523 AS to_user_id#526,batchtime#524L AS batch_time#527L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:28:17 AM",
-      "dateStarted": "Aug 18, 2015 12:17:35 AM",
-      "dateFinished": "Aug 18, 2015 12:17:37 AM",
+      "dateStarted": "Sep 27, 2015 6:04:36 AM",
+      "dateFinished": "Sep 27, 2015 6:05:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -353,11 +353,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#1197L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#1117], [to_user_id#1117,Coalesce(SUM(PartialCount#1215L),0) AS count#1197L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#1117], [to_user_id#1117,COUNT(1) AS PartialCount#1215L]\n     InMemoryColumnarTableScan [to_user_id#1117], (InMemoryRelation [from_user_id#1116,to_user_id#1117,batch_time#1118L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#1113 AS from_user_id#1116,touserid#1114 AS to_user_id#1117,batchtime#1115L AS batch_time#1118L]), None)\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSort [count#610L DESC], true\n Exchange (RangePartitioning 200)\n  Aggregate false, [to_user_id#526], [to_user_id#526,Coalesce(SUM(PartialCount#628L),0) AS count#610L]\n   Exchange (HashPartitioning 200)\n    Aggregate true, [to_user_id#526], [to_user_id#526,COUNT(1) AS PartialCount#628L]\n     InMemoryColumnarTableScan [to_user_id#526], (InMemoryRelation [from_user_id#525,to_user_id#526,batch_time#527L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#522 AS from_user_id#525,touserid#523 AS to_user_id#526,batchtime#524L AS batch_time#527L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:26:53 AM",
-      "dateStarted": "Aug 18, 2015 12:17:37 AM",
-      "dateFinished": "Aug 18, 2015 12:17:37 AM",
+      "dateStarted": "Sep 27, 2015 6:05:10 AM",
+      "dateFinished": "Sep 27, 2015 6:05:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -387,8 +387,8 @@
         "msg": "\u003ch3\u003eGenerate Top-K Recommendations\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 27, 2015 4:25:31 AM",
-      "dateStarted": "Sep 27, 2015 4:25:54 AM",
-      "dateFinished": "Sep 27, 2015 4:25:54 AM",
+      "dateStarted": "Sep 27, 2015 6:03:46 AM",
+      "dateFinished": "Sep 27, 2015 6:03:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -417,11 +417,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres145: Array[org.apache.spark.sql.Row] \u003d Array([87685,10006,Marlon Brando,Marlon Brando is widely considered the greatest movie actor of all time, rivaled only by the more theatrically oriented Laurence Olivier in terms of esteem. Unlike Olivier, who preferred the stage to the screen, Brando concentrated his talents on movies after bidding the Broadway stage adieu in 1949...,img/people/10006.jpg], [87685,90004,Bobbie Phillips,Brains and beauty are two words that have been repeatedly used to describe Bobbie Phillips throughout her career. Graduating high school at 16 years old, Bobbie tried several different career paths. After taking college classes to become a litigation attorney, it was suggested she also take drama classes...,img/people/90004.jpg], [87685,90010,Tiffani Thiessen,Tiff..."
+        "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres67: Array[org.apache.spark.sql.Row] \u003d Array([97875,10001,Leonardo DiCaprio,Few actors in the world have had a career quite as diverse as Leonardo DiCaprio\u0027s. DiCaprio has gone from relatively humble beginnings, as a supporting cast member of the sitcom Growing Pains and low budget horror movies, such as Critters 3, to a major teenage heartthrob in the 1990s, as the hunky lead actor in movies such as Romeo + Juliet and Titanic...,img/people/10001.jpg], [97875,10004,Morgan Freeman,With an authoritative voice and calm demeanor, this ever popular American actor has grown into one of the most respected figures in modern US cinema. Morgan was born in June 1937 in Memphis, Tennessee, to Mayme Edna (Revere), a teacher, and Morgan Porterfield Freeman, a barber. The young Freeman attended...,i..."
       },
       "dateCreated": "Jul 28, 2015 10:22:02 PM",
-      "dateStarted": "Aug 18, 2015 12:17:37 AM",
-      "dateFinished": "Aug 18, 2015 12:17:37 AM",
+      "dateStarted": "Sep 27, 2015 6:05:10 AM",
+      "dateFinished": "Sep 27, 2015 6:05:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -448,13 +448,13 @@
       "jobName": "paragraph_1443327429247_981995018",
       "id": "20150927-041709_316941617",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:27: error: not found: value enrichedLikesDF\n       val mostDesirableUsersByLikeCountDF \u003d enrichedLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()\n                                             ^\n"
+        "msg": "mostDesirableUsersByLikeCountDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
       },
       "dateCreated": "Sep 27, 2015 4:17:09 AM",
-      "dateStarted": "Sep 27, 2015 4:17:12 AM",
-      "dateFinished": "Sep 27, 2015 4:17:12 AM",
+      "dateStarted": "Sep 27, 2015 6:05:11 AM",
+      "dateFinished": "Sep 27, 2015 6:05:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -481,27 +481,42 @@
       },
       "jobName": "paragraph_1435995768565_760353753",
       "id": "20150704-074248_89399310",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n\u003cconsole\u003e:54: error: not found: value mostDesirableUsersByLikeCountDF\n              mostDesirableUsersByLikeCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-users-by-count\")\n              ^\n"
-      },
+      "result": "org.apache.thrift.TApplicationException: Internal error processing interpret",
       "dateCreated": "Jul 4, 2015 7:42:48 AM",
-      "dateStarted": "Sep 27, 2015 4:34:35 AM",
-      "dateFinished": "Sep 27, 2015 4:34:35 AM",
+      "dateStarted": "Sep 27, 2015 6:05:17 AM",
+      "dateFinished": "Sep 27, 2015 6:06:11 AM",
       "status": "FINISHED",
+      "errorMessage": "org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:227)\norg.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\norg.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:212)\norg.apache.zeppelin.scheduler.Job.run(Job.java:170)\norg.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:296)\njava.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\njava.util.concurrent.FutureTask.run(FutureTask.java:262)\njava.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\njava.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\njava.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\njava.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\njava.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1443325831704_2093931080",
       "id": "20150927-035031_1373657975",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Sep 27, 2015 3:50:31 AM",
-      "status": "READY",
+      "dateStarted": "Sep 27, 2015 6:05:48 AM",
+      "dateFinished": "Sep 27, 2015 6:06:13 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
