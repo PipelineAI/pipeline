@@ -1,7 +1,20 @@
 FROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
-ENV SPARK_VERSION=1.4.1
+ENV CASSANDRA_VERSION=2.2.1
+ENV CONFLUENT_VERSION=1.0.1
+ENV ELASTICSEARCH_VERSION=1.7.2
+ENV LOGSTASH_VERSION=1.5.4
+ENV KIBANA_VERSION=4.1.2
+ENV NEO4J_VERSION=2.2.3
+ENV REDIS_VERSION=3.0.3
+ENV SBT_VERSION=0.13.8
+ENV SPARK_VERSION=1.5.1
+ENV SPARKJOBSERVER_VERSION=0.5.2
+ENV SPARKNOTEBOOK_VERSION=0.6.0
+ENV HADOOP_VERSION=2.6.0
+ENV TACHYON_VERSION=0.7.1
+ENV ZEPPELIN_VERSION=0.5.1
 
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099
 
@@ -30,9 +43,9 @@ RUN \
  && apt-get install -y apache2 \
 
 # Sbt
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-0.13.8.tgz \
- && tar xvzf sbt-0.13.8.tgz \
- && rm sbt-0.13.8.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-${SBT_VERSION}.tgz \
+ && tar xvzf sbt-${SBT_VERSION}.tgz \
+ && rm sbt-${SBT_VERSION}.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
 
 # Get Latest Pipeline Code
@@ -50,9 +63,9 @@ RUN \
 # && pip install jupyter \
 
 # H2O
-&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.tgz \
-&& tar xzvf h2o-3.0.1.7.tgz \
-&& rm h2o-3.0.1.7.tgz \
+#&& wget https://s3.amazonaws.com/fluxcapacitor.com/packages/h2o-3.0.1.7.tgz \
+#&& tar xzvf h2o-3.0.1.7.tgz \
+#&& rm h2o-3.0.1.7.tgz \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
@@ -77,68 +90,68 @@ RUN \
  && apt-get install -y r-base-dev \
 
 # Logstash
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/logstash-1.5.3.tar.gz \
- && tar xvzf logstash-1.5.3.tar.gz \
- && rm logstash-1.5.3.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/logstash-${LOGSTASH_VERSION}.tar.gz \
+ && tar xvzf logstash-${LOGSTASH_VERSION}.tar.gz \
+ && rm logstash-${LOGSTASH_VERSION}.tar.gz \
 
 # Kibana
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/kibana-4.1.1-linux-x64.tar.gz \
- && tar xvzf kibana-4.1.1-linux-x64.tar.gz \
- && rm kibana-4.1.1-linux-x64.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
+ && tar xvzf kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
+ && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
 
 # Apache Cassandra
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-2.2.0-bin.tar.gz \
- && tar xvzf apache-cassandra-2.2.0-bin.tar.gz \
- && rm apache-cassandra-2.2.0-bin.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
+ && tar xvzf apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
+ && rm apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-1.0-2.10.4.tar.gz \
- && tar xvzf confluent-1.0-2.10.4.tar.gz \
- && rm confluent-1.0-2.10.4.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+ && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+ && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # ElasticSearch
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-1.7.1.tar.gz \
- && tar xvzf elasticsearch-1.7.1.tar.gz \
- && rm elasticsearch-1.7.1.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
 
 # Apache Spark
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-1.4.1-bin-fluxcapacitor.tgz \
- && tar xvzf spark-1.4.1-bin-fluxcapacitor.tgz \
- && rm spark-1.4.1-bin-fluxcapacitor.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
 
 # Apache Zeppelin
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
- && tar xvzf zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
- && rm zeppelin-0.5.1-spark-1.4.1-hadoop-2.6.0-fluxcapacitor.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
+ && tar xvzf zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
+ && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
 
 # Tachyon (Required by Spark Notebook)
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/tachyon-0.6.4-bin.tar.gz \
- && tar xvfz tachyon-0.6.4-bin.tar.gz \
- && rm tachyon-0.6.4-bin.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/tachyon-${TACHYON_VERSION}-bin.tar.gz \
+ && tar xvfz tachyon-${TACHYON_VERSION}-bin.tar.gz \
+ && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
 
 # Spark Notebook
  && apt-get install -y screen \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
- && tar xvzf spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
- && rm spark-notebook-0.6.0-scala-2.10.4-spark-1.4.1-hadoop-2.6.0-with-hive-with-parquet.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-3.0.3.tar.gz \
- && tar -xzvf redis-3.0.3.tar.gz \
- && rm redis-3.0.3.tar.gz \
- && cd redis-3.0.3 \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-${REDIS_VERSION}.tar.gz \
+ && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
+ && rm redis-${REDIS_VERSION}.tar.gz \
+ && cd redis-${REDIS_VERSION} \
  && make install \
  && cd ~ \
 
 # Apache Hadoop
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-2.6.0.tar.gz \
- && tar xvzf hadoop-2.6.0.tar.gz \
- && rm hadoop-2.6.0.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
 # Spark Job Server
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
- && tar xvzf spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
- && rm spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
+ && tar xvzf spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
+ && rm spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
  && mkdir -p ~/pipeline/logs/spark-jobserver 
 
 RUN \
@@ -148,9 +161,9 @@ RUN \
  && chmod a+rx *.sh \
 
 # Spark Job Server (2 of 2)
- && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-0.5.2/config \
- && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-0.5.2/config \
- && cd ~/spark-jobserver-0.5.2 \
+ && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-${JOBSERVER_VERSION}/config \
+ && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-${JOBSERVER_VERSION}/config \
+ && cd ~/spark-jobserver-${JOBSERVER_VERSION} \
  && sbt job-server-tests/package \
  && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
