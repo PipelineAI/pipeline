@@ -100,9 +100,9 @@ RUN \
  && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
 
 # Apache Cassandra
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
- && tar xvzf apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
- && rm apache-cassandra-${KIBANA_VERSION}-bin.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
+ && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
+ && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
@@ -149,7 +149,7 @@ RUN \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
 # Spark Job Server
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-0.5.2-fluxcapacitor.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
  && tar xvzf spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
  && rm spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
  && mkdir -p ~/pipeline/logs/spark-jobserver 
