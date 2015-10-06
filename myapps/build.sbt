@@ -13,10 +13,15 @@ lazy val streaming = (project in file("streaming"))
                        .settings(globalSettings:_*)
                        .settings(libraryDependencies ++= streamingDeps)
 
+lazy val simpledatasource = (project in file("simpledatasource"))
+                       .settings(name := "simpledatasource")
+                       .settings(globalSettings:_*)
+                       .settings(libraryDependencies ++= simpledatasourceDeps)
+
 val akkaVersion = "2.3.11"
-val sparkVersion = "1.4.1"
-val sparkCassandraConnectorVersion = "1.4.0"
-val sparkElasticSearchConnectorVersion = "2.1.0"
+val sparkVersion = "1.5.1"
+val sparkCassandraConnectorVersion = "1.5.0-M2"
+val sparkElasticSearchConnectorVersion = "2.2.0-m1"
 val kafkaVersion = "0.8.2.1"
 val scalaTestVersion = "2.2.4"
 val jedisVersion = "2.4.2"
@@ -42,4 +47,8 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming"       % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided"
+)
+
+lazy val simpledatasourceDeps = Seq(
+  "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided"
 )

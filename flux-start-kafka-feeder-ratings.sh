@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 echo '...Building Ratings Feeder App...'
-cd $PIPELINE_HOME
+cd $PIPELINE_HOME/myapps
 sbt feeder/assembly
 echo '...Starting Ratings Feeder App...'
-java -Xmx1g -jar feeder/target/scala-2.10/feeder-assembly-1.0.jar 2>&1 1>~/pipeline/logs/feeder/feeder-out.log &
-echo 'logs available using tail -f ~/pipeline/logs/feeder/feeder-out.log'
-
+java -Xmx1g -jar $PIPELINE_HOME/myapps/feeder/target/scala-2.10/feeder-assembly-1.0.jar 2>&1 1>$PIPELINE_HOME/logs/feeder/feeder-out.log &
+echo 'logs available using tail -f $PIPELINE_HOME/logs/feeder/feeder-out.log'
+cd $PIPELINE_HOME
