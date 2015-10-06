@@ -32,7 +32,7 @@
         "spark.app.name": "Zeppelin",
         "spark.executor.memory": "512m",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/root/spark-1.4.1-bin-hadoop2.6",
+        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
         "zeppelin.spark.concurrentSQL": "false",
         "args": "",
         "zeppelin.pyspark.python": "python"
