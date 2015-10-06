@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+ROM ubuntu:14.04
 
 ENV SCALA_VERSION=2.10.4
 ENV CASSANDRA_VERSION=2.2.1
@@ -53,7 +53,7 @@ RUN \
  && git clone https://github.com/fluxcapacitor/pipeline.git \
 
 # Sbt Clean
- && sbt clean clean-files 
+ && sbt clean clean-files
 
 RUN \
 # Start from ~
@@ -130,10 +130,10 @@ RUN \
  && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
 
 # Spark Notebook
- && apt-get install -y screen \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && apt-get install -y screen \
+# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-${REDIS_VERSION}.tar.gz \
@@ -146,13 +146,13 @@ RUN \
 # Apache Hadoop
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-${HADOOP_VERSION}.tar.gz \
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
- && rm hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz
 
 # Spark Job Server
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
- && tar xvzf spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
- && rm spark-jobserver-${JOBSERVER_VERSION}-fluxcapacitor.tar.gz \
- && mkdir -p ~/pipeline/logs/spark-jobserver 
+# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
+# && tar xvzf spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
+# && rm spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
+# && mkdir -p ~/pipeline/logs/spark-jobserver
 
 RUN \
 # Retrieve Latest Datasets, Configs, Code, and Start Scripts
@@ -161,9 +161,9 @@ RUN \
  && chmod a+rx *.sh \
 
 # Spark Job Server (2 of 2)
- && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-${JOBSERVER_VERSION}/config \
- && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-${JOBSERVER_VERSION}/config \
- && cd ~/spark-jobserver-${JOBSERVER_VERSION} \
+ && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
+ && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
+ && cd ~/spark-jobserver-${SPARKJOBSERVER_VERSION} \
  && sbt job-server-tests/package \
  && bin/server_package.sh pipeline \
  && cp /tmp/job-server/* . \
@@ -175,11 +175,16 @@ RUN \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile \
 
 # Sbt Assemble Feeder Producer App
- && cd ~/pipeline \ 
+ && cd ~/pipeline/myapps \
  && sbt feeder/assembly \
 
 # Sbt Package Streaming Consumer App
- && cd ~/pipeline \
- && sbt streaming/package 
+ && cd ~/pipeline/myapps \
+ && sbt streaming/package
+
+# Sbt Package SimpleDataSource Library
+# && cd ~/pipeline/myapps \
+
+# && sbt simpledatasource/package
 
 WORKDIR /root
