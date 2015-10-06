@@ -1,0 +1,116 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.sql.SQLContext\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.sources.{RelationProvider, BaseRelation, TableScan}\nimport org.apache.spark.sql.types.{StructType, StructField, DoubleType}\nimport scala.util.Random\n\ncase class RandomGaussianRelation(numSamples: Int, seed: Long)(@transient val sqlContext: SQLContext) extends BaseRelation with TableScan {\n    val random \u003d new Random(seed)\n    override def schema \u003d StructType(StructField(\"rqndom_gaussian_double\", DoubleType, nullable \u003d false) :: Nil)\n    override def buildScan() \u003d sqlContext.sparkContext.parallelize(0 to numSamples).map(i \u003d\u003e Row(random.nextGaussian()))\n}",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444081647470_-158028278",
+      "id": "20151005-214727_1131536290",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.SQLContext\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.sources.{RelationProvider, BaseRelation, TableScan}\nimport org.apache.spark.sql.types.{StructType, StructField, DoubleType}\nimport scala.util.Random\ndefined class RandomGaussianRelation\n"
+      },
+      "dateCreated": "Oct 5, 2015 9:47:27 PM",
+      "dateStarted": "Oct 5, 2015 10:12:04 PM",
+      "dateFinished": "Oct 5, 2015 10:12:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "class RandomGaussianRelationProvider extends RelationProvider {\n    override def createRelation(sqlContext: SQLContext, parameters: Map[String, String]): BaseRelation \u003d {\n        RandomGaussianRelation(parameters(\"numSamples\").toInt, parameters(\"seed\").toLong)(sqlContext)\n    }\n}",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444082065973_-806485061",
+      "id": "20151005-215425_180581572",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "defined class RandomGaussianRelationProvider\n"
+      },
+      "dateCreated": "Oct 5, 2015 9:54:25 PM",
+      "dateStarted": "Oct 5, 2015 10:13:59 PM",
+      "dateFinished": "Oct 5, 2015 10:13:59 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.sql.SQLContext\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.sources.{RelationProvider, BaseRelation, TableScan}\nimport org.apache.spark.sql.types.{StructType, StructField, DoubleType}\nimport scala.util.Random\n\ncase class RandomGaussianRelation(numSamples: Int, seed: Long)(@transient val sqlContext: SQLContext) extends BaseRelation with TableScan {\n    val random \u003d new Random(seed)\n    override def schema \u003d StructType(StructField(\"rqndom_gaussian_double\", DoubleType, nullable \u003d false) :: Nil)\n    override def buildScan() \u003d sqlContext.sparkContext.parallelize(0 to numSamples).map(i \u003d\u003e Row(random.nextGaussian()))\n}\n\nclass RandomGaussianRelationProvider extends RelationProvider {\n    override def createRelation(sqlContext: SQLContext, parameters: Map[String, String]): BaseRelation \u003d {\n        RandomGaussianRelation(parameters(\"numSamples\").toInt, parameters(\"seed\").toLong)(sqlContext)\n    }\n}\nval options \u003d Map(\"numSamples\" -\u003e \"10\", \"seed\" -\u003e \"37\")\nval df \u003d sqlContext.load(\"RandomGaussianRelationProvider\", options)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444082950904_1555610138",
+      "id": "20151005-220910_249575276",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.SQLContext\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.sources.{RelationProvider, BaseRelation, TableScan}\nimport org.apache.spark.sql.types.{StructType, StructField, DoubleType}\nimport scala.util.Random\ndefined class RandomGaussianRelation\ndefined class RandomGaussianRelationProvider\noptions: scala.collection.immutable.Map[String,String] \u003d Map(numSamples -\u003e 10, seed -\u003e 37)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\njava.lang.RuntimeException: Failed to load class for data source: RandomGaussianRelationProvider\n\tat scala.sys.package$.error(package.scala:27)\n\tat org.apache.spark.sql.sources.ResolvedDataSource$.lookupDataSource(ddl.scala:216)\n\tat org.apache.spark.sql.sources.ResolvedDataSource$.apply(ddl.scala:229)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:114)\n\tat org.apache.spark.sql.SQLContext.load(SQLContext.scala:1242)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:96)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:121)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:123)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:125)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:127)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:129)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:131)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:133)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:135)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:137)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:139)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:141)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:143)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:145)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:147)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:149)\n\tat \u003cinit\u003e(\u003cconsole\u003e:151)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:155)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1338)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:600)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:576)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:569)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:277)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Oct 5, 2015 10:09:10 PM",
+      "dateStarted": "Oct 5, 2015 10:18:06 PM",
+      "dateFinished": "Oct 5, 2015 10:18:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444083194557_-1029599800",
+      "id": "20151005-221314_57539024",
+      "dateCreated": "Oct 5, 2015 10:13:14 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "DataSources 2: Simple Data Source",
+  "id": "2AZ37ZY6H",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

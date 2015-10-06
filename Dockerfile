@@ -161,14 +161,14 @@ RUN \
  && chmod a+rx *.sh \
 
 # Spark Job Server (2 of 2)
- && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
- && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
- && cd ~/spark-jobserver-${SPARKJOBSERVER_VERSION} \
- && sbt job-server-tests/package \
- && bin/server_package.sh pipeline \
- && cp /tmp/job-server/* . \
- && rm -rf /tmp/job-server \
- && cd ~ \
+# && ln ~/pipeline/config/spark-jobserver/pipeline.sh ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
+# && ln ~/pipeline/config/spark-jobserver/pipeline.conf ~/spark-jobserver-${SPARKJOBSERVER_VERSION}/config \
+# && cd ~/spark-jobserver-${SPARKJOBSERVER_VERSION} \
+# && sbt job-server-tests/package \
+# && bin/server_package.sh pipeline \
+# && cp /tmp/job-server/* . \
+# && rm -rf /tmp/job-server \
+# && cd ~ \
 
 # .profile Shell Environment Variables
  && mv ~/.profile ~/.profile.orig \
