@@ -2,6 +2,7 @@
   "paragraphs": [
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
+      "dateUpdated": "Oct 7, 2015 1:06:00 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -12,7 +13,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -26,13 +28,14 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Oct 6, 2015 4:05:01 AM",
-      "dateStarted": "Oct 6, 2015 11:17:29 PM",
-      "dateFinished": "Oct 6, 2015 11:17:29 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 7, 2015 1:09:56 AM",
+      "dateFinished": "Oct 7, 2015 1:09:56 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"27\")\nval df \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\ndf.show()",
+      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"28\")\nval df \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\ndf.show()",
+      "dateUpdated": "Oct 7, 2015 12:53:33 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -54,11 +57,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 27)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\ndf: org.apache.spark.sql.DataFrame \u003d [int_column: int]\n+----------+\n|int_column|\n+----------+\n|        10|\n|        11|\n|        12|\n|        13|\n|        14|\n|        15|\n|        16|\n|        17|\n|        18|\n|        19|\n|        20|\n|        21|\n|        22|\n|        23|\n|        24|\n|        25|\n|        26|\n|        27|\n+----------+\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 28)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\ndf: org.apache.spark.sql.DataFrame \u003d [int_column: int]\n+----------+\n|int_column|\n+----------+\n|        10|\n|        11|\n|        12|\n|        13|\n|        14|\n|        15|\n|        16|\n|        17|\n|        18|\n|        19|\n|        20|\n|        21|\n|        22|\n|        23|\n|        24|\n|        25|\n|        26|\n|        27|\n|        28|\n+----------+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Oct 6, 2015 11:51:15 PM",
-      "dateFinished": "Oct 6, 2015 11:51:15 PM",
+      "dateStarted": "Oct 7, 2015 12:53:33 AM",
+      "dateFinished": "Oct 7, 2015 12:53:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -77,7 +80,11 @@
   ],
   "name": "DataSources 2: Simple Data Source",
   "id": "2AZ37ZY6H",
-  "angularObjects": {},
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
   "config": {
     "looknfeel": "default"
   },

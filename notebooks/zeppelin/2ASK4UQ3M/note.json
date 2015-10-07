@@ -34,6 +34,7 @@
     },
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.1\")",
+      "dateUpdated": "Oct 7, 2015 1:06:07 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -45,7 +46,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -54,14 +56,14 @@
       "jobName": "paragraph_1438110093664_1508237074",
       "id": "20150728-190133_576357566",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@765c165c\n"
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 28, 2015 7:01:33 PM",
-      "dateStarted": "Oct 6, 2015 11:18:18 PM",
-      "dateFinished": "Oct 6, 2015 11:18:24 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 7, 2015 1:09:56 AM",
+      "dateFinished": "Oct 7, 2015 1:09:56 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -268,7 +270,11 @@
   ],
   "name": "Likes 0: Start Kafka Streaming Server (Optional)",
   "id": "2ASK4UQ3M",
-  "angularObjects": {},
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
   "config": {
     "looknfeel": "default"
   },

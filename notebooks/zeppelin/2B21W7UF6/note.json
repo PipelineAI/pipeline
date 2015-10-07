@@ -3,6 +3,7 @@
     {
       "title": "Import third party external libraries",
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")",
+      "dateUpdated": "Oct 7, 2015 1:06:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +17,8 @@
         },
         "title": true,
         "editorHide": false,
-        "tableHide": false
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -30,9 +32,9 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Sep 27, 2015 4:23:37 AM",
-      "dateStarted": "Oct 6, 2015 11:54:29 PM",
-      "dateFinished": "Oct 6, 2015 11:54:29 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 7, 2015 1:09:56 AM",
+      "dateFinished": "Oct 7, 2015 1:09:56 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -233,7 +235,11 @@
   ],
   "name": "Likes 1: Setup Reference Data (Run Once)",
   "id": "2B21W7UF6",
-  "angularObjects": {},
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
   "config": {
     "looknfeel": "default"
   },

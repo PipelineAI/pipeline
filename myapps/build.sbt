@@ -3,6 +3,8 @@ val globalSettings = Seq(
   scalaVersion := "2.10.4"
 )
 
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.0")
+
 lazy val feeder = (project in file("feeder"))
                     .settings(name := "feeder")
                     .settings(globalSettings:_*)
