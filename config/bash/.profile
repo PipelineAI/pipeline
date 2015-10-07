@@ -43,7 +43,7 @@ export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
 
 # Cassandra
-export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-2.2.0
+export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-2.2.1
 export PATH=$PATH:$CASSANDRA_HOME/bin
 
 # Spark
@@ -90,7 +90,7 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G"
 
 # Zeppelin
-export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0
+export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor
 export PATH=$PATH:$ZEPPELIN_HOME/bin
 
 # Spark Notebook

@@ -7,6 +7,9 @@ echo '...Creating Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --create --topic ratings --partitions 1 --replication-factor 1
 kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1
 
+echo '...Formatting Tachyon (if needed)...'
+tachyon format
+
 echo '...Creating ElasticSearch Indexes...'
 #curl -XDELETE 'http://localhost:9200/fluxcapacitor'
 curl -XPUT 'http://localhost:9200/fluxcapacitor/' -d '{

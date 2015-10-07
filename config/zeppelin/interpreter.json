@@ -1,24 +1,5 @@
 {
   "interpreterSettings": {
-    "2AR33ZMZJ": {
-      "id": "2AR33ZMZJ",
-      "name": "hive",
-      "group": "hive",
-      "properties": {
-        "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
-        "hive.hiveserver2.password": "",
-        "hive.hiveserver2.user": "hive"
-      },
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.hive.HiveInterpreter",
-          "name": "hive"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
     "2AS9P7JSA": {
       "id": "2AS9P7JSA",
       "name": "spark",
@@ -53,6 +34,25 @@
         {
           "class": "org.apache.zeppelin.spark.DepInterpreter",
           "name": "dep"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2AR33ZMZJ": {
+      "id": "2AR33ZMZJ",
+      "name": "hive",
+      "group": "hive",
+      "properties": {
+        "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
+        "hive.hiveserver2.password": "",
+        "hive.hiveserver2.user": "hive"
+      },
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.hive.HiveInterpreter",
+          "name": "hive"
         }
       ],
       "option": {
@@ -112,6 +112,21 @@
       "2AR33ZMZJ"
     ],
     "2B21W7UF6": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2AZ37ZY6H": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B38BCAKU": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B2H2FUXV": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"
