@@ -78,6 +78,7 @@ ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 
 # Spark
 echo '...Configuring Spark...'
+mkdir $LOGS_HOME/spark/spark-events
 #rm $SPARK_HOME/conf/spark-defaults.conf
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
 #rm $SPARK_HOME/conf/spark-env.sh
@@ -124,13 +125,13 @@ ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # We need to chmod the keys again - not sure why, but it works so let's keep it
 chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
-tachyon format
 
 # SBT
 echo '...Configuring SBT...'
 
 # Zeppelin
 echo '...Configuring Zeppelin...'
+chmod a+x $ZEPPELIN_HOME/bin/*.sh
 #rm $ZEPPELIN_HOME/conf/zeppelin-env.sh
 ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
 #rm $ZEPPELIN_HOME/conf/zeppelin-site.xml
