@@ -78,7 +78,7 @@ ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 
 # Spark
 echo '...Configuring Spark...'
-mkdir $LOGS_HOME/spark/spark-events
+mkdir -p $LOGS_HOME/spark/spark-events
 #rm $SPARK_HOME/conf/spark-defaults.conf
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
 #rm $SPARK_HOME/conf/spark-env.sh

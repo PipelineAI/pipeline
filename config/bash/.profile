@@ -53,7 +53,7 @@ export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-1.5.1-hadoop2.6.0.jar
 export SPARK_VERSION=1.5.1
 
 # Kafka
-export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-1.0
+export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-1.0.1
 export PATH=$PATH:$KAFKA_HOME/bin
 
 # ZooKeeper
@@ -61,15 +61,15 @@ export ZOOKEEPER_HOME=$KAFKA_HOME/bin
 export PATH=$PATH:$ZOOKEEPER_HOME/bin
 
 # ElasticSearch
-export ELASTICSEARCH_HOME=$DEV_INSTALL_HOME/elasticsearch-1.7.1
+export ELASTICSEARCH_HOME=$DEV_INSTALL_HOME/elasticsearch-1.7.2
 export PATH=$PATH:$ELASTICSEARCH_HOME/bin
 
 # LogStash
-export LOGSTASH_HOME=$DEV_INSTALL_HOME/logstash-1.5.3
+export LOGSTASH_HOME=$DEV_INSTALL_HOME/logstash-1.5.4
 export PATH=$PATH:$LOGSTASH_HOME/bin
 
 # Kibana
-export KIBANA_HOME=$DEV_INSTALL_HOME/kibana-4.1.1-linux-x64
+export KIBANA_HOME=$DEV_INSTALL_HOME/kibana-4.1.2-linux-x64
 export PATH=$PATH:$KIBANA_HOME/bin
 
 # Hadoop HDFS
