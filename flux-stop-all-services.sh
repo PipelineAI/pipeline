@@ -68,8 +68,11 @@ echo '...Stopping Long-Running Likes Spark Streaming Job...'
 echo '...Stopping Long-Running Spark Job Server Job...'
 ./flux-stop-sparksubmitted-job.sh
 
+echo '...Stopping Spark History Server...'
+$SPARK_HOME/sbin/stop-history-server.sh
+
 echo '...Stopping Kafka Ratings Feeder...'
-jps | grep "sbt-launch.jar" | cut -d " " -f "1" | xargs kill -KILL
+jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
 #echo '...Stopping H2O...'
 #jps | grep "h2o" | cut -d " " -f "1" | xargs kill -KILL
