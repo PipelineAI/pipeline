@@ -11,7 +11,7 @@ ENV REDIS_VERSION=3.0.3
 ENV SBT_VERSION=0.13.8
 ENV SPARK_VERSION=1.5.1
 ENV SPARKJOBSERVER_VERSION=0.5.2
-ENV SPARKNOTEBOOK_VERSION=0.6.0
+ENV SPARKNOTEBOOK_VERSION=0.6.1
 ENV HADOOP_VERSION=2.6.0
 ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.5.1
@@ -130,10 +130,10 @@ RUN \
  && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
 
 # Spark Notebook
-# && apt-get install -y screen \
-# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
-# && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
-# && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && apt-get install -y screen \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/redis-${REDIS_VERSION}.tar.gz \
@@ -146,13 +146,13 @@ RUN \
 # Apache Hadoop
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/hadoop-${HADOOP_VERSION}.tar.gz \
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
- && rm hadoop-${HADOOP_VERSION}.tar.gz
+ && rm hadoop-${HADOOP_VERSION}.tar.gz 
 
 # Spark Job Server
 # && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
 # && tar xvzf spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
 # && rm spark-jobserver-${SPARKJOBSERVER_VERSION}-fluxcapacitor.tar.gz \
-# && mkdir -p ~/pipeline/logs/spark-jobserver
+# && mkdir -p ~/pipeline/logs/spark-jobserver 
 
 RUN \
 # Retrieve Latest Datasets, Configs, Code, and Start Scripts
@@ -180,11 +180,10 @@ RUN \
 
 # Sbt Package Streaming Consumer App
  && cd ~/pipeline/myapps \
- && sbt streaming/package
+ && sbt streaming/package \
 
 # Sbt Package SimpleDataSource Library
-# && cd ~/pipeline/myapps \
-
-# && sbt simpledatasource/package
+ && cd ~/pipeline/myapps \
+ && sbt simpledatasource/package
 
 WORKDIR /root
