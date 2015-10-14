@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
-      "dateUpdated": "Oct 7, 2015 1:06:38 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
+      "dateUpdated": "Oct 14, 2015 8:52:03 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -25,20 +25,20 @@
       "jobName": "paragraph_1443328290907_60945022",
       "id": "20150927-043130_732908106",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res5: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@569c5b67\n"
       },
       "dateCreated": "Sep 27, 2015 4:31:30 AM",
-      "dateStarted": "Oct 7, 2015 1:09:56 AM",
-      "dateFinished": "Oct 7, 2015 1:09:56 AM",
-      "status": "ERROR",
+      "dateStarted": "Oct 14, 2015 8:52:03 PM",
+      "dateFinished": "Oct 14, 2015 8:52:04 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Oct 10, 2015 10:59:47 AM",
+      "dateUpdated": "Oct 14, 2015 8:32:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,14 +67,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Oct 10, 2015 10:59:47 AM",
-      "dateFinished": "Oct 10, 2015 10:59:47 AM",
+      "dateStarted": "Oct 14, 2015 8:32:16 PM",
+      "dateFinished": "Oct 14, 2015 8:32:16 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d likesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
+      "dateUpdated": "Oct 14, 2015 8:32:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -88,7 +89,8 @@
         },
         "title": true,
         "editorHide": false,
-        "tableHide": false
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -99,17 +101,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[468] at map at \u003cconsole\u003e:45\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@264a332d\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@440f38b3\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((10004,0.4972650162337662), (90011,0.4845955086580087), (10003,0.4465731872294372), (90004,0.4245343614718614), (90014,0.4011593614718615), (10001,0.39139448051948056), (90010,0.3700179924242424), (90013,0.36578869047619045), (10002,0.3645284090909091), (10010,0.353372159090909))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[341] at map at \u003cconsole\u003e:65\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@106b2f60\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@269f8bef\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90010,0.17124999999999999), (10002,0.17124999999999999), (90003,0.17124999999999999), (10005,0.17124999999999999), (10004,0.17124999999999999), (90005,0.17124999999999999), (45804,0.15))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Oct 6, 2015 11:55:20 PM",
-      "dateFinished": "Oct 6, 2015 11:55:24 PM",
+      "dateStarted": "Oct 14, 2015 8:32:16 PM",
+      "dateFinished": "Oct 14, 2015 8:32:19 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top Influencers to ElasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")",
+      "dateUpdated": "Oct 14, 2015 8:32:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -123,7 +126,8 @@
         },
         "title": true,
         "editorHide": false,
-        "tableHide": false
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -137,13 +141,14 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Oct 6, 2015 11:55:20 PM",
-      "dateFinished": "Oct 6, 2015 11:55:25 PM",
+      "dateStarted": "Oct 14, 2015 8:32:16 PM",
+      "dateFinished": "Oct 14, 2015 8:32:20 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
+      "dateUpdated": "Oct 14, 2015 8:32:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -156,7 +161,8 @@
           "scatter": {}
         },
         "editorHide": false,
-        "tableHide": false
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -169,8 +175,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Oct 6, 2015 11:55:24 PM",
-      "dateFinished": "Oct 6, 2015 11:55:25 PM",
+      "dateStarted": "Oct 14, 2015 8:32:19 PM",
+      "dateFinished": "Oct 14, 2015 8:32:20 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

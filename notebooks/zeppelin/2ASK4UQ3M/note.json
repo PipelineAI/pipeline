@@ -33,8 +33,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.4.1\")",
-      "dateUpdated": "Oct 7, 2015 1:06:07 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
+      "dateUpdated": "Oct 14, 2015 8:51:42 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -56,14 +56,14 @@
       "jobName": "paragraph_1438110093664_1508237074",
       "id": "20150728-190133_576357566",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res2: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@3a091b59\n"
       },
       "dateCreated": "Jul 28, 2015 7:01:33 PM",
-      "dateStarted": "Oct 7, 2015 1:09:56 AM",
-      "dateFinished": "Oct 7, 2015 1:09:56 AM",
-      "status": "ERROR",
+      "dateStarted": "Oct 14, 2015 8:51:42 PM",
+      "dateFinished": "Oct 14, 2015 8:51:43 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {

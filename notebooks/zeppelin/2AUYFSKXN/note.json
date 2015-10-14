@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")",
-      "dateUpdated": "Oct 7, 2015 1:06:49 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
+      "dateUpdated": "Oct 14, 2015 8:52:09 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,19 +23,20 @@
       "jobName": "paragraph_1443328206904_1848565033",
       "id": "20150927-043006_1300221236",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res6: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@21cced72\n"
       },
       "dateCreated": "Sep 27, 2015 4:30:06 AM",
-      "dateStarted": "Oct 7, 2015 1:09:56 AM",
-      "dateFinished": "Oct 7, 2015 1:09:56 AM",
-      "status": "ERROR",
+      "dateStarted": "Oct 14, 2015 8:52:09 PM",
+      "dateFinished": "Oct 14, 2015 8:52:10 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -48,7 +49,8 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/markdown"
       },
       "settings": {
         "params": {},
@@ -62,14 +64,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Oct 6, 2015 11:55:37 PM",
-      "dateFinished": "Oct 6, 2015 11:55:37 PM",
+      "dateStarted": "Oct 14, 2015 8:40:00 PM",
+      "dateFinished": "Oct 14, 2015 8:40:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read Historical Likes and Actress/Actor Reference Data from Temp Tables",
-      "text": "//val likesTempDF \u003d sqlContext.sql(\"select * from likes_temp\")\nval actressesAndActorsDF \u003d sqlContext.sql(\"select * from actresses_and_actors\")",
+      "text": "//val likesTempDF \u003d sqlContext.sql(\"select * from likes_temp\")\nval actressesAndActorsDF \u003d sqlContext.sql(\"select * from actresses_and_actors_perm\")",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -82,7 +85,8 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -96,14 +100,15 @@
         "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Oct 6, 2015 11:55:37 PM",
-      "dateFinished": "Oct 6, 2015 11:55:37 PM",
+      "dateStarted": "Oct 14, 2015 8:40:00 PM",
+      "dateFinished": "Oct 14, 2015 8:40:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d likesDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1,0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()\n",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -116,7 +121,8 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -127,17 +133,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[569] at map at \u003cconsole\u003e:47\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[570] at randomSplit at \u003cconsole\u003e:49, MapPartitionsRDD[571] at randomSplit at \u003cconsole\u003e:49)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[570] at randomSplit at \u003cconsole\u003e:49\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[571] at randomSplit at \u003cconsole\u003e:49\nres150: trainingRatings.type \u003d MapPartitionsRDD[570] at randomSplit at \u003cconsole\u003e:49\nres151: testingRatings.type \u003d MapPartitionsRDD[571] at randomSplit at \u003cconsole\u003e:49\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[1737] at map at \u003cconsole\u003e:88\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[1738] at randomSplit at \u003cconsole\u003e:90, MapPartitionsRDD[1739] at randomSplit at \u003cconsole\u003e:90)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[1738] at randomSplit at \u003cconsole\u003e:90\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[1739] at randomSplit at \u003cconsole\u003e:90\nres184: trainingRatings.type \u003d MapPartitionsRDD[1738] at randomSplit at \u003cconsole\u003e:90\nres185: testingRatings.type \u003d MapPartitionsRDD[1739] at randomSplit at \u003cconsole\u003e:90\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Oct 6, 2015 11:55:37 PM",
-      "dateFinished": "Oct 6, 2015 11:55:39 PM",
+      "dateStarted": "Oct 14, 2015 8:40:00 PM",
+      "dateFinished": "Oct 14, 2015 8:40:01 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "val rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainingRatings, rank, numIterations, convergenceThreshold)",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -150,7 +157,8 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -161,17 +169,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@37b59c8f\n"
+        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@49893c3\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Oct 6, 2015 11:55:38 PM",
-      "dateFinished": "Oct 6, 2015 11:55:43 PM",
+      "dateStarted": "Oct 14, 2015 8:40:01 PM",
+      "dateFinished": "Oct 14, 2015 8:40:04 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "TODO:  Add GridSearch and Minimizing Pipeline",
       "text": "",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -183,7 +192,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -196,14 +206,15 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 6:15:06 PM",
-      "dateStarted": "Oct 6, 2015 11:55:39 PM",
-      "dateFinished": "Oct 6, 2015 11:55:43 PM",
+      "dateStarted": "Oct 14, 2015 8:40:02 PM",
+      "dateFinished": "Oct 14, 2015 8:40:04 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "?? Evaluate The Model Using The Historical Testing Split And Root Mean Squared Error (RMSE) ??",
       "text": "val testFromTo \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e (fromUserId, toUserId)\n}\n\nval predictedTestRatings \u003d \n  model.predict(testFromTo).map { \n    case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n  }\n\nval actualTestRatings \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n}\n\nval RMSE \u003d Math.sqrt(actualTestRatings.join(predictedTestRatings).map { \n  case ((fromUserId, toUserId), (r1, r2)) \u003d\u003e {\n  \tval err \u003d (r1 - r2)\n  \terr * err\n  }\n}.mean())",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -216,7 +227,8 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -227,17 +239,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[959] at map at \u003cconsole\u003e:44\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[968] at map at \u003cconsole\u003e:58\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[969] at map at \u003cconsole\u003e:45\nRMSE: Double \u003d 0.0\n"
+        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[2127] at map at \u003cconsole\u003e:85\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[2137] at map at \u003cconsole\u003e:99\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[2138] at map at \u003cconsole\u003e:86\nRMSE: Double \u003d 0.0\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:18 AM",
-      "dateStarted": "Oct 6, 2015 11:55:43 PM",
-      "dateFinished": "Oct 6, 2015 11:55:44 PM",
+      "dateStarted": "Oct 14, 2015 8:40:04 PM",
+      "dateFinished": "Oct 14, 2015 8:40:05 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"user_id\",\"ratings\").cache()\n\ncase class Like(from_user_id: Int, to_user_id: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"ratings\") { \n\tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n      Like(like(0).asInstanceOf[Int], \n      like(1).asInstanceOf[Int], \n      like(2).asInstanceOf[Double])) \n  }.select($\"from_user_id\", $\"to_user_id\", $\"confidence\").join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\", $\"confidence\").cache()",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -251,7 +264,8 @@
         },
         "title": true,
         "tableHide": false,
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -260,18 +274,19 @@
       "jobName": "paragraph_1435978292871_1625908707",
       "id": "20150704-025132_1487939440",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:62: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Oct 6, 2015 11:55:43 PM",
-      "dateFinished": "Oct 6, 2015 11:55:45 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 14, 2015 8:40:04 PM",
+      "dateFinished": "Oct 14, 2015 8:40:06 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "enrichedRecommendationsDF.show()",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -282,7 +297,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -293,16 +309,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+------------+----------+----------------+--------------------+--------------------+------------------+\n|from_user_id|to_user_id|            name|                 bio|                 img|        confidence|\n+------------+----------+----------------+--------------------+--------------------+------------------+\n|       90576|     10005|James Gandolfini|James Gandolfini ...|img/people/10005.jpg|0.9941957402388482|\n|       90576|     90007|  Angell Conwell|Born in the tiny ...|img/people/90007.jpg|0.9941957038718118|\n|       90576|     90009|       Pam Grier|Pam Grier was bor...|img/people/90009.jpg|0.9941957009558088|\n|       90576|     10002| Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|0.9941956939624988|\n|       90576|     10006|   Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|0.9941956930528666|\n|       46764|     10005|James Gandolfini|James Gandolfini ...|img/people/10005.jpg|0.9941957166919805|\n|       46764|     90007|  Angell Conwell|Born in the tiny ...|img/people/90007.jpg|0.9941956803249853|\n|       46764|     90009|       Pam Grier|Pam Grier was bor...|img/people/90009.jpg|0.9941956774090016|\n|       46764|     10002| Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|0.9941956704156928|\n|       46764|     10006|   Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|0.9941956695061023|\n|       63520|     10005|James Gandolfini|James Gandolfini ...|img/people/10005.jpg|0.9941957227481997|\n|       63520|     90007|  Angell Conwell|Born in the tiny ...|img/people/90007.jpg|0.9941956863810054|\n|       63520|     90009|       Pam Grier|Pam Grier was bor...|img/people/90009.jpg|0.9941956834649137|\n|       63520|     10002| Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|0.9941956764715852|\n|       63520|     10006|   Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|0.9941956755617847|\n|       20196|     10005|James Gandolfini|James Gandolfini ...|img/people/10005.jpg|0.9941956933005284|\n|       20196|     90007|  Angell Conwell|Born in the tiny ...|img/people/90007.jpg|0.9941956569332833|\n|       20196|     90009|       Pam Grier|Pam Grier was bor...|img/people/90009.jpg|0.9941956540171609|\n|       20196|     10002| Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|0.9941956470238241|\n|       20196|     10006|   Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|0.9941956461139682|\n+------------+----------+----------------+--------------------+--------------------+------------------+\n\n"
+        "msg": "+------------+----------+----------------+--------------------+--------------------+------------------+\n|from_user_id|to_user_id|            name|                 bio|                 img|        confidence|\n+------------+----------+----------------+--------------------+--------------------+------------------+\n|       45804|     10002| Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|0.9899546550748742|\n|       45804|     10004|  Morgan Freeman|With an authorita...|img/people/10004.jpg|0.9899546550748742|\n|       45804|     90010|Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|0.9899546550748742|\n|       45804|     10005|James Gandolfini|James Gandolfini ...|img/people/10005.jpg|0.9899546550748742|\n|       45804|     90003|  Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|0.9899546550748742|\n+------------+----------+----------------+--------------------+--------------------+------------------+\n\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Oct 6, 2015 11:55:44 PM",
-      "dateFinished": "Oct 6, 2015 11:55:45 PM",
+      "dateStarted": "Oct 14, 2015 8:40:05 PM",
+      "dateFinished": "Oct 14, 2015 8:40:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val personalizedRecommendations \u003d model.recommendProducts(40832, 5)",
+      "text": "//val personalizedRecommendations \u003d model.recommendProducts(40832, 5)",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -314,7 +331,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -325,16 +343,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "personalizedRecommendations: Array[org.apache.spark.mllib.recommendation.Rating] \u003d Array(Rating(40832,10005,0.9941957037732057), Rating(40832,90007,0.9941956674060956), Rating(40832,90009,0.9941956644900557), Rating(40832,10002,0.9941956574967448), Rating(40832,10006,0.9941956565870338))\n"
+        "msg": ""
       },
       "dateCreated": "Aug 17, 2015 9:40:39 PM",
-      "dateStarted": "Oct 6, 2015 11:55:45 PM",
-      "dateFinished": "Oct 6, 2015 11:55:46 PM",
+      "dateStarted": "Oct 14, 2015 8:40:06 PM",
+      "dateFinished": "Oct 14, 2015 8:40:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/personalized-als\")",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -346,7 +365,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -360,13 +380,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Oct 6, 2015 11:55:46 PM",
-      "dateFinished": "Oct 6, 2015 11:55:47 PM",
+      "dateStarted": "Oct 14, 2015 8:40:06 PM",
+      "dateFinished": "Oct 14, 2015 8:40:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
+      "dateUpdated": "Oct 14, 2015 8:40:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -378,7 +399,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorHide": false
+        "editorHide": false,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -391,8 +413,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Oct 6, 2015 11:55:46 PM",
-      "dateFinished": "Oct 6, 2015 11:55:47 PM",
+      "dateStarted": "Oct 14, 2015 8:40:07 PM",
+      "dateFinished": "Oct 14, 2015 8:40:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
