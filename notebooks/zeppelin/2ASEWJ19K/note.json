@@ -38,6 +38,7 @@
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
+      "dateUpdated": "Oct 10, 2015 10:59:47 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -51,7 +52,8 @@
         },
         "title": true,
         "editorHide": false,
-        "tableHide": false
+        "tableHide": false,
+        "editorMode": "ace/mode/markdown"
       },
       "settings": {
         "params": {},
@@ -65,8 +67,8 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Oct 6, 2015 11:55:20 PM",
-      "dateFinished": "Oct 6, 2015 11:55:20 PM",
+      "dateStarted": "Oct 10, 2015 10:59:47 AM",
+      "dateFinished": "Oct 10, 2015 10:59:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

@@ -50,7 +50,6 @@ export PATH=$PATH:$CASSANDRA_HOME/bin
 export SPARK_HOME=$DEV_INSTALL_HOME/spark-1.5.1-bin-fluxcapacitor
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-1.5.1-hadoop2.6.0.jar
-export SPARK_VERSION=1.5.1
 
 # Kafka
 export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-1.0.1
@@ -88,6 +87,9 @@ export PATH=$PATH:$TACHYON_HOME/bin
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G"
+
+# --packages used to pass into our Spark jobs
+export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1,org.elasticsearch:elasticsearch-spark_2.10:2.1.0,com.datastax.spark:spark-cassandra-connector_2.10:1.4.0,redis.clients:jedis:2.7.3
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor

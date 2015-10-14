@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 7, 2015 1:06:00 AM",
+      "dateUpdated": "Oct 13, 2015 6:19:42 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,19 +23,19 @@
       "jobName": "paragraph_1444104301541_-1668023437",
       "id": "20151006-040501_1444996520",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@7dee78a5\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:01 AM",
-      "dateStarted": "Oct 7, 2015 1:09:56 AM",
-      "dateFinished": "Oct 7, 2015 1:09:56 AM",
-      "status": "ERROR",
+      "dateStarted": "Oct 13, 2015 6:19:42 PM",
+      "dateFinished": "Oct 13, 2015 6:19:49 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"28\")\nval df \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\ndf.show()",
-      "dateUpdated": "Oct 7, 2015 12:53:33 AM",
+      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"28\")\nval df \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\ndf.registerTempTable(\"ints\")",
+      "dateUpdated": "Oct 13, 2015 8:24:53 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -46,7 +46,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -57,11 +58,56 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 28)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\ndf: org.apache.spark.sql.DataFrame \u003d [int_column: int]\n+----------+\n|int_column|\n+----------+\n|        10|\n|        11|\n|        12|\n|        13|\n|        14|\n|        15|\n|        16|\n|        17|\n|        18|\n|        19|\n|        20|\n|        21|\n|        22|\n|        23|\n|        24|\n|        25|\n|        26|\n|        27|\n|        28|\n+----------+\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 28)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\ndf: org.apache.spark.sql.DataFrame \u003d [int_column: int]\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Oct 7, 2015 12:53:33 AM",
-      "dateFinished": "Oct 7, 2015 12:53:33 AM",
+      "dateStarted": "Oct 13, 2015 8:24:53 PM",
+      "dateFinished": "Oct 13, 2015 8:24:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql select * from ints",
+      "dateUpdated": "Oct 13, 2015 8:25:09 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "int_column",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "int_column",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444083194557_-1029599800",
+      "id": "20151005-221314_57539024",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "int_column\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n"
+      },
+      "dateCreated": "Oct 5, 2015 10:13:14 PM",
+      "dateStarted": "Oct 13, 2015 8:25:02 PM",
+      "dateFinished": "Oct 13, 2015 8:25:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -71,9 +117,9 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1444083194557_-1029599800",
-      "id": "20151005-221314_57539024",
-      "dateCreated": "Oct 5, 2015 10:13:14 PM",
+      "jobName": "paragraph_1444767902147_793540924",
+      "id": "20151013-202502_431405783",
+      "dateCreated": "Oct 13, 2015 8:25:02 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }

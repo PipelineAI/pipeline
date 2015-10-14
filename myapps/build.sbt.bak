@@ -38,7 +38,7 @@ lazy val feederDeps = Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-  "org.apache.kafka" % "kafka_2.10" % kafkaVersion
+  "org.apache.kafka" % "kafka_2.10" % kafkaVersion 
     exclude("javax.jms", "jms")
     exclude("com.sun.jdmk", "jmxtools")
     exclude("com.sun.jmx", "jmxri")
@@ -62,7 +62,7 @@ lazy val simpledatasourceDeps = Seq(
 
 lazy val tungstenDeps = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-  "org.apache.spark"  %% "spark-core" % sparkVersion
+  "org.apache.spark"  %% "spark-core"             % sparkVersion
     exclude("commons-collections", "commons-collections")
     exclude("commons-beanutils", "commons-beanutils")
     exclude("org.apache.hadoop", "hadoop-yarn-api")
@@ -76,4 +76,3 @@ lazy val tungstenDeps = Seq(
     exclude("org.apache.spark", "spark-network-shuffle_2.10")
     exclude("org.apache.spark", "spark-unsafe_2.10")
 )
-
