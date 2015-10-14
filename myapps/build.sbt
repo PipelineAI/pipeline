@@ -20,6 +20,11 @@ lazy val simpledatasource = (project in file("simpledatasource"))
                        .settings(globalSettings:_*)
                        .settings(libraryDependencies ++= simpledatasourceDeps)
 
+lazy val tungsten = (project in file("tungsten"))
+                    .settings(name := "tungsten")
+                    .settings(globalSettings:_*)
+                    .settings(libraryDependencies ++= tungstenDeps)
+
 val akkaVersion = "2.3.11"
 val sparkVersion = "1.5.1"
 val sparkCassandraConnectorVersion = "1.5.0-M2"
@@ -33,7 +38,7 @@ lazy val feederDeps = Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-  "org.apache.kafka" % "kafka_2.10" % kafkaVersion 
+  "org.apache.kafka" % "kafka_2.10" % kafkaVersion
     exclude("javax.jms", "jms")
     exclude("com.sun.jdmk", "jmxtools")
     exclude("com.sun.jmx", "jmxri")
@@ -54,3 +59,20 @@ lazy val streamingDeps = Seq(
 lazy val simpledatasourceDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided"
 )
+
+lazy val tungstenDeps = Seq(
+  "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+  "org.apache.spark"  %% "spark-core"             % sparkVersion
+    exclude("commons-collections", "commons-collections")
+    exclude("commons-beanutils", "commons-beanutils")
+    exclude("org.apache.hadoop", "hadoop-yarn-api")
+    exclude("org.apache.hadoop", "hadoop-yarn-common")
+    exclude("com.google.guava", "guava")
+    exclude("com.esotericsoftware.kryo", "kryo")
+    exclude("com.esotericsoftware.kryo", "minlog")
+    exclude("org.apache.spark", "spark-launcher-2.10")
+    exclude("org.spark-project.spark", "unused")
+    exclude("org.apache.spark", "spark-network-common_2.10")
+    exclude("org.apache.spark", "spark-network-shuffle_2.10")
+)
+
