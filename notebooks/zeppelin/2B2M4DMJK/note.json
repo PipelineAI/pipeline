@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,19 +23,19 @@
       "jobName": "paragraph_1438115380981_-1458610433",
       "id": "20150728-202940_569902058",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "res7: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@222a4da2\n"
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 28, 2015 8:29:40 PM",
-      "dateStarted": "Oct 14, 2015 8:52:26 PM",
-      "dateFinished": "Oct 14, 2015 8:52:27 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 15, 2015 5:22:38 AM",
+      "dateFinished": "Oct 15, 2015 5:22:38 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md # Join Ratings and Genders\n## File Format Combos\n* Both CSV (Unpartitioned)\n* Both JSON (Unpartitioned)\n* Both Parquet (Unpartitioned)\n* Both Parquet (Partitioned)\n* Ratings Parquet (Partitioned) and Genders JSON (Unpartitioned)\n* Ratings JSON (Unpartitioned) and Genders Parquet (Partitioned)\n* Ratings Cassandra (Unpartitioned) and Genders Parquet (Partitioned)",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,14 +61,14 @@
         "msg": "\u003ch1\u003eJoin Ratings and Genders\u003c/h1\u003e\n\u003ch2\u003eFile Format Combos\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eBoth CSV (Unpartitioned)\u003c/li\u003e\n\u003cli\u003eBoth JSON (Unpartitioned)\u003c/li\u003e\n\u003cli\u003eBoth Parquet (Unpartitioned)\u003c/li\u003e\n\u003cli\u003eBoth Parquet (Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings Parquet (Partitioned) and Genders JSON (Unpartitioned)\u003c/li\u003e\n\u003cli\u003eRatings JSON (Unpartitioned) and Genders Parquet (Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings Cassandra (Unpartitioned) and Genders Parquet (Partitioned)\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:41:15 PM",
-      "dateStarted": "Oct 14, 2015 8:52:26 PM",
-      "dateFinished": "Oct 14, 2015 8:52:26 PM",
+      "dateStarted": "Oct 15, 2015 5:22:38 AM",
+      "dateFinished": "Oct 15, 2015 5:22:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Both CSV",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -94,14 +94,14 @@
         "msg": "\u003ch3\u003eBoth CSV\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:40:32 PM",
-      "dateStarted": "Oct 14, 2015 8:52:27 PM",
-      "dateFinished": "Oct 14, 2015 8:52:27 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import com.databricks.spark.csv._\n\nval ratingsCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/ratings.csv.bz2\").toDF(\"fromUserId\", \"toUserId\", \"rating\")\nval gendersCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/genders.csv.bz2\").toDF(\"id\", \"gender\")",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -127,14 +127,14 @@
         "msg": "import com.databricks.spark.csv._\nratingsCsvDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: string, toUserId: string, rating: string]\ngendersCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n"
       },
       "dateCreated": "Sep 23, 2015 5:18:40 PM",
-      "dateStarted": "Oct 14, 2015 8:52:27 PM",
-      "dateFinished": "Oct 14, 2015 8:52:41 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:22:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val mediumHottieRatingsUnpartitionedCsvDF \u003d ratingsCsvDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n\nmediumHottieRatingsUnpartitionedCsvDF.explain(true)\n\nmediumHottieRatingsUnpartitionedCsvDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -157,17 +157,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "mediumHottieRatingsUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#4,rating#5]\n   Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string\nFilter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#4,rating#5]\n   Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n  Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#0,C1#1,C2#2]\n\nCode Generation: true\nres5: Long \u003d 4693155\n"
+        "msg": "mediumHottieRatingsUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (cast(rating#1547 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#1546,rating#1547]\n   Project [C0#1542 AS fromUserId#1545,C1#1543 AS toUserId#1546,C2#1544 AS rating#1547]\n    Relation[C0#1542,C1#1543,C2#1544] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string\nFilter (cast(rating#1547 as double) \u003e\u003d cast(4 as double))\n Filter (cast(rating#1547 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#1546,rating#1547]\n   Project [C0#1542 AS fromUserId#1545,C1#1543 AS toUserId#1546,C2#1544 AS rating#1547]\n    Relation[C0#1542,C1#1543,C2#1544] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C1#1543 AS toUserId#1546,C2#1544 AS rating#1547]\n Filter ((cast(C2#1544 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#1544 as double) \u003e\u003d 4.0))\n  Relation[C0#1542,C1#1543,C2#1544] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C1#1543 AS toUserId#1546,C2#1544 AS rating#1547]\n Filter ((cast(C2#1544 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#1544 as double) \u003e\u003d 4.0))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#1542,C1#1543,C2#1544]\n\nCode Generation: true\nres160: Long \u003d 4693155\n"
       },
       "dateCreated": "Sep 23, 2015 5:20:49 PM",
-      "dateStarted": "Oct 14, 2015 8:52:27 PM",
-      "dateFinished": "Oct 14, 2015 8:53:22 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:23:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersUnpartitionedCsvDF \u003d gendersCsvDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\n\nunknownGendersUnpartitionedCsvDF.explain(true)\n\nunknownGendersUnpartitionedCsvDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -190,17 +190,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#9 \u003d F)\n  Project [id#8,gender#9]\n   Project [C0#6 AS id#8,C1#7 AS gender#9]\n    Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: string, gender: string\nFilter NOT (gender#9 \u003d M)\n Filter NOT (gender#9 \u003d F)\n  Project [id#8,gender#9]\n   Project [C0#6 AS id#8,C1#7 AS gender#9]\n    Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C0#6 AS id#8,C1#7 AS gender#9]\n Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n  Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C0#6 AS id#8,C1#7 AS gender#9]\n Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#6,C1#7]\n\nCode Generation: true\nres10: Long \u003d 83164\n"
+        "msg": "unknownGendersUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#1551 \u003d F)\n  Project [id#1550,gender#1551]\n   Project [C0#1548 AS id#1550,C1#1549 AS gender#1551]\n    Relation[C0#1548,C1#1549] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: string, gender: string\nFilter NOT (gender#1551 \u003d M)\n Filter NOT (gender#1551 \u003d F)\n  Project [id#1550,gender#1551]\n   Project [C0#1548 AS id#1550,C1#1549 AS gender#1551]\n    Relation[C0#1548,C1#1549] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C0#1548 AS id#1550,C1#1549 AS gender#1551]\n Filter (NOT (C1#1549 \u003d F) \u0026\u0026 NOT (C1#1549 \u003d M))\n  Relation[C0#1548,C1#1549] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C0#1548 AS id#1550,C1#1549 AS gender#1551]\n Filter (NOT (C1#1549 \u003d F) \u0026\u0026 NOT (C1#1549 \u003d M))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#1548,C1#1549]\n\nCode Generation: true\nres165: Long \u003d 83164\n"
       },
       "dateCreated": "Sep 23, 2015 5:21:55 PM",
-      "dateStarted": "Oct 14, 2015 8:52:41 PM",
-      "dateFinished": "Oct 14, 2015 8:53:23 PM",
+      "dateStarted": "Oct 15, 2015 5:22:40 AM",
+      "dateFinished": "Oct 15, 2015 5:23:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF \u003d mediumHottieRatingsUnpartitionedCsvDF.join(unknownGendersUnpartitionedCsvDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.explain(true)\n\njoinMediumHottieRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -226,14 +226,14 @@
         "msg": "joinMediumHottieRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string, id: string, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Filter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n  Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n   Project [toUserId#4,rating#5]\n    Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n     Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Filter NOT (gender#9 \u003d M)\n  Filter NOT (gender#9 \u003d F)\n   Project [id#8,gender#9]\n    Project [C0#6 AS id#8,C1#7 AS gender#9]\n     Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string, id: string, gender: string\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Filter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n  Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n   Project [toUserId#4,rating#5]\n    Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n     Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Filter NOT (gender#9 \u003d M)\n  Filter NOT (gender#9 \u003d F)\n   Project [id#8,gender#9]\n    Project [C0#6 AS id#8,C1#7 AS gender#9]\n     Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Project [C1#1 AS toUserId#4,C2#2 AS rating#5]\n  Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n   Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Project [C0#6 AS id#8,C1#7 AS gender#9]\n  Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n   Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [toUserId#4], [id#8]\n TungstenSort [toUserId#4 ASC], false, 0\n  TungstenExchange hashpartitioning(toUserId#4)\n   TungstenProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n     Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#0,C1#1,C2#2]\n TungstenSort [id#8 ASC], false, 0\n  TungstenExchange hashpartitioning(id#8)\n   TungstenProject [C0#6 AS id#8,C1#7 AS gender#9]\n    Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n     Scan CsvRelation(file:/root/pipeline/datasets/dating/genders.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#6,C1#7]\n\nCode Generation: true\nres15: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 5:23:26 PM",
-      "dateStarted": "Oct 14, 2015 8:53:22 PM",
+      "dateStarted": "Oct 15, 2015 5:23:25 AM",
       "dateFinished": "Oct 14, 2015 8:54:09 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Both JSON",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -259,14 +259,14 @@
         "msg": "\u003ch3\u003eBoth JSON\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:43:56 PM",
-      "dateStarted": "Oct 14, 2015 8:52:27 PM",
-      "dateFinished": "Oct 14, 2015 8:52:27 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsJsonDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval gendersJsonDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
-      "dateUpdated": "Oct 14, 2015 8:52:26 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -294,12 +294,12 @@
       "dateCreated": "Jul 28, 2015 8:30:08 PM",
       "dateStarted": "Oct 14, 2015 8:53:24 PM",
       "dateFinished": "Oct 14, 2015 8:54:46 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val mediumHottieRatingsUnpartitionedJsonDF \u003d ratingsJsonDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n\nmediumHottieRatingsUnpartitionedJsonDF.explain(true)\n\nmediumHottieRatingsUnpartitionedJsonDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:27 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -327,12 +327,12 @@
       "dateCreated": "Sep 23, 2015 3:11:56 PM",
       "dateStarted": "Oct 14, 2015 8:54:09 PM",
       "dateFinished": "Oct 14, 2015 8:55:17 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersUnpartitionedJsonDF \u003d gendersJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\n\nunknownGendersUnpartitionedJsonDF.explain(true)\n\nunknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:27 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -360,12 +360,12 @@
       "dateCreated": "Sep 23, 2015 3:51:25 PM",
       "dateStarted": "Oct 14, 2015 8:54:47 PM",
       "dateFinished": "Oct 14, 2015 8:55:18 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF \u003d mediumHottieRatingsUnpartitionedJsonDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF.explain(true)\n\njoinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:27 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -393,12 +393,12 @@
       "dateCreated": "Sep 23, 2015 5:26:10 PM",
       "dateStarted": "Oct 14, 2015 8:55:17 PM",
       "dateFinished": "Oct 14, 2015 8:55:51 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "//ratingsJsonDF.write.format(\"parquet\").partitionBy(\"rating\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.parquet\")\n//gendersJsonDF.write.format(\"parquet\").partitionBy(\"gender\").save(\"file:/root/pipeline/datasets/dating/genders-partitioned.parquet\")\n//ratingsJsonDF.write.format(\"parquet\").save(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet\")\n//gendersJsonDF.write.format(\"parquet\").save(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet\")",
-      "dateUpdated": "Oct 14, 2015 8:52:27 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -426,12 +426,12 @@
       "dateCreated": "Jul 29, 2015 1:08:04 AM",
       "dateStarted": "Oct 14, 2015 8:55:18 PM",
       "dateFinished": "Oct 14, 2015 8:55:51 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Both Parquet Unpartitioned",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -457,14 +457,14 @@
         "msg": "\u003ch3\u003eBoth Parquet Unpartitioned\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:46:44 PM",
-      "dateStarted": "Oct 14, 2015 8:52:28 PM",
-      "dateFinished": "Oct 14, 2015 8:52:28 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsUnpartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet\")\n\nval gendersUnpartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet\")",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -492,12 +492,12 @@
       "dateCreated": "Sep 23, 2015 5:47:05 PM",
       "dateStarted": "Oct 14, 2015 8:55:51 PM",
       "dateFinished": "Oct 14, 2015 8:55:52 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val mediumHottieRatingsUnpartitionedParquetDF \u003d ratingsUnpartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n\nmediumHottieRatingsUnpartitionedParquetDF.explain(true)\n\nmediumHottieRatingsUnpartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -525,12 +525,12 @@
       "dateCreated": "Sep 23, 2015 5:49:00 PM",
       "dateStarted": "Oct 14, 2015 8:55:52 PM",
       "dateFinished": "Oct 14, 2015 8:55:54 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersUnpartitionedParquetDF \u003d gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\n\nunknownGendersUnpartitionedParquetDF.explain(true)\n\nunknownGendersUnpartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -558,12 +558,12 @@
       "dateCreated": "Sep 23, 2015 5:51:02 PM",
       "dateStarted": "Oct 14, 2015 8:55:53 PM",
       "dateFinished": "Oct 14, 2015 8:55:55 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF \u003d mediumHottieRatingsUnpartitionedParquetDF.join(unknownGendersUnpartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF.explain(true)\n\njoinMediumHottieRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -591,12 +591,12 @@
       "dateCreated": "Sep 23, 2015 5:52:09 PM",
       "dateStarted": "Oct 14, 2015 8:55:54 PM",
       "dateFinished": "Oct 14, 2015 8:55:58 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Both Parquet Partitioned",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -622,14 +622,14 @@
         "msg": "\u003ch3\u003eBoth Parquet Partitioned\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:44:12 PM",
-      "dateStarted": "Oct 14, 2015 8:52:28 PM",
-      "dateFinished": "Oct 14, 2015 8:52:28 PM",
+      "dateStarted": "Oct 15, 2015 5:22:39 AM",
+      "dateFinished": "Oct 15, 2015 5:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.parquet\")\n\nval gendersPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/genders-partitioned.parquet\")",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -657,12 +657,12 @@
       "dateCreated": "Sep 23, 2015 6:53:48 AM",
       "dateStarted": "Oct 14, 2015 8:55:55 PM",
       "dateFinished": "Oct 14, 2015 8:55:58 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "//import sqlContext.implicits._\n//case class Rating(fromUserId: Int, toUserId: Int, rating: Int)\n\n//val rating \u003d new Rating(1111, 133, 8)\n//val newRatingsJsonDF \u003d sc.parallelize(rating :: Nil).toDF(\"fromUserId\", \"toUserId\", \"rating\")\n//newRatingsJsonDF.write.format(\"parquet\").mode(\"append\").partitionBy(\"rating\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.parquet\")",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -690,12 +690,12 @@
       "dateCreated": "Oct 9, 2015 9:49:10 PM",
       "dateStarted": "Oct 14, 2015 8:55:58 PM",
       "dateFinished": "Oct 14, 2015 8:55:58 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val mediumHottieRatingsPartitionedParquetDF \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n\nmediumHottieRatingsPartitionedParquetDF.explain(true)\n\nmediumHottieRatingsPartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -723,12 +723,12 @@
       "dateCreated": "Sep 23, 2015 3:02:51 PM",
       "dateStarted": "Oct 14, 2015 8:55:58 PM",
       "dateFinished": "Oct 14, 2015 8:55:59 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersPartitionedParquetDF \u003d gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\n\nunknownGendersPartitionedParquetDF.explain(true)\n\nunknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -756,12 +756,12 @@
       "dateCreated": "Sep 23, 2015 4:15:23 PM",
       "dateStarted": "Oct 14, 2015 8:55:59 PM",
       "dateFinished": "Oct 14, 2015 8:56:00 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF \u003d mediumHottieRatingsPartitionedParquetDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMediumHottieRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -782,19 +782,19 @@
       "jobName": "paragraph_1442992157897_403262475",
       "id": "20150923-070917_1503747094",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "joinMediumHottieRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#75L \u003d id#77L))\n Filter (rating#76 \u003e\u003d 4)\n  Filter (rating#76 \u003c\u003d 6)\n   Project [toUserId#75L,rating#76]\n    Relation[fromUserId#74L,toUserId#75L,rating#76] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#78 \u003d M)\n  Filter NOT (gender#78 \u003d F)\n   Project [id#77L,gender#78]\n    Relation[id#77L,gender#78] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#75L \u003d id#77L))\n Filter (rating#76 \u003e\u003d 4)\n  Filter (rating#76 \u003c\u003d 6)\n   Project [toUserId#75L,rating#76]\n    Relation[fromUserId#74L,toUserId#75L,rating#76] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#78 \u003d M)\n  Filter NOT (gender#78 \u003d F)\n   Project [id#77L,gender#78]\n    Relation[id#77L,gender#78] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#75L \u003d id#77L))\n Project [toUserId#75L,rating#76]\n  Filter ((rating#76 \u003c\u003d 6) \u0026\u0026 (rating#76 \u003e\u003d 4))\n   Relation[fromUserId#74L,toUserId#75L,rating#76] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#78 \u003d F) \u0026\u0026 NOT (gender#78 \u003d M))\n  Relation[id#77L,gender#78] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#75L], [id#77L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#75L,rating#76]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#77L,gender#78]\n\nCode Generation: true\nres77: Long \u003d 1123909\n"
+        "msg": "\u003cconsole\u003e:65: error: not found: value mediumHottieRatingsPartitionedParquetDF\n       val joinMediumHottieRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF \u003d mediumHottieRatingsPartitionedParquetDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                             ^\n"
       },
       "dateCreated": "Sep 23, 2015 7:09:17 AM",
-      "dateStarted": "Oct 14, 2015 8:55:59 PM",
-      "dateFinished": "Oct 14, 2015 8:56:01 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 15, 2015 5:22:31 AM",
+      "dateFinished": "Oct 15, 2015 5:22:31 AM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings Parquet Partitioned and Genders JSON Unpartitioned",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -820,14 +820,14 @@
         "msg": "\u003ch3\u003eRatings Parquet Partitioned and Genders JSON Unpartitioned\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 4:32:51 PM",
-      "dateStarted": "Oct 14, 2015 8:52:28 PM",
-      "dateFinished": "Oct 14, 2015 8:52:28 PM",
+      "dateStarted": "Oct 15, 2015 5:22:40 AM",
+      "dateFinished": "Oct 15, 2015 5:22:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF \u003d mediumHottieRatingsPartitionedParquetDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF.explain(true)\n\njoinMediumHottieRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -855,12 +855,12 @@
       "dateCreated": "Sep 23, 2015 6:00:50 PM",
       "dateStarted": "Oct 14, 2015 8:56:00 PM",
       "dateFinished": "Oct 14, 2015 8:56:03 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings JSON Unpartitioned and Genders Parquet Partitioned",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -886,14 +886,14 @@
         "msg": "\u003ch3\u003eRatings JSON Unpartitioned and Genders Parquet Partitioned\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 6:02:31 PM",
-      "dateStarted": "Oct 14, 2015 8:52:28 PM",
-      "dateFinished": "Oct 14, 2015 8:52:28 PM",
+      "dateStarted": "Oct 15, 2015 5:22:40 AM",
+      "dateFinished": "Oct 15, 2015 5:22:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d mediumHottieRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -921,12 +921,12 @@
       "dateCreated": "Sep 23, 2015 6:02:55 PM",
       "dateStarted": "Oct 14, 2015 8:56:01 PM",
       "dateFinished": "Oct 14, 2015 8:56:35 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings Cassandra Partitioned and Genders Parquet Partitioned",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -952,14 +952,14 @@
         "msg": "\u003ch3\u003eRatings Cassandra Partitioned and Genders Parquet Partitioned\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:59:19 PM",
-      "dateStarted": "Oct 14, 2015 8:52:29 PM",
-      "dateFinished": "Oct 14, 2015 8:52:29 PM",
+      "dateStarted": "Oct 15, 2015 5:22:40 AM",
+      "dateFinished": "Oct 15, 2015 5:22:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val mediumHottieRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")).load()\n\nmediumHottieRatingsPartitionedCassandraDF.explain(true)\n\nmediumHottieRatingsPartitionedCassandraDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -982,17 +982,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "mediumHottieRatingsPartitionedCassandraDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, batchtime: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nRelation[fromuserid#109,touserid#110,batchtime#111L,rating#112] org.apache.spark.sql.cassandra.CassandraSourceRelation@14f9b895\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nfromuserid: int, touserid: int, batchtime: bigint, rating: int\nRelation[fromuserid#109,touserid#110,batchtime#111L,rating#112] org.apache.spark.sql.cassandra.CassandraSourceRelation@14f9b895\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nRelation[fromuserid#109,touserid#110,batchtime#111L,rating#112] org.apache.spark.sql.cassandra.CassandraSourceRelation@14f9b895\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan org.apache.spark.sql.cassandra.CassandraSourceRelation@14f9b895[fromuserid#109,touserid#110,batchtime#111L,rating#112]\n\nCode Generation: true\nres92: Long \u003d 918\n"
+        "msg": "mediumHottieRatingsPartitionedCassandraDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, batchtime: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nRelation[fromuserid#1532,touserid#1533,batchtime#1534L,rating#1535] org.apache.spark.sql.cassandra.CassandraSourceRelation@200dc0e8\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nfromuserid: int, touserid: int, batchtime: bigint, rating: int\nRelation[fromuserid#1532,touserid#1533,batchtime#1534L,rating#1535] org.apache.spark.sql.cassandra.CassandraSourceRelation@200dc0e8\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nRelation[fromuserid#1532,touserid#1533,batchtime#1534L,rating#1535] org.apache.spark.sql.cassandra.CassandraSourceRelation@200dc0e8\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan org.apache.spark.sql.cassandra.CassandraSourceRelation@200dc0e8[fromuserid#1532,touserid#1533,batchtime#1534L,rating#1535]\n\nCode Generation: true\nres153: Long \u003d 918\n"
       },
       "dateCreated": "Sep 23, 2015 6:00:27 PM",
-      "dateStarted": "Oct 14, 2015 8:56:03 PM",
-      "dateFinished": "Oct 14, 2015 8:56:37 PM",
-      "status": "FINISHED",
+      "dateStarted": "Oct 15, 2015 5:20:14 AM",
+      "dateFinished": "Oct 15, 2015 5:20:15 AM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "mediumHottieRatingsPartitionedCassandraDF.select($\"touserid\", $\"rating\").filter($\"rating\" \u003e\u003d 4).filter($\"rating\" \u003c\u003d 6).explain(true)",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1020,12 +1020,12 @@
       "dateCreated": "Sep 23, 2015 6:14:55 PM",
       "dateStarted": "Oct 14, 2015 8:56:36 PM",
       "dateFinished": "Oct 14, 2015 8:56:37 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF \u003d mediumHottieRatingsPartitionedCassandraDF.join(unknownGendersPartitionedParquetDF, $\"touserid\" \u003d\u003d\u003d $\"id\")\n\njoinMediumHottieRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMediumHottieRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Oct 14, 2015 8:52:28 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1053,12 +1053,12 @@
       "dateCreated": "Sep 23, 2015 6:15:16 PM",
       "dateStarted": "Oct 14, 2015 8:56:37 PM",
       "dateFinished": "Oct 14, 2015 8:56:39 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Oct 14, 2015 8:52:29 PM",
+      "dateUpdated": "Oct 15, 2015 5:22:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1085,7 +1085,7 @@
       "dateCreated": "Sep 23, 2015 6:23:02 PM",
       "dateStarted": "Oct 14, 2015 8:56:38 PM",
       "dateFinished": "Oct 14, 2015 8:56:39 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     }
   ],

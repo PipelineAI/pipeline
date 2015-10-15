@@ -37,9 +37,9 @@ object StreamingLikes {
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "likes")
 
-    val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
+    val likesStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
-    ratingsStream.foreachRDD {
+    likesStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
         // convert each RDD from the batch into a DataFrame
         val df = message.map(_._2.split(",")).map(like => Like(like(0).trim.toInt, like(1).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "batchtime")
