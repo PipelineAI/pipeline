@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 15, 2015 5:04:26 AM",
+      "dateUpdated": "Oct 15, 2015 7:14:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,50 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Sep 27, 2015 4:31:30 AM",
-      "dateStarted": "Oct 15, 2015 5:04:26 AM",
-      "dateFinished": "Oct 15, 2015 5:04:26 AM",
+      "dateStarted": "Oct 15, 2015 7:14:14 PM",
+      "dateFinished": "Oct 15, 2015 7:14:14 PM",
       "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
+      "text": "val actressesAndActorsDF \u003d sqlContext.sql(\"SELECT id, name, bio, img FROM actresses_and_actors_perm\")\nactressesAndActorsDF.show(30)",
+      "dateUpdated": "Oct 17, 2015 11:44:15 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445082225970_290386356",
+      "id": "20151017-114345_2015934791",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|         Gail OGrady|Gail OGrady was b...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
+      },
+      "dateCreated": "Oct 17, 2015 11:43:45 AM",
+      "dateStarted": "Oct 17, 2015 11:43:51 AM",
+      "dateFinished": "Oct 17, 2015 11:43:52 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Oct 15, 2015 5:04:26 AM",
+      "dateUpdated": "Oct 15, 2015 7:14:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,15 +102,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Oct 15, 2015 5:04:26 AM",
-      "dateFinished": "Oct 15, 2015 5:04:26 AM",
+      "dateStarted": "Oct 15, 2015 7:14:14 PM",
+      "dateFinished": "Oct 15, 2015 7:14:14 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d likesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
-      "dateUpdated": "Oct 15, 2015 5:04:26 AM",
+      "dateUpdated": "Oct 15, 2015 7:14:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,18 +136,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[273] at map at \u003cconsole\u003e:55\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@5efdf96d\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@777b6df6\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90010,0.1925), (90003,0.1925), (10014,0.17124999999999999), (10002,0.17124999999999999), (90005,0.17124999999999999), (10009,0.17124999999999999), (10011,0.17124999999999999), (90013,0.17124999999999999), (10005,0.17124999999999999), (10004,0.17124999999999999))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[662] at map at \u003cconsole\u003e:66\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@5cf89e72\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7fbaec8e\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90013,0.47254924242424234), (10008,0.4190700757575758), (90011,0.4120327380952381), (90014,0.4114255952380953), (10004,0.3801577380952381), (10001,0.3746474567099567), (90004,0.3733779761904762), (10002,0.3479791666666666), (10005,0.33022023809523804), (10003,0.3097843614718614))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Oct 15, 2015 5:04:26 AM",
-      "dateFinished": "Oct 15, 2015 5:04:29 AM",
+      "dateStarted": "Oct 15, 2015 7:14:14 PM",
+      "dateFinished": "Oct 15, 2015 7:14:16 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top Influencers to ElasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")",
-      "dateUpdated": "Oct 15, 2015 5:04:26 AM",
+      "dateUpdated": "Oct 15, 2015 7:14:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -141,14 +176,14 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Oct 15, 2015 5:04:26 AM",
-      "dateFinished": "Oct 15, 2015 5:04:30 AM",
+      "dateStarted": "Oct 15, 2015 7:14:54 PM",
+      "dateFinished": "Oct 15, 2015 7:14:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Oct 15, 2015 5:04:26 AM",
+      "dateUpdated": "Oct 15, 2015 7:14:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -175,8 +210,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Oct 15, 2015 5:04:30 AM",
-      "dateFinished": "Oct 15, 2015 5:04:30 AM",
+      "dateStarted": "Oct 15, 2015 7:14:17 PM",
+      "dateFinished": "Oct 15, 2015 7:14:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
