@@ -15,10 +15,10 @@ lazy val streaming = (project in file("streaming"))
                        .settings(globalSettings:_*)
                        .settings(libraryDependencies ++= streamingDeps)
 
-lazy val simpledatasource = (project in file("simpledatasource"))
-                       .settings(name := "simpledatasource")
+lazy val datasource = (project in file("datasource"))
+                       .settings(name := "datasource")
                        .settings(globalSettings:_*)
-                       .settings(libraryDependencies ++= simpledatasourceDeps)
+                       .settings(libraryDependencies ++= datasourceDeps)
 
 lazy val tungsten = (project in file("tungsten"))
                     .settings(name := "tungsten")
@@ -56,7 +56,7 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided"
 )
 
-lazy val simpledatasourceDeps = Seq(
+lazy val datasourceDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided"
 )
 

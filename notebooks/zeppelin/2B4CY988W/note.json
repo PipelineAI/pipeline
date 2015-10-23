@@ -1,0 +1,58 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ### Generate Top-K Recommendations",
+      "dateUpdated": "Oct 21, 2015 1:52:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445435507644_-734059892",
+      "id": "20151021-135147_1229553400",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eGenerate Top-K Recommendations\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Oct 21, 2015 1:51:47 PM",
+      "dateStarted": "Oct 21, 2015 1:52:04 PM",
+      "dateFinished": "Oct 21, 2015 1:52:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445435524124_1219725671",
+      "id": "20151021-135204_1643853460",
+      "dateCreated": "Oct 21, 2015 1:52:04 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Likes 3:  Top-K Recs (Summary Statistics)",
+  "id": "2B4CY988W",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

@@ -108,7 +108,7 @@
     {
       "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d likesDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1.0,0.0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()",
-      "dateUpdated": "Oct 15, 2015 7:52:17 PM",
+      "dateUpdated": "Oct 20, 2015 6:41:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -133,18 +133,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[760] at map at \u003cconsole\u003e:68\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[761] at randomSplit at \u003cconsole\u003e:70, MapPartitionsRDD[762] at randomSplit at \u003cconsole\u003e:70)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[761] at randomSplit at \u003cconsole\u003e:70\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[762] at randomSplit at \u003cconsole\u003e:70\nres208: trainingRatings.type \u003d MapPartitionsRDD[761] at randomSplit at \u003cconsole\u003e:70\nres209: testingRatings.type \u003d MapPartitionsRDD[762] at randomSplit at \u003cconsole\u003e:70\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[442] at map at \u003cconsole\u003e:84\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[443] at randomSplit at \u003cconsole\u003e:86, MapPartitionsRDD[444] at randomSplit at \u003cconsole\u003e:86)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[443] at randomSplit at \u003cconsole\u003e:86\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[444] at randomSplit at \u003cconsole\u003e:86\nres209: trainingRatings.type \u003d MapPartitionsRDD[443] at randomSplit at \u003cconsole\u003e:86\nres210: testingRatings.type \u003d MapPartitionsRDD[444] at randomSplit at \u003cconsole\u003e:86\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Oct 15, 2015 7:52:18 PM",
-      "dateFinished": "Oct 15, 2015 7:52:19 PM",
+      "dateStarted": "Oct 20, 2015 6:41:30 PM",
+      "dateFinished": "Oct 20, 2015 6:41:32 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "val rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainingRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Oct 15, 2015 7:52:17 PM",
+      "dateUpdated": "Oct 20, 2015 6:41:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -169,11 +169,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@372685bf\n"
+        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@5e93bc95\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Oct 15, 2015 7:52:18 PM",
-      "dateFinished": "Oct 15, 2015 7:52:22 PM",
+      "dateStarted": "Oct 20, 2015 6:41:44 PM",
+      "dateFinished": "Oct 20, 2015 6:41:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -216,7 +216,7 @@
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"user_id\",\"ratings\").cache()\n\ncase class Like(from_user_id: Int, to_user_id: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"ratings\") { \n\tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n      Like(like(0).asInstanceOf[Int], \n      like(1).asInstanceOf[Int], \n      like(2).asInstanceOf[Double])) \n  }.select($\"from_user_id\", $\"to_user_id\", $\"confidence\").join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\", $\"confidence\").cache()",
-      "dateUpdated": "Oct 15, 2015 7:52:18 PM",
+      "dateUpdated": "Oct 20, 2015 6:42:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -242,11 +242,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:83: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, ratings: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Like\n\u003cconsole\u003e:99: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(likes: Seq[Row]) \u003d\u003e likes.map(like \u003d\u003e \n                        ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Oct 15, 2015 7:52:22 PM",
-      "dateFinished": "Oct 15, 2015 7:52:24 PM",
+      "dateStarted": "Oct 20, 2015 6:42:32 PM",
+      "dateFinished": "Oct 20, 2015 6:42:34 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -285,7 +285,7 @@
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/personalized-als\")",
-      "dateUpdated": "Oct 15, 2015 7:53:13 PM",
+      "dateUpdated": "Oct 20, 2015 6:42:46 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -312,8 +312,8 @@
         "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Oct 15, 2015 7:53:13 PM",
-      "dateFinished": "Oct 15, 2015 7:53:14 PM",
+      "dateStarted": "Oct 20, 2015 6:42:46 PM",
+      "dateFinished": "Oct 20, 2015 6:42:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -351,7 +351,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes 4: Matrix Factorization:  Collaborative Filtering Recommendations",
+  "name": "Likes 6:  Collaborative Filtering Recs (Matrix Factorization)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2AR33ZMZJ": [],

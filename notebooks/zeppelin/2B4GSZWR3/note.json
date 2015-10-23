@@ -1,0 +1,60 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md This is the official data set used in the Netflix Prize competition. The data consists of about 100 million movie ratings, and the goal is to predict missing entries in the movie-user rating matrix.\n\n| Field | Value |\n|----------------------------|---------------------------------|\n| Data Set Characteristics: | Multivariate, Time-Series |\n| Attribute Characteristics: | Integer |\n| Associated Tasks: | Clustering, Recommender-Systems |\n| Number of Instances: | 100480507 |\n| Number of Attributes: | 17770 |\n| Missing Values? | Yes |\n| Area: | N/A |\n| Date Donated | 2009-09-21 |\n\n\nSource:\nThe Netflix Prize \nhttp://www.netflixprize.com \n\n\nData Set Information:\n\nThis dataset was constructed to support participants in the Netflix Prize. \n\nThere are over 480,000 customers in the dataset, each identified by a unique integer id. \n\nThe title and release year for each movie is also provided. There are over 17,000 movies in the dataset, each identified by a unique integer id. \n\nThe dataset contains over 100 million ratings. The ratings were collected between October 1998 and December 2005 and reflect the distribution of all ratings received during this period. Each rating has a customer id, a movie id, the date of the rating, and the value of the rating. \n\nAs part of the original Netflix Prize a set of ratings was identified whose rating values were not provided in the original dataset. The object of the Prize was to accurately predict the ratings from this \u0027qualifying\u0027 set. These missing ratings are now available in the grand_prize.tar.gz dataset file.\n\n\nAttribute Information:\n\nThe format of the data is described fully in the README files contained in the dataset tar files. \n\nMovieID: \nArbitrarily assigned unique integer in the range [1 .. 17770]. \n\nCustomerID: \nArbitrarily assigned unique integer in the range [1..2649429] (with gaps). \n\nRating: \nNumber of \u0027stars\u0027 assigned to a movie by a customer; an integer from 1 to 5. \n\nTitle: \nEnglish language title of the movie on the Netflix website. \n\nYearOfRelease: \nYear a movie was released in the range [1890..2005]. May correspond to the \nrelease of corresponding DVD, not necessarily its theaterical release. \n\nDate: \nTimestamp of a rating in the form YYYY-MM-DD, in the range 1998-11-01 to \n2005-12-31. \n\nNetflixID: \nInteger ID of a movie as currently used in the Netflix developer API \n\nRelevant Papers:\nJames Bennett and Stan Lanning. \u0027The Netflix Prize\u0027, 2007. \nhttp://rexa.info/paper/4755326FDAE3929649348DC380A46D3882A98198\nYear: 2009\nURL: http://archive.ics.uci.edu/ml/datasets/Netflix+Prize",
+      "dateUpdated": "Oct 17, 2015 8:44:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445114665817_1810851297",
+      "id": "20151017-204425_1032099531",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eThis is the official data set used in the Netflix Prize competition. The data consists of about 100 million movie ratings, and the goal is to predict missing entries in the movie-user rating matrix.\u003c/p\u003e\n\u003cp\u003e| Field | Value |\n\u003cbr  /\u003e|\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;-|\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;|\n\u003cbr  /\u003e| Data Set Characteristics: | Multivariate, Time-Series |\n\u003cbr  /\u003e| Attribute Characteristics: | Integer |\n\u003cbr  /\u003e| Associated Tasks: | Clustering, Recommender-Systems |\n\u003cbr  /\u003e| Number of Instances: | 100480507 |\n\u003cbr  /\u003e| Number of Attributes: | 17770 |\n\u003cbr  /\u003e| Missing Values? | Yes |\n\u003cbr  /\u003e| Area: | N/A |\n\u003cbr  /\u003e| Date Donated | 2009-09-21 |\u003c/p\u003e\n\u003cp\u003eSource:\n\u003cbr  /\u003eThe Netflix Prize\n\u003cbr  /\u003ehttp://www.netflixprize.com\u003c/p\u003e\n\u003cp\u003eData Set Information:\u003c/p\u003e\n\u003cp\u003eThis dataset was constructed to support participants in the Netflix Prize.\u003c/p\u003e\n\u003cp\u003eThere are over 480,000 customers in the dataset, each identified by a unique integer id.\u003c/p\u003e\n\u003cp\u003eThe title and release year for each movie is also provided. There are over 17,000 movies in the dataset, each identified by a unique integer id.\u003c/p\u003e\n\u003cp\u003eThe dataset contains over 100 million ratings. The ratings were collected between October 1998 and December 2005 and reflect the distribution of all ratings received during this period. Each rating has a customer id, a movie id, the date of the rating, and the value of the rating.\u003c/p\u003e\n\u003cp\u003eAs part of the original Netflix Prize a set of ratings was identified whose rating values were not provided in the original dataset. The object of the Prize was to accurately predict the ratings from this \u0027qualifying\u0027 set. These missing ratings are now available in the grand_prize.tar.gz dataset file.\u003c/p\u003e\n\u003cp\u003eAttribute Information:\u003c/p\u003e\n\u003cp\u003eThe format of the data is described fully in the README files contained in the dataset tar files.\u003c/p\u003e\n\u003cp\u003eMovieID:\n\u003cbr  /\u003eArbitrarily assigned unique integer in the range [1 .. 17770].\u003c/p\u003e\n\u003cp\u003eCustomerID:\n\u003cbr  /\u003eArbitrarily assigned unique integer in the range [1..2649429] (with gaps).\u003c/p\u003e\n\u003cp\u003eRating:\n\u003cbr  /\u003eNumber of \u0027stars\u0027 assigned to a movie by a customer; an integer from 1 to 5.\u003c/p\u003e\n\u003cp\u003eTitle:\n\u003cbr  /\u003eEnglish language title of the movie on the Netflix website.\u003c/p\u003e\n\u003cp\u003eYearOfRelease:\n\u003cbr  /\u003eYear a movie was released in the range [1890..2005]. May correspond to the\n\u003cbr  /\u003erelease of corresponding DVD, not necessarily its theaterical release.\u003c/p\u003e\n\u003cp\u003eDate:\n\u003cbr  /\u003eTimestamp of a rating in the form YYYY-MM-DD, in the range 1998-11-01 to\n\u003cbr  /\u003e2005-12-31.\u003c/p\u003e\n\u003cp\u003eNetflixID:\n\u003cbr  /\u003eInteger ID of a movie as currently used in the Netflix developer API\u003c/p\u003e\n\u003cp\u003eRelevant Papers:\n\u003cbr  /\u003eJames Bennett and Stan Lanning. \u0027The Netflix Prize\u0027, 2007.\n\u003cbr  /\u003ehttp://rexa.info/paper/4755326FDAE3929649348DC380A46D3882A98198\n\u003cbr  /\u003eYear: 2009\n\u003cbr  /\u003eURL: http://archive.ics.uci.edu/ml/datasets/Netflix+Prize\u003c/p\u003e\n"
+      },
+      "dateCreated": "Oct 17, 2015 8:44:25 PM",
+      "dateStarted": "Oct 17, 2015 8:44:36 PM",
+      "dateFinished": "Oct 17, 2015 8:44:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445114676450_507119520",
+      "id": "20151017-204436_1111030001",
+      "dateCreated": "Oct 17, 2015 8:44:36 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Netflix Prize 2: Analyze Movie Ratings",
+  "id": "2B4GSZWR3",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

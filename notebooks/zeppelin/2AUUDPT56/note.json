@@ -3,7 +3,7 @@
     {
       "title": "Import Dependencies",
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/simpledatasource/target/scala-2.10/simpledatasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 15, 2015 6:32:00 PM",
+      "dateUpdated": "Oct 20, 2015 5:14:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 3, 2015 6:20:25 AM",
-      "dateStarted": "Oct 15, 2015 6:32:00 PM",
-      "dateFinished": "Oct 15, 2015 6:32:00 PM",
+      "dateStarted": "Oct 20, 2015 5:14:40 PM",
+      "dateFinished": "Oct 20, 2015 5:14:40 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Populate ActressesAndActorsDF Reference Data created in Earlier Setup Reference Data Notebook",
       "text": "val actressesAndActorsDF \u003d sqlContext.sql(\"SELECT id, name, bio, img FROM actresses_and_actors_perm\")\nactressesAndActorsDF.show(30)",
-      "dateUpdated": "Oct 17, 2015 11:43:26 AM",
+      "dateUpdated": "Oct 20, 2015 5:14:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,18 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|         Gail OGrady|Gail OGrady was b...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
+        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|        Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
       },
       "dateCreated": "Oct 17, 2015 11:40:28 AM",
-      "dateStarted": "Oct 17, 2015 11:42:44 AM",
-      "dateFinished": "Oct 17, 2015 11:42:45 AM",
+      "dateStarted": "Oct 20, 2015 5:14:40 PM",
+      "dateFinished": "Oct 20, 2015 5:14:40 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read the real-time Likes coming from kafka",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"likes\")\nval likesDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig).load().toDF(\"from_user_id\", \"to_user_id\", \"batch_time\")",
-      "dateUpdated": "Oct 15, 2015 7:02:52 PM",
+      "dateUpdated": "Oct 20, 2015 6:31:28 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -102,15 +102,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e fluxcapacitor, table -\u003e likes)\nlikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Oct 15, 2015 7:02:52 PM",
-      "dateFinished": "Oct 15, 2015 7:02:53 PM",
+      "dateStarted": "Oct 20, 2015 6:31:28 PM",
+      "dateFinished": "Oct 20, 2015 6:31:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Current count of real-time likes",
       "text": "likesDF.count()",
-      "dateUpdated": "Oct 16, 2015 12:19:48 PM",
+      "dateUpdated": "Oct 20, 2015 6:31:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -135,18 +135,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res230: Long \u003d 188\n"
+        "msg": "res185: Long \u003d 483\n"
       },
       "dateCreated": "Jul 3, 2015 6:05:55 AM",
-      "dateStarted": "Oct 16, 2015 12:19:48 PM",
-      "dateFinished": "Oct 16, 2015 12:19:48 PM",
+      "dateStarted": "Oct 20, 2015 6:31:32 PM",
+      "dateFinished": "Oct 20, 2015 6:31:33 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use the dataFrame API to query the real-time likes",
       "text": "likesDF.select(\"from_user_id\", \"to_user_id\", \"batch_time\").collect().mkString(\"\\n\")",
-      "dateUpdated": "Oct 15, 2015 6:32:00 PM",
+      "dateUpdated": "Oct 20, 2015 5:14:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -172,18 +172,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res147: String \u003d \n[45804,10002,1444850350000]\n[45804,10004,1444850350000]\n[45804,10005,1444850352000]\n[45804,90003,1444850346000]\n[45804,90005,1444850346000]\n[45804,90010,1444850348000]\n[51155,10007,1444932116000]\n[51155,10008,1444932116000]\n[51155,10011,1444932116000]\n[51155,90001,1444932118000]\n[51155,90009,1444932120000]\n[51155,90010,1444932120000]\n[85934,10001,1444893784000]\n[85934,10006,1444893788000]\n[85934,10007,1444893790000]\n[85934,10012,1444893798000]\n[85934,10014,1444893800000]\n[85934,10015,1444893802000]\n[85934,90001,1444893760000]\n[85934,90002,1444893760000]\n[85934,90004,1444893762000]\n[85934,90006,1444893766000]\n[85934,90007,1444893770000]\n[85934,90012,1444893774000]\n[85934,90013,1444893780000]\n[85934,90014,1444893780000]\n[53708,10009,1444883942000]\n[53708,10011,1444883942..."
+        "msg": "res166: String \u003d \n[37254,10008,1444935558000]\n[37254,90011,1444935550000]\n[51325,90004,1444935492000]\n[51325,90011,1444935494000]\n[51325,90014,1444935498000]\n[51325,90015,1444935518000]\n[47767,10001,1444935588000]\n[47767,10008,1444935586000]\n[47767,90013,1444935566000]\n[69509,10001,1444935632000]\n[69509,10002,1444935632000]\n[69509,90003,1444935712000]\n[69509,90010,1444935614000]\n[69509,90013,1444935618000]\n[61712,10005,1445027596000]\n[61712,10010,1445027594000]\n[61712,90004,1445027606000]\n[72387,10002,1444935500000]\n[72387,10003,1444935502000]\n[72387,10008,1444935506000]\n[72387,10013,1444935512000]\n[72387,90004,1444935490000]\n[72387,90007,1444935494000]\n[72387,90014,1444935496000]\n[72387,90015,1444935498000]\n[11571,10001,1444935542000]\n[11571,10003,1444935706000]\n[11571,10004,1444935562..."
       },
       "dateCreated": "Jul 3, 2015 6:06:20 AM",
-      "dateStarted": "Oct 15, 2015 6:32:01 PM",
-      "dateFinished": "Oct 15, 2015 6:32:02 PM",
+      "dateStarted": "Oct 20, 2015 5:14:42 PM",
+      "dateFinished": "Oct 20, 2015 5:14:44 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show number of distinct Real-time participating users",
       "text": "import org.apache.spark.sql.functions._\n\nlikesDF.select(countDistinct($\"from_user_id\").as(\"distinct_user_count\")).collect()(0)",
-      "dateUpdated": "Oct 16, 2015 12:19:32 PM",
+      "dateUpdated": "Oct 20, 2015 6:31:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -208,18 +208,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\nres228: org.apache.spark.sql.Row \u003d [29]\n"
+        "msg": "import org.apache.spark.sql.functions._\nres188: org.apache.spark.sql.Row \u003d [80]\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Oct 16, 2015 12:19:32 PM",
-      "dateFinished": "Oct 16, 2015 12:19:33 PM",
+      "dateStarted": "Oct 20, 2015 6:31:40 PM",
+      "dateFinished": "Oct 20, 2015 6:31:41 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "register the real-time likes as a temp table",
       "text": "likesDF.cache()\nlikesDF.registerTempTable(\"likes_temp\")",
-      "dateUpdated": "Oct 15, 2015 7:03:16 PM",
+      "dateUpdated": "Oct 20, 2015 6:31:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -244,18 +244,46 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res185: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
+        "msg": "res190: likesDF.type \u003d [from_user_id: int, to_user_id: int, batch_time: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 6:29:39 AM",
-      "dateStarted": "Oct 15, 2015 7:03:16 PM",
-      "dateFinished": "Oct 15, 2015 7:03:17 PM",
+      "dateStarted": "Oct 20, 2015 6:31:55 PM",
+      "dateFinished": "Oct 20, 2015 6:31:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Show Most desirable users by Like Count",
-      "text": "%sql SELECT name, count(to_user_id) as count FROM likes_temp JOIN actresses_and_actors_perm ON (likes_temp.to_user_id \u003d actresses_and_actors_perm.id) GROUP BY name HAVING count \u003e 10 ORDER BY count DESC",
-      "dateUpdated": "Oct 15, 2015 7:03:35 PM",
+      "title": "Enrich Likes Data with Actresses and Actors Reference Data",
+      "text": "",
+      "dateUpdated": "Oct 21, 2015 1:56:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445435650225_1122135723",
+      "id": "20151021-135410_2027485321",
+      "dateCreated": "Oct 21, 2015 1:54:10 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Use SQL to Show Most desirable users by Like Count",
+      "text": "%sql SELECT name, count(to_user_id) as count FROM likes_temp JOIN actresses_and_actors_perm ON (likes_temp.to_user_id \u003d actresses_and_actors_perm.id) GROUP BY name ORDER BY count DESC LIMIT 5",
+      "dateUpdated": "Oct 21, 2015 1:58:05 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -304,17 +332,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "name\tcount\nSofía Vergara\t16\nGail OGrady\t13\nMorgan Freeman\t12\nRobert De Niro\t12\nLeonardo DiCaprio\t12\nAshley Judd\t11\n"
+        "msg": "name\tcount\nMorgan Freeman\t37\nSofía Vergara\t35\nGail O\u0027Grady\t34\nLeonardo DiCaprio\t33\nBobbie Phillips\t28\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Oct 15, 2015 7:03:35 PM",
-      "dateFinished": "Oct 15, 2015 7:03:36 PM",
+      "dateStarted": "Oct 21, 2015 1:58:05 PM",
+      "dateFinished": "Oct 21, 2015 1:58:05 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Compare The Physical Plans Between DataFrames And SQL (Should Be Equal)",
-      "dateUpdated": "Oct 15, 2015 6:32:00 PM",
+      "dateUpdated": "Oct 20, 2015 5:14:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -340,15 +368,15 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Should Be Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Oct 15, 2015 6:32:00 PM",
-      "dateFinished": "Oct 15, 2015 6:32:00 PM",
+      "dateStarted": "Oct 20, 2015 5:14:41 PM",
+      "dateFinished": "Oct 20, 2015 5:14:41 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for SQL Query",
-      "text": "sqlContext.sql(\"SELECT count(to_user_id) as count FROM likes_temp GROUP BY to_user_id ORDER BY count DESC\").explain(true)",
-      "dateUpdated": "Oct 15, 2015 7:05:40 PM",
+      "text": "val topKUsersByLikesDF \u003d sqlContext.sql(\"SELECT count(to_user_id) as count FROM likes_temp GROUP BY to_user_id ORDER BY count DESC\")\n\ntopKUsersByLikesDF.explain()",
+      "dateUpdated": "Oct 21, 2015 2:01:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -373,18 +401,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Sort [\u0027count DESC], true\n \u0027Aggregate [\u0027to_user_id], [unresolvedalias(\u0027count(\u0027to_user_id) AS count#646)]\n  \u0027UnresolvedRelation [likes_temp], None\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ncount: bigint\nSort [count#646L DESC], true\n Aggregate [to_user_id#575], [count(to_user_id#575) AS count#646L]\n  Subquery likes_temp\n   Project [fromuserid#571 AS from_user_id#574,touserid#572 AS to_user_id#575,batchtime#573L AS batch_time#576L]\n    Relation[fromuserid#571,touserid#572,batchtime#573L] org.apache.spark.sql.cassandra.CassandraSourceRelation@55cc6c35\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nSort [count#646L DESC], true\n Aggregate [to_user_id#575], [count(to_user_id#575) AS count#646L]\n  Project [to_user_id#575]\n   InMemoryRelation [from_user_id#574,to_user_id#575,batch_time#576L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#571 AS from_user_id#574,touserid#572 AS to_user_id#575,batchtime#573L AS batch_time#576L]), None\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenSort [count#646L DESC], true, 0\n ConvertToUnsafe\n  Exchange rangepartitioning(count#646L DESC)\n   ConvertToSafe\n    TungstenAggregate(key\u003d[to_user_id#575], functions\u003d[(count(to_user_id#575),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[count#646L])\n     TungstenExchange hashpartitioning(to_user_id#575)\n      TungstenAggregate(key\u003d[to_user_id#575], functions\u003d[(count(to_user_id#575),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[to_user_id#575,currentCount#667L])\n       InMemoryColumnarTableScan [to_user_id#575], (InMemoryRelation [from_user_id#574,to_user_id#575,batch_time#576L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#571 AS from_user_id#574,touserid#572 AS to_user_id#575,batchtime#573L AS batch_time#576L]), None)\n\nCode Generation: true\n"
+        "msg": "topKUsersByLikesDF: org.apache.spark.sql.DataFrame \u003d [count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenSort [count#1147L DESC], true, 0\n ConvertToUnsafe\n  Exchange rangepartitioning(count#1147L DESC)\n   ConvertToSafe\n    TungstenAggregate(key\u003d[to_user_id#432], functions\u003d[(count(to_user_id#432),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[count#1147L])\n     TungstenExchange hashpartitioning(to_user_id#432)\n      TungstenAggregate(key\u003d[to_user_id#432], functions\u003d[(count(to_user_id#432),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[to_user_id#432,currentCount#1168L])\n       InMemoryColumnarTableScan [to_user_id#432], (InMemoryRelation [from_user_id#431,to_user_id#432,batch_time#433L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#428 AS from_user_id#431,touserid#429 AS to_user_id#432,batchtime#430L AS batch_time#433L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:28:17 AM",
-      "dateStarted": "Oct 15, 2015 7:05:40 PM",
-      "dateFinished": "Oct 15, 2015 7:05:40 PM",
+      "dateStarted": "Oct 21, 2015 2:01:32 PM",
+      "dateFinished": "Oct 21, 2015 2:01:33 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for DataFrame Query",
       "text": "likesDF.groupBy(\"to_user_id\").count().as(\"ct\").sort($\"count\".desc).explain()",
-      "dateUpdated": "Oct 15, 2015 6:32:00 PM",
+      "dateUpdated": "Oct 20, 2015 5:14:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -409,51 +437,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTungstenSort [count#433L DESC], true, 0\n ConvertToUnsafe\n  Exchange rangepartitioning(count#433L DESC)\n   ConvertToSafe\n    TungstenAggregate(key\u003d[to_user_id#361], functions\u003d[(count(1),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[to_user_id#361,count#433L])\n     TungstenExchange hashpartitioning(to_user_id#361)\n      TungstenAggregate(key\u003d[to_user_id#361], functions\u003d[(count(1),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[to_user_id#361,currentCount#452L])\n       InMemoryColumnarTableScan [to_user_id#361], (InMemoryRelation [from_user_id#360,to_user_id#361,batch_time#362L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#357 AS from_user_id#360,touserid#358 AS to_user_id#361,batchtime#359L AS batch_time#362L]), None)\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTungstenSort [count#251L DESC], true, 0\n ConvertToUnsafe\n  Exchange rangepartitioning(count#251L DESC)\n   ConvertToSafe\n    TungstenAggregate(key\u003d[to_user_id#179], functions\u003d[(count(1),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[to_user_id#179,count#251L])\n     TungstenExchange hashpartitioning(to_user_id#179)\n      TungstenAggregate(key\u003d[to_user_id#179], functions\u003d[(count(1),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[to_user_id#179,currentCount#270L])\n       InMemoryColumnarTableScan [to_user_id#179], (InMemoryRelation [from_user_id#178,to_user_id#179,batch_time#180L], true, 10000, StorageLevel(true, true, false, true, 1), (Project [fromuserid#175 AS from_user_id#178,touserid#176 AS to_user_id#179,batchtime#177L AS batch_time#180L]), None)\n"
       },
       "dateCreated": "Jul 3, 2015 6:26:53 AM",
-      "dateStarted": "Oct 15, 2015 6:32:04 PM",
-      "dateFinished": "Oct 15, 2015 6:32:05 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md ### Generate Top-K Recommendations",
-      "dateUpdated": "Oct 15, 2015 6:32:00 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/markdown"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1443327931442_-1682486349",
-      "id": "20150927-042531_810181892",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch3\u003eGenerate Top-K Recommendations\u003c/h3\u003e\n"
-      },
-      "dateCreated": "Sep 27, 2015 4:25:31 AM",
-      "dateStarted": "Oct 15, 2015 6:32:00 PM",
-      "dateFinished": "Oct 15, 2015 6:32:00 PM",
+      "dateStarted": "Oct 20, 2015 5:14:47 PM",
+      "dateFinished": "Oct 20, 2015 5:14:47 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
       "text": "val enrichedLikesDF \u003d likesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedLikesDF.collect()",
-      "dateUpdated": "Oct 15, 2015 7:11:34 PM",
+      "dateUpdated": "Oct 21, 2015 1:56:47 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -478,18 +473,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres190: Array[org.apache.spark.sql.Row] \u003d Array([37254,10008,Robert De Niro,Robert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...,img/people/10008.jpg], [37254,90011,Ashley Judd,Ashley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.,img/people/90011.jpg], [51325,90004,Bobbie Phillips,Brains and beauty a..."
+        "msg": "enrichedLikesDF: org.apache.spark.sql.DataFrame \u003d [from_user_id: int, to_user_id: int, name: string, bio: string, img: string]\nres193: Array[org.apache.spark.sql.Row] \u003d Array([37254,10008,Robert De Niro,Robert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...,img/people/10008.jpg], [37254,90011,Ashley Judd,Ashley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.,img/people/90011.jpg], [51325,90004,Bobbie Phillips,Brains and beauty a..."
       },
       "dateCreated": "Jul 28, 2015 10:22:02 PM",
-      "dateStarted": "Oct 15, 2015 7:11:34 PM",
-      "dateFinished": "Oct 15, 2015 7:11:35 PM",
+      "dateStarted": "Oct 20, 2015 6:35:57 PM",
+      "dateFinished": "Oct 20, 2015 6:35:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Aggregate Most Desirable Users By Like Count",
       "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
-      "dateUpdated": "Oct 15, 2015 7:11:42 PM",
+      "dateUpdated": "Oct 20, 2015 6:36:06 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -516,15 +511,15 @@
         "msg": "mostDesirableUsersByLikeCountDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
       },
       "dateCreated": "Sep 27, 2015 4:17:09 AM",
-      "dateStarted": "Oct 15, 2015 7:11:42 PM",
-      "dateFinished": "Oct 15, 2015 7:11:43 PM",
+      "dateStarted": "Oct 20, 2015 6:36:06 PM",
+      "dateFinished": "Oct 20, 2015 6:36:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save in ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nmostDesirableUsersByLikeCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-users-by-count\")",
-      "dateUpdated": "Oct 15, 2015 7:12:06 PM",
+      "dateUpdated": "Oct 21, 2015 1:59:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -552,14 +547,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 7:42:48 AM",
-      "dateStarted": "Oct 15, 2015 7:12:06 PM",
-      "dateFinished": "Oct 15, 2015 7:12:12 PM",
+      "dateStarted": "Oct 20, 2015 6:36:07 PM",
+      "dateFinished": "Oct 20, 2015 6:36:08 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Oct 15, 2015 6:32:53 PM",
+      "dateUpdated": "Oct 20, 2015 5:14:42 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -584,13 +579,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 3:50:31 AM",
-      "dateStarted": "Oct 15, 2015 6:32:05 PM",
-      "dateFinished": "Oct 15, 2015 6:32:05 PM",
+      "dateStarted": "Oct 20, 2015 5:14:50 PM",
+      "dateFinished": "Oct 20, 2015 5:14:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes 2: Aggregations: Top-K Recommendations",
+  "name": "Likes/1: Analyze Likes",
   "id": "2AUUDPT56",
   "angularObjects": {
     "2AR33ZMZJ": [],

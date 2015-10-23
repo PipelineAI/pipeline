@@ -1,0 +1,25 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445437034759_-21930194",
+      "id": "20151021-141714_235381766",
+      "dateCreated": "Oct 21, 2015 2:17:14 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Netflix Prize 1:  Setup Reference Data",
+  "id": "2B4WY2DG2",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

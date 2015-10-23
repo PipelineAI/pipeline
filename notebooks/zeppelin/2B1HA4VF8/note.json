@@ -1,0 +1,25 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445430869237_746771347",
+      "id": "20151021-123429_1735745824",
+      "dateCreated": "Oct 21, 2015 12:34:29 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Text/NLP 2:  LDA Topic Analysis",
+  "id": "2B1HA4VF8",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

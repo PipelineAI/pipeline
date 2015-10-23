@@ -110,7 +110,7 @@
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d likesDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()",
-      "dateUpdated": "Oct 15, 2015 7:14:14 PM",
+      "dateUpdated": "Oct 20, 2015 6:39:01 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,18 +136,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[662] at map at \u003cconsole\u003e:66\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@5cf89e72\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7fbaec8e\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90013,0.47254924242424234), (10008,0.4190700757575758), (90011,0.4120327380952381), (90014,0.4114255952380953), (10004,0.3801577380952381), (10001,0.3746474567099567), (90004,0.3733779761904762), (10002,0.3479791666666666), (10005,0.33022023809523804), (10003,0.3097843614718614))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[346] at map at \u003cconsole\u003e:82\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@16c37c7b\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@33503a88\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((10004,0.8824672619047622), (90013,0.8409299866799869), (90014,0.8399212662337665), (10001,0.8389521728271729), (90004,0.8246875000000001), (10002,0.7834445970695972), (10008,0.7531044372294373), (90011,0.6350611471861473), (10003,0.5815787962037962), (90006,0.5102809065934066))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\nenrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Oct 15, 2015 7:14:14 PM",
-      "dateFinished": "Oct 15, 2015 7:14:16 PM",
+      "dateStarted": "Oct 20, 2015 6:39:01 PM",
+      "dateFinished": "Oct 20, 2015 6:39:05 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top Influencers to ElasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")",
-      "dateUpdated": "Oct 15, 2015 7:14:54 PM",
+      "dateUpdated": "Oct 20, 2015 6:39:12 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -176,8 +176,8 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Oct 15, 2015 7:14:54 PM",
-      "dateFinished": "Oct 15, 2015 7:14:55 PM",
+      "dateStarted": "Oct 20, 2015 6:39:12 PM",
+      "dateFinished": "Oct 20, 2015 6:39:13 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -216,7 +216,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes 3: PageRank:  Top Influencer Recommendations",
+  "name": "Likes 4: Top Influencer Recs (PageRank)",
   "id": "2ASEWJ19K",
   "angularObjects": {
     "2AR33ZMZJ": [],

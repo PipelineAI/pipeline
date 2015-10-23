@@ -35,7 +35,7 @@
     },
     {
       "text": "%hive select * from actresses_and_actors_perm",
-      "dateUpdated": "Oct 15, 2015 7:39:48 PM",
+      "dateUpdated": "Oct 21, 2015 1:42:39 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -81,11 +81,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 3.0 failed 4 times, most recent failure: Lost task 1.3 in stage 3.0 (TID 24, 172.17.0.27): java.io.FileNotFoundException: File file:/user/hive/warehouse/actresses_and_actors_perm/part-r-00003-bc3cc7a4-97c5-462d-9643-e334f39372ad.gz.parquet does not exist\n\tat org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:534)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:747)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:524)\n\tat org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:409)\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:385)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initializeInternalReader(ParquetRecordReader.java:157)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initialize(ParquetRecordReader.java:140)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD$$anon$1.\u003cinit\u003e(SqlNewHadoopRDD.scala:155)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD.compute(SqlNewHadoopRDD.scala:120)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:"
+        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 4.0 failed 4 times, most recent failure: Lost task 0.3 in stage 4.0 (TID 40, 172.17.0.27): java.io.FileNotFoundException: File file:/user/hive/warehouse/actresses_and_actors_perm/part-r-00001-bc3cc7a4-97c5-462d-9643-e334f39372ad.gz.parquet does not exist\n\tat org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:534)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:747)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:524)\n\tat org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:409)\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:385)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initializeInternalReader(ParquetRecordReader.java:157)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initialize(ParquetRecordReader.java:140)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD$$anon$1.\u003cinit\u003e(SqlNewHadoopRDD.scala:155)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD.compute(SqlNewHadoopRDD.scala:120)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:"
       },
       "dateCreated": "Oct 14, 2015 8:58:34 PM",
-      "dateStarted": "Oct 15, 2015 7:39:48 PM",
-      "dateFinished": "Oct 15, 2015 7:39:48 PM",
+      "dateStarted": "Oct 21, 2015 1:42:39 PM",
+      "dateFinished": "Oct 21, 2015 1:42:40 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -120,13 +120,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources 3:  Hive ThirftServer",
+  "name": "DataSources/3: Tableu Integration (Hive ThirftServer)",
   "id": "2B3N77G95",
   "angularObjects": {
     "2AR33ZMZJ": [],
     "2AS9P7JSA": [],
     "2ARR8UZDJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

@@ -1,0 +1,25 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445437097133_1682815562",
+      "id": "20151021-141817_2115049587",
+      "dateCreated": "Oct 21, 2015 2:18:17 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Likes 5:  Cluster by PageRank (K-Means)",
+  "id": "2B3J8QFV9",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}
