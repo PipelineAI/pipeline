@@ -23,6 +23,7 @@ RUN \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
+ && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
 
 # Start in Home Dir (/root)
  && cd ~ \
