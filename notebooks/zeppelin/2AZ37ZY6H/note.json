@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 23, 2015 1:51:44 AM",
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,7 +14,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -28,14 +29,14 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Oct 6, 2015 4:05:01 AM",
-      "dateStarted": "Oct 23, 2015 1:51:44 AM",
-      "dateFinished": "Oct 23, 2015 1:51:44 AM",
+      "dateStarted": "Oct 23, 2015 3:05:42 PM",
+      "dateFinished": "Oct 23, 2015 3:05:42 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"28\")\nval startingValuesDF \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"int_col\").show()",
-      "dateUpdated": "Oct 23, 2015 1:51:46 AM",
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -47,7 +48,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -61,14 +63,14 @@
         "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 28)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n+-------+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Oct 23, 2015 1:51:46 AM",
-      "dateFinished": "Oct 23, 2015 1:51:49 AM",
+      "dateStarted": "Oct 23, 2015 3:05:42 PM",
+      "dateFinished": "Oct 23, 2015 3:05:43 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d\n  StructType(\n    StructField(\"int_col\", IntegerType, true) :: Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(50 to 55).map(Row(_)), schema)\ninsertsDF.show()",
-      "dateUpdated": "Oct 23, 2015 1:51:48 AM",
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -80,7 +82,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -94,14 +97,14 @@
         "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(int_col,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n+-------+\n\n"
       },
       "dateCreated": "Oct 5, 2015 10:13:14 PM",
-      "dateStarted": "Oct 23, 2015 1:51:48 AM",
-      "dateFinished": "Oct 23, 2015 1:51:51 AM",
+      "dateStarted": "Oct 23, 2015 3:05:43 PM",
+      "dateFinished": "Oct 23, 2015 3:05:43 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(30)",
-      "dateUpdated": "Oct 23, 2015 1:52:06 AM",
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -113,7 +116,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -127,14 +131,14 @@
         "msg": "unionedDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n+-------+\n\n"
       },
       "dateCreated": "Oct 23, 2015 1:51:13 AM",
-      "dateStarted": "Oct 23, 2015 1:52:06 AM",
-      "dateFinished": "Oct 23, 2015 1:52:07 AM",
+      "dateStarted": "Oct 23, 2015 3:05:43 PM",
+      "dateFinished": "Oct 23, 2015 3:05:44 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "unionedDF.write.mode(\"append\").format(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\").save(\"/tmp/unionedDF.txt\")",
-      "dateUpdated": "Oct 23, 2015 1:53:03 AM",
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -146,7 +150,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -157,24 +162,44 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "java.util.NoSuchElementException: key not found: start\n\tat scala.collection.MapLike$class.default(MapLike.scala:228)\n\tat scala.collection.AbstractMap.default(Map.scala:58)\n\tat scala.collection.MapLike$class.apply(MapLike.scala:141)\n\tat scala.collection.AbstractMap.apply(Map.scala:58)\n\tat com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider.createRelation(SimpleDataSource.scala:54)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:170)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:146)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:137)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat \u003cinit\u003e(\u003cconsole\u003e:55)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "java.util.NoSuchElementException: key not found: start\n\tat scala.collection.MapLike$class.default(MapLike.scala:228)\n\tat scala.collection.AbstractMap.default(Map.scala:58)\n\tat scala.collection.MapLike$class.apply(MapLike.scala:141)\n\tat scala.collection.AbstractMap.apply(Map.scala:58)\n\tat com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider.createRelation(IntegerDataSource.scala:54)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:170)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:146)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:137)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:39)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:44)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:46)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:50)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:54)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:56)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat \u003cinit\u003e(\u003cconsole\u003e:60)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Oct 13, 2015 8:25:02 PM",
-      "dateStarted": "Oct 23, 2015 1:53:03 AM",
-      "dateFinished": "Oct 23, 2015 1:53:03 AM",
+      "dateStarted": "Oct 23, 2015 3:05:44 PM",
+      "dateFinished": "Oct 23, 2015 3:05:44 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1445564294581_-1871218476",
       "id": "20151023-013814_1168228197",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Oct 23, 2015 1:38:14 AM",
-      "status": "READY",
+      "dateStarted": "Oct 23, 2015 3:05:44 PM",
+      "dateFinished": "Oct 23, 2015 3:05:44 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

@@ -1,0 +1,58 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, MapType, StringType, IntegerType}\nimport org.apache.spark.sql.types.DataTypes\n\nval schema \u003d\n  StructType(StructField(\"map_col\", MapType(StringType,IntegerType), true) :: Nil)\n    \n//    df \u003d sqlContext.createDataFrame([Row(a\u003d{\u0027b\u0027: 1})], schema)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(Row(\"map_col\", Map(\"a\" -\u003e \"1\", \"b\" -\u003e \"2\")::Nil)), schema)\ninsertsDF.show()",
+      "dateUpdated": "Oct 23, 2015 7:25:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445624507302_870966027",
+      "id": "20151023-182147_1937184249",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, MapType, StringType, IntegerType}\nimport org.apache.spark.sql.types.DataTypes\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(map_col,MapType(StringType,IntegerType,true),true))\n\u003cconsole\u003e:103: error: type mismatch;\n found   : org.apache.spark.sql.Row\n required: Seq[?]\n       val insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(Row(\"map_col\", Map(\"a\" -\u003e \"1\", \"b\" -\u003e \"2\")::Nil)), schema)\n                                                                    ^\n"
+      },
+      "dateCreated": "Oct 23, 2015 6:21:47 PM",
+      "dateStarted": "Oct 23, 2015 7:25:37 PM",
+      "dateFinished": "Oct 23, 2015 7:25:38 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445624533776_763266984",
+      "id": "20151023-182213_1380327627",
+      "dateCreated": "Oct 23, 2015 6:22:13 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Scratch",
+  "id": "2B3D8WV5G",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

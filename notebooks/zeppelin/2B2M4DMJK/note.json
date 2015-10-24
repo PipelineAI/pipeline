@@ -1058,7 +1058,7 @@
     },
     {
       "text": "",
-      "dateUpdated": "Oct 23, 2015 1:59:58 AM",
+      "dateUpdated": "Oct 23, 2015 3:06:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1083,8 +1083,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 23, 2015 6:23:02 PM",
-      "dateStarted": "Oct 23, 2015 2:05:16 AM",
-      "dateFinished": "Oct 23, 2015 2:05:17 AM",
+      "dateStarted": "Oct 23, 2015 3:06:08 PM",
+      "dateFinished": "Oct 23, 2015 3:06:08 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
@@ -1097,7 +1097,7 @@
     "2ARR8UZDJ": []
   },
   "config": {
-    "looknfeel": "default"
+    "looknfeel": "simple"
   },
   "info": {}
 }
