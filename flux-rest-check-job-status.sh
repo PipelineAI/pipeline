@@ -1,4 +1,4 @@
-curl http://spark-cluster-ip:6066/v1/submissions/status/driver-20151008145126-0000
+curl http://127.0.0.1:6066/v1/submissions/status/$1
 
 #{
 #  "action" : "SubmissionStatusResponse",

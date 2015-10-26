@@ -1,4 +1,4 @@
-curl -X POST http://spark-cluster-ip:6066/v1/submissions/kill/driver-20151008145126-0000
+curl -X POST http://127.0.0.1:6066/v1/submissions/kill/$1
 
 #{
 #  "action" : "KillSubmissionResponse",
