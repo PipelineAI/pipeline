@@ -46,13 +46,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes 3:  Top-K Recs (Summary Statistics)",
+  "name": "Likes/3:  Top-K Recs (Summary Statistics)",
   "id": "2B4CY988W",
   "angularObjects": {
     "2AR33ZMZJ": [],
     "2AS9P7JSA": [],
     "2ARR8UZDJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

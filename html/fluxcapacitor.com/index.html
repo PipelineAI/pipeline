@@ -49,7 +49,7 @@ function like(personId) {
 }
 
 function loadPeople(type) {
-    $.getJSON( "datasets/hollywood/" + type + ".json", function( data ) {
+    $.getJSON( "datasets/actresses_and_actors/" + type + ".json", function( data ) {
     var startIdx = 10000; // actors start with 10000, actresses start with 90000 
     if (type == 'actresses') {
 	startIdx = 90000;
