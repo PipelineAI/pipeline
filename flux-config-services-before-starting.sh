@@ -75,6 +75,9 @@ mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
 ln -s $PIPELINE_HOME/config/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
 #rm $CASSANDRA_HOME/conf/cassandra.yaml
 ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
+mkdir -p $DATA_HOME/cassandra/data
+mkdir -p $DATA_HOME/cassandra/commitlog
+mkdir -p $DATA_HOME/cassandra/saved_caches
 
 # Spark
 echo '...Configuring Spark...'
