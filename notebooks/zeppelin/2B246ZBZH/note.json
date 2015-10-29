@@ -1,0 +1,79 @@
+{
+  "paragraphs": [
+    {
+      "text": "// Databricks notebook source exported at Tue, 27 Oct 2015 09:29:30 UTC\n// MAGIC %md\n// MAGIC # MLlib Data Types\n// MAGIC  \n// MAGIC This notebook explains the ML specific data types in Spark.  The focus is on the data types and classes used for generating models.  These include: `DenseVector`, `SparseVector`, `LabeledPoint`, and `Rating`.\n// MAGIC  \n// MAGIC For reference:\n// MAGIC  \n// MAGIC The [MLlib Guide](http://spark.apache.org/docs/latest/mllib-guide.html) provides an overview of all aspects of MLlib and [MLlib Guide: Data Types](http://spark.apache.org/docs/latest/mllib-data-types.html) provides a detailed review of data types specific for MLlib\n// MAGIC  \n// MAGIC After this lab you should understand the differences between `DenseVectors` and `SparseVectors` and be able to create and use `DenseVector`, `SparseVector`, `LabeledPoint`, and `Rating` objects.  You\u0027ll also learn where to obtain additional information regarding the APIs and specific class / method functionality.\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC  \n// MAGIC #### Dense and Sparse\n// MAGIC  \n// MAGIC MLlib supports both dense and sparse types for vectors and matrices.  We\u0027ll focus on vectors as they are most commonly used in MLlib and matrices have poor scaling properties.\n// MAGIC  \n// MAGIC A dense vector contains an array of values, while a sparse vector stores the size of the vector, an array of indices, and an array of values that correspond to the indices.  A sparse vector saves space by not storing zero values.\n// MAGIC  \n// MAGIC For example, if we had the dense vector `[2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 0.0]`, we could store that as a sparse vector with size 7, indices as `[0, 3]`, and values as `[2.0, 3.0]`.\n\n// COMMAND ----------\n\n// import data types\nimport org.apache.spark.mllib.linalg.{DenseVector, SparseVector, SparseMatrix, DenseMatrix, Vectors, Matrices}\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC  \n// MAGIC  \n// MAGIC When using Scala it\u0027s possible to obtain some details of objects using reflection, but it\u0027s recommended to reference the [programming guides](http://spark.apache.org/docs/latest/programming-guide.html), [Scala API](http://spark.apache.org/docs/latest/api/scala/#package), and the Scala [source code](https://github.com/apache/spark) for Spark.\n\n// COMMAND ----------\n\nVectors.getClass.getMethods mkString \"\\n\"\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### DenseVector\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC  \n// MAGIC Spark provides a [DenseVector](http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.mllib.linalg.DenseVector) class within the package [org.apache.spark.mllib.linalg](https://spark.apache.org/docs/1.5.0/api/scala/index.html#org.apache.spark.mllib.linalg.package).  `DenseVector` is used to store arrays of values for use in Spark.\n// MAGIC  \n// MAGIC `DenseVector` objects exist locally and are not inherently distributed.  `DenseVector` objects can be used in the distributed setting by including them in `RDDs` or `DataFrames`.\n// MAGIC  \n// MAGIC You can create a dense vector by using the [Vectors](https://spark.apache.org/docs/1.5.0/api/scala/index.html#org.apache.spark.mllib.linalg.Vectors$) object and calling `Vectors.dense`.  The `Vectors` object also contains a method for creating `SparseVectors`.\n\n// COMMAND ----------\n\n// Create a DenseVector using Vectors\nval denseVector \u003d Vectors.dense(Array(1.0, 2.0, 3.0))\n \nprintln(s\"denseVector.getClass: ${denseVector.getClass}\")\nprintln(s\"denseVector: $denseVector\")\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC ** Norm **\n// MAGIC We can calculate the norm of a vector using `Vectors.norm`.  The norm calculation is:\n// MAGIC  \n// MAGIC   \\\\[ ||x|| _p \u003d \\bigg( \\sum_i^n |x_i|^p \\bigg)^{1/p} \\\\]\n// MAGIC  \n// MAGIC  \n// MAGIC  \n// MAGIC Sometimes we\u0027ll want to normalize our features before training a model.  Later on we\u0027ll use the `ml` library to perform this normalization using a transformer.\n\n// COMMAND ----------\n\nVectors.norm(denseVector, 2)\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC Sometimes we\u0027ll want to treat vectors as an array.  We can convert both sparse and dense vectors to arrays by calling the `toArray` method on the vector.\n\n// COMMAND ----------\n\nval denseArray \u003d denseVector.toArray\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### SparseVector\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC Let\u0027s create a `SparseVector` using [Vectors.sparse](https://spark.apache.org/docs/1.5.0/api/scala/index.html#org.apache.spark.mllib.linalg.Vectors$)\n\n// COMMAND ----------\n\n// Using asInstanceOf so we can access its SparseVector specific attributes later\nval sparseVector \u003d Vectors.sparse(10, Array(2, 7), Array(1.0, 5.0)).asInstanceOf[SparseVector]\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC  \n// MAGIC Let\u0027s take a look at what fields and methods are available with a `SparseVector`.  Here are links to the [Python](https://spark.apache.org/docs/latest/api/python/pyspark.mllib.html#pyspark.mllib.linalg.SparseVector) and [Scala](http://spark.apache.org/docs/latest/api/scala/#org.apache.spark.mllib.linalg.SparseVector) APIs for `SparseVector`.\n\n// COMMAND ----------\n\n// Note that this is the object\nprintln(SparseVector.getClass.getMethods mkString \"\\n\")\nprintln(s\"\\n${SparseVector.getClass}\")\n\n// COMMAND ----------\n\n// This is an instance of the class\nprintln(sparseVector.getClass.getMethods mkString \"\\n\")\n \nprintln(s\"\\n${SparseVector.getClass}\")\n\n// COMMAND ----------\n\nsparseVector.indices\n\n// COMMAND ----------\n\nimport scala.runtime.ScalaRunTime.stringOf\nprintln(s\"sparseVector.size: ${sparseVector.size}\")\nprintln(s\"sparseVector.size.getClass: ${sparseVector.size.getClass}\")\n \nprintln(s\"\\nsparseVector.indices: ${stringOf(sparseVector.indices)}\")\nprintln(s\"sparseVector.indices.getClass: ${sparseVector.indices(0).getClass}\")\n \nprintln(s\"\\nsparseVector.values: ${stringOf(sparseVector.values)}\")\nprintln(s\"sparseVector.values.getClass: ${sparseVector.values(0).getClass}\\n\\n\")\n\n// COMMAND ----------\n\nVectors.norm(sparseVector, 2)\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### LabeledPoint\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC  \n// MAGIC In MLlib, labeled training instances are stored using the [LabeledPoint](http://spark.apache.org/docs/latest/api/scala/#org.apache.spark.mllib.regression.LabeledPoint) object.  Note that the features and label for a `LabeledPoint` are stored in the `features` and `label` attribute of the object.\n\n// COMMAND ----------\n\nimport org.apache.spark.mllib.regression.LabeledPoint\n\n// COMMAND ----------\n\nval labeledPoint \u003d LabeledPoint(1992, Vectors.dense(Array(3.0, 5.5, 10.0)))\nprintln(s\"labeledPoint: $labeledPoint\")\n \nprintln(s\"\\nlabeledPoint.features: ${stringOf(labeledPoint.features)}\")\nprintln(s\"labeledPoint.features.getClass: ${labeledPoint.features.getClass}\")\n \nprintln(s\"\\nlabeledPoint.label: ${labeledPoint.label}\")\nprintln(s\"labeledPoint.label.getClass: ${labeledPoint.label.getClass}\\n\\n\")\n\n// COMMAND ----------\n\nval labeledPointSparse \u003d LabeledPoint(1992, Vectors.sparse(10, Array(0, 1, 2), Array(3.0, 5.5, 10.0)))\nprintln(s\"labeledPointSparse: $labeledPointSparse\")\n \nprintln(s\"\\nlabeledPointSparse.features: ${stringOf(labeledPointSparse.features)}\")\nprintln(s\"labeledPointSparse.features.getClass: ${labeledPointSparse.features.getClass}\")\n \nprintln(s\"\\nlabeledPointSparse.label: ${labeledPointSparse.label}\")\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### Rating\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC When performing collaborative filtering we aren\u0027t working with vectors or labeled points, so we need another type of object to capture the relationship between how users rate products.  This is represented by a `Rating` which can be found in the [Python](http://spark.apache.org/docs/latest/api/python/pyspark.mllib.html#pyspark.mllib.recommendation.Rating) and [Scala](https://spark.apache.org/docs/1.5.0/api/scala/index.html#org.apache.spark.mllib.recommendation.Rating) APIs.\n\n// COMMAND ----------\n\nimport org.apache.spark.mllib.recommendation.Rating\n\n// COMMAND ----------\n\nval rating \u003d Rating(4, 10, 2.0)\nprintln(s\"rating: $rating\")\nprintln(s\"rating.user: ${rating.user}\")\nprintln(s\"rating.product: ${rating.product}\")\nprintln(s\"rating.rating: ${rating.rating}\\n\\n\")\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### DataFrames\n// MAGIC  \n// MAGIC When using Spark\u0027s ML library rather than MLlib you\u0027ll be working with `DataFrames` instead of `RDDs`.  In this section we\u0027ll show how you can create a `DataFrame` using MLlib datatypes.\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC When using Scala we can create a case class to capture the structure of a row of data.  Below, we\u0027ll create a case class for an address.  We can use case classes to generate `DataFrames`.\n\n// COMMAND ----------\n\ncase class Address(city: String, state: String)\nval address \u003d Address(\"Boulder\", \"CO\")\n \nprintln(s\"address: $address\")\nprintln(s\"address.city: ${address.city}\")\nprintln(s\"address.state: ${address.state}\\n\\n\")\n\n// COMMAND ----------\n\nval addressDF \u003d sqlContext.createDataFrame(Seq(Address(\"Boulder\", \"CO\"), Address(\"New York\", \"NY\")))\naddressDF.show()\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC Let\u0027s create a `DataFrame` with a couple of rows where the first column is the label and the second is the features.\n\n// COMMAND ----------\n\nimport org.apache.spark.mllib.linalg.Vector\n \ncase class LabelAndFeatures(label: Double, features: Vector)\nval row1 \u003d LabelAndFeatures(10, Vectors.dense(Array(1.0, 2.0)))\nval row2 \u003d LabelAndFeatures(20, Vectors.dense(Array(1.5, 2.2)))\n \nval df \u003d sqlContext.createDataFrame(Seq(row1, row2))\ndf.show()\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC #### Exercises\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC Create a `DenseVector` with the values 1.5, 2.5, 3.0 (in that order).\n\n// COMMAND ----------\n\n// ANSWER\nval denseVec \u003d Vectors.dense(Array(1.5, 2.5, 3.0))\n\n// COMMAND ----------\n\n// TEST\nassert(denseVec \u003d\u003d new DenseVector(Array(1.5, 2.5, 3.0)), \"incorrect value for denseVec\")\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC Create a `LabeledPoint` with a label equal to 10.0 and features equal to `denseVec`\n\n// COMMAND ----------\n\n// ANSWER\nval labeledP \u003d LabeledPoint(10.0, denseVec)\n\n// COMMAND ----------\n\n// TEST\nassert(labeledP.toString \u003d\u003d \"(10.0,[1.5,2.5,3.0])\", \"incorrect value for labeledP\")\n\n// COMMAND ----------\n\n// MAGIC %md\n// MAGIC ** Challenge Question [Intentionally Hard]**\n// MAGIC  \n// MAGIC Create a `udf` that pulls the first element out of a column that contains `DenseVectors`.\n\n// COMMAND ----------\n\n// ANSWER\nimport org.apache.spark.sql.functions.udf\n \nval firstElement \u003d udf { v: Vector \u003d\u003e v(0) }\n \nval df2 \u003d df.select(firstElement($\"features\").as(\"first\"))\ndf2.show()\n\n// COMMAND ----------\n\n// TEST\nassert(df2.rdd.map(_(0)).collect().deep \u003d\u003d Array(1.0, 1.5).deep, \"incorrect implementation of firstElement\")\n",
+      "dateUpdated": "Oct 27, 2015 2:15:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445938275481_1695177229",
+      "id": "20151027-093115_1900709940",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
+      "dateCreated": "Oct 27, 2015 9:31:15 AM",
+      "dateStarted": "Oct 27, 2015 2:15:57 PM",
+      "dateFinished": "Oct 27, 2015 2:15:57 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Oct 27, 2015 2:15:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445938308134_1907604594",
+      "id": "20151027-093148_348142994",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Oct 27, 2015 9:31:48 AM",
+      "dateStarted": "Oct 27, 2015 2:15:57 PM",
+      "dateFinished": "Oct 27, 2015 2:15:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "MLlib/01:  DataTypes",
+  "id": "2B246ZBZH",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -35,8 +35,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"28\")\nval startingValuesDF \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"int_col\").show()",
-      "dateUpdated": "Oct 26, 2015 6:19:26 PM",
+      "text": "val options \u003d Map(\"start\" -\u003e \"10\", \"end\" -\u003e \"128\")\nval startingValuesDF \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"int_col\").show(150)",
+      "dateUpdated": "Oct 26, 2015 7:42:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,17 +60,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 28)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n+-------+\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 10, end -\u003e 128)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     29|\n|     30|\n|     31|\n|     32|\n|     33|\n|     34|\n|     35|\n|     36|\n|     37|\n|     38|\n|     39|\n|     40|\n|     41|\n|     42|\n|     43|\n|     44|\n|     45|\n|     46|\n|     47|\n|     48|\n|     49|\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n|     56|\n|     57|\n|     58|\n|     59|\n|     60|\n|     61|\n|     62|\n|     63|\n|     64|\n|     65|\n|     66|\n|     67|\n|     68|\n|     69|\n|     70|\n|     71|\n|     72|\n|     73|\n|     74|\n|     75|\n|     76|\n|     77|\n|     78|\n|     79|\n|     80|\n|     81|\n|     82|\n|     83|\n|     84|\n|     85|\n|     86|\n|     87|\n|     88|\n|     89|\n|     90|\n|     91|\n|     92|\n|     93|\n|     94|\n|     95|\n|     96|\n|     97|\n|     98|\n|     99|\n|    100|\n|    101|\n|    102|\n|    103|\n|    104|\n|    105|\n|    106|\n|    107|\n|    108|\n|    109|\n|    110|\n|    111|\n|    112|\n|    113|\n|    114|\n|    115|\n|    116|\n|    117|\n|    118|\n|    119|\n|    120|\n|    121|\n|    122|\n|    123|\n|    124|\n|    125|\n|    126|\n|    127|\n|    128|\n+-------+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Oct 26, 2015 6:19:26 PM",
-      "dateFinished": "Oct 26, 2015 6:19:27 PM",
+      "dateStarted": "Oct 26, 2015 7:42:44 PM",
+      "dateFinished": "Oct 26, 2015 7:42:44 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d\n  StructType(\n    StructField(\"int_col\", IntegerType, true) :: Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(50 to 55).map(Row(_)), schema)\ninsertsDF.show()",
-      "dateUpdated": "Oct 26, 2015 6:12:43 PM",
+      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d\n  StructType(\n    StructField(\"int_col\", IntegerType, true) :: Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(150 to 155).map(Row(_)), schema)\ninsertsDF.show()",
+      "dateUpdated": "Oct 26, 2015 7:42:59 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -94,17 +94,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(int_col,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n+-------+\n\n"
+        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(int_col,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|    150|\n|    151|\n|    152|\n|    153|\n|    154|\n|    155|\n+-------+\n\n"
       },
       "dateCreated": "Oct 5, 2015 10:13:14 PM",
-      "dateStarted": "Oct 26, 2015 6:15:25 PM",
-      "dateFinished": "Oct 26, 2015 6:15:26 PM",
+      "dateStarted": "Oct 26, 2015 7:42:59 PM",
+      "dateFinished": "Oct 26, 2015 7:43:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(30)",
-      "dateUpdated": "Oct 26, 2015 6:12:47 PM",
+      "text": "val unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(200)",
+      "dateUpdated": "Oct 26, 2015 7:43:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -128,11 +128,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unionedDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n+-------+\n\n"
+        "msg": "unionedDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     29|\n|     30|\n|     31|\n|     32|\n|     33|\n|     34|\n|     35|\n|     36|\n|     37|\n|     38|\n|     39|\n|     40|\n|     41|\n|     42|\n|     43|\n|     44|\n|     45|\n|     46|\n|     47|\n|     48|\n|     49|\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n|     56|\n|     57|\n|     58|\n|     59|\n|     60|\n|     61|\n|     62|\n|     63|\n|     64|\n|     65|\n|     66|\n|     67|\n|     68|\n|     69|\n|     70|\n|     71|\n|     72|\n|     73|\n|     74|\n|     75|\n|     76|\n|     77|\n|     78|\n|     79|\n|     80|\n|     81|\n|     82|\n|     83|\n|     84|\n|     85|\n|     86|\n|     87|\n|     88|\n|     89|\n|     90|\n|     91|\n|     92|\n|     93|\n|     94|\n|     95|\n|     96|\n|     97|\n|     98|\n|     99|\n|    100|\n|    101|\n|    102|\n|    103|\n|    104|\n|    105|\n|    106|\n|    107|\n|    108|\n|    109|\n|    110|\n|    111|\n|    112|\n|    113|\n|    114|\n|    115|\n|    116|\n|    117|\n|    118|\n|    119|\n|    120|\n|    121|\n|    122|\n|    123|\n|    124|\n|    125|\n|    126|\n|    127|\n|    128|\n|    150|\n|    151|\n|    152|\n|    153|\n|    154|\n|    155|\n+-------+\n\n"
       },
       "dateCreated": "Oct 23, 2015 1:51:13 AM",
-      "dateStarted": "Oct 26, 2015 6:15:25 PM",
-      "dateFinished": "Oct 26, 2015 6:15:26 PM",
+      "dateStarted": "Oct 26, 2015 7:43:10 PM",
+      "dateFinished": "Oct 26, 2015 7:43:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -203,7 +203,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/2: Creating a Custom Data Source",
+  "name": "DataSources/02: Creating a Custom Data Source",
   "id": "2AZ37ZY6H",
   "angularObjects": {
     "2AR33ZMZJ": [],

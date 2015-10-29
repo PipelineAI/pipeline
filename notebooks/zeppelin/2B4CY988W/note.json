@@ -1,8 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "%md ### Generate Top-K Recommendations",
-      "dateUpdated": "Oct 21, 2015 1:52:04 PM",
+      "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
+      "text": "val enrichedLikesDF \u003d likesDF.join(actressesAndActorsDF, $\"to_user_id\" \u003d\u003d\u003d $\"id\").select($\"from_user_id\", $\"to_user_id\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedLikesDF.collect()",
+      "dateUpdated": "Oct 27, 2015 2:00:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,39 +15,91 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1445435507644_-734059892",
-      "id": "20151021-135147_1229553400",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch3\u003eGenerate Top-K Recommendations\u003c/h3\u003e\n"
-      },
-      "dateCreated": "Oct 21, 2015 1:51:47 PM",
-      "dateStarted": "Oct 21, 2015 1:52:04 PM",
-      "dateFinished": "Oct 21, 2015 1:52:04 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "config": {},
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1445435524124_1219725671",
       "id": "20151021-135204_1643853460",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
       "dateCreated": "Oct 21, 2015 1:52:04 PM",
+      "dateStarted": "Oct 27, 2015 1:59:51 PM",
+      "dateFinished": "Oct 27, 2015 1:59:52 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Aggregate Most Desirable Users by Count",
+      "text": "val mostDesirableUsersByLikeCountDF \u003d enrichedLikesDF.select($\"to_user_id\", $\"name\", $\"img\").groupBy($\"to_user_id\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
+      "dateUpdated": "Oct 27, 2015 2:01:19 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445954391859_1252029318",
+      "id": "20151027-135951_569844489",
+      "dateCreated": "Oct 27, 2015 1:59:51 PM",
       "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Save Top-K Recs to elasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nmostDesirableUsersByLikeCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-users-by-count\")",
+      "dateUpdated": "Oct 27, 2015 2:12:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445954549085_243833958",
+      "id": "20151027-140229_2121108585",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
+      "dateCreated": "Oct 27, 2015 2:02:29 PM",
+      "dateStarted": "Oct 27, 2015 2:02:33 PM",
+      "dateFinished": "Oct 27, 2015 2:02:33 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes/3:  Top-K Recs (Summary Statistics)",
+  "name": "Likes/03: Top-K Recs (Summary Statistics)",
   "id": "2B4CY988W",
   "angularObjects": {
     "2AR33ZMZJ": [],

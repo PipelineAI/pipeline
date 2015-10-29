@@ -41,6 +41,8 @@ object StreamingLikes {
 
     likesStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
+	message.cache()
+
         // convert each RDD from the batch into a DataFrame
         val df = message.map(_._2.split(",")).map(like => Like(like(0).trim.toInt, like(1).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "batchtime")
 
@@ -49,6 +51,8 @@ object StreamingLikes {
           .mode(SaveMode.Append)
           .options(cassandraConfig)
           .save()
+
+	message.unpersist()
       }
     }
 

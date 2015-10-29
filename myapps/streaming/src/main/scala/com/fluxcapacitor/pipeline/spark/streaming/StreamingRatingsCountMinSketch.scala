@@ -12,9 +12,9 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-case class RatingPartitioned(fromUserId: Int, toUserId: Int, rating: Int)
+case class Rating(fromUserId: Int, toUserId: Int, rating: Int, batchtime: Long)
 
-object StreamingRatingsPartitioned {
+object StreamingRatingsiCountMinSketch {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
@@ -35,14 +35,16 @@ object StreamingRatingsPartitioned {
     val brokers = "localhost:9092"
     val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings_partitioned")
-
+    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
+    
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
+        message.cache()
+
         // convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(rating => RatingPartitioned(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt)).toDF("fromuserid", "touserid", "rating")
+        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "rating", "batchtime")
 
         // this can be used to debug dataframes
         // df.show()
@@ -54,6 +56,8 @@ object StreamingRatingsPartitioned {
           .mode(SaveMode.Append)
           .options(cassandraConfig)
           .save()
+
+	message.unpersist()
       }
     }
 

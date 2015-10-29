@@ -1089,7 +1089,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/1: Compare Query Plans (File Format, Partitioning)",
+  "name": "DataSources/01: Compare Query Plans (File Format, Partitioning)",
   "id": "2B2M4DMJK",
   "angularObjects": {
     "2AR33ZMZJ": [],

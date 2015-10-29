@@ -13,13 +13,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Text/NLP 2:  LDA Topic Analysis",
+  "name": "Profile NLP/03:  LDA Topic Analysis",
   "id": "2B1HA4VF8",
   "angularObjects": {
     "2AR33ZMZJ": [],
     "2AS9P7JSA": [],
     "2ARR8UZDJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "dateUpdated": "Oct 27, 2015 3:21:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445959288280_-271569822",
+      "id": "20151027-152128_312748712",
+      "dateCreated": "Oct 27, 2015 3:21:28 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Profile NLP/04: Profile Supervised Classification using LDA Topics",
+  "id": "2B217FCSK",
+  "angularObjects": {
+    "2AR33ZMZJ": [],
+    "2AS9P7JSA": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

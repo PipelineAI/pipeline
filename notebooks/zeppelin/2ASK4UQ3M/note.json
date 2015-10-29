@@ -307,7 +307,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Streaming 1: Start Kafka Streaming Server",
+  "name": "Streaming/01: Start Kafka Streaming Server",
   "id": "2ASK4UQ3M",
   "angularObjects": {
     "2AR33ZMZJ": [],

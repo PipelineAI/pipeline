@@ -1,5 +1,6 @@
 FROM ubuntu:14.04
 
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre/
 ENV SCALA_VERSION=2.10.4
 ENV CASSANDRA_VERSION=2.2.1
 ENV CONFLUENT_VERSION=1.0.1
@@ -20,10 +21,17 @@ EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 
 
 RUN \
  apt-get update \
+ && apt-get install -y software-properties-common \
+ && add-apt-repository ppa:webupd8team/java \
+ && apt-get update \
+ echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections \
+ && apt-get install oracle-java8-installer \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
  && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
+ && apt-get install -y nodejs \
+ && apt-get install -y npm \
 
 # Start in Home Dir (/root)
  && cd ~ \
@@ -42,6 +50,28 @@ RUN \
 
 # Apache2 Httpd
  && apt-get install -y apache2 \
+
+# cmake
+ && apt-get install -y cmake \
+
+# perf-map-agent
+ && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
+ && cd perf-map-agent \
+ && cmake . \
+ && make \
+ && cd ~ \
+
+# Flame Graph
+ && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
+
+# Vector
+# && git clone git://git.pcp.io/pcp \
+# && cd pcp \
+# && ./configure --prefex=/usr --sysconfdir=/etc --localstatedir=/var \
+# && make \
+# && make install \
+# && cd ~ \
+# && git clone https://github.com/Netflix/vector.git \
 
 # Sbt
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/sbt-${SBT_VERSION}.tgz \

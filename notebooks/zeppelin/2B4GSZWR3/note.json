@@ -46,7 +46,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Netflix Prize 2: Analyze Movie Ratings",
+  "name": "Netflix Prize/02: Analyze Movie Ratings",
   "id": "2B4GSZWR3",
   "angularObjects": {
     "2AR33ZMZJ": [],

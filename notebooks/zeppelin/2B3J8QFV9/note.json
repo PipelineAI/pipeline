@@ -13,7 +13,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes/5:  Cluster by PageRank (K-Means)",
+  "name": "Likes/05:  Cluster by PageRank (K-Means)",
   "id": "2B3J8QFV9",
   "angularObjects": {
     "2AR33ZMZJ": [],

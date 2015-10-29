@@ -14,7 +14,7 @@ import org.apache.spark.streaming.Time
 
 case class Rating(fromUserId: Int, toUserId: Int, rating: Int, batchtime: Long)
 
-object StreamingRatings {
+object StreamingRatingsHyperLogLog {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
