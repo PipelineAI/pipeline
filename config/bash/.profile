@@ -86,7 +86,7 @@ export PATH=$PATH:$TACHYON_HOME/bin
 # SBT
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$PATH:$SBT_HOME/bin
-export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G"
+export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
 export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1,org.elasticsearch:elasticsearch-spark_2.10:2.1.0,com.datastax.spark:spark-cassandra-connector_2.10:1.4.0,redis.clients:jedis:2.7.3

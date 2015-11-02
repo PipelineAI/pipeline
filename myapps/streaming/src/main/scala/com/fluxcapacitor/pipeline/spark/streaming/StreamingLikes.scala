@@ -12,8 +12,6 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-case class Like(fromUserId: Int, toUserId: Int, batchtime: Long)
-
 object StreamingLikes {
   def main(args: Array[String]) {
     val conf = new SparkConf()

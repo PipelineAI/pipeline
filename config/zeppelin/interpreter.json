@@ -1,5 +1,20 @@
 {
   "interpreterSettings": {
+    "2ARR8UZDJ": {
+      "id": "2ARR8UZDJ",
+      "name": "md",
+      "group": "md",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "org.apache.zeppelin.markdown.Markdown",
+          "name": "md"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
     "2AS9P7JSA": {
       "id": "2AS9P7JSA",
       "name": "spark",
@@ -13,9 +28,9 @@
         "spark.app.name": "Zeppelin",
         "spark.executor.memory": "512m",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
-        "zeppelin.spark.concurrentSQL": "false",
         "args": "",
+        "zeppelin.spark.concurrentSQL": "false",
+        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python"
       },
       "interpreterGroup": [
@@ -53,21 +68,6 @@
         {
           "class": "org.apache.zeppelin.hive.HiveInterpreter",
           "name": "hql"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
-    "2ARR8UZDJ": {
-      "id": "2ARR8UZDJ",
-      "name": "md",
-      "group": "md",
-      "properties": {},
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.markdown.Markdown",
-          "name": "md"
         }
       ],
       "option": {
@@ -252,6 +252,11 @@
       "2AR33ZMZJ"
     ],
     "2B1WCNG57": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B2Q6B8VE": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"
