@@ -147,9 +147,9 @@ ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # Spark-Notebook
-echo '...Configuring Spark-Notebook...'
+#echo '...Configuring Spark-Notebook...'
 #rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
-ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
+#ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
 
 # Spark Job Server
 #echo '...Configuring Spark Job Server...'
