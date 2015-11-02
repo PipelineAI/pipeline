@@ -37,22 +37,22 @@ export LOGS_HOME=$PIPELINE_HOME/logs
 export JAVA_HOME=/usr
 
 # H2O Home
-export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
+#export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
 
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
 
 # Cassandra
-export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-2.2.1
+export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-$CASSANDRA_VERSION
 export PATH=$PATH:$CASSANDRA_HOME/bin
 
 # Spark
-export SPARK_HOME=$DEV_INSTALL_HOME/spark-1.5.1-bin-fluxcapacitor
+export SPARK_HOME=$DEV_INSTALL_HOME/spark-$SPARK_VERSION-bin-fluxcapacitor
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-1.5.1-hadoop2.6.0.jar
+export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-$SPARK_VERSION-hadoop$HADOOP_VERSION.jar
 
 # Kafka
-export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-1.0.1
+export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-$CONFLUENT_VERSION-$SCALA_VERSION
 export PATH=$PATH:$KAFKA_HOME/bin
 
 # ZooKeeper
@@ -60,27 +60,27 @@ export ZOOKEEPER_HOME=$KAFKA_HOME
 export PATH=$PATH:$ZOOKEEPER_HOME/bin
 
 # ElasticSearch
-export ELASTICSEARCH_HOME=$DEV_INSTALL_HOME/elasticsearch-1.7.2
+export ELASTICSEARCH_HOME=$DEV_INSTALL_HOME/elasticsearch-$ELASTICSEARCH_VERSION
 export PATH=$PATH:$ELASTICSEARCH_HOME/bin
 
 # LogStash
-export LOGSTASH_HOME=$DEV_INSTALL_HOME/logstash-1.5.4
+export LOGSTASH_HOME=$DEV_INSTALL_HOME/logstash-$LOGSTASH_VERSION
 export PATH=$PATH:$LOGSTASH_HOME/bin
 
 # Kibana
-export KIBANA_HOME=$DEV_INSTALL_HOME/kibana-4.1.2-linux-x64
+export KIBANA_HOME=$DEV_INSTALL_HOME/kibana-$KIBANA_VERSION-linux-x64
 export PATH=$PATH:$KIBANA_HOME/bin
 
 # Hadoop HDFS
-export HADOOP_HOME=$DEV_INSTALL_HOME/hadoop-2.6.0
+export HADOOP_HOME=$DEV_INSTALL_HOME/hadoop-$HADOOP_VERSION
 export PATH=$PATH:$HADOOP_HOME/bin
 
 # Redis
-export REDIS_HOME=$DEV_INSTALL_HOME/redis-3.0.3
+export REDIS_HOME=$DEV_INSTALL_HOME/redis-$REDIS_VERSION
 export PATH=$PATH:$REDIS_HOME/bin
 
 # Tachyon
-export TACHYON_HOME=$DEV_INSTALL_HOME/tachyon-0.7.1
+export TACHYON_HOME=$DEV_INSTALL_HOME/tachyon-$TACHYON_VERSION
 export PATH=$PATH:$TACHYON_HOME/bin
 
 # SBT
@@ -89,19 +89,15 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
-export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1,org.elasticsearch:elasticsearch-spark_2.10:2.1.0,com.datastax.spark:spark-cassandra-connector_2.10:1.4.0,redis.clients:jedis:2.7.3
+export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$ELASTICSEARCH_SPARK_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION
 
 # Zeppelin
-export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor
+export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
 export PATH=$PATH:$ZEPPELIN_HOME/bin
 
 # Spark Notebook
-export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-0.6.1-scala-2.10.4-spark-1.5.0-hadoop-2.6.0-with-hive-with-parquet
+export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
 export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
-
-# Spark JobServer
-export SPARK_JOBSERVER_HOME=$DEV_INSTALL_HOME/spark-jobserver-0.5.2
-export PATH=$PATH:$SPARK_JOBSERVER_HOME/bin
 
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
