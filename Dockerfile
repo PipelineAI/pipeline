@@ -24,9 +24,9 @@ RUN \
  && apt-get install -y software-properties-common \
  && add-apt-repository ppa:webupd8team/java \
  && apt-get update \
- echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
- && apt-get install oracle-java8-installer \
- && apt-get install oracle-java8-set-default \
+ && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
+ && apt-get install -y oracle-java8-installer \
+ && apt-get install -y oracle-java8-set-default \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
@@ -35,7 +35,7 @@ RUN \
  && apt-get install -y npm \
 
 # Add syntax highlighting for vim
-mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done
+ && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done \
 
 # Start in Home Dir (/root)
  && cd ~ \
@@ -209,16 +209,20 @@ RUN \
  && mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile \
 
-# Sbt Assemble Feeder Producer App
+# Sbt Assemble Standalone Feeder Apps
  && cd ~/pipeline/myapps \
  && sbt feeder/assembly \
 
-# Sbt Package Streaming Consumer App
+# Sbt Package Streaming Apps
  && cd ~/pipeline/myapps \
  && sbt streaming/package \
 
-# Sbt Package SimpleDataSource Library
+# Sbt Package DataSource Libraries
  && cd ~/pipeline/myapps \
- && sbt simpledatasource/package
+ && sbt datasource/package \
+
+# Sbt Package Tungsten Apps 
+ && cd ~/pipeline/myapps \
+ && sbt tungsten/package 
 
 WORKDIR /root
