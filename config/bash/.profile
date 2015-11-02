@@ -96,8 +96,8 @@ export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_V
 export PATH=$PATH:$ZEPPELIN_HOME/bin
 
 # Spark Notebook
-export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
-export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
+#export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
+#export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
 
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps

@@ -1,11 +1,10 @@
 FROM ubuntu:14.04
 
-#ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre/
 ENV SCALA_VERSION=2.10.4
 ENV CASSANDRA_VERSION=2.2.3
 ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 ENV CONFLUENT_VERSION=1.0.1
-ENV ELASTICSEARCH_VERSION=2.0.0
+ENV ELASTICSEARCH_VERSION=1.7.3
 ENV ELASTICSEARCH_SPARK_CONNECTOR_VERSION=2.1.2
 ENV LOGSTASH_VERSION=2.0.0
 ENV KIBANA_VERSION=4.2.0
@@ -144,7 +143,8 @@ RUN \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # ElasticSearch
- && wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+# && wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz
  && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
 
@@ -164,10 +164,10 @@ RUN \
  && rm tachyon-${TACHYON_VERSION}-hadoop2.6-bin.tar.gz \
 
 # Spark Notebook
- && apt-get install -y screen \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && apt-get install -y screen \
+# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+# && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
