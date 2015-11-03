@@ -33,45 +33,28 @@ RUN \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
- && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
- && apt-get install -y nodejs \
- && apt-get install -y npm \
-
-# Add syntax highlighting for vim
- && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done \
-
-# Start in Home Dir (/root)
- && cd ~ \
-
-# Git
  && apt-get install -y git \
-
-# Pip
 # && apt-get install -y python-pip \
-
-# SSH
  && apt-get install -y openssh-server \
-
-# Java
- && apt-get install -y default-jdk \
-
-# Apache2 Httpd
  && apt-get install -y apache2 \
 
-# cmake
- && apt-get install -y cmake \
+# (Optional) Used for System-Level Performance Monitoring (Linux "perf" Command)
+ && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
 
-# perf-map-agent
+# (Optional) Used for Building Flame Graphs from Linux "perf" Command
+ && cd ~ \ 
  && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
  && cd perf-map-agent \
+ && apt-get install -y cmake \ 
  && cmake . \
  && make \
  && cd ~ \
-
-# Flame Graph
  && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
 
-# Vector
+# (Optional) Useful UI for Profiling - Works with Linux "perf" Command and Flame Graphs
+# && cd ~ \
+# && apt-get install -y nodejs \
+# && apt-get install -y npm \
 # && git clone git://git.pcp.io/pcp \
 # && cd pcp \
 # && ./configure --prefex=/usr --sysconfdir=/etc --localstatedir=/var \
@@ -79,6 +62,13 @@ RUN \
 # && make install \
 # && cd ~ \
 # && git clone https://github.com/Netflix/vector.git \
+
+# Add syntax highlighting for vim
+ && cd ~ \
+ && mkdir -p ~/.vim/{ftdetect,indent,syntax} \
+ && for d in ftdetect indent syntax; \
+     do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; \
+    done \
 
 # Sbt
  && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
@@ -159,15 +149,15 @@ RUN \
  && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
 
 # Tachyon 
- && wget https://github.com/amplab/tachyon/releases/download/v${TACHYON_VERSION}/tachyon-${TACHYON_VERSION}-hadoop2.6-bin.tar.gz \
- && tar xvfz tachyon-${TACHYON_VERSION}-hadoop2.6-bin.tar.gz \
- && rm tachyon-${TACHYON_VERSION}-hadoop2.6-bin.tar.gz \
+ && wget https://github.com/amplab/tachyon/releases/download/v${TACHYON_VERSION}/tachyon-${TACHYON_VERSION}-bin.tar.gz \
+ && tar xvfz tachyon-${TACHYON_VERSION}-bin.tar.gz \
+ && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
 
 # Spark Notebook
-# && apt-get install -y screen \
-# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
-# && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
-# && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && apt-get install -y screen \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
@@ -182,16 +172,23 @@ RUN \
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
-# Gensort (Daytona GraySort Challenge Data Generator)
+# (Optional) Daytona GraySort Challenge Data Generator
+ && cd ~ \
  && wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz \
+ && mkdir gensort-linux-${GENSORT_VERSION}/ \
+ && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ \
  && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz \
- && rm gensort-linux-${GENSORT_VERSION}.tar.gz 
+ && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
 # Retrieve Latest Datasets, Configs, Code, and Start Scripts
- cd ~/pipeline \
- && git reset --hard && git pull \
- && chmod a+rx *.sh \
+
+# Get Latest Pipeline Code
+ && cd ~ \
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+
+# Sbt Clean
+ && sbt clean clean-files \
 
 # .profile Shell Environment Variables
  && mv ~/.profile ~/.profile.orig \

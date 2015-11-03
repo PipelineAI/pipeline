@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
-      "dateUpdated": "Oct 26, 2015 6:12:12 PM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
+      "dateUpdated": "Nov 2, 2015 5:30:23 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,15 @@
         "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Oct 6, 2015 4:05:01 AM",
-      "dateStarted": "Oct 26, 2015 6:15:24 PM",
-      "dateFinished": "Oct 26, 2015 6:15:24 PM",
+      "dateStarted": "Nov 2, 2015 5:33:57 PM",
+      "dateFinished": "Nov 2, 2015 5:33:57 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val options \u003d Map(\"start\" -\u003e \"101\", \"end\" -\u003e \"228\")\nval startingValuesDF \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"int_col\").show(150)",
-      "dateUpdated": "Oct 29, 2015 7:00:39 PM",
+      "title": "Initialize a new IntegerRange DataSource",
+      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\nval startingValuesDF \u003d sqlContext.load(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"int_col\").show(30)",
+      "dateUpdated": "Nov 2, 2015 5:38:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -49,7 +50,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -60,17 +62,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 101, end -\u003e 228)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|    101|\n|    102|\n|    103|\n|    104|\n|    105|\n|    106|\n|    107|\n|    108|\n|    109|\n|    110|\n|    111|\n|    112|\n|    113|\n|    114|\n|    115|\n|    116|\n|    117|\n|    118|\n|    119|\n|    120|\n|    121|\n|    122|\n|    123|\n|    124|\n|    125|\n|    126|\n|    127|\n|    128|\n|    129|\n|    130|\n|    131|\n|    132|\n|    133|\n|    134|\n|    135|\n|    136|\n|    137|\n|    138|\n|    139|\n|    140|\n|    141|\n|    142|\n|    143|\n|    144|\n|    145|\n|    146|\n|    147|\n|    148|\n|    149|\n|    150|\n|    151|\n|    152|\n|    153|\n|    154|\n|    155|\n|    156|\n|    157|\n|    158|\n|    159|\n|    160|\n|    161|\n|    162|\n|    163|\n|    164|\n|    165|\n|    166|\n|    167|\n|    168|\n|    169|\n|    170|\n|    171|\n|    172|\n|    173|\n|    174|\n|    175|\n|    176|\n|    177|\n|    178|\n|    179|\n|    180|\n|    181|\n|    182|\n|    183|\n|    184|\n|    185|\n|    186|\n|    187|\n|    188|\n|    189|\n|    190|\n|    191|\n|    192|\n|    193|\n|    194|\n|    195|\n|    196|\n|    197|\n|    198|\n|    199|\n|    200|\n|    201|\n|    202|\n|    203|\n|    204|\n|    205|\n|    206|\n|    207|\n|    208|\n|    209|\n|    210|\n|    211|\n|    212|\n|    213|\n|    214|\n|    215|\n|    216|\n|    217|\n|    218|\n|    219|\n|    220|\n|    221|\n|    222|\n|    223|\n|    224|\n|    225|\n|    226|\n|    227|\n|    228|\n+-------+\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|      0|\n|      1|\n|      2|\n|      3|\n|      4|\n|      5|\n|      6|\n|      7|\n|      8|\n|      9|\n+-------+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Oct 29, 2015 7:00:39 PM",
-      "dateFinished": "Oct 29, 2015 7:00:39 PM",
+      "dateStarted": "Nov 2, 2015 5:38:23 PM",
+      "dateFinished": "Nov 2, 2015 5:38:23 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d\n  StructType(\n    StructField(\"int_col\", IntegerType, true) :: Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(10 to 55).map(Row(_)), schema)\ninsertsDF.show()",
-      "dateUpdated": "Oct 29, 2015 7:01:01 PM",
+      "title": "Insert New Values into the IntegerRange DataSource and show results",
+      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d StructType(StructField(\"int_col\", IntegerType, true)::Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(20 to 29).map(Row(_)), schema)\n\nval unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(30)",
+      "dateUpdated": "Nov 2, 2015 5:38:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -83,7 +86,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -94,51 +98,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(int_col,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     29|\n+-------+\nonly showing top 20 rows\n\n"
+        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(int_col,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\nunionedDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|      0|\n|      1|\n|      2|\n|      3|\n|      4|\n|      5|\n|      6|\n|      7|\n|      8|\n|      9|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     29|\n+-------+\n\n"
       },
       "dateCreated": "Oct 5, 2015 10:13:14 PM",
-      "dateStarted": "Oct 29, 2015 7:01:01 PM",
-      "dateFinished": "Oct 29, 2015 7:01:01 PM",
+      "dateStarted": "Nov 2, 2015 5:38:35 PM",
+      "dateFinished": "Nov 2, 2015 5:38:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(200)",
-      "dateUpdated": "Oct 29, 2015 7:01:07 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1445565073809_1122234116",
-      "id": "20151023-015113_1114226600",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "unionedDF: org.apache.spark.sql.DataFrame \u003d [int_col: int]\n+-------+\n|int_col|\n+-------+\n|    101|\n|    102|\n|    103|\n|    104|\n|    105|\n|    106|\n|    107|\n|    108|\n|    109|\n|    110|\n|    111|\n|    112|\n|    113|\n|    114|\n|    115|\n|    116|\n|    117|\n|    118|\n|    119|\n|    120|\n|    121|\n|    122|\n|    123|\n|    124|\n|    125|\n|    126|\n|    127|\n|    128|\n|    129|\n|    130|\n|    131|\n|    132|\n|    133|\n|    134|\n|    135|\n|    136|\n|    137|\n|    138|\n|    139|\n|    140|\n|    141|\n|    142|\n|    143|\n|    144|\n|    145|\n|    146|\n|    147|\n|    148|\n|    149|\n|    150|\n|    151|\n|    152|\n|    153|\n|    154|\n|    155|\n|    156|\n|    157|\n|    158|\n|    159|\n|    160|\n|    161|\n|    162|\n|    163|\n|    164|\n|    165|\n|    166|\n|    167|\n|    168|\n|    169|\n|    170|\n|    171|\n|    172|\n|    173|\n|    174|\n|    175|\n|    176|\n|    177|\n|    178|\n|    179|\n|    180|\n|    181|\n|    182|\n|    183|\n|    184|\n|    185|\n|    186|\n|    187|\n|    188|\n|    189|\n|    190|\n|    191|\n|    192|\n|    193|\n|    194|\n|    195|\n|    196|\n|    197|\n|    198|\n|    199|\n|    200|\n|    201|\n|    202|\n|    203|\n|    204|\n|    205|\n|    206|\n|    207|\n|    208|\n|    209|\n|    210|\n|    211|\n|    212|\n|    213|\n|    214|\n|    215|\n|    216|\n|    217|\n|    218|\n|    219|\n|    220|\n|    221|\n|    222|\n|    223|\n|    224|\n|    225|\n|    226|\n|    227|\n|    228|\n|     10|\n|     11|\n|     12|\n|     13|\n|     14|\n|     15|\n|     16|\n|     17|\n|     18|\n|     19|\n|     20|\n|     21|\n|     22|\n|     23|\n|     24|\n|     25|\n|     26|\n|     27|\n|     28|\n|     29|\n|     30|\n|     31|\n|     32|\n|     33|\n|     34|\n|     35|\n|     36|\n|     37|\n|     38|\n|     39|\n|     40|\n|     41|\n|     42|\n|     43|\n|     44|\n|     45|\n|     46|\n|     47|\n|     48|\n|     49|\n|     50|\n|     51|\n|     52|\n|     53|\n|     54|\n|     55|\n+-------+\n\n"
-      },
-      "dateCreated": "Oct 23, 2015 1:51:13 AM",
-      "dateStarted": "Oct 29, 2015 7:01:07 PM",
-      "dateFinished": "Oct 29, 2015 7:01:07 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
+      "title": "Write to the custom data Source",
       "text": "unionedDF.write.mode(\"append\").format(\"com.fluxcapacitor.pipeline.spark.sql.IntegerRangeRelationProvider\").save(\"/tmp/unionedDF.txt\")",
-      "dateUpdated": "Oct 23, 2015 3:05:48 PM",
+      "dateUpdated": "Nov 2, 2015 5:36:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -151,7 +122,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -203,7 +175,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/02: Creating a Custom Data Source",
+  "name": "DataSources/02: Creating a Custom DataSource",
   "id": "2AZ37ZY6H",
   "angularObjects": {
     "2ARR8UZDJ": [],
