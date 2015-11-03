@@ -1,5 +1,12 @@
 FROM ubuntu:14.04
 
+# Notes:
+#   The contents ond tools installed in this Dockerfile have only been tested on Ubuntu 14.04.
+#   Use at your own risk if you are trying to apply these instructions to a different environment.
+#   We've done our best to highlight (Optional) installs - usually around system-level performance monitoring tools like "perf" from the linux-tools package.
+#   Feel free to leave out these installs, but you may lose compatibility with future releases of this distribution.
+#   It's highly-advised that you run this distributed of Docker/Ubuntu on whatever host system you are running (ie. RHEL, CentOS, etc)
+ 
 ENV SCALA_VERSION=2.10.4
 ENV CASSANDRA_VERSION=2.2.3
 ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
@@ -42,14 +49,14 @@ RUN \
  && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
 
 # (Optional) Used for Building Flame Graphs from Linux "perf" Command
- && cd ~ \ 
- && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
- && cd perf-map-agent \
- && apt-get install -y cmake \ 
- && cmake . \
- && make \
- && cd ~ \
- && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
+# && cd ~ \ 
+# && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
+# && cd perf-map-agent \
+# && apt-get install -y cmake \ 
+# && cmake . \
+# && make \
+# && cd ~ \
+# && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
 
 # (Optional) Useful UI for Profiling - Works with Linux "perf" Command and Flame Graphs
 # && cd ~ \
@@ -66,9 +73,7 @@ RUN \
 # Add syntax highlighting for vim
  && cd ~ \
  && mkdir -p ~/.vim/{ftdetect,indent,syntax} \
- && for d in ftdetect indent syntax; \
-     do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; \
-    done \
+ && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done \
 
 # Sbt
  && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
