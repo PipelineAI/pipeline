@@ -5,7 +5,7 @@ echo '*** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK.'
 
 echo '...Creating Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --create --topic ratings --partitions 1 --replication-factor 1
-kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1
+#kafka-topics --zookeeper localhost:2181 --create --topic likes --partitions 1 --replication-factor 1
 
 echo '...Formatting Tachyon (if needed)...'
 tachyon format -s
@@ -23,13 +23,7 @@ echo '...Creating Cassandra Keyspaces Column Families and Tables...'
 #cqlsh -e "DROP KEYSPACE IF EXISTS fluxcapacitor;"
 cqlsh -e "CREATE KEYSPACE fluxcapacitor WITH REPLICATION = { 'class': 'SimpleStrategy',  'replication_factor':1};"
 #cqlsh -e "USE fluxcapacitor; DROP TABLE IF EXISTS ratings;"
-cqlsh -e "USE fluxcapacitor; CREATE TABLE ratings (fromUserId int, toUserId int, rating int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
-#cqlsh -e "USE fluxcapacitor; DROP TABLE IF EXISTS likes;"
-cqlsh -e "USE fluxcapacitor; CREATE TABLE likes (fromUserId int, toUserId int, batchTime bigint, PRIMARY KEY(fromUserId, toUserId));"
-#cqlsh -e "USE fluxcapacitor; DROP TABLE IF EXISTS ratings_partitioned;"
-cqlsh -e "USE fluxcapacitor; CREATE TABLE ratings_partitioned (fromUserId int, toUserId int, rating int, PRIMARY KEY(toUserId, rating));"
-#cqlsh -e "USE fluxcapacitor; DROP TABLE IF EXISTS genders_partitioned;"
-cqlsh -e "USE fluxcapacitor; CREATE TABLE genders_partitioned (id int, gender text, PRIMARY KEY(id, gender));"
+cqlsh -e "USE fluxcapacitor; CREATE TABLE ratings (fromuserid int, touserid int, rating int, batchtime bigint, PRIMARY KEY(fromuserid, touserid));"
 
 #echo '...Creating and Formatting Docker-local HDFS...'
 #hdfs namenode -format

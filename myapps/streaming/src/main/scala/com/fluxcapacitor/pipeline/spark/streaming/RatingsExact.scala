@@ -55,6 +55,7 @@ object RatingsExact {
           .options(cassandraConfig)
           .save()
 
+	// TODO: save the DataFrame to Redis
 	message.unpersist()
       }
     }

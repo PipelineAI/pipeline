@@ -22,7 +22,7 @@ ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
 mkdir -p $PIPELINE_HOME/logs/apache2
 
 # Datasets
-echo '...Decompressing Datasets...'
+echo '...Decompressing Datasets (This takes a while)...'
 bzip2 -d -k datasets/dating/genders.json.bz2
 bzip2 -d -k datasets/dating/genders.csv.bz2
 bzip2 -d -k datasets/dating/ratings.json.bz2
@@ -35,6 +35,9 @@ tar -xjf datasets/dating/genders-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/genders-unpartitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-unpartitioned.orc.tar.bz2 -C datasets/dating/
+
+cat datasets/movielens/ml-latest/ratings.csv.bz2-part-* > datasets/movielens/ml-latest/ratings.csv.bz2
+bzip2 -d -k datasets/movielens/ml-latest/ratings.csv.bz2
 
 # Sample WebApp
 echo '...Configuring Sample WebApp...'
@@ -151,9 +154,9 @@ ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # Spark-Notebook
-#echo '...Configuring Spark-Notebook...'
-#rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
-#ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
+echo '...Configuring Spark-Notebook...'
+rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
+ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
 
 # Spark Job Server
 #echo '...Configuring Spark Job Server...'

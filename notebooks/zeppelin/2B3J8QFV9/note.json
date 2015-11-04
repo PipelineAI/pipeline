@@ -13,12 +13,12 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Likes/05:  Cluster by PageRank (K-Means)",
+  "name": "Ratings/05:  Cluster by PageRank (K-Means)",
   "id": "2B3J8QFV9",
   "angularObjects": {
-    "2AR33ZMZJ": [],
+    "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
-    "2ARR8UZDJ": []
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

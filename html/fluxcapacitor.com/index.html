@@ -31,13 +31,13 @@
 <script>
 var myId = Math.floor((Math.random() * 100000) + 1);
 
-function like(personId) {
+function rate(personId) {
   $("#heart" + personId).show()
 
   var encodedKey = btoa(myId)
   var encodedValue = btoa(myId + "," + personId + "," + "10")
   $.ajax({
-    url:'/like',
+    url:'/rating',
     type:'POST',
     data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
     contentType:'application/vnd.kafka.binary.v1+json',
@@ -62,7 +62,7 @@ function loadPeople(type) {
       var personIdx = startIdx + person.index
       var personName = person.name.text 
  
-      items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + personIdx + "'><a href='javascript:rate(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
     
     $( "<ul/>", {
@@ -80,7 +80,7 @@ function loadPersonalizedALS() {
       var imgSrc = hit._source.img
       var personName = hit._source.name 
 
-      items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + personIdx + "'><a href='javascript:rate(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
     
     $( "<ul/>", {
@@ -98,7 +98,7 @@ function loadTopInfluencers() {
       var personName = hit._source.name
       var imgSrc = hit._source.img
 
-      items.push( "<li id='li" + personIdx + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + personIdx + "'><a href='javascript:rate(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
     
     $( "<ul/>", {
@@ -116,7 +116,7 @@ function loadTopUsersByCount() {
       var personName = hit._source.name
       var imgSrc = hit._source.img 
 
-      items.push( "<li id='li" + personName + "'><a href='javascript:like(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + personName + "'><a href='javascript:rate(" + personIdx + ")'><img id='img" + personIdx + "' alt='" + personName + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + personIdx + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
     });
     
     $( "<ul/>", {
