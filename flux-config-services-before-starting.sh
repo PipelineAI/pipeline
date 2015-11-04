@@ -31,6 +31,10 @@ tar -xjf datasets/dating/genders-partitioned.parquet.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/genders-unpartitioned.parquet.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-partitioned.parquet.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-unpartitioned.parquet.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/genders-partitioned.orc.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/genders-unpartitioned.orc.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-partitioned.orc.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-unpartitioned.orc.tar.bz2 -C datasets/dating/
 
 # Sample WebApp
 echo '...Configuring Sample WebApp...'

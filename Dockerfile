@@ -1,5 +1,12 @@
 FROM ubuntu:14.04
 
+# Notes:
+#   The contents ond tools installed in this Dockerfile have only been tested on Ubuntu 14.04.
+#   Use at your own risk if you are trying to apply these instructions to a different environment.
+#   We've done our best to highlight (Optional) installs - usually around system-level performance monitoring tools like "perf" from the linux-tools package.
+#   Feel free to leave out these installs, but you may lose compatibility with future releases of this distribution.
+#   It's highly-advised that you run this distributed of Docker/Ubuntu on whatever host system you are running (ie. RHEL, CentOS, etc)
+ 
 ENV SCALA_VERSION=2.10.4
 ENV CASSANDRA_VERSION=2.2.3
 ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
@@ -42,14 +49,14 @@ RUN \
  && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
 
 # (Optional) Used for Building Flame Graphs from Linux "perf" Command
- && cd ~ \ 
- && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
- && cd perf-map-agent \
- && apt-get install -y cmake \ 
- && cmake . \
- && make \
- && cd ~ \
- && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
+# && cd ~ \ 
+# && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
+# && cd perf-map-agent \
+# && apt-get install -y cmake \ 
+# && cmake . \
+# && make \
+# && cd ~ \
+# && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
 
 # (Optional) Useful UI for Profiling - Works with Linux "perf" Command and Flame Graphs
 # && cd ~ \
@@ -65,11 +72,12 @@ RUN \
 
 # Add syntax highlighting for vim
  && cd ~ \
- && mkdir -p ~/.vim/{ftdetect,indent,syntax} \
- && for d in ftdetect indent syntax; \
-     do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; \
-    done \
+ && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done \
 
+# .profile Shell Environment Variables
+ && mv ~/.profile ~/.profile.orig \
+ && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+ 
 # Sbt
  && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
  && tar xvzf sbt-${SBT_VERSION}.tgz \
@@ -134,7 +142,7 @@ RUN \
 
 # ElasticSearch
 # && wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
- && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz
+ && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
 
@@ -177,37 +185,23 @@ RUN \
  && wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz \
  && mkdir gensort-linux-${GENSORT_VERSION}/ \
  && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ \
- && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz \
  && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
-# Retrieve Latest Datasets, Configs, Code, and Start Scripts
-
-# Get Latest Pipeline Code
- && cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git \
-
 # Sbt Clean
- && sbt clean clean-files \
-
-# .profile Shell Environment Variables
- && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+ sbt clean clean-files \
 
 # Sbt Assemble Standalone Feeder Apps
  && cd ~/pipeline/myapps \
  && sbt feeder/assembly \
 
 # Sbt Package Streaming Apps
- && cd ~/pipeline/myapps \
  && sbt streaming/package \
 
 # Sbt Package DataSource Libraries
- && cd ~/pipeline/myapps \
  && sbt datasource/package \
 
 # Sbt Package Tungsten Apps 
- && cd ~/pipeline/myapps \
  && sbt tungsten/package 
 
 WORKDIR /root
