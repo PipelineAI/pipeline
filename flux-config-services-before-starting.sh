@@ -1,7 +1,7 @@
 # SSH
 
-echo 'MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS'
-echo 'IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK.'
+echo '...**** MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS ****...'
+echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
 
 echo '...Configuring SSH Part 1 of 2...'
 service ssh start
@@ -35,7 +35,6 @@ tar -xjf datasets/dating/genders-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/genders-unpartitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-unpartitioned.orc.tar.bz2 -C datasets/dating/
-
 cat datasets/movielens/ml-latest/ratings.csv.bz2-part-* > datasets/movielens/ml-latest/ratings.csv.bz2
 bzip2 -d -k datasets/movielens/ml-latest/ratings.csv.bz2
 

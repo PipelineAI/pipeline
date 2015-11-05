@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo '*** YOU MUST START ALL SERVICES BEFORE RUNNING THIS SCRIPT ***'
-echo '*** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK.'
+echo '...**** YOU MUST START ALL SERVICES BEFORE RUNNING THIS SCRIPT ****...'
+echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
 
 echo '...Creating Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --create --topic ratings --partitions 1 --replication-factor 1

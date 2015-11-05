@@ -11,12 +11,14 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
+import redis.clients.jedis.Jedis
+import redis.clients.jedis.Transaction
 
 object RatingsHyperLogLog {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
-
+    
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
@@ -30,30 +32,42 @@ object RatingsHyperLogLog {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
+    // Kafka Config
     val brokers = "localhost:9092"
-    val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
+    val topics = Set("ratings")
     
+    // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
         message.cache()
 
-        // convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "rating", "batchtime")
+        // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
+        val tokens = message.map(_._2.split(","))
 
-        // this can be used to debug dataframes
-        // df.show()
+	// convert messageTokens into RDD[Ratings]
+        val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
-        // save the DataFrame to Cassandra
-        // Note:  Cassandra has been initialized through spark-env.sh
-        //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        df.write.format("org.apache.spark.sql.cassandra")
-          .mode(SaveMode.Append)
-          .options(cassandraConfig)
-          .save()
+        val jedis = new Jedis("127.0.0.1", 6379)
+
+	// increment the HyperLogLog distinct count for each fromuserid that chooses the touserid in Redis
+        ratings.foreachPartition(ratingsPartitionIter => {
+          // TODO:  Fix this.  
+	  // 	    1) This obviously only works when everything is running on 1 node.
+	  //        2) This should be using a Jedis Singleton/Pooled connection
+ 	  //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
+          val jedis = new Jedis("127.0.0.1", 6379)
+          val t = jedis.multi()
+          ratingsPartitionIter.foreach(rating => {
+            val key = s"""hll:${rating.touserid}"""
+	    val value = s"""${rating.fromuserid}"""
+   	    t.pfadd(key, value)
+	  })
+          t.exec()
+        })
+	jedis.close()
 
 	message.unpersist()
       }

@@ -6,25 +6,25 @@ FROM ubuntu:14.04
 #   We've done our best to highlight (Optional) installs - usually around system-level performance monitoring tools like "perf" from the linux-tools package.
 #   Feel free to leave out these installs, but you may lose compatibility with future releases of this distribution.
 #   It's highly-advised that you run this distributed of Docker/Ubuntu on whatever host system you are running (ie. RHEL, CentOS, etc)
- 
-ENV SCALA_VERSION=2.10.4
+
+# These are environment variables that match the versions of the sofware tools installed by this Dockerfile.
+# Please do not put any application-specific (library) environment variables here like _VERSION's for Spark-Cassandra Connectors, Algebird, Jedis-Redis Connector, etc.
+# These application-specific (library) environment variables should either go in config/bash/.profile or one of the flux-config-* scripts.
+# ** UNLESS THESE VERSIONS ARE NEEDED TO DETERMINE WHICH VERSION OF THE SOFTWARE TOOL TO DOWNLOAD LIKE SCALA_VERSION, SPARK_VERSION, etc **
 ENV CASSANDRA_VERSION=2.2.3
-ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
-ENV ELASTICSEARCH_SPARK_CONNECTOR_VERSION=2.1.2
 ENV LOGSTASH_VERSION=2.0.0
 ENV KIBANA_VERSION=4.2.0
 ENV NEO4J_VERSION=2.2.3
 ENV REDIS_VERSION=3.0.5
-ENV JEDIS_VERSION=2.7.3
 ENV SBT_VERSION=0.13.9
+ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
 ENV SPARKNOTEBOOK_VERSION=0.6.1
 ENV HADOOP_VERSION=2.6.0
 ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
-ENV ALGEBIRD_VERSION=0.11.0
 ENV GENSORT_VERSION=1.5
 
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099

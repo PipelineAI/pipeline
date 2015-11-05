@@ -8,6 +8,20 @@ fi
 
 mesg n
 
+# Versions of various application libraries used by this pipeline
+export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
+export SPARK_CSV_CONNECTOR_VERSION=1.2.0
+export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
+export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
+export AKKA_VERSION=2.3.11
+# This is needed to determine which version of various software tools to be downloaded
+#export SCALA_VERSION=2.10.4 
+export SCALATEST_VERSION=2.2.4
+export ALGEBIRD_VERSION=0.11.0
+export JEDIS_VERSION=2.7.3
+export SBT_ASSEMBLY_PLUGIN=0.14.0
+export KAFKA_CLIENT_VERSION=0.8.2.2
+
 # Dev Install
 export DEV_INSTALL_HOME=~
 
@@ -89,15 +103,15 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
-export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$ELASTICSEARCH_SPARK_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION
+export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
 export PATH=$PATH:$ZEPPELIN_HOME/bin
 
 # Spark Notebook
-#export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
-#export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
+export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
+export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
 
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
