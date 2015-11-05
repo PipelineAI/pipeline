@@ -11,8 +11,15 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
+
+// Redis Client including HyperLogLog Support
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Transaction
+
+// Twitter Algebird HyperLogLog Impl
+import com.twitter.algebird._
+import com.twitter.algebird.Operators._
+import HyperLogLog._
 
 object RatingsHyperLogLog {
   def main(args: Array[String]) {
@@ -36,6 +43,22 @@ object RatingsHyperLogLog {
     val brokers = "localhost:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val topics = Set("ratings")
+
+    // Setup the Algebird HyperLogLog data struct using 14 bits
+    // Note:  this is the same as the Redis implementation
+    //        2^14 = 16,384 registers, 0.81% standard error
+    val algebirdHLL = new HyperLogLogMonoid(14) 
+
+    //TODO
+    //def uniqueValues(sc:SparkContext,csvFile:String, colNum:Int):Long = {
+    //  val hll = new HyperLogLogMonoid(12) // ~ 1% probability of error with 2^12 bits
+    //  val rdd:RDD[Row] = SparkUtils.rddFromCSVFile(sc,csvFile, false)
+    //  val approxCount = rdd
+    //    .map {r => r(colNum).toString}
+    //    .map {c => hll(c.hashCode)} // HLL (defines zero and plus)
+    //    .reduce(_ + _)
+    //  approxCount.estimatedSize.toLong
+    //}
     
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
