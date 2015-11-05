@@ -72,11 +72,11 @@ function loadPeople(type) {
 }
 
 function loadPersonalizedALS() {
-    $.getJSON ("/personalized-als/_search?q=from_user_id:" + myId + "&sort=confidence:desc", function (data) {
+    $.getJSON ("/personalized-als/_search?q=fromuserid:" + myId + "&sort=confidence:desc", function (data) {
     var items = [];
     var hits = data.hits.hits
     $.each( hits, function( arrayIdx, hit ) {
-      var personIdx = hit._source.to_user_id
+      var personIdx = hit._source.touserid
       var imgSrc = hit._source.img
       var personName = hit._source.name 
 

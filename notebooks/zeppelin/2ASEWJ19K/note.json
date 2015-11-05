@@ -3,7 +3,7 @@
     {
       "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
       "text": "val actressesAndActorsDF \u003d sqlContext.sql(\"SELECT id, name, bio, img FROM actresses_and_actors_perm\")\nactressesAndActorsDF.show(30)",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -25,20 +25,20 @@
       "jobName": "paragraph_1445082225970_290386356",
       "id": "20151017-114345_2015934791",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|        Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
       },
       "dateCreated": "Oct 17, 2015 11:43:45 AM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
-      "status": "ERROR",
+      "dateStarted": "Nov 5, 2015 4:41:12 AM",
+      "dateFinished": "Nov 5, 2015 4:41:12 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,15 +67,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
+      "dateStarted": "Nov 5, 2015 4:41:12 AM",
+      "dateFinished": "Nov 5, 2015 4:41:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d ratingsDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -99,20 +99,20 @@
       "jobName": "paragraph_1435977512315_408062946",
       "id": "20150704-023832_2082939526",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[758] at map at \u003cconsole\u003e:72\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@7f7f80f6\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@60ec304b\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((10003,0.22225), (10010,0.21375), (10014,0.1925), (90005,0.1925), (90003,0.1925), (90013,0.17975), (90002,0.17975), (90015,0.17975), (90011,0.17975), (10009,0.17975))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [user_id: bigint, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
-      "status": "ERROR",
+      "dateStarted": "Nov 5, 2015 4:41:12 AM",
+      "dateFinished": "Nov 5, 2015 4:41:14 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the Top Influencers with reference data",
       "text": "val enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(actressesAndActorsDF,\n    $\"user_id\" \u003d\u003d\u003d $\"id\").select($\"id\", $\"name\", $\"bio\", $\"img\", $\"rank\").limit(5).cache()\n\nenrichedTopInfluencersDF.show()",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,20 +134,20 @@
       "jobName": "paragraph_1446485309012_-592908703",
       "id": "20151102-172829_1066190094",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "enrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string, rank: double]\n+-----+--------------------+--------------------+--------------------+-------+\n|   id|                name|                 bio|                 img|   rank|\n+-----+--------------------+--------------------+--------------------+-------+\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|0.22225|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|0.21375|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg| 0.1925|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg| 0.1925|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg| 0.1925|\n+-----+--------------------+--------------------+--------------------+-------+\n\n"
       },
       "dateCreated": "Nov 2, 2015 5:28:29 PM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
-      "status": "ERROR",
+      "dateStarted": "Nov 5, 2015 4:41:13 AM",
+      "dateFinished": "Nov 5, 2015 4:41:14 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top Influencers to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-influencers\")",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,19 +171,19 @@
       "jobName": "paragraph_1435977607013_1537471179",
       "id": "20150704-024007_801415737",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
-      "status": "ERROR",
+      "dateStarted": "Nov 5, 2015 4:41:14 AM",
+      "dateFinished": "Nov 5, 2015 4:41:15 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Nov 5, 2015 4:07:49 AM",
+      "dateUpdated": "Nov 5, 2015 4:41:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -210,8 +210,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Nov 5, 2015 4:24:00 AM",
-      "dateFinished": "Nov 5, 2015 4:24:00 AM",
+      "dateStarted": "Nov 5, 2015 4:41:15 AM",
+      "dateFinished": "Nov 5, 2015 4:41:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
@@ -224,8 +224,7 @@
     "2AR33ZMZJ": []
   },
   "config": {
-    "looknfeel": "default",
-    "cron": "0 0/3 * * * ?"
+    "looknfeel": "default"
   },
   "info": {}
 }
