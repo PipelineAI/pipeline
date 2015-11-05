@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%sql SELECT name, count(touserid) as count FROM ratings_temp JOIN actresses_and_actors_perm ON (ratings_temp.touserid \u003d actresses_and_actors_perm.id) GROUP BY name ORDER BY count DESC LIMIT 5",
-      "dateUpdated": "Nov 4, 2015 10:37:06 PM",
+      "dateUpdated": "Nov 5, 2015 4:07:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -48,18 +48,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "name\tcount\nPam Grier\t1\nRosalind Allen\t1\nKeshia Knight Pulliam\t1\nJohn Travolta\t1\nTom Hanks\t1\n"
+        "msg": "name\tcount\nJohnny Depp\t1\nMorgan Freeman\t1\nGail O\u0027Grady\t1\nSofía Vergara\t1\nAshley Judd\t1\n"
       },
       "dateCreated": "Oct 29, 2015 6:33:28 PM",
-      "dateStarted": "Nov 4, 2015 10:37:06 PM",
-      "dateFinished": "Nov 4, 2015 10:37:06 PM",
+      "dateStarted": "Nov 5, 2015 4:07:22 AM",
+      "dateFinished": "Nov 5, 2015 4:07:22 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
       "text": "val enrichedRatingsDF \u003d ratingsDF.join(actressesAndActorsDF, $\"touserid\" \u003d\u003d\u003d $\"id\").select($\"fromuserid\", $\"touserid\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedRatingsDF.show()",
-      "dateUpdated": "Nov 4, 2015 10:37:06 PM",
+      "dateUpdated": "Nov 5, 2015 4:07:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -83,18 +83,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedRatingsDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, name: string, bio: string, img: string]\n+----------+--------+--------------------+--------------------+--------------------+\n|fromuserid|touserid|                name|                 bio|                 img|\n+----------+--------+--------------------+--------------------+--------------------+\n|     49204|   10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|     49204|   10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|     49204|   10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|     49204|   90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|     49204|   90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|     49204|   90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n+----------+--------+--------------------+--------------------+--------------------+\n\n"
+        "msg": "enrichedRatingsDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, name: string, bio: string, img: string]\n+----------+--------+------------------+--------------------+--------------------+\n|fromuserid|touserid|              name|                 bio|                 img|\n+----------+--------+------------------+--------------------+--------------------+\n|     44554|   10002|   Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|     44554|   10003|         Al Pacino|One of the greate...|img/people/10003.jpg|\n|     44554|   10004|    Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|     44554|   10006|     Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|     44554|   10009|  Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|     44554|   10011|     John Travolta|John Travolta was...|img/people/10011.jpg|\n|     44554|   10012|       Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|     44554|   10015|        Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|     44554|   90001|       Linda Blair|From the age of f...|img/people/90001.jpg|\n|     44554|   90002|    Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|     44554|   90008|Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|     44554|   90011|       Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|     44554|   90013|     Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|     44554|   90014|      Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|     44554|   90015|     Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+----------+--------+------------------+--------------------+--------------------+\n\n"
       },
       "dateCreated": "Oct 21, 2015 1:52:04 PM",
-      "dateStarted": "Nov 4, 2015 10:37:06 PM",
-      "dateFinished": "Nov 4, 2015 10:37:07 PM",
+      "dateStarted": "Nov 5, 2015 4:07:22 AM",
+      "dateFinished": "Nov 5, 2015 4:07:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Aggregate Most Desirable Users by Count",
       "text": "val mostDesirableUsersByRatingsDF \u003d enrichedRatingsDF.select($\"touserid\", $\"name\", $\"img\").groupBy($\"touserid\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
-      "dateUpdated": "Nov 4, 2015 10:37:06 PM",
+      "dateUpdated": "Nov 5, 2015 4:07:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -121,15 +121,15 @@
         "msg": "mostDesirableUsersByRatingsDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
       },
       "dateCreated": "Oct 27, 2015 1:59:51 PM",
-      "dateStarted": "Nov 4, 2015 10:37:07 PM",
-      "dateFinished": "Nov 4, 2015 10:37:08 PM",
+      "dateStarted": "Nov 5, 2015 4:07:23 AM",
+      "dateFinished": "Nov 5, 2015 4:07:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top-K Recs to elasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nmostDesirableUsersByRatingsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-users-by-count\")",
-      "dateUpdated": "Nov 4, 2015 10:37:16 PM",
+      "dateUpdated": "Nov 5, 2015 4:07:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -151,18 +151,18 @@
       "jobName": "paragraph_1445954549085_243833958",
       "id": "20151027-140229_2121108585",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
       },
       "dateCreated": "Oct 27, 2015 2:02:29 PM",
-      "dateStarted": "Nov 4, 2015 10:37:16 PM",
-      "dateFinished": "Nov 4, 2015 10:37:16 PM",
-      "status": "ERROR",
+      "dateStarted": "Nov 5, 2015 4:07:23 AM",
+      "dateFinished": "Nov 5, 2015 4:07:24 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Nov 4, 2015 10:37:06 PM",
+      "dateUpdated": "Nov 5, 2015 4:07:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -187,8 +187,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Oct 29, 2015 6:34:34 PM",
-      "dateStarted": "Nov 4, 2015 10:37:08 PM",
-      "dateFinished": "Nov 4, 2015 10:37:08 PM",
+      "dateStarted": "Nov 5, 2015 4:07:24 AM",
+      "dateFinished": "Nov 5, 2015 4:07:24 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
