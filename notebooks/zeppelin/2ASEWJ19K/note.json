@@ -25,14 +25,14 @@
       "jobName": "paragraph_1445082225970_290386356",
       "id": "20151017-114345_2015934791",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|        Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Oct 17, 2015 11:43:45 AM",
-      "dateStarted": "Nov 5, 2015 4:21:00 AM",
-      "dateFinished": "Nov 5, 2015 4:21:00 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -67,8 +67,8 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Nov 5, 2015 4:21:00 AM",
-      "dateFinished": "Nov 5, 2015 4:21:00 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -104,8 +104,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Nov 5, 2015 4:21:00 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -139,8 +139,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Nov 2, 2015 5:28:29 PM",
-      "dateStarted": "Nov 5, 2015 4:21:00 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -176,8 +176,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -210,8 +210,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

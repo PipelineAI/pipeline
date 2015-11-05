@@ -31,8 +31,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -67,8 +67,8 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Nov 5, 2015 4:21:00 AM",
-      "dateFinished": "Nov 5, 2015 4:21:00 AM",
+      "dateStarted": "Nov 5, 2015 4:24:00 AM",
+      "dateFinished": "Nov 5, 2015 4:24:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -103,8 +103,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -139,8 +139,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -175,8 +175,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:51:18 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:01 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -212,8 +212,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Nov 5, 2015 4:21:01 AM",
-      "dateFinished": "Nov 5, 2015 4:21:02 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -245,8 +245,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Nov 5, 2015 4:21:02 AM",
-      "dateFinished": "Nov 5, 2015 4:21:02 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -279,8 +279,8 @@
         "msg": "File name too long"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Nov 5, 2015 4:21:02 AM",
-      "dateFinished": "Nov 5, 2015 4:21:02 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
@@ -312,8 +312,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Nov 5, 2015 4:21:02 AM",
-      "dateFinished": "Nov 5, 2015 4:21:02 AM",
+      "dateStarted": "Nov 5, 2015 4:24:02 AM",
+      "dateFinished": "Nov 5, 2015 4:24:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
