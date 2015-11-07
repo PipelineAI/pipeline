@@ -59,10 +59,7 @@ jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 echo '...Stopping Long-Running Ratings Spark Streaming Job...'
 ./flux-stop-sparksubmitted-job.sh
 
-echo '...Stopping Long-Running Partitioned Ratings Spark Streaming Job...'
-./flux-stop-sparksubmitted-job.sh
-
-echo '...Stopping Long-Running Likes Spark Streaming Job...'
+echo '...Stopping Long-Running PySpark iPython/Jupyter Job...'
 ./flux-stop-sparksubmitted-job.sh
 
 echo '...Stopping Long-Running Spark Job Server Job...'

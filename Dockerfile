@@ -19,15 +19,18 @@ ENV KIBANA_VERSION=4.2.0
 ENV NEO4J_VERSION=2.2.3
 ENV REDIS_VERSION=3.0.5
 ENV SBT_VERSION=0.13.9
-ENV SCALA_VERSION=2.10.4
-ENV SPARK_VERSION=1.5.1
 ENV SPARKNOTEBOOK_VERSION=0.6.1
 ENV HADOOP_VERSION=2.6.0
 ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
+# These are required by this Dockerfile to determine which software tools to download
+# These can be overwritten by config/bash/.profile later, if needed
+# TODO:  Remove these and rely on the single config/bash/.profile source of truth which requires us to clone pipeline.git here
+ENV SCALA_VERSION=2.10.4
+ENV SPARK_VERSION=1.5.1
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777
 
 RUN \
  apt-get update \
@@ -41,9 +44,37 @@ RUN \
  && apt-get install -y wget \
  && apt-get install -y vim \
  && apt-get install -y git \
-# && apt-get install -y python-pip \
  && apt-get install -y openssh-server \
  && apt-get install -y apache2 \
+
+# iPython/Jupyter
+ && apt-get install -y python-dev \
+ && apt-get install -y python-pip \
+ && pip install nose "ipython[notebook]" \
+
+# Python Data Science Libraries
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-sklearn \
+ && apt-get install -y python-dateutil \
+ && apt-get install -y python-pandas-lib \
+ && apt-get install -y python-numexpr \
+ && apt-get install -y python-statsmodels \
+ && apt-get install -y python-numpy \
+ && apt-get install -y python-scipy \
+ && apt-get install -y python-pandas \
+ && apt-get install -y gfortran \
+
+# R
+ && apt-get install -y r-base \
+ && apt-get install -y r-base-dev \
+
+# Ganglia
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
+
+# MySql (Required by Hive Metastore)
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
+ && apt-get install -y mysql-client \
+ && apt-get install -y libmysql-java \
 
 # (Optional) Used for System-Level Performance Monitoring (Linux "perf" Command)
  && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
@@ -72,53 +103,17 @@ RUN \
 
 # Add syntax highlighting for vim
  && cd ~ \
- && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done \
+ && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done 
 
-# .profile Shell Environment Variables
- && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~/.profile \
- 
+RUN \
+ cd ~ \
 # Sbt
- && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
+ wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
  && tar xvzf sbt-${SBT_VERSION}.tgz \
  && rm sbt-${SBT_VERSION}.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
-
-# Get Latest Pipeline Code
- && cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git \
-
-# Sbt Clean
- && sbt clean clean-files
-
-RUN \
-# Start from ~
- cd ~ \
-
-# iPython
-# && pip install jupyter \
-
-# Ganglia
- && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
-
-# MySql (Required by Hive Metastore)
- && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
- && apt-get install -y mysql-client \
- && apt-get install -y libmysql-java \
-
-# Python Data Science Libraries
- && apt-get install -y python-matplotlib \
- && apt-get install -y python-numpy \
- && apt-get install -y python-scipy \
- && apt-get install -y python-sklearn \
- && apt-get install -y python-dateutil \
- && apt-get install -y python-pandas-lib \
- && apt-get install -y python-numexpr \
- && apt-get install -y python-statsmodels \
-
-# R
- && apt-get install -y r-base \
- && apt-get install -y r-base-dev \
+# Sbt Clean - This seems weird, but it triggers the full Sbt install which involves a lot of external downloads
+ && sbt clean clean-files \
 
 # Logstash
  && wget https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz \
@@ -188,11 +183,21 @@ RUN \
  && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
+# Get Latest Pipeline Code
+ cd ~ \
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+
+# .profile Shell Environment Variables
+ && mv ~/.profile ~/.profile.orig \
+ && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+
+# Change into myapps path
+ && cd ~/pipeline/myapps \
+
 # Sbt Clean
- sbt clean clean-files \
+ && sbt clean clean-files \
 
 # Sbt Assemble Standalone Feeder Apps
- && cd ~/pipeline/myapps \
  && sbt feeder/assembly \
 
 # Sbt Package Streaming Apps

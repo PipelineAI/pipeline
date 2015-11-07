@@ -15,12 +15,16 @@ export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
 export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 export AKKA_VERSION=2.3.11
 # This is needed to determine which version of various software tools to be downloaded
+# Make this the source of truth and clone/source this file in the Dockerfile
 #export SCALA_VERSION=2.10.4 
 export SCALATEST_VERSION=2.2.4
 export ALGEBIRD_VERSION=0.11.0
 export JEDIS_VERSION=2.7.3
 export SBT_ASSEMBLY_PLUGIN=0.14.0
 export KAFKA_CLIENT_VERSION=0.8.2.2
+
+export PYSPARK_DRIVER_PYTHON=ipython
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook --no-browser --port=7777"
 
 # Dev Install
 export DEV_INSTALL_HOME=~

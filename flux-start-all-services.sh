@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo '** MAKE SURE YOU HAVE SOURCED ~/.profile OR ELSE YOU WILL SEE MANY ERRORS RELATED TO EXECUTABLES NOT FOUND **'
+echo '**** MAKE SURE YOU HAVE SOURCED ~/.profile OR ELSE YOU WILL SEE MANY ERRORS RELATED TO EXECUTABLES NOT FOUND ****'
 
 echo '...Starting ElasticSearch...'
 nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
@@ -12,7 +12,7 @@ echo '...Starting SSH...'
 service ssh start
 
 echo '...Starting Ganglia...'
-service ganglia-monitor start 
+service ganglia-monitor start
 service gmetad start
 
 echo '...Starting Apache2 Httpd...'
@@ -40,10 +40,10 @@ echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
 
 echo '...Starting Spark Master...'
-nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1 
+nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077 
+nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077
 
 echo '...Starting Spark Notebook...'
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
@@ -54,11 +54,8 @@ $SPARK_HOME/sbin/start-history-server.sh
 echo '...Starting Kibana...'
 nohup kibana &
 
-#echo '...Starting H2O Flow...'
-#nohup java -jar $H2O_HOME/h2o.jar &
-
-#echo '...Starting iPython Notebook Server...'
-#nohup jupyter notebook &
+echo '...Starting iPython Notebook Server...'
+$SPARK_HOME/sbin/pyspark --jars $MYSQL_CONNECTOR_JAR --packages $PACKAGES --master spark://127.0.0.1:7077 --executor-memory 2048M --driver-memory 2048M
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
