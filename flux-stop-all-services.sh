@@ -71,11 +71,6 @@ $SPARK_HOME/sbin/stop-history-server.sh
 echo '...Stopping Kafka Ratings Feeder...'
 jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
-#echo '...Stopping H2O...'
-#jps | grep "h2o" | cut -d " " -f "1" | xargs kill -KILL
-
-#echo '...TODO Stopping Jupyter Notebook...'
-
 echo '...Stopping SSH...'
 service ssh stop
 
