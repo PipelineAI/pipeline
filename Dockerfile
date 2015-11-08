@@ -108,7 +108,7 @@ RUN \
 RUN \
  cd ~ \
 # Sbt
- wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
+ && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
  && tar xvzf sbt-${SBT_VERSION}.tgz \
  && rm sbt-${SBT_VERSION}.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
@@ -190,6 +190,7 @@ RUN \
 # .profile Shell Environment Variables
  && mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+ && source ~/.profile \
 
 # Change into myapps path
  && cd ~/pipeline/myapps \
