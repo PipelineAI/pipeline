@@ -16,8 +16,8 @@ export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 export AKKA_VERSION=2.3.11
 # This is needed to determine which version of various software tools to be downloaded
 # Make this the source of truth and clone/source this file in the Dockerfile
-export SCALA_VERSION=2.10.4
-export SPARK_VERSION=1.5.1
+#export SCALA_VERSION=2.10.4
+#export SPARK_VERSION=1.5.1
 export CASSANDRA_VERSION=2.2.3
 export CONFLUENT_VERSION=1.0.1
 export ELASTICSEARCH_VERSION=1.7.3
