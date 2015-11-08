@@ -55,7 +55,7 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting iPython Notebook Server...'
-$SPARK_HOME/sbin/pyspark --jars $MYSQL_CONNECTOR_JAR --packages $PACKAGES --master spark://127.0.0.1:7077 --executor-memory 2048M --driver-memory 2048M
+nohup pyspark --jars $MYSQL_CONNECTOR_JAR --packages $PACKAGES --master spark://127.0.0.1:7077 --executor-memory 2048M --driver-memory 2048M &
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

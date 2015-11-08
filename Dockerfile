@@ -107,6 +107,7 @@ RUN \
 
 RUN \
  cd ~ \
+
 # Sbt
  && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
  && tar xvzf sbt-${SBT_VERSION}.tgz \
