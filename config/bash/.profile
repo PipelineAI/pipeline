@@ -16,13 +16,26 @@ export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 export AKKA_VERSION=2.3.11
 # This is needed to determine which version of various software tools to be downloaded
 # Make this the source of truth and clone/source this file in the Dockerfile
-#export SCALA_VERSION=2.10.4 
+export SCALA_VERSION=2.10.4
+export SPARK_VERSION=1.5.1
+export CASSANDRA_VERSION=2.2.3
+export CONFLUENT_VERSION=1.0.1
+export ELASTICSEARCH_VERSION=1.7.3
+export LOGSTASH_VERSION=2.0.0
+export KIBANA_VERSION=4.2.0
+export NEO4J_VERSION=2.2.3
+export REDIS_VERSION=3.0.5
+export SBT_VERSION=0.13.9
+export SPARKNOTEBOOK_VERSION=0.6.1
+export HADOOP_VERSION=2.6.0
+export TACHYON_VERSION=0.7.1
+export ZEPPELIN_VERSION=0.6.0
+export GENSORT_VERSION=1.5
 export SCALATEST_VERSION=2.2.4
 export ALGEBIRD_VERSION=0.11.0
 export JEDIS_VERSION=2.7.3
 export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
 export KAFKA_CLIENT_VERSION=0.8.2.2
-
 export PYSPARK_DRIVER_PYTHON=ipython
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --no-browser --port=7777"
 

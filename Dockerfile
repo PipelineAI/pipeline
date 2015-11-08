@@ -11,24 +11,24 @@ FROM ubuntu:14.04
 # Please do not put any application-specific (library) environment variables here like _VERSION's for Spark-Cassandra Connectors, Algebird, Jedis-Redis Connector, etc.
 # These application-specific (library) environment variables should either go in config/bash/.profile or one of the flux-config-* scripts.
 # ** UNLESS THESE VERSIONS ARE NEEDED TO DETERMINE WHICH VERSION OF THE SOFTWARE TOOL TO DOWNLOAD LIKE SCALA_VERSION, SPARK_VERSION, etc **
-ENV CASSANDRA_VERSION=2.2.3
-ENV CONFLUENT_VERSION=1.0.1
-ENV ELASTICSEARCH_VERSION=1.7.3
-ENV LOGSTASH_VERSION=2.0.0
-ENV KIBANA_VERSION=4.2.0
-ENV NEO4J_VERSION=2.2.3
-ENV REDIS_VERSION=3.0.5
-ENV SBT_VERSION=0.13.9
-ENV SPARKNOTEBOOK_VERSION=0.6.1
-ENV HADOOP_VERSION=2.6.0
-ENV TACHYON_VERSION=0.7.1
-ENV ZEPPELIN_VERSION=0.6.0
-ENV GENSORT_VERSION=1.5
+#ENV CASSANDRA_VERSION=2.2.3
+#ENV CONFLUENT_VERSION=1.0.1
+#ENV ELASTICSEARCH_VERSION=1.7.3
+#ENV LOGSTASH_VERSION=2.0.0
+#ENV KIBANA_VERSION=4.2.0
+#ENV NEO4J_VERSION=2.2.3
+#ENV REDIS_VERSION=3.0.5
+#ENV SBT_VERSION=0.13.9
+#ENV SPARKNOTEBOOK_VERSION=0.6.1
+#ENV HADOOP_VERSION=2.6.0
+#ENV TACHYON_VERSION=0.7.1
+#ENV ZEPPELIN_VERSION=0.6.0
+#ENV GENSORT_VERSION=1.5
 # These are required by this Dockerfile to determine which software tools to download
 # These can be overwritten by config/bash/.profile later, if needed
 # TODO:  Remove these and rely on the single config/bash/.profile source of truth which requires us to clone pipeline.git here
-ENV SCALA_VERSION=2.10.4
-ENV SPARK_VERSION=1.5.1
+#ENV SCALA_VERSION=2.10.4
+#ENV SPARK_VERSION=1.5.1
 
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777
 
@@ -104,6 +104,19 @@ RUN \
 # Add syntax highlighting for vim
  && cd ~ \
  && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim \        https://raw.githubusercontent.com/derekwyatt/vim-scala/master/syntax/scala.vim; done 
+
+RUN \
+# Get Latest Pipeline Code
+ cd ~ \
+ && git clone https://github.com/fluxcapacitor/pipeline.git 
+
+RUN \
+# Replace .profile with the one from config/bash/.profile
+ mv ~/.profile ~/.profile.orig \
+ && ln -s ~/pipeline/config/bash/.profile ~/.profile \
+
+# And source the new .profile to pick up all the environment variables
+ && . ~/.profile \
 
 RUN \
  cd ~ \
@@ -184,17 +197,8 @@ RUN \
  && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
-# Get Latest Pipeline Code
- cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git \
-
-# .profile Shell Environment Variables
- && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~/.profile \
- && source ~/.profile \
-
 # Change into myapps path
- && cd ~/pipeline/myapps \
+ cd ~/pipeline/myapps \
 
 # Sbt Clean
  && sbt clean clean-files \
