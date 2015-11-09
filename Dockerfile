@@ -19,7 +19,7 @@ ENV KIBANA_VERSION=4.2.0
 ENV NEO4J_VERSION=2.2.3
 ENV REDIS_VERSION=3.0.5
 ENV SBT_VERSION=0.13.9
-ENV SPARKNOTEBOOK_VERSION=0.6.1
+ENV SPARK_NOTEBOOK_VERSION=0.6.1
 ENV HADOOP_VERSION=2.6.0
 ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
@@ -159,9 +159,9 @@ RUN \
 
 # Spark Notebook
  && apt-get install -y screen \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && tar xvzf spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && rm spark-notebook-${SPARKNOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && tar xvzf spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
+ && rm spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
 
 # Redis
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
