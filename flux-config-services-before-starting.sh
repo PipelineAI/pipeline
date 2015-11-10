@@ -35,6 +35,10 @@ tar -xjf datasets/dating/genders-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/genders-unpartitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-partitioned.orc.tar.bz2 -C datasets/dating/
 tar -xjf datasets/dating/ratings-unpartitioned.orc.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/genders-partitioned.avro.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/genders-unpartitioned.avro.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-partitioned.avro.tar.bz2 -C datasets/dating/
+tar -xjf datasets/dating/ratings-unpartitioned.avro.tar.bz2 -C datasets/dating/
 cat datasets/movielens/ml-latest/ratings.csv.bz2-part-* > datasets/movielens/ml-latest/ratings.csv.bz2
 bzip2 -d -k datasets/movielens/ml-latest/ratings.csv.bz2
 

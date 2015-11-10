@@ -74,7 +74,7 @@
     {
       "title": "Read the real-time Ratings coming from Users through Kafka",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")\nval ratingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig).load().toDF(\"fromuserid\", \"touserid\", \"rating\", \"batchtime\")",
-      "dateUpdated": "Nov 5, 2015 4:40:31 AM",
+      "dateUpdated": "Nov 10, 2015 12:43:16 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -102,15 +102,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e fluxcapacitor, table -\u003e ratings)\nratingsDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, rating: bigint, batchtime: int]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Nov 5, 2015 4:40:31 AM",
-      "dateFinished": "Nov 5, 2015 4:40:31 AM",
+      "dateStarted": "Nov 10, 2015 12:43:16 AM",
+      "dateFinished": "Nov 10, 2015 12:43:27 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Current count of Real-time Ratings",
       "text": "ratingsDF.count()",
-      "dateUpdated": "Nov 5, 2015 4:40:31 AM",
+      "dateUpdated": "Nov 10, 2015 12:43:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -135,18 +135,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res76: Long \u003d 39\n"
+        "msg": "res1: Long \u003d 1529\n"
       },
       "dateCreated": "Jul 3, 2015 6:05:55 AM",
-      "dateStarted": "Nov 5, 2015 4:40:31 AM",
-      "dateFinished": "Nov 5, 2015 4:40:32 AM",
+      "dateStarted": "Nov 10, 2015 12:43:30 AM",
+      "dateFinished": "Nov 10, 2015 12:43:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use the dataFrame API to query the real-time Ratings",
       "text": "ratingsDF.select(\"fromuserid\", \"touserid\", \"rating\", \"batchtime\").collect().mkString(\"\\n\")",
-      "dateUpdated": "Nov 5, 2015 4:40:31 AM",
+      "dateUpdated": "Nov 10, 2015 12:43:36 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -172,18 +172,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res78: String \u003d \n[78292,10003,1446697228000,10]\n[78292,10006,1446697226000,10]\n[78292,10014,1446697228000,10]\n[78292,90003,1446697222000,10]\n[78292,90005,1446697224000,10]\n[78292,90015,1446697224000,10]\n[34560,10003,1446697214000,10]\n[34560,10007,1446697216000,10]\n[34560,10010,1446697214000,10]\n[34560,90009,1446697212000,10]\n[34560,90010,1446697212000,10]\n[34560,90013,1446697212000,10]\n[15527,10003,1446698418000,10]\n[15527,10008,1446698418000,10]\n[15527,10010,1446698418000,10]\n[15527,90002,1446698414000,10]\n[15527,90003,1446698416000,10]\n[15527,90005,1446698416000,10]\n[29867,10009,1446697240000,10]\n[29867,10010,1446697240000,10]\n[29867,10014,1446697240000,10]\n[29867,90006,1446697236000,10]\n[29867,90011,1446697238000,10]\n[29867,90012,1446697238000,10]\n[44554,10002,1446695500000,10]\n[4455..."
+        "msg": "res3: String \u003d \n[5,907,1447116116000,8]\n[5,1339,1447116116000,10]\n[5,2127,1447116116000,8]\n[5,3015,1447116116000,10]\n[5,3132,1447116116000,10]\n[5,9680,1447116118000,7]\n[5,12107,1447116118000,10]\n[5,12795,1447116118000,9]\n[5,15406,1447116118000,7]\n[5,15530,1447116118000,9]\n[5,17811,1447116118000,10]\n[5,18074,1447116118000,10]\n[5,18227,1447116118000,10]\n[5,20397,1447116118000,10]\n[5,23486,1447116118000,10]\n[5,23576,1447116118000,5]\n[5,24309,1447116118000,10]\n[5,24973,1447116118000,10]\n[5,25083,1447116118000,10]\n[5,26414,1447116118000,10]\n[5,27457,1447116118000,10]\n[5,27960,1447116118000,10]\n[5,30030,1447116118000,6]\n[5,30404,1447116118000,10]\n[5,31944,1447116118000,8]\n[5,33006,1447116120000,9]\n[5,35647,1447116120000,10]\n[5,36134,1447116120000,10]\n[5,48463,1447116120000,6]\n[5,54380,1447116..."
       },
       "dateCreated": "Jul 3, 2015 6:06:20 AM",
-      "dateStarted": "Nov 5, 2015 4:40:32 AM",
-      "dateFinished": "Nov 5, 2015 4:40:32 AM",
+      "dateStarted": "Nov 10, 2015 12:43:36 AM",
+      "dateFinished": "Nov 10, 2015 12:43:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show number of distinct Real-time participating users",
       "text": "import org.apache.spark.sql.functions._\n\nratingsDF.select(countDistinct($\"fromuserid\")).collect()(0)",
-      "dateUpdated": "Nov 5, 2015 4:40:31 AM",
+      "dateUpdated": "Nov 10, 2015 12:43:41 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -208,18 +208,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\nres81: org.apache.spark.sql.Row \u003d [5]\n"
+        "msg": "import org.apache.spark.sql.functions._\nres6: org.apache.spark.sql.Row \u003d [10]\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Nov 5, 2015 4:40:32 AM",
-      "dateFinished": "Nov 5, 2015 4:40:33 AM",
+      "dateStarted": "Nov 10, 2015 12:43:41 AM",
+      "dateFinished": "Nov 10, 2015 12:43:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "register the real-time Ratings as a temp table",
       "text": "ratingsDF.cache()\nratingsDF.registerTempTable(\"ratings_temp\")",
-      "dateUpdated": "Nov 5, 2015 4:40:31 AM",
+      "dateUpdated": "Nov 10, 2015 12:44:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -244,18 +244,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res83: ratingsDF.type \u003d [fromuserid: int, touserid: int, rating: bigint, batchtime: int]\n"
+        "msg": "res8: ratingsDF.type \u003d [fromuserid: int, touserid: int, rating: bigint, batchtime: int]\n"
       },
       "dateCreated": "Jul 3, 2015 6:29:39 AM",
-      "dateStarted": "Nov 5, 2015 4:40:33 AM",
-      "dateFinished": "Nov 5, 2015 4:40:33 AM",
+      "dateStarted": "Nov 10, 2015 12:44:04 AM",
+      "dateFinished": "Nov 10, 2015 12:44:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use SQL to Show Most desirable users by Rating Count",
       "text": "%sql SELECT name, count(touserid) as count FROM ratings_temp JOIN actresses_and_actors_perm ON (ratings_temp.touserid \u003d actresses_and_actors_perm.id) GROUP BY name ORDER BY count DESC LIMIT 5",
-      "dateUpdated": "Nov 5, 2015 4:40:33 AM",
+      "dateUpdated": "Nov 10, 2015 12:44:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -302,14 +302,14 @@
       "jobName": "paragraph_1435904577933_-1977276639",
       "id": "20150703-062257_361919402",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "name\tcount\nAl Pacino\t4\nTom Hanks\t3\nAshley Judd\t2\nSofía Vergara\t2\nRosalind Allen\t2\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "org.apache.spark.sql.AnalysisException: no such table actresses_and_actors_perm; line 1 pos 61\n\tat org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.getTable(Analyzer.scala:260)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:268)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:51)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:56)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:254)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:83)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:80)\n\tat scala.collection.LinearSeqOptimized$class.foldLeft(LinearSeqOptimized.scala:111)\n\tat scala.collection.immutable.List.foldLeft(List.scala:84)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:80)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:72)\n\tat scala.collection.immutable.List.foreach(List.scala:318)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:72)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed$lzycompute(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.assertAnalyzed(SQLContext.scala:914)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:132)\n\tat org.apache.spark.sql.DataFrame$.apply(DataFrame.scala:51)\n\tat org.apache.spark.sql.SQLContext.sql(SQLContext.scala:725)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.zeppelin.spark.SparkSqlInterpreter.interpret(SparkSqlInterpreter.java:136)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Nov 5, 2015 4:40:33 AM",
-      "dateFinished": "Nov 5, 2015 4:40:34 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 10, 2015 12:44:06 AM",
+      "dateFinished": "Nov 10, 2015 12:44:06 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
