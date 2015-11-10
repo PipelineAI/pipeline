@@ -57,6 +57,7 @@ RUN \
 
 # Python Data Science Libraries
  && apt-get install -y python-matplotlib \
+ && apt-get install -y nltk \ 
  && apt-get install -y python-sklearn \
  && apt-get install -y python-dateutil \
  && apt-get install -y python-pandas-lib \
