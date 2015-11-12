@@ -14,7 +14,10 @@ object Sort {
     val filename = args(0)
 
     // Extract the (key,value) tuples
-    val keyValueArray: Array[(String, String)] = Source.fromFile(filename).getLines().toArray.map(line => (line.substring(0,9), line.substring(10,98)))
+    val keyValueArray: Array[(String, String)] = Source.fromFile(filename).getLines().toArray.map(line => {
+      println(line)
+      (line.substring(0,9), line.substring(10,98))
+    })
     println(keyValueArray(0)._1)
     println(keyValueArray(keyValueArray.length-1)._1)
 
