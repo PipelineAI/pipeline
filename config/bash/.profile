@@ -61,6 +61,7 @@ export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 # Data Home
 export DATA_HOME=$PIPELINE_HOME/data
 
+export DATASETS_HOME=$PIPELINE_HOME/datasets
 # Logs Home
 export LOGS_HOME=$PIPELINE_HOME/logs
 ###################################################################
