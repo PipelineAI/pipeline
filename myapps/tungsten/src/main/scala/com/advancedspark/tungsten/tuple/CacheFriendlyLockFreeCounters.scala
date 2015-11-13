@@ -5,13 +5,10 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicLong
 
-object CacheFriendlyTupleIncrement {
-  // a single, master Long (8-bytes) will maintain 2 separate Ints (4-bytes each)
+object CacheFriendlyLockFreeCounters {
+  // a single Long (8-bytes) will maintain 2 separate Ints (4-bytes each)
   val tuple = new AtomicLong()
 	
-  // a count down latch of 1 is a way to synchronize the start of multiple threads
-  // the controller (a test) will call startLatch.countDown() to start the threads
-  // assuming all threads call await() at the start of their run()/call() method
   val startLatch = new CountDownLatch(1)
   var finishLatch = new CountDownLatch(0) 
 
@@ -22,51 +19,46 @@ object CacheFriendlyTupleIncrement {
   def increment(leftIncrement: Int, rightIncrement: Int) : Long = {
     var originalLong = 0L
     var updatedLong = 0L
-		
+
     do {
-      originalLong = getValue() 
+      originalLong = getValue()
 
       // get the right int
       val originalRightInt = originalLong.toInt
-			
+
       // shift right and get the left int
       val originalLeftInt = (originalLong >>> 32).toInt
 
-      // increment the right int by rightIncrement 
+      // increment the right int by rightIncrement
       val updatedRightInt = originalRightInt + rightIncrement
 
       // increment the left int by leftIncrement
       val updatedLeftInt = originalLeftInt + leftIncrement
 
-      // TODO:  make this 1 operation
-      // update the new single, master long with the new left int 
+      // set the new left int
       updatedLong = updatedLeftInt
 
       // shift left to setup the right int
       updatedLong = updatedLong << 32
 
-      // set the new right int 
+      // set the new right int
       updatedLong += updatedRightInt
-    }	
+    }
     while (tuple.compareAndSet(originalLong, updatedLong) == false)
 
     updatedLong
   }
 
+
+
   class IncrementTask(leftIncrement: Int, rightIncrement: Int) extends Runnable {
     @Override
     def run() : Unit = {
-      //try {
-        startLatch.await()
+      startLatch.await()
         
-        val value = increment(leftIncrement, rightIncrement)
+      val value = increment(leftIncrement, rightIncrement)
 
-        //System.out.println("success [left:" + (value >>> 32).toInt + ", right:" + value.toInt + "]")
-				
-        finishLatch.countDown()
-      //} catch (InterruptedException e) {
-      //  e.printStackTrace()
-      //}
+      finishLatch.countDown()
     }
   }
 	
