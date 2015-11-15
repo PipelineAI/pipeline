@@ -8,17 +8,23 @@ object CacheFriendlyMatrixMultiply{
     var mat2transpose = Array.ofDim[Int](dim,dim)
     var matResult = Array.ofDim[Int](dim,dim)
 
-    // build matrix 1
+    // Build matrix 1
     for (i <- 0 to (dim-1))
       for ( j <- 0 to (dim-1))
         mat1(i)(j) = j;
 
-    // build matrix 2 transpose
+    // Build matrix 2 transpose
+    // Note: We're not actually doing a transpose here as this would
+    //         throw off the comparison to the CacheNaiveMatrixMultiply
+    //         in terms of overall performance.
+    //       We are, however,         
     for (i <- 0 to (dim-1))
       for ( j <- 0 to (dim-1))
         mat2transpose(i)(j) = j;
 
-    // multiply matrix 1 by matrix 2 transpose for numIters
+    // Multiply matrix 1 by matrix 2 transpose for numIters
+    // Note:  We are performing this algorithm as if matrix 2 
+    //          was transposed as this is what we are comparing 
     for (count <- 1 to numIters)
       for (i <- 0 to (dim-1))
         for (j <- 0 to (dim-1))
