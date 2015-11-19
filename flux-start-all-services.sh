@@ -6,7 +6,7 @@ echo '...Starting ElasticSearch...'
 nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
 
 echo '...Starting Logstash...'
-nohup logstash agent -f $PIPELINE_HOME/config/logstash/logstash.conf &
+nohup logstash -f $LOGSTASH_HOME/logstash.conf &
 
 echo '...Starting SSH...'
 service ssh start
