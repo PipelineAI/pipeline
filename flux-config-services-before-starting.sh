@@ -56,6 +56,7 @@ cp -R $PIPELINE_HOME/datasets /var/www/html
 echo '...Configuring Sample Apps...'
 mkdir -p $PIPELINE_HOME/logs/feeder
 mkdir -p $PIPELINE_HOME/logs/streaming
+mkdir -p $PIPELINE_HOME/logs/nlp
 
 # Ganglia
 echo '...Configuring Ganglia...'

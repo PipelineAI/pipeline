@@ -213,6 +213,9 @@ RUN \
 # Sbt Assemble Standalone Feeder Apps
  && sbt feeder:assembly \
 
+# Sbt Assemble Standalone Nlp Apps
+# && sbt nlp/assembly \
+
 # Sbt Package Streaming Apps
  && sbt streaming/package \
 
