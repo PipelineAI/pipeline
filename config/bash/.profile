@@ -127,7 +127,9 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION
+#,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
+#,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
 
 export SPARK_SUBMIT_JARS=$MYAPPS_HOME/streaming/lib/streaming-matrix-factorization-$STREAMING_MATRIX_FACTORIZATION_VERSION.jar,$MYAPPS_HOME/streaming/lib/spark-indexed-rdd-$INDEXEDRDD_VERSION.jar
 

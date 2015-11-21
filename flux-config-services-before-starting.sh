@@ -117,6 +117,7 @@ echo '...Configuring ElasticSearch...'
 
 # Logstash
 echo '...Configuring Logstash...'
+ln -s $PIPELINE_HOME/config/logstash/logstash.conf $LOGSTASH_HOME
 
 # Kibana
 echo '...Configuring Kibana...'
