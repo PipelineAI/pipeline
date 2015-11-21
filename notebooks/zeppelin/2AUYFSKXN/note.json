@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
-      "text": "val actressesAndActorsDF \u003d sqlContext.sql(\"SELECT id, name, bio, img FROM actresses_and_actors_perm\")\nactressesAndActorsDF.show(30)",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "text": "val allRatingsDF \u003d sqlContext.sql(\"SELECT fromuserid, touserid FROM ratings_perm\")\nallRatingsDF.show(30)",
+      "dateUpdated": "Nov 19, 2015 5:28:58 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,14 +26,14 @@
       "jobName": "paragraph_1436151459869_-304748701",
       "id": "20150706-025739_1574787707",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "actressesAndActorsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, name: string, bio: string, img: string]\n+-----+--------------------+--------------------+--------------------+\n|   id|                name|                 bio|                 img|\n+-----+--------------------+--------------------+--------------------+\n|10001|   Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|img/people/10014.jpg|\n|10015|          Clive Owen|Darkly handsome B...|img/people/10015.jpg|\n|90001|         Linda Blair|From the age of f...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|img/people/90012.jpg|\n|90013|       Sofía Vergara|Sofía Margarita V...|img/people/90013.jpg|\n|90014|        Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|img/people/90015.jpg|\n+-----+--------------------+--------------------+--------------------+\n\n"
+        "msg": "org.apache.spark.sql.AnalysisException: no such table ratings_perm; line 1 pos 33\n\tat org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.getTable(Analyzer.scala:260)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:268)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:51)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:56)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:254)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:83)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:80)\n\tat scala.collection.LinearSeqOptimized$class.foldLeft(LinearSeqOptimized.scala:111)\n\tat scala.collection.immutable.List.foldLeft(List.scala:84)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:80)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:72)\n\tat scala.collection.immutable.List.foreach(List.scala:318)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:72)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed$lzycompute(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.assertAnalyzed(SQLContext.scala:914)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:132)\n\tat org.apache.spark.sql.DataFrame$.apply(DataFrame.scala:51)\n\tat org.apache.spark.sql.SQLContext.sql(SQLContext.scala:725)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:55)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:57)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:61)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:63)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:65)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:67)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:69)\n\tat \u003cinit\u003e(\u003cconsole\u003e:71)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:75)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Nov 5, 2015 4:41:27 AM",
-      "dateFinished": "Nov 5, 2015 4:41:27 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 19, 2015 5:46:47 PM",
+      "dateFinished": "Nov 19, 2015 5:46:47 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -74,8 +74,8 @@
     },
     {
       "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
-      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d ratingsDF.map(like \u003d\u003e \n  Rating(like(0).asInstanceOf[Int], like(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1.0,0.0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d ratingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1.0,0.0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()",
+      "dateUpdated": "Nov 19, 2015 5:29:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,18 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[858] at map at \u003cconsole\u003e:78\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[859] at randomSplit at \u003cconsole\u003e:80, MapPartitionsRDD[860] at randomSplit at \u003cconsole\u003e:80)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[859] at randomSplit at \u003cconsole\u003e:80\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[860] at randomSplit at \u003cconsole\u003e:80\nres119: trainingRatings.type \u003d MapPartitionsRDD[859] at randomSplit at \u003cconsole\u003e:80\nres120: testingRatings.type \u003d MapPartitionsRDD[860] at randomSplit at \u003cconsole\u003e:80\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[277] at map at \u003cconsole\u003e:43\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45, MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45\nres50: trainingRatings.type \u003d MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45\nres51: testingRatings.type \u003d MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Nov 5, 2015 4:41:27 AM",
-      "dateFinished": "Nov 5, 2015 4:41:28 AM",
+      "dateStarted": "Nov 19, 2015 5:46:47 PM",
+      "dateFinished": "Nov 19, 2015 5:46:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "val rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainingRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 19, 2015 5:29:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,11 +136,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@3f30ff47\n"
+        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@4b04059\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Nov 5, 2015 4:41:28 AM",
-      "dateFinished": "Nov 5, 2015 4:41:30 AM",
+      "dateStarted": "Nov 19, 2015 5:46:47 PM",
+      "dateFinished": "Nov 19, 2015 5:49:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -183,7 +183,7 @@
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"user_id\",\"recommendations\").cache()\n\ncase class Recommendation(fromuserid: Int, touserid: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendations\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"fromuserid\", $\"touserid\", $\"confidence\").join(actressesAndActorsDF, $\"touserid\" \u003d\u003d\u003d $\"id\").select($\"fromuserid\", $\"touserid\", $\"name\", $\"bio\", $\"img\", $\"confidence\").cache()",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 19, 2015 5:35:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -318,7 +318,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Ratings/06:  Collaborative Filtering Recs (Matrix Factorization)",
+  "name": "Live Ratings/06:  Collaborative Filtering Recs (Matrix Factorization)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],

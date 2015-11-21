@@ -25,6 +25,11 @@ lazy val tungsten = (project in file("tungsten"))
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= tungstenDeps)
 
+lazy val nlp = (project in file("nlp"))
+                    .settings(name := "nlp")
+                    .settings(globalSettings:_*)
+                    .settings(libraryDependencies ++= nlpDeps)
+
 val akkaVersion = sys.env("AKKA_VERSION") // 2.3.11
 val sparkVersion = sys.env("SPARK_VERSION") // 1.5.1
 val sparkCassandraConnectorVersion = sys.env("SPARK_CASSANDRA_CONNECTOR_VERSION") // 1.4.0
@@ -35,6 +40,7 @@ val jedisVersion = sys.env("JEDIS_VERSION") // 2.7.3
 val sparkCsvVersion = sys.env("SPARK_CSV_CONNECTOR_VERSION") // 1.2.0
 val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION") // 2.0.1
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") // 0.11.0
+val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") //3.5.2
 
 lazy val feederDeps = Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
@@ -79,5 +85,11 @@ lazy val tungstenDeps = Seq(
     exclude("org.apache.spark", "spark-network-common_2.10")
     exclude("org.apache.spark", "spark-network-shuffle_2.10")
     exclude("org.apache.spark", "spark-unsafe_2.10")
+)
+
+lazy val nlpDeps = Seq(
+  "edu.stanford.nlp"  % "stanford-corenlp" % coreNlpVersion
+//,
+//  "edu.stanford.nlp"  % "stanford-corenlp" % coreNlpVersion classifier "models"
 )
 

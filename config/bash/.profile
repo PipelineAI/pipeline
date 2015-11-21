@@ -21,14 +21,19 @@ export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
 export KAFKA_CLIENT_VERSION=0.8.2.2
 export PYSPARK_DRIVER_PYTHON=ipython
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --no-browser --port=7777"
-export SPARK_STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
+export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
+export STANFORD_CORENLP_VERSION=3.5.2
+#export SPARK_CORENLP_VERSION=0.1.0-SNAPSHOT
+#export PROTOBUF_JAVA_VERSION=2.5.1-SNAPSHOT
+export INDEXEDRDD_VERSION=0.1
+export KEYSTONEML_VERSION=0.2
+
 # This is needed to determine which version of various software tools to be downloaded
 # Make this the source of truth and clone/source this file in the Dockerfile
 #export SCALA_VERSION=2.10.4
 #export SPARK_VERSION=1.5.1
 #export CASSANDRA_VERSION=2.2.3
-#export CONFLUENT_VERSION=1.0.1
-#export ELASTICSEARCH_VERSION=1.7.3
+#export CONFLUENT_VERSION=1.0.1 #export ELASTICSEARCH_VERSION=1.7.3
 #export LOGSTASH_VERSION=2.0.0
 #export KIBANA_VERSION=4.2.0
 #export NEO4J_VERSION=2.2.3
@@ -122,7 +127,11 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
-export PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$SPARK_STREAMING_MATRIX_FACTORIZATION_VERSION
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION
+#,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
+#,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
+
+export SPARK_SUBMIT_JARS=$MYAPPS_HOME/streaming/lib/streaming-matrix-factorization-$STREAMING_MATRIX_FACTORIZATION_VERSION.jar,$MYAPPS_HOME/streaming/lib/spark-indexed-rdd-$INDEXEDRDD_VERSION.jar
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
