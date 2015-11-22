@@ -51,6 +51,9 @@ export DEV_INSTALL_HOME=~
 # Pipeline Home
 export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
+# Scripts Home
+export SCRIPTS_HOME=$PIPELINE_HOME/bin
+
 ###################################################################
 # The following DATA_HOME and LOGS_HOME are not always used by apps
 # due to limitations with certain apps and how they resolve exports
@@ -76,6 +79,9 @@ export JAVA_HOME=/usr
 
 # H2O Home
 #export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
+
+# Scripts Home
+export PATH=$PATH:$SCRIPTS_HOME
 
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
@@ -131,7 +137,7 @@ export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.1
 #,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
 #,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
 
-export SPARK_SUBMIT_JARS=$MYAPPS_HOME/streaming/lib/streaming-matrix-factorization-$STREAMING_MATRIX_FACTORIZATION_VERSION.jar,$MYAPPS_HOME/streaming/lib/spark-indexed-rdd-$INDEXEDRDD_VERSION.jar
+export SPARK_SUBMIT_JARS=$MYAPPS_HOME/streaming/lib/streaming-matrix-factorization-$STREAMING_MATRIX_FACTORIZATION_VERSION.jar,$MYAPPS_HOME/streaming/lib/spark-indexed-rdd-$INDEXEDRDD_VERSION.jar,$MYSQL_CONNECTOR_JAR
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
@@ -140,6 +146,13 @@ export PATH=$PATH:$ZEPPELIN_HOME/bin
 # Spark Notebook
 export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
 export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
+
+# iPython/Jupyter Home
+# TODO
+export JUPYTER_HOME=$DEV_INSTALL_HOME/jupyter
+export PATH=$PATH:$JUPYTER_HOME/bin
+# Notebooks Home
+export NOTEBOOKS_HOME=$PIPELINE_HOME/notebooks
 
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps

@@ -210,7 +210,7 @@ RUN \
  && sbt clean clean-files \ 
 
 # Sbt Assemble Standalone Feeder Apps
- && sbt feeder:assembly \
+ && sbt feeder/assembly \
 
 # Sbt Assemble Standalone Nlp Apps
 # && sbt nlp/assembly \

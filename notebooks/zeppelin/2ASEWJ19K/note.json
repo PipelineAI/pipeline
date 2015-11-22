@@ -38,7 +38,7 @@
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Nov 20, 2015 3:20:00 PM",
+      "dateUpdated": "Nov 22, 2015 6:58:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -51,7 +51,7 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false,
+        "editorHide": true,
         "tableHide": false,
         "editorMode": "ace/mode/markdown"
       },
@@ -74,8 +74,8 @@
     },
     {
       "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d ratingsDF.map(like \u003d\u003e \n  (like(0).toString.toLong, like(1).toString.toLong)\n)\n\nval convergenceThreshold \u003d 0.01\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n",
-      "dateUpdated": "Nov 20, 2015 3:20:00 PM",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d ratingsDF.map(like \u003d\u003e (like(0).toString.toLong, like(1).toString.toLong))\n\nval convergenceThreshold \u003d 0.01\n\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"user_id\", \"rank\")\n",
+      "dateUpdated": "Nov 22, 2015 6:58:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
