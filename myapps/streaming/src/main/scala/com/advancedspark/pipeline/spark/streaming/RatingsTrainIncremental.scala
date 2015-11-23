@@ -1,4 +1,4 @@
-package com.fluxcapacitor.pipeline.spark.streaming
+package com.advancedspark.pipeline.spark.streaming
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -12,7 +12,21 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-object RatingsTrainMatrixFactorizationModel {
+import com.brkyvz.spark.recommendation.StreamingLatentMatrixFactorization
+//import org.apache.spark.ml.recommendation.ALS.Rating
+//import org.apache.spark.streaming.dstream.DStream
+
+//val ratingStream: DStream[Rating[Long]] = ... // Your input stream of Ratings
+// numUsers and numProducts are the number of users and products respectively
+//val algorithm = new StreamingLatentMatrixFactorization(numUsers, numProducts)
+//algorithm.trainOn(ratingStream)
+
+//val testStream: DStream[(Long, Long)] = ... // stream of (user, product) pairs to predict on
+//val predictions: DStream[Rating[Long]] = algorithm.predictOn(testStream)
+
+
+
+object RatingsTrainIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
