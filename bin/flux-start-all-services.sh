@@ -40,10 +40,11 @@ echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
 
 echo '...Starting Spark Master...'
-nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -i 127.0.0.1 -h 127.0.0.1
+nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8192M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+#nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8192M --webui-port 6062 -h 127.0.0.1 spark://127.0.0.1:7077
 
 echo '...Starting Spark Notebook...'
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
@@ -55,7 +56,7 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting iPython Notebook Server...'
-nohup pyspark --jars $MYSQL_CONNECTOR_JAR --packages $SPARK_SUBMIT_PACKAGES --jars $SPARK_SUBMIT_JARS --master spark://127.0.0.1:7077 --executor-memory 2048M --driver-memory 2048M &
+nohup pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --master spark://127.0.0.1:7077 --executor-memory 2048M --driver-memory 2048M &
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

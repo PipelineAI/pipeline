@@ -20,17 +20,17 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "2",
+        "spark.cores.max": "4",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "512m",
+        "spark.executor.memory": "4096m",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
-        "zeppelin.spark.concurrentSQL": "false",
         "args": "",
+        "zeppelin.spark.concurrentSQL": "false",
+        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python"
       },
       "interpreterGroup": [

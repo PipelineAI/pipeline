@@ -18,7 +18,7 @@ curl -X POST http://127.0.0.1:6066/v1/submissions/create --header "Content-Type:
     "spark.submit.deployMode" : "cluster",
     "spark.master" : "spark://127.0.0.1:7077",
     "spark.executor.cores" : "2",
-    "spark.executor.memory" : "512m",
+    "spark.executor.memory" : "2048m",
     "spark.cores.max" : "2",
     "spark.eventLog.enabled" : "true",
     "spark.eventLog.dir" : "/root/pipeline/logs/spark",
