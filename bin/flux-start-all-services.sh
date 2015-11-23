@@ -44,7 +44,6 @@ nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
 nohup $SPARK_HOME/sbin/start-slave.sh --cores 10 --memory 10240M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
-#nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8192M --webui-port 6062 -h 127.0.0.1 spark://127.0.0.1:7077
 
 echo '...Starting Spark Notebook...'
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
