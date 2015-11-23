@@ -4,6 +4,7 @@ val globalSettings = Seq(
 )
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
+addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PACKAGES_PLUGIN_VERSION"))
 
 resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
@@ -36,7 +37,6 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming"       % sparkVersion % "provided",
-  "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided"
-//,
-//  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided"
+  "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided",
+  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided"
 )

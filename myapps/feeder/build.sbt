@@ -5,7 +5,7 @@ val globalSettings = Seq(
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 
-lazy val feeder = (project in file("feeder"))
+lazy val feeder = (project in file("."))
                     .settings(name := "feeder")
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= feederDeps)

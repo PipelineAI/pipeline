@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
-      "text": "val allRatingsDF \u003d sqlContext.sql(\"SELECT fromuserid, touserid FROM ratings_perm\")\nallRatingsDF.show(30)",
-      "dateUpdated": "Nov 19, 2015 5:28:58 PM",
+      "text": "val allRatingsDF \u003d sqlContext.sql(\"SELECT fromuserid, touserid FROM ratings_temp\")\nallRatingsDF.show(30)",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -28,18 +28,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "org.apache.spark.sql.AnalysisException: no such table ratings_perm; line 1 pos 33\n\tat org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.getTable(Analyzer.scala:260)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:268)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$$anonfun$apply$7.applyOrElse(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$resolveOperators$1.apply(LogicalPlan.scala:57)\n\tat org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:51)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:56)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan$$anonfun$1.apply(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.resolveOperators(LogicalPlan.scala:54)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:264)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations$.apply(Analyzer.scala:254)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:83)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:80)\n\tat scala.collection.LinearSeqOptimized$class.foldLeft(LinearSeqOptimized.scala:111)\n\tat scala.collection.immutable.List.foldLeft(List.scala:84)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:80)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:72)\n\tat scala.collection.immutable.List.foreach(List.scala:318)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:72)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed$lzycompute(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.analyzed(SQLContext.scala:916)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.assertAnalyzed(SQLContext.scala:914)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:132)\n\tat org.apache.spark.sql.DataFrame$.apply(DataFrame.scala:51)\n\tat org.apache.spark.sql.SQLContext.sql(SQLContext.scala:725)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:55)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:57)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:61)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:63)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:65)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:67)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:69)\n\tat \u003cinit\u003e(\u003cconsole\u003e:71)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:75)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Nov 19, 2015 5:46:47 PM",
-      "dateFinished": "Nov 19, 2015 5:46:47 PM",
+      "dateStarted": "Nov 23, 2015 5:26:30 PM",
+      "dateFinished": "Nov 23, 2015 5:26:30 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,15 +67,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Nov 5, 2015 4:41:27 AM",
-      "dateFinished": "Nov 5, 2015 4:41:27 AM",
+      "dateStarted": "Nov 23, 2015 5:26:30 PM",
+      "dateFinished": "Nov 23, 2015 5:26:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval ratings \u003d ratingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1.0,0.0))\t\nval (trainingRatings, testingRatings) \u003d (splitRatings(0), splitRatings(1))\ntrainingRatings.cache()\ntestingRatings.cache()",
-      "dateUpdated": "Nov 19, 2015 5:29:18 PM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,20 +98,20 @@
       "jobName": "paragraph_1435978228274_1300518407",
       "id": "20150704-025028_2001782588",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[277] at map at \u003cconsole\u003e:43\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45, MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45)\ntrainingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45\ntestingRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45\nres50: trainingRatings.type \u003d MapPartitionsRDD[278] at randomSplit at \u003cconsole\u003e:45\nres51: testingRatings.type \u003d MapPartitionsRDD[279] at randomSplit at \u003cconsole\u003e:45\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Nov 19, 2015 5:46:47 PM",
-      "dateFinished": "Nov 19, 2015 5:46:48 PM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:30 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "val rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainingRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Nov 19, 2015 5:29:25 PM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,20 +134,20 @@
       "jobName": "paragraph_1435978256373_-160526409",
       "id": "20150704-025056_169923529",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "rank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@4b04059\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Nov 19, 2015 5:46:47 PM",
-      "dateFinished": "Nov 19, 2015 5:49:57 PM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Evaluate The Model Using The Historical Testing Split And Root Mean Squared Error (RMSE) ??",
       "text": "val testFromTo \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e (fromUserId, toUserId)\n}\n\nval predictedTestRatings \u003d \n  model.predict(testFromTo).map { \n    case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n  }\n\nval actualTestRatings \u003d testingRatings.map { \n  case Rating(fromUserId, toUserId, rating) \u003d\u003e ((fromUserId, toUserId), rating)\n}\n\nval RMSE \u003d Math.sqrt(actualTestRatings.join(predictedTestRatings).map { \n  case ((fromUserId, toUserId), (r1, r2)) \u003d\u003e {\n  \tval err \u003d (r1 - r2)\n  \terr * err\n  }\n}.mean())",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -170,20 +170,20 @@
       "jobName": "paragraph_1435978278507_-1968815591",
       "id": "20150704-025118_867262526",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[1248] at map at \u003cconsole\u003e:75\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[1258] at map at \u003cconsole\u003e:89\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[1259] at map at \u003cconsole\u003e:76\nRMSE: Double \u003d 0.0\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:51:18 AM",
-      "dateStarted": "Nov 5, 2015 4:41:29 AM",
-      "dateFinished": "Nov 5, 2015 4:41:31 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"user_id\",\"recommendations\").cache()\n\ncase class Recommendation(fromuserid: Int, touserid: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendations\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"fromuserid\", $\"touserid\", $\"confidence\").join(actressesAndActorsDF, $\"touserid\" \u003d\u003d\u003d $\"id\").select($\"fromuserid\", $\"touserid\", $\"name\", $\"bio\", $\"img\", $\"confidence\").cache()",
-      "dateUpdated": "Nov 19, 2015 5:35:11 PM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -207,19 +207,19 @@
       "jobName": "paragraph_1435978292871_1625908707",
       "id": "20150704-025132_1487939440",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [user_id: int, recommendations: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:93: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, name: string, bio: string, img: string, confidence: double]\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Nov 5, 2015 4:41:30 AM",
-      "dateFinished": "Nov 5, 2015 4:41:32 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "enrichedRecommendationsDF.show(5)",
-      "dateUpdated": "Nov 5, 2015 4:42:12 AM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -240,19 +240,19 @@
       "jobName": "paragraph_1443377582412_2075344434",
       "id": "20150927-181302_1140885708",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "+----------+--------+----------------+--------------------+--------------------+------------------+\n|fromuserid|touserid|            name|                 bio|                 img|        confidence|\n+----------+--------+----------------+--------------------+--------------------+------------------+\n|     78292|   10010|       Tom Hanks|Thomas Jeffrey Ha...|img/people/10010.jpg|1.0121840619567952|\n|     78292|   10009|Chazz Palminteri|Bronx-born and ra...|img/people/10009.jpg|  1.00553112138806|\n|     78292|   90011|     Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|  1.00553112138806|\n|     78292|   10003|       Al Pacino|One of the greate...|img/people/10003.jpg|0.9964997572137599|\n|     78292|   10014|    James Franco|Known for his bre...|img/people/10014.jpg|0.9944855013355991|\n+----------+--------+----------------+--------------------+--------------------+------------------+\nonly showing top 5 rows\n\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Nov 5, 2015 4:42:12 AM",
-      "dateFinished": "Nov 5, 2015 4:42:12 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/personalized-als\")",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -274,19 +274,19 @@
       "jobName": "paragraph_1438113388648_-491234562",
       "id": "20150728-195628_1365871289",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Nov 5, 2015 4:41:32 AM",
-      "dateFinished": "Nov 5, 2015 4:41:38 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Nov 5, 2015 4:41:27 AM",
+      "dateUpdated": "Nov 23, 2015 5:26:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -312,8 +312,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Nov 5, 2015 4:41:33 AM",
-      "dateFinished": "Nov 5, 2015 4:41:38 AM",
+      "dateStarted": "Nov 23, 2015 5:26:31 PM",
+      "dateFinished": "Nov 23, 2015 5:26:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

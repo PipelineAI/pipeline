@@ -1,0 +1,91 @@
+{
+  "paragraphs": [
+    {
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
+      "dateUpdated": "Nov 23, 2015 4:49:00 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448297281854_-1908390725",
+      "id": "20151123-164801_1419363217",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Nov 23, 2015 4:48:01 PM",
+      "dateStarted": "Nov 23, 2015 4:49:00 PM",
+      "dateFinished": "Nov 23, 2015 4:49:00 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval touserid \u003d 10003\nval exactValue \u003d jedis.get(s\"\"\"exact:${touserid}\"\"\")\nval hyperLogLogValue \u003d jedis.pfcount(s\"\"\"hll:${touserid}\"\"\")",
+      "dateUpdated": "Nov 23, 2015 4:48:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448297306376_418047956",
+      "id": "20151123-164826_892246958",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:32: error: not found: value redis\n       import redis.clients.jedis.Jedis\n              ^\n"
+      },
+      "dateCreated": "Nov 23, 2015 4:48:26 PM",
+      "dateStarted": "Nov 23, 2015 4:48:32 PM",
+      "dateFinished": "Nov 23, 2015 4:48:32 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448297303299_-1548403672",
+      "id": "20151123-164823_1209282967",
+      "dateCreated": "Nov 23, 2015 4:48:23 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Redis 01/Exact vs. HyperLogLog",
+  "id": "2B42HQF6Z",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
