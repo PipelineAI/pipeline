@@ -11,10 +11,8 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import redis.clients.jedis.Jedis
-import redis.clients.jedis.Transaction
 
-object RatingsExact {
+object RatingsCassandra {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
@@ -36,7 +34,7 @@ object RatingsExact {
     val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
 
     // Kafka Config    
-    val brokers = "localhost:9092"
+    val brokers = "127.0.0.1:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val topics = Set("ratings")
  
@@ -50,7 +48,7 @@ object RatingsExact {
         // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
         val tokens = message.map(_._2.split(","))
 
-	// convert messageTokens into RDD[Ratings]
+	// convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
         // save the DataFrame to Cassandra
@@ -62,23 +60,10 @@ object RatingsExact {
           .mode(SaveMode.Append)
           .options(cassandraConfig)
           .save()
-
-	// increment the exact count for touserid in Redis
-        ratings.foreachPartition(ratingsPartitionIter => {
-          // TODO:  Fix this.  
-	  // 	    1) This obviously only works when everything is running on 1 node.
-	  //        2) This should be using a Jedis Singleton/Pooled connection
- 	  //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
-          val jedis = new Jedis("127.0.0.1", 6379)
-          val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => t.incr("exact:" + rating.touserid))
-	  t.exec()
-	  jedis.close()
-	})
+	}
 
 	message.unpersist()
-      }
-    }
+   }
 
     ssc.start()
     ssc.awaitTermination()

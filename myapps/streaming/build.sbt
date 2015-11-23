@@ -5,7 +5,9 @@ val globalSettings = Seq(
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 
-lazy val streaming = (project in file("streaming"))
+resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
+
+lazy val streaming = (project in file("."))
                        .settings(name := "streaming")
                        .settings(globalSettings:_*)
                        .settings(libraryDependencies ++= streamingDeps)
@@ -21,6 +23,7 @@ val sparkCsvVersion = sys.env("SPARK_CSV_CONNECTOR_VERSION") // 1.2.0
 val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION") // 2.0.1
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") // 0.11.0
 val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") //3.5.2
+val streamingMatrixFactorizationVersion = sys.env("STREAMING_MATRIX_FACTORIZATION_VERSION") // 0.1.0
 
 lazy val streamingDeps = Seq(
   "com.datastax.spark" % "spark-cassandra-connector_2.10" % sparkCassandraConnectorVersion % "provided",
@@ -34,4 +37,6 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming"       % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided"
+//,
+//  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided"
 )
