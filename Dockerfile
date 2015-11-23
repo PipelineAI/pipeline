@@ -11,6 +11,26 @@ FROM ubuntu:14.04
 # Please do not put any application-specific (library) environment variables here like _VERSION's for Spark-Cassandra Connectors, Algebird, Jedis-Redis Connector, etc.
 # These application-specific (library) environment variables should either go in config/bash/.profile or one of the flux-config-* scripts.
 # ** UNLESS THESE VERSIONS ARE NEEDED TO DETERMINE WHICH VERSION OF THE SOFTWARE TOOL TO DOWNLOAD LIKE SCALA_VERSION, SPARK_VERSION, etc **
+# These are required by this Dockerfile to determine which software tools to download
+# These can be overwritten by config/bash/.profile later, if needed
+# These only work in Docker 1.9+
+#ARG CASSANDRA_VERSION #2.2.3
+#ARG CONFLUENT_VERSION #1.0.1
+#ARG ELASTICSEARCH_VERSION #1.7.3
+#ARG LOGSTASH_VERSION #2.0.0
+#ARG KIBANA_VERSION #4.1.2
+#ARG NEO4J_VERSION #2.2.3
+#ARG REDIS_VERSION #3.0.5
+#ARG SBT_VERSION #0.13.9
+#ARG SPARK_NOTEBOOK_VERSION #0.6.1
+#ARG HADOOP_VERSION #2.6.0
+#ARG TACHYON_VERSION #0.7.1
+#ARG ZEPPELIN_VERSION #0.6.0
+#ARG GENSORT_VERSION #1.5
+#ARG SCALA_VERSION #2.10.4
+#ARG SPARK_VERSION #1.5.1
+#ARG MYAPPS_HOME #~/pipeline/myapps
+
 ENV CASSANDRA_VERSION=2.2.3
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
@@ -24,14 +44,25 @@ ENV HADOOP_VERSION=2.6.0
 ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
-# These are required by this Dockerfile to determine which software tools to download
-# These can be overwritten by config/bash/.profile later, if needed
-# TODO:  Remove these and rely on the single config/bash/.profile source of truth which requires us to clone pipeline.git here
 ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
+#ENV MYAPPS_HOME=???
 ENV AKKA_VERSION=2.3.11
+ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
+ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
+ENV KAFKA_CLIENT_VERSION=0.8.2.2
+ENV SCALATEST_VERSION=2.2.4
+ENV JEDIS_VERSION=2.7.3
+ENV SPARK_CSV_CONNECTOR_VERSION=1.2.0
+ENV SPARK_AVRO_CONNECTOR_VERSION=2.0.1
+ENV ALGEBIRD_VERSION=0.11.0
+ENV STANFORD_CORENLP_VERSION=3.5.2
+ENV STREAMING_MATRIX_FACTORIZATION=0.1.0
+ENV SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
+ENV INDEXEDRDD_VERSION=0.1
+ENV KEYSTONEML_VERSION=0.2
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 
 
 RUN \
  apt-get update \
@@ -81,7 +112,7 @@ RUN \
  && apt-get install -y libmysql-java \
 
 # (Optional) Used for System-Level Performance Monitoring (Linux "perf" Command)
- && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` \
+ && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` 
 
 # (Optional) Used for Building Flame Graphs from Linux "perf" Command
 # && cd ~ \ 
@@ -105,26 +136,22 @@ RUN \
 # && cd ~ \
 # && git clone https://github.com/Netflix/vector.git \
 
-# Add syntax highlighting for vim
- && cd ~ \
- && mkdir -p ~/.vim/{ftdetect,indent,syntax} && for d in ftdetect indent syntax ; do curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/derekwyatt/vim-scala/master/$d/scala.vim; done
-
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
  && git clone https://github.com/fluxcapacitor/pipeline.git
 
+# Adding syntax highlighting to VIM
 RUN \
+ ln -s ~/pipeline/config/.vim ~ \
+
 # Replace .profile with the one from config/bash/.profile
- mv ~/.profile ~/.profile.orig \
+ && mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile
 
 RUN \
-# Source the new .profile (again) to pick up all the environment variables and setup anything that couldn't be set before
- . ~/.profile \
-
 # Sbt
- && cd ~ \
+ cd ~ \
  && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
  && tar xvzf sbt-${SBT_VERSION}.tgz \
  && rm sbt-${SBT_VERSION}.tgz \
@@ -200,28 +227,18 @@ RUN \
  && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
-# Source the new .profile (again) to pick up all the environment variables and setup anything that couldn't be set before
- . ~/.profile \
-
-# Change into myapps path
- && cd ~/pipeline/myapps \
-
-# Sbt Clean
- && sbt clean clean-files \ 
-
-# Sbt Assemble Standalone Feeder Apps
- && sbt feeder/assembly \
+ cd ~/pipeline/myapps/feeder && sbt feeder/assembly \
 
 # Sbt Assemble Standalone Nlp Apps
 # && sbt nlp/assembly \
 
 # Sbt Package Streaming Apps
- && sbt streaming/package \
+ && cd ~/pipeline/myapps/streaming && sbt streaming/package \
 
 # Sbt Package DataSource Libraries
- && sbt datasource/package \
+ && cd ~/pipeline/myapps/datasource && sbt datasource/package \
 
 # Sbt Package Tungsten Apps 
- && sbt tungsten/package 
+ && cd ~/pipeline/myapps/tungsten && sbt package 
 
 WORKDIR /root

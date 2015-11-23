@@ -30,20 +30,21 @@ export KEYSTONEML_VERSION=0.2
 
 # This is needed to determine which version of various software tools to be downloaded
 # Make this the source of truth and clone/source this file in the Dockerfile
-#export SCALA_VERSION=2.10.4
-#export SPARK_VERSION=1.5.1
-#export CASSANDRA_VERSION=2.2.3
-#export CONFLUENT_VERSION=1.0.1 #export ELASTICSEARCH_VERSION=1.7.3
-#export LOGSTASH_VERSION=2.0.0
-#export KIBANA_VERSION=4.2.0
-#export NEO4J_VERSION=2.2.3
-#export REDIS_VERSION=3.0.5
-#export SBT_VERSION=0.13.9
-#export SPARK_NOTEBOOK_VERSION=0.6.1
-#export TACHYON_VERSION=0.7.1
-#export ZEPPELIN_VERSION=0.6.0
-#export GENSORT_VERSION=1.5
-#export HADOOP_VERSION=2.6.0
+export SCALA_VERSION=2.10.4
+export SPARK_VERSION=1.5.1
+export CASSANDRA_VERSION=2.2.3
+export CONFLUENT_VERSION=1.0.1 
+export ELASTICSEARCH_VERSION=1.7.3
+export LOGSTASH_VERSION=2.0.0
+export KIBANA_VERSION=4.2.0
+export NEO4J_VERSION=2.2.3
+export REDIS_VERSION=3.0.5
+export SBT_VERSION=0.13.9
+export SPARK_NOTEBOOK_VERSION=0.6.1
+export TACHYON_VERSION=0.7.1
+export ZEPPELIN_VERSION=0.6.0
+export GENSORT_VERSION=1.5
+export HADOOP_VERSION=2.6.0
 
  #Dev Install
 export DEV_INSTALL_HOME=~
