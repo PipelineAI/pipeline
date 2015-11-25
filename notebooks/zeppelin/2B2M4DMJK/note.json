@@ -1427,8 +1427,8 @@
     },
     {
       "title": "cartesian Join",
-      "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"))\n.explain(true)",
-      "dateUpdated": "Nov 24, 2015 5:50:19 AM",
+      "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"))\n  .explain()",
+      "dateUpdated": "Nov 25, 2015 7:58:21 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1452,18 +1452,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, None\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, None\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, None\n Project [touserid#111L,rating#110L]\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Project [id#113L,gender#112]\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nCartesianProduct\n Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][touserid#111L,rating#110L]\n Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#113L,gender#112]\n\nCode Generation: true\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nCartesianProduct\n Filter ((rating#189L \u003c\u003d 6) \u0026\u0026 (rating#189L \u003e\u003d 4))\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][touserid#190L,rating#189L]\n Filter (NOT (gender#191 \u003d F) \u0026\u0026 NOT (gender#191 \u003d M))\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#192L,gender#191]\n"
       },
       "dateCreated": "Nov 24, 2015 5:26:08 AM",
-      "dateStarted": "Nov 24, 2015 5:44:13 AM",
-      "dateFinished": "Nov 24, 2015 5:44:14 AM",
+      "dateStarted": "Nov 25, 2015 7:58:21 AM",
+      "dateFinished": "Nov 25, 2015 7:58:21 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Inner Join",
-      "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\n.explain(true)",
-      "dateUpdated": "Nov 24, 2015 5:50:25 AM",
+      "text": "ratingsUnprtitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),           $\"touserid\" \u003d\u003d\u003d $\"id\").explain()",
+      "dateUpdated": "Nov 25, 2015 7:59:01 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1484,19 +1484,19 @@
       "jobName": "paragraph_1448343825895_708385378",
       "id": "20151124-054345_2012690459",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#111L \u003d id#113L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((touserid#111L \u003d id#113L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#111L \u003d id#113L))\n Project [touserid#111L,rating#110L]\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Project [id#113L,gender#112]\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#111L], [id#113L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][touserid#111L,rating#110L]\n ConvertToUnsafe\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#113L,gender#112]\n\nCode Generation: true\n"
+        "msg": "\u003cconsole\u003e:30: error: not found: value ratingsUnprtitionedParquetDF\n              ratingsUnprtitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n              ^\n"
       },
       "dateCreated": "Nov 24, 2015 5:43:45 AM",
-      "dateStarted": "Nov 24, 2015 5:49:38 AM",
-      "dateFinished": "Nov 24, 2015 5:49:38 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 25, 2015 7:58:30 AM",
+      "dateFinished": "Nov 25, 2015 7:58:30 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Partitioned vs. Unpartitioned Join",
-      "dateUpdated": "Nov 24, 2015 7:58:11 PM",
+      "dateUpdated": "Nov 25, 2015 7:51:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1508,7 +1508,9 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "tableHide": false,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -1529,8 +1531,8 @@
     },
     {
       "title": "Ratings Partitioned, Genders Unpartitioned Join",
-      "text": "ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\n.explain(true)",
-      "dateUpdated": "Nov 24, 2015 7:58:48 PM",
+      "text": "ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),\n    $\"touserid\" \u003d\u003d\u003d $\"id\").explain()",
+      "dateUpdated": "Nov 25, 2015 7:49:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1554,18 +1556,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#13L \u003d id#113L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [touserid#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((touserid#13L \u003d id#113L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [touserid#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#13L \u003d id#113L))\n Project [touserid#13L,rating#14]\n  Filter ((rating#14 \u003c\u003d 6) \u0026\u0026 (rating#14 \u003e\u003d 4))\n   Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Project [id#113L,gender#112]\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#13L], [id#113L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#13L,rating#14]\n ConvertToUnsafe\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#113L,gender#112]\n\nCode Generation: true\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#206L], [id#192L]\n TungstenSort [touserid#206L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#206L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n TungstenSort [id#192L ASC], false, 0\n  TungstenExchange hashpartitioning(id#192L)\n   ConvertToUnsafe\n    Filter (NOT (gender#191 \u003d F) \u0026\u0026 NOT (gender#191 \u003d M))\n     Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#192L,gender#191]\n"
       },
       "dateCreated": "Nov 24, 2015 5:45:58 AM",
-      "dateStarted": "Nov 24, 2015 9:33:49 AM",
-      "dateFinished": "Nov 24, 2015 9:33:49 AM",
+      "dateStarted": "Nov 25, 2015 7:49:06 AM",
+      "dateFinished": "Nov 25, 2015 7:49:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Ratings Unpartitioned, Genders Partitioned Join",
-      "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\n.explain(true)",
-      "dateUpdated": "Nov 24, 2015 7:58:53 PM",
+      "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\").explain()",
+      "dateUpdated": "Nov 25, 2015 7:49:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1589,18 +1591,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#111L \u003d id#15L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((touserid#111L \u003d id#15L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [touserid#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#111L \u003d id#15L))\n Project [touserid#111L,rating#110L]\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter (NOT (gender#16 \u003d F) \u0026\u0026 NOT (gender#16 \u003d M))\n  Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#111L], [id#15L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][touserid#111L,rating#110L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#15L,gender#16]\n\nCode Generation: true\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#190L], [id#208L]\n TungstenSort [touserid#190L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#190L)\n   ConvertToUnsafe\n    Filter ((rating#189L \u003c\u003d 6) \u0026\u0026 (rating#189L \u003e\u003d 4))\n     Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][touserid#190L,rating#189L]\n TungstenSort [id#208L ASC], false, 0\n  TungstenExchange hashpartitioning(id#208L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\n"
       },
       "dateCreated": "Nov 24, 2015 5:48:17 AM",
-      "dateStarted": "Nov 24, 2015 9:34:14 AM",
-      "dateFinished": "Nov 24, 2015 9:34:14 AM",
+      "dateStarted": "Nov 25, 2015 7:49:18 AM",
+      "dateFinished": "Nov 25, 2015 7:49:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Ratings Unpartitioned, Genders Partitioned Join",
-      "text": "ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\n.explain(true)",
-      "dateUpdated": "Nov 24, 2015 7:58:57 PM",
+      "title": "Ratings Partitioned, Genders Partitioned Join",
+      "text": "ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\").explain()",
+      "dateUpdated": "Nov 25, 2015 7:49:54 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1624,11 +1626,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#13L \u003d id#15L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [touserid#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((touserid#13L \u003d id#15L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [touserid#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#13L \u003d id#15L))\n Project [touserid#13L,rating#14]\n  Filter ((rating#14 \u003c\u003d 6) \u0026\u0026 (rating#14 \u003e\u003d 4))\n   Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#16 \u003d F) \u0026\u0026 NOT (gender#16 \u003d M))\n  Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#13L], [id#15L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#13L,rating#14]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#15L,gender#16]\n\nCode Generation: true\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#206L], [id#208L]\n TungstenSort [touserid#206L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#206L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n TungstenSort [id#208L ASC], false, 0\n  TungstenExchange hashpartitioning(id#208L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\n"
       },
       "dateCreated": "Nov 24, 2015 9:34:52 AM",
-      "dateStarted": "Nov 24, 2015 9:35:24 AM",
-      "dateFinished": "Nov 24, 2015 9:35:24 AM",
+      "dateStarted": "Nov 25, 2015 7:49:54 AM",
+      "dateFinished": "Nov 25, 2015 7:49:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -1667,8 +1669,8 @@
     },
     {
       "title": "Broadcast Join",
-      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d10485760\") // default \u003d 10 MB\nval broadcastJoinDF \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\nbroadcastJoinDF.explain(true)\nbroadcastJoinDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:03:06 PM",
+      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d10485760\") // default \u003d 10 MB\n\nval broadcastJoinDF\u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\nbroadcastJoinDF.explain()\nbroadcastJoinDF.count()",
+      "dateUpdated": "Nov 25, 2015 7:53:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1691,18 +1693,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res83: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\nbroadcastJoinDF: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Filter (rating#207 \u003e\u003d 4)\n  Filter (rating#207 \u003c\u003d 6)\n   Project [touserid#206L,rating#207]\n    Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#209 \u003d M)\n  Filter NOT (gender#209 \u003d F)\n   Project [id#208L,gender#209]\n    Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Filter (rating#207 \u003e\u003d 4)\n  Filter (rating#207 \u003c\u003d 6)\n   Project [touserid#206L,rating#207]\n    Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#209 \u003d M)\n  Filter NOT (gender#209 \u003d F)\n   Project [id#208L,gender#209]\n    Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Project [touserid#206L,rating#207]\n  Filter ((rating#207 \u003c\u003d 6) \u0026\u0026 (rating#207 \u003e\u003d 4))\n   Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#209 \u003d F) \u0026\u0026 NOT (gender#209 \u003d M))\n  Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#206L], [id#208L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\n\nCode Generation: true\nres85: Long \u003d 1123909\n"
+        "msg": "res155: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\nbroadcastJoinDF: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#206L], [id#208L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\nres158: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 9:42:35 AM",
-      "dateStarted": "Nov 24, 2015 8:03:06 PM",
-      "dateFinished": "Nov 24, 2015 8:03:08 PM",
+      "dateStarted": "Nov 25, 2015 7:53:44 AM",
+      "dateFinished": "Nov 25, 2015 7:53:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Normal Shuffle Join",
-      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d-1\")\nval normalShuffleJoinDF \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), $\"touserid\" \u003d\u003d\u003d $\"id\")\nnormalShuffleJoinDF.explain(true)\nnormalShuffleJoinDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:03:01 PM",
+      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d-1\")\n\nval shuffleJoinDF \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\nshuffleJoinDF.explain()\nshuffleJoinDF.count()",
+      "dateUpdated": "Nov 25, 2015 7:52:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1726,18 +1728,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res79: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\nnormalShuffleJoinDF: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Filter (rating#207 \u003e\u003d 4)\n  Filter (rating#207 \u003c\u003d 6)\n   Project [touserid#206L,rating#207]\n    Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#209 \u003d M)\n  Filter NOT (gender#209 \u003d F)\n   Project [id#208L,gender#209]\n    Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntouserid: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Filter (rating#207 \u003e\u003d 4)\n  Filter (rating#207 \u003c\u003d 6)\n   Project [touserid#206L,rating#207]\n    Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#209 \u003d M)\n  Filter NOT (gender#209 \u003d F)\n   Project [id#208L,gender#209]\n    Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((touserid#206L \u003d id#208L))\n Project [touserid#206L,rating#207]\n  Filter ((rating#207 \u003c\u003d 6) \u0026\u0026 (rating#207 \u003e\u003d 4))\n   Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#209 \u003d F) \u0026\u0026 NOT (gender#209 \u003d M))\n  Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#206L], [id#208L]\n TungstenSort [touserid#206L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#206L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n TungstenSort [id#208L ASC], false, 0\n  TungstenExchange hashpartitioning(id#208L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\n\nCode Generation: true\nres81: Long \u003d 1123909\n"
+        "msg": "res150: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\nshuffleJoinDF: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#206L], [id#208L]\n TungstenSort [touserid#206L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#206L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#206L,rating#207]\n TungstenSort [id#208L ASC], false, 0\n  TungstenExchange hashpartitioning(id#208L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\nres153: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 9:39:39 AM",
-      "dateStarted": "Nov 24, 2015 8:03:01 PM",
-      "dateFinished": "Nov 24, 2015 8:03:04 PM",
+      "dateStarted": "Nov 25, 2015 7:52:44 AM",
+      "dateFinished": "Nov 25, 2015 7:52:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "",
-      "dateUpdated": "Nov 24, 2015 9:43:47 AM",
+      "text": "val a",
+      "dateUpdated": "Nov 25, 2015 7:42:24 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1759,17 +1761,42 @@
       "jobName": "paragraph_1443032582751_9393080",
       "id": "20150923-182302_905575898",
       "result": {
-        "code": "SUCCESS",
-        "type": "TEXT"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:2: error: \u0027\u003d\u0027 expected but \u0027;\u0027 found.\n       print(\"\")\n^\n"
       },
       "dateCreated": "Sep 23, 2015 6:23:02 PM",
-      "dateStarted": "Nov 2, 2015 5:33:56 PM",
-      "dateFinished": "Nov 2, 2015 5:33:57 PM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 25, 2015 7:42:24 AM",
+      "dateFinished": "Nov 25, 2015 7:42:24 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448437351207_1586195198",
+      "id": "20151125-074231_389285762",
+      "dateCreated": "Nov 25, 2015 7:42:31 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448437344326_-2012158762",
+      "id": "20151125-074224_319525179",
+      "dateCreated": "Nov 25, 2015 7:42:24 AM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/01: Compare Query Plans (File Format, Partitioning)",
+  "name": "DataSources/01: Compare Query Plans (Formats, Partitions, Joins)",
   "id": "2B2M4DMJK",
   "angularObjects": {
     "2ARR8UZDJ": [],
