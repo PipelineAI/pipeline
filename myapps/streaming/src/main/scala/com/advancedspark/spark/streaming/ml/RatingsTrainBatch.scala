@@ -36,16 +36,16 @@ object RatingsTrainBatch {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "localhost:9092"
+    val brokers = "127.0.0.1:9092"
     val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
-    val esConfig = Map("pushdown" -> "true", "es.nodes" -> "demo.fluxcapacitor.com", "es.port" -> "9200")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "ratings")
+    val esConfig = Map("pushdown" -> "true", "es.nodes" -> "127.0.0.1", "es.port" -> "9200")
 
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     val actressesAndActorsDF = sqlContext.read.format("json")
-      .load("file:/root/pipeline/datasets/actresses_and_actors/actresses_and_actors.json")
+      .load("file:/root/pipeline/datasets/hollywood/actresses_and_actors.json")
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
@@ -58,7 +58,7 @@ object RatingsTrainBatch {
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
 	val allRatingsDF = sqlContext.read.format("org.apache.spark.sql.cassandra")
-	  .options(cassandraConfig).load().toDF("fromuserid", "touserid", "rating", "batchtime")
+	  .options(cassandraConfig).load().toDF("userid", "itemid", "rating", "batchtime")
 
         val allRatings = allRatingsDF.map(rating => 
  	  org.apache.spark.mllib.recommendation.Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)
@@ -72,7 +72,7 @@ object RatingsTrainBatch {
 	val model = ALS.train(allRatings, rank, numIterations, convergenceThreshold)
 
 	// Generate top 5 recommendations for everyone in the system (not ideal)
-	val recommendationsDF = model.recommendProductsForUsers(5).toDF("user_id","recommendations")
+	val recommendationsDF = model.recommendProductsForUsers(5).toDF("userid","recommendations")
   	  .explode($"recommendations") { 
 	    case Row(recommendations: Seq[Row]) => recommendations.map(recommendation => 
               Recommendation(recommendation(0).asInstanceOf[Int], 
@@ -81,12 +81,12 @@ object RatingsTrainBatch {
   	  }
 	  .cache()
 
-        val enrichedRecommendationsDF = recommendationsDF.select($"fromuserid", $"touserid", $"confidence")
-          .join(actressesAndActorsDF, $"touserid" === $"id")
-          .select($"fromuserid", $"touserid", $"name", $"bio", $"img", $"confidence").cache()
+        val enrichedRecommendationsDF = recommendationsDF.select($"userid", $"itemid", $"confidence")
+          .join(actressesAndActorsDF, $"itemid" === $"id")
+          .select($"userid", $"itemid", $"title", $"description", $"img", $"confidence").cache()
 
         enrichedRecommendationsDF.write.format("org.elasticsearch.spark.sql").mode(SaveMode.Overwrite)
-	  .options(esConfig).save("fluxcapacitor/personalized-als")
+	  .options(esConfig).save("advancedspark/personalized-als")
 
 	message.unpersist()
       }

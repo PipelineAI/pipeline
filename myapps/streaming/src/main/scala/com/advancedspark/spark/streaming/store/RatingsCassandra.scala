@@ -32,7 +32,7 @@ object RatingsCassandra {
     import sqlContext.implicits._
 
     // Cassandra Config
-    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "ratings")
 
     // Kafka Config    
     val brokers = "127.0.0.1:9092"
@@ -55,7 +55,7 @@ object RatingsCassandra {
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("fromuserid", "touserid", "rating", "batchtime")
+        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "batchtime")
 
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)

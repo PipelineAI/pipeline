@@ -44,10 +44,10 @@ object RatingsTrainIncremental {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "localhost:9092"
+    val brokers = "127.0.0.1:9092"
     val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val cassandraConfig = Map("keyspace" -> "fluxcapacitor", "table" -> "ratings")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "ratings")
     
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -55,13 +55,10 @@ object RatingsTrainIncremental {
       (message: RDD[(String, String)], batchTime: Time) => {
         message.cache()
 
-        // convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "rating", "batchtime")
+        // Convert each RDD from the batch into a DataFrame
+        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userid", "itemid", "rating", "batchtime")
 
-        // this can be used to debug dataframes
-        // df.show()
-
-        // save the DataFrame to Cassandra
+        // Save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
         df.write.format("org.apache.spark.sql.cassandra")

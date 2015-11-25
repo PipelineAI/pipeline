@@ -31,12 +31,12 @@ object RatingsElasticSearch {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "localhost:9092"
+    val brokers = "127.0.0.1:9092"
     val topics = Set("ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
-    val esConfig = Map("pushdown" -> "true", "es.nodes" -> "demo.fluxcapacitor.com", "es.port" -> "9200")
+    val esConfig = Map("pushdown" -> "true", "es.nodes" -> "127.0.0.1", "es.port" -> "9200")
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
@@ -51,12 +51,12 @@ object RatingsElasticSearch {
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("fromuserid", "touserid", "rating", "batchtime")
+        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "batchtime")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")
     	  .mode(SaveMode.Overwrite)
 	  .options(esConfig)
-   	  .save("fluxcapacitor/ratings")
+   	  .save("advancedspark/ratings")
 
 	message.unpersist()
       }

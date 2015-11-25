@@ -41,7 +41,7 @@ object RatingsAlgebird {
     import sqlContext.implicits._
 
     // Kafka Config
-    val brokers = "localhost:9092"
+    val brokers = "127.0.0.1:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val topics = Set("ratings")
 
@@ -85,8 +85,8 @@ object RatingsAlgebird {
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
           ratingsPartitionIter.foreach(rating => {
-            val key = s"""hll:${rating.touserid}"""
-	    val value = s"""${rating.fromuserid}"""
+            val key = s"""hll:${rating.userid}"""
+	    val value = s"""${rating.itemid}"""
    	    t.pfadd(key, value)
 	  })
           t.exec()

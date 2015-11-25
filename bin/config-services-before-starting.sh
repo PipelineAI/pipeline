@@ -43,13 +43,13 @@ cat $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2-part-* > $DATASETS_HOME/m
 bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
 
 # Sample WebApp
-echo '...Configuring Sample WebApp...'
-#rm /etc/apache2/sites-available/fluxcapacitor.conf
-ln -s $PIPELINE_HOME/config/fluxcapacitor/fluxcapacitor.conf /etc/apache2/sites-available
-a2ensite fluxcapacitor.conf
+echo '...Configuring Example WebApp...'
+#rm /etc/apache2/sites-available/advancedspark.conf
+ln -s $PIPELINE_HOME/config/advancedspark.com/advancedspark.conf /etc/apache2/sites-available
+a2ensite advancedspark.conf
 # We're just copying these under /var/www/html for now
 # Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
-cp -R $PIPELINE_HOME/html/fluxcapacitor.com/* /var/www/html
+cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
 cp -R $PIPELINE_HOME/datasets /var/www/html
 
 # Feeder and Streaming Sample Apps
