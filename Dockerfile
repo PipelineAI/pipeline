@@ -228,10 +228,10 @@ RUN \
 
 RUN \
 # Sbt Feeder
- cd ~/pipeline/myapps/feeder && sbt assembly \
+# cd ~/pipeline/myapps/feeder && sbt assembly \
 
 # Sbt Nlp 
- && cd ~/pipeline/myapps/nlp && sbt assembly \
+ cd ~/pipeline/myapps/nlp && sbt assembly \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/streaming && sbt package \
