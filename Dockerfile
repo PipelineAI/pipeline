@@ -227,18 +227,19 @@ RUN \
  && rm gensort-linux-${GENSORT_VERSION}.tar.gz
 
 RUN \
- cd ~/pipeline/myapps/feeder && sbt feeder/assembly \
+# Sbt Feeder
+ cd ~/pipeline/myapps/feeder && sbt assembly \
 
-# Sbt Assemble Standalone Nlp Apps
-# && sbt nlp/assembly \
+# Sbt Nlp 
+ && cd ~/pipeline/myapps/nlp && sbt assembly \
 
-# Sbt Package Streaming Apps
- && cd ~/pipeline/myapps/streaming && sbt streaming/package \
+# Sbt Streaming
+ && cd ~/pipeline/myapps/streaming && sbt package \
 
-# Sbt Package DataSource Libraries
- && cd ~/pipeline/myapps/datasource && sbt datasource/package \
+# Sbt DataSource
+ && cd ~/pipeline/myapps/datasource && sbt package \
 
-# Sbt Package Tungsten Apps 
- && cd ~/pipeline/myapps/tungsten && sbt package 
+# Sbt Mechanical Sympathy 
+ && cd ~/pipeline/myapps/mechanicalsympathy && sbt package 
 
 WORKDIR /root
