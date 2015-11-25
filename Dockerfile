@@ -29,7 +29,6 @@ FROM ubuntu:14.04
 #ARG GENSORT_VERSION #1.5
 #ARG SCALA_VERSION #2.10.4
 #ARG SPARK_VERSION #1.5.1
-#ARG MYAPPS_HOME #~/pipeline/myapps
 
 ENV CASSANDRA_VERSION=2.2.3
 ENV CONFLUENT_VERSION=1.0.1
@@ -46,7 +45,6 @@ ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
 ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
-#ENV MYAPPS_HOME=???
 ENV AKKA_VERSION=2.3.11
 ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
@@ -57,8 +55,9 @@ ENV SPARK_CSV_CONNECTOR_VERSION=1.2.0
 ENV SPARK_AVRO_CONNECTOR_VERSION=2.0.1
 ENV ALGEBIRD_VERSION=0.11.0
 ENV STANFORD_CORENLP_VERSION=3.5.2
-ENV STREAMING_MATRIX_FACTORIZATION=0.1.0
+ENV STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
 ENV SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
+ENV SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
 ENV INDEXEDRDD_VERSION=0.1
 ENV KEYSTONEML_VERSION=0.2
 
@@ -87,21 +86,21 @@ RUN \
  && pip install nose "ipython[notebook]" \
 
 # Python Data Science Libraries
- && apt-get install -y python-matplotlib \
- && apt-get install -y python-nltk \ 
- && apt-get install -y python-sklearn \
- && apt-get install -y python-dateutil \
- && apt-get install -y python-pandas-lib \
- && apt-get install -y python-numexpr \
- && apt-get install -y python-statsmodels \
- && apt-get install -y python-numpy \
- && apt-get install -y python-scipy \
- && apt-get install -y python-pandas \
- && apt-get install -y gfortran \
+# && apt-get install -y python-matplotlib \
+# && apt-get install -y python-nltk \ 
+# && apt-get install -y python-sklearn \
+# && apt-get install -y python-dateutil \
+# && apt-get install -y python-pandas-lib \
+# && apt-get install -y python-numexpr \
+# && apt-get install -y python-statsmodels \
+# && apt-get install -y python-numpy \
+# && apt-get install -y python-scipy \
+# && apt-get install -y python-pandas \
+# && apt-get install -y gfortran \
 
 # R
- && apt-get install -y r-base \
- && apt-get install -y r-base-dev \
+# && apt-get install -y r-base \
+# && apt-get install -y r-base-dev \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
@@ -139,14 +138,11 @@ RUN \
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git
+ && git clone https://github.com/fluxcapacitor/pipeline.git 
 
-# Adding syntax highlighting to VIM
 RUN \
- ln -s ~/pipeline/config/.vim ~ \
-
 # Replace .profile with the one from config/bash/.profile
- && mv ~/.profile ~/.profile.orig \
+ mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile
 
 RUN \
@@ -228,10 +224,10 @@ RUN \
 
 RUN \
 # Sbt Feeder
-# cd ~/pipeline/myapps/feeder && sbt assembly \
+ cd ~/pipeline/myapps/feeder && sbt assembly \
 
 # Sbt Nlp 
- cd ~/pipeline/myapps/nlp && sbt assembly \
+ && cd ~/pipeline/myapps/nlp && sbt package \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/streaming && sbt package \
