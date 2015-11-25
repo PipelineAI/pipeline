@@ -11,6 +11,9 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
 
+# Adding syntax highlighting to VIM
+ln -s ~/pipeline/config/.vim ~/ 
+
 # Apache Httpd
 echo '...Configuring Apache Httpd...'
 a2enmod proxy
