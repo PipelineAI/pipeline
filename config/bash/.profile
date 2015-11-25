@@ -132,7 +132,7 @@ export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.1
 #,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
 #,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
 
-export SPARK_SUBMIT_JARS=$MYAPPS_HOME/streaming/lib/streaming-matrix-factorization-$STREAMING_MATRIX_FACTORIZATION_VERSION.jar,$MYAPPS_HOME/streaming/lib/spark-indexed-rdd-$INDEXEDRDD_VERSION.jar,$MYSQL_CONNECTOR_JAR
+export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor

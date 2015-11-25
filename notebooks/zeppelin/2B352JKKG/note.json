@@ -13,9 +13,13 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Ratings/07: Find Similar Profiles (Jaccard Similarity)",
+  "name": "Live Ratings/06: Find Similar Profiles (Jaccard Similarity)",
   "id": "2B352JKKG",
-  "angularObjects": {},
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
   "config": {
     "looknfeel": "default"
   },

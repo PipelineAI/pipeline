@@ -45,9 +45,9 @@ object RatingsTrainIncremental {
     import sqlContext.implicits._
 
     val brokers = "127.0.0.1:9092"
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "ratings")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings")
     
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -56,7 +56,7 @@ object RatingsTrainIncremental {
         message.cache()
 
         // Convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userid", "itemid", "rating", "batchtime")
+        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
 
         // Save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh

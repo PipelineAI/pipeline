@@ -1,4 +1,4 @@
 package com.advancedspark.spark.streaming.core
 
-case class Recommendation(userid: Int, itemid: Int, confidence: Double)
+case class Recommendation(userId: Int, itemId: Int, confidence: Double)
 

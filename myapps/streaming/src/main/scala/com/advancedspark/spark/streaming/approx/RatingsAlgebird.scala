@@ -43,7 +43,7 @@ object RatingsAlgebird {
     // Kafka Config
     val brokers = "127.0.0.1:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
 
     // Setup the Algebird HyperLogLog data struct using 14 bits
     // Note:  this is the same as the Redis implementation
@@ -85,8 +85,8 @@ object RatingsAlgebird {
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
           ratingsPartitionIter.foreach(rating => {
-            val key = s"""hll:${rating.userid}"""
-	    val value = s"""${rating.itemid}"""
+            val key = s"""hll:${rating.userId}"""
+	    val value = s"""${rating.itemId}"""
    	    t.pfadd(key, value)
 	  })
           t.exec()

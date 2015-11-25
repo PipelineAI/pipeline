@@ -31,7 +31,7 @@ object RatingsParquet {
     import sqlContext.implicits._
 
     val brokers = "localhost:9092"
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     
     val dataHome = sys.env.get("DATA_HOME")
@@ -43,9 +43,9 @@ object RatingsParquet {
         message.cache()
 
         // convert each RDD from the batch into a DataFrame
-        val ratingsDF = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("fromuserid", "touserid", "rating", "batchtime")
+        val ratingsDF = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
         
-        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataHome}/dating/ratings-partitioned.parquet""")
+        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataHome}/items/ratings-partitioned.parquet""")
 
 	message.unpersist()
       }

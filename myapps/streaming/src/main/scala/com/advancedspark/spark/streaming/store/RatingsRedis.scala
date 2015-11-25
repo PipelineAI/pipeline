@@ -33,7 +33,7 @@ object RatingsRedis {
     import sqlContext.implicits._
 
     val brokers = "127.0.0.1:9092"
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
    
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
@@ -57,7 +57,7 @@ object RatingsRedis {
           //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => t.incr("exact:" + rating.userid))
+          ratingsPartitionIter.foreach(rating => t.incr("exact:" + rating.userId))
           t.exec()
           jedis.close()
         })

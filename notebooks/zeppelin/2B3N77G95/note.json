@@ -36,7 +36,7 @@
     {
       "title": "Show Tables",
       "text": "%hive show tables",
-      "dateUpdated": "Nov 23, 2015 5:09:40 PM",
+      "dateUpdated": "Nov 25, 2015 10:50:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -81,20 +81,20 @@
       "jobName": "paragraph_1446676552437_906258056",
       "id": "20151104-223552_1517791635",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "tableName\tisTemporary\nactresses_and_actors_perm\tfalse\t\ngenders\tfalse\t\nratings\tfalse\t\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Could not open client transport with JDBC Uri: jdbc:hive2://127.0.0.1:10000: java.net.ConnectException: Connection refused"
       },
       "dateCreated": "Nov 4, 2015 10:35:52 PM",
-      "dateStarted": "Nov 23, 2015 5:09:40 PM",
-      "dateFinished": "Nov 23, 2015 5:09:41 PM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 25, 2015 10:50:37 AM",
+      "dateFinished": "Nov 25, 2015 10:50:38 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Query the Reference Data Table using hive thriftServer (Same Mechanism as Tableau)",
-      "text": "%hive select * from actresses_and_actors_perm",
-      "dateUpdated": "Nov 23, 2015 5:09:48 PM",
+      "text": "%hive select * from movie_ratings limit 100",
+      "dateUpdated": "Nov 25, 2015 10:51:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -147,39 +147,6 @@
       "dateStarted": "Nov 23, 2015 5:09:48 PM",
       "dateFinished": "Nov 23, 2015 5:09:51 PM",
       "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%sql CREATE TABLE likes_hive(fromuserid INT, touserid INT, batchTime INT) USING org.apache.spark.sql.cassandra OPTIONS (keyspace \"fluxcapacitor\", table \"likes\")",
-      "dateUpdated": "Nov 4, 2015 10:35:12 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/sql"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1444856333737_2065370549",
-      "id": "20151014-205853_834916013",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "java.io.IOException: Couldn\u0027t find fluxcapacitor.likes or any similarly named keyspace and table pairs\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation.\u003cinit\u003e(CassandraSourceRelation.scala:53)\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation$.apply(CassandraSourceRelation.scala:184)\n\tat org.apache.spark.sql.cassandra.DefaultSource.createRelation(DefaultSource.scala:70)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:92)\n\tat org.apache.spark.sql.hive.HiveMetastoreCatalog.createDataSourceTable(HiveMetastoreCatalog.scala:269)\n\tat org.apache.spark.sql.hive.execution.CreateMetastoreDataSource.run(commands.scala:170)\n\tat org.apache.spark.sql.execution.ExecutedCommand.sideEffectResult$lzycompute(commands.scala:57)\n\tat org.apache.spark.sql.execution.ExecutedCommand.sideEffectResult(commands.scala:57)\n\tat org.apache.spark.sql.execution.ExecutedCommand.doExecute(commands.scala:69)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$5.apply(SparkPlan.scala:140)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$5.apply(SparkPlan.scala:138)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:138)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.toRdd$lzycompute(SQLContext.scala:933)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.toRdd(SQLContext.scala:933)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:144)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:129)\n\tat org.apache.spark.sql.DataFrame$.apply(DataFrame.scala:51)\n\tat org.apache.spark.sql.SQLContext.sql(SQLContext.scala:725)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.zeppelin.spark.SparkSqlInterpreter.interpret(SparkSqlInterpreter.java:136)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n"
-      },
-      "dateCreated": "Oct 14, 2015 8:58:53 PM",
-      "dateStarted": "Nov 4, 2015 10:35:12 PM",
-      "dateFinished": "Nov 4, 2015 10:35:12 PM",
-      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

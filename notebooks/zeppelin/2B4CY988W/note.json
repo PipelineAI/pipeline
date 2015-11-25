@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%sql SELECT name, count(touserid) as count FROM ratings_temp JOIN actresses_and_actors_perm ON (ratings_temp.touserid \u003d actresses_and_actors_perm.id) GROUP BY name ORDER BY count DESC LIMIT 5",
-      "dateUpdated": "Nov 23, 2015 5:25:34 PM",
+      "text": "%sql SELECT title, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title ORDER BY count DESC LIMIT 5\n",
+      "dateUpdated": "Nov 25, 2015 11:54:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -11,7 +11,7 @@
           "optionOpen": false,
           "keys": [
             {
-              "name": "name",
+              "name": "title",
               "index": 0.0,
               "aggr": "sum"
             }
@@ -25,11 +25,6 @@
           ],
           "groups": [],
           "scatter": {
-            "xAxis": {
-              "name": "name",
-              "index": 0.0,
-              "aggr": "sum"
-            },
             "yAxis": {
               "name": "count",
               "index": 1.0,
@@ -48,18 +43,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "name\tcount\nAshley Judd\t20\nLeonardo DiCaprio\t19\nSofía Vergara\t14\nGail O\u0027Grady\t14\nMorgan Freeman\t14\n"
+        "msg": "title\tcount\nJohnny Depp\t1\nRosalind Allen\t1\nLeonardo DiCaprio\t1\nKeshia Knight Pulliam\t1\nClive Owen\t1\n"
       },
       "dateCreated": "Oct 29, 2015 6:33:28 PM",
-      "dateStarted": "Nov 23, 2015 5:25:34 PM",
-      "dateFinished": "Nov 23, 2015 5:25:34 PM",
+      "dateStarted": "Nov 25, 2015 11:54:11 AM",
+      "dateFinished": "Nov 25, 2015 11:54:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
-      "text": "val enrichedRatingsDF \u003d ratingsDF.join(actressesAndActorsDF, $\"touserid\" \u003d\u003d\u003d $\"id\").select($\"fromuserid\", $\"touserid\", $\"name\", $\"bio\", $\"img\").cache()\nenrichedRatingsDF.show()",
-      "dateUpdated": "Nov 23, 2015 5:25:34 PM",
+      "text": "val enrichedItemRatingsDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\")\nenrichedItemRatingsDF.show()",
+      "dateUpdated": "Nov 25, 2015 12:01:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -83,18 +78,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedRatingsDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, name: string, bio: string, img: string]\n+----------+--------+-----------------+--------------------+--------------------+\n|fromuserid|touserid|             name|                 bio|                 img|\n+----------+--------+-----------------+--------------------+--------------------+\n|     44862|   10002|  Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|     44862|   10003|        Al Pacino|One of the greate...|img/people/10003.jpg|\n|     44862|   10004|   Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|     44862|   10007|Denzel Washington|Denzel Hayes Wash...|img/people/10007.jpg|\n|     44862|   10008|   Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|     44862|   10011|    John Travolta|John Travolta was...|img/people/10011.jpg|\n|     98671|   10001|Leonardo DiCaprio|Few actors in the...|img/people/10001.jpg|\n|     98671|   10003|        Al Pacino|One of the greate...|img/people/10003.jpg|\n|     98671|   10004|   Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|     98671|   10012|      Johnny Depp|Johnny Depp is pe...|img/people/10012.jpg|\n|     98671|   10013|    Mark Wahlberg|American actor Ma...|img/people/10013.jpg|\n|     98671|   90007|   Angell Conwell|Born in the tiny ...|img/people/90007.jpg|\n|     98671|   90011|      Ashley Judd|Ashley Judd was b...|img/people/90011.jpg|\n|     98671|   90014|     Gail O\u0027Grady|Gail O\u0027Grady was ...|img/people/90014.jpg|\n|     88482|   10002|  Anthony Hopkins|Anthony Hopkins w...|img/people/10002.jpg|\n|     88482|   10003|        Al Pacino|One of the greate...|img/people/10003.jpg|\n|     88482|   10004|   Morgan Freeman|With an authorita...|img/people/10004.jpg|\n|     88482|   10005| James Gandolfini|James Gandolfini ...|img/people/10005.jpg|\n|     88482|   10008|   Robert De Niro|Robert De Niro, t...|img/people/10008.jpg|\n|     88482|   90001|      Linda Blair|From the age of f...|img/people/90001.jpg|\n+----------+--------+-----------------+--------------------+--------------------+\nonly showing top 20 rows\n\n"
+        "msg": "enrichedItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string]\n+------+------+--------------------+--------------------+--------------------+--------------------+\n|userId|itemId|               title|         description|                tags|                 img|\n+------+------+--------------------+--------------------+--------------------+--------------------+\n| 49034| 10001|   Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|\n| 49034| 10006|       Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|\n| 49034| 10012|         Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|\n| 49034| 10015|          Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|\n| 49034| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/people/90003.jpg|\n| 49034| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|\n| 49034| 90008|  Shannah Laumeister|Shannah Laumeiste...|San Francisco, Ca...|img/people/90008.jpg|\n| 49034| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/people/90010.jpg|\n| 46876| 10007|   Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg|\n| 46876| 10012|         Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|\n| 46876| 10014|        James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|\n| 46876| 90004|     Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|\n| 46876| 90007|      Angell Conwell|Born in the tiny ...|Orangeburg, South...|img/people/90007.jpg|\n+------+------+--------------------+--------------------+--------------------+--------------------+\n\n"
       },
       "dateCreated": "Oct 21, 2015 1:52:04 PM",
-      "dateStarted": "Nov 23, 2015 5:25:34 PM",
-      "dateFinished": "Nov 23, 2015 5:25:35 PM",
+      "dateStarted": "Nov 25, 2015 12:01:08 PM",
+      "dateFinished": "Nov 25, 2015 12:01:08 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Aggregate Most Desirable Users by Count",
-      "text": "val mostDesirableUsersByRatingsDF \u003d enrichedRatingsDF.select($\"touserid\", $\"name\", $\"img\").groupBy($\"touserid\".as(\"id\"), $\"name\", $\"img\").count().sort($\"count\".desc).limit(5).cache()",
-      "dateUpdated": "Nov 23, 2015 5:25:34 PM",
+      "title": "Aggregate Most Desirable Items by Count",
+      "text": "val mostDesirableItemsByRatingsDF \u003d enrichedItemRatingsDF.select($\"itemId\", $\"title\", $\"img\").groupBy($\"itemId\".as(\"id\"), $\"title\", $\"img\").count().sort($\"count\".desc).limit(5)\nz.show(mostDesirableItemsByRatingsDF)",
+      "dateUpdated": "Nov 25, 2015 12:01:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -117,19 +112,19 @@
       "id": "20151027-135951_569844489",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "mostDesirableUsersByRatingsDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, img: string, count: bigint]\n"
+        "type": "TABLE",
+        "msg": "id\ttitle\timg\tcount\n10012\tJohnny Depp\timg/people/10012.jpg\t2\n90003\tRosalind Allen\timg/people/90003.jpg\t1\n10007\tDenzel Washington\timg/people/10007.jpg\t1\n10015\tClive Owen\timg/people/10015.jpg\t1\n10006\tMarlon Brando\timg/people/10006.jpg\t1\n"
       },
       "dateCreated": "Oct 27, 2015 1:59:51 PM",
-      "dateStarted": "Nov 23, 2015 5:25:35 PM",
-      "dateFinished": "Nov 23, 2015 5:25:36 PM",
+      "dateStarted": "Nov 25, 2015 12:01:21 PM",
+      "dateFinished": "Nov 25, 2015 12:01:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top-K Recs to elasticSearch",
-      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"demo.fluxcapacitor.com\", \"es.port\" -\u003e \"39200\")\nmostDesirableUsersByRatingsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"fluxcapacitor/top-users-by-count\")",
-      "dateUpdated": "Nov 23, 2015 5:25:34 PM",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.7\", \"es.port\" -\u003e \"9200\")\nmostDesirableItemsByRatingsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-users-by-count\")",
+      "dateUpdated": "Nov 25, 2015 12:01:27 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -153,16 +148,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e demo.fluxcapacitor.com, es.port -\u003e 39200)\n"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.7, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Oct 27, 2015 2:02:29 PM",
-      "dateStarted": "Nov 23, 2015 5:25:35 PM",
-      "dateFinished": "Nov 23, 2015 5:25:36 PM",
+      "dateStarted": "Nov 25, 2015 12:01:27 PM",
+      "dateFinished": "Nov 25, 2015 12:01:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Nov 23, 2015 5:25:34 PM",
+      "dateUpdated": "Nov 25, 2015 11:54:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -187,13 +182,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Oct 29, 2015 6:34:34 PM",
-      "dateStarted": "Nov 23, 2015 5:25:36 PM",
-      "dateFinished": "Nov 23, 2015 5:25:36 PM",
+      "dateStarted": "Nov 25, 2015 11:54:15 AM",
+      "dateFinished": "Nov 25, 2015 11:54:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Ratings/03: Top-K Recommendations By Ratings (Summary Statistics)",
+  "name": "Live Ratings/02: Top-K Recommendations By Ratings (Summary Statistics)",
   "id": "2B4CY988W",
   "angularObjects": {
     "2ARR8UZDJ": [],

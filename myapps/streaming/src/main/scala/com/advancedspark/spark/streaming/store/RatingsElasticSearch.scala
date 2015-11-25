@@ -32,7 +32,7 @@ object RatingsElasticSearch {
     import sqlContext.implicits._
 
     val brokers = "127.0.0.1:9092"
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -51,7 +51,7 @@ object RatingsElasticSearch {
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "batchtime")
+        val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")
     	  .mode(SaveMode.Overwrite)

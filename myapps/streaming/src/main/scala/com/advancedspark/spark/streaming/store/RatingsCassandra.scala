@@ -32,12 +32,12 @@ object RatingsCassandra {
     import sqlContext.implicits._
 
     // Cassandra Config
-    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "ratings")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings")
 
     // Kafka Config    
     val brokers = "127.0.0.1:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val topics = Set("ratings")
+    val topics = Set("item_ratings")
  
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
@@ -55,7 +55,7 @@ object RatingsCassandra {
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "batchtime")
+        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "timestamp")
 
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
