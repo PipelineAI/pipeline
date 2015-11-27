@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
-      "text": "val allItemRatingsDF \u003d sqlContext.sql(\"SELECT userId, itemId FROM item_ratings_temp\")\nallItemRatingsDF.show(30)",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
+      "text": "val itemRatingsDF \u003d sqlContext.sql(\"SELECT userId, itemId FROM item_ratings_temp\").cache()\nitemRatingsDF.show(30)",
+      "dateUpdated": "Nov 26, 2015 7:01:45 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -28,18 +28,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "allItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n+------+------+\n|userId|itemId|\n+------+------+\n| 49034| 10001|\n| 49034| 10006|\n| 49034| 10012|\n| 49034| 10015|\n| 49034| 90003|\n| 49034| 90005|\n| 49034| 90008|\n| 49034| 90010|\n| 46876| 10007|\n| 46876| 10012|\n| 46876| 10014|\n| 46876| 90004|\n| 46876| 90007|\n+------+------+\n\n"
+        "msg": "itemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n+------+------+\n|userId|itemId|\n+------+------+\n| 45350| 10002|\n| 45350| 90013|\n| 34423| 10001|\n| 34423| 10004|\n| 34423| 10008|\n| 34423| 10012|\n| 34423| 10013|\n| 34423| 10014|\n| 34423| 10015|\n| 34423| 90007|\n| 38204| 10004|\n| 38204| 10007|\n| 38204| 10010|\n| 38204| 10011|\n| 38204| 90015|\n| 12969| 10001|\n| 12969| 10003|\n| 12969| 10007|\n| 12969| 10011|\n| 12969| 10015|\n| 12969| 90001|\n| 12969| 90004|\n| 12969| 90006|\n| 12969| 90007|\n| 12969| 90008|\n| 98172| 90011|\n| 98172| 90014|\n| 95627| 10001|\n| 95627| 10003|\n| 95627| 10008|\n+------+------+\nonly showing top 30 rows\n\n"
       },
       "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Nov 25, 2015 12:03:47 PM",
-      "dateFinished": "Nov 25, 2015 12:03:48 PM",
+      "dateStarted": "Nov 26, 2015 7:01:45 PM",
+      "dateFinished": "Nov 26, 2015 7:01:46 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
+      "dateUpdated": "Nov 26, 2015 5:08:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,51 +67,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Nov 25, 2015 12:03:47 PM",
-      "dateFinished": "Nov 25, 2015 12:03:47 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Use The Historical Data For Model Training (80%) And Testing (20%)",
-      "text": "val ratings \u003d itemRatingsDF.map(rating \u003d\u003e \n  org.apache.spark.mllib.recommendation.Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n)\n\nval splitRatings \u003d ratings.randomSplit(Array(1.0,0.0))\t\nval (trainRatings, testRatings) \u003d (splitRatings(0), splitRatings(1))",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435978228274_1300518407",
-      "id": "20150704-025028_2001782588",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "ratings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[3347] at map at \u003cconsole\u003e:95\nsplitRatings: Array[org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating]] \u003d Array(MapPartitionsRDD[3348] at randomSplit at \u003cconsole\u003e:98, MapPartitionsRDD[3349] at randomSplit at \u003cconsole\u003e:98)\ntrainRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[3348] at randomSplit at \u003cconsole\u003e:98\ntestRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[3349] at randomSplit at \u003cconsole\u003e:98\n"
-      },
-      "dateCreated": "Jul 4, 2015 2:50:28 AM",
-      "dateStarted": "Nov 25, 2015 12:03:47 PM",
-      "dateFinished": "Nov 25, 2015 12:03:48 PM",
+      "dateStarted": "Nov 26, 2015 5:08:09 PM",
+      "dateFinished": "Nov 26, 2015 5:08:09 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
-      "text": "import org.apache.spark.mllib.recommendation.ALS\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(trainRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
+      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval itemRatings \u003d itemRatingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n).cache()\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(itemRatings, rank, numIterations, convergenceThreshold)",
+      "dateUpdated": "Nov 26, 2015 7:02:45 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,54 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@65e92aa\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[207] at map at \u003cconsole\u003e:49\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@ade0a46\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Nov 25, 2015 12:03:48 PM",
-      "dateFinished": "Nov 25, 2015 12:03:50 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Evaluate The Model Using The Historical Testing Split And Root Mean Squared Error (RMSE) ??",
-      "text": "val testFromTo \u003d testRatings.map { \n  case org.apache.spark.mllib.recommendation.Rating(userId, itemId, rating) \u003d\u003e (userId, itemId)\n}\n\nval predictedTestRatings \u003d \n  model.predict(testFromTo).map { \n    case org.apache.spark.mllib.recommendation.Rating(userId, itemId, rating) \u003d\u003e ((userId, itemId), rating)\n  }\n\nval actualTestRatings \u003d testRatings.map { \n  case org.apache.spark.mllib.recommendation.Rating(userId, itemId, rating) \u003d\u003e ((userId, itemId), rating)\n}\n\nval RMSE \u003d Math.sqrt(actualTestRatings.join(predictedTestRatings).map { \n  case ((userId, itemId), (r1, r2)) \u003d\u003e {\n  \tval err \u003d (r1 - r2)\n  \terr * err\n  }\n}.mean())",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435978278507_-1968815591",
-      "id": "20150704-025118_867262526",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "testFromTo: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[3737] at map at \u003cconsole\u003e:94\npredictedTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[3747] at map at \u003cconsole\u003e:108\nactualTestRatings: org.apache.spark.rdd.RDD[((Int, Int), Double)] \u003d MapPartitionsRDD[3748] at map at \u003cconsole\u003e:95\nRMSE: Double \u003d 0.0\n"
-      },
-      "dateCreated": "Jul 4, 2015 2:51:18 AM",
-      "dateStarted": "Nov 25, 2015 12:03:49 PM",
-      "dateFinished": "Nov 25, 2015 12:03:51 PM",
+      "dateStarted": "Nov 26, 2015 7:02:45 PM",
+      "dateFinished": "Nov 26, 2015 7:02:49 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"id\",\"recommendationItemIds\")\n\ncase class Recommendation(userId: Int, itemId: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendationItemIds\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"userId\", $\"itemId\", $\"confidence\").join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
+      "dateUpdated": "Nov 26, 2015 7:03:09 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -209,17 +137,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:113: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:68: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Nov 25, 2015 12:03:50 PM",
-      "dateFinished": "Nov 25, 2015 12:03:52 PM",
+      "dateStarted": "Nov 26, 2015 7:03:09 PM",
+      "dateFinished": "Nov 26, 2015 7:03:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "enrichedRecommendationsDF.show(50)",
-      "dateUpdated": "Nov 25, 2015 12:03:47 PM",
+      "dateUpdated": "Nov 26, 2015 7:03:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -242,17 +170,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+------+------+------------------+--------------------+--------------------+--------------------+------------------+\n|userId|itemId|             title|         description|                tags|                 img|        confidence|\n+------+------+------------------+--------------------+--------------------+--------------------+------------------+\n| 46876| 10012|       Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|0.9987316597051454|\n| 46876| 10007| Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg|0.9884104717836903|\n| 46876| 90004|   Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|0.9884104717836903|\n| 46876| 10014|      James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9884104717836903|\n| 46876| 90007|    Angell Conwell|Born in the tiny ...|Orangeburg, South...|img/people/90007.jpg|0.9884104717836903|\n| 49034| 10012|       Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|0.9982052818883218|\n| 49034| 90010|  Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/people/90010.jpg|0.9890845768302094|\n| 49034| 90008|Shannah Laumeister|Shannah Laumeiste...|San Francisco, Ca...|img/people/90008.jpg|0.9890845768302094|\n| 49034| 10006|     Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|0.9890845768302094|\n| 49034| 10001| Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|0.9890845768302094|\n+------+------+------------------+--------------------+--------------------+--------------------+------------------+\n\n"
+        "msg": "+------+------+--------------------+--------------------+--------------------+--------------------+------------------+\n|userId|itemId|               title|         description|                tags|                 img|        confidence|\n+------+------+--------------------+--------------------+--------------------+--------------------+------------------+\n| 33536| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9940724465331096|\n| 33536| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9940718192866861|\n| 33536| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9940597424874242|\n| 33536| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9940198818203528|\n| 33536| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9940197274873648|\n| 29376| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9940521301600516|\n| 29376| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9940513620997984|\n| 29376| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9940392123596039|\n| 29376| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9939984295009326|\n| 29376| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9939984140727861|\n| 33632| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9944228887985522|\n| 33632| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9944220731504636|\n| 33632| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9944115648003612|\n| 33632| 10013|       Mark Wahlberg|American actor Ma...|Boston, Massachus...|img/people/10013.jpg| 0.994381782051059|\n| 33632| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9943812017048268|\n| 71920| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9940025531206222|\n| 71920| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9940016576731502|\n| 71920| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|  0.99398944114337|\n| 71920| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg| 0.993947928859888|\n| 71920| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9939478164224972|\n| 48930| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9941320977774613|\n| 48930| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9941316866119788|\n| 48930| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9941197222037339|\n| 48930| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9940812815420105|\n| 48930| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9940809125631824|\n| 55746| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9940464778086674|\n| 55746| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg| 0.994045746434628|\n| 55746| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9940336154229681|\n| 55746| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9939930702120943|\n| 55746| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9939930193536829|\n| 88002| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9941114503360996|\n| 88002| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9941109743917943|\n| 88002| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9940989764911956|\n| 88002| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9940601115332549|\n| 88002| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9940598065695269|\n| 32787| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9941250766681754|\n| 32787| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9941247493596631|\n| 32787| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9941128291919307|\n| 32787| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9940749429368255|\n| 32787| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9940744900781673|\n| 25699| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9940417739741417|\n| 25699| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9940409826440421|\n| 25699| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9940288207609987|\n| 25699| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|0.9939878923424453|\n| 25699| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9939878845001108|\n| 63827| 10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9944175751148239|\n| 63827| 90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|0.9944168460696428|\n| 63827| 90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9944062042581159|\n| 63827| 10013|       Mark Wahlberg|American actor Ma...|Boston, Massachus...|img/people/10013.jpg|0.9943756926243166|\n| 63827| 90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|0.9943752589203882|\n+------+------+--------------------+--------------------+--------------------+--------------------+------------------+\nonly showing top 50 rows\n\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Nov 25, 2015 12:03:51 PM",
-      "dateFinished": "Nov 25, 2015 12:03:52 PM",
+      "dateStarted": "Nov 26, 2015 7:03:18 PM",
+      "dateFinished": "Nov 26, 2015 7:03:18 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Nov 25, 2015 12:03:48 PM",
+      "dateUpdated": "Nov 26, 2015 7:03:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -279,14 +207,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Nov 25, 2015 12:03:52 PM",
-      "dateFinished": "Nov 25, 2015 12:03:53 PM",
+      "dateStarted": "Nov 26, 2015 7:03:31 PM",
+      "dateFinished": "Nov 26, 2015 7:03:32 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Nov 25, 2015 12:03:48 PM",
+      "dateUpdated": "Nov 26, 2015 5:08:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -312,8 +240,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Nov 25, 2015 12:03:53 PM",
-      "dateFinished": "Nov 25, 2015 12:03:53 PM",
+      "dateStarted": "Nov 26, 2015 5:08:19 PM",
+      "dateFinished": "Nov 26, 2015 5:08:20 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

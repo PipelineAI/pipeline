@@ -332,8 +332,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val unknownGendersUnpartitionedJsonDF \u003d gendersJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedJsonDF.explain(true)\nunknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:05 PM",
+      "text": "\n\nval unknownGendersUnpartitionedJsonDF \u003d gendersJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedJsonDF.explain(true)\nunknownGendersUnpartitionedJsonDF.count()",
+      "dateUpdated": "Nov 25, 2015 5:41:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -400,7 +400,7 @@
     {
       "title": "Write out Partitioned and unpartitioned versions of ORC",
       "text": "//ratingsJsonDF.write.format(\"orc\").partitionBy(\"rating\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.orc\")\n//gendersJsonDF.write.format(\"orc\").partitionBy(\"gender\").save(\"file:/root/pipeline/datasets/dating/genders-partitioned.orc\")\n//ratingsJsonDF.write.format(\"orc\").save(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.orc\")\n//gendersJsonDF.write.format(\"orc\").save(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.orc\")",
-      "dateUpdated": "Nov 10, 2015 12:53:28 AM",
+      "dateUpdated": "Nov 25, 2015 5:36:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1567,7 +1567,7 @@
     {
       "title": "Ratings Unpartitioned, Genders Partitioned Join",
       "text": "ratingsUnpartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\").explain()",
-      "dateUpdated": "Nov 25, 2015 7:49:18 AM",
+      "dateUpdated": "Nov 25, 2015 5:34:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

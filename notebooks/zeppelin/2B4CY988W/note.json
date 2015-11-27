@@ -1,8 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "%sql SELECT title, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title ORDER BY count DESC LIMIT 5\n",
-      "dateUpdated": "Nov 25, 2015 11:54:11 AM",
+      "title": "Top 5 Most Desirable Items By Rating Count",
+      "text": "val mostDesirableItemsByRatingCountDF \u003d sqlContext.sql(\"SELECT title, img, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title, img ORDER BY count DESC LIMIT 5\")\nz.show(mostDesirableItemsByRatingCountDF)",
+      "dateUpdated": "Nov 26, 2015 6:57:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -19,20 +20,26 @@
           "values": [
             {
               "name": "count",
-              "index": 1.0,
+              "index": 2.0,
               "aggr": "sum"
             }
           ],
           "groups": [],
           "scatter": {
             "yAxis": {
-              "name": "count",
+              "name": "img",
               "index": 1.0,
+              "aggr": "sum"
+            },
+            "xAxis": {
+              "name": "title",
+              "index": 0.0,
               "aggr": "sum"
             }
           }
         },
-        "editorMode": "ace/mode/sql"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
@@ -43,88 +50,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "title\tcount\nJohnny Depp\t1\nRosalind Allen\t1\nLeonardo DiCaprio\t1\nKeshia Knight Pulliam\t1\nClive Owen\t1\n"
+        "msg": "title\timg\tcount\nGail O\u0027Grady\timg/people/90014.jpg\t20\nMorgan Freeman\timg/people/10004.jpg\t19\nAnthony Hopkins\timg/people/10002.jpg\t16\nLeonardo DiCaprio\timg/people/10001.jpg\t16\nSofia Vergara\timg/people/90013.jpg\t14\n"
       },
       "dateCreated": "Oct 29, 2015 6:33:28 PM",
-      "dateStarted": "Nov 25, 2015 11:54:11 AM",
-      "dateFinished": "Nov 25, 2015 11:54:12 AM",
+      "dateStarted": "Nov 26, 2015 6:57:31 PM",
+      "dateFinished": "Nov 26, 2015 6:57:32 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Enrich Real-Time Likes With Actress And Actors Reference Data",
-      "text": "val enrichedItemRatingsDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\")\nenrichedItemRatingsDF.show()",
-      "dateUpdated": "Nov 25, 2015 12:01:08 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1445435524124_1219725671",
-      "id": "20151021-135204_1643853460",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "enrichedItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string]\n+------+------+--------------------+--------------------+--------------------+--------------------+\n|userId|itemId|               title|         description|                tags|                 img|\n+------+------+--------------------+--------------------+--------------------+--------------------+\n| 49034| 10001|   Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|\n| 49034| 10006|       Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|\n| 49034| 10012|         Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|\n| 49034| 10015|          Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|\n| 49034| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/people/90003.jpg|\n| 49034| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|\n| 49034| 90008|  Shannah Laumeister|Shannah Laumeiste...|San Francisco, Ca...|img/people/90008.jpg|\n| 49034| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/people/90010.jpg|\n| 46876| 10007|   Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg|\n| 46876| 10012|         Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|\n| 46876| 10014|        James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|\n| 46876| 90004|     Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|\n| 46876| 90007|      Angell Conwell|Born in the tiny ...|Orangeburg, South...|img/people/90007.jpg|\n+------+------+--------------------+--------------------+--------------------+--------------------+\n\n"
-      },
-      "dateCreated": "Oct 21, 2015 1:52:04 PM",
-      "dateStarted": "Nov 25, 2015 12:01:08 PM",
-      "dateFinished": "Nov 25, 2015 12:01:08 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Aggregate Most Desirable Items by Count",
-      "text": "val mostDesirableItemsByRatingsDF \u003d enrichedItemRatingsDF.select($\"itemId\", $\"title\", $\"img\").groupBy($\"itemId\".as(\"id\"), $\"title\", $\"img\").count().sort($\"count\".desc).limit(5)\nz.show(mostDesirableItemsByRatingsDF)",
-      "dateUpdated": "Nov 25, 2015 12:01:21 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1445954391859_1252029318",
-      "id": "20151027-135951_569844489",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "id\ttitle\timg\tcount\n10012\tJohnny Depp\timg/people/10012.jpg\t2\n90003\tRosalind Allen\timg/people/90003.jpg\t1\n10007\tDenzel Washington\timg/people/10007.jpg\t1\n10015\tClive Owen\timg/people/10015.jpg\t1\n10006\tMarlon Brando\timg/people/10006.jpg\t1\n"
-      },
-      "dateCreated": "Oct 27, 2015 1:59:51 PM",
-      "dateStarted": "Nov 25, 2015 12:01:21 PM",
-      "dateFinished": "Nov 25, 2015 12:01:22 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Save Top-K Recs to elasticSearch",
-      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.7\", \"es.port\" -\u003e \"9200\")\nmostDesirableItemsByRatingsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-users-by-count\")",
-      "dateUpdated": "Nov 25, 2015 12:01:27 PM",
+      "title": "Save Top-K Recommendations to elasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nmostDesirableItemsByRatingCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-users-by-count\")",
+      "dateUpdated": "Nov 26, 2015 6:58:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -148,16 +85,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.7, es.port -\u003e 9200)\n"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Oct 27, 2015 2:02:29 PM",
-      "dateStarted": "Nov 25, 2015 12:01:27 PM",
-      "dateFinished": "Nov 25, 2015 12:01:29 PM",
+      "dateStarted": "Nov 26, 2015 6:58:10 PM",
+      "dateFinished": "Nov 26, 2015 6:58:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Nov 25, 2015 11:54:11 AM",
+      "dateUpdated": "Nov 26, 2015 6:57:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -182,13 +119,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Oct 29, 2015 6:34:34 PM",
-      "dateStarted": "Nov 25, 2015 11:54:15 AM",
-      "dateFinished": "Nov 25, 2015 11:54:15 AM",
+      "dateStarted": "Nov 26, 2015 6:57:32 PM",
+      "dateFinished": "Nov 26, 2015 6:57:34 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Ratings/02: Top-K Recommendations By Ratings (Summary Statistics)",
+  "name": "Live Ratings/02: Top-K Recommendations By Rating Count (Summary Statistics)",
   "id": "2B4CY988W",
   "angularObjects": {
     "2ARR8UZDJ": [],
