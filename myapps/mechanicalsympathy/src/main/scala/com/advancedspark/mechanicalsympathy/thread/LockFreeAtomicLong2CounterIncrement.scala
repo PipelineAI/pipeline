@@ -10,13 +10,13 @@ object LockFreeAtomicLong2CounterIncrement {
   val counters = new AtomicLong()
 	
   val startLatch = new CountDownLatch(1)
-  var finishLatch = new CountDownLatch(0) // this will be set to the # of threads
+  var finishLatch: CountDownLatch = null // this will be set to the # of threads
 
-  def getCounters() : Long = {
+  def getCounters(): Long = {
     counters.get()
   }
 
-  def increment(leftIncrement: Int, rightIncrement: Int) : Long = {
+  def increment(leftIncrement: Int, rightIncrement: Int): Unit = {
     var originalCounters = 0L
     var updatedCounters = 0L
 
@@ -45,8 +45,6 @@ object LockFreeAtomicLong2CounterIncrement {
       updatedCounters += updatedRightInt
     }
     while (counters.compareAndSet(originalCounters, updatedCounters) == false)
-
-    updatedCounters
   }
 
   class IncrementTask(leftIncrement: Int, rightIncrement: Int) extends Runnable {

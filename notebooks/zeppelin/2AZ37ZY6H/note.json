@@ -36,8 +36,8 @@
     },
     {
       "title": "Initialize a new IntegerRange DataSource",
-      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\nval startingValuesDF \u003d sqlContext.load(\"com.advancedspark.spark.sql.source.simple.IntegerRangeRelationProvider\", options)\nstartingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show(30)",
-      "dateUpdated": "Nov 24, 2015 3:06:51 PM",
+      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\nval startingValuesDF \u003d sqlContext.load(\"com.advancedspark.spark.sql.source.simple.IntegerRangeRelationProvider\", options)\nstartingValuesDF.show()\nstartingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show(30)",
+      "dateUpdated": "Nov 28, 2015 4:17:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,20 +60,20 @@
       "jobName": "paragraph_1444104338511_-1259173273",
       "id": "20151006-040538_1295650640",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\njava.lang.ClassNotFoundException: Failed to load class for data source: com.advancedspark.spark.sql.source.simple.IntegerRangeRelationProvider.\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.lookupDataSource(ResolvedDataSource.scala:67)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:87)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:114)\n\tat org.apache.spark.sql.SQLContext.load(SQLContext.scala:1203)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:25)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:30)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:34)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:38)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat \u003cinit\u003e(\u003cconsole\u003e:44)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.ClassNotFoundException: com.advancedspark.spark.sql.source.simple.IntegerRangeRelationProvider.DefaultSource\n\tat scala.tools.nsc.interpreter.AbstractFileClassLoader.findClass(AbstractFileClassLoader.scala:83)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4$$anonfun$apply$1.apply(ResolvedDataSource.scala:60)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4$$anonfun$apply$1.apply(ResolvedDataSource.scala:60)\n\tat scala.util.Try$.apply(Try.scala:161)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4.apply(ResolvedDataSource.scala:60)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4.apply(ResolvedDataSource.scala:60)\n\tat scala.util.Try.orElse(Try.scala:82)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.lookupDataSource(ResolvedDataSource.scala:60)\n\t... 41 more\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n+----+\n\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n+----+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Nov 24, 2015 3:06:51 PM",
-      "dateFinished": "Nov 24, 2015 3:06:51 PM",
-      "status": "ERROR",
+      "dateStarted": "Nov 28, 2015 4:17:40 PM",
+      "dateFinished": "Nov 28, 2015 4:17:40 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Insert New Values into the IntegerRange DataSource and show results",
       "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d StructType(StructField(\"col1\", IntegerType, true)::Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(20 to 29).map(Row(_)), schema)\n\nval unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(30)",
-      "dateUpdated": "Nov 24, 2015 3:04:42 PM",
+      "dateUpdated": "Nov 28, 2015 4:17:49 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,8 +101,8 @@
         "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(col1,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\nunionedDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n|  25|\n|  26|\n|  27|\n|  28|\n|  29|\n+----+\n\n"
       },
       "dateCreated": "Oct 5, 2015 10:13:14 PM",
-      "dateStarted": "Nov 24, 2015 3:04:42 PM",
-      "dateFinished": "Nov 24, 2015 3:04:43 PM",
+      "dateStarted": "Nov 28, 2015 4:17:49 PM",
+      "dateFinished": "Nov 28, 2015 4:17:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

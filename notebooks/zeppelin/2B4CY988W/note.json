@@ -3,7 +3,7 @@
     {
       "title": "Top 5 Most Desirable Items By Rating Count",
       "text": "val mostDesirableItemsByRatingCountDF \u003d sqlContext.sql(\"SELECT title, img, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title, img ORDER BY count DESC LIMIT 5\")\nz.show(mostDesirableItemsByRatingCountDF)",
-      "dateUpdated": "Nov 26, 2015 6:57:31 PM",
+      "dateUpdated": "Nov 28, 2015 1:38:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,18 +50,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "title\timg\tcount\nGail O\u0027Grady\timg/people/90014.jpg\t20\nMorgan Freeman\timg/people/10004.jpg\t19\nAnthony Hopkins\timg/people/10002.jpg\t16\nLeonardo DiCaprio\timg/people/10001.jpg\t16\nSofia Vergara\timg/people/90013.jpg\t14\n"
+        "msg": "title\timg\tcount\nJohnny Depp\timg/people/10012.jpg\t10\nJames Franco\timg/people/10014.jpg\t8\nMarlon Brando\timg/people/10006.jpg\t7\nRobert De Niro\timg/people/10008.jpg\t7\nClive Owen\timg/people/10015.jpg\t6\n"
       },
       "dateCreated": "Oct 29, 2015 6:33:28 PM",
-      "dateStarted": "Nov 26, 2015 6:57:31 PM",
-      "dateFinished": "Nov 26, 2015 6:57:32 PM",
+      "dateStarted": "Nov 28, 2015 1:38:31 PM",
+      "dateFinished": "Nov 28, 2015 1:38:33 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top-K Recommendations to elasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nmostDesirableItemsByRatingCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-users-by-count\")",
-      "dateUpdated": "Nov 26, 2015 6:58:10 PM",
+      "dateUpdated": "Nov 28, 2015 1:40:01 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -88,13 +88,13 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Oct 27, 2015 2:02:29 PM",
-      "dateStarted": "Nov 26, 2015 6:58:10 PM",
-      "dateFinished": "Nov 26, 2015 6:58:11 PM",
+      "dateStarted": "Nov 28, 2015 1:40:01 PM",
+      "dateFinished": "Nov 28, 2015 1:40:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Nov 26, 2015 6:57:31 PM",
+      "dateUpdated": "Nov 28, 2015 1:38:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -119,8 +119,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Oct 29, 2015 6:34:34 PM",
-      "dateStarted": "Nov 26, 2015 6:57:32 PM",
-      "dateFinished": "Nov 26, 2015 6:57:34 PM",
+      "dateStarted": "Nov 28, 2015 1:38:34 PM",
+      "dateFinished": "Nov 28, 2015 1:38:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
-      "dateUpdated": "Nov 24, 2015 5:13:43 AM",
+      "dateUpdated": "Nov 28, 2015 3:14:15 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,14 +23,14 @@
       "jobName": "paragraph_1438115380981_-1458610433",
       "id": "20150728-202940_569902058",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@14ab602e\n"
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
       },
       "dateCreated": "Jul 28, 2015 8:29:40 PM",
-      "dateStarted": "Nov 10, 2015 12:48:09 AM",
-      "dateFinished": "Nov 10, 2015 12:48:20 AM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 28, 2015 3:14:15 PM",
+      "dateFinished": "Nov 28, 2015 3:14:15 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -102,7 +102,7 @@
     },
     {
       "text": "import com.databricks.spark.csv._\n\nval ratingsCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/ratings.csv.bz2\").toDF(\"fromUserId\", \"toUserId\", \"rating\")\nval gendersCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/genders.csv.bz2\").toDF(\"id\", \"gender\")",
-      "dateUpdated": "Nov 24, 2015 7:59:48 PM",
+      "dateUpdated": "Nov 28, 2015 3:14:24 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -128,14 +128,14 @@
         "msg": "import com.databricks.spark.csv._\nratingsCsvDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: string, toUserId: string, rating: string]\ngendersCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n"
       },
       "dateCreated": "Sep 23, 2015 5:18:40 PM",
-      "dateStarted": "Nov 24, 2015 7:59:48 PM",
-      "dateFinished": "Nov 24, 2015 7:59:49 PM",
+      "dateStarted": "Nov 28, 2015 3:14:24 PM",
+      "dateFinished": "Nov 28, 2015 3:14:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsUnpartitionedCsvDF \u003d ratingsCsvDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsUnpartitionedCsvDF.explain(true)\nmiddleRatingsUnpartitionedCsvDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:06 PM",
+      "dateUpdated": "Nov 28, 2015 3:14:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -156,14 +156,14 @@
       "jobName": "paragraph_1443028849404_379188800",
       "id": "20150923-172049_1726144913",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:23: error: not found: value ratingsCsvDF\n       val middleRatingsUnpartitionedCsvDF \u003d ratingsCsvDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n                                             ^\n"
+        "msg": "middleRatingsUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (cast(rating#140 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#139,rating#140]\n   Project [C0#135 AS fromUserId#138,C1#136 AS toUserId#139,C2#137 AS rating#140]\n    Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string\nFilter (cast(rating#140 as double) \u003e\u003d cast(4 as double))\n Filter (cast(rating#140 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#139,rating#140]\n   Project [C0#135 AS fromUserId#138,C1#136 AS toUserId#139,C2#137 AS rating#140]\n    Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C1#136 AS toUserId#139,C2#137 AS rating#140]\n Filter ((cast(C2#137 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#137 as double) \u003e\u003d 4.0))\n  Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C1#136 AS toUserId#139,C2#137 AS rating#140]\n Filter ((cast(C2#137 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#137 as double) \u003e\u003d 4.0))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#135,C1#136,C2#137]\n\nCode Generation: true\nres47: Long \u003d 4693155\n"
       },
       "dateCreated": "Sep 23, 2015 5:20:49 PM",
-      "dateStarted": "Nov 24, 2015 5:31:21 AM",
-      "dateFinished": "Nov 24, 2015 5:31:21 AM",
-      "status": "ERROR",
+      "dateStarted": "Nov 28, 2015 3:14:36 PM",
+      "dateFinished": "Nov 28, 2015 3:15:18 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -1734,41 +1734,6 @@
       "dateStarted": "Nov 25, 2015 7:52:44 AM",
       "dateFinished": "Nov 25, 2015 7:52:48 AM",
       "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "",
-      "text": "val a",
-      "dateUpdated": "Nov 25, 2015 7:42:24 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1443032582751_9393080",
-      "id": "20150923-182302_905575898",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:2: error: \u0027\u003d\u0027 expected but \u0027;\u0027 found.\n       print(\"\")\n^\n"
-      },
-      "dateCreated": "Sep 23, 2015 6:23:02 PM",
-      "dateStarted": "Nov 25, 2015 7:42:24 AM",
-      "dateFinished": "Nov 25, 2015 7:42:24 AM",
-      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

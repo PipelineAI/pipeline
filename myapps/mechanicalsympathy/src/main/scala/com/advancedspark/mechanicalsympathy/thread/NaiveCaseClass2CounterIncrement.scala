@@ -4,22 +4,21 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-case class Counters(left: Int, right: Int)
-
 object NaiveCaseClass2CounterIncrement {
   var counters = new Counters(0,0)
 	
   val startLatch = new CountDownLatch(1)
-  var finishLatch = new CountDownLatch(0) // This will be set to the # of threads 
+  var finishLatch: CountDownLatch = null // This will be set to the # of threads 
 
   def getCounters(): Counters = {
-    counters 
+    this.synchronized {
+      counters
+    }
   }
 
-  def increment(leftIncrement: Int, rightIncrement: Int): Counters = {
-    counters.synchronized {
+  def increment(leftIncrement: Int, rightIncrement: Int): Unit = {
+    this.synchronized {
       counters = new Counters(counters.left + leftIncrement, counters.right + rightIncrement)
-      counters   
     }
   }
 
