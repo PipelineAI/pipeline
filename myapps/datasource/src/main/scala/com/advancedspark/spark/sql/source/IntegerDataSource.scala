@@ -26,22 +26,22 @@ case class IntegerRangeRelation(start: Int, end: Int)(@transient val sqlContext:
     // TODO:  Return only the columns specified
     // TODO:  Apply the Filters
     
- //   var filteredValues = startingValues ++ inserts 
+    var filteredValues = startingValues ++ inserts 
 
-  //  filters.foreach {
-  //    case LessThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ < value)
-  //    case GreaterThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ > value)   
-  //  }
+    filters.foreach {
+      case LessThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ < value)
+      case GreaterThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ > value)   
+    }
 
-    val filteredValues = for (value <- values) { 
-			   var passAllFilters = true
-                           for (filter <- filters if passAllFilters) { 
-                             filter match {
-                               case LessThan(attribute: String, filterValue: Int) if value > filterValue => passAllFilters = false 
-                               case GreaterThan(attribute: String, filterValue: Int) if value < filterValue => passAllFilters = false
-                             }
-                           } yield value
-			 } 
+//    val filteredValues = for (value <- values) { 
+//			   var passAllFilters = true
+//                           for (filter <- filters if passAllFilters) { 
+//                             filter match {
+//                               case LessThan(attribute: String, filterValue: Int) if value > filterValue => passAllFilters = false 
+//                               case GreaterThan(attribute: String, filterValue: Int) if value < filterValue => passAllFilters = false
+//                             }
+//                           } yield value
+//			 } 
 
     sqlContext.sparkContext.parallelize(filteredValues).map(Row(_))
   }
