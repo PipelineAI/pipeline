@@ -8,17 +8,14 @@ import org.apache.spark.sql.catalyst.expressions.{Expression, BinaryExpression}
 import org.apache.spark.sql.sources.{RelationProvider, SchemaRelationProvider, CreatableRelationProvider, BaseRelation}
 import org.apache.spark.sql.sources.{PrunedFilteredScan, InsertableRelation}
 import org.apache.spark.sql.sources.{Filter, LessThan, GreaterThan}
-import org.apache.spark.sql.types.{StructType, StructField, IntegerType}
 import org.apache.spark.sql.catalyst.expressions.ExpectsInputTypes
-import org.apache.spark.sql.types.StringType
-import org.apache.spark.sql.types.DataType
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.catalyst.expressions.codegen.CodeGenContext
 import org.apache.spark.sql.catalyst.expressions.codegen.GeneratedExpressionCode
 import org.apache.spark.sql.catalyst.analysis.UnresolvedException
 import org.apache.spark.sql.catalyst.expressions.codegen._
 import org.apache.spark.unsafe.types.UTF8String
-import org.apache.spark.sql.types.ArrayType
 import org.apache.spark.sql.catalyst.expressions.ImplicitCastInputTypes
 import org.apache.spark.sql.catalyst.expressions.TernaryExpression
  

@@ -150,7 +150,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Nov 4, 2015 10:34:31 PM",
+      "text": "%hive select * from dating_genders limit 100",
+      "dateUpdated": "Nov 30, 2015 12:28:05 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,13 +172,26 @@
       "jobName": "paragraph_1446055841151_1988228675",
       "id": "20151028-181041_2037482610",
       "result": {
-        "code": "SUCCESS",
-        "type": "TEXT"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Could not open client transport with JDBC Uri: jdbc:hive2://127.0.0.1:10000: java.net.ConnectException: Connection refused"
       },
       "dateCreated": "Oct 28, 2015 6:10:41 PM",
-      "dateStarted": "Nov 4, 2015 10:34:31 PM",
-      "dateFinished": "Nov 4, 2015 10:34:31 PM",
-      "status": "FINISHED",
+      "dateStarted": "Nov 30, 2015 12:28:05 PM",
+      "dateFinished": "Nov 30, 2015 12:28:05 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448886485198_-42537570",
+      "id": "20151130-122805_1723866262",
+      "dateCreated": "Nov 30, 2015 12:28:05 PM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],

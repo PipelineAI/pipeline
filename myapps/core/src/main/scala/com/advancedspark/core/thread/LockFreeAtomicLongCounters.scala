@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicLong
 
-object LockFreeAtomicLong2CounterIncrement {
+object LockFreeAtomicLongCounters {
   // a single Long (8-bytes) will maintain 2 separate Ints (4-bytes each)
   val counters = new AtomicLong()
 	
