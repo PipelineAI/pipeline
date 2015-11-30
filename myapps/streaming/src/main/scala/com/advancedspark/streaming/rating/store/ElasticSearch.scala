@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming.store
+package com.advancedspark.streaming.rating.store
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -12,9 +12,9 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import org.elasticsearch.spark.sql._ 
-import com.advancedspark.spark.streaming.core.Rating
+import com.advancedspark.streaming.rating.core.Rating
 
-object RatingsElasticSearch {
+object ElasticSearch {
   def main(args: Array[String]) {
     val conf = new SparkConf()
 

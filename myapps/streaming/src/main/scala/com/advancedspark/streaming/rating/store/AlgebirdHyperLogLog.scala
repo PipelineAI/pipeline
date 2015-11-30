@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming.approx
+package com.advancedspark.streaming.rating.store
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -20,9 +20,9 @@ import redis.clients.jedis.Transaction
 import com.twitter.algebird._
 import com.twitter.algebird.Operators._
 import HyperLogLog._
-import com.advancedspark.spark.streaming.core.Rating
+import com.advancedspark.streaming.rating.core.Rating
 
-object RatingsAlgebird {
+object AlgebirdHyperLogLog {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")

@@ -1,4 +1,4 @@
-package com.advancedspark.pipeline.nlp
+package com.advancedspark.ml.nlp
 
 import java.util.Properties
 import scala.collection.JavaConversions._

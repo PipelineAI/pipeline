@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming
+package com.advancedspark.streaming.rating.store
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -13,9 +13,9 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Transaction
-import com.advancedspark.spark.streaming.core.Rating
+import com.advancedspark.streaming.rating.core.Rating
 
-object RatingsRedisHyperLogLog {
+object RedisHyperLogLog {
   def main(args: Array[String]) {
     val conf = new SparkConf()
 

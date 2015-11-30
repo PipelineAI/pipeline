@@ -5,15 +5,15 @@ val globalSettings = Seq(
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 
-lazy val datasource = (project in file("."))
-                       .settings(name := "datasource")
+lazy val sql = (project in file("."))
+                       .settings(name := "sql")
                        .settings(globalSettings:_*)
-                       .settings(libraryDependencies ++= datasourceDeps)
+                       .settings(libraryDependencies ++= sqlDeps)
 
 val sparkVersion = sys.env("SPARK_VERSION") 
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 
-lazy val datasourceDeps = Seq(
+lazy val sqlDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion 
 )
 

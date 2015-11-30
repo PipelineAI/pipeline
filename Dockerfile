@@ -226,16 +226,16 @@ RUN \
 # Sbt Feeder
  cd ~/pipeline/myapps/feeder && sbt assembly \
 
-# Sbt Nlp 
- && cd ~/pipeline/myapps/nlp && sbt package \
+# Sbt ML 
+ && cd ~/pipeline/myapps/ml && sbt package \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/streaming && sbt package \
 
-# Sbt DataSource
- && cd ~/pipeline/myapps/datasource && sbt package \
+# Sbt SQL 
+ && cd ~/pipeline/myapps/sql && sbt package \
 
-# Sbt Mechanical Sympathy 
- && cd ~/pipeline/myapps/mechanicalsympathy && sbt package 
+# Sbt core 
+ && cd ~/pipeline/myapps/core && sbt package 
 
 WORKDIR /root

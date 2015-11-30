@@ -1,4 +1,4 @@
-package com.advancedspark.mechanicalsympathy.thread
+package com.advancedspark.core.thread
 
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService

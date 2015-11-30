@@ -1,4 +1,4 @@
-package com.advancedspark.pipeline.akka.feeder
+package com.advancedspark.feeder.rating
 
 import java.util.Properties
 

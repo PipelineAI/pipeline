@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming.store
+package com.advancedspark.streaming.rating.store
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -11,9 +11,9 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.spark.streaming.core.Rating
+import com.advancedspark.streaming.rating.core.Rating
 
-object RatingsCassandra {
+object Cassandra {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")

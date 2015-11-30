@@ -1,4 +1,4 @@
-package com.advancedspark.spark.sql.source.simple
+package com.advancedspark.sql.source
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SaveMode
@@ -24,7 +24,7 @@ case class IntegerRangeRelation(start: Int, end: Int)(@transient val sqlContext:
   //        (This extra pass can be disabled in Spark 1.6)
   override def buildScan(requiredColumns: Array[String], filters: Array[Filter]): RDD[Row] = {
     // TODO:  Return only the columns specified
-    // TODO:  Apply the Filters
+    // TODO:  Apply all Filters
     
     var filteredValues = startingValues ++ inserts 
 
@@ -32,16 +32,6 @@ case class IntegerRangeRelation(start: Int, end: Int)(@transient val sqlContext:
       case LessThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ < value)
       case GreaterThan(attribute: String, value: Int) => filteredValues = filteredValues.filter(_ > value)   
     }
-
-//    val filteredValues = for (value <- values) { 
-//			   var passAllFilters = true
-//                           for (filter <- filters if passAllFilters) { 
-//                             filter match {
-//                               case LessThan(attribute: String, filterValue: Int) if value > filterValue => passAllFilters = false 
-//                               case GreaterThan(attribute: String, filterValue: Int) if value < filterValue => passAllFilters = false
-//                             }
-//                           } yield value
-//			 } 
 
     sqlContext.sparkContext.parallelize(filteredValues).map(Row(_))
   }

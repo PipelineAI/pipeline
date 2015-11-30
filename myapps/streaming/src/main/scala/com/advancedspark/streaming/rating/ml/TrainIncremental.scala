@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming.ml
+package com.advancedspark.streaming.rating.ml
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.spark.streaming.core.Rating
+import com.advancedspark.streaming.rating.core.Rating
 import com.brkyvz.spark.recommendation.StreamingLatentMatrixFactorization
 //import org.apache.spark.ml.recommendation.ALS.Rating
 //import org.apache.spark.streaming.dstream.DStream
@@ -26,7 +26,7 @@ import com.brkyvz.spark.recommendation.StreamingLatentMatrixFactorization
 
 
 
-object RatingsTrainIncremental {
+object TrainIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")

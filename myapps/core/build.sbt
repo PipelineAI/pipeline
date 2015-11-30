@@ -5,15 +5,15 @@ val globalSettings = Seq(
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 
-lazy val mechanicalsympathy = (project in file("."))
-                    .settings(name := "mechanicalsympathy")
+lazy val core = (project in file("."))
+                    .settings(name := "core")
                     .settings(globalSettings:_*)
-                    .settings(libraryDependencies ++= mechanicalsympathyDeps)
+                    .settings(libraryDependencies ++= coreDeps)
 
 val sparkVersion = sys.env("SPARK_VERSION")
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 
-lazy val mechanicalsympathyDeps = Seq(
+lazy val coreDeps = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
   "org.apache.spark"  %% "spark-core" % sparkVersion
     exclude("commons-collections", "commons-collections")

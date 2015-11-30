@@ -1,4 +1,4 @@
-package com.advancedspark.sql.udf
+package com.advancedspark.sql.functions
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SaveMode
@@ -33,8 +33,9 @@ case class SplitterUDF(string: Expression, delimiter: Expression, limit: Express
   
   override def dataType: ArrayType = ArrayType(StringType)
   override def inputTypes: Seq[DataType] = Seq(StringType, StringType, IntegerType)
-  
+  override def children: Seq[Expression] = Seq(string, delimiter, limit)
   override def prettyName = "splitter"
+
   
   override def nullSafeEval(string: Any, delimiter: Any, limit: Any): Any = {
     string.asInstanceOf[UTF8String].split(

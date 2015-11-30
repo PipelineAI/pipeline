@@ -1,4 +1,4 @@
-package com.advancedspark.spark.streaming.ml
+package com.advancedspark.streaming.rating.ml
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -13,12 +13,11 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import org.apache.spark.mllib.recommendation.ALS
 //import org.apache.spark.mllib.recommendation.Rating
-import com.advancedspark.spark.streaming.core.Rating
-import com.advancedspark.spark.streaming.core.Recommendation
+import com.advancedspark.streaming.rating.core.Rating
 
 import org.elasticsearch.spark.sql._ 
 
-object RatingsTrainBatch {
+object TrainBatch {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")

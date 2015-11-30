@@ -1,3 +1,3 @@
-package com.advancedspark.mechanicalsympathy.thread
+package com.advancedspark.core.thread
 
 case class Counters(left: Int, right: Int)

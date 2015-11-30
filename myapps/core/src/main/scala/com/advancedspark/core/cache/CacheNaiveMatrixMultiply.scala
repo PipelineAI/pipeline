@@ -1,4 +1,4 @@
-package com.advancedspark.mechanicalsympathy.matrix
+package com.advancedspark.core.cache
 
 object CacheNaiveMatrixMultiply {
   def main(args : Array[String]) {

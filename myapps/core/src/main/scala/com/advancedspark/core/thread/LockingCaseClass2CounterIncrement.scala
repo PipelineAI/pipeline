@@ -1,10 +1,10 @@
-package com.advancedspark.mechanicalsympathy.thread
+package com.advancedspark.core.thread
 
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-object NaiveCaseClass2CounterIncrement {
+object LockingCaseClass2CounterIncrement {
   var counters = new Counters(0,0)
 	
   val startLatch = new CountDownLatch(1)

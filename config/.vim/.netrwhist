@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =3
 let g:netrw_dirhist_1='/root/pipeline/myapps/streaming/src/main/scala/com/advancedspark/spark/streaming/store'
 let g:netrw_dirhist_2='/root/pipeline/html/advancedspark.com'
+let g:netrw_dirhist_3='/root/pipeline/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating'

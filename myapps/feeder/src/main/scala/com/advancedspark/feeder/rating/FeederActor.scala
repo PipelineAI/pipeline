@@ -1,4 +1,4 @@
-package com.advancedspark.pipeline.akka.feeder 
+package com.advancedspark.feeder.rating
 
 import akka.actor.{Props, Actor, ActorLogging}
 import org.apache.kafka.clients.producer.{ProducerRecord,Callback,RecordMetadata}
