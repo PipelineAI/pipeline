@@ -108,10 +108,10 @@ RUN \
 # MySql (Required by Hive Metastore)
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
- && apt-get install -y libmysql-java \
+ && apt-get install -y libmysql-java 
 
 # (Optional) Used for System-Level Performance Monitoring (Linux "perf" Command)
- && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` 
+# && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` 
 
 # (Optional) Used for Building Flame Graphs from Linux "perf" Command
 # && cd ~ \ 
