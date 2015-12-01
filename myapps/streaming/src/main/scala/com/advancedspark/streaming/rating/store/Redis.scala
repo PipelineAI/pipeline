@@ -42,7 +42,6 @@ object Redis {
       (message: RDD[(String, String)], batchTime: Time) => {
         message.cache()
 
-
         // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
         val tokens = message.map(_._2.split(","))
 
@@ -57,7 +56,10 @@ object Redis {
           //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => t.incr("exact:" + rating.userId))
+          ratingsPartitionIter.foreach(rating => {
+            val key = s"""exact:${rating.itemId}"""
+	    t.incr(key)
+	  })
           t.exec()
           jedis.close()
         })

@@ -1,23 +1,9 @@
 package com.advancedspark.sql.functions
 
-import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.SaveMode
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.sql.{DataFrame, Row}
-import org.apache.spark.sql.catalyst.expressions.{Expression, BinaryExpression}
-import org.apache.spark.sql.sources.{RelationProvider, SchemaRelationProvider, CreatableRelationProvider, BaseRelation}
-import org.apache.spark.sql.sources.{PrunedFilteredScan, InsertableRelation}
-import org.apache.spark.sql.sources.{Filter, LessThan, GreaterThan}
-import org.apache.spark.sql.catalyst.expressions.ExpectsInputTypes
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.codegen.CodeGenContext
-import org.apache.spark.sql.catalyst.expressions.codegen.GeneratedExpressionCode
-import org.apache.spark.sql.catalyst.analysis.UnresolvedException
 import org.apache.spark.sql.catalyst.expressions.codegen._
-import org.apache.spark.unsafe.types.UTF8String
-import org.apache.spark.sql.catalyst.expressions.ImplicitCastInputTypes
-import org.apache.spark.sql.catalyst.expressions.TernaryExpression
+import org.apache.spark.sql.types._
+import org.apache.spark.unsafe.types.{UTF8String}
+import org.apache.spark.sql.catalyst.expressions._
  
 /**
  * Return a list of tokens separated by the given separator

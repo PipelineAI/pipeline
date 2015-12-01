@@ -1,42 +1,6 @@
 {
   "paragraphs": [
     {
-      "title": "Populate ActressesAndActorsDF Reference Data Created In Earlier Setup Reference Data Notebook",
-      "text": "val itemRatingsDF \u003d sqlContext.sql(\"SELECT userId, itemId FROM item_ratings_temp\").cache()\nitemRatingsDF.show(30)",
-      "dateUpdated": "Nov 28, 2015 1:40:37 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1436151459869_-304748701",
-      "id": "20150706-025739_1574787707",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "itemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n+------+------+\n|userId|itemId|\n+------+------+\n| 23026| 10001|\n| 23026| 10002|\n| 23026| 10004|\n| 23026| 10005|\n| 23026| 10010|\n| 23026| 10011|\n| 23026| 10012|\n| 23026| 10014|\n| 23026| 10015|\n| 23026| 90009|\n| 23026| 90011|\n| 23026| 90013|\n| 95228| 10002|\n| 95228| 10003|\n| 95228| 10005|\n| 95228| 10006|\n| 95228| 10008|\n| 95228| 10010|\n| 95228| 10012|\n| 95228| 10013|\n| 95228| 10015|\n| 69977| 10005|\n| 69977| 10006|\n| 69977| 10012|\n| 69977| 10013|\n| 69977| 10014|\n| 69977| 90001|\n| 69977| 90002|\n| 69977| 90014|\n| 69801| 10006|\n+------+------+\nonly showing top 30 rows\n\n"
-      },
-      "dateCreated": "Jul 6, 2015 2:57:39 AM",
-      "dateStarted": "Nov 28, 2015 1:40:37 PM",
-      "dateFinished": "Nov 28, 2015 1:40:38 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
       "dateUpdated": "Nov 26, 2015 5:08:08 PM",
@@ -75,7 +39,7 @@
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval itemRatings \u003d itemRatingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n).cache()\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(itemRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Nov 28, 2015 1:45:04 PM",
+      "dateUpdated": "Dec 1, 2015 6:50:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[150] at map at \u003cconsole\u003e:41\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@25d5c17a\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[389] at map at \u003cconsole\u003e:76\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@401726d1\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Nov 28, 2015 1:45:04 PM",
-      "dateFinished": "Nov 28, 2015 1:45:07 PM",
+      "dateStarted": "Dec 1, 2015 6:50:30 AM",
+      "dateFinished": "Dec 1, 2015 6:50:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"id\",\"recommendationItemIds\")\n\ncase class Recommendation(userId: Int, itemId: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendationItemIds\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"userId\", $\"itemId\", $\"confidence\").join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")",
-      "dateUpdated": "Nov 28, 2015 1:46:30 PM",
+      "dateUpdated": "Dec 1, 2015 6:50:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -137,17 +101,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:60: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:95: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Nov 28, 2015 1:46:30 PM",
-      "dateFinished": "Nov 28, 2015 1:46:31 PM",
+      "dateStarted": "Dec 1, 2015 6:50:52 AM",
+      "dateFinished": "Dec 1, 2015 6:50:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "enrichedRecommendationsDF.show(50)",
-      "dateUpdated": "Nov 28, 2015 1:46:39 PM",
+      "text": "enrichedRecommendationsDF.show(20)",
+      "dateUpdated": "Dec 1, 2015 6:51:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -170,17 +134,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\n|userId|itemId|            title|         description|                tags|                 img|        confidence|\n+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\n| 32256| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9944738494292871|\n| 32256| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|0.9943317065224163|\n| 32256| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|0.9942908638052905|\n| 32256| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9942443598189943|\n| 32256| 10002|  Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9941945526298476|\n| 98897| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9952303566926315|\n| 98897| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg| 0.994973288487877|\n| 98897| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9946456557140648|\n| 98897| 10007|Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg| 0.994324293813956|\n| 98897| 10009| Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg| 0.994324293813956|\n| 35554| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg| 0.994404571383732|\n| 35554| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|  0.99434939019473|\n| 35554| 10002|  Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9942388960258468|\n| 35554| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|0.9942358549393198|\n| 35554| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9942105846815579|\n| 23026| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9955912064239499|\n| 23026| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|0.9953290320341809|\n| 23026| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9949885714780955|\n| 23026| 10007|Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg|0.9946498501468324|\n| 23026| 10009| Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg|0.9946498501468324|\n| 65013| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|0.9971379750330976|\n| 65013| 10006|    Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|0.9971295370135489|\n| 65013| 10012|      Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|0.9970674071182065|\n| 65013| 10008|   Robert De Niro|Robert De Niro, t...|Manhattan, New Yo...|img/people/10008.jpg| 0.997009176568882|\n| 65013| 10003|        Al Pacino|One of the greate...|Manhattan, New Yo...|img/people/10003.jpg|0.9968636457043681|\n| 99750| 10008|   Robert De Niro|Robert De Niro, t...|Manhattan, New Yo...|img/people/10008.jpg|0.9969713628214298|\n| 99750| 10006|    Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|  0.99676028265461|\n| 99750| 10012|      Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|0.9967543335449263|\n| 99750| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|0.9966999561150675|\n| 99750| 10003|        Al Pacino|One of the greate...|Manhattan, New Yo...|img/people/10003.jpg|0.9966468132961245|\n| 85542| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9961416775487948|\n| 85542| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|0.9958773730537696|\n| 85542| 10011|    John Travolta|John Travolta was...|Englewood, New Yo...|img/people/10011.jpg|0.9955472836439841|\n| 85542| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9955299431137686|\n| 85542| 10009| Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg|0.9951792169016531|\n| 60023| 10011|    John Travolta|John Travolta was...|Englewood, New Yo...|img/people/10011.jpg|0.9940875763342614|\n| 60023| 10004|   Morgan Freeman|With an authorita...|Memphis, Tennesse...|img/people/10004.jpg|0.9934516910061362|\n| 60023| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9569152634626157|\n| 60023| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg| 0.955800876870009|\n| 60023| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9536653039290889|\n| 88504| 90015|    Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|0.9943916870459857|\n| 88504| 10015|       Clive Owen|Darkly handsome B...|Coventry, Warwick...|img/people/10015.jpg|0.9942524603447258|\n| 88504| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|0.9942360098166573|\n| 88504| 10014|     James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|0.9941717285674183|\n| 88504| 10002|  Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|0.9941310569033659|\n| 69977| 10010|        Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|0.9964361240675887|\n| 69977| 10006|    Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|0.9963257835274186|\n| 69977| 10012|      Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|0.9961794157174216|\n| 69977| 10005| James Gandolfini|James Gandolfini ...|Westwood, New Jer...|img/people/10005.jpg|0.9959927979874923|\n| 69977| 10013|    Mark Wahlberg|American actor Ma...|Boston, Massachus...|img/people/10013.jpg|0.9959493558249997|\n+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\nonly showing top 50 rows\n\n"
+        "msg": "+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\n|userId|itemId|            title|         description|                tags|                 img|        confidence|\n+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\n| 67388| 10009| Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg|0.9905920864315864|\n| 67388| 90004|  Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|0.9905920864315864|\n| 67388| 10011|    John Travolta|John Travolta was...|Englewood, New Yo...|img/people/10011.jpg|0.9905920864315864|\n| 67388| 90002|   Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9905920864315864|\n| 67388| 10001|Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|0.9905920864315864|\n| 46166| 10009| Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg|0.9905680163749142|\n| 46166| 90004|  Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|0.9905680163749142|\n| 46166| 10011|    John Travolta|John Travolta was...|Englewood, New Yo...|img/people/10011.jpg|0.9905680163749142|\n| 46166| 90002|   Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|0.9905680163749142|\n| 46166| 10001|Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|0.9905680163749142|\n+------+------+-----------------+--------------------+--------------------+--------------------+------------------+\n\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Nov 28, 2015 1:46:39 PM",
-      "dateFinished": "Nov 28, 2015 1:46:40 PM",
+      "dateStarted": "Dec 1, 2015 6:51:05 AM",
+      "dateFinished": "Dec 1, 2015 6:51:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Nov 28, 2015 1:47:18 PM",
+      "dateUpdated": "Dec 1, 2015 6:51:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -207,8 +171,8 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Nov 28, 2015 1:47:18 PM",
-      "dateFinished": "Nov 28, 2015 1:47:19 PM",
+      "dateStarted": "Dec 1, 2015 6:51:10 AM",
+      "dateFinished": "Dec 1, 2015 6:51:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -246,7 +210,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Ratings/04:  Collaborative Filtering Recs (Matrix Factorization)",
+  "name": "Live Ratings/03:  Collaborative Filtering Recs (Matrix Factorization)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],
