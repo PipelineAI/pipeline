@@ -1,55 +1,48 @@
-# Please see the [wiki](https://github.com/fluxcapacitor/pipeline/wiki/) for more info.
+# Docker-based, End-to-End, Big Data Reference Pipeline!
+## Real-time, Advanced Analytics, Machine Learning, Graph Processing, Text/NLP Analytics
 
-Architecture Overview
+## Please see the [wiki](https://github.com/fluxcapacitor/pipeline/wiki/) for more info.
 
-[0. Architecture Overview](https://github.com/fluxcapacitor/pipeline/wiki/Architecture-Overview)
+## Screen Shots
 
-***
-Environment Setup
+### Apache Zeppelin Notebooks
+![Apache Zeppelin Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-zeppelin-1.png)
 
-[1. Setup Docker Image](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Docker-Image)
+### Tableau Integration
 
-[2. Start Docker Container](https://github.com/fluxcapacitor/pipeline/wiki/Start-Docker-Container)
+![Tableau Integration](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-tableau.png)
 
-[3. Start Services](https://github.com/fluxcapacitor/pipeline/wiki/Start-Services)
+### Beeline Command-line Hive Client
 
-[4. Explore Services](https://github.com/fluxcapacitor/pipeline/wiki/Explore-Services)
+![Beeline Command-line Hive Client](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-beeline.png)
 
-***
-Demo
+### Log Visualization with Kibana & Logstash
 
-[5. Start Spark Streaming](https://github.com/fluxcapacitor/pipeline/wiki/Start-Spark-Streaming)
+![Log Visualization with Kibana & Logstash](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-kibana.png)
 
-[6. View Spark UI](https://github.com/fluxcapacitor/pipeline/wiki/View-Spark-UI)
+### Spark, Spark Streaming, and Spark SQL Admin UIs
 
-[7. Feed Data](https://github.com/fluxcapacitor/pipeline/wiki/Feed-Data)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-1.png)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-2.png)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-3.png)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-4.png)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-5.png)
+![Spark Admin UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-spark-6.png)
 
-[8. Analyze Data](https://github.com/fluxcapacitor/pipeline/wiki/Analyze-Data)
+### Ganglia System and JVM Metrics Monitoring UIs
 
-[9. Monitor Metrics](https://github.com/fluxcapacitor/pipeline/wiki/Monitor-Metrics)
+![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-1.png)
+![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-2.png)
+![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-3.png)
+![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-4.png)
+![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-5.png)
 
-***
-Examples
+## Architecture Overview
+![Big Data Pipeline Overview](https://s3.amazonaws.com/fluxcapacitor.com/img/FluxCapacitorBigDataPipelineArchitectureOverview.png)
 
-[10. Examples](https://github.com/fluxcapacitor/pipeline/wiki/Examples)
-
-[11. Github Integration](https://github.com/fluxcapacitor/pipeline/wiki/Github-Integration)
-
-***
-Troubleshooting
-
-[12. Troubleshoot Environment](https://github.com/fluxcapacitor/pipeline/wiki/Troubleshoot-Environment)
-
-***
-Cleanup
-
-[13. Stop Services](https://github.com/fluxcapacitor/pipeline/wiki/Stop-Services)
-
-[14. Remove Docker](https://github.com/fluxcapacitor/pipeline/wiki/Remove-Docker)
-
-***
-Misc
-
-[15. Build Docker Image](https://github.com/fluxcapacitor/pipeline/wiki/Build-Docker-Image)
-
-[16. Custom Distributions](https://github.com/fluxcapacitor/pipeline/wiki/Custom-Distributions)
+## Tools Overview
+![Apache Spark](http://spark.apache.org/images/spark-logo.png) ![Redis](https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png)
+![Apache Cassandra](https://upload.wikimedia.org/wikipedia/commons/a/a0/Cassandra_logo.png)
+![Apache Kafka](http://www.bogotobogo.com/Hadoop/images/Ecosystem/Kafka.png)
+![ElasticSearch Logstash Kibana](https://www.enalean.com/sites/default/files/field/image/elk-logos.png) ![Apache Zeppelin](http://4.bp.blogspot.com/-rsc3t_dZmBg/VbPDwhb_IBI/AAAAAAAABeY/9zKUjK4VFbQ/s1600/zeppelin-bl.png) ![Ganglia](https://developer.nvidia.com/sites/default/files/akamai/cuda/images/Ganglia-logo-small-rs.jpg) ![Hadoop HDFS](http://datatechblog.com/wp-content/uploads/2014/04/HadoopHive.png) ![iPython Notebook](http://ipython.org/ipython-doc/dev/_images/ipynb_icon_128x128.png)
+![Docker](http://blog.docker.com/wp-content/uploads/2013/08/KuDr42X_ITXghJhSInDZekNEF0jLt3NeVxtRye3tqco.png) ![Tachyon](http://www.tachyonnexus.com/tnx-images/tachyon_project_logo.png)
