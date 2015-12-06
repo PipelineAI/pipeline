@@ -20,15 +20,15 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "4",
+        "spark.cores.max": "10",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "4096m",
+        "spark.executor.memory": "10240m",
         "zeppelin.spark.useHiveContext": "true",
-        "args": "-XX:-UseConcMarkSweepGC",
+        "args": "",
         "zeppelin.spark.concurrentSQL": "false",
         "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python"
@@ -282,6 +282,21 @@
       "2AR33ZMZJ"
     ],
     "2B42HQF6Z": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B7DV97DX": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B5U7ZA3Y": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2B7JQJT2G": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"

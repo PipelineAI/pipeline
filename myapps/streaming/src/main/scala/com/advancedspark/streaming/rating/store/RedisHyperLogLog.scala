@@ -42,14 +42,15 @@ object RedisHyperLogLog {
       (message: RDD[(String, String)], batchTime: Time) => {
         message.cache()
 
-
         // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
         val tokens = message.map(_._2.split(","))
 
-        // convert Tokens into RDD[Ratings]
+        // convert messageTokens into RDD[Ratings]
         val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
-       // increment the exact count for touserid in Redis
+        //val jedis = new Jedis("127.0.0.1", 6379)
+
+        // increment the HyperLogLog distinct count for each fromuserid that chooses the touserid in Redis
         ratings.foreachPartition(ratingsPartitionIter => {
           // TODO:  Fix this.
           //        1) This obviously only works when everything is running on 1 node.
@@ -57,15 +58,20 @@ object RedisHyperLogLog {
           //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => t.incr("exact:" + rating.userId))
+          ratingsPartitionIter.foreach(rating => {
+            val key = s"""hll:${rating.itemId}"""
+            val value = s"""${rating.userId}""" 
+            t.pfadd(key, value)
+          })
           t.exec()
           jedis.close()
         })
+        //jedis.close()
 
-	message.unpersist()
+        message.unpersist()
       }
     }
-
+    
     ssc.start()
     ssc.awaitTermination()
   }

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $PIPELINE_HOME
+
 echo '...Stopping Kafka...'
 kafka-server-stop 
 

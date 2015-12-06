@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo '**** MAKE SURE YOU HAVE SOURCED ~/.profile OR ELSE YOU WILL SEE MANY ERRORS RELATED TO EXECUTABLES NOT FOUND ****'
+cd $PIPELINE_HOME
 
 echo '...Starting ElasticSearch...'
 nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
@@ -43,7 +44,7 @@ echo '...Starting Spark Master...'
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 10 --memory 10240M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 20 --memory 20480M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
 
 echo '...Starting Spark Notebook...'
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'
@@ -54,8 +55,8 @@ $SPARK_HOME/sbin/start-history-server.sh
 echo '...Starting Kibana...'
 nohup kibana &
 
-echo '...Starting iPython Notebook Server...'
-nohup pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --master spark://127.0.0.1:7077 --executor-memory 10240M --driver-memory 2048M &
+#echo '...Starting iPython Notebook Server...'
+#nohup pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --master spark://127.0.0.1:7077 --executor-memory 10240M --driver-memory 2048M &
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
