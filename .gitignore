@@ -3,6 +3,7 @@ logs
 metastore_db
 dump.rdb
 derby.log
+sort.txt
 usbstick/fluxcapacitor/pipeline/fluxcapacitor-pipeline.tar
 project/project
 project/target

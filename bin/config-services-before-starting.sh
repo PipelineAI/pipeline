@@ -30,6 +30,7 @@ bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
 bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
+bzip2 -d -k $DATASETS_HOME/sort/sort.txt.bz2
 tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
 tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
 tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
