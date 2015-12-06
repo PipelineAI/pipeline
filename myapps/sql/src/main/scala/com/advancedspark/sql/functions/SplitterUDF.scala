@@ -18,7 +18,6 @@ case class SplitterUDF(string: Expression, delimiter: Expression, limit: Express
   override def inputTypes: Seq[DataType] = Seq(StringType, StringType, IntegerType)
   override def children: Seq[Expression] = Seq(string, delimiter, limit)
   override def prettyName = "splitter"
-
   
   override def nullSafeEval(string: Any, delimiter: Any, limit: Any): Any = {
     string.asInstanceOf[UTF8String].split(

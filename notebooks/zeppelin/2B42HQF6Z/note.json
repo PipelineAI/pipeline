@@ -35,7 +35,7 @@
     },
     {
       "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval itemId \u003d 10003\nval countRatingsForItemId \u003d jedis.get(s\"\"\"exact:${itemId}\"\"\")\nval countDistinctUserRatingsForItemId \u003d jedis.pfcount(s\"\"\"hll:${itemId}\"\"\")",
-      "dateUpdated": "Dec 1, 2015 6:45:00 AM",
+      "dateUpdated": "Dec 1, 2015 10:57:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -58,11 +58,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@296a8c2f\nitemId: Int \u003d 10003\ncountRatingsForItemId: String \u003d 3\ncountDistinctUserRatingsForItemId: Long \u003d 2\n"
+        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@1fd32d50\nitemId: Int \u003d 10003\ncountRatingsForItemId: String \u003d 1\ncountDistinctUserRatingsForItemId: Long \u003d 1\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Dec 1, 2015 6:45:00 AM",
-      "dateFinished": "Dec 1, 2015 6:45:01 AM",
+      "dateStarted": "Dec 1, 2015 10:57:13 AM",
+      "dateFinished": "Dec 1, 2015 10:57:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
