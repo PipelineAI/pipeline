@@ -3,7 +3,7 @@ logs
 metastore_db
 dump.rdb
 derby.log
-
+usbstick/fluxcapacitor/pipeline/fluxcapacitor-pipeline.tar
 project/project
 project/target
 target
@@ -29,6 +29,9 @@ project/.sbtserver
 project/.sbtserver.lock
 project/play-fork-run.sbt
 project/sbt-ui.sbt
+.settings
+.project
+.classpath
 
 *.log
 *.out
