@@ -36,7 +36,6 @@ case class IntegerRangeRelation(start: Int, end: Int)(@transient val sqlContext:
     sqlContext.sparkContext.parallelize(filteredValues).map(Row(_))
   }
 
-
   // InsertableRelation impl
   override def insert(df: DataFrame, overwrite: Boolean): Unit = {
     inserts ++= df.collect().map(row => row.getInt(0)) 

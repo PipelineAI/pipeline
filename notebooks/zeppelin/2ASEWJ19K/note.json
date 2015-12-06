@@ -1,41 +1,6 @@
 {
   "paragraphs": [
     {
-      "title": "Populate Items Reference Data for Enrichment",
-      "text": "val itemsDF \u003d sqlContext.sql(\"SELECT id, title, description, tags, img FROM items_temp\")\nitemsDF.show(30)",
-      "dateUpdated": "Dec 1, 2015 6:49:21 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1445082225970_290386356",
-      "id": "20151017-114345_2015934791",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, tags: string, img: string]\n+-----+--------------------+--------------------+--------------------+--------------------+\n|   id|               title|         description|                tags|                 img|\n+-----+--------------------+--------------------+--------------------+--------------------+\n| null|                null|                null|                null|                null|\n|90001|         Linda Blair|From the age of f...|St. Louis, Missou...|img/people/90001.jpg|\n|90002|      Shannon Whirry|Shannon Whirry is...|Green Lake, Wisco...|img/people/90002.jpg|\n|90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/people/90003.jpg|\n|90004|     Bobbie Phillips|Brains and beauty...|Salisbury, North ...|img/people/90004.jpg|\n|90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/people/90005.jpg|\n|90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/people/90006.jpg|\n|90007|      Angell Conwell|Born in the tiny ...|Orangeburg, South...|img/people/90007.jpg|\n|90008|  Shannah Laumeister|Shannah Laumeiste...|San Francisco, Ca...|img/people/90008.jpg|\n|90009|           Pam Grier|Pam Grier was bor...|Winstom-Salem, No...|img/people/90009.jpg|\n|90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/people/90010.jpg|\n|90011|         Ashley Judd|Ashley Judd was b...|Granada Hills, Ca...|img/people/90011.jpg|\n|90012|         Stacey Dash|Stacey Dash was b...|Bronx, New York, ...|img/people/90012.jpg|\n|90013|       Sofia Vergara|Sofia Margarita V...|Barranquilla, Atl...|img/people/90013.jpg|\n|90014|        Gail O\u0027Grady|Gail O\u0027Grady was ...|Detroit, Michigan...|img/people/90014.jpg|\n|90015|       Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/people/90015.jpg|\n|10001|   Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/people/10001.jpg|\n|10002|     Anthony Hopkins|Anthony Hopkins w...|Port Talbot, Glam...|img/people/10002.jpg|\n|10003|           Al Pacino|One of the greate...|Manhattan, New Yo...|img/people/10003.jpg|\n|10004|      Morgan Freeman|With an authorita...|Memphis, Tennesse...|img/people/10004.jpg|\n|10005|    James Gandolfini|James Gandolfini ...|Westwood, New Jer...|img/people/10005.jpg|\n|10006|       Marlon Brando|Marlon Brando is ...|Manhattan, New Yo...|img/people/10006.jpg|\n|10007|   Denzel Washington|Denzel Hayes Wash...|Mount Vernon, New...|img/people/10007.jpg|\n|10008|      Robert De Niro|Robert De Niro, t...|Manhattan, New Yo...|img/people/10008.jpg|\n|10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/people/10009.jpg|\n|10010|           Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/people/10010.jpg|\n|10011|       John Travolta|John Travolta was...|Englewood, New Yo...|img/people/10011.jpg|\n|10012|         Johnny Depp|Johnny Depp is pe...|Owensboro, Kentuc...|img/people/10012.jpg|\n|10013|       Mark Wahlberg|American actor Ma...|Boston, Massachus...|img/people/10013.jpg|\n|10014|        James Franco|Known for his bre...|Palo Alto, Califo...|img/people/10014.jpg|\n+-----+--------------------+--------------------+--------------------+--------------------+\nonly showing top 30 rows\n\n"
-      },
-      "dateCreated": "Oct 17, 2015 11:43:45 AM",
-      "dateStarted": "Dec 1, 2015 6:49:21 AM",
-      "dateFinished": "Dec 1, 2015 6:49:21 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
       "dateUpdated": "Dec 1, 2015 6:49:21 AM",
