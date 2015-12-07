@@ -11,7 +11,7 @@ kafka-topics --zookeeper localhost:2181 --create --topic item_ratings --partitio
 #tachyon format -s
 
 echo '...Creating Example ElasticSearch Indexes...'
-#curl -XDELETE 'http://localhost:9200/advancedspark'
+curl -XDELETE 'http://localhost:9200/advancedspark'
 curl -XPUT 'http://localhost:9200/advancedspark/' -d '{
     "settings": {
         "number_of_shards": 1,
@@ -25,7 +25,10 @@ cqlsh -e "CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStra
 cqlsh -e "USE advancedspark; DROP TABLE IF EXISTS item_ratings;"
 cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, timestamp bigint, PRIMARY KEY(userId, itemId));"
 
-#echo '...Creating and Formatting Docker-local HDFS...'
+echo '...Creating Redis...'
+redis-cli FLUSHALL
+
+#echo '...Creating Docker-local HDFS...'
 #hdfs namenode -format
 
 echo '...Creating Example Hive Tables...'
