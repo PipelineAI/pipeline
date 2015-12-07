@@ -59,7 +59,7 @@ object RedisHyperLogLog {
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
           ratingsPartitionIter.foreach(rating => {
-            val key = s"""hll:${rating.itemId}"""
+            val key = s"""approx-distinct-user-rating-count:${rating.itemId}"""
             val value = s"""${rating.userId}""" 
             t.pfadd(key, value)
           })

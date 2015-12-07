@@ -45,7 +45,7 @@ object Parquet {
         // convert each RDD from the batch into a DataFrame
         val ratingsDF = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
         
-        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataHome}/items/ratings-partitioned.parquet""")
+        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataHome}/item_ratings/ratings-partitioned.parquet""")
 
 	message.unpersist()
       }

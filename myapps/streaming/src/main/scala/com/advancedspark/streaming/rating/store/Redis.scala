@@ -57,7 +57,7 @@ object Redis {
           val jedis = new Jedis("127.0.0.1", 6379)
           val t = jedis.multi()
           ratingsPartitionIter.foreach(rating => {
-            val key = s"""exact:${rating.itemId}"""
+            val key = s"""exact-rating-count:${rating.itemId}"""
 	    t.incr(key)
 	  })
           t.exec()

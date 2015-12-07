@@ -3,7 +3,7 @@
     {
       "title": "Import Dependencies",
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
-      "dateUpdated": "Dec 1, 2015 11:31:49 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,20 +26,20 @@
       "jobName": "paragraph_1435904425694_1044927616",
       "id": "20150703-062025_1689760268",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@62563651\n"
       },
       "dateCreated": "Jul 3, 2015 6:20:25 AM",
-      "dateStarted": "Dec 1, 2015 11:31:49 AM",
-      "dateFinished": "Dec 1, 2015 11:31:49 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 7, 2015 5:00:18 AM",
+      "dateFinished": "Dec 7, 2015 5:00:33 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load the Reference Data To Enrich the Streaming Ratings",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/items/items.json\")\nitemsDF.registerTempTable(\"items_temp\")\n//z.show(itemsDF.select($\"id\", $\"title\"))",
-      "dateUpdated": "Dec 1, 2015 11:31:49 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -89,15 +89,15 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [_corrupt_record: string, description: string, id: bigint, img: string, tags: string, title: string]\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Dec 1, 2015 11:31:49 AM",
+      "dateStarted": "Dec 7, 2015 5:00:19 AM",
       "dateFinished": "Dec 1, 2015 11:31:49 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read the real-time Ratings coming from Users through Kafka",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")",
-      "dateUpdated": "Dec 1, 2015 11:50:59 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -127,13 +127,13 @@
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
       "dateStarted": "Dec 1, 2015 11:50:59 AM",
       "dateFinished": "Dec 1, 2015 11:51:00 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show the total rating count and number of Overall distinct users Who Rated (Cassandra)",
       "text": "import org.apache.spark.sql.functions._\n\nitemRatingsDF.count()\nitemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Dec 1, 2015 11:51:10 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -163,13 +163,13 @@
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
       "dateStarted": "Dec 1, 2015 11:51:10 AM",
       "dateFinished": "Dec 1, 2015 11:51:13 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Rating Count and Number of Distinct Users Who Rated a Given Item (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\nval itemId \u003d 10001 // Leonardo DiCaprio\nval numRatingsForItemId \u003d jedis.get(s\"\"\"exact:${itemId}\"\"\")\nval numDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"hll:${itemId}\"\"\")",
-      "dateUpdated": "Dec 1, 2015 11:51:48 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -198,13 +198,13 @@
       "dateCreated": "Dec 1, 2015 9:46:02 AM",
       "dateStarted": "Dec 1, 2015 11:51:48 AM",
       "dateFinished": "Dec 1, 2015 11:51:48 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use SQL to Show Most desirable users by Rating Count",
       "text": "%sql SELECT title, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title ORDER BY count DESC LIMIT 5",
-      "dateUpdated": "Dec 1, 2015 11:52:04 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -253,12 +253,12 @@
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
       "dateStarted": "Dec 1, 2015 11:52:04 AM",
       "dateFinished": "Dec 1, 2015 11:52:06 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Compare The Physical Plans Between DataFrames And SQL (Should Be Equal)",
-      "dateUpdated": "Dec 1, 2015 11:31:51 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -284,15 +284,15 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Should Be Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Dec 1, 2015 11:31:51 AM",
-      "dateFinished": "Dec 1, 2015 11:31:51 AM",
+      "dateStarted": "Dec 7, 2015 5:00:19 AM",
+      "dateFinished": "Dec 7, 2015 5:00:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for SQL Query",
       "text": "sqlContext.sql(\"SELECT count(itemId) as count FROM item_ratings_temp GROUP BY itemId ORDER BY count DESC\").explain()",
-      "dateUpdated": "Dec 1, 2015 11:31:51 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -322,13 +322,13 @@
       "dateCreated": "Jul 3, 2015 6:28:17 AM",
       "dateStarted": "Dec 1, 2015 11:31:52 AM",
       "dateFinished": "Dec 1, 2015 11:31:53 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Explain Plan for DataFrame Query",
       "text": "itemRatingsDF.groupBy(\"itemId\").count().as(\"ct\").sort($\"count\".desc).explain()",
-      "dateUpdated": "Dec 1, 2015 11:31:51 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -358,13 +358,13 @@
       "dateCreated": "Jul 3, 2015 6:26:53 AM",
       "dateStarted": "Dec 1, 2015 11:31:53 AM",
       "dateFinished": "Dec 1, 2015 11:31:53 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval mostDesirableItemsByRatingCountDF \u003d sqlContext.sql(\"SELECT title, img, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY title, img ORDER BY count DESC LIMIT 5\")\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nmostDesirableItemsByRatingCountDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-users-by-count\")\n\nz.show(mostDesirableItemsByRatingCountDF)\n",
-      "dateUpdated": "Dec 1, 2015 11:53:09 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -416,11 +416,11 @@
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
       "dateStarted": "Dec 1, 2015 11:53:09 AM",
       "dateFinished": "Dec 1, 2015 11:53:12 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Dec 1, 2015 11:31:52 AM",
+      "dateUpdated": "Dec 7, 2015 5:00:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -447,7 +447,7 @@
       "dateCreated": "Dec 1, 2015 6:46:57 AM",
       "dateStarted": "Dec 1, 2015 11:31:54 AM",
       "dateFinished": "Dec 1, 2015 11:31:57 AM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     }
   ],

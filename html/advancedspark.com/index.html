@@ -61,7 +61,7 @@ function loadItems() {
     });
     
     $( "<ul/>", {
-      html: "<div id='items-inner'><hr><h3><hr><center>Choose a few favorites</center><hr></h3><hr><center>" + items.join( "" ) + "</center></div>"
+      html: "<div id='items-inner'><hr><h3><hr><center>Choose Items You Really Like</center><hr></h3><hr><center>" + items.join( "" ) + "</center></div>"
     }).appendTo("#items");  
   });
 }
@@ -104,6 +104,7 @@ function loadTopInfluencers() {
   });
 }
 
+<!--
 function loadTopItemsByAvgRating() {
   $("#top-items-by-avg-rating").empty()
 
@@ -123,6 +124,86 @@ function loadTopItemsByAvgRating() {
     }).appendTo( "#top-items-by-avg-rating" );  
   });
 }
+-->
+
+function loadTopItemsByExactRatingCount() {
+  $("#top-items-by-exact-rating-count").empty()
+
+  $.getJSON( "top-items-by-exact-rating-count/_search?sort=count:desc&size=5", function ( data ) {
+    var items = [];
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit) {
+      var id = hit._source.itemId
+      var title = hit._source.title
+      var imgSrc = hit._source.img
+
+      items.push( "<li id='li" + title + "'><a href='javascript:rate(" + id + ")'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+    });
+
+    $( "<ul/>", {
+      html: "</br><center>" + items.join( "" ) + "</center>"
+    }).appendTo( "#top-items-by-exact-rating-count" );
+  });
+}
+<!--
+function loadTopItemsByApproxRatingCount() {
+  $("#top-items-by-approx-rating-count").empty()
+
+  $.getJSON( "top-items-by-approx-rating-count/_search?sort=count:desc&size=5", function ( data ) {
+    var items = [];
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit) {
+      var id = hit._source.itemId
+      var title = hit._source.title
+      var imgSrc = hit._source.img
+
+      items.push( "<li id='li" + title + "'><a href='javascript:rate(" + id + ")'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+    });
+
+    $( "<ul/>", {
+      html: "</br><center>" + items.join( "" ) + "</center>"
+    }).appendTo( "#top-items-by-approx-rating-count" );
+  });
+}
+-->
+
+function loadTopItemsByExactDistinctUserRatingCount() {
+//  $("stats").empty()
+  var itemId = 10003
+  $.getJSON( "redis/SCARD/exact-distinct-user-rating-count:" + itemId, function ( data ) {
+  var items = [];
+  var exactDistinctUserRatingCount = data.SCARD 
+//    $.each( hits, function( arrayIdx, hit) {
+//      var id = hit._source.itemId
+//      var title = hit._source.title
+//      var imgSrc = hit._source.img
+
+//      items.push( "<li id='li" + title + "'><a href='javascript:rate(" + id + ")'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+  });
+
+  $( "<ul/>", {
+    html: "</br><center>Exact Distinct User Rating Count for Item '" + itemId + ": '" + exactDistinctUserRatingCount + "</center>"
+  }).appendTo( "#top-items-by-exact-distinct-user-rating-count" );
+}
+
+function loadTopItemsByApproxDistinctUserCount() {
+//  $("stats").empty()
+  var itemId = 10003 
+  $.getJSON( "redis/PFCOUNT/approx-distinct-user-rating-count:" + itemId, function ( data ) {
+  var items = [];
+  var approxDistinctUserRatingCount = data.PFCOUNT
+//    $.each( hits, function( arrayIdx, hit) {
+//      var id = hit._source.itemId
+//      var title = hit._source.title
+//      var imgSrc = hit._source.img
+
+//      items.push( "<li id='li" + title + "'><a href='javascript:rate(" + id + ")'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+  });
+
+  $( "<ul/>", {
+    html: "</br><center>Approx Distinct User Rating Count for Item '" + itemId + ": '" + approxDistinctUserRatingCount + "</center>"
+  }).appendTo( "#top-items-by-approx-distinct-user-rating-count" );
+}
 </script>
 
 <!-- Start of Zendesk Widget script -->
@@ -137,15 +218,31 @@ function loadTopItemsByAvgRating() {
 <div id="items">
 </div>
 <hr><hr><h3><center>...Please Wait...</br>...Before Clicking...</br>...The Links Below...</center></h3>
-<hr><hr><h3><center><a href='javascript:loadTopItemsByAvgRating()'>Get Top Items by Avg Rating</a></center><h3>
+<!--
+<hr><hr><h3><center><a href='javascript:loadTopItemsByAvgRating()'>Top Items by Avg Rating</a></center></h3>
 <div id="top-items-by-avg-rating">
+</div>
+-->
+<hr><hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Top Items by Exact Rating Count</a></center></h3>
+<div id="top-items-by-exact-rating-count">
+</div>
+<!--
+<hr><hr><h3><center><a href='javascript:loadTopItemsByApproxRatingCount()'>Top Items by Approx Rating Count</a></center></h3>
+<div id="top-items-by-approx-rating-count">
+</div>
+-->
+<hr><hr><h3><center><a href='javascript:loadTopItemsByExactDistinctUserRatingCount()'>Top Items by Distinct User Rating Count (Exact)</a></center></h3>
+<div id="top-items-by-exact-distinct-user-rating-count">
+</div>
+<hr><hr><h3><center><a href='javascript:loadTopItemsByApproxiDistinctUserRatingCount()'>Top Items by Distinct User Rating Count (Approx)</a></center></h3>
+<div id="top-items-by-approx-distinct-user-rating-count">
 </div>
 <!--
 <hr><hr><h3><center><a href='javascript:loadTopInfluencers()'>Get Top Influencers by Like Graph</a></center><h3>
 <div id="top-influencers">
 </div>
 -->
-<hr><hr><h3><center><a href='javascript:loadPersonalizedALS()'>Get Personalized Recs by ALS</a></center><h3>
+<hr><hr><h3><center><a href='javascript:loadPersonalizedALS()'>Top Item Recommendations</a></center><h3>
 <div id="personalized-als">
 </div>
 <hr><hr>

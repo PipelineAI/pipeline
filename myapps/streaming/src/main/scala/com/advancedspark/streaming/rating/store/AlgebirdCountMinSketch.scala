@@ -12,14 +12,9 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 
-// Redis Client including HyperLogLog Support
-import redis.clients.jedis.Jedis
-import redis.clients.jedis.Transaction
-
-// Twitter Algebird HyperLogLog Impl
 import com.twitter.algebird._
-import com.twitter.algebird.Operators._
-import HyperLogLog._
+import com.twitter.algebird.CMSHasherImplicits._
+
 import com.advancedspark.streaming.rating.core.Rating
 
 object AlgebirdCountMinSketch {
@@ -45,22 +40,64 @@ object AlgebirdCountMinSketch {
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val topics = Set("item_ratings")
 
-    // Setup the Algebird HyperLogLog data struct using 14 bits
-    // Note:  this is the same as the Redis implementation
-    //        2^14 = 16,384 registers, 0.81% standard error
-    val algebirdHLL = new HyperLogLogMonoid(14) 
+    val delta = 1E-3
+    val eps = 0.01
+    val seed = 1
+    val perc = 0.001
+    val topK = 5 
 
-    //TODO
-//    def uniqueValues(sc:SparkContext,csvFile:String, colNum:Int):Long = {
-//      val hll = new HyperLogLogMonoid(12) // ~ 1% probability of error with 2^12 bits
-//      val rdd:RDD[Row] = SparkUtils.rddFromCSVFile(sc,csvFile, false)
-//      val approxCount = rdd
-//        .map {r => r(colNum).toString}
-//        .map {c => hll(c.hashCode)} // HLL (defines zero and plus)
-//        .reduce(_ + _)
-//      approxCount.estimatedSize.toLong
-//    }
-    
+    val cms = TopPctCMS.monoid[Long](eps, delta, seed, perc)
+
+  /*
+    val filters = args
+    val sparkConf = new SparkConf().setAppName("TwitterAlgebirdCMS")
+    val ssc = new StreamingContext(sparkConf, Seconds(10))
+    val stream = TwitterUtils.createStream(ssc, None, filters, StorageLevel.MEMORY_ONLY_SER_2)
+
+    val users = stream.map(status => status.getUser.getId)
+
+    // val cms = new CountMinSketchMonoid(EPS, DELTA, SEED, PERC)
+    val cms = TopPctCMS.monoid[Long](EPS, DELTA, SEED, PERC)
+    var globalCMS = cms.zero
+    val mm = new MapMonoid[Long, Int]()
+    var globalExact = Map[Long, Int]()
+
+    val approxTopUsers = users.mapPartitions(ids => {
+      ids.map(id => cms.create(id))
+    }).reduce(_ ++ _)
+
+    val exactTopUsers = users.map(id => (id, 1))
+      .reduceByKey((a, b) => a + b)
+
+    approxTopUsers.foreachRDD(rdd => {
+      if (rdd.count() != 0) {
+        val partial = rdd.first()
+        val partialTopK = partial.heavyHitters.map(id =>
+          (id, partial.frequency(id).estimate)).toSeq.sortBy(_._2).reverse.slice(0, TOPK)
+        globalCMS ++= partial
+        val globalTopK = globalCMS.heavyHitters.map(id =>
+          (id, globalCMS.frequency(id).estimate)).toSeq.sortBy(_._2).reverse.slice(0, TOPK)
+        println("Approx heavy hitters at %2.2f%% threshold this batch: %s".format(PERC,
+          partialTopK.mkString("[", ",", "]")))
+        println("Approx heavy hitters at %2.2f%% threshold overall: %s".format(PERC,
+          globalTopK.mkString("[", ",", "]")))
+      }
+    })
+
+    exactTopUsers.foreachRDD(rdd => {
+      if (rdd.count() != 0) {
+        val partialMap = rdd.collect().toMap
+        val partialTopK = rdd.map(
+          {case (id, count) => (count, id)})
+          .sortByKey(ascending = false).take(TOPK)
+        globalExact = mm.plus(globalExact.toMap, partialMap)
+        val globalTopK = globalExact.toSeq.sortBy(_._2).reverse.slice(0, TOPK)
+        println("Exact heavy hitters this batch: %s".format(partialTopK.mkString("[", ",", "]")))
+        println("Exact heavy hitters overall: %s".format(globalTopK.mkString("[", ",", "]")))
+      }
+    })
+*/ 
+
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -74,24 +111,7 @@ object AlgebirdCountMinSketch {
 	// convert messageTokens into RDD[Ratings]
         val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
-        val jedis = new Jedis("127.0.0.1", 6379)
-
-	// increment the HyperLogLog distinct count for each fromuserid that chooses the touserid in Redis
-        ratings.foreachPartition(ratingsPartitionIter => {
-          // TODO:  Fix this.  
-	  // 	    1) This obviously only works when everything is running on 1 node.
-	  //        2) This should be using a Jedis Singleton/Pooled connection
- 	  //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
-          val jedis = new Jedis("127.0.0.1", 6379)
-          val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => {
-            val key = s"""hll:${rating.userId}"""
-	    val value = s"""${rating.itemId}"""
-   	    t.pfadd(key, value)
-	  })
-          t.exec()
-        })
-	jedis.close()
+        // TODO:  Update the CMS
 
 	message.unpersist()
       }

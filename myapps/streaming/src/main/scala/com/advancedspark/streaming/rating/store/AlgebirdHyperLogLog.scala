@@ -50,6 +50,46 @@ object AlgebirdHyperLogLog {
     //        2^14 = 16,384 registers, 0.81% standard error
     val algebirdHLL = new HyperLogLogMonoid(14) 
 
+/*
+    val BIT_SIZE = 12
+    val filters = args
+    val sparkConf = new SparkConf().setAppName("TwitterAlgebirdHLL")
+    val ssc = new StreamingContext(sparkConf, Seconds(5))
+    val stream = TwitterUtils.createStream(ssc, None, filters, StorageLevel.MEMORY_ONLY_SER)
+
+    val users = stream.map(status => status.getUser.getId)
+
+    val hll = new HyperLogLogMonoid(BIT_SIZE)
+    var globalHll = hll.zero
+    var userSet: Set[Long] = Set()
+
+    val approxUsers = users.mapPartitions(ids => {
+      ids.map(id => hll(id))
+    }).reduce(_ + _)
+
+    val exactUsers = users.map(id => Set(id)).reduce(_ ++ _)
+
+    approxUsers.foreachRDD(rdd => {
+      if (rdd.count() != 0) {
+        val partial = rdd.first()
+        globalHll += partial
+        println("Approx distinct users this batch: %d".format(partial.estimatedSize.toInt))
+        println("Approx distinct users overall: %d".format(globalHll.estimatedSize.toInt))
+      }
+    })
+
+    exactUsers.foreachRDD(rdd => {
+      if (rdd.count() != 0) {
+        val partial = rdd.first()
+        userSet ++= partial
+        println("Exact distinct users this batch: %d".format(partial.size))
+        println("Exact distinct users overall: %d".format(userSet.size))
+        println("Error rate: %2.5f%%".format(((globalHll.estimatedSize / userSet.size.toDouble) - 1
+          ) * 100))
+      }
+    })
+*/
+
     //TODO
     //def uniqueValues(sc:SparkContext,csvFile:String, colNum:Int):Long = {
     //  val hll = new HyperLogLogMonoid(12) // ~ 1% probability of error with 2^12 bits
@@ -74,24 +114,10 @@ object AlgebirdHyperLogLog {
 	// convert messageTokens into RDD[Ratings]
         val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
-        val jedis = new Jedis("127.0.0.1", 6379)
-
 	// increment the HyperLogLog distinct count for each fromuserid that chooses the touserid in Redis
-        ratings.foreachPartition(ratingsPartitionIter => {
-          // TODO:  Fix this.  
-	  // 	    1) This obviously only works when everything is running on 1 node.
-	  //        2) This should be using a Jedis Singleton/Pooled connection
- 	  //        3) Explore the spark-redis package (RedisLabs:spark-redis:0.1.0+)
-          val jedis = new Jedis("127.0.0.1", 6379)
-          val t = jedis.multi()
-          ratingsPartitionIter.foreach(rating => {
-            val key = s"""hll:${rating.userId}"""
-	    val value = s"""${rating.itemId}"""
-   	    t.pfadd(key, value)
-	  })
-          t.exec()
+        ratings.foreach(rating => {
+          //TODO:  Update HLL 
         })
-	jedis.close()
 
 	message.unpersist()
       }
