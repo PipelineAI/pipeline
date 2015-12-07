@@ -1,7 +1,7 @@
 echo '...Removing existing NAT configuration for boot2docker...'
 echo '...Please ignore any errors that you see here...'
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "2376"
-vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "80" 
+vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "30080" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "34042" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "39160"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "39042" 
@@ -29,10 +29,11 @@ vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "38888"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "34321" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "38099" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "37777"
+vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "37379"
 
 echo '...Updating NAT configuration for boot2docker...'
-vboxmanage modifyvm "boot2docker-vm" --natpf1 "2376,tcp,127.0.0.1,2376,,2376" 
-vboxmanage modifyvm "boot2docker-vm" --natpf1 "80,tcp,127.0.0.1,30080,,30080"
+vboxmanage modifyvm "boot2docker-vm" --natpf1 "2376,tcp,127.0.0.1,2376,,2376"
+vboxmanage modifyvm "boot2docker-vm" --natpf1 "30080,tcp,127.0.0.1,30080,,30080"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "34042,tcp,127.0.0.1,34042,,34042" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "39160,tcp,127.0.0.1,39160,,39160" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "39042,tcp,127.0.0.1,39042,,39042" 
@@ -60,3 +61,4 @@ vboxmanage modifyvm "boot2docker-vm" --natpf1 "38888,tcp,127.0.0.1,38888,,38888"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "34321,tcp,127.0.0.1,34321,,34321" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "38099,tcp,127.0.0.1,38099,,38099" 
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "37777,tcp,127.0.0.1,37777,,37777"
+vboxmanage modifyvm "boot2docker-vm" --natpf1 "37379,tcp,127.0.0.1,37379,,37379"
