@@ -132,6 +132,9 @@ echo '...Configuring Kibana...'
 # Redis
 echo '...Configuring Redis...'
 
+# Webdis
+echo '...Configuring Webdis...'
+
 # Tachyon
 echo '...Configuring Tachyon...'
 mv $TACHYON_HOME/conf/log4j.properties $TACHYON_HOME/conf/log4j.properties.orig

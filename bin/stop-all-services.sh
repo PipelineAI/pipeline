@@ -26,6 +26,9 @@ $SPARK_HOME/sbin/stop-thriftserver.sh
 echo '...Stopping Redis...'
 redis-cli shutdown
 
+echo '...Stoping Webdis...'
+ps -aef | grep "webdis" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stopping Tachyon...'
 $TACHYON_HOME/bin/tachyon-stop.sh 
 

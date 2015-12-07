@@ -31,6 +31,9 @@ nohup zookeeper-server-start $PIPELINE_HOME/config/kafka/zookeeper.properties &
 echo '...Starting Redis...'
 nohup redis-server &
 
+echo '...Starting Webdis...'
+nohup webdis $WEBDIS_HOME/webdis.json &
+
 echo '...Starting Tachyon...'
 nohup $TACHYON_HOME/bin/tachyon-start.sh local
 
@@ -44,7 +47,7 @@ echo '...Starting Spark Master...'
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 20 --memory 20480M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8096M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
 
 echo '...Starting Spark Notebook...'
 screen  -m -d -S "snb" bash -c 'source ~/pipeline/config/bash/.profile && spark-notebook -Dconfig.file=$PIPELINE_HOME/config/spark-notebook/application-pipeline.conf >> nohup.out'

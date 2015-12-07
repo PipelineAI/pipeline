@@ -54,9 +54,9 @@ object ElasticSearch {
         val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")
-    	  .mode(SaveMode.Overwrite)
+    	  .mode(SaveMode.Append)
 	  .options(esConfig)
-   	  .save("advancedspark/ratings")
+   	  .save("advancedspark/item_ratings")
 
 	message.unpersist()
       }

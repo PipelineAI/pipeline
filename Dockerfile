@@ -62,7 +62,7 @@ ENV INDEXEDRDD_VERSION=0.1
 ENV KEYSTONEML_VERSION=0.2
 ENV SPARK_HASH_VERSION=0.1.3
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 
+EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 7379
 
 RUN \
  apt-get update \
@@ -85,6 +85,9 @@ RUN \
  && apt-get install -y python-dev \
  && apt-get install -y python-pip \
  && pip install nose "ipython[notebook]" \
+
+# Webdis Redis REST Server
+ && apt-get install -y libevent-dev \
 
 # Python Data Science Libraries
 # && apt-get install -y python-matplotlib \
@@ -221,7 +224,13 @@ RUN \
  && wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz \
  && mkdir gensort-linux-${GENSORT_VERSION}/ \
  && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ \
- && rm gensort-linux-${GENSORT_VERSION}.tar.gz
+ && rm gensort-linux-${GENSORT_VERSION}.tar.gz \
+
+# Webdis Redis REST Server
+ && cd ~ \
+ && git clone https://github.com/nicolasff/webdis.git \
+ && cd webdis \
+ && make 
 
 RUN \
 # Sbt Feeder

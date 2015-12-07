@@ -104,10 +104,10 @@ function loadTopInfluencers() {
   });
 }
 
-function loadTopUsersByCount() {
-  $("#top-users-by-count").empty()
+function loadTopItemsByAvgRating() {
+  $("#top-items-by-avg-rating").empty()
 
-  $.getJSON( "top-users-by-count/_search?sort=count:desc&size=5", function ( data ) {
+  $.getJSON( "top-items-by-avg-rating/_search?sort=count:desc&size=5", function ( data ) {
     var items = [];
     var hits = data.hits.hits
     $.each( hits, function( arrayIdx, hit) {
@@ -120,7 +120,7 @@ function loadTopUsersByCount() {
     
     $( "<ul/>", {
       html: "</br><center>" + items.join( "" ) + "</center>"
-    }).appendTo( "#top-users-by-count" );  
+    }).appendTo( "#top-items-by-avg-rating" );  
   });
 }
 </script>
@@ -137,8 +137,8 @@ function loadTopUsersByCount() {
 <div id="items">
 </div>
 <hr><hr><h3><center>...Please Wait...</br>...Before Clicking...</br>...The Links Below...</center></h3>
-<hr><hr><h3><center><a href='javascript:loadTopUsersByCount()'>Get Top Users by Like Count</a></center><h3>
-<div id="top-users-by-count">
+<hr><hr><h3><center><a href='javascript:loadTopItemsByAvgRating()'>Get Top Items by Avg Rating</a></center><h3>
+<div id="top-items-by-avg-rating">
 </div>
 <!--
 <hr><hr><h3><center><a href='javascript:loadTopInfluencers()'>Get Top Influencers by Like Graph</a></center><h3>
