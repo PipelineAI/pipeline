@@ -43,8 +43,10 @@ object TrainBatch {
 
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
+    val datasetsHome = sys.env("DATASETS_HOME")
+
     val itemsDF = sqlContext.read.format("json")
-      .load("file:/root/pipeline/datasets/items/items.json")
+      .load(s"""file:${datasetsHome}/items/items.json""")
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
@@ -59,7 +61,8 @@ object TrainBatch {
 	val allRatingsDF = sqlContext.read.format("org.apache.spark.sql.cassandra")
 	  .options(cassandraConfig).load().toDF("userId", "itemId", "rating", "timestamp")
 
-        val allRatings = allRatingsDF.map(rating => 
+        // Convert to Spark ML Recommendation Ratings
+        val allRecommendationRatings = allRatingsDF.map(rating => 
  	  org.apache.spark.mllib.recommendation.Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)
 	)
 
@@ -68,21 +71,20 @@ object TrainBatch {
 	val numIterations = 20
 	val convergenceThreshold = 0.01
 
-	val model = ALS.train(allRatings, rank, numIterations, convergenceThreshold)
+	val model = ALS.train(allRecommendationRatings, rank, numIterations, convergenceThreshold)
 
 	// Generate top 5 recommendations for everyone in the system (not ideal)
-	val recommendationsDF = model.recommendProductsForUsers(5).toDF("userId","recommendationItemIds")
+	val recommendationsDF = model.recommendProductsForUsers(5).toDF("id","recommendationItemIds")
   	  .explode($"recommendationItemIds") { 
 	    case Row(recommendations: Seq[Row]) => recommendations.map(recommendation => 
               Recommendation(recommendation(0).asInstanceOf[Int], 
                    	     recommendation(1).asInstanceOf[Int], 
                      	     recommendation(2).asInstanceOf[Double])) 
   	  }
-	  .cache()
 
         val enrichedRecommendationsDF = recommendationsDF.select($"userId", $"itemId", $"confidence")
-          .join(itemsDF, $"itemId" === $"itemId")
-          .select($"userId", $"itemId", $"title", $"description", $"img", $"confidence").cache()
+          .join(itemsDF, $"itemId" === $"id")
+          .select($"userId", $"itemId", $"title", $"img", $"confidence")
 
         enrichedRecommendationsDF.write.format("org.elasticsearch.spark.sql").mode(SaveMode.Overwrite)
 	  .options(esConfig).save("advancedspark/personalized-als")

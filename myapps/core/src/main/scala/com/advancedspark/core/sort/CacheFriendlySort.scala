@@ -1,4 +1,4 @@
-package com.advancespark.core.sort 
+package com.advancedspark.core.sort 
 
 import java.util.Comparator
 import scala.io.Source
@@ -22,8 +22,11 @@ object CacheFriendlySort {
     // Set up the timings collection used to avg later across all the runs
     var timings = new ListBuffer[Double]()
 
+    val dataHome = sys.env("DATA_HOME")
+    val datasetsHome = sys.env("DATASETS_HOME")
+
     // Read the data set and retrieve only the desired number of bytes to sort
-    var byteArrays = Source.fromFile("../../datasets/sort/sort.txt").getLines
+    var byteArrays = Source.fromFile(s"""${datasetsHome}/sort/sort.txt""").getLines
       .flatMap(record => Array(record.substring(0, byteArrayLength).getBytes)).toArray
 
     val totalNumRecords = byteArrays.size
@@ -62,8 +65,8 @@ object CacheFriendlySort {
 
     val avgTiming = timings.sum / timings.size
     System.out.println(s"""Elapsed avg time for numIters ${numIters} and byteArray length ${byteArrayLength}:  ${(avgTiming)}""")
-
-    val file = new File(s"""out-${byteArrayLength}.txt""")
+    
+    val file = new File(s"""${dataHome}/core/sorted-friendly-${byteArrayLength}.out""")
     val bw = new BufferedWriter(new FileWriter(file))
     recordBaseAddresses.foreach(recordBaseAddress => {
       val byteArray = new Array[Byte](byteArrayLength)

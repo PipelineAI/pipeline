@@ -21,7 +21,7 @@ object ElasticSearch {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(30))
+      @transient val newSsc = new StreamingContext(sc, Seconds(22))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc
