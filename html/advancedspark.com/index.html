@@ -65,7 +65,7 @@ function loadItems() {
     });
     
     $( "<ul/>", {
-      html: "<div id='items-inner'><hr><h3><hr><center>Choose Items You Really Like</center><hr></h3><hr><center>" + items.join( "" ) + "</center></div>"
+      html: "<div id='items-inner'><hr><h3><center> Step 1:  Click Items You Really Like</center></h3><center>" + items.join( "" ) + "</center></div>"
     }).appendTo("#items");  
   });
 }
@@ -205,41 +205,41 @@ function loadTopItemsByExactDistinctUserRatingCount() {
 
 <div id="status"></div>
 -->
-
+<hr>
 <center><a href="http://advancedspark.com"><img style="width: 320; height=400;" src="img/advancedspark.png"></a></center>
 <script> $("body").append("<h1><center>Welcome, Anonymous User " + myId + "!</center><h1>") </script>
 <div id="items">
 </div>
 <!--
-<hr><hr><h3><center><a href='javascript:loadTopItemsByAvgRating()'>Top Items by Avg Rating</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByAvgRating()'>Top Items by Avg Rating</a></center></h3>
 <div id="top-items-by-avg-rating">
 </div>
 -->
-<hr><hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Top 5 Items by Rating Count</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2:  Click Here for Top 5 Items by Overall Rating Count</a></center></h3>
 <div id="top-items-by-exact-rating-count">
 </div>
 <!--
-<hr><hr><h3><center><a href='javascript:loadTopItemsByApproxRatingCount()'>Top Items by Approx Rating Count</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByApproxRatingCount()'>Top Items by Approx Rating Count</a></center></h3>
 <div id="top-items-by-approx-rating-count">
 </div>
 -->
 <!--
-<hr><hr><h3><center><a href='javascript:loadTopItemsByExactDistinctUserRatingCount()'>Top Items by Distinct-User Rating Count (Exact)</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByExactDistinctUserRatingCount()'>Top Items by Distinct-User Rating Count (Exact)</a></center></h3>
 <div id="top-items-by-exact-distinct-user-rating-count">
 </div>
-<hr><hr><h3><center><a href='javascript:loadTopItemsByApproxDistinctUserRatingCount()'>Top Items by Distinct-User Rating Count (Approx HLL)</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByApproxDistinctUserRatingCount()'>Top Items by Distinct-User Rating Count (Approx HLL)</a></center></h3>
 <div id="top-items-by-approx-distinct-user-rating-count">
 </div>
 -->
 <!--
-<hr><hr><h3><center><a href='javascript:loadTopInfluencers()'>Get Top Influencers by Like Graph</a></center><h3>
+<hr><h3><center><a href='javascript:loadTopInfluencers()'>Get Top Influencers by Like Graph</a></center><h3>
 <div id="top-influencers">
 </div>
 -->
-<hr><hr><h3><center><a href='javascript:loadPersonalizedALS()'>Your Top Recommendations</a></center></h3>
+<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3:  Click Here for Your Personalized Recommendations</a></center></h3>
 <div id="personalized-als">
 </div>
-<hr><hr>
+<hr>
 <script>
   loadItems()
 </script>
