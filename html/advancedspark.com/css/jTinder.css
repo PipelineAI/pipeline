@@ -187,6 +187,7 @@ body {
 }
 
 /* jTinder images */
+/*
 #tinderslide .pane5 .img {
     background: url("../img/pane/pane5.jpg") no-repeat scroll center center;
     background-size: cover;
@@ -203,8 +204,14 @@ body {
     background: url("../img/pane/pane2.jpg") no-repeat scroll center center;
     background-size: cover;
 }
+*/
 #tinderslide .pane1 .img {
-    background: url("../img/pane/pane1.jpg") no-repeat scroll center center;
+    background: url("../img/items/10001.jpg") no-repeat scroll center center;
+    background-size: cover;
+}
+
+#tinderslide .pane2 .img {
+    background: url("../img/items/10002.jpg") no-repeat scroll center center;
     background-size: cover;
 }
 

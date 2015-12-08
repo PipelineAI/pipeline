@@ -24,9 +24,7 @@ import com.brkyvz.spark.recommendation.StreamingLatentMatrixFactorization
 //val testStream: DStream[(Long, Long)] = ... // stream of (user, product) pairs to predict on
 //val predictions: DStream[Rating[Long]] = algorithm.predictOn(testStream)
 
-
-
-object TrainIncremental {
+object TrainALSIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")

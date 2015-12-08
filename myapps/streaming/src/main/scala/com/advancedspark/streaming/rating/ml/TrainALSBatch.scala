@@ -12,12 +12,11 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import org.apache.spark.mllib.recommendation.ALS
-//import org.apache.spark.mllib.recommendation.Rating
 import com.advancedspark.streaming.rating.core.Rating
 
 import org.elasticsearch.spark.sql._ 
 
-object TrainBatch {
+object TrainALSBatch {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .set("spark.cassandra.connection.host", "127.0.0.1")
