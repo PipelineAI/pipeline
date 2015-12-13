@@ -61,6 +61,7 @@ ENV SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
 ENV INDEXEDRDD_VERSION=0.1
 ENV KEYSTONEML_VERSION=0.2
 ENV SPARK_HASH_VERSION=0.1.3
+ENV NIFI_VERSION=0.4.0
 
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 7379
 
@@ -214,23 +215,28 @@ RUN \
  && make install \
  && cd ~ \
 
+# Webdis Redis REST Server
+ && cd ~ \
+ && git clone https://github.com/nicolasff/webdis.git \
+ && cd webdis \
+ && make \
+
 # Apache Hadoop
  && wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
-# (Optional) Daytona GraySort Challenge Data Generator
+# Apache NiFi
+ && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
+ && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
+ && rm nifi-${NIFI_VERSION}.tar.gz \
+
+# (Optional) 100 TB Daytona GraySort Challenge Data Generator
  && cd ~ \
  && wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz \
  && mkdir gensort-linux-${GENSORT_VERSION}/ \
  && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ \
- && rm gensort-linux-${GENSORT_VERSION}.tar.gz \
-
-# Webdis Redis REST Server
- && cd ~ \
- && git clone https://github.com/nicolasff/webdis.git \
- && cd webdis \
- && make 
+ && rm gensort-linux-${GENSORT_VERSION}.tar.gz 
 
 RUN \
 # Sbt Feeder
