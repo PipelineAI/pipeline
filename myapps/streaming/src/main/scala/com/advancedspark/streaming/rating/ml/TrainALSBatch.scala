@@ -58,12 +58,12 @@ object TrainALSBatch {
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
 	val allRatingsDF = sqlContext.read.format("org.apache.spark.sql.cassandra")
-	  .options(cassandraConfig).load().toDF("userId", "itemId", "rating", "timestamp")
+	  .options(cassandraConfig).load().toDF("userId", "itemId", "rating", "timestamp").cache()
 
         // Convert to Spark ML Recommendation Ratings
         val allRecommendationRatings = allRatingsDF.map(rating => 
  	  org.apache.spark.mllib.recommendation.Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)
-	)
+	).cache()
 
 	// Train the model
 	val rank = 10
@@ -79,11 +79,11 @@ object TrainALSBatch {
               Recommendation(recommendation(0).asInstanceOf[Int], 
                    	     recommendation(1).asInstanceOf[Int], 
                      	     recommendation(2).asInstanceOf[Double])) 
-  	  }
+  	  }.cache()
 
         val enrichedRecommendationsDF = recommendationsDF.select($"userId", $"itemId", $"confidence")
           .join(itemsDF, $"itemId" === $"id")
-          .select($"userId", $"itemId", $"title", $"img", $"confidence")
+          .select($"userId", $"itemId", $"title", $"img", $"confidence").cache()
 
         enrichedRecommendationsDF.write.format("org.elasticsearch.spark.sql").mode(SaveMode.Overwrite)
 	  .options(esConfig).save("advancedspark/personalized-als")

@@ -1,5 +1,7 @@
 # SSH
 
+cd $PIPELINE_HOME
+
 echo '...**** MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS ****...'
 echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
 
@@ -12,7 +14,7 @@ chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
 
 # Adding syntax highlighting to VIM
-ln -s ~/pipeline/config/.vim ~/ 
+ln -s $PIPELINE_HOME/config/.vim ~/ 
 
 # Apache Httpd
 echo '...Configuring Apache Httpd...'
@@ -30,7 +32,6 @@ bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
 bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
-bzip2 -d -k $DATASETS_HOME/sort/sort.txt.bz2
 tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
 tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
 tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
@@ -56,7 +57,7 @@ a2ensite advancedspark.conf
 # We're just copying these under /var/www/html for now
 # Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
 cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
-cp -R $PIPELINE_HOME/datasets /var/www/html
+cp -R $PIPELINE_HOME/datasets/items /var/www/html/items
 
 # My Apps
 echo '...Configuring  Apps...'
