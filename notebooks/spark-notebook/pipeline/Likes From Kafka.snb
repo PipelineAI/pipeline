@@ -11,7 +11,7 @@
     "trusted" : true,
     "customLocalRepo" : "/root/.ivy2",
     "customRepos" : null,
-    "customDeps" : [ "com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M3", "org.apache.spark:spark-streaming-kafka_2.10:1.4.1", "org.apache.spark % spark-graphx_2.10 % 1.4.1", "- org.apache.spark % spark-core_2.10 % _", "- org.apache.spark % spark-streaming_2.10 % _", "- org.apache.hadoop % _ % _" ],
+    "customDeps" : [ "com.datastax.spark:spark-cassandra-connector_2.10:1.5.0-M3", "org.apache.spark:spark-streaming-kafka_2.10:1.4.1", "org.apache.spark % spark-graphx_2.10 % 1.4.1", "- org.apache.spark % spark-core_2.10 % _", "- org.apache.spark % spark-streaming_2.10 % _", "- org.apache.hadoop % _ % _" ],
     "customImports" : null,
     "customSparkConf" : {
       "spark.cassandra.connection.host" : "127.0.0.1",

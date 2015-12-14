@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0-M3\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
       "dateUpdated": "Nov 30, 2015 12:20:55 PM",
       "config": {
         "colWidth": 12.0,
@@ -897,7 +897,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "\nval joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()\n",
+      "text": "\nval joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"userid\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()\n",
       "dateUpdated": "Nov 24, 2015 5:22:04 AM",
       "config": {
         "colWidth": 12.0,
@@ -930,7 +930,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()%md ### Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)",
+      "text": "val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()",
       "dateUpdated": "Nov 24, 2015 5:21:11 AM",
       "config": {
         "colWidth": 12.0,
@@ -1064,7 +1064,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val joinMediumHottieRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF \u003d mediumHottieRatingsPartitionedOrcDF.join(unknownGendersPartitionedOrcDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.explain(true)\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.count()",
+      "text": "val joinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF \u003d middleRatingsPartitionedOrcDF.join(unknownGendersPartitionedOrcDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.explain(true)\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.count()",
       "dateUpdated": "Nov 24, 2015 5:18:22 AM",
       "config": {
         "colWidth": 12.0,
@@ -1294,7 +1294,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.count()",
+      "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersUnpartitionedJsonDF, $\"userid\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.count()",
       "dateUpdated": "Nov 24, 2015 5:28:13 AM",
       "config": {
         "colWidth": 12.0,
@@ -1360,7 +1360,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.count()",
+      "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersPartitionedParquetDF, $\"userid\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.count()",
       "dateUpdated": "Nov 24, 2015 5:26:06 AM",
       "config": {
         "colWidth": 12.0,

@@ -3,7 +3,7 @@
 docker build  -t fluxcapacitor/pipeline . 
 #  --build-arg SCALA_VERSION=2.10.4 \
 #  --build-arg SPARK_VERSION=1.5.1 \
-#  --build.arg CASSANDRA_VERSION=2.2.3 \
+#  --build.arg CASSANDRA_VERSION=3.0.1 \
 #  --build-arg CONFLUENT_VERSION=1.0.1 \
 #  --build-arg ELASTICSEARCH_VERSION=1.7.3 \
 #  --build-arg LOGSTASH_VERSION=2.0.0 \

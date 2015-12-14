@@ -14,7 +14,7 @@ FROM ubuntu:14.04
 # These are required by this Dockerfile to determine which software tools to download
 # These can be overwritten by config/bash/.profile later, if needed
 # These only work in Docker 1.9+
-#ARG CASSANDRA_VERSION #2.2.3
+#ARG CASSANDRA_VERSION #3.0.1
 #ARG CONFLUENT_VERSION #1.0.1
 #ARG ELASTICSEARCH_VERSION #1.7.3
 #ARG LOGSTASH_VERSION #2.0.0
@@ -30,7 +30,7 @@ FROM ubuntu:14.04
 #ARG SCALA_VERSION #2.10.4
 #ARG SPARK_VERSION #1.5.1
 
-ENV CASSANDRA_VERSION=2.2.3
+ENV CASSANDRA_VERSION=3.0.1
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
 ENV LOGSTASH_VERSION=2.0.0
@@ -46,7 +46,7 @@ ENV GENSORT_VERSION=1.5
 ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
 ENV AKKA_VERSION=2.3.11
-ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
+ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.5.0-M3
 ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
 ENV KAFKA_CLIENT_VERSION=0.8.2.2
 ENV SCALATEST_VERSION=2.2.4
@@ -142,7 +142,7 @@ RUN \
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git 
+ && git clone https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Replace .profile with the one from config/bash/.profile
