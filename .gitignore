@@ -1,4 +1,5 @@
 data
+sort.txt.bz2
 logs
 metastore_db
 dump.rdb

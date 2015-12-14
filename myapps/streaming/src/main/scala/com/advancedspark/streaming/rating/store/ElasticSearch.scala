@@ -21,7 +21,7 @@ object ElasticSearch {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(30))
+      @transient val newSsc = new StreamingContext(sc, Seconds(22))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc
@@ -48,9 +48,7 @@ object ElasticSearch {
         // convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
 
-        // save the DataFrame to Cassandra
-        // Note:  Cassandra has been initialized through spark-env.sh
-        //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
+        // save the DataFrame to ElasticSearch
         val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")

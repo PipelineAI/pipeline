@@ -15,8 +15,11 @@ object CacheNaiveSort {
     // Set up the timings collection used to avg later across all the runs
     var timings = new ListBuffer[Double]()
 
+    val dataHome = sys.env("DATA_HOME")
+    val datasetsHome = sys.env("DATASETS_HOME")
+
     // Read the data set and retrieve only the desired number of bytes to sort
-    var byteArrays = Source.fromFile("../../datasets/sort/sort.txt").getLines
+    var byteArrays = Source.fromFile(s"""${datasetsHome}/sort/sort.txt""").getLines
       .flatMap(record => Array(record.substring(0, byteArrayLength).getBytes)).toArray
 
     // Do 5 runs and avg the timings
@@ -37,7 +40,7 @@ object CacheNaiveSort {
     val avgTiming = timings.sum / timings.size
     System.out.println(s"""Elapsed avg time for numIters ${numIters} and byteArrayLength ${byteArrayLength}:  ${(avgTiming)}""")
 
-    val file = new File(s"""out-${byteArrayLength}.txt""")
+    val file = new File(s"""${dataHome}/core/sorted-naive-${byteArrayLength}.out""")
     val bw = new BufferedWriter(new FileWriter(file))
     byteArrays.foreach(record => bw.write(record.toString + "\n"))
     bw.close()

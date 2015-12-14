@@ -1,24 +1,44 @@
 {
   "paragraphs": [
     {
-      "config": {},
+      "text": "",
+      "dateUpdated": "Dec 12, 2015 9:58:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1445437034759_-21930194",
       "id": "20151021-141714_235381766",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Oct 21, 2015 2:17:14 PM",
-      "status": "READY",
+      "dateStarted": "Dec 12, 2015 9:58:07 AM",
+      "dateFinished": "Dec 12, 2015 9:58:07 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
   "name": "Netflix Prize/01:  Setup Reference Data",
   "id": "2B4WY2DG2",
   "angularObjects": {
-    "2AR33ZMZJ": [],
+    "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
-    "2ARR8UZDJ": []
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

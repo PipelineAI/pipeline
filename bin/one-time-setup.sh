@@ -18,8 +18,8 @@ $SCRIPTS_HOME/config-services-before-starting.sh
 echo '...Start All Services...'
 $SCRIPTS_HOME/start-all-services.sh
 
-echo '...Configuring Services After Starting...'
-$SCRIPTS_HOME/config-services-after-starting.sh
+echo '...Create Examples Data Sources...'
+$SCRIPTS_HOME/create-example-datasources.sh
 
 echo '...Show Exported Variables...'
 export

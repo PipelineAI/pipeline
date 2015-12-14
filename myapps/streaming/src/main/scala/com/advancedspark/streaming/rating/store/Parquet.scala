@@ -20,7 +20,7 @@ object Parquet {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(2))
+      @transient val newSsc = new StreamingContext(sc, Seconds(5))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc
@@ -34,7 +34,7 @@ object Parquet {
     val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     
-    val dataHome = sys.env.get("DATA_HOME")
+    val dataHome = sys.env("DATA_HOME")
  
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
