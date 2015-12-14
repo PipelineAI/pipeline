@@ -12,7 +12,7 @@ lazy val feeder = (project in file("."))
 
 val akkaVersion = sys.env("AKKA_VERSION") // 2.3.11
 val sparkVersion = sys.env("SPARK_VERSION") // 1.5.1
-val sparkCassandraConnectorVersion = sys.env("SPARK_CASSANDRA_CONNECTOR_VERSION") // 1.5.0-M3
+val sparkCassandraConnectorVersion = sys.env("SPARK_CASSANDRA_CONNECTOR_VERSION") // 1.4.0-M3
 val sparkElasticSearchConnectorVersion = sys.env("SPARK_ELASTICSEARCH_CONNECTOR_VERSION") // 2.1.2
 val kafkaVersion = sys.env("KAFKA_CLIENT_VERSION") // 0.8.2.2
 val scalaTestVersion = sys.env("SCALATEST_VERSION") // 2.2.4

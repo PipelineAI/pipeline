@@ -28,7 +28,7 @@
       "collapsed" : false
     },
     "cell_type" : "code",
-    "source" : ":dp com.datastax.spark % spark-cassandra-connector_2.10 % 1.5.0-M3",
+    "source" : ":dp com.datastax.spark % spark-cassandra-connector_2.10 % 1.4.0-M3",
     "outputs" : [ ]
   }, {
     "metadata" : {

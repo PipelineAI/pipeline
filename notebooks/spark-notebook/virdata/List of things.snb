@@ -11,7 +11,7 @@
     "trusted" : true,
     "customLocalRepo" : "/tmp/repo",
     "customRepos" : [ "local-maven % default % file:///home/petrellaa/.m2/repository % maven", "typesafe-cache % default % http://typesafe.artifactoryonline.com/typesafe/twitter-cache/ % maven", "virdata-release % default % s3://virdata-artifacts/mvn/release % (\"$AWS_ACCESS_KEY_ID\", \"$AWS_SECRET_ACCESS_KEY\") % maven", "virdata-snapshot % default % s3://virdata-artifacts/mvn/snapshot % (\"$AWS_ACCESS_KEY_ID\", \"$AWS_SECRET_ACCESS_KEY\") % maven", "typesafe-release % default % http://repo.typesafe.com/typesafe/releases/ % maven" ],
-    "customDeps" : [ "com.datastax.spark % spark-cassandra-connector_2.10 % 1.5.0-M3", "com.virdata % core-service-timeseries-finagle % 1.11.2-SNAPSHOT" ],
+    "customDeps" : [ "com.datastax.spark % spark-cassandra-connector_2.10 % 1.4.0-M3", "com.virdata % core-service-timeseries-finagle % 1.11.2-SNAPSHOT" ],
     "customImports" : [ "import com.datastax.spark.connector._", "import com.datastax.spark.connector.cql.CassandraConnector" ],
     "customSparkConf" : {
       "spark.name" : "Hack local data in c*",
