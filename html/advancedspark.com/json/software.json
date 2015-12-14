@@ -17,11 +17,11 @@
 	"description": "The Apache Ambari project is aimed at making Hadoop management simpler by developing software for provisioning, managing, and monitoring Apache Hadoop clusters. Ambari provides an intuitive, easy-to-use Hadoop management web UI backed by its RESTful APIs.",
 	"img": "img/software/ambari.png"
 }, {
-	"id": 4,
-	"title": "Apache CouchDB",
-	"tags": ["JSON", "Document Store", "NoSQL", "JavaScript", "REST API", "Java", "JVM"],
-	"description": "CouchDB is a database that completely embraces the web. Store your data with JSON documents. Access your documents and query your indexes with your web browser, via HTTP. Index, combine, and transform your documents with JavaScript.",
-	"img": "img/software/couchdb.png"
+        "id": 4,
+        "title": "Docker",
+        "tags": ["Linux", "DevOps", "Deployment"],
+        "description": "",
+        "img": "img/software/docker.png"
 }, {
 	"id": 5,
 	"title": "Microsft Azure",
@@ -32,7 +32,7 @@
 	"id": 6,
 	"title": "Apache Flink",
 	"tags": ["Java", "Scala", "JVM", "SQL", "DataSet", "DataFrame", "Table", "DataStream", "Streaming Analytics", "Batch Analytics", "Machine Learning", "Graph Processing", "Approximations", "Sampling", "UDF", "UDAF", "Join"],
-	"description": "Flink’s core is a streaming dataflow engine that provides data distribution, communication, and fault tolerance for distributed computations over data streams.",
+	"description": "Flink's core is a streaming dataflow engine that provides data distribution, communication, and fault tolerance for distributed computations over data streams.",
 	"img": "img/software/flink.png"
 }, {
 	"id": 7,
@@ -333,7 +333,7 @@
 	"title": "MicroStrategy",
 	"tags": ["BI Tool", "Visualization"],
 	"description": "",
-	"img": "img/software/onpremise.png"
+	"img": "img/software/microstrategy.png"
 }, {
 	"id": 57,
 	"title": "Knime",
@@ -377,111 +377,105 @@
 	"description": "",
 	"img": "img/software/csv.png"
 }, {
-	"id": 63,
+	"id": 65,
 	"title": "Deep Learning 4J",
 	"tags": ["Deep Learning", "Neural Networks"],
 	"description": "",
 	"img": "img/software/deeplearning4j.png"
 }, {
-	"id": 64,
+	"id": 66,
 	"title": "Redshift",
 	"tags": ["Database", "Columnar", "UDF", "UDAF", "Join", "AWS"],
 	"description": "",
 	"img": "img/software/redshift.png"
 }, {
-	"id": 65,
+	"id": 67,
 	"title": "Kinesis",
 	"tags": ["Stream Processing", "AWS"],
 	"description": "",
 	"img": "img/software/kinesis.png"
 }, {
-	"id": 66,
+	"id": 68,
 	"title": "DynamoDB",
 	"tags": ["NoSQL", "Database", "UDF", "UDAF", "Join", "AWS"],
 	"description": "",
 	"img": "img/software/dynamodb.png"
 }, {
-	"id": 67,
+	"id": 69,
 	"title": "Spark GraphX",
 	"tags": ["Graph Analytics", "Spark"],
 	"description": "",
-	"img": "img/software/graphx.png"
+	"img": "img/software/spark-graphx.png"
 }, {
-	"id": 69,
+	"id": 70,
 	"title": "SQL Server",
 	"tags": ["Database", "SQL", "Microsoft"],
 	"description": "",
 	"img": "img/software/sqlserver.png"
 }, {
-	"id": 70,
+	"id": 71,
 	"title": "Elastic MapReduce",
 	"tags": ["MapReduce", "Spark", "Hive", "Pig", "AWS"],
 	"description": "",
 	"img": "img/software/emr.png"
 }, {
-	"id": 71,
+	"id": 72,
 	"title": "GraphLab/Dato",
 	"tags": ["Graph Analytics", "Machine Learning", "Query Processing"],
 	"description": "",
 	"img": "img/software/graphlab.png"
 }, {
-	"id": 72,
+	"id": 73,
 	"title": "Memcached",
 	"tags": ["Distributed Cache", "Key Value Store"],
 	"description": "",
 	"img": "img/software/memcached.png"
 }, {
-	"id": 73,
+	"id": 74,
 	"title": "Neo4j",
 	"tags": ["Graph Analytics"],
 	"description": "",
 	"img": "img/software/neo4j.png"
 }, {
-	"id": 74,
+	"id": 75,
 	"title": "Postgres",
 	"tags": ["Database", "SQL", "UDF", "UDAF", "Join"],
 	"description": "",
 	"img": "img/software/postgres.png"
 }, {
-	"id": 75,
+	"id": 76,
 	"title": "Protobuffers",
 	"tags": ["File Format", "Evolving Schema", "Nested Schema"],
 	"description": "",
 	"img": "img/software/protobuffers.png"
 }, {
-	"id": 76,
+	"id": 77,
 	"title": "S3",
 	"tags": ["Object Store", "AWS"],
 	"description": "",
 	"img": "img/software/s3.png"
 }, {
-	"id": 77,
+	"id": 78,
 	"title": "Tensor Flow",
 	"tags": ["Deep Learning", "Google"],
 	"description": "",
 	"img": "img/software/tensorflow.png"
 }, {
-	"id": 78,
+	"id": 79,
 	"title": "Titan GraphDB",
 	"tags": ["Graph Analytics"],
 	"description": "",
 	"img": "img/software/titandb.png"
 }, {
-	"id": 79,
+	"id": 80,
 	"title": "Teradata",
 	"tags": ["Database", "Data Warehouse"],
 	"description": "",
 	"img": "img/software/teradata.png"
 }, {
-	"id": 80,
+	"id": 81,
 	"title": "Vertica",
 	"tags": ["Database", "Data Warehouse"],
 	"description": "",
 	"img": "img/software/vertica.png"
-}, {
-        "id": 81,
-        "title": "Docker",
-        "tags": ["Linux", "DevOps", "Deployment"],
-        "description": "",
-        "img": "img/software/docker.png"
 }]

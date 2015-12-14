@@ -1,0 +1,25 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450126777736_760902478",
+      "id": "20151214-205937_1790420062",
+      "dateCreated": "Dec 14, 2015 8:59:37 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Sandbox",
+  "id": "2B8WJD8YU",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2B7ZUQU5P": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

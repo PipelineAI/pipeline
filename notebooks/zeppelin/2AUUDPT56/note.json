@@ -38,8 +38,8 @@
     },
     {
       "title": "Load the Reference Data To Enrich the Streaming Ratings",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/items/items.json\")\n\nitemsDF.registerTempTable(\"items_temp\")",
-      "dateUpdated": "Dec 10, 2015 4:14:22 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/html/advancedspark.com/data/software.json\")\n\nitemsDF.registerTempTable(\"items_temp\")",
+      "dateUpdated": "Dec 14, 2015 9:01:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,11 +86,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [_corrupt_record: string, description: string, id: bigint, img: string, tags: string, title: string]\n"
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d []\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Dec 10, 2015 4:14:23 AM",
-      "dateFinished": "Dec 10, 2015 4:14:23 AM",
+      "dateStarted": "Dec 14, 2015 9:01:13 PM",
+      "dateFinished": "Dec 14, 2015 9:01:13 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

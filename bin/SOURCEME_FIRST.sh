@@ -1,5 +1,6 @@
 #!/bin/bash
 # Run first time through to set up all the components and start services 
+echo '*** MAKE SURE YOU ARE SOURCING THIS SCRIPT USING "source SOURCEME_FIRST.sh" ***'
 
 cd ~/pipeline
 
