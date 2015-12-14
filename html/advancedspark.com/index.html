@@ -11,7 +11,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
   <style>
       body {
-        background-color: black;
+        background-color: dark-gray;
 	color: white;
       }
       li {
@@ -19,10 +19,11 @@
 	list-style-type: none;
 	position: relative;
       }
-      li .heart {
+      li .like {
         position: absolute;
 	z-index: 99;
-        left: 0px;
+        left: 40px;
+        top: 0px; 
 	display: none;
       }
 </style>
@@ -31,7 +32,7 @@
 var myId = Math.floor((Math.random() * 100000) + 1);
 
 function rate(itemId, rating) {
-  $("#heart" + itemId).show()
+  $("#like" + itemId).show()
 
   var encodedKey = btoa(myId)
   var encodedValue = btoa(myId + "," + itemId + "," + rating)
@@ -56,7 +57,7 @@ function loadItems() {
       var title = item.title 
       var imgSrc = item.img
  
-      items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43'></li>" );
     });
     
     $( "<ul/>", {
