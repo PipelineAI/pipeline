@@ -58,7 +58,7 @@
       "collapsed" : false
     },
     "cell_type" : "code",
-    "source" : "val moviesFromCSV = sqlContext.read.format(\"com.databricks.spark.csv\")\n                        .option(\"header\", \"true\")\n                        .load(\"file:/root/pipeline/datasets/ml-latest-small/movies.csv\")\n                        .toDF(\"movieid\", \"title\", \"genres\")",
+    "source" : "val moviesFromCSV = sqlContext.read.format(\"com.databricks.spark.csv\")\n                        .option(\"header\", \"true\")\n                        .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n                        .toDF(\"movieid\", \"title\", \"genres\")",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",

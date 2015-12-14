@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Dec 8, 2015 8:01:24 AM",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Dec 8, 2015 8:01:24 AM",
-      "dateFinished": "Dec 8, 2015 8:01:24 AM",
+      "dateStarted": "Dec 10, 2015 4:15:30 AM",
+      "dateFinished": "Dec 10, 2015 4:15:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval itemRatings \u003d itemRatingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n).cache()\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(itemRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Dec 8, 2015 8:01:24 AM",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[160] at map at \u003cconsole\u003e:45\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@4a37067c\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[1209] at map at \u003cconsole\u003e:66\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@2e37984d\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Dec 8, 2015 8:01:24 AM",
-      "dateFinished": "Dec 8, 2015 8:01:27 AM",
+      "dateStarted": "Dec 10, 2015 4:15:30 AM",
+      "dateFinished": "Dec 10, 2015 4:15:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"id\",\"recommendationItemIds\")\n\ncase class Recommendation(userId: Int, itemId: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendationItemIds\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"userId\", $\"itemId\", $\"confidence\").join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")",
-      "dateUpdated": "Dec 8, 2015 8:01:26 AM",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,17 +101,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:64: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:85: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Dec 8, 2015 8:01:26 AM",
-      "dateFinished": "Dec 8, 2015 8:01:29 AM",
+      "dateStarted": "Dec 10, 2015 4:15:30 AM",
+      "dateFinished": "Dec 10, 2015 4:15:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "enrichedRecommendationsDF.show(20)",
-      "dateUpdated": "Dec 8, 2015 8:01:26 AM",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,17 +134,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n|userId|itemId|               title|         description|                tags|                img|        confidence|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n| 23080| 90011|         Ashley Judd|Ashley Judd was b...|Granada Hills, Ca...|img/items/90011.jpg|1.0004745760739517|\n| 23080| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9985590545917774|\n| 23080| 10001|   Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/items/10001.jpg| 0.997208115416379|\n| 23080| 90012|         Stacey Dash|Stacey Dash was b...|Bronx, New York, ...|img/items/90012.jpg| 0.995997943173634|\n| 23080| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9951946062105478|\n| 92828| 90011|         Ashley Judd|Ashley Judd was b...|Granada Hills, Ca...|img/items/90011.jpg| 1.005439755289839|\n| 92828| 10001|   Leonardo DiCaprio|Few actors in the...|Hollywood, Califo...|img/items/10001.jpg|1.0032652926822714|\n| 92828| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg| 1.003051035941273|\n| 92828| 90015|       Barbara Niven|Barbara Niven was...|Portland, Oregon,...|img/items/90015.jpg|0.9998081127125745|\n| 92828| 90012|         Stacey Dash|Stacey Dash was b...|Bronx, New York, ...|img/items/90012.jpg|0.9980190833013536|\n| 83057| 90011|         Ashley Judd|Ashley Judd was b...|Granada Hills, Ca...|img/items/90011.jpg|0.9971455531934552|\n| 83057| 10003|           Al Pacino|One of the greate...|Manhattan, New Yo...|img/items/10003.jpg|0.9952032880088165|\n| 83057| 10010|           Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/items/10010.jpg|0.9952032880088165|\n| 83057| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9943544283928397|\n| 83057| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9934893259664471|\n| 46793| 10003|           Al Pacino|One of the greate...|Manhattan, New Yo...|img/items/10003.jpg|0.9952388493130395|\n| 46793| 10010|           Tom Hanks|Thomas Jeffrey Ha...|Concord, Californ...|img/items/10010.jpg|0.9952388493130395|\n| 46793| 90011|         Ashley Judd|Ashley Judd was b...|Granada Hills, Ca...|img/items/90011.jpg|0.9950022509969478|\n| 46793| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9917640770036564|\n| 46793| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9914844117074025|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\nonly showing top 20 rows\n\n"
+        "msg": "+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n|userId|itemId|               title|         description|                tags|                img|        confidence|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n| 60956| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931231465879513|\n| 60956| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931222207287466|\n| 60956| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931217565627591|\n| 60956| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931214677252046|\n| 60956| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg| 0.993119544258136|\n| 89596| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931252925898392|\n| 89596| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931243674919777|\n| 89596| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931239035689992|\n| 89596| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg| 0.993123612995797|\n| 89596| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931216922324685|\n| 40720| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931235492515955|\n| 40720| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931226233415487|\n| 40720| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931221591637943|\n| 40720| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931218704976023|\n| 40720| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931199468230222|\n| 95584| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931229206911006|\n| 95584| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg| 0.993121994721274|\n| 95584| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg| 0.993121530520884|\n| 95584| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931212419467661|\n| 95584| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931193180813889|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\nonly showing top 20 rows\n\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Dec 8, 2015 8:01:27 AM",
-      "dateFinished": "Dec 8, 2015 8:01:29 AM",
+      "dateStarted": "Dec 10, 2015 4:15:32 AM",
+      "dateFinished": "Dec 10, 2015 4:15:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "//import org.elasticsearch.spark.sql._ \n//import org.apache.spark.sql.SaveMode\n\n//val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n//enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n//  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Dec 8, 2015 8:01:27 AM",
+      "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -168,17 +168,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Dec 8, 2015 8:01:29 AM",
-      "dateFinished": "Dec 8, 2015 8:01:29 AM",
+      "dateStarted": "Dec 10, 2015 4:15:33 AM",
+      "dateFinished": "Dec 10, 2015 4:15:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Dec 8, 2015 8:01:27 AM",
+      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -204,8 +204,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Dec 8, 2015 8:01:30 AM",
-      "dateFinished": "Dec 8, 2015 8:01:30 AM",
+      "dateStarted": "Dec 10, 2015 4:15:33 AM",
+      "dateFinished": "Dec 10, 2015 4:15:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
