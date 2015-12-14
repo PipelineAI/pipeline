@@ -54,7 +54,7 @@ object TrainALSIncremental {
         message.cache()
 
         // Convert each RDD from the batch into a DataFrame
-        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
+        val df = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userid", "itemid", "rating", "timestamp")
 
         // Save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
