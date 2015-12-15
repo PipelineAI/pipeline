@@ -1,0 +1,506 @@
+{
+  "paragraphs": [
+    {
+      "title": "Import Dependencies",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904425694_1044927616",
+      "id": "20150703-062025_1689760268",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Jul 3, 2015 6:20:25 AM",
+      "dateStarted": "Dec 14, 2015 11:07:33 PM",
+      "dateFinished": "Dec 14, 2015 11:07:33 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load the Reference Data To Enrich the Streaming Ratings",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", explode($\"tags\")).limit(10))\nitemsDF.registerTempTable(\"items_temp\")",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 340.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448389076669_946770032",
+      "id": "20151124-181756_1657385240",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\timg\t_c0\n1\tApache Cassandra\timg/software/cassandra.png\tKV Store\n1\tApache Cassandra\timg/software/cassandra.png\tNoSQL\n1\tApache Cassandra\timg/software/cassandra.png\tDatabase\n1\tApache Cassandra\timg/software/cassandra.png\tJava\n1\tApache Cassandra\timg/software/cassandra.png\tJVM\n2\tTachyon\timg/software/tachyon.png\tDistributed Cache\n2\tTachyon\timg/software/tachyon.png\tS3\n2\tTachyon\timg/software/tachyon.png\tSwift\n2\tTachyon\timg/software/tachyon.png\tHDFS\n3\tApache Ambari\timg/software/ambari.png\tHadoop\n"
+      },
+      "dateCreated": "Nov 24, 2015 6:17:56 PM",
+      "dateStarted": "Dec 14, 2015 11:07:33 PM",
+      "dateFinished": "Dec 14, 2015 11:07:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Read the real-time Ratings coming from Users through Kafka",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\n  \nitemRatingsDF.registerTempTable(\"item_ratings_temp\")",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435900511434_-2036302443",
+      "id": "20150703-051511_2118186706",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
+      },
+      "dateCreated": "Jul 3, 2015 5:15:11 AM",
+      "dateStarted": "Dec 14, 2015 11:07:33 PM",
+      "dateFinished": "Dec 14, 2015 11:07:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show the total rating count and number of Overall distinct users Who Rated (Cassandra)",
+      "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": false,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435903786952_671772613",
+      "id": "20150703-060946_1260514447",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 35\ndistinctUsers: Any \u003d 3\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:09:46 AM",
+      "dateStarted": "Dec 14, 2015 11:07:34 PM",
+      "dateFinished": "Dec 14, 2015 11:07:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Rating Count and Number of Distinct Users Who Rated a Given Item (Redis)",
+      "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448963162364_-999362848",
+      "id": "20151201-094602_557082428",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@26949818\nexactNumRatingsForItemId: String \u003d 1\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 1\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
+      },
+      "dateCreated": "Dec 1, 2015 9:46:02 AM",
+      "dateStarted": "Dec 14, 2015 11:07:34 PM",
+      "dateFinished": "Dec 14, 2015 11:07:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Use SQL to Show Most desirable users by Rating Count",
+      "text": "%sql SELECT title, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY title ORDER BY count DESC LIMIT 5",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "title",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "title",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": false,
+        "editorHide": false,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435904577933_-1977276639",
+      "id": "20150703-062257_361919402",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "title\tcount\nRedis\t3\nSpark ML/MLlib\t3\nSpark SQL\t2\nSpark Streaming\t2\nApache Parquet\t2\n"
+      },
+      "dateCreated": "Jul 3, 2015 6:22:57 AM",
+      "dateStarted": "Dec 14, 2015 11:07:35 PM",
+      "dateFinished": "Dec 14, 2015 11:07:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Compare The Physical Plans Between DataFrames And SQL (Equal)",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1438120230768_-497996483",
+      "id": "20150728-215030_753792481",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Equal)\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Jul 28, 2015 9:50:30 PM",
+      "dateStarted": "Dec 14, 2015 11:07:33 PM",
+      "dateFinished": "Dec 14, 2015 11:07:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1449536503946_10760739",
+      "id": "20151208-010143_1329389328",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
+      },
+      "dateCreated": "Dec 8, 2015 1:01:43 AM",
+      "dateStarted": "Dec 14, 2015 11:07:36 PM",
+      "dateFinished": "Dec 14, 2015 11:07:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\", $\"img\")\n  .groupBy($\"itemId\", $\"title\", $\"img\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n\njoinedDF.explain()",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1449536560447_-675033656",
+      "id": "20151208-010240_19538133",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, img: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#491L DESC], output\u003d[itemId#488,title#482,img#480,count#491L])\n ConvertToSafe\n  TungstenAggregate(key\u003d[itemId#488,title#482,img#480], functions\u003d[(count(itemId#488),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#488,title#482,img#480,count#491L])\n   TungstenExchange hashpartitioning(itemId#488,title#482,img#480)\n    TungstenAggregate(key\u003d[itemId#488,title#482,img#480], functions\u003d[(count(itemId#488),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#488,title#482,img#480,currentCount#495L])\n     TungstenProject [itemId#488,title#482,img#480]\n      BroadcastHashJoin [cast(itemId#488 as bigint)], [id#479L], BuildRight\n       ConvertToUnsafe\n        Project [itemid#484 AS itemId#488]\n         Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@5ac83bce[itemid#484]\n       ConvertToUnsafe\n        Scan JSONRelation[file:/root/pipeline/html/advancedspark.com/json/software.json][title#482,img#480,id#479L]\n"
+      },
+      "dateCreated": "Dec 8, 2015 1:02:40 AM",
+      "dateStarted": "Dec 14, 2015 11:07:36 PM",
+      "dateFinished": "Dec 14, 2015 11:07:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql EXPLAIN SELECT itemId, title, img, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title, img\n  ORDER BY count DESC \n  LIMIT 5\n",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "plan",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "plan",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1449536647456_1803472786",
+      "id": "20151208-010407_1170519136",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "plan\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#497L DESC], output\u003d[itemId#459,title#452,img#450,count#497L])\n ConvertToSafe\n  TungstenAggregate(key\u003d[itemId#459,title#452,img#450], functions\u003d[(count(itemId#459),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#459,title#452,img#450,count#497L])\n   TungstenExchange hashpartitioning(itemId#459,title#452,img#450)\n    TungstenAggregate(key\u003d[itemId#459,title#452,img#450], functions\u003d[(count(itemId#459),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#459,title#452,img#450,currentCount#502L])\n     TungstenProject [itemId#459,title#452,img#450]\n      BroadcastHashJoin [cast(itemId#459 as bigint)], [id#449L], BuildRight\n       ConvertToUnsafe\n        Project [itemid#455 AS itemId#459]\n         Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@79f32ab[itemid#455]\n       ConvertToUnsafe\n        Scan JSONRelation[file:/root/pipeline/html/advancedspark.com/json/software.json][title#452,img#450,id#449L]\n"
+      },
+      "dateCreated": "Dec 8, 2015 1:04:07 AM",
+      "dateStarted": "Dec 14, 2015 11:07:37 PM",
+      "dateFinished": "Dec 14, 2015 11:07:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Save Top 5 Most Rated Items to ElasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\n//val mostDesirableItemsByRatingCountDF \u003d sqlContext.sql(\"SELECT itemId, title, img, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY itemId, title, img ORDER BY count DESC LIMIT 5\")\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(mostDesirableItemsByRatingCountDF)\n",
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 196.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1447754108027_-274054386",
+      "id": "20151117-095508_447614045",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\timg\tcount\n51\tRedis\timg/software/redis.png\t3\n61\tSpark ML/MLlib\timg/software/spark-ml.png\t3\n63\tSpark SQL\timg/software/spark-sql.png\t2\n25\tApache Parquet\timg/software/parquet.png\t2\n62\tSpark Streaming\timg/software/spark-streaming.png\t2\n"
+      },
+      "dateCreated": "Nov 17, 2015 9:55:08 AM",
+      "dateStarted": "Dec 14, 2015 11:07:37 PM",
+      "dateFinished": "Dec 14, 2015 11:07:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 14, 2015 11:07:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1449537400520_-1271764997",
+      "id": "20151208-011640_46441333",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 8, 2015 1:16:40 AM",
+      "dateStarted": "Dec 14, 2015 11:07:37 PM",
+      "dateFinished": "Dec 14, 2015 11:07:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Demo/01: Analyze Likes (Summary Statistics)",
+  "id": "2AUUDPT56",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
+Status API Training Shop Blog About Pricing
