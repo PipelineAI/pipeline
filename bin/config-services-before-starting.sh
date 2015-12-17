@@ -89,9 +89,7 @@ echo '...****Ignore any ERROR 2002s Above****...'
 echo '...Configuring Cassandra...'
 mv $CASSANDRA_HOME/conf/cassandra-env.sh $CASSANDRA_HOME/conf/cassandra-env.sh.orig
 mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
-#rm $CASSANDRA_HOME/conf/cassandra-env.sh
 ln -s $PIPELINE_HOME/config/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
-#rm $CASSANDRA_HOME/conf/cassandra.yaml
 ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 mkdir -p $DATA_HOME/cassandra/data
 mkdir -p $DATA_HOME/cassandra/commitlog
@@ -100,17 +98,12 @@ mkdir -p $DATA_HOME/cassandra/saved_caches
 # Spark
 echo '...Configuring Spark...'
 mkdir -p $LOGS_HOME/spark/spark-events
-#rm $SPARK_HOME/conf/spark-defaults.conf
 ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
-#rm $SPARK_HOME/conf/spark-env.sh
 ln -s $PIPELINE_HOME/config/spark/spark-env.sh $SPARK_HOME/conf
-#rm $SPARK_HOME/conf/slaves
 ln -s $PIPELINE_HOME/config/spark/slaves $SPARK_HOME/conf
-#rm $SPARK_HOME/conf/metrics.properties
 ln -s $PIPELINE_HOME/config/spark/metrics.properties $SPARK_HOME/conf
-#rm $SPARK_HOME/conf/hive-site.xml
-ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $SPARK_HOME/conf
-#rm $SPARK_HOME/lib/$MYSQL_CONNECTOR_JAR
+ln -s $PIPELINE_HOME/config/spark/fairscheduler.xml $SPARK_HOME/conf
+ln -s $PIPELINE_HOME/config/spark/hive-site.xml $SPARK_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
 
 # Kafka
@@ -130,7 +123,7 @@ ln -s $PIPELINE_HOME/config/logstash/logstash.conf $LOGSTASH_HOME
 echo '...Configuring Kibana...'
 
 # Hadoop HDFS
-#echo '...Configuring Docker-local Hadoop HDFS...'
+echo '...Configuring Docker-local Hadoop HDFS...'
 
 # Redis
 echo '...Configuring Redis...'
@@ -141,9 +134,7 @@ echo '...Configuring Webdis...'
 # Tachyon
 echo '...Configuring Tachyon...'
 mv $TACHYON_HOME/conf/log4j.properties $TACHYON_HOME/conf/log4j.properties.orig
-#rm $TACHYON_HOME/conf/log4j.properties
 ln -s $PIPELINE_HOME/config/tachyon/log4j.properties $TACHYON_HOME/conf
-#rm $TACHYON_HOME/conf/tachyon-env.sh
 ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # The following command requies the SSH daemon to be running
 # If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
@@ -157,31 +148,14 @@ echo '...Configuring SBT...'
 # Zeppelin
 echo '...Configuring Zeppelin...'
 chmod a+x $ZEPPELIN_HOME/bin/*.sh
-#rm $ZEPPELIN_HOME/conf/zeppelin-env.sh
 ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
-#rm $ZEPPELIN_HOME/conf/zeppelin-site.xml
 ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
-#rm $ZEPPELIN_HOME/conf/interpreter.json
 ln -s $PIPELINE_HOME/config/zeppelin/interpreter.json $ZEPPELIN_HOME/conf
-#rm $ZEPPELIN_HOME/conf/hive-site.xml
 ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
-#rm $ZEPPELIN_HOME/lib/$MYSQL_CONNECTOR_JAR
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
-
-# Spark-Notebook
-echo '...Configuring Spark-Notebook...'
-#rm $SPARK_NOTEBOOK_HOME/notebooks/pipeline
-ln -s $PIPELINE_HOME/notebooks/spark-notebook/pipeline $SPARK_NOTEBOOK_HOME/notebooks
 
 # iPython/Jupyter
 echo '...Configuring iPython/Jupyter...'
-
-# Spark Job Server
-#echo '...Configuring Spark Job Server...'
-#rm $SPARK_JOBSERVER_HOME/config/pipeline.conf
-#rm $SPARK_JOBSERVER_HOME/config/pipeline.sh
-#ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.conf $SPARK_JOBSERVER_HOME/config 
-#ln -s $PIPELINE_HOME/config/spark-jobserver/pipeline.sh $SPARK_JOBSERVER_HOME/config
 
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'

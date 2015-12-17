@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+echo '...Make Sure You Have Called RUNME_ONCE.sh to Setup the Required Linux Tools or This Script Will Fail...' 
+
 echo '...Building Package...'
 sbt package
 
