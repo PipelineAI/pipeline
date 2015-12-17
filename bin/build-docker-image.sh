@@ -1,3 +1,8 @@
+# This is a convenience script to build the Docker image 
+
+# cd to where the Dockerfile lives
+cd ~/pipeline
+
 docker build  -t fluxcapacitor/pipeline . 
 
 # These build args only work in Docker 1.9+.
