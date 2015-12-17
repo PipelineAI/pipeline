@@ -52,8 +52,8 @@ $SPARK_HOME/sbin/start-history-server.sh
 echo '...Starting Kibana...'
 nohup kibana &
 
-#echo '...Starting iPython Notebook Server...'
-#nohup pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --master spark://127.0.0.1:7077 --executor-memory 10240M --driver-memory 2048M &
+echo '...Starting Jupyter Notebook Server...'
+nohup jupyter notebook --config=$CONFIG_HOME/config/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter &
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

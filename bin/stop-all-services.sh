@@ -52,13 +52,13 @@ ps -aef | grep "kibana" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stopping Logstash...'
 ps -aef | grep "logstash" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stopping Jupyter...'
+ps -aef | grep "jupyter" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stopping ElasticSearch...'
 jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Long-Running Ratings Spark Streaming Job...'
-$SCRIPTS_HOME/stop-sparksubmitted-job.sh
-
-echo '...Stopping Long-Running PySpark iPython/Jupyter Job...'
 $SCRIPTS_HOME/stop-sparksubmitted-job.sh
 
 echo '...Stopping Long-Running Spark Job Server Job...'

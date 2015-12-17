@@ -1,5 +1,4 @@
 # SSH
-
 cd $PIPELINE_HOME
 
 echo '...**** MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS ****...'

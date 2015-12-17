@@ -46,6 +46,9 @@ export DEV_INSTALL_HOME=~
 # Pipeline Home
 export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
+# Config Home
+export CONFIG_HOME=$PIPELINE_HOME/config
+
 # Scripts Home
 export SCRIPTS_HOME=$PIPELINE_HOME/bin
 
@@ -137,17 +140,6 @@ export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
 export PATH=$PATH:$ZEPPELIN_HOME/bin
-
-# Spark Notebook
-export SPARK_NOTEBOOK_HOME=$DEV_INSTALL_HOME/spark-notebook-$SPARK_NOTEBOOK_VERSION-scala-$SCALA_VERSION-spark-1.5.0-hadoop-$HADOOP_VERSION-with-hive-with-parquet
-export PATH=$PATH:$SPARK_NOTEBOOK_HOME/bin
-
-# iPython/Jupyter Home
-# TODO: Get Jupyter working with Python and Scala kernels
-export PYSPARK_DRIVER_PYTHON=ipython
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook --no-browser --port=7777"
-export JUPYTER_HOME=$DEV_INSTALL_HOME/jupyter
-export PATH=$PATH:$JUPYTER_HOME/bin
 
 # Notebooks Home
 export NOTEBOOKS_HOME=$PIPELINE_HOME/notebooks
