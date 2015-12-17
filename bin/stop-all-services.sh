@@ -55,6 +55,9 @@ ps -aef | grep "logstash" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stopping Jupyter...'
 ps -aef | grep "jupyter" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stopping Nifi...'
+nifi.sh stop
+
 echo '...Stopping ElasticSearch...'
 jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 

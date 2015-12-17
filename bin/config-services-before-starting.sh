@@ -21,7 +21,6 @@ a2enmod proxy
 a2enmod proxy_http
 a2dissite 000-default
 mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
-#rm /etc/apache2/apache2.conf
 ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
 mkdir -p $PIPELINE_HOME/logs/apache2
 
@@ -49,7 +48,6 @@ cat $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2-part-* > $DATASETS_HOME/m
 
 # Sample WebApp
 echo '...Configuring Example WebApp...'
-#rm /etc/apache2/sites-available/advancedspark.conf
 ln -s $PIPELINE_HOME/config/advancedspark.com/advancedspark.conf /etc/apache2/sites-available
 a2ensite advancedspark.conf
 # We're just copying these under /var/www/html for now
@@ -65,13 +63,10 @@ mkdir -p $DATA_HOME/core
 
 # Ganglia
 echo '...Configuring Ganglia...'
-#rm /etc/apache2/sites-available/ganglia.conf
 ln -s $PIPELINE_HOME/config/ganglia/ganglia.conf /etc/apache2/sites-available
 a2ensite ganglia
 mv /etc/ganglia/gmetad.conf /etc/ganglia/gmetad.conf.orig
 mv /etc/ganglia/gmond.conf /etc/ganglia/gmond.conf.orig
-#rm /etc/ganglia/gmetad.conf
-#rm /etc/ganglia/gmond.conf
 ln -s $PIPELINE_HOME/config/ganglia/gmetad.conf /etc/ganglia
 ln -s $PIPELINE_HOME/config/ganglia/gmond.conf /etc/ganglia
 
@@ -149,6 +144,16 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # iPython/Jupyter
 echo '...Configuring iPython/Jupyter...'
+
+# Nifi
+echo '...Configuring NiFi...'
+mv $NIFI_HOME/conf/nifi.properties $NIFI_HOME/conf/nifi.properties.orig
+mv $NIFI_HOME/conf/logback.xml $NIFI_HOME/conf/logback.xml.orig
+mv $NIFI_HOME/conf/bootstrap.conf $NIFI_HOME/conf/bootstrap.conf.orig
+ln -s $CONFIG_HOME/nifi/nifi.properties $NIFI_HOME/conf
+ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
+ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
+mkdir -p $LOGS_HOME/nifi
 
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'

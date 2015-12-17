@@ -8,7 +8,7 @@ echo '...Retrieving Latest Updates From Github...'
 git reset --soft && git pull
 
 echo '...Sourcing ~/.profile...'
-source ~/config/bash/.profile
+source ~/pipeline/config/bash/.profile
 
 echo '...Configuring Services Before Starting...'
 $SCRIPTS_HOME/config-services-before-starting.sh

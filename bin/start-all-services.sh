@@ -26,7 +26,7 @@ echo '...Starting Cassandra...'
 nohup cassandra
 
 echo '...Starting ZooKeeper...'
-nohup zookeeper-server-start $PIPELINE_HOME/config/kafka/zookeeper.properties &
+nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 
 echo '...Starting Redis...'
 nohup redis-server &
@@ -35,7 +35,7 @@ echo '...Starting Webdis...'
 nohup webdis $WEBDIS_HOME/webdis.json &
 
 echo '...Starting Kafka...'
-nohup kafka-server-start $PIPELINE_HOME/config/kafka/server.properties &
+nohup kafka-server-start $CONFIG_HOME/kafka/server.properties &
 
 echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
@@ -53,11 +53,14 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting Jupyter Notebook Server...'
-nohup jupyter notebook --config=$CONFIG_HOME/config/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter &
+nohup jupyter notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter &
+
+echo '...Starting Nifi...'
+nohup nifi.sh start &
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
-nohup schema-registry-start $PIPELINE_HOME/config/schema-registry/schema-registry.properties &
+nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.properties &
 
 echo '...Starting Kafka REST Proxy...'
-nohup kafka-rest-start $PIPELINE_HOME/config/kafka-rest/kafka-rest.properties &
+nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
