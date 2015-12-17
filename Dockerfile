@@ -186,7 +186,7 @@ RUN \
 # Apache NiFi
  && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
- && rm nifi-${NIFI_VERSION}.tar.gz \
+ && rm nifi-${NIFI_VERSION}-bin.tar.gz 
 
 RUN \
 # Sbt Feeder
