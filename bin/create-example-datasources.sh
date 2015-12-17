@@ -4,6 +4,9 @@ cd $PIPELINE_HOME
 
 echo '...Recreate All Dynamic Data Stores including Cassandra, Redis, ElasticSearch, Hive Metastore...'
 
+echo '...**** MAKE SURE NO SPARK JOBS ARE RUNNING BEFORE STARTING THIS SCRIPT ****...'
+echo '...**** SPECIFICALLY, ANY JOB USING THE advancedspark COLUMN FAMILY OR advancedspark.item_ratings TABLE WILL FAIL AFTER RUNNING THIS SCRIPT ****...' 
+
 echo '...**** YOU MUST START ALL SERVICES BEFORE RUNNING THIS SCRIPT ****...'
 echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
 

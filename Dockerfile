@@ -22,9 +22,7 @@ FROM ubuntu:14.04
 #ARG NEO4J_VERSION #2.2.3
 #ARG REDIS_VERSION #3.0.5
 #ARG SBT_VERSION #0.13.9
-#ARG SPARK_NOTEBOOK_VERSION #0.6.1
 #ARG HADOOP_VERSION #2.6.0
-#ARG TACHYON_VERSION #0.7.1
 #ARG ZEPPELIN_VERSION #0.6.0
 #ARG GENSORT_VERSION #1.5
 #ARG SCALA_VERSION #2.10.4
@@ -38,15 +36,13 @@ ENV KIBANA_VERSION=4.1.2
 ENV NEO4J_VERSION=2.2.3
 ENV REDIS_VERSION=3.0.5
 ENV SBT_VERSION=0.13.9
-ENV SPARK_NOTEBOOK_VERSION=0.6.1
 ENV HADOOP_VERSION=2.6.0
-ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
 ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
 ENV AKKA_VERSION=2.3.11
-ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0-M3
+ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.5.0-M3
 ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
 ENV KAFKA_CLIENT_VERSION=0.8.2.2
 ENV SCALATEST_VERSION=2.2.4
@@ -61,19 +57,18 @@ ENV SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
 ENV INDEXEDRDD_VERSION=0.1
 ENV KEYSTONEML_VERSION=0.2
 ENV SPARK_HASH_VERSION=0.1.3
+ENV NIFI_VERSION=0.4.0
 
-EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 7379
+EXPOSE 80 4042 9160 9042 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 7777 7379
 
 RUN \
  apt-get update \
  && apt-get install -y software-properties-common \
  && add-apt-repository ppa:webupd8team/java \
-# && add-apt-repository ppa:openjdk-r/ppa \
  && apt-get update \
  && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
  && apt-get install -y oracle-java8-installer \
  && apt-get install -y oracle-java8-set-default \
- #&& apt-get install -y openjdk-8-jdk \
  && apt-get install -y curl \
  && apt-get install -y wget \
  && apt-get install -y vim \
@@ -82,11 +77,11 @@ RUN \
  && apt-get install -y apache2 \
 
 # iPython/Jupyter
- && apt-get install -y python-dev \
- && apt-get install -y python-pip \
- && pip install nose "ipython[notebook]" \
+# && apt-get install -y python-dev \
+# && apt-get install -y python-pip \
+# && pip install nose "ipython[notebook]" \
 
-# Webdis Redis REST Server
+# Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
 
 # Python Data Science Libraries
@@ -113,31 +108,6 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java 
-
-# (Optional) Used for System-Level Performance Monitoring (Linux "perf" Command)
-# && apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` 
-
-# (Optional) Used for Building Flame Graphs from Linux "perf" Command
-# && cd ~ \ 
-# && git clone --depth=1 https://github.com/jrudolph/perf-map-agent \
-# && cd perf-map-agent \
-# && apt-get install -y cmake \ 
-# && cmake . \
-# && make \
-# && cd ~ \
-# && git clone --depth=1 https://github.com/brendangregg/FlameGraph \
-
-# (Optional) Useful UI for Profiling - Works with Linux "perf" Command and Flame Graphs
-# && cd ~ \
-# && apt-get install -y nodejs \
-# && apt-get install -y npm \
-# && git clone git://git.pcp.io/pcp \
-# && cd pcp \
-# && ./configure --prefex=/usr --sysconfdir=/etc --localstatedir=/var \
-# && make \
-# && make install \
-# && cd ~ \
-# && git clone https://github.com/Netflix/vector.git \
 
 RUN \
 # Get Latest Pipeline Code
@@ -180,7 +150,6 @@ RUN \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # ElasticSearch
-# && wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
@@ -195,17 +164,6 @@ RUN \
  && tar xvzf zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
  && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
 
-# Tachyon 
- && wget https://github.com/amplab/tachyon/releases/download/v${TACHYON_VERSION}/tachyon-${TACHYON_VERSION}-bin.tar.gz \
- && tar xvfz tachyon-${TACHYON_VERSION}-bin.tar.gz \
- && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
-
-# Spark Notebook
- && apt-get install -y screen \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && tar xvzf spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
- && rm spark-notebook-${SPARK_NOTEBOOK_VERSION}-scala-${SCALA_VERSION}-spark-1.5.0-hadoop-${HADOOP_VERSION}-with-hive-with-parquet.tgz \
-
 # Redis
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
  && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
@@ -214,23 +172,21 @@ RUN \
  && make install \
  && cd ~ \
 
+# Webdis Redis REST Server
+ && cd ~ \
+ && git clone https://github.com/nicolasff/webdis.git \
+ && cd webdis \
+ && make \
+
 # Apache Hadoop
  && wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
-# (Optional) Daytona GraySort Challenge Data Generator
- && cd ~ \
- && wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz \
- && mkdir gensort-linux-${GENSORT_VERSION}/ \
- && tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ \
- && rm gensort-linux-${GENSORT_VERSION}.tar.gz \
-
-# Webdis Redis REST Server
- && cd ~ \
- && git clone https://github.com/nicolasff/webdis.git \
- && cd webdis \
- && make 
+# Apache NiFi
+ && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
+ && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
+ && rm nifi-${NIFI_VERSION}.tar.gz \
 
 RUN \
 # Sbt Feeder

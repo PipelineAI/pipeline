@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0-M3\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0-M3\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/datasource/target/scala-2.10/datasource_2.10-1.0.jar\")",
       "dateUpdated": "Nov 4, 2015 10:34:31 PM",
       "config": {
         "colWidth": 12.0,

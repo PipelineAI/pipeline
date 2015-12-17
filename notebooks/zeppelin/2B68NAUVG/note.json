@@ -1,0 +1,61 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md TODO",
+      "dateUpdated": "Dec 14, 2015 10:49:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435978459979_-187768604",
+      "id": "20150704-025419_555917335",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eTODO\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:54:19 AM",
+      "dateStarted": "Dec 14, 2015 10:49:38 PM",
+      "dateFinished": "Dec 14, 2015 10:49:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450133378571_737856341",
+      "id": "20151214-224938_765877713",
+      "dateCreated": "Dec 14, 2015 10:49:38 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Demo/03: Generate Recs (Similarity Graph of Tags)",
+  "id": "2B68NAUVG",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -11,18 +11,21 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
   <style>
       body {
-        background-color: black;
-	color: white;
+        background-color: darkgray;
+	color: black;
       }
       li {
-	display: inline;
+	padding: 2px;
+        display: inline;
 	list-style-type: none;
 	position: relative;
+        width: 140px;
+        height: 100px;
       }
-      li .heart {
+      li .like {
         position: absolute;
 	z-index: 99;
-        left: 0px;
+        left: 40px;
 	display: none;
       }
 </style>
@@ -31,7 +34,7 @@
 var myId = Math.floor((Math.random() * 100000) + 1);
 
 function rate(itemId, rating) {
-  $("#heart" + itemId).show()
+  $("#like" + itemId).show()
 
   var encodedKey = btoa(myId)
   var encodedValue = btoa(myId + "," + itemId + "," + rating)
@@ -48,7 +51,7 @@ function rate(itemId, rating) {
 }
 
 function loadItems() {
-  $.getJSON( "datasets/items/items.json", function( data ) {
+  $.getJSON( "/json/software.json", function( data ) {
     var mePerson = [];
     var items = [];
     $.each( data, function( arrayIdx, item ) {
@@ -56,11 +59,11 @@ function loadItems() {
       var title = item.title 
       var imgSrc = item.img
  
-      items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></a><img class='heart' id='heart" + id + "' alt='liked' src='img/heart.png' width='45' height='38'></li>" );
+      items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43'></li>" );
     });
     
     $( "<ul/>", {
-      html: "<div id='items-inner'><hr><h3><center> Step 1:  Click Items You Really Like</center></h3><center>" + items.join( "" ) + "</center></div>"
+      html: "<div id='items-inner'><hr><h3><center> Step 1:  Click Only Software Used In <b>Productioni</b>!</center></h3><center>" + items.join( "" ) + "</center></div>"
     }).appendTo("#items");  
   });
 }
@@ -75,7 +78,7 @@ function loadPersonalizedALS() {
       var title = hit._source.title
       var imgSrc = hit._source.img
       
-      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></li>" );
+      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px'></li>" );
     });
     
     $( "<ul/>", {
@@ -94,7 +97,7 @@ function loadTopInfluencers() {
       var title = hit._source.title
       var imgSrc = hit._source.img
 
-      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></li>" );
+      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px'></li>" );
     });
     
     $( "<ul/>", {
@@ -114,7 +117,7 @@ function loadTopItemsByExactRatingCount() {
       var title = hit._source.title
       var imgSrc = hit._source.img
 
-      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></li>" );
+      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px'></li>" );
     });
 
     $( "<ul/>", {
@@ -136,7 +139,7 @@ function loadTopItemsByAvgRating() {
       var title = hit._source.title
       var imgSrc = hit._source.img
 
-      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140' height='209'></li>" );
+      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px'></li>" );
     });
 
     $( "<ul/>", {
@@ -206,7 +209,8 @@ End of Zendesk Widget script -->
 <div id="top-items-by-avg-rating">
 </div>
 -->
-<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2:  Click Here for Top 5 Items by Overall Rating Count</a></center></h3>
+<hr><h3><center>...Please Wait Before Moving On...</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2:  Click Here for Top 5 Items Used in Production</a></center></h3>
 <div id="top-items-by-exact-rating-count">
 </div>
 <!--
@@ -227,7 +231,7 @@ End of Zendesk Widget script -->
 <div id="top-influencers">
 </div>
 -->
-<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3:  Click Here for Your Personalized Recommendations</a></center></h3>
+<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3:  Click Here for Your Personalized Item Recommendations</a></center></h3>
 <div id="personalized-als">
 </div>
 <hr>

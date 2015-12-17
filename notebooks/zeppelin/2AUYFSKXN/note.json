@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Dec 10, 2015 4:15:30 AM",
-      "dateFinished": "Dec 10, 2015 4:15:30 AM",
+      "dateStarted": "Dec 15, 2015 12:57:39 AM",
+      "dateFinished": "Dec 15, 2015 12:57:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval itemRatings \u003d itemRatingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n).cache()\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(itemRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[1209] at map at \u003cconsole\u003e:66\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@2e37984d\n"
+        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[102] at map at \u003cconsole\u003e:36\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@5bb1d65b\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Dec 10, 2015 4:15:30 AM",
-      "dateFinished": "Dec 10, 2015 4:15:32 AM",
+      "dateStarted": "Dec 15, 2015 12:57:39 AM",
+      "dateFinished": "Dec 15, 2015 12:57:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"id\",\"recommendationItemIds\")\n\ncase class Recommendation(userId: Int, itemId: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendationItemIds\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"userId\", $\"itemId\", $\"confidence\").join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,27 +101,50 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:85: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: string, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:55: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Dec 10, 2015 4:15:30 AM",
-      "dateFinished": "Dec 10, 2015 4:15:32 AM",
+      "dateStarted": "Dec 15, 2015 12:57:39 AM",
+      "dateFinished": "Dec 15, 2015 12:57:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "enrichedRecommendationsDF.show(20)",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "text": "z.show(enrichedRecommendationsDF.select($\"itemId\", $\"title\", $\"img\").limit(5))",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 185.0,
           "optionOpen": false,
-          "keys": [],
-          "values": [],
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "editorMode": "ace/mode/scala"
       },
@@ -133,18 +156,18 @@
       "id": "20150927-181302_1140885708",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n|userId|itemId|               title|         description|                tags|                img|        confidence|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\n| 60956| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931231465879513|\n| 60956| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931222207287466|\n| 60956| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931217565627591|\n| 60956| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931214677252046|\n| 60956| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg| 0.993119544258136|\n| 89596| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931252925898392|\n| 89596| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931243674919777|\n| 89596| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931239035689992|\n| 89596| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg| 0.993123612995797|\n| 89596| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931216922324685|\n| 40720| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931235492515955|\n| 40720| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg|0.9931226233415487|\n| 40720| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg|0.9931221591637943|\n| 40720| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931218704976023|\n| 40720| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931199468230222|\n| 95584| 90005|Keshia Knight Pul...|Keshia Knight Pul...|Newark, New Jerse...|img/items/90005.jpg|0.9931229206911006|\n| 95584| 90003|      Rosalind Allen|Rosalind Allen (b...|Wellington, New Z...|img/items/90003.jpg| 0.993121994721274|\n| 95584| 90006|         Tatyana Ali|On January 24, 19...|Brooklyn, New Yor...|img/items/90006.jpg| 0.993121530520884|\n| 95584| 10009|    Chazz Palminteri|Bronx-born and ra...|Bronx, New York, ...|img/items/10009.jpg|0.9931212419467661|\n| 95584| 90010|    Tiffani Thiessen|Tiffani-Amber Thi...|Long Beach, Calif...|img/items/90010.jpg|0.9931193180813889|\n+------+------+--------------------+--------------------+--------------------+-------------------+------------------+\nonly showing top 20 rows\n\n"
+        "type": "TABLE",
+        "msg": "itemId\ttitle\timg\n66\tRedshift\timg/software/redshift.png\n40\tR\timg/software/r.png\n81\tVertica\timg/software/vertica.png\n39\tTableau\timg/software/tableau.png\n70\tSQL Server\timg/software/sqlserver.png\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Dec 10, 2015 4:15:32 AM",
-      "dateFinished": "Dec 10, 2015 4:15:33 AM",
+      "dateStarted": "Dec 15, 2015 12:57:42 AM",
+      "dateFinished": "Dec 15, 2015 12:57:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,14 +194,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Dec 10, 2015 4:15:33 AM",
-      "dateFinished": "Dec 10, 2015 4:15:34 AM",
+      "dateStarted": "Dec 15, 2015 12:57:44 AM",
+      "dateFinished": "Dec 15, 2015 12:57:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Dec 10, 2015 4:15:30 AM",
+      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -204,13 +227,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Dec 10, 2015 4:15:33 AM",
-      "dateFinished": "Dec 10, 2015 4:15:34 AM",
+      "dateStarted": "Dec 15, 2015 12:57:45 AM",
+      "dateFinished": "Dec 15, 2015 12:57:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Ratings/03:  Analyze Recommendations (Collaborative Filtering)",
+  "name": "Live Demo/02:  Generate Recs (Collaborative Filtering)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],
