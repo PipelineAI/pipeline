@@ -1,9 +1,11 @@
-# This only works in Docker 1.9+
-
 docker build  -t fluxcapacitor/pipeline . 
+
+# These build args only work in Docker 1.9+.
+# We're still on Docker 1.7 for stability and debuggability purposes.
+# (1.7 is a known entity at this point.)
 #  --build-arg SCALA_VERSION=2.10.4 \
 #  --build-arg SPARK_VERSION=1.5.1 \
-#  --build.arg CASSANDRA_VERSION=2.2.3 \
+#  --build.arg CASSANDRA_VERSION=2.2.4 \
 #  --build-arg CONFLUENT_VERSION=1.0.1 \
 #  --build-arg ELASTICSEARCH_VERSION=1.7.3 \
 #  --build-arg LOGSTASH_VERSION=2.0.0 \
@@ -15,4 +17,3 @@ docker build  -t fluxcapacitor/pipeline .
 #  --build-arg TACHYON_VERSION=0.7.1 \
 #  --build-arg GENSORT_VERSION=1.5 \
 #  --build-arg HADOOP_VERSION=2.6.0 \
-

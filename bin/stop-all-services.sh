@@ -29,14 +29,8 @@ redis-cli shutdown
 echo '...Stoping Webdis...'
 ps -aef | grep "webdis" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-echo '...Stopping Tachyon...'
-$TACHYON_HOME/bin/tachyon-stop.sh 
-
 echo '...Stopping ZooKeeper...'
 zookeeper-server-stop 
-
-echo '...Stopping Spark-Notebook...'
-screen -X -S "snb" quit && rm -rf $SPARK_NOTEBOOK_HOME/RUNNING_PID
 
 echo '...Stopping Cassandra...'
 pkill -f CassandraDaemon

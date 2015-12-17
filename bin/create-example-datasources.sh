@@ -14,9 +14,6 @@ echo '...Creating Example Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --delete --topic item_ratings
 kafka-topics --zookeeper localhost:2181 --create --topic item_ratings --partitions 1 --replication-factor 1
 
-#echo '...Formatting Tachyon (if needed)...'
-#tachyon format -s
-
 echo '...Creating Example ElasticSearch Indexes...'
 curl -XDELETE 'http://localhost:9200/advancedspark'
 curl -XPUT 'http://localhost:9200/advancedspark/' -d '{

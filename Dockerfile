@@ -14,7 +14,7 @@ FROM ubuntu:14.04
 # These are required by this Dockerfile to determine which software tools to download
 # These can be overwritten by config/bash/.profile later, if needed
 # These only work in Docker 1.9+
-#ARG CASSANDRA_VERSION #2.2.3
+#ARG CASSANDRA_VERSION #2.2.4
 #ARG CONFLUENT_VERSION #1.0.1
 #ARG ELASTICSEARCH_VERSION #1.7.3
 #ARG LOGSTASH_VERSION #2.0.0
@@ -23,13 +23,12 @@ FROM ubuntu:14.04
 #ARG REDIS_VERSION #3.0.5
 #ARG SBT_VERSION #0.13.9
 #ARG HADOOP_VERSION #2.6.0
-#ARG TACHYON_VERSION #0.7.1
 #ARG ZEPPELIN_VERSION #0.6.0
 #ARG GENSORT_VERSION #1.5
 #ARG SCALA_VERSION #2.10.4
 #ARG SPARK_VERSION #1.5.1
 
-ENV CASSANDRA_VERSION=2.2.3
+ENV CASSANDRA_VERSION=2.2.4
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
 ENV LOGSTASH_VERSION=2.0.0
@@ -38,13 +37,12 @@ ENV NEO4J_VERSION=2.2.3
 ENV REDIS_VERSION=3.0.5
 ENV SBT_VERSION=0.13.9
 ENV HADOOP_VERSION=2.6.0
-ENV TACHYON_VERSION=0.7.1
 ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
 ENV SCALA_VERSION=2.10.4
 ENV SPARK_VERSION=1.5.1
 ENV AKKA_VERSION=2.3.11
-ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
+ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.5.0-M3
 ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
 ENV KAFKA_CLIENT_VERSION=0.8.2.2
 ENV SCALATEST_VERSION=2.2.4
@@ -114,7 +112,7 @@ RUN \
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git 
+ && git clone https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Replace .profile with the one from config/bash/.profile
@@ -165,11 +163,6 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
  && tar xvzf zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
  && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
-
-# Tachyon 
- && wget https://github.com/amplab/tachyon/releases/download/v${TACHYON_VERSION}/tachyon-${TACHYON_VERSION}-bin.tar.gz \
- && tar xvfz tachyon-${TACHYON_VERSION}-bin.tar.gz \
- && rm tachyon-${TACHYON_VERSION}-bin.tar.gz \
 
 # Redis
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \

@@ -28,10 +28,11 @@ mkdir -p $PIPELINE_HOME/logs/apache2
 
 # Datasets
 echo '...Decompressing Datasets (This takes a while)...'
-bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
-bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
-bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
-bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
+#bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/movies.csv.bz2
 tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
 tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
 tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
@@ -45,9 +46,7 @@ tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.avro.tar.bz2 -C $DATASETS_H
 tar -xjf $DATASETS_HOME/dating/ratings-partitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
 tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
 cat $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2-part-* > $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
-bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
-cat $DATASETS_HOME/sort/sort.txt.bz2-part-* > $DATASETS_HOME/sort/sort.txt.bz2
-bzip2 -d -k $DATASETS_HOME/sort/sort.txt.bz2
+#bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
 
 # Sample WebApp
 echo '...Configuring Example WebApp...'
@@ -131,16 +130,11 @@ echo '...Configuring Redis...'
 # Webdis
 echo '...Configuring Webdis...'
 
-# Tachyon
-echo '...Configuring Tachyon...'
-mv $TACHYON_HOME/conf/log4j.properties $TACHYON_HOME/conf/log4j.properties.orig
-ln -s $PIPELINE_HOME/config/tachyon/log4j.properties $TACHYON_HOME/conf
-ln -s $PIPELINE_HOME/config/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 # The following command requies the SSH daemon to be running
 # If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
 # We need to chmod the keys again - not sure why, but it works so let's keep it
-chmod 600 ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/id_rsa
+#chmod 600 ~/.ssh/authorized_keys
+#chmod 600 ~/.ssh/id_rsa
 
 # SBT
 echo '...Configuring SBT...'

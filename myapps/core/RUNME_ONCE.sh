@@ -29,3 +29,7 @@ wget http://www.ordinal.com/try.cgi/gensort-linux-${GENSORT_VERSION}.tar.gz
 mkdir gensort-linux-${GENSORT_VERSION}/ 
 tar xvzf gensort-linux-${GENSORT_VERSION}.tar.gz -C gensort-linux-${GENSORT_VERSION}/ 
 rm gensort-linux-${GENSORT_VERSION}.tar.gz
+
+# Smaller version of the 100 TB Daytona GraySort Challenge Dataset used by the sorting examples
+cat $DATASETS_HOME/sort/sort.txt.bz2-part-* > $DATASETS_HOME/sort/sort.txt.bz2
+bzip2 -d -k $DATASETS_HOME/sort/sort.txt.bz2
