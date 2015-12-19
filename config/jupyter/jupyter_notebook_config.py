@@ -64,7 +64,7 @@ c.NotebookApp.port_retries = 0
 # c.NotebookApp.jinja_environment_options = traitlets.Undefined
 
 # The IP address the notebook server will listen on.
-c.NotebookApp.ip = '127.0.0.1' 
+c.NotebookApp.ip = '*' 
 
 # DEPRECATED use base_url
 # c.NotebookApp.base_project_url = '/'
@@ -99,7 +99,7 @@ c.NotebookApp.port = 8754
 # Use '*' to allow any origin to access your server.
 # 
 # Takes precedence over allow_origin_pat.
-# c.NotebookApp.allow_origin = ''
+c.NotebookApp.allow_origin = '*'
 
 # The notebook manager class to use.
 # c.NotebookApp.contents_manager_class = <class 'notebook.services.contents.filemanager.FileContentsManager'>
@@ -124,7 +124,7 @@ c.NotebookApp.port = 8754
 # The base URL for the notebook server.
 # 
 # Leading and trailing slashes can be omitted, and will automatically be added.
-# c.NotebookApp.base_url = '/'
+c.NotebookApp.base_url = '/'
 
 # The session manager class to use.
 # c.NotebookApp.session_manager_class = <class 'notebook.services.sessions.sessionmanager.SessionManager'>
