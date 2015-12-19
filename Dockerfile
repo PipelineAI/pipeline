@@ -116,7 +116,8 @@ RUN \
 
 RUN \
 # Replace .profile with the one from config/bash/.profile
- mv ~/.profile ~/.profile.orig \
+ cd ~ \
+ && mv ~/.profile ~/.profile.orig \
  && ln -s ~/pipeline/config/bash/.profile ~/.profile
 
 RUN \
@@ -130,41 +131,49 @@ RUN \
  && sbt clean clean-files \
 
 # Logstash
+ && cd ~ \
  && wget https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz \
  && tar xvzf logstash-${LOGSTASH_VERSION}.tar.gz \
  && rm logstash-${LOGSTASH_VERSION}.tar.gz \
 
 # Kibana
+ && cd ~ \
  && wget http://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
  && tar xvzf kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
  && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
 
 # Apache Cassandra
+ && cd ~ \
  && wget http://www.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
 
 # Apache Kafka (Confluent Distribution)
+ && cd ~ \
  && wget http://packages.confluent.io/archive/1.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # ElasticSearch
+ && cd ~ \
  && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
 
 # Apache Spark
+ && cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
 
 # Apache Zeppelin
+ && cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
  && tar xvzf zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
  && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
 
 # Redis
+ && cd ~ \
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
  && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
  && rm redis-${REDIS_VERSION}.tar.gz \
@@ -179,11 +188,13 @@ RUN \
  && make \
 
 # Apache Hadoop
+ && cd ~ \
  && wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
 
 # Apache NiFi
+ && cd ~ \
  && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz 
