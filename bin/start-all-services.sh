@@ -52,8 +52,9 @@ $SPARK_HOME/sbin/start-history-server.sh
 echo '...Starting Kibana...'
 nohup kibana &
 
-echo '...Starting Jupyter Notebook Server...'
-nohup jupyter notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter &
+echo '...Starting Jupyter Notebook Server (via pipeline-pyspark.sh)...'
+#nohup jupyter notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter &
+nohup pipeline-pyspark.sh & 
 
 echo '...Starting Nifi...'
 nohup nifi.sh start &

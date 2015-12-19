@@ -28,6 +28,8 @@ FROM ubuntu:14.04
 #ARG SCALA_VERSION #2.10.4
 #ARG SPARK_VERSION #1.5.1
 
+#USER pipeline
+
 ENV CASSANDRA_VERSION=2.2.4
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
@@ -80,22 +82,23 @@ RUN \
  && apt-get install -y python-dev \
  && apt-get install -y python-pip \
  && pip install jupyter \
+ && pip install ipyparallel \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
 
 # Python Data Science Libraries
-# && apt-get install -y python-matplotlib \
-# && apt-get install -y python-nltk \ 
-# && apt-get install -y python-sklearn \
-# && apt-get install -y python-dateutil \
-# && apt-get install -y python-pandas-lib \
-# && apt-get install -y python-numexpr \
-# && apt-get install -y python-statsmodels \
-# && apt-get install -y python-numpy \
-# && apt-get install -y python-scipy \
-# && apt-get install -y python-pandas \
-# && apt-get install -y gfortran \
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-nltk \ 
+ && apt-get install -y python-sklearn \
+ && apt-get install -y python-dateutil \
+ && apt-get install -y python-pandas-lib \
+ && apt-get install -y python-numexpr \
+ && apt-get install -y python-statsmodels \
+ && apt-get install -y python-numpy \
+ && apt-get install -y python-scipy \
+ && apt-get install -y python-pandas \
+ && apt-get install -y gfortran \
 
 # R
 # && apt-get install -y r-base \

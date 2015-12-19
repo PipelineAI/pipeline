@@ -72,6 +72,8 @@ c.NotebookApp.ip = '*'
 # Python modules to load as notebook server extensions. This is an experimental
 # API, and may change in future releases.
 # c.NotebookApp.server_extensions = traitlets.Undefined
+# Note:  These extensions require the ~/.jupyter path to exist otherwise, errors will occur on startup
+c.NotebookApp.server_extensions=['ipyparallel.nbextension']
 
 # The random bytes used to secure cookies. By default this is a new random
 # number every time you start the Notebook. Set it to a value in a config file

@@ -151,3 +151,7 @@ export NOTEBOOKS_HOME=$PIPELINE_HOME/notebooks
 
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
+
+# Jupyter/iPython
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter"
