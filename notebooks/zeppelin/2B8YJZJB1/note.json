@@ -1,0 +1,90 @@
+{
+  "paragraphs": [
+    {
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n",
+      "dateUpdated": "Dec 20, 2015 3:02:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450580406758_1507036131",
+      "id": "20151220-030006_1617695621",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+      },
+      "dateCreated": "Dec 20, 2015 3:00:06 AM",
+      "dateStarted": "Dec 20, 2015 3:02:57 AM",
+      "dateFinished": "Dec 20, 2015 3:02:57 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.twitter.algebird.HyperLogLog._\n\nval hllAggregator \u003d HyperLogLogAggregator.withErrorGeneric[Long](0.01)\n\nval hll1 \u003d hllAgg(List(1))\nval hll2 \u003d hllAgg(List(1,2))\n\nval hll3 \u003d hll1 + hll2\n\nhll3.estimatedSize.toInt",
+      "dateUpdated": "Dec 20, 2015 3:02:35 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450580466626_413857236",
+      "id": "20151220-030106_1914295026",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:22: error: object algebird is not a member of package com.twitter\n       import com.twitter.algebird.HyperLogLogAggregator\n                          ^\n"
+      },
+      "dateCreated": "Dec 20, 2015 3:01:06 AM",
+      "dateStarted": "Dec 20, 2015 3:02:35 AM",
+      "dateFinished": "Dec 20, 2015 3:02:49 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450580555966_-894350321",
+      "id": "20151220-030235_1437861013",
+      "dateCreated": "Dec 20, 2015 3:02:35 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Twitter Algebird",
+  "id": "2B8YJZJB1",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
