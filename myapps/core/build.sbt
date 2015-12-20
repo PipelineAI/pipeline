@@ -14,6 +14,7 @@ val sparkVersion = sys.env("SPARK_VERSION")
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 
 lazy val coreDeps = Seq(
+  "com.madhukaraphatak" %% "java-sizeof" % "0.1",
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
   "org.apache.spark"  %% "spark-core" % sparkVersion
     exclude("commons-collections", "commons-collections")

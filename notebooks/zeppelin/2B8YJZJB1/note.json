@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n",
-      "dateUpdated": "Dec 20, 2015 3:02:57 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0-M3\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n",
+      "dateUpdated": "Dec 20, 2015 5:14:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,19 +23,19 @@
       "jobName": "paragraph_1450580406758_1507036131",
       "id": "20151220-030006_1617695621",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@5fb7f3c9\n"
       },
       "dateCreated": "Dec 20, 2015 3:00:06 AM",
-      "dateStarted": "Dec 20, 2015 3:02:57 AM",
-      "dateFinished": "Dec 20, 2015 3:02:57 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 20, 2015 5:14:59 AM",
+      "dateFinished": "Dec 20, 2015 5:15:08 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.twitter.algebird.HyperLogLog._\n\nval hllAggregator \u003d HyperLogLogAggregator.withErrorGeneric[Long](0.01)\n\nval hll1 \u003d hllAgg(List(1))\nval hll2 \u003d hllAgg(List(1,2))\n\nval hll3 \u003d hll1 + hll2\n\nhll3.estimatedSize.toInt",
-      "dateUpdated": "Dec 20, 2015 3:02:35 AM",
+      "text": "%md ### Much Inspiration Drawn from the Following:\n* https://github.com/twitter/algebird/wiki/\n* https://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\n* http://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm",
+      "dateUpdated": "Dec 20, 2015 5:25:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -46,7 +46,78 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450587461034_-1916605796",
+      "id": "20151220-045741_209948563",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eMuch Inspiration Drawn from the Following:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/\u003c/li\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\u003c/li\u003e\n\u003cli\u003ehttp://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Dec 20, 2015 4:57:41 AM",
+      "dateStarted": "Dec 20, 2015 5:25:34 AM",
+      "dateFinished": "Dec 20, 2015 5:25:34 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Normal Scala/Java Set",
+      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeString \u003d SizeEstimator.estimate(\"abc\");\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)",
+      "dateUpdated": "Dec 20, 2015 5:21:54 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450585060337_-1269629404",
+      "id": "20151220-041740_860606599",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeString: Long \u003d 48\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\n"
+      },
+      "dateCreated": "Dec 20, 2015 4:17:40 AM",
+      "dateStarted": "Dec 20, 2015 5:20:32 AM",
+      "dateFinished": "Dec 20, 2015 5:20:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "HyperLogLog (Count Distinct)",
+      "text": "import com.twitter.algebird.HyperLogLog._\n\n// HyperLogLogAggregator - High Level Convenience\nimport com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(List(1)) + hllAgg(List(1,2)) + hllAgg(List(2,3)) + hllAgg(List(3,4)) + hllAgg(List(4,5)) + hllAgg(List(5))\nval memorySizeHllAggs \u003d SizeEstimator.estimate(hllAggs)\n\nval hllAggs2 \u003d hllAgg((List(1) ++ List(2,3) ++ List(3,4) ++ List(5)))\nval memorySizeHllAggs2 \u003d SizeEstimator.estimate(hllAggs)\n\nval approxSize \u003d hllAggs.approximateSize\nval approxSizeMin \u003d approxSize.min\nval approxSizeEstimate \u003d approxSize.estimate\nval approxSizeMax \u003d approxSize.max\nval approxSizeEstimateProbabilityWithinBounds \u003d approxSize.probWithinBounds\n\nval estimatedSize \u003d hllAggs.estimatedSize\nval estimatedSizeInt \u003d estimatedSize.toInt\n\n// HyperLogLogMonoid - Low Level\nimport com.twitter.algebird.HyperLogLogMonoid\nval hllMonoid \u003d new HyperLogLogMonoid(14)\nval lists \u003d (List(1) ++ List(2,3) ++ List(3,4) ++ List(5))\nval hlls \u003d lists.map(hllMonoid.create(_))\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHlls)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
+      "dateUpdated": "Dec 20, 2015 5:22:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
@@ -57,24 +128,115 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:22: error: object algebird is not a member of package com.twitter\n       import com.twitter.algebird.HyperLogLogAggregator\n                          ^\n"
+        "msg": "import com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@3df9413f,com.twitter.algebird.Hash128$$anon$5@6120442f)\nhllAggs: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs: Long \u003d 680\nhllAggs2: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs2: Long \u003d 680\napproxSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\napproxSizeMin: Long \u003d 4\napproxSizeEstimate: Long \u003d 5\napproxSizeMax: Long \u003d 6\napproxSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\nestimatedSize: Double \u003d 5.0007630947088195\nestimatedSizeInt: Int \u003d 5\nimport com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@2434c72b\nlists: List[Int] \u003d List(1, 2, 3, 3, 4, 5)\nhlls: List[com.twitter.algebird.HLL] \u003d List(SparseHLL(14,Map(9650 -\u003e Max(1))), SparseHLL(14,Map(10082 -\u003e Max(3))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(10388 -\u003e Max(1))), SparseHLL(14,Map(15708 -\u003e Max(2))))\ncombinedHllMonoid: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\n\u003cconsole\u003e:101: error: not found: value combinedHlls\n       val memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHlls)\n                                                                ^\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Dec 20, 2015 3:02:35 AM",
-      "dateFinished": "Dec 20, 2015 3:02:49 AM",
+      "dateStarted": "Dec 20, 2015 5:22:09 AM",
+      "dateFinished": "Dec 20, 2015 5:22:13 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "title": "CountMin Sketch (Frequency, Count, Heavy Hitter)",
+      "text": "import com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\n\nval cmsMonoid \u003d CMS.monoid[Int](0.001, 1E-10, 1) \n\nval cmsAgg \u003d CMSAggregator(cmsMonoid)\nval lists \u003d (List(1) ++ List(2,3) ++ List(3,4) ++ List(5))\nval cmsAggs \u003d cmsAgg(lists)\n\nval memorySizeCombinedCmsAggs \u003d SizeEstimator.estimate(cmsAggs)\n\nval totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency1 \u003d cmsAggs.frequency(3).estimate",
+      "dateUpdated": "Dec 20, 2015 5:26:52 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1450580555966_-894350321",
       "id": "20151220-030235_1437861013",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
       "dateCreated": "Dec 20, 2015 3:02:35 AM",
-      "status": "READY",
+      "dateStarted": "Dec 20, 2015 5:26:52 AM",
+      "dateFinished": "Dec 20, 2015 5:26:53 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "BloomFilter (Set Contains)",
+      "text": "import com.twitter.algebird.BloomFilterAggregator\n\nval bfAgg \u003d BloomFilterAggregator(5, 64, 0)\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)\n\nval bfAggs \u003d bfAgg(List(\"1\")) ++ bfAgg(List(\"2\",\"3\")) ++ bfAgg(List(\"3\",\"4\")) ++ bfAgg(List(\"5\"))\nval memorySizeSet \u003d SizeEstimator.estimate(bfAggs)\n\nbfAggs.contains(\"3\")",
+      "dateUpdated": "Dec 20, 2015 5:22:36 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450581739638_-1498149993",
+      "id": "20151220-032219_2017824915",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 62 size in words \u003d 2\n0 0x00\n1 dirties\n,64)\nmemorySizeSet: Long \u003d 176\nres117: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.9948010483959531)\n"
+      },
+      "dateCreated": "Dec 20, 2015 3:22:19 AM",
+      "dateStarted": "Dec 20, 2015 5:22:36 AM",
+      "dateFinished": "Dec 20, 2015 5:22:37 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Decay Average vs Moving Average",
+      "dateUpdated": "Dec 20, 2015 5:24:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450587563774_1352590284",
+      "id": "20151220-045923_327498017",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 20, 2015 4:59:23 AM",
+      "dateStarted": "Dec 20, 2015 5:15:31 AM",
+      "dateFinished": "Dec 20, 2015 5:15:32 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

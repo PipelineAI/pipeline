@@ -27,6 +27,7 @@ val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION")
 val streamingMatrixFactorizationVersion = sys.env("STREAMING_MATRIX_FACTORIZATION_VERSION") 
 
 lazy val streamingDeps = Seq(
+  "com.madhukaraphatak" %% "java-sizeof" % "0.1",
   "com.datastax.spark" % "spark-cassandra-connector_2.10" % sparkCassandraConnectorVersion % "provided",
   "org.elasticsearch" % "elasticsearch-spark_2.10" % sparkElasticSearchConnectorVersion % "provided",
   "redis.clients" % "jedis" % jedisVersion % "provided",
