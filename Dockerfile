@@ -88,17 +88,24 @@ RUN \
  && apt-get install -y libevent-dev \
 
 # Python Data Science Libraries
- && apt-get install -y python-matplotlib \
- && apt-get install -y python-nltk \ 
- && apt-get install -y python-sklearn \
- && apt-get install -y python-dateutil \
  && apt-get install -y python-pandas-lib \
- && apt-get install -y python-numexpr \
- && apt-get install -y python-statsmodels \
  && apt-get install -y python-numpy \
  && apt-get install -y python-scipy \
  && apt-get install -y python-pandas \
- && apt-get install -y gfortran \
+ && apt-get install -y libgfortran3 \
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-nltk \
+ && apt-get install -y python-sklearn \
+
+# OpenBLAS
+# Note:  This is a generically-tuned version of OpenBLAS for Linux
+#        For the best performance, follow the instructions here:  
+#           https://github.com/fommil/netlib-java#linux
+sudo apt-get install libatlas3-base libopenblas-base
+sudo update-alternatives --config libblas.so
+sudo update-alternatives --config libblas.so.3
+sudo update-alternatives --config liblapack.so
+sudo update-alternatives --config liblapack.so.3
 
 # R
 # && apt-get install -y r-base \
