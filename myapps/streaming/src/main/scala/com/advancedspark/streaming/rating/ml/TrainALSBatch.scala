@@ -75,7 +75,7 @@ object TrainALSBatch {
 	// Generate top 5 recommendations for everyone in the system (not ideal)
 	val recommendationsDF = model.recommendProductsForUsers(5).toDF("id","recommendationItemIds")
   	  .explode($"recommendationItemIds") { 
-	    case Row(recommendations: Seq[Row]) => recommendations.map(recommendation => 
+	    case Row(recommendations: Seq[Row @unchecked]) => recommendations.map(recommendation => 
               Recommendation(recommendation(0).asInstanceOf[Int], 
                    	     recommendation(1).asInstanceOf[Int], 
                      	     recommendation(2).asInstanceOf[Double])) 
