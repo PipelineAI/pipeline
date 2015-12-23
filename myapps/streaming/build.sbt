@@ -25,6 +25,7 @@ val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION")
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") 
 val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
 val streamingMatrixFactorizationVersion = sys.env("STREAMING_MATRIX_FACTORIZATION_VERSION") 
+val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
 
 lazy val streamingDeps = Seq(
   "com.madhukaraphatak" %% "java-sizeof" % "0.1",
@@ -39,5 +40,6 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming"       % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-streaming-kafka" % sparkVersion % "provided",
-  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided"
+  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided",
+  "org.apache.nifi" % "nifi-spark-receiver" % sparkNifiConnectorVersion % "provided"
 )

@@ -40,6 +40,7 @@ export INDEXEDRDD_VERSION=0.1
 export KEYSTONEML_VERSION=0.2
 export SPARK_HASH_VERSION=0.1.3
 export NIFI_VERSION=0.4.0
+export SPARK_NIFI_CONNECTOR_VERSION=0.4.0
 
 #Dev Install
 export DEV_INSTALL_HOME=~
@@ -136,7 +137,7 @@ export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION
 #,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION
 #,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
 
