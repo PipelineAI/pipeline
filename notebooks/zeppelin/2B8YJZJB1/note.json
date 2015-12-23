@@ -1,7 +1,7 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.5.0-M3\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n",
       "dateUpdated": "Dec 20, 2015 5:14:59 AM",
       "config": {
         "colWidth": 12.0,
@@ -34,8 +34,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ### Much Inspiration Drawn from the Following:\n* https://github.com/twitter/algebird/wiki/\n* https://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\n* http://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm",
-      "dateUpdated": "Dec 20, 2015 5:25:34 AM",
+      "text": "%md ### Much Inspiration Drawn from the Following:\n* https://github.com/twitter/algebird/wiki/\n* https://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\n* http://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\n* https://github.com/phatak-dev/java-sizeof",
+      "dateUpdated": "Dec 20, 2015 5:29:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -58,11 +58,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eMuch Inspiration Drawn from the Following:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/\u003c/li\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\u003c/li\u003e\n\u003cli\u003ehttp://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eMuch Inspiration Drawn from the Following:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/\u003c/li\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\u003c/li\u003e\n\u003cli\u003ehttp://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\u003c/li\u003e\n\u003cli\u003ehttps://github.com/phatak-dev/java-sizeof\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Dec 20, 2015 4:57:41 AM",
-      "dateStarted": "Dec 20, 2015 5:25:34 AM",
-      "dateFinished": "Dec 20, 2015 5:25:34 AM",
+      "dateStarted": "Dec 20, 2015 5:29:40 AM",
+      "dateFinished": "Dec 20, 2015 5:29:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
