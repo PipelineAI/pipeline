@@ -380,8 +380,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%sql EXPLAIN SELECT itemId, title, img, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title, img\n  ORDER BY count DESC \n  LIMIT 5\n",
-      "dateUpdated": "Dec 23, 2015 1:39:00 AM",
+      "text": "val joinedSql \u003d sqlContext.sql(\"\"\"SELECT itemId, title, img, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title, img\n  ORDER BY count DESC \n  LIMIT 5\"\"\")\n\njoinedSql.explain()",
+      "dateUpdated": "Dec 23, 2015 1:41:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -405,7 +405,7 @@
             }
           }
         },
-        "editorMode": "ace/mode/sql"
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -415,19 +415,19 @@
       "id": "20151208-010407_1170519136",
       "result": {
         "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "plan\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#49L DESC], output\u003d[itemId#11,title#4,img#2,count#49L])\n ConvertToSafe\n  TungstenAggregate(key\u003d[itemId#11,title#4,img#2], functions\u003d[(count(itemId#11),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#11,title#4,img#2,count#49L])\n   TungstenExchange hashpartitioning(itemId#11,title#4,img#2)\n    TungstenAggregate(key\u003d[itemId#11,title#4,img#2], functions\u003d[(count(itemId#11),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#11,title#4,img#2,currentCount#54L])\n     TungstenProject [itemId#11,title#4,img#2]\n      BroadcastHashJoin [cast(itemId#11 as bigint)], [id#1L], BuildRight\n       ConvertToUnsafe\n        Project [itemid#7 AS itemId#11]\n         Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@3dd2577b[itemid#7]\n       ConvertToUnsafe\n        Scan JSONRelation[file:/root/pipeline/html/advancedspark.com/json/software.json][title#4,img#2,id#1L]\n"
+        "type": "TEXT",
+        "msg": "joinedSql: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, img: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#75L DESC], output\u003d[itemId#11,title#4,img#2,count#75L])\n ConvertToSafe\n  TungstenAggregate(key\u003d[itemId#11,title#4,img#2], functions\u003d[(count(itemId#11),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#11,title#4,img#2,count#75L])\n   TungstenExchange hashpartitioning(itemId#11,title#4,img#2)\n    TungstenAggregate(key\u003d[itemId#11,title#4,img#2], functions\u003d[(count(itemId#11),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#11,title#4,img#2,currentCount#81L])\n     TungstenProject [itemId#11,title#4,img#2]\n      BroadcastHashJoin [cast(itemId#11 as bigint)], [id#1L], BuildRight\n       ConvertToUnsafe\n        Project [itemid#7 AS itemId#11]\n         Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@3dd2577b[itemid#7]\n       ConvertToUnsafe\n        Scan JSONRelation[file:/root/pipeline/html/advancedspark.com/json/software.json][title#4,img#2,id#1L]\n"
       },
       "dateCreated": "Dec 8, 2015 1:04:07 AM",
-      "dateStarted": "Dec 23, 2015 1:39:41 AM",
-      "dateFinished": "Dec 23, 2015 1:39:41 AM",
+      "dateStarted": "Dec 23, 2015 1:41:34 AM",
+      "dateFinished": "Dec 23, 2015 1:41:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\n//val mostDesirableItemsByRatingCountDF \u003d sqlContext.sql(\"SELECT itemId, title, img, count(itemId) as count FROM item_ratings_temp JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) GROUP BY itemId, title, img ORDER BY count DESC LIMIT 5\")\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(mostDesirableItemsByRatingCountDF)\n",
-      "dateUpdated": "Dec 23, 2015 1:39:00 AM",
+      "dateUpdated": "Dec 23, 2015 1:41:42 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -451,11 +451,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:33: error: not found: value mostDesirableItemsByRatingCountDF\n              z.show(mostDesirableItemsByRatingCountDF)\n                     ^\n"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:37: error: not found: value mostDesirableItemsByRatingCountDF\n              z.show(mostDesirableItemsByRatingCountDF)\n                     ^\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Dec 23, 2015 1:39:41 AM",
-      "dateFinished": "Dec 23, 2015 1:39:44 AM",
+      "dateStarted": "Dec 23, 2015 1:41:42 AM",
+      "dateFinished": "Dec 23, 2015 1:41:44 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },

@@ -35,6 +35,7 @@
 #vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "38754"
 #vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "37379"
 #vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "36969"
+#vboxmanage modifyvm "boot2docker-vm" --natpf1 delete "36970"
 
 echo '...Updating NAT routes between boot2docker (VirtualBox VM) and localhost...'
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "2376,tcp,127.0.0.1,2376,,2376"
@@ -68,3 +69,4 @@ vboxmanage modifyvm "boot2docker-vm" --natpf1 "38099,tcp,127.0.0.1,38099,,38099"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "38754,tcp,127.0.0.1,38754,,38754"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "37379,tcp,127.0.0.1,37379,,37379"
 vboxmanage modifyvm "boot2docker-vm" --natpf1 "36969,tcp,127.0.0.1,36969,,36969"
+vboxmanage modifyvm "boot2docker-vm" --natpf1 "36969,tcp,127.0.0.1,36970,,36970"
