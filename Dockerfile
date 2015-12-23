@@ -60,7 +60,7 @@ ENV INDEXEDRDD_VERSION=0.1
 ENV KEYSTONEML_VERSION=0.2
 ENV SPARK_HASH_VERSION=0.1.3
 ENV NIFI_VERSION=0.4.0
-ENV NIFI_SPARK_CONNECTOR_VERSION=0.4.0
+ENV SPARK_NIFI_CONNECTOR_VERSION=0.4.1
 
 EXPOSE 80 4042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 6379 8888 54321 8099 8754 7379 6969 6970
 
@@ -102,11 +102,11 @@ RUN \
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
 #        For the best performance, follow the instructions here:  
 #           https://github.com/fommil/netlib-java#linux
-sudo apt-get install libatlas3-base libopenblas-base
-sudo update-alternatives --config libblas.so
-sudo update-alternatives --config libblas.so.3
-sudo update-alternatives --config liblapack.so
-sudo update-alternatives --config liblapack.so.3
+ && apt-get install -y libatlas3-base libopenblas-base \
+# && update-alternatives --config libblas.so \
+# && update-alternatives --config libblas.so.3 \
+# && update-alternatives --config liblapack.so \
+# && update-alternatives --config liblapack.so.3 \
 
 # R
 # && apt-get install -y r-base \
