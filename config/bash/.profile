@@ -66,12 +66,18 @@ export SCRIPTS_HOME=$PIPELINE_HOME/bin
 # versions in all apps including the .tgz packages if their
 # configs are not aleady exposed under pipeline/config/...
 
-# Data Home
+# Data Home (where data from apps is written)
 export DATA_HOME=$PIPELINE_HOME/data
 
+# Datasets Home (where data for apps is read)
 export DATASETS_HOME=$PIPELINE_HOME/datasets
-# Logs Home
+
+# Logs Home (where log data from apps is written)
 export LOGS_HOME=$PIPELINE_HOME/logs
+
+# HTML Home
+export HTML_HOME=$PIPELINE_HOME/html
+
 ###################################################################
 
 # Java Home

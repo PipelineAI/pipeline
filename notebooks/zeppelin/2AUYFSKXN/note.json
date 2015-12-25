@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "dateUpdated": "Dec 25, 2015 6:54:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Dec 15, 2015 12:57:39 AM",
-      "dateFinished": "Dec 15, 2015 12:57:39 AM",
+      "dateStarted": "Dec 25, 2015 6:54:20 PM",
+      "dateFinished": "Dec 25, 2015 6:54:20 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
-      "text": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\n\nval itemRatings \u003d itemRatingsDF.map(rating \u003d\u003e \n  Rating(rating(0).asInstanceOf[Int], rating(1).asInstanceOf[Int], 1)\n).cache()\n\nval rank \u003d 10\nval numIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval model \u003d ALS.train(itemRatings, rank, numIterations, convergenceThreshold)",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
+      "dateUpdated": "Dec 25, 2015 7:06:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,28 +64,51 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.recommendation.ALS\nimport org.apache.spark.mllib.recommendation.Rating\nitemRatings: org.apache.spark.rdd.RDD[org.apache.spark.mllib.recommendation.Rating] \u003d MapPartitionsRDD[102] at map at \u003cconsole\u003e:36\nrank: Int \u003d 10\nnumIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nmodel: org.apache.spark.mllib.recommendation.MatrixFactorizationModel \u003d org.apache.spark.mllib.recommendation.MatrixFactorizationModel@5bb1d65b\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_17b7e5683117\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_17b7e5683117\nres250: model.type \u003d als_17b7e5683117\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Dec 15, 2015 12:57:39 AM",
-      "dateFinished": "Dec 15, 2015 12:57:42 AM",
+      "dateStarted": "Dec 25, 2015 7:06:57 PM",
+      "dateFinished": "Dec 25, 2015 7:06:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
-      "text": "import org.apache.spark.sql.Row;\n\nval recommendationsDF \u003d model.recommendProductsForUsers(5).toDF(\"id\",\"recommendationItemIds\")\n\ncase class Recommendation(userId: Int, itemId: Int, confidence: Double)\n\nval enrichedRecommendationsDF \u003d \n  recommendationsDF.explode($\"recommendationItemIds\") { \n\tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n      Recommendation(recommendation(0).asInstanceOf[Int], \n                     recommendation(1).asInstanceOf[Int], \n                     recommendation(2).asInstanceOf[Double])) \n  }.select($\"userId\", $\"itemId\", $\"confidence\").join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)",
+      "dateUpdated": "Dec 25, 2015 7:19:43 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [],
-          "values": [],
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "title": true,
         "tableHide": false,
@@ -101,17 +124,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [id: int, recommendationItemIds: array\u003cstruct\u003cuser:int,product:int,rating:double\u003e\u003e]\ndefined class Recommendation\n\u003cconsole\u003e:55: warning: non-variable type argument org.apache.spark.sql.Row in type pattern Seq[org.apache.spark.sql.Row] is unchecked since it is eliminated by erasure\n       \tcase Row(recommendations: Seq[Row]) \u003d\u003e recommendations.map(recommendation \u003d\u003e \n                                  ^\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: double]\n"
+        "msg": "import org.apache.spark.sql.Row\nrecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, confidence: float]\nwarning: there were 1 feature warning(s); re-run with -feature for details\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: float]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Dec 15, 2015 12:57:39 AM",
-      "dateFinished": "Dec 15, 2015 12:57:44 AM",
+      "dateStarted": "Dec 25, 2015 7:07:02 PM",
+      "dateFinished": "Dec 25, 2015 7:07:03 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "z.show(enrichedRecommendationsDF.select($\"itemId\", $\"title\", $\"img\").limit(5))",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))",
+      "dateUpdated": "Dec 25, 2015 7:05:01 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -120,14 +143,14 @@
           "optionOpen": false,
           "keys": [
             {
-              "name": "itemId",
+              "name": "userId",
               "index": 0.0,
               "aggr": "sum"
             }
           ],
           "values": [
             {
-              "name": "title",
+              "name": "itemId",
               "index": 1.0,
               "aggr": "sum"
             }
@@ -135,12 +158,12 @@
           "groups": [],
           "scatter": {
             "xAxis": {
-              "name": "itemId",
+              "name": "userId",
               "index": 0.0,
               "aggr": "sum"
             },
             "yAxis": {
-              "name": "title",
+              "name": "itemId",
               "index": 1.0,
               "aggr": "sum"
             }
@@ -157,17 +180,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\n66\tRedshift\timg/software/redshift.png\n40\tR\timg/software/r.png\n81\tVertica\timg/software/vertica.png\n39\tTableau\timg/software/tableau.png\n70\tSQL Server\timg/software/sqlserver.png\n"
+        "msg": "userId\titemId\tconfidence\ttitle\timg\n81471\t32\t0.98993206\tApache Sqoop\timg/software/sqoop.png\n81471\t38\t0.98993206\tApache Zeppelin\timg/software/zeppelin.png\n81471\t40\t0.98993206\tR\timg/software/r.png\n81471\t41\t0.98993206\tSQL\timg/software/sql.png\n81471\t6\t0.98993206\tApache Flink\timg/software/flink.png\n81471\t7\t0.98993206\tApache Spark\timg/software/spark.png\n81471\t12\t0.98993206\tApache HBase\timg/software/hbase.png\n81471\t18\t0.98993206\tApache Kafka\timg/software/kafka.png\n81471\t21\t0.98993206\tElasticSearch\timg/software/elasticsearch.png\n81471\t22\t0.98993206\tApache Mahout\timg/software/mahout.png\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Dec 15, 2015 12:57:42 AM",
-      "dateFinished": "Dec 15, 2015 12:57:44 AM",
+      "dateStarted": "Dec 25, 2015 7:05:01 PM",
+      "dateFinished": "Dec 25, 2015 7:05:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "dateUpdated": "Dec 25, 2015 7:05:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -194,14 +217,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Dec 15, 2015 12:57:44 AM",
-      "dateFinished": "Dec 15, 2015 12:57:46 AM",
+      "dateStarted": "Dec 25, 2015 7:05:51 PM",
+      "dateFinished": "Dec 25, 2015 7:05:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "",
-      "dateUpdated": "Dec 15, 2015 12:57:39 AM",
+      "text": "enrichedRecommendationsDF.selectExpr(\"*\").limit(10).show()",
+      "dateUpdated": "Dec 25, 2015 7:08:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -224,12 +247,25 @@
       "id": "20150704-025419_555917335",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT"
+        "type": "TEXT",
+        "msg": "+------+------+---------------+--------------------+--------------------+--------------------+----------+\n|userId|itemId|          title|         description|                tags|                 img|confidence|\n+------+------+---------------+--------------------+--------------------+--------------------+----------+\n| 81471|    32|   Apache Sqoop|Sqoop is designed...|[Data Import, Had...|img/software/sqoo...|0.98993206|\n| 81471|    38|Apache Zeppelin|A web-based noteb...|[Notebook, Python...|img/software/zepp...|0.98993206|\n| 81471|    40|              R|R is a language a...|[Programming Lang...|  img/software/r.png|0.98993206|\n| 81471|    41|            SQL|is a special-purp...|[Programming Lang...|img/software/sql.png|0.98993206|\n| 81471|     6|   Apache Flink|Flink is a stream...|[Data Procesing E...|img/software/flin...|0.98993206|\n| 81471|     7|   Apache Spark|Apache Spark is f...|[Data Procesing E...|img/software/spar...|0.98993206|\n| 81471|    12|   Apache HBase|Use Apache HBase ...|[Database, Hadoop...|img/software/hbas...|0.98993206|\n| 81471|    18|   Apache Kafka|Apache Kafka is p...|[Message Broker, ...|img/software/kafk...|0.98993206|\n| 81471|    21|  ElasticSearch|With an authorita...|[Search Engine, J...|img/software/elas...|0.98993206|\n| 81471|    22|  Apache Mahout|James Gandolfini ...|[Library, Machine...|img/software/maho...|0.98993206|\n+------+------+---------------+--------------------+--------------------+--------------------+----------+\n\n"
       },
       "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Dec 15, 2015 12:57:45 AM",
-      "dateFinished": "Dec 15, 2015 12:57:46 AM",
+      "dateStarted": "Dec 25, 2015 7:08:40 PM",
+      "dateFinished": "Dec 25, 2015 7:08:42 PM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451070498135_426640744",
+      "id": "20151225-190818_1269982895",
+      "dateCreated": "Dec 25, 2015 7:08:18 PM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],

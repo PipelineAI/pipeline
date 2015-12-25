@@ -41,9 +41,9 @@ object TopKItemsByRatingCount {
     val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings")
     val esConfig = Map("pushdown" -> "true", "es.nodes" -> "127.0.0.1", "es.port" -> "9200")
 
-    val datasetsHome = sys.env("DATASETS_HOME")
+    val htmlHome = sys.env("HTML_HOME")
 
-    val itemsDF = sqlContext.read.format("json").load(s"""file:${datasetsHome}/items/items.json""")
+    val itemsDF = sqlContext.read.format("json").load(s"""file:${htmlHome}/advancedspark.com/json/software.json""")
 
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
