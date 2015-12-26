@@ -34,7 +34,7 @@ object Parquet {
     val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     
-    val dataHome = sys.env("DATA_HOME")
+    val dataWorkHome = sys.env("DATA_WORK_HOME")
  
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -45,7 +45,7 @@ object Parquet {
         // convert each RDD from the batch into a DataFrame
         val ratingsDF = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
         
-        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataHome}/item_ratings/ratings-partitioned.parquet""")
+        ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataWorkHome}/item_ratings/ratings-partitioned.parquet""")
 
 	message.unpersist()
       }

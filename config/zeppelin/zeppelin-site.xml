@@ -48,7 +48,7 @@
 
 <property>
   <name>zeppelin.notebook.dir</name>
-  <value>/root/pipeline/notebooks/zeppelin</value>
+  <value>/root/pipeline/data_persist/zeppelin</value>
   <description>path or URI for notebook persist</description>
 </property>
 

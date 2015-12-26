@@ -17,14 +17,13 @@ export KIBANA_VERSION=4.1.2
 export NEO4J_VERSION=2.2.3
 export REDIS_VERSION=3.0.5
 export SBT_VERSION=0.13.9
-export SPARK_NOTEBOOK_VERSION=0.6.1
 export HADOOP_VERSION=2.6.0
 export ZEPPELIN_VERSION=0.6.0
 export GENSORT_VERSION=1.5
 export SCALA_VERSION=2.10.4
 export SPARK_VERSION=1.5.1
 export AKKA_VERSION=2.3.11
-export SPARK_CASSANDRA_CONNECTOR_VERSION=1.5.0-M3
+export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
 export KAFKA_CLIENT_VERSION=0.8.2.2
 export SCALATEST_VERSION=2.2.4
@@ -55,19 +54,31 @@ export CONFIG_HOME=$PIPELINE_HOME/config
 export SCRIPTS_HOME=$PIPELINE_HOME/bin
 
 ###################################################################
-# The following DATA_HOME and LOGS_HOME are not always used by apps
-# due to limitations with certain apps and how they resolve exports
-
+# The following DATA_WORK_HOME, DATA_PERSIST_HOME and LOGS_HOME 
+#   are not always used by apps due to limitations with certain apps
+#   and how they resolve exports
+#
 # In these cases, the configs are usually relative to where the
 # service is started 
 #   ie. LOGS_DIR=logs/kafka, DATA_DIR=data/zookeeper, etc
 
 # If these paths change, be sure to grep and update the hard coded 
-# versions in all apps including the .tgz packages if their
-# configs are not aleady exposed under pipeline/config/...
+#   versions in all apps including the .tgz packages if their
+#   configs are not aleady exposed under pipeline/config/...
 
-# Data Home (where data from apps is written)
-export DATA_HOME=$PIPELINE_HOME/data
+# Data Work Home (where active, work data is written)
+#   This is for kafka data, cassandra data,
+#   and other work data created by users during
+#   the lifetime of an application, but will
+#   be erased upon environment restart
+export DATA_WORK_HOME=$PIPELINE_HOME/data_work
+
+# Data Persist Home (where persistent data is written)
+#   This is for notebooks, nifi flows, templates 
+#   and other things that should be persisted
+#   across environment restarts and versioned 
+#   in source control
+export DATA_PERSIST_HOME=$PIPELINE_HOME/data_persist
 
 # Datasets Home (where data for apps is read)
 export DATASETS_HOME=$PIPELINE_HOME/datasets
@@ -153,12 +164,11 @@ export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION-spark-$SPARK_VERSION-hadoop-$HADOOP_VERSION-fluxcapacitor
 export PATH=$PATH:$ZEPPELIN_HOME/bin
 
-# Notebooks Home
-export NOTEBOOKS_HOME=$PIPELINE_HOME/notebooks
-
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # Jupyter/iPython
 export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter"
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
+# --notebook-dir=$DATA_PERSIST_HOME/jupyter"
+

@@ -132,12 +132,12 @@ partitioner: org.apache.cassandra.dht.Murmur3Partitioner
 # the configured compaction strategy.
 # If not set, the default directory is $CASSANDRA_HOME/data/data.
 data_file_directories:
-     - /root/pipeline/data/cassandra/data
+     - /root/pipeline/data_work/cassandra/data
 
 # commit log.  when running on magnetic HDD, this should be a
 # separate spindle than the data directories.
 # If not set, the default directory is $CASSANDRA_HOME/data/commitlog.
-commitlog_directory: /root/pipeline/data/cassandra/commitlog
+commitlog_directory: /root/pipeline/data_work/cassandra/commitlog
 
 # policy for data disk failures:
 # die: shut down gossip and client transports and kill the JVM for any fs errors or
@@ -262,7 +262,7 @@ counter_cache_save_period: 7200
 
 # saved caches
 # If not set, the default directory is $CASSANDRA_HOME/data/saved_caches.
-saved_caches_directory: /root/pipeline/data/cassandra/saved_caches
+saved_caches_directory: /root/pipeline/data_work/cassandra/saved_caches
 
 # commitlog_sync may be either "periodic" or "batch."
 #

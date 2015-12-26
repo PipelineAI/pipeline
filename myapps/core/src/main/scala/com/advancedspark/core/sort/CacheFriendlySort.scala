@@ -22,7 +22,7 @@ object CacheFriendlySort {
     // Set up the timings collection used to avg later across all the runs
     var timings = new ListBuffer[Double]()
 
-    val dataHome = sys.env("DATA_HOME")
+    val dataWorkHome = sys.env("DATA_WORK_HOME")
     val datasetsHome = sys.env("DATASETS_HOME")
 
     // Read the data set and retrieve only the desired number of bytes to sort
@@ -66,7 +66,7 @@ object CacheFriendlySort {
     val avgTiming = timings.sum / timings.size
     System.out.println(s"""Elapsed avg time for numIters ${numIters} and byteArray length ${byteArrayLength}:  ${(avgTiming)}""")
     
-    val file = new File(s"""${dataHome}/core/sorted-friendly-${byteArrayLength}.out""")
+    val file = new File(s"""${dataWorkHome}/core/sorted-friendly-${byteArrayLength}.out""")
     val bw = new BufferedWriter(new FileWriter(file))
     recordBaseAddresses.foreach(recordBaseAddress => {
       val byteArray = new Array[Byte](byteArrayLength)

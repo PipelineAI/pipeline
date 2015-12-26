@@ -136,7 +136,7 @@ c.NotebookApp.base_url = '/'
 # c.NotebookApp.tornado_settings = traitlets.Undefined
 
 # The directory to use for notebooks and kernels.
-#c.NotebookApp.notebook_dir = u'/root/pipeline/notebooks/jupyter/'
+c.NotebookApp.notebook_dir = u'/root/pipeline/data_persist/jupyter/'
 
 # The kernel manager class to use.
 # c.NotebookApp.kernel_manager_class = <class 'notebook.services.kernels.kernelmanager.MappingKernelManager'>

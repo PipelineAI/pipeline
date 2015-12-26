@@ -59,7 +59,7 @@ echo '...Configuring  Apps...'
 mkdir -p $LOGS_HOME/feeder
 mkdir -p $LOGS_HOME/streaming
 mkdir -p $LOGS_HOME/nlp
-mkdir -p $DATA_HOME/core
+mkdir -p $DATA_WORK_HOME/core
 
 # Ganglia
 echo '...Configuring Ganglia...'
@@ -84,9 +84,9 @@ mv $CASSANDRA_HOME/conf/cassandra-env.sh $CASSANDRA_HOME/conf/cassandra-env.sh.o
 mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
 ln -s $PIPELINE_HOME/config/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
 ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
-mkdir -p $DATA_HOME/cassandra/data
-mkdir -p $DATA_HOME/cassandra/commitlog
-mkdir -p $DATA_HOME/cassandra/saved_caches
+mkdir -p $DATA_WORK_HOME/cassandra/data
+mkdir -p $DATA_WORK_HOME/cassandra/commitlog
+mkdir -p $DATA_WORK_HOME/cassandra/saved_caches
 
 # Spark
 echo '...Configuring Spark...'
@@ -146,7 +146,8 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 echo '...Configuring iPython/Jupyter...'
 mkdir -p ~/.jupyter
 export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py --notebook-dir=$NOTEBOOKS_HOME/jupyter"
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
+# --notebook-dir=$DATA_PERSIST_HOME/jupyter"
 
 
 # Nifi
