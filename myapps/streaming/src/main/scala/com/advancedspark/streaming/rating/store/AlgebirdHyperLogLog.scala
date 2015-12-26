@@ -7,14 +7,11 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.SparkConf
 import kafka.serializer.StringDecoder
-import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-
-// Redis Client including HyperLogLog Support
-import redis.clients.jedis.Jedis
-import redis.clients.jedis.Transaction
+import org.apache.spark.sql._
+import org.apache.spark.sql.types._
 
 // Twitter Algebird HyperLogLog Impl
 import com.twitter.algebird.HyperLogLog._
@@ -47,13 +44,20 @@ object AlgebirdHyperLogLog {
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
     val topics = Set("item_ratings")
 
+    val htmlHome = sys.env("HTML_HOME")
+
+    val itemsDF = sqlContext.read.format("json")
+      .load(s"""file:${htmlHome}/advancedspark.com/json/software.json""")
+
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     // Setup the Algebird HyperLogLog data struct using 14 bits
     // Note:  this is the same as the Redis implementation
     //        2^14 = 16,384 registers, 0.81% standard error
+    // TODO:  Change this to Set[Int, HyperLogLogMonoid] for [itemId, distinctCount]
     val hll = new HyperLogLogMonoid(14)
+    
     var globalHll = hll.zero
 
     val distinctCounts = ratingsStream.mapPartitions(messages => {
@@ -63,11 +67,30 @@ object AlgebirdHyperLogLog {
       })
     }).reduce(_ + _)
 
+    val schema = StructType(StructField("itemId", IntegerType, true) :: StructField("approxDistinctCount", LongType, true) :: Nil)
+
     distinctCounts.foreachRDD(rdd => {
       if (rdd.count() != 0) {
         val batchHll = rdd.first()
         globalHll += batchHll
-        println(s"""Global Batch HLL Size: ${globalHll.estimatedSize.toInt}""")
+
+//        val globalTopK = globalTopKCms.heavyHitters.map(itemId =>
+//          (itemId, globalTopKCms.frequency(itemId).estimate)).toSeq.sortBy(_._2).reverse.slice(0, TopK)
+
+//        val globalTopKRDD = sc.parallelize(globalTopK)
+
+//        val globalTopKRDDRows = globalTopKRDD.map(row => Row(row._1, row._2))
+
+//        val globalTopKDF = sqlContext.createDataFrame(globalTopKRDDRows, schema)
+
+//        val enrichedTopKDF =
+//          globalTopKDF.join(itemsDF, $"itemId" === $"id")
+//            .select($"itemId", $"approxCount", $"title", $"img")
+//            .sort($"approxCount" desc)
+
+//        val enrichedTopK = enrichedTopKDF.collect()
+
+        println(s"""Global HLL Distinct Count: ${globalHll.estimatedSize.toInt}""")
       }
     })
 
