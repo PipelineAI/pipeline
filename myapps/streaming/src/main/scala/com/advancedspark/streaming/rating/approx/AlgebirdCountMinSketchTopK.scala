@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.rating.store
+package com.advancedspark.streaming.rating.approx
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -19,7 +19,7 @@ import org.apache.spark.sql.types._
 import com.twitter.algebird.TopPctCMS
 import com.twitter.algebird.CMSHasherImplicits._
 
-object AlgebirdCountMinSketch {
+object AlgebirdCountMinSketchTopK {
   def main(args: Array[String]) {
     val conf = new SparkConf()
     
@@ -89,7 +89,7 @@ object AlgebirdCountMinSketch {
        
 	val enrichedTopK = enrichedTopKDF.collect()
 
-        println(s"""Global CMS Top 5 Heavy Hitters: ${enrichedTopK.mkString("[",",","]")}""")
+        println(s"""Top 5 Heavy Hitters CMS: ${enrichedTopK.mkString("[",",","]")}""")
       }
     })
 

@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.rating.store
+package com.advancedspark.streaming.rating.approx
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
