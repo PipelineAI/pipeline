@@ -13,6 +13,7 @@ echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS O
 echo '...Creating Example Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --delete --topic item_ratings
 kafka-topics --zookeeper localhost:2181 --create --topic item_ratings --partitions 1 --replication-factor 1
+kafka-topics --zookeeper localhost:2181 --create --topic predict_item_ratings --partitions 1 --replication-factor 1
 
 echo '...Creating Example ElasticSearch Indexes...'
 curl -XDELETE 'http://localhost:9200/advancedspark'

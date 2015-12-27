@@ -59,13 +59,13 @@ object TrainALSBatch {
 	  .options(cassandraConfig).load().toDF("userId", "itemId", "rating", "timestamp").cache()
 
 	// Train the model
-   	val rank = 10
-	val maxIterations = 20
-	val convergenceThreshold = 0.01
+   	val rank = 20
+	val maxIterations = 5
+	val lambdaRegularization = 0.1
 
 	val als = new ALS()
   	  .setRank(rank)
- 	  .setRegParam(convergenceThreshold)
+ 	  .setRegParam(lambdaRegularization)
   	  .setUserCol("userId")
  	  .setItemCol("itemId")
  	  .setRatingCol("rating")
