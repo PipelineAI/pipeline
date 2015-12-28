@@ -3,9 +3,12 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -14,10 +17,7 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "editorMode": "ace/mode/markdown"
+        }
       },
       "settings": {
         "params": {},
@@ -39,9 +39,12 @@
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -50,10 +53,7 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -75,9 +75,13 @@
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
+        "tableHide": false,
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -109,11 +113,7 @@
               "aggr": "sum"
             }
           }
-        },
-        "title": true,
-        "tableHide": false,
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -134,9 +134,10 @@
     },
     {
       "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
         "graph": {
           "mode": "table",
           "height": 185.0,
@@ -168,8 +169,7 @@
               "aggr": "sum"
             }
           }
-        },
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -190,9 +190,11 @@
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -201,9 +203,7 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        },
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -224,9 +224,11 @@
     },
     {
       "text": "enrichedRecommendationsDF.selectExpr(\"*\").limit(10).show()",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -235,9 +237,7 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        },
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -257,9 +257,10 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Dec 28, 2015 4:28:42 AM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -268,8 +269,7 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        },
-        "editorMode": "ace/mode/scala"
+        }
       },
       "settings": {
         "params": {},
@@ -288,8 +288,8 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Demo/02:  Generate Recs (ALS Collab Filter)",
-  "id": "2AUYFSKXN",
+  "name": "Live Demo/03: Generate Recs (SVD++ Collab Filter)",
+  "id": "2B9K9Y12K",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],

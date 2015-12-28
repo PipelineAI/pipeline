@@ -1,12 +1,117 @@
 {
   "paragraphs": [
     {
-      "text": "%md TODO",
-      "dateUpdated": "Dec 14, 2015 10:49:38 PM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nval itemsWithTagsDF \u003d itemsDF.select($\"id\", $\"title\", $\"description\", $\"img\", explode($\"tags\") as \"tag\")",
+      "dateUpdated": "Dec 28, 2015 5:03:09 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450133378571_737856341",
+      "id": "20151214-224938_765877713",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\nitemsWithTagsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, img: string, tag: string]\n"
+      },
+      "dateCreated": "Dec 14, 2015 10:49:38 PM",
+      "dateStarted": "Dec 28, 2015 5:03:09 AM",
+      "dateFinished": "Dec 28, 2015 5:03:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val tagCounts \u003d itemsWithTagsDF.select($\"tag\").groupBy($\"tag\")\n  .agg(count($\"tag\").as(\"count\"))\n  .orderBy($\"count\".desc)\n\nz.show(tagCounts)",
+      "dateUpdated": "Dec 28, 2015 5:03:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451277734947_-102286185",
+      "id": "20151228-044214_1740589078",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nJVM\t31\nJava\t31\nSQL\t24\nHadoop\t16\nLibrary\t15\nDatabase\t12\nPython\t11\nData Procesing Execution Engine\t11\nSpark\t9\nQuery Processing\t8\nHiveQL\t8\nUI\t8\nMachine Learning\t8\nGraph Analytics\t7\nAWS\t6\nTransactional\t6\nFile Format\t6\nKey Value Store\t5\nEventually Consistent\t5\nRDBMS\t5\nVisualization\t5\nProgramming Language\t5\nC++\t4\nApproximations\t4\nNoSQL\t4\nDistribution\t4\nLazy\t4\nScala\t4\nKafka\t4\nBatch Analytics\t4\nREST API\t4\nCloud Provider\t4\nStreaming\t4\nEvolving Schema\t3\nNested Schema\t3\nData Warehouse\t3\nJSON\t3\nColumnar\t3\nDistributed Cache\t3\nInterpreted\t3\nR\t3\nWorkflow\t3\nTable\t2\nBI\t2\nCluster Resource Manager\t2\nMapReduce\t2\nCompression\t2\nDeep Learning\t2\nNeural Networks\t2\nSearch Engine\t2\nContainer\t2\nNotebook\t2\nFile System\t2\nSampling\t2\nObject Store\t2\nCompiled\t2\nPig\t2\nDataFrame\t2\nText Analytics\t2\nDynamic Typing\t2\nStreaming Analytics\t2\nAggregations\t2\nNLP\t2\nData Import\t2\nStatic Typing\t2\nMessage Broker\t2\nMicrosoft\t2\nXML\t2\nPaxos\t1\nDocker\t1\nCloudera\t1\nHyperLogLog\t1\nCassandra\t1\nProducer Consumer\t1\nLinux\t1\nCluster Provision\t1\nLucene\t1\nSwift\t1\nPublish Subscribe\t1\nVisuatlization\t1\nHDFS\t1\nJoins\t1\nAd Hoc\t1\nProbabilistic Data Structures\t1\nMetrics\t1\nDeployment\t1\nLog Collection\t1\nGraph\t1\nDevOps\t1\nYARN\t1\nDocument Store\t1\nMessaging\t1\nAlerts\t1\nData Center\t1\nDistribured Coordinator\t1\nObject Oriented\t1\nRAFT\t1\nGraph Processing\t1\nS3\t1\nFunctional\t1\nBatch\t1\nCluster Monitoring\t1\nDataStream\t1\nGoogle\t1\nPresto\t1\nRuby\t1\nUDAF\t1\nSearch\t1\n"
+      },
+      "dateCreated": "Dec 28, 2015 4:42:14 AM",
+      "dateStarted": "Dec 28, 2015 5:03:26 AM",
+      "dateFinished": "Dec 28, 2015 5:03:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "case class Item(id: Int, title: String, description: String, img: String, tags: Set[String]) {\r  override def toString: String \u003d id + \", \" + title\r}",
+      "dateUpdated": "Dec 28, 2015 5:03:44 AM",
+      "config": {
+        "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -15,22 +120,56 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1435978459979_-187768604",
-      "id": "20150704-025419_555917335",
+      "jobName": "paragraph_1451277833631_-1327941294",
+      "id": "20151228-044353_1647659701",
       "result": {
         "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003cp\u003eTODO\u003c/p\u003e\n"
+        "type": "TEXT",
+        "msg": "defined class Item\n"
       },
-      "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Dec 14, 2015 10:49:38 PM",
-      "dateFinished": "Dec 14, 2015 10:49:38 PM",
+      "dateCreated": "Dec 28, 2015 4:43:53 AM",
+      "dateStarted": "Dec 28, 2015 5:03:44 AM",
+      "dateFinished": "Dec 28, 2015 5:03:44 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Create RDD[VertexId, Item]\n\nval edges \u003d itemsWithTagsDF.map(row \u003d\u003e (row(0).toString.toLong, Item(row(0).toString.toInt, row(1).toString, row(2).toString, row(3).toString, Set.empty)))",
+      "dateUpdated": "Dec 28, 2015 4:58:35 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451278183817_-1322248326",
+      "id": "20151228-044943_431195331",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "edges: org.apache.spark.rdd.RDD[(Long, Item)] \u003d MapPartitionsRDD[2039] at map at \u003cconsole\u003e:53\n"
+      },
+      "dateCreated": "Dec 28, 2015 4:49:43 AM",
+      "dateStarted": "Dec 28, 2015 4:58:35 AM",
+      "dateFinished": "Dec 28, 2015 4:58:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -40,14 +179,14 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1450133378571_737856341",
-      "id": "20151214-224938_765877713",
-      "dateCreated": "Dec 14, 2015 10:49:38 PM",
+      "jobName": "paragraph_1451278576344_-564730816",
+      "id": "20151228-045616_1256099148",
+      "dateCreated": "Dec 28, 2015 4:56:16 AM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Demo/03: Generate Recs (Similarity Graph of Tags)",
+  "name": "Live Demo/04: Generate Recs (Similarity Graph of Tags)",
   "id": "2B68NAUVG",
   "angularObjects": {
     "2ARR8UZDJ": [],

@@ -38,9 +38,75 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Run PageRank On The Like Graph And Enrich With Reference Data",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\nval edgeTuples \u003d itemRatingsDF.map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\nval convergenceThreshold \u003d 0.01\n\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n",
-      "dateUpdated": "Dec 12, 2015 9:58:39 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\n",
+      "dateUpdated": "Dec 28, 2015 4:09:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451269408356_-469394570",
+      "id": "20151228-022328_2086052111",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@760e1f93\n"
+      },
+      "dateCreated": "Dec 28, 2015 2:23:28 AM",
+      "dateStarted": "Dec 28, 2015 4:09:50 AM",
+      "dateFinished": "Dec 28, 2015 4:09:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// likeProducer :: likeConsumer\nval likesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/likes.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\")\n  \n// id :: userName\nval usersDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/users.csv\")\n  .toDF(\"id\", \"name\")",
+      "dateUpdated": "Dec 28, 2015 3:18:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451269574078_-1106140320",
+      "id": "20151228-022614_207172186",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int]\nusersDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string]\n"
+      },
+      "dateCreated": "Dec 28, 2015 2:26:14 AM",
+      "dateStarted": "Dec 28, 2015 3:18:14 AM",
+      "dateFinished": "Dec 28, 2015 3:18:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Run PageRank On The Like Graph Data",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\n\n// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\n// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n",
+      "dateUpdated": "Dec 28, 2015 3:18:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,18 +132,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[1643] at map at \u003cconsole\u003e:77\nconvergenceThreshold: Double \u003d 0.01\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@73ed454c\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@6a41271a\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((10004,0.7917500000000002), (90013,0.7621945970695971), (90014,0.6864029304029304), (90004,0.6057035256410256), (10012,0.6018660714285715), (10010,0.5919494047619047), (90010,0.5635576923076923), (90011,0.5334029304029304), (10003,0.5233928571428571), (10001,0.5085684523809524))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[792] at map at \u003cconsole\u003e:52\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@2d8e811f\nconvergenceThreshold: Double \u003d 0.01\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@48587188\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90006,0.31452387499999995), (10004,0.292375), (90001,0.250773875), (10005,0.2245875), (10002,0.2177875), (10003,0.2177875), (90003,0.21375), (90004,0.187023875), (90005,0.187023875), (90002,0.187023875))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Dec 12, 2015 9:58:39 AM",
-      "dateFinished": "Dec 12, 2015 9:58:41 AM",
+      "dateStarted": "Dec 28, 2015 3:18:17 AM",
+      "dateFinished": "Dec 28, 2015 3:18:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the Top Influencers with reference data",
-      "text": "val enrichedTopInfluencersDF \u003d \n  topInfluencersDF.join(itemsDF,\n    $\"id\" \u003d\u003d\u003d $\"itemId\").select($\"id\", $\"title\", $\"description\", $\"img\", $\"rank\").limit(5).cache()\n\nenrichedTopInfluencersDF.show()",
-      "dateUpdated": "Dec 12, 2015 9:58:46 AM",
+      "text": "val enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"title\", $\"description\", $\"img\", $\"rank\")\n  .limit(5)\n  .cache()\n\nenrichedTopInfluencersDF.show()",
+      "dateUpdated": "Dec 28, 2015 2:41:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -99,51 +165,14 @@
       "jobName": "paragraph_1446485309012_-592908703",
       "id": "20151102-172829_1066190094",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "enrichedTopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, img: string, rank: double]\n+-----+---------------+--------------------+-------------------+------------------+\n|   id|          title|         description|                img|              rank|\n+-----+---------------+--------------------+-------------------+------------------+\n|10004| Morgan Freeman|With an authorita...|img/items/10004.jpg|0.7917500000000002|\n|90013|  Sofia Vergara|Sofia Margarita V...|img/items/90013.jpg|0.7621945970695971|\n|90014|   Gail O\u0027Grady|Gail O\u0027Grady was ...|img/items/90014.jpg|0.6864029304029304|\n|90004|Bobbie Phillips|Brains and beauty...|img/items/90004.jpg|0.6057035256410256|\n|10012|    Johnny Depp|Johnny Depp is pe...|img/items/10012.jpg|0.6018660714285715|\n+-----+---------------+--------------------+-------------------+------------------+\n\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Nov 2, 2015 5:28:29 PM",
-      "dateStarted": "Dec 12, 2015 9:58:46 AM",
-      "dateFinished": "Dec 12, 2015 9:58:46 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Save Top Influencers to ElasticSearch",
-      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedTopInfluencersDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig).save(\"advancedspark/top-influencers\")",
-      "dateUpdated": "Dec 12, 2015 9:58:49 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "title": true,
-        "editorHide": false,
-        "tableHide": false,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435977607013_1537471179",
-      "id": "20150704-024007_801415737",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
-      },
-      "dateCreated": "Jul 4, 2015 2:40:07 AM",
-      "dateStarted": "Dec 12, 2015 9:58:49 AM",
-      "dateFinished": "Dec 12, 2015 9:58:50 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 28, 2015 2:41:05 AM",
+      "dateFinished": "Dec 28, 2015 2:41:06 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -181,7 +210,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Demo/05:  Top Influencers (PageRank)",
+  "name": "Graph/01:  Top Influencers (PageRank)",
   "id": "2ASEWJ19K",
   "angularObjects": {
     "2ARR8UZDJ": [],

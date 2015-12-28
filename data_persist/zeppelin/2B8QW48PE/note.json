@@ -1,0 +1,194 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png)",
+      "dateUpdated": "Dec 28, 2015 3:50:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451264723311_-1702012312",
+      "id": "20151228-010523_1375432479",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 1:05:23 AM",
+      "dateStarted": "Dec 28, 2015 3:20:55 AM",
+      "dateFinished": "Dec 28, 2015 3:20:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")",
+      "dateUpdated": "Dec 28, 2015 4:38:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451272855328_-600093180",
+      "id": "20151228-032055_1892376883",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int, cost: int]\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:20:55 AM",
+      "dateStarted": "Dec 28, 2015 4:38:47 AM",
+      "dateFinished": "Dec 28, 2015 4:38:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Ignore cost\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
+      "dateUpdated": "Dec 28, 2015 4:39:44 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451272922852_1843770536",
+      "id": "20151228-032202_472535270",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "connectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[1731] at map at \u003cconsole\u003e:45\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:22:02 AM",
+      "dateStarted": "Dec 28, 2015 4:39:44 AM",
+      "dateFinished": "Dec 28, 2015 4:39:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, \"\")",
+      "dateUpdated": "Dec 28, 2015 4:39:16 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273083249_-1270989637",
+      "id": "20151228-032443_113720619",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@d705c98\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:24:43 AM",
+      "dateStarted": "Dec 28, 2015 4:39:16 AM",
+      "dateFinished": "Dec 28, 2015 4:39:16 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find shortest num of hops between Nodes",
+      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\nval src \u003d List(10001L, 10002L) // List of source vertices\nval dest \u003d 90002L // Single dest vertex\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices.filter(_._1 \u003d\u003d dest)\n\nshortestNumberOfHops.collect().mkString(\",\")",
+      "dateUpdated": "Dec 28, 2015 4:39:33 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273176254_-1149238775",
+      "id": "20151228-032616_213584377",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10001, 10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[1730] at RDD at VertexRDD.scala:57\nres97: String \u003d (90002,Map(10001 -\u003e 2, 10002 -\u003e 3))\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:26:16 AM",
+      "dateStarted": "Dec 28, 2015 4:39:33 AM",
+      "dateFinished": "Dec 28, 2015 4:39:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273403872_-522974311",
+      "id": "20151228-033003_314453208",
+      "dateCreated": "Dec 28, 2015 3:30:03 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/02: Shortest Number of Hops (Shortest Path)",
+  "id": "2B8QW48PE",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

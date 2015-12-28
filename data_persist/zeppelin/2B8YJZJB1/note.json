@@ -172,7 +172,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Algebird/01: HyperLogLog (Count Distinct)",
+  "name": "Approx/02: Algebird HyperLogLog (Count Distinct)",
   "id": "2B8YJZJB1",
   "angularObjects": {
     "2ARR8UZDJ": [],

@@ -1,0 +1,210 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png)",
+      "dateUpdated": "Dec 28, 2015 4:16:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274621785_-2091468050",
+      "id": "20151228-035021_708663317",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:50:21 AM",
+      "dateStarted": "Dec 28, 2015 4:16:56 AM",
+      "dateFinished": "Dec 28, 2015 4:16:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")",
+      "dateUpdated": "Dec 28, 2015 4:39:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274444432_2088030248",
+      "id": "20151228-034724_1559602252",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int, cost: int]\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:47:24 AM",
+      "dateStarted": "Dec 28, 2015 4:39:51 AM",
+      "dateFinished": "Dec 28, 2015 4:39:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
+      "dateUpdated": "Dec 28, 2015 4:39:52 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451275426107_-161430770",
+      "id": "20151228-040346_989212984",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[1744] at map at \u003cconsole\u003e:48\n"
+      },
+      "dateCreated": "Dec 28, 2015 4:03:46 AM",
+      "dateStarted": "Dec 28, 2015 4:39:52 AM",
+      "dateFinished": "Dec 28, 2015 4:39:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val graph \u003d Graph.fromEdges(connectionEdgesRDD, \"\")",
+      "dateUpdated": "Dec 28, 2015 4:39:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274763346_-1561452631",
+      "id": "20151228-035243_771934602",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "graph: org.apache.spark.graphx.Graph[String,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@5e0fac39\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:52:43 AM",
+      "dateStarted": "Dec 28, 2015 4:39:55 AM",
+      "dateFinished": "Dec 28, 2015 4:39:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val src \u003d  10002L // Source vertex\nval dest \u003d 90002L // Dest vertex\n\nvar graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d src) 0 else Double.MaxValue, List[VertexId]()))\n\nfor (i \u003c- 1L to graph.vertices.count-1) {\n  // The fold() below simulates minBy() functionality\n  val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n    .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n      if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n  val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n    if (ctx.srcId \u003d\u003d currentVertexId) \n      ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n        (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n  graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n    val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n      (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n        if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n}\n\nval shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n  (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n  .productIterator.toList.tail))\n  \nval shortestPath \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest)\n\nshortestPath.collect().mkString(\",\")",
+      "dateUpdated": "Dec 28, 2015 4:39:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274773593_-1643373499",
+      "id": "20151228-035253_2016855462",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "src: Long \u003d 10002\ndest: Long \u003d 90002\ngraph2: org.apache.spark.graphx.Graph[(Boolean, Double, List[org.apache.spark.graphx.VertexId]),Float] \u003d org.apache.spark.graphx.impl.GraphImpl@5d844f4d\nshortestPathGraph: org.apache.spark.graphx.Graph[(String, List[Any]),Float] \u003d org.apache.spark.graphx.impl.GraphImpl@6030d180\nshortestPath: org.apache.spark.graphx.VertexRDD[(String, List[Any])] \u003d VertexRDDImpl[1922] at RDD at VertexRDD.scala:57\nres111: String \u003d (90002,(,List(12.0, List(10002, 90003, 10001, 90001))))\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:52:53 AM",
+      "dateStarted": "Dec 28, 2015 4:39:57 AM",
+      "dateFinished": "Dec 28, 2015 4:39:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 28, 2015 4:16:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274887569_-30754585",
+      "id": "20151228-035447_1490104675",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 28, 2015 3:54:47 AM",
+      "dateStarted": "Dec 28, 2015 4:16:58 AM",
+      "dateFinished": "Dec 28, 2015 4:16:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/03: Shortest Path (Djikstra)",
+  "id": "2BAFX81J2",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
