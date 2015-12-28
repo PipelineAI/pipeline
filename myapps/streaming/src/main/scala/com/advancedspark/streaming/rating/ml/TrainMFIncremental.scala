@@ -52,14 +52,16 @@ object TrainMFIncremental {
 
     val unionedStreams = ssc.union(List(trainInputStream, dummyStream))
 
-    val rank = 20
-    val maxIterations = 5
-    val lambdaRegularization = 0.1
+    val rank = 20 // suggested number of latent factors
+    val maxIterations = 5 // static number of iterations
+    val lambdaRegularization = 0.1 // prevent overfitting
 
     val streamingMFParams = new LatentMatrixFactorizationParams()
       .setRank(rank)
       .setIter(maxIterations)
       .setLambda(lambdaRegularization)
+      .setMinRating(0.0)
+      .setMaxRating(1.0)
 
     val streamingMF = new StreamingLatentMatrixFactorization(streamingMFParams)
 
