@@ -223,40 +223,6 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "enrichedRecommendationsDF.selectExpr(\"*\").limit(10).show()",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorHide": false,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1435978459979_-187768604",
-      "id": "20150704-025419_555917335",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "+------+------+-----+-----------+----+---+----------+\n|userId|itemId|title|description|tags|img|confidence|\n+------+------+-----+-----------+----+---+----------+\n+------+------+-----+-----------+----+---+----------+\n\n"
-      },
-      "dateCreated": "Jul 4, 2015 2:54:19 AM",
-      "dateStarted": "Dec 26, 2015 2:15:10 AM",
-      "dateFinished": "Dec 26, 2015 2:15:13 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "dateUpdated": "Dec 26, 2015 2:15:04 AM",
       "config": {
         "colWidth": 12.0,
@@ -288,7 +254,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Demo/02:  Generate Recs (ALS Collab Filter)",
+  "name": "Live Recs/02:  Generate Recs (ALS Collab Filter)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],

@@ -445,7 +445,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/04: Compare Query Plans",
+  "name": "SQL/04: Compare Query Plans",
   "id": "2B7JQJT2G",
   "angularObjects": {
     "2ARR8UZDJ": [],

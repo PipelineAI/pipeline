@@ -1,39 +1,6 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.0\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
-      "dateUpdated": "Dec 8, 2015 8:36:16 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1438115380981_-1458610433",
-      "id": "20150728-202940_569902058",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "Must be used before SparkInterpreter (%spark) initialized"
-      },
-      "dateCreated": "Jul 28, 2015 8:29:40 PM",
-      "dateStarted": "Dec 8, 2015 8:36:16 PM",
-      "dateFinished": "Dec 8, 2015 8:36:16 PM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "text": "%md # Join Ratings and Genders\n* Ratings (CSV, Unpartitioned) Joined with Genders (CSV, Unpartitioned)\n* Ratings (JSON, Unpartitioned) Joined with Genders (JSON, Unpartitioned)\n* Ratings (Parquet, Unpartitioned) Joined with Genders (Parquet, Unpartitioned)\n* Ratings (Parquet, Partitioned) Joined with Genders (Parquet, Partitioned) \n* Ratings (Parquet, Partitioned) Joined with Genders (JSON, Unpartitioned)\n* Ratings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)\n* Ratings (Cassandra, Unpartitioned) and Genders (Parquet, Partitioned)\n* Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)\n* Ratings (Avro, Partitioned) Joined with Genders (Avro, Partitioned)\n",
       "dateUpdated": "Nov 23, 2015 5:06:20 AM",
       "config": {
@@ -1764,7 +1731,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/01: Compare Query Plans (Formats, Partitions, Joins)",
+  "name": "SQL/01: Compare Query Plans (Formats, Partitions, Joins)",
   "id": "2B2M4DMJK",
   "angularObjects": {
     "2ARR8UZDJ": [],

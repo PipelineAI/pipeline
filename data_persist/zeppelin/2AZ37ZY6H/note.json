@@ -1,40 +1,6 @@
 {
   "paragraphs": [
     {
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
-      "dateUpdated": "Nov 30, 2015 12:19:41 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1444104301541_-1668023437",
-      "id": "20151006-040501_1444996520",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "res1: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@139d4904\n"
-      },
-      "dateCreated": "Oct 6, 2015 4:05:01 AM",
-      "dateStarted": "Nov 30, 2015 12:19:41 PM",
-      "dateFinished": "Nov 30, 2015 12:19:42 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Initialize a new IntegerRange DataSource",
       "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\nval startingValuesDF \u003d sqlContext.load(\"com.advancedspark.sql.source.IntegerRangeRelationProvider\", options)\nstartingValuesDF.show()\nstartingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show(30)",
       "dateUpdated": "Dec 1, 2015 10:57:32 AM",
@@ -209,7 +175,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "DataSources/02: Creating a Custom DataSource",
+  "name": "SQL/02: Creating a Custom DataSource",
   "id": "2AZ37ZY6H",
   "angularObjects": {
     "2ARR8UZDJ": [],
