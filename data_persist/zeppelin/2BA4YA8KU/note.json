@@ -1,0 +1,633 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._",
+      "dateUpdated": "Dec 30, 2015 5:40:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451318099632_1275613400",
+      "id": "20151228-155459_1951209027",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:54:59 PM",
+      "dateStarted": "Dec 30, 2015 5:40:46 PM",
+      "dateFinished": "Dec 30, 2015 5:40:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n\nitemsDF.collect()",
+      "dateUpdated": "Dec 30, 2015 5:40:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451323111480_-372297908",
+      "id": "20151228-171831_1063248354",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: int, title: string, tags: string]\nres123: Array[org.apache.spark.sql.Row] \u003d Array([1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy], [2,Jumanji (1995),Adventure|Children|Fantasy], [3,Grumpier Old Men (1995),Comedy|Romance], [4,Waiting to Exhale (1995),Comedy|Drama|Romance], [5,Father of the Bride Part II (1995),Comedy], [6,Heat (1995),Action|Crime|Thriller], [7,Sabrina (1995),Comedy|Romance], [8,Tom and Huck (1995),Adventure|Children], [9,Sudden Death (1995),Action], [10,GoldenEye (1995),Action|Adventure|Thriller])\n"
+      },
+      "dateCreated": "Dec 28, 2015 5:18:31 PM",
+      "dateStarted": "Dec 30, 2015 5:40:46 PM",
+      "dateFinished": "Dec 30, 2015 5:40:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert pipe (|) delimited tags into a set",
+      "text": "import org.apache.spark.sql.Row\n\ncase class Item(id: Long, title: String, tags: Seq[String]) {\n  override def toString: String \u003d id + \", \" + title + \", \" + tags\n}\n\n// Convert from RDD[Row] to RDD[Item]\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  Item(id, title, tags)\n})\n\nitemsRDD.collect()",
+      "dateUpdated": "Dec 30, 2015 5:40:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451400566555_-1305258659",
+      "id": "20151229-144926_1579858999",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\ndefined class Item\nitemsRDD: org.apache.spark.rdd.RDD[Item] \u003d MapPartitionsRDD[858] at map at \u003cconsole\u003e:56\nres129: Array[Item] \u003d Array(1, Toy Story (1995), WrappedArray(Adventure, Animation, Children, Comedy, Fantasy), 2, Jumanji (1995), WrappedArray(Adventure, Children, Fantasy), 3, Grumpier Old Men (1995), WrappedArray(Comedy, Romance), 4, Waiting to Exhale (1995), WrappedArray(Comedy, Drama, Romance), 5, Father of the Bride Part II (1995), WrappedArray(Comedy), 6, Heat (1995), WrappedArray(Action, Crime, Thriller), 7, Sabrina (1995), WrappedArray(Comedy, Romance), 8, Tom and Huck (1995), WrappedArray(Adventure, Children), 9, Sudden Death (1995), WrappedArray(Action), 10, GoldenEye (1995), WrappedArray(Action, Adventure, Thriller))\n"
+      },
+      "dateCreated": "Dec 29, 2015 2:49:26 PM",
+      "dateStarted": "Dec 30, 2015 5:40:47 PM",
+      "dateFinished": "Dec 30, 2015 5:40:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Number of distinct Tags found in the dataset",
+      "text": "//val distinctCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").distinct()\n//distinctCounts.count()",
+      "dateUpdated": "Dec 30, 2015 5:40:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451398205879_822632098",
+      "id": "20151229-141005_354437963",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Dec 29, 2015 2:10:05 PM",
+      "dateStarted": "Dec 30, 2015 5:40:47 PM",
+      "dateFinished": "Dec 30, 2015 5:40:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "//val tagCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").groupBy($\"tag\")\n//  .agg(count($\"tag\").as(\"count\"))\n//  .orderBy($\"count\".desc)\n//  .limit(10)\n\n//z.show(tagCounts)",
+      "dateUpdated": "Dec 30, 2015 5:40:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451277734947_-102286185",
+      "id": "20151228-044214_1740589078",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Dec 28, 2015 4:42:14 AM",
+      "dateStarted": "Dec 30, 2015 5:40:48 PM",
+      "dateFinished": "Dec 30, 2015 5:40:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Define Domain-specific Case Class and Jaccard Similarity Algorithm",
+      "text": "// Note:  This class must be defined in a separate cell from where it\u0027s being used, otherwise you\u0027ll see this error:\n//   https://fluxcapacitor.zendesk.com/hc/en-us/articles/215310168\ndef getJaccardSimilarity(item1: Item, item2: Item): Double \u003d {\n  val intersectTags \u003d item1.tags intersect item2.tags\n  val unionTags \u003d item1.tags union item2.tags\n    \n  val numIntersectTags \u003d intersectTags.size\n  val numUnionTags \u003d unionTags.size\n  val jaccardSimilarity \u003d \n    if (numUnionTags \u003e 0) numIntersectTags.toDouble / numUnionTags.toDouble\n  \telse 0.0\n\n  jaccardSimilarity\n}",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451279325043_812927468",
+      "id": "20151228-050845_1911880139",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "getJaccardSimilarity: (item1: Item, item2: Item)Double\n"
+      },
+      "dateCreated": "Dec 28, 2015 5:08:45 AM",
+      "dateStarted": "Dec 30, 2015 5:40:48 PM",
+      "dateFinished": "Dec 30, 2015 5:40:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Jaccard Similarity between all item pairs (cartesian, then de-dupe)",
+      "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n\n// Filter out duplicates and preserve only the pairs with left id \u003c right id\n//val distinctItemPairsRDD \u003d allItemPairsRDD\n  //.filter(itemPair \u003d\u003e itemPair._1.id \u003c itemPair._2.id)\n\nval minJaccardSimilarityThreshold \u003d 0.0001\n\n// Calculate Jaccard Similarity between all item pairs (cartesian, then de-duped)\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d getJaccardSimilarity(itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451317394187_1089784615",
+      "id": "20151228-154314_719152611",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(Item, Item)] \u003d CartesianRDD[859] at cartesian at \u003cconsole\u003e:56\nminJaccardSimilarityThreshold: Double \u003d 1.0E-4\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[860] at flatMap at \u003cconsole\u003e:65\nres153: String \u003d (1,1,0.5),(1,2,0.375),(1,3,0.14285714285714285),(1,4,0.125),(1,5,0.16666666666666666),(2,1,0.375),(2,2,0.5),(3,1,0.14285714285714285),(3,3,0.5),(3,4,0.4),(3,5,0.3333333333333333),(4,1,0.125),(4,3,0.4),(4,4,0.5),(4,5,0.25),(5,1,0.16666666666666666),(5,3,0.3333333333333333),(5,4,0.25),(5,5,0.5),(1,7,0.14285714285714285),(1,8,0.2857142857142857),(1,10,0.125),(2,8,0.4),(2,10,0.16666666666666666),(3,7,0.5),(4,7,0.4),(5,7,0.3333333333333333),(7,1,0.14285714285714285),(7,3,0.5),(7,4,0.4),(7,5,0.3333333333333333),(8,1,0.2857142857142857),(8,2,0.4),(10,1,0.125),(10,2,0.16666666666666666),(6,6,0.5),(6,9,0.25),(6,10,0.3333333333333333),(7,7,0.5),(8,8,0.5),(8,10,0.2),(9,6,0.25),(9,9,0.5),(9,10,0.25),(10,6,0.3333333333333333),(10,8,0.2),(10,9,0.25),(10,10,0.5)\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:43:14 PM",
+      "dateStarted": "Dec 30, 2015 5:40:48 PM",
+      "dateFinished": "Dec 30, 2015 5:40:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def dijkstra(graph: Graph[VertexId, Double], srcId: VertexId): Graph[(VertexId, List[Any]), Double] \u003d {\n  // Dijkstra Shortest Path\n  var graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d srcId) 0 else Double.MaxValue, List[VertexId]()))\n\n  for (i \u003c- 1L to graph.vertices.count-1) {\n    // The fold() below simulates minBy() functionality\n    val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n      .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n        if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n    val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n      if (ctx.srcId \u003d\u003d currentVertexId) \n        ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n          (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n    graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n      val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n        (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n          if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n  }\n\n  val shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n    (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n    .productIterator.toList.tail))\n  \n  shortestPathGraph\n}",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451398384385_1393442935",
+      "id": "20151229-141304_162052884",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "dijkstra: (graph: org.apache.spark.graphx.Graph[org.apache.spark.graphx.VertexId,Double], srcId: org.apache.spark.graphx.VertexId)org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double]\n"
+      },
+      "dateCreated": "Dec 29, 2015 2:13:04 PM",
+      "dateStarted": "Dec 30, 2015 5:40:48 PM",
+      "dateFinished": "Dec 30, 2015 5:40:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Shortest Path between 2 Items Based on Jaccard Similarity of Item Tags",
+      "text": "val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nsimilarItemsAboveThresholdEdgeRDD.collect()\n\nval mygraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\nmygraph.edges.count\n\nval src \u003d 1\nval dest \u003d 9\n// Note:  Should go through 1 -\u003e 10 -\u003e 9\n\nval shortestPathGraph \u003d dijkstra(mygraph, src)\n\nshortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()\n\n// Example 1\n//\n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)\n\n// Tag Analysis of Shortest Path\n// 1  *Adventure*|Animation|Children|Comedy|Fantasy\n// 10 *Action*|*Adventure*|Thriller\n// 9  *Action*",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451352094574_-1165080675",
+      "id": "20151229-012134_1599229617",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "similarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[861] at map at \u003cconsole\u003e:64\nres157: Array[org.apache.spark.graphx.Edge[Double]] \u003d Array(Edge(1,1,0.5), Edge(1,2,0.375), Edge(1,3,0.14285714285714285), Edge(1,4,0.125), Edge(1,5,0.16666666666666666), Edge(2,1,0.375), Edge(2,2,0.5), Edge(3,1,0.14285714285714285), Edge(3,3,0.5), Edge(3,4,0.4), Edge(3,5,0.3333333333333333), Edge(4,1,0.125), Edge(4,3,0.4), Edge(4,4,0.5), Edge(4,5,0.25), Edge(5,1,0.16666666666666666), Edge(5,3,0.3333333333333333), Edge(5,4,0.25), Edge(5,5,0.5), Edge(1,7,0.14285714285714285), Edge(1,8,0.2857142857142857), Edge(1,10,0.125), Edge(2,8,0.4), Edge(2,10,0.16666666666666666), Edge(3,7,0.5), Edge(4,7,0.4), Edge(5,7,0.3333333333333333), Edge(7,1,0.14285714285714285), Edge(7,3,0.5), Edge(7,4,0.4), Edge(7,5,0.3333333333333333), Edge(8,1,0.2857142857142857), Edge(8,2,0.4), Edge(10,1,0.125), Edge(10,...mygraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@3c86a314\nres159: Long \u003d 48\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@78df9f50\nres164: Array[(org.apache.spark.graphx.VertexId, List[Any])] \u003d Array((0,List(0.375, List(1, 10))))\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:21:34 AM",
+      "dateStarted": "Dec 30, 2015 5:40:49 PM",
+      "dateFinished": "Dec 30, 2015 5:40:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Power Iteration Clustering of Items based on Tag Jaccard Similarity",
+      "text": "// 9  Action\nimport org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n\nval clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451334971967_402230190",
+      "id": "20151228-203611_236636775",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@3f9101f6\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@426a8e9d\nclusterAssignmentsRDD: org.apache.spark.rdd.RDD[(Long, Int)] \u003d MapPartitionsRDD[1145] at map at \u003cconsole\u003e:70\n"
+      },
+      "dateCreated": "Dec 28, 2015 8:36:11 PM",
+      "dateStarted": "Dec 30, 2015 5:40:50 PM",
+      "dateFinished": "Dec 30, 2015 5:40:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert the clusterAssignmentsRDD into a DataFrame",
+      "text": "val schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n\nval clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2))\n\nval clusterAssignmentsDF \u003d sqlContext.createDataFrame(clusterAssignmentsRowRDD, schema)",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451335712814_493669088",
+      "id": "20151228-204832_49888518",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "schema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(itemId,LongType,true), StructField(clusterId,IntegerType,true))\nclusterAssignmentsRowRDD: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d MapPartitionsRDD[1146] at map at \u003cconsole\u003e:72\nclusterAssignmentsDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, clusterId: int]\n"
+      },
+      "dateCreated": "Dec 28, 2015 8:48:32 PM",
+      "dateStarted": "Dec 30, 2015 5:40:52 PM",
+      "dateFinished": "Dec 30, 2015 5:40:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of items within a cluster",
+      "text": "val joinedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(joinedItemsClustersCountDF)",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451352986034_-1943585352",
+      "id": "20151229-013626_1831771232",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\ttags\tcount(itemId)\n4\tAction|Crime|Thriller\t1\n4\tAction\t1\n3\tAdventure|Children|Fantasy\t1\n3\tAdventure|Children\t1\n3\tAdventure|Animation|Children|Comedy|Fantasy\t1\n2\tComedy|Drama|Romance\t1\n2\tComedy\t1\n1\tAction|Adventure|Thriller\t1\n0\tComedy|Romance\t2\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:36:26 AM",
+      "dateStarted": "Dec 30, 2015 5:40:54 PM",
+      "dateFinished": "Dec 30, 2015 5:40:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Details",
+      "text": "// Enrich the cluster assignment tuples with itemsDF\nval joinedItemsClustersDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\")\n  \nz.show(joinedItemsClustersDF)",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 474.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "clusterId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "clusterId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451348226921_-115634507",
+      "id": "20151229-001706_1772528099",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tclusterId\ttitle\ttags\n3\t0\tGrumpier Old Men (1995)\tComedy|Romance\n7\t0\tSabrina (1995)\tComedy|Romance\n10\t1\tGoldenEye (1995)\tAction|Adventure|Thriller\n5\t2\tFather of the Bride Part II (1995)\tComedy\n4\t2\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n1\t3\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\t3\tJumanji (1995)\tAdventure|Children|Fantasy\n8\t3\tTom and Huck (1995)\tAdventure|Children\n6\t4\tHeat (1995)\tAction|Crime|Thriller\n9\t4\tSudden Death (1995)\tAction\n"
+      },
+      "dateCreated": "Dec 29, 2015 12:17:06 AM",
+      "dateStarted": "Dec 30, 2015 5:40:54 PM",
+      "dateFinished": "Dec 30, 2015 5:40:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Show the intersection of tags within each cluster\nval clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451350991110_1019547650",
+      "id": "20151229-010311_1992313547",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "clusterTagIntersectionDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, clusterId: int, title: string, tags: string, tag: string]\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:03:11 AM",
+      "dateStarted": "Dec 30, 2015 5:40:56 PM",
+      "dateFinished": "Dec 30, 2015 5:40:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Given an itemId (or List of itemIds), recommend more itemIds based on similar cluster \n//        and/or closest jaccard similarity ",
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451397463773_538617890",
+      "id": "20151229-135743_947751301",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Dec 29, 2015 1:57:43 PM",
+      "dateStarted": "Dec 30, 2015 5:40:57 PM",
+      "dateFinished": "Dec 30, 2015 5:40:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 30, 2015 5:40:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451400014910_399953924",
+      "id": "20151229-144014_562495240",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 29, 2015 2:40:14 PM",
+      "dateStarted": "Dec 30, 2015 5:40:57 PM",
+      "dateFinished": "Dec 30, 2015 5:40:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/04: Tag-based Clusters (Jaccard Similarity)",
+  "id": "2BA4YA8KU",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

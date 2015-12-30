@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "dateUpdated": "Dec 30, 2015 1:14:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,15 @@
         "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n"
       },
       "dateCreated": "Dec 28, 2015 3:54:59 PM",
-      "dateStarted": "Dec 29, 2015 12:33:39 AM",
-      "dateFinished": "Dec 29, 2015 12:33:52 AM",
+      "dateStarted": "Dec 30, 2015 1:14:55 PM",
+      "dateFinished": "Dec 30, 2015 1:15:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "dateUpdated": "Dec 30, 2015 1:14:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -49,7 +50,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -57,24 +59,54 @@
       },
       "jobName": "paragraph_1451323111480_-372297908",
       "id": "20151228-171831_1063248354",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException",
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Dec 29, 2015 12:33:41 AM",
-      "dateFinished": "Dec 29, 2015 12:33:54 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 1:14:57 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "org.apache.thrift.transport.TTransportException\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:132)\n\tat org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:429)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:318)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:219)\n\tat org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:69)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.recv_interpret(RemoteInterpreterService.java:220)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:205)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val tagCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").groupBy($\"tag\")\n  .agg(count($\"tag\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(10)\n\nz.show(tagCounts)",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "title": "Number of distinct Tags found in the dataset",
+      "text": "val distinctCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").distinct()\ndistinctCounts.count()",
+      "dateUpdated": "Dec 30, 2015 1:14:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "multiBarChart",
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451398205879_822632098",
+      "id": "20151229-141005_354437963",
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
+      "dateCreated": "Dec 29, 2015 2:10:05 PM",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:121)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeString(TBinaryProtocol.java:202)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext$RemoteInterpreterContextStandardScheme.write(RemoteInterpreterContext.java:943)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext$RemoteInterpreterContextStandardScheme.write(RemoteInterpreterContext.java:828)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext.write(RemoteInterpreterContext.java:734)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4491)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4427)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args.write(RemoteInterpreterService.java:4362)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:63)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").groupBy($\"tag\")\n  .agg(count($\"tag\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(10)\n\nz.show(tagCounts)",
+      "dateUpdated": "Dec 30, 2015 1:14:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "pieChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
@@ -101,7 +133,8 @@
           }
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -109,66 +142,18 @@
       },
       "jobName": "paragraph_1451277734947_-102286185",
       "id": "20151228-044214_1740589078",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "tag\tcount\nJVM\t31\nJava\t31\nSQL\t24\nHadoop\t16\nLibrary\t15\nDatabase\t12\nPython\t11\nData Procesing Execution Engine\t11\nSpark\t9\nUI\t8\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 28, 2015 4:42:14 AM",
-      "dateStarted": "Dec 29, 2015 12:33:52 AM",
-      "dateFinished": "Dec 29, 2015 12:33:57 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeString(TBinaryProtocol.java:202)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext$RemoteInterpreterContextStandardScheme.write(RemoteInterpreterContext.java:923)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext$RemoteInterpreterContextStandardScheme.write(RemoteInterpreterContext.java:828)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterContext.write(RemoteInterpreterContext.java:734)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4491)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4427)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args.write(RemoteInterpreterService.java:4362)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:63)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.sql.Row\n\ncase class Item(id: Long, title: String, description: String, img: String, tags: Set[String]) {\n  override def toString: String \u003d id + \", \" + title + \", \" + tags\n}\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"description\", $\"img\", $\"tags\").map(row \u003d\u003e\n  Item(row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getSeq[String](4).toSet)\n)",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "tags",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "tags",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "editorMode": "ace/mode/scala",
-        "tableHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1450133378571_737856341",
-      "id": "20151214-224938_765877713",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\ndefined class Item\nitemsRDD: org.apache.spark.rdd.RDD[Item] \u003d MapPartitionsRDD[19] at map at \u003cconsole\u003e:36\n"
-      },
-      "dateCreated": "Dec 14, 2015 10:49:38 PM",
-      "dateStarted": "Dec 29, 2015 12:33:54 AM",
-      "dateFinished": "Dec 29, 2015 12:33:58 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "def getJaccardSimilarity(item1: Item, item2: Item): Double \u003d {\n  val intersectTags \u003d item1.tags intersect item2.tags\n  val unionTags \u003d item1.tags union item2.tags\n    \n  val numIntersectTags \u003d intersectTags.size\n  val numUnionTags \u003d unionTags.size\n  val jaccardSimilarity \u003d \n    if (numUnionTags \u003e 0) numIntersectTags.toDouble / numUnionTags.toDouble\n  \telse 0.0\n\n  jaccardSimilarity\n}",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "title": "Define Domain-specific Case Class and Jaccard Similarity Algorithm",
+      "text": "// Note:  This class must be defined in a separate cell from where it\u0027s being used, otherwise you\u0027ll see this error:\n//   https://fluxcapacitor.zendesk.com/hc/en-us/articles/215310168\n\ncase class Item(id: Long, title: String, description: String, img: String, tags: Set[String]) {\n  override def toString: String \u003d id + \", \" + title + \", \" + tags\n}\n\ndef getJaccardSimilarity(item1: Item, item2: Item): Double \u003d {\n  val intersectTags \u003d item1.tags intersect item2.tags\n  val unionTags \u003d item1.tags union item2.tags\n    \n  val numIntersectTags \u003d intersectTags.size\n  val numUnionTags \u003d unionTags.size\n  val jaccardSimilarity \u003d \n    if (numUnionTags \u003e 0) numIntersectTags.toDouble / numUnionTags.toDouble\n  \telse 0.0\n\n  jaccardSimilarity\n}",
+      "dateUpdated": "Dec 30, 2015 1:14:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -181,7 +166,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -189,20 +175,18 @@
       },
       "jobName": "paragraph_1451279325043_812927468",
       "id": "20151228-050845_1911880139",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "getJaccardSimilarity: (item1: Item, item2: Item)Double\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 28, 2015 5:08:45 AM",
-      "dateStarted": "Dec 29, 2015 12:33:57 AM",
-      "dateFinished": "Dec 29, 2015 12:33:58 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val minJaccardSimilarityThreshold \u003d 0.1\n\nval allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n\n// Filter out duplicates and preserve only the pairs with left id \u003c right id\nval distinctItemPairsRDD \u003d allItemPairsRDD.filter(itemPair \u003d\u003e itemPair._1.id \u003c itemPair._2.id)\n\n// Calculate Jaccard Similarity between all item pairs (cartesian, then de-duped)\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d distinctItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d getJaccardSimilarity(itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minJaccardSimilarityThreshold)\n    Some(itemPair._1.id, itemPair._2.id, jaccardSim)\n  else\n    None\n})\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "title": "Calculate Jaccard Similarity between all item pairs (cartesian, then de-dupe)",
+      "text": "import org.apache.spark.sql.Row\n\n// Convert from RDD[Row] to RDD[Item]\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"description\", $\"img\", $\"tags\").map(row \u003d\u003e\n  Item(row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getSeq[String](4).toSet)\n)\n\nval allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n\n// Filter out duplicates and preserve only the pairs with left id \u003c right id\nval distinctItemPairsRDD \u003d allItemPairsRDD.filter(itemPair \u003d\u003e itemPair._1.id \u003c itemPair._2.id)\n\nval minJaccardSimilarityThreshold \u003d 0.1\n\n// Calculate Jaccard Similarity between all item pairs (cartesian, then de-duped)\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d distinctItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d getJaccardSimilarity(itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minJaccardSimilarityThreshold)\n    Some(itemPair._1.id, itemPair._2.id, jaccardSim)\n  else\n    None\n})\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -215,7 +199,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -223,20 +208,48 @@
       },
       "jobName": "paragraph_1451317394187_1089784615",
       "id": "20151228-154314_719152611",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "minJaccardSimilarityThreshold: Double \u003d 0.1\nallItemPairsRDD: org.apache.spark.rdd.RDD[(Item, Item)] \u003d CartesianRDD[672] at cartesian at \u003cconsole\u003e:45\ndistinctItemPairsRDD: org.apache.spark.rdd.RDD[(Item, Item)] \u003d MapPartitionsRDD[673] at filter at \u003cconsole\u003e:48\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[674] at flatMap at \u003cconsole\u003e:55\nres128: String \u003d (1,6,0.11764705882352941),(1,8,0.25),(1,9,0.2222222222222222),(1,10,0.25),(1,11,0.25),(1,12,0.7142857142857143),(1,13,0.2222222222222222),(1,14,0.16666666666666666),(1,16,0.15384615384615385),(1,18,0.16666666666666666),(1,19,0.2222222222222222),(1,20,0.15384615384615385),(1,21,0.15384615384615385),(1,22,0.25),(1,25,0.15384615384615385),(1,27,0.16666666666666666),(1,28,0.14285714285714285),(1,29,0.2222222222222222),(1,30,0.14285714285714285),(1,31,0.2857142857142857),(1,32,0.25),(1,33,0.2222222222222222),(1,34,0.2),(1,38,0.14285714285714285),(1,42,0.1),(1,43,0.1),(1,45,0.2),(1,54,0.3333333333333333),(1,59,0.25),(1,60,0.25),(1,66,0.1),(1,68,0.3333333333333333),(1,70,0.2222222222222222),(1,73,0.1),(1,74,0.25),(1,75,0.25),(1,77,0.1111111111111111),(1,79,0.5),(1,80,0.125),(1..."
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 28, 2015 3:43:14 PM",
-      "dateStarted": "Dec 29, 2015 1:08:49 AM",
-      "dateFinished": "Dec 29, 2015 1:08:50 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1, rdd._2, rdd._3) \n})\n\nval graph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, \"\")\n\nval src \u003d 21 // ElasticSearch\nval dest \u003d 56 // MicroStrategy\n\n// Djikstra Shortest Path\nvar graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d src) 0 else Double.MaxValue, List[VertexId]()))\n\nfor (i \u003c- 1L to graph.vertices.count-1) {\n  // The fold() below simulates minBy() functionality\n  val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n    .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n      if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n  val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n    if (ctx.srcId \u003d\u003d currentVertexId) \n      ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n        (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n  graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n    val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n      (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n        if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n}\n\nval shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n  (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n  .productIterator.toList.tail))\n  \nval shortestPath \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest)\n\nshortestPath.collect().mkString(\",\")\n\n// Shortest Path\n// 21 (ElasticSearch) -\u003e 45 (Presto) -\u003e 56 (MicroStrategy)\n\n// Tag Analysis of Shortest Path\n// 21 Search Engine, Java, JVM, Python, REST API, Lucene, XML, JSON, Aggregations\n// 45 Data Processing Execution Engine, Query Processing, Java, JVM, SQL, Machine Learning\n// 56 BI, UI, Visualization, SQL",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "text": "def dijkstra(graph: Graph[VertexId, Double], src: VertexId, dest: VertexId) \u003d {\n  // Dijkstra Shortest Path\n  var graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d src) 0 else Double.MaxValue, List[VertexId]()))\n\n  for (i \u003c- 1L to graph.vertices.count-1) {\n    // The fold() below simulates minBy() functionality\n    val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n      .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n        if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n    val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n      if (ctx.srcId \u003d\u003d currentVertexId) \n        ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n          (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n    graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n      val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n        (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n          if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n  }\n\n  val shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n    (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n    .productIterator.toList.tail))\n  \n  val shortestPath \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest)\n  \n  shortestPath\n}",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451398384385_1393442935",
+      "id": "20151229-141304_162052884",
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
+      "dateCreated": "Dec 29, 2015 2:13:04 PM",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Shortest Path between 2 Items Based on Jaccard Similarity of Item Tags",
+      "text": "val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1, rdd._2, rdd._3) \n})\n\nval graph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n\n//val src \u003d 21 // ElasticSearch\n//val dest \u003d 56 // MicroStrategy\n\nval src \u003d 35\nval dest \u003d 42\n\nval shortestPath \u003d dijkstra(graph, src, dest)\n\nshortestPath.collect().mkString(\",\")\n\n// Example 1\n//\n// Shortest Path\n// 21 (ElasticSearch) -\u003e 45 (Presto) -\u003e 56 (MicroStrategy)\n\n// Tag Analysis of Shortest Path\n//\n// 21 Search Engine, Java, JVM, Python, REST API, Lucene, XML, JSON, Aggregations\n// 45 Data Processing Execution Engine, Query Processing, Java, JVM, SQL, Machine Learning\n// 56 BI, UI, Visualization, SQL\n\n// Example 2\n//\n// Shortest Path\n// 35 (NLTK) -\u003e 37 (iPython/Jupyter) -\u003e 41 (SQL) -\u003e 42 (Scala)\n//\n// Tag Analysis of Shortest Path\n//\n// 35:  Library, NLP, Python, Text Analytics\n// 37:  Notebook, Python, Java, Scala, R, Visualization, SQL\n// 41:  Programming Language, SQL, RDBMS, Interpreted\n// 42:  Programming Language, Functional, JVM, Static Typing, Compiled",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -249,7 +262,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -257,20 +271,18 @@
       },
       "jobName": "paragraph_1451352094574_-1165080675",
       "id": "20151229-012134_1599229617",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "similarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[5200] at map at \u003cconsole\u003e:70\ngraph: org.apache.spark.graphx.Graph[String,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@31c95af8\nsrc: Int \u003d 21\ndest: Int \u003d 56\ngraph2: org.apache.spark.graphx.Graph[(Boolean, Double, List[org.apache.spark.graphx.VertexId]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@5b9c43c8\nshortestPathGraph: org.apache.spark.graphx.Graph[(String, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7cdb12d2\nshortestPath: org.apache.spark.graphx.VertexRDD[(String, List[Any])] \u003d VertexRDDImpl[6330] at RDD at VertexRDD.scala:57\nres244: String \u003d (56,(,List(0.26495726495726496, List(21, 45))))\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 29, 2015 1:21:34 AM",
-      "dateStarted": "Dec 29, 2015 1:35:29 AM",
-      "dateFinished": "Dec 29, 2015 1:35:46 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Power Iteration Clustering of Items based on Tag Jaccard Similarity",
       "text": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n\nval clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -283,7 +295,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -291,20 +304,18 @@
       },
       "jobName": "paragraph_1451334971967_402230190",
       "id": "20151228-203611_236636775",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@6cb7ed6b\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@43053c52\nclusterAssignmentsRDD: org.apache.spark.rdd.RDD[(Long, Int)] \u003d MapPartitionsRDD[1782] at map at \u003cconsole\u003e:75\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 28, 2015 8:36:11 PM",
-      "dateStarted": "Dec 29, 2015 1:13:33 AM",
-      "dateFinished": "Dec 29, 2015 1:13:35 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Convert the clusterAssignments RDD into a DF\nval schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n\nval clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2))\n\nval clusterAssignmentsDF \u003d sqlContext.createDataFrame(clusterAssignmentsRowRDD, schema)",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "title": "Convert the clusterAssignmentsRDD into a DataFrame",
+      "text": "val schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n\nval clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2))\n\nval clusterAssignmentsDF \u003d sqlContext.createDataFrame(clusterAssignmentsRowRDD, schema)",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -317,7 +328,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -325,20 +337,18 @@
       },
       "jobName": "paragraph_1451335712814_493669088",
       "id": "20151228-204832_49888518",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "schema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(itemId,LongType,true), StructField(clusterId,IntegerType,true))\nclusterAssignmentsRowRDD: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d MapPartitionsRDD[1783] at map at \u003cconsole\u003e:77\nclusterAssignmentsDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, clusterId: int]\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 28, 2015 8:48:32 PM",
-      "dateStarted": "Dec 29, 2015 1:13:38 AM",
-      "dateFinished": "Dec 29, 2015 1:13:38 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Distribution of items within a cluster",
       "text": "val joinedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(joinedItemsClustersCountDF)",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -369,7 +379,8 @@
           }
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -377,20 +388,18 @@
       },
       "jobName": "paragraph_1451352986034_-1943585352",
       "id": "20151229-013626_1831771232",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "clusterId\ttags\tcount(itemId)\n4\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, JVM, C++, Python)\t1\n4\tWrappedArray(Distributed Cache, Key Value Store, Java, Python, C++)\t1\n4\tWrappedArray(Data Procesing Execution Engine, Query Processing, Java, JVM, SQL, Machine Learning)\t1\n4\tWrappedArray(Library, Python, Machine Learning)\t1\n4\tWrappedArray(Programming Language, Object Oriented, JVM, Static Typing, Compiled)\t1\n4\tWrappedArray(Data Procesing Execution Engine, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\t1\n4\tWrappedArray(Data Procesing Execution Engine, Query Processing, SQL, C++, Batch Analytics)\t1\n4\tWrappedArray(Programming Language, Functional, JVM, Static Typing, Compiled)\t1\n4\tWrappedArray(Library, UI, Graph Analytics, Machine Learning, Query Processing, Visualization)\t1\n4\tWrappedArray(Library, NLP, Python, Text Analytics)\t1\n4\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\t1\n4\tWrappedArray(Library, Graph Analytics, Spark)\t1\n3\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema)\t1\n3\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\t1\n3\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\t2\n3\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\t1\n3\tWrappedArray(Cloud Provider, AWS)\t1\n3\tWrappedArray(File Format, Evolving Schema, Nested Schema)\t1\n3\tWrappedArray(File Format)\t1\n3\tWrappedArray(File Format, Key Value Store)\t2\n3\tWrappedArray(Cloud Provider, Microsoft)\t1\n2\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\t1\n2\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\t1\n2\tWrappedArray(Library, Deep Learning, Neural Networks)\t1\n2\tWrappedArray(Database, Data Warehouse, SQL)\t2\n2\tWrappedArray(Library, Spark, Machine Learning)\t1\n2\tWrappedArray(BI, UI, Visualization, SQL)\t2\n2\tWrappedArray(Cluster Resource Manager, Docker, Container)\t1\n2\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\t4\n2\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\t1\n2\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\t1\n2\tWrappedArray(Data Procesing Execution Engine, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\t1\n2\tWrappedArray(Library, Spark, HiveQL, SQL)\t1\n2\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\t1\n2\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\t1\n2\tWrappedArray(Library, Spark, Streaming)\t1\n2\tWrappedArray(Database, SQL, RDBMS, Transactional)\t3\n2\tWrappedArray(Library, Streaming, AWS)\t1\n2\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\t1\n2\tWrappedArray(Data Procesing Execution Engine, Deep Learning, Neural Networks)\t1\n1\tWrappedArray(Cloud Provider, Data Center)\t1\n1\tWrappedArray(Cloud Provider, Google)\t1\n1\tWrappedArray(Container, Linux, DevOps, Deployment)\t1\n0\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java, JVM)\t1\n0\tWrappedArray(Library, NLP, Java, JVM, Text Analytics)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, Lazy)\t1\n0\tWrappedArray(Workflow, Streaming, Message Broker, Java, JVM, UI)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Java, Scala, JVM, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\t1\n0\tWrappedArray(Cluster Resource Manager, Hadoop, Java, JVM)\t1\n0\tWrappedArray(File System, Hadoop, Java, JVM)\t1\n0\tWrappedArray(Notebook, Python, Java, Scala, R, JVM, HiveQL, Cassandra, Visuatlization, SQL)\t1\n0\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, Lazy)\t1\n0\tWrappedArray(Library, Machine Learning, Java, JVM)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Hadoop, YARN, Query Processing, Java, JVM, Lazy, HiveQL, Pig, SQL)\t1\n0\tWrappedArray(Database, Graph, Graph Analytics, Java, JVM, Transactional)\t1\n0\tWrappedArray(Workflow, Hadoop, Java, JVM, UI)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, MapReduce)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Hadoop, Java, JVM, Python)\t1\n0\tWrappedArray(Data Procesing Execution Engine, Java, Scala, JVM, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\t1\n0\tWrappedArray(Library, Search, Java, JVM, Python)\t1\n0\tWrappedArray(Library, Java, JVM, Graph Analytics, Batch)\t1\n0\tWrappedArray(Database, NoSQL, Java, JVM, Eventually Consistent, Transactional)\t1\n0\tWrappedArray(Library, Graph Analytics, Java, JVM)\t1\n0\tWrappedArray(Message Broker, Java, JVM, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\t1\n0\tWrappedArray(Library, Java, JVM, Log Collection)\t1\n0\tWrappedArray(Streaming, Java, JVM)\t1\n0\tWrappedArray(Database, Hadoop, NoSQL, Java, JVM, Eventually Consistent)\t1\n0\tWrappedArray(Search Engine, Java, JVM, Python, REST API, Lucene, XML, JSON, Aggregations)\t1\n0\tWrappedArray(Data Import, Hadoop, Java, JVM)\t1\n0\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\t1\n0\tWrappedArray(Search Engine, Java, JVM, REST API, UI, Python, Ruby, XML, JSON)\t1\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 29, 2015 1:36:26 AM",
-      "dateStarted": "Dec 29, 2015 1:40:36 AM",
-      "dateFinished": "Dec 29, 2015 1:40:37 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Cluster Details",
       "text": "// Enrich the cluster assignment tuples with itemsDF\nval joinedItemsClustersDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\")\n  \nz.show(joinedItemsClustersDF)",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -426,7 +435,8 @@
           }
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -434,20 +444,17 @@
       },
       "jobName": "paragraph_1451348226921_-115634507",
       "id": "20151229-001706_1772528099",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "itemId\tclusterId\ttitle\ttags\n33\t0\tApache Oozie\tWrappedArray(Workflow, Hadoop, Java, JVM, UI)\n79\t0\tTitan GraphDB\tWrappedArray(Database, Graph, Graph Analytics, Java, JVM, Transactional)\n3\t0\tApache Ambari\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n7\t0\tApache Spark\tWrappedArray(Data Procesing Execution Engine, Java, Scala, JVM, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n11\t0\tApache YARN\tWrappedArray(Cluster Resource Manager, Hadoop, Java, JVM)\n8\t0\tApache Flume\tWrappedArray(Library, Java, JVM, Log Collection)\n16\t0\tApache HUE\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java, JVM)\n32\t0\tApache Sqoop\tWrappedArray(Data Import, Hadoop, Java, JVM)\n31\t0\tApache Storm\tWrappedArray(Streaming, Java, JVM)\n20\t0\tApache Solr\tWrappedArray(Search Engine, Java, JVM, REST API, UI, Python, Ruby, XML, JSON)\n28\t0\tApache ZooKeeper\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, Lazy)\n12\t0\tApache HBase\tWrappedArray(Database, Hadoop, NoSQL, Java, JVM, Eventually Consistent)\n9\t0\tApache Giraph\tWrappedArray(Library, Java, JVM, Graph Analytics, Batch)\n27\t0\tApache Pig\tWrappedArray(Data Procesing Execution Engine, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, Lazy)\n34\t0\tApache Nifi\tWrappedArray(Workflow, Streaming, Message Broker, Java, JVM, UI)\n13\t0\tApache MapReduce\tWrappedArray(Data Procesing Execution Engine, Hadoop, Java, JVM, Python)\n29\t0\tStanford CoreNLP\tWrappedArray(Library, NLP, Java, JVM, Text Analytics)\n19\t0\tApache Lucene\tWrappedArray(Library, Search, Java, JVM, Python)\n74\t0\tNeo4j\tWrappedArray(Library, Graph Analytics, Java, JVM)\n22\t0\tApache Mahout\tWrappedArray(Library, Machine Learning, Java, JVM)\n6\t0\tApache Flink\tWrappedArray(Data Procesing Execution Engine, Java, Scala, JVM, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n30\t0\tApache Tez\tWrappedArray(Data Procesing Execution Engine, Hadoop, YARN, Query Processing, Java, JVM, Lazy, HiveQL, Pig, SQL)\n18\t0\tApache Kafka\tWrappedArray(Message Broker, Java, JVM, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\n21\t0\tElasticSearch\tWrappedArray(Search Engine, Java, JVM, Python, REST API, Lucene, XML, JSON, Aggregations)\n38\t0\tApache Zeppelin\tWrappedArray(Notebook, Python, Java, Scala, R, JVM, HiveQL, Cassandra, Visuatlization, SQL)\n14\t0\tApache Hive\tWrappedArray(Data Procesing Execution Engine, Hadoop, HiveQL, SQL, Query Processing, Java, JVM, MapReduce)\n10\t0\tApache HDFS\tWrappedArray(File System, Hadoop, Java, JVM)\n1\t0\tApache Cassandra\tWrappedArray(Database, NoSQL, Java, JVM, Eventually Consistent, Transactional)\n55\t1\tOn-Premise\tWrappedArray(Cloud Provider, Data Center)\n4\t1\tDocker\tWrappedArray(Container, Linux, DevOps, Deployment)\n50\t1\tGoogle Cloud Platform\tWrappedArray(Cloud Provider, Google)\n75\t2\tPostgres\tWrappedArray(Database, SQL, RDBMS, Transactional)\n67\t2\tKinesis\tWrappedArray(Library, Streaming, AWS)\n61\t2\tSpark ML/MLlib\tWrappedArray(Library, Spark, Machine Learning)\n81\t2\tVertica\tWrappedArray(Database, Data Warehouse, SQL)\n39\t2\tTableau\tWrappedArray(BI, UI, Visualization, SQL)\n77\t2\tS3\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\n56\t2\tMicroStrategy\tWrappedArray(BI, UI, Visualization, SQL)\n71\t2\tElastic MapReduce\tWrappedArray(Data Procesing Execution Engine, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\n24\t2\tApache Mesos\tWrappedArray(Cluster Resource Manager, Docker, Container)\n57\t2\tKnime\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\n60\t2\tMySQL\tWrappedArray(Database, SQL, RDBMS, Transactional)\n41\t2\tSQL\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\n54\t2\tMongoDB\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\n46\t2\tMapR\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n62\t2\tSpark Streaming\tWrappedArray(Library, Spark, Streaming)\n66\t2\tRedshift\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\n70\t2\tSQL Server\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\n15\t2\tHortonworks\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n78\t2\tTensor Flow\tWrappedArray(Data Procesing Execution Engine, Deep Learning, Neural Networks)\n47\t2\tCloudera\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n68\t2\tDynamoDB\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\n80\t2\tTeradata\tWrappedArray(Database, Data Warehouse, SQL)\n59\t2\tOracle\tWrappedArray(Database, SQL, RDBMS, Transactional)\n48\t2\tIBM BigInsights\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n63\t2\tSpark SQL\tWrappedArray(Library, Spark, HiveQL, SQL)\n65\t2\tDeep Learning 4J\tWrappedArray(Library, Deep Learning, Neural Networks)\n51\t3\tRedis\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\n2\t3\tTachyon\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n53\t3\tXML\tWrappedArray(File Format, Key Value Store)\n40\t3\tR\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n5\t3\tMicrosft Azure\tWrappedArray(Cloud Provider, Microsoft)\n76\t3\tProtobuffers\tWrappedArray(File Format, Evolving Schema, Nested Schema)\n49\t3\tAmazon Web Services\tWrappedArray(Cloud Provider, AWS)\n44\t3\tPython\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n64\t3\tCSV\tWrappedArray(File Format)\n52\t3\tJSON\tWrappedArray(File Format, Key Value Store)\n26\t3\tApache ORC\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema)\n35\t4\tNLTK\tWrappedArray(Library, NLP, Python, Text Analytics)\n23\t4\tApache Drill\tWrappedArray(Data Procesing Execution Engine, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\n37\t4\tiPython/Jupyter\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\n43\t4\tJava\tWrappedArray(Programming Language, Object Oriented, JVM, Static Typing, Compiled)\n17\t4\tApache Impala\tWrappedArray(Data Procesing Execution Engine, Query Processing, SQL, C++, Batch Analytics)\n45\t4\tPresto\tWrappedArray(Data Procesing Execution Engine, Query Processing, Java, JVM, SQL, Machine Learning)\n25\t4\tApache Parquet\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, JVM, C++, Python)\n73\t4\tMemcached\tWrappedArray(Distributed Cache, Key Value Store, Java, Python, C++)\n69\t4\tSpark GraphX\tWrappedArray(Library, Graph Analytics, Spark)\n36\t4\tSci-Kit Learn\tWrappedArray(Library, Python, Machine Learning)\n42\t4\tScala\tWrappedArray(Programming Language, Functional, JVM, Static Typing, Compiled)\n72\t4\tDato GraphLab Create\tWrappedArray(Library, UI, Graph Analytics, Machine Learning, Query Processing, Visualization)\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 29, 2015 12:17:06 AM",
-      "dateStarted": "Dec 29, 2015 2:03:59 AM",
-      "dateFinished": "Dec 29, 2015 2:04:00 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// TODO:  Show the intersection of tags within each cluster\nval clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}\n",
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "text": "// TODO:  Show the intersection of tags within each cluster\nval clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -468,19 +475,17 @@
       },
       "jobName": "paragraph_1451350991110_1019547650",
       "id": "20151229-010311_1992313547",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "clusterTagIntersectionDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, clusterId: int, title: string, tags: array\u003cstring\u003e, tag: string]\n"
-      },
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
       "dateCreated": "Dec 29, 2015 1:03:11 AM",
-      "dateStarted": "Dec 29, 2015 2:04:09 AM",
-      "dateFinished": "Dec 29, 2015 2:04:09 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Dec 29, 2015 2:35:05 AM",
+      "text": "// TODO:  Given an itemId (or List of itemIds), recommend more itemIds based on similar cluster \n//        and/or closest jaccard similarity ",
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -492,20 +497,53 @@
           "groups": [],
           "scatter": {}
         },
-        "tableHide": false
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1451354329573_231527708",
-      "id": "20151229-015849_1310275494",
-      "dateCreated": "Dec 29, 2015 1:58:49 AM",
-      "status": "READY",
+      "jobName": "paragraph_1451397463773_538617890",
+      "id": "20151229-135743_947751301",
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
+      "dateCreated": "Dec 29, 2015 1:57:43 PM",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 30, 2015 1:14:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451400014910_399953924",
+      "id": "20151229-144014_562495240",
+      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
+      "dateCreated": "Dec 29, 2015 2:40:14 PM",
+      "dateStarted": "Dec 29, 2015 5:19:12 PM",
+      "dateFinished": "Dec 29, 2015 5:19:12 PM",
+      "status": "PENDING",
+      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:126)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeI32(TBinaryProtocol.java:178)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeMessageBegin(TBinaryProtocol.java:106)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:62)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:211)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:207)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:304)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/04: Generate Recs (Jaccard Similarity)",
+  "name": "Live Recs/04: Generate Recs (Tag-based Clusters)",
   "id": "2B68NAUVG",
   "angularObjects": {
     "2ARR8UZDJ": [],

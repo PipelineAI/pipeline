@@ -3,7 +3,7 @@
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Dec 28, 2015 7:46:58 PM",
+      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,14 +32,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Dec 28, 2015 7:46:58 PM",
-      "dateFinished": "Dec 28, 2015 7:46:58 PM",
+      "dateStarted": "Dec 30, 2015 5:15:51 PM",
+      "dateFinished": "Dec 30, 2015 5:15:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// likeProducer :: likeConsumer\nval likesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/likes.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\")\n  \n// id :: userName\nval usersDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/users.csv\")\n  .toDF(\"id\", \"name\")",
-      "dateUpdated": "Dec 28, 2015 7:46:58 PM",
+      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,15 +65,15 @@
         "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int]\nusersDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string]\n"
       },
       "dateCreated": "Dec 28, 2015 2:26:14 AM",
-      "dateStarted": "Dec 28, 2015 7:46:58 PM",
-      "dateFinished": "Dec 28, 2015 7:46:59 PM",
+      "dateStarted": "Dec 30, 2015 5:15:51 PM",
+      "dateFinished": "Dec 30, 2015 5:15:52 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph Data",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, \"\", Some(PartitionStrategy.RandomVertexCut))\n\n// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\n// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")",
-      "dateUpdated": "Dec 28, 2015 7:49:07 PM",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, 0L, Some(PartitionStrategy.RandomVertexCut))\n\n// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\n// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")",
+      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -99,28 +99,51 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[909] at map at \u003cconsole\u003e:73\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@59bb2e24\nconvergenceThreshold: Double \u003d 0.01\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@21520f06\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90006,0.31452387499999995), (10004,0.292375), (90001,0.250773875), (10005,0.2245875), (10002,0.2177875), (10003,0.2177875), (90003,0.21375), (90004,0.187023875), (90005,0.187023875), (90002,0.187023875))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[23] at map at \u003cconsole\u003e:35\ngraph: org.apache.spark.graphx.Graph[Long,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@48637645\nconvergenceThreshold: Double \u003d 0.01\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@2aa364ba\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90006,0.31452387499999995), (10004,0.292375), (90001,0.250773875), (10005,0.2245875), (10002,0.2177875), (10003,0.2177875), (90003,0.21375), (90004,0.187023875), (90005,0.187023875), (90002,0.187023875))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, rank: double]\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Dec 28, 2015 7:49:07 PM",
-      "dateFinished": "Dec 28, 2015 7:49:09 PM",
+      "dateStarted": "Dec 30, 2015 5:15:52 PM",
+      "dateFinished": "Dec 30, 2015 5:15:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the Top Influencers with reference data",
-      "text": "val enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .limit(5)\n  .cache()\n\nz.show(enrichedTopInfluencersDF)",
-      "dateUpdated": "Dec 28, 2015 7:54:16 PM",
+      "text": "val enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .limit(5)\n\nz.show(enrichedTopInfluencersDF)",
+      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [],
-          "values": [],
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "editorMode": "ace/mode/scala",
         "title": true
@@ -137,14 +160,14 @@
         "msg": "id\tname\trank\n90001\tLisa\t0.250773875\n10002\tMike\t0.2177875\n90002\tCindy\t0.187023875\n10003\tPat\t0.2177875\n90003\tPaula\t0.21375\n"
       },
       "dateCreated": "Nov 2, 2015 5:28:29 PM",
-      "dateStarted": "Dec 28, 2015 7:49:22 PM",
-      "dateFinished": "Dec 28, 2015 7:49:23 PM",
+      "dateStarted": "Dec 30, 2015 5:15:52 PM",
+      "dateFinished": "Dec 30, 2015 5:15:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Dec 28, 2015 7:46:58 PM",
+      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,8 +194,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Dec 28, 2015 7:47:01 PM",
-      "dateFinished": "Dec 28, 2015 7:47:01 PM",
+      "dateStarted": "Dec 30, 2015 5:15:56 PM",
+      "dateFinished": "Dec 30, 2015 5:15:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

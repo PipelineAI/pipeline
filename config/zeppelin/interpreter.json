@@ -20,13 +20,13 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "2",
+        "spark.cores.max": "4",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "2048m",
+        "spark.executor.memory": "4096m",
         "zeppelin.spark.useHiveContext": "true",
         "args": "",
         "zeppelin.spark.concurrentSQL": "false",
@@ -356,6 +356,11 @@
       "2AR33ZMZJ"
     ],
     "2BA66E1K5": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2BA4YA8KU": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"

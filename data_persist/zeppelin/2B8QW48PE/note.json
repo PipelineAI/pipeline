@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png)",
-      "dateUpdated": "Dec 28, 2015 3:50:13 AM",
+      "dateUpdated": "Dec 30, 2015 5:16:06 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 1:05:23 AM",
-      "dateStarted": "Dec 28, 2015 3:20:55 AM",
-      "dateFinished": "Dec 28, 2015 3:20:55 AM",
+      "dateStarted": "Dec 30, 2015 5:16:06 PM",
+      "dateFinished": "Dec 30, 2015 5:16:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")",
-      "dateUpdated": "Dec 28, 2015 4:38:47 AM",
+      "dateUpdated": "Dec 30, 2015 5:16:06 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -62,14 +62,14 @@
         "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int, cost: int]\n"
       },
       "dateCreated": "Dec 28, 2015 3:20:55 AM",
-      "dateStarted": "Dec 28, 2015 4:38:47 AM",
-      "dateFinished": "Dec 28, 2015 4:38:47 AM",
+      "dateStarted": "Dec 30, 2015 5:16:06 PM",
+      "dateFinished": "Dec 30, 2015 5:16:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Ignore cost\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
-      "dateUpdated": "Dec 28, 2015 4:39:44 AM",
+      "dateUpdated": "Dec 30, 2015 5:16:06 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -92,17 +92,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "connectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[1731] at map at \u003cconsole\u003e:45\n"
+        "msg": "connectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[167] at map at \u003cconsole\u003e:34\n"
       },
       "dateCreated": "Dec 28, 2015 3:22:02 AM",
-      "dateStarted": "Dec 28, 2015 4:39:44 AM",
-      "dateFinished": "Dec 28, 2015 4:39:45 AM",
+      "dateStarted": "Dec 30, 2015 5:16:07 PM",
+      "dateFinished": "Dec 30, 2015 5:16:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.graphx._\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, \"\")",
-      "dateUpdated": "Dec 28, 2015 4:39:16 AM",
+      "text": "import org.apache.spark.graphx._\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
+      "dateUpdated": "Dec 30, 2015 5:16:06 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -113,7 +113,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -124,18 +125,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\ngraph: org.apache.spark.graphx.Graph[String,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@d705c98\n"
+        "msg": "import org.apache.spark.graphx._\ngraph: org.apache.spark.graphx.Graph[Long,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@6690bf6b\n"
       },
       "dateCreated": "Dec 28, 2015 3:24:43 AM",
-      "dateStarted": "Dec 28, 2015 4:39:16 AM",
-      "dateFinished": "Dec 28, 2015 4:39:16 AM",
+      "dateStarted": "Dec 30, 2015 5:16:07 PM",
+      "dateFinished": "Dec 30, 2015 5:16:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find shortest num of hops between Nodes",
-      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\nval src \u003d List(10001L, 10002L) // List of source vertices\nval dest \u003d 90002L // Single dest vertex\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices.filter(_._1 \u003d\u003d dest)\n\nshortestNumberOfHops.collect().mkString(\",\")",
-      "dateUpdated": "Dec 28, 2015 4:39:33 AM",
+      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\nval src \u003d List(10002L) // List of source vertices\nval dest \u003d 90002L // Single dest vertex\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n  //.filter(_._1 \u003d\u003d dest)\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
+      "dateUpdated": "Dec 30, 2015 5:18:58 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -159,24 +160,43 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10001, 10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[1730] at RDD at VertexRDD.scala:57\nres97: String \u003d (90002,Map(10001 -\u003e 2, 10002 -\u003e 3))\n"
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[1016] at RDD at VertexRDD.scala:57\nres80: String \u003d (90002,Map(10002 -\u003e 3))\n"
       },
       "dateCreated": "Dec 28, 2015 3:26:16 AM",
-      "dateStarted": "Dec 28, 2015 4:39:33 AM",
-      "dateFinished": "Dec 28, 2015 4:39:35 AM",
+      "dateStarted": "Dec 30, 2015 5:18:58 PM",
+      "dateFinished": "Dec 30, 2015 5:18:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Dec 30, 2015 5:16:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1451273403872_-522974311",
       "id": "20151228-033003_314453208",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Dec 28, 2015 3:30:03 AM",
-      "status": "READY",
+      "dateStarted": "Dec 30, 2015 5:16:08 PM",
+      "dateFinished": "Dec 30, 2015 5:16:09 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

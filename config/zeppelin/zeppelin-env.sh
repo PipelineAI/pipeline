@@ -18,8 +18,11 @@
 
 # export JAVA_HOME=
 export MASTER=spark://127.0.0.1:7077 # Spark master url. eg. spark://master_addr:7077. Leave empty if you want to use local mode.
-export ZEPPELIN_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1      # Additional jvm options. for example, export ZEPPELIN_JAVA_OPTS="-Dspark.executor.memory=8g -Dspark.cores.max=16"
-# export ZEPPELIN_MEM            # Zeppelin jvm mem options Default -Xmx1024m -XX:MaxPermSize=512m
+
+# Additional jvm options. for example, export ZEPPELIN_JAVA_OPTS="-Dspark.executor.memory=8g -Dspark.cores.max=16"
+export ZEPPELIN_JAVA_OPTS="-Dspark.cassandra.connection.host=127.0.0.1"
+
+export ZEPPELIN_MEM=-Xmx4096m            # Zeppelin jvm mem options Default -Xmx1024m -XX:MaxPermSize=512m
 # export ZEPPELIN_INTP_MEM       # zeppelin interpreter process jvm mem options. Default = ZEPPELIN_MEM
 # export ZEPPELIN_INTP_JAVA_OPTS # zeppelin interpreter process jvm options. Default = ZEPPELIN_JAVA_OPTS
 
@@ -37,6 +40,7 @@ export ZEPPELIN_NOTEBOOK_DIR=/root/pipeline/data_persist/zeppelin   # Where note
 # export HADOOP_CONF_DIR         # yarn-site.xml is located in configuration directory in HADOOP_CONF_DIR.
 
 # Pyspark (supported with Spark 1.2.1 and above)
-# To configure pyspark, you need to set spark distribution's path to 'spark.home' property in Interpreter setting screen in Zeppelin GUI
-# export PYSPARK_PYTHON          # path to the python command. must be the same path on the driver(Zeppelin) and all workers.
+# To configure pyspark, you need to set spark distribution's path to 'spark.home' property in Interpreter setting screen in Zeppelin GU
+# path to the python command. must be the same path on the driver(Zeppelin) and all workers.
+export PYSPARK_PYTHON="pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"         
 # export PYTHONPATH              # extra PYTHONPATH.

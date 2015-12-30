@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/root/pipeline/config/logstash'
 let g:netrw_dirhist_2='/root/pipeline/flows/flowfile_repository'
+let g:netrw_dirhist_3='/root/pipeline/myapps/ml/src/main/scala/com/advancedspark/ml/graph'
+let g:netrw_dirhist_4='/root/pipeline/config/zeppelin'

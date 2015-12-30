@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # Join Ratings and Genders\n* Ratings (CSV, Unpartitioned) Joined with Genders (CSV, Unpartitioned)\n* Ratings (JSON, Unpartitioned) Joined with Genders (JSON, Unpartitioned)\n* Ratings (Parquet, Unpartitioned) Joined with Genders (Parquet, Unpartitioned)\n* Ratings (Parquet, Partitioned) Joined with Genders (Parquet, Partitioned) \n* Ratings (Parquet, Partitioned) Joined with Genders (JSON, Unpartitioned)\n* Ratings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)\n* Ratings (Cassandra, Unpartitioned) and Genders (Parquet, Partitioned)\n* Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)\n* Ratings (Avro, Partitioned) Joined with Genders (Avro, Partitioned)\n",
-      "dateUpdated": "Nov 23, 2015 5:06:20 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "\u003ch1\u003eJoin Ratings and Genders\u003c/h1\u003e\n\u003cul\u003e\n\u003cli\u003eRatings (CSV, Unpartitioned) Joined with Genders (CSV, Unpartitioned)\u003c/li\u003e\n\u003cli\u003eRatings (JSON, Unpartitioned) Joined with Genders (JSON, Unpartitioned)\u003c/li\u003e\n\u003cli\u003eRatings (Parquet, Unpartitioned) Joined with Genders (Parquet, Unpartitioned)\u003c/li\u003e\n\u003cli\u003eRatings (Parquet, Partitioned) Joined with Genders (Parquet, Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings (Parquet, Partitioned) Joined with Genders (JSON, Unpartitioned)\u003c/li\u003e\n\u003cli\u003eRatings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings (Cassandra, Unpartitioned) and Genders (Parquet, Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)\u003c/li\u003e\n\u003cli\u003eRatings (Avro, Partitioned) Joined with Genders (Avro, Partitioned)\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:41:15 PM",
-      "dateStarted": "Nov 23, 2015 5:06:17 AM",
-      "dateFinished": "Nov 23, 2015 5:06:18 AM",
+      "dateStarted": "Dec 30, 2015 3:44:52 PM",
+      "dateFinished": "Dec 30, 2015 3:44:52 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (CSV, Unpartitioned) Joined with Genders (CSV, Unpartitioned)",
-      "dateUpdated": "Dec 8, 2015 8:36:21 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -62,14 +62,14 @@
         "msg": "\u003ch3\u003eRatings (CSV, Unpartitioned) Joined with Genders (CSV, Unpartitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:40:32 PM",
-      "dateStarted": "Dec 8, 2015 8:36:21 PM",
-      "dateFinished": "Dec 8, 2015 8:36:21 PM",
+      "dateStarted": "Dec 30, 2015 3:44:53 PM",
+      "dateFinished": "Dec 30, 2015 3:44:53 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import com.databricks.spark.csv._\n\nval ratingsCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/ratings.csv.bz2\").toDF(\"fromUserId\", \"toUserId\", \"rating\")\nval gendersCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/genders.csv.bz2\").toDF(\"id\", \"gender\")",
-      "dateUpdated": "Dec 8, 2015 8:36:24 PM",
+      "text": "import com.databricks.spark.csv._\n\nval ratingsCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/ratings.csv.bz2\").toDF(\"fromUserId\", \"toUserId\", \"rating\") \n\nval gendersCsvDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\").load(\"file:/root/pipeline/datasets/dating/genders.csv\").toDF(\"id\", \"gender\")",
+      "dateUpdated": "Dec 30, 2015 3:44:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -90,19 +90,19 @@
       "jobName": "paragraph_1443028720074_-1858292975",
       "id": "20150923-171840_35208043",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "import com.databricks.spark.csv._\nratingsCsvDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: string, toUserId: string, rating: string]\ngendersCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n"
       },
       "dateCreated": "Sep 23, 2015 5:18:40 PM",
-      "dateStarted": "Dec 8, 2015 8:36:24 PM",
-      "dateFinished": "Dec 8, 2015 8:36:24 PM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:44:52 PM",
+      "dateFinished": "Dec 30, 2015 3:45:05 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val middleRatingsUnpartitionedCsvDF \u003d ratingsCsvDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsUnpartitionedCsvDF.explain(true)\nmiddleRatingsUnpartitionedCsvDF.count()",
-      "dateUpdated": "Nov 28, 2015 3:14:36 PM",
+      "text": "\nval middleRatingsUnpartitionedCsvDF \u003d ratingsCsvDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsUnpartitionedCsvDF.explain(true)\nmiddleRatingsUnpartitionedCsvDF.count()",
+      "dateUpdated": "Dec 30, 2015 3:44:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -125,17 +125,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "middleRatingsUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (cast(rating#140 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#139,rating#140]\n   Project [C0#135 AS fromUserId#138,C1#136 AS toUserId#139,C2#137 AS rating#140]\n    Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string\nFilter (cast(rating#140 as double) \u003e\u003d cast(4 as double))\n Filter (cast(rating#140 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#139,rating#140]\n   Project [C0#135 AS fromUserId#138,C1#136 AS toUserId#139,C2#137 AS rating#140]\n    Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C1#136 AS toUserId#139,C2#137 AS rating#140]\n Filter ((cast(C2#137 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#137 as double) \u003e\u003d 4.0))\n  Relation[C0#135,C1#136,C2#137] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C1#136 AS toUserId#139,C2#137 AS rating#140]\n Filter ((cast(C2#137 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#137 as double) \u003e\u003d 4.0))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#135,C1#136,C2#137]\n\nCode Generation: true\nres47: Long \u003d 4693155\n"
+        "msg": "middleRatingsUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#4,rating#5]\n   Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string\nFilter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n  Project [toUserId#4,rating#5]\n   Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n  Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#0,C1#1,C2#2]\n\nCode Generation: true\nres5: Long \u003d 4693155\n"
       },
       "dateCreated": "Sep 23, 2015 5:20:49 PM",
-      "dateStarted": "Nov 28, 2015 3:14:36 PM",
-      "dateFinished": "Nov 28, 2015 3:15:18 PM",
+      "dateStarted": "Dec 30, 2015 3:44:53 PM",
+      "dateFinished": "Dec 30, 2015 3:45:46 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersUnpartitionedCsvDF \u003d gendersCsvDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedCsvDF.explain(true)\nunknownGendersUnpartitionedCsvDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:31:04 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -156,19 +156,19 @@
       "jobName": "paragraph_1443028915893_-542376761",
       "id": "20150923-172155_1443279058",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:23: error: not found: value gendersCsvDF\n       val unknownGendersUnpartitionedCsvDF \u003d gendersCsvDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\n                                              ^\n"
+        "msg": "unknownGendersUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [id: string, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#9 \u003d F)\n  Project [id#8,gender#9]\n   Project [C0#6 AS id#8,C1#7 AS gender#9]\n    Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: string, gender: string\nFilter NOT (gender#9 \u003d M)\n Filter NOT (gender#9 \u003d F)\n  Project [id#8,gender#9]\n   Project [C0#6 AS id#8,C1#7 AS gender#9]\n    Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [C0#6 AS id#8,C1#7 AS gender#9]\n Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n  Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [C0#6 AS id#8,C1#7 AS gender#9]\n Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n  Scan CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#6,C1#7]\n\nCode Generation: true\nres8: Long \u003d 83164\n"
       },
       "dateCreated": "Sep 23, 2015 5:21:55 PM",
-      "dateStarted": "Nov 24, 2015 5:31:21 AM",
-      "dateFinished": "Nov 24, 2015 5:31:21 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:45:05 PM",
+      "dateFinished": "Dec 30, 2015 3:45:47 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val joinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF \u003d middleRatingsUnpartitionedCsvDF.join(unknownGendersUnpartitionedCsvDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.explain(true)\njoinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:30:56 AM",
+      "text": "val joinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF \u003d\n  middleRatingsUnpartitionedCsvDF.join(unknownGendersUnpartitionedCsvDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.explain(true)\n\njoinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF.count()",
+      "dateUpdated": "Dec 30, 2015 3:44:53 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -189,19 +189,19 @@
       "jobName": "paragraph_1443029006249_1313037322",
       "id": "20150923-172326_1171447928",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:23: error: not found: value middleRatingsUnpartitionedCsvDF\n       val joinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF \u003d middleRatingsUnpartitionedCsvDF.join(unknownGendersUnpartitionedCsvDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                   ^\n"
+        "msg": "joinMiddleRatingsUnpartitionedCsvWithUnknownGendersUnpartitionedCsvDF: org.apache.spark.sql.DataFrame \u003d [toUserId: string, rating: string, id: string, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Filter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n  Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n   Project [toUserId#4,rating#5]\n    Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n     Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Filter NOT (gender#9 \u003d M)\n  Filter NOT (gender#9 \u003d F)\n   Project [id#8,gender#9]\n    Project [C0#6 AS id#8,C1#7 AS gender#9]\n     Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: string, rating: string, id: string, gender: string\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Filter (cast(rating#5 as double) \u003e\u003d cast(4 as double))\n  Filter (cast(rating#5 as double) \u003c\u003d cast(6 as double))\n   Project [toUserId#4,rating#5]\n    Project [C0#0 AS fromUserId#3,C1#1 AS toUserId#4,C2#2 AS rating#5]\n     Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Filter NOT (gender#9 \u003d M)\n  Filter NOT (gender#9 \u003d F)\n   Project [id#8,gender#9]\n    Project [C0#6 AS id#8,C1#7 AS gender#9]\n     Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#4 \u003d id#8))\n Project [C1#1 AS toUserId#4,C2#2 AS rating#5]\n  Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n   Relation[C0#0,C1#1,C2#2] CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n Project [C0#6 AS id#8,C1#7 AS gender#9]\n  Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n   Relation[C0#6,C1#7] CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)\n\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [toUserId#4], [id#8]\n TungstenSort [toUserId#4 ASC], false, 0\n  TungstenExchange hashpartitioning(toUserId#4)\n   TungstenProject [C1#1 AS toUserId#4,C2#2 AS rating#5]\n    Filter ((cast(C2#2 as double) \u003c\u003d 6.0) \u0026\u0026 (cast(C2#2 as double) \u003e\u003d 4.0))\n     Scan CsvRelation(file:/root/pipeline/datasets/dating/ratings.csv.bz2,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#0,C1#1,C2#2]\n TungstenSort [id#8 ASC], false, 0\n  TungstenExchange hashpartitioning(id#8)\n   TungstenProject [C0#6 AS id#8,C1#7 AS gender#9]\n    Filter (NOT (C1#7 \u003d F) \u0026\u0026 NOT (C1#7 \u003d M))\n     Scan CsvRelation(file:/root/pipeline/datasets/dating/genders.csv,false,,,\",null,#,PERMISSIVE,COMMONS,false,false,null,UTF-8,false)[C0#6,C1#7]\n\nCode Generation: true\nres13: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 5:23:26 PM",
-      "dateStarted": "Nov 24, 2015 5:31:21 AM",
-      "dateFinished": "Nov 24, 2015 5:31:21 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:45:46 PM",
+      "dateFinished": "Dec 30, 2015 3:46:28 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (JSON, Unpartitioned) Joined with Genders (JSON, Unpartitioned)",
-      "dateUpdated": "Nov 2, 2015 5:29:51 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:53 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -227,14 +227,14 @@
         "msg": "\u003ch3\u003eRatings (JSON, Unpartitioned) Joined with Genders (JSON, Unpartitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:43:56 PM",
-      "dateStarted": "Nov 2, 2015 5:29:51 PM",
-      "dateFinished": "Nov 2, 2015 5:29:51 PM",
+      "dateStarted": "Dec 30, 2015 3:44:53 PM",
+      "dateFinished": "Dec 30, 2015 3:44:53 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val ratingsUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval gendersUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\").load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
-      "dateUpdated": "Dec 1, 2015 4:23:02 AM",
+      "text": "val ratingsUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\n\nval gendersUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
+      "dateUpdated": "Dec 30, 2015 3:44:53 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -260,14 +260,14 @@
         "msg": "ratingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
       },
       "dateCreated": "Jul 28, 2015 8:30:08 PM",
-      "dateStarted": "Dec 1, 2015 4:23:02 AM",
-      "dateFinished": "Dec 1, 2015 4:23:37 AM",
+      "dateStarted": "Dec 30, 2015 3:45:47 PM",
+      "dateFinished": "Dec 30, 2015 3:47:03 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val middleRatingsUnpartitionedJsonDF \u003d ratingsUnpartitionedJsonDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsUnpartitionedJsonDF.explain(true)\nmiddleRatingsUnpartitionedJsonDF.count()",
-      "dateUpdated": "Dec 1, 2015 12:22:43 AM",
+      "text": "val middleRatingsUnpartitionedJsonDF \u003d ratingsUnpartitionedJsonDF.select($\"toUserId\", $\"rating\")\n  .where($\"rating\" \u003c\u003d 6)\n  .where($\"rating\" \u003e\u003d 4)\n\nmiddleRatingsUnpartitionedJsonDF.explain(true)\n\nmiddleRatingsUnpartitionedJsonDF.count()",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -290,17 +290,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "middleRatingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#134L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#135L,rating#134L]\n   Relation[fromUserId#133L,rating#134L,toUserId#135L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint\nFilter (rating#134L \u003e\u003d cast(4 as bigint))\n Filter (rating#134L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#135L,rating#134L]\n   Relation[fromUserId#133L,rating#134L,toUserId#135L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#135L,rating#134L]\n Filter ((rating#134L \u003c\u003d 6) \u0026\u0026 (rating#134L \u003e\u003d 4))\n  Relation[fromUserId#133L,rating#134L,toUserId#135L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter ((rating#134L \u003c\u003d 6) \u0026\u0026 (rating#134L \u003e\u003d 4))\n Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#135L,rating#134L]\n\nCode Generation: true\nres284: Long \u003d 4693155\n"
+        "msg": "middleRatingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#29L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#30L,rating#29L]\n   Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint\nFilter (rating#29L \u003e\u003d cast(4 as bigint))\n Filter (rating#29L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#30L,rating#29L]\n   Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#30L,rating#29L]\n Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n  Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#30L,rating#29L]\n\nCode Generation: true\nres20: Long \u003d 4693155\n"
       },
       "dateCreated": "Sep 23, 2015 3:11:56 PM",
-      "dateStarted": "Dec 1, 2015 12:22:43 AM",
-      "dateFinished": "Dec 1, 2015 12:23:43 AM",
+      "dateStarted": "Dec 30, 2015 3:46:29 PM",
+      "dateFinished": "Dec 30, 2015 3:47:33 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "\n\nval unknownGendersUnpartitionedJsonDF \u003d gendersJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedJsonDF.explain(true)\nunknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Dec 1, 2015 12:19:44 AM",
+      "text": "val unknownGendersUnpartitionedJsonDF \u003d gendersUnpartitionedJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedJsonDF.explain(true)\nunknownGendersUnpartitionedJsonDF.count()",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -323,17 +323,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#18 \u003d F)\n  Project [id#19L,gender#18]\n   Relation[gender#18,id#19L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#18 \u003d M)\n Filter NOT (gender#18 \u003d F)\n  Project [id#19L,gender#18]\n   Relation[gender#18,id#19L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [id#19L,gender#18]\n Filter (NOT (gender#18 \u003d F) \u0026\u0026 NOT (gender#18 \u003d M))\n  Relation[gender#18,id#19L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter (NOT (gender#18 \u003d F) \u0026\u0026 NOT (gender#18 \u003d M))\n Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#19L,gender#18]\n\nCode Generation: true\nres280: Long \u003d 83164\n"
+        "msg": "unknownGendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#31 \u003d F)\n  Project [id#32L,gender#31]\n   Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#31 \u003d M)\n Filter NOT (gender#31 \u003d F)\n  Project [id#32L,gender#31]\n   Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [id#32L,gender#31]\n Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n  Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#32L,gender#31]\n\nCode Generation: true\nres23: Long \u003d 83164\n"
       },
       "dateCreated": "Sep 23, 2015 3:51:25 PM",
-      "dateStarted": "Dec 1, 2015 12:19:29 AM",
-      "dateFinished": "Dec 1, 2015 12:19:30 AM",
+      "dateStarted": "Dec 30, 2015 3:47:03 PM",
+      "dateFinished": "Dec 30, 2015 3:47:34 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF.explain(true)\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:10 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -354,20 +354,20 @@
       "jobName": "paragraph_1443029170988_1756465625",
       "id": "20150923-172610_2122485572",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:31: error: not found: value middleRatingsUnpartitionedJsonDF\n       val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                     ^\n"
+        "msg": "joinMiddleRatingsUnpartitionedJsonWithUnknownGendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#32L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#31 \u003d M)\n  Filter NOT (gender#31 \u003d F)\n   Project [id#32L,gender#31]\n    Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#30L \u003d id#32L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#31 \u003d M)\n  Filter NOT (gender#31 \u003d F)\n   Project [id#32L,gender#31]\n    Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#32L))\n Project [toUserId#30L,rating#29L]\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Project [id#32L,gender#31]\n  Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n   Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#30L], [id#32L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#30L,rating#29L]\n ConvertToUnsafe\n  Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#32L,gender#31]\n\nCode Generation: true\nres26: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 5:26:10 PM",
-      "dateStarted": "Nov 24, 2015 8:00:37 PM",
-      "dateFinished": "Nov 24, 2015 8:00:37 PM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:47:33 PM",
+      "dateFinished": "Dec 30, 2015 3:48:06 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write out Partitioned and unpartitioned versions of ORC",
       "text": "//ratingsJsonDF.write.format(\"orc\").partitionBy(\"rating\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.orc\")\n//gendersJsonDF.write.format(\"orc\").partitionBy(\"gender\").save(\"file:/root/pipeline/datasets/dating/genders-partitioned.orc\")\n//ratingsJsonDF.write.format(\"orc\").save(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.orc\")\n//gendersJsonDF.write.format(\"orc\").save(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.orc\")",
-      "dateUpdated": "Nov 25, 2015 5:36:54 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -394,15 +394,15 @@
         "msg": ""
       },
       "dateCreated": "Jul 29, 2015 1:08:04 AM",
-      "dateStarted": "Nov 10, 2015 12:53:28 AM",
-      "dateFinished": "Nov 10, 2015 12:53:38 AM",
+      "dateStarted": "Dec 30, 2015 3:47:34 PM",
+      "dateFinished": "Dec 30, 2015 3:48:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write Out Partitioned And Unpartitioned Versions Of Avro",
-      "text": "import com.databricks.spark.avro._\n\n//ratingsJsonDF.write.format(\"com.databricks.spark.avro\").partitionBy(\"rating\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.avro\")\n//gendersJsonDF.write.format(\"com.databricks.spark.avro\").partitionBy(\"gender\").save(\"file:/root/pipeline/datasets/dating/genders-partitioned.avro\")\n\n//ratingsJsonDF.write.format(\"com.databricks.spark.avro\").save(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.avro\")\n//gendersJsonDF.write.format(\"com.databricks.spark.avro\").save(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.avro\")",
-      "dateUpdated": "Nov 23, 2015 5:08:58 AM",
+      "text": "import com.databricks.spark.avro._\n\n//ratingsJsonDF.write.format(\"com.databricks.spark.avro\").partitionBy(\"rating\").codec(\"snappy\").save(\"file:/root/pipeline/datasets/dating/ratings-partitioned.avro\")\n//gendersJsonDF.write.format(\"com.databricks.spark.avro\").partitionBy(\"gender\").codec(\"snappy\").save(\"file:/root/pipeline/datasets/dating/genders-partitioned.avro\")\n\n//ratingsJsonDF.write.format(\"com.databricks.spark.avro\").codec(\"snappy\").save(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.avro\")\n//gendersJsonDF.write.format(\"com.databricks.spark.avro\").codec(\"snappy\").save(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.avro\")",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -429,14 +429,14 @@
         "msg": "import com.databricks.spark.avro._\n"
       },
       "dateCreated": "Nov 10, 2015 12:53:32 AM",
-      "dateStarted": "Nov 10, 2015 1:00:05 AM",
-      "dateFinished": "Nov 10, 2015 1:01:41 AM",
+      "dateStarted": "Dec 30, 2015 3:48:06 PM",
+      "dateFinished": "Dec 30, 2015 3:48:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (Parquet, Unpartitioned) Joined with Genders (Parquet, Unpartitioned)",
-      "dateUpdated": "Nov 2, 2015 5:29:52 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -462,14 +462,14 @@
         "msg": "\u003ch3\u003eRatings (Parquet, Unpartitioned) Joined with Genders (Parquet, Unpartitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:46:44 PM",
-      "dateStarted": "Nov 2, 2015 5:29:52 PM",
-      "dateFinished": "Nov 2, 2015 5:29:52 PM",
+      "dateStarted": "Dec 30, 2015 3:44:54 PM",
+      "dateFinished": "Dec 30, 2015 3:44:54 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsUnpartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet\")\nval gendersUnpartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet\")",
-      "dateUpdated": "Dec 1, 2015 12:24:18 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -495,14 +495,14 @@
         "msg": "ratingsUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngendersUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
       },
       "dateCreated": "Sep 23, 2015 5:47:05 PM",
-      "dateStarted": "Dec 1, 2015 12:24:18 AM",
-      "dateFinished": "Dec 1, 2015 12:24:18 AM",
+      "dateStarted": "Dec 30, 2015 3:48:06 PM",
+      "dateFinished": "Dec 30, 2015 3:48:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsUnpartitionedParquetDF \u003d ratingsUnpartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsUnpartitionedParquetDF.explain(true)\nmiddleRatingsUnpartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:17 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -523,19 +523,19 @@
       "jobName": "paragraph_1443030540821_1268396582",
       "id": "20150923-174900_378913387",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "middleRatingsUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#189L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#190L,rating#189L]\n   Relation[fromUserId#188L,rating#189L,toUserId#190L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint\nFilter (rating#189L \u003e\u003d cast(4 as bigint))\n Filter (rating#189L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#190L,rating#189L]\n   Relation[fromUserId#188L,rating#189L,toUserId#190L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#190L,rating#189L]\n Filter ((rating#189L \u003c\u003d 6) \u0026\u0026 (rating#189L \u003e\u003d 4))\n  Relation[fromUserId#188L,rating#189L,toUserId#190L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter ((rating#189L \u003c\u003d 6) \u0026\u0026 (rating#189L \u003e\u003d 4))\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][toUserId#190L,rating#189L]\n\nCode Generation: true\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 21.0 failed 4 times, most recent failure: Lost task 0.3 in stage 21.0 (TID 232, 127.0.0.1): java.lang.RuntimeException: file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet/part-r-00002.gz.parquet is not a Parquet file. expected magic number at tail [80, 65, 82, 49] but found [-16, 123, -58, -79]\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:422)\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:385)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initializeInternalReader(ParquetRecordReader.java:157)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initialize(ParquetRecordReader.java:140)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD$$anon$1.\u003cinit\u003e(SqlNewHadoopRDD.scala:155)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD.compute(SqlNewHadoopRDD.scala:120)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsWithPreparationRDD.compute(MapPartitionsWithPreparationRDD.scala:63)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1283)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1271)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1270)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1270)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1496)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1458)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1447)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1822)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1835)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1848)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1919)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:905)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:904)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:177)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:1903)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1384)\n\tat org.apache.spark.sql.DataFrame.count(DataFrame.scala:1402)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:37)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:39)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:55)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:57)\n\tat \u003cinit\u003e(\u003cconsole\u003e:59)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:63)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.RuntimeException: file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet/part-r-00002.gz.parquet is not a Parquet file. expected magic number at tail [80, 65, 82, 49] but found [-16, 123, -58, -79]\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:422)\n\tat org.apache.parquet.hadoop.ParquetFileReader.readFooter(ParquetFileReader.java:385)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initializeInternalReader(ParquetRecordReader.java:157)\n\tat org.apache.parquet.hadoop.ParquetRecordReader.initialize(ParquetRecordReader.java:140)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD$$anon$1.\u003cinit\u003e(SqlNewHadoopRDD.scala:155)\n\tat org.apache.spark.rdd.SqlNewHadoopRDD.compute(SqlNewHadoopRDD.scala:120)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsWithPreparationRDD.compute(MapPartitionsWithPreparationRDD.scala:63)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\t... 3 more\n\n"
+        "msg": "middleRatingsUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#52L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#53L,rating#52L]\n   Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint\nFilter (rating#52L \u003e\u003d cast(4 as bigint))\n Filter (rating#52L \u003c\u003d cast(6 as bigint))\n  Project [toUserId#53L,rating#52L]\n   Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#53L,rating#52L]\n Filter ((rating#52L \u003c\u003d 6) \u0026\u0026 (rating#52L \u003e\u003d 4))\n  Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter ((rating#52L \u003c\u003d 6) \u0026\u0026 (rating#52L \u003e\u003d 4))\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][toUserId#53L,rating#52L]\n\nCode Generation: true\nres42: Long \u003d 4688157\n"
       },
       "dateCreated": "Sep 23, 2015 5:49:00 PM",
-      "dateStarted": "Nov 24, 2015 8:00:38 PM",
-      "dateFinished": "Nov 24, 2015 8:00:38 PM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:48:07 PM",
+      "dateFinished": "Dec 30, 2015 3:48:08 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersUnpartitionedParquetDF \u003d gendersUnpartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersUnpartitionedParquetDF.explain(true)\nunknownGendersUnpartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:19 PM",
+      "dateUpdated": "Dec 30, 2015 3:52:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -558,17 +558,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#191 \u003d F)\n  Project [id#192L,gender#191]\n   Relation[gender#191,id#192L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#191 \u003d M)\n Filter NOT (gender#191 \u003d F)\n  Project [id#192L,gender#191]\n   Relation[gender#191,id#192L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [id#192L,gender#191]\n Filter (NOT (gender#191 \u003d F) \u0026\u0026 NOT (gender#191 \u003d M))\n  Relation[gender#191,id#192L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter (NOT (gender#191 \u003d F) \u0026\u0026 NOT (gender#191 \u003d M))\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#192L,gender#191]\n\nCode Generation: true\nres36: Long \u003d 79256\n"
+        "msg": "unknownGendersUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#54 \u003d F)\n  Project [id#55L,gender#54]\n   Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#54 \u003d M)\n Filter NOT (gender#54 \u003d F)\n  Project [id#55L,gender#54]\n   Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [id#55L,gender#54]\n Filter (NOT (gender#54 \u003d F) \u0026\u0026 NOT (gender#54 \u003d M))\n  Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nFilter (NOT (gender#54 \u003d F) \u0026\u0026 NOT (gender#54 \u003d M))\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#55L,gender#54]\n\nCode Generation: true\nres45: Long \u003d 79256\n"
       },
       "dateCreated": "Sep 23, 2015 5:51:02 PM",
-      "dateStarted": "Nov 24, 2015 8:00:38 PM",
-      "dateFinished": "Nov 24, 2015 8:00:39 PM",
+      "dateStarted": "Dec 30, 2015 3:48:07 PM",
+      "dateFinished": "Dec 30, 2015 3:48:09 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMiddleRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF \u003d \n    middleRatingsUnpartitionedParquetDF.join(unknownGendersUnpartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF.explain(true)",
-      "dateUpdated": "Nov 24, 2015 5:33:49 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -591,17 +591,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinMiddleRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#111L \u003d id#113L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#111L \u003d id#113L))\n Filter (rating#110L \u003e\u003d cast(4 as bigint))\n  Filter (rating#110L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#111L,rating#110L]\n    Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#112 \u003d M)\n  Filter NOT (gender#112 \u003d F)\n   Project [id#113L,gender#112]\n    Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#111L \u003d id#113L))\n Project [toUserId#111L,rating#110L]\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Relation[fromUserId#109L,rating#110L,toUserId#111L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Project [id#113L,gender#112]\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Relation[gender#112,id#113L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#111L], [id#113L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#110L \u003c\u003d 6) \u0026\u0026 (rating#110L \u003e\u003d 4))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][toUserId#111L,rating#110L]\n ConvertToUnsafe\n  Filter (NOT (gender#112 \u003d F) \u0026\u0026 NOT (gender#112 \u003d M))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#113L,gender#112]\n\nCode Generation: true\nres72: Long \u003d 1122891\n"
+        "msg": "joinMiddleRatingsUnpartitionedParquetWithUnknownGendersUnpartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#53L \u003d id#55L))\n Filter (rating#52L \u003e\u003d cast(4 as bigint))\n  Filter (rating#52L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#53L,rating#52L]\n    Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#54 \u003d M)\n  Filter NOT (gender#54 \u003d F)\n   Project [id#55L,gender#54]\n    Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#53L \u003d id#55L))\n Filter (rating#52L \u003e\u003d cast(4 as bigint))\n  Filter (rating#52L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#53L,rating#52L]\n    Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Filter NOT (gender#54 \u003d M)\n  Filter NOT (gender#54 \u003d F)\n   Project [id#55L,gender#54]\n    Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#53L \u003d id#55L))\n Project [toUserId#53L,rating#52L]\n  Filter ((rating#52L \u003c\u003d 6) \u0026\u0026 (rating#52L \u003e\u003d 4))\n   Relation[fromUserId#51L,rating#52L,toUserId#53L] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet]\n Project [id#55L,gender#54]\n  Filter (NOT (gender#54 \u003d F) \u0026\u0026 NOT (gender#54 \u003d M))\n   Relation[gender#54,id#55L] ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#53L], [id#55L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#52L \u003c\u003d 6) \u0026\u0026 (rating#52L \u003e\u003d 4))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-unpartitioned.parquet][toUserId#53L,rating#52L]\n ConvertToUnsafe\n  Filter (NOT (gender#54 \u003d F) \u0026\u0026 NOT (gender#54 \u003d M))\n   Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-unpartitioned.parquet][id#55L,gender#54]\n\nCode Generation: true\n"
       },
       "dateCreated": "Sep 23, 2015 5:52:09 PM",
-      "dateStarted": "Nov 24, 2015 5:32:21 AM",
-      "dateFinished": "Nov 24, 2015 5:32:24 AM",
+      "dateStarted": "Dec 30, 2015 3:48:08 PM",
+      "dateFinished": "Dec 30, 2015 3:48:09 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ###  Ratings (Parquet, Partitioned) Joined with Genders (Parquet, Partitioned)",
-      "dateUpdated": "Nov 2, 2015 5:29:53 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -627,14 +627,14 @@
         "msg": "\u003ch3\u003eRatings (Parquet, Partitioned) Joined with Genders (Parquet, Partitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:44:12 PM",
-      "dateStarted": "Nov 2, 2015 5:29:53 PM",
-      "dateFinished": "Nov 2, 2015 5:29:53 PM",
+      "dateStarted": "Dec 30, 2015 3:44:55 PM",
+      "dateFinished": "Dec 30, 2015 3:44:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.parquet\")\nval gendersPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\").load(\"file:/root/pipeline/datasets/dating/genders-partitioned.parquet\")",
-      "dateUpdated": "Dec 1, 2015 4:24:04 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -660,14 +660,14 @@
         "msg": "ratingsPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, toUserId: bigint, rating: int]\ngendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n"
       },
       "dateCreated": "Sep 23, 2015 6:53:48 AM",
-      "dateStarted": "Dec 1, 2015 4:23:20 AM",
-      "dateFinished": "Dec 1, 2015 4:23:38 AM",
+      "dateStarted": "Dec 30, 2015 3:48:09 PM",
+      "dateFinished": "Dec 30, 2015 3:48:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsPartitionedParquetDF \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsPartitionedParquetDF.explain(true)\nmiddleRatingsPartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:29 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -690,17 +690,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "middleRatingsPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#207 \u003c\u003d 6)\n  Project [toUserId#206L,rating#207]\n   Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#207 \u003e\u003d 4)\n Filter (rating#207 \u003c\u003d 6)\n  Project [toUserId#206L,rating#207]\n   Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#206L,rating#207]\n Filter ((rating#207 \u003c\u003d 6) \u0026\u0026 (rating#207 \u003e\u003d 4))\n  Relation[fromUserId#205L,toUserId#206L,rating#207] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#206L,rating#207]\n\nCode Generation: true\nres40: Long \u003d 4693155\n"
+        "msg": "middleRatingsPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#71 \u003c\u003d 6)\n  Project [toUserId#70L,rating#71]\n   Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#71 \u003e\u003d 4)\n Filter (rating#71 \u003c\u003d 6)\n  Project [toUserId#70L,rating#71]\n   Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#70L,rating#71]\n Filter ((rating#71 \u003c\u003d 6) \u0026\u0026 (rating#71 \u003e\u003d 4))\n  Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#70L,rating#71]\n\nCode Generation: true\nres52: Long \u003d 4693155\n"
       },
       "dateCreated": "Sep 23, 2015 3:02:51 PM",
-      "dateStarted": "Nov 24, 2015 8:00:39 PM",
-      "dateFinished": "Nov 24, 2015 8:00:40 PM",
+      "dateStarted": "Dec 30, 2015 3:48:10 PM",
+      "dateFinished": "Dec 30, 2015 3:48:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersPartitionedParquetDF \u003d gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersPartitionedParquetDF.explain(true)\nunknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 8:00:33 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -723,17 +723,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#209 \u003d F)\n  Project [id#208L,gender#209]\n   Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#209 \u003d M)\n Filter NOT (gender#209 \u003d F)\n  Project [id#208L,gender#209]\n   Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#209 \u003d F) \u0026\u0026 NOT (gender#209 \u003d M))\n Relation[id#208L,gender#209] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#208L,gender#209]\n\nCode Generation: true\nres43: Long \u003d 83164\n"
+        "msg": "unknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#73 \u003d F)\n  Project [id#72L,gender#73]\n   Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#73 \u003d M)\n Filter NOT (gender#73 \u003d F)\n  Project [id#72L,gender#73]\n   Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#73 \u003d F) \u0026\u0026 NOT (gender#73 \u003d M))\n Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\n\nCode Generation: true\nres55: Long \u003d 83164\n"
       },
       "dateCreated": "Sep 23, 2015 4:15:23 PM",
-      "dateStarted": "Nov 24, 2015 8:00:40 PM",
-      "dateFinished": "Nov 24, 2015 8:00:40 PM",
+      "dateStarted": "Dec 30, 2015 3:48:10 PM",
+      "dateFinished": "Dec 30, 2015 3:48:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMiddleRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF \u003d middleRatingsPartitionedParquetDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:29:18 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -756,17 +756,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinMiddleRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#13L \u003d id#15L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [toUserId#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#13L \u003d id#15L))\n Filter (rating#14 \u003e\u003d 4)\n  Filter (rating#14 \u003c\u003d 6)\n   Project [toUserId#13L,rating#14]\n    Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#13L \u003d id#15L))\n Project [toUserId#13L,rating#14]\n  Filter ((rating#14 \u003c\u003d 6) \u0026\u0026 (rating#14 \u003e\u003d 4))\n   Relation[fromUserId#12L,toUserId#13L,rating#14] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#16 \u003d F) \u0026\u0026 NOT (gender#16 \u003d M))\n  Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#13L], [id#15L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#13L,rating#14]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#15L,gender#16]\n\nCode Generation: true\nres50: Long \u003d 1123909\n"
+        "msg": "joinMiddleRatingsPartitionedParquetWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#70L \u003d id#72L))\n Filter (rating#71 \u003e\u003d 4)\n  Filter (rating#71 \u003c\u003d 6)\n   Project [toUserId#70L,rating#71]\n    Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#70L \u003d id#72L))\n Filter (rating#71 \u003e\u003d 4)\n  Filter (rating#71 \u003c\u003d 6)\n   Project [toUserId#70L,rating#71]\n    Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#70L \u003d id#72L))\n Project [toUserId#70L,rating#71]\n  Filter ((rating#71 \u003c\u003d 6) \u0026\u0026 (rating#71 \u003e\u003d 4))\n   Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter (NOT (gender#73 \u003d F) \u0026\u0026 NOT (gender#73 \u003d M))\n  Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#70L], [id#72L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#70L,rating#71]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\n\nCode Generation: true\nres58: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 7:09:17 AM",
-      "dateStarted": "Nov 24, 2015 5:29:18 AM",
-      "dateFinished": "Nov 24, 2015 5:29:20 AM",
+      "dateStarted": "Dec 30, 2015 3:48:11 PM",
+      "dateFinished": "Dec 30, 2015 3:48:12 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (Parquet, Partitioned) Joined with Genders (JSON, Unpartitioned)",
-      "dateUpdated": "Nov 2, 2015 5:29:54 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -792,14 +792,14 @@
         "msg": "\u003ch3\u003eRatings (Parquet, Partitioned) Joined with Genders (JSON, Unpartitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 4:32:51 PM",
-      "dateStarted": "Nov 2, 2015 5:29:54 PM",
-      "dateFinished": "Nov 2, 2015 5:29:54 PM",
+      "dateStarted": "Dec 30, 2015 3:44:55 PM",
+      "dateFinished": "Dec 30, 2015 3:44:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMiddleRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedParquetDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF.explain(true)\n\njoinMiddleRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:29:33 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -820,19 +820,19 @@
       "jobName": "paragraph_1443031250537_-1256730707",
       "id": "20150923-180050_249380911",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:27: error: not found: value unknownGendersUnpartitionedJsonDF\n       val joinMiddleRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedParquetDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                                                             ^\n"
+        "msg": "joinMiddleRatingsPartitionedParquetWithUnknownGendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#70L \u003d id#32L))\n Filter (rating#71 \u003e\u003d 4)\n  Filter (rating#71 \u003c\u003d 6)\n   Project [toUserId#70L,rating#71]\n    Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#31 \u003d M)\n  Filter NOT (gender#31 \u003d F)\n   Project [id#32L,gender#31]\n    Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#70L \u003d id#32L))\n Filter (rating#71 \u003e\u003d 4)\n  Filter (rating#71 \u003c\u003d 6)\n   Project [toUserId#70L,rating#71]\n    Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#31 \u003d M)\n  Filter NOT (gender#31 \u003d F)\n   Project [id#32L,gender#31]\n    Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#70L \u003d id#32L))\n Project [toUserId#70L,rating#71]\n  Filter ((rating#71 \u003c\u003d 6) \u0026\u0026 (rating#71 \u003e\u003d 4))\n   Relation[fromUserId#69L,toUserId#70L,rating#71] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Project [id#32L,gender#31]\n  Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n   Relation[gender#31,id#32L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#70L], [id#32L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#70L,rating#71]\n ConvertToUnsafe\n  Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#32L,gender#31]\n\nCode Generation: true\nres63: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 6:00:50 PM",
-      "dateStarted": "Nov 24, 2015 5:29:33 AM",
-      "dateFinished": "Nov 24, 2015 5:29:33 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:48:11 PM",
+      "dateFinished": "Dec 30, 2015 3:48:13 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)",
-      "dateUpdated": "Nov 2, 2015 5:29:54 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -858,14 +858,14 @@
         "msg": "\u003ch3\u003eRatings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 6:02:31 PM",
-      "dateStarted": "Nov 2, 2015 5:29:54 PM",
-      "dateFinished": "Nov 2, 2015 5:29:55 PM",
+      "dateStarted": "Dec 30, 2015 3:44:55 PM",
+      "dateFinished": "Dec 30, 2015 3:44:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "\nval joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()\n",
-      "dateUpdated": "Nov 24, 2015 5:22:04 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -888,17 +888,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinMediumHottieRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#990L \u003d id#1037L))\n Filter (rating#989L \u003e\u003d cast(4 as bigint))\n  Filter (rating#989L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#990L,rating#989L]\n    Relation[fromUserId#988L,rating#989L,toUserId#990L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#1038 \u003d M)\n  Filter NOT (gender#1038 \u003d F)\n   Project [id#1037L,gender#1038]\n    Relation[id#1037L,gender#1038] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#990L \u003d id#1037L))\n Filter (rating#989L \u003e\u003d cast(4 as bigint))\n  Filter (rating#989L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#990L,rating#989L]\n    Relation[fromUserId#988L,rating#989L,toUserId#990L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#1038 \u003d M)\n  Filter NOT (gender#1038 \u003d F)\n   Project [id#1037L,gender#1038]\n    Relation[id#1037L,gender#1038] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#990L \u003d id#1037L))\n Project [toUserId#990L,rating#989L]\n  Filter ((rating#989L \u003c\u003d 6) \u0026\u0026 (rating#989L \u003e\u003d 4))\n   Relation[fromUserId#988L,rating#989L,toUserId#990L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter (NOT (gender#1038 \u003d F) \u0026\u0026 NOT (gender#1038 \u003d M))\n  Relation[id#1037L,gender#1038] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#990L], [id#1037L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#989L \u003c\u003d 6) \u0026\u0026 (rating#989L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#990L,rating#989L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#1037L,gender#1038]\n\nCode Generation: true\nres219: Long \u003d 1123909\n"
+        "msg": "joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Project [toUserId#30L,rating#29L]\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter (NOT (gender#73 \u003d F) \u0026\u0026 NOT (gender#73 \u003d M))\n  Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#30L], [id#72L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#30L,rating#29L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\n\nCode Generation: true\nres67: Long \u003d 1123909\n"
       },
       "dateCreated": "Sep 23, 2015 6:02:55 PM",
-      "dateStarted": "Nov 2, 2015 5:33:20 PM",
-      "dateFinished": "Nov 2, 2015 5:33:55 PM",
+      "dateStarted": "Dec 30, 2015 3:48:12 PM",
+      "dateFinished": "Dec 30, 2015 3:48:45 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()%md ### Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)",
-      "dateUpdated": "Nov 24, 2015 5:21:11 AM",
+      "text": "%md ### Ratings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)",
+      "dateUpdated": "Dec 30, 2015 3:53:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -916,23 +916,90 @@
         "params": {},
         "forms": {}
       },
+      "jobName": "paragraph_1451490656179_450215952",
+      "id": "20151230-155056_106717474",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eRatings (JSON, Unpartitioned) Joined with Genders (Parquet, Partitioned)\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Dec 30, 2015 3:50:56 PM",
+      "dateStarted": "Dec 30, 2015 3:53:11 PM",
+      "dateFinished": "Dec 30, 2015 3:53:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF \u003d middleRatingsUnpartitionedJsonDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.explain(true)\n\njoinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()",
+      "dateUpdated": "Dec 30, 2015 3:53:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
       "jobName": "paragraph_1447124067224_540937796",
       "id": "20151110-025427_836627264",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: bigint, id: bigint, gender: string\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Filter (rating#29L \u003e\u003d cast(4 as bigint))\n  Filter (rating#29L \u003c\u003d cast(6 as bigint))\n   Project [toUserId#30L,rating#29L]\n    Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter NOT (gender#73 \u003d M)\n  Filter NOT (gender#73 \u003d F)\n   Project [id#72L,gender#73]\n    Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#30L \u003d id#72L))\n Project [toUserId#30L,rating#29L]\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Relation[fromUserId#28L,rating#29L,toUserId#30L] JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2]\n Filter (NOT (gender#73 \u003d F) \u0026\u0026 NOT (gender#73 \u003d M))\n  Relation[id#72L,gender#73] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#30L], [id#72L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#30L,rating#29L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\n\nCode Generation: true\n\u003cconsole\u003e:2: error: \u0027;\u0027 expected but \u0027with\u0027 found.\n       joinMiddleRatingsUnpartitionedJsonWithUnknownGendersPartitionedParquetDF.count()%md ### Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)\n                                                                                                                                 ^\n"
+      },
+      "dateCreated": "Nov 10, 2015 2:54:27 AM",
+      "dateStarted": "Dec 30, 2015 3:48:14 PM",
+      "dateFinished": "Dec 30, 2015 3:48:45 PM",
+      "status": "PENDING",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Ratings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)",
+      "dateUpdated": "Dec 30, 2015 3:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451490825519_-855592811",
+      "id": "20151230-155345_579477615",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
         "msg": "\u003ch3\u003eRatings (ORC, Partitioned) Joined with Genders (ORC, Partitioned)\u003c/h3\u003e\n"
       },
-      "dateCreated": "Nov 10, 2015 2:54:27 AM",
-      "dateStarted": "Nov 10, 2015 2:54:45 AM",
-      "dateFinished": "Nov 10, 2015 2:54:45 AM",
+      "dateCreated": "Dec 30, 2015 3:53:45 PM",
+      "dateStarted": "Dec 30, 2015 3:53:57 PM",
+      "dateFinished": "Dec 30, 2015 3:53:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "val ratingsPartitionedOrcDF \u003d sqlContext.read.format(\"orc\").load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.orc\")\nval gendersPartitionedOrcDF \u003d sqlContext.read.format(\"orc\").load(\"file:/root/pipeline/datasets/dating/genders-partitioned.orc\")",
-      "dateUpdated": "Nov 30, 2015 1:33:43 PM",
+      "text": "val ratingsPartitionedOrcDF \u003d sqlContext.read.format(\"orc\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.orc\")\n\nval gendersPartitionedOrcDF \u003d sqlContext.read.format(\"orc\")\n  .load(\"file:/root/pipeline/datasets/dating/genders-partitioned.orc\")",
+      "dateUpdated": "Dec 30, 2015 3:54:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -959,14 +1026,14 @@
         "msg": "ratingsPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: bigint, touserid: bigint, rating: int]\ngendersPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n"
       },
       "dateCreated": "Nov 10, 2015 2:51:06 AM",
-      "dateStarted": "Nov 30, 2015 1:33:43 PM",
-      "dateFinished": "Nov 30, 2015 1:33:44 PM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:48:45 PM",
+      "dateFinished": "Dec 30, 2015 3:48:45 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsPartitionedOrcDF \u003d ratingsPartitionedOrcDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsPartitionedOrcDF.explain(true)\nmiddleRatingsPartitionedOrcDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:18:22 AM",
+      "dateUpdated": "Dec 30, 2015 3:54:27 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -989,17 +1056,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "mediumHottieRatingsPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#25 \u003c\u003d 6)\n  Project [toUserId#24L,rating#25]\n   Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#25 \u003e\u003d 4)\n Filter (rating#25 \u003c\u003d 6)\n  Project [toUserId#24L,rating#25]\n   Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#24L,rating#25]\n Filter ((rating#25 \u003c\u003d 6) \u0026\u0026 (rating#25 \u003e\u003d 4))\n  Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc][toUserId#24L,rating#25]\n\nCode Generation: true\nres40: Long \u003d 4693155\n"
+        "msg": "middleRatingsPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#107 \u003c\u003d 6)\n  Project [toUserId#106L,rating#107]\n   Relation[fromuserid#105L,touserid#106L,rating#107] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#107 \u003e\u003d 4)\n Filter (rating#107 \u003c\u003d 6)\n  Project [toUserId#106L,rating#107]\n   Relation[fromuserid#105L,touserid#106L,rating#107] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#106L,rating#107]\n Filter ((rating#107 \u003c\u003d 6) \u0026\u0026 (rating#107 \u003e\u003d 4))\n  Relation[fromuserid#105L,touserid#106L,rating#107] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc][toUserId#106L,rating#107]\n\nCode Generation: true\nres74: Long \u003d 4693155\n"
       },
       "dateCreated": "Nov 10, 2015 2:53:38 AM",
-      "dateStarted": "Nov 10, 2015 2:57:08 AM",
-      "dateFinished": "Nov 10, 2015 2:57:09 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:48:45 PM",
+      "dateFinished": "Dec 30, 2015 3:48:47 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersPartitionedOrcDF \u003d gendersPartitionedOrcDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersPartitionedOrcDF.explain(true)\nunknownGendersPartitionedOrcDF.count()\n",
-      "dateUpdated": "Nov 10, 2015 2:56:59 AM",
+      "dateUpdated": "Dec 30, 2015 3:54:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1022,17 +1089,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#27 \u003d F)\n  Project [id#26L,gender#27]\n   Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#27 \u003d M)\n Filter NOT (gender#27 \u003d F)\n  Project [id#26L,gender#27]\n   Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#27 \u003d F) \u0026\u0026 NOT (gender#27 \u003d M))\n Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc][id#26L,gender#27]\n\nCode Generation: true\nres37: Long \u003d 83164\n"
+        "msg": "unknownGendersPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#109 \u003d F)\n  Project [id#108L,gender#109]\n   Relation[id#108L,gender#109] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#109 \u003d M)\n Filter NOT (gender#109 \u003d F)\n  Project [id#108L,gender#109]\n   Relation[id#108L,gender#109] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#109 \u003d F) \u0026\u0026 NOT (gender#109 \u003d M))\n Relation[id#108L,gender#109] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc][id#108L,gender#109]\n\nCode Generation: true\nres77: Long \u003d 83164\n"
       },
       "dateCreated": "Nov 10, 2015 2:56:25 AM",
-      "dateStarted": "Nov 10, 2015 2:56:59 AM",
-      "dateFinished": "Nov 10, 2015 2:56:59 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:48:46 PM",
+      "dateFinished": "Dec 30, 2015 3:48:48 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMediumHottieRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF \u003d mediumHottieRatingsPartitionedOrcDF.join(unknownGendersPartitionedOrcDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.explain(true)\njoinMiddleRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:18:22 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1043,7 +1110,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -1052,19 +1120,19 @@
       "jobName": "paragraph_1447124197656_-421118344",
       "id": "20151110-025637_2116491568",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "joinMediumHottieRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#24L \u003d id#26L))\n Filter (rating#25 \u003e\u003d 4)\n  Filter (rating#25 \u003c\u003d 6)\n   Project [toUserId#24L,rating#25]\n    Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n Filter NOT (gender#27 \u003d M)\n  Filter NOT (gender#27 \u003d F)\n   Project [id#26L,gender#27]\n    Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#24L \u003d id#26L))\n Filter (rating#25 \u003e\u003d 4)\n  Filter (rating#25 \u003c\u003d 6)\n   Project [toUserId#24L,rating#25]\n    Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n Filter NOT (gender#27 \u003d M)\n  Filter NOT (gender#27 \u003d F)\n   Project [id#26L,gender#27]\n    Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#24L \u003d id#26L))\n Project [toUserId#24L,rating#25]\n  Filter ((rating#25 \u003c\u003d 6) \u0026\u0026 (rating#25 \u003e\u003d 4))\n   Relation[fromuserid#23L,touserid#24L,rating#25] OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc]\n Filter (NOT (gender#27 \u003d F) \u0026\u0026 NOT (gender#27 \u003d M))\n  Relation[id#26L,gender#27] OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#24L], [id#26L], BuildRight\n ConvertToUnsafe\n  Scan OrcRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.orc][toUserId#24L,rating#25]\n ConvertToUnsafe\n  Scan OrcRelation[file:/root/pipeline/datasets/dating/genders-partitioned.orc][id#26L,gender#27]\n\nCode Generation: true\nres43: Long \u003d 1123909\n"
+        "msg": "\u003cconsole\u003e:31: error: not found: value mediumHottieRatingsPartitionedOrcDF\n       val joinMediumHottieRatingsPartitionedOrcWithUnknownGendersPartitionedOrcDF \u003d mediumHottieRatingsPartitionedOrcDF.join(unknownGendersPartitionedOrcDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                     ^\n"
       },
       "dateCreated": "Nov 10, 2015 2:56:37 AM",
-      "dateStarted": "Nov 10, 2015 2:58:15 AM",
-      "dateFinished": "Nov 10, 2015 2:58:18 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:48:48 PM",
+      "dateFinished": "Dec 30, 2015 3:48:48 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (Avro, Partitioned) Joined with Genders (Avro, Partitioned)",
-      "dateUpdated": "Nov 10, 2015 2:59:48 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1090,14 +1158,14 @@
         "msg": "\u003ch3\u003eRatings (Avro, Partitioned) Joined with Genders (Avro, Partitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Nov 10, 2015 2:59:39 AM",
-      "dateStarted": "Nov 10, 2015 2:59:48 AM",
-      "dateFinished": "Nov 10, 2015 2:59:48 AM",
+      "dateStarted": "Dec 30, 2015 3:44:56 PM",
+      "dateFinished": "Dec 30, 2015 3:44:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsPartitionedAvroDF \u003d sqlContext.read.format(\"com.databricks.spark.avro\").load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.avro\")\nval gendersPartitionedAvroDF \u003d sqlContext.read.format(\"com.databricks.spark.avro\").load(\"file:/root/pipeline/datasets/dating/genders-partitioned.avro\")",
-      "dateUpdated": "Nov 30, 2015 1:33:52 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1123,14 +1191,14 @@
         "msg": "ratingsPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, toUserId: bigint, rating: int]\ngendersPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n"
       },
       "dateCreated": "Nov 10, 2015 3:01:00 AM",
-      "dateStarted": "Nov 30, 2015 1:33:52 PM",
-      "dateFinished": "Nov 30, 2015 1:33:53 PM",
+      "dateStarted": "Dec 30, 2015 3:48:48 PM",
+      "dateFinished": "Dec 30, 2015 3:48:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsPartitionedAvroDF \u003d ratingsPartitionedAvroDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\nmiddleRatingsPartitionedAvroDF.explain(true)\nmiddleRatingsPartitionedAvroDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:18:22 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1153,17 +1221,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "mediumHottieRatingsPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#85 \u003c\u003d 6)\n  Project [toUserId#84L,rating#85]\n   Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#85 \u003e\u003d 4)\n Filter (rating#85 \u003c\u003d 6)\n  Project [toUserId#84L,rating#85]\n   Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#84L,rating#85]\n Filter ((rating#85 \u003c\u003d 6) \u0026\u0026 (rating#85 \u003e\u003d 4))\n  Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro][toUserId#84L,rating#85]\n\nCode Generation: true\nres47: Long \u003d 4693155\n"
+        "msg": "middleRatingsPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter (\u0027rating \u003e\u003d 4)\n Filter (rating#128 \u003c\u003d 6)\n  Project [toUserId#127L,rating#128]\n   Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int\nFilter (rating#128 \u003e\u003d 4)\n Filter (rating#128 \u003c\u003d 6)\n  Project [toUserId#127L,rating#128]\n   Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [toUserId#127L,rating#128]\n Filter ((rating#128 \u003c\u003d 6) \u0026\u0026 (rating#128 \u003e\u003d 4))\n  Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro][toUserId#127L,rating#128]\n\nCode Generation: true\nres81: Long \u003d 4693155\n"
       },
       "dateCreated": "Nov 10, 2015 3:00:41 AM",
-      "dateStarted": "Nov 10, 2015 3:03:02 AM",
-      "dateFinished": "Nov 10, 2015 3:03:04 AM",
+      "dateStarted": "Dec 30, 2015 3:48:48 PM",
+      "dateFinished": "Dec 30, 2015 3:48:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val unknownGendersPartitionedAvroDF \u003d gendersPartitionedAvroDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\")\nunknownGendersPartitionedAvroDF.explain(true)\nunknownGendersPartitionedAvroDF.count()",
-      "dateUpdated": "Nov 10, 2015 3:03:57 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1186,17 +1254,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "unknownGendersPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#87 \u003d F)\n  Project [id#86L,gender#87]\n   Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#87 \u003d M)\n Filter NOT (gender#87 \u003d F)\n  Project [id#86L,gender#87]\n   Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#87 \u003d F) \u0026\u0026 NOT (gender#87 \u003d M))\n Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro][id#86L,gender#87]\n\nCode Generation: true\nres53: Long \u003d 83164\n"
+        "msg": "unknownGendersPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\n\u0027Filter NOT (\u0027gender \u003d M)\n Filter NOT (gender#130 \u003d F)\n  Project [id#129L,gender#130]\n   Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: bigint, gender: string\nFilter NOT (gender#130 \u003d M)\n Filter NOT (gender#130 \u003d F)\n  Project [id#129L,gender#130]\n   Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nFilter (NOT (gender#130 \u003d F) \u0026\u0026 NOT (gender#130 \u003d M))\n Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro][id#129L,gender#130]\n\nCode Generation: true\nres84: Long \u003d 83164\n"
       },
       "dateCreated": "Nov 10, 2015 3:03:29 AM",
-      "dateStarted": "Nov 10, 2015 3:03:57 AM",
-      "dateFinished": "Nov 10, 2015 3:03:58 AM",
+      "dateStarted": "Dec 30, 2015 3:48:49 PM",
+      "dateFinished": "Dec 30, 2015 3:48:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val joinMiddleRatingsPartitionedAvroWithUnknownGendersPartitionedAvroDF \u003d middleRatingsPartitionedAvroDF.join(unknownGendersPartitionedAvroDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedAvroWithUnknownGendersPartitionedAvroDF.explain(true)\njoinMiddleRatingsPartitionedAvroWithUnknownGendersPartitionedAvroDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:18:22 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1219,17 +1287,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinMediumHottieRatingsPartitionedAvroWithUnknownGendersPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#84L \u003d id#86L))\n Filter (rating#85 \u003e\u003d 4)\n  Filter (rating#85 \u003c\u003d 6)\n   Project [toUserId#84L,rating#85]\n    Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter NOT (gender#87 \u003d M)\n  Filter NOT (gender#87 \u003d F)\n   Project [id#86L,gender#87]\n    Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#84L \u003d id#86L))\n Filter (rating#85 \u003e\u003d 4)\n  Filter (rating#85 \u003c\u003d 6)\n   Project [toUserId#84L,rating#85]\n    Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter NOT (gender#87 \u003d M)\n  Filter NOT (gender#87 \u003d F)\n   Project [id#86L,gender#87]\n    Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#84L \u003d id#86L))\n Project [toUserId#84L,rating#85]\n  Filter ((rating#85 \u003c\u003d 6) \u0026\u0026 (rating#85 \u003e\u003d 4))\n   Relation[fromUserId#83L,toUserId#84L,rating#85] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter (NOT (gender#87 \u003d F) \u0026\u0026 NOT (gender#87 \u003d M))\n  Relation[id#86L,gender#87] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#84L], [id#86L], BuildRight\n ConvertToUnsafe\n  Scan AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro][toUserId#84L,rating#85]\n ConvertToUnsafe\n  Scan AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro][id#86L,gender#87]\n\nCode Generation: true\nres56: Long \u003d 1123909\n"
+        "msg": "joinMiddleRatingsPartitionedAvroWithUnknownGendersPartitionedAvroDF: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#127L \u003d id#129L))\n Filter (rating#128 \u003e\u003d 4)\n  Filter (rating#128 \u003c\u003d 6)\n   Project [toUserId#127L,rating#128]\n    Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter NOT (gender#130 \u003d M)\n  Filter NOT (gender#130 \u003d F)\n   Project [id#129L,gender#130]\n    Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#127L \u003d id#129L))\n Filter (rating#128 \u003e\u003d 4)\n  Filter (rating#128 \u003c\u003d 6)\n   Project [toUserId#127L,rating#128]\n    Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter NOT (gender#130 \u003d M)\n  Filter NOT (gender#130 \u003d F)\n   Project [id#129L,gender#130]\n    Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#127L \u003d id#129L))\n Project [toUserId#127L,rating#128]\n  Filter ((rating#128 \u003c\u003d 6) \u0026\u0026 (rating#128 \u003e\u003d 4))\n   Relation[fromUserId#126L,toUserId#127L,rating#128] AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro]\n Filter (NOT (gender#130 \u003d F) \u0026\u0026 NOT (gender#130 \u003d M))\n  Relation[id#129L,gender#130] AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#127L], [id#129L], BuildRight\n ConvertToUnsafe\n  Scan AvroRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.avro][toUserId#127L,rating#128]\n ConvertToUnsafe\n  Scan AvroRelation[file:/root/pipeline/datasets/dating/genders-partitioned.avro][id#129L,gender#130]\n\nCode Generation: true\nres87: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 10, 2015 3:04:36 AM",
-      "dateStarted": "Nov 10, 2015 3:05:05 AM",
-      "dateFinished": "Nov 10, 2015 3:05:07 AM",
+      "dateStarted": "Dec 30, 2015 3:48:50 PM",
+      "dateFinished": "Dec 30, 2015 3:48:53 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (Cassandra, Partitioned) and Genders (Parquet, Unpartitioned)",
-      "dateUpdated": "Nov 24, 2015 5:26:06 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1252,17 +1320,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eRatings (Cassandra, Unpartitioned) and Genders (Parquet, Partitioned)\u003c/h3\u003e\n"
+        "msg": "\u003ch3\u003eRatings (Cassandra, Partitioned) and Genders (Parquet, Unpartitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Sep 23, 2015 5:59:19 PM",
-      "dateStarted": "Nov 2, 2015 5:29:55 PM",
-      "dateFinished": "Nov 2, 2015 5:29:55 PM",
+      "dateStarted": "Dec 30, 2015 3:44:56 PM",
+      "dateFinished": "Dec 30, 2015 3:44:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:28:13 AM",
+      "dateUpdated": "Dec 30, 2015 3:55:27 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1285,17 +1353,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "middleRatingsPartitionedCassandraDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, batchtime: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nRelation[fromuserid#87,touserid#88,batchtime#89L,rating#90] org.apache.spark.sql.cassandra.CassandraSourceRelation@578a8ef5\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nfromuserid: int, touserid: int, batchtime: bigint, rating: int\nRelation[fromuserid#87,touserid#88,batchtime#89L,rating#90] org.apache.spark.sql.cassandra.CassandraSourceRelation@578a8ef5\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nRelation[fromuserid#87,touserid#88,batchtime#89L,rating#90] org.apache.spark.sql.cassandra.CassandraSourceRelation@578a8ef5\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan org.apache.spark.sql.cassandra.CassandraSourceRelation@578a8ef5[fromuserid#87,touserid#88,batchtime#89L,rating#90]\n\nCode Generation: true\nres44: Long \u003d 261\n\u003cconsole\u003e:26: error: not found: value unknownGendersUnpartitionedJsonDF\n       val joinMiddleRatingsPartitionedCassandraWithUnknownGendersUnpartitionedJsonDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersUnpartitionedJsonDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\n                                                                                                                                 ^\n"
+        "msg": "java.io.IOException: Couldn\u0027t find fluxcapacitor.ratings or any similarly named keyspace and table pairs\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation.\u003cinit\u003e(CassandraSourceRelation.scala:53)\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation$.apply(CassandraSourceRelation.scala:184)\n\tat org.apache.spark.sql.cassandra.DefaultSource.createRelation(DefaultSource.scala:57)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:125)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:114)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:27)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:34)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:38)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:44)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:46)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:50)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat \u003cinit\u003e(\u003cconsole\u003e:54)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Nov 24, 2015 5:26:33 AM",
-      "dateStarted": "Nov 24, 2015 5:28:13 AM",
-      "dateFinished": "Nov 24, 2015 5:28:14 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:48:51 PM",
+      "dateFinished": "Dec 30, 2015 3:48:54 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Ratings (Cassandra, Partitioned) and Genders (Parquet, Partitioned)\n",
-      "dateUpdated": "Nov 2, 2015 5:41:29 PM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1321,14 +1389,14 @@
         "msg": "\u003ch3\u003eRatings (Cassandra, Partitioned) and Genders (Parquet, Partitioned)\u003c/h3\u003e\n"
       },
       "dateCreated": "Nov 2, 2015 5:41:09 PM",
-      "dateStarted": "Nov 2, 2015 5:41:29 PM",
-      "dateFinished": "Nov 2, 2015 5:41:29 PM",
+      "dateStarted": "Dec 30, 2015 3:44:56 PM",
+      "dateFinished": "Dec 30, 2015 3:44:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val middleRatingsPartitionedCassandraDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(Map(\"pushdown\" -\u003e \"true\", \"keyspace\" -\u003e \"fluxcapacitor\", \"table\" -\u003e \"ratings\")).load()\nmiddleRatingsPartitionedCassandraDF.explain(true)\nmiddleRatingsPartitionedCassandraDF.count()\n\nval joinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF \u003d middleRatingsPartitionedCassandraDF.join(unknownGendersPartitionedParquetDF, $\"toUserId\" \u003d\u003d\u003d $\"id\")\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.explain(true)\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF.count()",
-      "dateUpdated": "Nov 24, 2015 5:26:06 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1349,19 +1417,19 @@
       "jobName": "paragraph_1443031227537_689298582",
       "id": "20150923-180027_260903546",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "middleRatingsPartitionedCassandraDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, batchtime: bigint, rating: int]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nRelation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nfromuserid: int, touserid: int, batchtime: bigint, rating: int\nRelation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nRelation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n\n\u003d\u003d Physical Plan \u003d\u003d\nScan org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f[fromuserid#61,touserid#62,batchtime#63L,rating#64]\n\nCode Generation: true\nres35: Long \u003d 261\njoinMiddleRatingsPartitionedCassandraWithUnknownGendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [fromuserid: int, touserid: int, batchtime: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((cast(toUserId#62 as bigint) \u003d id#15L))\n Relation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nfromuserid: int, touserid: int, batchtime: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((cast(toUserId#62 as bigint) \u003d id#15L))\n Relation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n Filter NOT (gender#16 \u003d M)\n  Filter NOT (gender#16 \u003d F)\n   Project [id#15L,gender#16]\n    Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((cast(toUserId#62 as bigint) \u003d id#15L))\n Relation[fromuserid#61,touserid#62,batchtime#63L,rating#64] org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f\n Filter (NOT (gender#16 \u003d F) \u0026\u0026 NOT (gender#16 \u003d M))\n  Relation[id#15L,gender#16] ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [cast(toUserId#62 as bigint)], [id#15L], BuildRight\n ConvertToUnsafe\n  Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@53f61c8f[fromuserid#61,touserid#62,batchtime#63L,rating#64]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#15L,gender#16]\n\nCode Generation: true\nres38: Long \u003d 45\n"
+        "msg": "java.io.IOException: Couldn\u0027t find fluxcapacitor.ratings or any similarly named keyspace and table pairs\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation.\u003cinit\u003e(CassandraSourceRelation.scala:53)\n\tat org.apache.spark.sql.cassandra.CassandraSourceRelation$.apply(CassandraSourceRelation.scala:184)\n\tat org.apache.spark.sql.cassandra.DefaultSource.createRelation(DefaultSource.scala:57)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:125)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:114)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:27)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:34)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:38)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:44)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:46)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:50)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat \u003cinit\u003e(\u003cconsole\u003e:54)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Sep 23, 2015 6:00:27 PM",
-      "dateStarted": "Nov 24, 2015 5:25:24 AM",
-      "dateFinished": "Nov 24, 2015 5:25:25 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:48:53 PM",
+      "dateFinished": "Dec 30, 2015 3:48:54 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Partitioned vs. Unpartitioned Join",
-      "dateUpdated": "Dec 1, 2015 4:25:30 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1389,15 +1457,15 @@
         "msg": "\u003ch3\u003ePartitioned vs. Unpartitioned Join\u003c/h3\u003e\n"
       },
       "dateCreated": "Nov 24, 2015 9:36:51 AM",
-      "dateStarted": "Dec 1, 2015 12:24:31 AM",
-      "dateFinished": "Dec 1, 2015 12:24:32 AM",
+      "dateStarted": "Dec 30, 2015 3:44:57 PM",
+      "dateFinished": "Dec 30, 2015 3:44:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Ratings Partitioned Parquet, Genders Unpartitioned JSON Join",
       "text": "val df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),\n    $\"touserid\" \u003d\u003d\u003d $\"id\")\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 4:21:15 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1419,20 +1487,20 @@
       "jobName": "paragraph_1448343958042_477736897",
       "id": "20151124-054558_66892236",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:21: error: not found: value ratingsPartitionedParquetDF\n       val df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n                ^\n"
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#70L], [id#32L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n ConvertToUnsafe\n  Filter (NOT (gender#31 \u003d F) \u0026\u0026 NOT (gender#31 \u003d M))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#32L,gender#31]\nres90: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 5:45:58 AM",
-      "dateStarted": "Dec 1, 2015 4:21:15 AM",
-      "dateFinished": "Dec 1, 2015 4:21:27 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:48:54 PM",
+      "dateFinished": "Dec 30, 2015 3:48:55 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Ratings Unpartitioned JSON, Genders Partitioned Parquet Join",
       "text": "val df \u003d ratingsUnpartitionedJsonDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 4:20:50 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1456,18 +1524,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#135L], [id#28L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#134L \u003c\u003d 6) \u0026\u0026 (rating#134L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][touserid#135L,rating#134L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\nres318: Long \u003d 1123909\n"
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#30L], [id#72L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#29L \u003c\u003d 6) \u0026\u0026 (rating#29L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][touserid#30L,rating#29L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\nres93: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 5:48:17 AM",
-      "dateStarted": "Dec 1, 2015 12:43:20 AM",
-      "dateFinished": "Dec 1, 2015 12:43:53 AM",
+      "dateStarted": "Dec 30, 2015 3:48:54 PM",
+      "dateFinished": "Dec 30, 2015 3:49:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Ratings Partitioned Parquet, Genders Partitioned Parquet Join",
       "text": "val df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).where($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").filter(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 4:20:39 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1491,17 +1559,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#26L], [id#28L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#26L,rating#27]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\n"
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#70L], [id#72L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\nres96: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 9:34:52 AM",
-      "dateStarted": "Dec 1, 2015 12:44:17 AM",
-      "dateFinished": "Dec 1, 2015 12:44:17 AM",
+      "dateStarted": "Dec 30, 2015 3:48:55 PM",
+      "dateFinished": "Dec 30, 2015 3:49:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Cartesian vs. Inner Join",
-      "dateUpdated": "Dec 1, 2015 4:27:39 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1528,15 +1596,15 @@
         "msg": "\u003ch3\u003eCartesian vs. Inner Join\u003c/h3\u003e\n"
       },
       "dateCreated": "Nov 24, 2015 5:41:35 AM",
-      "dateStarted": "Nov 24, 2015 6:52:24 AM",
-      "dateFinished": "Nov 24, 2015 6:52:24 AM",
+      "dateStarted": "Dec 30, 2015 3:44:57 PM",
+      "dateFinished": "Dec 30, 2015 3:44:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "cartesian Join",
       "text": "val df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"))\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 12:50:28 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1560,18 +1628,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nCartesianProduct\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#26L,rating#27]\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\norg.apache.spark.SparkException: Job 56 cancelled part of cancelled job group zeppelin-20151124-052608_1973013568\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1283)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1229)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:681)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:681)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:681)\n\tat scala.collection.mutable.HashSet.foreach(HashSet.scala:79)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:681)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1475)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1458)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1447)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1822)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1835)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1848)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1919)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:905)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:904)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:177)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:1903)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1384)\n\tat org.apache.spark.sql.DataFrame.count(DataFrame.scala:1402)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:125)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:130)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:132)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:134)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:136)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:138)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:140)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:142)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:144)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:146)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:148)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:150)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:152)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:154)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:156)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:158)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:160)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:162)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:164)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:166)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:168)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:170)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:172)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:174)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:176)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:178)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:180)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:182)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:184)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:186)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:188)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:190)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:192)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:194)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:196)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:198)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:200)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:202)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:204)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:206)\n\tat \u003cinit\u003e(\u003cconsole\u003e:208)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:212)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nCartesianProduct\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 60.0 failed 4 times, most recent failure: Lost task 1.3 in stage 60.0 (TID 352, 127.0.0.1): java.lang.OutOfMemoryError: GC overhead limit exceeded\n\tat org.apache.spark.rdd.CartesianRDD$$anonfun$compute$1$$anonfun$apply$2.apply(CartesianRDD.scala:76)\n\tat org.apache.spark.rdd.CartesianRDD$$anonfun$compute$1$$anonfun$apply$2.apply(CartesianRDD.scala:76)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$13.next(Iterator.scala:372)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregationIterator.processInputs(TungstenAggregationIterator.scala:366)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregationIterator.start(TungstenAggregationIterator.scala:622)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1.org$apache$spark$sql$execution$aggregate$TungstenAggregate$$anonfun$$executePartition$1(TungstenAggregate.scala:110)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1$$anonfun$2.apply(TungstenAggregate.scala:119)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1$$anonfun$2.apply(TungstenAggregate.scala:119)\n\tat org.apache.spark.rdd.MapPartitionsWithPreparationRDD.compute(MapPartitionsWithPreparationRDD.scala:64)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1283)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1271)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1270)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1270)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1496)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1458)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1447)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1822)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1835)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1848)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1919)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:905)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:904)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:177)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:1903)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1384)\n\tat org.apache.spark.sql.DataFrame.count(DataFrame.scala:1402)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:34)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:39)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:55)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:57)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat \u003cinit\u003e(\u003cconsole\u003e:61)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:65)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.OutOfMemoryError: GC overhead limit exceeded\n\tat org.apache.spark.rdd.CartesianRDD$$anonfun$compute$1$$anonfun$apply$2.apply(CartesianRDD.scala:76)\n\tat org.apache.spark.rdd.CartesianRDD$$anonfun$compute$1$$anonfun$apply$2.apply(CartesianRDD.scala:76)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$13.next(Iterator.scala:372)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregationIterator.processInputs(TungstenAggregationIterator.scala:366)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregationIterator.start(TungstenAggregationIterator.scala:622)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1.org$apache$spark$sql$execution$aggregate$TungstenAggregate$$anonfun$$executePartition$1(TungstenAggregate.scala:110)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1$$anonfun$2.apply(TungstenAggregate.scala:119)\n\tat org.apache.spark.sql.execution.aggregate.TungstenAggregate$$anonfun$doExecute$1$$anonfun$2.apply(TungstenAggregate.scala:119)\n\tat org.apache.spark.rdd.MapPartitionsWithPreparationRDD.compute(MapPartitionsWithPreparationRDD.scala:64)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:297)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:264)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\t... 3 more\n\n"
       },
       "dateCreated": "Nov 24, 2015 5:26:08 AM",
-      "dateStarted": "Dec 1, 2015 12:50:28 AM",
-      "dateFinished": "Dec 1, 2015 12:52:42 AM",
-      "status": "ERROR",
+      "dateStarted": "Dec 30, 2015 3:49:28 PM",
+      "dateFinished": "Dec 30, 2015 3:33:07 PM",
+      "status": "RUNNING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Inner Join",
       "text": "val df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),\n    $\"touserid\" \u003d\u003d\u003d $\"id\")\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 12:52:29 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1595,17 +1663,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#26L], [id#28L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#26L,rating#27]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\nres356: Long \u003d 1123909\n"
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#70L], [id#72L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\nres101: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 5:43:45 AM",
-      "dateStarted": "Dec 1, 2015 12:52:29 AM",
-      "dateFinished": "Dec 1, 2015 12:52:44 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:49:29 PM",
+      "dateFinished": "Dec 30, 2015 3:33:21 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Broadcast vs. Normal Shuffle Join",
-      "dateUpdated": "Dec 1, 2015 4:28:44 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1632,15 +1700,15 @@
         "msg": "\u003ch3\u003eBroadcast vs. Normal Shuffle Join\u003c/h3\u003e\n"
       },
       "dateCreated": "Nov 24, 2015 9:37:53 AM",
-      "dateStarted": "Dec 1, 2015 12:27:06 AM",
-      "dateFinished": "Dec 1, 2015 12:27:06 AM",
+      "dateStarted": "Dec 30, 2015 3:44:57 PM",
+      "dateFinished": "Dec 30, 2015 3:44:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Broadcast Join",
       "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d10485760\") // default \u003d 10 MB\n\nval df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\n\ndf.explain()\ndf.count()",
-      "dateUpdated": "Dec 1, 2015 4:21:43 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1652,7 +1720,8 @@
           "groups": [],
           "scatter": {}
         },
-        "title": true
+        "title": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -1663,18 +1732,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res358: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#26L], [id#28L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#26L,rating#27]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\nres361: Long \u003d 1123909\n"
+        "msg": "res103: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [touserid#70L], [id#72L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\nres107: Long \u003d 1123909\n"
       },
       "dateCreated": "Nov 24, 2015 9:42:35 AM",
-      "dateStarted": "Dec 1, 2015 12:52:43 AM",
-      "dateFinished": "Dec 1, 2015 12:52:45 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:33:08 PM",
+      "dateFinished": "Dec 30, 2015 3:33:22 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Normal Shuffle Join",
       "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d-1\")\n\nval df \u003d ratingsPartitionedParquetDF.select($\"touserid\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"touserid\" \u003d\u003d\u003d $\"id\")\n\ndf.explain()\ndf.count()\n  \nsqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d10485760\") // default \u003d 10 MB\n",
-      "dateUpdated": "Dec 1, 2015 4:21:43 AM",
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -1698,36 +1767,74 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res363: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#26L], [id#28L]\n TungstenSort [touserid#26L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#26L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#26L,rating#27]\n TungstenSort [id#28L ASC], false, 0\n  TungstenExchange hashpartitioning(id#28L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#28L,gender#29]\nres366: Long \u003d 1123909\nres368: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\n"
+        "msg": "res109: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [touserid: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [touserid#70L], [id#72L]\n TungstenSort [touserid#70L ASC], false, 0\n  TungstenExchange hashpartitioning(touserid#70L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][touserid#70L,rating#71]\n TungstenSort [id#72L ASC], false, 0\n  TungstenExchange hashpartitioning(id#72L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#72L,gender#73]\nres113: Long \u003d 1123909\nres115: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\n"
       },
       "dateCreated": "Nov 24, 2015 9:39:39 AM",
-      "dateStarted": "Dec 1, 2015 12:52:44 AM",
-      "dateFinished": "Dec 1, 2015 12:52:48 AM",
-      "status": "FINISHED",
+      "dateStarted": "Dec 30, 2015 3:33:22 PM",
+      "dateFinished": "Dec 30, 2015 3:33:26 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1448437351207_1586195198",
       "id": "20151125-074231_389285762",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Nov 25, 2015 7:42:31 AM",
-      "status": "READY",
+      "dateStarted": "Dec 30, 2015 3:33:23 PM",
+      "dateFinished": "Dec 30, 2015 3:33:26 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Dec 30, 2015 3:44:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1448437344326_-2012158762",
       "id": "20151125-074224_319525179",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Nov 25, 2015 7:42:24 AM",
-      "status": "READY",
+      "dateStarted": "Dec 30, 2015 3:33:26 PM",
+      "dateFinished": "Dec 30, 2015 3:33:26 PM",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     }
   ],
