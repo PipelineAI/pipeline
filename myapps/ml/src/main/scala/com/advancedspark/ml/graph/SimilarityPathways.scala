@@ -55,9 +55,11 @@ object SimilarityPathways {
       (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))
       .productIterator.toList.tail))
 
-    val shortestPath = shortestPathGraph.vertices.filter(_._1 == dest)
+    shortestPathGraph
 
-    shortestPath
+    //val shortestPath = shortestPathGraph.vertices.filter(_._1 == dest)
+
+    //shortestPath
   }
 
   def main(args: Array[String]) {
@@ -86,13 +88,13 @@ object SimilarityPathways {
     val allItemPairsRDD = itemsRDD.cartesian(itemsRDD)
 
     // Filter out duplicates and preserve only the pairs with left id < right id
-    val distinctItemPairsRDD = allItemPairsRDD.filter(itemPair => itemPair._1.id < itemPair._2.id)
+    //val distinctItemPairsRDD = allItemPairsRDD.filter(itemPair => itemPair._1.id < itemPair._2.id)
 
-    val minJaccardSimilarityThreshold = 0.1
+    val minJaccardSimilarityThreshold = 0.0001
 
     // Calculate Jaccard Similarity between all item pairs (cartesian, then de-duped)
     // Only keep pairs with a Jaccard Similarity above a specific threshold
-    val similarItemsAboveThresholdRDD = distinctItemPairsRDD.flatMap(itemPair => {
+    val similarItemsAboveThresholdRDD = allItemPairsRDD.flatMap(itemPair => {
       val jaccardSim = getJaccardSimilarity(itemPair._1, itemPair._2)
       if (jaccardSim >= minJaccardSimilarityThreshold)
         Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)
@@ -109,9 +111,11 @@ object SimilarityPathways {
     val mygraph = Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)
 
     val src = 1 
-    val dest = 2
+    val dest = 9
 
-    val shortestPath = dijkstra(mygraph, src, dest)
+    val shortestPathGraph = dijkstra(mygraph, src, dest)
+
+    val shortestPath = shortestPathGraph.vertices.filter(_._1 == dest).map(_._2).collect()
     println("ShortestPath: " + shortestPath)
   }
 }

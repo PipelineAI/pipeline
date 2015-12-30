@@ -69,8 +69,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)\n\nval src \u003d  10002L // Source vertex\nval dest \u003d 90002L // Dest vertex\n\n// Run Dijkstra on the entire graph\nval shortestPathGraph \u003d dijkstra(graph, src)\n\n// Retrieve only the vertices containing the dest vertex that we\u0027re looking for\nshortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()",
-      "dateUpdated": "Dec 30, 2015 5:43:53 PM",
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)\n\nval src \u003d  10002L // Source vertex\nval dest \u003d 90002L // Dest vertex\n\n// Run Dijkstra on the entire graph\nval shortestPathGraph \u003d dijkstra(graph, src)\n\n// Retrieve only the vertices containing the dest vertex that we\u0027re looking for\nval shortestPath \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()",
+      "dateUpdated": "Dec 30, 2015 5:48:04 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -93,11 +93,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1197] at map at \u003cconsole\u003e:54\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@66d02299\nsrc: Long \u003d 10002\ndest: Long \u003d 90002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@2848f3e4\nres203: Array[(org.apache.spark.graphx.VertexId, List[Any])] \u003d Array((0,List(12.0, List(10002, 90003, 10001, 90001))))\n"
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1386] at map at \u003cconsole\u003e:54\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@3723da0b\nsrc: Long \u003d 10002\ndest: Long \u003d 90002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@28897eab\nshortestPath: Array[(org.apache.spark.graphx.VertexId, List[Any])] \u003d Array((0,List(12.0, List(10002, 90003, 10001, 90001))))\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:43 AM",
-      "dateStarted": "Dec 30, 2015 5:43:53 PM",
-      "dateFinished": "Dec 30, 2015 5:43:55 PM",
+      "dateStarted": "Dec 30, 2015 5:48:04 PM",
+      "dateFinished": "Dec 30, 2015 5:48:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
