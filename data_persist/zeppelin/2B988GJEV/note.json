@@ -3,7 +3,7 @@
     {
       "title": "Run this to import all necessary libraries for this series of notebooks",
       "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\n//z.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0.jar\")\n//z.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0-models.jar\")\n//z.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.google.protobuf:protobuf-java:2.6.1\")\n",
-      "dateUpdated": "Dec 30, 2015 5:30:03 PM",
+      "dateUpdated": "Dec 30, 2015 7:25:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,8 +30,8 @@
         "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@7b2ee6df\n"
       },
       "dateCreated": "Dec 28, 2015 2:42:50 PM",
-      "dateStarted": "Dec 30, 2015 5:30:03 PM",
-      "dateFinished": "Dec 30, 2015 5:30:08 PM",
+      "dateStarted": "Dec 30, 2015 7:25:21 PM",
+      "dateFinished": "Dec 30, 2015 7:25:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
