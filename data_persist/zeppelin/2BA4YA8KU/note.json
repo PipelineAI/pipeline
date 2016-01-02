@@ -619,7 +619,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/04: Tag-based Clusters (Jaccard Similarity)",
+  "name": "Graph/04: Tag-based Similarity Pathway",
   "id": "2BA4YA8KU",
   "angularObjects": {
     "2ARR8UZDJ": [],

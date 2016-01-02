@@ -15,10 +15,23 @@ import edu.stanford.nlp.ling.CoreAnnotations
 import edu.stanford.nlp.ling.CoreAnnotations._;
 import edu.stanford.nlp.trees.TreeCoreAnnotations
 import edu.stanford.nlp.trees.TreeCoreAnnotations._;
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.Row
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.functions._
 
 
 object ItemDescriptions {
   def main(args: Array[String]) {
+    val conf = new SparkConf()
+
+    val sc = SparkContext.getOrCreate(conf)
+
+    val sqlContext = SQLContext.getOrCreate(sc)
+    import sqlContext.implicits._
+
     // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution 
     val props = new Properties();
     props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");

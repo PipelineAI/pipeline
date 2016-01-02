@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import com.databricks.spark.corenlp.CoreNLP\n\nval input \u003d sqlContext.createDataFrame(Seq(\n  (1, \"\u003cxml\u003eStanford University is located in California. It is a great university.\u003c/xml\u003e\")\n)).toDF(\"id\", \"text\")\n\nval coreNLP \u003d new CoreNLP()\n  .setInputCol(\"text\")\n  .setAnnotators(Array(\"tokenize\", \"cleanxml\", \"ssplit\"))\n  .setFlattenNestedFields(Array(\"sentence_token_word\", \"sentence_characterOffsetBegin\"))\n  .setOutputCol(\"parsed\")\n\nval parsed \u003d coreNLP.transform(input)\n  .select(\"parsed.sentence_token_word\", \"parsed.sentence_characterOffsetBegin\")\n\nprintln(parsed.first())",
-      "dateUpdated": "Dec 30, 2015 12:46:31 AM",
+      "text": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
+      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,30 +23,268 @@
       "jobName": "paragraph_1445430869237_746771347",
       "id": "20151021-123429_1735745824",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.databricks.spark.corenlp.CoreNLP\ninput: org.apache.spark.sql.DataFrame \u003d [id: int, text: string]\ncoreNLP: com.databricks.spark.corenlp.CoreNLP \u003d corenlp_18e19338294b\nparsed: org.apache.spark.sql.DataFrame \u003d [sentence_token_word: array\u003cstring\u003e, sentence_characterOffsetBegin: array\u003cint\u003e]\njava.lang.NoSuchMethodError: com.google.protobuf.LazyStringList.getUnmodifiableView()Lcom/google/protobuf/LazyStringList;\n\tat edu.stanford.nlp.pipeline.CoreNLPProtos$Token$Builder.buildPartial(CoreNLPProtos.java:12243)\n\tat edu.stanford.nlp.pipeline.CoreNLPProtos$Token$Builder.build(CoreNLPProtos.java:12145)\n\tat edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer.toProto(ProtobufAnnotationSerializer.java:238)\n\tat edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer.toProtoBuilder(ProtobufAnnotationSerializer.java:384)\n\tat edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer.toProto(ProtobufAnnotationSerializer.java:345)\n\tat edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer.toProtoBuilder(ProtobufAnnotationSerializer.java:494)\n\tat edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer.toProto(ProtobufAnnotationSerializer.java:456)\n\tat com.databricks.spark.corenlp.CoreNLP$$anonfun$1.apply(CoreNLP.scala:77)\n\tat com.databricks.spark.corenlp.CoreNLP$$anonfun$1.apply(CoreNLP.scala:73)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:75)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:74)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:964)\n\tat org.apache.spark.sql.catalyst.expressions.UnaryExpression.eval(Expression.scala:247)\n\tat org.apache.spark.sql.catalyst.expressions.Alias.eval(namedExpressions.scala:121)\n\tat org.apache.spark.sql.catalyst.expressions.InterpretedProjection.apply(Projection.scala:46)\n\tat org.apache.spark.sql.catalyst.expressions.InterpretedProjection.apply(Projection.scala:30)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.immutable.List.foreach(List.scala:318)\n\tat scala.collection.TraversableLike$class.map(TraversableLike.scala:244)\n\tat scala.collection.AbstractTraversable.map(Traversable.scala:105)\n\tat org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$$anonfun$apply$23.applyOrElse(Optimizer.scala:834)\n\tat org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$$anonfun$apply$23.applyOrElse(Optimizer.scala:831)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$3.apply(TreeNode.scala:227)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$3.apply(TreeNode.scala:227)\n\tat org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:51)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:226)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:232)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:232)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:249)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:279)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:232)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transform(TreeNode.scala:217)\n\tat org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$.apply(Optimizer.scala:831)\n\tat org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$.apply(Optimizer.scala:830)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:83)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:80)\n\tat scala.collection.IndexedSeqOptimized$class.foldl(IndexedSeqOptimized.scala:51)\n\tat scala.collection.IndexedSeqOptimized$class.foldLeft(IndexedSeqOptimized.scala:60)\n\tat scala.collection.mutable.WrappedArray.foldLeft(WrappedArray.scala:34)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:80)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:72)\n\tat scala.collection.immutable.List.foreach(List.scala:318)\n\tat org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:72)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.optimizedPlan$lzycompute(SQLContext.scala:921)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.optimizedPlan(SQLContext.scala:921)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.sparkPlan$lzycompute(SQLContext.scala:926)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.sparkPlan(SQLContext.scala:924)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.executedPlan$lzycompute(SQLContext.scala:930)\n\tat org.apache.spark.sql.SQLContext$QueryExecution.executedPlan(SQLContext.scala:930)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:53)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:1903)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1384)\n\tat org.apache.spark.sql.DataFrame.head(DataFrame.scala:1314)\n\tat org.apache.spark.sql.DataFrame.head(DataFrame.scala:1321)\n\tat org.apache.spark.sql.DataFrame.first(DataFrame.scala:1328)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:69)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:71)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:73)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:75)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:77)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:79)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:81)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:83)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:85)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:87)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:93)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:95)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:97)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:121)\n\tat \u003cinit\u003e(\u003cconsole\u003e:123)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:127)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
-      "dateStarted": "Dec 30, 2015 12:46:31 AM",
-      "dateFinished": "Dec 30, 2015 12:46:32 AM",
-      "status": "ERROR",
+      "dateStarted": "Jan 2, 2016 3:54:11 AM",
+      "dateFinished": "Jan 2, 2016 3:54:11 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nval descriptionsDF \u003d itemsDF.select($\"id\", $\"title\", $\"description\")",
+      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704834989_870454693",
+      "id": "20160102-032034_619481341",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\ndescriptionsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string]\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:20:34 AM",
+      "dateStarted": "Jan 2, 2016 3:54:11 AM",
+      "dateFinished": "Jan 2, 2016 3:54:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Split each document into words\nval tokens \u003d new RegexTokenizer()\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .transform(descriptionsDF)\n  \n//.setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "Jan 2, 2016 5:26:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704551688_-754338267",
+      "id": "20160102-031551_2007021723",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "tokens: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, tokens: array\u003cstring\u003e]\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:15:51 AM",
+      "dateStarted": "Jan 2, 2016 4:36:38 AM",
+      "dateFinished": "Jan 2, 2016 4:36:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setCaseSensitive(false)\n  .setInputCol(\"words\")\n  .setOutputCol(\"filteredWords\")\n\nval filteredTokens \u003d stopWordsFilter.transform(tokens)",
+      "dateUpdated": "Jan 2, 2016 5:26:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1451413520885_1262045843",
       "id": "20151229-182520_534225248",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_af6690c3c284\nfilteredTokens: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, tokens: array\u003cstring\u003e, filteredTokens: array\u003cstring\u003e]\n"
+      },
       "dateCreated": "Dec 29, 2015 6:25:20 PM",
-      "status": "READY",
+      "dateStarted": "Jan 2, 2016 4:54:52 AM",
+      "dateFinished": "Jan 2, 2016 4:54:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 100\n\nval cvModel \u003d new CountVectorizer()\n  .setInputCol(\"filteredWords\")\n  .setOutputCol(\"features\")\n  .setVocabSize(vocabSize)\n  .fit(filteredTokens)\n\nval countVectors \u003d cvModel.transform(filteredTokens)\n  .select(\"id\", \"features\")\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
+      "dateUpdated": "Jan 2, 2016 5:27:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704581368_-518071794",
+      "id": "20160102-031621_1939813047",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "vocabSize: Int \u003d 100\ncvModel: org.apache.spark.ml.feature.CountVectorizerModel \u003d cntVec_f3620dacc185\ncountVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[8389] at map at \u003cconsole\u003e:85\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:16:21 AM",
+      "dateStarted": "Jan 2, 2016 4:54:55 AM",
+      "dateFinished": "Jan 2, 2016 4:54:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Run LDA\nval maxIterations: Int \u003d 100\n\nval mbf \u003d {\n  // add (1.0 / actualCorpusSize) to MiniBatchFraction to be more robust on tiny datasets.\n  val corpusSize \u003d countVectors.count()\n  2.0 / maxIterations + 1.0 / corpusSize\n}\n\nval numTopics: Int \u003d 5\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(math.min(1.0, mbf)))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n  .setDocConcentration(-1) // use default symmetric document-topic prior\n  .setTopicConcentration(-1) // use default symmetric topic-word prior\n\nval startTime \u003d System.nanoTime()\nval ldaModel \u003d lda.run(countVectors)\nval elapsed \u003d (System.nanoTime() - startTime) / 1E9",
+      "dateUpdated": "Jan 2, 2016 4:57:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704600254_-735592840",
+      "id": "20160102-031640_916304544",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "maxIterations: Int \u003d 100\nmbf: Double \u003d 0.0325\nnumTopics: Int \u003d 5\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@27b0aca4\nstartTime: Long \u003d 9749510778840714\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@1c0bc7b6\nelapsed: Double \u003d 3.031711171\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:16:40 AM",
+      "dateStarted": "Jan 2, 2016 4:57:08 AM",
+      "dateFinished": "Jan 2, 2016 4:57:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Print results and training time\nprintln(s\"Finished training LDA model.  Summary:\")\nprintln(s\"Training time (sec)\\t$elapsed\")\nprintln(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n\n// Print the topics, showing the top-weighted terms for each topic.\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\nval vocabArray \u003d cvModel.vocabulary\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}\nprintln(s\"$numTopics topics:\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
+      "dateUpdated": "Jan 2, 2016 4:57:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704612288_-2030657638",
+      "id": "20160102-031652_389358471",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Finished training LDA model.  Summary:\nTraining time (sec)\t3.031711171\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\ntopicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(10, 61, 48, 17, 18, 46, 33, 49, 41, 53),Array(0.0669447801124924, 0.05698175032550912, 0.05638782667638874, 0.053836500772321265, 0.046483447238597125, 0.044814719330261314, 0.04062044181978212, 0.03436298743668031, 0.034208836606966934, 0.03077678035045587)), (Array(45, 31, 40, 93, 54, 28, 60, 36, 94, 80),Array(0.0970438893456547, 0.09098583235833867, 0.07337694319286156, 0.05209117955800267, 0.0472983213762595, 0.038799896522797674, 0.021094091297333726, 0.019169079799793383, 0.018376828251435384, 0.014686311800977863)), (Array(6, 32, 26, 87, 64, 27, 74, 55, 29, 90),Array(0.07525290763732433, 0.054311108238710985, 0.05187752803646485, 0.04435975439335002, 0.043471849530673276, 0.040347169394884065, 0.035328069991436485, 0...vocabArray: Array[String] \u003d Array(data, Hadoop, distributed, database, Apache, open, language, provides, processing, source, applications, Spark, platform, graph, query, scalable, machine, storage, s, learning, designed, large, enables, management, software, based, analysis, high, SQL, programming, structured, analytics, Java, streaming, fast, used, project, text, relational, format, engine, application, scale, Amazon, cluster, interactive, services, fault, reliable, build, using, supports, easy, web, time, structure, developers, model, use, cloud, extensible, Google, integrated, memory, programs, infrastructure, make, file, class, allows, developed, performance, business, Data, level, built, uses, MongoDB, framework, documents, search, indicate, architecture, managed, computation, depe...topics: Array[Array[(String, Double)]] \u003d Array(Array((applications,0.0669447801124924), (Google,0.05698175032550912), (reliable,0.05638782667638874), (storage,0.053836500772321265), (s,0.046483447238597125), (services,0.044814719330261314), (streaming,0.04062044181978212), (build,0.03436298743668031), (application,0.034208836606966934), (web,0.03077678035045587)), Array((interactive,0.0970438893456547), (analytics,0.09098583235833867), (engine,0.07337694319286156), (statistical,0.05209117955800267), (time,0.0472983213762595), (SQL,0.038799896522797674), (extensible,0.021094091297333726), (project,0.019169079799793383), (highly,0.018376828251435384), (search,0.014686311800977863)), Array((language,0.07525290763732433), (Java,0.054311108238710985), (analysis,0.05187752803646485), (code,0....5 topics:\nTOPIC 0\napplications\t0.0669447801124924\nGoogle\t0.05698175032550912\nreliable\t0.05638782667638874\nstorage\t0.053836500772321265\ns\t0.046483447238597125\nservices\t0.044814719330261314\nstreaming\t0.04062044181978212\nbuild\t0.03436298743668031\napplication\t0.034208836606966934\nweb\t0.03077678035045587\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\ninteractive\t0.0970438893456547\nanalytics\t0.09098583235833867\nengine\t0.07337694319286156\nstatistical\t0.05209117955800267\ntime\t0.0472983213762595\nSQL\t0.038799896522797674\nextensible\t0.021094091297333726\nproject\t0.019169079799793383\nhighly\t0.018376828251435384\nsearch\t0.014686311800977863\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\nlanguage\t0.07525290763732433\nJava\t0.054311108238710985\nanalysis\t0.05187752803646485\ncode\t0.04435975439335002\nprograms\t0.043471849530673276\nhigh\t0.040347169394884065\nlevel\t0.035328069991436485\nstructure\t0.03431759491757032\nprogramming\t0.03283637599338433\nsets\t0.03020414652409157\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\ndata\t0.1687200932799973\nHadoop\t0.04734246094770947\nApache\t0.04148848358582238\ndistributed\t0.04075900014146519\ndatabase\t0.03191844569898271\nprocessing\t0.02729117153446891\nsource\t0.024765389517697335\nmanagement\t0.023749682575427273\nopen\t0.023548644599920295\nquery\t0.021687592674780824\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\nlearning\t0.12250882962336695\nmachine\t0.08925950880052222\ns\t0.06371843448162139\nlevel\t0.05824053871745025\nbuilt\t0.052906162073882115\nSpark\t0.048415789126656894\nscalable\t0.03758426883038754\nmake\t0.03668576402665178\neasy\t0.035128705433705505\nsearch\t0.029350763930991126\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:16:52 AM",
+      "dateStarted": "Jan 2, 2016 4:57:13 AM",
+      "dateFinished": "Jan 2, 2016 4:57:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704614990_2073874276",
+      "id": "20160102-031654_499992823",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 2, 2016 3:16:54 AM",
+      "dateStarted": "Jan 2, 2016 3:54:17 AM",
+      "dateFinished": "Jan 2, 2016 3:54:18 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/01:  Item Description LDA Topic Analysis",
+  "name": "NLP/01:  Item Description Topic Summary (LDA)",
   "id": "2B1HA4VF8",
   "angularObjects": {
     "2ARR8UZDJ": [],

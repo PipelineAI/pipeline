@@ -8,6 +8,8 @@ addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PAC
 
 resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
+//mainClass in assembly := some("com.advancedspark.ml.nlp.ItemDescriptionsDF")
+
 lazy val ml = (project in file("."))
                     .settings(name := "ml")
                     .settings(globalSettings:_*)
