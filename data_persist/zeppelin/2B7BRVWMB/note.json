@@ -1,0 +1,563 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
+      "dateUpdated": "Jan 3, 2016 5:09:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445430869237_746771347",
+      "id": "20151021-123429_1735745824",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
+      },
+      "dateCreated": "Oct 21, 2015 12:34:29 PM",
+      "dateStarted": "Jan 3, 2016 5:09:10 AM",
+      "dateFinished": "Jan 3, 2016 5:09:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
+      "dateUpdated": "Jan 3, 2016 5:08:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704834989_870454693",
+      "id": "20160102-032034_619481341",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:20:34 AM",
+      "dateStarted": "Jan 3, 2016 5:08:39 AM",
+      "dateFinished": "Jan 3, 2016 5:08:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "itemsDF.select($\"category\").distinct().collect()",
+      "dateUpdated": "Jan 3, 2016 5:09:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451771827145_-655270163",
+      "id": "20160102-215707_46317998",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res1: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Category], [Search Engine], [Data Processing Execution Engine], [Data Import], [Workflow], [File Format], [Library], [File System], [Database])\n"
+      },
+      "dateCreated": "Jan 2, 2016 9:57:07 PM",
+      "dateStarted": "Jan 3, 2016 5:09:03 AM",
+      "dateFinished": "Jan 3, 2016 5:09:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Split each document into words\nval oneHotEncoder \u003d new OneHotEncoder()\n  .setInputCol(\"category\")\n  .setOutputCol(\"encodedCategories\")\n//  .transform(itemsDF)",
+      "dateUpdated": "Jan 3, 2016 5:09:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704551688_-754338267",
+      "id": "20160102-031551_2007021723",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "oneHotEncoder: org.apache.spark.ml.feature.OneHotEncoder \u003d oneHot_62b4905ff65c\n"
+      },
+      "dateCreated": "Jan 2, 2016 3:15:51 AM",
+      "dateStarted": "Jan 3, 2016 5:09:26 AM",
+      "dateFinished": "Jan 3, 2016 5:09:26 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Assign an Index to Each Category \n//val categoryIndexer \u003d new StringIndexer()\n//  .setInputCol(\"category\")\n//  .setOutputCol(\"indexedCategory\")",
+      "dateUpdated": "Jan 3, 2016 5:09:25 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451768708398_-1255734024",
+      "id": "20160102-210508_277987434",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 2, 2016 9:05:08 PM",
+      "dateStarted": "Jan 3, 2016 5:09:25 AM",
+      "dateFinished": "Jan 3, 2016 5:09:25 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val classifier \u003d new DecisionTreeClassifier()\n  .setFeaturesCol(featureVectorAssembler.getOutputCol)\n  .setLabelCol(categoryIndexer.getOutputCol)\n  .setPredictionCol(\"prediction\")\n  .setRawPredictionCol(\"confidence\")\n  .setProbabilityCol(\"probability\")\n//  .setMaxDepth(?)\n//  .setImpurity(?)\n//  .setMaxBins(?)\n//  .setMinInfoGain(?)",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451714221599_169436069",
+      "id": "20160102-055701_1764018921",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "classifier: org.apache.spark.ml.classification.DecisionTreeClassifier \u003d dtc_b926695ce7e2\n"
+      },
+      "dateCreated": "Jan 2, 2016 5:57:01 AM",
+      "dateStarted": "Jan 2, 2016 11:09:24 PM",
+      "dateFinished": "Jan 2, 2016 11:09:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, word2Vec, featureVectorAssembler, categoryIndexer, classifier))",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451714366805_831050936",
+      "id": "20160102-055926_1532666557",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_b8bd420fe770\n"
+      },
+      "dateCreated": "Jan 2, 2016 5:59:26 AM",
+      "dateStarted": "Jan 2, 2016 11:09:44 PM",
+      "dateFinished": "Jan 2, 2016 11:09:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val metricName \u003d \"f1\"\n\nval modelEvaluator \u003d new MulticlassClassificationEvaluator()\n  .setLabelCol(classifier.getLabelCol)\n  .setPredictionCol(classifier.getPredictionCol)\n  .setMetricName(metricName)",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451769445587_-1118091320",
+      "id": "20160102-211725_268797232",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_bd4ecab51385\n"
+      },
+      "dateCreated": "Jan 2, 2016 9:17:25 PM",
+      "dateStarted": "Jan 2, 2016 11:09:46 PM",
+      "dateFinished": "Jan 2, 2016 11:09:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val paramGrid \u003d new ParamGridBuilder()\n  .addGrid(tf.numFeatures, Array(10, 100, 1000))\n  .addGrid(idf.minDocFreq, Array(1, 5, 10))\n  .addGrid(word2Vec.vectorSize, Array(200, 300, 400))\n  .addGrid(classifier.maxDepth, Array(1, 5, 10))\n  .build()",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451771035936_440379213",
+      "id": "20160102-214355_638942362",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "paramGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tdtc_b926695ce7e2-maxDepth: 1,\n\tidf_247d2c6b5e8f-minDocFreq: 1,\n\thashingTF_60476320f3f2-numFeatures: 10,\n\tw2v_9ec3648b6453-vectorSize: 200\n}, {\n\tdtc_b926695ce7e2-maxDepth: 1,\n\tidf_247d2c6b5e8f-minDocFreq: 1,\n\thashingTF_60476320f3f2-numFeatures: 100,\n\tw2v_9ec3648b6453-vectorSize: 200\n}, {\n\tdtc_b926695ce7e2-maxDepth: 1,\n\tidf_247d2c6b5e8f-minDocFreq: 1,\n\thashingTF_60476320f3f2-numFeatures: 1000,\n\tw2v_9ec3648b6453-vectorSize: 200\n}, {\n\tdtc_b926695ce7e2-maxDepth: 1,\n\tidf_247d2c6b5e8f-minDocFreq: 5,\n\thashingTF_60476320f3f2-numFeatures: 10,\n\tw2v_9ec3648b6453-vectorSize: 200\n}, {\n\tdtc_b926695ce7e2-maxDepth: 1,\n\tidf_247d2c6b5e8f-minDocFreq: 5,\n\thashingTF_60476320f3f2-numFeatures: 100,\n\tw2v_9ec3648b6453-vectorSize: 200\n}, {\n\tdtc_b926..."
+      },
+      "dateCreated": "Jan 2, 2016 9:43:55 PM",
+      "dateStarted": "Jan 2, 2016 11:11:38 PM",
+      "dateFinished": "Jan 2, 2016 11:11:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// K-Folds Cross Validation Combined With Param Grid \nval modelValidator \u003d new CrossValidator()\n  .setEstimator(pipeline)\n  .setEvaluator(modelEvaluator)\n  .setEstimatorParamMaps(paramGrid)\n  .setNumFolds(5) ",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451770989649_-868764763",
+      "id": "20160102-214309_573238279",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "modelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_80dd87423886\n"
+      },
+      "dateCreated": "Jan 2, 2016 9:43:09 PM",
+      "dateStarted": "Jan 2, 2016 11:11:40 PM",
+      "dateFinished": "Jan 2, 2016 11:11:40 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val bestModel \u003d modelValidator.fit(itemsDF)",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451771239364_977982340",
+      "id": "20160102-214719_422404290",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 5550.0 failed 4 times, most recent failure: Lost task 0.3 in stage 5550.0 (TID 9787, 127.0.0.1): org.apache.spark.SparkException: Unseen label: Data Import.\n\tat org.apache.spark.ml.feature.StringIndexerModel$$anonfun$4.apply(StringIndexer.scala:139)\n\tat org.apache.spark.ml.feature.StringIndexerModel$$anonfun$4.apply(StringIndexer.scala:134)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:75)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:74)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:964)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificMutableProjection.apply(Unknown Source)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$2.apply(basicOperators.scala:55)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$2.apply(basicOperators.scala:53)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.util.collection.ExternalSorter.insertAll(ExternalSorter.scala:211)\n\tat org.apache.spark.shuffle.sort.SortShuffleWriter.write(SortShuffleWriter.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1283)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1271)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1270)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1270)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1496)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1458)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1447)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1822)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1835)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1848)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1919)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:905)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:904)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$countByKey$1.apply(PairRDDFunctions.scala:340)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$countByKey$1.apply(PairRDDFunctions.scala:340)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.PairRDDFunctions.countByKey(PairRDDFunctions.scala:339)\n\tat org.apache.spark.rdd.RDD$$anonfun$countByValue$1.apply(RDD.scala:1153)\n\tat org.apache.spark.rdd.RDD$$anonfun$countByValue$1.apply(RDD.scala:1153)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.countByValue(RDD.scala:1152)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.labelCountByClass$lzycompute(MulticlassMetrics.scala:45)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.labelCountByClass(MulticlassMetrics.scala:45)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.weightedFMeasure$lzycompute(MulticlassMetrics.scala:207)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.weightedFMeasure(MulticlassMetrics.scala:207)\n\tat org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator.evaluate(MulticlassClassificationEvaluator.scala:75)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:94)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:84)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:108)\n\tat org.apache.spark.ml.tuning.CrossValidator.fit(CrossValidator.scala:84)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:124)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:126)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:128)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:130)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:132)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:134)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:136)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:138)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:140)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:142)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:144)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:146)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:148)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:150)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:152)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:154)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:156)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:158)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:160)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:162)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:164)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:166)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:168)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:170)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:172)\n\tat \u003cinit\u003e(\u003cconsole\u003e:174)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:178)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: org.apache.spark.SparkException: Unseen label: Data Import.\n\tat org.apache.spark.ml.feature.StringIndexerModel$$anonfun$4.apply(StringIndexer.scala:139)\n\tat org.apache.spark.ml.feature.StringIndexerModel$$anonfun$4.apply(StringIndexer.scala:134)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:75)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:74)\n\tat org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:964)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificMutableProjection.apply(Unknown Source)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$2.apply(basicOperators.scala:55)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$2.apply(basicOperators.scala:53)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.util.collection.ExternalSorter.insertAll(ExternalSorter.scala:211)\n\tat org.apache.spark.shuffle.sort.SortShuffleWriter.write(SortShuffleWriter.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\t... 3 more\n\n"
+      },
+      "dateCreated": "Jan 2, 2016 9:47:19 PM",
+      "dateStarted": "Jan 2, 2016 11:11:41 PM",
+      "dateFinished": "Jan 2, 2016 11:12:48 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Print out chosen hyper parametesr for the chosen bestModel\n//bestModel.getImpurity\n//bestModel.getMaxBins\n//bestModel.getMaxDepth\n//bestModel.getMinInfoGain\n//bestModel.getMinInstancesPerNode\n\n// TODO: How do I print the numFeatures from the input features?",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451772919906_1239014473",
+      "id": "20160102-221519_627091553",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 2, 2016 10:15:19 PM",
+      "dateStarted": "Jan 2, 2016 11:09:25 PM",
+      "dateFinished": "Jan 2, 2016 11:09:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO: Create Test Data\n//val testData \u003d ?",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451704614990_2073874276",
+      "id": "20160102-031654_499992823",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 2, 2016 3:16:54 AM",
+      "dateStarted": "Jan 2, 2016 11:09:25 PM",
+      "dateFinished": "Jan 2, 2016 11:09:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Display predictions of test data\n\n//bestModel.transform(testData)\n//  .select($classifier.getLabelCol, $classifier.getPredictionCol, $classifier.getRawPredictionCol, $classifier.getProbabilityCol)\n//  .collect()",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451772690995_-1979531025",
+      "id": "20160102-221130_1280827962",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 2, 2016 10:11:30 PM",
+      "dateStarted": "Jan 2, 2016 11:09:25 PM",
+      "dateFinished": "Jan 2, 2016 11:09:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Convert Predicted Category Indexes Back to Strings per\n//    http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.ml.feature.IndexToString",
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451773292822_635481367",
+      "id": "20160102-222132_1497691256",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 2, 2016 10:21:32 PM",
+      "dateStarted": "Jan 2, 2016 11:09:26 PM",
+      "dateFinished": "Jan 2, 2016 11:09:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 3, 2016 4:14:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451774108191_824954614",
+      "id": "20160102-223508_964946289",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 2, 2016 10:35:08 PM",
+      "dateStarted": "Jan 2, 2016 11:09:26 PM",
+      "dateFinished": "Jan 2, 2016 11:09:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/06: Generate Recs (Category One Hot Encoding)",
+  "id": "2B7BRVWMB",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

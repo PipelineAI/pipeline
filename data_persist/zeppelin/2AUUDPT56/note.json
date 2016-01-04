@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Load the Reference Data To Enrich the Streaming Ratings",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", explode($\"tags\")).limit(10))",
-      "dateUpdated": "Dec 30, 2015 12:28:56 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", explode($\"tags\")).limit(5))",
+      "dateUpdated": "Jan 3, 2016 12:10:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,11 +50,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "id\ttitle\timg\t_c0\n1\tApache Cassandra\timg/software/cassandra.png\tDatabase\n1\tApache Cassandra\timg/software/cassandra.png\tNoSQL\n1\tApache Cassandra\timg/software/cassandra.png\tJava\n1\tApache Cassandra\timg/software/cassandra.png\tJVM\n1\tApache Cassandra\timg/software/cassandra.png\tEventually Consistent\n1\tApache Cassandra\timg/software/cassandra.png\tTransactional\n2\tTachyon\timg/software/tachyon.png\tDistributed Cache\n2\tTachyon\timg/software/tachyon.png\tObject Store\n2\tTachyon\timg/software/tachyon.png\tS3\n2\tTachyon\timg/software/tachyon.png\tSwift\n"
+        "msg": "id\ttitle\timg\t_c0\n1\tApache Cassandra\timg/software/cassandra.png\tDatabase\n1\tApache Cassandra\timg/software/cassandra.png\tNoSQL\n1\tApache Cassandra\timg/software/cassandra.png\tJava\n1\tApache Cassandra\timg/software/cassandra.png\tJVM\n1\tApache Cassandra\timg/software/cassandra.png\tEventually Consistent\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Dec 30, 2015 12:28:56 AM",
-      "dateFinished": "Dec 30, 2015 12:29:11 AM",
+      "dateStarted": "Jan 3, 2016 12:10:28 AM",
+      "dateFinished": "Jan 3, 2016 12:10:29 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

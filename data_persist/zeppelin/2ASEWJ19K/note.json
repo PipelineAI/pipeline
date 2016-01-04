@@ -3,7 +3,7 @@
     {
       "title": "Most Influential Users By Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
+      "dateUpdated": "Jan 3, 2016 2:16:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,14 +32,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:12 AM",
-      "dateStarted": "Dec 30, 2015 5:15:51 PM",
-      "dateFinished": "Dec 30, 2015 5:15:51 PM",
+      "dateStarted": "Jan 3, 2016 2:16:46 AM",
+      "dateFinished": "Jan 3, 2016 2:16:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// likeProducer :: likeConsumer\nval likesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/likes.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\")\n  \n// id :: userName\nval usersDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/users.csv\")\n  .toDF(\"id\", \"name\")",
-      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
+      "dateUpdated": "Jan 3, 2016 2:16:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,20 +60,20 @@
       "jobName": "paragraph_1451269574078_-1106140320",
       "id": "20151228-022614_207172186",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int]\nusersDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string]\n"
+        "msg": "java.lang.ClassNotFoundException: Failed to load class for data source: com.databricks.spark.csv.\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.lookupDataSource(ResolvedDataSource.scala:67)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:87)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:114)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:104)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:38)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:44)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:46)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:50)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:54)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:56)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat \u003cinit\u003e(\u003cconsole\u003e:60)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.ClassNotFoundException: com.databricks.spark.csv.DefaultSource\n\tat scala.tools.nsc.interpreter.AbstractFileClassLoader.findClass(AbstractFileClassLoader.scala:83)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4$$anonfun$apply$1.apply(ResolvedDataSource.scala:60)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4$$anonfun$apply$1.apply(ResolvedDataSource.scala:60)\n\tat scala.util.Try$.apply(Try.scala:161)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4.apply(ResolvedDataSource.scala:60)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$$anonfun$4.apply(ResolvedDataSource.scala:60)\n\tat scala.util.Try.orElse(Try.scala:82)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.lookupDataSource(ResolvedDataSource.scala:60)\n\t... 45 more\n\n"
       },
       "dateCreated": "Dec 28, 2015 2:26:14 AM",
-      "dateStarted": "Dec 30, 2015 5:15:51 PM",
-      "dateFinished": "Dec 30, 2015 5:15:52 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 3, 2016 2:16:46 AM",
+      "dateFinished": "Jan 3, 2016 2:16:46 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run PageRank On The Like Graph Data",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, 0L, Some(PartitionStrategy.RandomVertexCut))\n\n// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\n// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")",
-      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, 0L, Some(PartitionStrategy.RandomVertexCut))\ngraph.cache()\n\n// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()\n\n// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(10)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")",
+      "dateUpdated": "Jan 3, 2016 2:16:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -97,20 +97,20 @@
       "jobName": "paragraph_1435977512315_408062946",
       "id": "20150704-023832_2082939526",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[23] at map at \u003cconsole\u003e:35\ngraph: org.apache.spark.graphx.Graph[Long,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@48637645\nconvergenceThreshold: Double \u003d 0.01\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@2aa364ba\ntopInfluencers: Array[(org.apache.spark.graphx.VertexId, Double)] \u003d Array((90006,0.31452387499999995), (10004,0.292375), (90001,0.250773875), (10005,0.2245875), (10002,0.2177875), (10003,0.2177875), (90003,0.21375), (90004,0.187023875), (90005,0.187023875), (90002,0.187023875))\ntopInfluencersDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, rank: double]\n"
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\u003cconsole\u003e:35: error: not found: value likesDF\n       val edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n                        ^\n"
       },
       "dateCreated": "Jul 4, 2015 2:38:32 AM",
-      "dateStarted": "Dec 30, 2015 5:15:52 PM",
-      "dateFinished": "Dec 30, 2015 5:15:56 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 3, 2016 2:16:46 AM",
+      "dateFinished": "Jan 3, 2016 2:16:46 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the Top Influencers with reference data",
       "text": "val enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .limit(5)\n\nz.show(enrichedTopInfluencersDF)",
-      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
+      "dateUpdated": "Jan 3, 2016 2:16:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -155,19 +155,19 @@
       "jobName": "paragraph_1446485309012_-592908703",
       "id": "20151102-172829_1066190094",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "id\tname\trank\n90001\tLisa\t0.250773875\n10002\tMike\t0.2177875\n90002\tCindy\t0.187023875\n10003\tPat\t0.2177875\n90003\tPaula\t0.21375\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:33: error: not found: value topInfluencersDF\n       val enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n                                      ^\n"
       },
       "dateCreated": "Nov 2, 2015 5:28:29 PM",
-      "dateStarted": "Dec 30, 2015 5:15:52 PM",
-      "dateFinished": "Dec 30, 2015 5:15:57 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 3, 2016 2:16:46 AM",
+      "dateFinished": "Jan 3, 2016 2:16:46 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Dec 30, 2015 5:15:51 PM",
+      "dateUpdated": "Jan 3, 2016 2:16:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -194,8 +194,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Sep 27, 2015 4:26:48 AM",
-      "dateStarted": "Dec 30, 2015 5:15:56 PM",
-      "dateFinished": "Dec 30, 2015 5:15:57 PM",
+      "dateStarted": "Jan 3, 2016 2:16:46 AM",
+      "dateFinished": "Jan 3, 2016 2:16:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

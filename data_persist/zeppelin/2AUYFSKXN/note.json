@@ -39,7 +39,7 @@
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
-      "dateUpdated": "Dec 26, 2015 2:15:04 AM",
+      "dateUpdated": "Jan 3, 2016 12:10:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -62,14 +62,14 @@
       "jobName": "paragraph_1435978256373_-160526409",
       "id": "20150704-025056_169923529",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_f3c4756cabfc\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_f3c4756cabfc\nres58: model.type \u003d als_f3c4756cabfc\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_062899bc01a3\n\u003cconsole\u003e:79: error: not found: value itemRatingsDF\n       val model \u003d als.fit(itemRatingsDF)\n                           ^\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Dec 26, 2015 2:15:04 AM",
-      "dateFinished": "Dec 26, 2015 2:15:07 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 3, 2016 12:10:59 AM",
+      "dateFinished": "Jan 3, 2016 12:10:59 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

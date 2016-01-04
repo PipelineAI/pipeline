@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png)",
-      "dateUpdated": "Dec 30, 2015 5:30:24 PM",
+      "text": "%md ![Most Desirable Users](http://advancedspark.com/img/connected-users-with-cost.png)",
+      "dateUpdated": "Jan 2, 2016 11:38:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -25,18 +25,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/connected-users.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/connected-users-with-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 3:50:21 AM",
-      "dateStarted": "Dec 30, 2015 5:30:24 PM",
-      "dateFinished": "Dec 30, 2015 5:30:24 PM",
+      "dateStarted": "Jan 2, 2016 11:38:18 PM",
+      "dateFinished": "Jan 2, 2016 11:38:18 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Define Dijkstra\u0027s Shortest Path Algo",
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n\ndef dijkstra(graph: Graph[VertexId, Double], srcId: VertexId): Graph[(VertexId, List[Any]), Double] \u003d {\n  // Dijkstra Shortest Path\n  var graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d srcId) 0 else Double.MaxValue, List[VertexId]()))\n\n  for (i \u003c- 1L to graph.vertices.count-1) {\n    // The fold() below simulates minBy() functionality\n    val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n      .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n        if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n    val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n      if (ctx.srcId \u003d\u003d currentVertexId) \n        ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n          (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n    graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n      val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n        (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n          if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n  }\n\n  val shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n    (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n    .productIterator.toList.tail))\n  \n  shortestPathGraph\n}",
-      "dateUpdated": "Dec 30, 2015 5:30:54 PM",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n\n// Shamelessly lifted from GraphX In Action (Great Book!)\ndef dijkstra(graph: Graph[VertexId, Double], srcId: VertexId): Graph[(VertexId, List[Any]), Double] \u003d {\n  // Dijkstra Shortest Path\n  var graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d srcId) 0 else Double.MaxValue, List[VertexId]()))\n\n  for (i \u003c- 1L to graph.vertices.count-1) {\n    // The fold() below simulates minBy() functionality\n    val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n      .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n        if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n    val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n      if (ctx.srcId \u003d\u003d currentVertexId) \n        ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n          (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n    graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n      val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n        (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n          if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n  }\n\n  val shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n    (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n    .productIterator.toList.tail))\n  \n  shortestPathGraph\n}",
+      "dateUpdated": "Jan 2, 2016 11:38:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,14 +63,14 @@
         "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\ndijkstra: (graph: org.apache.spark.graphx.Graph[org.apache.spark.graphx.VertexId,Double], srcId: org.apache.spark.graphx.VertexId)org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double]\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:53 AM",
-      "dateStarted": "Dec 30, 2015 5:30:54 PM",
-      "dateFinished": "Dec 30, 2015 5:30:56 PM",
+      "dateStarted": "Jan 2, 2016 11:38:27 PM",
+      "dateFinished": "Jan 2, 2016 11:38:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)\n\nval src \u003d  10002L // Source vertex\nval dest \u003d 90002L // Dest vertex\n\n// Run Dijkstra on the entire graph\nval shortestPathGraph \u003d dijkstra(graph, src)\n\n// Retrieve only the vertices containing the dest vertex that we\u0027re looking for\nval shortestPath \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()",
-      "dateUpdated": "Dec 30, 2015 5:48:04 PM",
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)\n\nval src \u003d  10002L // Source vertex\nval dest \u003d 90002L // Dest vertex\n\n// Run Dijkstra on the entire graph\nval shortestPathGraph \u003d dijkstra(graph, src)\n\n// Retrieve only the vertices containing the dest vertex that we\u0027re looking for\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n\n// Example\n//\n// Shortest Path\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002\n// Total Cost \u003d 11",
+      "dateUpdated": "Jan 2, 2016 11:40:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -93,48 +93,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1386] at map at \u003cconsole\u003e:54\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@3723da0b\nsrc: Long \u003d 10002\ndest: Long \u003d 90002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@28897eab\nshortestPath: Array[(org.apache.spark.graphx.VertexId, List[Any])] \u003d Array((0,List(12.0, List(10002, 90003, 10001, 90001))))\n"
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[925] at map at \u003cconsole\u003e:45\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@359e53f6\nsrc: Long \u003d 10002\ndest: Long \u003d 90002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@5e7a95c8\nshortestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:43 AM",
-      "dateStarted": "Dec 30, 2015 5:48:04 PM",
-      "dateFinished": "Dec 30, 2015 5:48:07 PM",
+      "dateStarted": "Jan 2, 2016 11:40:02 PM",
+      "dateFinished": "Jan 2, 2016 11:40:04 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "\n",
-      "dateUpdated": "Dec 30, 2015 5:30:24 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451274887569_-30754585",
-      "id": "20151228-035447_1490104675",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT"
-      },
-      "dateCreated": "Dec 28, 2015 3:54:47 AM",
-      "dateStarted": "Dec 30, 2015 5:30:35 PM",
-      "dateFinished": "Dec 30, 2015 5:30:38 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "dateUpdated": "Dec 30, 2015 5:30:24 PM",
+      "text": "",
+      "dateUpdated": "Jan 2, 2016 11:38:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -159,8 +128,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 29, 2015 2:58:23 PM",
-      "dateStarted": "Dec 30, 2015 5:30:38 PM",
-      "dateFinished": "Dec 30, 2015 5:30:38 PM",
+      "dateStarted": "Jan 2, 2016 11:38:29 PM",
+      "dateFinished": "Jan 2, 2016 11:38:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Run this to import all necessary libraries for this series of notebooks",
-      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\nz.load(\"com.invincea:spark-hash:0.1.3\")\nz.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0.jar\")\nz.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0-models.jar\")\n//z.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n//z.load(\"com.google.protobuf:protobuf-java:2.6.1\")\n",
-      "dateUpdated": "Jan 2, 2016 2:58:43 AM",
+      "text": "%dep\nz.reset()\nz.addRepo(\"maven central\").url(\"search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.1\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-spark-1.5.1-hadoop-2.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\n//z.load(\"com.invincea:spark-hash:0.1.3\")\n//z.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0.jar\")\n//z.load(\"/root/pipeline/myapps/ml/lib/stanford-corenlp-3.6.0-models.jar\")\n//z.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\n//z.load(\"com.google.protobuf:protobuf-java:2.6.1\")\n",
+      "dateUpdated": "Jan 4, 2016 3:54:36 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -27,16 +28,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res3: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@2dbd4782\n"
+        "msg": "res1: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@642e455f\n"
       },
       "dateCreated": "Dec 28, 2015 2:42:50 PM",
-      "dateStarted": "Jan 2, 2016 2:58:43 AM",
-      "dateFinished": "Jan 2, 2016 2:58:43 AM",
+      "dateStarted": "Jan 4, 2016 3:54:36 AM",
+      "dateFinished": "Jan 4, 2016 3:54:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 2, 2016 2:30:31 AM",
+      "dateUpdated": "Jan 3, 2016 11:46:46 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,8 +62,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 28, 2015 2:42:57 PM",
-      "dateStarted": "Jan 2, 2016 2:30:32 AM",
-      "dateFinished": "Jan 2, 2016 2:30:44 AM",
+      "dateStarted": "Jan 3, 2016 11:46:47 PM",
+      "dateFinished": "Jan 3, 2016 11:46:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

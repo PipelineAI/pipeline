@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
+      "text": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\n\nimport sqlContext.implicits._",
+      "dateUpdated": "Jan 2, 2016 11:54:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -25,17 +25,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
+        "msg": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
-      "dateStarted": "Jan 2, 2016 3:54:11 AM",
-      "dateFinished": "Jan 2, 2016 3:54:11 AM",
+      "dateStarted": "Jan 2, 2016 11:54:02 PM",
+      "dateFinished": "Jan 2, 2016 11:54:03 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nval descriptionsDF \u003d itemsDF.select($\"id\", $\"title\", $\"description\")",
-      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
+      "dateUpdated": "Jan 2, 2016 11:55:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -81,17 +81,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\ndescriptionsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string]\n"
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Jan 2, 2016 3:54:11 AM",
-      "dateFinished": "Jan 2, 2016 3:54:11 AM",
+      "dateStarted": "Jan 2, 2016 11:55:25 PM",
+      "dateFinished": "Jan 2, 2016 11:55:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Split each document into words\nval tokens \u003d new RegexTokenizer()\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .transform(descriptionsDF)\n  \n//.setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 2, 2016 5:26:58 AM",
+      "text": "// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")\n//  .transform(descriptionsDF)",
+      "dateUpdated": "Jan 2, 2016 11:55:27 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -102,7 +102,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -113,17 +114,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tokens: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, tokens: array\u003cstring\u003e]\n"
+        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_191dd1d50d90\n"
       },
       "dateCreated": "Jan 2, 2016 3:15:51 AM",
-      "dateStarted": "Jan 2, 2016 4:36:38 AM",
-      "dateFinished": "Jan 2, 2016 4:36:38 AM",
+      "dateStarted": "Jan 2, 2016 11:55:27 PM",
+      "dateFinished": "Jan 2, 2016 11:55:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setCaseSensitive(false)\n  .setInputCol(\"words\")\n  .setOutputCol(\"filteredWords\")\n\nval filteredTokens \u003d stopWordsFilter.transform(tokens)",
-      "dateUpdated": "Jan 2, 2016 5:26:58 AM",
+      "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getInputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n\n//val filteredTokens \u003d stopWordsFilter.transform(tokens)",
+      "dateUpdated": "Jan 2, 2016 11:55:30 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -146,17 +147,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_af6690c3c284\nfilteredTokens: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, description: string, tokens: array\u003cstring\u003e, filteredTokens: array\u003cstring\u003e]\n"
+        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_0a008a6d1a6a\n"
       },
       "dateCreated": "Dec 29, 2015 6:25:20 PM",
-      "dateStarted": "Jan 2, 2016 4:54:52 AM",
-      "dateFinished": "Jan 2, 2016 4:54:52 AM",
+      "dateStarted": "Jan 2, 2016 11:55:30 PM",
+      "dateFinished": "Jan 2, 2016 11:55:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 100\n\nval cvModel \u003d new CountVectorizer()\n  .setInputCol(\"filteredWords\")\n  .setOutputCol(\"features\")\n  .setVocabSize(vocabSize)\n  .fit(filteredTokens)\n\nval countVectors \u003d cvModel.transform(filteredTokens)\n  .select(\"id\", \"features\")\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
-      "dateUpdated": "Jan 2, 2016 5:27:58 AM",
+      "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 100\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)\n//  .fit(filteredTokens)",
+      "dateUpdated": "Jan 3, 2016 12:01:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -179,17 +180,116 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "vocabSize: Int \u003d 100\ncvModel: org.apache.spark.ml.feature.CountVectorizerModel \u003d cntVec_f3620dacc185\ncountVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[8389] at map at \u003cconsole\u003e:85\n"
+        "msg": "vocabSize: Int \u003d 100\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_30308f87f22e\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:21 AM",
-      "dateStarted": "Jan 2, 2016 4:54:55 AM",
-      "dateFinished": "Jan 2, 2016 4:54:55 AM",
+      "dateStarted": "Jan 2, 2016 11:55:31 PM",
+      "dateFinished": "Jan 2, 2016 11:55:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
+      "dateUpdated": "Jan 3, 2016 12:05:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451778685141_-183589987",
+      "id": "20160102-235125_2076797052",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_14c8ed9bcd0f\n"
+      },
+      "dateCreated": "Jan 2, 2016 11:51:25 PM",
+      "dateStarted": "Jan 3, 2016 12:05:38 AM",
+      "dateFinished": "Jan 3, 2016 12:05:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val model \u003d pipeline.fit(itemsDF)",
+      "dateUpdated": "Jan 3, 2016 12:05:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451778740963_1412256506",
+      "id": "20160102-235220_1758659515",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_14c8ed9bcd0f\n"
+      },
+      "dateCreated": "Jan 2, 2016 11:52:20 PM",
+      "dateStarted": "Jan 3, 2016 12:05:40 AM",
+      "dateFinished": "Jan 3, 2016 12:05:41 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val countVectors \u003d model.transform(itemsDF)\n  .select(\"id\", countVectorizer.getOutputCol)\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
+      "dateUpdated": "Jan 3, 2016 12:09:30 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451778679892_1304634083",
+      "id": "20160102-235119_1827441406",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[1929] at map at \u003cconsole\u003e:92\n"
+      },
+      "dateCreated": "Jan 2, 2016 11:51:19 PM",
+      "dateStarted": "Jan 3, 2016 12:09:30 AM",
+      "dateFinished": "Jan 3, 2016 12:09:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Run LDA\nval maxIterations: Int \u003d 100\n\nval mbf \u003d {\n  // add (1.0 / actualCorpusSize) to MiniBatchFraction to be more robust on tiny datasets.\n  val corpusSize \u003d countVectors.count()\n  2.0 / maxIterations + 1.0 / corpusSize\n}\n\nval numTopics: Int \u003d 5\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(math.min(1.0, mbf)))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n  .setDocConcentration(-1) // use default symmetric document-topic prior\n  .setTopicConcentration(-1) // use default symmetric topic-word prior\n\nval startTime \u003d System.nanoTime()\nval ldaModel \u003d lda.run(countVectors)\nval elapsed \u003d (System.nanoTime() - startTime) / 1E9",
-      "dateUpdated": "Jan 2, 2016 4:57:08 AM",
+      "dateUpdated": "Jan 3, 2016 12:08:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -212,17 +312,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "maxIterations: Int \u003d 100\nmbf: Double \u003d 0.0325\nnumTopics: Int \u003d 5\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@27b0aca4\nstartTime: Long \u003d 9749510778840714\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@1c0bc7b6\nelapsed: Double \u003d 3.031711171\n"
+        "msg": "maxIterations: Int \u003d 100\nmbf: Double \u003d 0.0325\nnumTopics: Int \u003d 5\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@11f73ec2\nstartTime: Long \u003d 9818600843080304\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@ee19763\nelapsed: Double \u003d 4.42959282\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:40 AM",
-      "dateStarted": "Jan 2, 2016 4:57:08 AM",
-      "dateFinished": "Jan 2, 2016 4:57:12 AM",
+      "dateStarted": "Jan 3, 2016 12:08:38 AM",
+      "dateFinished": "Jan 3, 2016 12:08:43 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Print results and training time\nprintln(s\"Finished training LDA model.  Summary:\")\nprintln(s\"Training time (sec)\\t$elapsed\")\nprintln(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n\n// Print the topics, showing the top-weighted terms for each topic.\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\nval vocabArray \u003d cvModel.vocabulary\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}\nprintln(s\"$numTopics topics:\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
-      "dateUpdated": "Jan 2, 2016 4:57:13 AM",
+      "text": "// Print results and training time\nprintln(s\"Training time (sec)\\t$elapsed\")\nprintln(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n\n// Print the topics, showing the top-weighted terms for each topic.\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n//val vocabArray \u003d model.vocabulary\nmodel.explainParams\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}\n\nz.show(topics)\nprintln(s\"$numTopics topics:\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
+      "dateUpdated": "Jan 3, 2016 12:12:15 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -245,16 +345,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Finished training LDA model.  Summary:\nTraining time (sec)\t3.031711171\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\ntopicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(10, 61, 48, 17, 18, 46, 33, 49, 41, 53),Array(0.0669447801124924, 0.05698175032550912, 0.05638782667638874, 0.053836500772321265, 0.046483447238597125, 0.044814719330261314, 0.04062044181978212, 0.03436298743668031, 0.034208836606966934, 0.03077678035045587)), (Array(45, 31, 40, 93, 54, 28, 60, 36, 94, 80),Array(0.0970438893456547, 0.09098583235833867, 0.07337694319286156, 0.05209117955800267, 0.0472983213762595, 0.038799896522797674, 0.021094091297333726, 0.019169079799793383, 0.018376828251435384, 0.014686311800977863)), (Array(6, 32, 26, 87, 64, 27, 74, 55, 29, 90),Array(0.07525290763732433, 0.054311108238710985, 0.05187752803646485, 0.04435975439335002, 0.043471849530673276, 0.040347169394884065, 0.035328069991436485, 0...vocabArray: Array[String] \u003d Array(data, Hadoop, distributed, database, Apache, open, language, provides, processing, source, applications, Spark, platform, graph, query, scalable, machine, storage, s, learning, designed, large, enables, management, software, based, analysis, high, SQL, programming, structured, analytics, Java, streaming, fast, used, project, text, relational, format, engine, application, scale, Amazon, cluster, interactive, services, fault, reliable, build, using, supports, easy, web, time, structure, developers, model, use, cloud, extensible, Google, integrated, memory, programs, infrastructure, make, file, class, allows, developed, performance, business, Data, level, built, uses, MongoDB, framework, documents, search, indicate, architecture, managed, computation, depe...topics: Array[Array[(String, Double)]] \u003d Array(Array((applications,0.0669447801124924), (Google,0.05698175032550912), (reliable,0.05638782667638874), (storage,0.053836500772321265), (s,0.046483447238597125), (services,0.044814719330261314), (streaming,0.04062044181978212), (build,0.03436298743668031), (application,0.034208836606966934), (web,0.03077678035045587)), Array((interactive,0.0970438893456547), (analytics,0.09098583235833867), (engine,0.07337694319286156), (statistical,0.05209117955800267), (time,0.0472983213762595), (SQL,0.038799896522797674), (extensible,0.021094091297333726), (project,0.019169079799793383), (highly,0.018376828251435384), (search,0.014686311800977863)), Array((language,0.07525290763732433), (Java,0.054311108238710985), (analysis,0.05187752803646485), (code,0....5 topics:\nTOPIC 0\napplications\t0.0669447801124924\nGoogle\t0.05698175032550912\nreliable\t0.05638782667638874\nstorage\t0.053836500772321265\ns\t0.046483447238597125\nservices\t0.044814719330261314\nstreaming\t0.04062044181978212\nbuild\t0.03436298743668031\napplication\t0.034208836606966934\nweb\t0.03077678035045587\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\ninteractive\t0.0970438893456547\nanalytics\t0.09098583235833867\nengine\t0.07337694319286156\nstatistical\t0.05209117955800267\ntime\t0.0472983213762595\nSQL\t0.038799896522797674\nextensible\t0.021094091297333726\nproject\t0.019169079799793383\nhighly\t0.018376828251435384\nsearch\t0.014686311800977863\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\nlanguage\t0.07525290763732433\nJava\t0.054311108238710985\nanalysis\t0.05187752803646485\ncode\t0.04435975439335002\nprograms\t0.043471849530673276\nhigh\t0.040347169394884065\nlevel\t0.035328069991436485\nstructure\t0.03431759491757032\nprogramming\t0.03283637599338433\nsets\t0.03020414652409157\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\ndata\t0.1687200932799973\nHadoop\t0.04734246094770947\nApache\t0.04148848358582238\ndistributed\t0.04075900014146519\ndatabase\t0.03191844569898271\nprocessing\t0.02729117153446891\nsource\t0.024765389517697335\nmanagement\t0.023749682575427273\nopen\t0.023548644599920295\nquery\t0.021687592674780824\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\nlearning\t0.12250882962336695\nmachine\t0.08925950880052222\ns\t0.06371843448162139\nlevel\t0.05824053871745025\nbuilt\t0.052906162073882115\nSpark\t0.048415789126656894\nscalable\t0.03758426883038754\nmake\t0.03668576402665178\neasy\t0.035128705433705505\nsearch\t0.029350763930991126\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
+        "msg": "Training time (sec)\t4.42959282\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\ntopicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(0, 3, 5, 9, 28, 24, 23, 31, 14, 38),Array(0.10386839671639696, 0.08150743162856224, 0.06566521395196333, 0.06337868495938206, 0.04110114122635017, 0.033334043567659434, 0.03266838007601523, 0.03249498789809168, 0.030750416459091465, 0.03016750816389182)), (Array(1, 4, 10, 2, 17, 19, 7, 11, 15, 16),Array(0.07119827729394433, 0.057002594663166074, 0.048553441285878636, 0.04804472813443448, 0.04442098331357768, 0.04292531877161625, 0.03874780413208103, 0.03609780341662275, 0.03555893634121596, 0.033711392076287164)), (Array(13, 84, 11, 40, 0, 50, 71, 80, 18, 75),Array(0.1226458401266466, 0.08118093427767929, 0.05843871533269256, 0.04993736349728381, 0.040304641021064284, 0.03400073446497185, 0.03355095312806501, 0.032350685811...res347: String \u003d \"\"\ntopics: Array[Array[(String, Double)]] \u003d Array(Array((data,0.10386839671639696), (database,0.08150743162856224), (open,0.06566521395196333), (source,0.06337868495938206), (SQL,0.04110114122635017), (software,0.033334043567659434), (management,0.03266838007601523), (analytics,0.03249498789809168), (query,0.030750416459091465), (relational,0.03016750816389182)), Array((Hadoop,0.07119827729394433), (Apache,0.057002594663166074), (applications,0.048553441285878636), (distributed,0.04804472813443448), (storage,0.04442098331357768), (learning,0.04292531877161625), (provides,0.03874780413208103), (Spark,0.03609780341662275), (scalable,0.03555893634121596), (machine,0.033711392076287164)), Array((graph,0.1226458401266466), (computation,0.08118093427767929), (Spark,0.05843871533269256), (engine,...[[Lscala.Tuple2;@7f311bba5 topics:\nTOPIC 0\ndata\t0.10386839671639696\ndatabase\t0.08150743162856224\nopen\t0.06566521395196333\nsource\t0.06337868495938206\nSQL\t0.04110114122635017\nsoftware\t0.033334043567659434\nmanagement\t0.03266838007601523\nanalytics\t0.03249498789809168\nquery\t0.030750416459091465\nrelational\t0.03016750816389182\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\nHadoop\t0.07119827729394433\nApache\t0.057002594663166074\napplications\t0.048553441285878636\ndistributed\t0.04804472813443448\nstorage\t0.04442098331357768\nlearning\t0.04292531877161625\nprovides\t0.03874780413208103\nSpark\t0.03609780341662275\nscalable\t0.03555893634121596\nmachine\t0.033711392076287164\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\ngraph\t0.1226458401266466\ncomputation\t0.08118093427767929\nSpark\t0.05843871533269256\nengine\t0.04993736349728381\ndata\t0.040304641021064284\nusing\t0.03400073446497185\nperformance\t0.03355095312806501\nsearch\t0.03235068581137726\ns\t0.03114263399844955\nbuilt\t0.025925170078692696\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\ndata\t0.2150361103383165\nlarge\t0.04860911617678125\nprograms\t0.037551617942918655\nplatform\t0.031281211323808206\nsets\t0.030286296384943377\nformat\t0.029645233350833876\nstreaming\t0.027609190388288123\nfile\t0.027477943779645894\nlanguage\t0.025524818844860367\nprocessing\t0.025434630449018746\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\nlanguage\t0.08771339631255362\nstructure\t0.04361126598855101\nclass\t0.0435946990760827\ncode\t0.043421261492750086\ndependencies\t0.042667113034870155\nindicate\t0.041663399557713705\ntools\t0.03980628843519713\nMongoDB\t0.03938622208424926\nprogramming\t0.038622753981924794\nanalysis\t0.03635559077691982\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:52 AM",
-      "dateStarted": "Jan 2, 2016 4:57:13 AM",
-      "dateFinished": "Jan 2, 2016 4:57:13 AM",
+      "dateStarted": "Jan 3, 2016 12:12:15 AM",
+      "dateFinished": "Jan 3, 2016 12:12:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 2, 2016 3:54:11 AM",
+      "dateUpdated": "Jan 2, 2016 11:48:59 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -278,13 +378,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 2, 2016 3:16:54 AM",
-      "dateStarted": "Jan 2, 2016 3:54:17 AM",
-      "dateFinished": "Jan 2, 2016 3:54:18 AM",
+      "dateStarted": "Jan 2, 2016 11:49:09 PM",
+      "dateFinished": "Jan 2, 2016 11:49:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/01:  Item Description Topic Summary (LDA)",
+  "name": "NLP/01:  Topic Summary (LDA)",
   "id": "2B1HA4VF8",
   "angularObjects": {
     "2ARR8UZDJ": [],
