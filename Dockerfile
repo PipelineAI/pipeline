@@ -219,7 +219,7 @@ RUN \
  && cd ~/pipeline/myapps/feeder && sbt assembly \
 
 # Sbt ML 
- && cd ~/pipeline/myapps/ml && sbt package \
+# && cd ~/pipeline/myapps/ml && sbt package \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/streaming && sbt package \

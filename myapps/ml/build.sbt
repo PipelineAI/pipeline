@@ -17,7 +17,6 @@ lazy val ml = (project in file("."))
 val sparkVersion = sys.env("SPARK_VERSION") 
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 //val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
-val sparkHashVersion = sys.env("SPARK_HASH_VERSION")
 
 lazy val mlDeps = Seq(
 //  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion
