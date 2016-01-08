@@ -8,8 +8,6 @@ addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PAC
 
 resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
-//mainClass in assembly := some("com.advancedspark.ml.nlp.ItemDescriptionsDF")
-
 lazy val ml = (project in file("."))
                     .settings(name := "ml")
                     .settings(globalSettings:_*)
@@ -22,7 +20,6 @@ val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION")
 val sparkHashVersion = sys.env("SPARK_HASH_VERSION")
 
 lazy val mlDeps = Seq(
-  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion, 
-  "com.invincea" % "spark-hash" % sparkHashVersion
+  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion
 )
 

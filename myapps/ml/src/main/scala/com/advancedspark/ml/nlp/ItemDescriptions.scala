@@ -22,7 +22,6 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
 
-
 object ItemDescriptions {
   def main(args: Array[String]) {
     val conf = new SparkConf()

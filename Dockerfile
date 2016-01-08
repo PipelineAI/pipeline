@@ -209,8 +209,14 @@ RUN \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz 
 
 RUN \
+# This is temporary while we wait for Stanford CoreNLP v3.6.0 to be released
+#   as well as https://github.com/databricks/spark-corenlp which depends on it
+ cd ~ \
+ && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
+ && unzip stanford-corenlp-full-2015-12-09.zip \
+
 # Sbt Feeder
- cd ~/pipeline/myapps/feeder && sbt assembly \
+ && cd ~/pipeline/myapps/feeder && sbt assembly \
 
 # Sbt ML 
  && cd ~/pipeline/myapps/ml && sbt package \
