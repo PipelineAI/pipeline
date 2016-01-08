@@ -12,7 +12,7 @@ docker build  -t fluxcapacitor/pipeline .
 # We're still on Docker 1.7 for stability and debuggability purposes.
 # (1.7 is a known entity at this point.)
 #  --build-arg SCALA_VERSION=2.10.4 \
-#  --build-arg SPARK_VERSION=1.5.1 \
+#  --build-arg SPARK_VERSION=1.6.0 \
 #  --build.arg CASSANDRA_VERSION=2.2.4 \
 #  --build-arg CONFLUENT_VERSION=1.0.1 \
 #  --build-arg ELASTICSEARCH_VERSION=1.7.3 \

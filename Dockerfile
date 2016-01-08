@@ -26,7 +26,7 @@ FROM ubuntu:14.04
 #ARG ZEPPELIN_VERSION #0.6.0
 #ARG GENSORT_VERSION #1.5
 #ARG SCALA_VERSION #2.10.4
-#ARG SPARK_VERSION #1.5.1
+#ARG SPARK_VERSION #1.6.0
 
 #USER pipeline
 
@@ -42,7 +42,7 @@ ENV HADOOP_VERSION=2.6.0
 ENV ZEPPELIN_VERSION=0.6.0
 ENV GENSORT_VERSION=1.5
 ENV SCALA_VERSION=2.10.4
-ENV SPARK_VERSION=1.5.1
+ENV SPARK_VERSION=1.6.0
 ENV AKKA_VERSION=2.3.11
 ENV SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
 ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
@@ -107,8 +107,8 @@ RUN \
 # && update-alternatives --config liblapack.so.3 \
 
 # R
-# && apt-get install -y r-base \
-# && apt-get install -y r-base-dev \
+ && apt-get install -y r-base \
+ && apt-get install -y r-base-dev \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
@@ -177,9 +177,9 @@ RUN \
 
 # Apache Zeppelin
  && cd ~ \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
- && tar xvzf zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
- && rm zeppelin-${ZEPPELIN_VERSION}-spark-${SPARK_VERSION}-hadoop-${HADOOP_VERSION}-fluxcapacitor.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
+ && tar xvzf zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
+ && rm zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
 
 # Redis
  && cd ~ \

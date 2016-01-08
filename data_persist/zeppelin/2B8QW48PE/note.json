@@ -135,8 +135,8 @@
     },
     {
       "title": "Find shortest num of hops between Nodes",
-      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\nval src \u003d List(10002L) // List of source vertices\nval dest \u003d 90002L // Single dest vertex\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n  //.filter(_._1 \u003d\u003d dest)\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
-      "dateUpdated": "Dec 30, 2015 5:18:58 PM",
+      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\nval src \u003d List(10002L) // List of source vertices\nval dest \u003d 90002L // Single dest vertex\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
+      "dateUpdated": "Jan 8, 2016 2:52:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -149,7 +149,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -160,11 +161,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[1016] at RDD at VertexRDD.scala:57\nres80: String \u003d (90002,Map(10002 -\u003e 3))\n"
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[511] at RDD at VertexRDD.scala:57\nres106: String \u003d \"\"\n"
       },
       "dateCreated": "Dec 28, 2015 3:26:16 AM",
-      "dateStarted": "Dec 30, 2015 5:18:58 PM",
-      "dateFinished": "Dec 30, 2015 5:18:59 PM",
+      "dateStarted": "Jan 8, 2016 2:52:26 AM",
+      "dateFinished": "Jan 8, 2016 2:52:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

@@ -20,18 +20,19 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "10",
+        "spark.cores.max": "20",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "10240m",
+        "spark.executor.memory": "20480m",
         "zeppelin.spark.useHiveContext": "true",
-        "args": "",
+        "spark.home": "/root/spark-1.6.0-bin-fluxcapacitor",
         "zeppelin.spark.concurrentSQL": "false",
-        "spark.home": "/root/spark-1.5.1-bin-fluxcapacitor",
-        "zeppelin.pyspark.python": "python"
+        "args": "",
+        "zeppelin.pyspark.python": "python",
+        "zeppelin.dep.additionalRemoteRepository": "spark-packages,http://dl.bintray.com/spark-packages/maven,false;"
       },
       "interpreterGroup": [
         {
@@ -60,7 +61,12 @@
       "name": "hive",
       "group": "hive",
       "properties": {
+        "default.password": "",
+        "default.user": "hive",
         "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
+        "default.driver": "org.apache.hive.jdbc.HiveDriver",
+        "default.url": "jdbc:hive2://localhost:10000",
+        "common.max_count": "1000",
         "hive.hiveserver2.password": "",
         "hive.hiveserver2.user": "hiveuser"
       },
