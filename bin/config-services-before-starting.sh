@@ -58,7 +58,9 @@ cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
 echo '...Configuring  Apps...'
 mkdir -p $LOGS_HOME/feeder
 mkdir -p $LOGS_HOME/streaming
-mkdir -p $LOGS_HOME/nlp
+mkdir -p $LOGS_HOME/ml
+mkdir -p $LOGS_HOME/sql
+mkdir -p $LOGS_HOME/core
 mkdir -p $DATA_WORK_HOME/core
 
 # Ganglia
