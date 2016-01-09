@@ -210,8 +210,8 @@ RUN \
 
 RUN \
 # Get Latest Pipeline Code (Again, for now...)
- cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git \
+ cd ~/pipeline \
+ && git pull \
 
 # This is temporary while we wait for Stanford CoreNLP v3.6.0 to be released
 #   as well as https://github.com/databricks/spark-corenlp which depends on it
