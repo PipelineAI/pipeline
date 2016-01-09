@@ -60,8 +60,8 @@ object TrainMFIncremental {
       .setRank(rank)
       .setIter(maxIterations)
       .setLambda(lambdaRegularization)
-      .setMinRating(0.0)
-      .setMaxRating(1.0)
+      .setMinRating(0)
+      .setMaxRating(1)
 
     val streamingMF = new StreamingLatentMatrixFactorization(streamingMFParams)
 

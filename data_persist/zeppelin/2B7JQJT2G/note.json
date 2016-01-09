@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "val ratingsUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval gendersUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
-      "dateUpdated": "Dec 1, 2015 11:33:58 AM",
+      "dateUpdated": "Jan 8, 2016 10:41:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,7 +14,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -28,8 +29,8 @@
         "msg": "ratingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
       },
       "dateCreated": "Dec 1, 2015 4:24:26 AM",
-      "dateStarted": "Dec 1, 2015 11:33:58 AM",
-      "dateFinished": "Dec 1, 2015 11:34:32 AM",
+      "dateStarted": "Jan 8, 2016 10:41:56 PM",
+      "dateFinished": "Jan 8, 2016 10:42:26 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -68,7 +69,7 @@
     },
     {
       "text": "%md ### Partitioned vs. Unpartitioned Join",
-      "dateUpdated": "Dec 1, 2015 5:20:05 AM",
+      "dateUpdated": "Jan 8, 2016 10:41:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -81,8 +82,9 @@
           "scatter": {}
         },
         "editorHide": true,
-        "tableHide": false,
-        "editorMode": "ace/mode/markdown"
+        "tableHide": true,
+        "editorMode": "ace/mode/markdown",
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -445,7 +447,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SQL/04: Compare Query Plans",
+  "name": "SQL/04: Compare Query Plans (Partial)",
   "id": "2B7JQJT2G",
   "angularObjects": {
     "2ARR8UZDJ": [],

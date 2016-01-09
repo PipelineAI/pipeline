@@ -29,8 +29,8 @@ val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
 
 lazy val streamingDeps = Seq(
   "com.madhukaraphatak" %% "java-sizeof" % "0.1",
-  "com.datastax.spark" % "spark-cassandra-connector_2.10" % sparkCassandraConnectorVersion % "provided",
-  "org.elasticsearch" % "elasticsearch-spark_2.10" % sparkElasticSearchConnectorVersion % "provided",
+  "com.datastax.spark" %% "spark-cassandra-connector" % sparkCassandraConnectorVersion % "provided",
+  "org.elasticsearch" %% "elasticsearch-spark" % sparkElasticSearchConnectorVersion % "provided",
   "redis.clients" % "jedis" % jedisVersion % "provided",
   "com.databricks"    %% "spark-csv" % sparkCsvVersion % "provided",
   "com.databricks"    %% "spark-avro" % sparkAvroVersion % "provided",

@@ -1807,7 +1807,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SQL/01: Compare Query Plans (Formats, Partitions, Joins)",
+  "name": "SQL/01: Compare Query Plans (Full -- Formats, Partitions, Joins)",
   "id": "2B2M4DMJK",
   "angularObjects": {
     "2ARR8UZDJ": [],
