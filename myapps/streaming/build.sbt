@@ -23,7 +23,6 @@ val jedisVersion = sys.env("JEDIS_VERSION")
 val sparkCsvVersion = sys.env("SPARK_CSV_CONNECTOR_VERSION") 
 val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") 
-val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
 val streamingMatrixFactorizationVersion = sys.env("STREAMING_MATRIX_FACTORIZATION_VERSION") 
 val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
 
