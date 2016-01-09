@@ -209,9 +209,13 @@ RUN \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz 
 
 RUN \
+# Get Latest Pipeline Code (Again, for now...)
+ cd ~ \
+ && git clone https://github.com/fluxcapacitor/pipeline.git \
+
 # This is temporary while we wait for Stanford CoreNLP v3.6.0 to be released
 #   as well as https://github.com/databricks/spark-corenlp which depends on it
- cd ~ \
+ && cd ~ \
  && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
  && unzip stanford-corenlp-full-2015-12-09.zip \
 
