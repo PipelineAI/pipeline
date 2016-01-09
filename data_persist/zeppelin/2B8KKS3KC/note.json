@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:55 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -29,14 +29,14 @@
         "msg": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
-      "dateStarted": "Jan 8, 2016 9:48:38 PM",
-      "dateFinished": "Jan 8, 2016 9:48:40 PM",
+      "dateStarted": "Jan 9, 2016 5:31:56 AM",
+      "dateFinished": "Jan 9, 2016 5:31:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -86,14 +86,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Jan 8, 2016 9:48:38 PM",
-      "dateFinished": "Jan 8, 2016 9:48:40 PM",
+      "dateStarted": "Jan 9, 2016 5:31:56 AM",
+      "dateFinished": "Jan 9, 2016 5:32:03 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val distinctCategories \u003d itemsDF.select($\"category\").distinct().collect()",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -120,14 +120,14 @@
         "msg": "distinctCategories: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Category], [Search Engine], [Data Processing Execution Engine], [Data Import], [Workflow], [File Format], [Library], [File System], [Database])\n"
       },
       "dateCreated": "Jan 2, 2016 9:57:07 PM",
-      "dateStarted": "Jan 8, 2016 9:48:40 PM",
-      "dateFinished": "Jan 8, 2016 9:48:41 PM",
+      "dateStarted": "Jan 9, 2016 5:31:58 AM",
+      "dateFinished": "Jan 9, 2016 5:32:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ## TODO:  Add Diagram with Pipeline Stages to help Visualize ",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -154,14 +154,14 @@
         "msg": "\u003ch2\u003eTODO:  Add Diagram with Pipeline Stages to help Visualize\u003c/h2\u003e\n"
       },
       "dateCreated": "Jan 8, 2016 1:18:53 AM",
-      "dateStarted": "Jan 8, 2016 9:48:38 PM",
-      "dateFinished": "Jan 8, 2016 9:48:38 PM",
+      "dateStarted": "Jan 9, 2016 5:31:56 AM",
+      "dateFinished": "Jan 9, 2016 5:31:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -185,17 +185,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_da2391ff2030\n"
+        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_dfbbecc2b9ce\n"
       },
       "dateCreated": "Jan 2, 2016 3:15:51 AM",
-      "dateStarted": "Jan 8, 2016 9:48:41 PM",
-      "dateFinished": "Jan 8, 2016 9:48:41 PM",
+      "dateStarted": "Jan 9, 2016 5:32:04 AM",
+      "dateFinished": "Jan 9, 2016 5:32:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -219,17 +219,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_5b23a1d2f6e4\n"
+        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_b6984ce243c8\n"
       },
       "dateCreated": "Dec 29, 2015 6:25:20 PM",
-      "dateStarted": "Jan 8, 2016 9:48:41 PM",
-      "dateFinished": "Jan 8, 2016 9:48:41 PM",
+      "dateStarted": "Jan 9, 2016 5:32:07 AM",
+      "dateFinished": "Jan 9, 2016 5:32:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val tf \u003d new HashingTF()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"tfFeatures\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -253,17 +253,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_76fc32f1f2cb\n"
+        "msg": "tf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_52f1272b932d\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:21 AM",
-      "dateStarted": "Jan 8, 2016 9:48:41 PM",
-      "dateFinished": "Jan 8, 2016 9:48:41 PM",
+      "dateStarted": "Jan 9, 2016 5:32:07 AM",
+      "dateFinished": "Jan 9, 2016 5:32:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -287,17 +287,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "idf: org.apache.spark.ml.feature.IDF \u003d idf_fd895dcc47bc\n"
+        "msg": "idf: org.apache.spark.ml.feature.IDF \u003d idf_eed9a184f2f7\n"
       },
       "dateCreated": "Jan 2, 2016 11:02:51 PM",
-      "dateStarted": "Jan 8, 2016 9:48:41 PM",
-      "dateFinished": "Jan 8, 2016 9:48:41 PM",
+      "dateStarted": "Jan 9, 2016 5:32:07 AM",
+      "dateFinished": "Jan 9, 2016 5:32:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val word2Vec \u003d new Word2Vec()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"word2VecFeatures\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -321,17 +321,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "word2Vec: org.apache.spark.ml.feature.Word2Vec \u003d w2v_bd242e11129d\n"
+        "msg": "word2Vec: org.apache.spark.ml.feature.Word2Vec \u003d w2v_7befc491f48a\n"
       },
       "dateCreated": "Jan 2, 2016 10:37:46 PM",
-      "dateStarted": "Jan 8, 2016 9:48:41 PM",
-      "dateFinished": "Jan 8, 2016 9:48:42 PM",
+      "dateStarted": "Jan 9, 2016 5:32:07 AM",
+      "dateFinished": "Jan 9, 2016 5:32:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Combine IF, IDF, and Word2Vec\nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(idf.getOutputCol, word2Vec.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -355,17 +355,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "featureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_0c4586c7bf32\n"
+        "msg": "featureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_1477f9d86e4d\n"
       },
       "dateCreated": "Jan 2, 2016 10:37:27 PM",
-      "dateStarted": "Jan 8, 2016 9:48:42 PM",
-      "dateFinished": "Jan 8, 2016 9:48:42 PM",
+      "dateStarted": "Jan 9, 2016 5:32:08 AM",
+      "dateFinished": "Jan 9, 2016 5:32:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Assign an Index to Each Category \nval categoryIndexerModel \u003d new StringIndexer()\n  .setInputCol(\"category\")\n  .setOutputCol(\"indexedCategory\")\n  .fit(itemsDF)\n  //.setHandleInvalid(\"skip\")",
-      "dateUpdated": "Jan 8, 2016 9:48:38 PM",
+      "text": "// Assign an Index to Each Category \nval categoryIndexerModel \u003d new StringIndexer()\n  .setInputCol(\"category\")\n  .setOutputCol(\"indexedCategory\")\n  .fit(itemsDF)",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -389,17 +389,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "categoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_dbb338d1da42\n"
+        "msg": "categoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_baee9c942477\n"
       },
       "dateCreated": "Jan 2, 2016 9:05:08 PM",
-      "dateStarted": "Jan 8, 2016 9:48:42 PM",
-      "dateFinished": "Jan 8, 2016 9:48:42 PM",
+      "dateStarted": "Jan 9, 2016 5:32:08 AM",
+      "dateFinished": "Jan 9, 2016 5:32:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val classifier \u003d new DecisionTreeClassifier()\n  .setFeaturesCol(featureVectorAssembler.getOutputCol)\n  .setLabelCol(categoryIndexerModel.getOutputCol)\n  .setPredictionCol(\"prediction\")\n  .setRawPredictionCol(\"confidence\")\n  .setProbabilityCol(\"probability\")",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -423,17 +423,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "classifier: org.apache.spark.ml.classification.DecisionTreeClassifier \u003d dtc_b86ea421fae9\n"
+        "msg": "classifier: org.apache.spark.ml.classification.DecisionTreeClassifier \u003d dtc_1a09190144f0\n"
       },
       "dateCreated": "Jan 2, 2016 5:57:01 AM",
-      "dateStarted": "Jan 8, 2016 9:48:42 PM",
-      "dateFinished": "Jan 8, 2016 9:48:42 PM",
+      "dateStarted": "Jan 9, 2016 5:32:09 AM",
+      "dateFinished": "Jan 9, 2016 5:32:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val categoryReverseIndexer \u003d new IndexToString()\n  .setInputCol(classifier.getPredictionCol)\n  .setOutputCol(\"predictedCategory\")\n  .setLabels(categoryIndexerModel.labels)",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -457,17 +457,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_0d6fdd3c220a\n"
+        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_3705ae945eeb\n"
       },
       "dateCreated": "Jan 8, 2016 2:20:59 AM",
-      "dateStarted": "Jan 8, 2016 9:48:42 PM",
-      "dateFinished": "Jan 8, 2016 9:48:42 PM",
+      "dateStarted": "Jan 9, 2016 5:32:09 AM",
+      "dateFinished": "Jan 9, 2016 5:32:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ## TODO:  Add N-Gram!  Or do separately",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -494,14 +494,14 @@
         "msg": "\u003ch2\u003eTODO:  Add N-Gram!  Or do separately\u003c/h2\u003e\n"
       },
       "dateCreated": "Jan 8, 2016 7:19:25 AM",
-      "dateStarted": "Jan 8, 2016 9:48:39 PM",
-      "dateFinished": "Jan 8, 2016 9:48:39 PM",
+      "dateStarted": "Jan 9, 2016 5:31:57 AM",
+      "dateFinished": "Jan 9, 2016 5:31:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, word2Vec, featureVectorAssembler, categoryIndexerModel, classifier, categoryReverseIndexer))",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -525,17 +525,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_56936d760159\n"
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_76f8af7d3566\n"
       },
       "dateCreated": "Jan 2, 2016 5:59:26 AM",
-      "dateStarted": "Jan 8, 2016 9:48:42 PM",
-      "dateFinished": "Jan 8, 2016 9:48:43 PM",
+      "dateStarted": "Jan 9, 2016 5:32:09 AM",
+      "dateFinished": "Jan 9, 2016 5:32:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val metricName \u003d \"f1\"\n\nval modelEvaluator \u003d new MulticlassClassificationEvaluator()\n  .setLabelCol(classifier.getLabelCol)\n  .setPredictionCol(classifier.getPredictionCol)\n  .setMetricName(metricName)",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -559,17 +559,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_8619a73ceef6\n"
+        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_34be25d8fcf6\n"
       },
       "dateCreated": "Jan 2, 2016 9:17:25 PM",
-      "dateStarted": "Jan 8, 2016 9:48:43 PM",
-      "dateFinished": "Jan 8, 2016 9:48:43 PM",
+      "dateStarted": "Jan 9, 2016 5:32:09 AM",
+      "dateFinished": "Jan 9, 2016 5:32:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val paramGrid \u003d new ParamGridBuilder()\n  .addGrid(tf.numFeatures, Array(10, 100))\n  .addGrid(idf.minDocFreq, Array(1, 10))\n  .addGrid(word2Vec.vectorSize, Array(200, 300))\n  .addGrid(classifier.maxDepth, Array(3, 5))\n  .build()\n  \nparamGrid.size",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -593,17 +593,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "paramGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFreq: 1,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n}, {\n\tdtc_b86ea421fae9-maxDepth: 5,\n\tidf_fd895dcc47bc-minDocFreq: 1,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n}, {\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFreq: 10,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n}, {\n\tdtc_b86ea421fae9-maxDepth: 5,\n\tidf_fd895dcc47bc-minDocFreq: 10,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n}, {\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFreq: 1,\n\thashingTF_76fc32f1f2cb-numFeatures: 100,\n\tw2v_bd242e11129d-vectorSize: 200\n}, {\n\tdtc_b86ea...res207: Int \u003d 16\n"
+        "msg": "paramGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 1,\n\thashingTF_52f1272b932d-numFeatures: 10,\n\tw2v_7befc491f48a-vectorSize: 200\n}, {\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 10,\n\thashingTF_52f1272b932d-numFeatures: 10,\n\tw2v_7befc491f48a-vectorSize: 200\n}, {\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 1,\n\thashingTF_52f1272b932d-numFeatures: 100,\n\tw2v_7befc491f48a-vectorSize: 200\n}, {\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 10,\n\thashingTF_52f1272b932d-numFeatures: 100,\n\tw2v_7befc491f48a-vectorSize: 200\n}, {\n\tdtc_1a09190144f0-maxDepth: 5,\n\tidf_eed9a184f2f7-minDocFreq: 1,\n\thashingTF_52f1272b932d-numFeatures: 10,\n\tw2v_7befc491f48a-vectorSize: 200\n}, {\n\tdtc_1a09...res24: Int \u003d 16\n"
       },
       "dateCreated": "Jan 2, 2016 9:43:55 PM",
-      "dateStarted": "Jan 8, 2016 9:48:43 PM",
-      "dateFinished": "Jan 8, 2016 9:48:43 PM",
+      "dateStarted": "Jan 9, 2016 5:32:10 AM",
+      "dateFinished": "Jan 9, 2016 5:32:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// K-Folds Cross Validation Combined With Param Grid \nval numFolds \u003d 3\n\nval modelValidator \u003d new CrossValidator()\n  .setEstimator(pipeline)\n  .setEvaluator(modelEvaluator)\n  .setEstimatorParamMaps(paramGrid)\n  .setNumFolds(numFolds) ",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -627,17 +627,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "numFolds: Int \u003d 3\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_0e367333a972\n"
+        "msg": "numFolds: Int \u003d 3\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_78f1fcdd67a3\n"
       },
       "dateCreated": "Jan 2, 2016 9:43:09 PM",
-      "dateStarted": "Jan 8, 2016 9:48:43 PM",
-      "dateFinished": "Jan 8, 2016 9:48:43 PM",
+      "dateStarted": "Jan 9, 2016 5:32:10 AM",
+      "dateFinished": "Jan 9, 2016 5:32:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val crossValidatorModel \u003d modelValidator.fit(itemsDF)",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -661,17 +661,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "crossValidatorModel: org.apache.spark.ml.tuning.CrossValidatorModel \u003d cv_0e367333a972\n"
+        "msg": "crossValidatorModel: org.apache.spark.ml.tuning.CrossValidatorModel \u003d cv_78f1fcdd67a3\n"
       },
       "dateCreated": "Jan 2, 2016 9:47:19 PM",
-      "dateStarted": "Jan 8, 2016 9:48:43 PM",
-      "dateFinished": "Jan 8, 2016 9:49:17 PM",
+      "dateStarted": "Jan 9, 2016 5:32:11 AM",
+      "dateFinished": "Jan 9, 2016 5:32:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Print the average metrics\nval avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n\n// Combine with paramGrid to see how they affect the overall metrics\nval combined \u003d paramGrid.zip(avgMetricsParamGrid)",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:58 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -695,17 +695,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "avgMetricsParamGrid: Array[Double] \u003d Array(0.11860144187629568, 0.09773192239858908, 0.11860144187629568, 0.09773192239858908, 0.10517042844528224, 0.08422745978301534, 0.08819984347469728, 0.07872559539226205, 0.12721260221260222, 0.17429893074838776, 0.12721260221260222, 0.17429893074838776, 0.1237205387205387, 0.16750815028592805, 0.1237205387205387, 0.17071004832909598)\ncombined: Array[(org.apache.spark.ml.param.ParamMap, Double)] \u003d \nArray(({\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFreq: 1,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n},0.11860144187629568), ({\n\tdtc_b86ea421fae9-maxDepth: 5,\n\tidf_fd895dcc47bc-minDocFreq: 1,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n},0.09773192239858908), ({\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFreq: 10,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n},0.11860144187629568), ({\n\tdtc_b86ea421fae9-maxDepth: 5,\n\tidf_fd895dcc47bc-minDocFreq: 10,\n\thashingTF_76fc32f1f2cb-numFeatures: 10,\n\tw2v_bd242e11129d-vectorSize: 200\n},0.09773192239858908), ({\n\tdtc_b86ea421fae9-maxDepth: 3,\n\tidf_fd895dcc47bc-minDocFr..."
+        "msg": "avgMetricsParamGrid: Array[Double] \u003d Array(0.11860144187629568, 0.11860144187629568, 0.10517042844528224, 0.08819984347469728, 0.09773192239858908, 0.09773192239858908, 0.08422745978301534, 0.07872559539226205, 0.12721260221260222, 0.12721260221260222, 0.1237205387205387, 0.1237205387205387, 0.17429893074838776, 0.17429893074838776, 0.16750815028592805, 0.17071004832909598)\ncombined: Array[(org.apache.spark.ml.param.ParamMap, Double)] \u003d \nArray(({\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 1,\n\thashingTF_52f1272b932d-numFeatures: 10,\n\tw2v_7befc491f48a-vectorSize: 200\n},0.11860144187629568), ({\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 10,\n\thashingTF_52f1272b932d-numFeatures: 10,\n\tw2v_7befc491f48a-vectorSize: 200\n},0.11860144187629568), ({\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 1,\n\thashingTF_52f1272b932d-numFeatures: 100,\n\tw2v_7befc491f48a-vectorSize: 200\n},0.10517042844528224), ({\n\tdtc_1a09190144f0-maxDepth: 3,\n\tidf_eed9a184f2f7-minDocFreq: 10,\n\thashingTF_52f1272b932d-numFeatures: 100,\n\tw2v_7befc491f48a-vectorSize: 200\n},0.08819984347469728), ({\n\tdtc_1a09190144f0-maxDepth: 5,\n\tidf_eed9a184f2f7-minDoc..."
       },
       "dateCreated": "Jan 2, 2016 10:15:19 PM",
-      "dateStarted": "Jan 8, 2016 9:48:44 PM",
-      "dateFinished": "Jan 8, 2016 9:49:18 PM",
+      "dateStarted": "Jan 9, 2016 5:32:11 AM",
+      "dateFinished": "Jan 9, 2016 5:32:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n\n// Explain params for each stage\nval bestHashingTFNumFeatures \u003d bestModel.stages(2).asInstanceOf[HashingTF].explainParams\nval bestIDFMinDocFrequency \u003d bestModel.stages(3).asInstanceOf[IDFModel].explainParams\nval bestWord2VecVectorSize \u003d bestModel.stages(4).asInstanceOf[Word2VecModel].explainParams\nval bestDecisionTreeDepth \u003d bestModel.stages(7).asInstanceOf[DecisionTreeClassificationModel].explainParams",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -729,17 +729,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "bestModel: org.apache.spark.ml.PipelineModel \u003d pipeline_c3184f2c1206\nbestHashingTFNumFeatures: String \u003d \ninputCol: input column name (current: filteredWords)\nnumFeatures: number of features (\u003e 0) (default: 262144, current: 10)\noutputCol: output column name (default: hashingTF_76fc32f1f2cb__output, current: tfFeatures)\nbestIDFMinDocFrequency: String \u003d \ninputCol: input column name (current: tfFeatures)\nminDocFreq: minimum of documents in which a term should appear for filtering (default: 0, current: 1)\noutputCol: output column name (default: idf_fd895dcc47bc__output, current: idfFeatures)\nbestWord2VecVectorSize: String \u003d \ninputCol: input column name (current: filteredWords)\nmaxIter: maximum number of iterations (\u003e\u003d 0) (default: 1)\nminCount: the minimum number of times a token must appear to be included in the word2vec model\u0027s vocabulary (default: 5)\nnumPartitions: number of partitions for sentences of words (default: 1)\noutputCol: output column name (default: w2v_bd242e11129d__output, current: word2VecFeatures)\nseed: random seed (default: -1961189076)\nstepSize: Step size to be used for each iteration of optimization. (default: 0.025)\nvectorSize: the dimension of codes after transforming from words (default: 100, current: 300)\nwindowSize: the window size (context words from [-window, window]) (default: 5)\nbestDecisionTreeDepth: String \u003d \nfeaturesCol: features column name (default: features, current: allFeatures)\nlabelCol: label column name (default: label, current: indexedCategory)\npredictionCol: prediction column name (default: prediction, current: prediction)\nprobabilityCol: Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities (default: probability, current: probability)\nrawPredictionCol: raw prediction (a.k.a. confidence) column name (default: rawPrediction, current: confidence)\nthresholds: Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes..."
+        "msg": "bestModel: org.apache.spark.ml.PipelineModel \u003d pipeline_f659495dee41\nbestHashingTFNumFeatures: String \u003d \ninputCol: input column name (current: filteredWords)\nnumFeatures: number of features (\u003e 0) (default: 262144, current: 10)\noutputCol: output column name (default: hashingTF_52f1272b932d__output, current: tfFeatures)\nbestIDFMinDocFrequency: String \u003d \ninputCol: input column name (current: tfFeatures)\nminDocFreq: minimum of documents in which a term should appear for filtering (default: 0, current: 1)\noutputCol: output column name (default: idf_eed9a184f2f7__output, current: idfFeatures)\nbestWord2VecVectorSize: String \u003d \ninputCol: input column name (current: filteredWords)\nmaxIter: maximum number of iterations (\u003e\u003d 0) (default: 1)\nminCount: the minimum number of times a token must appear to be included in the word2vec model\u0027s vocabulary (default: 5)\nnumPartitions: number of partitions for sentences of words (default: 1)\noutputCol: output column name (default: w2v_7befc491f48a__output, current: word2VecFeatures)\nseed: random seed (default: -1961189076)\nstepSize: Step size to be used for each iteration of optimization. (default: 0.025)\nvectorSize: the dimension of codes after transforming from words (default: 100, current: 300)\nwindowSize: the window size (context words from [-window, window]) (default: 5)\nbestDecisionTreeDepth: String \u003d \nfeaturesCol: features column name (default: features, current: allFeatures)\nlabelCol: label column name (default: label, current: indexedCategory)\npredictionCol: prediction column name (default: prediction, current: prediction)\nprobabilityCol: Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities (default: probability, current: probability)\nrawPredictionCol: raw prediction (a.k.a. confidence) column name (default: rawPrediction, current: confidence)\nthresholds: Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes..."
       },
       "dateCreated": "Jan 8, 2016 9:46:40 PM",
-      "dateStarted": "Jan 8, 2016 9:49:18 PM",
-      "dateFinished": "Jan 8, 2016 9:49:18 PM",
+      "dateStarted": "Jan 9, 2016 5:32:54 AM",
+      "dateFinished": "Jan 9, 2016 5:32:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Create Prediction Pipeline\n//val predictOnDF \u003d itemsDF.select($\"description\")\n\nval predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"Stanford University is located in California. It is a great university.\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestModel.transform(predictOnDF)\n .select(classifier.getPredictionCol, categoryReverseIndexer.getOutputCol, stopWordsFilter.getOutputCol, classifier.getRawPredictionCol, classifier.getProbabilityCol)\n\nz.show(predictedResultsDF)",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "text": "// Create Prediction Pipeline\n//val predictOnDF \u003d itemsDF.select($\"description\")\n\nval predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"nosql\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestModel.transform(predictOnDF)\n .select(classifier.getPredictionCol, categoryReverseIndexer.getOutputCol, stopWordsFilter.getOutputCol, classifier.getRawPredictionCol, classifier.getProbabilityCol)\n\nz.show(predictedResultsDF)",
+      "dateUpdated": "Jan 9, 2016 5:38:31 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -781,17 +781,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "prediction\tpredictedCategory\tfilteredWords\tconfidence\tprobability\n0.0\tLibrary\tWrappedArray(stanford, university, located, california, great, university)\t[1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0]\t[0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0]\n"
+        "msg": "prediction\tpredictedCategory\tfilteredWords\tconfidence\tprobability\n0.0\tLibrary\tWrappedArray(nosql)\t[1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0]\t[0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0]\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:54 AM",
-      "dateStarted": "Jan 8, 2016 9:49:18 PM",
-      "dateFinished": "Jan 8, 2016 9:49:19 PM",
+      "dateStarted": "Jan 9, 2016 5:38:31 AM",
+      "dateFinished": "Jan 9, 2016 5:38:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Jan 8, 2016 9:48:39 PM",
+      "dateUpdated": "Jan 9, 2016 5:31:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -817,8 +817,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 8, 2016 1:52:30 AM",
-      "dateStarted": "Jan 8, 2016 9:49:19 PM",
-      "dateFinished": "Jan 8, 2016 9:49:19 PM",
+      "dateStarted": "Jan 9, 2016 5:32:55 AM",
+      "dateFinished": "Jan 9, 2016 5:32:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

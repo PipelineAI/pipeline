@@ -8,6 +8,9 @@ addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PAC
 
 resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
+(unmanagedClasspath in Compile) += file("/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar")
+(unmanagedClasspath in Compile) += file("/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar")
+
 lazy val ml = (project in file("."))
                     .settings(name := "ml")
                     .settings(globalSettings:_*)
