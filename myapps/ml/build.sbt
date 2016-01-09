@@ -23,7 +23,7 @@ val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION")
 val algebirdVersion = sys.env("ALGEBIRD_VERSION")
 
 lazy val mlDeps = Seq(
-  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion,
+//  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion,
   "com.twitter" %% "algebird-core" % algebirdVersion,
   "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
