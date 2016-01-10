@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval itemId \u003d 10003\nval countRatingsForItemId \u003d jedis.get(s\"\"\"exact:${itemId}\"\"\")\nval countDistinctUserRatingsForItemId \u003d jedis.pfcount(s\"\"\"hll:${itemId}\"\"\")",
-      "dateUpdated": "Dec 1, 2015 10:57:13 AM",
+      "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval itemId \u003d 7 // Spark\nval countRatingsForItemId \u003d jedis.get(s\"\"\"exact:${itemId}\"\"\")\nval countDistinctUserRatingsForItemId \u003d jedis.pfcount(s\"\"\"hll:${itemId}\"\"\")",
+      "dateUpdated": "Jan 9, 2016 8:52:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,7 +14,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -25,11 +26,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@1fd32d50\nitemId: Int \u003d 10003\ncountRatingsForItemId: String \u003d 1\ncountDistinctUserRatingsForItemId: Long \u003d 1\n"
+        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@6a579e38\nitemId: Int \u003d 7\ncountRatingsForItemId: String \u003d null\ncountDistinctUserRatingsForItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Dec 1, 2015 10:57:13 AM",
-      "dateFinished": "Dec 1, 2015 10:57:13 AM",
+      "dateStarted": "Jan 9, 2016 8:52:44 PM",
+      "dateFinished": "Jan 9, 2016 8:52:44 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -46,7 +47,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Approx/01: Redix Exact vs. HyperLogLog",
+  "name": "Approx/01: Redis Exact vs. HyperLogLog",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

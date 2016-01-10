@@ -41,10 +41,15 @@ echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
 
 echo '...Starting Spark Master...'
+# --with-tachyon
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 20 --memory 20480M --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+# --cores 20 --memory 20480M
+nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+
+echo '...Starting Spark External Shuffle Service...'
+nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
 echo '...Starting Spark History Server...'
 $SPARK_HOME/sbin/start-history-server.sh

@@ -20,6 +20,9 @@ $SPARK_HOME/sbin/stop-master.sh --webui-port 6060
 echo '...Stopping Spark Worker...'
 $SPARK_HOME/sbin/stop-slave.sh --webui-port 6061
 
+echo '...Starting Spark External Shuffle Service...'
+$SPARK_HOME/sbin/stop-shuffle-service.sh
+
 echo '...Stopping Long-Running Spark JDBC ODBC Hive ThriftServer...'
 $SPARK_HOME/sbin/stop-thriftserver.sh  
 

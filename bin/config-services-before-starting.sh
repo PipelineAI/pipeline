@@ -13,7 +13,7 @@ chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
 
 # Adding syntax highlighting to VIM
-ln -s $PIPELINE_HOME/config/.vim ~/ 
+ln -s $CONFIG_HOME/.vim ~/ 
 
 # Apache Httpd
 echo '...Configuring Apache Httpd...'
@@ -21,8 +21,8 @@ a2enmod proxy
 a2enmod proxy_http
 a2dissite 000-default
 mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
-ln -s $PIPELINE_HOME/config/apache2/apache2.conf /etc/apache2
-mkdir -p $PIPELINE_HOME/logs/apache2
+ln -s $CONFIG_HOME/apache2/apache2.conf /etc/apache2
+mkdir -p $LOGS_HOME/apache2
 
 # Datasets
 echo '...Decompressing Datasets (This takes a while)...'
@@ -48,7 +48,7 @@ tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.avro.tar.bz2 -C $DATASETS_H
 
 # Sample WebApp
 echo '...Configuring Example WebApp...'
-ln -s $PIPELINE_HOME/config/advancedspark.com/advancedspark.conf /etc/apache2/sites-available
+ln -s $CONFIG_HOME/advancedspark.com/advancedspark.conf /etc/apache2/sites-available
 a2ensite advancedspark.conf
 # We're just copying these under /var/www/html for now
 # Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
@@ -65,12 +65,12 @@ mkdir -p $DATA_WORK_HOME/core
 
 # Ganglia
 echo '...Configuring Ganglia...'
-ln -s $PIPELINE_HOME/config/ganglia/ganglia.conf /etc/apache2/sites-available
+ln -s $CONFIG_HOME/ganglia/ganglia.conf /etc/apache2/sites-available
 a2ensite ganglia
 mv /etc/ganglia/gmetad.conf /etc/ganglia/gmetad.conf.orig
 mv /etc/ganglia/gmond.conf /etc/ganglia/gmond.conf.orig
-ln -s $PIPELINE_HOME/config/ganglia/gmetad.conf /etc/ganglia
-ln -s $PIPELINE_HOME/config/ganglia/gmond.conf /etc/ganglia
+ln -s $CONFIG_HOME/ganglia/gmetad.conf /etc/ganglia
+ln -s $CONFIG_HOME/ganglia/gmond.conf /etc/ganglia
 
 # MySQL (Required by HiveQL Exercises)
 echo '...Configurating MySQL...'
@@ -84,8 +84,8 @@ echo '...****Ignore any ERROR 2002s Above****...'
 echo '...Configuring Cassandra...'
 mv $CASSANDRA_HOME/conf/cassandra-env.sh $CASSANDRA_HOME/conf/cassandra-env.sh.orig
 mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
-ln -s $PIPELINE_HOME/config/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
-ln -s $PIPELINE_HOME/config/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
+ln -s $CONFIG_HOME/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
+ln -s $CONFIG_HOME/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
 mkdir -p $DATA_WORK_HOME/cassandra/data
 mkdir -p $DATA_WORK_HOME/cassandra/commitlog
 mkdir -p $DATA_WORK_HOME/cassandra/saved_caches
@@ -93,13 +93,17 @@ mkdir -p $DATA_WORK_HOME/cassandra/saved_caches
 # Spark
 echo '...Configuring Spark...'
 mkdir -p $LOGS_HOME/spark/spark-events
-ln -s $PIPELINE_HOME/config/spark/spark-defaults.conf $SPARK_HOME/conf
-ln -s $PIPELINE_HOME/config/spark/spark-env.sh $SPARK_HOME/conf
-ln -s $PIPELINE_HOME/config/spark/slaves $SPARK_HOME/conf
-ln -s $PIPELINE_HOME/config/spark/metrics.properties $SPARK_HOME/conf
-ln -s $PIPELINE_HOME/config/spark/fairscheduler.xml $SPARK_HOME/conf
-ln -s $PIPELINE_HOME/config/spark/hive-site.xml $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/spark-defaults.conf $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/spark-env.sh $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/slaves $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/metrics.properties $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/fairscheduler.xml $SPARK_HOME/conf
+ln -s $CONFIG_HOME/spark/hive-site.xml $SPARK_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
+
+# Tachyon
+echo '...Configuring Tachyon...'
+ln -s $CONFIG_HOME/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 
 # Kafka
 echo '...Configuring Kafka...'
@@ -112,7 +116,7 @@ echo '...Configuring ElasticSearch...'
 
 # Logstash
 echo '...Configuring Logstash...'
-ln -s $PIPELINE_HOME/config/logstash/logstash.conf $LOGSTASH_HOME
+ln -s $CONFIG_HOME/logstash/logstash.conf $LOGSTASH_HOME
 
 # Kibana
 echo '...Configuring Kibana...'
@@ -138,10 +142,10 @@ echo '...Configuring SBT...'
 # Zeppelin
 echo '...Configuring Zeppelin...'
 chmod a+x $ZEPPELIN_HOME/bin/*.sh
-ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
-ln -s $PIPELINE_HOME/config/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
-ln -s $PIPELINE_HOME/config/zeppelin/interpreter.json $ZEPPELIN_HOME/conf
-ln -s $PIPELINE_HOME/config/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
+ln -s $CONFIG_HOME/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
+ln -s $CONFIG_HOME/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
+ln -s $CONFIG_HOME/zeppelin/interpreter.json $ZEPPELIN_HOME/conf
+ln -s $CONFIG_HOME/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # iPython/Jupyter

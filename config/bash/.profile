@@ -112,6 +112,10 @@ export SPARK_HOME=$DEV_INSTALL_HOME/spark-$SPARK_VERSION-bin-fluxcapacitor
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-$SPARK_VERSION-hadoop$HADOOP_VERSION.jar
 
+# Tachyon
+export TACHYON_HOME=$SPARK_HOME/tachyon
+export PATH=$PATH:$TACHYON_HOME/bin
+
 # Kafka
 export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-$CONFLUENT_VERSION
 export PATH=$PATH:$KAFKA_HOME/bin
