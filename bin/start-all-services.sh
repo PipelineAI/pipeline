@@ -48,8 +48,8 @@ echo '...Starting Spark Worker...'
 # --cores 20 --memory 20480M
 nohup $SPARK_HOME/sbin/start-slave.sh --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
 
-echo '...Starting Spark External Shuffle Service...'
-nohup $SPARK_HOME/sbin/start-shuffle-service.sh
+#echo '...Starting Spark External Shuffle Service...'
+#nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
 echo '...Starting Spark History Server...'
 $SPARK_HOME/sbin/start-history-server.sh
