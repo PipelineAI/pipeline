@@ -46,13 +46,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Approx/06: DIMSUM Cosine Similarity",
+  "name": "Approx/06: TODO DIMSUM Cosine Similarity",
   "id": "2BAVRVJ98",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

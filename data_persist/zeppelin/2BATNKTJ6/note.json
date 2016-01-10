@@ -747,13 +747,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/03:  Document Similarity (N-Gram, Cosine Sim)",
+  "name": "NLP/03:  TODO: Document Similarity (N-Gram, Cosine Sim)",
   "id": "2BATNKTJ6",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

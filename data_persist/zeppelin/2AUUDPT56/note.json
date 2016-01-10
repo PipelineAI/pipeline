@@ -3,7 +3,7 @@
     {
       "title": "Load the Reference Data To Enrich the Streaming Ratings",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", explode($\"tags\")).limit(5))",
-      "dateUpdated": "Jan 7, 2016 10:52:24 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -54,15 +54,15 @@
         "msg": "id\ttitle\timg\tcol\n1\tApache Cassandra\timg/software/cassandra.png\tDatabase\n1\tApache Cassandra\timg/software/cassandra.png\tNoSQL\n1\tApache Cassandra\timg/software/cassandra.png\tJava\n1\tApache Cassandra\timg/software/cassandra.png\tJVM\n1\tApache Cassandra\timg/software/cassandra.png\tEventually Consistent\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Jan 7, 2016 10:52:24 PM",
-      "dateFinished": "Jan 7, 2016 10:52:25 PM",
+      "dateStarted": "Jan 10, 2016 12:42:04 AM",
+      "dateFinished": "Jan 10, 2016 12:42:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read the real-time Ratings coming from Users through Kafka",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
-      "dateUpdated": "Jan 7, 2016 10:52:24 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -91,15 +91,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Jan 7, 2016 10:52:25 PM",
-      "dateFinished": "Jan 7, 2016 10:52:25 PM",
+      "dateStarted": "Jan 10, 2016 12:42:05 AM",
+      "dateFinished": "Jan 10, 2016 12:42:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show the total rating count and number of Overall distinct users Who Rated (Cassandra)",
       "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Jan 7, 2016 10:52:24 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -125,18 +125,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 79\ndistinctUsers: Any \u003d 2\n"
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 0\ndistinctUsers: Any \u003d 0\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Jan 7, 2016 10:52:25 PM",
-      "dateFinished": "Jan 7, 2016 10:52:27 PM",
+      "dateStarted": "Jan 10, 2016 12:42:20 AM",
+      "dateFinished": "Jan 10, 2016 12:42:24 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Rating Count and Number of Distinct Users Who Rated a Given Item (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Jan 7, 2016 10:52:24 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -161,18 +161,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@767bbe8a\nexactNumRatingsForItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@174869b8\nexactNumRatingsForItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Dec 1, 2015 9:46:02 AM",
-      "dateStarted": "Jan 7, 2016 10:52:25 PM",
-      "dateFinished": "Jan 7, 2016 10:52:27 PM",
+      "dateStarted": "Jan 10, 2016 12:42:20 AM",
+      "dateFinished": "Jan 10, 2016 12:42:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use the DataFrame API to show most desirable items by rating count",
       "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\")\n  .groupBy($\"itemId\", $\"title\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n  \njoinedDF.show()",
-      "dateUpdated": "Jan 7, 2016 10:52:24 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -197,18 +197,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, count: bigint]\n+------+----------------+-----+\n|itemId|           title|count|\n+------+----------------+-----+\n|    22|   Apache Mahout|    2|\n|    25|  Apache Parquet|    2|\n|     7|    Apache Spark|    2|\n|    13|Apache MapReduce|    2|\n|    10|     Apache HDFS|    2|\n+------+----------------+-----+\n\n"
+        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, count: bigint]\n+------+-----+-----+\n|itemId|title|count|\n+------+-----+-----+\n+------+-----+-----+\n\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Jan 7, 2016 10:52:27 PM",
-      "dateFinished": "Jan 7, 2016 10:52:29 PM",
+      "dateStarted": "Jan 10, 2016 12:42:25 AM",
+      "dateFinished": "Jan 10, 2016 12:42:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Register Temp Tables to run SQL (won\u0027t need to do this in Spark 1.6+)",
       "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")",
-      "dateUpdated": "Jan 7, 2016 10:52:26 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -236,15 +236,15 @@
         "msg": ""
       },
       "dateCreated": "Dec 25, 2015 7:30:41 PM",
-      "dateStarted": "Jan 7, 2016 10:52:28 PM",
-      "dateFinished": "Jan 7, 2016 10:52:29 PM",
+      "dateStarted": "Jan 10, 2016 12:42:25 AM",
+      "dateFinished": "Jan 10, 2016 12:42:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use SQL to Show Most desirable Items by Rating Count",
       "text": "%sql SELECT itemId, title, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title \n  ORDER BY count \n  DESC LIMIT 5",
-      "dateUpdated": "Jan 7, 2016 10:52:26 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -294,17 +294,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\tcount\n22\tApache Mahout\t2\n25\tApache Parquet\t2\n7\tApache Spark\t2\n13\tApache MapReduce\t2\n10\tApache HDFS\t2\n"
+        "msg": "itemId\ttitle\tcount\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Jan 7, 2016 10:52:29 PM",
-      "dateFinished": "Jan 7, 2016 10:52:30 PM",
+      "dateStarted": "Jan 10, 2016 12:42:26 AM",
+      "dateFinished": "Jan 10, 2016 12:42:27 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Compare The Physical Plans Between DataFrames And SQL (Equal)",
-      "dateUpdated": "Jan 7, 2016 10:52:26 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -332,14 +332,14 @@
         "msg": "\u003ch3\u003eCompare The Physical Plans Between DataFrames And SQL (Equal)\u003c/h3\u003e\n"
       },
       "dateCreated": "Jul 28, 2015 9:50:30 PM",
-      "dateStarted": "Jan 7, 2016 10:52:27 PM",
-      "dateFinished": "Jan 7, 2016 10:52:27 PM",
+      "dateStarted": "Jan 10, 2016 12:42:05 AM",
+      "dateFinished": "Jan 10, 2016 12:42:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "joinedDF.explain()",
-      "dateUpdated": "Jan 7, 2016 10:52:27 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:05 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -381,17 +381,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#61L DESC], output\u003d[itemId#48,title#41,count#61L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#48,title#41], functions\u003d[(count(itemId#48),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#48,title#41,count#61L])\n      +- TungstenExchange hashpartitioning(itemId#48,title#41,200), None\n         +- TungstenAggregate(key\u003d[itemId#48,title#41], functions\u003d[(count(itemId#48),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#48,title#41,count#64L])\n            +- Project [itemId#48,title#41]\n               +- BroadcastHashJoin [cast(itemId#48 as bigint)], [id#38L], BuildRight\n                  :- Project [itemid#44 AS itemId#48]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@11d45610[itemid#44] \n                  +- Scan JSONRelation[title#41,id#38L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#25L DESC], output\u003d[itemId#12,title#5,count#25L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#12,title#5], functions\u003d[(count(itemId#12),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#12,title#5,count#25L])\n      +- TungstenExchange hashpartitioning(itemId#12,title#5,200), None\n         +- TungstenAggregate(key\u003d[itemId#12,title#5], functions\u003d[(count(itemId#12),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#12,title#5,count#28L])\n            +- Project [itemId#12,title#5]\n               +- BroadcastHashJoin [cast(itemId#12 as bigint)], [id#2L], BuildRight\n                  :- Project [itemid#8 AS itemId#12]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@368293d1[itemid#8] \n                  +- Scan JSONRelation[title#5,id#2L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Dec 8, 2015 1:02:40 AM",
-      "dateStarted": "Jan 7, 2016 10:52:29 PM",
-      "dateFinished": "Jan 7, 2016 10:52:30 PM",
+      "dateStarted": "Jan 10, 2016 12:42:27 AM",
+      "dateFinished": "Jan 10, 2016 12:42:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "sqlContext.sql(\"\"\"SELECT itemId, title, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title \n  ORDER BY count \n  DESC LIMIT 5\"\"\").explain()",
-      "dateUpdated": "Jan 7, 2016 10:52:27 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -427,18 +427,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#72L DESC], output\u003d[itemId#48,title#41,count#72L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#48,title#41], functions\u003d[(count(itemId#48),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#48,title#41,count#72L])\n      +- TungstenExchange hashpartitioning(itemId#48,title#41,200), None\n         +- TungstenAggregate(key\u003d[itemId#48,title#41], functions\u003d[(count(itemId#48),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#48,title#41,count#78L])\n            +- Project [itemId#48,title#41]\n               +- BroadcastHashJoin [cast(itemId#48 as bigint)], [id#38L], BuildRight\n                  :- Project [itemid#44 AS itemId#48]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@11d45610[itemid#44] \n                  +- Scan JSONRelation[title#41,id#38L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#36L DESC], output\u003d[itemId#12,title#5,count#36L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#12,title#5], functions\u003d[(count(itemId#12),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#12,title#5,count#36L])\n      +- TungstenExchange hashpartitioning(itemId#12,title#5,200), None\n         +- TungstenAggregate(key\u003d[itemId#12,title#5], functions\u003d[(count(itemId#12),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#12,title#5,count#42L])\n            +- Project [itemId#12,title#5]\n               +- BroadcastHashJoin [cast(itemId#12 as bigint)], [id#2L], BuildRight\n                  :- Project [itemid#8 AS itemId#12]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@368293d1[itemid#8] \n                  +- Scan JSONRelation[title#5,id#2L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Dec 8, 2015 1:04:07 AM",
-      "dateStarted": "Jan 7, 2016 10:52:30 PM",
-      "dateFinished": "Jan 7, 2016 10:52:30 PM",
+      "dateStarted": "Jan 10, 2016 12:42:27 AM",
+      "dateFinished": "Jan 10, 2016 12:42:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(joinedDF)\n",
-      "dateUpdated": "Jan 7, 2016 10:52:27 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -486,16 +486,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\tcount\n22\tApache Mahout\t2\n13\tApache MapReduce\t2\n7\tApache Spark\t2\n25\tApache Parquet\t2\n10\tApache HDFS\t2\n"
+        "msg": "itemId\ttitle\tcount\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Jan 7, 2016 10:52:30 PM",
-      "dateFinished": "Jan 7, 2016 10:52:34 PM",
+      "dateStarted": "Jan 10, 2016 12:42:28 AM",
+      "dateFinished": "Jan 10, 2016 12:42:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 7, 2016 10:52:27 PM",
+      "dateUpdated": "Jan 10, 2016 12:42:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -521,8 +521,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 27, 2015 9:52:58 PM",
-      "dateStarted": "Jan 7, 2016 10:52:31 PM",
-      "dateFinished": "Jan 7, 2016 10:52:34 PM",
+      "dateStarted": "Jan 10, 2016 12:42:28 AM",
+      "dateFinished": "Jan 10, 2016 12:42:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

@@ -1,0 +1,472 @@
+{
+  "paragraphs": [
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
+      "dateUpdated": "Jan 10, 2016 4:14:13 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1060534387",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jan 10, 2016 4:14:13 AM",
+      "dateFinished": "Jan 10, 2016 4:14:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert CSV-based DataFrame into TaggedItems",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
+      "dateUpdated": "Jan 10, 2016 4:14:15 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_2030491697",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[2184] at map at \u003cconsole\u003e:71\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jan 10, 2016 4:14:15 AM",
+      "dateFinished": "Jan 10, 2016 4:14:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))\n\n//tagCountsRDD.collect().mkString(\"\\n\")",
+      "dateUpdated": "Jan 10, 2016 4:14:17 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1205734711",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jan 10, 2016 4:14:17 AM",
+      "dateFinished": "Jan 10, 2016 4:14:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cartesian product of all items",
+      "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n  .filter(itemPair \u003d\u003e (itemPair._1.id !\u003d itemPair._2.id)) // Filter out duplicate items\n  .cache()\n  \nallItemPairsRDD.count()",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_673909889",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d MapPartitionsRDD[1848] at filter at \u003cconsole\u003e:66\nres150: Long \u003d 90\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Jaccard Similarity between all Items above a threshold",
+      "text": "import com.advancedspark.ml.Similarity\n\nval minJaccardSimilarityThreshold \u003d 0.01\n\nval similarItemPairsAboveThresholdRDD \u003d allItemPairsRDD\n  .map(itemPair \u003d\u003e (itemPair._1, itemPair._2, Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)))\n  .filter(_._3 \u003e\u003d minJaccardSimilarityThreshold)\n\nval similarItemPairCount \u003d similarItemPairsAboveThresholdRDD.count()\n//z.show(similarItemsAboveThresholdRDD.toDF(\"item1\", \"item2\", \"jaccard_similarity\").sort($\"jaccard_similarity\" desc))",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_609356823",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\nminJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemPairsAboveThresholdRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem, Double)] \u003d MapPartitionsRDD[1850] at filter at \u003cconsole\u003e:73\nsimilarItemPairCount: Long \u003d 38\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Items Using Similarity Pairs with Power Iteration Clustering",
+      "text": "// http://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic\nimport org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval similarItemPairIdsAboveThresholdRDD \u003d similarItemPairsAboveThresholdRDD.map(itemPair \u003d\u003e \n  (itemPair._1.id, itemPair._2.id, itemPair._3)\n)\n\nval clusteringModel \u003d clustering.run(similarItemPairIdsAboveThresholdRDD)\n\nval clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1801101308",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@7affdf0a\nsimilarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[2031] at map at \u003cconsole\u003e:77\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@3432adc1\nclusterAssignmentsRDD: org.apache.spark.rdd.RDD[(Long, Int)] \u003d MapPartitionsRDD[2163] at map at \u003cconsole\u003e:83\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the cluster assignments with item data",
+      "text": "val enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n  .sort($\"clusterId\" desc)\n  \nz.show(enrichedClusterAssignmentsDF)",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1557823509",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\titemId\ttitle\ttags\n4\t10\tGoldenEye (1995)\tAction|Adventure|Thriller\n3\t3\tGrumpier Old Men (1995)\tComedy|Romance\n3\t7\tSabrina (1995)\tComedy|Romance\n2\t4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n2\t5\tFather of the Bride Part II (1995)\tComedy\n1\t6\tHeat (1995)\tAction|Crime|Thriller\n1\t9\tSudden Death (1995)\tAction\n0\t1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n0\t8\tTom and Huck (1995)\tAdventure|Children\n0\t2\tJumanji (1995)\tAdventure|Children|Fantasy\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show cluster Distributions",
+      "text": "val clusterDistributionDF \u003d joinedClusterAssignmentsDF\n  .select($\"clusterId\", $\"itemId\", $\"tags\")\n  .groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\"))\n  .sort($\"clusterId\" desc)\n\nz.show(clusterDistributionDF)",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_744869899",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\ttags\tcount(itemId)\n4\tAction|Adventure|Thriller\t1\n3\tComedy|Romance\t2\n2\tComedy\t1\n2\tComedy|Drama|Romance\t1\n1\tAction\t1\n1\tAction|Crime|Thriller\t1\n0\tAdventure|Animation|Children|Comedy|Fantasy\t1\n0\tAdventure|Children\t1\n0\tAdventure|Children|Fantasy\t1\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Given an itemId (or List of itemIds), recommend more itemIds based on similar cluster \n//        and/or closest jaccard similarity ",
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_417551140",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 10, 2016 4:14:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_662280891",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Clustering/03: TODO: One-Hot Encoding Tag Category Vectors + KMeans",
+  "id": "2B951KEK9",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

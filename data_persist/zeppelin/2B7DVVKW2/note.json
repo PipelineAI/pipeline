@@ -34,6 +34,40 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "1+1",
+      "dateUpdated": "Jan 10, 2016 12:18:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452385083143_9969365",
+      "id": "20160110-001803_989236707",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res2: Int \u003d 2\n"
+      },
+      "dateCreated": "Jan 10, 2016 12:18:03 AM",
+      "dateStarted": "Jan 10, 2016 12:18:07 AM",
+      "dateFinished": "Jan 10, 2016 12:18:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "dateUpdated": "Jan 2, 2016 2:59:14 AM",
       "config": {},
       "settings": {
