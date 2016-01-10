@@ -176,7 +176,8 @@
 
 <property>
   <name>zeppelin.server.allowed.origins</name>
-  <value>http://demo.advancedspark.com:38080,http://demo.fluxcapacitor.com:38080</value>
+<!--  <value>http://localhost:38080,http://localhost:80,http://127.0.0.1:38080,http://127.0.0.1:80,http://demo.advancedspark.com:38080,http://demo.fluxcapacitor.com:38080</value> -->
+      <value>*</value>
   <description>Allowed sources for REST and WebSocket requests (i.e. http://onehost:8080,http://otherhost.com). If you leave * you are vulnerable to https://issues.apache.org/jira/browse/ZEPPELIN-173</description>
 </property>
 
