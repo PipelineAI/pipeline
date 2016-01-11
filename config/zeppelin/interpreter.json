@@ -20,13 +20,13 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "10",
+        "spark.cores.max": "20",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "10240m",
+        "spark.executor.memory": "51200m",
         "zeppelin.spark.useHiveContext": "true",
         "args": "",
         "zeppelin.spark.concurrentSQL": "false",
@@ -64,8 +64,8 @@
         "default.password": "",
         "default.user": "hive",
         "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
-        "default.driver": "org.apache.hive.jdbc.HiveDriver",
         "default.url": "jdbc:hive2://127.0.0.1:10000",
+        "default.driver": "org.apache.hive.jdbc.HiveDriver",
         "common.max_count": "1000",
         "hive.hiveserver2.password": "",
         "hive.hiveserver2.user": "hiveuser"
@@ -437,6 +437,11 @@
       "2AR33ZMZJ"
     ],
     "2BAFTUCBH": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2BBE9WA6B": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"

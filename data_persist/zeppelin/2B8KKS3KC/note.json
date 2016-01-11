@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 9, 2016 5:31:55 AM",
+      "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.NGram\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
+      "dateUpdated": "Jan 10, 2016 10:52:09 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -31,6 +31,40 @@
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
       "dateStarted": "Jan 9, 2016 5:31:56 AM",
       "dateFinished": "Jan 9, 2016 5:31:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### TODO:  Update this ![Most Desirable Users](http://fluxcapacitor.com/img/text-classifier-pipeline.png)",
+      "dateUpdated": "Jan 10, 2016 11:39:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452469085326_794515138",
+      "id": "20160110-233805_1659556573",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eTODO:  Update this \u003cimg src\u003d\"http://fluxcapacitor.com/img/text-classifier-pipeline.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:38:05 PM",
+      "dateStarted": "Jan 10, 2016 11:39:02 PM",
+      "dateFinished": "Jan 10, 2016 11:39:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -122,40 +156,6 @@
       "dateCreated": "Jan 2, 2016 9:57:07 PM",
       "dateStarted": "Jan 9, 2016 5:31:58 AM",
       "dateFinished": "Jan 9, 2016 5:32:06 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md ## TODO:  Add Diagram with Pipeline Stages to help Visualize ",
-      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452215933962_1996249260",
-      "id": "20160108-011853_334678135",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch2\u003eTODO:  Add Diagram with Pipeline Stages to help Visualize\u003c/h2\u003e\n"
-      },
-      "dateCreated": "Jan 8, 2016 1:18:53 AM",
-      "dateStarted": "Jan 9, 2016 5:31:56 AM",
-      "dateFinished": "Jan 9, 2016 5:31:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -296,6 +296,35 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "val ngram \u003d new NGram()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"ngramFeatures\")\n  .setN(2)",
+      "dateUpdated": "Jan 10, 2016 10:53:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452466340399_1884381842",
+      "id": "20160110-225220_1463159055",
+      "dateCreated": "Jan 10, 2016 10:52:20 PM",
+      "dateStarted": "Jan 10, 2016 10:53:06 PM",
+      "dateFinished": "Jan 10, 2016 10:53:09 PM",
+      "status": "ABORT",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "val word2Vec \u003d new Word2Vec()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"word2VecFeatures\")",
       "dateUpdated": "Jan 9, 2016 5:31:56 AM",
       "config": {
@@ -330,8 +359,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Combine IF, IDF, and Word2Vec\nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(idf.getOutputCol, word2Vec.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
-      "dateUpdated": "Jan 9, 2016 5:31:56 AM",
+      "text": "// Combine IF, IDF, ngram, and Word2Vec\nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(idf.getOutputCol, ngram.getOutputCol, word2Vec.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
+      "dateUpdated": "Jan 10, 2016 10:53:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -353,14 +382,14 @@
       "jobName": "paragraph_1451774247109_110458938",
       "id": "20160102-223727_1555430952",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "featureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_1477f9d86e4d\n"
+        "msg": "\u003cconsole\u003e:35: error: not found: type VectorAssembler\n       val featureVectorAssembler \u003d new VectorAssembler()\n                                        ^\n"
       },
       "dateCreated": "Jan 2, 2016 10:37:27 PM",
-      "dateStarted": "Jan 9, 2016 5:32:08 AM",
-      "dateFinished": "Jan 9, 2016 5:32:08 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 10, 2016 10:54:32 PM",
+      "dateFinished": "Jan 10, 2016 10:54:32 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -466,42 +495,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ## TODO:  Add N-Gram!  Or do separately",
-      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452237565060_-1206324489",
-      "id": "20160108-071925_1344624601",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch2\u003eTODO:  Add N-Gram!  Or do separately\u003c/h2\u003e\n"
-      },
-      "dateCreated": "Jan 8, 2016 7:19:25 AM",
-      "dateStarted": "Jan 9, 2016 5:31:57 AM",
-      "dateFinished": "Jan 9, 2016 5:31:57 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, word2Vec, featureVectorAssembler, categoryIndexerModel, classifier, categoryReverseIndexer))",
-      "dateUpdated": "Jan 9, 2016 5:31:57 AM",
+      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, ngram, word2Vec, featureVectorAssembler, categoryIndexerModel, classifier, categoryReverseIndexer))",
+      "dateUpdated": "Jan 10, 2016 10:53:35 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -523,14 +518,14 @@
       "jobName": "paragraph_1451714366805_831050936",
       "id": "20160102-055926_1532666557",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_76f8af7d3566\n"
+        "msg": "\u003cconsole\u003e:34: error: not found: type Pipeline\n         val pipeline \u003d new Pipeline()\n                            ^\n"
       },
       "dateCreated": "Jan 2, 2016 5:59:26 AM",
-      "dateStarted": "Jan 9, 2016 5:32:09 AM",
-      "dateFinished": "Jan 9, 2016 5:32:09 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 10, 2016 10:53:35 PM",
+      "dateFinished": "Jan 10, 2016 10:54:32 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -823,7 +818,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02: Text Classification (TF/IDF + Word2Vec, Decision Tree)",
+  "name": "NLP/02: Text Classifier (TF/IDF, n-gram, Word2Vec, Decision Tree)",
   "id": "2B8KKS3KC",
   "angularObjects": {
     "2ARR8UZDJ": [],

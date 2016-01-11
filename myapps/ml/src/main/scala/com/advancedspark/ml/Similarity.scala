@@ -17,14 +17,4 @@ object Similarity {
 
     jaccardSimilarity
   }
-
-  def getApproxLSHSimilarity(minHasher: MinHasher32, item1: TaggedItem, item2: TaggedItem): Double = {
-    val minHashSignatureItem1 = item1.tags.map(tag => minHasher.init(tag))
-      .reduce((leftMinHashSignature, rightMinHashSignature) => minHasher.plus(leftMinHashSignature, rightMinHashSignature))
-
-    val minHashSignatureItem2 = item2.tags.map(tag => minHasher.init(tag))
-      .reduce((leftMinHashSignature, rightMinHashSignature) => minHasher.plus(leftMinHashSignature, rightMinHashSignature))
-
-    minHasher.similarity(minHashSignatureItem1, minHashSignatureItem2)
-  }
 }

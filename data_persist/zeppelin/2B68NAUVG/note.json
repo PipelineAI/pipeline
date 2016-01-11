@@ -318,41 +318,6 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Shamelessly lifted from GraphX In Action (Great Book!)\ndef dijkstra(graph: Graph[VertexId, Double], srcId: VertexId): Graph[(VertexId, List[Any]), Double] \u003d {\n  // Dijkstra Shortest Path\n  var graph2 \u003d graph.mapVertices((vid,vd) \u003d\u003e \n    (false, if (vid \u003d\u003d srcId) 0 else Double.MaxValue, List[VertexId]()))\n\n  for (i \u003c- 1L to graph.vertices.count-1) {\n    // The fold() below simulates minBy() functionality\n    val currentVertexId \u003d graph2.vertices.filter(!_._2._1)\n      .fold((0L,(false,Double.MaxValue,List[VertexId]())))((a,b) \u003d\u003e\n        if (a._2._2 \u003c b._2._2) a else b)._1\n      \n\n    val newDistances \u003d graph2.aggregateMessages[(Double,List[VertexId])](ctx \u003d\u003e \n      if (ctx.srcId \u003d\u003d currentVertexId) \n        ctx.sendToDst((ctx.srcAttr._2 + ctx.attr, ctx.srcAttr._3 :+ ctx.srcId)),\n          (a,b) \u003d\u003e if (a._1 \u003c b._1) a else b)\n        \n    graph2 \u003d graph2.outerJoinVertices(newDistances)((vid, vd, newSum) \u003d\u003e {\n      val newSumVal \u003d newSum.getOrElse((Double.MaxValue,List[VertexId]()))\n        (vd._1 || vid \u003d\u003d currentVertexId, math.min(vd._2, newSumVal._1),\n          if (vd._2 \u003c newSumVal._1) vd._3 else newSumVal._2)})\n  }\n\n  val shortestPathGraph \u003d graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) \u003d\u003e \n    (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))\n    .productIterator.toList.tail))\n  \n  shortestPathGraph\n}",
-      "dateUpdated": "Jan 9, 2016 4:21:49 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "enabled": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451398384385_1393442935",
-      "id": "20151229-141304_162052884",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "dijkstra: (graph: org.apache.spark.graphx.Graph[org.apache.spark.graphx.VertexId,Double], srcId: org.apache.spark.graphx.VertexId)org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double]\n"
-      },
-      "dateCreated": "Dec 29, 2015 2:13:04 PM",
-      "dateStarted": "Jan 9, 2016 4:21:57 AM",
-      "dateFinished": "Jan 9, 2016 4:21:58 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Similarity Pathway",
       "text": "val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1, rdd._2, rdd._3) \n})\n\nval graph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)",
       "dateUpdated": "Jan 9, 2016 4:24:31 AM",
@@ -497,8 +462,8 @@
     },
     {
       "title": "Convert the clusterAssignmentsRDD into a DataFrame",
-      "text": "val schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n\nval clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2))\n\nval clusterAssignmentsDF \u003d sqlContext.createDataFrame(clusterAssignmentsRowRDD, schema)",
-      "dateUpdated": "Jan 9, 2016 4:21:49 AM",
+      "text": "val clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2)\n).toDF(\"itemId\", \"clusterId\")",
+      "dateUpdated": "Jan 10, 2016 11:23:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -530,13 +495,13 @@
       "dateCreated": "Dec 28, 2015 8:48:32 PM",
       "dateStarted": "Jan 9, 2016 4:22:31 AM",
       "dateFinished": "Jan 9, 2016 4:22:32 AM",
-      "status": "FINISHED",
+      "status": "ABORT",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of items within a cluster",
-      "text": "val joinedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(joinedItemsClustersCountDF)",
-      "dateUpdated": "Jan 9, 2016 4:21:50 AM",
+      "text": "val enrichedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"itemId\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(enrichedItemsClustersCountDF)",
+      "dateUpdated": "Jan 10, 2016 11:18:03 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -586,13 +551,13 @@
       "dateCreated": "Dec 29, 2015 1:36:26 AM",
       "dateStarted": "Jan 9, 2016 4:22:32 AM",
       "dateFinished": "Jan 9, 2016 4:22:33 AM",
-      "status": "FINISHED",
+      "status": "ABORT",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cluster Details",
-      "text": "// Enrich the cluster assignment tuples with itemsDF\nval joinedItemsClustersDF \u003d clusterAssignmentsDF.select($\"clusterId\", $\"itemId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\", $\"itemId\")\n  \nz.show(joinedItemsClustersDF)",
-      "dateUpdated": "Jan 9, 2016 4:21:50 AM",
+      "text": "// Enrich the cluster assignment tuples with itemsDF\nval enrichedItemsClustersDF \u003d clusterAssignmentsDF.select($\"clusterId\", $\"itemId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\", $\"itemId\")\n  \nz.show(enrichedItemsClustersDF)",
+      "dateUpdated": "Jan 10, 2016 11:18:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -647,77 +612,6 @@
       "dateCreated": "Dec 29, 2015 12:17:06 AM",
       "dateStarted": "Jan 9, 2016 4:22:33 AM",
       "dateFinished": "Jan 9, 2016 4:22:34 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "case class ClusteredItem(id: Long, clusterId: Long, title: String, description: String, img: String, tags: Seq[String]) {\n  override def toString: String \u003d id + \", \" + clusterId + \", \" + title + \", \" + tags\n}",
-      "dateUpdated": "Jan 9, 2016 4:21:50 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452298225003_-1097571064",
-      "id": "20160109-001025_953500678",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "defined class ClusteredItem\n"
-      },
-      "dateCreated": "Jan 9, 2016 12:10:25 AM",
-      "dateStarted": "Jan 9, 2016 4:22:34 AM",
-      "dateFinished": "Jan 9, 2016 4:22:34 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "import sqlContext.implicits._\n\n// TODO:  Show the intersection of tags within each cluster\n//val clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}\n\nval joinedItemsClustersDS \u003d joinedItemsClustersDF.as[ClusteredItem]\n\n//val joinedItemsGroupedByClusterDS \u003d \n\njoinedItemsClustersDS.groupBy(clusteredItem \u003d\u003e (clusteredItem.clusterId, clusteredItem.title))\n\n//joinedItemsGroupedByClusterDS.mapGroups((clusterId, titles) \u003d\u003e (clusterId, titles(0)))",
-      "dateUpdated": "Jan 9, 2016 4:21:50 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "enabled": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451350991110_1019547650",
-      "id": "20151229-010311_1992313547",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import sqlContext.implicits._\njoinedItemsClustersDS: org.apache.spark.sql.Dataset[ClusteredItem] \u003d [id: bigint, clusterId: bigint, title: string, description: string, img: string, tags: array\u003cstring\u003e]\nres585: org.apache.spark.sql.GroupedDataset[(Long, String),ClusteredItem] \u003d org.apache.spark.sql.GroupedDataset@7897f434\n"
-      },
-      "dateCreated": "Dec 29, 2015 1:03:11 AM",
-      "dateStarted": "Jan 9, 2016 4:22:34 AM",
-      "dateFinished": "Jan 9, 2016 4:22:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

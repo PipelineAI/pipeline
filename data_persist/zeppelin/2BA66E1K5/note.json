@@ -105,6 +105,40 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "%md ### Update this.  Shamelessy lifted from Spark GraphX In Action.  Great Book!![SVD++ Return Value](http://fluxcapacitor.com/img/svdplusplus-return-value.png)",
+      "dateUpdated": "Jan 10, 2016 11:40:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452469161222_-1927724537",
+      "id": "20160110-233921_1209042443",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eUpdate this.  Shamelessy lifted from Spark GraphX In Action.  Great Book!\u003cimg src\u003d\"http://fluxcapacitor.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:39:21 PM",
+      "dateStarted": "Jan 10, 2016 11:40:02 PM",
+      "dateFinished": "Jan 10, 2016 11:40:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "val rank \u003d 2\nval maxIterations \u003d 10\nval minRating \u003d 0\nval maxRating \u003d 1\nval gamma1 \u003d 0.007\nval gamma2 \u003d 0.007\nval gamma6 \u003d 0.005\nval gamma7 \u003d 0.015\n\nval conf \u003d new Conf(rank, maxIterations, minRating, maxRating, gamma1, gamma2, gamma6, gamma7)\nvar (graph, mean) \u003d SVDPlusPlus.run(ratingsEdgeRDD, conf)",
       "dateUpdated": "Jan 7, 2016 10:53:38 PM",
       "config": {
