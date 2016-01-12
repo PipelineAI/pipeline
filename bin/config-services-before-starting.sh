@@ -31,8 +31,8 @@ bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
 bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
 bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/movies.csv.bz2
-bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
 cat $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2-part-* > $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
+bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
 tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
 tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
 tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
