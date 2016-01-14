@@ -818,7 +818,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02: Text Classifier (TF/IDF, n-gram, Word2Vec, Decision Tree)",
+  "name": "NLP/03: Text Classifier (TF/IDF, n-gram, Word2Vec, Decision Tree)",
   "id": "2B8KKS3KC",
   "angularObjects": {
     "2ARR8UZDJ": [],

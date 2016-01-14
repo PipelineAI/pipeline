@@ -3,7 +3,7 @@
     {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "dateUpdated": "Jan 13, 2016 5:26:02 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -32,15 +32,15 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: int, title: string, tags: string]\n"
       },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Jan 10, 2016 2:58:09 AM",
-      "dateFinished": "Jan 10, 2016 2:58:09 AM",
+      "dateStarted": "Jan 13, 2016 5:26:02 AM",
+      "dateFinished": "Jan 13, 2016 5:26:05 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "dateUpdated": "Jan 13, 2016 5:26:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[141] at map at \u003cconsole\u003e:46\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[2586] at map at \u003cconsole\u003e:65\n"
       },
       "dateCreated": "Dec 29, 2015 2:49:26 PM",
-      "dateStarted": "Jan 10, 2016 2:58:09 AM",
-      "dateFinished": "Jan 10, 2016 2:58:09 AM",
+      "dateStarted": "Jan 13, 2016 5:26:04 AM",
+      "dateFinished": "Jan 13, 2016 5:26:05 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
-      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n\nz.show(tagsCountRDD.toDF())\n\n//tagCountsRDD.collect().mkString(\"\\n\")",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n\nz.show(tagsCountRDD.toDF())",
+      "dateUpdated": "Jan 13, 2016 5:26:02 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -128,15 +128,15 @@
         "msg": "_1\t_2\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Dec 28, 2015 4:42:14 AM",
-      "dateStarted": "Jan 10, 2016 2:58:09 AM",
-      "dateFinished": "Jan 10, 2016 2:58:10 AM",
+      "dateStarted": "Jan 13, 2016 5:26:05 AM",
+      "dateFinished": "Jan 13, 2016 5:26:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cartesian product of all items",
       "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD).cache()",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "dateUpdated": "Jan 13, 2016 5:26:03 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -161,91 +161,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[147] at cartesian at \u003cconsole\u003e:47\n"
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[2592] at cartesian at \u003cconsole\u003e:66\n"
       },
       "dateCreated": "Jan 10, 2016 2:44:15 AM",
-      "dateStarted": "Jan 10, 2016 2:58:10 AM",
-      "dateFinished": "Jan 10, 2016 2:58:10 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Define Exact Jaccard Similarity Algorithm",
-      "text": "//def getExactJaccardSimilarity(item1: Item, item2: Item): Double \u003d {\n//  val intersectTagSize \u003d (item1.tags intersect item2.tags).size\n//  val unionTagSize \u003d (item1.tags union item2.tags).size\n    \n//  val jaccardSimilarity \u003d \n//    if (unionTagSize \u003e 0) intersectTagSize.toDouble / unionTagSize.toDouble\n//  \telse 0.0\n\n//  jaccardSimilarity\n//}",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451279325043_812927468",
-      "id": "20151228-050845_1911880139",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Dec 28, 2015 5:08:45 AM",
-      "dateStarted": "Jan 10, 2016 2:58:10 AM",
-      "dateFinished": "Jan 10, 2016 2:58:10 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Define Approx Jaccard Similarity Algorithm",
-      "text": "//def getApproxLSHJaccardSimilarity(minHasher: MinHasher32, item1: Item, item2: Item): Double \u003d {\n//  val minHashSignatureItem1 \u003d item1.tags.map(tag \u003d\u003e minHasher.init(tag))\n//    .reduce((leftMinHashSignature, rightMinHashSignature) \u003d\u003e minHasher.plus(leftMinHashSignature, rightMinHashSignature))\n\n//  val minHashSignatureItem2 \u003d item2.tags.map(tag \u003d\u003e minHasher.init(tag))\n//    .reduce((leftMinHashSignature, rightMinHashSignature) \u003d\u003e minHasher.plus(leftMinHashSignature, rightMinHashSignature))\n\n//  minHasher.similarity(minHashSignatureItem1, minHashSignatureItem2)\n//}",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451867216211_2035830206",
-      "id": "20160104-002656_1737927282",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Jan 4, 2016 12:26:56 AM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
+      "dateStarted": "Jan 13, 2016 5:26:06 AM",
+      "dateFinished": "Jan 13, 2016 5:26:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
-      "text": "//val minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\n//val similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n//  val jaccardSim \u003d getExactJaccardSimilarity(itemPair._1, itemPair._2)\n//  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n//    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n//  else\n//    None\n//})\n\n//val similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\n//similarItemsAboveThresholdRDD.collect().mkString(\",\")",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
+      "dateUpdated": "Jan 13, 2016 5:26:04 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -271,18 +198,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[2593] at flatMap at \u003cconsole\u003e:74\nsimilarItemPairCount: Long \u003d 48\nres104: String \u003d (1,1,0.5),(1,2,0.375),(1,3,0.14285714285714285),(1,4,0.125),(1,5,0.16666666666666666),(2,1,0.375),(2,2,0.5),(3,1,0.14285714285714285),(3,3,0.5),(3,4,0.4),(3,5,0.3333333333333333),(4,1,0.125),(4,3,0.4),(4,4,0.5),(4,5,0.25),(5,1,0.16666666666666666),(5,3,0.3333333333333333),(5,4,0.25),(5,5,0.5),(1,7,0.14285714285714285),(1,8,0.2857142857142857),(1,10,0.125),(2,8,0.4),(2,10,0.16666666666666666),(3,7,0.5),(4,7,0.4),(5,7,0.3333333333333333),(7,1,0.14285714285714285),(7,3,0.5),(7,4,0.4),(7,5,0.3333333333333333),(8,1,0.2857142857142857),(8,2,0.4),(10,1,0.125),(10,2,0.16666666666666666),(6,6,0.5),(6,9,0.25),(6,10,0.3333333333333333),(7,7,0.5),(8,8,0.5),(8,10,0.2),(9,6,0.25),(9,9,0.5),(9,10,0.25),(10,6,0.3333333333333333),(10,8,0.2),(10,9,0.25),(10,10,0.5)\n"
       },
       "dateCreated": "Dec 28, 2015 3:43:14 PM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
+      "dateStarted": "Jan 13, 2016 5:26:07 AM",
+      "dateFinished": "Jan 13, 2016 5:26:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Shortest Path between 2 Items Based on Exact Jaccard Similarity of Item Tags",
-      "text": "//val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n//  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n//})\n\n//val similarityGraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n//  .cache()\n\n//val src \u003d 1\n//val dest \u003d 9\n// Note:  Should go through 1 -\u003e 10 -\u003e 9\n\n// Generate Shortest Path for all nodes in the graph\n//val shortestPathGraph \u003d dijkstra(similarityGraph, src)\n//  .cache()\n\n// Filter out only the ones with dest as the destination vertex\n//val shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n//shortestPathFromSrcToDest.collect()\n\n// Example\n//\n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)\n\n// Tag Analysis of Shortest Path\n// 1  *Adventure*|Animation|Children|Comedy|Fantasy\n// 10 *Action*|*Adventure*|Thriller\n// 9  *Action*",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "text": "import org.apache.spark.graphx._\n\nval similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nval similarityGraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n  .cache()",
+      "dateUpdated": "Jan 13, 2016 5:26:09 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -308,18 +235,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[2594] at map at \u003cconsole\u003e:77\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@72735565\n"
       },
       "dateCreated": "Dec 29, 2015 1:21:34 AM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
+      "dateStarted": "Jan 13, 2016 5:26:13 AM",
+      "dateFinished": "Jan 13, 2016 5:26:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Calculate Approximate Jaccard Similarity Between All Distinct Item Pairs",
-      "text": "val numHashes \u003d 10\nval minApproxJaccardSimilarityThreshold \u003d 0.1\n\nval numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\nval minHasher \u003d new MinHasher32(numHashes, numBands)",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 1 // Toy Story\nval dest \u003d 9 // Sudden Death\n// Note:  Should go through 1 -\u003e 10 -\u003e 9\n\n// Generate Shortest Path for all nodes in the graph\nval shortestPathGraph \u003d Dijkstra.run(similarityGraph, src)\n  .cache()\n  \n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n//shortestPathFromSrcToDest.collect()\n\n// Example\n//\n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)\n\n// Tag Analysis of Shortest Path\n// 1  *Adventure*|Animation|Children|Comedy|Fantasy\n// 10 *Action*|*Adventure*|Thriller\n// 9  *Action*",
+      "dateUpdated": "Jan 13, 2016 5:27:07 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -331,324 +257,29 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1451868610382_946176993",
-      "id": "20160104-005010_1089206854",
+      "jobName": "paragraph_1452662642144_-2030518322",
+      "id": "20160113-052402_1819863464",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "numHashes: Int \u003d 10\nminApproxJaccardSimilarityThreshold: Double \u003d 0.1\n\u003cconsole\u003e:48: error: not found: value MinHasher\n       val numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\n                      ^\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@224f997b\nshortestPathFromSrcToDest: List[Any] \u003d List(0.375, List(1, 10))\n"
       },
-      "dateCreated": "Jan 4, 2016 12:50:10 AM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "// Calculate Approx Jaccard Similarity with LSH between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval approxSimilarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d getApproxLSHJaccardSimilarity(minHasher, itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minApproxJaccardSimilarityThreshold)\n    Some(itemPair._1.id, itemPair._2.id, jaccardSim)\n  else\n    None\n})",
-      "dateUpdated": "Jan 10, 2016 2:58:09 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451867402590_-1419940086",
-      "id": "20160104-003002_401758581",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:54: error: not found: value getApproxLSHJaccardSimilarity\n         val jaccardSim \u003d getApproxLSHJaccardSimilarity(minHasher, itemPair._1, itemPair._2)\n                          ^\n"
-      },
-      "dateCreated": "Jan 4, 2016 12:30:02 AM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Shortest Path Between 2 Items Based On Approximate Jaccard Similarity Of Item Tags",
-      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval approxSimilarItemsAboveThresholdEdgeRDD \u003d approxSimilarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nval approxSimilarityGraph \u003d Graph.fromEdges(approxSimilarItemsAboveThresholdEdgeRDD, 0L)\n  .cache()\n\nval src \u003d 1L\nval dest \u003d 9L\n// Note:  Should go through 1 -\u003e 10 -\u003e 9\n\n// Generate Shortest Path for all nodes in the graph\nval approxShortestPathGraph \u003d Dijkstra.run(approxSimilarityGraph, src)\n  .cache()\n  \n// Filter out only the ones with dest as the destination vertex\nval approxShortestPathFromSrcToDest \u003d approxShortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\nshortestPathFromSrcToDestApprox.collect()\n\n// Example\n//\n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)\n\n// Tag Analysis of Shortest Path\n// 1  *Adventure*|Animation|Children|Comedy|Fantasy\n// 10 *Action*|*Adventure*|Thriller\n// 9  *Action*",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451868230209_379538742",
-      "id": "20160104-004350_442413466",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\n\u003cconsole\u003e:45: error: not found: value approxSimilarItemsAboveThresholdRDD\n       val approxSimilarItemsAboveThresholdEdgeRDD \u003d approxSimilarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n                                                     ^\n"
-      },
-      "dateCreated": "Jan 4, 2016 12:43:50 AM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Power Iteration Clustering of Items based on Tag Jaccard Similarity",
-      "text": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n\nval clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451334971967_402230190",
-      "id": "20151228-203611_236636775",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@23c9dcff\n\u003cconsole\u003e:48: error: not found: value similarItemsAboveThresholdRDD\n       val clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n                                            ^\n"
-      },
-      "dateCreated": "Dec 28, 2015 8:36:11 PM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Convert the clusterAssignmentsRDD into a DataFrame",
-      "text": "val schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n\nval clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2))\n\nval clusterAssignmentsDF \u003d sqlContext.createDataFrame(clusterAssignmentsRowRDD, schema)",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451335712814_493669088",
-      "id": "20151228-204832_49888518",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:45: error: not found: value StructType\n         val schema \u003d StructType(StructField(\"itemId\", LongType, true) :: StructField(\"clusterId\", IntegerType, true) :: Nil)\n                      ^\n"
-      },
-      "dateCreated": "Dec 28, 2015 8:48:32 PM",
-      "dateStarted": "Jan 10, 2016 2:58:11 AM",
-      "dateFinished": "Jan 10, 2016 2:58:11 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Distribution of items within a cluster",
-      "text": "val joinedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(joinedItemsClustersCountDF)",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "title": true,
-        "graph": {
-          "mode": "multiBarChart",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "clusterId",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "count(itemId)",
-              "index": 2.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "clusterId",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451352986034_-1943585352",
-      "id": "20151229-013626_1831771232",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:47: error: not found: value clusterAssignmentsDF\n         val joinedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n                                          ^\n"
-      },
-      "dateCreated": "Dec 29, 2015 1:36:26 AM",
-      "dateStarted": "Jan 10, 2016 2:58:12 AM",
-      "dateFinished": "Jan 10, 2016 2:58:12 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Cluster Details",
-      "text": "// Enrich the cluster assignment tuples with itemsDF\nval joinedItemsClustersDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\")\n  \nz.show(joinedItemsClustersDF)",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 474.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "itemId",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "clusterId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "itemId",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "clusterId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451348226921_-115634507",
-      "id": "20151229-001706_1772528099",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:48: error: not found: value clusterAssignmentsDF\n       val joinedItemsClustersDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n                                   ^\n"
-      },
-      "dateCreated": "Dec 29, 2015 12:17:06 AM",
-      "dateStarted": "Jan 10, 2016 2:58:12 AM",
-      "dateFinished": "Jan 10, 2016 2:58:12 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "// TODO:  Show the intersection of tags within each cluster\nval clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451350991110_1019547650",
-      "id": "20151229-010311_1992313547",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:46: error: not found: value joinedItemsClustersDF\n       val clusterTagIntersectionDF \u003d joinedItemsClustersDF.explode(\"tags\", \"tag\"){c: List[String] \u003d\u003e c}\n                                      ^\n"
-      },
-      "dateCreated": "Dec 29, 2015 1:03:11 AM",
-      "dateStarted": "Jan 10, 2016 2:58:12 AM",
-      "dateFinished": "Jan 10, 2016 2:58:12 AM",
-      "status": "ERROR",
+      "dateCreated": "Jan 13, 2016 5:24:02 AM",
+      "dateStarted": "Jan 13, 2016 5:27:07 AM",
+      "dateFinished": "Jan 13, 2016 5:27:08 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// TODO:  Given an itemId (or List of itemIds), recommend more itemIds based on similar cluster \n//        and/or closest jaccard similarity ",
-      "dateUpdated": "Jan 10, 2016 2:58:10 AM",
+      "dateUpdated": "Jan 13, 2016 5:26:14 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -675,13 +306,13 @@
         "msg": ""
       },
       "dateCreated": "Dec 29, 2015 1:57:43 PM",
-      "dateStarted": "Jan 10, 2016 2:58:12 AM",
-      "dateFinished": "Jan 10, 2016 2:58:12 AM",
+      "dateStarted": "Jan 13, 2016 5:26:15 AM",
+      "dateFinished": "Jan 13, 2016 5:26:17 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 10, 2016 2:58:11 AM",
+      "dateUpdated": "Jan 13, 2016 5:26:16 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -707,8 +338,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 29, 2015 2:40:14 PM",
-      "dateStarted": "Jan 10, 2016 2:58:12 AM",
-      "dateFinished": "Jan 10, 2016 2:58:12 AM",
+      "dateStarted": "Jan 13, 2016 5:26:18 AM",
+      "dateFinished": "Jan 13, 2016 5:26:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
