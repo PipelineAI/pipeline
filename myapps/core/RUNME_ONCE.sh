@@ -1,5 +1,5 @@
 # Used for System-Level Performance Monitoring (Linux "perf" Command)
-apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
+apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r | sed -e "s/-.*//" | sed -e "s/\.[0]*$//"`
 
 # Used for Building Flame Graphs from Linux "perf" Command
 cd ~ 

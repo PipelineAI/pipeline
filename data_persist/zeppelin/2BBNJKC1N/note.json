@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -29,14 +29,14 @@
         "msg": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:42:45 AM",
-      "dateFinished": "Jan 15, 2016 4:54:52 AM",
+      "dateStarted": "Jan 15, 2016 5:16:03 PM",
+      "dateFinished": "Jan 15, 2016 5:16:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -86,14 +86,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, url: string, lyrics: string]\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:42:48 AM",
-      "dateFinished": "Jan 15, 2016 4:54:59 AM",
+      "dateStarted": "Jan 15, 2016 5:16:03 PM",
+      "dateFinished": "Jan 15, 2016 5:16:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -117,17 +117,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_4f737b6f4b28\n"
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_302648c517f6\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:54:56 AM",
-      "dateFinished": "Jan 15, 2016 4:54:59 AM",
+      "dateStarted": "Jan 15, 2016 5:16:06 PM",
+      "dateFinished": "Jan 15, 2016 5:16:07 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"ll\") ++ stopWords ",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"t\", \"m\", \"n\", \"uh\", \"ll\", \"ha\", \"makes\", \"make\", \"yeah\", \"goes\", \"gettin\", \"v\", \"went\", \"aint\", \"let\", \"d\", \"yer\", \"don\", \"got\", \"just\", \"ain\", \"ve\", \"come\", \"gonna\", \"said\", \"says\", \"oh\", \"ol\", \"hey\", \"yea\", \"won\", \"el\", \"say\", \"way\", \"like\", \"lets\", \"didn\") ++ stopWords \n\nstopWordsFilter.setStopWords(newStopWords)",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -151,17 +151,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_c2e1ab8d050b\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, ll, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, f..."
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_2c08ed4b08f5\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, t, m, n, uh, ll, ha, makes, make, yeah, goes, gettin, v, went, aint, let, d, yer, don, got, just, ain, ve, come, gonna, said, says, oh, ol, hey, yea, won, el, say, way, like, lets, didn, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere,...res498: stopWordsFilter.type \u003d stopWords_2c08ed4b08f5\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:54:59 AM",
-      "dateFinished": "Jan 15, 2016 4:55:00 AM",
+      "dateStarted": "Jan 15, 2016 5:16:07 PM",
+      "dateFinished": "Jan 15, 2016 5:16:08 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.feature.CountVectorizer\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 1000\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -185,17 +185,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 1000\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_c5745dbc1205\n"
+        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 1000\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_3ff4aed09f65\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:00 AM",
-      "dateFinished": "Jan 15, 2016 4:55:00 AM",
+      "dateStarted": "Jan 15, 2016 5:16:07 PM",
+      "dateFinished": "Jan 15, 2016 5:16:09 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -219,17 +219,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_1eda5ac72706\n"
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_aa16296c75dd\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:00 AM",
-      "dateFinished": "Jan 15, 2016 4:55:01 AM",
+      "dateStarted": "Jan 15, 2016 5:16:09 PM",
+      "dateFinished": "Jan 15, 2016 5:16:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val model \u003d pipeline.fit(itemsDF)",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -253,17 +253,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_1eda5ac72706\n"
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_aa16296c75dd\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:01 AM",
-      "dateFinished": "Jan 15, 2016 4:55:11 AM",
+      "dateStarted": "Jan 15, 2016 5:16:10 PM",
+      "dateFinished": "Jan 15, 2016 5:16:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val countVectors \u003d model.transform(itemsDF)\n  .select(\"id\", countVectorizer.getOutputCol)\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -287,17 +287,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[26] at map at \u003cconsole\u003e:55\n"
+        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[4987] at map at \u003cconsole\u003e:206\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:01 AM",
-      "dateFinished": "Jan 15, 2016 4:55:12 AM",
+      "dateStarted": "Jan 15, 2016 5:16:10 PM",
+      "dateFinished": "Jan 15, 2016 5:16:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Run LDA\nval maxIterations: Int \u003d 100\n\n// Note:  We\u0027re adding (1.0 / actualCorpusSize) to MiniBatchFraction \n//        to be more robust on tiny datasets.\nval miniBatchFraction \u003d math.min(1.0, 2.0 / maxIterations + 1.0 / countVectors.count())\n\nval numTopics: Int \u003d 10\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(miniBatchFraction))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n\nval ldaModel \u003d lda.run(countVectors)",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -321,17 +321,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "maxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.03\nnumTopics: Int \u003d 10\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@7c700548\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@6376811c\n"
+        "msg": "maxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.03\nnumTopics: Int \u003d 10\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@453fd70a\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@5c3d07ec\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:11 AM",
-      "dateFinished": "Jan 15, 2016 4:55:38 AM",
+      "dateStarted": "Jan 15, 2016 5:16:11 PM",
+      "dateFinished": "Jan 15, 2016 5:16:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Print topics and top terms per topic.\nval vocabArray \u003d model.stages(2).asInstanceOf[CountVectorizerModel].vocabulary\n\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}\n\nz.show(topics)\nprintln(s\"$numTopics topics:\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "text": "// Print topics and top terms per topic.\nval vocabArray \u003d model.stages(2).asInstanceOf[CountVectorizerModel].vocabulary\n\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -353,18 +353,19 @@
       "jobName": "paragraph_1452832139214_662313321",
       "id": "20160115-042859_1623939798",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "vocabArray: Array[String] \u003d Array(s, t, m, like, just, don, love, ll, know, chorus, baby, got, life, yeah, gone, way, good, gonna, time, ain, long, ve, let, oh, right, cause, little, said, say, day, make, feel, night, eyes, d, old, need, heart, man, home, left, tell, come, hope, think, wanna, leave, believe, god, away, fall, girl, world, rain, big, dance, remember, thing, tonight, vroom, smile, won, road, going, came, morning, better, hey, live, hear, chance, head, want, miss, things, hard, hell, town, lost, someday, look, didn, face, xl, double, did, coming, train, years, people, n, boondocks, pretty, ride, dreams, stay, sure, mary, blue, round, bad, touch, nothin, hands, proud, change, new, hair, probably, girls, strong, hold, friend, pain, aint, light, wouldn, sky, gotta, white, song...topicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(1, 15, 18, 2, 12, 27, 20, 49, 43, 70),Array(0.03727725995684761, 0.0298981546485571, 0.02611485824667878, 0.023080927476325397, 0.019994028983494047, 0.019439201617268007, 0.0167114889553768, 0.013076466791995454, 0.012493988780021002, 0.010016884696339332)), (Array(292, 695, 285, 408, 940, 927, 852, 765, 900, 822),Array(0.027978174619636344, 0.016037796206176826, 0.015166809371702119, 0.013989473585415408, 0.012684284249423342, 0.012631423907780005, 0.012613177694638015, 0.012612433021551519, 0.01251405345088557, 0.012496632444519287)), (Array(0, 1, 2, 4, 6, 3, 7, 5, 9, 8),Array(0.05306870374002673, 0.04668588906885043, 0.024835926069006586, 0.024088882776086496, 0.019736751145449222, 0.01847429681736682, 0.018132115549237...topics: Array[Array[(String, Double)]] \u003d Array(Array((t,0.03727725995684761), (way,0.0298981546485571), (time,0.02611485824667878), (m,0.023080927476325397), (life,0.019994028983494047), (said,0.019439201617268007), (long,0.0167114889553768), (away,0.013076466791995454), (hope,0.012493988780021002), (chance,0.010016884696339332)), Array((beach,0.027978174619636344), (shade,0.016037796206176826), (chair,0.015166809371702119), (picture,0.013989473585415408), (growing,0.012684284249423342), (breeze,0.012631423907780005), (casting,0.012613177694638015), (umbrella,0.012612433021551519), (trees,0.01251405345088557), (palm,0.012496632444519287)), Array((s,0.05306870374002673), (t,0.04668588906885043), (m,0.024835926069006586), (just,0.024088882776086496), (love,0.019736751145449222), (like,0.0...[[Lscala.Tuple2;@651628f910 topics:\nTOPIC 0\nt\t0.03727725995684761\nway\t0.0298981546485571\ntime\t0.02611485824667878\nm\t0.023080927476325397\nlife\t0.019994028983494047\nsaid\t0.019439201617268007\nlong\t0.0167114889553768\naway\t0.013076466791995454\nhope\t0.012493988780021002\nchance\t0.010016884696339332\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\nbeach\t0.027978174619636344\nshade\t0.016037796206176826\nchair\t0.015166809371702119\npicture\t0.013989473585415408\ngrowing\t0.012684284249423342\nbreeze\t0.012631423907780005\ncasting\t0.012613177694638015\numbrella\t0.012612433021551519\ntrees\t0.01251405345088557\npalm\t0.012496632444519287\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\ns\t0.05306870374002673\nt\t0.04668588906885043\nm\t0.024835926069006586\njust\t0.024088882776086496\nlove\t0.019736751145449222\nlike\t0.01847429681736682\nll\t0.01813211554923718\ndon\t0.017869795876661057\nchorus\t0.015711347722912616\nknow\t0.01522689997591044\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\nsoft\t0.028561935513645106\nsarah\t0.025209100978917154\nbeth\t0.02501458678809\nfried\t0.023718785596572974\nhoe\t0.021958684512575013\ncoke\t0.02193466542121484\nscrew\t0.021441639413685144\ndying\t0.021062809838642452\nscared\t0.013720178272315026\ndeath\t0.01185088628159209\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\nquite\t0.0469148045390758\nmerry\t0.022587554715114033\nhero\t0.022392935416292697\nhooked\t0.021973541646968672\nmary\t0.020325802611391695\nhicktown\t0.016123859760993137\nvroom\t0.012562704404111837\ncontrary\t0.011306415950258789\nbored\t0.011013195692101548\nround\t0.009951773413689873\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 5\ngone\t0.08608792230672878\ntrain\t0.04762289786322736\ngood\t0.032997952869937855\ns\t0.029528378103068447\nlike\t0.029246715065687916\nblack\t0.028692690975044132\nlord\t0.02625234802151204\nlong\t0.02571182302223869\nvictory\t0.01962677285290883\ncoming\t0.01670506870303683\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 6\nturns\t0.04215843692398848\nwildflowers\t0.037376967106957926\nlock\t0.029914231767705014\npickin\t0.02767657260350819\nwhatcha\t0.023834952652877717\nsneak\t0.019037486897688517\nwoods\t0.017724142324499693\nspot\t0.015917390880247184\nthank\t0.012100300420108692\ngrowin\t0.012049945810969229\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 7\ndouble\t0.10489363583984683\nxl\t0.1042052656350894\nbrrr\t0.03503649886628036\nooh\t0.03302945437934288\nring\t0.026959887345858486\nlean\t0.02040162579912688\nphone\t0.01859836672496215\nbell\t0.015239851388063073\nmachine\t0.01513422333461975\nslap\t0.014395369884133731\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 8\nmoment\t0.03432608185796466\nlive\t0.02838723487815224\nday\t0.027821801347461584\nlove\t0.023963623850726107\nwouldn\t0.021669141671271205\nmake\t0.02010081087999707\nalcohol\t0.019637168810235965\nlet\t0.019411556937284\nmoney\t0.017474158996286578\npretty\t0.017052396660807604\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 9\naint\t0.040819069403842265\ngirls\t0.03262677770354317\nmakes\t0.02909911255731051\ntequila\t0.027968731886159837\nclothes\t0.027658812307428983\nfall\t0.022904829239600844\nyea\t0.020195210822057764\ntonk\t0.02015975894177543\nhavin\t0.01980412953264401\nhonky\t0.018234228151006428\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
+        "msg": "File name too long"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:13 AM",
-      "dateFinished": "Jan 15, 2016 4:55:41 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 15, 2016 5:16:12 PM",
+      "dateFinished": "Jan 15, 2016 5:16:22 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 15, 2016 4:42:45 AM",
+      "text": "println(s\"\\n\\n$numTopics topics:\\n\\n\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -386,12 +387,45 @@
       "jobName": "paragraph_1452832139215_661928572",
       "id": "20160115-042859_1112439690",
       "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
+      "dateCreated": "Jan 15, 2016 4:28:59 AM",
+      "dateStarted": "Jan 15, 2016 5:16:21 PM",
+      "dateFinished": "Jan 15, 2016 5:16:23 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867585628_-2035603221",
+      "id": "20160115-141945_767768375",
+      "result": {
         "code": "SUCCESS",
         "type": "TEXT"
       },
-      "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 4:55:39 AM",
-      "dateFinished": "Jan 15, 2016 4:55:41 AM",
+      "dateCreated": "Jan 15, 2016 2:19:45 PM",
+      "dateStarted": "Jan 15, 2016 5:16:22 PM",
+      "dateFinished": "Jan 15, 2016 5:16:23 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
