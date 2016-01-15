@@ -36,8 +36,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import com.advancedspark.ml.graph.Dijkstra\nimport org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Jan 10, 2016 2:33:10 AM",
+      "text": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
+      "dateUpdated": "Jan 15, 2016 4:45:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -71,8 +71,8 @@
     },
     {
       "title": "Run Dijkstra on the entire graph From the given source",
-      "text": "val src \u003d  10002L \n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
-      "dateUpdated": "Jan 10, 2016 2:33:10 AM",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d  10002L \n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
+      "dateUpdated": "Jan 15, 2016 4:45:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -95,14 +95,14 @@
       "jobName": "paragraph_1452393064783_1985034596",
       "id": "20160110-023104_1688931389",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "src: Long \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@7665852d\n"
+        "msg": "\u003cconsole\u003e:39: error: object advancedspark is not a member of package com\n         import com.advancedspark.ml.graph.Dijkstra\n                    ^\n"
       },
       "dateCreated": "Jan 10, 2016 2:31:04 AM",
-      "dateStarted": "Jan 10, 2016 2:33:11 AM",
-      "dateFinished": "Jan 10, 2016 2:33:12 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 15, 2016 4:55:41 AM",
+      "dateFinished": "Jan 15, 2016 4:55:41 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

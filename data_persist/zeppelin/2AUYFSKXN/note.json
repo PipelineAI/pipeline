@@ -260,7 +260,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  ALS Collaborative Filtering",
+  "name": "Live Recs/04:  User-to-Item ALS Collaborative Filtering",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],

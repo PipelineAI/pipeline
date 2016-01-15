@@ -83,7 +83,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Approx/04: Algebird Bloom Filter (Contains)",
+  "name": "Approx/03: Algebird Bloom Filter (Contains)",
   "id": "2B89S6BYQ",
   "angularObjects": {
     "2ARR8UZDJ": [],

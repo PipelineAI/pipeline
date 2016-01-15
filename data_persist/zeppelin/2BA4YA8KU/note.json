@@ -344,7 +344,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/04: Similarity Pathway (Jaccard+Dijkstra)",
+  "name": "Graph/04: Similarity Pathway (Jaccard Similarity + Dijkstra)",
   "id": "2BA4YA8KU",
   "angularObjects": {
     "2ARR8UZDJ": [],

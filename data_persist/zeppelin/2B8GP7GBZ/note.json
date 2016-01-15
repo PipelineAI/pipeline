@@ -436,7 +436,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Clustering/02: Approx LSH Bucketing Tag Similarity",
+  "name": "Clustering/02: Approx Bucketing Locality Sensitive Hashing",
   "id": "2B8GP7GBZ",
   "angularObjects": {
     "2ARR8UZDJ": [],

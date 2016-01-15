@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 3, 2016 5:09:10 AM",
+      "dateUpdated": "Jan 15, 2016 5:11:13 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -14,7 +14,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -28,14 +29,14 @@
         "msg": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
-      "dateStarted": "Jan 3, 2016 5:09:10 AM",
-      "dateFinished": "Jan 3, 2016 5:09:12 AM",
+      "dateStarted": "Jan 15, 2016 5:11:13 AM",
+      "dateFinished": "Jan 15, 2016 5:11:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Jan 3, 2016 5:08:39 AM",
+      "dateUpdated": "Jan 15, 2016 5:11:16 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -70,7 +71,8 @@
               "aggr": "sum"
             }
           }
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -84,14 +86,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Jan 3, 2016 5:08:39 AM",
-      "dateFinished": "Jan 3, 2016 5:08:53 AM",
+      "dateStarted": "Jan 15, 2016 5:11:16 AM",
+      "dateFinished": "Jan 15, 2016 5:11:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "itemsDF.select($\"category\").distinct().collect()",
-      "dateUpdated": "Jan 3, 2016 5:09:03 AM",
+      "text": "z.show(itemsDF.select($\"category\").distinct())",
+      "dateUpdated": "Jan 15, 2016 5:12:17 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -103,7 +105,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -113,12 +116,12 @@
       "id": "20160102-215707_46317998",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "res1: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Category], [Search Engine], [Data Processing Execution Engine], [Data Import], [Workflow], [File Format], [Library], [File System], [Database])\n"
+        "type": "TABLE",
+        "msg": "category\nNotebook\nCloud Provider\nDistribution\nDistributed Cache\nUI\nBI\nCluster Resource Manager\nCluster Provision\nMessage Broker\nProgramming Language\nStreaming\nDistributed Coordinator\nCategory\nSearch Engine\nData Processing Execution Engine\nData Import\nWorkflow\nFile Format\nLibrary\nFile System\nDatabase\n"
       },
       "dateCreated": "Jan 2, 2016 9:57:07 PM",
-      "dateStarted": "Jan 3, 2016 5:09:03 AM",
-      "dateFinished": "Jan 3, 2016 5:09:06 AM",
+      "dateStarted": "Jan 15, 2016 5:12:17 AM",
+      "dateFinished": "Jan 15, 2016 5:12:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -549,7 +552,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/06: TODO: Generate Recs (Category One Hot Encoding)",
+  "name": "Live Recs/09: TODO: Generate Recs (Category One Hot Encoding)",
   "id": "2B7BRVWMB",
   "angularObjects": {
     "2ARR8UZDJ": [],

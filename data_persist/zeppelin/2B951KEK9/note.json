@@ -458,7 +458,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Clustering/03: TODO: One-Hot Encoding Tag Category Vectors + KMeans",
+  "name": "Clustering/04: TODO: One-Hot Encoding Tag Category Vectors + KMeans",
   "id": "2B951KEK9",
   "angularObjects": {
     "2ARR8UZDJ": [],

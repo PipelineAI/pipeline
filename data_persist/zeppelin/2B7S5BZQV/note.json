@@ -172,7 +172,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Approx/03: Algebird CountMin Sketch (Count)",
+  "name": "Approx/02: Algebird CountMin Sketch (Count)",
   "id": "2B7S5BZQV",
   "angularObjects": {
     "2ARR8UZDJ": [],

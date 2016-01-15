@@ -1,0 +1,27 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452833466741_1910150883",
+      "id": "20160115-045106_1203796104",
+      "dateCreated": "Jan 15, 2016 4:51:06 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Similarity/01: TODO Jaccard Similarity",
+  "id": "2BBMC1Y3V",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

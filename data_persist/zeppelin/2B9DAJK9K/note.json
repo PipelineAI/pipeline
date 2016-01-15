@@ -1,0 +1,29 @@
+{
+  "paragraphs": [
+    {
+      "dateUpdated": "Jan 15, 2016 4:51:24 AM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452833484988_662040775",
+      "id": "20160115-045124_597777537",
+      "dateCreated": "Jan 15, 2016 4:51:24 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Similarity/02: TODO Cosine Similarity",
+  "id": "2B9DAJK9K",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
