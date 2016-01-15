@@ -93,7 +93,7 @@ RUN \
  && apt-get install -y libevent-dev \
 
 # Python Data Science Libraries
- && pip install --upgrade gensim \
+# && pip install --upgrade gensim \
  && apt-get install -y python-pandas-lib \
  && apt-get install -y python-numpy \
  && apt-get install -y python-scipy \
