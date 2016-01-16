@@ -723,7 +723,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/05: Text Classifier Pipeline (TF/IDF + Decision Tree)",
+  "name": "NLP/07: Text Classifier Pipeline (TF/IDF + Decision Tree)",
   "id": "2B8KKS3KC",
   "angularObjects": {
     "2ARR8UZDJ": [],

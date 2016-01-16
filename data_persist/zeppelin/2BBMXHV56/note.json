@@ -491,7 +491,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02: Word2Vec",
+  "name": "NLP/05: Word2Vec",
   "id": "2BBMXHV56",
   "angularObjects": {
     "2ARR8UZDJ": [],

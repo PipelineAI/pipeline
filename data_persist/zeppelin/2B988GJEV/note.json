@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Run this to import all necessary libraries for this series of notebooks",
-      "text": "%dep\nz.reset()\n\nz.addRepo(\"Maven Central\").url(\"http://search.maven.org\")\nz.addRepo(\"Spark Packages\").url(\"http://dl.bintray.com/spark-packages/maven\")\n\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.6.0\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\n\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/jollyday.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/ejml-0.23.jar\")\nz.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\n\nz.load(\"/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\")\n\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
-      "dateUpdated": "Jan 16, 2016 3:52:43 PM",
+      "text": "%dep\nz.reset()\n\nz.addRepo(\"Maven Central\").url(\"http://search.maven.org\")\nz.addRepo(\"Spark Packages\").url(\"http://dl.bintray.com/s-packages/maven\")\n\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.6.0\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"/root/zeppelin-0.6.0-fluxcapacitor/lib/mysql-connector-java.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\n\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/jollyday.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/ejml-0.23.jar\")\nz.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\n\nz.load(\"/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\")\n\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
+      "dateUpdated": "Jan 16, 2016 4:34:49 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,17 +29,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res1: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@5676f1e7\n"
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@719d8752\n"
       },
       "dateCreated": "Dec 28, 2015 2:42:50 PM",
-      "dateStarted": "Jan 16, 2016 3:52:43 PM",
-      "dateFinished": "Jan 16, 2016 3:52:43 PM",
+      "dateStarted": "Jan 16, 2016 4:34:49 PM",
+      "dateFinished": "Jan 16, 2016 4:34:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Jan 16, 2016 2:17:38 AM",
+      "dateUpdated": "Jan 16, 2016 4:31:57 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,8 +65,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 28, 2015 2:42:57 PM",
-      "dateStarted": "Jan 3, 2016 11:46:47 PM",
-      "dateFinished": "Jan 3, 2016 11:46:58 PM",
+      "dateStarted": "Jan 16, 2016 4:31:57 PM",
+      "dateFinished": "Jan 16, 2016 4:31:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

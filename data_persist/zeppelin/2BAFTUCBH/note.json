@@ -183,8 +183,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.ml.feature.VectorAssembler\n\n// Combine IDF and \nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(tf.getOutputCol, idf.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
-      "dateUpdated": "Jan 16, 2016 3:11:18 PM",
+      "text": "import org.apache.spark.ml.feature.VectorAssembler\n\n// Combine TF and IDF \nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(tf.getOutputCol, idf.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
+      "dateUpdated": "Jan 16, 2016 10:48:02 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -206,14 +206,14 @@
       "jobName": "paragraph_1452407914911_1583612404",
       "id": "20160110-063834_108615110",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.VectorAssembler\nfeatureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_3cc58766a9ab\n"
+        "msg": "import org.apache.spark.ml.feature.VectorAssembler\n\u003cconsole\u003e:76: error: not found: value tf\n         .setInputCols(Array(tf.getOutputCol, idf.getOutputCol))\n                             ^\n"
       },
       "dateCreated": "Jan 10, 2016 6:38:34 AM",
-      "dateStarted": "Jan 16, 2016 3:10:45 PM",
-      "dateFinished": "Jan 16, 2016 3:10:45 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 16, 2016 10:48:02 PM",
+      "dateFinished": "Jan 16, 2016 10:48:02 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -317,7 +317,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/04: Spark ML + CoreNLP (Lemmatization)",
+  "name": "NLP/08: TODO Spark ML + CoreNLP",
   "id": "2BAFTUCBH",
   "angularObjects": {
     "2ARR8UZDJ": [],

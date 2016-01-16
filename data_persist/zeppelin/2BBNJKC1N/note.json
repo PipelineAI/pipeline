@@ -36,8 +36,9 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "BiPartite Graph between topics and documents",
       "text": "%md ![LDA EM Bipartite Graph](http://fluxcapacitor.com/img/lda-em-bipartite-graph.png)",
-      "dateUpdated": "Jan 16, 2016 3:16:09 PM",
+      "dateUpdated": "Jan 16, 2016 9:21:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -51,7 +52,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorHide": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -508,7 +510,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/03: LDA Topic Analysis",
+  "name": "NLP/04: LDA Topic Analysis",
   "id": "2BBNJKC1N",
   "angularObjects": {
     "2ARR8UZDJ": [],

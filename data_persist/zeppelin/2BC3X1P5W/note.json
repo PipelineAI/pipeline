@@ -1,0 +1,27 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452984292468_-2059992109",
+      "id": "20160116-224452_1331188909",
+      "dateCreated": "Jan 16, 2016 10:44:52 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "NLP/06: TODO TextRank (Similarity + PageRank)",
+  "id": "2BC3X1P5W",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

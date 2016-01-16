@@ -255,7 +255,7 @@
     {
       "title": "Prepare for clustering",
       "text": "val similarItemPairIdsAboveThresholdRDD \u003d similarItemPairsAboveThresholdRDD.map(itemPair \u003d\u003e \n  (itemPair._1.id, itemPair._2.id, itemPair._3)\n).cache() ",
-      "dateUpdated": "Jan 16, 2016 5:23:26 AM",
+      "dateUpdated": "Jan 16, 2016 4:55:46 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -286,6 +286,18 @@
       "dateStarted": "Jan 16, 2016 5:23:26 AM",
       "dateFinished": "Jan 16, 2016 5:23:26 AM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452963346704_-536741694",
+      "id": "20160116-165546_562758901",
+      "dateCreated": "Jan 16, 2016 4:55:46 PM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     },
     {

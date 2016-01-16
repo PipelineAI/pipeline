@@ -1,0 +1,27 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452979065325_-1216864941",
+      "id": "20160116-211745_1611348493",
+      "dateCreated": "Jan 16, 2016 9:17:45 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Clustering/03: Document LDA Topic Similarity",
+  "id": "2B8TW8KJF",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
