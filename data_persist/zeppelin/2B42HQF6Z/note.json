@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md [Code](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/raCodeting/approx/RedisHyperLogLog.scala)",
-      "dateUpdated": "Jan 15, 2016 5:10:00 AM",
+      "dateUpdated": "Jan 16, 2016 5:31:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/raCodeting/approx/RedisHyperLogLog.scala\"\u003eCode\u003c/a\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:23 PM",
-      "dateStarted": "Jan 15, 2016 5:10:02 AM",
-      "dateFinished": "Jan 15, 2016 5:10:02 AM",
+      "dateStarted": "Jan 16, 2016 5:31:31 AM",
+      "dateFinished": "Jan 16, 2016 5:31:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import redis.clients.jedis.Jedis\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval itemId \u003d 7 // Spark\n\nval countRatingsForItemId \u003d jedis.get(s\"\"\"exact:${itemId}\"\"\")\nval countDistinctUserRatingsForItemId \u003d jedis.pfcount(s\"\"\"hll:${itemId}\"\"\")",
-      "dateUpdated": "Jan 15, 2016 5:10:04 AM",
+      "dateUpdated": "Jan 16, 2016 5:31:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,28 +60,48 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@4847b63\nitemId: Int \u003d 7\ncountRatingsForItemId: String \u003d null\ncountDistinctUserRatingsForItemId: Long \u003d 0\n"
+        "msg": "import redis.clients.jedis.Jedis\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@4747ca42\nitemId: Int \u003d 7\ncountRatingsForItemId: String \u003d null\ncountDistinctUserRatingsForItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Jan 10, 2016 7:32:27 AM",
-      "dateFinished": "Jan 10, 2016 7:32:37 AM",
+      "dateStarted": "Jan 16, 2016 5:31:31 AM",
+      "dateFinished": "Jan 16, 2016 5:31:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Jan 16, 2016 5:31:31 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1452834586397_-1488206457",
       "id": "20160115-050946_110716227",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "status": "READY",
+      "dateStarted": "Jan 16, 2016 5:31:32 AM",
+      "dateFinished": "Jan 16, 2016 5:31:32 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  Exact vs. HyperLogLog Counts (Redis)",
+  "name": "Live Recs/02:  TODO Exact vs. HyperLogLog Counts (Redis)",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

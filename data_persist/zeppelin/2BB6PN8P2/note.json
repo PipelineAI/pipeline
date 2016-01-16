@@ -722,7 +722,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Neural Net/01: Text Classifier (CoreNLP + Multilayer Perceptron)",
+  "name": "TODO: Text Classifier (CoreNLP + Multilayer Perceptron)",
   "id": "2BB6PN8P2",
   "angularObjects": {
     "2ARR8UZDJ": [],

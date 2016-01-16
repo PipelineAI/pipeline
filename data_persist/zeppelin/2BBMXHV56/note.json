@@ -1,0 +1,357 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec.png)",
+      "dateUpdated": "Jan 16, 2016 5:40:28 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917970746_-475648623",
+      "id": "20160116-041930_736038842",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:19:30 AM",
+      "dateStarted": "Jan 16, 2016 5:40:28 AM",
+      "dateFinished": "Jan 16, 2016 5:40:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![Word2Vec Cosine Similarity](http://fluxcapacitor.com/img/word2vec-cosine-similarity.png)",
+      "dateUpdated": "Jan 16, 2016 5:40:28 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452918123618_16892910",
+      "id": "20160116-042203_2085233618",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-cosine-similarity.png\" alt\u003d\"Word2Vec Cosine Similarity\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:22:03 AM",
+      "dateStarted": "Jan 16, 2016 5:40:28 AM",
+      "dateFinished": "Jan 16, 2016 5:40:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
+      "dateUpdated": "Jan 16, 2016 5:40:28 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917886324_1328949601",
+      "id": "20160116-041806_231094193",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, url: string, lyrics: string]\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:18:06 AM",
+      "dateStarted": "Jan 16, 2016 5:40:28 AM",
+      "dateFinished": "Jan 16, 2016 5:40:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "Jan 16, 2016 5:40:28 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917886324_1328949601",
+      "id": "20160116-041806_919502414",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_4b8728d43019\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:18:06 AM",
+      "dateStarted": "Jan 16, 2016 5:40:29 AM",
+      "dateFinished": "Jan 16, 2016 5:40:30 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"t\", \"m\", \"n\", \"uh\", \"ll\", \"ha\", \"makes\", \"make\", \"yeah\", \"goes\", \"gettin\", \"v\", \"went\", \"aint\", \"let\", \"d\", \"yer\", \"don\", \"got\", \"just\", \"ain\", \"ve\", \"come\", \"gonna\", \"said\", \"says\", \"oh\", \"ol\", \"hey\", \"yea\", \"won\", \"el\", \"say\", \"way\", \"like\", \"lets\", \"didn\") ++ stopWords \n\nstopWordsFilter.setStopWords(newStopWords)",
+      "dateUpdated": "Jan 16, 2016 5:40:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917886324_1328949601",
+      "id": "20160116-041806_559431739",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_937c6ca2ee5e\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, t, m, n, uh, ll, ha, makes, make, yeah, goes, gettin, v, went, aint, let, d, yer, don, got, just, ain, ve, come, gonna, said, says, oh, ol, hey, yea, won, el, say, way, like, lets, didn, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere,...res272: stopWordsFilter.type \u003d stopWords_937c6ca2ee5e\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:18:06 AM",
+      "dateStarted": "Jan 16, 2016 5:40:29 AM",
+      "dateFinished": "Jan 16, 2016 5:40:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.Word2Vec\n\nval word2Vec \u003d new Word2Vec()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"word2VecFeatures\")",
+      "dateUpdated": "Jan 16, 2016 5:40:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452920081694_697485234",
+      "id": "20160116-045441_15965070",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.Word2Vec\nword2Vec: org.apache.spark.ml.feature.Word2Vec \u003d w2v_9f8a9d2fbc6d\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:54:41 AM",
+      "dateStarted": "Jan 16, 2016 5:40:31 AM",
+      "dateFinished": "Jan 16, 2016 5:40:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, word2Vec))",
+      "dateUpdated": "Jan 16, 2016 5:40:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917886324_1328949601",
+      "id": "20160116-041806_438952964",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_4a6248f09dc6\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:18:06 AM",
+      "dateStarted": "Jan 16, 2016 5:40:31 AM",
+      "dateFinished": "Jan 16, 2016 5:40:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val model \u003d pipeline.fit(itemsDF)",
+      "dateUpdated": "Jan 16, 2016 5:40:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452922838045_1208198622",
+      "id": "20160116-054038_1412190782",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_4a6248f09dc6\n"
+      },
+      "dateCreated": "Jan 16, 2016 5:40:38 AM",
+      "dateStarted": "Jan 16, 2016 5:40:50 AM",
+      "dateFinished": "Jan 16, 2016 5:40:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "model.transform()",
+      "dateUpdated": "Jan 16, 2016 5:41:05 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917886326_1329719098",
+      "id": "20160116-041806_1694128088",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:118: error: overloaded method value transform with alternatives:\n  (dataset: org.apache.spark.sql.DataFrame)org.apache.spark.sql.DataFrame \u003cand\u003e\n  (dataset: org.apache.spark.sql.DataFrame,paramMap: org.apache.spark.ml.param.ParamMap)org.apache.spark.sql.DataFrame \u003cand\u003e\n  (dataset: org.apache.spark.sql.DataFrame,firstParamPair: org.apache.spark.ml.param.ParamPair[_],otherParamPairs: org.apache.spark.ml.param.ParamPair[_]*)org.apache.spark.sql.DataFrame\n cannot be applied to ()\n              model.transform()\n                    ^\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:18:06 AM",
+      "dateStarted": "Jan 16, 2016 5:41:05 AM",
+      "dateFinished": "Jan 16, 2016 5:41:05 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452922865921_400656653",
+      "id": "20160116-054105_1680788424",
+      "dateCreated": "Jan 16, 2016 5:41:05 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "NLP/02: TODO Word2Vec",
+  "id": "2BBMXHV56",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -396,7 +396,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02:  Topic Analysis (LDA)",
+  "name": "TODO:  Simple Topic Analysis (LDA)",
   "id": "2B1HA4VF8",
   "angularObjects": {
     "2ARR8UZDJ": [],

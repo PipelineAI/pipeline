@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Most Desirable Users](http://advancedspark.com/img/connected-users-with-cost.png)",
-      "dateUpdated": "Jan 10, 2016 2:25:08 AM",
+      "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/shortest-path-by-hop.png)",
+      "dateUpdated": "Jan 16, 2016 5:25:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,8 +14,8 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala",
-        "editorHide": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
         "enabled": true
       },
       "settings": {
@@ -27,17 +27,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/connected-users-with-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/shortest-path-by-hop.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 1:05:23 AM",
-      "dateStarted": "Jan 10, 2016 2:25:08 AM",
-      "dateFinished": "Jan 10, 2016 2:25:08 AM",
+      "dateStarted": "Jan 16, 2016 5:25:52 AM",
+      "dateFinished": "Jan 16, 2016 5:25:52 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")",
-      "dateUpdated": "Jan 10, 2016 2:25:08 AM",
+      "dateUpdated": "Jan 16, 2016 5:25:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,14 +64,14 @@
         "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int, cost: int]\n"
       },
       "dateCreated": "Dec 28, 2015 3:20:55 AM",
-      "dateStarted": "Jan 10, 2016 2:25:08 AM",
-      "dateFinished": "Jan 10, 2016 2:25:08 AM",
+      "dateStarted": "Jan 16, 2016 5:25:52 AM",
+      "dateFinished": "Jan 16, 2016 5:26:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Ignore cost\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
-      "dateUpdated": "Jan 10, 2016 2:25:08 AM",
+      "text": "import org.apache.spark.graphx.Edge \n\n// Ignore cost\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
+      "dateUpdated": "Jan 16, 2016 5:26:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -95,17 +95,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "connectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[162] at map at \u003cconsole\u003e:36\n"
+        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[12] at map at \u003cconsole\u003e:35\n"
       },
       "dateCreated": "Dec 28, 2015 3:22:02 AM",
-      "dateStarted": "Jan 10, 2016 2:25:08 AM",
-      "dateFinished": "Jan 10, 2016 2:25:09 AM",
+      "dateStarted": "Jan 16, 2016 5:26:30 AM",
+      "dateFinished": "Jan 16, 2016 5:26:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.graphx._\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Jan 10, 2016 2:25:08 AM",
+      "text": "import org.apache.spark.graphx.Graph\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
+      "dateUpdated": "Jan 16, 2016 5:26:35 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -129,18 +129,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\ngraph: org.apache.spark.graphx.Graph[Long,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@1c57442d\n"
+        "msg": "import org.apache.spark.graphx.Graph\ngraph: org.apache.spark.graphx.Graph[Long,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@2133830b\n"
       },
       "dateCreated": "Dec 28, 2015 3:24:43 AM",
-      "dateStarted": "Jan 10, 2016 2:25:09 AM",
-      "dateFinished": "Jan 10, 2016 2:25:09 AM",
+      "dateStarted": "Jan 16, 2016 5:26:35 AM",
+      "dateFinished": "Jan 16, 2016 5:26:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find shortest num of hops between Nodes",
-      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\n// List of source vertices  \nval src \u003d List(10002L)\n\n// Destination vertex\nval dest \u003d 90002L\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
-      "dateUpdated": "Jan 10, 2016 2:27:33 AM",
+      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\n// List of source vertices  \nval src \u003d List(10002L)\n\n// Destination vertex\nval dest \u003d 90002\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
+      "dateUpdated": "Jan 16, 2016 5:26:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -165,16 +165,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Long \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[302] at RDD at VertexRDD.scala:57\nres37: String \u003d (90002,Map(10002 -\u003e 3))\n"
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Int \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[78] at RDD at VertexRDD.scala:57\nres20: String \u003d (90002,Map(10002 -\u003e 3))\n"
       },
       "dateCreated": "Dec 28, 2015 3:26:16 AM",
-      "dateStarted": "Jan 10, 2016 2:27:33 AM",
-      "dateFinished": "Jan 10, 2016 2:27:34 AM",
+      "dateStarted": "Jan 16, 2016 5:26:38 AM",
+      "dateFinished": "Jan 16, 2016 5:26:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 10, 2016 2:25:08 AM",
+      "dateUpdated": "Jan 16, 2016 5:25:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -200,13 +200,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 28, 2015 3:30:03 AM",
-      "dateStarted": "Jan 10, 2016 2:25:10 AM",
-      "dateFinished": "Jan 10, 2016 2:25:10 AM",
+      "dateStarted": "Jan 16, 2016 5:26:13 AM",
+      "dateFinished": "Jan 16, 2016 5:26:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/02: Shortest Number of Hops (Shortest Path)",
+  "name": "Graph/02: Shortest Path by Hops (GraphX Shortest Path)",
   "id": "2B8QW48PE",
   "angularObjects": {
     "2ARR8UZDJ": [],

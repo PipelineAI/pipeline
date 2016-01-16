@@ -1,11 +1,11 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "%md ![LDA Topic Distribution](http://fluxcapacitor.com/img/lda-topic-distribution.png)",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
+        "editorMode": "ace/mode/markdown",
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -15,7 +15,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -25,18 +26,54 @@
       "id": "20160115-042859_1779243140",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\nimport sqlContext.implicits._\n"
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/lda-topic-distribution.png\" alt\u003d\"LDA Topic Distribution\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:03 PM",
-      "dateFinished": "Jan 15, 2016 5:16:06 PM",
+      "dateStarted": "Jan 16, 2016 5:41:45 AM",
+      "dateFinished": "Jan 16, 2016 5:41:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "%md ![LDA EM Bipartite Graph](http://fluxcapacitor.com/img/lda-em-bipartite-graph.png)",
+      "dateUpdated": "Jan 16, 2016 5:41:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452919368419_-1546183696",
+      "id": "20160116-044248_889490294",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/lda-em-bipartite-graph.png\" alt\u003d\"LDA EM Bipartite Graph\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:42:48 AM",
+      "dateStarted": "Jan 16, 2016 5:41:45 AM",
+      "dateFinished": "Jan 16, 2016 5:41:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load the dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -72,7 +109,8 @@
             }
           }
         },
-        "enabled": true
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -86,14 +124,49 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, url: string, lyrics: string]\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:03 PM",
-      "dateFinished": "Jan 15, 2016 5:16:06 PM",
+      "dateStarted": "Jan 16, 2016 5:41:45 AM",
+      "dateFinished": "Jan 16, 2016 5:41:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "z.show(itemsDF)",
+      "dateUpdated": "Jan 16, 2016 5:50:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452923432063_472768330",
+      "id": "20160116-055032_1213105577",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\tcategory\tdescription\n1\tApache Cassandra\tDatabase\tThe Apache Cassandra database is the right choice when you need scalability and high availability without compromising performance. Linear scalability and proven fault-tolerance on commodity hardware or cloud infrastructure make it the perfect platform for mission-critical data. Cassandra\u0027s support for replicating across multiple datacenters is best-in-class, providing lower latency for your users and the peace of mind of knowing that you can survive regional outages.  Cassandra\u0027s data model offers the convenience of column indexes with the performance of log-structured updates, strong support for denormalization and materialized views, and powerful built-in caching.\n2\tTachyon\tDistributed Cache\tTachyon is a memory-centric distributed storage system enabling reliable data sharing at memory-speed across cluster frameworks.\n3\tApache Ambari\tCluster Provision\tThe Apache Ambari project is aimed at making Hadoop management simpler by developing software for provisioning, managing, and monitoring Apache Hadoop clusters. Ambari provides an intuitive, easy-to-use Hadoop management web UI backed by its RESTful APIs.\n4\tDocker\tCategory\tDocker allows you to package an application with all of its dependencies into a standardized unit for software and provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere.\n5\tMicrosft Azure\tCloud Provider\tMicrosoft Azure is a growing collection of integrated cloud services and analytics, computing, database, mobile, networking, storage, and web for moving faster, achieving more, and saving money.\n6\tApache Flink\tData Processing Execution Engine\tFlink is a streaming dataflow engine that provides data distribution, communication, and fault tolerance for distributed computations over data streams.\n7\tApache Spark\tData Processing Execution Engine\tApache Spark is fast and general compute engine for Hadoop data.  Spark provides a simple and expressive programming model that supports a wide range of applications, including ETL, machine learning, stream processing, and graph computation.\n8\tApache Flume\tLibrary\tFlume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.\n9\tApache Giraph\tLibrary\tApache Giraph is an iterative graph processing system built for high scalability.\n10\tApache HDFS\tFile System\t A distributed file system that provides high-throughput access to application data.\n11\tApache YARN\tCluster Resource Manager\tA framework for job scheduling and cluster resource management.\n12\tApache HBase\tDatabase\tUse Apache HBase software when you need random, realtime read/write access to your Big Data. This project\u0027s goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware. HBase is an open-source, distributed, versioned, column-oriented store modeled after Google\u0027s Bigtable: A Distributed Storage System for Structured Data by Chang et al. Just as Bigtable leverages the distributed data storage provided by the Google File System, HBase provides Bigtable-like capabilities on top of Hadoop and HDFS.\n13\tApache MapReduce\tData Processing Execution Engine\tA YARN-based system for parallel processing of large data sets.\n14\tApache Hive\tData Processing Execution Engine\tA data warehouse infrastructure that provides data summarization and ad hoc querying\n15\tHortonworks\tDistribution\tHortonworks develops, distributes and supports HDP - the completely open-source Apache Hadoop data platform, architected for the enterprise.\n16\tApache HUE\tUI\tHUE is the Hadoop User Experience and is a Web interface for to load and analytze data with Apache Hadoop.,\n17\tApache Impala\tData Processing Execution Engine\tAchieve order-of-magnitude performance increase compared to alternatives for the only true interactive analytic solution native to Hadoop.\n18\tApache Kafka\tMessage Broker\tApache Kafka is publish-subscribe messaging system implementaed as a distributed commit log with a cluster centric design with string durability and fault tolerance guarantees.\n19\tApache Lucene\tLibrary\tLucene provides Java-based indexing and search technology, as well as spellchecking, hit highlighting and advanced analysis/tokenization capabilities.\n20\tApache Solr\tSearch Engine\tHigh performance search engine built using Lucene Core, with XML/HTTP and JSON/Python/Ruby APIs, hit highlighting, faceted search, caching, replication, and a web admin interface.\n21\tElasticSearch\tSearch Engine\tElasticsearch is a distributed, open source search and analytics engine, designed for horizontal scalability, reliability, and easy management. It combines the speed of search with the power of analytics via a sophisticated, developer-friendly query language covering structured, unstructured, and time-series data.\n22\tApache Mahout\tLibrary\tApache Mahout is a project of the Apache Software Foundation to produce free implementations of distributed or otherwise scalable machine learning algorithms focused primarily in the areas of collaborative filtering, clustering and classification.\n23\tApache Drill\tData Processing Execution Engine\tApache Drill is a distributed MPP query layer that supports SQL and alternative query languages against NoSQL and Hadoop data storage systems. It was inspired in part by Google\u0027s Dremel.\n24\tApache Mesos\tCluster Resource Manager\tApache Mesos is a cluster manager that provides efficient resource isolation and sharing across distributed applications, or frameworks. It can run Hadoop, MPI, Hypertable, Spark, and other frameworks on a dynamically shared pool of nodes.\n25\tApache Parquet\tFile Format\tApache Parquet is a columnar storage format available to any project in the Hadoop ecosystem, regardless of the choice of data processing framework, data model or programming language.\n26\tApache ORC\tFile Format\tORC is a self-describing type-aware columnar file format designed for Hadoop workloads. It is optimized for large streaming reads, but with integrated support for finding required rows quickly. Storing data in a columnar format lets the reader read, decompress, and process only the values that are required for the current query.\n27\tApache Pig\tData Processing Execution Engine\tApache Pig is a platform for analyzing large data sets that consists of a high-level language for expressing data analysis programs, coupled with infrastructure for evaluating these programs. The salient property of Pig programs is that their structure is amenable to substantial parallelization, which in turns enables them to handle very large data sets.\n28\tApache ZooKeeper\tDistributed Coordinator\tApache ZooKeeper server which enables highly reliable distributed coordination.\n29\tStanford CoreNLP\tLibrary\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\n30\tApache Tez\tData Processing Execution Engine\tTez aims build an application framework which allows for a complex directed-acyclic-graph of tasks for processing data.\n31\tApache Storm\tStreaming\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\n32\tApache Sqoop\tData Import\tSqoop is designed for efficiently transferring bulk data between Apache Hadoop and structured datastores such as relational databases.\n33\tApache Oozie\tWorkflow\tOozie is a workflow scheduler system integrated with the rest of the Hadoop stack supporting several types of Hadoop jobs out of the box (such as Java map-reduce, Streaming map-reduce, Pig, Hive, Sqoop and Distcp) as well as system specific jobs (such as Java programs and shell script.\n34\tApache Nifi\tWorkflow\tApache nifi supports powerful and scalable directed graphs of data routing, transformation, and system mediation logic.\n35\tNLTK\tLibrary\tNLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning, wrappers for industrial-strength NLP libraries, and an active discussion forum.\n36\tSci-Kit Learn\tLibrary\tSimple and efficient tools for data mining and data analysis, accessible to everybody, reusable in various contexts, built on NumPy, SciPy, and matplotlib\n37\tiPython/Jupyter\tNotebook\tThe Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more.\n38\tApache Zeppelin\tNotebook\tA web-based notebook that enables interactive data analytics.  You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala and more.\n39\tTableau\tBI\tTableau can help anyone see and understand their data. Connect to almost any database, drag and drop to create visualizations, and share with a click.\n40\tR\tProgramming Language\tR is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT\u0026T, now Lucent Technologies) by John Chambers and colleagues.  R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, and clustering) and graphical techniques, and is highly extensible.\n41\tSQL\tProgramming Language\tis a special-purpose programming language designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS)\n42\tScala\tProgramming Language\tScala began life in 2003, created by Martin Odersky and his research group at EPFL, next to Lake Geneva and the Alps, in Lausanne, Switzerland. Scala has since grown into a mature open source programming language, used by hundreds of thousands of developers, and is developed and maintained by scores of people all over the world. Have the best of both worlds. Construct elegant class hierarchies for maximum code reuse and extensibility, implement their behavior using higher-order functions. Or anything in-between.\n43\tJava\tProgramming Language\tJava is a general-purpose computer programming language that is concurrent, class-based, object-oriented, and specifically designed to have as few implementation dependencies as possible.\n44\tPython\tProgramming Language\tPython is a widely used general-purpose, high-level programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than would be possible in languages such as C++ or Java.\n45\tPresto\tData Processing Execution Engine\tPresto, designed and written from the ground up for interactive analytics at scale, is an open source distributed SQL query engine for running interactive analytic queries against data sources of all sizes ranging from gigabytes to petabytes.\n46\tMapR\tDistribution\tThe MapR Converged Data Platform integrates the power of Hadoop and Spark with global event streaming, real-time database capabilities, and enterprise storage for developing and running innovative data applications. The MapR Platform is powered by the industry’s fastest, most reliable, secure, and open data infrastructure that dramatically lowers TCO and enables global real-time data applications.\n47\tCloudera\tDistribution\tWe provide the world’s fastest, easiest, and most secure data platform built on Hadoop. We help solve your most demanding business challenges with data.\n48\tIBM BigInsights\tDistribution\tApache™ Hadoop® is an open source software project that enables distributed processing of large data sets across clusters of commodity servers. It is designed to scale up from a single server to thousands of machines, with a very high degree of fault tolerance.\n49\tAmazon Web Services\tCloud Provider\tAmazon Web Services offers reliable, scalable, and inexpensive cloud computing services. Free to join, pay only for what you use.\n50\tGoogle Cloud Platform\tCloud Provider\tGoogle Cloud Platform enables developers to build, test and deploy applications on Google’s highly-scalable and reliable infrastructure. Choose from computing, storage and application services for your web, mobile and backend solutions.\n51\tRedis\tDistributed Cache\tRedis is an open source, in-memory Data Structure Store, used as a database, a caching layer for a message broker.\n52\tJSON\tFile Format\tJSON is an open standard format that uses human-readable text to transmit data objects consisting of key value pairs.\n53\tXML\tFile Format\tXML, or Extensible Markup Language, is a markup language that defines a set of rules for encoding documents in a format which is both human-readable and machine-readable.\n54\tMongoDB\tDatabase\tMongoDB is an open-source database developed by MongoDB, Inc. MongoDB stores data in JSON-like documents that can vary in structure. Related information is stored together for fast query access through the MongoDB query language. MongoDB uses dynamic schemas, meaning that you can create records without first defining the structure, such as the fields or the types of their values.\n55\tOn-Premise\tCloud Provider\tOn-Premise implies that all compute, network, and storage are managed by a customer and contained within their own data centers.\n56\tMicroStrategy\tBI\tMicroStrategy is the only analytics platform that meets the needs of business and IT. It empowers organizations to make sense of large data volumes, get answers to their toughest business questions, build beautiful data visualizations, and ensure a single version of the truth–at any scale, on any device.\n57\tKnime\tWorkflow\tThe KNIME Analytics Platform incorporates hundreds of processing nodes for data I/O, preprocessing and cleansing, modeling, analysis and data mining as well as various interactive views, such as scatter plots, parallel coordinates and others.  KNIME is based on the Eclipse platform and easily extensible through its modular API.\n59\tOracle\tDatabase\tOracle helps you simplify your IT environment to save money, time, and resources and invest in innovation. Oracle provises a comprehensive and fully integrated stack of cloud applications, platform services, and engineered systems.\n60\tMySQL\tDatabase\tMySQL is an open-source, relational database management system (RDBMS) developed, distributed and supported by Oracle Corporation. MySQL stores data in tables and uses structured query language (SQL) for database access. In MySQL, you pre-define your database schema based on your requirements and set up rules to govern the relationships between fields in your tables. In MySQL, related information may be stored in separate tables, but associated through the use of joins.\n61\tSpark ML/MLlib\tLibrary\tMLlib is Spark’s machine learning (ML) library. Its goal is to make practical machine learning scalable and easy. It consists of common learning algorithms and utilities, including classification, regression, clustering, collaborative filtering, dimensionality reduction, as well as lower-level optimization primitives and higher-level pipeline APIs.\n62\tSpark Streaming\tLibrary\tSpark Streaming is an extension of the core Spark API that enables scalable, high-throughput, fault-tolerant stream processing of live data streams. Data can be ingested from many sources like Kafka, Flume, Twitter, ZeroMQ, Kinesis, or TCP sockets, and can be processed using complex algorithms expressed with high-level functions like map, reduce, join and window. Finally, processed data can be pushed out to filesystems, databases, and live dashboards.\n63\tSpark SQL\tLibrary\tSpark SQL is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as distributed SQL query engine. Spark SQL can also be used to read data from an existing Hive installation.\n64\tCSV\tFile Format\tA comma-separated values (CSV) file stores tabular data (numbers and text) in plain text. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format.\n65\tDeep Learning 4J\tLibrary\tDeeplearning4j is the first commercial-grade, open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments, rather than as a research tool.\n66\tRedshift\tDatabase\tAmazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using your existing business intelligence tools.\n67\tKinesis\tLibrary\tAmazon Kinesis is a platform for streaming data on AWS, offering powerful services to make it easy to load and analyze streaming data, and also providing the ability for you to build custom streaming data applications for specialized needs.\n68\tDynamoDB\tDatabase\tAmazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale. It is a fully managed cloud database and supports both document and key-value store models.\n69\tSpark GraphX\tLibrary\tGraphX, Spark\u0027s API for graph and graph-parallel computation, unifies ETL, exploratory analysis, and iterative graph computation within a single system.\n70\tSQL Server\tDatabase\tSQL Server is a relational database management system developed by Microsoft. As a database server, it is a software product with the primary function of storing and retrieving data as requested by other software applications which may run either on the same computer or on another computer across a network (including the Internet).\n71\tElastic MapReduce\tData Processing Execution Engine\tAmazon EMR simplifies big data processing, providing a managed Hadoop framework that makes it easy, fast, and cost-effective for you to distribute and process vast amounts of your data across dynamically scalable Amazon EC2 instances.\n72\tDato GraphLab Create\tLibrary\tDato GraphLab Create is an extensible machine learning framework that enables developers and data scientists to easily build and deploy intelligent applications and services at scale. It includes distributed data structures and rich libraries for data transformation and manipulation, scalable task-oriented machine learning toolkits for creating, evaluating, and improving machine learning models, data and model visualization for all aspects of development.\n73\tMemcached\tDistributed Cache\tMemcached is an in-memory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.\n74\tNeo4j\tLibrary\tNeo4j is an open-source graph database implemented in Java and accessible from software written in other languages using the Cypher Query Language through a transactional HTTP endpoint.[1][2][3] The developers describe Neo4j as an ACID-compliant transactional database with native graph storage and processing.\n75\tPostgres\tDatabase\tPostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.\n76\tProtobuffers\tFile Format\tProtocol buffers are language-neutral, platform-neutral, extensible mechanism for serializing structured data - think XML, but smaller, faster, and simpler.\n77\tS3\tFile System\tSimple Storage Service (S3) provides developers and IT teams with secure, durable, highly-scalable object storage.\n78\tTensor Flow\tData Processing Execution Engine\tTensorFlow is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them.\n79\tTitan GraphDB\tDatabase\tTitan is a scalable graph database optimized for storing and querying graphs containing hundreds of billions of vertices and edges distributed across a multi-machine cluster.\n80\tTeradata\tDatabase\tTeradata uses a shared nothing architecture, which means that each server node has its own memory and processing power.  Teradata also supports text analytics to track unstructured data, such as word processor documents, and semi-structured data, such as spreadsheets.\n81\tVertica\tDatabase\tUsing a shared nothing architecture, Vertica is a cluster-based, column-oriented platform designed to manage large, fast-growing volumes of data and provide very fast query performance when used for data warehouses and other query-intensive applications.\n"
+      },
+      "dateCreated": "Jan 16, 2016 5:50:32 AM",
+      "dateStarted": "Jan 16, 2016 5:50:45 AM",
+      "dateFinished": "Jan 16, 2016 5:50:46 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Tokenize",
       "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -106,7 +179,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -117,17 +191,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_302648c517f6\n"
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_d9c5430f5c77\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:06 PM",
-      "dateFinished": "Jan 15, 2016 5:16:07 PM",
+      "dateStarted": "Jan 16, 2016 5:41:45 AM",
+      "dateFinished": "Jan 16, 2016 5:41:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Remove Common stop words",
       "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"t\", \"m\", \"n\", \"uh\", \"ll\", \"ha\", \"makes\", \"make\", \"yeah\", \"goes\", \"gettin\", \"v\", \"went\", \"aint\", \"let\", \"d\", \"yer\", \"don\", \"got\", \"just\", \"ain\", \"ve\", \"come\", \"gonna\", \"said\", \"says\", \"oh\", \"ol\", \"hey\", \"yea\", \"won\", \"el\", \"say\", \"way\", \"like\", \"lets\", \"didn\") ++ stopWords \n\nstopWordsFilter.setStopWords(newStopWords)",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -140,7 +215,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -151,17 +227,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_2c08ed4b08f5\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, t, m, n, uh, ll, ha, makes, make, yeah, goes, gettin, v, went, aint, let, d, yer, don, got, just, ain, ve, come, gonna, said, says, oh, ol, hey, yea, won, el, say, way, like, lets, didn, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere,...res498: stopWordsFilter.type \u003d stopWords_2c08ed4b08f5\n"
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_c8a9c58b437f\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, t, m, n, uh, ll, ha, makes, make, yeah, goes, gettin, v, went, aint, let, d, yer, don, got, just, ain, ve, come, gonna, said, says, oh, ol, hey, yea, won, el, say, way, like, lets, didn, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere,...res290: stopWordsFilter.type \u003d stopWords_c8a9c58b437f\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:07 PM",
-      "dateFinished": "Jan 15, 2016 5:16:08 PM",
+      "dateStarted": "Jan 16, 2016 5:41:46 AM",
+      "dateFinished": "Jan 16, 2016 5:41:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.ml.feature.CountVectorizer\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 1000\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "title": "Remove Words below a minimum Document and term Frequency",
+      "text": "import org.apache.spark.ml.feature.CountVectorizer\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 1000\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)\n  .setMinDF(1)\n  .setMinTF(1)",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -174,7 +251,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -185,17 +263,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 1000\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_3ff4aed09f65\n"
+        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 1000\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_6c71bb0fc059\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:07 PM",
-      "dateFinished": "Jan 15, 2016 5:16:09 PM",
+      "dateStarted": "Jan 16, 2016 5:41:46 AM",
+      "dateFinished": "Jan 16, 2016 5:41:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -219,17 +297,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_aa16296c75dd\n"
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_10ea8c04c663\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:09 PM",
-      "dateFinished": "Jan 15, 2016 5:16:10 PM",
+      "dateStarted": "Jan 16, 2016 5:41:47 AM",
+      "dateFinished": "Jan 16, 2016 5:41:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val model \u003d pipeline.fit(itemsDF)",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -253,17 +331,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_aa16296c75dd\n"
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_10ea8c04c663\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:10 PM",
-      "dateFinished": "Jan 15, 2016 5:16:11 PM",
+      "dateStarted": "Jan 16, 2016 5:41:48 AM",
+      "dateFinished": "Jan 16, 2016 5:41:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val countVectors \u003d model.transform(itemsDF)\n  .select(\"id\", countVectorizer.getOutputCol)\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "import sqlContext.implicits._\nimport org.apache.spark.sql.Row\nimport org.apache.spark.mllib.linalg.Vector\n\nval countVectors \u003d model.transform(itemsDF)\n  .select(\"id\", countVectorizer.getOutputCol)\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -287,17 +365,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[4987] at map at \u003cconsole\u003e:206\n"
+        "msg": "import sqlContext.implicits._\nimport org.apache.spark.sql.Row\nimport org.apache.spark.mllib.linalg.Vector\ncountVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[1562] at map at \u003cconsole\u003e:132\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:10 PM",
-      "dateFinished": "Jan 15, 2016 5:16:11 PM",
+      "dateStarted": "Jan 16, 2016 5:41:48 AM",
+      "dateFinished": "Jan 16, 2016 5:41:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Run LDA\nval maxIterations: Int \u003d 100\n\n// Note:  We\u0027re adding (1.0 / actualCorpusSize) to MiniBatchFraction \n//        to be more robust on tiny datasets.\nval miniBatchFraction \u003d math.min(1.0, 2.0 / maxIterations + 1.0 / countVectors.count())\n\nval numTopics: Int \u003d 10\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(miniBatchFraction))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n\nval ldaModel \u003d lda.run(countVectors)",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "import org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\n\n// Run LDA\nval maxIterations: Int \u003d 100\n\n// Note:  We\u0027re adding (1.0 / actualCorpusSize) to MiniBatchFraction \n//        to be more robust on tiny datasets.\nval miniBatchFraction \u003d math.min(1.0, 2.0 / maxIterations + 1.0 / countVectors.count())\n\nval numTopics: Int \u003d 10\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(miniBatchFraction))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n\nval ldaModel \u003d lda.run(countVectors)",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -321,17 +399,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "maxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.03\nnumTopics: Int \u003d 10\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@453fd70a\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@5c3d07ec\n"
+        "msg": "import org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nmaxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.03\nnumTopics: Int \u003d 10\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@7f0f71b2\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@314bb44f\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:11 PM",
-      "dateFinished": "Jan 15, 2016 5:16:21 PM",
+      "dateStarted": "Jan 16, 2016 5:41:49 AM",
+      "dateFinished": "Jan 16, 2016 5:42:03 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Print topics and top terms per topic.\nval vocabArray \u003d model.stages(2).asInstanceOf[CountVectorizerModel].vocabulary\n\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "import org.apache.spark.ml.feature.CountVectorizerModel\n\nval vocabArray \u003d model.stages(2).asInstanceOf[CountVectorizerModel].vocabulary\n\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}",
+      "dateUpdated": "Jan 16, 2016 5:42:31 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -353,19 +431,19 @@
       "jobName": "paragraph_1452832139214_662313321",
       "id": "20160115-042859_1623939798",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "import org.apache.spark.ml.feature.CountVectorizerModel\nvocabArray: Array[String] \u003d Array(love, know, chorus, baby, life, gone, good, time, long, right, cause, little, day, feel, night, eyes, old, need, heart, man, home, left, tell, hope, think, wanna, leave, believe, god, away, fall, girl, world, rain, big, dance, remember, thing, tonight, vroom, smile, road, going, came, morning, better, live, hear, chance, head, want, miss, things, hard, hell, town, lost, someday, look, face, xl, double, coming, train, years, people, boondocks, pretty, ride, dreams, stay, sure, mary, blue, round, bad, touch, nothin, hands, proud, change, new, hair, probably, girls, strong, hold, friend, pain, light, wouldn, sky, gotta, white, song, true, giving, wind, ooh, jesus, door, best, really, mom, lord, days, making, loving, born, lot, high, feeling, dear, country,...topicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(316, 390, 343, 453, 605, 511, 46, 765, 882, 578),Array(0.019475452954615505, 0.009746286742922116, 0.009016123404237353, 0.007876826832675335, 0.0067406998919993895, 0.006233466955432706, 0.006196924670576553, 0.005631338887888286, 0.005511815482141775, 0.005259055006986597)), (Array(61, 60, 280, 340, 130, 305, 98, 30, 365, 255),Array(0.05672796744563077, 0.05632306182403604, 0.035019564510745615, 0.03406995916515099, 0.020597474241232688, 0.01908979992059545, 0.01850754207894595, 0.01584082574945007, 0.013734124679939477, 0.012609625249416195)), (Array(2, 54, 13, 1, 25, 12, 27, 28, 32, 34),Array(0.01927406721393135, 0.017952781397596183, 0.01648383693450222, 0.015476850212806943, 0.013466355742696697, 0.012902606104488148,...topics: Array[Array[(String, Double)]] \u003d Array(Array((read,0.019475452954615505), (weather,0.009746286742922116), (dying,0.009016123404237353), (billy,0.007876826832675335), (sweater,0.0067406998919993895), (mountain,0.006233466955432706), (live,0.006196924670576553), (pitch,0.005631338887888286), (freebird,0.005511815482141775), (fact,0.005259055006986597)), Array((double,0.05672796744563077), (xl,0.05632306182403604), (clothes,0.035019564510745615), (tequila,0.03406995916515099), (ring,0.020597474241232688), (brrr,0.01908979992059545), (ooh,0.01850754207894595), (fall,0.01584082574945007), (lean,0.013734124679939477), (mean,0.012609625249416195)), Array((chorus,0.01927406721393135), (hell,0.017952781397596183), (feel,0.01648383693450222), (know,0.015476850212806943), (wanna,0.01346635..."
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:12 PM",
-      "dateFinished": "Jan 15, 2016 5:16:22 PM",
-      "status": "ERROR",
+      "dateStarted": "Jan 16, 2016 5:42:31 AM",
+      "dateFinished": "Jan 16, 2016 5:42:32 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "println(s\"\\n\\n$numTopics topics:\\n\\n\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "text": "println(s\"\\n$numTopics topics:\\n\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
+      "dateUpdated": "Jan 16, 2016 5:42:43 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -387,18 +465,18 @@
       "jobName": "paragraph_1452832139215_661928572",
       "id": "20160115-042859_1112439690",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "\n10 topics:\n\nTOPIC 0\nread\t0.019475452954615505\nweather\t0.009746286742922116\ndying\t0.009016123404237353\nbilly\t0.007876826832675335\nsweater\t0.0067406998919993895\nmountain\t0.006233466955432706\nlive\t0.006196924670576553\npitch\t0.005631338887888286\nfreebird\t0.005511815482141775\nfact\t0.005259055006986597\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\ndouble\t0.05672796744563077\nxl\t0.05632306182403604\nclothes\t0.035019564510745615\ntequila\t0.03406995916515099\nring\t0.020597474241232688\nbrrr\t0.01908979992059545\nooh\t0.01850754207894595\nfall\t0.01584082574945007\nlean\t0.013734124679939477\nmean\t0.012609625249416195\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\nchorus\t0.01927406721393135\nhell\t0.017952781397596183\nfeel\t0.01648383693450222\nknow\t0.015476850212806943\nwanna\t0.013466355742696697\nday\t0.012902606104488148\nbelieve\t0.0126653079973834\ngod\t0.011971892196738469\nworld\t0.011281544082254355\nbig\t0.011142241062916577\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\nheaven\t0.05473149778367032\nride\t0.03215774875080035\ntrain\t0.029598653486827532\ntear\t0.02480543645460583\nblack\t0.022766184113358914\nwatch\t0.02148300173156323\nafraid\t0.02060032595044945\ndie\t0.020421078673394842\ntown\t0.018425014427492878\ncomes\t0.013134982315340483\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\ngone\t0.04711068615672994\nlove\t0.02814885579094455\nbaby\t0.02720539838056256\ntime\t0.024011647742986444\nknow\t0.022960569732830356\ngood\t0.02206026073875562\nlife\t0.02191187279312957\nlong\t0.013518949825044358\ncause\t0.012593140862559209\nright\t0.012446186454386601\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 5\nmiss\t0.04528301810934663\nnothin\t0.022431641418124926\nscrew\t0.02171271992866193\ncoke\t0.02170169156458773\nhoe\t0.021611613434888037\nbreaker\t0.016303760188474258\ntied\t0.01610221712025168\nthank\t0.01538896004950226\nmiles\t0.01403011108952379\npretty\t0.013362912322846966\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 6\nvroom\t0.09945612402828613\nlipstick\t0.05068695412535783\nnascar\t0.028686885184533467\norleans\t0.019320413889456423\ndesert\t0.01929854368184998\ndreamed\t0.019061541677248453\npaso\t0.018831521944450626\nspend\t0.018710324460956572\nsunset\t0.017269721896927576\nrace\t0.014626934191310371\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 7\nhope\t0.047408496794560495\nmary\t0.040480780383994885\nmaking\t0.03236260475154828\nround\t0.017157675678029616\nsummer\t0.013357184556397221\nmorning\t0.01272487205326859\nfine\t0.012255902579756985\nmerry\t0.011489682376936006\nhooked\t0.01145212609629996\nnight\t0.010488420510242681\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 8\nboondocks\t0.03586222024972233\nheart\t0.033512471494531765\nchorus\t0.028468482070838266\ncame\t0.023617106970711153\nproud\t0.021927640231834397\nfeel\t0.021329732739746796\nsoul\t0.019724763706388936\nlearned\t0.017245585733739643\nraised\t0.016319939850980496\ngoing\t0.016028934995705603\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 9\nbeach\t0.023222811010319325\nmom\t0.018005205501018008\nchair\t0.017935408067235602\nright\t0.017698171604300917\nbeth\t0.01674950349123498\nsarah\t0.01658863295792859\nhair\t0.014578986144185773\nblowing\t0.014235835906032395\nhero\t0.012815282160128961\ndeath\t0.011707473030855665\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Jan 15, 2016 5:16:21 PM",
-      "dateFinished": "Jan 15, 2016 5:16:23 PM",
-      "status": "ERROR",
+      "dateStarted": "Jan 16, 2016 5:42:43 AM",
+      "dateFinished": "Jan 16, 2016 5:42:44 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 15, 2016 5:16:03 PM",
+      "dateUpdated": "Jan 16, 2016 5:41:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -424,19 +502,21 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 15, 2016 2:19:45 PM",
-      "dateStarted": "Jan 15, 2016 5:16:22 PM",
-      "dateFinished": "Jan 15, 2016 5:16:23 PM",
+      "dateStarted": "Jan 16, 2016 5:42:04 AM",
+      "dateFinished": "Jan 16, 2016 5:42:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/03: Topic Analysis - Country Lyrics (LDA)",
+  "name": "NLP/03: LDA Topic Analysis",
   "id": "2BBNJKC1N",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

@@ -552,7 +552,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/09: TODO: Generate Recs (Category One Hot Encoding)",
+  "name": "TODO: Generate Recs (Category One Hot Encoding)",
   "id": "2B7BRVWMB",
   "angularObjects": {
     "2ARR8UZDJ": [],

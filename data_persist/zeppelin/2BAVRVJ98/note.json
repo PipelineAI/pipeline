@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.MatrixEntry\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n\nval threshold \u003d 0.1\n\n//       word1, word2, word3\n// doc1\n// doc2\n// doc2\n                                        //       word1, word2, word3\nval data \u003d Array(Array(0.0, 1.0, 2.0),  // doc1 (     , 0.98 , 0.77 )\n                 Array(2.0, 3.0, 2.0),  // doc2 (     ,      , 0.88 )\n                 Array(4.0, 5.0, 2.0))  // doc3 (     ,      ,      )\n\nval rows \u003d sc.parallelize(data).map { datum \u003d\u003e\n  val values \u003d datum.map(_.toDouble)\n  Vectors.dense(values)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)\n\n// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\n\n// Compute similar columns with estimation using DIMSUM\nval approx \u003d mat.columnSimilarities(threshold)\n\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\n\n// Print the Cosine Similarities\n//   Cosine Similarity \u003d dot product of two vectors / product of their length\n//   (Normalizes to unit vectors)\napprox.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}, ${entry.j}, ${entry.value}\"\"\"))\n\nval meanAbsoluteError \u003d exactEntries.leftOuterJoin(approxEntries).values.map {\n  case (u, Some(v)) \u003d\u003e\n    math.abs(u - v)\n  case (u, None) \u003d\u003e\n    math.abs(u)\n}.mean()\n\nprintln(s\"Average absolute error in estimate is: ${meanAbsoluteError}\")\n",
-      "dateUpdated": "Jan 3, 2016 12:56:37 AM",
+      "text": "%md ![Cosine Similarity](http://fluxcapacitor.com/img/cosine-similarity.png)",
+      "dateUpdated": "Jan 16, 2016 5:52:03 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -14,7 +14,82 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452911562107_-680433488",
+      "id": "20160116-023242_327011989",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity.png\" alt\u003d\"Cosine Similarity\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 2:32:42 AM",
+      "dateStarted": "Jan 16, 2016 5:52:03 AM",
+      "dateFinished": "Jan 16, 2016 5:52:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Definition of Cosine similarity",
+      "text": "%md ### (dot product of two vectors) / (product of their lengths)\n### Normalizes to unit vectors\n![Cosine Similarity Calculation](http://fluxcapacitor.com/img/cosine-similarity-calculation.png)",
+      "dateUpdated": "Jan 16, 2016 5:52:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452913020340_-1648597993",
+      "id": "20160116-025700_2096553128",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003e(dot product of two vectors) / (product of their lengths)\u003c/h3\u003e\n\u003ch3\u003eNormalizes to unit vectors\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity-calculation.png\" alt\u003d\"Cosine Similarity Calculation\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 2:57:00 AM",
+      "dateStarted": "Jan 16, 2016 5:52:03 AM",
+      "dateFinished": "Jan 16, 2016 5:52:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Setup Matrix",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc1,  doc2,  doc3\n                Array(  0.0,   1.0,   2.0), // word1\n                Array(  2.0,   3.0,   2.0), // word2\n                Array(  4.0,   5.0,   2.0)  // word3\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
+      "dateUpdated": "Jan 16, 2016 5:52:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -25,28 +100,84 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.MatrixEntry\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\nthreshold: Double \u003d 0.1\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[190] at map at \u003cconsole\u003e:77\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@6a6e8415\nexact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@10b6b9a3\napprox: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@52111ac7\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[205] at map at \u003cconsole\u003e:83\napproxEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[206] at map at \u003cconsole\u003e:84\n0, 2, 0.7745966692414834\n1, 2, 0.87831006565368\n0, 1, 0.9827076298239907\nmeanAbsoluteError: Double \u003d 3.700743415417188E-17\nAverage absolute error in estimate is: 3.700743415417188E-17\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[2064] at map at \u003cconsole\u003e:217\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@79f50892\n"
       },
       "dateCreated": "Jan 3, 2016 12:34:20 AM",
-      "dateStarted": "Jan 3, 2016 12:54:05 AM",
-      "dateFinished": "Jan 3, 2016 12:54:06 AM",
+      "dateStarted": "Jan 16, 2016 5:52:03 AM",
+      "dateFinished": "Jan 16, 2016 5:52:05 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "title": "Compute Brute Force All Pairs Similarity (Cartesian)",
+      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\n\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\nexact.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}, ${entry.j}, ${entry.value}\"\"\"))",
+      "dateUpdated": "Jan 16, 2016 5:52:33 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452911650200_1636044406",
+      "id": "20160116-023410_247702146",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nexact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@bfc76d7\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[2073] at map at \u003cconsole\u003e:224\n0, 2, 0.7745966692414834\n0, 1, 0.9827076298239907\n1, 2, 0.87831006565368\n"
+      },
+      "dateCreated": "Jan 16, 2016 2:34:10 AM",
+      "dateStarted": "Jan 16, 2016 5:52:33 AM",
+      "dateFinished": "Jan 16, 2016 5:52:34 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 16, 2016 5:52:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1451781443287_-1595263826",
       "id": "20160103-003723_1720060116",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Jan 3, 2016 12:37:23 AM",
-      "status": "READY",
+      "dateStarted": "Jan 16, 2016 5:52:05 AM",
+      "dateFinished": "Jan 16, 2016 5:52:05 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Approx/04: TODO DIMSUM Cosine Similarity",
+  "name": "Similarity/03:  Exact Cosine Similarity",
   "id": "2BAVRVJ98",
   "angularObjects": {
     "2ARR8UZDJ": [],
