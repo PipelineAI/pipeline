@@ -84,7 +84,7 @@ object AlgebirdCountMinSketchTopK {
 
 	val enrichedTopKDF =
           globalTopKDF.join(itemsDF, $"itemId" === $"id")
-            .select($"itemId", $"approxCount", $"title", $"img")
+            .select($"itemId", $"approxCount", $"title")
             .sort($"approxCount" desc)
        
 	val enrichedTopK = enrichedTopKDF.collect()

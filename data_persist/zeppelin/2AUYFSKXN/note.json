@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,15 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Jan 16, 2016 5:31:59 AM",
-      "dateFinished": "Jan 16, 2016 5:31:59 AM",
+      "dateStarted": "Jan 16, 2016 3:55:02 PM",
+      "dateFinished": "Jan 16, 2016 3:55:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,18 +66,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_59c7463f717d\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_59c7463f717d\nres178: model.type \u003d als_59c7463f717d\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_e660071b5c07\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_e660071b5c07\nres41: model.type \u003d als_e660071b5c07\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Jan 16, 2016 5:31:59 AM",
-      "dateFinished": "Jan 16, 2016 5:32:01 AM",
+      "dateStarted": "Jan 16, 2016 3:55:02 PM",
+      "dateFinished": "Jan 16, 2016 3:55:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)",
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -130,14 +130,14 @@
         "msg": "recommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, confidence: float]\nwarning: there were 1 feature warning(s); re-run with -feature for details\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: float]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Jan 16, 2016 5:31:59 AM",
-      "dateFinished": "Jan 16, 2016 5:32:02 AM",
+      "dateStarted": "Jan 16, 2016 3:55:02 PM",
+      "dateFinished": "Jan 16, 2016 3:55:06 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))",
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -184,17 +184,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\tconfidence\ttitle\timg\n16982\t13\t0.98993206\tApache MapReduce\timg/software/mapreduce.png\n16982\t4\t0.98993194\tDocker\timg/software/docker.png\n16982\t5\t0.98993194\tMicrosft Azure\timg/software/azure.png\n16982\t6\t0.98993194\tApache Flink\timg/software/flink.png\n16982\t7\t0.98993194\tApache Spark\timg/software/spark.png\n16982\t11\t0.98993194\tApache YARN\timg/software/yarn.png\n16982\t12\t0.98993194\tApache HBase\timg/software/hbase.png\n16982\t19\t0.98993194\tApache Lucene\timg/software/lucene.png\n"
+        "msg": "userId\titemId\tconfidence\ttitle\timg\n16982\t13\t0.9993079\tApache MapReduce\timg/software/mapreduce.png\n16982\t7\t0.9993079\tApache Spark\timg/software/spark.png\n16982\t6\t0.9993079\tApache Flink\timg/software/flink.png\n16982\t19\t0.9993079\tApache Lucene\timg/software/lucene.png\n16982\t4\t0.9830789\tDocker\timg/software/docker.png\n16982\t12\t0.9830789\tApache HBase\timg/software/hbase.png\n16982\t5\t0.9830789\tMicrosft Azure\timg/software/azure.png\n16982\t11\t0.98307884\tApache YARN\timg/software/yarn.png\n62027\t6\t0.9973445\tApache Flink\timg/software/flink.png\n62027\t7\t0.9973445\tApache Spark\timg/software/spark.png\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Jan 16, 2016 5:32:02 AM",
-      "dateFinished": "Jan 16, 2016 5:32:04 AM",
+      "dateStarted": "Jan 16, 2016 3:55:06 PM",
+      "dateFinished": "Jan 16, 2016 3:55:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -222,13 +222,13 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Jan 16, 2016 5:32:03 AM",
-      "dateFinished": "Jan 16, 2016 5:32:08 AM",
+      "dateStarted": "Jan 16, 2016 3:55:07 PM",
+      "dateFinished": "Jan 16, 2016 3:55:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 16, 2016 5:31:59 AM",
+      "dateUpdated": "Jan 16, 2016 3:55:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -254,13 +254,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 25, 2015 7:08:18 PM",
-      "dateStarted": "Jan 16, 2016 5:32:04 AM",
-      "dateFinished": "Jan 16, 2016 5:32:08 AM",
+      "dateStarted": "Jan 16, 2016 3:55:10 PM",
+      "dateFinished": "Jan 16, 2016 3:55:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/04:  User-to-Item ALS Collaborative Filtering",
+  "name": "Live Recs/03:  User-to-Item ALS Collaborative Filtering",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],
