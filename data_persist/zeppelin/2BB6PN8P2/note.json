@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.NGram\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 13, 2016 4:08:18 AM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -30,14 +30,14 @@
         "msg": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.NGram\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:25 PM",
-      "dateFinished": "Jan 12, 2016 11:21:27 PM",
+      "dateStarted": "Jan 19, 2016 9:21:15 PM",
+      "dateFinished": "Jan 19, 2016 9:21:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -87,14 +87,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:25 PM",
-      "dateFinished": "Jan 12, 2016 11:21:28 PM",
+      "dateStarted": "Jan 19, 2016 9:21:15 PM",
+      "dateFinished": "Jan 19, 2016 9:21:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val distinctCategories \u003d itemsDF.select($\"category\").distinct().collect()\nval distinctCategoriesCount \u003d itemsDF.select($\"category\").distinct().count()",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -121,14 +121,14 @@
         "msg": "distinctCategories: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Category], [Search Engine], [Data Processing Execution Engine], [Data Import], [Workflow], [File Format], [Library], [File System], [Database])\ndistinctCategoriesCount: Long \u003d 21\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:28 PM",
-      "dateFinished": "Jan 12, 2016 11:21:29 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:17 PM",
+      "dateFinished": "Jan 19, 2016 9:21:20 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -152,17 +152,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_d545c4397717\n"
+        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_465dd96082a4\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:28 PM",
-      "dateFinished": "Jan 12, 2016 11:21:29 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:18 PM",
+      "dateFinished": "Jan 19, 2016 9:21:20 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -186,17 +186,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_c90851410ace\n"
+        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_e9248554ed23\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:29 PM",
-      "dateFinished": "Jan 12, 2016 11:21:30 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:20 PM",
+      "dateFinished": "Jan 19, 2016 9:21:20 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val tf \u003d new HashingTF()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"tfFeatures\")\n",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -220,17 +220,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_24f18eaca47c\n"
+        "msg": "tf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_fe455af77649\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:30 PM",
-      "dateFinished": "Jan 12, 2016 11:21:30 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:20 PM",
+      "dateFinished": "Jan 19, 2016 9:21:20 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")\n  \n",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -254,17 +254,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "idf: org.apache.spark.ml.feature.IDF \u003d idf_1d634e3a460e\n"
+        "msg": "idf: org.apache.spark.ml.feature.IDF \u003d idf_e56d41fd9e16\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:30 PM",
-      "dateFinished": "Jan 12, 2016 11:21:31 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:20 PM",
+      "dateFinished": "Jan 19, 2016 9:21:21 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Combine IF, IDF, ngram, and Word2Vec\nval featureVectorAssembler \u003d new VectorAssembler()\n  .setInputCols(Array(idf.getOutputCol))\n  .setOutputCol(\"allFeatures\")",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -288,17 +288,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "featureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_cf3f730b8fdf\n"
+        "msg": "featureVectorAssembler: org.apache.spark.ml.feature.VectorAssembler \u003d vecAssembler_d5cba4521600\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:31 PM",
-      "dateFinished": "Jan 12, 2016 11:21:31 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:21 PM",
+      "dateFinished": "Jan 19, 2016 9:21:21 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Assign an Index to Each Category \nval categoryIndexerModel \u003d new StringIndexer()\n  .setInputCol(\"category\")\n  .setOutputCol(\"indexedCategory\")\n  .fit(itemsDF)",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -322,17 +322,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "categoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_9c32bf138608\n"
+        "msg": "categoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_9bf7b61ced02\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:31 PM",
-      "dateFinished": "Jan 12, 2016 11:21:32 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:21 PM",
+      "dateFinished": "Jan 19, 2016 9:21:21 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.classification.MultilayerPerceptronClassifier\n\nval classifier \u003d new MultilayerPerceptronClassifier()\n  .setFeaturesCol(featureVectorAssembler.getOutputCol)\n  .setLabelCol(categoryIndexerModel.getOutputCol)\n  .setPredictionCol(\"prediction\")\n//  .setRawPredictionCol(\"confidence\")\n//  .setProbabilityCol(\"probability\")",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -356,17 +356,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.classification.MultilayerPerceptronClassifier\nclassifier: org.apache.spark.ml.classification.MultilayerPerceptronClassifier \u003d mlpc_441188620746\n"
+        "msg": "import org.apache.spark.ml.classification.MultilayerPerceptronClassifier\nclassifier: org.apache.spark.ml.classification.MultilayerPerceptronClassifier \u003d mlpc_217b56c6fa79\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:32 PM",
-      "dateFinished": "Jan 12, 2016 11:21:33 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:21 PM",
+      "dateFinished": "Jan 19, 2016 9:21:22 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val categoryReverseIndexer \u003d new IndexToString()\n  .setInputCol(classifier.getPredictionCol)\n  .setOutputCol(\"predictedCategory\")\n  .setLabels(categoryIndexerModel.labels)",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -390,17 +390,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_d4eec20b553f\n"
+        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_e8af934301f0\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:21:33 PM",
-      "dateFinished": "Jan 12, 2016 11:26:30 PM",
+      "dateStarted": "Jan 19, 2016 9:21:22 PM",
+      "dateFinished": "Jan 19, 2016 9:21:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, featureVectorAssembler, categoryIndexerModel, classifier, categoryReverseIndexer))",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -422,19 +422,19 @@
       "jobName": "paragraph_1452639587339_1129055420",
       "id": "20160112-225947_2022167558",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:27: error: not found: type Pipeline\n         val pipeline \u003d new Pipeline()\n                            ^\n"
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_3e9f807dc054\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:26:31 PM",
-      "dateFinished": "Jan 12, 2016 11:37:55 PM",
-      "status": "ERROR",
+      "dateStarted": "Jan 19, 2016 9:21:22 PM",
+      "dateFinished": "Jan 19, 2016 9:21:22 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val metricName \u003d \"f1\"\n\nval modelEvaluator \u003d new MulticlassClassificationEvaluator()\n  .setLabelCol(classifier.getLabelCol)\n  .setPredictionCol(classifier.getPredictionCol)\n  .setMetricName(metricName)",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -458,17 +458,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_ab790264892c\n"
+        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_60a79c034e96\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:08:29 PM",
-      "dateFinished": "Jan 12, 2016 11:08:29 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:22 PM",
+      "dateFinished": "Jan 19, 2016 9:21:22 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val paramGrid \u003d new ParamGridBuilder()\n  .addGrid(tf.numFeatures, Array(10, 100))\n  .addGrid(idf.minDocFreq, Array(1, 10))\n  .addGrid(classifier.layers, Array(Array(100, distinctCategoriesCount)))  \n  .build()",
-      "dateUpdated": "Jan 12, 2016 11:21:25 PM",
+      "text": "val paramGrid \u003d new ParamGridBuilder()\n  .addGrid(classifier.layers, Array(Array(distinctCategoriesCount.toInt)))\n  .build()\n  //  .addGrid(tf.numFeatures, Array(10, 100))\n//  .addGrid(idf.minDocFreq, Array(1, 10))\n",
+      "dateUpdated": "Jan 19, 2016 9:24:37 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -490,19 +490,19 @@
       "jobName": "paragraph_1452639587339_1129055420",
       "id": "20160112-225947_2106623662",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "paramGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tidf_663aa1749578-minDocFreq: 1,\n\thashingTF_256a407892a7-numFeatures: 10\n}, {\n\tidf_663aa1749578-minDocFreq: 1,\n\thashingTF_256a407892a7-numFeatures: 100\n}, {\n\tidf_663aa1749578-minDocFreq: 10,\n\thashingTF_256a407892a7-numFeatures: 10\n}, {\n\tidf_663aa1749578-minDocFreq: 10,\n\thashingTF_256a407892a7-numFeatures: 100\n})\nres150: Int \u003d 4\n"
+        "msg": "java.lang.IllegalArgumentException: mlpc_217b56c6fa79 parameter layers given invalid value [21].\n\tat org.apache.spark.ml.param.Param.validate(params.scala:76)\n\tat org.apache.spark.ml.param.ParamPair.\u003cinit\u003e(params.scala:509)\n\tat org.apache.spark.ml.param.Param.$minus$greater(params.scala:85)\n\tat org.apache.spark.ml.param.ParamMap.put(params.scala:805)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1$$anonfun$1$$anonfun$apply$1.apply(ParamGridBuilder.scala:116)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1$$anonfun$1$$anonfun$apply$1.apply(ParamGridBuilder.scala:116)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:108)\n\tat scala.collection.TraversableLike$class.map(TraversableLike.scala:244)\n\tat scala.collection.mutable.ArrayOps$ofRef.map(ArrayOps.scala:108)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1$$anonfun$1.apply(ParamGridBuilder.scala:116)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1$$anonfun$1.apply(ParamGridBuilder.scala:115)\n\tat scala.collection.TraversableLike$$anonfun$flatMap$1.apply(TraversableLike.scala:251)\n\tat scala.collection.TraversableLike$$anonfun$flatMap$1.apply(TraversableLike.scala:251)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.WrappedArray.foreach(WrappedArray.scala:34)\n\tat scala.collection.TraversableLike$class.flatMap(TraversableLike.scala:251)\n\tat scala.collection.AbstractTraversable.flatMap(Traversable.scala:105)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1.apply(ParamGridBuilder.scala:115)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder$$anonfun$build$1.apply(ParamGridBuilder.scala:114)\n\tat scala.collection.mutable.HashMap$$anonfun$foreach$1.apply(HashMap.scala:98)\n\tat scala.collection.mutable.HashMap$$anonfun$foreach$1.apply(HashMap.scala:98)\n\tat scala.collection.mutable.HashTable$class.foreachEntry(HashTable.scala:226)\n\tat scala.collection.mutable.HashMap.foreachEntry(HashMap.scala:39)\n\tat scala.collection.mutable.HashMap.foreach(HashMap.scala:98)\n\tat org.apache.spark.ml.tuning.ParamGridBuilder.build(ParamGridBuilder.scala:114)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:120)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:122)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:124)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:126)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:128)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:130)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:132)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:134)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:136)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:138)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:140)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:142)\n\tat \u003cinit\u003e(\u003cconsole\u003e:144)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:148)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:08:31 PM",
-      "dateFinished": "Jan 12, 2016 11:08:31 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:24:25 PM",
+      "dateFinished": "Jan 19, 2016 9:24:25 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// K-Folds Cross Validation Combined With Param Grid \nval numFolds \u003d 3\n\nval modelValidator \u003d new CrossValidator()\n  .setEstimator(pipeline)\n  .setEvaluator(modelEvaluator)\n  .setEstimatorParamMaps(paramGrid)\n  .setNumFolds(numFolds) ",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:23:43 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -526,17 +526,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "numFolds: Int \u003d 3\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_485e480998c3\n"
+        "msg": "numFolds: Int \u003d 3\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_d4710e9d4765\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:08:37 PM",
-      "dateFinished": "Jan 12, 2016 11:08:37 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:23:43 PM",
+      "dateFinished": "Jan 19, 2016 9:23:43 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val crossValidatorModel \u003d modelValidator.fit(itemsDF)",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:23:45 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -560,17 +560,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 928.0 failed 4 times, most recent failure: Lost task 0.3 in stage 928.0 (TID 2668, docker): java.lang.ArrayIndexOutOfBoundsException: 1\n\tat org.apache.spark.ml.classification.LabelConverter$.encodeLabeledPoint(MultilayerPerceptronClassifier.scala:85)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier$$anonfun$2.apply(MultilayerPerceptronClassifier.scala:165)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier$$anonfun$2.apply(MultilayerPerceptronClassifier.scala:165)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$GroupedIterator.takeDestructively(Iterator.scala:914)\n\tat scala.collection.Iterator$GroupedIterator.go(Iterator.scala:929)\n\tat scala.collection.Iterator$GroupedIterator.fill(Iterator.scala:968)\n\tat scala.collection.Iterator$GroupedIterator.hasNext(Iterator.scala:972)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat org.apache.spark.util.Utils$.getIteratorSize(Utils.scala:1595)\n\tat org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1143)\n\tat org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1143)\n\tat org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)\n\tat org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:213)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1419)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1418)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1418)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1640)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1845)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1858)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1929)\n\tat org.apache.spark.rdd.RDD.count(RDD.scala:1143)\n\tat org.apache.spark.mllib.optimization.LBFGS$.runLBFGS(LBFGS.scala:170)\n\tat org.apache.spark.mllib.optimization.LBFGS.optimize(LBFGS.scala:117)\n\tat org.apache.spark.ml.ann.FeedForwardTrainer.train(Layer.scala:878)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier.train(MultilayerPerceptronClassifier.scala:170)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier.train(MultilayerPerceptronClassifier.scala:110)\n\tat org.apache.spark.ml.Predictor.fit(Predictor.scala:90)\n\tat org.apache.spark.ml.Predictor.fit(Predictor.scala:71)\n\tat org.apache.spark.ml.Pipeline$$anonfun$fit$2.apply(Pipeline.scala:144)\n\tat org.apache.spark.ml.Pipeline$$anonfun$fit$2.apply(Pipeline.scala:140)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.IterableViewLike$Transformed$class.foreach(IterableViewLike.scala:42)\n\tat scala.collection.SeqViewLike$AbstractTransformed.foreach(SeqViewLike.scala:43)\n\tat org.apache.spark.ml.Pipeline.fit(Pipeline.scala:140)\n\tat org.apache.spark.ml.Pipeline.fit(Pipeline.scala:91)\n\tat org.apache.spark.ml.Estimator.fit(Estimator.scala:59)\n\tat org.apache.spark.ml.Estimator$$anonfun$fit$1.apply(Estimator.scala:78)\n\tat org.apache.spark.ml.Estimator$$anonfun$fit$1.apply(Estimator.scala:78)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:244)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:108)\n\tat scala.collection.TraversableLike$class.map(TraversableLike.scala:244)\n\tat scala.collection.mutable.ArrayOps$ofRef.map(ArrayOps.scala:108)\n\tat org.apache.spark.ml.Estimator.fit(Estimator.scala:78)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:104)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:99)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:108)\n\tat org.apache.spark.ml.tuning.CrossValidator.fit(CrossValidator.scala:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:152)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:157)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:159)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:161)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:163)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:165)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:167)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:169)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:171)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:173)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:175)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:177)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:179)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:181)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:183)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:185)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:187)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:189)\n\tat \u003cinit\u003e(\u003cconsole\u003e:191)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:195)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.ArrayIndexOutOfBoundsException: 1\n\tat org.apache.spark.ml.classification.LabelConverter$.encodeLabeledPoint(MultilayerPerceptronClassifier.scala:85)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier$$anonfun$2.apply(MultilayerPerceptronClassifier.scala:165)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassifier$$anonfun$2.apply(MultilayerPerceptronClassifier.scala:165)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$GroupedIterator.takeDestructively(Iterator.scala:914)\n\tat scala.collection.Iterator$GroupedIterator.go(Iterator.scala:929)\n\tat scala.collection.Iterator$GroupedIterator.fill(Iterator.scala:968)\n\tat scala.collection.Iterator$GroupedIterator.hasNext(Iterator.scala:972)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat org.apache.spark.util.Utils$.getIteratorSize(Utils.scala:1595)\n\tat org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1143)\n\tat org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1143)\n\tat org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)\n\tat org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:213)\n\t... 3 more\n\n"
+        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 57.0 failed 4 times, most recent failure: Lost task 0.3 in stage 57.0 (TID 903, docker): java.lang.IllegalArgumentException: requirement failed: A \u0026 B Dimension mismatch!\n\tat scala.Predef$.require(Predef.scala:233)\n\tat org.apache.spark.ml.ann.BreezeUtil$.dgemm(BreezeUtil.scala:41)\n\tat org.apache.spark.ml.ann.AffineLayerModel.eval(Layer.scala:125)\n\tat org.apache.spark.ml.ann.FeedForwardModel.forward(Layer.scala:556)\n\tat org.apache.spark.ml.ann.FeedForwardModel.predict(Layer.scala:621)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassificationModel.predict(MultilayerPerceptronClassifier.scala:210)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassificationModel.predict(MultilayerPerceptronClassifier.scala:186)\n\tat org.apache.spark.ml.PredictionModel$$anonfun$1.apply(Predictor.scala:186)\n\tat org.apache.spark.ml.PredictionModel$$anonfun$1.apply(Predictor.scala:185)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$1.apply(basicOperators.scala:51)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$1.apply(basicOperators.scala:49)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.util.collection.ExternalSorter.insertAll(ExternalSorter.scala:191)\n\tat org.apache.spark.shuffle.sort.SortShuffleWriter.write(SortShuffleWriter.scala:64)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:213)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1419)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1418)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1418)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1640)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1845)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1858)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1929)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:927)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:926)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$countByKey$1.apply(PairRDDFunctions.scala:381)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$countByKey$1.apply(PairRDDFunctions.scala:381)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.PairRDDFunctions.countByKey(PairRDDFunctions.scala:380)\n\tat org.apache.spark.rdd.RDD$$anonfun$countByValue$1.apply(RDD.scala:1173)\n\tat org.apache.spark.rdd.RDD$$anonfun$countByValue$1.apply(RDD.scala:1173)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.countByValue(RDD.scala:1172)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.labelCountByClass$lzycompute(MulticlassMetrics.scala:43)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.labelCountByClass(MulticlassMetrics.scala:43)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.weightedFMeasure$lzycompute(MulticlassMetrics.scala:205)\n\tat org.apache.spark.mllib.evaluation.MulticlassMetrics.weightedFMeasure(MulticlassMetrics.scala:205)\n\tat org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator.evaluate(MulticlassClassificationEvaluator.scala:83)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:109)\n\tat org.apache.spark.ml.tuning.CrossValidator$$anonfun$fit$1.apply(CrossValidator.scala:99)\n\tat scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)\n\tat scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:108)\n\tat org.apache.spark.ml.tuning.CrossValidator.fit(CrossValidator.scala:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:127)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:132)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:134)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:136)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:138)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:140)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:142)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:144)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:146)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:148)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:150)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:152)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:154)\n\tat \u003cinit\u003e(\u003cconsole\u003e:156)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:160)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.IllegalArgumentException: requirement failed: A \u0026 B Dimension mismatch!\n\tat scala.Predef$.require(Predef.scala:233)\n\tat org.apache.spark.ml.ann.BreezeUtil$.dgemm(BreezeUtil.scala:41)\n\tat org.apache.spark.ml.ann.AffineLayerModel.eval(Layer.scala:125)\n\tat org.apache.spark.ml.ann.FeedForwardModel.forward(Layer.scala:556)\n\tat org.apache.spark.ml.ann.FeedForwardModel.predict(Layer.scala:621)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassificationModel.predict(MultilayerPerceptronClassifier.scala:210)\n\tat org.apache.spark.ml.classification.MultilayerPerceptronClassificationModel.predict(MultilayerPerceptronClassifier.scala:186)\n\tat org.apache.spark.ml.PredictionModel$$anonfun$1.apply(Predictor.scala:186)\n\tat org.apache.spark.ml.PredictionModel$$anonfun$1.apply(Predictor.scala:185)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$1.apply(basicOperators.scala:51)\n\tat org.apache.spark.sql.execution.Project$$anonfun$1$$anonfun$apply$1.apply(basicOperators.scala:49)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat org.apache.spark.util.collection.ExternalSorter.insertAll(ExternalSorter.scala:191)\n\tat org.apache.spark.shuffle.sort.SortShuffleWriter.write(SortShuffleWriter.scala:64)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:213)\n\t... 3 more\n\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:08:43 PM",
-      "dateFinished": "Jan 12, 2016 11:08:43 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:23:45 PM",
+      "dateFinished": "Jan 19, 2016 9:23:49 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Print the average metrics\nval avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n\n// Combine with paramGrid to see how they affect the overall metrics\nval combined \u003d paramGrid.zip(avgMetricsParamGrid)",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -594,17 +594,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:105: error: not found: value crossValidatorModel\n       val avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n                                 ^\n"
+        "msg": "\u003cconsole\u003e:96: error: not found: value crossValidatorModel\n       val avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n                                 ^\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:04:42 PM",
-      "dateFinished": "Jan 12, 2016 11:04:42 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:23 PM",
+      "dateFinished": "Jan 19, 2016 9:21:26 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n\n// Explain params for each stage\nval bestHashingTFNumFeatures \u003d bestModel.stages(2).asInstanceOf[HashingTF].explainParams\nval bestIDFMinDocFrequency \u003d bestModel.stages(3).asInstanceOf[IDFModel].explainParams\n//val bestWord2VecVectorSize \u003d bestModel.stages(4).asInstanceOf[Word2VecModel].explainParams\nval bestLayers \u003d bestModel.stages(6).asInstanceOf[MultilayerPerceptronClassificationModel].explainParams",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -628,17 +628,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:104: error: not found: value crossValidatorModel\n         val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n                         ^\n"
+        "msg": "\u003cconsole\u003e:95: error: not found: value crossValidatorModel\n         val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n                         ^\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:04:42 PM",
-      "dateFinished": "Jan 12, 2016 11:04:42 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:26 PM",
+      "dateFinished": "Jan 19, 2016 9:21:26 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Create Prediction Pipeline\n//val predictOnDF \u003d itemsDF.select($\"description\")\n\nval predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"nosql\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestModel.transform(predictOnDF)\n .select(classifier.getPredictionCol, categoryReverseIndexer.getOutputCol, stopWordsFilter.getOutputCol, classifier.getRawPredictionCol, classifier.getProbabilityCol)\n\nz.show(predictedResultsDF)",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -680,17 +680,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\n\u003cconsole\u003e:125: error: not found: value bestModel\n       val predictedResultsDF \u003d bestModel.transform(predictOnDF)\n                                ^\n"
+        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\n\u003cconsole\u003e:116: error: not found: value bestModel\n       val predictedResultsDF \u003d bestModel.transform(predictOnDF)\n                                ^\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:04:42 PM",
-      "dateFinished": "Jan 12, 2016 11:04:43 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:26 PM",
+      "dateFinished": "Jan 19, 2016 9:21:26 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Jan 12, 2016 11:21:26 PM",
+      "dateUpdated": "Jan 19, 2016 9:21:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -716,13 +716,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Jan 12, 2016 11:04:43 PM",
-      "dateFinished": "Jan 12, 2016 11:04:43 PM",
-      "status": "ABORT",
+      "dateStarted": "Jan 19, 2016 9:21:26 PM",
+      "dateFinished": "Jan 19, 2016 9:21:26 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/09: TODO Text Classifier (Spark ML + Multilayer Perceptron)",
+  "name": "TODO NLP/09:  Text Classifier (Spark ML + Multilayer Perceptron)",
   "id": "2BB6PN8P2",
   "angularObjects": {
     "2ARR8UZDJ": [],

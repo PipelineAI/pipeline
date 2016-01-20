@@ -38,7 +38,7 @@
     {
       "title": "Retrieve from Redis",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Jan 16, 2016 3:49:39 PM",
+      "dateUpdated": "Jan 19, 2016 9:08:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -104,7 +104,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  Approximate Counts (Redis, Algebird)",
+  "name": "Live Recs/02:  Approximate Counts (Redis + Algebird)",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

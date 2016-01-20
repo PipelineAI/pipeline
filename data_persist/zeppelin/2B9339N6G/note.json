@@ -6,15 +6,15 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1452979065325_-1216864941",
-      "id": "20160116-211745_1611348493",
-      "dateCreated": "Jan 16, 2016 9:17:45 PM",
+      "jobName": "paragraph_1452984644944_-1681473644",
+      "id": "20160116-225044_879155981",
+      "dateCreated": "Jan 16, 2016 10:50:44 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO: Clustering/03: Document LDA Topic Similarity",
-  "id": "2B8TW8KJF",
+  "name": "TODO Graph/05: TODO Degrees of Separation",
+  "id": "2B9339N6G",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],

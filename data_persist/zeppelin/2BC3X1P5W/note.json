@@ -1,19 +1,121 @@
 {
   "paragraphs": [
     {
-      "config": {},
+      "text": "%md [TextRank Paper](http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)",
+      "dateUpdated": "Jan 17, 2016 12:01:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1452984292468_-2059992109",
       "id": "20160116-224452_1331188909",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003ca href\u003d\"http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf\"\u003eTextRank Paper\u003c/a\u003e\u003c/p\u003e\n"
+      },
       "dateCreated": "Jan 16, 2016 10:44:52 PM",
+      "dateStarted": "Jan 17, 2016 12:01:20 AM",
+      "dateFinished": "Jan 17, 2016 12:01:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md Start with spark user list\n",
+      "dateUpdated": "Jan 17, 2016 6:45:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452988870514_-1246670758",
+      "id": "20160117-000110_137832102",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eStart with spark user list\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 17, 2016 12:01:10 AM",
+      "dateStarted": "Jan 17, 2016 6:45:40 PM",
+      "dateFinished": "Jan 17, 2016 6:45:40 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md Follow paco\u0027s pattern:  https://github.com/ceteri/spark-exercises/tree/master/exsto",
+      "dateUpdated": "Jan 17, 2016 6:46:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453056340529_2118605737",
+      "id": "20160117-184540_1079838004",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eFollow paco\u0027s pattern:  https://github.com/ceteri/spark-exercises/tree/master/exsto\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 17, 2016 6:45:40 PM",
+      "dateStarted": "Jan 17, 2016 6:46:05 PM",
+      "dateFinished": "Jan 17, 2016 6:46:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453056365729_1099051800",
+      "id": "20160117-184605_564448773",
+      "dateCreated": "Jan 17, 2016 6:46:05 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/06: TODO TextRank (Similarity + PageRank)",
+  "name": "TODO NLP/06: TextRank (Similarity + PageRank)",
   "id": "2BC3X1P5W",
   "angularObjects": {
     "2ARR8UZDJ": [],
