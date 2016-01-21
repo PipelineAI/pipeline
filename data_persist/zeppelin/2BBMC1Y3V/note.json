@@ -38,7 +38,7 @@
     {
       "title": "Calculate Jaccard Similarity",
       "text": "val set1 \u003d Set(0,1,2)\nval set2 \u003d Set(1,2,3)\n\nval intersectSize \u003d (set1 intersect set2).size\nval unionSize \u003d (set1 union set2).size\n\nval jaccardSimliarity \u003d if (unionSize \u003e 0) intersectSize.toDouble / unionSize.toDouble",
-      "dateUpdated": "Jan 16, 2016 5:51:24 AM",
+      "dateUpdated": "Jan 20, 2016 9:58:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,8 +66,8 @@
         "msg": "set1: scala.collection.immutable.Set[Int] \u003d Set(0, 1, 2)\nset2: scala.collection.immutable.Set[Int] \u003d Set(1, 2, 3)\nintersectSize: Int \u003d 2\nunionSize: Int \u003d 4\njaccardSimliarity: AnyVal \u003d 0.5\n"
       },
       "dateCreated": "Jan 16, 2016 2:21:21 AM",
-      "dateStarted": "Jan 16, 2016 5:51:24 AM",
-      "dateFinished": "Jan 16, 2016 5:51:26 AM",
+      "dateStarted": "Jan 20, 2016 9:58:52 PM",
+      "dateFinished": "Jan 20, 2016 9:59:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
