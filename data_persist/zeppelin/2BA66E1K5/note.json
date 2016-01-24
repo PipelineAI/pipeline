@@ -1,43 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._",
-      "dateUpdated": "Jan 7, 2016 10:53:38 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1451318099632_1275613400",
-      "id": "20151228-155459_1951209027",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n"
-      },
-      "dateCreated": "Dec 28, 2015 3:54:59 PM",
-      "dateStarted": "Jan 7, 2016 10:53:38 PM",
-      "dateFinished": "Jan 7, 2016 10:53:39 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
+      "title": "Retrieve Dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .option(\"inferSchema\", \"false\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")",
-      "dateUpdated": "Jan 7, 2016 10:53:38 PM",
+      "dateUpdated": "Jan 17, 2016 12:45:14 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -51,7 +17,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -65,14 +32,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
       },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Jan 7, 2016 10:53:39 PM",
-      "dateFinished": "Jan 7, 2016 10:53:40 PM",
+      "dateStarted": "Jan 17, 2016 12:45:14 AM",
+      "dateFinished": "Jan 17, 2016 12:59:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val ratingsEdgeRDD \u003d itemRatingsDF.map(row \u003d\u003e\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n)\n\nratingsEdgeRDD.collect()",
-      "dateUpdated": "Jan 7, 2016 10:53:38 PM",
+      "dateUpdated": "Jan 17, 2016 12:45:00 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -94,14 +61,14 @@
       "jobName": "paragraph_1451357971347_956206859",
       "id": "20151229-025931_21691538",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "ratingsEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[513] at map at \u003cconsole\u003e:61\nres60: Array[org.apache.spark.graphx.Edge[Double]] \u003d Array(Edge(71042,1,1.0), Edge(71042,3,1.0), Edge(71042,4,1.0), Edge(71042,5,1.0), Edge(71042,7,1.0), Edge(71042,9,1.0), Edge(71042,10,1.0), Edge(71042,13,1.0), Edge(71042,14,1.0), Edge(71042,17,1.0), Edge(71042,20,1.0), Edge(71042,22,1.0), Edge(71042,23,1.0), Edge(71042,25,1.0), Edge(71042,28,1.0), Edge(71042,29,1.0), Edge(71042,30,1.0), Edge(71042,31,1.0), Edge(71042,32,1.0), Edge(71042,35,1.0), Edge(24890,4,1.0), Edge(24890,5,1.0), Edge(24890,6,1.0), Edge(24890,7,1.0), Edge(24890,9,1.0), Edge(24890,10,1.0), Edge(24890,11,1.0), Edge(24890,12,1.0), Edge(24890,13,1.0), Edge(24890,15,1.0), Edge(24890,16,1.0), Edge(24890,18,1.0), Edge(24890,19,1.0), Edge(24890,20,1.0), Edge(24890,21,1.0), Edge(24890,22,1.0), Edge(24890,25,1.0), Edge(2489..."
+        "msg": "\u003cconsole\u003e:27: error: not found: value itemRatingsDF\n         val ratingsEdgeRDD \u003d itemRatingsDF.map(row \u003d\u003e\n                              ^\n"
       },
       "dateCreated": "Dec 29, 2015 2:59:31 AM",
-      "dateStarted": "Jan 7, 2016 10:53:40 PM",
-      "dateFinished": "Jan 7, 2016 10:53:41 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 17, 2016 12:45:03 AM",
+      "dateFinished": "Jan 17, 2016 12:59:03 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -376,7 +343,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/08: TODO SVD++ Collaborative Filter",
+  "name": "TODO: SVD++ Collaborative Filter",
   "id": "2BA66E1K5",
   "angularObjects": {
     "2ARR8UZDJ": [],

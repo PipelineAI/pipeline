@@ -1,0 +1,350 @@
+{
+  "paragraphs": [
+    {
+      "title": "Retrieve dataset",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
+      "dateUpdated": "Jan 22, 2016 2:06:36 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687550_-551672686",
+      "id": "20160115-142127_1770959983",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:40 AM",
+      "dateFinished": "Jan 22, 2016 12:39:40 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Tokenize",
+      "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "Jan 22, 2016 2:06:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687550_-551672686",
+      "id": "20160115-142127_2027788219",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:40 AM",
+      "dateFinished": "Jan 22, 2016 12:39:40 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Remove Common Stop words",
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"t\", \"m\", \"n\", \"uh\", \"ll\", \"ha\", \"makes\", \"make\", \"yeah\", \"goes\", \n  \"gettin\", \"v\", \"went\", \"aint\", \"let\", \"d\", \"yer\", \"don\", \"got\", \"just\", \"ain\", \"ve\", \"come\", \"gonna\", \n  \"says\", \"oh\") ++ stopWords \n\nstopWordsFilter.setStopWords(newStopWords)\n//stopWordsFilter.transform(itemsDF)",
+      "dateUpdated": "Jan 22, 2016 2:06:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687550_-551672686",
+      "id": "20160115-142127_1627764426",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:40 AM",
+      "dateFinished": "Jan 22, 2016 12:39:41 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "N-Gram feature Transformer",
+      "text": "import org.apache.spark.ml.feature.NGram\n\nval ngram \u003d new NGram()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"ngramFeatures\")",
+      "dateUpdated": "Jan 22, 2016 2:06:42 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687550_-551672686",
+      "id": "20160115-142127_867479447",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:41 AM",
+      "dateFinished": "Jan 22, 2016 12:39:42 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create training pipeline",
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, ngram))",
+      "dateUpdated": "Jan 22, 2016 2:06:43 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687550_-551672686",
+      "id": "20160115-142127_788875330",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:41 AM",
+      "dateFinished": "Jan 22, 2016 12:39:42 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "train the model",
+      "text": "val model \u003d pipeline.fit(itemsDF)",
+      "dateUpdated": "Jan 22, 2016 2:06:44 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452867687551_-552057435",
+      "id": "20160115-142127_1005679190",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 15, 2016 2:21:27 PM",
+      "dateStarted": "Jan 22, 2016 12:39:42 AM",
+      "dateFinished": "Jan 22, 2016 12:39:42 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Display the Ngrams for each song",
+      "text": "val ngramDF \u003d model.transform(itemsDF)\nz.show(ngramDF)",
+      "dateUpdated": "Jan 22, 2016 2:06:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452921529107_2075184034",
+      "id": "20160116-051849_582908008",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 16, 2016 5:18:49 AM",
+      "dateStarted": "Jan 22, 2016 12:39:42 AM",
+      "dateFinished": "Jan 22, 2016 12:39:44 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 22, 2016 2:06:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452956169083_1099860004",
+      "id": "20160116-145609_1139956688",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Interpreter null not found"
+      },
+      "dateCreated": "Jan 16, 2016 2:56:09 PM",
+      "dateStarted": "Jan 22, 2016 12:39:43 AM",
+      "dateFinished": "Jan 22, 2016 12:39:44 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "NLP/02: N-Gram Featurizer",
+  "id": "2B8DEJYQS",
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

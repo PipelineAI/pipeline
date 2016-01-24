@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 2:00:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": false,
+        "editorHide": true,
         "editorMode": "ace/mode/markdown",
         "enabled": true
       },
@@ -32,15 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Jan 7, 2016 10:53:08 PM",
-      "dateFinished": "Jan 7, 2016 10:53:08 PM",
+      "dateStarted": "Jan 22, 2016 2:00:44 AM",
+      "dateFinished": "Jan 22, 2016 2:00:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 2:00:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,18 +66,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_8205d2d1ee58\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_8205d2d1ee58\nres48: model.type \u003d als_8205d2d1ee58\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_c58ff0c39597\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_c58ff0c39597\nres28: model.type \u003d als_c58ff0c39597\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Jan 7, 2016 10:53:08 PM",
-      "dateFinished": "Jan 7, 2016 10:53:11 PM",
+      "dateStarted": "Jan 22, 2016 2:00:45 AM",
+      "dateFinished": "Jan 22, 2016 2:00:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
       "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)",
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 3:09:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -125,19 +125,19 @@
       "jobName": "paragraph_1435978292871_1625908707",
       "id": "20150704-025132_1487939440",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "recommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, confidence: float]\nwarning: there were 1 feature warning(s); re-run with -feature for details\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: float]\n"
+        "msg": "java.lang.IllegalArgumentException: Field \"lyrics\" does not exist.\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat scala.collection.MapLike$class.getOrElse(MapLike.scala:128)\n\tat scala.collection.AbstractMap.getOrElse(Map.scala:58)\n\tat org.apache.spark.sql.types.StructType.apply(StructType.scala:211)\n\tat org.apache.spark.ml.UnaryTransformer.transformSchema(Transformer.scala:106)\n\tat org.apache.spark.ml.PipelineModel$$anonfun$transformSchema$5.apply(Pipeline.scala:301)\n\tat org.apache.spark.ml.PipelineModel$$anonfun$transformSchema$5.apply(Pipeline.scala:301)\n\tat scala.collection.IndexedSeqOptimized$class.foldl(IndexedSeqOptimized.scala:51)\n\tat scala.collection.IndexedSeqOptimized$class.foldLeft(IndexedSeqOptimized.scala:60)\n\tat scala.collection.mutable.ArrayOps$ofRef.foldLeft(ArrayOps.scala:108)\n\tat org.apache.spark.ml.PipelineModel.transformSchema(Pipeline.scala:301)\n\tat org.apache.spark.ml.PipelineStage.transformSchema(Pipeline.scala:68)\n\tat org.apache.spark.ml.PipelineModel.transform(Pipeline.scala:296)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:71)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:76)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:80)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:82)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:84)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:86)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:88)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:90)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:92)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:94)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:96)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:98)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:100)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:102)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:104)\n\tat \u003cinit\u003e(\u003cconsole\u003e:106)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:110)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Jan 7, 2016 10:53:08 PM",
-      "dateFinished": "Jan 7, 2016 10:53:11 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 22, 2016 3:09:52 AM",
+      "dateFinished": "Jan 22, 2016 3:09:52 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))",
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 2:00:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -184,17 +184,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\tconfidence\ttitle\timg\n24890\t28\t0.9990058\tApache ZooKeeper\timg/software/zookeeper.png\n24890\t5\t0.9990058\tMicrosft Azure\timg/software/azure.png\n24890\t13\t0.9990058\tApache MapReduce\timg/software/mapreduce.png\n24890\t10\t0.9990058\tApache HDFS\timg/software/hdfs.png\n24890\t22\t0.9990058\tApache Mahout\timg/software/mahout.png\n24890\t20\t0.9990058\tApache Solr\timg/software/solr.png\n24890\t35\t0.9990058\tNLTK\timg/software/nltk.png\n24890\t32\t0.9990058\tApache Sqoop\timg/software/sqoop.png\n24890\t9\t0.9990058\tApache Giraph\timg/software/giraph.png\n24890\t31\t0.9990057\tApache Storm\timg/software/storm.png\n"
+        "msg": "userId\titemId\tconfidence\ttitle\timg\n78\t17\t1.008867\tApache Impala\timg/software/impala.png\n78\t28\t1.0053269\tApache ZooKeeper\timg/software/zookeeper.png\n78\t1\t1.0021219\tApache Cassandra\timg/software/cassandra.png\n78\t10\t0.99421155\tApache HDFS\timg/software/hdfs.png\n78\t7\t0.9919784\tApache Spark\timg/software/spark.png\n78\t33\t0.9872454\tApache Oozie\timg/software/oozie.png\n78\t32\t0.9691055\tApache Sqoop\timg/software/sqoop.png\n2329\t11\t1.0073968\tApache YARN\timg/software/yarn.png\n2329\t77\t1.0046606\tS3\timg/software/s3.png\n2329\t20\t1.0024878\tApache Solr\timg/software/solr.png\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Jan 7, 2016 10:53:11 PM",
-      "dateFinished": "Jan 7, 2016 10:53:14 PM",
+      "dateStarted": "Jan 22, 2016 2:00:51 AM",
+      "dateFinished": "Jan 22, 2016 2:00:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 2:00:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -222,13 +222,13 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Jan 7, 2016 10:53:12 PM",
-      "dateFinished": "Jan 7, 2016 10:53:19 PM",
+      "dateStarted": "Jan 22, 2016 2:00:52 AM",
+      "dateFinished": "Jan 22, 2016 2:01:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 7, 2016 10:53:08 PM",
+      "dateUpdated": "Jan 22, 2016 2:00:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -254,13 +254,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 25, 2015 7:08:18 PM",
-      "dateStarted": "Jan 7, 2016 10:53:15 PM",
-      "dateFinished": "Jan 7, 2016 10:53:19 PM",
+      "dateStarted": "Jan 22, 2016 2:00:57 AM",
+      "dateFinished": "Jan 22, 2016 2:01:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/04:  User-to-Item ALS Collaborative Filtering",
+  "name": "Live Recs/03:  User-to-Item ALS Collaborative Filtering",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],

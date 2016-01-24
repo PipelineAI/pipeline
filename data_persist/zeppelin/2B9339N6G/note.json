@@ -1,22 +1,20 @@
 {
   "paragraphs": [
     {
-      "dateUpdated": "Jan 15, 2016 4:51:24 AM",
       "config": {},
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1452833484988_662040775",
-      "id": "20160115-045124_597777537",
-      "dateCreated": "Jan 15, 2016 4:51:24 AM",
+      "jobName": "paragraph_1452984644944_-1681473644",
+      "id": "20160116-225044_879155981",
+      "dateCreated": "Jan 16, 2016 10:50:44 PM",
       "status": "READY",
-      "errorMessage": "",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Similarity/02: TODO Cosine Similarity",
-  "id": "2B9DAJK9K",
+  "name": "TODO Graph/05: TODO Degrees of Separation",
+  "id": "2B9339N6G",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],

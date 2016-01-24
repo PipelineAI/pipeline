@@ -1,0 +1,152 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ## DIMSUM\n### Dimension Independent Matrix Square using MapReduce\n* Sample sparse columns (many zero\u0027s) at a higher probability\n* Sample dense columns (many non-zero\u0027s) at a lower probability\n\n### Intuition: _Reduce shuffle_ by sampling dense columns less since they exist in more trials\n\n[Databricks Blog Post](https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html)",
+      "dateUpdated": "Jan 16, 2016 5:52:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915365631_-96193142",
+      "id": "20160116-033605_1813132370",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eDIMSUM\u003c/h2\u003e\n\u003ch3\u003eDimension Independent Matrix Square using MapReduce\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eSample sparse columns (many zero\u0027s) at a higher probability\u003c/li\u003e\n\u003cli\u003eSample dense columns (many non-zero\u0027s) at a lower probability\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eReduce shuffle\u003c/em\u003e by sampling dense columns less since they exist in more trials\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html\"\u003eDatabricks Blog Post\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:05 AM",
+      "dateStarted": "Jan 16, 2016 5:52:47 AM",
+      "dateFinished": "Jan 16, 2016 5:52:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Setup Matrix",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc1,  doc2,  doc3\n                Array(  0.0,   1.0,   2.0), // word1 (     , 0.98 , 0.77 )\n                Array(  2.0,   3.0,   2.0), // word2 (     ,      , 0.88 )\n                Array(  4.0,   5.0,   2.0)  // word3 (     ,      ,      )\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
+      "dateUpdated": "Jan 16, 2016 5:52:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915405173_1966891757",
+      "id": "20160116-033645_2078945168",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:45 AM",
+      "dateStarted": "Jan 16, 2016 5:52:47 AM",
+      "dateFinished": "Jan 16, 2016 5:52:48 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Compute Approximate column Similarities using DIMSUM",
+      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Similarity Threshold\n//   Trade-off between speed and error\nval similarityThreshold \u003d 1.0 \n\nval approx \u003d mat.columnSimilarities(similarityThreshold)\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\n\napprox.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}, ${entry.j}, ${entry.value}\"\"\"))",
+      "dateUpdated": "Jan 16, 2016 5:52:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915365631_-96193142",
+      "id": "20160116-033605_1757567650",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "File name too long"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:05 AM",
+      "dateStarted": "Jan 16, 2016 5:52:47 AM",
+      "dateFinished": "Jan 16, 2016 5:52:49 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 16, 2016 5:52:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915365631_-96193142",
+      "id": "20160116-033605_1330878621",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:05 AM",
+      "dateStarted": "Jan 16, 2016 5:52:48 AM",
+      "dateFinished": "Jan 16, 2016 5:52:49 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Similarity/04: Approx Cosine Similarity (DIMSUM)",
+  "id": "2BACHDY7W",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

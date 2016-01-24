@@ -1,44 +1,9 @@
 {
   "paragraphs": [
     {
-      "title": "Normal Scala/Java Set",
-      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeString \u003d SizeEstimator.estimate(\"abc\");\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)",
-      "dateUpdated": "Dec 26, 2015 10:51:35 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1450585060337_-1269629404",
-      "id": "20151220-041740_860606599",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeString: Long \u003d 48\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\n"
-      },
-      "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Dec 26, 2015 10:51:35 PM",
-      "dateFinished": "Dec 26, 2015 10:51:35 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Option 1:  HyperLogLog Aggregator",
-      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(List(1)) + hllAgg(List(1,2)) + hllAgg(List(2,3)) + hllAgg(List(3,4)) + hllAgg(List(4,5)) + hllAgg(List(5))\nval memorySizeHllAggs \u003d SizeEstimator.estimate(hllAggs)\n\nval hllAggs2 \u003d hllAgg((List(1) ++ List(2,3) ++ List(3,4) ++ List(5)))\nval memorySizeHllAggs2 \u003d SizeEstimator.estimate(hllAggs)\n\nval approxSize \u003d hllAggs.approximateSize\nval approxSizeMin \u003d approxSize.min\nval approxSizeEstimate \u003d approxSize.estimate\nval approxSizeMax \u003d approxSize.max\nval approxSizeEstimateProbabilityWithinBounds \u003d approxSize.probWithinBounds\n\nval estimatedSize \u003d hllAggs.estimatedSize\nval estimatedSizeInt \u003d estimatedSize.toInt",
-      "dateUpdated": "Dec 26, 2015 11:11:34 PM",
+      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(List(1)) + hllAgg(List(1,2)) + hllAgg(List(2,3)) + hllAgg(List(3,4)) + hllAgg(List(4,5)) + hllAgg(List(5))\nval memorySizeHllAggs \u003d SizeEstimator.estimate(hllAggs)\n\nval hllAggs2 \u003d hllAgg((List(1) ++ List(2,3) ++ List(3,4) ++ List(5)))\nval memorySizeHllAggs2 \u003d SizeEstimator.estimate(hllAggs)\n\nval approxSize \u003d hllAggs.approximateSize\nval approxSizeMin \u003d approxSize.min\nval approxSizeEstimate \u003d approxSize.estimate\nval approxSizeMax \u003d approxSize.max\nval approxSizeEstimateProbabilityWithinBounds \u003d approxSize.probWithinBounds\n\nval estimatedSize \u003d hllAggs.estimatedSize\nval estimatedSizeInt \u003d estimatedSize.toInt",
+      "dateUpdated": "Jan 22, 2016 12:28:09 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -51,7 +16,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -62,18 +28,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@3ee882fb,com.twitter.algebird.Hash128$$anon$5@7fe1d2e9)\nhllAggs: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs: Long \u003d 680\nhllAggs2: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs2: Long \u003d 680\napproxSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\napproxSizeMin: Long \u003d 4\napproxSizeEstimate: Long \u003d 5\napproxSizeMax: Long \u003d 6\napproxSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\nestimatedSize: Double \u003d 5.0007630947088195\nestimatedSizeInt: Int \u003d 5\n"
+        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@33f01ddf,com.twitter.algebird.Hash128$$anon$5@452ce0ff)\nhllAggs: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs: Long \u003d 680\nhllAggs2: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs2: Long \u003d 680\napproxSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\napproxSizeMin: Long \u003d 4\napproxSizeEstimate: Long \u003d 5\napproxSizeMax: Long \u003d 6\napproxSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\nestimatedSize: Double \u003d 5.0007630947088195\nestimatedSizeInt: Int \u003d 5\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Dec 26, 2015 11:11:34 PM",
-      "dateFinished": "Dec 26, 2015 11:11:35 PM",
+      "dateStarted": "Jan 22, 2016 12:28:09 AM",
+      "dateFinished": "Jan 22, 2016 12:28:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Option 2:  HyperLogLog Monoid",
-      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogMonoid\n\nval hllMonoid \u003d new HyperLogLogMonoid(14)\nval lists \u003d (List(1) ++ List(2,3) ++ List(3,4) ++ List(5))\nval hlls \u003d lists.map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
-      "dateUpdated": "Dec 26, 2015 11:11:40 PM",
+      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogMonoid\nimport com.madhukaraphatak.sizeof.SizeEstimator\n\n\nval hllMonoid \u003d new HyperLogLogMonoid(14)\nval lists \u003d (List(1) ++ List(2,3) ++ List(3,4) ++ List(5))\nval hlls \u003d lists.map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
+      "dateUpdated": "Jan 21, 2016 2:11:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,7 +52,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -95,19 +62,19 @@
       "jobName": "paragraph_1451170321214_-439403456",
       "id": "20151226-225201_69635467",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@312033cc\nlists: List[Int] \u003d List(1, 2, 3, 3, 4, 5)\nhlls: List[com.twitter.algebird.HLL] \u003d List(SparseHLL(14,Map(9650 -\u003e Max(1))), SparseHLL(14,Map(10082 -\u003e Max(3))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(10388 -\u003e Max(1))), SparseHLL(14,Map(15708 -\u003e Max(2))))\ncombinedHllMonoid: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeCombinedHllMonoid: Long \u003d 680\napproxSizeEstimateHllMonoid: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\n"
+        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@6b3928d\nlists: List[Int] \u003d List(1, 2, 3, 3, 4, 5)\nhlls: List[com.twitter.algebird.HLL] \u003d List(SparseHLL(14,Map(9650 -\u003e Max(1))), SparseHLL(14,Map(10082 -\u003e Max(3))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(10388 -\u003e Max(1))), SparseHLL(14,Map(15708 -\u003e Max(2))))\ncombinedHllMonoid: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\n\u003cconsole\u003e:149: error: not found: value SizeEstimator\n         val memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\n                                           ^\n"
       },
       "dateCreated": "Dec 26, 2015 10:52:01 PM",
-      "dateStarted": "Dec 26, 2015 11:11:40 PM",
-      "dateFinished": "Dec 26, 2015 11:11:41 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 16, 2016 5:21:34 AM",
+      "dateFinished": "Jan 16, 2016 5:21:36 AM",
+      "status": "ABORT",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "dateUpdated": "Dec 26, 2015 10:52:59 PM",
+      "dateUpdated": "Jan 16, 2016 5:21:33 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -120,7 +87,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -133,8 +101,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Dec 26, 2015 1:15:59 AM",
-      "dateFinished": "Dec 26, 2015 1:15:59 AM",
+      "dateStarted": "Jan 16, 2016 5:21:35 AM",
+      "dateFinished": "Jan 16, 2016 5:21:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

@@ -1,0 +1,96 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png)\n\n## LSH\n### Locality Sensitive Hashing\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket\n\n[Mining Massive Datasets Ch. 3](http://infolab.stanford.edu/~ullman/mmds/ch3.pdf)",
+      "dateUpdated": "Jan 16, 2016 5:51:34 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915284279_17029780",
+      "id": "20160116-033444_2116460753",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n\u003ch2\u003eLSH\u003c/h2\u003e\n\u003ch3\u003eLocality Sensitive Hashing\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eHash items into multiple buckets\u003c/li\u003e\n\u003cli\u003eSimilar items will hash to overlapping buckets over many different hash functions\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eAvoid cartesian\u003c/em\u003e and compare only items within each bucket\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"http://infolab.stanford.edu/~ullman/mmds/ch3.pdf\"\u003eMining Massive Datasets Ch. 3\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 3:34:44 AM",
+      "dateStarted": "Jan 16, 2016 5:51:34 AM",
+      "dateFinished": "Jan 16, 2016 5:51:34 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ## See Clustering Notebook Example ",
+      "dateUpdated": "Jan 16, 2016 5:51:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915550347_-1958869837",
+      "id": "20160116-033910_1074994328",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eSee Clustering Notebook Example\u003c/h2\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 3:39:10 AM",
+      "dateStarted": "Jan 16, 2016 5:51:56 AM",
+      "dateFinished": "Jan 16, 2016 5:51:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452923516955_-82500954",
+      "id": "20160116-055156_827001949",
+      "dateCreated": "Jan 16, 2016 5:51:56 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Similarity/02: Approx Jaccard Similarity (LSH)",
+  "id": "2BA49V2Q7",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

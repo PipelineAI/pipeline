@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Most Desirable Users](http://advancedspark.com/img/connected-users-with-cost.png)",
-      "dateUpdated": "Jan 10, 2016 11:37:43 PM",
+      "text": "%md ![Most Desirable Users](http://fluxcapacitor.com/img/shortest-path-by-cost.png)",
+      "dateUpdated": "Jan 16, 2016 5:26:49 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,17 +27,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/connected-users-with-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/shortest-path-by-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 3:50:21 AM",
-      "dateStarted": "Jan 10, 2016 2:33:10 AM",
-      "dateFinished": "Jan 10, 2016 2:33:10 AM",
+      "dateStarted": "Jan 16, 2016 5:26:50 AM",
+      "dateFinished": "Jan 16, 2016 5:26:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Jan 15, 2016 4:45:23 AM",
+      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,18 +61,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\nimport org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1050] at map at \u003cconsole\u003e:54\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@13f9eff\n"
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[105] at map at \u003cconsole\u003e:41\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@344aca7b\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:43 AM",
-      "dateStarted": "Jan 10, 2016 2:33:10 AM",
-      "dateFinished": "Jan 10, 2016 2:33:11 AM",
+      "dateStarted": "Jan 16, 2016 5:26:50 AM",
+      "dateFinished": "Jan 16, 2016 5:26:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run Dijkstra on the entire graph From the given source",
-      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d  10002L \n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
-      "dateUpdated": "Jan 15, 2016 4:45:26 AM",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 10002\n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
+      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -95,20 +95,20 @@
       "jobName": "paragraph_1452393064783_1985034596",
       "id": "20160110-023104_1688931389",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:39: error: object advancedspark is not a member of package com\n         import com.advancedspark.ml.graph.Dijkstra\n                    ^\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@182f057b\n"
       },
       "dateCreated": "Jan 10, 2016 2:31:04 AM",
-      "dateStarted": "Jan 15, 2016 4:55:41 AM",
-      "dateFinished": "Jan 15, 2016 4:55:41 AM",
-      "status": "ERROR",
+      "dateStarted": "Jan 16, 2016 5:26:50 AM",
+      "dateFinished": "Jan 16, 2016 5:26:52 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Filter the shortest path for the given destination",
-      "text": "val dest \u003d 90002L \n\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n\n// Example:  Shortest Path (Total Cost \u003d\u003d 11)\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002",
-      "dateUpdated": "Jan 10, 2016 2:33:10 AM",
+      "text": "val dest \u003d 90002\n\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n\n// Example:  Shortest Path (Total Cost \u003d\u003d 11)\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002",
+      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -133,16 +133,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "dest: Long \u003d 90002\nshortestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
+        "msg": "dest: Int \u003d 90002\nshortestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
       },
       "dateCreated": "Dec 29, 2015 2:58:23 PM",
-      "dateStarted": "Jan 10, 2016 2:33:11 AM",
-      "dateFinished": "Jan 10, 2016 2:33:12 AM",
+      "dateStarted": "Jan 16, 2016 5:26:51 AM",
+      "dateFinished": "Jan 16, 2016 5:26:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 10, 2016 2:33:10 AM",
+      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -154,7 +154,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -167,13 +168,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 10, 2016 2:32:09 AM",
-      "dateStarted": "Jan 10, 2016 2:33:12 AM",
-      "dateFinished": "Jan 10, 2016 2:33:12 AM",
+      "dateStarted": "Jan 16, 2016 5:26:53 AM",
+      "dateFinished": "Jan 16, 2016 5:26:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/03: Shortest Path (Dijkstra)",
+  "name": "Graph/03: Shortest Path By Cost (Dijkstra)",
   "id": "2BAFX81J2",
   "angularObjects": {
     "2ARR8UZDJ": [],

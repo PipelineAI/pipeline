@@ -3,7 +3,7 @@
     {
       "title": "Normal Scala/Java Set",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeString \u003d SizeEstimator.estimate(\"abc\");\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)",
-      "dateUpdated": "Dec 26, 2015 10:49:54 PM",
+      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -16,7 +16,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -30,15 +31,15 @@
         "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeString: Long \u003d 48\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\n"
       },
       "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Dec 26, 2015 1:15:54 AM",
-      "dateFinished": "Dec 26, 2015 1:15:55 AM",
+      "dateStarted": "Jan 16, 2016 5:21:53 AM",
+      "dateFinished": "Jan 16, 2016 5:21:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Bloom Filter",
       "text": "import com.twitter.algebird.BloomFilterAggregator\n\nval bfAgg \u003d BloomFilterAggregator(5, 64, 0)\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)\n\nval bfAggs \u003d bfAgg(List(\"1\")) ++ bfAgg(List(\"2\",\"3\")) ++ bfAgg(List(\"3\",\"4\")) ++ bfAgg(List(\"5\"))\nval memorySizeSet \u003d SizeEstimator.estimate(bfAggs)\n\nbfAggs.contains(\"3\")",
-      "dateUpdated": "Dec 26, 2015 10:55:47 PM",
+      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -51,7 +52,8 @@
           "values": [],
           "groups": [],
           "scatter": {}
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -62,24 +64,44 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 62 size in words \u003d 2\n0 0x00\n1 dirties\n,64)\nmemorySizeSet: Long \u003d 176\nres52: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.9948010483959531)\n"
+        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 62 size in words \u003d 2\n0 0x00\n1 dirties\n,64)\nmemorySizeSet: Long \u003d 176\nres250: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.9948010483959531)\n"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Dec 26, 2015 10:55:47 PM",
-      "dateFinished": "Dec 26, 2015 10:55:47 PM",
+      "dateStarted": "Jan 16, 2016 5:21:53 AM",
+      "dateFinished": "Jan 16, 2016 5:21:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1451170547010_292898462",
       "id": "20151226-225547_1023736822",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Dec 26, 2015 10:55:47 PM",
-      "status": "READY",
+      "dateStarted": "Jan 16, 2016 5:21:54 AM",
+      "dateFinished": "Jan 16, 2016 5:21:55 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

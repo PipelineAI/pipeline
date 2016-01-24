@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nimport sqlContext.implicits._",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "text": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nimport sqlContext.implicits._",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,17 +26,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.{CountVectorizer, RegexTokenizer, StopWordsRemover}\nimport org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\nimport sqlContext.implicits._\n"
+        "msg": "import org.apache.spark.mllib.clustering.{LDA, OnlineLDAOptimizer}\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.ml.feature.CountVectorizerModel\nimport sqlContext.implicits._\n"
       },
       "dateCreated": "Oct 21, 2015 12:34:29 PM",
-      "dateStarted": "Jan 12, 2016 11:43:54 PM",
-      "dateFinished": "Jan 12, 2016 11:43:55 PM",
+      "dateStarted": "Jan 16, 2016 9:25:13 PM",
+      "dateFinished": "Jan 16, 2016 9:25:14 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,14 +86,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Jan 12, 2016 11:43:54 PM",
-      "dateFinished": "Jan 8, 2016 12:45:43 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:13 PM",
+      "dateFinished": "Jan 16, 2016 9:25:15 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -117,17 +117,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_145eede80acb\n"
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_4be6aee759ec\n"
       },
       "dateCreated": "Jan 2, 2016 3:15:51 AM",
-      "dateStarted": "Jan 8, 2016 2:07:48 AM",
-      "dateFinished": "Jan 8, 2016 2:07:48 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:15 PM",
+      "dateFinished": "Jan 16, 2016 9:25:15 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n\nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"j\", \"uses\", \"use\", \"s\") ++ stopWords ",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -151,17 +151,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "stopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_bc55d7ed0ff5\n"
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_90fd654ba4c7\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(j, uses, use, s, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, fr..."
       },
       "dateCreated": "Dec 29, 2015 6:25:20 PM",
-      "dateStarted": "Jan 8, 2016 2:07:38 AM",
-      "dateFinished": "Jan 8, 2016 2:07:39 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:15 PM",
+      "dateFinished": "Jan 16, 2016 9:25:16 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 100\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "text": "import org.apache.spark.ml.feature.CountVectorizer\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 200\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -185,17 +185,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "vocabSize: Int \u003d 100\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_3d87ca103be9\n"
+        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 200\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_def1c34127e8\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:21 AM",
-      "dateStarted": "Jan 8, 2016 2:07:40 AM",
-      "dateFinished": "Jan 8, 2016 2:07:40 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:16 PM",
+      "dateFinished": "Jan 16, 2016 9:25:16 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -219,17 +219,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_bc4a5f30baa2\n"
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_641cbd69e08c\n"
       },
       "dateCreated": "Jan 2, 2016 11:51:25 PM",
-      "dateStarted": "Jan 8, 2016 12:45:44 AM",
-      "dateFinished": "Jan 8, 2016 12:45:44 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:16 PM",
+      "dateFinished": "Jan 16, 2016 9:25:17 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val model \u003d pipeline.fit(itemsDF)",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -253,17 +253,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_bc4a5f30baa2\n"
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_641cbd69e08c\n"
       },
       "dateCreated": "Jan 2, 2016 11:52:20 PM",
-      "dateStarted": "Jan 8, 2016 12:45:44 AM",
-      "dateFinished": "Jan 8, 2016 12:45:46 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:17 PM",
+      "dateFinished": "Jan 16, 2016 9:25:17 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val countVectors \u003d model.transform(itemsDF)\n  .select(\"id\", countVectorizer.getOutputCol)\n  .map { case Row(id: Long, countVector: Vector) \u003d\u003e (id, countVector) }\n  .cache()",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -287,17 +287,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[26] at map at \u003cconsole\u003e:63\n"
+        "msg": "countVectors: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[884] at map at \u003cconsole\u003e:88\n"
       },
       "dateCreated": "Jan 2, 2016 11:51:19 PM",
-      "dateStarted": "Jan 8, 2016 12:45:44 AM",
-      "dateFinished": "Jan 8, 2016 12:45:47 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:17 PM",
+      "dateFinished": "Jan 16, 2016 9:25:18 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Run LDA\nval maxIterations: Int \u003d 100\n\n// Note:  We\u0027re adding (1.0 / actualCorpusSize) to MiniBatchFraction \n//        to be more robust on tiny datasets.\nval miniBatchFraction \u003d math.min(1.0, 2.0 / maxIterations + 1.0 / countVectors.count())\n\nval numTopics: Int \u003d 5\n\nval lda \u003d new LDA()\n  .setOptimizer(new OnlineLDAOptimizer().setMiniBatchFraction(miniBatchFraction))\n  .setK(numTopics)\n  .setMaxIterations(maxIterations)\n\nval ldaModel \u003d lda.run(countVectors)",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -321,17 +321,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "maxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.0325\nnumTopics: Int \u003d 5\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@33eefea3\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@51a9a59b\n"
+        "msg": "maxIterations: Int \u003d 100\nminiBatchFraction: Double \u003d 0.0325\nnumTopics: Int \u003d 5\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@48d46b80\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.LocalLDAModel@4e5a0e25\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:40 AM",
-      "dateStarted": "Jan 8, 2016 12:45:46 AM",
-      "dateFinished": "Jan 8, 2016 12:45:55 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:18 PM",
+      "dateFinished": "Jan 16, 2016 9:25:24 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "// Print topics and top terms per topic.\nval vocabArray \u003d model.stages(2).asInstanceOf[CountVectorizerModel].vocabulary\n\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\n\nval topics \u003d topicIndices.map { case (terms, termWeights) \u003d\u003e\n  terms.map(vocabArray(_)).zip(termWeights)\n}\n\nz.show(topics)\nprintln(s\"$numTopics topics:\")\ntopics.zipWithIndex.foreach { case (topic, i) \u003d\u003e\n  println(s\"TOPIC $i\")\n  topic.foreach { case (term, weight) \u003d\u003e println(s\"$term\\t$weight\") }\n  println(s\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n}\n",
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:26:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -355,16 +355,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "vocabArray: Array[String] \u003d Array(data, distributed, hadoop, apache, database, language, open, provides, platform, processing, source, query, spark, applications, storage, s, graph, learning, scalable, machine, enables, high, streaming, designed, software, large, analysis, analytics, sql, web, management, structured, based, java, services, using, fast, programming, engine, file, application, scale, cluster, interactive, fault, reliable, simple, build, uses, amazon, supports, easy, used, project, structure, text, relational, use, cloud, extensible, integrated, format, make, class, allows, developed, performance, business, mongodb, level, built, framework, documents, search, google, time, developers, model, server, memory, programs, infrastructure, scala, set, oriented, single, create, my...topicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(87, 48, 88, 57, 65, 83, 28, 61, 44, 4),Array(0.04526754985400377, 0.012164695756856457, 0.011990713174108259, 0.01133855662569197, 0.010581698098388846, 0.010575310125519504, 0.010188490251426112, 0.010184068705821201, 0.010172769692099431, 0.010165864044346141)), (Array(0, 19, 17, 55, 61, 48, 40, 64, 72, 13),Array(0.07696182884444992, 0.04809621970497169, 0.04568502873689708, 0.03970701600153568, 0.03667666632664386, 0.03490395798221801, 0.03231610868297151, 0.03091042517557153, 0.03025416017484283, 0.028495642517322978)), (Array(5, 6, 82, 54, 33, 52, 10, 63, 91, 68),Array(0.07698454935196326, 0.07585832463258829, 0.049562362598085295, 0.045113505810484456, 0.04507994466480937, 0.04494966240967151, 0.04041056272003491, 0.0...topics: Array[Array[(String, Double)]] \u003d Array(Array((mysql,0.04526754985400377), (uses,0.012164695756856457), (access,0.011990713174108259), (use,0.01133855662569197), (developed,0.010581698098388846), (set,0.010575310125519504), (sql,0.010188490251426112), (format,0.010184068705821201), (fault,0.010172769692099431), (database,0.010165864044346141)), Array((data,0.07696182884444992), (machine,0.04809621970497169), (learning,0.04568502873689708), (text,0.03970701600153568), (format,0.03667666632664386), (uses,0.03490395798221801), (application,0.03231610868297151), (allows,0.03091042517557153), (documents,0.03025416017484283), (applications,0.028495642517322978)), Array((language,0.07698454935196326), (open,0.07585832463258829), (scala,0.049562362598085295), (structure,0.045113505810484...[[Lscala.Tuple2;@28d987a45 topics:\nTOPIC 0\nmysql\t0.04526754985400377\nuses\t0.012164695756856457\naccess\t0.011990713174108259\nuse\t0.01133855662569197\ndeveloped\t0.010581698098388846\nset\t0.010575310125519504\nsql\t0.010188490251426112\nformat\t0.010184068705821201\nfault\t0.010172769692099431\ndatabase\t0.010165864044346141\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\ndata\t0.07696182884444992\nmachine\t0.04809621970497169\nlearning\t0.04568502873689708\ntext\t0.03970701600153568\nformat\t0.03667666632664386\nuses\t0.03490395798221801\napplication\t0.03231610868297151\nallows\t0.03091042517557153\ndocuments\t0.03025416017484283\napplications\t0.028495642517322978\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\nlanguage\t0.07698454935196326\nopen\t0.07585832463258829\nscala\t0.049562362598085295\nstructure\t0.045113505810484456\njava\t0.04507994466480937\nused\t0.04494966240967151\nsource\t0.04041056272003491\nclass\t0.03928008672435412\nj\t0.03367383010315911\nmongodb\t0.030836160178890473\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\nsearch\t0.06795596737743212\nhigh\t0.058029803529063756\nperformance\t0.05633913292737621\nbuilt\t0.05583063184353124\nbusiness\t0.04267711368767817\nsimple\t0.04216035789659511\nfast\t0.03740963112148427\nsingle\t0.036169540381535296\nusing\t0.03513689096937448\nscale\t0.034729090059575134\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\ndata\t0.125078178168106\nhadoop\t0.051668606530536586\napache\t0.045580422154218446\ndistributed\t0.041586133802778195\ndatabase\t0.037979987601442895\nquery\t0.02796864890602935\nplatform\t0.02771400797083784\nprocessing\t0.025706204799534216\nsource\t0.023793996106325405\nopen\t0.02324369550652411\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
+        "msg": "vocabArray: Array[String] \u003d Array(data, distributed, hadoop, apache, database, language, open, provides, platform, processing, source, query, spark, applications, storage, s, graph, learning, scalable, machine, enables, high, streaming, designed, software, large, analysis, analytics, sql, web, management, structured, based, java, services, using, fast, programming, engine, file, application, scale, cluster, interactive, fault, reliable, simple, build, uses, amazon, supports, easy, used, project, structure, text, relational, use, cloud, extensible, integrated, format, make, class, allows, developed, performance, business, mongodb, level, built, framework, documents, search, google, time, developers, model, server, memory, programs, infrastructure, scala, set, oriented, single, create, my...topicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(5, 0, 9, 6, 16, 10, 59, 43, 8, 11),Array(0.05636529866574769, 0.04238096872114741, 0.026914178887489534, 0.026377588866005157, 0.023696310584696022, 0.023319739168308425, 0.02222567155266361, 0.02050812202616083, 0.020127548746128758, 0.018026160549481713)), (Array(34, 29, 58, 92, 134, 165, 8, 60, 18, 45),Array(0.06723366553463897, 0.05104805851965539, 0.04752083945056459, 0.03760888052387717, 0.0341795173880995, 0.029528572714614076, 0.02899697887057857, 0.02727877975157083, 0.02308655084677629, 0.021952618798631456)), (Array(17, 19, 18, 12, 16, 69, 99, 95, 123, 167),Array(0.071980230588113, 0.06378956854346471, 0.040672738340055, 0.040598843306801156, 0.03319907832826737, 0.030151743701120656, 0.029738531642177924, 0.0285...topics: Array[Array[(String, Double)]] \u003d Array(Array((language,0.05636529866574769), (data,0.04238096872114741), (processing,0.026914178887489534), (open,0.026377588866005157), (graph,0.023696310584696022), (source,0.023319739168308425), (extensible,0.02222567155266361), (interactive,0.02050812202616083), (platform,0.020127548746128758), (query,0.018026160549481713)), Array((services,0.06723366553463897), (web,0.05104805851965539), (cloud,0.04752083945056459), (computing,0.03760888052387717), (oracle,0.0341795173880995), (xml,0.029528572714614076), (platform,0.02899697887057857), (integrated,0.02727877975157083), (scalable,0.02308655084677629), (reliable,0.021952618798631456)), Array((learning,0.071980230588113), (machine,0.06378956854346471), (scalable,0.040672738340055), (spark,0.0405...[[Lscala.Tuple2;@4b16f1f85 topics:\nTOPIC 0\nlanguage\t0.05636529866574769\ndata\t0.04238096872114741\nprocessing\t0.026914178887489534\nopen\t0.026377588866005157\ngraph\t0.023696310584696022\nsource\t0.023319739168308425\nextensible\t0.02222567155266361\ninteractive\t0.02050812202616083\nplatform\t0.020127548746128758\nquery\t0.018026160549481713\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 1\nservices\t0.06723366553463897\nweb\t0.05104805851965539\ncloud\t0.04752083945056459\ncomputing\t0.03760888052387717\noracle\t0.0341795173880995\nxml\t0.029528572714614076\nplatform\t0.02899697887057857\nintegrated\t0.02727877975157083\nscalable\t0.02308655084677629\nreliable\t0.021952618798631456\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 2\nlearning\t0.071980230588113\nmachine\t0.06378956854346471\nscalable\t0.040672738340055\nspark\t0.040598843306801156\ngraph\t0.03319907832826737\nlevel\t0.030151743701120656\ncomputation\t0.029738531642177924\nstream\t0.028563103080270612\nalgorithms\t0.023034480520241592\nlibrary\t0.021730235668336966\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 3\nprograms\t0.05196513257086904\nmap\t0.04636667876694115\nreduce\t0.0458520177794864\npig\t0.04287559929726797\njava\t0.03851639320470878\nhadoop\t0.032774839895818766\nindicate\t0.020610897145470496\nintegrated\t0.0205630091199129\nphrases\t0.020157171023462397\nhive\t0.019067055210281948\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nTOPIC 4\ndata\t0.09893746084109119\ndistributed\t0.03254900342995109\nhadoop\t0.029306499836627278\napache\t0.02574788815415596\ndatabase\t0.022716032602519674\nstructured\t0.019691233181161956\ndesigned\t0.019097436386373706\nopen\t0.018288496698233434\nsoftware\t0.017808154871828682\nsource\t0.016763058354148378\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:52 AM",
-      "dateStarted": "Jan 8, 2016 2:23:31 AM",
-      "dateFinished": "Jan 8, 2016 2:23:32 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:26:25 PM",
+      "dateFinished": "Jan 16, 2016 9:26:29 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 12, 2016 11:43:54 PM",
+      "dateUpdated": "Jan 16, 2016 9:25:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -390,13 +390,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 2, 2016 3:16:54 AM",
-      "dateStarted": "Jan 8, 2016 12:45:55 AM",
-      "dateFinished": "Jan 8, 2016 12:45:56 AM",
-      "status": "ABORT",
+      "dateStarted": "Jan 16, 2016 9:25:24 PM",
+      "dateFinished": "Jan 16, 2016 9:25:25 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02:  Topic Analysis (LDA)",
+  "name": "TODO: Live Recs/06: Simple LDA Topic Analysis",
   "id": "2B1HA4VF8",
   "angularObjects": {
     "2ARR8UZDJ": [],
