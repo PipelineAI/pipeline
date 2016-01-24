@@ -66,8 +66,6 @@ object AlgebirdCountMinSketchTopK {
       })
     }).reduce(_ ++ _)
 
-    val schema = StructType(StructField("itemId", IntegerType, true) :: StructField("approxCount", LongType, true) :: Nil)
- 
     counts.foreachRDD(rdd => {
       if (rdd.count() != 0) {
         val batchTopKCms = rdd.first()
@@ -76,19 +74,14 @@ object AlgebirdCountMinSketchTopK {
         val globalTopK = globalTopKCms.heavyHitters.map(itemId => 
           (itemId, globalTopKCms.frequency(itemId).estimate)).toSeq.sortBy(_._2).reverse.slice(0, TopK)
       
-        val globalTopKRDD = sc.parallelize(globalTopK)
+        val globalTopKDF = sc.parallelize(globalTopK).toDF("itemId", "approxCount")
 
-        val globalTopKRDDRows = globalTopKRDD.map(row => Row(row._1, row._2))
-
-        val globalTopKDF = sqlContext.createDataFrame(globalTopKRDDRows, schema)
-
-	val enrichedTopKDF =
+	val enrichedTopK =
           globalTopKDF.join(itemsDF, $"itemId" === $"id")
-            .select($"itemId", $"approxCount", $"title", $"img")
+            .select($"approxCount", $"title")
             .sort($"approxCount" desc)
+            .collect()
        
-	val enrichedTopK = enrichedTopKDF.collect()
-
         println(s"""Top 5 Heavy Hitters CMS: ${enrichedTopK.mkString("[",",","]")}""")
       }
     })

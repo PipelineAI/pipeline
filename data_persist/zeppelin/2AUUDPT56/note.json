@@ -3,7 +3,7 @@
     {
       "title": "Read the real-time Ratings coming from Users through Kafka",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
-      "dateUpdated": "Jan 22, 2016 1:37:12 AM",
+      "dateUpdated": "Jan 16, 2016 4:34:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,15 +32,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Jan 22, 2016 1:37:13 AM",
-      "dateFinished": "Jan 22, 2016 1:37:39 AM",
+      "dateStarted": "Jan 16, 2016 4:34:51 PM",
+      "dateFinished": "Jan 16, 2016 4:35:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show the total rating count and number of Overall distinct users Who Rated (Cassandra)",
       "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Jan 22, 2016 1:38:38 AM",
+      "dateUpdated": "Jan 16, 2016 4:34:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,18 +66,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 334\ndistinctUsers: Any \u003d 43\n"
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 602\ndistinctUsers: Any \u003d 64\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Jan 22, 2016 1:38:39 AM",
-      "dateFinished": "Jan 22, 2016 1:38:54 AM",
+      "dateStarted": "Jan 16, 2016 4:34:56 PM",
+      "dateFinished": "Jan 16, 2016 4:35:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load Reference Data for Enrichment",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"description\").limit(5))",
-      "dateUpdated": "Jan 22, 2016 1:39:48 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", explode($\"tags\")).limit(5))",
+      "dateUpdated": "Jan 16, 2016 4:38:33 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -128,15 +128,15 @@
         "msg": "id\ttitle\timg\tdescription\n1\tApache Cassandra\timg/software/cassandra.png\tThe Apache Cassandra database is the right choice when you need scalability and high availability without compromising performance. Linear scalability and proven fault-tolerance on commodity hardware or cloud infrastructure make it the perfect platform for mission-critical data. Cassandra\u0027s support for replicating across multiple datacenters is best-in-class, providing lower latency for your users and the peace of mind of knowing that you can survive regional outages.  Cassandra\u0027s data model offers the convenience of column indexes with the performance of log-structured updates, strong support for denormalization and materialized views, and powerful built-in caching.\n2\tTachyon\timg/software/tachyon.png\tTachyon is a memory-centric distributed storage system enabling reliable data sharing at memory-speed across cluster frameworks.\n3\tApache Ambari\timg/software/ambari.png\tThe Apache Ambari project is aimed at making Hadoop management simpler by developing software for provisioning, managing, and monitoring Apache Hadoop clusters. Ambari provides an intuitive, easy-to-use Hadoop management web UI backed by its RESTful APIs.\n4\tDocker\timg/software/docker.png\tDocker allows you to package an application with all of its dependencies into a standardized unit for software and provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere.\n5\tMicrosft Azure\timg/software/azure.png\tMicrosoft Azure is a growing collection of integrated cloud services and analytics, computing, database, mobile, networking, storage, and web for moving faster, achieving more, and saving money.\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Jan 22, 2016 1:39:48 AM",
-      "dateFinished": "Jan 22, 2016 1:39:49 AM",
+      "dateStarted": "Jan 16, 2016 4:35:12 PM",
+      "dateFinished": "Jan 16, 2016 4:35:26 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use the DataFrame API to show most desirable items by Rating count",
       "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\", $\"img\")\n  .groupBy($\"itemId\", $\"title\", $\"img\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n  \njoinedDF.show()",
-      "dateUpdated": "Jan 22, 2016 1:40:10 AM",
+      "dateUpdated": "Jan 16, 2016 4:34:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -161,11 +161,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, img: string, count: bigint]\n+------+------------+--------------------+-----+\n|itemId|       title|                 img|count|\n+------+------------+--------------------+-----+\n|     7|Apache Spark|img/software/spar...|   12|\n|    53|         XML|img/software/xml.png|   12|\n|    77|          S3| img/software/s3.png|   11|\n|    44|      Python|img/software/pyth...|   11|\n|    41|         SQL|img/software/sql.png|   11|\n+------+------------+--------------------+-----+\n\n"
+        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, img: string, count: bigint]\n+------+-------------------+--------------------+-----+\n|itemId|              title|                 img|count|\n+------+-------------------+--------------------+-----+\n|    49|Amazon Web Services|img/software/aws.png|   27|\n|    44|             Python|img/software/pyth...|   24|\n|     7|       Apache Spark|img/software/spar...|   23|\n|    10|        Apache HDFS|img/software/hdfs...|   20|\n|    41|                SQL|img/software/sql.png|   18|\n+------+-------------------+--------------------+-----+\n\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Jan 22, 2016 1:40:10 AM",
-      "dateFinished": "Jan 22, 2016 1:40:13 AM",
+      "dateStarted": "Jan 16, 2016 4:35:25 PM",
+      "dateFinished": "Jan 16, 2016 4:35:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -206,7 +206,7 @@
     {
       "title": "Register Temp Tables to run SQL (won\u0027t need to do this in Spark 1.6+)",
       "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")",
-      "dateUpdated": "Jan 22, 2016 1:40:38 AM",
+      "dateUpdated": "Jan 16, 2016 4:34:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -234,8 +234,8 @@
         "msg": ""
       },
       "dateCreated": "Dec 25, 2015 7:30:41 PM",
-      "dateStarted": "Jan 22, 2016 1:40:38 AM",
-      "dateFinished": "Jan 22, 2016 1:40:38 AM",
+      "dateStarted": "Jan 16, 2016 4:35:29 PM",
+      "dateFinished": "Jan 16, 2016 4:35:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -436,7 +436,7 @@
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(joinedDF)\n",
-      "dateUpdated": "Jan 22, 2016 1:54:32 AM",
+      "dateUpdated": "Jan 16, 2016 4:34:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -484,11 +484,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n53\tXML\timg/software/xml.png\t13\n7\tApache Spark\timg/software/spark.png\t13\n64\tCSV\timg/software/csv.png\t13\n41\tSQL\timg/software/sql.png\t13\n77\tS3\timg/software/s3.png\t12\n"
+        "msg": "itemId\ttitle\timg\tcount\n49\tAmazon Web Services\timg/software/aws.png\t27\n44\tPython\timg/software/python.png\t24\n7\tApache Spark\timg/software/spark.png\t23\n10\tApache HDFS\timg/software/hdfs.png\t20\n41\tSQL\timg/software/sql.png\t18\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Jan 22, 2016 1:54:32 AM",
-      "dateFinished": "Jan 22, 2016 1:54:40 AM",
+      "dateStarted": "Jan 16, 2016 4:35:33 PM",
+      "dateFinished": "Jan 16, 2016 4:35:38 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

@@ -157,20 +157,23 @@ export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
+# CoreNLP (hack until CoreNLP v3.6.0 is released to maven central at which time we'll add it with --packages)
+export CORENLP_HOME=$DEV_INSTALL_HOME/stanford-corenlp-full-2015-12-09
+
+# MyApps
+export MYAPPS_HOME=$PIPELINE_HOME/myapps
+
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,elsevierlabs-os:spark-xml-utils:1.3.0
 #,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION
 #,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,
 #,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
 
-export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR
+export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR,$CORENLP_HOME/stanford-corenlp-3.6.0.jar,$CORENLP_HOME/stanford-corenlp-3.6.0-models.jar,$CORENLP_HOME/jollyday.jar,$CORENLP_HOME/ejml-0.23.jar,$MYAPPS_HOME/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/streaming/target/scala-2.10/streaming_2.10-1.0.jar
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION
 export PATH=$PATH:$ZEPPELIN_HOME/bin
-
-# MyApps
-export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # Jupyter/iPython
 export PYSPARK_DRIVER_PYTHON=jupyter

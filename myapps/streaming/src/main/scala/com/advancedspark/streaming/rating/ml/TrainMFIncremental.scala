@@ -84,9 +84,10 @@ object TrainMFIncremental {
     // Predictions //
     /////////////////
 
-    // Note:  there is a race condition where the model needs to be built before we can predict.
-    //        we need to figure this out.  
+    // Note:  there is a race condition where the model needs to be built before we can predict    //        this job currently fails because of this race condition.
     //        possibily serialize the model and read it in a separate predict job?
+    //        then we'd have to place the prediction back on a kafka queue that the caller
+    //          is listening on (clunky)  
 
 //    val predictInputStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, predictTopics)
 //    val predictStream = predictInputStream.map(message => {

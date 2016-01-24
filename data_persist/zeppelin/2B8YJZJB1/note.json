@@ -3,7 +3,7 @@
     {
       "title": "Option 1:  HyperLogLog Aggregator",
       "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(List(1)) + hllAgg(List(1,2)) + hllAgg(List(2,3)) + hllAgg(List(3,4)) + hllAgg(List(4,5)) + hllAgg(List(5))\nval memorySizeHllAggs \u003d SizeEstimator.estimate(hllAggs)\n\nval hllAggs2 \u003d hllAgg((List(1) ++ List(2,3) ++ List(3,4) ++ List(5)))\nval memorySizeHllAggs2 \u003d SizeEstimator.estimate(hllAggs)\n\nval approxSize \u003d hllAggs.approximateSize\nval approxSizeMin \u003d approxSize.min\nval approxSizeEstimate \u003d approxSize.estimate\nval approxSizeMax \u003d approxSize.max\nval approxSizeEstimateProbabilityWithinBounds \u003d approxSize.probWithinBounds\n\nval estimatedSize \u003d hllAggs.estimatedSize\nval estimatedSizeInt \u003d estimatedSize.toInt",
-      "dateUpdated": "Jan 22, 2016 12:28:09 AM",
+      "dateUpdated": "Jan 21, 2016 2:11:12 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,14 +26,14 @@
       "jobName": "paragraph_1450580466626_413857236",
       "id": "20151220-030106_1914295026",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@33f01ddf,com.twitter.algebird.Hash128$$anon$5@452ce0ff)\nhllAggs: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs: Long \u003d 680\nhllAggs2: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs2: Long \u003d 680\napproxSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\napproxSizeMin: Long \u003d 4\napproxSizeEstimate: Long \u003d 5\napproxSizeMax: Long \u003d 6\napproxSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\nestimatedSize: Double \u003d 5.0007630947088195\nestimatedSizeInt: Int \u003d 5\n"
+        "msg": "\u003cconsole\u003e:27: error: object algebird is not a member of package com.twitter\n         import com.twitter.algebird.HLL\n                            ^\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Jan 22, 2016 12:28:09 AM",
-      "dateFinished": "Jan 22, 2016 12:28:40 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 20, 2016 10:00:27 PM",
+      "dateFinished": "Jan 20, 2016 10:00:27 PM",
+      "status": "ABORT",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -69,7 +69,7 @@
       "dateCreated": "Dec 26, 2015 10:52:01 PM",
       "dateStarted": "Jan 16, 2016 5:21:34 AM",
       "dateFinished": "Jan 16, 2016 5:21:36 AM",
-      "status": "ABORT",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {

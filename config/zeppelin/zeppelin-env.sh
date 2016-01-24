@@ -47,6 +47,7 @@ export ZEPPELIN_NOTEBOOK_DIR=/root/pipeline/data_persist/zeppelin   # Where note
 # export SPARK_HOME                             # (required) When it is defined, load it instead of Zeppelin embedded Spark libraries
 export SPARK_HOME=/root/spark-1.6.0-bin-fluxcapacitor/
 # export SPARK_SUBMIT_OPTIONS                   # (optional) extra options to pass to spark submit. eg) "--driver-memory 512M --executor-memory 1G".
+export SPARK_SUBMIT_OPTIONS="--jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"
 
 ## Use embedded spark binaries ##
 ## without SPARK_HOME defined, Zeppelin still able to run spark interpreter process using embedded spark binaries.

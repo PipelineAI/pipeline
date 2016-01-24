@@ -3,7 +3,7 @@
     {
       "title": "Most Desirable Users By PageRank of Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Jan 24, 2016 3:16:13 AM",
+      "dateUpdated": "Jan 16, 2016 5:23:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

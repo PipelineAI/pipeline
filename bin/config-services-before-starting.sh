@@ -145,7 +145,7 @@ chmod a+x $ZEPPELIN_HOME/bin/*.sh
 ln -s $CONFIG_HOME/zeppelin/zeppelin-env.sh $ZEPPELIN_HOME/conf
 ln -s $CONFIG_HOME/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
 ln -s $CONFIG_HOME/zeppelin/interpreter.json $ZEPPELIN_HOME/conf
-ln -s $CONFIG_HOME/hadoop/hive-site.xml $ZEPPELIN_HOME/conf
+ln -s $CONFIG_HOME/spark/hive-site.xml $ZEPPELIN_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # iPython/Jupyter

@@ -3,7 +3,7 @@
     {
       "title": "Run this to import all necessary libraries for this series of notebooks",
       "text": "%dep\nz.reset()\n\nz.addRepo(\"Maven Central\").url(\"http://search.maven.org\")\nz.addRepo(\"Spark Packages\").url(\"http://dl.bintray.com/s-packages/maven\")\n\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\nz.load(\"org.elasticsearch:elasticsearch-spark_2.10:2.1.2\")\nz.load(\"com.databricks:spark-csv_2.10:1.2.0\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")\nz.load(\"org.apache.spark:spark-streaming-kafka-assembly_2.10:1.6.0\")\nz.load(\"redis.clients:jedis:2.7.3\")\nz.load(\"com.twitter:algebird-core_2.10:0.11.0\")\nz.load(\"com.madhukaraphatak:java-sizeof_2.10:0.1\")\nz.load(\"elsevierlabs-os:spark-xml-utils:1.3.0\")\n\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/jollyday.jar\")\nz.load(\"/root/stanford-corenlp-full-2015-12-09/ejml-0.23.jar\")\nz.load(\"/root/pipeline/myapps/ml/lib/spark-corenlp_2.10-0.1.jar\")\nz.load(\"/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\")\nz.load(\"/root/pipeline/myapps/sql/target/scala-2.10/sql_2.10-1.0.jar\")",
-      "dateUpdated": "Jan 23, 2016 6:10:09 AM",
+      "dateUpdated": "Jan 21, 2016 2:56:07 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,19 +27,19 @@
       "jobName": "paragraph_1451313770945_969980519",
       "id": "20151228-144250_1598778654",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@3c27880f\n"
+        "msg": "Must be used before SparkInterpreter (%spark) initialized\nHint: put this paragraph before any Spark code and restart Zeppelin/Interpreter"
       },
       "dateCreated": "Dec 28, 2015 2:42:50 PM",
-      "dateStarted": "Jan 23, 2016 6:10:09 AM",
-      "dateFinished": "Jan 23, 2016 6:10:16 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 21, 2016 2:55:54 PM",
+      "dateFinished": "Jan 21, 2016 2:55:54 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Jan 22, 2016 3:10:20 AM",
+      "dateUpdated": "Jan 17, 2016 6:31:55 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,9 +65,9 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 28, 2015 2:42:57 PM",
-      "dateStarted": "Jan 22, 2016 3:10:20 AM",
-      "dateFinished": "Jan 22, 2016 3:10:20 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 17, 2016 6:31:58 AM",
+      "dateFinished": "Jan 16, 2016 4:31:57 PM",
+      "status": "ABORT",
       "progressUpdateIntervalMs": 500
     }
   ],
