@@ -31,7 +31,7 @@ export JEDIS_VERSION=2.7.3
 export SPARK_CSV_CONNECTOR_VERSION=1.2.0
 export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
 export ALGEBIRD_VERSION=0.11.0
-export STANFORD_CORENLP_VERSION=3.5.2
+export STANFORD_CORENLP_VERSION=3.6.0
 export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
 export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
 export SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
@@ -40,6 +40,7 @@ export KEYSTONEML_VERSION=0.2
 export SPARK_HASH_VERSION=0.1.3
 export NIFI_VERSION=0.4.1
 export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
+export ELSEVIER_XML_UTILS_VERSION=1.3.0
 
 #Dev Install
 export DEV_INSTALL_HOME=~
@@ -93,9 +94,6 @@ export HTML_HOME=$PIPELINE_HOME/html
 
 # Java Home
 export JAVA_HOME=/usr
-
-# H2O Home
-#export H2O_HOME=$DEV_INSTALL_HOME/h2o-3.0.1.7
 
 # Scripts Home
 export PATH=$PATH:$SCRIPTS_HOME
@@ -157,19 +155,13 @@ export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$PATH:$SBT_HOME/bin
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
-# CoreNLP (hack until CoreNLP v3.6.0 is released to maven central at which time we'll add it with --packages)
-export CORENLP_HOME=$DEV_INSTALL_HOME/stanford-corenlp-full-2015-12-09
-
 # MyApps
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,elsevierlabs-os:spark-xml-utils:1.3.0
-#,edu.berkeley.cs.amplab:keystoneml_2.10:$KEYSTONEML_VERSION
-#,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,
-#,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION:models
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,elsevierlabs-os:spark-xml-utils:$ELSEVIER_XML_UTILS_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION
 
-export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR,$CORENLP_HOME/stanford-corenlp-3.6.0.jar,$CORENLP_HOME/stanford-corenlp-3.6.0-models.jar,$CORENLP_HOME/jollyday.jar,$CORENLP_HOME/ejml-0.23.jar,$MYAPPS_HOME/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/streaming/target/scala-2.10/streaming_2.10-1.0.jar
+export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/streaming/target/scala-2.10/streaming_2.10-1.0.jar
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION
@@ -178,5 +170,3 @@ export PATH=$PATH:$ZEPPELIN_HOME/bin
 # Jupyter/iPython
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
-# --notebook-dir=$DATA_PERSIST_HOME/jupyter"
-

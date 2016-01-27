@@ -49,7 +49,7 @@ ENV SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
 ENV KAFKA_CLIENT_VERSION=0.8.2.2
 ENV SCALATEST_VERSION=2.2.4
 ENV JEDIS_VERSION=2.7.3
-ENV SPARK_CSV_CONNECTOR_VERSION=1.2.0
+ENV SPARK_CSV_CONNECTOR_VERSION=1.3.0
 ENV SPARK_AVRO_CONNECTOR_VERSION=2.0.1
 ENV ALGEBIRD_VERSION=0.11.0
 ENV STANFORD_CORENLP_VERSION=3.6.0
@@ -216,22 +216,31 @@ RUN \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz 
 
 RUN \
-# Get Latest Pipeline Code (Again, for now...)
+# Get Latest Pipeline Code 
  cd ~/pipeline \
  && git pull \
 
-# This is temporary while we wait for Stanford CoreNLP v3.6.0 to be released
-#   as well as https://github.com/databricks/spark-corenlp which depends on it
- && cd ~ \
- && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
- && unzip stanford-corenlp-full-2015-12-09.zip \
- && rm stanford-corenlp-full-2015-12-09.zip \
+# This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
+#   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
+# Classifiers don't appear to be supported by --packages
+ && wget http://search.maven.org/remotecontent?filepath=edu/stanford/nlp/stanford-corenlp/${STANFORD_CORENLP_VERSION}/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar \
 
 # Sbt Feeder
  && cd ~/pipeline/myapps/feeder && sbt assembly \
 
 # Sbt ML 
- && cd ~/pipeline/myapps/ml && sbt package \
+# This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
+#   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
+# Classifiers don't appear to be supported by --packages
+# && cd ~/pipeline/myapps/ml/lib \
+# && wget http://search.maven.org/remotecontent?filepath=edu/stanford/nlp/stanford-corenlp/${STANFORD_CORENLP_VERSION}/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar \
+ && cd ~ \
+ && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
+ && unzip stanford-corenlp-full-2015-12-09.zip \
+ && rm stanford-corenlp-full-2015-12-09.zip \
+ && cd ~/pipeline/myapps/ml \
+ && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar lib/ \
+ && sbt package \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/streaming && sbt package \
