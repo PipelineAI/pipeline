@@ -241,8 +241,8 @@
     },
     {
       "title": "IDF transformer",
-      "text": "import org.apache.spark.ml.feature.IDF\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")",
-      "dateUpdated": "Jan 19, 2016 9:19:42 PM",
+      "text": "import org.apache.spark.ml.feature.IDF\n\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")",
+      "dateUpdated": "Jan 29, 2016 9:15:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -265,14 +265,14 @@
       "jobName": "paragraph_1451775771985_-1247745195",
       "id": "20160102-230251_1962189552",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.IDF\nidf: org.apache.spark.ml.feature.IDF \u003d idf_0a5862d69838\n"
+        "msg": "import org.apache.spark.ml.feature.IDF\n\u003cconsole\u003e:67: error: not found: value tf\n         .setInputCol(tf.getOutputCol)\n                      ^\n"
       },
       "dateCreated": "Jan 2, 2016 11:02:51 PM",
-      "dateStarted": "Jan 19, 2016 9:20:06 PM",
-      "dateFinished": "Jan 19, 2016 9:20:06 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jan 29, 2016 9:15:52 AM",
+      "dateFinished": "Jan 29, 2016 9:15:52 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

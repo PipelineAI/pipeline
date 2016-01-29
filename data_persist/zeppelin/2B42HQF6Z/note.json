@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md \n### Streaming Approximation Code Examples\n[Redis HyperLogLog (HLL)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/RedisHyperLogLog.scala)\n\n[Algebird HyperLogLog (HLL)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdHyperLogLog.scala)\n\n[Algebird CountMin Sketch TopK (CMS)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdCountMinSketchTopK.scala)",
-      "dateUpdated": "Jan 16, 2016 3:49:35 PM",
+      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorHide": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -30,15 +31,15 @@
         "msg": "\u003ch3\u003eStreaming Approximation Code Examples\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/RedisHyperLogLog.scala\"\u003eRedis HyperLogLog (HLL)\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdHyperLogLog.scala\"\u003eAlgebird HyperLogLog (HLL)\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdCountMinSketchTopK.scala\"\u003eAlgebird CountMin Sketch TopK (CMS)\u003c/a\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:23 PM",
-      "dateStarted": "Jan 16, 2016 3:49:27 PM",
-      "dateFinished": "Jan 16, 2016 3:49:27 PM",
+      "dateStarted": "Jan 29, 2016 4:01:44 AM",
+      "dateFinished": "Jan 29, 2016 4:01:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Retrieve from Redis",
-      "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Jan 19, 2016 9:08:35 PM",
+      "title": "Approximate HyperLogLog (Redis)",
+      "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 1 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
+      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -52,7 +53,8 @@
         },
         "editorMode": "ace/mode/scala",
         "enabled": true,
-        "title": true
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -61,18 +63,20 @@
       "jobName": "paragraph_1448297306376_418047956",
       "id": "20151123-164826_892246958",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "File name too long"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 1\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@29db7d87\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 6\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Jan 16, 2016 3:49:39 PM",
-      "dateFinished": "Jan 16, 2016 3:49:40 PM",
-      "status": "ERROR",
+      "dateStarted": "Jan 29, 2016 4:23:12 AM",
+      "dateFinished": "Jan 29, 2016 4:23:13 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 16, 2016 5:31:31 AM",
+      "title": "Exact Count (Redis)",
+      "text": "val exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
+      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -85,7 +89,10 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -95,16 +102,45 @@
       "id": "20160115-050946_110716227",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT"
+        "type": "TEXT",
+        "msg": "exactNumRatingsForItemId: String \u003d 7\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 5\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "Jan 16, 2016 5:31:32 AM",
-      "dateFinished": "Jan 16, 2016 5:31:32 AM",
+      "dateStarted": "Jan 29, 2016 4:23:15 AM",
+      "dateFinished": "Jan 29, 2016 4:23:16 AM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454040082116_986786514",
+      "id": "20160129-040122_1823942882",
+      "dateCreated": "Jan 29, 2016 4:01:22 AM",
+      "status": "READY",
+      "errorMessage": "",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  Approximate Counts (Redis + Algebird)",
+  "name": "Live Recs/02:  Approximate HyperLogLog Count (Redis)",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

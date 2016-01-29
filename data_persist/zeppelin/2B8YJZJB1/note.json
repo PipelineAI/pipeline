@@ -1,9 +1,115 @@
 {
   "paragraphs": [
     {
-      "title": "Option 1:  HyperLogLog Aggregator",
-      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(List(1)) + hllAgg(List(1,2)) + hllAgg(List(2,3)) + hllAgg(List(3,4)) + hllAgg(List(4,5)) + hllAgg(List(5))\nval memorySizeHllAggs \u003d SizeEstimator.estimate(hllAggs)\n\nval hllAggs2 \u003d hllAgg((List(1) ++ List(2,3) ++ List(3,4) ++ List(5)))\nval memorySizeHllAggs2 \u003d SizeEstimator.estimate(hllAggs)\n\nval approxSize \u003d hllAggs.approximateSize\nval approxSizeMin \u003d approxSize.min\nval approxSizeEstimate \u003d approxSize.estimate\nval approxSizeMax \u003d approxSize.max\nval approxSizeEstimateProbabilityWithinBounds \u003d approxSize.probWithinBounds\n\nval estimatedSize \u003d hllAggs.estimatedSize\nval estimatedSizeInt \u003d estimatedSize.toInt",
-      "dateUpdated": "Jan 27, 2016 7:45:14 PM",
+      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\n\nimport com.madhukaraphatak.sizeof.SizeEstimator",
+      "dateUpdated": "Jan 29, 2016 2:19:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016621969_-417961919",
+      "id": "20160128-213021_32782883",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:30:21 PM",
+      "dateStarted": "Jan 29, 2016 2:19:22 AM",
+      "dateFinished": "Jan 29, 2016 2:19:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create 2 Scala/Java sets",
+      "text": "val set1 \u003d (1 to 100000).toSet\nval set2 \u003d (50000 to 100000).toSet\n\nval combinedSetSize \u003d (set1 ++ set2).size",
+      "dateUpdated": "Jan 29, 2016 2:19:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016757144_45476616",
+      "id": "20160128-213237_447310394",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "set1: scala.collection.immutable.Set[Int] \u003d Set(53767, 32571, 88533, 77772, 42890, 46805, 72033, 88320, 92325, 37159, 29176, 14221, 2163, 37041, 62232, 8607, 60426, 25695, 645, 84726, 13950, 31843, 20873, 86230, 23162, 39241, 90638, 64790, 42900, 69439, 46827, 16466, 67614, 55558, 94907, 53060, 28337, 49828, 50400, 29862, 39049, 99625, 69397, 19887, 81338, 95105, 35178, 84918, 86139, 41742, 39858, 54355, 18180, 69939, 70174, 70656, 16383, 36308, 31885, 892, 90410, 69, 50665, 51261, 35370, 80586, 74021, 53550, 45704, 66152, 10822, 37830, 37753, 79066, 85145, 26129, 16216, 23563, 81292, 95725, 43261, 64943, 25953, 23764, 81608, 15874, 35210, 54422, 34630, 96661, 5385, 84486, 91071, 40422, 68000, 5810, 49767, 7375, 67223, 31462, 81586, 66592, 81767, 41894, 77446, 62382, 32287, 33394, 94703...set2: scala.collection.immutable.Set[Int] \u003d Set(53767, 88533, 77772, 72033, 88320, 92325, 62232, 60426, 84726, 86230, 90638, 64790, 69439, 67614, 55558, 94907, 53060, 50400, 99625, 69397, 81338, 95105, 84918, 86139, 54355, 69939, 70174, 70656, 90410, 50665, 51261, 80586, 74021, 53550, 66152, 79066, 85145, 81292, 95725, 64943, 81608, 54422, 96661, 84486, 91071, 68000, 67223, 81586, 66592, 81767, 77446, 62382, 94703, 67773, 55377, 61456, 94810, 59593, 64599, 80316, 94590, 74720, 69626, 56771, 50239, 98136, 92584, 57415, 68990, 86853, 67543, 74492, 60039, 66993, 75299, 75883, 64022, 59003, 66341, 72905, 99956, 59913, 57225, 85910, 56093, 88990, 74470, 62154, 95618, 54506, 91679, 59972, 79473, 96648, 57284, 79936, 99581, 93503, 98111, 61953, 56912, 73329, 96293, 78556, 94708, 94823, 52015, ...combinedSetSize: Int \u003d 100000\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:32:37 PM",
+      "dateStarted": "Jan 29, 2016 2:19:23 AM",
+      "dateFinished": "Jan 29, 2016 2:19:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of Set",
+      "text": "val set1 \u003d (1 to 100000).toSet\n\nval sizeInMemorySet \u003d SizeEstimator.estimate(set1)",
+      "dateUpdated": "Jan 29, 2016 2:21:24 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016681846_-1611560276",
+      "id": "20160128-213121_1029889204",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "sizeInMemorySet: Long \u003d 6918920\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:31:21 PM",
+      "dateStarted": "Jan 29, 2016 2:21:13 AM",
+      "dateFinished": "Jan 29, 2016 2:21:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of HyperLogLog Set",
+      "text": "val hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval sizeInMemoryHll \u003d SizeEstimator.estimate(hllAgg(set1))",
+      "dateUpdated": "Jan 29, 2016 2:21:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -28,18 +134,54 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogAggregator\nimport com.madhukaraphatak.sizeof.SizeEstimator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@4eccb93e,com.twitter.algebird.Hash128$$anon$5@474525f1)\nhllAggs: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs: Long \u003d 680\nhllAggs2: com.twitter.algebird.HLL \u003d SparseHLL(14,Map(10388 -\u003e Max(1), 9650 -\u003e Max(1), 15708 -\u003e Max(2), 10082 -\u003e Max(3), 6205 -\u003e Max(1)))\nmemorySizeHllAggs2: Long \u003d 680\napproxSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(4,5,6,0.9972)\napproxSizeMin: Long \u003d 4\napproxSizeEstimate: Long \u003d 5\napproxSizeMax: Long \u003d 6\napproxSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\nestimatedSize: Double \u003d 5.0007630947088195\nestimatedSizeInt: Int \u003d 5\n"
+        "msg": "hllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@31125efe,com.twitter.algebird.Hash128$$anon$5@4bb8bc45)\nsizeInMemoryHll: Long \u003d 16472\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Jan 27, 2016 7:45:14 PM",
-      "dateFinished": "Jan 27, 2016 7:45:47 PM",
+      "dateStarted": "Jan 29, 2016 2:21:17 AM",
+      "dateFinished": "Jan 29, 2016 2:21:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Estimated HyperLogLog Set Size ",
+      "text": "val hllAggs \u003d hllAgg(set1 ++ set2)\n\nval approxSetSize \u003d hllAggs.approximateSize\nval approxSetSizeMin \u003d approxSetSize.min\nval approxSetSizeEstimate \u003d approxSetSize.estimate\nval approxSetSizeMax \u003d approxSetSize.max\nval approxSetSizeEstimateProbabilityWithinBounds \u003d approxSetSize.probWithinBounds",
+      "dateUpdated": "Jan 29, 2016 2:19:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016734077_-200778005",
+      "id": "20160128-213214_850454815",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "hllAggs: com.twitter.algebird.HLL \u003d DenseHLL(14,Bytes(3,4,4,2,5,4,2,6,4,2,3,4,3,2,10,2,1,6,3,3,3,10,6,2,3,5,6,2,2,3,3,4,2,4,6,8,8,5,2,6,4,3,6,5,3,2,5,1,3,2,7,5,2,2,5,4,4,6,4,5,2,7,6,6,3,5,3,3,5,3,6,1,7,2,3,2,2,3,2,1,7,4,3,5,3,3,5,3,3,2,3,5,3,6,8,4,5,4,3,6,5,2,2,5,3,3,7,4,1,6,3,1,6,8,4,4,3,5,4,3,5,9,2,6,6,1,4,7,3,3,3,1,8,4,5,2,6,4,3,3,3,1,3,1,2,6,5,3,4,3,3,3,2,1,5,6,5,4,3,4,7,5,6,2,3,3,4,5,4,6,3,4,4,4,4,4,5,4,3,6,3,3,7,5,4,4,5,3,10,3,5,3,3,8,6,2,5,4,5,2,3,4,3,5,3,4,4,1,5,4,2,8,4,3,4,5,3,5,4,4,6,3,3,2,7,4,2,2,3,6,4,3,5,3,3,3,4,4,3,5,5,4,5,3,3,2,3,5,5,3,1,2,4,3,4,5,2,4,4,3,6,4,3,4,4,3,1,3,9,5,2,5,5,2,2,3,10,4,6,4,4,2,7,5,3,6,3,4,4,1,3,2,4,6,5,4,3,4,2,3,3,4,2,4,4,4,5,4,3,5,3,3,4,5,1,2,1,5,2,5,3,10,5,5,3,6,5,3,6,2,1,2,5,4,2,6,4,3,5,5,9,2,3,3,6,4,1,3,8,2,4,7,6,3,4,4,4,6,8,3,3,3,4,6,3,5,3,1,2,...approxSetSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(97558,99995,102433,0.9972)\napproxSetSizeMin: Long \u003d 97558\napproxSetSizeEstimate: Long \u003d 99995\napproxSetSizeMax: Long \u003d 102433\napproxSetSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:32:14 PM",
+      "dateStarted": "Jan 29, 2016 2:19:24 AM",
+      "dateFinished": "Jan 29, 2016 2:19:24 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Option 2:  HyperLogLog Monoid",
-      "text": "import com.twitter.algebird.HLL\nimport com.twitter.algebird.HyperLogLog._\nimport com.twitter.algebird.HyperLogLogMonoid\nimport com.madhukaraphatak.sizeof.SizeEstimator\n\n\nval hllMonoid \u003d new HyperLogLogMonoid(14)\nval lists \u003d (List(1) ++ List(2,3) ++ List(3,4) ++ List(5))\nval hlls \u003d lists.map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
-      "dateUpdated": "Jan 27, 2016 7:38:51 PM",
+      "text": "val hllMonoid \u003d new HyperLogLogMonoid(14)\nval hlls \u003d (set1 ++ set2).map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
+      "dateUpdated": "Jan 29, 2016 2:19:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,17 +203,21 @@
       },
       "jobName": "paragraph_1451170321214_-439403456",
       "id": "20151226-225201_69635467",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:51: error: not found: type HyperLogLogMonoid\n         val hllMonoid \u003d new HyperLogLogMonoid(14)\n                             ^\n"
+      },
       "dateCreated": "Dec 26, 2015 10:52:01 PM",
-      "dateStarted": "Jan 27, 2016 7:39:21 PM",
-      "dateFinished": "Jan 27, 2016 7:39:21 PM",
+      "dateStarted": "Jan 29, 2016 2:19:24 AM",
+      "dateFinished": "Jan 29, 2016 2:19:24 AM",
       "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getFormType(RemoteInterpreter.java:266)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.getFormType(LazyOpenInterpreter.java:104)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:198)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "",
-      "dateUpdated": "Jan 27, 2016 7:38:51 PM",
+      "title": " ",
+      "text": "",
+      "dateUpdated": "Jan 29, 2016 2:19:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -93,12 +239,14 @@
       },
       "jobName": "paragraph_1450587563774_1352590284",
       "id": "20151220-045923_327498017",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Jan 27, 2016 7:39:21 PM",
-      "dateFinished": "Jan 27, 2016 7:39:21 PM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getFormType(RemoteInterpreter.java:266)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.getFormType(LazyOpenInterpreter.java:104)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:198)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Jan 29, 2016 2:19:24 AM",
+      "dateFinished": "Jan 29, 2016 2:19:24 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

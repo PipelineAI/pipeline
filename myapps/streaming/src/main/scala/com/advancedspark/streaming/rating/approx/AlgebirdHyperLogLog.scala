@@ -33,7 +33,7 @@ object AlgebirdHyperLogLog {
       @transient val newSsc = new StreamingContext(sc, Seconds(2))
       println(s"Creating new StreamingContext $newSsc")
 
-      newSsc.checkpoint(s"""${dataWorkHome}/streaming/""")
+      newSsc.checkpoint(s"""${dataWorkHome}/streaming""")
       newSsc
     }
     val ssc = StreamingContext.getActiveOrCreate(createStreamingContext)
@@ -90,7 +90,7 @@ object AlgebirdHyperLogLog {
       val sumItemIdApproxDistinctCountRowsDF = sqlContext.createDataFrame(rdd, schema)
       val enrichedDF =
         sumItemIdApproxDistinctCountRowsDF.join(itemsDF, $"itemId" === $"id")
-          .select($"itemId", $"approxDistinctCount", $"title", $"img")
+          .select($"itemId", $"title", $"approxDistinctCount")
           .sort($"approxDistinctCount" desc)
           .limit(5)
 

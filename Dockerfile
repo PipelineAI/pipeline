@@ -232,8 +232,6 @@ RUN \
 # This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
 #   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
 # Classifiers don't appear to be supported by --packages
-# && cd ~/pipeline/myapps/ml/lib \
-# && wget http://search.maven.org/remotecontent?filepath=edu/stanford/nlp/stanford-corenlp/${STANFORD_CORENLP_VERSION}/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar \
  && cd ~ \
  && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
  && unzip stanford-corenlp-full-2015-12-09.zip \

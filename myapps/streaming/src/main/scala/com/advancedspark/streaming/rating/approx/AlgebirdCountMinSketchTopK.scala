@@ -18,6 +18,7 @@ import org.apache.spark.sql.types._
 // Twitter Algebird CountMin Sketch Impl
 import com.twitter.algebird.TopPctCMS
 import com.twitter.algebird.CMSHasherImplicits._
+import com.madhukaraphatak.sizeof.SizeEstimator
 
 object AlgebirdCountMinSketchTopK {
   def main(args: Array[String]) {
@@ -58,7 +59,10 @@ object AlgebirdCountMinSketchTopK {
     
     val topKCms = TopPctCMS.monoid[Int](eps, delta, seed, minTopKPctOfTotal)
     var globalTopKCms = topKCms.zero
+    //val globalHashSet = new HashSet
 
+    // Messages come in off the Kafka source as follows:
+    //   (userId, itemId, rating)
     val counts = ratingsStream.mapPartitions(messages => {
       messages.map(message => {
 	val itemId = message._2.split(",")(1).trim.toInt
@@ -69,6 +73,7 @@ object AlgebirdCountMinSketchTopK {
     counts.foreachRDD(rdd => {
       if (rdd.count() != 0) {
         val batchTopKCms = rdd.first()
+      
         globalTopKCms ++= batchTopKCms
         
         val globalTopK = globalTopKCms.heavyHitters.map(itemId => 
@@ -78,11 +83,12 @@ object AlgebirdCountMinSketchTopK {
 
 	val enrichedTopK =
           globalTopKDF.join(itemsDF, $"itemId" === $"id")
-            .select($"approxCount", $"title")
+            .select($"itemId", $"approxCount", $"title")
             .sort($"approxCount" desc)
             .collect()
        
-        println(s"""Top 5 Heavy Hitters CMS: ${enrichedTopK.mkString("[",",","]")}""")
+        println(s"""Top 5 Heavy Hitters CMS: ${enrichedTopK.mkString("[",",","]")}, CMS Size: ${SizeEstimator.estimate(globalTopKCms)}""")
+        //, HashMap Size: ${SizeEstimator.estimatedSized(globalHashSet)}""")
       }
     })
 
