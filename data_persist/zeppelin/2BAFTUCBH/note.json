@@ -317,7 +317,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/07: Spark ML + Stanford CoreNLP",
+  "name": "NLP/07:  TODO:  Spark ML + Stanford CoreNLP (Sentiment)",
   "id": "2BAFTUCBH",
   "angularObjects": {
     "2ARR8UZDJ": [],

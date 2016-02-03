@@ -510,7 +510,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/03: Topic Distribution (LDA)",
+  "name": "NLP/04: Topic Distribution (LDA)",
   "id": "2BBNJKC1N",
   "angularObjects": {
     "2ARR8UZDJ": [],

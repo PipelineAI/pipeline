@@ -747,7 +747,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO Clustering/04: Document Similarity (N-Gram, Cosine Sim)",
+  "name": "Clustering/03: TODO: Document Similarity (N-Gram, Cosine Sim)",
   "id": "2BATNKTJ6",
   "angularObjects": {
     "2ARR8UZDJ": [],

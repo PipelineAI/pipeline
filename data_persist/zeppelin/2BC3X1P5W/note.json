@@ -115,7 +115,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO NLP/06: TextRank (Similarity + PageRank)",
+  "name": "TODO: NLP/06: TextRank (Similarity + PageRank)",
   "id": "2BC3X1P5W",
   "angularObjects": {
     "2ARR8UZDJ": [],

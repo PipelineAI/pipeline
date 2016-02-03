@@ -47,13 +47,9 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO Graph/06: TODO Github User-to-Project Graph",
+  "name": "TODO: Graph/06: Github User-to-Project Graph",
   "id": "2B9HKKHUR",
-  "angularObjects": {
-    "2ARR8UZDJ": [],
-    "2AS9P7JSA": [],
-    "2AR33ZMZJ": []
-  },
+  "angularObjects": {},
   "config": {
     "looknfeel": "default"
   },
