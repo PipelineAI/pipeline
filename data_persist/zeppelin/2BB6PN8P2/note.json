@@ -722,7 +722,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/09: TODO Text Classifier (Spark ML + Multilayer Perceptron)",
+  "name": "NLP/08: TODO Text Classifier (Spark ML + Multilayer Perceptron)",
   "id": "2BB6PN8P2",
   "angularObjects": {
     "2ARR8UZDJ": [],
