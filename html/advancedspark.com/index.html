@@ -63,7 +63,7 @@ function loadItems() {
     });
     
     $( "<ul/>", {
-      html: "<div id='items-inner'><hr><h3><center> Step 1:  Click Only Software Used In <b>Production</b>!</center></h3><center>" + items.join( "" ) + "</center></div>"
+      html: "<div id='items-inner'><hr><h3><center> Step 1:  Click Software Used In <b>Production</b></center></h3><center>" + items.join( "" ) + "</center></div>"
     }).appendTo("#items");  
   });
 }
@@ -84,6 +84,25 @@ function loadPersonalizedALS() {
     $( "<ul/>", {
       html: "</br><center>" + items.join( "" ) + "</center>"
     }).appendTo( "#personalized-als" );  
+  });
+}
+
+function loadPersonalizedItemSimilarity() {
+  $("#personalized-item-similarity").empty()
+  $.getJSON ("/personalized-item-similarity/_search?q=userId:" + myId + "&sort=confidence:desc", function (data) {
+    var items = [];
+    var hits = data.hits.hits
+    $.each( hits, function( arrayIdx, hit ) {
+      var id = hit._source.itemId
+      var title = hit._source.title
+      var imgSrc = hit._source.img
+
+      items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px' border='2'></li>" );
+    });
+
+    $( "<ul/>", {
+      html: "</br><center>" + items.join( "" ) + "</center>"
+    }).appendTo( "#personalized-als" );
   });
 }
 
@@ -147,11 +166,10 @@ function loadTopItemsByAvgRating() {
     }).appendTo( "#top-items-by-avg-rating" );
   });
 }
--->
 
 function loadTopItemsByApproxDistinctUserRatingCount() {
   $("#top-items-by-approx-distinct-user-rating-count").empty()
-  var itemId = 10001 // Leonardo
+  var itemId = 7 // Spark 
   $.getJSON( "redis/PFCOUNT/approx-distinct-user-rating-count:" + itemId, function ( data ) {
     var items = [];
     var approxDistinctUserRatingCount = data.PFCOUNT
@@ -164,7 +182,7 @@ function loadTopItemsByApproxDistinctUserRatingCount() {
 
 function loadTopItemsByExactDistinctUserRatingCount() {
   $("#top-items-by-exact-distinct-user-rating-count").empty()
-  var itemId = 10001 // Leonardo
+  var itemId = 7 // Spark 
   $.getJSON( "redis/SCARD/exact-distinct-user-rating-count:" + itemId, function ( data ) {
     var items = [];
     var exactDistinctUserRatingCount = data.SCARD
@@ -174,6 +192,7 @@ function loadTopItemsByExactDistinctUserRatingCount() {
     }).appendTo( "#top-items-by-exact-distinct-user-rating-count" );
   });
 }
+-->
 </script>
 
 <!-- Start of Zendesk Widget script
@@ -210,7 +229,7 @@ End of Zendesk Widget script -->
 </div>
 -->
 <hr><h3><center>...Please Wait Before Moving On...</a></center></h3>
-<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2:  Click Here for Top 5 Items Used in Production</a></center></h3>
+<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2: Click For Top 5 Items</a></center></h3>
 <div id="top-items-by-exact-rating-count">
 </div>
 <!--
@@ -231,9 +250,13 @@ End of Zendesk Widget script -->
 <div id="top-influencers">
 </div>
 -->
-<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3:  Click Here for Your Personalized Item Recommendations</a></center></h3>
+<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3: Click For Personalized User-to-Item Recommendations</a></center></h3>
 <div id="personalized-als">
 </div>
+<hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
+<div id="personalized-item-similarity">
+</div>
+<hr>
 <hr>
 <script>
   loadItems()

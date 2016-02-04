@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Most Desirable Users](http://fluxcapacitor.com/img/shortest-path-by-cost.png)",
-      "dateUpdated": "Jan 16, 2016 5:26:49 AM",
+      "dateUpdated": "Feb 4, 2016 6:53:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
         },
         "editorMode": "ace/mode/scala",
         "enabled": true,
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},

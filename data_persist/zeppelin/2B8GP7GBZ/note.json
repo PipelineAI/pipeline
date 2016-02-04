@@ -1,6 +1,41 @@
 {
   "paragraphs": [
     {
+      "text": "%md ![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png)\n\n## LSH\n### Locality Sensitive Hashing\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket\n\n[Mining Massive Datasets Ch. 3](http://infolab.stanford.edu/~ullman/mmds/ch3.pdf)",
+      "dateUpdated": "Feb 4, 2016 5:39:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454564335986_1155761249",
+      "id": "20160204-053855_817826416",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n\u003ch2\u003eLSH\u003c/h2\u003e\n\u003ch3\u003eLocality Sensitive Hashing\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eHash items into multiple buckets\u003c/li\u003e\n\u003cli\u003eSimilar items will hash to overlapping buckets over many different hash functions\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eAvoid cartesian\u003c/em\u003e and compare only items within each bucket\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"http://infolab.stanford.edu/~ullman/mmds/ch3.pdf\"\u003eMining Massive Datasets Ch. 3\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 4, 2016 5:38:55 AM",
+      "dateStarted": "Feb 4, 2016 5:39:06 AM",
+      "dateFinished": "Feb 4, 2016 5:39:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n  .cache()\n  \nz.show(itemsDF)",
       "dateUpdated": "Feb 4, 2016 5:01:37 AM",
@@ -401,7 +436,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Clustering/02: Approx All Pairs Similarity (LSH + Power Iteration)",
+  "name": "Clustering/02: Approx LSH Similarity + Power Iteration Clustering",
   "id": "2B8GP7GBZ",
   "angularObjects": {
     "2ARR8UZDJ": [],

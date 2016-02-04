@@ -74,8 +74,8 @@
     },
     {
       "title": "Setup Matrix",
-      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc1,  doc2,  doc3\n                Array(  0.0,   1.0,   2.0), // word1\n                Array(  2.0,   3.0,   2.0), // word2\n                Array(  4.0,   5.0,   2.0)  // word3\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
-      "dateUpdated": "Jan 16, 2016 5:52:03 AM",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc0,  doc1,  doc2\n                Array(  0.0,   1.0,   2.0), // word0\n                Array(  2.0,   3.0,   2.0), // word1\n                Array(  4.0,   5.0,   2.0)  // word2\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
+      "dateUpdated": "Feb 4, 2016 5:43:59 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,18 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[2064] at map at \u003cconsole\u003e:217\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@79f50892\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[80] at map at \u003cconsole\u003e:54\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@bdca841\n"
       },
       "dateCreated": "Jan 3, 2016 12:34:20 AM",
-      "dateStarted": "Jan 16, 2016 5:52:03 AM",
-      "dateFinished": "Jan 16, 2016 5:52:05 AM",
+      "dateStarted": "Feb 4, 2016 5:43:59 AM",
+      "dateFinished": "Feb 4, 2016 5:44:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Compute Brute Force All Pairs Similarity (Cartesian)",
-      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\n\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\nexact.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}, ${entry.j}, ${entry.value}\"\"\"))",
-      "dateUpdated": "Jan 16, 2016 5:52:33 AM",
+      "title": "Brute Force All Pairs Similarity (Cartesian)",
+      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\n\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\nprintln(s\"\"\"\\ndoc#\\tdoc#\\tsimilarity\"\"\")\nexact.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}\\t${entry.j}\\t${entry.value}\"\"\"))",
+      "dateUpdated": "Feb 4, 2016 5:48:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,11 +136,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nexact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@bfc76d7\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[2073] at map at \u003cconsole\u003e:224\n0, 2, 0.7745966692414834\n0, 1, 0.9827076298239907\n1, 2, 0.87831006565368\n"
+        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nexact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@a0b03ff\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[114] at map at \u003cconsole\u003e:77\n\ndoc#\tdoc#\tsimilarity\n0\t2\t0.7745966692414834\n0\t1\t0.9827076298239907\n1\t2\t0.87831006565368\n"
       },
       "dateCreated": "Jan 16, 2016 2:34:10 AM",
-      "dateStarted": "Jan 16, 2016 5:52:33 AM",
-      "dateFinished": "Jan 16, 2016 5:52:34 AM",
+      "dateStarted": "Feb 4, 2016 5:46:32 AM",
+      "dateFinished": "Feb 4, 2016 5:46:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

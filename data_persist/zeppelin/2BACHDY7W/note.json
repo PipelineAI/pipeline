@@ -37,8 +37,8 @@
     },
     {
       "title": "Setup Matrix",
-      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc1,  doc2,  doc3\n                Array(  0.0,   1.0,   2.0), // word1 (     , 0.98 , 0.77 )\n                Array(  2.0,   3.0,   2.0), // word2 (     ,      , 0.88 )\n                Array(  4.0,   5.0,   2.0)  // word3 (     ,      ,      )\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
-      "dateUpdated": "Feb 4, 2016 5:14:52 AM",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc0,  doc1,  doc2\n                Array(  0.0,   1.0,   2.0), // word0\n                Array(  2.0,   3.0,   2.0), // word1\n                Array(  4.0,   5.0,   2.0)  // word2\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
+      "dateUpdated": "Feb 4, 2016 5:47:24 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,18 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[1130] at map at \u003cconsole\u003e:123\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@447bffe5\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[116] at map at \u003cconsole\u003e:73\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@39cacd75\n"
       },
       "dateCreated": "Jan 16, 2016 3:36:45 AM",
-      "dateStarted": "Feb 4, 2016 5:14:52 AM",
-      "dateFinished": "Feb 4, 2016 5:18:05 AM",
+      "dateStarted": "Feb 4, 2016 5:47:24 AM",
+      "dateFinished": "Feb 4, 2016 5:47:24 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Compute Approximate column Similarities using DIMSUM",
-      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Similarity Threshold\n//   Trade-off between speed and error\nval similarityThreshold \u003d 1.0 \n\nval approx \u003d mat.columnSimilarities(similarityThreshold)\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\n\napprox.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}, ${entry.j}, ${entry.value}\"\"\"))",
-      "dateUpdated": "Feb 4, 2016 5:14:52 AM",
+      "title": "Approximate column Similarities using DIMSUM",
+      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Similarity Threshold:  Trade-off between performance and error\nval similarityThreshold \u003d 0.5 \n\nval approx \u003d mat.columnSimilarities(similarityThreshold)\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\nprintln(s\"\"\"\\ndoc#\\tdoc#\\tsimilarity\"\"\")\napprox.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}\\t${entry.j}\\t${entry.value}\"\"\"))",
+      "dateUpdated": "Feb 4, 2016 5:50:01 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -99,17 +99,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nsimilarityThreshold: Double \u003d 1.0\napprox: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@6d4ca68a\napproxEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[1135] at map at \u003cconsole\u003e:131\n0, 2, 1.0922870719522046\n0, 1, 0.5461435359761024\n1, 2, 0.7281913813014699\n"
+        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nsimilarityThreshold: Double \u003d 0.5\napprox: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@32f66f58\napproxEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[207] at map at \u003cconsole\u003e:92\n\ndoc#\tdoc#\tsimilarity\n0\t2\t0.7745966692414834\n0\t1\t1.2402839566000017\n1\t2\t1.1085228711877038\n"
       },
       "dateCreated": "Jan 16, 2016 3:36:05 AM",
-      "dateStarted": "Feb 4, 2016 5:18:04 AM",
-      "dateFinished": "Feb 4, 2016 5:18:43 AM",
+      "dateStarted": "Feb 4, 2016 5:50:01 AM",
+      "dateFinished": "Feb 4, 2016 5:50:01 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }",
-      "dateUpdated": "Feb 4, 2016 5:14:52 AM",
+      "title": "Brute Force All Pairs Similarity (Cartesian)",
+      "text": "// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\n\nprintln(s\"\"\"\\ndoc#\\tdoc#\\tsimilarity\"\"\")\nexact.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}\\t${entry.j}\\t${entry.value}\"\"\"))",
+      "dateUpdated": "Feb 4, 2016 5:49:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -122,7 +123,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
@@ -133,17 +135,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@1e643c2f\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[1140] at map at \u003cconsole\u003e:129\n"
+        "msg": "exact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@20547ec2\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[179] at map at \u003cconsole\u003e:86\n\ndoc#\tdoc#\tsimilarity\n0\t2\t0.7745966692414834\n0\t1\t0.9827076298239907\n1\t2\t0.87831006565368\n"
       },
       "dateCreated": "Jan 16, 2016 3:36:05 AM",
-      "dateStarted": "Feb 4, 2016 5:18:06 AM",
-      "dateFinished": "Feb 4, 2016 5:18:43 AM",
+      "dateStarted": "Feb 4, 2016 5:49:02 AM",
+      "dateFinished": "Feb 4, 2016 5:49:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val MAE \u003d exactEntries.leftOuterJoin(approxEntries).values.map {\n  case (u, Some(v)) \u003d\u003e\n    math.abs(u - v)\n  case (u, None) \u003d\u003e\n    math.abs(u)\n}.mean()\n\n    println(s\"Average absolute error in estimate is: $MAE\")",
-      "dateUpdated": "Feb 4, 2016 5:14:52 AM",
+      "title": "Mean Absolute Error",
+      "text": "val meanAbsoluteError \u003d exactEntries.leftOuterJoin(approxEntries).values.map {\n  case (u, Some(v)) \u003d\u003e\n    math.abs(u - v)\n  case (u, None) \u003d\u003e\n    math.abs(u)\n}.mean()",
+      "dateUpdated": "Feb 4, 2016 5:49:47 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -156,7 +159,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
@@ -167,11 +171,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "MAE: Double \u003d 0.30145772697027323\nAverage absolute error in estimate is: 0.30145772697027323\n"
+        "msg": "meanAbsoluteError: Double \u003d 0.16259637743667824\n"
       },
       "dateCreated": "Feb 4, 2016 5:13:49 AM",
-      "dateStarted": "Feb 4, 2016 5:18:43 AM",
-      "dateFinished": "Feb 4, 2016 5:18:44 AM",
+      "dateStarted": "Feb 4, 2016 5:49:47 AM",
+      "dateFinished": "Feb 4, 2016 5:49:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -188,13 +192,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Similarity/04: Approx Cosine Similarity (DIMSUM)",
+  "name": "Similarity/04: Approximate Cosine Similarity (DIMSUM)",
   "id": "2BACHDY7W",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

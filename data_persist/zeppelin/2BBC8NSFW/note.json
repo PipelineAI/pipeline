@@ -721,7 +721,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/05: TODO LSH Similarity Item-to-Item Recs by (itemId, userId) Pairs",
+  "name": "TODO: Live Recs/09: LSH Similarity Item-to-Item Recs by (itemId, userId) Pairs",
   "id": "2BBC8NSFW",
   "angularObjects": {
     "2ARR8UZDJ": [],

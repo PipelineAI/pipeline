@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png)\n\n## LSH\n### Locality Sensitive Hashing\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket\n\n[Mining Massive Datasets Ch. 3](http://infolab.stanford.edu/~ullman/mmds/ch3.pdf)",
-      "dateUpdated": "Jan 16, 2016 5:51:34 AM",
+      "dateUpdated": "Feb 4, 2016 5:39:53 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -37,7 +37,7 @@
     },
     {
       "text": "%md ## See Clustering Notebook Example ",
-      "dateUpdated": "Jan 16, 2016 5:51:56 AM",
+      "dateUpdated": "Feb 4, 2016 5:39:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,7 +50,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -82,7 +83,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Similarity/02: Approx Jaccard Similarity (LSH)",
+  "name": "Similarity/02: Approximate Jaccard Similarity (LSH)",
   "id": "2BA49V2Q7",
   "angularObjects": {
     "2ARR8UZDJ": [],

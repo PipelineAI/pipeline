@@ -1,0 +1,3 @@
+If you make any changes here, you need to copy them to /var/www/html to be picked up by apache.
+
+If you need any new proxy configs, you need to make changes to $PIPELINE_HOME/config/advancedspark.com/advancedspark.conf and restart apache.
