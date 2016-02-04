@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md \n### Streaming Approximation Code Examples\n[Redis HyperLogLog (HLL)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/RedisHyperLogLog.scala)\n\n[Algebird HyperLogLog (HLL)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdHyperLogLog.scala)\n\n[Algebird CountMin Sketch TopK (CMS)](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdCountMinSketchTopK.scala)",
-      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
+      "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* `$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh`\n* `$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh`",
+      "dateUpdated": "Feb 4, 2016 4:37:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,30 +16,29 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true,
-        "tableHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1448297303299_-1548403672",
-      "id": "20151123-164823_1209282967",
+      "jobName": "paragraph_1454560334998_-1493566006",
+      "id": "20160204-043214_454783427",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eStreaming Approximation Code Examples\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/RedisHyperLogLog.scala\"\u003eRedis HyperLogLog (HLL)\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdHyperLogLog.scala\"\u003eAlgebird HyperLogLog (HLL)\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx/AlgebirdCountMinSketchTopK.scala\"\u003eAlgebird CountMin Sketch TopK (CMS)\u003c/a\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ccode\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
-      "dateCreated": "Nov 23, 2015 4:48:23 PM",
-      "dateStarted": "Jan 29, 2016 4:01:44 AM",
-      "dateFinished": "Jan 29, 2016 4:01:44 AM",
+      "dateCreated": "Feb 4, 2016 4:32:14 AM",
+      "dateStarted": "Feb 4, 2016 4:35:53 AM",
+      "dateFinished": "Feb 4, 2016 4:35:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Approximate HyperLogLog (Redis)",
-      "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 1 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
+      "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
+      "dateUpdated": "Feb 4, 2016 4:37:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 1\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@29db7d87\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 6\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@41b176c0\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Jan 29, 2016 4:23:12 AM",
-      "dateFinished": "Jan 29, 2016 4:23:13 AM",
+      "dateStarted": "Feb 4, 2016 4:37:34 AM",
+      "dateFinished": "Feb 4, 2016 4:37:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Exact Count (Redis)",
-      "text": "val exactNumRatingsForItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
+      "text": "val exactNumNonDistinctUsersWhoRatedItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
+      "dateUpdated": "Feb 4, 2016 4:37:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -103,11 +102,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exactNumRatingsForItemId: String \u003d 7\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 5\n"
+        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d 6\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "Jan 29, 2016 4:23:15 AM",
-      "dateFinished": "Jan 29, 2016 4:23:16 AM",
+      "dateStarted": "Feb 4, 2016 4:37:23 AM",
+      "dateFinished": "Feb 4, 2016 4:37:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -140,7 +139,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  Approximate HyperLogLog Count (Redis)",
+  "name": "Live Recs/02:  Approximate vs. Exact Counts",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

@@ -38,6 +38,40 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "%md ![SVD](http://fluxcapacitor.com/img/svd.png)",
+      "dateUpdated": "Feb 4, 2016 3:42:37 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454557295799_-2082924103",
+      "id": "20160204-034135_298154292",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/svd.png\" alt\u003d\"SVD\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 4, 2016 3:41:35 AM",
+      "dateStarted": "Feb 4, 2016 3:42:37 AM",
+      "dateFinished": "Feb 4, 2016 3:42:37 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "val ratingsEdgeRDD \u003d itemRatingsDF.map(row \u003d\u003e\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n)\n\nratingsEdgeRDD.collect()",
       "dateUpdated": "Jan 17, 2016 12:45:00 AM",
       "config": {
@@ -72,8 +106,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ### Update this.  Shamelessy lifted from Spark GraphX In Action.  Great Book!![SVD++ Return Value](http://fluxcapacitor.com/img/svdplusplus-return-value.png)",
-      "dateUpdated": "Jan 10, 2016 11:40:02 PM",
+      "text": "%md ![SVD++ Return Value](http://fluxcapacitor.com/img/svdplusplus-return-value.png)",
+      "dateUpdated": "Feb 4, 2016 3:43:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -97,11 +131,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eUpdate this.  Shamelessy lifted from Spark GraphX In Action.  Great Book!\u003cimg src\u003d\"http://fluxcapacitor.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/h3\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 10, 2016 11:39:21 PM",
-      "dateStarted": "Jan 10, 2016 11:40:02 PM",
-      "dateFinished": "Jan 10, 2016 11:40:02 PM",
+      "dateStarted": "Feb 4, 2016 3:43:10 AM",
+      "dateFinished": "Feb 4, 2016 3:43:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -244,7 +278,7 @@
     },
     {
       "text": "def predict(graph:Graph[(Array[Double], Array[Double], Double, Double), Double], meanRating:Double, userId:Long, itemId:Long) \u003d {\r  // TODO:  Figure out why we need semi-colons here\r  val user \u003d graph.vertices.filter(_._1 \u003d\u003d userId).collect()(0)._2;\r  val item \u003d graph.vertices.filter(_._1 \u003d\u003d itemId).collect()(0)._2;\r  \r  mean + user._3 + item._3 + item._1.zip(user._2).map(x \u003d\u003e x._1 * x._2).reduce(_ + _)\r}",
-      "dateUpdated": "Jan 7, 2016 10:56:15 PM",
+      "dateUpdated": "Feb 4, 2016 3:43:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -266,14 +300,14 @@
       "jobName": "paragraph_1451357775195_-2092233653",
       "id": "20151229-025615_859618782",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "predict: (graph: org.apache.spark.graphx.Graph[(Array[Double], Array[Double], Double, Double),Double], meanRating: Double, userId: Long, itemId: Long)Double\n"
+        "msg": "\u003cconsole\u003e:27: error: not found: type Graph\n         def predict(graph:Graph[(Array[Double], Array[Double], Double, Double),\n                           ^\n\u003cconsole\u003e:33: error: ambiguous reference to overloaded definition,\nboth method mean in object functions of type (columnName: String)org.apache.spark.sql.Column\nand  method mean in object functions of type (e: org.apache.spark.sql.Column)org.apache.spark.sql.Column\nmatch expected type ?\n  mean + user._3 + item._3 + item._1.zip(user._2).map(x \u003d\u003e x._1 * x._2).reduce(_ + _)\n  ^\n"
       },
       "dateCreated": "Dec 29, 2015 2:56:15 AM",
-      "dateStarted": "Jan 7, 2016 10:56:15 PM",
-      "dateFinished": "Jan 7, 2016 10:56:16 PM",
-      "status": "FINISHED",
+      "dateStarted": "Feb 4, 2016 3:43:31 AM",
+      "dateFinished": "Feb 4, 2016 3:43:45 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
