@@ -220,11 +220,6 @@ RUN \
  cd ~/pipeline \
  && git pull \
 
-# This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
-#   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
-# Classifiers don't appear to be supported by --packages
- && wget http://search.maven.org/remotecontent?filepath=edu/stanford/nlp/stanford-corenlp/${STANFORD_CORENLP_VERSION}/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar \
-
 # Sbt Feeder
  && cd ~/pipeline/myapps/feeder && sbt assembly \
 
