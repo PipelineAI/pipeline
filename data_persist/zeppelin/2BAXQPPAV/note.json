@@ -332,13 +332,15 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "NLP/02: Word Distribution",
+  "name": "NLP/02: Unigram (Word) Distribution",
   "id": "2BAXQPPAV",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

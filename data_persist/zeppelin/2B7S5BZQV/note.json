@@ -1,43 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ### Much Inspiration Drawn from the Following:\n* https://github.com/twitter/algebird/wiki/\n* https://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\n* http://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\n* https://github.com/phatak-dev/java-sizeof",
-      "dateUpdated": "Jan 29, 2016 2:18:05 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/markdown",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorHide": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1450587461034_-1916605796",
-      "id": "20151220-045741_209948563",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch3\u003eMuch Inspiration Drawn from the Following:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/\u003c/li\u003e\n\u003cli\u003ehttps://github.com/twitter/algebird/wiki/Learning-Algebird-Monoids-with-REPL\u003c/li\u003e\n\u003cli\u003ehttp://donlehmanjr.com/Science/03%20Decay%20Ave/032.htm\u003c/li\u003e\n\u003cli\u003ehttps://github.com/phatak-dev/java-sizeof\u003c/li\u003e\n\u003c/ul\u003e\n"
-      },
-      "dateCreated": "Dec 20, 2015 4:57:41 AM",
-      "dateStarted": "Jan 29, 2016 2:18:05 AM",
-      "dateFinished": "Jan 29, 2016 2:18:05 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\nimport com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._",
-      "dateUpdated": "Jan 29, 2016 2:18:05 AM",
+      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,15 +29,15 @@
         "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nimport com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\n"
       },
       "dateCreated": "Jan 28, 2016 9:44:25 PM",
-      "dateStarted": "Jan 29, 2016 2:18:05 AM",
-      "dateFinished": "Jan 29, 2016 2:18:05 AM",
+      "dateStarted": "Feb 5, 2016 5:46:56 AM",
+      "dateFinished": "Feb 5, 2016 5:46:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Memory Size of Set",
+      "title": "Memory Size of Scala set",
       "text": "val set1 \u003d (1 to 100000).toSet\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(set1)",
-      "dateUpdated": "Jan 29, 2016 2:20:42 AM",
+      "dateUpdated": "Feb 5, 2016 5:48:15 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -97,18 +62,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "sizeInMemoryList: Long \u003d 6918920\n"
+        "msg": "set1: scala.collection.immutable.Set[Int] \u003d Set(53767, 32571, 88533, 77772, 42890, 46805, 72033, 88320, 92325, 37159, 29176, 14221, 2163, 37041, 62232, 8607, 60426, 25695, 645, 84726, 13950, 31843, 20873, 86230, 23162, 39241, 90638, 64790, 42900, 69439, 46827, 16466, 67614, 55558, 94907, 53060, 28337, 49828, 50400, 29862, 39049, 99625, 69397, 19887, 81338, 95105, 35178, 84918, 86139, 41742, 39858, 54355, 18180, 69939, 70174, 70656, 16383, 36308, 31885, 892, 90410, 69, 50665, 51261, 35370, 80586, 74021, 53550, 45704, 66152, 10822, 37830, 37753, 79066, 85145, 26129, 16216, 23563, 81292, 95725, 43261, 64943, 25953, 23764, 81608, 15874, 35210, 54422, 34630, 96661, 5385, 84486, 91071, 40422, 68000, 5810, 49767, 7375, 67223, 31462, 81586, 66592, 81767, 41894, 77446, 62382, 32287, 33394, 94703...sizeInMemoryList: Long \u003d 6918920\n"
       },
       "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Jan 29, 2016 2:20:31 AM",
-      "dateFinished": "Jan 29, 2016 2:20:31 AM",
+      "dateStarted": "Feb 5, 2016 5:46:57 AM",
+      "dateFinished": "Feb 5, 2016 5:46:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Memory Size of CountMin Sketch",
       "text": "val cmsMonoid \u003d CMS.monoid[Int](0.001, 1E-10, 1) \nval cmsAgg \u003d CMSAggregator(cmsMonoid)\n\nval sizeInMemoryCms \u003d SizeEstimator.estimate(cmsAgg(set1))",
-      "dateUpdated": "Jan 29, 2016 2:20:25 AM",
+      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -133,18 +98,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "cmsMonoid: com.twitter.algebird.CMSMonoid[Int] \u003d com.twitter.algebird.CMSMonoid@debc374\ncmsAgg: com.twitter.algebird.CMSAggregator[Int] \u003d CMSAggregator(com.twitter.algebird.CMSMonoid@debc374)\nsizeInMemoryCms: Long \u003d 310944\n"
+        "msg": "cmsMonoid: com.twitter.algebird.CMSMonoid[Int] \u003d com.twitter.algebird.CMSMonoid@170b36e4\ncmsAgg: com.twitter.algebird.CMSAggregator[Int] \u003d CMSAggregator(com.twitter.algebird.CMSMonoid@170b36e4)\nsizeInMemoryCms: Long \u003d 310944\n"
       },
       "dateCreated": "Dec 20, 2015 3:02:35 AM",
-      "dateStarted": "Jan 29, 2016 2:20:25 AM",
-      "dateFinished": "Jan 29, 2016 2:20:26 AM",
+      "dateStarted": "Feb 5, 2016 5:46:57 AM",
+      "dateFinished": "Feb 5, 2016 5:46:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Estimated Total Frequency Count",
-      "text": "val cmsAggs \u003d cmsAgg(list1 ++ list2)\n\nval totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency50000 \u003d cmsAggs.frequency(50000).estimate\nval frequency99999 \u003d cmsAggs.frequency(100000).estimate",
-      "dateUpdated": "Jan 29, 2016 2:18:05 AM",
+      "text": "val cmsAggs \u003d cmsAgg(set1)\n\nval totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency50000 \u003d cmsAggs.frequency(50000).estimate\nval frequency99999 \u003d cmsAggs.frequency(100000).estimate",
+      "dateUpdated": "Feb 5, 2016 5:47:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -169,17 +134,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "cmsAggs: com.twitter.algebird.CMS[Int] \u003d CMSInstance(CountsTable(Vector(Vector(54, 57, 59, 57, 54, 54, 54, 54, 55, 58, 55, 54, 54, 54, 54, 55, 59, 56, 54, 56, 55, 54, 54, 56, 56, 54, 56, 54, 54, 55, 57, 57, 56, 55, 54, 54, 54, 55, 56, 56, 55, 54, 54, 55, 55, 57, 58, 55, 54, 54, 55, 54, 57, 56, 54, 54, 56, 55, 55, 57, 57, 54, 54, 56, 54, 54, 57, 57, 54, 54, 55, 54, 54, 57, 58, 54, 54, 54, 54, 54, 56, 57, 56, 54, 54, 54, 54, 56, 57, 54, 56, 54, 54, 56, 55, 57, 56, 55, 54, 54, 54, 54, 55, 59, 55, 54, 54, 54, 54, 57, 59, 57, 54, 56, 55, 54, 55, 59, 54, 54, 56, 55, 54, 55, 57, 56, 54, 56, 54, 54, 54, 55, 56, 54, 55, 54, 54, 56, 57, 57, 58, 55, 54, 54, 55, 55, 56, 54, 54, 54, 56, 55, 55, 57, 56, 54, 54, 56, 55, 54, 55, 57, 54, 54, 56, 54, 55, 59, 58, 56, 54, 54, 54, 54, 57, 56, 54, 54, 54, 54...totalCount: Long \u003d 150001\nfrequency1: Long \u003d 27\nfrequency50000: Long \u003d 52\nfrequency99999: Long \u003d 52\n"
+        "msg": "cmsAggs: com.twitter.algebird.CMS[Int] \u003d CMSInstance(CountsTable(Vector(Vector(36, 38, 39, 38, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 37, 39, 37, 36, 37, 37, 36, 36, 38, 37, 36, 37, 36, 36, 37, 38, 38, 37, 37, 36, 36, 36, 37, 37, 37, 37, 36, 36, 37, 37, 38, 38, 37, 36, 36, 37, 36, 38, 37, 36, 36, 37, 37, 37, 38, 38, 36, 36, 37, 36, 36, 38, 38, 36, 36, 37, 36, 36, 38, 39, 36, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 38, 38, 36, 37, 36, 36, 37, 37, 38, 37, 37, 36, 36, 36, 36, 37, 39, 37, 36, 36, 36, 36, 38, 39, 38, 36, 37, 37, 36, 37, 39, 36, 36, 37, 37, 36, 37, 38, 37, 36, 37, 36, 36, 36, 37, 37, 36, 37, 36, 36, 37, 38, 38, 38, 37, 36, 36, 37, 37, 37, 36, 36, 36, 37, 37, 37, 38, 37, 36, 36, 37, 37, 36, 37, 38, 36, 36, 37, 36, 37, 39, 39, 37, 36, 36, 36, 36, 38, 37, 36, 36, 36, 36...totalCount: Long \u003d 100000\nfrequency1: Long \u003d 25\nfrequency50000: Long \u003d 35\nfrequency99999: Long \u003d 35\n"
       },
       "dateCreated": "Jan 28, 2016 9:46:40 PM",
-      "dateStarted": "Jan 29, 2016 2:18:06 AM",
-      "dateFinished": "Jan 29, 2016 2:18:08 AM",
+      "dateStarted": "Feb 5, 2016 5:47:22 AM",
+      "dateFinished": "Feb 5, 2016 5:47:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Decay Average vs Moving Average",
-      "dateUpdated": "Jan 29, 2016 2:18:05 AM",
+      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -206,8 +171,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Jan 29, 2016 2:18:07 AM",
-      "dateFinished": "Jan 29, 2016 2:18:08 AM",
+      "dateStarted": "Feb 5, 2016 5:46:58 AM",
+      "dateFinished": "Feb 5, 2016 5:46:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

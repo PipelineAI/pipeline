@@ -1,12 +1,10 @@
 {
   "paragraphs": [
     {
-      "text": "%md ## DIMSUM\n### Dimension Independent Matrix Square using MapReduce\n* Sample sparse columns (many zero\u0027s) at a higher probability\n* Sample dense columns (many non-zero\u0027s) at a lower probability\n\n### Intuition: _Reduce shuffle_ by sampling dense columns less since they exist in more trials\n\n[Databricks Blog Post](https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html)",
-      "dateUpdated": "Feb 4, 2016 5:14:52 AM",
+      "text": "%md ![Cosine Similarity](http://fluxcapacitor.com/img/cosine-similarity.png)\n![Cosine Similarity Calculation](http://fluxcapacitor.com/img/cosine-similarity-calculation.png)\n## Normalize to unit vectors\n### (dot product of two vectors) / (product of their lengths)",
+      "dateUpdated": "Feb 5, 2016 5:37:35 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -16,29 +14,31 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1452915365631_-96193142",
-      "id": "20160116-033605_1813132370",
+      "jobName": "paragraph_1454632233294_718975948",
+      "id": "20160205-003033_66369134",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eDIMSUM\u003c/h2\u003e\n\u003ch3\u003eDimension Independent Matrix Square using MapReduce\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eSample sparse columns (many zero\u0027s) at a higher probability\u003c/li\u003e\n\u003cli\u003eSample dense columns (many non-zero\u0027s) at a lower probability\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eReduce shuffle\u003c/em\u003e by sampling dense columns less since they exist in more trials\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html\"\u003eDatabricks Blog Post\u003c/a\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity.png\" alt\u003d\"Cosine Similarity\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity-calculation.png\" alt\u003d\"Cosine Similarity Calculation\" /\u003e\u003c/p\u003e\n\u003ch2\u003eNormalize to unit vectors\u003c/h2\u003e\n\u003ch3\u003e(dot product of two vectors) / (product of their lengths)\u003c/h3\u003e\n"
       },
-      "dateCreated": "Jan 16, 2016 3:36:05 AM",
-      "dateStarted": "Feb 4, 2016 5:14:52 AM",
-      "dateFinished": "Feb 4, 2016 5:14:52 AM",
+      "dateCreated": "Feb 5, 2016 12:30:33 AM",
+      "dateStarted": "Feb 5, 2016 5:37:35 AM",
+      "dateFinished": "Feb 5, 2016 5:37:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Setup Matrix",
       "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\n                                        \nval data \u003d Array(  //  doc0,  doc1,  doc2\n                Array(  0.0,   1.0,   2.0), // word0\n                Array(  2.0,   3.0,   2.0), // word1\n                Array(  4.0,   5.0,   2.0)  // word2\n           ) \n\nval rows \u003d sc.parallelize(data).map { row \u003d\u003e\n  Vectors.dense(row)\n}.cache()\n\nval mat \u003d new RowMatrix(rows)",
-      "dateUpdated": "Feb 4, 2016 5:47:24 AM",
+      "dateUpdated": "Feb 5, 2016 5:37:35 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,54 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[116] at map at \u003cconsole\u003e:73\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@39cacd75\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\ndata: Array[Array[Double]] \u003d Array(Array(0.0, 1.0, 2.0), Array(2.0, 3.0, 2.0), Array(4.0, 5.0, 2.0))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[29] at map at \u003cconsole\u003e:77\nmat: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@287471ca\n"
       },
       "dateCreated": "Jan 16, 2016 3:36:45 AM",
-      "dateStarted": "Feb 4, 2016 5:47:24 AM",
-      "dateFinished": "Feb 4, 2016 5:47:24 AM",
+      "dateStarted": "Feb 5, 2016 5:37:35 AM",
+      "dateFinished": "Feb 5, 2016 5:37:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Approximate column Similarities using DIMSUM",
-      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Similarity Threshold:  Trade-off between performance and error\nval similarityThreshold \u003d 0.5 \n\nval approx \u003d mat.columnSimilarities(similarityThreshold)\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\nprintln(s\"\"\"\\ndoc#\\tdoc#\\tsimilarity\"\"\")\napprox.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}\\t${entry.j}\\t${entry.value}\"\"\"))",
-      "dateUpdated": "Feb 4, 2016 5:50:01 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452915365631_-96193142",
-      "id": "20160116-033605_1757567650",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nsimilarityThreshold: Double \u003d 0.5\napprox: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@32f66f58\napproxEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[207] at map at \u003cconsole\u003e:92\n\ndoc#\tdoc#\tsimilarity\n0\t2\t0.7745966692414834\n0\t1\t1.2402839566000017\n1\t2\t1.1085228711877038\n"
-      },
-      "dateCreated": "Jan 16, 2016 3:36:05 AM",
-      "dateStarted": "Feb 4, 2016 5:50:01 AM",
-      "dateFinished": "Feb 4, 2016 5:50:01 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Brute Force All Pairs Similarity (Cartesian)",
-      "text": "// Compute similar columns perfectly, with brute force.\nval exact \u003d mat.columnSimilarities()\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\n\nprintln(s\"\"\"\\ndoc#\\tdoc#\\tsimilarity\"\"\")\nexact.entries.collect().foreach(entry \u003d\u003e println(s\"\"\"${entry.i}\\t${entry.j}\\t${entry.value}\"\"\"))",
-      "dateUpdated": "Feb 4, 2016 5:49:02 AM",
+      "title": "Brute Force Cosine Similarity",
+      "text": "val exact \u003d mat.columnSimilarities()\n\nval exactEntries \u003d exact.entries.map { case MatrixEntry(i, j, u) \u003d\u003e ((i, j), u) }\nprintln(s\"\"\"\\nsimilarity\\t\\t\\tdoc#\\tdoc#\"\"\")\n\nexactEntries.collect().sortBy(- _._2).foreach(entry \u003d\u003e println(s\"\"\"${entry._2}\\t\\t${entry._1._1}\\t${entry._1._2}\"\"\"))\n",
+      "dateUpdated": "Feb 5, 2016 5:38:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -135,18 +99,89 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@20547ec2\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[179] at map at \u003cconsole\u003e:86\n\ndoc#\tdoc#\tsimilarity\n0\t2\t0.7745966692414834\n0\t1\t0.9827076298239907\n1\t2\t0.87831006565368\n"
+        "msg": "exact: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@52d065a3\nexactEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[48] at map at \u003cconsole\u003e:86\n\nsimilarity\t\t\tdoc#\tdoc#\n0.9827076298239907\t\t0\t1\n0.87831006565368\t\t1\t2\n0.7745966692414834\t\t0\t2\n"
       },
       "dateCreated": "Jan 16, 2016 3:36:05 AM",
-      "dateStarted": "Feb 4, 2016 5:49:02 AM",
-      "dateFinished": "Feb 4, 2016 5:49:02 AM",
+      "dateStarted": "Feb 5, 2016 5:38:31 AM",
+      "dateFinished": "Feb 5, 2016 5:38:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n## Dimension Independent Matrix Square using MapReduce (DIMSUM)\n* Sample sparse columns (many zero\u0027s) at a higher probability\n* Sample dense columns (many non-zero\u0027s) at a lower probability\n\n### Intuition: _Reduce shuffle_ by sampling dense columns less since they exist in more trials\n\n[Databricks Blog Post](https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html)",
+      "dateUpdated": "Feb 5, 2016 5:37:35 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915365631_-96193142",
+      "id": "20160116-033605_1813132370",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eDimension Independent Matrix Square using MapReduce (DIMSUM)\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eSample sparse columns (many zero\u0027s) at a higher probability\u003c/li\u003e\n\u003cli\u003eSample dense columns (many non-zero\u0027s) at a lower probability\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eReduce shuffle\u003c/em\u003e by sampling dense columns less since they exist in more trials\u003c/h3\u003e\n\u003cp\u003e\u003ca href\u003d\"https://databricks.com/blog/2014/10/20/efficient-similarity-algorithm-now-in-spark-twitter.html\"\u003eDatabricks Blog Post\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:05 AM",
+      "dateStarted": "Feb 5, 2016 5:37:35 AM",
+      "dateFinished": "Feb 5, 2016 5:37:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Approximate column Similarities using DIMSUM",
+      "text": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\n\n// Similarity Threshold:  Trade-off between performance and error\nval similarityThreshold \u003d 0.5 \n\nval approx \u003d mat.columnSimilarities(similarityThreshold)\nval approxEntries \u003d approx.entries.map { case MatrixEntry(i, j, v) \u003d\u003e ((i, j), v) }\n\nprintln(s\"\"\"\\nsimilarity\\t\\t\\tdoc#\\tdoc#\"\"\")\napproxEntries.collect().sortBy(- _._2).foreach(entry \u003d\u003e println(s\"\"\"${entry._2}\\t\\t${entry._1._1}\\t${entry._1._2}\"\"\"))",
+      "dateUpdated": "Feb 5, 2016 5:38:18 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452915365631_-96193142",
+      "id": "20160116-033605_1757567650",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.linalg.distributed.MatrixEntry\nsimilarityThreshold: Double \u003d 0.5\napprox: org.apache.spark.mllib.linalg.distributed.CoordinateMatrix \u003d org.apache.spark.mllib.linalg.distributed.CoordinateMatrix@7c0171fe\napproxEntries: org.apache.spark.rdd.RDD[((Long, Long), Double)] \u003d MapPartitionsRDD[43] at map at \u003cconsole\u003e:87\n\nsimilarity\t\t\tdoc#\tdoc#\n1.2402839566000017\t\t0\t1\n1.1085228711877038\t\t1\t2\n0.7745966692414834\t\t0\t2\n"
+      },
+      "dateCreated": "Jan 16, 2016 3:36:05 AM",
+      "dateStarted": "Feb 5, 2016 5:38:18 AM",
+      "dateFinished": "Feb 5, 2016 5:38:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Mean Absolute Error",
       "text": "val meanAbsoluteError \u003d exactEntries.leftOuterJoin(approxEntries).values.map {\n  case (u, Some(v)) \u003d\u003e\n    math.abs(u - v)\n  case (u, None) \u003d\u003e\n    math.abs(u)\n}.mean()",
-      "dateUpdated": "Feb 4, 2016 5:49:47 AM",
+      "dateUpdated": "Feb 5, 2016 5:37:35 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -169,30 +204,49 @@
       "jobName": "paragraph_1454562829860_-1082070217",
       "id": "20160204-051349_1963629038",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "meanAbsoluteError: Double \u003d 0.16259637743667824\n"
+        "msg": "\u003cconsole\u003e:87: error: not found: value exactEntries\n         val meanAbsoluteError \u003d exactEntries.leftOuterJoin(approxEntries).values.map {\n                                 ^\n"
       },
       "dateCreated": "Feb 4, 2016 5:13:49 AM",
-      "dateStarted": "Feb 4, 2016 5:49:47 AM",
-      "dateFinished": "Feb 4, 2016 5:49:47 AM",
-      "status": "FINISHED",
+      "dateStarted": "Feb 5, 2016 5:37:37 AM",
+      "dateFinished": "Feb 5, 2016 5:37:37 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Feb 5, 2016 5:37:35 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1454562892597_226304261",
       "id": "20160204-051452_1994155407",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Feb 4, 2016 5:14:52 AM",
-      "status": "READY",
+      "dateStarted": "Feb 5, 2016 5:37:37 AM",
+      "dateFinished": "Feb 5, 2016 5:37:37 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Similarity/04: Approximate Cosine Similarity (DIMSUM)",
+  "name": "Clustering/04: Exact (Cosine) vs Approximate Similarity (DIMSUM)",
   "id": "2BACHDY7W",
   "angularObjects": {
     "2ARR8UZDJ": [],

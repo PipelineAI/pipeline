@@ -1,9 +1,9 @@
 {
   "paragraphs": [
     {
-      "title": "Normal Scala/Java Set",
-      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeString \u003d SizeEstimator.estimate(\"abc\");\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)",
-      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
+      "title": "memory size of scala set",
+      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeString \u003d SizeEstimator.estimate(\"abc\");\n\nval set1 \u003d (1 to 100000).map(_.toString).toSet\n\nval memorySizeSet \u003d SizeEstimator.estimate(set1)",
+      "dateUpdated": "Feb 5, 2016 5:51:06 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -28,18 +28,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeString: Long \u003d 48\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\n"
+        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeString: Long \u003d 48\nset1: scala.collection.immutable.Set[String] \u003d Set(45717, 93094, 10292, 19125, 67521, 45017, 26985, 29301, 5451, 46826, 4018, 58451, 31211, 17319, 20778, 61947, 82851, 75120, 25285, 75238, 65138, 79342, 17079, 61157, 41605, 48590, 57410, 83193, 35604, 56990, 50378, 62131, 79060, 9936, 75630, 55720, 13172, 72595, 51504, 42442, 57559, 21999, 17840, 36188, 50535, 74810, 37341, 72311, 54038, 61564, 97263, 10304, 66082, 82660, 44530, 33432, 28828, 91301, 59710, 20323, 29644, 16997, 75196, 14779, 90451, 22578, 15822, 96516, 43070, 56230, 72240, 46252, 62098, 68826, 92003, 93116, 96321, 71486, 58029, 61979, 35781, 68385, 4056, 15469, 62449, 92301, 48309, 81719, 42765, 66521, 29143, 31425, 67276, 30582, 59776, 46408, 85365, 99977, 74384, 86145, 72476, 72715, 42390, 77243, 12209, 50418, 96376, 2...memorySizeSet: Long \u003d 10035544\n"
       },
       "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Jan 16, 2016 5:21:53 AM",
-      "dateFinished": "Jan 16, 2016 5:21:54 AM",
+      "dateStarted": "Feb 5, 2016 5:51:06 AM",
+      "dateFinished": "Feb 5, 2016 5:51:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Bloom Filter",
-      "text": "import com.twitter.algebird.BloomFilterAggregator\n\nval bfAgg \u003d BloomFilterAggregator(5, 64, 0)\n\nval set \u003d (Set(1) ++ Set(2,3) ++ Set(3,4) ++ Set(5))\nval memorySizeSet \u003d SizeEstimator.estimate(set)\n\nval bfAggs \u003d bfAgg(List(\"1\")) ++ bfAgg(List(\"2\",\"3\")) ++ bfAgg(List(\"3\",\"4\")) ++ bfAgg(List(\"5\"))\nval memorySizeSet \u003d SizeEstimator.estimate(bfAggs)\n\nbfAggs.contains(\"3\")",
-      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
+      "title": "Memory size of Bloom Filter",
+      "text": "import com.twitter.algebird.BloomFilterAggregator\n\nval bfAgg \u003d BloomFilterAggregator(5, 64, 0)\n\nval bfAggs \u003d bfAgg(set1)\nval memorySizeSet \u003d SizeEstimator.estimate(bfAggs)",
+      "dateUpdated": "Feb 5, 2016 5:51:40 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -64,16 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nset: scala.collection.immutable.Set[Int] \u003d Set(5, 1, 2, 3, 4)\nmemorySizeSet: Long \u003d 312\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 62 size in words \u003d 2\n0 0x00\n1 dirties\n,64)\nmemorySizeSet: Long \u003d 176\nres250: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.9948010483959531)\n"
+        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 64 size in words \u003d 1\n1 1x11\n0 dirties\n,64)\nmemorySizeSet: Long \u003d 176\n"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Jan 16, 2016 5:21:53 AM",
-      "dateFinished": "Jan 16, 2016 5:21:55 AM",
+      "dateStarted": "Feb 5, 2016 5:51:40 AM",
+      "dateFinished": "Feb 5, 2016 5:51:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 16, 2016 5:21:53 AM",
+      "title": "Bloom Filter contains",
+      "text": "bfAggs.contains(\"3\")",
+      "dateUpdated": "Feb 5, 2016 5:51:36 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,7 +88,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},

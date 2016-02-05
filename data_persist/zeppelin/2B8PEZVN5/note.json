@@ -39,8 +39,8 @@
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
-      "text": "import org.apache.spark.sql.Row\nimport com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\n//import com.advancedspark.ml.TaggedItem\n\n//val itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n//  val id \u003d row.getInt(0)\n//  val title \u003d row.getString(1)\n//  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n//  TaggedItem(id, title, tags)\n//}).cache()\n\nval numHashes \u003d 5\nval numBands \u003d 1\n//val minApproxJaccardSimilarityThreshold \u003d 0.1\n//val numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\ncase class MinHashTaggedItem(id: Long, title: String, combinedTagSignature: MinHashSignature) {\n  override def toString: String \u003d id + \", \" + title + \", \" + combinedTagSignature\n}\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tagSignatures \u003d row.getString(2).trim.split(\"\\\\|\")\n    .map(tag \u003d\u003e minHasher.init(tag))\n  val combinedTagSignature \u003d minHasher.sum(tagSignatures)\n  \n  MinHashTaggedItem(id, title, combinedTagSignature)\n}).cache()\n\nitemsRDD.count()\nitemsRDD.collect()\n\nval itemBucketsDF \u003d itemsRDD.flatMap(item \u003d\u003e {\n  val buckets \u003d minHasher.buckets(item.combinedTagSignature)\n  buckets.map(bucket \u003d\u003e \n    (bucket, Seq((item.id, item.title, item.combinedTagSignature))) // Using Seq so we can reduce\n  )\n}).reduceByKey(_ ++ _).toDF()\n\nz.show(itemBucketsDF)\n\n//.collect()\n//  .zipWithIndex.map((bucketId, id) \u003d\u003e println)\n//  .collect().size\n",
-      "dateUpdated": "Jan 10, 2016 6:19:57 AM",
+      "text": "import org.apache.spark.sql.Row\nimport com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\n//import com.advancedspark.ml.TaggedItem\n\n//val itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n//  val id \u003d row.getInt(0)\n//  val title \u003d row.getString(1)\n//  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n//  TaggedItem(id, title, tags)\n//}).cache()\n\nval numHashes \u003d 5\nval numBands \u003d 1\n//val minApproxJaccardSimilarityThreshold \u003d 0.1\n//val numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\ncase class MinHashTaggedItem(id: Long, title: String, combinedTagSignature: MinHashSignature) {\n  override def toString: String \u003d id + \", \" + title + \", \" + combinedTagSignature\n}\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  val tagSignatures \u003d tags.map(tag \u003d\u003e minHasher.init(tag))\n  val combinedTagSignature \u003d minHasher.sum(tagSignatures)\n  \n  MinHashTaggedItem(id, title, tags, combinedTagSignature)\n}).cache()\n\nitemsRDD.count()\nitemsRDD.collect()\n\nval itemBucketsDF \u003d itemsRDD.flatMap(item \u003d\u003e {\n  val buckets \u003d minHasher.buckets(item.combinedTagSignature)\n  buckets.map(bucket \u003d\u003e \n    (bucket, Seq((item.id, item.title, item.combinedTagSignature))) // Using Seq so we can reduce\n  )\n}).reduceByKey(_ ++ _).toDF()\n\nz.show(itemBucketsDF)\n\n//.collect()\n//  .zipWithIndex.map((bucketId, id) \u003d\u003e println)\n//  .collect().size\n",
+      "dateUpdated": "Feb 4, 2016 11:47:37 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -86,13 +86,14 @@
       "jobName": "paragraph_1452406797377_-2047876457",
       "id": "20160110-061957_571655084",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "_1\t_2\n-3120545266605136803\tWrappedArray([1,Toy Story (1995),[[B@72850f91]])\n-4277191694920311810\tWrappedArray([4,Waiting to Exhale (1995),[[B@71faf0f7]])\n5689405751688691415\tWrappedArray([2,Jumanji (1995),[[B@3fd52e69]])\n737254150484926729\tWrappedArray([9,Sudden Death (1995),[[B@5357df82]])\n908363697777081067\tWrappedArray([10,GoldenEye (1995),[[B@9f4abfe]])\n-6361927801039948658\tWrappedArray([8,Tom and Huck (1995),[[B@2f2f9f7f]])\n-3059970959338047050\tWrappedArray([5,Father of the Bride Part II (1995),[[B@399f4a95]])\n-6637841855156262341\tWrappedArray([6,Heat (1995),[[B@54d939eb]])\n-8962056707521183219\tWrappedArray([3,Grumpier Old Men (1995),[[B@78dec3d5]], [7,Sabrina (1995),[[B@2bd96fd6]])\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\nnumHashes: Int \u003d 5\nnumBands: Int \u003d 1\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@60bd3d90\ndefined class MinHashTaggedItem\n\u003cconsole\u003e:122: error: too many arguments for method apply: (id: Long, title: String, combinedTagSignature: com.twitter.algebird.MinHashSignature)MinHashTaggedItem in object MinHashTaggedItem\n         MinHashTaggedItem(id, title, tags, combinedTagSignature)\n                          ^\n"
       },
       "dateCreated": "Jan 10, 2016 6:19:57 AM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "Feb 4, 2016 11:47:37 PM",
+      "dateFinished": "Feb 4, 2016 11:47:38 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
