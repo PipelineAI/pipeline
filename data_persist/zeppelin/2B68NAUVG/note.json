@@ -573,7 +573,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO: Live Recs/04: Generate Item-to-Item Tag-Similarity Graph Recs",
+  "name": "TODO: Live Recs/04: Generate Item-to-Item Tag-Similarity Graph-based Recs",
   "id": "2B68NAUVG",
   "angularObjects": {
     "2ARR8UZDJ": [],

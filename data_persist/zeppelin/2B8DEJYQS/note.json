@@ -62,7 +62,7 @@
     {
       "title": "Tokenize Song Lyrics",
       "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Feb 4, 2016 6:37:29 AM",
+      "dateUpdated": "Feb 5, 2016 9:48:53 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",

@@ -1,11 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/root/pipeline/config/logstash'
-let g:netrw_dirhist_2='/root/pipeline/flows/flowfile_repository'
-let g:netrw_dirhist_3='/root/pipeline/myapps/ml/src/main/scala/com/advancedspark/ml/graph'
-let g:netrw_dirhist_4='/root/pipeline/config/zeppelin'
-let g:netrw_dirhist_5='/root/pipeline/myapps/ml/src/main/scala/com/advancedspark/ml/graph'
-let g:netrw_dirhist_6='/root/spark-1.6.0-bin-fluxcapacitor/tachyon'
-let g:netrw_dirhist_7='/root/spark-1.6.0-bin-fluxcapacitor/tachyon/bin'
-let g:netrw_dirhist_8='/root/pipeline/myapps/streaming'
-let g:netrw_dirhist_9='/root/pipeline/myapps/streaming/src/main/scala/com/advancedspark/streaming/rating/approx'
+let g:netrw_dirhist_cnt =0

@@ -140,7 +140,7 @@
     {
       "title": "Find shortest num of hops between Nodes",
       "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\n// List of source vertices  \nval src \u003d List(10002L)\n\n// Destination vertex\nval dest \u003d 90002\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 12, 2016 4:35:51 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

@@ -149,11 +149,11 @@
     {
       "title": "Extract and Enrich the Top Influencers",
       "text": "// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedTopInfluencersDF)",
-      "dateUpdated": "Jan 16, 2016 5:23:57 AM",
+      "dateUpdated": "Feb 11, 2016 9:27:12 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "pieChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [

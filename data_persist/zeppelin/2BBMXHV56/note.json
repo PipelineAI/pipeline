@@ -36,6 +36,40 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-4.png)",
+      "dateUpdated": "Feb 5, 2016 7:22:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454700027682_1892569989",
+      "id": "20160205-192027_680511672",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-4.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 5, 2016 7:20:27 PM",
+      "dateStarted": "Feb 5, 2016 7:22:21 PM",
+      "dateFinished": "Feb 5, 2016 7:22:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-2.png)",
       "dateUpdated": "Feb 4, 2016 7:36:26 AM",
       "config": {
@@ -72,7 +106,7 @@
     },
     {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-3.png)",
-      "dateUpdated": "Feb 4, 2016 7:36:26 AM",
+      "dateUpdated": "Feb 5, 2016 7:20:29 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,7 +120,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "editorHide": true
+        "editorHide": false
       },
       "settings": {
         "params": {},
