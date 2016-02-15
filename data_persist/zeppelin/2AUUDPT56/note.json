@@ -193,6 +193,18 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455251808245_-631760587",
+      "id": "20160212-043648_845375799",
+      "dateCreated": "Feb 12, 2016 4:36:48 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "TODOOOOO:  Distribution of Ratings",
       "text": "z.show(joinedDF.describe(\"count\"))",
       "dateUpdated": "Feb 4, 2016 4:31:54 AM",

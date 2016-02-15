@@ -3,7 +3,7 @@
     {
       "title": "Create sets",
       "text": "val set1 \u003d (1 to 100000).toSet\nval set2 \u003d (50000 to 100000).toSet\n\nval combinedSetSize \u003d (set1 ++ set2).size",
-      "dateUpdated": "Feb 5, 2016 5:45:31 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "set1: scala.collection.immutable.Set[Int] \u003d Set(53767, 32571, 88533, 77772, 42890, 46805, 72033, 88320, 92325, 37159, 29176, 14221, 2163, 37041, 62232, 8607, 60426, 25695, 645, 84726, 13950, 31843, 20873, 86230, 23162, 39241, 90638, 64790, 42900, 69439, 46827, 16466, 67614, 55558, 94907, 53060, 28337, 49828, 50400, 29862, 39049, 99625, 69397, 19887, 81338, 95105, 35178, 84918, 86139, 41742, 39858, 54355, 18180, 69939, 70174, 70656, 16383, 36308, 31885, 892, 90410, 69, 50665, 51261, 35370, 80586, 74021, 53550, 45704, 66152, 10822, 37830, 37753, 79066, 85145, 26129, 16216, 23563, 81292, 95725, 43261, 64943, 25953, 23764, 81608, 15874, 35210, 54422, 34630, 96661, 5385, 84486, 91071, 40422, 68000, 5810, 49767, 7375, 67223, 31462, 81586, 66592, 81767, 41894, 77446, 62382, 32287, 33394, 94703...set2: scala.collection.immutable.Set[Int] \u003d Set(53767, 88533, 77772, 72033, 88320, 92325, 62232, 60426, 84726, 86230, 90638, 64790, 69439, 67614, 55558, 94907, 53060, 50400, 99625, 69397, 81338, 95105, 84918, 86139, 54355, 69939, 70174, 70656, 90410, 50665, 51261, 80586, 74021, 53550, 66152, 79066, 85145, 81292, 95725, 64943, 81608, 54422, 96661, 84486, 91071, 68000, 67223, 81586, 66592, 81767, 77446, 62382, 94703, 67773, 55377, 61456, 94810, 59593, 64599, 80316, 94590, 74720, 69626, 56771, 50239, 98136, 92584, 57415, 68990, 86853, 67543, 74492, 60039, 66993, 75299, 75883, 64022, 59003, 66341, 72905, 99956, 59913, 57225, 85910, 56093, 88990, 74470, 62154, 95618, 54506, 91679, 59972, 79473, 96648, 57284, 79936, 99581, 93503, 98111, 61953, 56912, 73329, 96293, 78556, 94708, 94823, 52015, ...combinedSetSize: Int \u003d 100000\n"
       },
       "dateCreated": "Jan 28, 2016 9:32:37 PM",
-      "dateStarted": "Feb 5, 2016 5:45:17 AM",
-      "dateFinished": "Feb 5, 2016 5:45:38 AM",
+      "dateStarted": "Feb 13, 2016 7:22:26 PM",
+      "dateFinished": "Feb 13, 2016 7:22:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Memory Size of Set",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval set1 \u003d (1 to 100000).toSet\n\nval sizeInMemorySet \u003d SizeEstimator.estimate(set1)",
-      "dateUpdated": "Feb 5, 2016 5:45:17 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -67,15 +67,15 @@
         "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nset1: scala.collection.immutable.Set[Int] \u003d Set(53767, 32571, 88533, 77772, 42890, 46805, 72033, 88320, 92325, 37159, 29176, 14221, 2163, 37041, 62232, 8607, 60426, 25695, 645, 84726, 13950, 31843, 20873, 86230, 23162, 39241, 90638, 64790, 42900, 69439, 46827, 16466, 67614, 55558, 94907, 53060, 28337, 49828, 50400, 29862, 39049, 99625, 69397, 19887, 81338, 95105, 35178, 84918, 86139, 41742, 39858, 54355, 18180, 69939, 70174, 70656, 16383, 36308, 31885, 892, 90410, 69, 50665, 51261, 35370, 80586, 74021, 53550, 45704, 66152, 10822, 37830, 37753, 79066, 85145, 26129, 16216, 23563, 81292, 95725, 43261, 64943, 25953, 23764, 81608, 15874, 35210, 54422, 34630, 96661, 5385, 84486, 91071, 40422, 68000, 5810, 49767, 7375, 67223, 31462, 81586, 66592, 81767, 41894, 77446, 62382, 32287, 33394, 94703...sizeInMemorySet: Long \u003d 6918920\n"
       },
       "dateCreated": "Jan 28, 2016 9:31:21 PM",
-      "dateStarted": "Feb 5, 2016 5:45:25 AM",
-      "dateFinished": "Feb 5, 2016 5:45:38 AM",
+      "dateStarted": "Feb 13, 2016 7:22:26 PM",
+      "dateFinished": "Feb 13, 2016 7:22:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Memory Size of HyperLogLog Set",
       "text": "import com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval sizeInMemoryHll \u003d SizeEstimator.estimate(hllAgg(set1))",
-      "dateUpdated": "Feb 5, 2016 5:45:17 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,18 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@556aadef,com.twitter.algebird.Hash128$$anon$5@6f628855)\nsizeInMemoryHll: Long \u003d 16472\n"
+        "msg": "import com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@15e45fc5,com.twitter.algebird.Hash128$$anon$5@35a7cf1a)\nsizeInMemoryHll: Long \u003d 16472\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Feb 5, 2016 5:45:38 AM",
-      "dateFinished": "Feb 5, 2016 5:45:39 AM",
+      "dateStarted": "Feb 13, 2016 7:22:27 PM",
+      "dateFinished": "Feb 13, 2016 7:22:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Estimated HyperLogLog Set Size ",
       "text": "val hllAggs \u003d hllAgg(set1 ++ set2)\n\nval approxSetSize \u003d hllAggs.approximateSize\nval approxSetSizeMin \u003d approxSetSize.min\nval approxSetSizeEstimate \u003d approxSetSize.estimate\nval approxSetSizeMax \u003d approxSetSize.max\nval approxSetSizeEstimateProbabilityWithinBounds \u003d approxSetSize.probWithinBounds",
-      "dateUpdated": "Feb 5, 2016 5:45:17 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -139,15 +139,15 @@
         "msg": "hllAggs: com.twitter.algebird.HLL \u003d DenseHLL(14,Bytes(3,4,4,2,5,4,2,6,4,2,3,4,3,2,10,2,1,6,3,3,3,10,6,2,3,5,6,2,2,3,3,4,2,4,6,8,8,5,2,6,4,3,6,5,3,2,5,1,3,2,7,5,2,2,5,4,4,6,4,5,2,7,6,6,3,5,3,3,5,3,6,1,7,2,3,2,2,3,2,1,7,4,3,5,3,3,5,3,3,2,3,5,3,6,8,4,5,4,3,6,5,2,2,5,3,3,7,4,1,6,3,1,6,8,4,4,3,5,4,3,5,9,2,6,6,1,4,7,3,3,3,1,8,4,5,2,6,4,3,3,3,1,3,1,2,6,5,3,4,3,3,3,2,1,5,6,5,4,3,4,7,5,6,2,3,3,4,5,4,6,3,4,4,4,4,4,5,4,3,6,3,3,7,5,4,4,5,3,10,3,5,3,3,8,6,2,5,4,5,2,3,4,3,5,3,4,4,1,5,4,2,8,4,3,4,5,3,5,4,4,6,3,3,2,7,4,2,2,3,6,4,3,5,3,3,3,4,4,3,5,5,4,5,3,3,2,3,5,5,3,1,2,4,3,4,5,2,4,4,3,6,4,3,4,4,3,1,3,9,5,2,5,5,2,2,3,10,4,6,4,4,2,7,5,3,6,3,4,4,1,3,2,4,6,5,4,3,4,2,3,3,4,2,4,4,4,5,4,3,5,3,3,4,5,1,2,1,5,2,5,3,10,5,5,3,6,5,3,6,2,1,2,5,4,2,6,4,3,5,5,9,2,3,3,6,4,1,3,8,2,4,7,6,3,4,4,4,6,8,3,3,3,4,6,3,5,3,1,2,...approxSetSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(97558,99995,102433,0.9972)\napproxSetSizeMin: Long \u003d 97558\napproxSetSizeEstimate: Long \u003d 99995\napproxSetSizeMax: Long \u003d 102433\napproxSetSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\n"
       },
       "dateCreated": "Jan 28, 2016 9:32:14 PM",
-      "dateStarted": "Feb 5, 2016 5:45:39 AM",
-      "dateFinished": "Feb 5, 2016 5:45:39 AM",
+      "dateStarted": "Feb 13, 2016 7:22:28 PM",
+      "dateFinished": "Feb 13, 2016 7:22:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Option 2:  HyperLogLog Monoid",
       "text": "import com.twitter.algebird.HyperLogLogMonoid\n\nval hllMonoid \u003d new HyperLogLogMonoid(14)\nval hlls \u003d (set1 ++ set2).map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
-      "dateUpdated": "Feb 5, 2016 5:46:39 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -170,20 +170,20 @@
       "jobName": "paragraph_1451170321214_-439403456",
       "id": "20151226-225201_69635467",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@725b8c1\nhlls: scala.collection.immutable.Set[com.twitter.algebird.HLL] \u003d Set(SparseHLL(14,Map(5603 -\u003e Max(1))), SparseHLL(14,Map(10009 -\u003e Max(2))), SparseHLL(14,Map(12542 -\u003e Max(2))), SparseHLL(14,Map(13484 -\u003e Max(2))), SparseHLL(14,Map(10768 -\u003e Max(4))), SparseHLL(14,Map(12117 -\u003e Max(4))), SparseHLL(14,Map(10472 -\u003e Max(1))), SparseHLL(14,Map(5278 -\u003e Max(2))), SparseHLL(14,Map(9493 -\u003e Max(13))), SparseHLL(14,Map(8441 -\u003e Max(3))), SparseHLL(14,Map(1555 -\u003e Max(5))), SparseHLL(14,Map(9906 -\u003e Max(3))), SparseHLL(14,Map(10791 -\u003e Max(3))), SparseHLL(14,Map(12329 -\u003e Max(6))), SparseHLL(14,Map(15713 -\u003e Max(2))), SparseHLL(14,Map(15319 -\u003e Max(2))), SparseHLL(14,Map(10467 -\u003e Max(2))), SparseHLL(14,Map(1882 -\u003e Max(2))), SparseHLL(14,Map(3522 -\u003e Max(2))), SparseHLL(14,Map(9499 -\u003e Max(4))), SparseHLL(14,Map...combinedHllMonoid: com.twitter.algebird.HLL \u003d DenseHLL(14,Bytes(3,4,4,2,5,4,2,6,4,2,3,4,3,2,10,2,1,6,3,3,3,10,6,2,3,5,6,2,2,3,3,4,2,4,6,8,8,5,2,6,4,3,6,5,3,2,5,1,3,2,7,5,2,2,5,4,4,6,4,5,2,7,6,6,3,5,3,3,5,3,6,1,7,2,3,2,2,3,2,1,7,4,3,5,3,3,5,3,3,2,3,5,3,6,8,4,5,4,3,6,5,2,2,5,3,3,7,4,1,6,3,1,6,8,4,4,3,5,4,3,5,9,2,6,6,1,4,7,3,3,3,1,8,4,5,2,6,4,3,3,3,1,3,1,2,6,5,3,4,3,3,3,2,1,5,6,5,4,3,4,7,5,6,2,3,3,4,5,4,6,3,4,4,4,4,4,5,4,3,6,3,3,7,5,4,4,5,3,10,3,5,3,3,8,6,2,5,4,5,2,3,4,3,5,3,4,4,1,5,4,2,8,4,3,4,5,3,5,4,4,6,3,3,2,7,4,2,2,3,6,4,3,5,3,3,3,4,4,3,5,5,4,5,3,3,2,3,5,5,3,1,2,4,3,4,5,2,4,4,3,6,4,3,4,4,3,1,3,9,5,2,5,5,2,2,3,10,4,6,4,4,2,7,5,3,6,3,4,4,1,3,2,4,6,5,4,3,4,2,3,3,4,2,4,4,4,5,4,3,5,3,3,4,5,1,2,1,5,2,5,3,10,5,5,3,6,5,3,6,2,1,2,5,4,2,6,4,3,5,5,9,2,3,3,6,4,1,3,8,2,4,7,6,3,4,4,4,6,8,3,3,3,4,6,...memorySizeCombinedHllMonoid: Long \u003d 16472\napproxSizeEstimateHllMonoid: com.twitter.algebird.Approximate[Long] \u003d Approximate(97558,99995,102433,0.9972)\n"
+        "msg": "import com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@71f2b978\n\u003cconsole\u003e:36: error: type mismatch;\n found   : Int\n required: Array[Byte]\n         val hlls \u003d (set1 ++ set2).map(hllMonoid.create(_))\n                                                        ^\n"
       },
       "dateCreated": "Dec 26, 2015 10:52:01 PM",
-      "dateStarted": "Feb 5, 2016 5:46:39 AM",
-      "dateFinished": "Feb 5, 2016 5:46:40 AM",
-      "status": "FINISHED",
+      "dateStarted": "Feb 13, 2016 7:22:28 PM",
+      "dateFinished": "Feb 13, 2016 7:22:29 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": " ",
       "text": "",
-      "dateUpdated": "Feb 5, 2016 5:45:17 AM",
+      "dateUpdated": "Feb 13, 2016 7:22:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -210,8 +210,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Feb 5, 2016 5:45:40 AM",
-      "dateFinished": "Feb 5, 2016 5:45:40 AM",
+      "dateStarted": "Feb 13, 2016 7:22:29 PM",
+      "dateFinished": "Feb 13, 2016 7:22:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

@@ -1,6 +1,40 @@
 {
   "paragraphs": [
     {
+      "text": "%md ![Item-to-Item Collaborative Filtering](http://fluxcapacitor.com/img/item-to-item-vector-space.png)",
+      "dateUpdated": "Feb 6, 2016 7:35:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454744085889_695247186",
+      "id": "20160206-073445_1754167165",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/item-to-item-vector-space.png\" alt\u003d\"Item-to-Item Collaborative Filtering\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 6, 2016 7:34:45 AM",
+      "dateStarted": "Feb 6, 2016 7:35:20 AM",
+      "dateFinished": "Feb 6, 2016 7:35:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport com.twitter.algebird.MinHasher\nimport com.twitter.algebird.MinHasher32\nimport com.twitter.algebird.MinHashSignature",
       "dateUpdated": "Jan 10, 2016 6:22:20 AM",
       "config": {
@@ -721,7 +755,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO: Live Recs/09: LSH Similarity Item-to-Item Recs by (itemId, userId) Pairs",
+  "name": "TODO: Live Recs/09: LSH Similarity Item-to-Item Recs by (itemId1, [userId1, userId2, userId3, ...]) Vectors",
   "id": "2BBC8NSFW",
   "angularObjects": {
     "2ARR8UZDJ": [],
