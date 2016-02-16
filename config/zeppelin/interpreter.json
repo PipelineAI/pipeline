@@ -64,8 +64,8 @@
         "default.password": "",
         "default.user": "hive",
         "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
-        "default.driver": "org.apache.hive.jdbc.HiveDriver",
         "default.url": "jdbc:hive2://127.0.0.1:10000",
+        "default.driver": "org.apache.hive.jdbc.HiveDriver",
         "common.max_count": "1000",
         "hive.hiveserver2.password": "",
         "hive.hiveserver2.user": "hiveuser"
