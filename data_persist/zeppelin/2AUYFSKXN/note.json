@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Alternating Least Squares Matrix Factorization",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png)",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "dateUpdated": "Feb 16, 2016 11:09:43 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,49 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/ALS.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:33 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md ![User-to-Item Similarity with Facebook](http://fluxcapacitor.com/img/netflix-facebook-integration.png)",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1454555693677_1759113828",
-      "id": "20160204-031453_1034081553",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/netflix-facebook-integration.png\" alt\u003d\"User-to-Item Similarity with Facebook\" /\u003e\u003c/p\u003e\n"
-      },
-      "dateCreated": "Feb 4, 2016 3:14:53 AM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:33 AM",
+      "dateStarted": "Feb 16, 2016 11:09:43 PM",
+      "dateFinished": "Feb 16, 2016 11:09:43 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The Model Using The Historical Training Split Of The Historical Data",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "dateUpdated": "Feb 16, 2016 11:09:43 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,20 +64,20 @@
       "jobName": "paragraph_1435978256373_-160526409",
       "id": "20150704-025056_169923529",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_0713aff1e6f6\n\u003cconsole\u003e:35: error: not found: value itemRatingsDF\n       val model \u003d als.fit(itemRatingsDF)\n                           ^\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_885095d5fc7b\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_885095d5fc7b\nres38: model.type \u003d als_885095d5fc7b\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:33 AM",
-      "status": "ERROR",
+      "dateStarted": "Feb 16, 2016 11:09:43 PM",
+      "dateFinished": "Feb 16, 2016 11:09:46 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For Each Distinct User",
-      "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "text": "val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc)\n   .limit(5)",
+      "dateUpdated": "Feb 16, 2016 11:10:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -159,19 +125,19 @@
       "jobName": "paragraph_1435978292871_1625908707",
       "id": "20150704-025132_1487939440",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:28: error: not found: value model\n         val recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n                                 ^\n"
+        "msg": "recommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, confidence: float]\nwarning: there were 1 feature warning(s); re-run with -feature for details\nenrichedRecommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, title: string, description: string, tags: array\u003cstring\u003e, img: string, confidence: float]\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:33 AM",
-      "status": "ERROR",
+      "dateStarted": "Feb 16, 2016 11:10:08 PM",
+      "dateFinished": "Feb 16, 2016 11:10:08 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "text": "z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\"))",
+      "dateUpdated": "Feb 16, 2016 11:10:23 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -216,19 +182,19 @@
       "jobName": "paragraph_1443377582412_2075344434",
       "id": "20150927-181302_1140885708",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:31: error: not found: value enrichedRecommendationsDF\n              z.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"confidence\", $\"title\", $\"img\").limit(10))\n                     ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\tconfidence\ttitle\timg\n71871\t1\t0.98993206\tApache Cassandra\timg/software/cassandra.png\n71871\t3\t0.98993206\tApache Ambari\timg/software/ambari.png\n71871\t4\t0.98993206\tDocker\timg/software/docker.png\n71871\t7\t0.98993206\tApache Spark\timg/software/spark.png\n71871\t9\t0.98993206\tApache Giraph\timg/software/giraph.png\n"
       },
       "dateCreated": "Sep 27, 2015 6:13:02 PM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:33 AM",
-      "status": "ERROR",
+      "dateStarted": "Feb 16, 2016 11:10:23 PM",
+      "dateFinished": "Feb 16, 2016 11:10:25 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "dateUpdated": "Feb 16, 2016 11:10:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -251,18 +217,18 @@
       "jobName": "paragraph_1438113388648_-491234562",
       "id": "20150728-195628_1365871289",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:35: error: not found: value enrichedRecommendationsDF\n              enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n              ^\n"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Feb 12, 2016 4:38:33 AM",
-      "dateFinished": "Feb 12, 2016 4:38:34 AM",
-      "status": "ERROR",
+      "dateStarted": "Feb 16, 2016 11:10:10 PM",
+      "dateFinished": "Feb 16, 2016 11:10:14 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 12, 2016 4:38:33 AM",
+      "dateUpdated": "Feb 16, 2016 11:09:43 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -288,13 +254,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 25, 2015 7:08:18 PM",
-      "dateStarted": "Feb 12, 2016 4:38:34 AM",
-      "dateFinished": "Feb 12, 2016 4:38:34 AM",
+      "dateStarted": "Feb 16, 2016 11:09:49 PM",
+      "dateFinished": "Feb 16, 2016 11:09:54 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/03:  Generate User-to-Item Collaborative Filter Recs",
+  "name": "Live Recs/02:  Generate User-to-Item Collaborative Filter Recs",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],
