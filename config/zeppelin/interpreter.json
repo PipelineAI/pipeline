@@ -28,9 +28,9 @@
         "spark.app.name": "Zeppelin",
         "spark.executor.memory": "2g",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/root/spark-1.6.0-bin-fluxcapacitor",
-        "zeppelin.spark.concurrentSQL": "false",
         "args": "",
+        "zeppelin.spark.concurrentSQL": "false",
+        "spark.home": "/root/spark-1.6.0-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python",
         "zeppelin.dep.additionalRemoteRepository": "spark-packages,http://dl.bintray.com/spark-packages/maven,false;"
       },
@@ -557,6 +557,11 @@
       "2AR33ZMZJ"
     ],
     "2BAR4KPJV": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2BCB1T3ZP": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"

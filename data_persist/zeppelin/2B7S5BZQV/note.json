@@ -1,8 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\nimport com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._",
-      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
+      "title": "Create List",
+      "text": "val list1 \u003d (1 to 100000).toList",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -15,29 +16,30 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1454017465017_-245955614",
-      "id": "20160128-214425_185766597",
+      "jobName": "paragraph_1455642399928_-252943437",
+      "id": "20160216-170639_1406609107",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nimport com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\n"
+        "msg": "list1: List[Int] \u003d List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 1..."
       },
-      "dateCreated": "Jan 28, 2016 9:44:25 PM",
-      "dateStarted": "Feb 5, 2016 5:46:56 AM",
-      "dateFinished": "Feb 5, 2016 5:46:57 AM",
+      "dateCreated": "Feb 16, 2016 5:06:39 PM",
+      "dateStarted": "Feb 16, 2016 5:08:56 PM",
+      "dateFinished": "Feb 16, 2016 5:08:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Memory Size of Scala set",
-      "text": "val set1 \u003d (1 to 100000).toSet\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(set1)",
-      "dateUpdated": "Feb 5, 2016 5:48:15 AM",
+      "title": "Memory Size of Scala List",
+      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(list1)",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -62,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "set1: scala.collection.immutable.Set[Int] \u003d Set(53767, 32571, 88533, 77772, 42890, 46805, 72033, 88320, 92325, 37159, 29176, 14221, 2163, 37041, 62232, 8607, 60426, 25695, 645, 84726, 13950, 31843, 20873, 86230, 23162, 39241, 90638, 64790, 42900, 69439, 46827, 16466, 67614, 55558, 94907, 53060, 28337, 49828, 50400, 29862, 39049, 99625, 69397, 19887, 81338, 95105, 35178, 84918, 86139, 41742, 39858, 54355, 18180, 69939, 70174, 70656, 16383, 36308, 31885, 892, 90410, 69, 50665, 51261, 35370, 80586, 74021, 53550, 45704, 66152, 10822, 37830, 37753, 79066, 85145, 26129, 16216, 23563, 81292, 95725, 43261, 64943, 25953, 23764, 81608, 15874, 35210, 54422, 34630, 96661, 5385, 84486, 91071, 40422, 68000, 5810, 49767, 7375, 67223, 31462, 81586, 66592, 81767, 41894, 77446, 62382, 32287, 33394, 94703...sizeInMemoryList: Long \u003d 6918920\n"
+        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nsizeInMemoryList: Long \u003d 4800016\n"
       },
       "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Feb 5, 2016 5:46:57 AM",
-      "dateFinished": "Feb 5, 2016 5:46:57 AM",
+      "dateStarted": "Feb 16, 2016 5:08:56 PM",
+      "dateFinished": "Feb 16, 2016 5:08:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Memory Size of CountMin Sketch",
-      "text": "val cmsMonoid \u003d CMS.monoid[Int](0.001, 1E-10, 1) \nval cmsAgg \u003d CMSAggregator(cmsMonoid)\n\nval sizeInMemoryCms \u003d SizeEstimator.estimate(cmsAgg(set1))",
-      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
+      "title": "Create CountMin Sketch",
+      "text": "import com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\n\nval cmsMonoid \u003d CMS.monoid[Int](0.001, 1E-10, 1) \nval cmsAgg \u003d CMSAggregator(cmsMonoid)",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -98,18 +100,54 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "cmsMonoid: com.twitter.algebird.CMSMonoid[Int] \u003d com.twitter.algebird.CMSMonoid@170b36e4\ncmsAgg: com.twitter.algebird.CMSAggregator[Int] \u003d CMSAggregator(com.twitter.algebird.CMSMonoid@170b36e4)\nsizeInMemoryCms: Long \u003d 310944\n"
+        "msg": "import com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\ncmsMonoid: com.twitter.algebird.CMSMonoid[Int] \u003d com.twitter.algebird.CMSMonoid@44127673\ncmsAgg: com.twitter.algebird.CMSAggregator[Int] \u003d CMSAggregator(com.twitter.algebird.CMSMonoid@44127673)\n"
       },
       "dateCreated": "Dec 20, 2015 3:02:35 AM",
-      "dateStarted": "Feb 5, 2016 5:46:57 AM",
-      "dateFinished": "Feb 5, 2016 5:46:58 AM",
+      "dateStarted": "Feb 16, 2016 5:08:56 PM",
+      "dateFinished": "Feb 16, 2016 5:08:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size Of CountMin Sketch",
+      "text": "val sizeInMemoryCms \u003d SizeEstimator.estimate(cmsAgg(set1))",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455642439775_1498879602",
+      "id": "20160216-170719_79416329",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "sizeInMemoryCms: Long \u003d 310944\n"
+      },
+      "dateCreated": "Feb 16, 2016 5:07:19 PM",
+      "dateStarted": "Feb 16, 2016 5:08:57 PM",
+      "dateFinished": "Feb 16, 2016 5:08:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Estimated Total Frequency Count",
-      "text": "val cmsAggs \u003d cmsAgg(set1)\n\nval totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency50000 \u003d cmsAggs.frequency(50000).estimate\nval frequency99999 \u003d cmsAggs.frequency(100000).estimate",
-      "dateUpdated": "Feb 5, 2016 5:47:22 AM",
+      "text": "val cmsAggs \u003d cmsAgg(list1)\n\nval totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency50000 \u003d cmsAggs.frequency(50000).estimate\nval frequency99999 \u003d cmsAggs.frequency(100000).estimate",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -137,14 +175,14 @@
         "msg": "cmsAggs: com.twitter.algebird.CMS[Int] \u003d CMSInstance(CountsTable(Vector(Vector(36, 38, 39, 38, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 37, 39, 37, 36, 37, 37, 36, 36, 38, 37, 36, 37, 36, 36, 37, 38, 38, 37, 37, 36, 36, 36, 37, 37, 37, 37, 36, 36, 37, 37, 38, 38, 37, 36, 36, 37, 36, 38, 37, 36, 36, 37, 37, 37, 38, 38, 36, 36, 37, 36, 36, 38, 38, 36, 36, 37, 36, 36, 38, 39, 36, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 38, 38, 36, 37, 36, 36, 37, 37, 38, 37, 37, 36, 36, 36, 36, 37, 39, 37, 36, 36, 36, 36, 38, 39, 38, 36, 37, 37, 36, 37, 39, 36, 36, 37, 37, 36, 37, 38, 37, 36, 37, 36, 36, 36, 37, 37, 36, 37, 36, 36, 37, 38, 38, 38, 37, 36, 36, 37, 37, 37, 36, 36, 36, 37, 37, 37, 38, 37, 36, 36, 37, 37, 36, 37, 38, 36, 36, 37, 36, 37, 39, 39, 37, 36, 36, 36, 36, 38, 37, 36, 36, 36, 36...totalCount: Long \u003d 100000\nfrequency1: Long \u003d 25\nfrequency50000: Long \u003d 35\nfrequency99999: Long \u003d 35\n"
       },
       "dateCreated": "Jan 28, 2016 9:46:40 PM",
-      "dateStarted": "Feb 5, 2016 5:47:22 AM",
-      "dateFinished": "Feb 5, 2016 5:47:23 AM",
+      "dateStarted": "Feb 16, 2016 5:08:58 PM",
+      "dateFinished": "Feb 16, 2016 5:08:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Decay Average vs Moving Average",
-      "dateUpdated": "Feb 5, 2016 5:46:56 AM",
+      "title": " ",
+      "dateUpdated": "Feb 16, 2016 5:08:56 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -171,8 +209,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Feb 5, 2016 5:46:58 AM",
-      "dateFinished": "Feb 5, 2016 5:46:58 AM",
+      "dateStarted": "Feb 16, 2016 5:08:59 PM",
+      "dateFinished": "Feb 16, 2016 5:08:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

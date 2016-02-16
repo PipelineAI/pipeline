@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md \n### Spell Correct with Edit Distance \n* http://norvig.com/spell-correct.html\n* https://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcheck.html\n* https://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcorrect.js",
-      "dateUpdated": "Feb 4, 2016 6:34:51 AM",
+      "dateUpdated": "Feb 16, 2016 5:26:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch3\u003eSpell Correct with Edit Distance\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttp://norvig.com/spell-correct.html\u003c/li\u003e\n\u003cli\u003ehttps://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcheck.html\u003c/li\u003e\n\u003cli\u003ehttps://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcorrect.js\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 6:32:45 AM",
-      "dateStarted": "Feb 4, 2016 6:34:51 AM",
-      "dateFinished": "Feb 4, 2016 6:34:51 AM",
+      "dateStarted": "Feb 16, 2016 5:26:41 PM",
+      "dateFinished": "Feb 16, 2016 5:26:41 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Define edit distance",
       "text": "%pyspark \n\nimport re, collections\n\ndef words(text): return re.findall(\u0027[a-z]+\u0027, text.lower()) \n\ndef train(features):\n    model \u003d collections.defaultdict(lambda: 1)\n    for f in features:\n        model[f] +\u003d 1\n    return model\n\n# gutenberg-ebooks datasets\nNWORDS \u003d train(words(file(\u0027/root/pipeline/datasets/nlp/gutenberg-ebooks.txt\u0027).read()))\n\nalphabet \u003d \u0027abcdefghijklmnopqrstuvwxyz\u0027\n\ndef edits1(word):\n   splits     \u003d [(word[:i], word[i:]) for i in range(len(word) + 1)]\n   deletes    \u003d [a + b[1:] for a, b in splits if b]\n   transposes \u003d [a + b[1] + b[0] + b[2:] for a, b in splits if len(b)\u003e1]\n   replaces   \u003d [a + c + b[1:] for a, b in splits for c in alphabet if b]\n   inserts    \u003d [a + c + b     for a, b in splits for c in alphabet]\n   return set(deletes + transposes + replaces + inserts)\n\ndef known_edits2(word):\n    return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)\n\ndef known(words): return set(w for w in words if w in NWORDS)\n\ndef correct(word):\n    candidates \u003d known([word]) or known(edits1(word)) or known_edits2(word) or [word]\n    return max(candidates, key\u003dNWORDS.get)\n",
-      "dateUpdated": "Feb 6, 2016 12:47:42 AM",
+      "dateUpdated": "Feb 16, 2016 5:26:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,15 +66,15 @@
         "msg": ""
       },
       "dateCreated": "Jan 14, 2016 5:57:50 AM",
-      "dateStarted": "Feb 6, 2016 12:47:42 AM",
-      "dateFinished": "Feb 6, 2016 12:47:58 AM",
+      "dateStarted": "Feb 16, 2016 5:26:41 PM",
+      "dateFinished": "Feb 16, 2016 5:26:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Test a few mispellings",
       "text": "%pyspark \n\nprint correct(\u0027speling\u0027)\nprint correct(\u0027forbiden\u0027)\nprint correct(\u0027dateng\u0027)\nprint correct(\u0027supposably\u0027)",
-      "dateUpdated": "Feb 6, 2016 12:48:02 AM",
+      "dateUpdated": "Feb 16, 2016 5:26:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -102,13 +102,13 @@
         "msg": "spelling\nforbidden\ndating\nsupposedly\n"
       },
       "dateCreated": "Jan 14, 2016 5:57:57 AM",
-      "dateStarted": "Feb 6, 2016 12:48:02 AM",
-      "dateFinished": "Feb 6, 2016 12:48:02 AM",
+      "dateStarted": "Feb 16, 2016 5:26:42 PM",
+      "dateFinished": "Feb 16, 2016 5:26:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 4, 2016 6:34:51 AM",
+      "dateUpdated": "Feb 16, 2016 5:26:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,8 +134,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 14, 2016 6:02:45 AM",
-      "dateStarted": "Feb 4, 2016 6:34:51 AM",
-      "dateFinished": "Feb 4, 2016 6:34:51 AM",
+      "dateStarted": "Feb 16, 2016 5:26:42 PM",
+      "dateFinished": "Feb 16, 2016 5:26:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

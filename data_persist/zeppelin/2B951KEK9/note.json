@@ -3,7 +3,7 @@
     {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:15:36 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -32,15 +32,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:50 AM",
-      "dateFinished": "Feb 5, 2016 5:08:54 AM",
+      "dateStarted": "Feb 16, 2016 5:15:36 AM",
+      "dateFinished": "Feb 16, 2016 5:15:36 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:15:37 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[20] at map at \u003cconsole\u003e:45\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1480] at map at \u003cconsole\u003e:95\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:50 AM",
-      "dateFinished": "Feb 5, 2016 5:08:55 AM",
+      "dateStarted": "Feb 16, 2016 5:15:37 AM",
+      "dateFinished": "Feb 16, 2016 5:15:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:15:39 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -125,18 +125,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "tag\tcount\nAnimation\t1\nThriller\t2\nAdventure\t4\nComedy\t5\nFantasy\t2\nCrime\t1\nAction\t3\nChildren\t3\nRomance\t3\nDrama\t1\n"
+        "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:55 AM",
-      "dateFinished": "Feb 5, 2016 5:08:56 AM",
+      "dateStarted": "Feb 16, 2016 5:15:39 AM",
+      "dateFinished": "Feb 16, 2016 5:15:40 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "TODO:  Convert Item Tags Into One-Hot Encoded Vector",
-      "text": "import org.apache.spark.mllib.clustering.{KMeans, KMeansModel}\nimport org.apache.spark.mllib.linalg.Vectors\n\n// Load and parse the data\nval parsedData \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(s.split(\u0027 \u0027).map(_.toDouble))).cache()",
-      "dateUpdated": "Feb 5, 2016 5:11:10 AM",
+      "title": "Convert Item Tags Into Vectors",
+      "text": "// TODO:  CountVectorizer, then get vocabulary array (tags), then create vectors from that\n\nimport org.apache.spark.mllib.linalg.Vectors\n\nval vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))",
+      "dateUpdated": "Feb 16, 2016 5:20:17 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -161,18 +161,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.clustering.{KMeans, KMeansModel}\nimport org.apache.spark.mllib.linalg.Vectors\n\u003cconsole\u003e:46: error: not found: value data\n       val parsedData \u003d data.map(s \u003d\u003e Vectors.dense(s.split(\u0027 \u0027).map(_.toDouble))).cache()\n                        ^\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\n\u003cconsole\u003e:102: error: overloaded method value dense with alternatives:\n  (values: Array[Double])org.apache.spark.mllib.linalg.Vector \u003cand\u003e\n  (firstValue: Double,otherValues: Double*)org.apache.spark.mllib.linalg.Vector\n cannot be applied to (Seq[Double])\n       val vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))\n                                                  ^\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:55 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Feb 16, 2016 5:17:43 AM",
+      "dateFinished": "Feb 16, 2016 5:17:43 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cluster Items Using Tag Vectors and K-Means",
-      "text": "val numClusters \u003d 2\nval numIterations \u003d 20\n\nval clusters \u003d KMeans.train(parsedData, numClusters, numIterations)",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "text": "val numClusters \u003d 2\nval numIterations \u003d 20\n\nval clusters \u003d KMeans.fit(parsedData, numClusters, numIterations)",
+      "dateUpdated": "Feb 16, 2016 5:18:28 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -216,11 +216,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "numClusters: Int \u003d 2\nnumIterations: Int \u003d 20\n\u003cconsole\u003e:49: error: not found: value parsedData\n       val clusters \u003d KMeans.train(parsedData, numClusters, numIterations)\n                                   ^\n"
+        "msg": "numClusters: Int \u003d 2\nnumIterations: Int \u003d 20\n\u003cconsole\u003e:102: error: value train is not a member of object org.apache.spark.ml.clustering.KMeans\n       val clusters \u003d KMeans.train(parsedData, numClusters, numIterations)\n                             ^\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:57 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Feb 16, 2016 5:18:10 AM",
+      "dateFinished": "Feb 16, 2016 5:18:11 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },

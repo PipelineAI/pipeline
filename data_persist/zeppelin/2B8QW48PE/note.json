@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/shortest-path-by-hop.png)",
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,14 +30,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/shortest-path-by-hop.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 1:05:23 AM",
-      "dateStarted": "Feb 1, 2016 2:24:20 AM",
-      "dateFinished": "Feb 1, 2016 2:24:20 AM",
+      "dateStarted": "Feb 16, 2016 5:20:18 PM",
+      "dateFinished": "Feb 16, 2016 5:20:18 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")",
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,14 +64,14 @@
         "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int, cost: int]\n"
       },
       "dateCreated": "Dec 28, 2015 3:20:55 AM",
-      "dateStarted": "Feb 1, 2016 2:24:20 AM",
-      "dateFinished": "Feb 1, 2016 2:24:20 AM",
+      "dateStarted": "Feb 16, 2016 5:20:18 PM",
+      "dateFinished": "Feb 16, 2016 5:20:18 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Edge \n\n// Ignore cost\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toFloat)\n})",
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -95,17 +95,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[2189] at map at \u003cconsole\u003e:157\n"
+        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Float]] \u003d MapPartitionsRDD[905] at map at \u003cconsole\u003e:138\n"
       },
       "dateCreated": "Dec 28, 2015 3:22:02 AM",
-      "dateStarted": "Feb 1, 2016 2:24:20 AM",
-      "dateFinished": "Feb 1, 2016 2:24:21 AM",
+      "dateStarted": "Feb 16, 2016 5:20:18 PM",
+      "dateFinished": "Feb 16, 2016 5:20:19 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Graph\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -129,18 +129,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Graph\ngraph: org.apache.spark.graphx.Graph[Long,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@7968de6a\n"
+        "msg": "import org.apache.spark.graphx.Graph\ngraph: org.apache.spark.graphx.Graph[Long,Float] \u003d org.apache.spark.graphx.impl.GraphImpl@7b127282\n"
       },
       "dateCreated": "Dec 28, 2015 3:24:43 AM",
-      "dateStarted": "Feb 1, 2016 2:24:21 AM",
-      "dateFinished": "Feb 1, 2016 2:24:22 AM",
+      "dateStarted": "Feb 16, 2016 5:20:19 PM",
+      "dateFinished": "Feb 16, 2016 5:20:19 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find shortest num of hops between Nodes",
       "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\n// List of source vertices  \nval src \u003d List(10002L)\n\n// Destination vertex\nval dest \u003d 90002\n\n// This ignores cost - just number of hops\nval shortestNumberOfHops \u003d ShortestPaths.run(graph, src).vertices\n\nshortestNumberOfHops.filter(_._1 \u003d\u003d dest).collect().mkString(\",\")",
-      "dateUpdated": "Feb 12, 2016 4:35:51 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -165,16 +165,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Int \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[2255] at RDD at VertexRDD.scala:57\nres534: String \u003d (90002,Map(10002 -\u003e 3))\n"
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndest: Int \u003d 90002\nshortestNumberOfHops: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[971] at RDD at VertexRDD.scala:57\nres352: String \u003d (90002,Map(10002 -\u003e 3))\n"
       },
       "dateCreated": "Dec 28, 2015 3:26:16 AM",
-      "dateStarted": "Feb 1, 2016 2:24:22 AM",
-      "dateFinished": "Feb 1, 2016 2:24:24 AM",
+      "dateStarted": "Feb 16, 2016 5:20:19 PM",
+      "dateFinished": "Feb 16, 2016 5:20:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 1, 2016 2:24:20 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -200,8 +200,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 28, 2015 3:30:03 AM",
-      "dateStarted": "Feb 1, 2016 2:24:22 AM",
-      "dateFinished": "Feb 1, 2016 2:24:24 AM",
+      "dateStarted": "Feb 16, 2016 5:20:20 PM",
+      "dateFinished": "Feb 16, 2016 5:20:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

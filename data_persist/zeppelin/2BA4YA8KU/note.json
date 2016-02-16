@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Similarity Pathway](http://fluxcapacitor.com/img/similarity-pathway.png)",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/similarity-pathway.png\" alt\u003d\"Similarity Pathway\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 1:43:36 AM",
-      "dateStarted": "Feb 4, 2016 6:42:27 AM",
-      "dateFinished": "Feb 4, 2016 6:42:27 AM",
+      "dateStarted": "Feb 16, 2016 5:22:10 PM",
+      "dateFinished": "Feb 16, 2016 5:22:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Feb 4, 2016 6:58:19 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -67,15 +67,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Feb 4, 2016 6:58:19 AM",
-      "dateFinished": "Feb 4, 2016 6:58:19 AM",
+      "dateStarted": "Feb 16, 2016 5:22:10 PM",
+      "dateFinished": "Feb 16, 2016 5:22:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,18 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1115] at map at \u003cconsole\u003e:72\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1378] at map at \u003cconsole\u003e:152\n"
       },
       "dateCreated": "Dec 29, 2015 2:49:26 PM",
-      "dateStarted": "Feb 4, 2016 6:42:27 AM",
-      "dateFinished": "Feb 4, 2016 6:42:28 AM",
+      "dateStarted": "Feb 16, 2016 5:22:10 PM",
+      "dateFinished": "Feb 16, 2016 5:22:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n\nz.show(tagsCountRDD.toDF())",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -160,18 +160,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "_1\t_2\nAnimation\t1\nThriller\t2\nAdventure\t4\nComedy\t5\nFantasy\t2\nCrime\t1\nAction\t3\nChildren\t3\nRomance\t3\nDrama\t1\n"
+        "msg": "_1\t_2\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Dec 28, 2015 4:42:14 AM",
-      "dateStarted": "Feb 4, 2016 6:42:28 AM",
-      "dateFinished": "Feb 4, 2016 6:42:28 AM",
+      "dateStarted": "Feb 16, 2016 5:22:11 PM",
+      "dateFinished": "Feb 16, 2016 5:22:12 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cartesian product of all items",
       "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD).cache()",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -196,18 +196,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[1121] at cartesian at \u003cconsole\u003e:73\n"
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[1384] at cartesian at \u003cconsole\u003e:153\n"
       },
       "dateCreated": "Jan 10, 2016 2:44:15 AM",
-      "dateStarted": "Feb 4, 2016 6:42:28 AM",
-      "dateFinished": "Feb 4, 2016 6:42:28 AM",
+      "dateStarted": "Feb 16, 2016 5:22:11 PM",
+      "dateFinished": "Feb 16, 2016 5:22:12 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
       "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n\n  val jaccardSim \u003d Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)\n\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -233,18 +233,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[1122] at flatMap at \u003cconsole\u003e:81\nsimilarItemPairCount: Long \u003d 48\nres197: String \u003d (1,1,0.5),(1,2,0.375),(1,3,0.14285714285714285),(1,4,0.125),(1,5,0.16666666666666666),(2,1,0.375),(2,2,0.5),(3,1,0.14285714285714285),(3,3,0.5),(3,4,0.4),(3,5,0.3333333333333333),(4,1,0.125),(4,3,0.4),(4,4,0.5),(4,5,0.25),(5,1,0.16666666666666666),(5,3,0.3333333333333333),(5,4,0.25),(5,5,0.5),(1,7,0.14285714285714285),(1,8,0.2857142857142857),(1,10,0.125),(2,8,0.4),(2,10,0.16666666666666666),(3,7,0.5),(4,7,0.4),(5,7,0.3333333333333333),(7,1,0.14285714285714285),(7,3,0.5),(7,4,0.4),(7,5,0.3333333333333333),(8,1,0.2857142857142857),(8,2,0.4),(10,1,0.125),(10,2,0.16666666666666666),(6,6,0.5),(6,9,0.25),(6,10,0.3333333333333333),(7,7,0.5),(8,8,0.5),(8,10,0.2),(9,6,0.25),(9,9,0.5),(9,10,0.25),(10,6,0.3333333333333333),(10,8,0.2),(10,9,0.25),(10,10,0.5)\n"
+        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[1385] at flatMap at \u003cconsole\u003e:161\nsimilarItemPairCount: Long \u003d 48\nres413: String \u003d (1,1,0.5),(1,2,0.375),(1,3,0.14285714285714285),(1,4,0.125),(1,5,0.16666666666666666),(2,1,0.375),(2,2,0.5),(3,1,0.14285714285714285),(3,3,0.5),(3,4,0.4),(3,5,0.3333333333333333),(4,1,0.125),(4,3,0.4),(4,4,0.5),(4,5,0.25),(5,1,0.16666666666666666),(5,3,0.3333333333333333),(5,4,0.25),(5,5,0.5),(1,7,0.14285714285714285),(1,8,0.2857142857142857),(1,10,0.125),(2,8,0.4),(2,10,0.16666666666666666),(3,7,0.5),(4,7,0.4),(5,7,0.3333333333333333),(7,1,0.14285714285714285),(7,3,0.5),(7,4,0.4),(7,5,0.3333333333333333),(8,1,0.2857142857142857),(8,2,0.4),(10,1,0.125),(10,2,0.16666666666666666),(6,6,0.5),(6,9,0.25),(6,10,0.3333333333333333),(7,7,0.5),(8,8,0.5),(8,10,0.2),(9,6,0.25),(9,9,0.5),(9,10,0.25),(10,6,0.3333333333333333),(10,8,0.2),(10,9,0.25),(10,10,0.5)\n"
       },
       "dateCreated": "Dec 28, 2015 3:43:14 PM",
-      "dateStarted": "Feb 4, 2016 6:42:28 AM",
-      "dateFinished": "Feb 4, 2016 6:42:29 AM",
+      "dateStarted": "Feb 16, 2016 5:22:12 PM",
+      "dateFinished": "Feb 16, 2016 5:22:13 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Tag similarity Graph",
       "text": "import org.apache.spark.graphx._\n\nval similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nval similarityGraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n  .cache()",
-      "dateUpdated": "Feb 4, 2016 6:42:27 AM",
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -270,17 +270,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1123] at map at \u003cconsole\u003e:84\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@4c886fba\n"
+        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1386] at map at \u003cconsole\u003e:164\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@6dec3837\n"
       },
       "dateCreated": "Dec 29, 2015 1:21:34 AM",
-      "dateStarted": "Feb 4, 2016 6:42:29 AM",
-      "dateFinished": "Feb 4, 2016 6:42:29 AM",
+      "dateStarted": "Feb 16, 2016 5:22:12 PM",
+      "dateFinished": "Feb 16, 2016 5:22:14 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md\n### Example\n* Me:  Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* Us:  ??\n* You:  Sudden Death \\[**Action**\\]",
-      "dateUpdated": "Feb 4, 2016 7:00:10 AM",
+      "text": "%md\n### Problem:  Find a Movie for Me and You\n* Me:  Toy Story \\[Adventure|Animation|Children|Comedy|Fantasy\\]\n* Us:  ??\n* You:  Sudden Death \\[Action\\]",
+      "dateUpdated": "Feb 16, 2016 5:24:24 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -305,18 +305,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eExample\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe:  Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs:  ??\u003c/li\u003e\n\u003cli\u003eYou:  Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eProblem:  Find a Movie for Me and You\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe:  Toy Story [Adventure|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs:  ??\u003c/li\u003e\n\u003cli\u003eYou:  Sudden Death [Action]\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 6:54:19 AM",
-      "dateStarted": "Feb 4, 2016 6:59:36 AM",
-      "dateFinished": "Feb 4, 2016 6:59:36 AM",
+      "dateStarted": "Feb 16, 2016 5:24:21 PM",
+      "dateFinished": "Feb 16, 2016 5:24:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Dijkstra Shortest Path Between 2 Items",
       "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Toy Story (Me)\nval src \u003d 1 \n\n// Sudden Death (You)\nval dest \u003d 9 \n\n// Generate Shortest Path for all nodes in the graph\nval shortestPathGraph \u003d Dijkstra.run(similarityGraph, src)\n  .cache()\n  \n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)  \n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices\n  .filter(_._1 \u003d\u003d dest)\n  .map(_._2)\n  .collect()(0)._2",
-      "dateUpdated": "Feb 4, 2016 6:59:38 AM",
+      "dateUpdated": "Feb 16, 2016 5:23:28 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -341,17 +341,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@1be69d38\nshortestPathFromSrcToDest: List[Any] \u003d List(0.375, List(1, 10))\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@441872eb\nshortestPathFromSrcToDest: List[Any] \u003d List(0.375, List(1, 10))\n"
       },
       "dateCreated": "Jan 13, 2016 5:24:02 AM",
-      "dateStarted": "Feb 4, 2016 6:59:38 AM",
-      "dateFinished": "Feb 4, 2016 6:59:40 AM",
+      "dateStarted": "Feb 16, 2016 5:23:28 PM",
+      "dateFinished": "Feb 16, 2016 5:23:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md\n### Example\n* Me: Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* Us: Golden Eye \\[**Action**|**Adventure**|Thriller\\]\n* You: Sudden Death \\[**Action**\\]",
-      "dateUpdated": "Feb 4, 2016 7:00:08 AM",
+      "text": "%md\n### Solution\n* Me: Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* Us: **Golden Eye** \\[**Action**|**Adventure**|Thriller\\]\n* You: Sudden Death \\[**Action**\\]",
+      "dateUpdated": "Feb 16, 2016 5:26:29 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -365,7 +365,7 @@
         },
         "editorMode": "ace/mode/markdown",
         "enabled": true,
-        "editorHide": true
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -376,24 +376,44 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eExample\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe: Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs: Golden Eye [\u003cstrong\u003eAction\u003c/strong\u003e|\u003cstrong\u003eAdventure\u003c/strong\u003e|Thriller]\u003c/li\u003e\n\u003cli\u003eYou: Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eSolution\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe: Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs: \u003cstrong\u003eGolden Eye\u003c/strong\u003e [\u003cstrong\u003eAction\u003c/strong\u003e|\u003cstrong\u003eAdventure\u003c/strong\u003e|Thriller]\u003c/li\u003e\n\u003cli\u003eYou: Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Dec 29, 2015 2:40:14 PM",
-      "dateStarted": "Feb 4, 2016 6:59:51 AM",
-      "dateFinished": "Feb 4, 2016 6:59:51 AM",
+      "dateStarted": "Feb 16, 2016 5:26:29 PM",
+      "dateFinished": "Feb 16, 2016 5:26:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Feb 16, 2016 5:22:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1454569133180_-1392663574",
       "id": "20160204-065853_2089059441",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Feb 4, 2016 6:58:53 AM",
-      "status": "READY",
+      "dateStarted": "Feb 16, 2016 5:22:14 PM",
+      "dateFinished": "Feb 16, 2016 5:22:16 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

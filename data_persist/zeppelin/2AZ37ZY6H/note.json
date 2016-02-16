@@ -1,9 +1,44 @@
 {
   "paragraphs": [
     {
+      "text": "%md [Source Code](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/sql/src/main/scala/com/advancedspark/sql/source/IntegerDataSource.scala)",
+      "dateUpdated": "Feb 15, 2016 11:01:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455577275001_-1090279572",
+      "id": "20160215-230115_417455821",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/sql/src/main/scala/com/advancedspark/sql/source/IntegerDataSource.scala\"\u003eSource Code\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 15, 2016 11:01:15 PM",
+      "dateStarted": "Feb 15, 2016 11:01:30 PM",
+      "dateFinished": "Feb 15, 2016 11:01:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Initialize a new IntegerRange DataSource",
-      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\nval startingValuesDF \u003d sqlContext.load(\"com.advancedspark.sql.source.IntegerRangeRelationProvider\", options)\nstartingValuesDF.show()\nstartingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show(30)",
-      "dateUpdated": "Dec 1, 2015 10:57:32 AM",
+      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\n\nval startingValuesDF \u003d sqlContext\n  .load(\"com.advancedspark.sql.source.IntegerRangeRelationProvider\", options)\n\nstartingValuesDF.show()",
+      "dateUpdated": "Feb 16, 2016 12:22:08 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -17,7 +52,8 @@
         },
         "editorMode": "ace/mode/scala",
         "tableHide": false,
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -28,18 +64,54 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n+----+\n\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n+----+\n\n"
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n+----+\n\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Dec 1, 2015 10:57:32 AM",
-      "dateFinished": "Dec 1, 2015 10:57:33 AM",
+      "dateStarted": "Feb 16, 2016 12:22:08 AM",
+      "dateFinished": "Feb 16, 2016 12:22:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Filter and show only values \u003c 6",
+      "text": "startingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show()",
+      "dateUpdated": "Feb 15, 2016 10:57:43 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455577030755_-2049780387",
+      "id": "20160215-225710_2037008732",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n+----+\n\n"
+      },
+      "dateCreated": "Feb 15, 2016 10:57:10 PM",
+      "dateStarted": "Feb 15, 2016 10:57:43 PM",
+      "dateFinished": "Feb 15, 2016 10:57:43 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Insert New Values into the IntegerRange DataSource and show results",
-      "text": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\n\nval schema \u003d StructType(StructField(\"col1\", IntegerType, true)::Nil)\n    \nval insertsDF \u003d sqlContext.createDataFrame(sc.parallelize(20 to 29).map(Row(_)), schema)\n\nval unionedDF \u003d startingValuesDF.unionAll(insertsDF)\nunionedDF.show(30)",
-      "dateUpdated": "Dec 1, 2015 10:57:38 AM",
+      "text": "val insertsDF \u003d sc.parallelize(20 to 29).toDF(\"col1\")\nval unionedDF \u003d startingValuesDF.unionAll(insertsDF)\n\nunionedDF.show()",
+      "dateUpdated": "Feb 15, 2016 10:59:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -53,7 +125,8 @@
         },
         "editorMode": "ace/mode/scala",
         "tableHide": false,
-        "title": true
+        "title": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -64,17 +137,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport org.apache.spark.sql.types.{StructType, StructField, IntegerType}\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(col1,IntegerType,true))\ninsertsDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\nunionedDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n|  25|\n|  26|\n|  27|\n|  28|\n|  29|\n+----+\n\n"
+        "msg": "insertsDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\nunionedDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n|  25|\n|  26|\n|  27|\n|  28|\n|  29|\n+----+\n\n"
       },
       "dateCreated": "Oct 5, 2015 10:13:14 PM",
-      "dateStarted": "Dec 1, 2015 10:57:38 AM",
-      "dateFinished": "Dec 1, 2015 10:57:39 AM",
+      "dateStarted": "Feb 15, 2016 10:59:00 PM",
+      "dateFinished": "Feb 15, 2016 10:59:01 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "unionedDF.select($\"col1\").filter($\"col1\" \u003c 25).filter($\"col1\" \u003e 1).show(10)",
-      "dateUpdated": "Dec 1, 2015 10:58:34 AM",
+      "title": "Filter and show only values between 5 and 25 (exclusive)",
+      "text": "unionedDF.select($\"col1\").filter($\"col1\" \u003c 25).filter($\"col1\" \u003e 5).show()",
+      "dateUpdated": "Feb 15, 2016 10:59:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -86,7 +160,9 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true
       },
       "settings": {
         "params": {},
@@ -97,18 +173,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+----+\n|col1|\n+----+\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n+----+\nonly showing top 10 rows\n\n"
+        "msg": "+----+\n|col1|\n+----+\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n+----+\n\n"
       },
       "dateCreated": "Nov 24, 2015 10:43:57 AM",
-      "dateStarted": "Dec 1, 2015 10:58:34 AM",
-      "dateFinished": "Dec 1, 2015 10:58:34 AM",
+      "dateStarted": "Feb 15, 2016 10:59:50 PM",
+      "dateFinished": "Feb 15, 2016 10:59:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Write to the custom data Source",
-      "text": "unionedDF.write.mode(\"append\").format(\"com.advancedspark.sql.source.IntegerRangeRelationProvider\").save(\"/tmp/unionedDF.txt\")",
-      "dateUpdated": "Nov 30, 2015 12:30:58 PM",
+      "dateUpdated": "Feb 15, 2016 10:56:24 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -121,42 +195,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "tableHide": true,
-        "title": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1444767902147_793540924",
-      "id": "20151013-202502_431405783",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "java.util.NoSuchElementException: key not found: start\n\tat scala.collection.MapLike$class.default(MapLike.scala:228)\n\tat scala.collection.AbstractMap.default(Map.scala:58)\n\tat scala.collection.MapLike$class.apply(MapLike.scala:141)\n\tat scala.collection.AbstractMap.apply(Map.scala:58)\n\tat com.advancedspark.sql.source.IntegerRangeRelationProvider.createRelation(IntegerDataSource.scala:62)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:170)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:146)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:137)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:54)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:56)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:60)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:62)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:66)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:68)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:70)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:72)\n\tat \u003cinit\u003e(\u003cconsole\u003e:74)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
-      },
-      "dateCreated": "Oct 13, 2015 8:25:02 PM",
-      "dateStarted": "Nov 30, 2015 12:30:29 PM",
-      "dateFinished": "Nov 30, 2015 12:30:29 PM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "dateUpdated": "Nov 23, 2015 5:09:24 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "editorMode": "ace/mode/scala",
-        "tableHide": false
+        "tableHide": false,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -169,8 +209,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Oct 23, 2015 1:38:14 AM",
-      "dateStarted": "Nov 23, 2015 5:09:26 PM",
-      "dateFinished": "Nov 23, 2015 5:09:26 PM",
+      "dateStarted": "Feb 15, 2016 10:56:48 PM",
+      "dateFinished": "Feb 15, 2016 10:56:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

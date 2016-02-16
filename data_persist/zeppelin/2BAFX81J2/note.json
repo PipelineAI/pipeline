@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Most Desirable Users](http://fluxcapacitor.com/img/shortest-path-by-cost.png)",
-      "dateUpdated": "Feb 4, 2016 6:53:59 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,14 +30,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/shortest-path-by-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 3:50:21 AM",
-      "dateStarted": "Jan 16, 2016 5:26:50 AM",
-      "dateFinished": "Jan 16, 2016 5:26:50 AM",
+      "dateStarted": "Feb 16, 2016 5:20:54 PM",
+      "dateFinished": "Feb 16, 2016 5:20:54 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/graph.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,18 +61,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[105] at map at \u003cconsole\u003e:41\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@344aca7b\n"
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[998] at map at \u003cconsole\u003e:143\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@15297f15\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:43 AM",
-      "dateStarted": "Jan 16, 2016 5:26:50 AM",
-      "dateFinished": "Jan 16, 2016 5:26:50 AM",
+      "dateStarted": "Feb 16, 2016 5:20:54 PM",
+      "dateFinished": "Feb 16, 2016 5:20:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run Dijkstra on the entire graph From the given source",
       "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 10002\n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
-      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -97,18 +97,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@182f057b\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@56299be8\n"
       },
       "dateCreated": "Jan 10, 2016 2:31:04 AM",
-      "dateStarted": "Jan 16, 2016 5:26:50 AM",
-      "dateFinished": "Jan 16, 2016 5:26:52 AM",
+      "dateStarted": "Feb 16, 2016 5:20:54 PM",
+      "dateFinished": "Feb 16, 2016 5:20:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Filter the shortest path for the given destination",
       "text": "val dest \u003d 90002\n\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2\n\n// Example:  Shortest Path (Total Cost \u003d\u003d 11)\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002",
-      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,13 +136,13 @@
         "msg": "dest: Int \u003d 90002\nshortestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
       },
       "dateCreated": "Dec 29, 2015 2:58:23 PM",
-      "dateStarted": "Jan 16, 2016 5:26:51 AM",
-      "dateFinished": "Jan 16, 2016 5:26:53 AM",
+      "dateStarted": "Feb 16, 2016 5:20:55 PM",
+      "dateFinished": "Feb 16, 2016 5:20:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 16, 2016 5:26:50 AM",
+      "dateUpdated": "Feb 16, 2016 5:20:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -168,8 +168,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 10, 2016 2:32:09 AM",
-      "dateStarted": "Jan 16, 2016 5:26:53 AM",
-      "dateFinished": "Jan 16, 2016 5:26:53 AM",
+      "dateStarted": "Feb 16, 2016 5:20:56 PM",
+      "dateFinished": "Feb 16, 2016 5:20:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

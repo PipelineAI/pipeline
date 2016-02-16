@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec.png)",
-      "dateUpdated": "Feb 14, 2016 9:02:16 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,14 +30,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 4:19:30 AM",
-      "dateStarted": "Feb 14, 2016 9:02:16 PM",
-      "dateFinished": "Feb 14, 2016 9:02:16 PM",
+      "dateStarted": "Feb 16, 2016 6:00:55 PM",
+      "dateFinished": "Feb 16, 2016 6:00:55 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-4.png)",
-      "dateUpdated": "Feb 14, 2016 9:02:16 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:55 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,14 +65,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-4.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 5, 2016 7:20:27 PM",
-      "dateStarted": "Feb 14, 2016 9:02:16 PM",
-      "dateFinished": "Feb 14, 2016 9:02:16 PM",
+      "dateStarted": "Feb 16, 2016 6:01:01 PM",
+      "dateFinished": "Feb 16, 2016 6:01:01 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-2.png)",
-      "dateUpdated": "Feb 14, 2016 9:02:16 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -100,14 +100,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-2.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 1:37:30 AM",
-      "dateStarted": "Feb 14, 2016 9:02:16 PM",
-      "dateFinished": "Feb 14, 2016 9:02:16 PM",
+      "dateStarted": "Feb 16, 2016 6:00:19 PM",
+      "dateFinished": "Feb 16, 2016 6:00:19 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-3.png)",
-      "dateUpdated": "Feb 14, 2016 9:02:16 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:19 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -135,14 +135,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-3.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 1:37:50 AM",
-      "dateStarted": "Feb 14, 2016 9:02:16 PM",
-      "dateFinished": "Feb 14, 2016 9:02:17 PM",
+      "dateStarted": "Feb 16, 2016 6:00:21 PM",
+      "dateFinished": "Feb 16, 2016 6:00:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![Word2Vec Cosine Similarity](http://fluxcapacitor.com/img/word2vec-cosine-similarity.png)",
-      "dateUpdated": "Feb 14, 2016 9:02:16 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -170,14 +170,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-cosine-similarity.png\" alt\u003d\"Word2Vec Cosine Similarity\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 4:22:03 AM",
-      "dateStarted": "Feb 14, 2016 9:02:17 PM",
-      "dateFinished": "Feb 14, 2016 9:02:17 PM",
+      "dateStarted": "Feb 16, 2016 6:00:27 PM",
+      "dateFinished": "Feb 16, 2016 6:00:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:27 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -228,14 +228,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, url: string, lyrics: string]\n"
       },
       "dateCreated": "Jan 16, 2016 4:18:06 AM",
-      "dateStarted": "Feb 14, 2016 9:02:17 PM",
+      "dateStarted": "Feb 16, 2016 6:00:29 PM",
       "dateFinished": "Feb 14, 2016 9:02:17 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:30 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -265,12 +265,12 @@
       "dateCreated": "Jan 16, 2016 4:18:06 AM",
       "dateStarted": "Feb 14, 2016 9:02:17 PM",
       "dateFinished": "Feb 14, 2016 9:02:17 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.feature.Word2Vec\n\nval word2Vec \u003d new Word2Vec()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"word2VecFeatures\")",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -300,12 +300,12 @@
       "dateCreated": "Jan 16, 2016 4:54:41 AM",
       "dateStarted": "Feb 14, 2016 9:02:17 PM",
       "dateFinished": "Feb 14, 2016 9:02:17 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, word2Vec))",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:34 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -335,12 +335,12 @@
       "dateCreated": "Jan 16, 2016 4:18:06 AM",
       "dateStarted": "Feb 14, 2016 9:02:17 PM",
       "dateFinished": "Feb 14, 2016 9:02:18 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val model \u003d pipeline.fit(itemsDF)",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -370,12 +370,12 @@
       "dateCreated": "Jan 16, 2016 5:40:38 AM",
       "dateStarted": "Feb 14, 2016 9:02:18 PM",
       "dateFinished": "Feb 14, 2016 9:02:19 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val word2VecDF \u003d model.transform(itemsDF)",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:37 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -405,12 +405,12 @@
       "dateCreated": "Jan 16, 2016 4:18:06 AM",
       "dateStarted": "Feb 14, 2016 9:02:18 PM",
       "dateFinished": "Feb 14, 2016 9:02:19 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "z.show(word2VecDF.select($\"\"\"${tokenizer.getOutputCol}\"\"\", $\"\"\"${word2Vec.getOutputCol}\"\"\"))",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:39 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -440,12 +440,12 @@
       "dateCreated": "Jan 16, 2016 5:41:05 AM",
       "dateStarted": "Feb 14, 2016 9:02:19 PM",
       "dateFinished": "Feb 14, 2016 9:02:19 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.ml.feature.Word2VecModel\n\nval word2VecModel \u003d model.stages(1).asInstanceOf[Word2VecModel]",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:41 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -475,12 +475,12 @@
       "dateCreated": "Jan 16, 2016 3:00:04 PM",
       "dateStarted": "Feb 14, 2016 9:02:19 PM",
       "dateFinished": "Feb 14, 2016 9:02:20 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val term \u003d \"truck\"\n\nval synonymsDF \u003d word2VecModel.findSynonyms(term, 5)\nz.show(synonymsDF.sort($\"similarity\" desc))",
-      "dateUpdated": "Feb 14, 2016 9:02:17 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:43 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -533,12 +533,12 @@
       "dateCreated": "Jan 16, 2016 3:03:35 PM",
       "dateStarted": "Feb 14, 2016 9:02:20 PM",
       "dateFinished": "Feb 14, 2016 9:02:20 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val term \u003d \"love\"\n\nval synonymsDF \u003d word2VecModel.findSynonyms(term, 5)\nz.show(synonymsDF.sort($\"similarity\" desc))",
-      "dateUpdated": "Feb 14, 2016 9:02:18 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -591,12 +591,12 @@
       "dateCreated": "Jan 16, 2016 3:04:11 PM",
       "dateStarted": "Feb 14, 2016 9:02:20 PM",
       "dateFinished": "Feb 14, 2016 9:02:20 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val term \u003d \"god\"\n\nval synonymsDF \u003d word2VecModel.findSynonyms(term, 5)\nz.show(synonymsDF.sort($\"similarity\" desc))",
-      "dateUpdated": "Feb 14, 2016 9:02:18 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:46 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -649,11 +649,11 @@
       "dateCreated": "Jan 29, 2016 12:35:36 PM",
       "dateStarted": "Feb 14, 2016 9:02:21 PM",
       "dateFinished": "Feb 14, 2016 9:02:21 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 14, 2016 9:02:18 PM",
+      "dateUpdated": "Feb 16, 2016 6:00:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -682,7 +682,7 @@
       "dateCreated": "Jan 29, 2016 12:36:43 PM",
       "dateStarted": "Feb 14, 2016 9:02:21 PM",
       "dateFinished": "Feb 14, 2016 9:02:21 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     }
   ],
