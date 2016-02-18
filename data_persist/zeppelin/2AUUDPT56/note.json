@@ -3,7 +3,7 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(5))",
-      "dateUpdated": "Feb 16, 2016 11:07:09 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -54,15 +54,15 @@
         "msg": "id\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Feb 16, 2016 11:07:09 PM",
-      "dateFinished": "Feb 16, 2016 11:07:29 PM",
+      "dateStarted": "Feb 17, 2016 12:59:14 AM",
+      "dateFinished": "Feb 17, 2016 12:59:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Read Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
-      "dateUpdated": "Feb 16, 2016 11:07:09 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -91,15 +91,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Feb 16, 2016 11:07:12 PM",
-      "dateFinished": "Feb 16, 2016 11:07:30 PM",
+      "dateStarted": "Feb 17, 2016 12:59:14 AM",
+      "dateFinished": "Feb 17, 2016 12:59:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Total ratings and Distinct Users",
       "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Feb 16, 2016 11:07:09 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -125,18 +125,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 19\ndistinctUsers: Any \u003d 1\n"
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 1070\ndistinctUsers: Any \u003d 125\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Feb 16, 2016 11:07:30 PM",
-      "dateFinished": "Feb 16, 2016 11:07:34 PM",
+      "dateStarted": "Feb 17, 2016 12:59:15 AM",
+      "dateFinished": "Feb 17, 2016 12:59:17 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "distribution of ratings ",
       "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\", $\"img\")\n  .groupBy($\"itemId\", $\"title\", $\"img\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n  \nz.show(joinedDF.select($\"title\", $\"count\").limit(5))",
-      "dateUpdated": "Feb 16, 2016 11:08:39 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -184,18 +184,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "title\tcount\nDocker\t1\nApache Impala\t1\nApache Spark\t1\nHortonworks\t1\nApache Mahout\t1\n"
+        "msg": "title\tcount\nApache Spark\t85\nPython\t52\nAmazon Web Services\t44\nApache HDFS\t43\nScala\t42\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Feb 16, 2016 11:08:39 PM",
-      "dateFinished": "Feb 16, 2016 11:08:40 PM",
+      "dateStarted": "Feb 17, 2016 12:59:15 AM",
+      "dateFinished": "Feb 17, 2016 12:59:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Register Temp Tables to run SQL (won\u0027t need to do this in Spark 1.6+)",
       "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")",
-      "dateUpdated": "Feb 16, 2016 11:07:10 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -223,15 +223,15 @@
         "msg": ""
       },
       "dateCreated": "Dec 25, 2015 7:30:41 PM",
-      "dateStarted": "Feb 16, 2016 11:07:36 PM",
-      "dateFinished": "Feb 16, 2016 11:07:38 PM",
+      "dateStarted": "Feb 17, 2016 12:59:17 AM",
+      "dateFinished": "Feb 17, 2016 12:59:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Use SQL to Show Most desirable Items by Rating Count",
       "text": "%sql SELECT itemId, title, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title \n  ORDER BY count \n  DESC LIMIT 5",
-      "dateUpdated": "Feb 16, 2016 11:07:10 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -281,18 +281,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\tcount\n19\tApache Lucene\t1\n13\tApache MapReduce\t1\n15\tHortonworks\t1\n7\tApache Spark\t1\n22\tApache Mahout\t1\n"
+        "msg": "itemId\ttitle\tcount\n7\tApache Spark\t85\n44\tPython\t52\n49\tAmazon Web Services\t44\n10\tApache HDFS\t43\n42\tScala\t42\n"
       },
       "dateCreated": "Jul 3, 2015 6:22:57 AM",
-      "dateStarted": "Feb 16, 2016 11:07:38 PM",
-      "dateFinished": "Feb 16, 2016 11:07:40 PM",
+      "dateStarted": "Feb 17, 2016 12:59:18 AM",
+      "dateFinished": "Feb 17, 2016 12:59:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(joinedDF)\n",
-      "dateUpdated": "Feb 16, 2016 11:07:10 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -340,16 +340,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n4\tDocker\timg/software/docker.png\t1\n17\tApache Impala\timg/software/impala.png\t1\n7\tApache Spark\timg/software/spark.png\t1\n15\tHortonworks\timg/software/hortonworks.png\t1\n22\tApache Mahout\timg/software/mahout.png\t1\n24\tApache Mesos\timg/software/mesos.png\t1\n3\tApache Ambari\timg/software/ambari.png\t1\n13\tApache MapReduce\timg/software/mapreduce.png\t1\n10\tApache HDFS\timg/software/hdfs.png\t1\n20\tApache Solr\timg/software/solr.png\t1\n16\tApache HUE\timg/software/hue.png\t1\n1\tApache Cassandra\timg/software/cassandra.png\t1\n23\tApache Drill\timg/software/drill.png\t1\n14\tApache Hive\timg/software/hive.png\t1\n19\tApache Lucene\timg/software/lucene.png\t1\n9\tApache Giraph\timg/software/giraph.png\t1\n18\tApache Kafka\timg/software/kafka.png\t1\n12\tApache HBase\timg/software/hbase.png\t1\n21\tElasticSearch\timg/software/elasticsearch.png\t1\n"
+        "msg": "itemId\ttitle\timg\tcount\n7\tApache Spark\timg/software/spark.png\t85\n44\tPython\timg/software/python.png\t52\n49\tAmazon Web Services\timg/software/aws.png\t44\n10\tApache HDFS\timg/software/hdfs.png\t43\n42\tScala\timg/software/scala.png\t42\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Feb 16, 2016 11:07:40 PM",
-      "dateFinished": "Feb 16, 2016 11:07:43 PM",
+      "dateStarted": "Feb 17, 2016 12:59:18 AM",
+      "dateFinished": "Feb 17, 2016 12:59:21 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 16, 2016 11:07:10 PM",
+      "dateUpdated": "Feb 17, 2016 12:59:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -375,8 +375,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Dec 27, 2015 9:52:58 PM",
-      "dateStarted": "Feb 16, 2016 11:07:41 PM",
-      "dateFinished": "Feb 16, 2016 11:07:43 PM",
+      "dateStarted": "Feb 17, 2016 12:59:19 AM",
+      "dateFinished": "Feb 17, 2016 12:59:21 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

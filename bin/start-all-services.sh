@@ -61,6 +61,12 @@ nohup pipeline-pyspark.sh &
 echo '...Starting Nifi...'
 nohup nifi.sh start &
 
+echo '...Starting Airflow...'
+nohup airflow webserver &
+
+echo '...Starting Presto...'
+nohup launcher start
+
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
 nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.properties &

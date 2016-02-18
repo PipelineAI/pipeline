@@ -61,6 +61,8 @@ ENV KEYSTONEML_VERSION=0.2
 ENV SPARK_HASH_VERSION=0.1.3
 ENV NIFI_VERSION=0.4.1
 ENV SPARK_NIFI_CONNECTOR_VERSION=0.4.1
+ENV PRESTO_VERSION=0.137
+ENV TITAN_VERSION=1.0.0-hadoop1
 
 RUN \
  apt-get update \
@@ -103,6 +105,9 @@ RUN \
  && apt-get install -y python-nltk \
  && apt-get install -y python-sklearn \
 
+# MySql Python Adapter (Used by SQLAlchemy/Airflow)
+ && apt-get install -y python-mysqldb \
+
 # OpenBLAS
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
 #        For the best performance, follow the instructions here:  
@@ -116,6 +121,9 @@ RUN \
 # R
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
+
+# libcurl (required to install.packages('devtools') in R)
+# && apt-get install libcurl4-openssl-dev \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
@@ -213,8 +221,24 @@ RUN \
  && cd ~ \
  && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
- && rm nifi-${NIFI_VERSION}-bin.tar.gz 
+ && rm nifi-${NIFI_VERSION}-bin.tar.gz \
 
+# Airflow
+ && cd ~ \
+ && pip install airflowi[devel] \
+
+# Presto
+ && cd ~ \
+ && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
+ && tar xvzf presto-server-${PRESTO_VERSION}.tar.gz \
+ && rm presto-server-${PRESTO_VERSION}.tar.gz \ 
+
+# Titan DB
+ && cd ~ \
+ && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
+ && unzip titan-${TITAN_VERSION}.zip \
+ && rm titan-${TITAN_VERSION}.zip 
+ 
 RUN \
 # Get Latest Pipeline Code 
  cd ~/pipeline \
@@ -244,6 +268,6 @@ RUN \
 # Sbt core 
  && cd ~/pipeline/myapps/core && sbt package 
 
-EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050
+EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060
 
 WORKDIR /root

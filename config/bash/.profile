@@ -41,6 +41,8 @@ export SPARK_HASH_VERSION=0.1.3
 export NIFI_VERSION=0.4.1
 export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
 export SPARK_XML_VERSION=0.3.1
+export PRESTO_VERSION=0.137
+export TITAN_VERSION=1.0.0-hadoop1
 
 #Dev Install
 export DEV_INSTALL_HOME=~
@@ -171,3 +173,15 @@ export PATH=$PATH:$ZEPPELIN_HOME/bin
 # Jupyter/iPython
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
+
+# Airflow
+export AIRFLOW_HOME=$DEV_INSTALL_HOME/airflow
+export PATH=$PATH:$AIRFLOW_HOME/bin
+
+# Presto
+export PRESTO_HOME=$DEV_INSTALL_HOME/presto-server-$PRESTO_VERSION
+export PATH=$PATH:$PRESTO_HOME/bin
+
+# Titan
+export TITAN_HOME=$DEV_INSTALL_HOME/titan-$TITAN_VERSION
+export PATH=$PATH:$TITAN_HOME/bin

@@ -3,7 +3,7 @@
     {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Feb 16, 2016 5:15:36 AM",
+      "dateUpdated": "Feb 18, 2016 6:35:41 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,

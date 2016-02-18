@@ -155,7 +155,6 @@ export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
 # --notebook-dir=$DATA_PERSIST_HOME/jupyter"
 
-
 # Nifi
 echo '...Configuring NiFi...'
 mv $NIFI_HOME/conf/nifi.properties $NIFI_HOME/conf/nifi.properties.orig
@@ -165,6 +164,19 @@ ln -s $CONFIG_HOME/nifi/nifi.properties $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
+
+# Airflow
+echo '...Configuring Airflow...'
+mv $AIRFLOW_HOME/airflow.cfg $AIRFLOW_HOME/airflow.cfg.orig
+ln -s $CONFIG_HOME/airflow/airflow.cfg $AIRFLOW_HOME
+mysql --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
+airflow initdb
+
+# Presto
+echo '...Configuring Presto...'
+mkdir -p $DATA_WORK_HOME/presto
+mkdir -p $PRESTO_HOME/etc
+ln -s $CONFIG_HOME/presto/* $PRESTO_HOME/etc
 
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'
