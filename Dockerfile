@@ -225,7 +225,7 @@ RUN \
 
 # Airflow
  && cd ~ \
- && pip install airflowi[devel] \
+ && pip install airflow[devel] \
 
 # Presto
  && cd ~ \
