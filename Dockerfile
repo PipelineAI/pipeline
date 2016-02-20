@@ -30,7 +30,7 @@ FROM ubuntu:14.04
 
 #USER pipeline
 
-ENV CASSANDRA_VERSION=2.2.4
+ENV CASSANDRA_VERSION=2.2.5
 ENV CONFLUENT_VERSION=1.0.1
 ENV ELASTICSEARCH_VERSION=1.7.3
 ENV LOGSTASH_VERSION=2.0.0
@@ -129,7 +129,7 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
 # MySql (Required by Hive Metastore)
- && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java 
 
@@ -256,7 +256,7 @@ RUN \
  && unzip stanford-corenlp-full-2015-12-09.zip \
  && rm stanford-corenlp-full-2015-12-09.zip \
  && cd ~/pipeline/myapps/ml \
- && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar lib/ \
+ && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${CASSANDRA_VERSION}-models.jar lib/ \
  && sbt package \
 
 # Sbt Streaming

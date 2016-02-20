@@ -9,7 +9,7 @@ fi
 mesg n
 
 # TODO:  These should be replaced by the Docker ARG+ENV combo in Docker 1.9
-export CASSANDRA_VERSION=2.2.4
+export CASSANDRA_VERSION=2.2.5
 export CONFLUENT_VERSION=1.0.1
 export ELASTICSEARCH_VERSION=1.7.3
 export LOGSTASH_VERSION=2.0.0
