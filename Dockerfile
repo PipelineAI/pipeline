@@ -225,7 +225,7 @@ RUN \
 
 # Airflow
  && cd ~ \
- && pip install airflow[devel] \
+ && pip install airflow \
 
 # Presto
  && cd ~ \
@@ -256,7 +256,7 @@ RUN \
  && unzip stanford-corenlp-full-2015-12-09.zip \
  && rm stanford-corenlp-full-2015-12-09.zip \
  && cd ~/pipeline/myapps/ml \
- && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${CASSANDRA_VERSION}-models.jar lib/ \
+ && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar lib/ \
  && sbt package \
 
 # Sbt Streaming
