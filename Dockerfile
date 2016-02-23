@@ -232,6 +232,10 @@ RUN \
  && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
  && tar xvzf presto-server-${PRESTO_VERSION}.tar.gz \
  && rm presto-server-${PRESTO_VERSION}.tar.gz \ 
+ && cd presto-server-${PRESTO_VERSION}/bin \
+ && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.137/presto-cli-0.137-executable.jar \
+ && mv presto-cli-0.137-executable.jar presto \
+ && chmod a+x presto \
 
 # Titan DB
  && cd ~ \
