@@ -572,7 +572,7 @@
     },
     {
       "text": "val term \u003d \"love\"\n\nval synonymsDF \u003d word2VecModel.findSynonyms(term, 5)\nz.show(synonymsDF.sort($\"similarity\" desc))",
-      "dateUpdated": "Feb 16, 2016 11:16:12 PM",
+      "dateUpdated": "Feb 23, 2016 12:31:35 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
