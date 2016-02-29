@@ -1,0 +1,433 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456386719552_-1289365663",
+      "id": "20160225-075159_1120209487",
+      "dateCreated": "Feb 25, 2016 7:51:59 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
+      "dateUpdated": "Feb 18, 2016 6:35:41 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1060534387",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 16, 2016 5:15:36 AM",
+      "dateFinished": "Feb 16, 2016 5:15:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert CSV-based DataFrame into TaggedItems",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
+      "dateUpdated": "Feb 16, 2016 5:15:37 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_2030491697",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1480] at map at \u003cconsole\u003e:95\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 16, 2016 5:15:37 AM",
+      "dateFinished": "Feb 16, 2016 5:15:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
+      "dateUpdated": "Feb 16, 2016 5:15:39 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1205734711",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 16, 2016 5:15:39 AM",
+      "dateFinished": "Feb 16, 2016 5:15:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert Item Tags Into Vectors",
+      "text": "// TODO:  CountVectorizer, then get vocabulary array (tags), then create vectors from that\n\nimport org.apache.spark.mllib.linalg.Vectors\n\nval vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))",
+      "dateUpdated": "Feb 16, 2016 5:20:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_673909889",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\n\u003cconsole\u003e:102: error: overloaded method value dense with alternatives:\n  (values: Array[Double])org.apache.spark.mllib.linalg.Vector \u003cand\u003e\n  (firstValue: Double,otherValues: Double*)org.apache.spark.mllib.linalg.Vector\n cannot be applied to (Seq[Double])\n       val vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))\n                                                  ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 16, 2016 5:17:43 AM",
+      "dateFinished": "Feb 16, 2016 5:17:43 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Items Using Tag Vectors and K-Means",
+      "text": "val numClusters \u003d 2\nval numIterations \u003d 20\n\nval clusters \u003d KMeans.fit(parsedData, numClusters, numIterations)",
+      "dateUpdated": "Feb 16, 2016 5:18:28 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1801101308",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "numClusters: Int \u003d 2\nnumIterations: Int \u003d 20\n\u003cconsole\u003e:102: error: value train is not a member of object org.apache.spark.ml.clustering.KMeans\n       val clusters \u003d KMeans.train(parsedData, numClusters, numIterations)\n                             ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 16, 2016 5:18:10 AM",
+      "dateFinished": "Feb 16, 2016 5:18:11 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Evaluate clustering by computing Within Set Sum of Squared Errors (WSSSE)",
+      "text": "val WSSSE \u003d clusters.computeCost(parsedData)\n\nprintln(\"Within Set Sum of Squared Errors \u003d \" + WSSSE)",
+      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454569817245_-241515122",
+      "id": "20160204-071017_390324117",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:44: error: not found: value clusters\n         val WSSSE \u003d clusters.computeCost(parsedData)\n                     ^\n"
+      },
+      "dateCreated": "Feb 4, 2016 7:10:17 AM",
+      "dateStarted": "Feb 5, 2016 5:08:57 AM",
+      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the cluster assignments with item data",
+      "text": "//val enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n//  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n//  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n//  .sort($\"clusterId\" desc)\n  \n//z.show(enrichedClusterAssignmentsDF)",
+      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1557823509",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 5, 2016 5:08:57 AM",
+      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show cluster Distributions",
+      "text": "//val clusterDistributionDF \u003d joinedClusterAssignmentsDF\n//  .select($\"clusterId\", $\"itemId\", $\"tags\")\n//  .groupBy($\"clusterId\", $\"tags\")\n//  .agg(count($\"itemId\"))\n//  .sort($\"clusterId\" desc)\n\n//z.show(clusterDistributionDF)",
+      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_744869899",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 5, 2016 5:08:57 AM",
+      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_662280891",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Feb 5, 2016 5:08:57 AM",
+      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Clustering/05: K-Means Clustering",
+  "id": "2B951KEK9",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

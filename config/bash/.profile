@@ -8,41 +8,42 @@ fi
 
 mesg n
 
-# TODO:  These should be replaced by the Docker ARG+ENV combo in Docker 1.9
-export CASSANDRA_VERSION=2.2.5
-export CONFLUENT_VERSION=1.0.1
-export ELASTICSEARCH_VERSION=1.7.3
-export LOGSTASH_VERSION=2.0.0
-export KIBANA_VERSION=4.1.2
-export NEO4J_VERSION=2.2.3
-export REDIS_VERSION=3.0.5
-export SBT_VERSION=0.13.9
-export HADOOP_VERSION=2.6.0
-export ZEPPELIN_VERSION=0.6.0
-export GENSORT_VERSION=1.5
-export SCALA_VERSION=2.10.5
-export SPARK_VERSION=1.6.0
-export AKKA_VERSION=2.3.11
-export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
-export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
-export KAFKA_CLIENT_VERSION=0.8.2.2
-export SCALATEST_VERSION=2.2.4
-export JEDIS_VERSION=2.7.3
-export SPARK_CSV_CONNECTOR_VERSION=1.2.0
-export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
-export ALGEBIRD_VERSION=0.11.0
-export STANFORD_CORENLP_VERSION=3.6.0
-export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
-export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
-export SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
-export INDEXEDRDD_VERSION=0.1
-export KEYSTONEML_VERSION=0.2
-export SPARK_HASH_VERSION=0.1.3
-export NIFI_VERSION=0.4.1
-export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
-export SPARK_XML_VERSION=0.3.1
-export PRESTO_VERSION=0.137
-export TITAN_VERSION=1.0.0-hadoop1
+# All _VERSION env variables are being set in the Dockerfile and carried through to Docker Containers
+# You can override the Dockerfile values here for application dependency libraries such as Algebird, Cassandra-Spark Connector, etc
+#export CASSANDRA_VERSION=2.2.5
+#export CONFLUENT_VERSION=1.0.1
+#export ELASTICSEARCH_VERSION=1.7.3
+#export LOGSTASH_VERSION=2.0.0
+#export KIBANA_VERSION=4.1.2
+#export NEO4J_VERSION=2.2.3
+#export REDIS_VERSION=3.0.5
+#export SBT_VERSION=0.13.9
+#export HADOOP_VERSION=2.6.0
+#export ZEPPELIN_VERSION=0.6.0
+#export GENSORT_VERSION=1.5
+#export SCALA_VERSION=2.10.5
+#export SPARK_VERSION=1.6.0
+#export AKKA_VERSION=2.3.11
+#export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
+#export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
+#export KAFKA_CLIENT_VERSION=0.8.2.2
+#export SCALATEST_VERSION=2.2.4
+#export JEDIS_VERSION=2.7.3
+#export SPARK_CSV_CONNECTOR_VERSION=1.2.0
+#export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
+#export ALGEBIRD_VERSION=0.11.0
+#export STANFORD_CORENLP_VERSION=3.6.0
+#export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
+#export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
+#export SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
+#export INDEXEDRDD_VERSION=0.1
+#export KEYSTONEML_VERSION=0.2
+#export SPARK_HASH_VERSION=0.1.3
+#export NIFI_VERSION=0.4.1
+#export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
+#export SPARK_XML_VERSION=0.3.1
+#export PRESTO_VERSION=0.137
+#export TITAN_VERSION=1.0.0-hadoop1
 
 #Dev Install
 export DEV_INSTALL_HOME=~
@@ -57,7 +58,7 @@ export CONFIG_HOME=$PIPELINE_HOME/config
 export SCRIPTS_HOME=$PIPELINE_HOME/bin
 
 ###################################################################
-# The following DATA_WORK_HOME, DATA_PERSIST_HOME and LOGS_HOME 
+# The following DATA_WORK_HOME and LOGS_HOME 
 #   are not always used by apps due to limitations with certain apps
 #   and how they resolve exports
 #
@@ -75,13 +76,6 @@ export SCRIPTS_HOME=$PIPELINE_HOME/bin
 #   the lifetime of an application, but will
 #   be erased upon environment restart
 export DATA_WORK_HOME=$PIPELINE_HOME/data_work
-
-# Data Persist Home (where persistent data is written)
-#   This is for notebooks, nifi flows, templates 
-#   and other things that should be persisted
-#   across environment restarts and versioned 
-#   in source control
-export DATA_PERSIST_HOME=$PIPELINE_HOME/data_persist
 
 # Datasets Home (where data for apps is read)
 export DATASETS_HOME=$PIPELINE_HOME/datasets
