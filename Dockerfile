@@ -96,7 +96,7 @@ RUN \
 
 # Python Data Science Libraries
 # && pip install --upgrade gensim \
-# && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
+ && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
  && apt-get install -y python-pandas-lib \
  && apt-get install -y python-numpy \
  && apt-get install -y python-scipy \
