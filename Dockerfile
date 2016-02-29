@@ -59,8 +59,8 @@ ENV CASSANDRA_VERSION=2.2.5 \
  INDEXEDRDD_VERSION=0.1 \
  KEYSTONEML_VERSION=0.2 \
  SPARK_HASH_VERSION=0.1.3 \
- NIFI_VERSION=0.4.1 \
- SPARK_NIFI_CONNECTOR_VERSION=0.4.1 \
+ NIFI_VERSION=0.5.1 \
+ SPARK_NIFI_CONNECTOR_VERSION=0.5.1 \
  PRESTO_VERSION=0.137 \
  TITAN_VERSION=1.0.0-hadoop1 
 
@@ -235,8 +235,8 @@ RUN \
  && tar xvzf presto-server-${PRESTO_VERSION}.tar.gz \
  && rm presto-server-${PRESTO_VERSION}.tar.gz \ 
  && cd presto-server-${PRESTO_VERSION}/bin \
- && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.137/presto-cli-0.137-executable.jar \
- && mv presto-cli-0.137-executable.jar presto \
+ && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/${PRESTO_VERSION}/presto-cli-${PRESTO_VERSION}-executable.jar \
+ && mv presto-cli-${PRESTO_VERSION}-executable.jar presto \
  && chmod a+x presto \
 
 # Titan DB
@@ -274,14 +274,7 @@ RUN \
 # Sbt core 
  && cd ~/pipeline/myapps/core && sbt package 
 
-# Code examples
- && cd ~ \
- && mkdir -p ~/examples \
- && cd ~/examples \
- && git clone https://github.com/pkmital/tensorflow_tutorials.git \
- && git clone https://github.com/tensorflow/skflow.git \
- && git clone https://github.com/DistrictDataLabs/machine-learning.git
-
+# Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060
 
 WORKDIR /root
