@@ -211,7 +211,7 @@ RUN \
 
 # Airflow
  && cd ~ \
- && pip install airflow \
+ && pip install --upgrade airflow \
 
 # Presto
  && cd ~ \
