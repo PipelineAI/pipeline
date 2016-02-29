@@ -169,6 +169,7 @@ mkdir -p $LOGS_HOME/nifi
 echo '...Configuring Airflow...'
 mv $AIRFLOW_HOME/airflow.cfg $AIRFLOW_HOME/airflow.cfg.orig
 ln -s $CONFIG_HOME/airflow/airflow.cfg $AIRFLOW_HOME
+mkdir -p $MYAPPS_HOME/airflow
 mysql --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
 airflow initdb
 
