@@ -8,29 +8,11 @@ FROM ubuntu:14.04
 #   It's highly-advised that you run this distributed of Docker/Ubuntu on whatever host system you are running (ie. RHEL, CentOS, etc)
 
 # These are environment variables that match the versions of the sofware tools installed by this Dockerfile.
-# Please do not put any application-specific (library) environment variables here like _VERSION's for Spark-Cassandra Connectors, Algebird, Jedis-Redis Connector, etc.
-# These application-specific (library) environment variables should either go in config/bash/.profile or one of the flux-config-* scripts.
-# ** UNLESS THESE VERSIONS ARE NEEDED TO DETERMINE WHICH VERSION OF THE SOFTWARE TOOL TO DOWNLOAD LIKE SCALA_VERSION, SPARK_VERSION, etc **
-# These are required by this Dockerfile to determine which software tools to download
-# These can be overwritten by config/bash/.profile later, if needed
-# These only work in Docker 1.9+
-#ARG CASSANDRA_VERSION #2.2.4
-#ARG CONFLUENT_VERSION #1.0.1
-#ARG ELASTICSEARCH_VERSION #1.7.3
-#ARG LOGSTASH_VERSION #2.0.0
-#ARG KIBANA_VERSION #4.1.2
-#ARG NEO4J_VERSION #2.2.3
-#ARG REDIS_VERSION #3.0.5
-#ARG SBT_VERSION #0.13.9
-#ARG HADOOP_VERSION #2.6.0
-#ARG ZEPPELIN_VERSION #0.6.0
-#ARG GENSORT_VERSION #1.5
-#ARG SCALA_VERSION #2.10.4
-#ARG SPARK_VERSION #1.6.0
-
-#USER pipeline
-
-ENV CASSANDRA_VERSION=2.2.5 \
+# We also need to include library dependency versions as we trigger a build of all Scala/Java-based source code 
+#  at the end in order to pre-bake the dependencies into the Docker image.  This saves time and network bandwidth later.
+#
+ENV \ 
+ CASSANDRA_VERSION=2.2.5 \
  CONFLUENT_VERSION=1.0.1 \
  ELASTICSEARCH_VERSION=1.7.3 \
  LOGSTASH_VERSION=2.0.0 \
@@ -47,6 +29,20 @@ ENV CASSANDRA_VERSION=2.2.5 \
  NIFI_VERSION=0.5.1 \
  PRESTO_VERSION=0.137 \
  TITAN_VERSION=1.0.0-hadoop1
+ AKKA_VERSION=2.3.11 \
+ SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0 \
+ SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2 \
+ KAFKA_CLIENT_VERSION=0.8.2.2 \
+ SCALATEST_VERSION=2.2.4 \
+ JEDIS_VERSION=2.7.3 \
+ SPARK_CSV_CONNECTOR_VERSION=1.3.0 \
+ SPARK_AVRO_CONNECTOR_VERSION=2.0.1 \
+ ALGEBIRD_VERSION=0.11.0 \
+ STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0 \
+ SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0 \
+ SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3 \
+ SPARK_NIFI_CONNECTOR_VERSION=0.5.1 \
+ SPARK_XML_VERSION=0.3.1
 
 RUN \
  apt-get update \
