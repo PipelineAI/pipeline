@@ -77,7 +77,7 @@ echo '...Configurating MySQL...'
 service mysql start
 mysqladmin -u root password "password"
 echo '...****Ignore the ERROR 2002s Below****...'
-nohup service mysql stop
+service mysql stop
 echo '...****Ignore any ERROR 2002s Above****...'
 
 # Cassandra
@@ -167,11 +167,16 @@ mkdir -p $LOGS_HOME/nifi
 
 # Airflow
 echo '...Configuring Airflow...'
+mkdir -p $AIRFLOW_HOME
+mkdir -p $MYAPPS_HOME/airflow
 mv $AIRFLOW_HOME/airflow.cfg $AIRFLOW_HOME/airflow.cfg.orig
 ln -s $CONFIG_HOME/airflow/airflow.cfg $AIRFLOW_HOME
-mkdir -p $MYAPPS_HOME/airflow
+echo '...****Ignore the ERROR 2002s Below****...'
+service mysql start
 mysql --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
 airflow initdb
+service mysql stop
+echo '...****Ignore the ERROR 2002s Above****...'
 
 # Presto
 echo '...Configuring Presto...'
