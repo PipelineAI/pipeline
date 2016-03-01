@@ -201,7 +201,7 @@ RUN \
 
 # Apache NiFi
  && cd ~ \
- && wget http://apache.mirrors.lucidnetworks.net/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz \
 
