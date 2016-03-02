@@ -677,7 +677,7 @@
     {
       "title": "Predict on new data",
       "text": "val predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"database\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestModel.transform(predictOnDF)\n .select(\n    classifier.getPredictionCol,\n    categoryReverseIndexer.getOutputCol, \n    stopWordsFilter.getOutputCol,\n    classifier.getRawPredictionCol, \n    classifier.getProbabilityCol\n  )\n\nz.show(predictedResultsDF)",
-      "dateUpdated": "Feb 26, 2016 9:25:10 PM",
+      "dateUpdated": "Mar 2, 2016 12:57:01 AM",
       "config": {
         "colWidth": 11.0,
         "editorMode": "ace/mode/scala",
@@ -720,11 +720,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\n\u003cconsole\u003e:30: error: not found: value bestModel\n       val predictedResultsDF \u003d bestModel.transform(predictOnDF)\n                                ^\n"
+        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\n\u003cconsole\u003e:41: error: not found: value bestModel\n       val predictedResultsDF \u003d bestModel.transform(predictOnDF)\n                                ^\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:54 AM",
-      "dateStarted": "Feb 26, 2016 9:25:10 PM",
-      "dateFinished": "Feb 26, 2016 9:25:26 PM",
+      "dateStarted": "Mar 2, 2016 12:57:01 AM",
+      "dateFinished": "Mar 2, 2016 12:57:01 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },

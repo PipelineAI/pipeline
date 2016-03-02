@@ -1,0 +1,458 @@
+{
+  "paragraphs": [
+    {
+      "title": "Get reference data for enrichment",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\").as(\"items\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(5))",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456864493859_1816775810",
+      "id": "20160301-203453_435330649",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:34:53 PM",
+      "dateStarted": "Mar 2, 2016 9:54:47 PM",
+      "dateFinished": "Mar 2, 2016 9:54:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get live ratings from cassandra",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456864473360_947045726",
+      "id": "20160301-203433_727044271",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:34:33 PM",
+      "dateStarted": "Mar 2, 2016 9:54:47 PM",
+      "dateFinished": "Mar 2, 2016 9:54:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Train the ALS model",
+      "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"confidence\")",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456863935152_-1530906280",
+      "id": "20160301-202535_1243843765",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_32f53890ee2a\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_32f53890ee2a\nres236: model.type \u003d als_32f53890ee2a\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:25:35 PM",
+      "dateStarted": "Mar 2, 2016 9:54:47 PM",
+      "dateFinished": "Mar 2, 2016 9:54:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show User Factors generated by ALS Model",
+      "text": "val userFactorsDF \u003d model.userFactors\n\nz.show(userFactorsDF.sort($\"id\"))",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 11.0,
+        "graph": {
+          "mode": "table",
+          "height": 160.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "features",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "features",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456871675606_-1963639723",
+      "id": "20160301-223435_324458630",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tfeatures\n1704\tWrappedArray(0.11264956, -0.02124365, 0.19331235, 0.21127118, 0.20624454, -0.16018693, 0.026395714, 0.78826547, 0.19991979, 0.058587536)\n3921\tWrappedArray(0.08333142, -0.19616699, -5.019682E-4, -0.040095527, 0.23158593, -0.107773356, 0.18999887, 0.5938009, 0.23092091, 0.26726827)\n10773\tWrappedArray(0.042749096, -0.1598235, 0.08249465, -0.07089977, 0.22160202, -0.15642786, 0.056984164, 0.52150995, 0.30115658, 0.31159365)\n11385\tWrappedArray(0.10004886, -0.17134964, 0.059631534, -0.060445096, 0.22091563, -0.09459444, 0.050582334, 0.5516594, 0.3222675, 0.26854837)\n21489\tWrappedArray(0.07489902, -0.25349706, -0.016854668, -0.051359914, 0.26584175, -0.047542416, 0.1645346, 0.61180705, 0.19045177, 0.23454273)\n22877\tWrappedArray(0.08517432, -0.17634194, 0.039858527, -0.03395606, 0.22958796, -0.1108199, 0.06898646, 0.5701545, 0.30947626, 0.25275782)\n23807\tWrappedArray(0.058003284, -0.12749648, 0.0714754, -0.0040305397, 0.26271912, -0.09037326, 0.12736586, 0.6378797, 0.24681704, 0.20727411)\n24511\tWrappedArray(0.060763367, -0.14758967, 0.052483104, -0.0076644947, 0.25351056, -0.11043828, 0.14978255, 0.631492, 0.240003, 0.2173746)\n24944\tWrappedArray(0.068123534, -0.18413018, 0.26941338, -0.0061489567, 0.23090792, -0.1425176, -0.009313018, 0.5269821, 0.28453752, 0.27548793)\n26361\tWrappedArray(0.09330617, -0.18170506, 0.049740843, -0.034138005, 0.21861695, -0.11034743, 0.06784433, 0.5767917, 0.29225442, 0.25409263)\n27131\tWrappedArray(0.032911155, -0.18028527, 0.0880047, -0.07452671, 0.23455538, -0.15630177, 0.050076623, 0.52884686, 0.2725581, 0.30586678)\n30114\tWrappedArray(0.07223574, -0.13415653, 0.049761944, -0.0033304312, 0.26952025, -0.05197337, 0.1176118, 0.6631211, 0.23581159, 0.1742134)\n31010\tWrappedArray(0.107073724, -0.23199691, 0.00324556, -0.034846663, 0.20925699, -0.14068821, 0.087905675, 0.54828054, 0.2922462, 0.27821007)\n31482\tWrappedArray(0.057782922, -0.12288319, 0.030916497, -0.002825999, 0.28943834, -0.054167654, 0.118045196, 0.66778463, 0.22102235, 0.17385085)\n32406\tWrappedArray(0.27848938, -0.14256139, 0.016522648, -0.0883518, 0.20484088, 0.075649284, -0.06592049, 0.41751754, 0.54912746, 0.23049605)\n35379\tWrappedArray(0.0636029, -0.08030557, 0.11300189, -0.08571034, 0.23575729, -0.15377213, 0.07196865, 0.54743224, 0.3125266, 0.3096557)\n38354\tWrappedArray(0.09436044, -0.16720867, 0.06776476, -0.0035338553, 0.22889583, -0.16056879, 0.1476644, 0.5975775, 0.2592277, 0.23496814)\n53742\tWrappedArray(0.083162285, -0.16405132, 0.0103443945, -0.04148571, 0.29086515, -0.0278047, 0.15659827, 0.6443013, 0.18448648, 0.22529708)\n54477\tWrappedArray(0.11568877, -0.16403194, 0.09741082, -0.014933114, 0.22203065, -0.1523618, 0.16092548, 0.582565, 0.25611743, 0.2600487)\n54631\tWrappedArray(0.09097683, -0.16344325, 0.06593554, -0.0011200078, 0.22580917, -0.16648759, 0.15548791, 0.5958404, 0.26280805, 0.23553272)\n56516\tWrappedArray(0.086236596, -0.16354474, 0.11935591, -0.08051112, 0.23879528, -0.030966964, -0.0262556, 0.5299145, 0.2931804, 0.2378066)\n58199\tWrappedArray(0.12653753, -0.6260479, 0.52065635, 0.28717166, -0.10762202, -0.0032064384, -0.056307733, -0.060500953, 0.2223446, 0.28439716)\n61133\tWrappedArray(0.05321779, -0.24060121, -0.020711685, -0.046821732, 0.2202938, -0.09324154, 0.08885939, 0.58076626, 0.27206495, 0.26764902)\n61362\tWrappedArray(0.0765034, -0.2159187, 0.0073237848, -0.022363786, 0.23077326, -0.1269479, 0.07770728, 0.5951392, 0.25510544, 0.24583521)\n63342\tWrappedArray(0.10379674, -0.11288738, 0.19986972, 0.032160062, 0.26309887, -0.06882069, -0.0060652415, 0.61198956, 0.15821657, 0.06639437)\n66859\tWrappedArray(0.07287284, -0.18157423, 0.065618135, -0.0174848, 0.2487174, -0.117930785, 0.048794612, 0.61089957, 0.25554168, 0.21434265)\n67094\tWrappedArray(0.08123774, -0.11420942, 0.15805489, -0.09151167, 0.22595628, -0.16051404, 0.006551439, 0.5052832, 0.3203006, 0.3172984)\n80584\tWrappedArray(0.074427485, -0.19161995, 0.045720477, 0.0074403463, 0.2262773, -0.16982119, 0.050169364, 0.60684055, 0.25710264, 0.21603745)\n81099\tWrappedArray(0.037926313, -0.124854244, 0.026231367, -0.027466219, 0.26893702, -0.09397295, 0.1524353, 0.62246853, 0.23930739, 0.24914725)\n84477\tWrappedArray(0.13582432, -0.21404164, 0.26906538, 0.030184971, 0.26778716, 0.11800777, -0.101324394, 0.6644627, 0.14215466, 0.028365603)\n87265\tWrappedArray(-0.14578944, -0.0346276, 0.03741056, -0.0952309, 0.2152123, -0.1868058, -0.11306975, 0.42548332, 0.49314877, 0.28099295)\n89645\tWrappedArray(0.33147547, -0.1756804, -2.0549688E-4, -0.07657639, 0.13616788, 0.1538889, -0.05233304, 0.47871464, 0.5187075, 0.149428)\n92133\tWrappedArray(0.08119861, -0.05197233, 0.1890496, 0.12355798, 0.32249576, 0.18568015, -0.11094874, 0.70830727, -0.012064203, -0.24866225)\n94288\tWrappedArray(0.059749205, -0.12270144, 0.13191353, 0.13077305, 0.30980927, 0.2313278, -0.036360037, 0.68577677, -0.04383413, -0.29570013)\n98483\tWrappedArray(0.051305264, -0.16209991, 0.0635301, -0.015083488, 0.28487998, -0.0635653, 0.11372969, 0.6533226, 0.22091627, 0.18279767)\n"
+      },
+      "dateCreated": "Mar 1, 2016 10:34:35 PM",
+      "dateStarted": "Mar 2, 2016 9:54:48 PM",
+      "dateFinished": "Mar 2, 2016 9:54:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Item Factors Generated by aLS Model",
+      "text": "val itemFactorsDF \u003d model.itemFactors\n\nz.show(itemFactorsDF.sort($\"id\"))",
+      "dateUpdated": "Mar 2, 2016 9:55:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "features",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "features",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456871608058_2084410724",
+      "id": "20160301-223328_1552390087",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tfeatures\n1\tWrappedArray(0.1597527, -0.3029655, 0.221106, -0.14914629, 0.4423666, -0.057366084, -0.048638318, 0.9816629, 0.54311466, 0.44053507)\n2\tWrappedArray(0.14606139, -0.25724813, 0.09712067, -0.0034341281, 0.33098236, -0.31737196, 0.2841882, 0.92881244, 0.40201327, 0.37325972)\n3\tWrappedArray(0.16514213, -0.36754024, 0.017634552, -0.031784054, 0.33042097, -0.28845638, 0.18132758, 0.9027738, 0.46359065, 0.43717945)\n4\tWrappedArray(0.06626827, -0.20152119, 0.09529406, -0.11247683, 0.39606076, -0.22767414, -0.026684616, 0.8840186, 0.7207556, 0.47157723)\n5\tWrappedArray(0.24776612, -0.39826807, -0.050895616, -0.10896729, 0.3857791, -0.05999569, 0.06658143, 0.8548696, 0.61757076, 0.4424584)\n6\tWrappedArray(0.45694357, -0.2283371, 0.014255447, -0.13328397, 0.22031476, 0.20103168, -0.12978455, 0.5657289, 0.77739316, 0.26131868)\n7\tWrappedArray(0.10649635, -0.2807585, 0.13700826, -0.11211126, 0.3926928, -0.21803147, 0.081376754, 0.93329287, 0.49316442, 0.4883565)\n8\tWrappedArray(0.15459937, -0.25888857, 0.1024056, -0.0038249807, 0.33528382, -0.31583098, 0.27575463, 0.9319329, 0.3980333, 0.36946523)\n10\tWrappedArray(0.2389259, -0.27759367, 0.06872677, -0.0972958, 0.3517104, -0.09767263, 0.086118214, 0.9321355, 0.6120898, 0.4184385)\n11\tWrappedArray(0.25401753, -0.31858072, 0.045529705, -0.084069215, 0.34777883, -0.07933912, 0.09417855, 0.9316748, 0.6074651, 0.4054842)\n12\tWrappedArray(0.24281673, -0.21118996, 0.0883823, -0.12099514, 0.406496, -0.11477211, 0.100894995, 0.90238446, 0.61902875, 0.45502236)\n13\tWrappedArray(0.1144777, -0.3323619, 0.03628312, -0.026684787, 0.36201292, -0.21495633, 0.13924986, 0.9683805, 0.45268962, 0.40635717)\n14\tWrappedArray(0.23498616, -0.25750667, 0.06663741, -0.070701025, 0.40602648, -0.09776301, 0.11936614, 0.92079306, 0.5849325, 0.40008447)\n15\tWrappedArray(0.25365487, -0.3218361, 0.030388795, -0.083120234, 0.36603543, -0.12129716, 0.10135398, 0.8884871, 0.6355736, 0.42862782)\n16\tWrappedArray(0.12079304, -0.30388078, 0.07617406, -0.024598679, 0.363967, -0.22221006, 0.12291837, 0.9793549, 0.4472461, 0.40923652)\n17\tWrappedArray(0.08975104, -0.21881902, 0.10618524, -0.024602398, 0.3987014, -0.19807294, 0.25776678, 0.97221214, 0.37595442, 0.38423294)\n18\tWrappedArray(0.24527, -0.3089994, 0.21246165, -0.12368183, 0.38961437, -0.055190746, -0.016563231, 0.9756172, 0.55845416, 0.40312806)\n19\tWrappedArray(0.24893638, -0.26735884, 0.25863653, -0.113858946, 0.4189074, -0.0658032, -0.037341006, 0.9752047, 0.54963654, 0.38485342)\n20\tWrappedArray(0.1344981, -0.23384726, 0.24115832, -0.09367625, 0.37076494, -0.31129643, 0.04492125, 0.90872014, 0.492967, 0.47999933)\n21\tWrappedArray(0.075931795, -0.34447882, 0.16875722, -0.09872331, 0.40314454, -0.24983853, 0.068214886, 0.91522145, 0.46996665, 0.5014231)\n22\tWrappedArray(0.14164014, -0.047368888, 0.25836584, 0.23930404, 0.3623086, 0.053081658, -0.07181795, 1.0062674, 0.06618642, -0.18568553)\n23\tWrappedArray(0.40568757, -0.19499968, 0.018792806, -0.13928956, 0.29927874, 0.1466223, -0.16072948, 0.49949998, 0.80389774, 0.32183123)\n24\tWrappedArray(0.22286578, -0.18110174, 0.30269516, -0.17507333, 0.3878619, -0.15640512, -0.115917936, 0.76615345, 0.67382663, 0.51438284)\n25\tWrappedArray(0.055514656, -0.18028024, 0.07429428, -0.008206817, 0.41638017, -0.13912466, 0.23334055, 1.0057638, 0.35735187, 0.3344767)\n27\tWrappedArray(0.04730302, -0.1706245, 0.0098024225, -0.03404218, 0.4548272, -0.08773909, 0.23750609, 0.994306, 0.31709296, 0.36618093)\n28\tWrappedArray(0.24989489, -0.26433036, 0.17681836, -0.12134588, 0.35362145, -0.12220401, 0.027148409, 0.9238059, 0.62632847, 0.45558146)\n29\tWrappedArray(0.12768826, -0.050155006, 0.23798421, 0.1617176, 0.40148944, 0.2452789, -0.1535407, 0.869949, -0.06775032, -0.34929457)\n31\tWrappedArray(0.098854385, -0.111653335, 0.33865327, -0.18751088, 0.37398672, -0.27787203, -0.031869706, 0.81325513, 0.5403884, 0.5494458)\n32\tWrappedArray(0.12768826, -0.050155006, 0.23798421, 0.1617176, 0.40148944, 0.2452789, -0.1535407, 0.869949, -0.06775032, -0.34929457)\n33\tWrappedArray(0.17808077, -0.21181342, 0.21655706, 0.07689532, 0.47258466, -0.0854509, 0.12831162, 1.163278, 0.2621998, 0.10469605)\n34\tWrappedArray(0.17964269, -0.21598893, 0.20741136, 0.09042586, 0.47151685, -0.08997488, 0.118544586, 1.1756692, 0.25356808, 0.07086947)\n35\tWrappedArray(0.12327093, -0.031791173, 0.21844235, 0.2766524, 0.22053508, -0.20374809, 0.04991505, 0.9228599, 0.21891582, 0.068684734)\n36\tWrappedArray(0.1902989, -0.2069655, 0.3664372, 0.058961622, 0.48236024, -0.1261745, -0.011119894, 1.1220096, 0.29007113, 0.121726125)\n37\tWrappedArray(0.08548911, -0.314284, -0.012867988, -0.05508853, 0.38316724, -0.15431178, 0.27772474, 0.96878606, 0.34441036, 0.38452303)\n38\tWrappedArray(0.3320881, -0.20738634, 0.12630826, 0.020803194, 0.40974745, 0.20673233, -0.036394015, 1.0950081, 0.4461135, 0.03360969)\n39\tWrappedArray(0.15917574, -0.2541837, 0.12662023, -0.010403678, 0.3360342, -0.3016597, 0.28096253, 0.9272947, 0.40041548, 0.38500693)\n40\tWrappedArray(0.07454192, -0.19140679, 0.090004794, 0.0027671028, 0.4156328, -0.12728305, 0.21179824, 1.0167657, 0.34851775, 0.29234725)\n41\tWrappedArray(0.06821306, -0.27017483, 0.13819999, -0.16812402, 0.40910873, -0.24192344, 0.07789821, 0.9154689, 0.4787637, 0.5302907)\n42\tWrappedArray(-0.0077959592, -0.18678935, 0.14877923, -0.094901375, 0.40278754, -0.2784988, 0.0058584097, 0.91533196, 0.6186019, 0.46864817)\n43\tWrappedArray(0.13252771, -0.24462384, 0.09990271, -0.003462635, 0.35206604, -0.27936342, 0.27007934, 0.95629776, 0.38707477, 0.35634392)\n44\tWrappedArray(0.12502877, -0.35287386, 0.011969191, -0.03654892, 0.3771505, -0.20746973, 0.12699626, 0.97263026, 0.41691634, 0.40176612)\n45\tWrappedArray(0.13045758, -0.17021835, 0.108409815, 0.031561304, 0.5291747, 0.106668994, 0.09212857, 1.1278963, 0.14552046, 0.0848433)\n47\tWrappedArray(0.1403809, -0.23988618, 0.35427216, -0.028634105, 0.372575, -0.2831368, 0.11713808, 0.8923121, 0.4466006, 0.43967155)\n49\tWrappedArray(-0.049535144, -0.20288523, 0.04579321, -0.103185005, 0.41578686, -0.23491164, 0.019700008, 0.9333252, 0.629508, 0.44866186)\n50\tWrappedArray(0.076425076, -0.13127472, 0.020853426, 0.025688821, 0.45396027, -0.07256629, 0.18896289, 1.0234075, 0.32465458, 0.26396984)\n51\tWrappedArray(0.047688402, -0.3086587, 0.17397435, -0.12292809, 0.40938082, -0.24891545, 0.06941667, 0.9155646, 0.4809098, 0.5205104)\n52\tWrappedArray(0.019416986, -0.6337961, 0.4988715, 0.147865, 0.22988272, -0.29894626, -0.06764269, 0.67595655, 0.815708, 0.6215891)\n53\tWrappedArray(-0.28237066, -0.015183071, 0.056253497, -0.15295069, 0.30209902, -0.27927873, -0.2727076, 0.5515007, 0.8342552, 0.40872768)\n55\tWrappedArray(0.16722703, -0.29538503, 0.17383416, 0.111527175, 0.45079926, -0.10782212, -0.07017571, 1.1623601, 0.27239752, 0.069963045)\n57\tWrappedArray(0.12768826, -0.050155006, 0.23798421, 0.1617176, 0.40148944, 0.2452789, -0.1535407, 0.869949, -0.06775032, -0.34929457)\n59\tWrappedArray(0.17495947, -0.24358091, 0.3660973, 0.060538508, 0.39519596, 0.23991159, -0.17206126, 0.9581552, 0.08776066, -0.09402584)\n60\tWrappedArray(0.2133184, -0.6454854, 0.74685365, 0.184464, 0.2523737, 0.008225886, -0.15444861, 0.71197915, 0.38672376, 0.36065215)\n61\tWrappedArray(0.07769743, -0.34345713, 0.028156755, -0.0117211705, 0.54264015, 0.1744976, 0.13452132, 1.1103268, 0.1486, 0.029129766)\n62\tWrappedArray(0.09703131, -0.15618142, 0.1059322, -0.1068649, 0.40387222, -0.21414576, 0.20121866, 0.9476089, 0.4390342, 0.45440993)\n63\tWrappedArray(0.09538582, -0.26712042, 0.02591459, -0.04080021, 0.40073374, -0.17053644, 0.26164412, 0.97650623, 0.3553109, 0.37083226)\n64\tWrappedArray(0.04726455, -0.44828275, -0.10374135, -0.08984073, 0.3375789, -0.11063612, 0.17013349, 0.9163895, 0.39523613, 0.43749827)\n66\tWrappedArray(0.1328288, -0.2236144, 0.07862628, 0.005389744, 0.37887928, -0.24529383, 0.25375345, 0.9782342, 0.38250434, 0.34329465)\n67\tWrappedArray(0.12327093, -0.031791173, 0.21844235, 0.2766524, 0.22053508, -0.20374809, 0.04991505, 0.9228599, 0.21891582, 0.068684734)\n68\tWrappedArray(0.49826634, -0.2580894, 0.008313042, -0.12064096, 0.11805846, 0.25675684, -0.08789746, 0.62015426, 0.71369636, 0.17909455)\n69\tWrappedArray(0.07716137, -0.14391136, 0.1816987, 0.18326321, 0.38903746, 0.3087345, -0.061338343, 0.86833745, -0.07287317, -0.4145971)\n70\tWrappedArray(-0.022468582, -0.1778112, 0.1809941, -0.017013472, 0.5386246, -0.086257204, -0.19226295, 1.1630594, 0.5734391, 0.18991202)\n71\tWrappedArray(0.15459937, -0.25888857, 0.1024056, -0.0038249807, 0.33528382, -0.31583098, 0.27575463, 0.9319329, 0.3980333, 0.36946523)\n74\tWrappedArray(0.14019288, -0.6791009, 0.5651729, 0.31579065, -0.12709315, 0.0049156332, -0.060589056, -0.08811709, 0.22407025, 0.29886952)\n75\tWrappedArray(0.10263315, -0.23217598, 0.28657568, -0.016348664, 0.40098438, -0.2442057, 0.11859878, 0.9512727, 0.42527425, 0.38960996)\n76\tWrappedArray(0.14019288, -0.6791009, 0.5651729, 0.31579065, -0.12709315, 0.0049156332, -0.060589056, -0.08811709, 0.22407025, 0.29886952)\n77\tWrappedArray(-0.05720679, -0.108248666, 0.225122, 0.012098355, 0.5340799, -0.11207656, -0.20775138, 1.1551301, 0.5990225, 0.12202654)\n78\tWrappedArray(0.14019288, -0.6791009, 0.5651729, 0.31579065, -0.12709315, 0.0049156332, -0.060589056, -0.08811709, 0.22407025, 0.29886952)\n80\tWrappedArray(0.15714054, -0.41343772, 0.002798037, -0.014026867, 0.32690004, -0.29131222, 0.068157025, 0.9158834, 0.47228727, 0.4257876)\n"
+      },
+      "dateCreated": "Mar 1, 2016 10:33:28 PM",
+      "dateStarted": "Mar 2, 2016 9:54:50 PM",
+      "dateFinished": "Mar 2, 2016 9:54:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "convert ALS item factors into K-Means Feature vectors",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\n\nval itemFeatureVectorsDF \u003d model.itemFactors.map(row \u003d\u003e (row.getInt(0), row.getSeq[Float](1)))\n  .mapValues(row \u003d\u003e Vectors.dense(row(2)))\n  .toDF(\"id\", \"features\")\n  .as(\"itemFeatureVectors\")",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 11.0,
+        "graph": {
+          "mode": "table",
+          "height": 275.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456864598644_-707623020",
+      "id": "20160301-203638_1668523129",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\nitemFeatureVectorsDF: org.apache.spark.sql.DataFrame \u003d [id: int, features: vector]\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:36:38 PM",
+      "dateStarted": "Mar 2, 2016 9:54:50 PM",
+      "dateFinished": "Mar 2, 2016 9:54:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the Item feature vectors for display purposes",
+      "text": "val enrichedItemFeatureVectorsDF \u003d itemFeatureVectorsDF\n  .join(itemsDF, $\"itemFeatureVectors.id\" \u003d\u003d\u003d $\"items.id\")\n  .select($\"items.id\", $\"title\", $\"category\", $\"features\", $\"tags\")\n  .sort($\"items.id\")\n\nz.show(enrichedItemFeatureVectorsDF)",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456872339856_-283274355",
+      "id": "20160301-224539_90254018",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\tcategory\tfeatures\ttags\n1\tApache Cassandra\tDatabase\t[0.22110599279403687]\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\tDistributed Cache\t[0.09712067246437073]\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\tCluster Provision\t[0.017634551972150803]\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\tContainer\t[0.0952940583229065]\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\tCloud Provider\t[-0.05089561641216278]\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\tData Processing\t[0.014255447313189507]\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\tData Processing\t[0.13700826466083527]\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\tLibrary\t[0.1024056002497673]\tWrappedArray(Library, Java, Log Collection)\n10\tApache HDFS\tFile System\t[0.06872677057981491]\tWrappedArray(File System, Hadoop, Java)\n11\tApache YARN\tCluster Resource Manager\t[0.04552970454096794]\tWrappedArray(Cluster Resource Manager, Hadoop, Java)\n12\tApache HBase\tDatabase\t[0.0883823037147522]\tWrappedArray(Database, Hadoop, NoSQL, Java, Eventually Consistent)\n13\tApache MapReduce\tData Processing\t[0.03628312051296234]\tWrappedArray(Data Processing, Hadoop, Java, Python)\n14\tApache Hive\tData Processing\t[0.06663741171360016]\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, MapReduce)\n15\tHortonworks\tDistribution\t[0.03038879483938217]\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n16\tApache HUE\tUI\t[0.0761740580201149]\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java)\n17\tApache Impala\tData Processing\t[0.10618524253368378]\tWrappedArray(Data Processing, Query Processing, SQL, C++, Batch Analytics)\n18\tApache Kafka\tMessage Broker\t[0.2124616503715515]\tWrappedArray(Message Broker, Java, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\n19\tApache Lucene\tLibrary\t[0.2586365342140198]\tWrappedArray(Library, Search, Java, Python)\n20\tApache Solr\tSearch Engine\t[0.24115832149982452]\tWrappedArray(Search Engine, Java, REST API, UI, Python, Ruby, XML, JSON)\n21\tElasticSearch\tSearch Engine\t[0.16875721514225006]\tWrappedArray(Search Engine, Java, Python, REST API, Lucene, XML, JSON, Aggregations)\n22\tApache Mahout\tLibrary\t[0.25836583971977234]\tWrappedArray(Library, Machine Learning, Java)\n23\tApache Drill\tData Processing\t[0.018792806193232536]\tWrappedArray(Data Processing, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\n24\tApache Mesos\tCluster Resource Manager\t[0.3026951551437378]\tWrappedArray(Cluster Resource Manager, Docker, Container)\n25\tApache Parquet\tFile Format\t[0.07429427653551102]\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, C++, Python)\n27\tApache Pig\tData Processing\t[0.009802422486245632]\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n28\tApache ZooKeeper\tDistributed Coordinator\t[0.1768183559179306]\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n29\tStanford CoreNLP\tLibrary\t[0.23798421025276184]\tWrappedArray(Library, NLP, Java, Text Analytics)\n31\tApache Storm\tStreaming\t[0.3386532664299011]\tWrappedArray(Streaming, Java)\n32\tApache Sqoop\tData Import\t[0.23798421025276184]\tWrappedArray(Data Import, Hadoop, Java)\n33\tApache Oozie\tWorkflow\t[0.21655705571174622]\tWrappedArray(Workflow, Hadoop, Java, UI)\n34\tApache Nifi\tWorkflow\t[0.20741136372089386]\tWrappedArray(Workflow, Streaming, Message Broker, Java, UI)\n35\tNLTK\tLibrary\t[0.21844235062599182]\tWrappedArray(Library, NLP, Python, Text Analytics)\n36\tSci-Kit Learn\tLibrary\t[0.3664371967315674]\tWrappedArray(Library, Python, Machine Learning)\n37\tiPython/Jupyter\tNotebook\t[-0.012867988087236881]\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\n38\tApache Zeppelin\tNotebook\t[0.12630826234817505]\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\n39\tTableau\tBI\t[0.12662023305892944]\tWrappedArray(BI, UI, Visualization, SQL)\n40\tR\tProgramming Language\t[0.09000479429960251]\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n41\tSQL\tProgramming Language\t[0.13819998502731323]\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\n42\tScala\tProgramming Language\t[0.1487792283296585]\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\n43\tJava\tProgramming Language\t[0.09990271180868149]\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\n44\tPython\tProgramming Language\t[0.011969191022217274]\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n45\tPresto\tData Processing\t[0.1084098145365715]\tWrappedArray(Data Processing, Query Processing, Java, SQL, Machine Learning)\n47\tCloudera\tDistribution\t[0.35427215695381165]\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n49\tAmazon Web Services\tCloud Provider\t[0.045793209224939346]\tWrappedArray(Cloud Provider, AWS)\n50\tGoogle Cloud Platform\tCloud Provider\t[0.020853426307439804]\tWrappedArray(Cloud Provider, Google)\n51\tRedis\tDistributed Cache\t[0.17397435009479523]\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\n52\tJSON\tFile Format\t[0.49887150526046753]\tWrappedArray(File Format, Key Value Store)\n53\tXML\tFile Format\t[0.056253496557474136]\tWrappedArray(File Format, Key Value Store)\n55\tOn-Premise\tCloud Provider\t[0.1738341599702835]\tWrappedArray(Cloud Provider, Data Center)\n57\tKnime\tWorkflow\t[0.23798421025276184]\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\n59\tOracle\tDatabase\t[0.3660973012447357]\tWrappedArray(Database, SQL, RDBMS, Transactional)\n60\tMySQL\tDatabase\t[0.7468536496162415]\tWrappedArray(Database, SQL, RDBMS, Transactional)\n61\tSpark ML/MLlib\tLibrary\t[0.02815675549209118]\tWrappedArray(Library, Spark, Machine Learning)\n62\tSpark Streaming\tLibrary\t[0.10593219846487045]\tWrappedArray(Library, Spark, Streaming)\n63\tSpark SQL\tLibrary\t[0.025914590805768967]\tWrappedArray(Library, Spark, HiveQL, SQL)\n64\tCSV\tFile Format\t[-0.1037413477897644]\tWrappedArray(File Format)\n66\tRedshift\tDatabase\t[0.07862628251314163]\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\n67\tKinesis\tLibrary\t[0.21844235062599182]\tWrappedArray(Library, Streaming, AWS)\n68\tDynamoDB\tDatabase\t[0.008313042111694813]\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\n69\tSpark GraphX\tLibrary\t[0.18169869482517242]\tWrappedArray(Library, Graph Analytics, Spark)\n70\tSQL Server\tDatabase\t[0.18099409341812134]\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\n71\tElastic MapReduce\tData Processing\t[0.1024056002497673]\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\n74\tNeo4j\tLibrary\t[0.5651729106903076]\tWrappedArray(Library, Graph Analytics, Java)\n75\tPostgres\tDatabase\t[0.28657567501068115]\tWrappedArray(Database, SQL, RDBMS, Transactional)\n76\tProtobuffers\tFile Format\t[0.5651729106903076]\tWrappedArray(File Format, Evolving Schema, Nested Schema)\n77\tS3\tFile System\t[0.22512200474739075]\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\n78\tTensor Flow\tData Processing\t[0.5651729106903076]\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\n80\tTeradata\tDatabase\t[0.0027980369050055742]\tWrappedArray(Database, Data Warehouse, SQL)\n"
+      },
+      "dateCreated": "Mar 1, 2016 10:45:39 PM",
+      "dateStarted": "Mar 2, 2016 9:54:50 PM",
+      "dateFinished": "Mar 2, 2016 9:54:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Fit the K-Means Cluster Model",
+      "text": "import org.apache.spark.ml.clustering.KMeans\n\nval kmeans \u003d new KMeans()\n  .setK(5)\n  .setMaxIter(10)\n  .setFeaturesCol(\"features\")\n  .setPredictionCol(\"clusterId\")\n\nval kmeansModel \u003d kmeans.fit(itemFeatureVectorsDF)\n\nval clusterCenters \u003d kmeansModel.clusterCenters.mkString(\"\\n\")",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456869576746_-1994222589",
+      "id": "20160301-215936_103816347",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.clustering.KMeans\nkmeans: org.apache.spark.ml.clustering.KMeans \u003d kmeans_7f4ee6df49ed\nkmeansModel: org.apache.spark.ml.clustering.KMeansModel \u003d kmeans_7f4ee6df49ed\nclusterCenters: String \u003d \n[0.04744652848493195]\n[0.7468536496162415]\n[0.31646664068102837]\n[0.19125666198405353]\n[0.5485975593328476]\n"
+      },
+      "dateCreated": "Mar 1, 2016 9:59:36 PM",
+      "dateStarted": "Mar 2, 2016 9:54:51 PM",
+      "dateFinished": "Mar 2, 2016 9:54:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Evaluate K-Means Cluster Model Using Within Set Sum of Squared Errors (WSSSE)",
+      "text": "val WSSSE \u003d kmeansModel.computeCost(itemFeatureVectorsDF)\n\nprintln(\"Within Set Sum of Squared Errors \u003d \" + WSSSE)",
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456863935154_-1530136782",
+      "id": "20160301-202535_1236869408",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "WSSSE: Double \u003d 0.12754562897898036\nWithin Set Sum of Squared Errors \u003d 0.12754562897898036\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:25:35 PM",
+      "dateStarted": "Mar 2, 2016 9:54:52 PM",
+      "dateFinished": "Mar 2, 2016 9:54:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Mar 2, 2016 9:54:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456863935154_-1530136782",
+      "id": "20160301-202535_504888221",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 1, 2016 8:25:35 PM",
+      "dateStarted": "Mar 2, 2016 9:54:53 PM",
+      "dateFinished": "Mar 2, 2016 9:54:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/04: Generate Item-to-Item Similarity Recs (K-Means)",
+  "id": "2BDVAZRNT",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

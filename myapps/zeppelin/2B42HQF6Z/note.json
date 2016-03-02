@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* `$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh`\n* `$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh`",
-      "dateUpdated": "Feb 22, 2016 10:06:34 PM",
+      "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh",
+      "dateUpdated": "Mar 1, 2016 8:32:45 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -17,7 +17,7 @@
         "enabled": true,
         "editorMode": "ace/mode/markdown",
         "editorHide": true,
-        "tableHide": true
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -28,11 +28,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ccode\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/li\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 4:32:14 AM",
-      "dateStarted": "Feb 4, 2016 4:35:53 AM",
-      "dateFinished": "Feb 4, 2016 4:35:53 AM",
+      "dateStarted": "Mar 1, 2016 8:32:42 PM",
+      "dateFinished": "Mar 1, 2016 8:32:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -140,7 +140,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/03:  Approximate vs. Exact Counts",
+  "name": "Live Recs/02:  Approximate vs. Exact Counts (Redis, Algebird)",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],
