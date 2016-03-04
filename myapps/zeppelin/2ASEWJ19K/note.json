@@ -3,7 +3,7 @@
     {
       "title": "Most Desirable Users By PageRank of Like Graph",
       "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
           "scatter": {}
         },
         "title": true,
-        "editorHide": true,
+        "editorHide": false,
         "tableHide": false,
         "editorMode": "ace/mode/markdown",
         "enabled": true
@@ -40,7 +40,7 @@
     },
     {
       "text": "// likeProducer :: likeConsumer\nval likesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/likes.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\")\n  \n// id :: userName\nval usersDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/users.csv\")\n  .toDF(\"id\", \"name\")",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -53,7 +53,8 @@
           "scatter": {}
         },
         "editorMode": "ace/mode/scala",
-        "enabled": true
+        "enabled": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -75,7 +76,7 @@
     {
       "title": "Create a Graph from A dataFrame of vertices",
       "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, 0L, Some(PartitionStrategy.RandomVertexCut))\ngraph.cache()",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -112,7 +113,7 @@
     },
     {
       "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 20);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(250).charge(-300).chargeDistance(200)\r\n   .friction(0.5).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -125,7 +126,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -147,7 +149,7 @@
     {
       "title": "Run PageRank On the Graph",
       "text": "// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -161,7 +163,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -183,11 +186,11 @@
     {
       "title": "Extract and Enrich the Top Influencers",
       "text": "// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedTopInfluencersDF)",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:47 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "pieChart",
+          "mode": "stackedAreaChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
@@ -220,7 +223,8 @@
         },
         "editorMode": "ace/mode/scala",
         "title": true,
-        "enabled": true
+        "enabled": true,
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -241,7 +245,7 @@
     },
     {
       "text": "",
-      "dateUpdated": "Mar 2, 2016 8:41:12 PM",
+      "dateUpdated": "Mar 3, 2016 9:12:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

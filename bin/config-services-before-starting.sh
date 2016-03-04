@@ -160,9 +160,11 @@ echo '...Configuring NiFi...'
 mv $NIFI_HOME/conf/nifi.properties $NIFI_HOME/conf/nifi.properties.orig
 mv $NIFI_HOME/conf/logback.xml $NIFI_HOME/conf/logback.xml.orig
 mv $NIFI_HOME/conf/bootstrap.conf $NIFI_HOME/conf/bootstrap.conf.orig
+mv $NIFI_HOME/conf/state-management.xml $NIFI_HOME/conf/state-management.xml.orig
 ln -s $CONFIG_HOME/nifi/nifi.properties $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
+ln -s $CONFIG_HOME/nifi/state-management.xml $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
 
 # Airflow

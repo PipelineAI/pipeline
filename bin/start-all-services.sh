@@ -58,7 +58,7 @@ nohup kibana &
 echo '...Starting Jupyter Notebook Server (via pipeline-pyspark.sh)...'
 nohup pipeline-pyspark.sh & 
 
-echo '...Starting Nifi...'
+echo '...Starting NiFi...'
 nohup nifi.sh start &
 
 echo '...Starting Airflow...'
