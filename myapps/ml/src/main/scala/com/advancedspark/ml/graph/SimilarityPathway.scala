@@ -45,7 +45,7 @@ object SimilarityPathway {
     // Calculate Jaccard Similarity between all item pairs (cartesian, then de-duped)
     // Only keep pairs with a Jaccard Similarity above a specific threshold
     val similarItemsAboveThresholdRDD = allItemPairsRDD.flatMap(itemPair => {
-      val jaccardSim = Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)
+      val jaccardSim = Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)
       if (jaccardSim >= minJaccardSimilarityThreshold)
         Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)
       else

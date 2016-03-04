@@ -34,6 +34,7 @@ object Dijkstra {
             if (vd._2 < newSumVal._1) vd._3 else newSumVal._2)})
     }
 
+    // TODO:  Return only the edges that make up the shortest path
     val shortestPathGraph = graph.outerJoinVertices(graph2.vertices)((vid, vd, dist) =>
       (vd, dist.getOrElse((false,Double.MaxValue,List[VertexId]()))
       .productIterator.toList.tail))

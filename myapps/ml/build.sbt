@@ -21,14 +21,14 @@ val sparkVersion = sys.env("SPARK_VERSION")
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION")
+val jblasVersion = sys.env("JBLAS_VERSION")
 
 lazy val mlDeps = Seq(
-//  "edu.stanford.nlp" % "stanford-corenlp" % coreNlpVersion,
-  "com.twitter" %% "algebird-core" % algebirdVersion,
-  "edu.stanford.nlp"  % "stanford-corenlp"      % coreNlpVersion,
-//  "edu.stanford.nlp"  % "stanford-corenlp"      % coreNlpVersion classifier "models",
+  "com.twitter"       %% "algebird-core"         % algebirdVersion,
+  "edu.stanford.nlp"   % "stanford-corenlp"      % coreNlpVersion,
   "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
-  "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided"
+  "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
+  "org.jblas" 	       % "jblas" 		 % jblasVersion % "provided"
 )
 

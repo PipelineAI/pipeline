@@ -3,16 +3,21 @@ package com.advancedspark.ml
 import com.twitter.algebird.MinHasher
 import com.twitter.algebird.MinHasher32
 import com.twitter.algebird.MinHashSignature
+import org.jblas.DoubleMatrix
 
 object Similarity {
-  def getJaccardSimilarity(item1: TaggedItem, item2: TaggedItem): Double = {
-    val intersectTags = item1.tags intersect item2.tags
-    val unionTags = item1.tags union item2.tags
+  def cosineSimilarity(vector1: DoubleMatrix, vector2: DoubleMatrix): Double = {
+    vector1.dot(vector2) / (vector1.norm2() * vector2.norm2())
+  }
 
-    val numIntersectTags = intersectTags.size
-    val numUnionTags = unionTags.size
+  def jaccardSimilarity[T <: Any](seq1: Seq[T], seq2: Seq[T]): Double = {
+    val intersection = seq1 intersect seq2
+    val union = (seq1 union seq2).toSet.toSeq
+
+    val intersectionSize = intersection.size
+    val unionSize = union.size
     val jaccardSimilarity =
-      if (numUnionTags > 0) numIntersectTags.toDouble / numUnionTags.toDouble
+      if (unionSize > 0) intersectionSize.toDouble / unionSize.toDouble
       else 0.0
 
     jaccardSimilarity

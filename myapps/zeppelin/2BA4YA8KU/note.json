@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Similarity Pathway](http://fluxcapacitor.com/img/similarity-pathway.png)",
-      "dateUpdated": "Feb 26, 2016 7:28:13 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/similarity-pathway.png\" alt\u003d\"Similarity Pathway\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 1:43:36 AM",
-      "dateStarted": "Feb 26, 2016 7:28:13 AM",
-      "dateFinished": "Feb 26, 2016 7:28:13 AM",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Feb 26, 2016 7:28:13 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -61,18 +61,21 @@
       },
       "jobName": "paragraph_1451323111480_-372297908",
       "id": "20151228-171831_1063248354",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Feb 26, 2016 7:28:13 AM",
-      "dateFinished": "Feb 26, 2016 7:28:13 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:36 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Feb 26, 2016 7:28:13 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -94,18 +97,21 @@
       },
       "jobName": "paragraph_1451400566555_-1305258659",
       "id": "20151229-144926_1579858999",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1091] at map at \u003cconsole\u003e:87\n"
+      },
       "dateCreated": "Dec 29, 2015 2:49:26 PM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:36 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n\nz.show(tagsCountRDD.toDF())",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -151,18 +157,21 @@
       },
       "jobName": "paragraph_1451277734947_-102286185",
       "id": "20151228-044214_1740589078",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "_1\t_2\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
+      },
       "dateCreated": "Dec 28, 2015 4:42:14 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:37 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cartesian product of all items",
       "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD).cache()",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -184,18 +193,21 @@
       },
       "jobName": "paragraph_1452393855712_1952437088",
       "id": "20160110-024415_365689229",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[1097] at cartesian at \u003cconsole\u003e:88\n"
+      },
       "dateCreated": "Jan 10, 2016 2:44:15 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:37 PM",
+      "dateFinished": "Mar 2, 2016 8:40:37 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
-      "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n\n  val jaccardSim \u003d Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)\n\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)\n\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -218,18 +230,21 @@
       },
       "jobName": "paragraph_1451317394187_1089784615",
       "id": "20151228-154314_719152611",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[1098] at flatMap at \u003cconsole\u003e:96\nsimilarItemPairCount: Long \u003d 48\nres206: String \u003d (1,1,1.0),(1,2,0.6),(1,3,0.16666666666666666),(1,4,0.14285714285714285),(1,5,0.2),(2,1,0.6),(2,2,1.0),(3,1,0.16666666666666666),(3,3,1.0),(3,4,0.6666666666666666),(3,5,0.5),(4,1,0.14285714285714285),(4,3,0.6666666666666666),(4,4,1.0),(4,5,0.3333333333333333),(5,1,0.2),(5,3,0.5),(5,4,0.3333333333333333),(5,5,1.0),(1,7,0.16666666666666666),(1,8,0.4),(1,10,0.14285714285714285),(2,8,0.6666666666666666),(2,10,0.2),(3,7,1.0),(4,7,0.6666666666666666),(5,7,0.5),(7,1,0.16666666666666666),(7,3,1.0),(7,4,0.6666666666666666),(7,5,0.5),(8,1,0.4),(8,2,0.6666666666666666),(10,1,0.14285714285714285),(10,2,0.2),(6,6,1.0),(6,9,0.3333333333333333),(6,10,0.5),(7,7,1.0),(8,8,1.0),(8,10,0.25),(9,6,0.3333333333333333),(9,9,1.0),(9,10,0.3333333333333333),(10,6,0.5),(10,8,0.25),(10,9,0.33333333..."
+      },
       "dateCreated": "Dec 28, 2015 3:43:14 PM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:37 PM",
+      "dateFinished": "Mar 2, 2016 8:40:38 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Tag similarity Graph",
       "text": "import org.apache.spark.graphx._\n\nval similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nval similarityGraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n  .cache()",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -252,17 +267,55 @@
       },
       "jobName": "paragraph_1451352094574_-1165080675",
       "id": "20151229-012134_1599229617",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1099] at map at \u003cconsole\u003e:99\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@101ceffe\n"
+      },
       "dateCreated": "Dec 29, 2015 1:21:34 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:37 PM",
+      "dateFinished": "Mar 2, 2016 8:40:38 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md\n### Problem:  Find a Movie for Me and You\n* Me:  Toy Story \\[Adventure|Animation|Children|Comedy|Fantasy\\]\n* Us:  ??\n* You:  Sudden Death \\[Action\\]",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: gray; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: gray;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 20);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(100).charge(-200).chargeDistance(300)\r\n   .friction(0.95).linkStrength(0.5).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(similarityGraph)",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456948534888_-1707307392",
+      "id": "20160302-195534_1968820591",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027a25fd3517-1b18-4779-8a6b-6650366867a9\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: gray; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: gray;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a25fd3517-1b18-4779-8a6b-6650366867a9\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:4},{id:8},{id:1},{id:9},{id:5},{id:6},{id:10},{id:2},{id:3},{id:7}];\nvar links \u003d [{source:nodes[2],target:nodes[2]},{source:nodes[2],target:nodes[7]},{source:nodes[2],target:nodes[8]},{source:nodes[2],target:nodes[0]},{source:nodes[2],target:nodes[4]},{source:nodes[7],target:nodes[2]},{source:nodes[7],target:nodes[7]},{source:nodes[8],target:nodes[2]},{source:nodes[8],target:nodes[8]},{source:nodes[8],target:nodes[0]},{source:nodes[8],target:nodes[4]},{source:nodes[0],target:nodes[2]},{source:nodes[0],target:nodes[8]},{source:nodes[0],target:nodes[0]},{source:nodes[0],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[8]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[4]},{source:nodes[2],target:nodes[9]},{source:nodes[2],target:nodes[1]},{source:nodes[2],target:nodes[6]},{source:nodes[7],target:nodes[1]},{source:nodes[7],target:nodes[6]},{source:nodes[8],target:nodes[9]},{source:nodes[0],target:nodes[9]},{source:nodes[4],target:nodes[9]},{source:nodes[9],target:nodes[2]},{source:nodes[9],target:nodes[8]},{source:nodes[9],target:nodes[0]},{source:nodes[9],target:nodes[4]},{source:nodes[1],target:nodes[2]},{source:nodes[1],target:nodes[7]},{source:nodes[6],target:nodes[2]},{source:nodes[6],target:nodes[7]},{source:nodes[5],target:nodes[5]},{source:nodes[5],target:nodes[3]},{source:nodes[5],target:nodes[6]},{source:nodes[9],target:nodes[9]},{source:nodes[1],target:nodes[1]},{source:nodes[1],target:nodes[6]},{source:nodes[3],target:nodes[5]},{source:nodes[3],target:nodes[3]},{source:nodes[3],target:nodes[6]},{source:nodes[6],target:nodes[5]},{source:nodes[6],target:nodes[1]},{source:nodes[6],target:nodes[3]},{source:nodes[6],target:nodes[6]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 20);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(100).charge(-200).chargeDistance(300)\n   .friction(0.95).linkStrength(0.5).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Mar 2, 2016 7:55:34 PM",
+      "dateStarted": "Mar 2, 2016 8:40:38 PM",
+      "dateFinished": "Mar 2, 2016 8:40:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### Problem:  Find a Movie for Me and You\n* Me:  Toy Story \\[Adventure|Animation|Children|Comedy|Fantasy\\]\n* You:  Sudden Death \\[Action\\]\n* Us:  ??",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -287,18 +340,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eProblem:  Find a Movie for Me and You\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe:  Toy Story [Adventure|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs:  ??\u003c/li\u003e\n\u003cli\u003eYou:  Sudden Death [Action]\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eProblem:  Find a Movie for Me and You\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe:  Toy Story [Adventure|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eYou:  Sudden Death [Action]\u003c/li\u003e\n\u003cli\u003eUs:  ??\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 6:54:19 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Dijkstra Shortest Path Between 2 Items",
       "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Toy Story (Me)\nval src \u003d 1 \n\n// Sudden Death (You)\nval dest \u003d 9 \n\n// Generate Shortest Path for all nodes in the graph\nval shortestPathGraph \u003d Dijkstra.run(similarityGraph, src)\n  .cache()\n  \n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)  \n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices\n  .filter(_._1 \u003d\u003d dest)\n  .map(_._2)\n  .collect()(0)._2",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -320,48 +373,20 @@
       },
       "jobName": "paragraph_1452662642144_-2030518322",
       "id": "20160113-052402_1819863464",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@6b0d8b48\nshortestPathFromSrcToDest: List[Any] \u003d List(0.47619047619047616, List(1, 10))\n"
+      },
       "dateCreated": "Jan 13, 2016 5:24:02 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:39 PM",
+      "dateFinished": "Mar 2, 2016 8:40:40 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](g:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d g.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: gray; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: gray;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + g.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 8);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(50).charge(-200).chargeDistance(300)\r\n   .friction(0.95).linkStrength(0.5).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(shortestPathGraph)",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456471607101_1189255166",
-      "id": "20160226-072647_129712593",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
-      "dateCreated": "Feb 26, 2016 7:26:47 AM",
-      "dateStarted": "Feb 26, 2016 7:28:14 AM",
-      "dateFinished": "Feb 26, 2016 7:28:14 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md\n### Solution\n* Me: Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* Us: **Golden Eye** \\[**Action**|**Adventure**|Thriller\\]\n* You: Sudden Death \\[**Action**\\]",
-      "dateUpdated": "Feb 26, 2016 7:28:14 AM",
+      "text": "%md\n### Solution\n* Me: Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* You: Sudden Death \\[**Action**\\]\n* Us: **Golden Eye** \\[**Action**|**Adventure**|Thriller\\]\n",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -386,16 +411,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eSolution\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe: Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eUs: \u003cstrong\u003eGolden Eye\u003c/strong\u003e [\u003cstrong\u003eAction\u003c/strong\u003e|\u003cstrong\u003eAdventure\u003c/strong\u003e|Thriller]\u003c/li\u003e\n\u003cli\u003eYou: Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eSolution\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe: Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eYou: Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003cli\u003eUs: \u003cstrong\u003eGolden Eye\u003c/strong\u003e [\u003cstrong\u003eAction\u003c/strong\u003e|\u003cstrong\u003eAdventure\u003c/strong\u003e|Thriller]\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Dec 29, 2015 2:40:14 PM",
-      "dateStarted": "Feb 26, 2016 7:28:15 AM",
-      "dateFinished": "Feb 26, 2016 7:28:15 AM",
+      "dateStarted": "Mar 2, 2016 8:40:36 PM",
+      "dateFinished": "Mar 2, 2016 8:40:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 26, 2016 7:28:15 AM",
+      "dateUpdated": "Mar 2, 2016 8:40:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -416,12 +441,14 @@
       },
       "jobName": "paragraph_1454569133180_-1392663574",
       "id": "20160204-065853_2089059441",
-      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: Connection refused",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Feb 4, 2016 6:58:53 AM",
-      "dateStarted": "Feb 26, 2016 7:28:15 AM",
-      "dateFinished": "Feb 26, 2016 7:28:15 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.ConnectException: Connection refused\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:51)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:37)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:139)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:188)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "Mar 2, 2016 8:40:39 PM",
+      "dateFinished": "Mar 2, 2016 8:40:40 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

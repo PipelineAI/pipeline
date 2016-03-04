@@ -1,0 +1,27 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456947755286_1524877294",
+      "id": "20160302-194235_475054990",
+      "dateCreated": "Mar 2, 2016 7:42:35 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: NLP/10: Lemmatization",
+  "id": "2BCXNCS88",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
