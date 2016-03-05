@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/triangle-counting-centrality.png)",
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -30,14 +30,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/triangle-counting-centrality.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:02 PM",
-      "dateFinished": "Mar 2, 2016 9:07:02 PM",
+      "dateStarted": "Mar 5, 2016 2:48:08 AM",
+      "dateFinished": "Mar 5, 2016 2:48:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/triangle-counting-centrality.csv\")\n  .toDF(\"userId1\", \"userId2\")",
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -64,14 +64,14 @@
         "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int]\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:02 PM",
-      "dateFinished": "Mar 2, 2016 9:07:02 PM",
+      "dateStarted": "Mar 5, 2016 2:48:08 AM",
+      "dateFinished": "Mar 5, 2016 2:48:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Edge \n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 0L)\n})",
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -95,17 +95,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Long]] \u003d MapPartitionsRDD[362] at map at \u003cconsole\u003e:64\n"
+        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Long]] \u003d MapPartitionsRDD[3898] at map at \u003cconsole\u003e:83\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:02 PM",
-      "dateFinished": "Mar 2, 2016 9:07:02 PM",
+      "dateStarted": "Mar 5, 2016 2:48:08 AM",
+      "dateFinished": "Mar 5, 2016 2:48:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.graphx.Graph\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "text": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -129,17 +129,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Graph\ngraph: org.apache.spark.graphx.Graph[Long,Long] \u003d org.apache.spark.graphx.impl.GraphImpl@15f664c7\n"
+        "msg": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\ngraph: org.apache.spark.graphx.Graph[Long,Long] \u003d org.apache.spark.graphx.impl.GraphImpl@5ebfbb40\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:02 PM",
-      "dateFinished": "Mar 2, 2016 9:07:03 PM",
+      "dateStarted": "Mar 5, 2016 2:48:08 AM",
+      "dateFinished": "Mar 5, 2016 2:48:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -163,18 +163,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cdiv id\u003d\u0027af6ec864c-e401-47dc-bdd3-4837cf6c8d92\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#af6ec864c-e401-47dc-bdd3-4837cf6c8d92\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[3],target:nodes[4]},{source:nodes[1],target:nodes[3]},{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[1]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[3]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+        "msg": "\u003cdiv id\u003d\u0027a0d1273eb-ca78-496e-a9fd-6ceec5e8d172\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a0d1273eb-ca78-496e-a9fd-6ceec5e8d172\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[3],target:nodes[4]},{source:nodes[1],target:nodes[3]},{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[1]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[3]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:03 PM",
-      "dateFinished": "Mar 2, 2016 9:07:03 PM",
+      "dateStarted": "Mar 5, 2016 2:48:08 AM",
+      "dateFinished": "Mar 5, 2016 2:48:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Triangle Counts per vertex",
-      "text": "graph.triangleCount().vertices.mapValues(num \u003d\u003e num/2).collect().mkString(\"\\n\")",
-      "dateUpdated": "Mar 2, 2016 9:07:59 PM",
+      "text": "graph.triangleCount.vertices.mapValues(num \u003d\u003e num/2).sortBy(_._2).collect().mkString(\"\\n\")",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -199,19 +199,280 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res73: String \u003d \n(10002,0)\n(90002,0)\n(10001,1)\n(90001,1)\n(90003,1)\n"
+        "msg": "res269: String \u003d \n(10002,0)\n(90002,0)\n(10001,1)\n(90001,1)\n(90003,1)\n"
       },
       "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:59 PM",
-      "dateFinished": "Mar 2, 2016 9:07:59 PM",
+      "dateStarted": "Mar 5, 2016 2:48:09 AM",
+      "dateFinished": "Mar 5, 2016 2:48:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Mar 2, 2016 9:07:02 PM",
+      "title": "Convert to GraphFrame",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456951381636_-640221609",
+      "id": "20160302-204301_551901977",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: bigint])\nres274: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres277: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: bigint]\nres280: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@68b12162\n"
+      },
+      "dateCreated": "Mar 2, 2016 8:43:01 PM",
+      "dateStarted": "Mar 5, 2016 2:48:09 AM",
+      "dateFinished": "Mar 5, 2016 2:48:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Vertices",
+      "text": "z.show(graphFrame.vertices)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457142007925_316622482",
+      "id": "20160305-014007_1742629277",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tattr\n10002\t0\n90002\t0\n10001\t0\n90001\t0\n90003\t0\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:40:07 AM",
+      "dateStarted": "Mar 5, 2016 2:48:10 AM",
+      "dateFinished": "Mar 5, 2016 2:48:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Edges",
+      "text": "z.show(graphFrame.edges)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457142029651_-397071404",
+      "id": "20160305-014029_1837215773",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "src\tdst\tattr\n90001\t90003\t0\n90002\t90001\t0\n10001\t90001\t0\n10001\t90003\t0\n10002\t90003\t0\n90001\t10001\t0\n90001\t90002\t0\n90003\t10001\t0\n90003\t10002\t0\n90003\t90001\t0\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:40:29 AM",
+      "dateStarted": "Mar 5, 2016 2:48:10 AM",
+      "dateFinished": "Mar 5, 2016 2:48:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show GraphFrame Triplets",
+      "text": "z.show(graphFrame.triplets)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "edge",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "src",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "edge",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "src",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140876764_990305247",
+      "id": "20160305-012116_1377050176",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "edge\tsrc\tdst\n[90001,10001,0]\t[90001,0]\t[10001,0]\n[90003,10001,0]\t[90003,0]\t[10001,0]\n[10001,90001,0]\t[10001,0]\t[90001,0]\n[90002,90001,0]\t[90002,0]\t[90001,0]\n[90003,90001,0]\t[90003,0]\t[90001,0]\n[90003,10002,0]\t[90003,0]\t[10002,0]\n[90001,90002,0]\t[90001,0]\t[90002,0]\n[10001,90003,0]\t[10001,0]\t[90003,0]\n[90001,90003,0]\t[90001,0]\t[90003,0]\n[10002,90003,0]\t[10002,0]\t[90003,0]\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:16 AM",
+      "dateStarted": "Mar 5, 2016 2:48:11 AM",
+      "dateFinished": "Mar 5, 2016 2:48:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Triangle Count with GraphFrame",
+      "text": "val triangleCountPerVertex \u003d graphFrame.triangleCount.run.select($\"id\", $\"count\").sort($\"count\")\n\nz.show(triangleCountPerVertex)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457138366920_-406902423",
+      "id": "20160305-003926_1294890707",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tcount\n10002\t0\n90002\t0\n10001\t1\n90001\t1\n90003\t1\n"
+      },
+      "dateCreated": "Mar 5, 2016 12:39:26 AM",
+      "dateStarted": "Mar 5, 2016 2:48:11 AM",
+      "dateFinished": "Mar 5, 2016 2:48:16 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find missing Potential triangles ",
+      "text": "val disconnectedTrianglesDF \u003d graphFrame.find(\"(v1)-[]-\u003e(v2); (v2)-[]-\u003e(v3); !(v1)-[]-\u003e(v3)\")\n\nz.show(disconnectedTrianglesDF)",
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "v1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "v2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "v1",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "v2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457138403821_-1686315109",
+      "id": "20160305-004003_1202354966",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "v1\tv2\tv3\n[10002,0]\t[90003,0]\t[10002,0]\n[90002,0]\t[90001,0]\t[90003,0]\n[10001,0]\t[90001,0]\t[90002,0]\n[90001,0]\t[90003,0]\t[90001,0]\n[90003,0]\t[90001,0]\t[90002,0]\n[90003,0]\t[10002,0]\t[90003,0]\n[90001,0]\t[90002,0]\t[90001,0]\n[90001,0]\t[90003,0]\t[10002,0]\n[90003,0]\t[90001,0]\t[90003,0]\n[90003,0]\t[10001,0]\t[90003,0]\n[90001,0]\t[10001,0]\t[90001,0]\n[10001,0]\t[90003,0]\t[10001,0]\n[90002,0]\t[90001,0]\t[10001,0]\n[10001,0]\t[90003,0]\t[10002,0]\n[10002,0]\t[90003,0]\t[10001,0]\n[10002,0]\t[90003,0]\t[90001,0]\n[90002,0]\t[90001,0]\t[90002,0]\n[10001,0]\t[90001,0]\t[10001,0]\n"
+      },
+      "dateCreated": "Mar 5, 2016 12:40:03 AM",
+      "dateStarted": "Mar 5, 2016 2:48:12 AM",
+      "dateFinished": "Mar 5, 2016 2:48:19 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Mar 5, 2016 2:48:08 AM",
+      "config": {
+        "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -227,20 +488,20 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_551901977",
+      "jobName": "paragraph_1457146082571_-49099175",
+      "id": "20160305-024802_1311368754",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT"
       },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Mar 2, 2016 9:07:04 PM",
-      "dateFinished": "Mar 2, 2016 9:07:04 PM",
+      "dateCreated": "Mar 5, 2016 2:48:02 AM",
+      "dateStarted": "Mar 5, 2016 2:48:19 AM",
+      "dateFinished": "Mar 5, 2016 2:48:19 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/05: Triangle Count Centrality Measure",
+  "name": "Graph/05: Centrality Measure (Triangle Counting)",
   "id": "2BD9RCPC4",
   "angularObjects": {
     "2ARR8UZDJ": [],

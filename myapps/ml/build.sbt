@@ -8,7 +8,6 @@ addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PAC
 
 resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
 
-//(unmanagedClasspath in Compile) += file("/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar")
 (unmanagedClasspath in Compile) += file("/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar")
 
 lazy val ml = (project in file("."))
@@ -22,6 +21,7 @@ val scalaTestVersion = sys.env("SCALATEST_VERSION")
 val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION")
 val jblasVersion = sys.env("JBLAS_VERSION")
+val graphFramesVersion = sys.env("GRAPHFRAMES_VERSION")
 
 lazy val mlDeps = Seq(
   "com.twitter"       %% "algebird-core"         % algebirdVersion,
@@ -29,6 +29,7 @@ lazy val mlDeps = Seq(
   "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
-  "org.jblas" 	       % "jblas" 		 % jblasVersion % "provided"
+  "org.jblas" 	       % "jblas" 		 % jblasVersion % "provided",
+  "graphframes"        % "graphframes"           % graphFramesVersion % "provided"
 )
 
