@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md \nExact Set Similarity (Jaccard)\n![Jaccard Similarity](http://fluxcapacitor.com/img/jaccard-similarity-1.png)\n![Jaccard Similarity](http://fluxcapacitor.com/img/jaccard-similarity-3.png)",
-      "dateUpdated": "Mar 2, 2016 7:21:22 PM",
+      "dateUpdated": "Mar 5, 2016 8:08:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorHide": false
       },
       "settings": {
         "params": {},
