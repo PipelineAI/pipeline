@@ -186,11 +186,11 @@
     {
       "title": "Extract and Enrich the Top Influencers",
       "text": "// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedTopInfluencersDF)",
-      "dateUpdated": "Mar 6, 2016 4:27:32 AM",
+      "dateUpdated": "Mar 7, 2016 9:19:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
@@ -246,11 +246,11 @@
     {
       "title": "Personalized PageRank Starting From A Given Vertex - with Outbound Links",
       "text": "val personalizedPageRank \u003d graph.personalizedPageRank(10001, convergenceThreshold)\nval topPersonalizedInfluencers \u003d personalizedPageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topPersonalizedInfluencersDF \u003d sc.parallelize(topPersonalizedInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedPersonalizedTopInfluencersDF \u003d topPersonalizedInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedPersonalizedTopInfluencersDF)",
-      "dateUpdated": "Mar 6, 2016 4:27:32 AM",
+      "dateUpdated": "Mar 7, 2016 9:19:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "pieChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [

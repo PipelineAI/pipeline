@@ -3,7 +3,7 @@
     {
       "title": "Retrieve Dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")\n  \nz.show(itemsDF.select($\"title\", $\"lyrics\"))\n\n//  .setFlattenNestedFields(Array(\"sentence_sentiment\"))",
-      "dateUpdated": "Mar 5, 2016 10:45:24 PM",
+      "dateUpdated": "Mar 7, 2016 9:15:38 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -137,11 +137,11 @@
     {
       "title": "Analyze Song sentiment",
       "text": "val sentiments \u003d songs.map(row \u003d\u003e (row._1.getAs[Seq[Row]](\"sentence\")(0)\n  .getAs[String](\"sentiment\"), row._2))\n  \nval sentimentsDF \u003d sqlContext.createDataFrame(sentiments).toDF(\"sentiment\", \"title\")\n\nz.show(sentimentsDF.sort($\"sentiment\" desc))",
-      "dateUpdated": "Mar 5, 2016 10:55:28 PM",
+      "dateUpdated": "Mar 7, 2016 9:15:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "pieChart",
+          "mode": "multiBarChart",
           "height": 347.0,
           "optionOpen": false,
           "keys": [
@@ -191,11 +191,11 @@
     },
     {
       "text": "val sentimentsByCountDF \u003d sentimentsDF.groupBy(\"sentiment\").count().sort($\"count\" desc)\n\nz.show(sentimentsByCountDF)",
-      "dateUpdated": "Feb 18, 2016 2:41:03 AM",
+      "dateUpdated": "Mar 7, 2016 9:15:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "multiBarChart",
+          "mode": "scatterChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
