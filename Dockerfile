@@ -68,10 +68,10 @@ RUN \
  && pip install ipyparallel \
 
 # TensorFlow (CPU-only)
-  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl \
+ && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
 
 # TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl \
+# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
@@ -89,6 +89,7 @@ RUN \
  && apt-get install -y python-sklearn \
  && pip install --upgrade skflow \
  && pip install ggplot \
+ && pip install networkx \
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
 
