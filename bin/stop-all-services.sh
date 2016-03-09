@@ -69,7 +69,7 @@ echo '...Stop Presto...'
 nohup launcher stop
 
 echo '...Stopping Titan...'
-ps -aef | grep "GremlinServer" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+jps | grep "GremlinServer" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping ElasticSearch...'
 jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
