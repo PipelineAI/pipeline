@@ -92,7 +92,7 @@ RUN \
  && pip install networkx \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
- && pip install --upgrade -r requirements.txt \
+# && pip install --upgrade -r requirements.txt \
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
