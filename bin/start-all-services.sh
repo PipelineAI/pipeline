@@ -73,3 +73,6 @@ nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.propert
 
 echo '...Starting Kafka REST Proxy...'
 nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
+
+echo '...Starting Titan...'
+nohup $TITAN_HOME/bin/gremlin-server.sh $CONFIG_HOME/titan/gremlin-server-rest-modern.yaml &
