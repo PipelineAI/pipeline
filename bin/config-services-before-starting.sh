@@ -194,12 +194,14 @@ mv $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml $TITAN_HOME/c
 mv $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml.orig
 mv $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties.orig
 mv $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties.orig
-ln -s $CONFIG_HOME/titan/gremlin-server-modern.yaml $TITAN_HOME/conf/gremlin-server
-ln -s $CONFIG_HOME/titan/gremlin-server-neo4j.yaml $TITAN_HOME/conf/gremlin-server
-ln -s $CONFIG_HOME/titan/gremlin-server-rest-modern.yaml $TITAN_HOME/conf/gremlin-server
-ln -s $CONFIG_HOME/titan/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server
-ln -s $CONFIG_HOME/titan/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server
-ln -s $CONFIG_HOME/titan/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server
+mv $TITAN_HOME/conf/titan-cassandra-es.properties $TITAN_HOME/conf/titan-cassandra-es.properties.orig
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-modern.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-neo4j.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-rest-modern.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/titan-cassandra-es.properties $TITAN_HOME/conf/
 mkdir -p $LOGS_HOME/gremlin
 
 # SSH (Part 2/2)
