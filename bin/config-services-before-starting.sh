@@ -166,6 +166,7 @@ ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/state-management.xml $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
+mkdir -p $MYAPPS_HOME/nifi/flows
 
 # Airflow
 echo '...Configuring Airflow...'
