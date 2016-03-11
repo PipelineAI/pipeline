@@ -1,21 +1,41 @@
 {
   "paragraphs": [
     {
-      "config": {},
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1456386719552_-1289365663",
       "id": "20160225-075159_1120209487",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Feb 25, 2016 7:51:59 AM",
-      "status": "READY",
+      "dateStarted": "Mar 9, 2016 4:12:13 AM",
+      "dateFinished": "Mar 9, 2016 4:12:35 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load dataset including tags",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Feb 18, 2016 6:35:41 PM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n\nz.show(itemsDF)",
+      "dateUpdated": "Mar 9, 2016 4:24:11 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -25,10 +45,33 @@
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [],
-          "values": [],
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "enabled": true
       },
@@ -44,15 +87,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 16, 2016 5:15:36 AM",
-      "dateFinished": "Feb 16, 2016 5:15:36 AM",
+      "dateStarted": "Mar 9, 2016 4:24:11 AM",
+      "dateFinished": "Mar 9, 2016 4:24:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Feb 16, 2016 5:15:37 AM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsWithTagsDF \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n}).toDF(\"id\", \"title\", \"tags\")",
+      "dateUpdated": "Mar 9, 2016 4:24:58 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -77,18 +120,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1480] at map at \u003cconsole\u003e:95\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsWithTagsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, tags: array\u003cstring\u003e]\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 16, 2016 5:15:37 AM",
-      "dateFinished": "Feb 16, 2016 5:15:38 AM",
+      "dateStarted": "Mar 9, 2016 4:24:58 AM",
+      "dateFinished": "Mar 9, 2016 4:24:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
-      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
-      "dateUpdated": "Feb 16, 2016 5:15:39 AM",
+      "text": "val tagsCountRDD \u003d itemsWithTagsDF.flatMap(item \u003d\u003e item.getSeq[String](2)).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
+      "dateUpdated": "Mar 9, 2016 4:30:18 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -140,19 +183,17 @@
         "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 16, 2016 5:15:39 AM",
-      "dateFinished": "Feb 16, 2016 5:15:40 AM",
+      "dateStarted": "Mar 9, 2016 4:30:04 AM",
+      "dateFinished": "Mar 9, 2016 4:30:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Convert Item Tags Into Vectors",
-      "text": "// TODO:  CountVectorizer, then get vocabulary array (tags), then create vectors from that\n\nimport org.apache.spark.mllib.linalg.Vectors\n\nval vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))",
-      "dateUpdated": "Feb 16, 2016 5:20:17 AM",
+      "title": "Distinct Tags",
+      "text": "val distinctTagsDF \u003d itemsWithTagsDF.flatMap(row \u003d\u003e row.getSeq[String](2)).distinct().toDF(\"tag\")",
+      "dateUpdated": "Mar 9, 2016 4:34:58 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -162,29 +203,133 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1452399241202_1486008097",
-      "id": "20160110-041401_673909889",
+      "jobName": "paragraph_1457496680376_1978843102",
+      "id": "20160309-041120_1608443125",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "distinctTagsDF: org.apache.spark.sql.DataFrame \u003d [tag: string]\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:11:20 AM",
+      "dateStarted": "Mar 9, 2016 4:34:58 AM",
+      "dateFinished": "Mar 9, 2016 4:34:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.StringIndexer\n\nval tagIndexer \u003d new StringIndexer()\n  .setInputCol(\"tag\")\n  .setOutputCol(\"tagIndex\")",
+      "dateUpdated": "Mar 9, 2016 4:42:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498049612_-111932803",
+      "id": "20160309-043409_575471273",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.StringIndexer\ntagIndexer: org.apache.spark.ml.feature.StringIndexer \u003d strIdx_70b1e5f5a6e1\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:34:09 AM",
+      "dateStarted": "Mar 9, 2016 4:42:20 AM",
+      "dateFinished": "Mar 9, 2016 4:42:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.OneHotEncoder\n\nval oneHotEncoder \u003d new OneHotEncoder()\n  .setInputCol(tagIndexer.getOutputCol)\n  .setOutputCol(\"tagOneHotEncoded\")\n  .setDropLast(false)",
+      "dateUpdated": "Mar 9, 2016 4:50:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498342824_1758745353",
+      "id": "20160309-043902_1173974218",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.OneHotEncoder\noneHotEncoder: org.apache.spark.ml.feature.OneHotEncoder \u003d oneHot_47c925fce145\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:39:02 AM",
+      "dateStarted": "Mar 9, 2016 4:50:10 AM",
+      "dateFinished": "Mar 9, 2016 4:50:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tagIndexer, oneHotEncoder))\n  \nval pipelineModel \u003d pipeline.fit(distinctTagsDF)\nval resultsDF \u003d pipelineModel.transform(distinctTagsDF)\n//z.show(resultsDF)\n\nimport org.jblas.DoubleMatrix\nresultsDF.map(row \u003d\u003e new DoubleMatrix(row.getSeq[Vector[Double]](0).toArray))\n",
+      "dateUpdated": "Mar 9, 2016 5:00:49 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498638811_-405489636",
+      "id": "20160309-044358_87162211",
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\n\u003cconsole\u003e:102: error: overloaded method value dense with alternatives:\n  (values: Array[Double])org.apache.spark.mllib.linalg.Vector \u003cand\u003e\n  (firstValue: Double,otherValues: Double*)org.apache.spark.mllib.linalg.Vector\n cannot be applied to (Seq[Double])\n       val vectors \u003d itemsRDD.map(item \u003d\u003e Vectors.dense(item.tags.map(_.toDouble)))\n                                                  ^\n"
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_233712f0ccbe\npipelineModel: org.apache.spark.ml.PipelineModel \u003d pipeline_233712f0ccbe\nresultsDF: org.apache.spark.sql.DataFrame \u003d [tag: string, tagIndex: double, tagOneHotEncoded: vector]\nimport org.jblas.DoubleMatrix\n\u003cconsole\u003e:108: error: overloaded method constructor DoubleMatrix with alternatives:\n  (x$1: java.util.List[java.lang.Double])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Array[Array[scala.Double]])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: String)org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Array[scala.Double])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Int)org.jblas.DoubleMatrix\n cannot be applied to (Array[Vector[scala.Double]])\n              resultsDF.map(row \u003d\u003e new DoubleMatrix(row.getSeq[Vector[Double]](0).toArray))\n                                   ^\n"
       },
-      "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 16, 2016 5:17:43 AM",
-      "dateFinished": "Feb 16, 2016 5:17:43 AM",
+      "dateCreated": "Mar 9, 2016 4:43:58 AM",
+      "dateStarted": "Mar 9, 2016 5:00:49 AM",
+      "dateFinished": "Mar 9, 2016 5:00:49 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cluster Items Using Tag Vectors and K-Means",
       "text": "val numClusters \u003d 2\nval numIterations \u003d 20\n\nval clusters \u003d KMeans.fit(parsedData, numClusters, numIterations)",
-      "dateUpdated": "Feb 16, 2016 5:18:28 AM",
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -228,18 +373,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "numClusters: Int \u003d 2\nnumIterations: Int \u003d 20\n\u003cconsole\u003e:102: error: value train is not a member of object org.apache.spark.ml.clustering.KMeans\n       val clusters \u003d KMeans.train(parsedData, numClusters, numIterations)\n                             ^\n"
+        "msg": "numClusters: Int \u003d 2\nnumIterations: Int \u003d 20\n\u003cconsole\u003e:35: error: not found: value KMeans\n       val clusters \u003d KMeans.fit(parsedData, numClusters, numIterations)\n                      ^\n"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 16, 2016 5:18:10 AM",
-      "dateFinished": "Feb 16, 2016 5:18:11 AM",
+      "dateStarted": "Mar 9, 2016 4:12:42 AM",
+      "dateFinished": "Mar 9, 2016 4:12:42 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Evaluate clustering by computing Within Set Sum of Squared Errors (WSSSE)",
       "text": "val WSSSE \u003d clusters.computeCost(parsedData)\n\nprintln(\"Within Set Sum of Squared Errors \u003d \" + WSSSE)",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -264,18 +409,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:44: error: not found: value clusters\n         val WSSSE \u003d clusters.computeCost(parsedData)\n                     ^\n"
+        "msg": "\u003cconsole\u003e:30: error: not found: value clusters\n         val WSSSE \u003d clusters.computeCost(parsedData)\n                     ^\n"
       },
       "dateCreated": "Feb 4, 2016 7:10:17 AM",
-      "dateStarted": "Feb 5, 2016 5:08:57 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Mar 9, 2016 4:12:42 AM",
+      "dateFinished": "Mar 9, 2016 4:12:42 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the cluster assignments with item data",
       "text": "//val enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n//  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n//  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n//  .sort($\"clusterId\" desc)\n  \n//z.show(enrichedClusterAssignmentsDF)",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -326,15 +471,15 @@
         "msg": ""
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:57 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Mar 9, 2016 4:12:42 AM",
+      "dateFinished": "Mar 9, 2016 4:12:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show cluster Distributions",
       "text": "//val clusterDistributionDF \u003d joinedClusterAssignmentsDF\n//  .select($\"clusterId\", $\"itemId\", $\"tags\")\n//  .groupBy($\"clusterId\", $\"tags\")\n//  .agg(count($\"itemId\"))\n//  .sort($\"clusterId\" desc)\n\n//z.show(clusterDistributionDF)",
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -381,13 +526,13 @@
         "msg": ""
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:57 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Mar 9, 2016 4:12:42 AM",
+      "dateFinished": "Mar 9, 2016 4:12:43 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Feb 5, 2016 5:08:50 AM",
+      "dateUpdated": "Mar 9, 2016 4:12:13 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -413,8 +558,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 10, 2016 4:14:01 AM",
-      "dateStarted": "Feb 5, 2016 5:08:57 AM",
-      "dateFinished": "Feb 5, 2016 5:08:57 AM",
+      "dateStarted": "Mar 9, 2016 4:12:43 AM",
+      "dateFinished": "Mar 9, 2016 4:12:43 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

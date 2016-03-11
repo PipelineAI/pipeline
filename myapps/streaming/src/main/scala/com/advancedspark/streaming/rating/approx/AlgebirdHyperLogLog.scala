@@ -9,7 +9,10 @@ import org.apache.spark.SparkConf
 import kafka.serializer.StringDecoder
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
-import org.apache.spark.streaming.Time
+import org.apache.spark.streaming._
+//import org.apache.spark.streaming.Time
+//import org.apache.spark.streaming.State
+//import org.apache.spark.streaming.StateSpec
 import org.apache.spark.sql._
 import org.apache.spark.sql.types._
 
@@ -60,10 +63,16 @@ object AlgebirdHyperLogLog {
     val hllMonoid = new HyperLogLogMonoid(14)
   
     // Merge the current HLL for a given itemId with the new HLLs for the itemId
-    def updateFunction(newHlls: Seq[HLL], currentHll: Option[HLL]) = {
+    def updateStateFunction(newHlls: Seq[HLL], currentHll: Option[HLL]) = {
       val sumHll = hllMonoid.sum(currentHll.getOrElse(hllMonoid.zero) +: newHlls)
       Some(sumHll)
     }
+
+//    def updateStateFunc(batchTime: Time, itemId: Int, newUserIdHlls: Option[Seq[HLL]], state: State[HLL]): Option[(Int, HLL)] = {
+//      val sumHll = hllMonoid.sum(state.getOption.getOrElse(hllMonoid.zero) +: newUserIdHlls.getOrElse(Seq(hllMonoid.zero)))
+//      state.update(sumHll)
+//      Some(itemId, sumHll)
+//    }
 
     // Create (key, value) pairs which is what updateStateByKey expects
     val itemIdHllStream = ratingsStream.map(message => {
@@ -74,10 +83,14 @@ object AlgebirdHyperLogLog {
       (itemId, userIdHll)
     })
  
+//    val stateSpec = StateSpec.function(updateStateFunc _)
+//      .initialState(ssc.sparkContext.parallelize(Seq(hllMonoid.zero)))
+      
     // Update the state
     // Spark Streamings internals will organize all HLLs (values) for a given itemId (key)
-    //   and pass to the updateFunction() method
-    val sumItemIdHllStream = itemIdHllStream.updateStateByKey[HLL](updateFunction _) 
+    //   and pass to the updateStateFunction() method
+    val sumItemIdHllStream = itemIdHllStream.updateStateByKey[HLL](updateStateFunction _) 
+//      itemIdHllStream.mapWithState[State[HLL], Option[(Int, HLL)]](stateSpec)
 
     // Format for printing by pulling out the estimatedSize from the HLL
     val sumItemIdApproxDistinctCountStream = sumItemIdHllStream.map(itemIdHll => (itemIdHll._1, itemIdHll._2.estimatedSize.toLong))

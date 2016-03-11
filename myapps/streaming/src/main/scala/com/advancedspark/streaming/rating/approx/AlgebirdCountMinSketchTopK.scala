@@ -59,7 +59,6 @@ object AlgebirdCountMinSketchTopK {
     
     val topKCms = TopPctCMS.monoid[Int](eps, delta, seed, minTopKPctOfTotal)
     var globalTopKCms = topKCms.zero
-    //val globalHashSet = new HashSet
 
     // Messages come in off the Kafka source as follows:
     //   (userId, itemId, rating)

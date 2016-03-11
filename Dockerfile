@@ -26,7 +26,7 @@ ENV \
  SPARK_VERSION=1.6.0 \
  STANFORD_CORENLP_VERSION=3.6.0 \
  STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0 \
- NIFI_VERSION=0.5.1 \
+ NIFI_VERSION=0.4.1 \
  PRESTO_VERSION=0.137 \
  TITAN_VERSION=1.0.0-hadoop1 \
  AKKA_VERSION=2.3.11 \
@@ -41,9 +41,10 @@ ENV \
  STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0 \
  SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0 \
  SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3 \
- SPARK_NIFI_CONNECTOR_VERSION=0.5.1 \
+ SPARK_NIFI_CONNECTOR_VERSION=0.4.1 \
  SPARK_XML_VERSION=0.3.1 \
- JBLAS_VERSION=1.2.4
+ JBLAS_VERSION=1.2.4 \
+ GRAPHFRAMES_VERSION=0.1.0-spark1.6
 
 RUN \
  apt-get update \
@@ -67,10 +68,10 @@ RUN \
  && pip install ipyparallel \
 
 # TensorFlow (CPU-only)
-  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl \
+ && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
 
 # TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl \
+# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
@@ -88,6 +89,11 @@ RUN \
  && apt-get install -y python-sklearn \
  && pip install --upgrade skflow \
  && pip install ggplot \
+ && pip install networkx \
+ && apt-get install -y pkg-config \
+ && apt-get install -y libgraphviz-dev \
+# && pip install --upgrade -r requirements.txt \
+
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
 
@@ -256,6 +262,6 @@ RUN \
  && cd ~/pipeline/myapps/core && sbt package 
 
 # Ports to expose 
-EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060
+EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182
 
 WORKDIR /root

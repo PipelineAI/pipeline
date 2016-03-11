@@ -160,10 +160,13 @@ echo '...Configuring NiFi...'
 mv $NIFI_HOME/conf/nifi.properties $NIFI_HOME/conf/nifi.properties.orig
 mv $NIFI_HOME/conf/logback.xml $NIFI_HOME/conf/logback.xml.orig
 mv $NIFI_HOME/conf/bootstrap.conf $NIFI_HOME/conf/bootstrap.conf.orig
+mv $NIFI_HOME/conf/state-management.xml $NIFI_HOME/conf/state-management.xml.orig
 ln -s $CONFIG_HOME/nifi/nifi.properties $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
+ln -s $CONFIG_HOME/nifi/state-management.xml $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
+mkdir -p $MYAPPS_HOME/nifi/flows
 
 # Airflow
 echo '...Configuring Airflow...'
@@ -183,6 +186,24 @@ echo '...Configuring Presto...'
 mkdir -p $DATA_WORK_HOME/presto
 mkdir -p $PRESTO_HOME/etc
 ln -s $CONFIG_HOME/presto/* $PRESTO_HOME/etc
+
+# Titan
+echo '...Configuring Titan...'
+mv $TITAN_HOME/conf/gremlin-server/gremlin-server-modern.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-modern.yaml.orig
+mv $TITAN_HOME/conf/gremlin-server/gremlin-server-neo4j.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-neo4j.yaml.orig
+mv $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml.orig
+mv $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml.orig
+mv $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties.orig
+mv $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties.orig
+mv $TITAN_HOME/conf/titan-cassandra-es.properties $TITAN_HOME/conf/titan-cassandra-es.properties.orig
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-modern.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-neo4j.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-rest-modern.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/gremlin-server/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server
+ln -s $CONFIG_HOME/titan/titan-cassandra-es.properties $TITAN_HOME/conf/
+mkdir -p $LOGS_HOME/gremlin
 
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'

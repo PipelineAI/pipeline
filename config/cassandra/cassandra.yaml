@@ -400,12 +400,12 @@ trickle_fsync_interval_in_kb: 10240
 
 # TCP port, for commands and data
 # For security reasons, you should not expose this port to the internet.  Firewall it if needed.
-storage_port: 37000
+storage_port: 57000
 
 # SSL port, for encrypted communication.  Unused unless enabled in
 # encryption_options
 # For security reasons, you should not expose this port to the internet.  Firewall it if needed.
-ssl_storage_port: 37001
+ssl_storage_port: 57001
 
 # Address or interface to bind to and tell other Cassandra nodes to connect to.
 # You _must_ change this if you want multiple nodes to be able to communicate!
@@ -462,7 +462,7 @@ native_transport_port: 9042
 # native_transport_max_concurrent_connections_per_ip: -1
 
 # Whether to start the thrift rpc server.
-start_rpc: false
+start_rpc: true
 
 # The address or interface to bind the Thrift RPC service and native transport
 # server to.
@@ -482,7 +482,7 @@ start_rpc: false
 # you can specify which should be chosen using rpc_interface_prefer_ipv6. If false the first ipv4
 # address will be used. If true the first ipv6 address will be used. Defaults to false preferring
 # ipv4. If there is only one address it will be selected regardless of ipv4/ipv6.
-rpc_address: 127.0.0.1 
+rpc_address: 0.0.0.0 
 # rpc_interface: eth1
 # rpc_interface_prefer_ipv6: false
 
@@ -493,7 +493,7 @@ rpc_port: 9160
 # be set to 0.0.0.0. If left blank, this will be set to the value of
 # rpc_address. If rpc_address is set to 0.0.0.0, broadcast_rpc_address must
 # be set.
-# broadcast_rpc_address: 1.2.3.4
+broadcast_rpc_address: 127.0.0.1
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true

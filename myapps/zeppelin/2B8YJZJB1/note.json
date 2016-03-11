@@ -3,7 +3,7 @@
     {
       "title": "Memory Size of List",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval list1 \u003d (1 to 100000).toList\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(list1)",
-      "dateUpdated": "Feb 16, 2016 5:02:13 PM",
+      "dateUpdated": "Mar 8, 2016 11:27:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nlist1: List[Int] \u003d List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 1...sizeInMemoryList: Long \u003d 4800016\n"
       },
       "dateCreated": "Jan 28, 2016 9:31:21 PM",
-      "dateStarted": "Feb 16, 2016 5:02:13 PM",
-      "dateFinished": "Feb 16, 2016 5:02:14 PM",
+      "dateStarted": "Mar 8, 2016 11:27:25 AM",
+      "dateFinished": "Mar 8, 2016 11:27:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Memory Size of HyperLogLog Set",
       "text": "import com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval sizeInMemoryHll \u003d SizeEstimator.estimate(hllAgg(list1))",
-      "dateUpdated": "Feb 16, 2016 5:02:19 PM",
+      "dateUpdated": "Mar 8, 2016 11:27:29 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -64,11 +64,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@35dddaad,com.twitter.algebird.Hash128$$anon$5@44570426)\nsizeInMemoryHll: Long \u003d 16472\n"
+        "msg": "import com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@5b9f2fe,com.twitter.algebird.Hash128$$anon$5@794015da)\nsizeInMemoryHll: Long \u003d 16472\n"
       },
       "dateCreated": "Dec 20, 2015 3:01:06 AM",
-      "dateStarted": "Feb 16, 2016 5:02:19 PM",
-      "dateFinished": "Feb 16, 2016 5:02:20 PM",
+      "dateStarted": "Mar 8, 2016 11:27:29 AM",
+      "dateFinished": "Mar 8, 2016 11:27:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

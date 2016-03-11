@@ -16,6 +16,9 @@ import com.brkyvz.spark.recommendation.LatentMatrixFactorizationParams
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
+// TODO:  Look at Sean Owen's Oryx:  
+//https://github.com/OryxProject/oryx/blob/91004a03413eef0fdfd6e75a61b68248d11db0e5/app/oryx-app/src/main/java/com/cloudera/oryx/app/speed/als/ALSSpeedModelManager.java#L193
+
 object TrainMFIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()

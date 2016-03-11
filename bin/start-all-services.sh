@@ -58,7 +58,7 @@ nohup kibana &
 echo '...Starting Jupyter Notebook Server (via pipeline-pyspark.sh)...'
 nohup pipeline-pyspark.sh & 
 
-echo '...Starting Nifi...'
+echo '...Starting NiFi...'
 nohup nifi.sh start &
 
 echo '...Starting Airflow...'
@@ -73,3 +73,7 @@ nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.propert
 
 echo '...Starting Kafka REST Proxy...'
 nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
+
+echo '...Starting Titan...'
+nodetool enablethrift
+nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server-rest-modern.yaml &

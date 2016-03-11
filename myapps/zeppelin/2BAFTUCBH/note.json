@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Retrieve Dataset",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")\n  \nz.show(itemsDF.select($\"title\", $\"lyrics\"))",
-      "dateUpdated": "Feb 18, 2016 2:41:03 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")\n  \nz.show(itemsDF.select($\"title\", $\"lyrics\"))\n\n//  .setFlattenNestedFields(Array(\"sentence_sentiment\"))",
+      "dateUpdated": "Mar 7, 2016 9:15:38 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -39,8 +39,8 @@
     },
     {
       "title": "Use Spark-coreNLP Wrapper to calculate song sentiment",
-      "text": "import com.databricks.spark.corenlp.CoreNLP\n\nval coreNLP \u003d new CoreNLP()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"corenlp\")\n  .setAnnotators(Array(\"tokenize\", \"ssplit\", \"parse\", \"sentiment\"))\n//  .setFlattenNestedFields(Array(\"sentence_sentiment\"))\n  \nval sentimentDF \u003d coreNLP.transform(itemsDF).cache()",
-      "dateUpdated": "Feb 18, 2016 2:41:03 AM",
+      "text": "import com.databricks.spark.corenlp.CoreNLP\n\nval coreNLP \u003d new CoreNLP()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"corenlp\")\n  .setAnnotators(Array(\"tokenize\", \"ssplit\", \"parse\", \"sentiment\"))\n  \nval sentimentDF \u003d coreNLP.transform(itemsDF)",
+      "dateUpdated": "Mar 5, 2016 10:45:48 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -99,8 +99,8 @@
     },
     {
       "title": "Create (Sentiment, Title) Tuples for analysis",
-      "text": "import org.apache.spark.sql.Row\n\nval songs \u003d sentimentDF.head(100).map(row \u003d\u003e (row.getAs[Row](s\"\"\"${coreNLP.getOutputCol}\"\"\"), row.getAs[String](\"title\")))",
-      "dateUpdated": "Feb 18, 2016 2:41:03 AM",
+      "text": "import org.apache.spark.sql.Row\n\nval songs \u003d sentimentDF.head(100)\n  .map(row \u003d\u003e (row.getAs[Row](s\"\"\"${coreNLP.getOutputCol}\"\"\"), row.getAs[String](\"title\")))",
+      "dateUpdated": "Mar 5, 2016 10:48:05 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -137,12 +137,12 @@
     {
       "title": "Analyze Song sentiment",
       "text": "val sentiments \u003d songs.map(row \u003d\u003e (row._1.getAs[Seq[Row]](\"sentence\")(0)\n  .getAs[String](\"sentiment\"), row._2))\n  \nval sentimentsDF \u003d sqlContext.createDataFrame(sentiments).toDF(\"sentiment\", \"title\")\n\nz.show(sentimentsDF.sort($\"sentiment\" desc))",
-      "dateUpdated": "Mar 2, 2016 12:48:19 AM",
+      "dateUpdated": "Mar 7, 2016 9:15:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "multiBarChart",
-          "height": 225.0,
+          "height": 347.0,
           "optionOpen": false,
           "keys": [
             {
@@ -191,11 +191,11 @@
     },
     {
       "text": "val sentimentsByCountDF \u003d sentimentsDF.groupBy(\"sentiment\").count().sort($\"count\" desc)\n\nz.show(sentimentsByCountDF)",
-      "dateUpdated": "Feb 18, 2016 2:41:03 AM",
+      "dateUpdated": "Mar 7, 2016 9:15:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "multiBarChart",
+          "mode": "scatterChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [

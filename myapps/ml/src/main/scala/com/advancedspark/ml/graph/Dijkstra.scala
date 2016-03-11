@@ -42,3 +42,4 @@ object Dijkstra {
     shortestPathGraph
   }
 }
+

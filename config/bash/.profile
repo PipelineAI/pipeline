@@ -22,9 +22,10 @@ export ALGEBIRD_VERSION=0.11.0
 export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
 export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
 export SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
-export SPARK_NIFI_CONNECTOR_VERSION=0.5.1
+export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
 export SPARK_XML_VERSION=0.3.1
 export JBLAS_VERSION=1.2.4
+export GRAPHFRAMES_VERSION=0.1.0-spark1.6
 
 #Dev Install
 export DEV_INSTALL_HOME=~
@@ -136,7 +137,7 @@ export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION
+export SPARK_SUBMIT_PACKAGES=org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,brkyvz:streaming-matrix-factorization:$STREAMING_MATRIX_FACTORIZATION_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION,graphframes:graphframes:${GRAPHFRAMES_VERSION}
 
 # We still need to include a reference to a local stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar because SparkSubmit doesn't support a classifier in --packages
 export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/streaming/target/scala-2.10/streaming_2.10-1.0.jar

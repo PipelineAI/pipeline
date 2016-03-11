@@ -3,7 +3,7 @@
     {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n  .cache()\n  \nz.show(itemsDF)",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 12:46:09 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -56,15 +56,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Jan 10, 2016 3:17:58 AM",
-      "dateStarted": "Mar 2, 2016 7:24:39 PM",
-      "dateFinished": "Mar 2, 2016 7:24:39 PM",
+      "dateStarted": "Mar 8, 2016 12:46:09 PM",
+      "dateFinished": "Mar 8, 2016 12:46:10 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n}).cache()",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 12:46:25 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -89,18 +89,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[204] at map at \u003cconsole\u003e:53\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[1879] at map at \u003cconsole\u003e:69\n"
       },
       "dateCreated": "Jan 10, 2016 3:17:58 AM",
-      "dateStarted": "Mar 2, 2016 7:24:39 PM",
-      "dateFinished": "Mar 2, 2016 7:24:40 PM",
+      "dateStarted": "Mar 8, 2016 12:46:25 PM",
+      "dateFinished": "Mar 8, 2016 12:46:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 12:46:54 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -152,15 +152,15 @@
         "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Jan 10, 2016 3:17:58 AM",
-      "dateStarted": "Mar 2, 2016 7:24:40 PM",
-      "dateFinished": "Mar 2, 2016 7:24:40 PM",
+      "dateStarted": "Mar 8, 2016 12:46:48 PM",
+      "dateFinished": "Mar 8, 2016 12:46:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Cartesian product of all items",
       "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n  .filter(itemPair \u003d\u003e (itemPair._1.id \u003c\u003d itemPair._2.id)) // preserve matrix triangle to avoid extra compares\n  .cache()\n \nval allItemPairsCount \u003d allItemPairsRDD.count() ",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 1:20:28 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -185,18 +185,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d MapPartitionsRDD[213] at filter at \u003cconsole\u003e:55\nallItemPairsCount: Long \u003d 55\n"
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d MapPartitionsRDD[1888] at filter at \u003cconsole\u003e:71\nallItemPairsCount: Long \u003d 55\n"
       },
       "dateCreated": "Jan 10, 2016 3:17:58 AM",
-      "dateStarted": "Mar 2, 2016 7:24:40 PM",
-      "dateFinished": "Mar 2, 2016 7:24:40 PM",
+      "dateStarted": "Mar 8, 2016 1:20:28 PM",
+      "dateFinished": "Mar 8, 2016 1:20:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Jaccard Similarity between all Items above a threshold",
       "text": "import com.advancedspark.ml.Similarity\n\nval minJaccardSimilarityThreshold \u003d 0.1\n\nval similarItemPairIdsAboveThresholdRDD \u003d allItemPairsRDD\n  .map(itemPair \u003d\u003e (itemPair._1.id, itemPair._2.id,\n     Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)))\n  .filter(_._3 \u003e\u003d minJaccardSimilarityThreshold) // Preserve only pairs above min jaccard similarity \n  .cache()\n\nval similarItemPairIdCount \u003d similarItemPairIdsAboveThresholdRDD.count()",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 1:20:32 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -245,11 +245,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.Similarity\nminJaccardSimilarityThreshold: Double \u003d 0.1\nsimilarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[215] at filter at \u003cconsole\u003e:64\nsimilarItemPairIdCount: Long \u003d 29\n"
+        "msg": "import com.advancedspark.ml.Similarity\nminJaccardSimilarityThreshold: Double \u003d 0.1\nsimilarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[1890] at filter at \u003cconsole\u003e:80\nsimilarItemPairIdCount: Long \u003d 29\n"
       },
       "dateCreated": "Jan 10, 2016 3:17:58 AM",
-      "dateStarted": "Mar 2, 2016 7:24:40 PM",
-      "dateFinished": "Mar 2, 2016 7:24:41 PM",
+      "dateStarted": "Mar 8, 2016 1:20:32 PM",
+      "dateFinished": "Mar 8, 2016 1:20:32 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -311,7 +311,7 @@
     {
       "title": "Enrich the cluster assignments",
       "text": "val clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}\n\nval enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n  .sort($\"clusterId\" desc)\n  \nz.show(enrichedClusterAssignmentsDF.select($\"clusterId\", $\"title\", $\"tags\"))",
-      "dateUpdated": "Mar 2, 2016 7:24:39 PM",
+      "dateUpdated": "Mar 8, 2016 1:21:04 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
