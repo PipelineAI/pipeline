@@ -1,0 +1,12 @@
+site_name: Tribe
+repo_name: GitHub
+repo_url: https://github.com/DistrictDataLabs/tribe
+site_description: Tribe extracts a network from an email mbox and writes it to a graphml file for visualization and analysis.
+site_author: District Data Labs
+copyright: Built by District Data Labs, licensed by <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
+theme: readthedocs
+
+pages:
+    - "Introduction": index.md
+    - "Aquiring an Email MBox": emails.md
+    - "About Tribe": about.md

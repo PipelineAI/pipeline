@@ -225,6 +225,40 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "//TODO:  For Spark\u0027s current implementation, you would need to map those features as you mention. You could also use say StringIndexer -\u003e OneHotEncoder or VectorIndexer. You could create a Pipeline to deal with the mapping and training (e.g. http://spark.apache.org/docs/latest/ml-guide.html#example-pipeline). Pipeline supports persistence.\n",
+      "dateUpdated": "Mar 12, 2016 2:16:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457792178889_1987403522",
+      "id": "20160312-141618_533322746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Mar 12, 2016 2:16:18 PM",
+      "dateStarted": "Mar 12, 2016 2:16:29 PM",
+      "dateFinished": "Mar 12, 2016 2:16:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "text": "import org.apache.spark.ml.feature.StringIndexer\n\nval tagIndexer \u003d new StringIndexer()\n  .setInputCol(\"tag\")\n  .setOutputCol(\"tagIndex\")",
       "dateUpdated": "Mar 9, 2016 4:42:20 AM",
       "config": {
@@ -567,9 +601,20 @@
   "name": "TODO: Clustering/05: K-Means Clustering",
   "id": "2B951KEK9",
   "angularObjects": {
-    "2ARR8UZDJ": [],
-    "2AS9P7JSA": [],
-    "2AR33ZMZJ": []
+    "2BEGD5PKY": [],
+    "2BE77VGXX": [],
+    "2BCP5RYPW": [],
+    "2BE5B7T6C": [],
+    "2BDHX9C4U": [],
+    "2BFE8ZRKW": [],
+    "2BG7XUMST": [],
+    "2BEWT9BTQ": [],
+    "2BF9JBZN5": [],
+    "2BF666AQP": [],
+    "2BF7MKGKF": [],
+    "2BG2MTBAA": [],
+    "2BCR6TSCQ": [],
+    "2BFVSJYDM": []
   },
   "config": {
     "looknfeel": "default"

@@ -1,0 +1,5 @@
+# Example configuration file for the Tribe application
+# Copy and paste this into a file named "tribe.yaml" and add your settings
+
+debug: true
+testing: false
