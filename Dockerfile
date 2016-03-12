@@ -118,6 +118,8 @@ RUN \
 # libcurl (required to install.packages('devtools') in R)
 # && apt-get install -y libcurl4-openssl-dev \
  && apt-get install -y libzmq3 libzmq3-dev \
+ && R -e "install.packages(c('rzmq','repr','IRkernel','IRdisplay'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+ && R -e "IRkernel::installspec(user = FALSE)"
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
