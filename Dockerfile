@@ -108,11 +108,16 @@ RUN \
 # && update-alternatives --config liblapack.so.3 \
 
 # R
+ && echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+ && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+ && gpg -a --export E084DAB9 | sudo apt-key add - \
+ && apt-get update \
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
 
 # libcurl (required to install.packages('devtools') in R)
-# && apt-get install libcurl4-openssl-dev \
+# && apt-get install -y libcurl4-openssl-dev \
+ && apt-get install -y libzmq3 libzmq3-dev \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
