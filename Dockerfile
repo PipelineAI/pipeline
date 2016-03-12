@@ -108,11 +108,18 @@ RUN \
 # && update-alternatives --config liblapack.so.3 \
 
 # R
+ && echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+ && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+ && gpg -a --export E084DAB9 | sudo apt-key add - \
+ && apt-get update \
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
 
 # libcurl (required to install.packages('devtools') in R)
-# && apt-get install libcurl4-openssl-dev \
+# && apt-get install -y libcurl4-openssl-dev \
+ && apt-get install -y libzmq3 libzmq3-dev \
+ && R -e "install.packages(c('rzmq','repr','IRkernel','IRdisplay'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+ && R -e "IRkernel::installspec(user = FALSE)" \
 
 # Ganglia
  && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
@@ -208,7 +215,7 @@ RUN \
 
 # Apache NiFi
  && cd ~ \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/nifi-${NIFI_VERSION}-bin.tar.gz \
+ && wget https://archive.apache.org/dist/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz \
 
