@@ -528,8 +528,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": ".\u003d",
-      "dateUpdated": "Mar 9, 2016 3:54:30 AM",
+      "text": "",
+      "dateUpdated": "Mar 13, 2016 6:38:59 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -541,7 +541,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -557,9 +558,20 @@
   "name": "Live Recs/04: Generate Item-to-Item Collab Filtering Similarity Recs (K-Means)",
   "id": "2BDVAZRNT",
   "angularObjects": {
-    "2ARR8UZDJ": [],
-    "2AS9P7JSA": [],
-    "2AR33ZMZJ": []
+    "2BEGD5PKY": [],
+    "2BE77VGXX": [],
+    "2BCP5RYPW": [],
+    "2BE5B7T6C": [],
+    "2BDHX9C4U": [],
+    "2BFE8ZRKW": [],
+    "2BG7XUMST": [],
+    "2BEWT9BTQ": [],
+    "2BF9JBZN5": [],
+    "2BF666AQP": [],
+    "2BF7MKGKF": [],
+    "2BG2MTBAA": [],
+    "2BCR6TSCQ": [],
+    "2BFVSJYDM": []
   },
   "config": {
     "looknfeel": "default"

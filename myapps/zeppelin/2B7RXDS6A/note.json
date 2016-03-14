@@ -450,12 +450,16 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Clustering/02:  Exact Similarity (Jaccard) + Power Iteration Clustering",
+  "name": "Clustering/02:  Exact Tag Similarity (Jaccard) + Power Iteration Clustering",
   "id": "2B7RXDS6A",
   "angularObjects": {
-    "2ARR8UZDJ": [],
-    "2AS9P7JSA": [],
-    "2AR33ZMZJ": []
+    "2BFE8ZRKW": [],
+    "2BG7XUMST": [],
+    "2BEWT9BTQ": [],
+    "2BF9JBZN5": [],
+    "2BE77VGXX": [],
+    "2BCP5RYPW": [],
+    "2BF666AQP": []
   },
   "config": {
     "looknfeel": "default"

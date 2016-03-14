@@ -120,7 +120,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/11: Classification",
+  "name": "TODO: Graph/11: Classification",
   "id": "2BDETGBPB",
   "angularObjects": {
     "2BEGD5PKY": [],
@@ -138,6 +138,8 @@
     "2BCR6TSCQ": [],
     "2BFVSJYDM": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }
