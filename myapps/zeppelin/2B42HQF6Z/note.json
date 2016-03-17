@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh",
-      "dateUpdated": "Mar 1, 2016 8:32:45 PM",
+      "dateUpdated": "Mar 16, 2016 12:54:38 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/li\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 4:32:14 AM",
-      "dateStarted": "Mar 1, 2016 8:32:42 PM",
-      "dateFinished": "Mar 1, 2016 8:32:42 PM",
+      "dateStarted": "Mar 16, 2016 12:54:38 PM",
+      "dateFinished": "Mar 16, 2016 12:54:38 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Approximate HyperLogLog (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Feb 22, 2016 10:35:19 PM",
+      "dateUpdated": "Mar 16, 2016 12:54:40 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@299d573b\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@7bc2ccf3\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Feb 22, 2016 10:35:19 PM",
-      "dateFinished": "Feb 22, 2016 10:35:20 PM",
+      "dateStarted": "Mar 16, 2016 12:54:40 PM",
+      "dateFinished": "Mar 16, 2016 12:54:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Exact Count (Redis)",
       "text": "val exactNumNonDistinctUsersWhoRatedItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Feb 22, 2016 10:35:21 PM",
+      "dateUpdated": "Mar 16, 2016 12:54:47 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -103,11 +103,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d 1\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
+        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "Feb 22, 2016 10:35:21 PM",
-      "dateFinished": "Feb 22, 2016 10:35:21 PM",
+      "dateStarted": "Mar 16, 2016 12:54:47 PM",
+      "dateFinished": "Mar 16, 2016 12:54:49 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -143,9 +143,13 @@
   "name": "Live Recs/02:  Approximate vs. Exact Counts (Redis, Algebird)",
   "id": "2B42HQF6Z",
   "angularObjects": {
-    "2ARR8UZDJ": [],
-    "2AS9P7JSA": [],
-    "2AR33ZMZJ": []
+    "2BFE8ZRKW": [],
+    "2BG7XUMST": [],
+    "2BEWT9BTQ": [],
+    "2BF9JBZN5": [],
+    "2BE77VGXX": [],
+    "2BCP5RYPW": [],
+    "2BF666AQP": []
   },
   "config": {
     "looknfeel": "default"

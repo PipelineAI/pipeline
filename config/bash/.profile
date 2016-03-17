@@ -124,7 +124,7 @@ export PATH=$PATH:$REDIS_HOME/bin
 export WEBDIS_HOME=$DEV_INSTALL_HOME/webdis
 export PATH=$PATH:$WEBDIS_HOME
 
-# Webdis
+# NiFi 
 export NIFI_HOME=$DEV_INSTALL_HOME/nifi-$NIFI_VERSION
 export PATH=$PATH:$NIFI_HOME/bin
 
