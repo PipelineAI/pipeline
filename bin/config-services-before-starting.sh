@@ -101,6 +101,20 @@ ln -s $CONFIG_HOME/spark/fairscheduler.xml $SPARK_HOME/conf
 ln -s $CONFIG_HOME/spark/hive-site.xml $SPARK_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
 
+# Flink
+echo '...Configuring Flink...'
+mkdir -p $LOGS_HOME/flink
+mkdir -p $WORK_HOME/flink
+mv $FLINK_HOME/conf/slaves $FLINK_HOME/conf/slaves.orig
+mv $FLINK_HOME/conf/masters $FLINK_HOME/conf/masters.orig
+mv $FLINK_HOME/conf/flink-conf.yaml $FLINK_HOME/conf/flink-conf.yaml.orig
+mv $FLINK_HOME/conf/zoo.cfg $FLINK_HOME/conf/zoo.cfg.orig
+ln -s $CONFIG_HOME/flink/slaves $FLINK_HOME/conf
+ln -s $CONFIG_HOME/flink/masters $FLINK_HOME/conf
+ln -s $CONFIG_HOME/flink/hive-site.xml $FLINK_HOME/conf
+ln -s $CONFIG_HOME/flink/flink-conf.yaml $FLINK_HOME/conf
+ln -s $CONFIG_HOME/flink/zoo.cfg $FLINK_HOME/conf
+
 # Tachyon
 echo '...Configuring Tachyon...'
 ln -s $CONFIG_HOME/tachyon/tachyon-env.sh $TACHYON_HOME/conf
