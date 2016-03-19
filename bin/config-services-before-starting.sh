@@ -104,7 +104,8 @@ ln -s $MYSQL_CONNECTOR_JAR $SPARK_HOME/lib
 # Flink
 echo '...Configuring Flink...'
 mkdir -p $LOGS_HOME/flink
-mkdir -p $WORK_HOME/flink
+mkdir -p $WORK_HOME/flink/tmp
+mkdir -p $WORK_HOME/flink/zookeeper/recovery
 mv $FLINK_HOME/conf/slaves $FLINK_HOME/conf/slaves.orig
 mv $FLINK_HOME/conf/masters $FLINK_HOME/conf/masters.orig
 mv $FLINK_HOME/conf/flink-conf.yaml $FLINK_HOME/conf/flink-conf.yaml.orig

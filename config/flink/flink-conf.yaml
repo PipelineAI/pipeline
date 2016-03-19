@@ -64,7 +64,7 @@ parallelism.default: 2
 # The port under which the web-based runtime monitor listens.
 # A value of -1 deactivates the web server.
 
-jobmanager.web.port: 8081
+jobmanager.web.port: 9081
 
 # Flag to specify whether job submission is enabled from the web-based
 # runtime monitor. Uncomment to disable.
