@@ -44,7 +44,8 @@ ENV \
  SPARK_NIFI_CONNECTOR_VERSION=0.4.1 \
  SPARK_XML_VERSION=0.3.1 \
  JBLAS_VERSION=1.2.4 \
- GRAPHFRAMES_VERSION=0.1.0-spark1.6
+ GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
+ FLINK_VERSION=1.0.0
 
 RUN \
  apt-get update \
@@ -219,6 +220,11 @@ RUN \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz \
 
+# Flink
+ && wget http://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
+ && tar xvzf flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
+ && rm flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
+
 # Airflow
  && cd ~ \
  && pip install --upgrade airflow \
@@ -242,31 +248,33 @@ RUN \
 RUN \
 # Get Latest Pipeline Code 
  cd ~/pipeline \
- && git pull \
+ && git pull 
 
+RUN \
 # Sbt Feeder
- && cd ~/pipeline/myapps/feeder && sbt assembly \
+ cd ~/pipeline/myapps/akka/feeder && sbt assembly \
 
+RUN
 # Sbt ML 
 # This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
 #   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
 # Classifiers don't appear to be supported by --packages
- && cd ~ \
+ cd ~ \
  && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
  && unzip stanford-corenlp-full-2015-12-09.zip \
  && rm stanford-corenlp-full-2015-12-09.zip \
- && cd ~/pipeline/myapps/ml \
+ && cd ~/pipeline/myapps/spark/ml \
  && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar lib/ \
  && sbt package \
 
 # Sbt Streaming
- && cd ~/pipeline/myapps/streaming && sbt package \
+ && cd ~/pipeline/myapps/spark/streaming && sbt package \
 
 # Sbt SQL 
- && cd ~/pipeline/myapps/sql && sbt package \
+ && cd ~/pipeline/myapps/spark/sql && sbt package \
 
 # Sbt core 
- && cd ~/pipeline/myapps/core && sbt package 
+ && cd ~/pipeline/myapps/spark/core && sbt package 
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182

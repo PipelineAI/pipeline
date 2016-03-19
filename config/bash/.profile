@@ -74,63 +74,63 @@ export HTML_HOME=$PIPELINE_HOME/html
 export JAVA_HOME=/usr
 
 # Scripts Home
-export PATH=$PATH:$SCRIPTS_HOME
+export PATH=$SCRIPTS_HOME:$PATH
 
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar
 
 # Cassandra
 export CASSANDRA_HOME=$DEV_INSTALL_HOME/apache-cassandra-$CASSANDRA_VERSION
-export PATH=$PATH:$CASSANDRA_HOME/bin
+export PATH=$CASSANDRA_HOME/bin:$PATH
 
 # Spark
 export SPARK_HOME=$DEV_INSTALL_HOME/spark-$SPARK_VERSION-bin-fluxcapacitor
-export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
 export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-$SPARK_VERSION-hadoop$HADOOP_VERSION.jar
 
 # Tachyon
 export TACHYON_HOME=$SPARK_HOME/tachyon
-export PATH=$PATH:$TACHYON_HOME/bin
+export PATH=$TACHYON_HOME/bin:$PATH
 
 # Kafka
 export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-$CONFLUENT_VERSION
-export PATH=$PATH:$KAFKA_HOME/bin
+export PATH=$KAFKA_HOME/bin:$PATH
 
 # ZooKeeper
 export ZOOKEEPER_HOME=$KAFKA_HOME
-export PATH=$PATH:$ZOOKEEPER_HOME/bin
+export PATH=$ZOOKEEPER_HOME/bin:$PATH
 
 # ElasticSearch
 export ELASTICSEARCH_HOME=$DEV_INSTALL_HOME/elasticsearch-$ELASTICSEARCH_VERSION
-export PATH=$PATH:$ELASTICSEARCH_HOME/bin
+export PATH=$ELASTICSEARCH_HOME/bin:$PATH
 
 # LogStash
 export LOGSTASH_HOME=$DEV_INSTALL_HOME/logstash-$LOGSTASH_VERSION
-export PATH=$PATH:$LOGSTASH_HOME/bin
+export PATH=$LOGSTASH_HOME/bin:$PATH
 
 # Kibana
 export KIBANA_HOME=$DEV_INSTALL_HOME/kibana-$KIBANA_VERSION-linux-x64
-export PATH=$PATH:$KIBANA_HOME/bin
+export PATH=$KIBANA_HOME/bin:$PATH
 
 # Hadoop HDFS
 export HADOOP_HOME=$DEV_INSTALL_HOME/hadoop-$HADOOP_VERSION
-export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$HADOOP_HOME/bin:$PATH
 
 # Redis
 export REDIS_HOME=$DEV_INSTALL_HOME/redis-$REDIS_VERSION
-export PATH=$PATH:$REDIS_HOME/bin
+export PATH=$REDIS_HOME/bin:$PATH
 
 # Webdis
 export WEBDIS_HOME=$DEV_INSTALL_HOME/webdis
-export PATH=$PATH:$WEBDIS_HOME
+export PATH=$WEBDIS_HOME:$PATH
 
 # NiFi 
 export NIFI_HOME=$DEV_INSTALL_HOME/nifi-$NIFI_VERSION
-export PATH=$PATH:$NIFI_HOME/bin
+export PATH=$NIFI_HOME/bin:$PATH
 
 # SBT
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
-export PATH=$PATH:$SBT_HOME/bin
+export PATH=$SBT_HOME/bin:$PATH
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # MyApps
@@ -144,7 +144,11 @@ export SPARK_SUBMIT_JARS=$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/ml/lib/spark-corenlp_
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION
-export PATH=$PATH:$ZEPPELIN_HOME/bin
+export PATH=$ZEPPELIN_HOME/bin:$PATH
+
+# Flink
+export FLINK_HOME=$DEV_INSTALL_HOME/flink-$FLINK_VERSION-bin-hadoop26-scala_$SCALA_VERSION
+export PATH=$FLINK_HOME:$PATH
 
 # Jupyter/iPython
 export PYSPARK_DRIVER_PYTHON=jupyter
@@ -152,12 +156,12 @@ export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyte
 
 # Airflow
 export AIRFLOW_HOME=$DEV_INSTALL_HOME/airflow
-export PATH=$PATH:$AIRFLOW_HOME/bin
+export PATH=$AIRFLOW_HOME/bin:$PATH
 
 # Presto
 export PRESTO_HOME=$DEV_INSTALL_HOME/presto-server-$PRESTO_VERSION
-export PATH=$PATH:$PRESTO_HOME/bin
+export PATH=$PRESTO_HOME/bin:$PATH
 
 # Titan
 export TITAN_HOME=$DEV_INSTALL_HOME/titan-$TITAN_VERSION
-export PATH=$PATH:$TITAN_HOME/bin
+export PATH=$TITAN_HOME/bin:$PATH
