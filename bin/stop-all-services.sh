@@ -26,6 +26,9 @@ $SPARK_HOME/sbin/stop-slave.sh --webui-port 6061
 echo '...Stopping Long-Running Spark JDBC ODBC Hive ThriftServer...'
 $SPARK_HOME/sbin/stop-thriftserver.sh  
 
+echo '...Stopping Flink...'
+stop-local.sh
+
 echo '...Stopping Redis...'
 redis-cli shutdown
 

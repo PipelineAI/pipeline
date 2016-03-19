@@ -50,7 +50,10 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
 echo '...Starting Spark History Server...'
-$SPARK_HOME/sbin/start-history-server.sh
+nohup $SPARK_HOME/sbin/start-history-server.sh &
+
+echo '...Starting Flink...'
+nohup start-local.sh &
 
 echo '...Starting Kibana...'
 nohup kibana &
