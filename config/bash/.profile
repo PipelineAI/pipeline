@@ -40,7 +40,7 @@ export CONFIG_HOME=$PIPELINE_HOME/config
 export SCRIPTS_HOME=$PIPELINE_HOME/bin
 
 ###################################################################
-# The following DATA_WORK_HOME and LOGS_HOME 
+# The following WORK_HOME and LOGS_HOME 
 #   are not always used by apps due to limitations with certain apps
 #   and how they resolve exports
 #
@@ -57,7 +57,7 @@ export SCRIPTS_HOME=$PIPELINE_HOME/bin
 #   and other work data created by users during
 #   the lifetime of an application, but will
 #   be erased upon environment restart
-export DATA_WORK_HOME=$PIPELINE_HOME/data_work
+export WORK_HOME=$PIPELINE_HOME/work
 
 # Datasets Home (where data for apps is read)
 export DATASETS_HOME=$PIPELINE_HOME/datasets

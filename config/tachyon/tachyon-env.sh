@@ -9,13 +9,13 @@
 TACHYON_MASTER_ADDRESS=127.0.0.1
 
 # - TACHYON_UNDERFS_ADDRESS, to set the under filesystem address.
-TACHYON_UNDERFS_ADDRESS=${DATA_PERSIST_HOME}/tachyon
+TACHYON_UNDERFS_ADDRESS=${WORK_HOME}/tachyon
 
 # - TACHYON_WORKER_MEMORY_SIZE, to set how much memory to use (e.g. 1000mb, 2gb) per worker
 TACHYON_WORKER_MEMORY_SIZE=2gb
 
 # - TACHYON_RAM_FOLDER, to set where worker stores in memory data
-TACHYON_RAM_FOLDER=${DATA_WORK_HOME}/tachyon
+TACHYON_RAM_FOLDER=${WORK_HOME}/tachyon
 
 # Support for Multihomed Networks.
 # You can specify a hostname to bind each of services. If a wildcard
@@ -107,7 +107,7 @@ export TACHYON_JAVA_OPTS+="
   -Dtachyon.worker.tieredstore.level0.dirs.path=${TACHYON_RAM_FOLDER}
   -Dtachyon.worker.tieredstore.level0.dirs.quota=${TACHYON_WORKER_MEMORY_SIZE}
   -Dtachyon.worker.tieredstore.level1.alias=HDD
-  -Dtachyon.worker.tieredstore.level1.dirs.path=${DATA_WORK_HOME}/tachyon/tieredstore.level1
+  -Dtachyon.worker.tieredstore.level1.dirs.path=${WORK_HOME}/tachyon/tieredstore.level1
   -Dtachyon.worker.tieredstore.level1.dirs.quota=${TACHYON_WORKER_MEMORY_SIZE}
   -Dtachyon.underfs.address=${TACHYON_UNDERFS_ADDRESS}
   -Dtachyon.worker.memory.size=${TACHYON_WORKER_MEMORY_SIZE}

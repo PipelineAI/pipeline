@@ -61,7 +61,7 @@ mkdir -p $LOGS_HOME/streaming
 mkdir -p $LOGS_HOME/ml
 mkdir -p $LOGS_HOME/sql
 mkdir -p $LOGS_HOME/core
-mkdir -p $DATA_WORK_HOME/core
+mkdir -p $WORK_HOME/core
 
 # Ganglia
 echo '...Configuring Ganglia...'
@@ -86,9 +86,9 @@ mv $CASSANDRA_HOME/conf/cassandra-env.sh $CASSANDRA_HOME/conf/cassandra-env.sh.o
 mv $CASSANDRA_HOME/conf/cassandra.yaml $CASSANDRA_HOME/conf/cassandra.yaml.orig
 ln -s $CONFIG_HOME/cassandra/cassandra-env.sh $CASSANDRA_HOME/conf
 ln -s $CONFIG_HOME/cassandra/cassandra.yaml $CASSANDRA_HOME/conf
-mkdir -p $DATA_WORK_HOME/cassandra/data
-mkdir -p $DATA_WORK_HOME/cassandra/commitlog
-mkdir -p $DATA_WORK_HOME/cassandra/saved_caches
+mkdir -p $WORK_HOME/cassandra/data
+mkdir -p $WORK_HOME/cassandra/commitlog
+mkdir -p $WORK_HOME/cassandra/saved_caches
 
 # Spark
 echo '...Configuring Spark...'
@@ -153,7 +153,6 @@ echo '...Configuring iPython/Jupyter...'
 mkdir -p ~/.jupyter
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
-# --notebook-dir=$DATA_PERSIST_HOME/jupyter"
 
 # Nifi
 echo '...Configuring NiFi...'
@@ -183,7 +182,7 @@ echo '...****Ignore the ERROR 2002s Above****...'
 
 # Presto
 echo '...Configuring Presto...'
-mkdir -p $DATA_WORK_HOME/presto
+mkdir -p $WORK_HOME/presto
 mkdir -p $PRESTO_HOME/etc
 ln -s $CONFIG_HOME/presto/* $PRESTO_HOME/etc
 

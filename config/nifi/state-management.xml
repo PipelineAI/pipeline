@@ -29,7 +29,7 @@
     <local-provider>
         <id>local-provider</id>
         <class>org.apache.nifi.controller.state.providers.local.WriteAheadLocalStateProvider</class>
-        <property name="Directory">/root/pipeline/data_work/nifi/state/local</property>
+        <property name="Directory">/root/pipeline/work/nifi/state/local</property>
     </local-provider>
 
     <!--
