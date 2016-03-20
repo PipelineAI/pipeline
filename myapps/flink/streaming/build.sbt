@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= flinkDependencies
   )
 
-mainClass in assembly := Some("com.advancedflink.cep.SocketTextStreamWordCount")
+mainClass in assembly := Some("com.advancedflink.streaming.SocketTextStreamWordCount")
 
 // make run command include the provided dependencies
 run in Compile <<= Defaults.runTask(fullClasspath in Compile, mainClass in (Compile, run), runner in (Compile, run))
