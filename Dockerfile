@@ -252,7 +252,7 @@ RUN \
 
 RUN \
 # Sbt Feeder
- cd ~/pipeline/myapps/akka/feeder && sbt assembly \
+ cd ~/pipeline/myapps/akka/feeder && sbt assembly 
 
 RUN
 # Sbt ML 
