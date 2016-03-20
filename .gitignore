@@ -1,6 +1,7 @@
 .Dockerfile.swp
 stanford-corenlp-full-2015-12-09
 data
+work
 data_work
 .Rhistory
 .ipynb_checkpoints
