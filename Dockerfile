@@ -254,7 +254,7 @@ RUN \
 # Sbt Feeder
  cd ~/pipeline/myapps/akka/feeder && sbt assembly 
 
-RUN
+RUN \
 # Sbt ML 
 # This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
 #   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
