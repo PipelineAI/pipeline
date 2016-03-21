@@ -49,6 +49,9 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 20 --memory 48g --webui-port 6061 
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
+echo '...Starting Flink...'
+nohup start-local.sh &
+
 echo '...Starting Spark History Server...'
 $SPARK_HOME/sbin/start-history-server.sh
 
