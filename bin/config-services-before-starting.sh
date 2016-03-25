@@ -56,12 +56,11 @@ cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
 
 # My Apps
 echo '...Configuring  Apps...'
-mkdir -p $LOGS_HOME/feeder
-mkdir -p $LOGS_HOME/streaming
-mkdir -p $LOGS_HOME/ml
-mkdir -p $LOGS_HOME/sql
-mkdir -p $LOGS_HOME/core
-mkdir -p $WORK_HOME/core
+mkdir -p $LOGS_HOME/akka/feeder
+mkdir -p $LOGS_HOME/spark/streaming
+mkdir -p $LOGS_HOME/spark/ml
+mkdir -p $LOGS_HOME/spark/sql
+mkdir -p $LOGS_HOME/spark/core
 
 # Ganglia
 echo '...Configuring Ganglia...'

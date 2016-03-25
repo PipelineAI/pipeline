@@ -24,9 +24,9 @@ class FeederActor extends Actor with ActorLogging with FeederExtensionActor {
 
   def receive = {
     case SendNextLine if dataIter.hasNext =>
-      val nxtRating = dataIter.next()
-      log.info(s"Sending next rating: $nxtRating")
-      val record = new ProducerRecord[String,String](feederExtension.kafkaTopic, nxtRating.split(",")(0), nxtRating)
+      val rating = dataIter.next() + ",UNKNOWN"
+      log.info(s"Sending next rating: $rating")
+      val record = new ProducerRecord[String,String](feederExtension.kafkaTopic, rating.split(",")(0), rating)
       val future = feederExtension.producer.send(record, new Callback {
         override def onCompletion(result: RecordMetadata, exception: Exception) {
           if (exception != null) println("Failed to send record: " + exception)

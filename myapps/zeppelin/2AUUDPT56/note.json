@@ -3,11 +3,11 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(5))",
-      "dateUpdated": "Mar 16, 2016 12:51:54 PM",
+      "dateUpdated": "Mar 20, 2016 8:57:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "stackedAreaChart",
           "height": 180.0,
           "optionOpen": false,
           "keys": [
@@ -397,13 +397,9 @@
   "name": "Live Recs/01: TopK and Summary Statistics (SQL, DataFrames)",
   "id": "2AUUDPT56",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

@@ -3,7 +3,7 @@
     {
       "title": "Register the Custom SplitterUDF",
       "text": "import org.apache.spark.sql.catalyst.analysis.FunctionRegistry\nimport com.advancedspark.sql.functions.SplitterUDF\nimport org.apache.spark.sql.catalyst.expressions.{Expression, ScalaUDF}\n\n//sqlContext.udf.register(\"splitter\", SplitterUDF)\n\n//def builder(children: Seq[Expression]) \u003d ScalaUDF(children, SplitterUDF)\n\n//FunctionRegistry.builtin.\n//sqlContext.functionRegistry.registerFunction(\"splitter\", builder)\n\nsqlContext.functionRegistry.listFunction()\n\n//sqlContext.sql(s\"\"\"REFRESH TABLE MOVIES\"\"\")\n//val moviesDF \u003d sqlContext.sql(s\"\"\"select movieId, title, genres, splitter(genres, \"|\", 0) from movies limit 10\"\"\")\n\n//z.show(moviesDF)\n",
-      "dateUpdated": "Dec 6, 2015 10:57:29 AM",
+      "dateUpdated": "Mar 22, 2016 2:01:15 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -40,7 +40,8 @@
               "aggr": "sum"
             }
           }
-        }
+        },
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -51,11 +52,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.catalyst.analysis.FunctionRegistry\nimport com.advancedspark.sql.functions.SplitterUDF\nimport org.apache.spark.sql.catalyst.expressions.{Expression, ScalaUDF}\n\u003cconsole\u003e:89: error: lazy value functionRegistry in class SQLContext cannot be accessed in org.apache.spark.sql.SQLContext\n Access to protected value functionRegistry not permitted because\n enclosing class $iwC is not a subclass of \n class SQLContext in package sql where target is defined\n              sqlContext.functionRegistry.listFunction()\n                         ^\n"
+        "msg": "import org.apache.spark.sql.catalyst.analysis.FunctionRegistry\nimport com.advancedspark.sql.functions.SplitterUDF\nimport org.apache.spark.sql.catalyst.expressions.{Expression, ScalaUDF}\n\u003cconsole\u003e:52: error: lazy value functionRegistry in class SQLContext cannot be accessed in org.apache.spark.sql.SQLContext\n Access to protected value functionRegistry not permitted because\n enclosing class $iwC is not a subclass of \n class SQLContext in package sql where target is defined\n              sqlContext.functionRegistry.listFunction()\n                         ^\n"
       },
       "dateCreated": "Oct 6, 2015 4:05:38 AM",
-      "dateStarted": "Dec 6, 2015 10:57:29 AM",
-      "dateFinished": "Dec 6, 2015 10:57:29 AM",
+      "dateStarted": "Mar 22, 2016 2:01:15 PM",
+      "dateFinished": "Mar 22, 2016 2:01:15 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },

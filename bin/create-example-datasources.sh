@@ -13,7 +13,7 @@ echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS O
 echo '...Creating Example Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --delete --topic item_ratings
 kafka-topics --zookeeper localhost:2181 --create --topic item_ratings --partitions 1 --replication-factor 1
-kafka-topics --zookeeper localhost:2181 --create --topic predict_item_ratings --partitions 1 --replication-factor 1
+#kafka-topics --zookeeper localhost:2181 --create --topic predict_item_ratings --partitions 1 --replication-factor 1
 
 echo '...Creating Example ElasticSearch Indexes...'
 curl -XDELETE 'http://localhost:9200/advancedspark'
@@ -28,7 +28,7 @@ echo '...Creating Example Cassandra Keyspaces, Column Families/Tables...'
 cqlsh -e "DROP KEYSPACE IF EXISTS advancedspark;"
 cqlsh -e "CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStrategy',  'replication_factor':1};"
 cqlsh -e "USE advancedspark; DROP TABLE IF EXISTS item_ratings;"
-cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, timestamp bigint, PRIMARY KEY(userId, itemId));"
+cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, geo text, timestamp bigint, PRIMARY KEY(userId, itemId));"
 
 echo '...Flushing Redis...'
 redis-cli FLUSHALL

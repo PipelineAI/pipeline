@@ -47,15 +47,18 @@ object Cassandra {
         message.cache()
 
         // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
+        //val tokens = message.map(_._2.split(","))
         val tokens = message.map(_._2.split(","))
 
 	// convert Tokens into RDD[Ratings]
-        val ratings = tokens.map(token => Rating(token(0).trim.toInt,token(1).trim.toInt,token(2).trim.toInt,batchTime.milliseconds))
+        val ratings = tokens.map(token => 
+          Rating(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toInt, token(3).trim.toString, batchTime.milliseconds)
+        )
 
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "timestamp")
+        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "geo", "timestamp")
 
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
