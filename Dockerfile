@@ -45,7 +45,8 @@ ENV \
  SPARK_XML_VERSION=0.3.1 \
  JBLAS_VERSION=1.2.4 \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
- FLINK_VERSION=1.0.0
+ FLINK_VERSION=1.0.0 \
+ TENSORFLOW_VERSION=0.7.1-cp27-none
 
 RUN \
  apt-get update \
@@ -69,10 +70,10 @@ RUN \
  && pip install ipyparallel \
 
 # TensorFlow (CPU-only)
- && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
+ && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-linux_x86_64.whl \
 
 # TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl \
+# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-linux_x86_64.whl \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
