@@ -8,6 +8,9 @@ Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-ba
 ### Apache Zeppelin Notebooks
 ![Apache Zeppelin Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-zeppelin-1.png)
 
+### Stanford CoreNLP Sentiment Analysis
+![Stanford CoreNLP Sentiment](http://advancedspark.com/img/corenlp-sentiment.png)
+
 ### Jupyter/iPython Notebooks
 ![Jupyter/iPython Notebooks](http://advancedspark.com/img/jupyter.png)
 
