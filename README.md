@@ -1,15 +1,30 @@
-# Docker-based, End-to-End, Big Data Reference Pipeline!
-## Real-time, Advanced Analytics, Machine Learning, Streaming, Graph Processing, Text/NLP Analytics
-## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) Sidebar to Setup Environment -->
+##PANCAKE STACK
+### End-to-End Streaming Advanced Analytics and Machine Learning Recommendation Pipeline
+**Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
 
+![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
+
+## Screenshots
 ### Apache Zeppelin Notebooks
 ![Apache Zeppelin Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-zeppelin-1.png)
 
-### Jupyter/iPython Notebooks
-![Jupyter/iPython Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-jupyter.png)
+### Stanford CoreNLP Sentiment Analysis
+![Stanford CoreNLP Sentiment](http://advancedspark.com/img/corenlp-sentiment.png)
 
-### Apache NiFi Flows
-![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
+### Jupyter/iPython Notebooks
+![Jupyter/iPython Notebooks](http://advancedspark.com/img/jupyter.png)
+
+### SparkR Notebooks
+![SparkR Notebooks](http://advancedspark.com/img/sparkr.png)
+
+### TensorFlow Notebooks
+![TensorFlow Notebooks](http://advancedspark.com/img/tensorflow.png)
+
+### Apache NiFi Data Flows
+![Apache NiFi Data Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
+
+### AirFlow Workflows
+![AirFlow Workflows](http://advancedspark.com/img/airflow.png)
 
 ### Tableau Integration
 ![Tableau Integration](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-tableau.png)
@@ -32,8 +47,6 @@
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-1.png)
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-2.png)
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-3.png)
-![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-4.png)
-![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-5.png)
 
 ## Architecture Overview
 ![Big Data Pipeline Overview](https://s3.amazonaws.com/fluxcapacitor.com/img/FluxCapacitorBigDataPipelineArchitectureOverview.png)
