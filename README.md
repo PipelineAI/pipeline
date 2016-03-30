@@ -24,7 +24,7 @@
 ![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
 
 ### AirFlow Workflows
-![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
+![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/airflow.png)
 
 ### Tableau Integration
 ![Tableau Integration](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-tableau.png)
