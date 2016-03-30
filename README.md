@@ -1,6 +1,6 @@
 ##PANCAKE STACK
 ### End-to-End Streaming Advanced Analytics and Machine Learning Recommendation Pipeline
-Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
+**Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
 
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
@@ -20,7 +20,10 @@ Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-ba
 ### TensorFlow Notebooks
 ![TensorFlow Notebooks](http://advancedspark.com/img/tensorflow.png)
 
-### Apache NiFi Flows
+### Apache NiFi Data Flows
+![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
+
+### AirFlow Workflows
 ![Apache NiFi Flows](https://s3.amazonaws.com/fluxcapacitor.com/img/nifi-flow.png)
 
 ### Tableau Integration
