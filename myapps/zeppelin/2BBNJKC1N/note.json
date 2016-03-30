@@ -639,7 +639,7 @@
     {
       "title": "Show distribution of similar songs by topic distribution",
       "text": "val clusterDistributionDF \u003d pipelineResultsDF\n  .select($\"cluster\")\n  .groupBy($\"cluster\")\n  .agg(count($\"cluster\"))\n  \nz.show(clusterDistributionDF)",
-      "dateUpdated": "Feb 16, 2016 11:14:23 PM",
+      "dateUpdated": "Mar 28, 2016 10:19:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -680,14 +680,14 @@
       "jobName": "paragraph_1455595719657_1921349889",
       "id": "20160216-040839_727575596",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "cluster\tcount(cluster)\n0\t8\n1\t23\n2\t5\n3\t6\n4\t13\n5\t14\n6\t12\n7\t8\n8\t5\n9\t6\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:45: error: not found: value pipelineResultsDF\n         val clusterDistributionDF \u003d pipelineResultsDF\n                                     ^\n"
       },
       "dateCreated": "Feb 16, 2016 4:08:39 AM",
-      "dateStarted": "Feb 16, 2016 11:13:25 PM",
-      "dateFinished": "Feb 16, 2016 11:13:26 PM",
-      "status": "FINISHED",
+      "dateStarted": "Mar 28, 2016 10:19:22 PM",
+      "dateFinished": "Mar 28, 2016 10:19:22 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

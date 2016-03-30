@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "val ratingsUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval gendersUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
-      "dateUpdated": "Jan 8, 2016 10:41:56 PM",
+      "dateUpdated": "Mar 28, 2016 10:12:47 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,8 +29,8 @@
         "msg": "ratingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
       },
       "dateCreated": "Dec 1, 2015 4:24:26 AM",
-      "dateStarted": "Jan 8, 2016 10:41:56 PM",
-      "dateFinished": "Jan 8, 2016 10:42:26 PM",
+      "dateStarted": "Mar 28, 2016 10:12:47 PM",
+      "dateFinished": "Mar 28, 2016 10:13:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

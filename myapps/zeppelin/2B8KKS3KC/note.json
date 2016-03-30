@@ -3,7 +3,7 @@
     {
       "title": "Retrieve dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Mar 2, 2016 10:01:08 PM",
+      "dateUpdated": "Mar 28, 2016 9:21:48 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -54,8 +54,8 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Mar 2, 2016 10:01:08 PM",
-      "dateFinished": "Mar 2, 2016 10:01:08 PM",
+      "dateStarted": "Mar 28, 2016 9:21:48 PM",
+      "dateFinished": "Mar 28, 2016 9:21:48 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -765,13 +765,9 @@
   "name": "NLP/07: Text Classifier Pipeline (TF/IDF, Decision Tree)",
   "id": "2B8KKS3KC",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"
