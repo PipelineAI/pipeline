@@ -1,9 +1,6 @@
 ## End-to-End Streaming Advanced Analytics and Machine Learning Recommendation Pipeline
 ### Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment!
 
-### Apache Zeppelin Notebooks
-![Apache Zeppelin Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-zeppelin-1.png)
-
 ## PANCAKE STACK
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
