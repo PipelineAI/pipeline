@@ -1,9 +1,6 @@
-# SSH
-cd $PIPELINE_HOME
-
-echo '...**** MAKE SURE YOU HAVE SOURCE ~/.profile OR ELSE THIS WILL THROW A LOT OF ERRORS ****...'
 echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
 
+# SSH
 echo '...Configuring SSH Part 1 of 2...'
 service ssh start
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
@@ -127,6 +124,9 @@ echo '...Configuring ZooKeeper...'
 
 # ElasticSearch
 echo '...Configuring ElasticSearch...'
+mv $ELASTICSEARCH_HOME/config/elasticsearch.yml $ELASTICSEARCH_HOME/config/elasticsearch.yml.orig
+mv $ELASTICSEARCH_HOME/config/logging.yml $ELASTICSEARCH_HOME/config/logging.yml.orig
+mv $ELASTICSEARCH_HOME/config/scripts $ELASTICSEARCH_HOME/config/scripts.orig
 
 # Logstash
 echo '...Configuring Logstash...'
@@ -143,12 +143,6 @@ echo '...Configuring Redis...'
 
 # Webdis
 echo '...Configuring Webdis...'
-
-# The following command requies the SSH daemon to be running
-# If we switch to use HDFS as the underfs, we'll need the HDFS daemon to be running
-# We need to chmod the keys again - not sure why, but it works so let's keep it
-#chmod 600 ~/.ssh/authorized_keys
-#chmod 600 ~/.ssh/id_rsa
 
 # SBT
 echo '...Configuring SBT...'
@@ -202,12 +196,6 @@ ln -s $CONFIG_HOME/presto/* $PRESTO_HOME/etc
 
 # Titan
 echo '...Configuring Titan...'
-#mv $TITAN_HOME/conf/gremlin-server/gremlin-server-modern.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-modern.yaml.orig
-#mv $TITAN_HOME/conf/gremlin-server/gremlin-server-neo4j.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-neo4j.yaml.orig
-#mv $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml.orig
-#mv $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml $TITAN_HOME/conf/gremlin-server/gremlin-server-spark.yaml.orig
-#mv $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties $TITAN_HOME/conf/gremlin-server/neo4j-empty.properties.orig
-#mv $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties $TITAN_HOME/conf/gremlin-server/tinkergraph-empty.properties.orig
 mv $TITAN_HOME/conf/titan-cassandra-es.properties $TITAN_HOME/conf/titan-cassandra-es.properties.orig
 mv $TITAN_HOME/bin/cassandra $TITAN_HOME/bin/cassandra.orig
 mv $TITAN_HOME/bin/cassandra.in.sh $TITAN_HOME/bin/cassandra.in.sh.orig

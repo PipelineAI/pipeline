@@ -1,14 +1,11 @@
 #!/bin/bash
 # Run first time through to setup the environment variables, example data, and start the services 
-echo '*** MAKE SURE YOU ARE SOURCING THIS SCRIPT USING "source SOURCEME_FIRST.sh" ***'
+echo '*** MAKE SURE YOU RUN THIS ONLY ONCE ***'
 
 cd ~/pipeline
 
 echo '...Retrieving Latest Updates From Github...'
-git reset --soft && git pull
-
-echo '...Sourcing ~/.profile...'
-source ~/pipeline/config/bash/.profile
+git reset --hard && git pull
 
 echo '...Configuring Services Before Starting...'
 $SCRIPTS_HOME/config-services-before-starting.sh

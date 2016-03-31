@@ -1,10 +1,9 @@
 #!/bin/bash
 
-echo '**** MAKE SURE YOU HAVE SOURCED ~/.profile OR ELSE YOU WILL SEE MANY ERRORS RELATED TO EXECUTABLES NOT FOUND ****'
 cd $PIPELINE_HOME
 
 echo '...Starting ElasticSearch...'
-nohup elasticsearch -p $ELASTICSEARCH_HOME/RUNNING_PID &
+nohup elasticsearch -Des.insecure.allow.root=true -p $ELASTICSEARCH_HOME/RUNNING_PID --path.conf $CONFIG_HOME/elasticsearch &
 
 echo '...Starting Logstash...'
 nohup logstash -f $LOGSTASH_HOME/logstash.conf &
@@ -44,7 +43,7 @@ echo '...Starting Spark Master...'
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 20 --memory 48g --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
 
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
@@ -53,7 +52,7 @@ echo '...Starting Flink...'
 nohup start-local.sh &
 
 echo '...Starting Spark History Server...'
-$SPARK_HOME/sbin/start-history-server.sh
+nohup $SPARK_HOME/sbin/start-history-server.sh &
 
 echo '...Starting Kibana...'
 nohup kibana &
