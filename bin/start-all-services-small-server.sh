@@ -54,8 +54,8 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 -h
 #echo '...Starting Flink...'
 #nohup start-local.sh &
 
-#echo '...Starting Kibana...'
-#nohup kibana &
+echo '...Starting Kibana...'
+nohup kibana &
 
 echo '...Starting Jupyter Notebook Server (via pipeline-pyspark.sh)...'
 nohup pipeline-pyspark.sh & 
