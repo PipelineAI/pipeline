@@ -99,6 +99,9 @@ RUN \
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
 
+# Maven for custom builds (ie. Livy)
+ && apt-get install -y maven \
+
 # OpenBLAS
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
 #        For the best performance, follow the instructions here:  
@@ -183,6 +186,10 @@ RUN \
  && cd ~ \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elasticsearch/graph/latest \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install kibana/timelion \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install heatmap -u https://github.com/stormpython/heatmap/archive/master.zip \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install vectormap -u https://github.com/stormpython/vectormap/archive/master.zip \
 
 # Apache Cassandra
  && cd ~ \
@@ -201,6 +208,12 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+
+# Livy Spark REST Server
+ && cd ~ \
+ && git clone https://github.com/cloudera/livy.git \ 
+ && cd livy \
+ && mvn -DskipTests -Dspark.version=${SPARK-VERSION} clean package
 
 # Apache Zeppelin
  && cd ~ \
@@ -258,7 +271,7 @@ RUN \
  && cd ~ \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
- && rm titan-${TITAN_VERSION}.zip 
+ && rm titan-${TITAN_VERSION}.zip \
  
 RUN \
 # Get Latest Pipeline Code 
@@ -295,6 +308,6 @@ RUN \
  && cd ~/pipeline/myapps/flink/streaming && sbt assembly 
 
 # Ports to expose 
-EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081
+EXPOSE 80 6042 9160 9042 9200 7077 38080 38081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998
 
 WORKDIR /root
