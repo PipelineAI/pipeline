@@ -213,7 +213,7 @@ RUN \
  && cd ~ \
  && git clone https://github.com/cloudera/livy.git \ 
  && cd livy \
- && mvn -DskipTests -Dspark.version=${SPARK-VERSION} clean package
+ && mvn -DskipTests -Dspark.version=${SPARK_VERSION} clean package
 
 # Apache Zeppelin
  && cd ~ \
