@@ -1,13 +1,3 @@
-# ~/.profile: executed by Bourne-compatible login shells.
-
-if [ "$BASH" ]; then
-  if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-  fi
-fi
-
-mesg n
-
 # All _VERSION env variables are being set in the Dockerfile and carried through to Docker Containers
 # You can override the Dockerfile values here for application dependency libraries such as Algebird, Cassandra-Spark Connector, etc
 export AKKA_VERSION=2.3.11
@@ -72,6 +62,9 @@ export HTML_HOME=$PIPELINE_HOME/html
 
 # Java Home
 export JAVA_HOME=/usr
+
+# Initialize PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Scripts Home
 export PATH=$SCRIPTS_HOME:$PATH

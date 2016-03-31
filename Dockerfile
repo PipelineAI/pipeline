@@ -14,9 +14,9 @@ FROM ubuntu:14.04
 ENV \ 
  CASSANDRA_VERSION=2.2.5 \
  CONFLUENT_VERSION=1.0.1 \
- ELASTICSEARCH_VERSION=1.7.3 \
- LOGSTASH_VERSION=2.0.0 \
- KIBANA_VERSION=4.1.2 \
+ ELASTICSEARCH_VERSION=2.3.0 \
+ LOGSTASH_VERSION=2.3.0 \
+ KIBANA_VERSION=4.5.0 \
  REDIS_VERSION=3.0.5 \
  SBT_VERSION=0.13.9 \
  HADOOP_VERSION=2.6.0 \
@@ -137,10 +137,14 @@ RUN \
  && git clone https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
-# Replace .profile with the one from config/bash/.profile
+# Source the pipeline-specific env variables
+# This is needed to re-attach to a Docker container after exiting
  cd ~ \
- && mv ~/.profile ~/.profile.orig \
- && ln -s ~/pipeline/config/bash/.profile ~/.profile
+ && echo "" >> ~/.bashrc \
+ && echo "# Pipeline-specific" >> ~/.bashrc \
+ && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
+ && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
+ && echo "fi" >> ~/.bashrc 
 
 RUN \
 # Sbt
@@ -151,6 +155,17 @@ RUN \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
 # Sbt Clean - This seems weird, but it triggers the full Sbt install which involves a lot of external downloads
  && sbt clean clean-files \
+
+# ElasticSearch
+ && cd ~ \
+ && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+
+# Elastic Graph
+ && cd ~ \
+ && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install license \
+ && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install graph \
 
 # Logstash
  && cd ~ \
@@ -164,6 +179,11 @@ RUN \
  && tar xvzf kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
  && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
 
+# Kibana Plugins
+ && cd ~ \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elasticsearch/graph/latest \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
+
 # Apache Cassandra
  && cd ~ \
  && wget http://www.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
@@ -175,12 +195,6 @@ RUN \
  && wget http://packages.confluent.io/archive/1.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
-
-# ElasticSearch
- && cd ~ \
- && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
- && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
- && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
 
 # Apache Spark
  && cd ~ \
