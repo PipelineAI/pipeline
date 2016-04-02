@@ -271,7 +271,7 @@ RUN \
  && cd ~ \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
- && rm titan-${TITAN_VERSION}.zip \
+ && rm titan-${TITAN_VERSION}.zip 
  
 RUN \
 # Get Latest Pipeline Code 
