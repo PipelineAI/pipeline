@@ -21,11 +21,11 @@ service apache2 start
 echo '...Starting MySQL...'
 service mysql start
 
-#echo '...Starting Cassandra...'
-#nohup cassandra
+echo '...Starting Cassandra...'
+nohup cassandra
 
-#echo '...Starting ZooKeeper...'
-#nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
+echo '...Starting ZooKeeper...'
+nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 
 #echo '...Starting Redis...'
 #nohup redis-server &
@@ -69,9 +69,9 @@ nohup pipeline-pyspark.sh &
 #echo '...Starting Presto...'
 #nohup launcher start
 
-#echo '...Starting Kafka Schema Registry...'
+echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
-#nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.properties &
+nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.properties &
 
 #echo '...Starting Kafka REST Proxy...'
 #nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
