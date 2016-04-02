@@ -21,8 +21,8 @@ service apache2 start
 echo '...Starting MySQL...'
 service mysql start
 
-#echo '...Starting Cassandra...'
-#nohup cassandra
+echo '...Starting Cassandra...'
+nohup cassandra
 
 echo '...Starting ZooKeeper...'
 nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
