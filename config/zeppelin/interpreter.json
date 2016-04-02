@@ -97,7 +97,7 @@
         "zeppelin.spark.useHiveContext": "true",
         "args": "",
         "zeppelin.spark.concurrentSQL": "false",
-        "spark.home": "/root/spark-1.6.0-bin-fluxcapacitor",
+        "spark.home": "/root/spark-1.6.1-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python",
         "zeppelin.dep.additionalRemoteRepository": "spark-packages,http://dl.bintray.com/spark-packages/maven,false;"
       },
