@@ -4,6 +4,9 @@
 
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
+## Architecture Overview
+![Pipeline Architecture Overview](https://advancedspark.com/img/architecture-overview.png)
+
 ## Screenshots
 ### Apache Zeppelin Notebooks
 ![Apache Zeppelin Notebooks](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-zeppelin-1.png)
@@ -47,9 +50,6 @@
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-1.png)
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-2.png)
 ![Ganglia Metrics UI](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-ganglia-3.png)
-
-## Architecture Overview
-![Big Data Pipeline Overview](https://s3.amazonaws.com/fluxcapacitor.com/img/FluxCapacitorBigDataPipelineArchitectureOverview.png)
 
 ## Tools Overview
 ![Apache Spark](http://spark.apache.org/images/spark-logo.png) ![Redis](https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png)
