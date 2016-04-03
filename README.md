@@ -29,6 +29,9 @@
 ### AirFlow Workflows
 ![AirFlow Workflows](http://advancedspark.com/img/airflow.png)
 
+### Presto Queries
+![Presto Queries](http://advancedspark.com/img/presto.png)
+
 ### Tableau Integration
 ![Tableau Integration](https://s3.amazonaws.com/fluxcapacitor.com/img/flux-tableau.png)
 
