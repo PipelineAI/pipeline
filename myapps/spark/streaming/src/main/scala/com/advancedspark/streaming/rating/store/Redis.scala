@@ -47,7 +47,7 @@ object Redis {
 
         // convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token =>
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, token(3).trim.toString, batchTime.milliseconds)
+          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
         )
 
        // increment the exact count for touserid in Redis

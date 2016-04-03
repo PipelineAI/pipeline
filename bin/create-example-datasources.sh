@@ -26,7 +26,7 @@ echo '...**** SPECIFICALLY, ANY JOB USING THE advancedspark COLUMN FAMILY OR adv
 cqlsh -e "DROP KEYSPACE IF EXISTS advancedspark;"
 cqlsh -e "CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStrategy',  'replication_factor':1};"
 cqlsh -e "USE advancedspark; DROP TABLE IF EXISTS item_ratings;"
-cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, geo_city text, timestamp bigint, PRIMARY KEY(userId, itemId));"
+cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, timestamp bigint, PRIMARY KEY(userId, itemId));"
 
 echo '...Flushing Redis...'
 redis-cli FLUSHALL
@@ -35,6 +35,7 @@ redis-cli FLUSHALL
 #hdfs namenode -format
 
 echo '...Creating Example Hive Tables...'
+echo '...**** TABLES CREATED WITH A NON-HIVE-SUPPORTED SerDe LIKE com.databricks.spark.csv WILL NOT BE QUERYABLE BY HIVE ****...'
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movies'
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movies(movieId INT, title STRING, genres STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/movies.csv.bz2", header "true")'
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_ratings'
@@ -47,3 +48,11 @@ spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP T
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_genders(userId INT, gender STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/genders.csv.bz2", header "true")'
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS dating_ratings'
 spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_ratings(fromUserId INT, toUserId INT, rating INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/ratings.csv.bz2", header "true")'
+
+# Hive and Presto Friendly Versions of Hive Tables
+# Note:  We have to copy the files before LOADing into Hive, otherwise they get slurped into HDFS 
+#          and no-longer accessible on the local file system.  
+#        (The EXTERNAL keyword does not affect this behavior.)
+cp $DATASETS_HOME/movielens/ml-latest/movies.csv $DATASETS_HOME/movielens/ml-latest/movies-hive-friendly.csv
+spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "CREATE EXTERNAL TABLE movies_hive_friendly (id INT, title STRING, tags STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE;"
+spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "LOAD DATA INPATH '/root/pipeline/datasets/movielens/ml-latest/movies-hive-friendly.csv' OVERWRITE INTO TABLE movies_hive_friendly;"

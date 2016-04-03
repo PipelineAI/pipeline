@@ -2,7 +2,7 @@
 # You can override the Dockerfile values here for application dependency libraries such as Algebird, Cassandra-Spark Connector, etc
 export AKKA_VERSION=2.3.11
 export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
-export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.1.2
+export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.3.0.BUILD-SNAPSHOT
 export KAFKA_CLIENT_VERSION=0.8.2.2
 export SCALATEST_VERSION=2.2.4
 export JEDIS_VERSION=2.7.3
@@ -112,6 +112,7 @@ export PATH=$HADOOP_HOME/bin:$PATH
 # Hadoop Hive
 export HIVE_HOME=$DEV_INSTALL_HOME/apache-hive-$HIVE_VERSION-bin
 export PATH=$HIVE_HOME/bin:$PATH
+export HADOOP_USER_CLASSPATH_FIRST=true
 
 # Redis
 export REDIS_HOME=$DEV_INSTALL_HOME/redis-$REDIS_VERSION

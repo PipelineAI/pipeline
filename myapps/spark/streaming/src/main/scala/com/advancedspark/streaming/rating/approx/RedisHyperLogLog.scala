@@ -47,7 +47,7 @@ object RedisHyperLogLog {
 
         // convert messageTokens into RDD[Ratings]
         val ratings = tokens.map(token => 
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, token(3).trim.toString, batchTime.milliseconds)
+          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
         )
 
         //val jedis = new Jedis("127.0.0.1", 6379)

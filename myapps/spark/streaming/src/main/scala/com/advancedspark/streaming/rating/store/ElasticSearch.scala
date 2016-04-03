@@ -21,7 +21,7 @@ object ElasticSearch {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(22))
+      @transient val newSsc = new StreamingContext(sc, Seconds(2))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc
@@ -47,11 +47,11 @@ object ElasticSearch {
 
         // convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token =>
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, token(3).trim.toString, batchTime.milliseconds)
+          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
         )
 
         // save the DataFrame to ElasticSearch
-        val ratingsDF = ratings.toDF("userId", "itemId", "rating", "geo", "timestamp")
+        val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")
     	  .mode(SaveMode.Append)

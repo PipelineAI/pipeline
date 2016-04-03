@@ -435,13 +435,13 @@
     {
       "title": "Enrich The Item Feature Vectors For Display Purposes",
       "text": "val enrichedItemFeatureVectorsDF \u003d itemFeatureVectorsDF\n  .join(itemsDF, $\"itemFeatureVectors.id\" \u003d\u003d\u003d $\"id\")\n  .select($\"id\", $\"title\", $\"features\", $\"tags\")\n  .sort($\"id\")\n  .as(\"enrichedItemFeatureVectors\")\n\nz.show(enrichedItemFeatureVectorsDF)",
-      "dateUpdated": "Mar 22, 2016 7:51:02 AM",
+      "dateUpdated": "Apr 3, 2016 3:50:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 300.0,
-          "optionOpen": false,
+          "optionOpen": true,
           "keys": [],
           "values": [],
           "groups": [],

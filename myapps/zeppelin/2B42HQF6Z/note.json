@@ -39,7 +39,7 @@
     {
       "title": "Approximate HyperLogLog (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Mar 28, 2016 10:11:43 PM",
+      "dateUpdated": "Apr 3, 2016 5:30:58 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@613b2935\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@5b985a11\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Mar 28, 2016 10:11:43 PM",
-      "dateFinished": "Mar 28, 2016 10:11:43 PM",
+      "dateStarted": "Apr 3, 2016 5:30:58 AM",
+      "dateFinished": "Apr 3, 2016 5:30:59 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Exact Count (Redis)",
       "text": "val exactNumNonDistinctUsersWhoRatedItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Mar 16, 2016 12:54:47 PM",
+      "dateUpdated": "Apr 3, 2016 5:31:01 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -103,11 +103,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
+        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d 5\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "Mar 16, 2016 12:54:47 PM",
-      "dateFinished": "Mar 16, 2016 12:54:49 PM",
+      "dateStarted": "Apr 3, 2016 5:31:01 AM",
+      "dateFinished": "Apr 3, 2016 5:31:01 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

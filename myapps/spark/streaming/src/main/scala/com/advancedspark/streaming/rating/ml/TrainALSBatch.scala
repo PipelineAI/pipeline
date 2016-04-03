@@ -22,7 +22,7 @@ object TrainALSBatch {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(10))
+      @transient val newSsc = new StreamingContext(sc, Seconds(5))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc

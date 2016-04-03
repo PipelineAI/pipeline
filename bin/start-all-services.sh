@@ -33,8 +33,8 @@ nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 echo '...Starting Redis...'
 nohup redis-server &
 
-#echo '...Starting Webdis...'
-#nohup webdis $WEBDIS_HOME/webdis.json &
+echo '...Starting Webdis...'
+nohup webdis $WEBDIS_HOME/webdis.json &
 
 echo '...Starting Kafka...'
 nohup kafka-server-start $CONFIG_HOME/kafka/server.properties &
