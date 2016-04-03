@@ -10,8 +10,8 @@ git reset --hard && git pull
 echo '...Configuring Services Before Starting...'
 $SCRIPTS_HOME/config-services-before-starting.sh
 
-echo '...Start All Services...'
-$SCRIPTS_HOME/start-all-services.sh
+echo '...Start Core Services...'
+$SCRIPTS_HOME/start-core-services.sh
 
 echo '...Create Examples Data Sources...'
 $SCRIPTS_HOME/create-example-datasources.sh
