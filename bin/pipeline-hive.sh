@@ -1,0 +1,2 @@
+export HADOOP_USER_CLASSPATH_FIRST=true
+hive

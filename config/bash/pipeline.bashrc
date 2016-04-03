@@ -109,6 +109,10 @@ export PATH=$KIBANA_HOME/bin:$PATH
 export HADOOP_HOME=$DEV_INSTALL_HOME/hadoop-$HADOOP_VERSION
 export PATH=$HADOOP_HOME/bin:$PATH
 
+# Hadoop Hive
+export HIVE_HOME=$DEV_INSTALL_HOME/apache-hive-$HIVE_VERSION-bin
+export PATH=$HIVE_HOME/bin:$PATH
+
 # Redis
 export REDIS_HOME=$DEV_INSTALL_HOME/redis-$REDIS_VERSION
 export PATH=$REDIS_HOME/bin:$PATH

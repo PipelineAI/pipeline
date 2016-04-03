@@ -139,7 +139,12 @@ ln -s $CONFIG_HOME/logstash/logstash.conf $LOGSTASH_HOME
 echo '...Configuring Kibana...'
 
 # Hadoop HDFS
-echo '...Configuring Docker-local Hadoop HDFS...'
+echo '...Configuring Hadoop HDFS...'
+
+# Hadoop Hive
+echo '...Configuring Hadoop Hive...'
+ln -s $CONFIG_HOME/hive/hive-site.xml $HIVE_HOME/conf
+ln -s $MYSQL_CONNECTOR_JAR $HIVE_HOME/lib
 
 # Redis
 echo '...Configuring Redis...'

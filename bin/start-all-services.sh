@@ -24,6 +24,9 @@ service mysql start
 echo '...Starting Cassandra...'
 nohup cassandra
 
+echo '...Starting Hive Metastore...'
+nohup hive --service metastore &
+
 echo '...Starting ZooKeeper...'
 nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 

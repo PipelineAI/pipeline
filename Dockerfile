@@ -20,6 +20,7 @@ ENV \
  REDIS_VERSION=3.0.5 \
  SBT_VERSION=0.13.9 \
  HADOOP_VERSION=2.6.0 \
+ HIVE_VERSION=1.2.1 \
  ZEPPELIN_VERSION=0.6.0 \
  GENSORT_VERSION=1.5 \
  SCALA_VERSION=2.10.4 \
@@ -241,6 +242,12 @@ RUN \
  && wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm hadoop-${HADOOP_VERSION}.tar.gz \
+
+# Apache Hive
+ && cd ~ \
+ && wget http://www.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
+ && tar xvzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
+ && rm apache-hive-${HIVE_VERSION}-bin.tar.gz \
 
 # Apache NiFi
  && cd ~ \

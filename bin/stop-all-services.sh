@@ -68,8 +68,11 @@ echo '...Stopping Airflow...'
 ps -aef | grep "airflow" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 ps -aef | grep "airflow" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-echo '...Stop Presto...'
+echo '...Stopping Presto...'
 nohup launcher stop
+
+echo '...Stopping Hive Metastore...'
+ps -aef | grep "RunJar" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Titan...'
 jps | grep "GremlinServer" | cut -d " " -f "1" | xargs kill -KILL
