@@ -30,8 +30,8 @@ nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 echo '...Starting Redis...'
 nohup redis-server &
 
-echo '...Starting Webdis...'
-nohup webdis $WEBDIS_HOME/webdis.json &
+#echo '...Starting Webdis...'
+#nohup webdis $WEBDIS_HOME/webdis.json &
 
 echo '...Starting Kafka...'
 nohup kafka-server-start $CONFIG_HOME/kafka/server.properties &
@@ -48,11 +48,11 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
-echo '...Starting Spark History Server...'
-nohup $SPARK_HOME/sbin/start-history-server.sh &
+#echo '...Starting Spark History Server...'
+#nohup $SPARK_HOME/sbin/start-history-server.sh &
 
-echo '...Starting Flink...'
-nohup start-local.sh &
+#echo '...Starting Flink...'
+#nohup start-local.sh &
 
 echo '...Starting Kibana...'
 nohup kibana &
@@ -60,14 +60,14 @@ nohup kibana &
 echo '...Starting Jupyter Notebook Server (via pipeline-pyspark.sh)...'
 nohup pipeline-pyspark.sh & 
 
-echo '...Starting NiFi...'
-nohup nifi.sh start &
+#echo '...Starting NiFi...'
+#nohup nifi.sh start &
 
-echo '...Starting Airflow...'
-nohup airflow webserver &
+#echo '...Starting Airflow...'
+#nohup airflow webserver &
 
-echo '...Starting Presto...'
-nohup launcher start
+#echo '...Starting Presto...'
+#nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components
@@ -76,6 +76,6 @@ nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.propert
 echo '...Starting Kafka REST Proxy...'
 nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
 
-echo '...Starting Titan...'
-nodetool enablethrift
-nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
+#echo '...Starting Titan...'
+#nodetool enablethrift
+#nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &

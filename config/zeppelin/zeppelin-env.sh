@@ -22,7 +22,7 @@ export MASTER=spark://127.0.0.1:7077 # Spark master url. eg. spark://master_addr
 # Additional jvm options. for example, export ZEPPELIN_JAVA_OPTS="-Dspark.executor.memory=8g -Dspark.cores.max=16"
 export ZEPPELIN_JAVA_OPTS="-Dspark.cassandra.connection.host=127.0.0.1"
 
-export ZEPPELIN_MEM=-Xmx8g            # Zeppelin jvm mem options Default -Xmx1024m -XX:MaxPermSize=512m
+export ZEPPELIN_MEM=-Xmx2g            # Zeppelin jvm mem options Default -Xmx1024m -XX:MaxPermSize=512m
 # export ZEPPELIN_INTP_MEM       		# zeppelin interpreter process jvm mem options. Default = ZEPPELIN_MEM
 # export ZEPPELIN_INTP_JAVA_OPTS 		# zeppelin interpreter process jvm options. Default = ZEPPELIN_JAVA_OPTS
 

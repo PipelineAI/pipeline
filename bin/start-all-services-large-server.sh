@@ -67,7 +67,7 @@ echo '...Starting Airflow...'
 nohup airflow webserver &
 
 echo '...Starting Presto...'
-nohup launcher start
+nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start 
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

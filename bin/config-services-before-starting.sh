@@ -127,6 +127,9 @@ echo '...Configuring ElasticSearch...'
 mv $ELASTICSEARCH_HOME/config/elasticsearch.yml $ELASTICSEARCH_HOME/config/elasticsearch.yml.orig
 mv $ELASTICSEARCH_HOME/config/logging.yml $ELASTICSEARCH_HOME/config/logging.yml.orig
 mv $ELASTICSEARCH_HOME/config/scripts $ELASTICSEARCH_HOME/config/scripts.orig
+ln -s $CONFIG_HOME/elasticsearch/elasticsearch.yml $ELASTICSEARCH_HOME/config
+ln -s $CONFIG_HOME/elasticsearch/logging.yml $ELASTICSEARCH_HOME/config
+ln -s $CONFIG_HOME/elasticsearch/scripts $ELASTICSEARCH_HOME/config
 
 # Logstash
 echo '...Configuring Logstash...'

@@ -40,7 +40,7 @@ jobmanager.heap.mb: 512
 
 # The heap size for the TaskManager JVM
 
-taskmanager.heap.mb: 1024 
+taskmanager.heap.mb: 512 
 
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.

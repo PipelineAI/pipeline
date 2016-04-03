@@ -30,8 +30,8 @@ nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
 echo '...Starting Redis...'
 nohup redis-server &
 
-echo '...Starting Webdis...'
-nohup webdis $WEBDIS_HOME/webdis.json &
+#echo '...Starting Webdis...'
+#nohup webdis $WEBDIS_HOME/webdis.json &
 
 echo '...Starting Kafka...'
 nohup kafka-server-start $CONFIG_HOME/kafka/server.properties &
@@ -67,7 +67,7 @@ nohup pipeline-pyspark.sh &
 #nohup airflow webserver &
 
 #echo '...Starting Presto...'
-#nohup launcher start
+#nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start 
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

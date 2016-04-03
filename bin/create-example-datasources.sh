@@ -2,10 +2,7 @@
 
 cd $PIPELINE_HOME
 
-echo '...Recreate All Dynamic Data Stores including Cassandra, Redis, ElasticSearch, Hive Metastore...'
-
-echo '...**** MAKE SURE NO SPARK JOBS ARE RUNNING BEFORE STARTING THIS SCRIPT ****...'
-echo '...**** SPECIFICALLY, ANY JOB USING THE advancedspark COLUMN FAMILY OR advancedspark.item_ratings TABLE WILL FAIL AFTER RUNNING THIS SCRIPT ****...' 
+echo '...(Re)-create Data Stores including Cassandra, Redis, ElasticSearch, Hive Metastore...'
 
 echo '...**** YOU MUST START ALL SERVICES BEFORE RUNNING THIS SCRIPT ****...'
 echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS OK. ****...'
@@ -13,7 +10,6 @@ echo '...**** IGNORE ANY ERRORS RELATED TO THINGS THAT ALREADY EXIST.  THIS IS O
 echo '...Creating Example Kafka Topics...'
 kafka-topics --zookeeper localhost:2181 --delete --topic item_ratings
 kafka-topics --zookeeper localhost:2181 --create --topic item_ratings --partitions 1 --replication-factor 1
-#kafka-topics --zookeeper localhost:2181 --create --topic predict_item_ratings --partitions 1 --replication-factor 1
 
 echo '...Creating Example ElasticSearch Indexes...'
 curl -XDELETE 'http://localhost:9200/advancedspark'
@@ -25,10 +21,12 @@ curl -XPUT 'http://localhost:9200/advancedspark/' -d '{
 }'
 
 echo '...Creating Example Cassandra Keyspaces, Column Families/Tables...'
+echo '...**** MAKE SURE NO SPARK JOBS ARE RUNNING BEFORE STARTING THIS SCRIPT ****...'
+echo '...**** SPECIFICALLY, ANY JOB USING THE advancedspark COLUMN FAMILY OR advancedspark.item_ratings TABLE WILL FAIL AFTER RUNNING THIS SCRIPT ****...' 
 cqlsh -e "DROP KEYSPACE IF EXISTS advancedspark;"
 cqlsh -e "CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStrategy',  'replication_factor':1};"
 cqlsh -e "USE advancedspark; DROP TABLE IF EXISTS item_ratings;"
-cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, geo text, timestamp bigint, PRIMARY KEY(userId, itemId));"
+cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, geo_city text, timestamp bigint, PRIMARY KEY(userId, itemId));"
 
 echo '...Flushing Redis...'
 redis-cli FLUSHALL
