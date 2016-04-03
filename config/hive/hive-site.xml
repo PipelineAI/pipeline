@@ -19,5 +19,9 @@
     <value>password</value>
     <description>Password to use against metastore database</description>
   </property>
+  <property>
+    <name>hive.metastore.schema.verification</name>
+    <value>false</value>
+    <description>enforce schema verification</description>
+  </property>
 </configuration>
-
