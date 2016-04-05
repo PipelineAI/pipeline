@@ -9,7 +9,7 @@
 
 ## Screenshots
 ### Apache Zeppelin Notebooks
-![Apache Zeppelin Notebooks](http://advancedspark.com/img/flux-zeppelin-1.png)
+![Apache Zeppelin Notebooks](http://advancedspark.com/img/zeppelin-notebooks-sm.png)
 
 ### Stanford CoreNLP Sentiment Analysis
 ![Stanford CoreNLP Sentiment](http://advancedspark.com/img/corenlp-sentiment.png)
@@ -33,7 +33,7 @@
 ![Presto Queries](http://advancedspark.com/img/presto.png)
 
 ### Tableau Integration
-![Tableau Integration](http://advancedspark.com/fluxcapacitor.com/img/flux-tableau.png)
+![Tableau Integration](http://advancedspark.com/img/flux-tableau.png)
 
 ### Beeline Command-line Hive Client
 ![Beeline Command-line Hive Client](http://advancedspark.com/img/flux-beeline.png)
