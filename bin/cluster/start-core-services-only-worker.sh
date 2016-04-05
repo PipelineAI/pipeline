@@ -8,18 +8,18 @@ cd $PIPELINE_HOME
 #echo '...Starting Logstash...'
 #nohup logstash -f $LOGSTASH_HOME/logstash.conf &
 
-echo '...Starting SSH...'
-service ssh start
+#echo '...Starting SSH...'
+#service ssh start
 
-echo '...Starting Ganglia...'
-service ganglia-monitor start
-service gmetad start
+#echo '...Starting Ganglia...'
+#service ganglia-monitor start
+#service gmetad start
 
 #echo '...Starting Apache2 Httpd...'
 #service apache2 start
 
-echo '...Starting MySQL...'
-service mysql start
+#echo '...Starting MySQL...'
+#service mysql start
 
 #echo '...Starting Cassandra...'
 #nohup cassandra
@@ -42,11 +42,11 @@ service mysql start
 #echo '...Starting Zeppelin...'
 #nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
 
-echo '...Starting Spark Master...'
-nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 127.0.0.1
+#echo '...Starting Spark Master...'
+#nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 0.0.0.0 
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h 127.0.0.1 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h 0.0.0.0 spark://$1:37077
 
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh

@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Determine Hidden Topic Structure",
-      "text": "%md\n* Topics (numTopics is fixed)\n* Per-document topic distribution\n* Per-document, per-word topic assignment\n![LDA Topic Distribution](http://fluxcapacitor.com/img/lda-topic-distribution-2.png)",
-      "dateUpdated": "Feb 16, 2016 11:12:14 PM",
+      "text": "%md\n* Topics (numTopics is fixed)\n* Per-document topic distribution\n* Per-document, per-word topic assignment\n![LDA Topic Distribution](http://advancedspark.com/img/lda-topic-distribution-2.png)",
+      "dateUpdated": "Apr 5, 2016 4:42:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,17 +29,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cul\u003e\n\u003cli\u003eTopics (numTopics is fixed)\u003c/li\u003e\n\u003cli\u003ePer-document topic distribution\u003c/li\u003e\n\u003cli\u003ePer-document, per-word topic assignment\n\u003cbr  /\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/lda-topic-distribution-2.png\" alt\u003d\"LDA Topic Distribution\" /\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003cul\u003e\n\u003cli\u003eTopics (numTopics is fixed)\u003c/li\u003e\n\u003cli\u003ePer-document topic distribution\u003c/li\u003e\n\u003cli\u003ePer-document, per-word topic assignment\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/lda-topic-distribution-2.png\" alt\u003d\"LDA Topic Distribution\" /\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 1:06:40 AM",
-      "dateStarted": "Feb 16, 2016 11:12:16 PM",
-      "dateFinished": "Feb 16, 2016 11:12:16 PM",
+      "dateStarted": "Apr 5, 2016 4:42:57 AM",
+      "dateFinished": "Apr 5, 2016 4:42:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![LDA Topic Distribution](http://fluxcapacitor.com/img/lda-topic-distribution.png)",
-      "dateUpdated": "Feb 16, 2016 11:12:16 PM",
+      "text": "%md ![LDA Topic Distribution](http://advancedspark.com/img/lda-topic-distribution.png)",
+      "dateUpdated": "Apr 5, 2016 4:43:09 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -64,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/lda-topic-distribution.png\" alt\u003d\"LDA Topic Distribution\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/lda-topic-distribution.png\" alt\u003d\"LDA Topic Distribution\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 15, 2016 4:28:59 AM",
-      "dateStarted": "Feb 16, 2016 11:12:16 PM",
-      "dateFinished": "Feb 16, 2016 11:12:17 PM",
+      "dateStarted": "Apr 5, 2016 4:43:09 AM",
+      "dateFinished": "Apr 5, 2016 4:43:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "BiPartite Graph between topics and documents",
-      "text": "%md ![LDA EM Bipartite Graph](http://fluxcapacitor.com/img/lda-em-bipartite-graph.png)",
-      "dateUpdated": "Feb 16, 2016 11:12:19 PM",
+      "text": "%md ![LDA EM Bipartite Graph](http://advancedspark.com/img/lda-em-bipartite-graph.png)",
+      "dateUpdated": "Apr 5, 2016 4:43:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,11 +101,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/lda-em-bipartite-graph.png\" alt\u003d\"LDA EM Bipartite Graph\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/lda-em-bipartite-graph.png\" alt\u003d\"LDA EM Bipartite Graph\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 4:42:48 AM",
-      "dateStarted": "Feb 16, 2016 11:12:20 PM",
-      "dateFinished": "Feb 16, 2016 11:12:20 PM",
+      "dateStarted": "Apr 5, 2016 4:43:32 AM",
+      "dateFinished": "Apr 5, 2016 4:43:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -634,60 +634,6 @@
       "dateStarted": "Feb 16, 2016 11:13:20 PM",
       "dateFinished": "Feb 16, 2016 11:13:22 PM",
       "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Show distribution of similar songs by topic distribution",
-      "text": "val clusterDistributionDF \u003d pipelineResultsDF\n  .select($\"cluster\")\n  .groupBy($\"cluster\")\n  .agg(count($\"cluster\"))\n  \nz.show(clusterDistributionDF)",
-      "dateUpdated": "Mar 28, 2016 10:19:21 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "multiBarChart",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "cluster",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "count(cluster)",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "cluster",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1455595719657_1921349889",
-      "id": "20160216-040839_727575596",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:45: error: not found: value pipelineResultsDF\n         val clusterDistributionDF \u003d pipelineResultsDF\n                                     ^\n"
-      },
-      "dateCreated": "Feb 16, 2016 4:08:39 AM",
-      "dateStarted": "Mar 28, 2016 10:19:22 PM",
-      "dateFinished": "Mar 28, 2016 10:19:22 PM",
-      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

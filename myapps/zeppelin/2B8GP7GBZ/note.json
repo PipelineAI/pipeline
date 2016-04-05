@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md\n## Locality Sensitive Hashing (LSH)\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png) \n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -30,15 +30,15 @@
         "msg": "\u003ch2\u003eLocality Sensitive Hashing (LSH)\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eHash items into multiple buckets\u003c/li\u003e\n\u003cli\u003eSimilar items will hash to overlapping buckets over many different hash functions\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eAvoid cartesian\u003c/em\u003e and compare only items within each bucket\u003c/h3\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 5:38:55 AM",
-      "dateStarted": "Mar 3, 2016 9:19:26 AM",
-      "dateFinished": "Mar 3, 2016 9:19:26 AM",
+      "dateStarted": "Apr 4, 2016 4:39:27 AM",
+      "dateFinished": "Apr 4, 2016 4:39:27 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load dataset including tags",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n  .cache()\n  \nz.show(itemsDF)",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:27 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -91,15 +91,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:26 AM",
-      "dateFinished": "Mar 3, 2016 9:19:26 AM",
+      "dateStarted": "Apr 4, 2016 4:39:29 AM",
+      "dateFinished": "Apr 4, 2016 4:39:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into MinHashTaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.MinHashTaggedItem\nimport com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\nval numHashes \u003d 5\nval minApproxLSHSimilarityThreshold \u003d 0.5\nval numBands \u003d MinHasher.pickBands(minApproxLSHSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  val tagSignatures \u003d tags.map(tag \u003d\u003e minHasher.init(tag))\n  val combinedTagSignature \u003d minHasher.sum(tagSignatures)\n  \n  MinHashTaggedItem(id, title, tags, combinedTagSignature)\n}).cache()\n\nval itemsCount \u003d itemsRDD.count()",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:30 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -148,18 +148,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.MinHashTaggedItem\nimport com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\nnumHashes: Int \u003d 5\nminApproxLSHSimilarityThreshold: Double \u003d 0.5\nnumBands: Int \u003d 4\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@2e89f899\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.MinHashTaggedItem] \u003d MapPartitionsRDD[2937] at map at \u003cconsole\u003e:106\nitemsCount: Long \u003d 10\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.MinHashTaggedItem\nimport com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\nnumHashes: Int \u003d 5\nminApproxLSHSimilarityThreshold: Double \u003d 0.5\nnumBands: Int \u003d 4\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@6d799910\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.MinHashTaggedItem] \u003d MapPartitionsRDD[971] at map at \u003cconsole\u003e:108\nitemsCount: Long \u003d 10\n"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:26 AM",
-      "dateFinished": "Mar 3, 2016 9:19:27 AM",
+      "dateStarted": "Apr 4, 2016 4:39:31 AM",
+      "dateFinished": "Apr 4, 2016 4:39:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution Of Tags Within Dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
-      "dateUpdated": "Mar 3, 2016 9:29:40 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -211,15 +211,15 @@
         "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Feb 4, 2016 11:42:12 PM",
-      "dateStarted": "Mar 3, 2016 9:22:29 AM",
-      "dateFinished": "Mar 3, 2016 9:22:30 AM",
+      "dateStarted": "Apr 4, 2016 4:39:45 AM",
+      "dateFinished": "Apr 4, 2016 4:39:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Group the items into their respective bucket",
       "text": "val bucketItemsRDD \u003d itemsRDD.flatMap(item \u003d\u003e {\n  val buckets \u003d minHasher.buckets(item.combinedTagSignature)\n  buckets.map(bucket \u003d\u003e \n    (bucket, Seq(item)) \n  )\n}).reduceByKey(_ ++ _)\n.cache()\n\nval bucketSizes \u003d bucketItemsRDD.map(bucketItems \u003d\u003e bucketItems._2.size).collect()\nval bucketCount \u003d bucketSizes.size",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -245,18 +245,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "bucketItemsRDD: org.apache.spark.rdd.RDD[(Long, Seq[com.advancedspark.ml.MinHashTaggedItem])] \u003d ShuffledRDD[2946] at reduceByKey at \u003cconsole\u003e:112\nbucketSizes: Array[Int] \u003d Array(2, 3, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 4, 2, 2, 1, 2, 1, 2, 1, 3, 2, 3, 1, 2, 2, 4, 1)\nbucketCount: Int \u003d 28\n"
+        "msg": "bucketItemsRDD: org.apache.spark.rdd.RDD[(Long, Seq[com.advancedspark.ml.MinHashTaggedItem])] \u003d ShuffledRDD[980] at reduceByKey at \u003cconsole\u003e:130\nbucketSizes: Array[Int] \u003d Array(2, 3, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 4, 2, 2, 1, 2, 1, 2, 1, 3, 2, 3, 1, 2, 2, 4, 1)\nbucketCount: Int \u003d 28\n"
       },
       "dateCreated": "Jan 10, 2016 10:24:13 PM",
-      "dateStarted": "Mar 3, 2016 9:19:28 AM",
-      "dateFinished": "Mar 3, 2016 9:19:28 AM",
+      "dateStarted": "Apr 4, 2016 4:39:47 AM",
+      "dateFinished": "Apr 4, 2016 4:39:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "All Pairs Similarity Comparison within each bucket (Much Smaller Cartesian)",
       "text": "val similarItemPairIdsAboveThresholdRDD \u003d bucketItemsRDD.flatMap(bucketItems \u003d\u003e {\n  val allItemsWithinBucket \u003d bucketItems._2\n\n  val allItemPairsWithinBucket \u003d\n    // Cartesian product of a MUCH smaller Set of items (per bucket)\n    for { \n        item1 \u003c- allItemsWithinBucket\n        item2 \u003c- allItemsWithinBucket\n        if (item1.id \u003c item2.id) // Preserve just a triangle to avoid extra work\n    } yield (item1, item2)\n\n  val similarItemPairIdsAboveThresholdWithinBucket \u003d allItemPairsWithinBucket\n    // Calculate LSH similarity for all pairs within this bucket\n    .map(itemPair \u003d\u003e \n      (itemPair._1.id, itemPair._2.id, \n        minHasher.similarity(itemPair._1.combinedTagSignature, itemPair._2.combinedTagSignature)))\n    // Keep only pairs above the given threshold\n    .filter(_._3 \u003e\u003d minApproxLSHSimilarityThreshold) \n    \n  similarItemPairIdsAboveThresholdWithinBucket\n}).cache()\n\nval similarItemPairIdsAboveThresholdCount \u003d similarItemPairIdsAboveThresholdRDD.count()",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -282,18 +282,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "similarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[2948] at flatMap at \u003cconsole\u003e:109\nsimilarItemPairIdsAboveThresholdCount: Long \u003d 20\n"
+        "msg": "similarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[982] at flatMap at \u003cconsole\u003e:127\nsimilarItemPairIdsAboveThresholdCount: Long \u003d 20\n"
       },
       "dateCreated": "Jan 10, 2016 10:23:12 PM",
-      "dateStarted": "Mar 3, 2016 9:19:28 AM",
-      "dateFinished": "Mar 3, 2016 9:19:29 AM",
+      "dateStarted": "Apr 4, 2016 4:39:47 AM",
+      "dateFinished": "Apr 4, 2016 4:39:48 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cluster Items By Similarity using Power Iteration Clustering",
       "text": "// http://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic\nimport org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemPairIdsAboveThresholdRDD)",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:33 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -338,18 +338,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@1fa7084c\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@14cd068a\n"
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@649c0ff5\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@c3f498f\n"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:29 AM",
-      "dateFinished": "Mar 3, 2016 9:19:30 AM",
+      "dateStarted": "Apr 4, 2016 4:39:48 AM",
+      "dateFinished": "Apr 4, 2016 4:39:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the cluster assignments",
       "text": "val clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}\n\nval enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n  .sort($\"clusterId\" desc)\n  \nz.show(enrichedClusterAssignmentsDF.select($\"clusterId\", $\"title\", $\"tags\"))",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:36 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -393,18 +393,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "clusterId\ttitle\ttags\n4\tSabrina (1995)\tComedy|Romance\n3\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n2\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tTom and Huck (1995)\tAdventure|Children\n1\tHeat (1995)\tAction|Crime|Thriller\n1\tJumanji (1995)\tAdventure|Children|Fantasy\n1\tGoldenEye (1995)\tAction|Adventure|Thriller\n0\tGrumpier Old Men (1995)\tComedy|Romance\n"
+        "msg": "clusterId\ttitle\ttags\n4\tHeat (1995)\tAction|Crime|Thriller\n3\tGrumpier Old Men (1995)\tComedy|Romance\n3\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n3\tSabrina (1995)\tComedy|Romance\n2\tGoldenEye (1995)\tAction|Adventure|Thriller\n1\tTom and Huck (1995)\tAdventure|Children\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n0\tJumanji (1995)\tAdventure|Children|Fantasy\n"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:29 AM",
-      "dateFinished": "Mar 3, 2016 9:19:30 AM",
+      "dateStarted": "Apr 4, 2016 4:39:48 AM",
+      "dateFinished": "Apr 4, 2016 4:39:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show cluster Distributions",
       "text": "val clusterDistributionDF \u003d enrichedClusterAssignmentsDF\n  .select($\"clusterId\", $\"itemId\", $\"tags\")\n  .groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\"))\n  .sort($\"clusterId\" desc)\n\nz.show(clusterDistributionDF)",
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:36 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -449,16 +449,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "clusterId\ttags\tcount(itemId)\n4\tComedy|Romance\t1\n3\tComedy|Drama|Romance\t1\n2\tAdventure|Children\t1\n2\tAdventure|Animation|Children|Comedy|Fantasy\t1\n1\tAction|Crime|Thriller\t1\n1\tAction|Adventure|Thriller\t1\n1\tAdventure|Children|Fantasy\t1\n0\tComedy|Romance\t1\n"
+        "msg": "clusterId\ttags\tcount(itemId)\n4\tAction|Crime|Thriller\t1\n3\tComedy|Drama|Romance\t1\n3\tComedy|Romance\t2\n2\tAction|Adventure|Thriller\t1\n1\tAdventure|Children\t1\n1\tAdventure|Animation|Children|Comedy|Fantasy\t1\n0\tAdventure|Children|Fantasy\t1\n"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:30 AM",
-      "dateFinished": "Mar 3, 2016 9:19:31 AM",
+      "dateStarted": "Apr 4, 2016 4:39:50 AM",
+      "dateFinished": "Apr 4, 2016 4:39:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Mar 3, 2016 9:28:43 AM",
+      "dateUpdated": "Apr 4, 2016 4:39:36 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -485,8 +485,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 10, 2016 4:23:02 AM",
-      "dateStarted": "Mar 3, 2016 9:19:31 AM",
-      "dateFinished": "Mar 3, 2016 9:19:31 AM",
+      "dateStarted": "Apr 4, 2016 4:39:51 AM",
+      "dateFinished": "Apr 4, 2016 4:39:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
@@ -494,13 +494,9 @@
   "name": "Clustering/03: Approx Tag Similarity (LSH) + Power Iteration Clustering",
   "id": "2B8GP7GBZ",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

@@ -3,12 +3,12 @@
     {
       "title": "Get reference data for enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(5))",
-      "dateUpdated": "Mar 17, 2016 10:24:32 AM",
+      "dateUpdated": "Apr 5, 2016 4:47:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 229.0,
           "optionOpen": false,
           "keys": [
             {
@@ -473,12 +473,12 @@
     {
       "title": "analyze the Clusters",
       "text": "val enrichedClusteredItems \u003d kmeansModel.transform(itemFeatureVectorsDF)\n  .select($\"id\" as \"itemId\", $\"features\", $\"clusterId\")\n  .join(enrichedItemFeatureVectorsDF, $\"itemId\" \u003d\u003d\u003d $\"enrichedItemFeatureVectors.id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"category\", $\"tags\")\n  .sort($\"clusterId\", $\"itemId\")\n  \nz.show(enrichedClusteredItems)",
-      "dateUpdated": "Mar 17, 2016 10:25:59 AM",
+      "dateUpdated": "Apr 5, 2016 4:46:46 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
@@ -563,16 +563,12 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/04: Generate Item-to-Item Collab Filtering Clustering Recs (K-Means)",
+  "name": "Live Recs/04: Generate Item-to-Item Collab Filtering Cluster Recs (K-Means)",
   "id": "2BDVAZRNT",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

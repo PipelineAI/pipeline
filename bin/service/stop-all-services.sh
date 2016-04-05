@@ -20,8 +20,8 @@ $SPARK_HOME/sbin/stop-master.sh --webui-port 6060
 echo '...Stopping Spark Worker...'
 $SPARK_HOME/sbin/stop-slave.sh --webui-port 6061
 
-#echo '...Starting Spark External Shuffle Service...'
-#$SPARK_HOME/sbin/stop-shuffle-service.sh
+echo '...Starting Spark External Shuffle Service...'
+$SPARK_HOME/sbin/stop-shuffle-service.sh
 
 echo '...Stopping Long-Running Spark JDBC ODBC Hive ThriftServer...'
 $SPARK_HOME/sbin/stop-thriftserver.sh  
@@ -81,10 +81,10 @@ echo '...Stopping ElasticSearch...'
 jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Long-Running Ratings Spark Streaming Job...'
-$SCRIPTS_HOME/stop-sparksubmitted-job.sh
+jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Long-Running Spark Job Server Job...'
-$SCRIPTS_HOME/stop-sparksubmitted-job.sh
+jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Spark History Server...'
 $SPARK_HOME/sbin/stop-history-server.sh

@@ -8,13 +8,13 @@ echo '...Retrieving Latest Updates From Github...'
 git reset --hard && git pull
 
 echo '...Configuring Services Before Starting...'
-$SCRIPTS_HOME/config-services-before-starting.sh
+$SCRIPTS_HOME/cluster/config-services-before-starting-only-worker.sh
 
 echo '...Start Core Services...'
-$SCRIPTS_HOME/start-core-services.sh
+$SCRIPTS_HOME/service/start-core-services-only-worker.sh
 
 echo '...Create Examples Data Sources...'
-$SCRIPTS_HOME/create-example-datasources.sh
+$SCRIPTS_HOME/initial/create-example-datasources-only-worker.sh
 
 echo '...Show Exported Variables...'
 export

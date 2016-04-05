@@ -66,8 +66,20 @@ export JAVA_HOME=/usr
 # Initialize PATH
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+
+drwxr-xr-x  2 root root 4096 Apr  4 03:18 cli/
+drwxr-xr-x  2 root root 4096 Apr  4 03:13 cluster/
+-rw-r--r--  1 root root  703 Apr  3 17:13 derby.log
+drwxr-xr-x  2 root root 4096 Apr  4 03:14 docker/
+drwxr-xr-x  2 root root 4096 Apr  4 03:14 initial/
+drwxr-xr-x  2 root root 4096 Apr  4 03:12 kafka/
+-rw-------  1 root root  986 Apr  4 02:02 nohup.out
+drwxr-xr-x  2 root root 4096 Apr  4 03:12 rest/
+drwxr-xr-x  2 root root 4096 Apr  4 03:19 service/
+
+
 # Scripts Home
-export PATH=$SCRIPTS_HOME:$PATH
+export PATH=$SCRIPTS_HOME/cli:$SCRIPTS_HOME/cluster:$SCRIPTS_HOME/docker:$SCRIPTS_HOME/initial:$SCRIPTS_HOME/kafka:$SCRIPTS_HOME/rest:$SCRIPTS_HOME/service:$PATH
 
 # MySQL
 export MYSQL_CONNECTOR_JAR=/usr/share/java/mysql-connector-java.jar

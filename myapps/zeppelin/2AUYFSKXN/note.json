@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Collaborative Filtering:  Matrix Factorization using Alternating Least Squares (ALS)",
-      "text": "%md ![Alternating Least Squares - Matrix Factorization](https://s3.amazonaws.com/fluxcapacitor.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
-      "dateUpdated": "Mar 13, 2016 6:40:38 PM",
+      "text": "%md ![Alternating Least Squares - Matrix Factorization](http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
+      "dateUpdated": "Apr 5, 2016 4:45:16 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,11 +29,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://s3.amazonaws.com/fluxcapacitor.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Mar 13, 2016 6:40:38 PM",
-      "dateFinished": "Mar 13, 2016 6:40:38 PM",
+      "dateStarted": "Apr 5, 2016 4:45:12 AM",
+      "dateFinished": "Apr 5, 2016 4:45:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -430,13 +430,9 @@
   "name": "Live Recs/03:  Generate User-to-Item Collaborative Filter Recs (ALS)",
   "id": "2AUYFSKXN",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

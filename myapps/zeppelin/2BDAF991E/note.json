@@ -40,13 +40,13 @@
     {
       "title": "Get Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"itemId\", \"title\", \"tags\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"tags\"))",
-      "dateUpdated": "Mar 22, 2016 7:50:24 AM",
+      "dateUpdated": "Apr 5, 2016 4:31:05 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
         "title": true,
         "graph": {
-          "mode": "table",
+          "mode": "lineChart",
           "height": 175.0,
           "optionOpen": false,
           "keys": [
