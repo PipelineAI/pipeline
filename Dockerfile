@@ -47,7 +47,12 @@ ENV \
  JBLAS_VERSION=1.2.4 \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
- TENSORFLOW_VERSION=0.7.1-cp27-none
+ BAZEL_VERSION=0.2.1 \ 
+ TENSORFLOW_VERSION=0.7.1 \
+ TENSORFLOW_SERVING_VERSION=0.4.1 \
+# JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
+#   in order to properly install Bazel (used by TensorFlow) 
+ JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 RUN \
  apt-get update \
@@ -71,10 +76,10 @@ RUN \
  && pip install ipyparallel \
 
 # TensorFlow (CPU-only)
- && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-linux_x86_64.whl \
+ && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
 
 # TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-linux_x86_64.whl \
+# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
@@ -116,7 +121,7 @@ RUN \
 # R
  && echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
- && gpg -a --export E084DAB9 | sudo apt-key add - \
+ && gpg -a --export E084DAB9 | apt-key add - \
  && apt-get update \
  && apt-get install -y r-base \
  && apt-get install -y r-base-dev \
@@ -134,6 +139,37 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java 
+
+# Bazel (Required for TensorFlow Serving)
+ RUN \
+   && cd ~ \
+   && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+   && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
+   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+
+# TensorFlow Serving
+   && pip install grpcio \
+   && apt-get update \
+   && apt-get install -y \
+        build-essential \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+        python-pip \
+        software-properties-common \
+        swig \
+        zip \
+        zlib1g-dev \
+   && cd ~ \
+   && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
+
+# TensorFLow
+   && cd ~
+   && git clone -b $TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
 
 RUN \
 # Get Latest Pipeline Code

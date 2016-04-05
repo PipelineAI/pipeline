@@ -60,23 +60,22 @@ export HTML_HOME=$PIPELINE_HOME/html
 
 ###################################################################
 
-# Java Home
-export JAVA_HOME=/usr
-
 # Initialize PATH
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+# Java Home
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+export PATH=$JAVA_HOME/bin:$PATH
 
-drwxr-xr-x  2 root root 4096 Apr  4 03:18 cli/
-drwxr-xr-x  2 root root 4096 Apr  4 03:13 cluster/
--rw-r--r--  1 root root  703 Apr  3 17:13 derby.log
-drwxr-xr-x  2 root root 4096 Apr  4 03:14 docker/
-drwxr-xr-x  2 root root 4096 Apr  4 03:14 initial/
-drwxr-xr-x  2 root root 4096 Apr  4 03:12 kafka/
--rw-------  1 root root  986 Apr  4 02:02 nohup.out
-drwxr-xr-x  2 root root 4096 Apr  4 03:12 rest/
-drwxr-xr-x  2 root root 4096 Apr  4 03:19 service/
+# Bazel Home
+export BAZEL_HOME=$DEV_INSTALL_HOME/bazel-$BAZEL_VERSION
+export PATH=$BAZEL_HOME/bin:$PATH
 
+# TensorFlow Serving Home (not required on PATH)
+export TENSORFLOW_SERVING_HOME=$DEV_INSTALL_HOME/tensorflow-serving-$TENSORFLOW_SERVING_VERSION
+
+# TensorFlow Home (not required on PATH)
+export TENSORFLOW_HOME=$DEV_INSTALL_HOME/tensorflow-$TENSORFLOW_VERSION
 
 # Scripts Home
 export PATH=$SCRIPTS_HOME/cli:$SCRIPTS_HOME/cluster:$SCRIPTS_HOME/docker:$SCRIPTS_HOME/initial:$SCRIPTS_HOME/kafka:$SCRIPTS_HOME/rest:$SCRIPTS_HOME/service:$PATH
