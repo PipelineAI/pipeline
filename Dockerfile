@@ -169,7 +169,7 @@ RUN \
 
 # TensorFLow
  && cd ~ \
- && git clone -b $TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
+ && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
 
 RUN \
 # Get Latest Pipeline Code
