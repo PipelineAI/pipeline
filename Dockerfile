@@ -141,35 +141,35 @@ RUN \
  && apt-get install -y libmysql-java 
 
 # Bazel (Required for TensorFlow Serving)
- RUN \
-   && cd ~ \
-   && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-   && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
-   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+RUN \
+ cd ~ \
+ && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
+ && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
 
 # TensorFlow Serving
-   && pip install grpcio \
-   && apt-get update \
-   && apt-get install -y \
-        build-essential \
-        libfreetype6-dev \
-        libpng12-dev \
-        libzmq3-dev \
-        pkg-config \
-        python-dev \
-        python-numpy \
-        python-pip \
-        software-properties-common \
-        swig \
-        zip \
-        zlib1g-dev \
-   && cd ~ \
-   && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
+ && pip install grpcio \
+ && apt-get update \
+ && apt-get install -y \
+      build-essential \
+      libfreetype6-dev \
+      libpng12-dev \
+      libzmq3-dev \
+      pkg-config \
+      python-dev \
+      python-numpy \
+      python-pip \
+      software-properties-common \
+      swig \
+      zip \
+      zlib1g-dev \
+ && cd ~ \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
 
 # TensorFLow
-   && cd ~ \
-   && git clone -b $TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
+ && cd ~ \
+ && git clone -b $TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
 
 RUN \
 # Get Latest Pipeline Code
