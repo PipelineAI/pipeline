@@ -168,7 +168,7 @@ RUN \
    && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
 
 # TensorFLow
-   && cd ~
+   && cd ~ \
    && git clone -b $TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
 
 RUN \
