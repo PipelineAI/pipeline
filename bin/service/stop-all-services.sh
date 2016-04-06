@@ -86,6 +86,9 @@ jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 echo '...Stopping Long-Running Spark Job Server Job...'
 jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
+echo '...Stopping TensorFlow Serving Service...'
+jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
+
 echo '...Stopping Spark History Server...'
 $SPARK_HOME/sbin/stop-history-server.sh
 
