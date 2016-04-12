@@ -1,0 +1,5 @@
+Example how to sample random data from rnnlm model - these are then used to build n-gram model that
+approximates the distribution of data learned by the rnnlm. In this example, only 10M words are generated,
+which results to reduction of perplexity of the ngram model from 141 to about 134. Better results can
+be obtained by sampling more data, by training larger models, and by sampling data from averaged
+probability distribution from several models.

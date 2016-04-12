@@ -1,0 +1,8 @@
+Example how to invoke dynamic evaluation of the model during testing, and combination of
+static and dynamic models. Note that dynamic evaluation of the model is somewhat similar
+to cache models - recent words have increased probability. Useful mostly for perplexity
+experiments.
+
+For adaptation for speech recognition (or machine translation) experiments, use -one-iter
+and retrain models in one pass on the 1-bests, with 0.1 learning rate. If the test data
+contain independent topics, it is preferable to adapt main model to each of them separately.

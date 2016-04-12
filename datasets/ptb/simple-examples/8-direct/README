@@ -1,0 +1,12 @@
+Example how to use direct connections between top N words in the intput and output layers (+ between
+top N words and all classes). This results in large sparse matrix of weights that is somewhat similar
+to maximum entropy model with limited bigram features. Using direct connections results in large
+models, however the computational complexity raises about the same as if a single hidden neuron is
+added to the model (the decreased performance of training speed is mostly caused by worse cache hit
+due to large memory consumption + need to save huge models).
+
+Adding direct connections improves very significantly performance of rnn models with insufficiently
+large hidden layer, however after combination with backoff ngram models that capture the same
+information as the direct connections, the improvement is usually quite small. Still, the hidden
+neurons can focus more on discovering the complementary information, thus when training small models
+on large datasets, this switch can be useful in some cases.

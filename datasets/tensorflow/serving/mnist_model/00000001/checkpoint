@@ -1,2 +1,2 @@
-model_checkpoint_path: "/root/pipeline/work/tensorflow/serving/mnist_model/00000001-tmp/export-?????-of-00001"
-all_model_checkpoint_paths: "/root/pipeline/work/tensorflow/serving/mnist_model/00000001-tmp/export-?????-of-00001"
+model_checkpoint_path: "/root/pipeline/datasets/tensorflow/serving/mnist_model/00000001-tmp/export-?????-of-00001"
+all_model_checkpoint_paths: "/root/pipeline/datasets/tensorflow/serving/mnist_model/00000001-tmp/export-?????-of-00001"
