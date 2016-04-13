@@ -36,23 +36,23 @@ redis-cli FLUSHALL
 
 echo '...Creating Example Hive Tables...'
 echo '...**** TABLES CREATED WITH A NON-HIVE-SUPPORTED SerDe LIKE com.databricks.spark.csv WILL NOT BE QUERYABLE BY HIVE ****...'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movies'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movies(movieId INT, title STRING, genres STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/movies.csv.bz2", header "true")'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_ratings'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_ratings(userId INT, movieId INT, rating FLOAT, timestamp INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/ratings.csv.bz2", header "true")'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_tags'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_tags(userId INT, movieId INT, tags STRING, timestamp INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/tags.csv.bz2", header "true")'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_links'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_links(movieId INT, imdbId INT, tbmdId INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/links.csv.bz2", header "true")'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS dating_genders'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_genders(userId INT, gender STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/genders.csv.bz2", header "true")'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS dating_ratings'
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_ratings(fromUserId INT, toUserId INT, rating INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/ratings.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movies'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movies(movieId INT, title STRING, genres STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/movies.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_ratings'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_ratings(userId INT, movieId INT, rating FLOAT, timestamp INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/ratings.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_tags'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_tags(userId INT, movieId INT, tags STRING, timestamp INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/tags.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS movie_links'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE movie_links(movieId INT, imdbId INT, tbmdId INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/movielens/ml-latest/links.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS dating_genders'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_genders(userId INT, gender STRING) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/genders.csv.bz2", header "true")'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'DROP TABLE IF EXISTS dating_ratings'
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e 'CREATE TABLE dating_ratings(fromUserId INT, toUserId INT, rating INT) USING com.databricks.spark.csv OPTIONS (path "'$DATASETS_HOME'/dating/ratings.csv.bz2", header "true")'
 
 # Hive and Presto Friendly Versions of Hive Tables
 # Note:  We have to copy the files before LOADing into Hive, otherwise they get slurped into HDFS 
 #          and no-longer accessible on the local file system.  
 #        (The EXTERNAL keyword does not affect this behavior.)
 cp $DATASETS_HOME/movielens/ml-latest/movies.csv $DATASETS_HOME/movielens/ml-latest/movies-hive-friendly.csv
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "CREATE EXTERNAL TABLE movies_hive_friendly (id INT, title STRING, tags STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE;"
-spark-sql --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "LOAD DATA INPATH '/root/pipeline/datasets/movielens/ml-latest/movies-hive-friendly.csv' OVERWRITE INTO TABLE movies_hive_friendly;"
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "CREATE EXTERNAL TABLE movies_hive_friendly (id INT, title STRING, tags STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE;"
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "LOAD DATA INPATH '/root/pipeline/datasets/movielens/ml-latest/movies-hive-friendly.csv' OVERWRITE INTO TABLE movies_hive_friendly;"
