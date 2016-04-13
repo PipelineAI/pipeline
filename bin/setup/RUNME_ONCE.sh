@@ -8,17 +8,18 @@ echo '...Retrieving Latest Updates From Github...'
 git reset --hard && git pull
 
 echo '...Configuring Services Before Starting...'
-$SCRIPTS_HOME/initial/config-services-before-starting.sh
+$SCRIPTS_HOME/setup/config-services-before-starting.sh
 
 echo '...Start Core Services...'
 $SCRIPTS_HOME/service/start-core-services.sh
 
 echo '...Create Examples Data Sources...'
-$SCRIPTS_HOME/initial/create-example-datasources.sh
+$SCRIPTS_HOME/setup/create-example-datasources.sh
 
 echo '...Show Exported Variables...'
 export
 
+echo '...Leaving Core Services Running...'
 echo '...Show Running Java Processes...'
 jps -l
 
