@@ -61,7 +61,7 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting Jupyter Notebook Server...'
-nohup start-jupyter-pyspark-service.sh & 
+pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES
 
 #echo '...Starting NiFi...'
 #nohup nifi.sh start &

@@ -1,0 +1,61 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\n\n// Generate a random double RDD that contains 1 million i.i.d. values drawn from the\n// uniform distribution `N(0.0, 1.0)`, evenly distributed in 10 partitions.\nval u \u003d uniformRDD(sc, 1000000L, 2)\n//val uniformIds \u003d u.collect()\n\n// To transform the distribution in the generated RDD from `U(0.0, 1.0)` to `U(a, b)`, \n//  use uniformIds.map(v \u003d\u003e a + (b - a) * v)`.\nval v \u003d u.map(id \u003d\u003e (0 + 2385 * id).toInt)\nval ids \u003d v.collect()\n\n// scala.util.Random.nextInt generates an Int between 0 inclusive, \u003cvalue\u003e exclusive\nval randomId \u003d Random.nextInt(2385)",
+      "dateUpdated": "Apr 13, 2016 2:22:52 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460512761685_-1001113298",
+      "id": "20160413-015921_2053145450",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\nu: org.apache.spark.rdd.RDD[Double] \u003d RandomRDD[11] at RDD at RandomRDD.scala:38\nv: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[12] at map at \u003cconsole\u003e:70\nids: Array[Int] \u003d Array(391, 2063, 1268, 2177, 1044, 1876, 609, 977, 2143, 614, 1264, 732, 361, 147, 258, 532, 1640, 1951, 762, 532, 1177, 1042, 1481, 1147, 1400, 1880, 13, 1005, 717, 1769, 1590, 637, 2077, 1457, 1842, 1212, 2059, 1172, 1326, 40, 36, 1743, 1119, 1414, 2259, 1412, 2239, 1702, 1241, 1852, 113, 2091, 1057, 2224, 2097, 1201, 1366, 1666, 733, 1903, 2178, 429, 2221, 1390, 1940, 587, 316, 1658, 942, 2355, 354, 630, 54, 244, 782, 282, 2262, 1073, 98, 1488, 550, 118, 724, 1073, 942, 481, 1654, 783, 1505, 575, 722, 557, 482, 542, 1056, 228, 1139, 76, 925, 1900, 730, 49, 2318, 344, 975, 324, 341, 2175, 1303, 1136, 1754, 928, 1153, 1187, 2383, 106, 1237, 670, 210, 1722, 1178, 781, 1671, 343, 1912, 2064, 948, 36, 2250, 857, 1046, 645, 362, 2151, 2316, 38, 1103, 424, 1843, 985, 579, ...randomId: Int \u003d 883\n"
+      },
+      "dateCreated": "Apr 13, 2016 1:59:21 AM",
+      "dateStarted": "Apr 13, 2016 2:22:52 AM",
+      "dateFinished": "Apr 13, 2016 2:22:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460513116915_1708594940",
+      "id": "20160413-020516_229951153",
+      "dateCreated": "Apr 13, 2016 2:05:16 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Statistics/01: Random Numbers",
+  "id": "2BFQJSXNS",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

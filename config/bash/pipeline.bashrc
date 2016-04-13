@@ -1,3 +1,6 @@
+echo '...YOU WILL NEED TO RUN `start-core-services.sh` TO RESTART THE CORE SERVICES AFTER EXITING...'
+echo '...(HINT: IF `jps -l` PRODUCES ONLY `jps`, THEN YOU NEED TO RE-RUN `start-core-services.sh`)...'
+
 # All _VERSION env variables are being set in the Dockerfile and carried through to Docker Containers
 # You can override the Dockerfile values here for application dependency libraries such as Algebird, Cassandra-Spark Connector, etc
 export AKKA_VERSION=2.3.11

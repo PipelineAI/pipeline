@@ -47,7 +47,7 @@ export ZEPPELIN_NOTEBOOK_DIR=/root/pipeline/myapps/zeppelin   # Where notebook s
 # export SPARK_HOME                             # (required) When it is defined, load it instead of Zeppelin embedded Spark libraries
 export SPARK_HOME=/root/spark-1.6.1-bin-fluxcapacitor/
 # export SPARK_SUBMIT_OPTIONS                   # (optional) extra options to pass to spark submit. eg) "--driver-memory 512M --executor-memory 1G".
-export SPARK_SUBMIT_OPTIONS="--jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"
+export SPARK_SUBMIT_OPTIONS="--repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"
 
 ## Use embedded spark binaries ##
 ## without SPARK_HOME defined, Zeppelin still able to run spark interpreter process using embedded spark binaries.
@@ -58,7 +58,7 @@ export SPARK_SUBMIT_OPTIONS="--jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_
 # Pyspark (supported with Spark 1.2.1 and above)
 # To configure pyspark, you need to set spark distribution's path to 'spark.home' property in Interpreter setting screen in Zeppelin GUI
 # export PYSPARK_PYTHON          		# path to the python command. must be the same path on the driver(Zeppelin) and all workers.
-export PYSPARK_PYTHON="pyspark --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"
+export PYSPARK_PYTHON="pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES"
 # export PYTHONPATH  
 
 ## Spark interpreter options ##
