@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/triangle-counting-centrality.png)",
-      "dateUpdated": "Apr 14, 2016 5:23:09 PM",
+      "text": "%md ![User-to-Item Graph-based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
+      "dateUpdated": "Apr 14, 2016 6:09:01 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -22,24 +22,25 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_1130890475",
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_160347438",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/triangle-counting-centrality.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recommendations\" /\u003e\u003c/p\u003e\n"
       },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:09 PM",
-      "dateFinished": "Apr 14, 2016 5:23:09 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:09:01 PM",
+      "dateFinished": "Apr 14, 2016 6:09:01 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ### Assign Clusters based on Closeness through Triangle Counting \n* Tri-partite relationships\n* aka. Transitive closures, Cliques\n* Recommendations based on high-probability of closing transitive relationship",
-      "dateUpdated": "Apr 14, 2016 5:23:09 PM",
+      "text": "%md ### Find Missing Triangles (Inverse of Triangle Counting)\n* Tri-partite relationships\n* aka. Transitive closures, Cliques\n* Recommendations based on missing triangles\n* \nTODO:  Cconnect the users to a common USERS parent and items to a common ITEMS parent",
+      "dateUpdated": "Apr 14, 2016 9:20:57 PM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -49,203 +50,29 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "enabled": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1457808397345_-1676931241",
-      "id": "20160312-184637_349526427",
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_475355662",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eAssign Clusters based on Closeness through Triangle Counting\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eTri-partite relationships\u003c/li\u003e\n\u003cli\u003eaka. Transitive closures, Cliques\u003c/li\u003e\n\u003cli\u003eRecommendations based on high-probability of closing transitive relationship\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eFind Missing Triangles (Inverse of Triangle Counting)\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cp\u003eTri-partite relationships\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eaka. Transitive closures, Cliques\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eRecommendations based on missing triangles\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eTODO:  Cconnect the users to a common USERS parent and items to a common ITEMS parent\u003c/p\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
-      "dateCreated": "Mar 12, 2016 6:46:37 PM",
-      "dateStarted": "Apr 14, 2016 5:23:09 PM",
-      "dateFinished": "Apr 14, 2016 5:23:09 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 9:20:57 PM",
+      "dateFinished": "Apr 14, 2016 9:20:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/triangle-counting-centrality.csv\")\n  .toDF(\"userId1\", \"userId2\")",
-      "dateUpdated": "Apr 14, 2016 5:23:09 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_416844377",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int]\n"
-      },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:09 PM",
-      "dateFinished": "Apr 14, 2016 5:23:10 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "import org.apache.spark.graphx.Edge \n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 0L)\n})",
-      "dateUpdated": "Apr 14, 2016 5:23:09 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_1004648348",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Long]] \u003d MapPartitionsRDD[635] at map at \u003cconsole\u003e:51\n"
-      },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:10 PM",
-      "dateFinished": "Apr 14, 2016 5:23:10 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
-      "dateUpdated": "Apr 14, 2016 5:23:09 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_1234475222",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\ngraph: org.apache.spark.graphx.Graph[Long,Long] \u003d org.apache.spark.graphx.impl.GraphImpl@1aa4b0ed\n"
-      },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:10 PM",
-      "dateFinished": "Apr 14, 2016 5:23:10 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorHide": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_1247318611",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003cdiv id\u003d\u0027a3950dfcd-ded9-4a05-b55e-bbc1ce927a17\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a3950dfcd-ded9-4a05-b55e-bbc1ce927a17\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[3],target:nodes[4]},{source:nodes[1],target:nodes[3]},{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[1]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[3]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
-      },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:12 PM",
-      "dateFinished": "Apr 14, 2016 5:23:13 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Show Triangle Counts per vertex",
-      "text": "graph.triangleCount.vertices.mapValues(num \u003d\u003e num/2).sortBy(_._2, ascending\u003dfalse).collect().mkString(\"\\n\")",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_378426115",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "res105: String \u003d \n(10001,1)\n(90001,1)\n(90003,1)\n(10002,0)\n(90002,0)\n"
-      },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:12 PM",
-      "dateFinished": "Apr 14, 2016 5:23:13 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Convert to GraphFrame",
-      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
+      "title": "Get Edges",
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/user-to-item-graph-based-recs.csv\")\n  .toDF(\"userId\", \"itemId\")",
+      "dateUpdated": "Apr 14, 2016 6:51:33 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -265,25 +92,170 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1456951381636_-640221609",
-      "id": "20160302-204301_551901977",
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_1896055693",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: bigint])\nres110: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres113: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: bigint]\nres116: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@40d00644\n"
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n"
       },
-      "dateCreated": "Mar 2, 2016 8:43:01 PM",
-      "dateStarted": "Apr 14, 2016 5:23:13 PM",
-      "dateFinished": "Apr 14, 2016 5:23:14 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:51:33 PM",
+      "dateFinished": "Apr 14, 2016 6:51:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create Graph From Edges ",
+      "text": "import org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
+      "dateUpdated": "Apr 14, 2016 9:19:43 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_1293798741",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[678] at map at \u003cconsole\u003e:45\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@ace0269\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 9:19:43 PM",
+      "dateFinished": "Apr 14, 2016 9:19:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
+      "dateUpdated": "Apr 14, 2016 6:04:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_1778871177",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027a154f3c85-f423-4f35-94b0-b09f6be84a9e\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a154f3c85-f423-4f35-94b0-b09f6be84a9e\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:90004},{id:90006},{id:10001},{id:90005},{id:90001},{id:90003},{id:10003}];\nvar links \u003d [{source:nodes[4],target:nodes[2]},{source:nodes[0],target:nodes[2]},{source:nodes[8],target:nodes[3]},{source:nodes[4],target:nodes[6]},{source:nodes[4],target:nodes[1]},{source:nodes[4],target:nodes[7]},{source:nodes[4],target:nodes[5]},{source:nodes[0],target:nodes[3]},{source:nodes[8],target:nodes[6]},{source:nodes[8],target:nodes[7]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:04:48 PM",
+      "dateFinished": "Apr 14, 2016 6:04:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Triangle Counts per vertex",
+      "text": "graph.triangleCount.vertices.mapValues(num \u003d\u003e num/2).sortBy(_._2, ascending\u003dfalse).collect().mkString(\"\\n\")",
+      "dateUpdated": "Apr 14, 2016 9:19:50 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460656626724_-1907069709",
+      "id": "20160414-175706_1230206201",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res72: String \u003d \n(10002,0)\n(90002,0)\n(90004,0)\n(90006,0)\n(10001,0)\n(90005,0)\n(90001,0)\n(90003,0)\n(10003,0)\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 9:19:50 PM",
+      "dateFinished": "Apr 14, 2016 9:19:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert to GraphFrame",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
+      "dateUpdated": "Apr 14, 2016 6:05:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_1227216144",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: bigint])\nres240: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres243: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: bigint]\nres246: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@11b03b8c\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:05:13 PM",
+      "dateFinished": "Apr 14, 2016 6:05:13 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show GraphFrame Triplets",
       "text": "z.show(graphFrame.triplets)",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
+      "dateUpdated": "Apr 14, 2016 6:05:18 PM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -316,33 +288,33 @@
             }
           }
         },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
+        "enabled": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1457140876764_990305247",
-      "id": "20160305-012116_1377050176",
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_1644414626",
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "edge\tsrc\tdst\n[90001,10001,0]\t[90001,0]\t[10001,0]\n[90003,10001,0]\t[90003,0]\t[10001,0]\n[10001,90001,0]\t[10001,0]\t[90001,0]\n[90002,90001,0]\t[90002,0]\t[90001,0]\n[90003,90001,0]\t[90003,0]\t[90001,0]\n[90003,10002,0]\t[90003,0]\t[10002,0]\n[90001,90002,0]\t[90001,0]\t[90002,0]\n[10001,90003,0]\t[10001,0]\t[90003,0]\n[90001,90003,0]\t[90001,0]\t[90003,0]\n[10002,90003,0]\t[10002,0]\t[90003,0]\n"
+        "msg": "edge\tsrc\tdst\n[10001,90001,0]\t[10001,0]\t[90001,0]\n[10003,90001,0]\t[10003,0]\t[90001,0]\n[10001,90002,0]\t[10001,0]\t[90002,0]\n[10001,90003,0]\t[10001,0]\t[90003,0]\n[10003,90003,0]\t[10003,0]\t[90003,0]\n[10001,90004,0]\t[10001,0]\t[90004,0]\n[10002,90004,0]\t[10002,0]\t[90004,0]\n[10001,90005,0]\t[10001,0]\t[90005,0]\n[10002,90006,0]\t[10002,0]\t[90006,0]\n[10003,90006,0]\t[10003,0]\t[90006,0]\n"
       },
-      "dateCreated": "Mar 5, 2016 1:21:16 AM",
-      "dateStarted": "Apr 14, 2016 5:23:14 PM",
-      "dateFinished": "Apr 14, 2016 5:23:15 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:05:18 PM",
+      "dateFinished": "Apr 14, 2016 6:05:18 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Triangle Count with GraphFrame",
       "text": "val triangleCountPerVertex \u003d graphFrame.triangleCount.run.select($\"id\", $\"count\").sort($\"count\")\n\nz.show(triangleCountPerVertex)",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
+      "dateUpdated": "Apr 14, 2016 6:05:26 PM",
       "config": {
         "colWidth": 11.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 189.0,
@@ -352,32 +324,32 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
+        "enabled": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1457138366920_-406902423",
-      "id": "20160305-003926_1294890707",
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_856269384",
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "id\tcount\n10002\t0\n90002\t0\n90003\t1\n10001\t1\n90001\t1\n"
+        "msg": "id\tcount\n10001\t0\n90001\t0\n10002\t0\n90002\t0\n10003\t0\n90003\t0\n90004\t0\n90005\t0\n90006\t0\n"
       },
-      "dateCreated": "Mar 5, 2016 12:39:26 AM",
-      "dateStarted": "Apr 14, 2016 5:23:14 PM",
-      "dateFinished": "Apr 14, 2016 5:23:20 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:05:26 PM",
+      "dateFinished": "Apr 14, 2016 6:05:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/triangle-counting-centrality.png)",
-      "dateUpdated": "Apr 14, 2016 5:23:12 PM",
+      "text": "%md ![Shortest Path By Hops](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
+      "dateUpdated": "Apr 14, 2016 6:09:15 PM",
       "config": {
         "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -387,33 +359,33 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "editorHide": true
+        "enabled": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1457387087704_128372657",
-      "id": "20160307-214447_133604424",
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_1630534764",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/triangle-counting-centrality.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
       },
-      "dateCreated": "Mar 7, 2016 9:44:47 PM",
-      "dateStarted": "Apr 14, 2016 5:23:12 PM",
-      "dateFinished": "Apr 14, 2016 5:23:12 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:09:15 PM",
+      "dateFinished": "Apr 14, 2016 6:09:15 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Motif Finding:  Find Disconnected triangles using structure",
       "text": "val disconnectedTrianglesDF \u003d graphFrame.find(\"(v1)-[e1]-\u003e(v2); (v2)-[e2]-\u003e(v3); !(v1)-[]-\u003e(v3)\")\n  .filter($\"v1.id\" \u003c $\"v3.id\") // eliminate duplicates for undirected graphs\n  .select($\"v1.id\", $\"v2.id\", $\"v3.id\").toDF(\"from\", \"through\", \"to\")\n\n// If you don\u0027t use [e1] and [e2] to uniquely identify the pahts , you would need to do the following:\n//  .filter($\"v1.id\" !\u003d\u003d $\"v3.id\")\n//  .filter($\"v1.id\" !\u003d\u003d $\"v2.id\")\n//  .filter($\"v2.id\" !\u003d\u003d $\"v3.id\")\n//  .select($\"v1.id\", $\"v3.id\", $\"v2.id\").toDF(\"from\", \"to\", \"through\")\n\nz.show(disconnectedTrianglesDF)",
-      "dateUpdated": "Apr 14, 2016 5:35:43 PM",
+      "dateUpdated": "Apr 14, 2016 6:06:31 PM",
       "config": {
         "colWidth": 11.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
         "graph": {
           "mode": "table",
           "height": 314.0,
@@ -441,49 +413,49 @@
             }
           }
         },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
+        "enabled": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1457138403821_-1686315109",
-      "id": "20160305-004003_1202354966",
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_113584140",
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "from\tthrough\tto\n10002\t90003\t90001\n10001\t90001\t90002\n90002\t90001\t90003\n10001\t90003\t10002\n"
+        "msg": "from\tthrough\tto\n"
       },
-      "dateCreated": "Mar 5, 2016 12:40:03 AM",
-      "dateStarted": "Apr 14, 2016 5:35:43 PM",
-      "dateFinished": "Apr 14, 2016 5:35:45 PM",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
+      "dateStarted": "Apr 14, 2016 6:06:15 PM",
+      "dateFinished": "Apr 14, 2016 6:06:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
+      "dateUpdated": "Apr 14, 2016 5:57:06 PM",
       "config": {},
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1460655201064_-1302102110",
-      "id": "20160414-173321_520441469",
-      "dateCreated": "Apr 14, 2016 5:33:21 PM",
+      "jobName": "paragraph_1460656626725_-1907454457",
+      "id": "20160414-175706_2047854752",
+      "dateCreated": "Apr 14, 2016 5:57:06 PM",
       "status": "READY",
+      "errorMessage": "",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/05:  Clustering (Triangle Counting)",
-  "id": "2BD9RCPC4",
+  "name": "Recommendations/04: TODO: User-to-Item Graph-based Recs (Motify Finding)",
+  "id": "2BG5N4U8E",
   "angularObjects": {
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
   "config": {
-    "looknfeel": "simple"
+    "looknfeel": "default"
   },
   "info": {}
 }

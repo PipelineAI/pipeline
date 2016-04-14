@@ -3,7 +3,7 @@
     {
       "title": "Retrieve dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Mar 28, 2016 9:21:48 PM",
+      "dateUpdated": "Apr 13, 2016 7:15:29 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -54,8 +54,8 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Mar 28, 2016 9:21:48 PM",
-      "dateFinished": "Mar 28, 2016 9:21:48 PM",
+      "dateStarted": "Apr 13, 2016 7:15:29 PM",
+      "dateFinished": "Apr 13, 2016 7:15:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

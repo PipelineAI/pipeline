@@ -322,8 +322,8 @@
     },
     {
       "title": "userFactor Vector dot product ItemFactor vector ",
-      "text": "////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////\n\nimport org.jblas.DoubleMatrix\n\n// Item 7\nval anItemFeatureArray \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d 7).flatMap(row \u003d\u003e row.getSeq[Float](1)).map(_.toDouble).collect()\n\n// User 33366\nval aUserFeatureArray \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d 33366).flatMap(row \u003d\u003e row.getSeq[Float](1)).map(_.toDouble).collect()\n\n// Create JBlas DoubleMatrix\nval aUserFeatureVector \u003d new DoubleMatrix(aUserFeatureArray)\nval anItemFeatureVector \u003d new DoubleMatrix(anItemFeatureArray)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d aUserFeatureVector.dot(anItemFeatureVector)\n\n////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////",
-      "dateUpdated": "Mar 16, 2016 12:56:42 PM",
+      "text": "////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////\n\nimport org.jblas.DoubleMatrix\n\n// User 33366\nval userLatentFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d 33366).flatMap(row \u003d\u003e row.getSeq[Float](1)).map(_.toDouble).collect()\n\n// Item 7\nval itemLatentFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d 7).flatMap(row \u003d\u003e row.getSeq[Float](1)).map(_.toDouble).collect()\n\n// Create JBlas DoubleMatrix\nval userLatentFactorVector \u003d new DoubleMatrix(userLatentFactors)\nval itemLatentFactorVector \u003d new DoubleMatrix(itemLatentFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d userLatentFactorVector.dot(itemLatentFactorVector)\n\n////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////",
+      "dateUpdated": "Apr 14, 2016 9:00:39 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -348,11 +348,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.jblas.DoubleMatrix\nanItemFeatureArray: Array[Double] \u003d Array(0.18587462604045868, -0.06324998289346695, -0.12574192881584167, 0.014468813315033913, -0.10190539062023163, 0.1422906368970871, 0.2887830138206482, 0.27789032459259033, 1.2094744443893433, 0.4367091655731201)\naUserFeatureArray: Array[Double] \u003d Array()\naUserFeatureVector: org.jblas.DoubleMatrix \u003d []\nanItemFeatureVector: org.jblas.DoubleMatrix \u003d [0.185875; -0.063250; -0.125742; 0.014469; -0.101905; 0.142291; 0.288783; 0.277890; 1.209474; 0.436709]\nconfidence: Double \u003d 0.0\n"
+        "msg": "import org.jblas.DoubleMatrix\nuserLatentFactors: Array[Double] \u003d Array()\nitemLatentFactors: Array[Double] \u003d Array()\nuserLatentFactorVector: org.jblas.DoubleMatrix \u003d []\nitemLatentFactorVector: org.jblas.DoubleMatrix \u003d []\nconfidence: Double \u003d 0.0\n"
       },
       "dateCreated": "Mar 2, 2016 9:40:12 PM",
-      "dateStarted": "Mar 16, 2016 12:56:42 PM",
-      "dateFinished": "Mar 16, 2016 12:56:45 PM",
+      "dateStarted": "Apr 14, 2016 9:00:39 PM",
+      "dateFinished": "Apr 14, 2016 9:00:41 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

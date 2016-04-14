@@ -3,7 +3,7 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(5))",
-      "dateUpdated": "Mar 29, 2016 5:48:19 PM",
+      "dateUpdated": "Apr 14, 2016 12:48:41 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -55,8 +55,8 @@
         "msg": "id\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Mar 28, 2016 9:13:35 PM",
-      "dateFinished": "Mar 28, 2016 9:13:40 PM",
+      "dateStarted": "Apr 14, 2016 12:48:41 AM",
+      "dateFinished": "Apr 14, 2016 12:48:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

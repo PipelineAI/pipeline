@@ -48,7 +48,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.1 \ 
- TENSORFLOW_VERSION=0.7.1 \
+ TENSORFLOW_VERSION=0.8.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -74,6 +74,10 @@ RUN \
  && apt-get install -y python-pip \
  && pip install jupyter \
  && pip install ipyparallel \
+
+# Cython (Feather)
+ && pip install cython \
+ && pip install feather-format \
 
 # TensorFlow (CPU-only)
  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \

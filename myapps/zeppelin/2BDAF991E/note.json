@@ -398,8 +398,8 @@
     },
     {
       "title": "Convert ALS Item Factors Into K-Means Feature Vectors",
-      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\n\nval itemFeatureVectorsDF \u003d model.itemFactors\n  .select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .map(row \u003d\u003e (row.getInt(0), row.getSeq[Float](1)))\n//  .mapValues(row \u003d\u003e Vectors.dense(row(2)))\n//  .toDF(\"id\", \"features\")\n//  .as(\"itemFeatureVectors\")\n\n",
-      "dateUpdated": "Apr 13, 2016 3:58:18 AM",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\n\nval itemFeatureVectorsDF \u003d model.itemFactors\n  .select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n//  .map(row \u003d\u003e (row.getInt(0), row.getSeq[Float](1)))\n\n//  .mapValues(row \u003d\u003e Vectors.dense(row(2)))\n//  .toDF(\"id\", \"features\")\n//  .as(\"itemFeatureVectors\")\n\n",
+      "dateUpdated": "Apr 13, 2016 7:41:57 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -424,29 +424,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\nitemFeatureVectorsDF: org.apache.spark.rdd.RDD[(Int, Seq[Float])] \u003d MapPartitionsRDD[607] at map at \u003cconsole\u003e:56\n"
+        "msg": "import org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.sql.Row\nitemFeatureVectorsDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, itemFeatures: array\u003cfloat\u003e]\n"
       },
       "dateCreated": "Mar 17, 2016 1:11:31 AM",
-      "dateStarted": "Apr 13, 2016 3:45:28 AM",
-      "dateFinished": "Apr 13, 2016 3:45:29 AM",
+      "dateStarted": "Apr 13, 2016 7:42:02 PM",
+      "dateFinished": "Apr 13, 2016 7:42:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460519883513_-1592141877",
-      "id": "20160413-035803_183747130",
-      "dateCreated": "Apr 13, 2016 3:58:03 AM",
-      "status": "READY",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "z.show(itemFeatureVectorsDF)",
-      "dateUpdated": "Apr 13, 2016 3:58:35 AM",
+      "text": "z.show(itemFeatureVectorsDF).toDF(\"id\", \"features\")",
+      "dateUpdated": "Apr 13, 2016 7:42:08 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -468,14 +456,14 @@
       "jobName": "paragraph_1460519869658_1021057328",
       "id": "20160413-035749_2038016693",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "MapPartitionsRDD[607] at map at \u003cconsole\u003e:56"
+        "msg": "\u003cconsole\u003e:62: error: value toDF is not a member of Unit\n              z.show(itemFeatureVectorsDF).toDF(\"id\", \"features\")\n                                           ^\n"
       },
       "dateCreated": "Apr 13, 2016 3:57:49 AM",
-      "dateStarted": "Apr 13, 2016 3:58:49 AM",
-      "dateFinished": "Apr 13, 2016 3:58:49 AM",
-      "status": "FINISHED",
+      "dateStarted": "Apr 13, 2016 7:42:14 PM",
+      "dateFinished": "Apr 13, 2016 7:42:14 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
