@@ -75,10 +75,6 @@ RUN \
  && pip install jupyter \
  && pip install ipyparallel \
 
-# Cython (Feather)
- && pip install cython \
- && pip install feather-format \
-
 # TensorFlow (CPU-only)
  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
 
@@ -105,6 +101,10 @@ RUN \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
 # && pip install --upgrade -r requirements.txt \
+
+# Cython (Feather)
+ && pip install cython \
+ && pip install feather-format \
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
