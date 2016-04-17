@@ -52,13 +52,13 @@ a2ensite advancedspark.conf
 cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
 
 # My Apps
-echo '...Configuring  Apps...'
+echo '...Configuring Apps...'
 mkdir -p $LOGS_HOME/akka/feeder
 mkdir -p $LOGS_HOME/spark/streaming
 mkdir -p $LOGS_HOME/spark/ml
 mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
-
+mkdir -p $LOGS_HOME/finagle
 # Ganglia
 echo '...Configuring Ganglia...'
 ln -s $CONFIG_HOME/ganglia/ganglia.conf /etc/apache2/sites-available
