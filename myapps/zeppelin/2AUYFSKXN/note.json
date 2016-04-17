@@ -359,7 +359,7 @@
     {
       "title": "Write to ElasticSearch",
       "text": "//import org.elasticsearch.spark.sql._ \n//import org.apache.spark.sql.SaveMode\n\n//val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n//enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n//  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Mar 13, 2016 6:40:38 PM",
+      "dateUpdated": "Apr 14, 2016 11:44:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -371,7 +371,7 @@
           "groups": [],
           "scatter": {}
         },
-        "editorHide": true,
+        "editorHide": false,
         "editorMode": "ace/mode/scala",
         "enabled": true,
         "tableHide": true,
