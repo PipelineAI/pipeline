@@ -18,7 +18,6 @@ def user_factors(user_id):
 def predict(user_id, item_id):
     user_factor = np.fromstring(user_factors(user_id)[1:-1], dtype=float, sep=',')
     item_factor = np.fromstring(item_factors(item_id)[1:-1], dtype=float, sep=",")
-#    return json.dumps(user_factor)
     return json.dumps(user_factor.dot(item_factor))
 
 if __name__ == '__main__':

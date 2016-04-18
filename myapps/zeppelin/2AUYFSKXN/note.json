@@ -301,8 +301,9 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Write the User and item factor vectors to elasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"userId\", \"userFeatures\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\").mode(\"overwrite\").options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nitemFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"itemId\", \"itemFeatures\")\n .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n .select($\"itemId\", $\"title\", $\"itemFeatures\", $\"description\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\").mode(\"overwrite\").options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
-      "dateUpdated": "Apr 17, 2016 10:32:33 PM",
+      "dateUpdated": "Apr 18, 2016 12:30:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -315,7 +316,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
