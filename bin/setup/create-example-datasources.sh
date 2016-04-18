@@ -27,6 +27,7 @@ cqlsh -e "DROP KEYSPACE IF EXISTS advancedspark;"
 cqlsh -e "CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStrategy',  'replication_factor':1};"
 cqlsh -e "USE advancedspark; DROP TABLE IF EXISTS item_ratings;"
 cqlsh -e "USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, timestamp bigint, PRIMARY KEY(userId, itemId));"
+#cqlsh -e "USE advancedspark; COPY item_ratings FROM '/root/pipeline/datasets/graph/item-ratings.csv';"
 
 echo '...Flushing Redis...'
 redis-cli FLUSHALL

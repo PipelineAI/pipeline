@@ -11,11 +11,39 @@ object RecommendationServer extends App {
   val recommendationService = new Service[Request, Response] {
     def apply(request: Request): Future[Response] = {
       val response = request.uri match {
-        case "/recommend" => {
+        case "/als" => {
           val model = new GetRecommendationsModelCommand("als").execute()
           val recommendResponse = Response(request.version, Status.Ok)
-          val products = Array(s"""${model}:productA""", s"""${model}:productB""")
-          recommendResponse.setContentString(products.mkString(","))
+          val items = Array(s"""${model}:item1""", s"""${model}:item2""")
+          recommendResponse.setContentString(items.mkString(","))
+          recommendResponse
+        }
+	case "/similar-item-factors" => {
+          val model = new GetRecommendationsModelCommand("/similar-item-factors").execute()
+          val recommendResponse = Response(request.version, Status.Ok)
+          val items = Array(s"""${model}:item1""", s"""${model}:item2""")
+          recommendResponse.setContentString(items.mkString(","))
+          recommendResponse
+        }
+        case "/similar-tags" => {
+          val model = new GetRecommendationsModelCommand("similar-tags").execute()
+          val recommendResponse = Response(request.version, Status.Ok)
+          val items = Array(s"""${model}:item1""", s"""${model}:item2""")
+          recommendResponse.setContentString(items.mkString(","))
+          recommendResponse
+        }
+        case "/similar-graph-pathway" => {
+          val model = new GetRecommendationsModelCommand("similar-graph-pathway").execute()
+          val recommendResponse = Response(request.version, Status.Ok)
+          val items = Array(s"""${model}:item1""", s"""${model}:item2""")
+          recommendResponse.setContentString(items.mkString(","))
+          recommendResponse
+        }
+        case "/graph" => {
+          val model = new GetRecommendationsModelCommand("graph").execute()
+          val recommendResponse = Response(request.version, Status.Ok)
+          val items = Array(s"""${model}:item1""", s"""${model}:item2""")
+          recommendResponse.setContentString(items.mkString(","))
           recommendResponse
         }
         case _ => Response(request.version, Status.NotFound)
@@ -32,4 +60,3 @@ object RecommendationServer extends App {
     .name("RecommendationService")
     .build(recommendationService)
 }
-

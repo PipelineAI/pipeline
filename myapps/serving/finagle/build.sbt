@@ -16,10 +16,12 @@ val scalaTestVersion = sys.env("SCALATEST_VERSION")
 val finagleVersion = sys.env("FINAGLE_VERSION")
 val jblasVersion = sys.env("JBLAS_VERSION")
 val hystrixVersion = sys.env("HYSTRIX_VERSION")
+val gsonVersion = sys.env("GSON_VERSION")
 
 lazy val mlDeps = Seq(
-  "com.twitter"         %% "finagle-http"    	 % finagleVersion,
-  "org.jblas" 	        % "jblas" 		 % jblasVersion,
-  "com.netflix.hystrix" % "hystrix-core"         % hystrixVersion
+  "com.twitter"          %% "finagle-http"    	% finagleVersion,
+  "org.jblas" 	         % "jblas" 		% jblasVersion,
+  "com.netflix.hystrix"  % "hystrix-core"       % hystrixVersion,
+  "com.google.code.gson" % "gson"  		% gsonVersion 
 )
 
