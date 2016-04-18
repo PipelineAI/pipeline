@@ -53,7 +53,8 @@ ENV \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
- FINAGLE_VERSION=6.34.0 
+ FINAGLE_VERSION=6.34.0 \ 
+ HYSTRIX_VERSION=1.5.2
 
 RUN \
  apt-get update \
