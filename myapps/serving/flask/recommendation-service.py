@@ -4,6 +4,18 @@ import numpy as np
 
 app = Flask(__name__)
 
+@app.route('/recommendations/<user_id>')
+def recommendations(user_id):
+    recommendations_json = requests.get("http://127.0.0.1:9200/advancedspark/personalized-als/_search?q=userId:%s&sort=confidence:desc" % user_id).json()
+    hits = recommendations_json['hits']['hits']
+    hit = hits[0]
+
+#   for hit in hits:
+#      itemId = hit['_source']['itemId']
+#      title = hit['_source']['title']
+#      img = hit['_source']['img']
+    return json.dumps(hit)
+
 @app.route('/item-factors/<item_id>')
 def item_factors(item_id):
     item_factors_json = requests.get("http://127.0.0.1:9200/advancedspark/item-factors-als/_search?q=itemId:%s" % item_id).json()
