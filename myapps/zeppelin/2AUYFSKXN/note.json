@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Matrix Factorization using Alternating Least Squares (ALS)",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:28 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,15 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Apr 17, 2016 9:00:33 PM",
-      "dateFinished": "Apr 17, 2016 9:00:33 PM",
+      "dateStarted": "Apr 19, 2016 2:39:28 AM",
+      "dateFinished": "Apr 19, 2016 2:39:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\" as \"itemId\", $\"title\", $\"img\", $\"tags\").limit(5))",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:28 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -68,15 +68,15 @@
         "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:06 PM",
-      "dateStarted": "Apr 17, 2016 9:00:33 PM",
-      "dateFinished": "Apr 17, 2016 9:00:38 PM",
+      "dateStarted": "Apr 19, 2016 2:39:30 AM",
+      "dateFinished": "Apr 19, 2016 2:39:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -104,15 +104,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:45 PM",
-      "dateStarted": "Apr 17, 2016 9:00:33 PM",
-      "dateFinished": "Apr 17, 2016 9:00:39 PM",
+      "dateStarted": "Apr 19, 2016 2:39:31 AM",
+      "dateFinished": "Apr 19, 2016 2:39:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The ALS Model",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10 // this is k\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -138,18 +138,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_97f051fe30c8\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_97f051fe30c8\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_f6f5256fbd2e\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_f6f5256fbd2e\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Apr 17, 2016 9:00:38 PM",
-      "dateFinished": "Apr 17, 2016 9:00:43 PM",
+      "dateStarted": "Apr 19, 2016 2:39:31 AM",
+      "dateFinished": "Apr 19, 2016 2:39:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show User Factors Matrix",
       "text": "val userFactorsDF \u003d model.userFactors.sort($\"id\")\n\nz.show(userFactorsDF)",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -200,15 +200,15 @@
         "msg": "id\tfeatures\n3969\tWrappedArray(-0.07607462, -0.08457413, -0.0019943316, 0.42382392, 0.07485917, -0.4328335, -0.3227222, 0.13336612, 0.08923971, -0.43577716)\n5342\tWrappedArray(0.23775145, 0.18772858, -0.030019997, 0.30334595, 0.2509549, -0.23458447, -0.38595948, 0.44912538, -0.009611681, -0.30184057)\n6437\tWrappedArray(0.16209482, -0.30824906, -0.19407602, 0.39907783, -0.078428075, -0.17514758, -0.24277762, 0.22283608, 0.33632693, -0.41901037)\n8910\tWrappedArray(-0.068693794, -0.0514479, -0.0038929898, 0.4266996, 0.025348132, -0.3434548, -0.28808504, 0.12890325, 0.16095456, -0.50112355)\n12663\tWrappedArray(-0.053693198, -0.060787797, -0.02334728, 0.4211899, 0.05698735, -0.35991025, -0.2820683, 0.12540135, 0.16931345, -0.4984025)\n13077\tWrappedArray(-0.09279923, -0.0044264607, -0.09470506, 0.41409737, 0.053263925, -0.4882674, -0.28288254, 0.13421026, 0.0658803, -0.36601925)\n13338\tWrappedArray(-0.060030498, -0.28826782, 0.20698282, 0.41178015, -0.021963237, 0.022295624, 0.34358838, 0.23837367, 0.54445547, -0.47462812)\n17841\tWrappedArray(-0.054968808, -0.024515238, -0.030295618, 0.44507116, 0.047924027, -0.355574, -0.2926892, 0.18238291, 0.12521596, -0.44734135)\n20229\tWrappedArray(-0.08596671, -0.044576917, -0.005278633, 0.3943318, 0.05817657, -0.41706318, -0.2934133, 0.16495633, 0.12929238, -0.4493385)\n23426\tWrappedArray(-0.01658011, 0.018811692, -0.013282464, 0.35682446, -0.045542717, -0.37003818, -0.21536385, 0.24530286, 0.1207834, -0.5042259)\n25639\tWrappedArray(-0.2342443, -0.17830685, 0.034214176, 0.3985312, -0.0026879907, -0.26483044, -0.29095492, 0.19284452, 0.30502325, -0.46579415)\n27045\tWrappedArray(-0.009505254, -0.0058638845, -0.005016825, 0.40720958, -0.02713113, -0.36850992, -0.2413938, 0.19252458, 0.14168422, -0.48976904)\n27569\tWrappedArray(-0.052135073, -0.019373717, -0.03426949, 0.3778693, 0.0946652, -0.41623688, -0.27811095, 0.20521982, 0.09139131, -0.4433871)\n28567\tWrappedArray(-7.4679754E-4, -0.14734197, -0.036326878, 0.47298086, 0.0012730242, -0.4020607, -0.27770057, 0.2023333, 0.029365048, -0.3820659)\n29427\tWrappedArray(-0.10036039, -0.04588666, -0.031767286, 0.35343972, -0.049462512, -0.4065198, -0.23170476, 0.13937284, 0.18961395, -0.4888218)\n34063\tWrappedArray(0.0060856473, -0.17504708, -0.10381078, 0.34039804, -0.03776994, -0.5401874, -0.17934577, -0.105582945, 0.0059714075, -0.36121058)\n37022\tWrappedArray(-0.21420015, -0.13988404, -0.4315991, -0.03072317, 0.32976785, -0.15150948, 0.018187327, 0.5338453, 0.10144143, -0.4367544)\n37477\tWrappedArray(-0.2833783, -0.16949302, 0.06176342, 0.3209805, 0.011105563, -0.26663834, -0.26057646, 0.10292932, 0.24256223, -0.40178037)\n37902\tWrappedArray(-0.044419292, 0.015350747, -0.114219986, 0.43167084, -0.032843817, -0.41084954, -0.19503973, 0.16263017, 0.074869394, -0.45035917)\n45777\tWrappedArray(-0.42454293, -0.22898585, 0.12168134, 0.27368665, -0.11232441, -0.13963142, -0.17381749, 0.12164894, 0.38443598, -0.36902964)\n49360\tWrappedArray(0.06583552, -0.11863619, -0.33839366, 0.35482502, -0.115992695, -0.34503597, -0.04446282, 0.17288485, -0.073317625, -0.4880982)\n53734\tWrappedArray(-0.02247135, 0.02168931, -0.056505296, 0.42164835, -0.003144361, -0.40526062, -0.23612995, 0.2022363, 0.100322224, -0.4511385)\n54801\tWrappedArray(0.19585599, -0.046520103, 0.27021068, 0.5039, 0.2597215, -0.21672055, -0.3625908, -0.16302069, -0.34981528, 0.1471058)\n56348\tWrappedArray(0.029763049, -0.023004504, -0.002792181, 0.42847854, -0.016822891, -0.463712, -0.3025771, -0.028416358, 0.07384373, -0.3392314)\n60978\tWrappedArray(0.0683159, -0.14476378, -0.07774757, 0.42546502, 0.104292415, -0.42358688, -0.32550758, 0.2349292, -0.07882764, -0.34734192)\n73744\tWrappedArray(-0.23895104, 0.021936659, 0.13421845, 0.17721091, 0.043478183, -0.33127376, -0.3304493, 0.3645894, 0.21177167, -0.4791558)\n74715\tWrappedArray(-0.1644384, 0.19095388, 0.25135207, 0.26143137, -0.19965337, -0.27964258, -0.30422723, -0.11488021, 0.41412228, -0.48847654)\n80675\tWrappedArray(0.21874705, -0.17266658, -0.24914952, 0.144079, -0.46640924, -0.15125525, -0.052013833, 0.5060837, -0.095876634, -0.4830943)\n82510\tWrappedArray(0.0470849, -0.03513779, -0.044408754, 0.40505588, -0.035207327, -0.38439342, -0.24755843, 0.14403065, 0.17475179, -0.4923004)\n86868\tWrappedArray(0.19557123, -0.08100654, 0.10623858, 0.3191768, -0.043943778, -0.3818771, -0.14368775, 0.39995697, 0.029476471, -0.44179884)\n88005\tWrappedArray(0.30307633, -0.15928197, -0.21675068, 0.03986511, -0.5841782, -0.01730525, 0.013447047, 0.42251405, -0.15956923, -0.33050534)\n96340\tWrappedArray(0.011916436, -0.05508542, -0.040955875, 0.46254736, 0.028609788, -0.35410467, -0.28834444, 0.11332784, 0.16351382, -0.48229897)\n96971\tWrappedArray(-0.067953266, 0.0054439874, -0.0064278827, 0.3460361, -0.023412507, -0.4175134, -0.22469155, 0.1846363, 0.14595923, -0.48520678)\n99839\tWrappedArray(-0.18408951, 0.12759691, 0.019627951, 0.356228, -0.11500647, -0.30467522, -0.10058742, 0.31151465, 0.14061075, -0.51014274)\n"
       },
       "dateCreated": "Mar 1, 2016 11:06:08 PM",
-      "dateStarted": "Apr 17, 2016 9:00:39 PM",
-      "dateFinished": "Apr 17, 2016 9:00:44 PM",
+      "dateStarted": "Apr 19, 2016 2:39:31 AM",
+      "dateFinished": "Apr 19, 2016 2:39:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show ItemFactors Matrix",
       "text": "val itemFactorsDF \u003d model.itemFactors.sort($\"id\")\n\nz.show(itemFactorsDF)",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -259,15 +259,15 @@
         "msg": "id\tfeatures\n1\tWrappedArray(-0.09532961, 0.023093669, -0.023025485, 0.54327434, -0.026715394, -0.6309454, -0.35383868, 0.2970089, 0.22018515, -0.7442772)\n2\tWrappedArray(-0.20558318, -0.054552473, -0.06902207, 0.59839696, 0.10021642, -0.6569879, -0.44764695, 0.27209777, 0.19847935, -0.61646014)\n3\tWrappedArray(-0.17352493, -0.01796718, -0.13603066, 0.59030193, 0.09729016, -0.7558532, -0.4379399, 0.19469583, 0.073901854, -0.49609903)\n5\tWrappedArray(0.11583567, -0.17376062, -0.5563177, 0.49827287, -0.20620576, -0.46286547, -0.0129896095, 0.24456513, -0.17267759, -0.6905385)\n6\tWrappedArray(0.36620933, -0.19246157, -0.2619014, 0.0481693, -0.70586675, -0.020910058, 0.016248165, 0.5105268, -0.19280866, -0.39935198)\n7\tWrappedArray(-0.086329766, -0.18105295, -0.30203727, 0.44109276, -0.009293048, -0.5395691, -0.24600987, 0.6688674, 0.12115743, -0.8654444)\n8\tWrappedArray(-0.039863028, -0.080966696, -0.037518285, 0.613006, 0.074554645, -0.5693453, -0.4350711, 0.1430606, 0.1826611, -0.66426617)\n9\tWrappedArray(-0.12637061, -0.06767913, -0.018296516, 0.65114385, 0.045339588, -0.4820463, -0.4361153, 0.25708237, 0.23839806, -0.6866503)\n10\tWrappedArray(-0.17339472, 0.07886951, -0.0731084, 0.6224614, -0.0886344, -0.58673465, -0.25446483, 0.33095184, 0.16649178, -0.76069635)\n11\tWrappedArray(-0.13276331, 8.430888E-4, -0.063113086, 0.65064734, -0.10398074, -0.59532577, -0.27501094, 0.39969498, 0.1229281, -0.7271958)\n12\tWrappedArray(-0.08644331, 0.03169903, -0.15386213, 0.6562951, 0.016995145, -0.65965736, -0.3595798, 0.2635238, 0.12496881, -0.63385844)\n13\tWrappedArray(-0.11322892, -0.021059796, -0.12358842, 0.62776333, 0.09005942, -0.6860465, -0.4289164, 0.17603707, 0.15026928, -0.5893532)\n14\tWrappedArray(-0.12364683, -0.08366896, -0.013642622, 0.6334781, 0.05081358, -0.4960825, -0.43620306, 0.22934951, 0.23720457, -0.68470895)\n15\tWrappedArray(-0.14788713, -0.11812949, 0.019257572, 0.5900275, 0.044895623, -0.5030687, -0.4362014, 0.1871996, 0.24338078, -0.70677537)\n16\tWrappedArray(-0.04233407, -0.052975044, -0.010544371, 0.6096646, 0.03579917, -0.4859282, -0.40438515, 0.14987999, 0.22780712, -0.7420792)\n17\tWrappedArray(-0.10872869, -0.120774895, -0.013392758, 0.61080563, 0.049913157, -0.44938377, -0.4091882, 0.17188664, 0.3260563, -0.7056653)\n18\tWrappedArray(-0.19759089, 0.11575915, 0.105926655, 0.51770246, -0.12891833, -0.56241614, -0.3562843, 0.26077348, 0.31740698, -0.79465014)\n19\tWrappedArray(0.24499401, -0.06349729, 0.34926674, 0.61398166, 0.32336944, -0.24138321, -0.43224654, -0.22974625, -0.4513911, 0.21820606)\n20\tWrappedArray(-0.05299539, -0.1342239, -0.21547891, 0.40504926, 0.1815265, -0.56622183, -0.20775284, 0.66723853, 0.21909593, -0.85962486)\n21\tWrappedArray(-0.06510192, -0.19001609, -0.10773742, 0.57590157, -0.020406356, -0.83219635, -0.3644121, 0.050153945, 0.106939726, -0.67496157)\n24\tWrappedArray(-0.19848001, -0.43168578, -0.5075309, 0.3460603, 0.21004854, -0.84526414, -0.17714204, 0.2811077, 0.114188544, -0.7738655)\n25\tWrappedArray(0.08888677, 0.08112313, -0.020208169, 0.55773276, 0.2688035, -0.5492225, -0.60293645, 0.43607783, 0.060251627, -0.5696207)\n26\tWrappedArray(-0.066595525, -0.06754538, -0.030070387, 0.5883316, 0.122017354, -0.49478596, -0.3821, 0.124743804, 0.24799635, -0.73732686)\n27\tWrappedArray(0.15010886, -0.21887095, -0.16887194, 0.6341316, -0.034294587, -0.3809163, -0.3821486, 0.20697862, 0.38314056, -0.6738316)\n28\tWrappedArray(-0.25136212, -0.115395755, -0.26063225, 0.37567288, 0.32530653, -0.5500757, -0.3147006, 0.51373744, 0.22530831, -0.7851722)\n29\tWrappedArray(0.1349625, -0.2912172, 0.13552068, 0.82639915, 0.14908043, -0.83004653, -0.5400272, -0.24847038, -0.27127826, -0.3013291)\n30\tWrappedArray(-0.066595525, -0.06754538, -0.030070387, 0.5883316, 0.122017354, -0.49478596, -0.3821, 0.124743804, 0.24799635, -0.73732686)\n31\tWrappedArray(-0.32956886, 0.21862063, 0.03182672, 0.47679603, -0.23107877, -0.42804003, -0.03813545, 0.48016712, 0.18446377, -0.7357244)\n32\tWrappedArray(-0.013857827, -0.057243753, -0.048133697, 0.61530817, 0.08508179, -0.48930484, -0.3869308, 0.12317533, 0.25652957, -0.7209286)\n33\tWrappedArray(0.013769768, -0.12163368, -0.30808356, 0.4659139, 0.3273203, -0.37990293, -0.4406706, 0.67079747, 0.3212938, -0.7380811)\n34\tWrappedArray(-0.018799834, 0.09700357, 0.051186696, 0.47222108, 0.24527693, -0.52968234, -0.61026794, 0.52211434, 0.13466878, -0.6132034)\n35\tWrappedArray(0.15489756, -0.31950673, 0.12128552, 0.8593115, 0.12600788, -0.8186799, -0.5339839, -0.18124707, -0.28430408, -0.2958046)\n36\tWrappedArray(0.16365625, -0.32063, 0.1127443, 0.81259024, 0.13268661, -0.834475, -0.5195464, -0.26157582, -0.29695314, -0.2727796)\n37\tWrappedArray(0.117863566, -0.17673278, 0.14459737, 0.88002354, 0.23939402, -0.8347888, -0.59434277, -0.08817984, -0.2289958, -0.4051051)\n38\tWrappedArray(-0.48085222, -0.28760526, 0.10480364, 0.5446577, 0.018844541, -0.4524469, -0.44216073, 0.17465624, 0.4115932, -0.68176347)\n39\tWrappedArray(0.013172769, 0.03822519, -0.090440325, 0.7266968, -0.06028156, -0.7248603, -0.41200662, 0.10243615, 0.10783204, -0.5913696)\n40\tWrappedArray(0.18797356, 0.040365532, 0.18527997, 0.87481016, 0.33920828, -0.65456057, -0.6933986, 0.14111595, -0.17416032, -0.3737527)\n41\tWrappedArray(0.1349625, -0.2912172, 0.13552068, 0.82639915, 0.14908043, -0.83004653, -0.5400272, -0.24847038, -0.27127826, -0.3013291)\n42\tWrappedArray(-0.092716336, -0.18426272, -0.41529477, 0.48232794, 0.09538258, -0.53258383, -0.23005207, 0.52651244, 0.21583168, -0.8399985)\n43\tWrappedArray(-0.24807738, -0.1558769, -0.4833668, -0.08382074, 0.41580126, -0.13443148, 0.054234087, 0.5770515, 0.14662795, -0.44565943)\n44\tWrappedArray(-0.015355214, -0.12934087, -0.07503872, 0.6166245, -0.06609221, -0.841118, -0.3982489, 0.09993272, 0.07495895, -0.635036)\n45\tWrappedArray(-0.5637966, -0.3447891, 0.17099787, 0.41452008, -0.12557271, -0.20898293, -0.31307992, 0.22599843, 0.54300565, -0.5161883)\n47\tWrappedArray(0.04748594, -0.06547773, -0.36071965, 0.6530548, -0.11134302, -0.5894259, -0.2112757, 0.24257001, 0.027717276, -0.755354)\n49\tWrappedArray(-0.017236384, -0.16187237, -0.0586853, 0.6296685, -0.0520211, -0.8308961, -0.40240183, -0.060087413, 0.09371946, -0.5896459)\n50\tWrappedArray(-0.1775726, -0.2156109, 0.028044691, 0.7254367, 0.07920325, -0.718736, -0.6821029, 0.4396972, 0.34811208, -0.7696168)\n51\tWrappedArray(-0.41669548, -0.22854011, 0.08891986, 0.5501834, -0.067953475, -0.49568, -0.4006144, 0.23962995, 0.4305304, -0.68891066)\n52\tWrappedArray(-0.07184912, -0.0756711, 0.05222397, 0.56941515, -0.21437766, -0.7898869, -0.40600243, -0.16126256, 0.26963732, -0.6606076)\n53\tWrappedArray(0.09416974, -0.039005492, -0.062066387, 0.6016861, -0.06705606, -0.513507, -0.35711068, 0.17123319, 0.280049, -0.72434056)\n54\tWrappedArray(0.040519614, -0.24992111, -0.29436618, 0.6092737, -0.1254469, -0.73922074, -0.24624383, 0.049906917, 0.021072088, -0.7387766)\n56\tWrappedArray(-0.05962497, -0.28632045, 0.20558457, 0.40899843, -0.021814866, 0.022145009, 0.34126732, 0.23676336, 0.54077744, -0.47142184)\n59\tWrappedArray(0.31701073, -0.15357909, 0.20822178, 0.41896746, -0.10854814, -0.5354121, -0.14753948, 0.5981481, 0.023535118, -0.6055722)\n60\tWrappedArray(-0.08585906, -0.06769697, 0.013712872, 0.60792196, -0.03855103, -0.49117684, -0.37561548, 0.26495585, 0.27540797, -0.73578775)\n61\tWrappedArray(0.014965563, -0.31333238, -0.11611998, 0.65170735, -0.014901107, -0.49529088, -0.42499542, 0.29982892, 0.25855488, -0.6390721)\n62\tWrappedArray(0.16763161, 0.016100813, 0.011382957, 0.58160394, 0.12529822, -0.5721094, -0.469671, 0.49654952, 0.09689016, -0.6671746)\n63\tWrappedArray(0.15747689, 0.061261598, 0.013232671, 0.57869244, 0.09133859, -0.55311173, -0.45014223, 0.51195383, 0.11829001, -0.69115126)\n64\tWrappedArray(0.2151639, -0.060793005, 0.19913396, 0.94644326, 0.21881054, -0.6154665, -0.62343574, -0.10672849, -0.13008995, -0.35693252)\n65\tWrappedArray(0.24831818, -0.42655998, -0.27142376, 0.48368144, -0.12328829, -0.16391243, -0.29144284, 0.28894976, 0.47147903, -0.50883436)\n66\tWrappedArray(0.30662802, 0.27410498, -0.03201845, 0.36604884, 0.3571587, -0.2670485, -0.5591912, 0.6016297, -0.0048525915, -0.32391682)\n67\tWrappedArray(0.21378052, -0.03509892, -0.09972102, 0.547946, 0.28380305, -0.51260555, -0.59000444, 0.51411194, -0.09061543, -0.44755667)\n68\tWrappedArray(-0.36113927, 0.025540603, 0.21197888, 0.18283184, 0.07029649, -0.41736823, -0.44045773, 0.48900393, 0.2961054, -0.61137503)\n69\tWrappedArray(-0.14491504, -0.12999707, -0.32677302, 0.4470911, 0.062089995, -0.43976068, -0.1800781, 0.6248645, 0.3563749, -0.8767487)\n70\tWrappedArray(0.14541054, -0.111174144, -0.18674515, 0.58002806, -0.16611984, -0.5946747, -0.18405986, 0.4330196, 0.010251209, -0.8159654)\n72\tWrappedArray(0.30662802, 0.27410498, -0.03201845, 0.36604884, 0.3571587, -0.2670485, -0.5591912, 0.6016297, -0.0048525915, -0.32391682)\n73\tWrappedArray(0.24499401, -0.06349729, 0.34926674, 0.61398166, 0.32336944, -0.24138321, -0.43224654, -0.22974625, -0.4513911, 0.21820606)\n74\tWrappedArray(0.015459848, -0.27555975, -0.111507416, 0.6227137, -0.08627989, -0.78161985, -0.35384727, 0.027064584, 0.09003915, -0.63847435)\n75\tWrappedArray(0.24499401, -0.06349729, 0.34926674, 0.61398166, 0.32336944, -0.24138321, -0.43224654, -0.22974625, -0.4513911, 0.21820606)\n76\tWrappedArray(-0.24807738, -0.1558769, -0.4833668, -0.08382074, 0.41580126, -0.13443148, 0.054234087, 0.5770515, 0.14662795, -0.44565943)\n77\tWrappedArray(-0.16237743, -0.06713095, -0.05619383, 0.65924484, -0.20141159, -0.8336235, -0.258554, 0.1384865, 0.12746955, -0.76377124)\n78\tWrappedArray(0.030503334, -0.2809953, -0.087977685, 0.6642192, 0.030464504, -0.6139483, -0.42485413, 0.34025678, -0.047049254, -0.5037085)\n79\tWrappedArray(-0.022765897, 0.029182682, -0.047476113, 0.6305544, -0.036358416, -0.5841864, -0.33987594, 0.30602008, 0.17713799, -0.71645045)\n81\tWrappedArray(-0.19711122, 0.24489869, 0.32347625, 0.28046405, -0.24788377, -0.29456556, -0.35882917, -0.17711288, 0.51324904, -0.5523853)\n"
       },
       "dateCreated": "Mar 1, 2016 8:46:57 PM",
-      "dateStarted": "Apr 17, 2016 9:00:44 PM",
-      "dateFinished": "Apr 17, 2016 9:00:44 PM",
+      "dateStarted": "Apr 19, 2016 2:39:33 AM",
+      "dateFinished": "Apr 19, 2016 2:39:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write the user and item factor vectors to disk",
-      "text": "userFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"userId\", \"userFeatures\")\n .sort($\"userId\" asc)\n .coalesce(1)\n .write.mode(\"overwrite\")\n .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/user-factors/${System.currentTimeMillis}\"\"\")\n\nitemFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"itemId\", \"itemFeatures\")\n .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n .select($\"itemId\", $\"title\", $\"itemFeatures\", $\"description\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .coalesce(1)\n .write.mode(\"overwrite\")\n .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/item-factors/${System.currentTimeMillis}\"\"\")",
-      "dateUpdated": "Apr 17, 2016 10:30:41 PM",
+      "text": "//userFactorsDF.map(row \u003d\u003e \n//  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n//).toDF(\"userId\", \"userFeatures\")\n// .sort($\"userId\" asc)\n// .coalesce(1)\n// .write.mode(\"overwrite\")\n// .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/user-factors\"\"\")\n\n//itemFactorsDF.map(row \u003d\u003e \n//  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n//).toDF(\"itemId\", \"itemFeatures\")\n// .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n// .select($\"itemId\", $\"title\", $\"itemFeatures\", $\"description\", $\"tags\", $\"img\")\n// .sort($\"itemId\" asc)\n// .coalesce(1)\n// .write.mode(\"overwrite\")\n// .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/item-factors\"\"\")",
+      "dateUpdated": "Apr 19, 2016 2:39:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -292,18 +292,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "warning: there were 1 feature warning(s); re-run with -feature for details\nwarning: there were 1 feature warning(s); re-run with -feature for details\n"
+        "msg": ""
       },
       "dateCreated": "Apr 17, 2016 8:11:27 PM",
-      "dateStarted": "Apr 17, 2016 10:30:41 PM",
-      "dateFinished": "Apr 17, 2016 10:30:43 PM",
+      "dateStarted": "Apr 19, 2016 2:39:34 AM",
+      "dateFinished": "Apr 19, 2016 2:39:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write the User and item factor vectors to elasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"userId\", \"userFeatures\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\").mode(\"overwrite\").options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nitemFactorsDF.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"itemId\", \"itemFeatures\")\n .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n .select($\"itemId\", $\"title\", $\"itemFeatures\", $\"description\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\").mode(\"overwrite\").options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
-      "dateUpdated": "Apr 18, 2016 12:30:50 AM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -331,15 +331,15 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\nwarning: there were 1 feature warning(s); re-run with -feature for details\nwarning: there were 1 feature warning(s); re-run with -feature for details\n"
       },
       "dateCreated": "Apr 17, 2016 10:29:19 PM",
-      "dateStarted": "Apr 17, 2016 10:32:33 PM",
-      "dateFinished": "Apr 17, 2016 10:32:37 PM",
+      "dateStarted": "Apr 19, 2016 2:39:34 AM",
+      "dateFinished": "Apr 19, 2016 2:39:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Personalized Recommendations For All Users",
       "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"itemId\", $\"confidence\" desc)\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
-      "dateUpdated": "Apr 17, 2016 9:19:42 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -353,13 +353,7 @@
               "aggr": "sum"
             }
           ],
-          "values": [
-            {
-              "name": "title",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
+          "values": [],
           "groups": [],
           "scatter": {
             "xAxis": {
@@ -384,18 +378,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\ttitle\tconfidence\n3969\t3\tApache Ambari\t0.9896998\n3969\t7\tApache Spark\t0.9988259\n3969\t8\tApache Flume\t0.9870336\n3969\t10\tApache HDFS\t0.99041474\n3969\t11\tApache YARN\t1.0057306\n3969\t12\tApache HBase\t1.0077124\n3969\t14\tApache Hive\t0.9944264\n3969\t15\tHortonworks\t0.9878301\n3969\t18\tApache Kafka\t0.9826016\n3969\t25\tApache Parquet\t0.9869857\n3969\t28\tApache ZooKeeper\t0.9834066\n3969\t29\tStanford CoreNLP\t0.9830164\n3969\t34\tApache Nifi\t0.9867054\n3969\t38\tApache Zeppelin\t0.9885951\n3969\t41\tSQL\t0.9830165\n3969\t42\tScala\t0.9953227\n3969\t51\tRedis\t0.9933697\n3969\t52\tJSON\t1.0003937\n3969\t54\tMongoDB\t0.9973815\n3969\t61\tSpark ML/MLlib\t0.99377394\n3969\t62\tSpark Streaming\t1.0065506\n3969\t63\tSpark SQL\t0.99961126\n5342\t25\tApache Parquet\t1.0023695\n5342\t33\tApache Oozie\t0.9933312\n5342\t34\tApache Nifi\t0.9950878\n5342\t40\tR\t0.9962427\n5342\t50\tGoogle Cloud Platform\t1.0147016\n5342\t62\tSpark Streaming\t0.989351\n5342\t63\tSpark SQL\t0.9879096\n5342\t66\tRedshift\t0.97248554\n5342\t67\tKinesis\t0.9994997\n5342\t72\tDato GraphLab Create\t0.97248554\n6437\t27\tApache Pig\t0.9971491\n6437\t33\tApache Oozie\t1.0001073\n6437\t42\tScala\t0.99839073\n6437\t61\tSpark ML/MLlib\t0.99427485\n6437\t65\tDeep Learning 4J\t0.9627415\n6437\t69\tSpark GraphX\t1.0007645\n8910\t1\tApache Cassandra\t1.0019248\n8910\t7\tApache Spark\t1.0000035\n8910\t9\tApache Giraph\t0.99803215\n8910\t10\tApache HDFS\t0.99698097\n8910\t14\tApache Hive\t0.99135673\n8910\t15\tHortonworks\t0.9849941\n8910\t16\tApache HUE\t0.97797734\n12663\t1\tApache Cassandra\t1.0039171\n12663\t7\tApache Spark\t1.0072653\n12663\t10\tApache HDFS\t0.9951185\n12663\t11\tApache YARN\t1.0018789\n12663\t12\tApache HBase\t0.9926654\n12663\t13\tApache MapReduce\t0.98893696\n12663\t14\tApache Hive\t0.99352145\n12663\t15\tHortonworks\t0.9867834\n12663\t16\tApache HUE\t0.980739\n12663\t17\tApache Impala\t0.9792247\n12663\t18\tApache Kafka\t0.9972178\n12663\t24\tApache Mesos\t1.0009418\n12663\t26\tApache ORC\t0.9741111\n12663\t28\tApache ZooKeeper\t0.984012\n12663\t30\tApache Tez\t0.9741111\n12663\t32\tApache Sqoop\t0.9727974\n12663\t33\tApache Oozie\t0.99614865\n12663\t38\tApache Zeppelin\t0.9902755\n12663\t39\tTableau\t1.0046645\n12663\t42\tScala\t1.0122612\n12663\t44\tPython\t1.0231755\n12663\t49\tAmazon Web Services\t0.98914766\n12663\t51\tRedis\t0.99974954\n12663\t54\tMongoDB\t0.9829052\n12663\t60\tMySQL\t0.9915621\n12663\t61\tSpark ML/MLlib\t0.9926266\n12663\t62\tSpark Streaming\t0.99144256\n12663\t63\tSpark SQL\t0.991197\n12663\t74\tNeo4j\t0.99386597\n12663\t79\tTitan GraphDB\t0.9956388\n13077\t2\tTachyon\t1.0016364\n13077\t3\tApache Ambari\t0.9842144\n13077\t12\tApache HBase\t0.99454135\n13077\t13\tApache MapReduce\t0.99260473\n13338\t56\tMicroStrategy\t0.989932\n17841\t9\tApache Giraph\t0.98409325\n17841\t11\tApache YARN\t0.99956036\n17841\t12\tApache HBase\t0.98861206\n17841\t14\tApache Hive\t0.9755351\n17841\t39\tTableau\t0.996682\n17841\t40\tR\t0.99549305\n17841\t42\tScala\t0.9969621\n17841\t44\tPython\t1.0048954\n17841\t63\tSpark SQL\t0.99716544\n20229\t7\tApache Spark\t1.002576\n20229\t18\tApache Kafka\t0.98813653\n20229\t20\tApache Solr\t1.0037239\n20229\t24\tApache Mesos\t1.0010335\n20229\t28\tApache ZooKeeper\t0.9836302\n20229\t40\tR\t0.99090993\n20229\t42\tScala\t0.99594486\n20229\t49\tAmazon Web Services\t0.9860414\n20229\t51\tRedis\t0.987564\n20229\t62\tSpark Streaming\t0.9920827\n23426\t11\tApache YARN\t0.99904346\n23426\t18\tApache Kafka\t0.98248225\n23426\t42\tScala\t0.9967436\n23426\t63\tSpark SQL\t0.99068195\n23426\t69\tSpark GraphX\t1.000918\n23426\t70\tSQL Server\t0.9910941\n25639\t2\tTachyon\t0.9981251\n25639\t7\tApache Spark\t1.0015198\n25639\t9\tApache Giraph\t0.9971045\n25639\t14\tApache Hive\t0.9895481\n25639\t15\tHortonworks\t0.9910795\n25639\t17\tApache Impala\t0.9891995\n25639\t18\tApache Kafka\t1.0057914\n25639\t33\tApache Oozie\t0.9927039\n25639\t45\tPresto\t0.96101826\n25639\t60\tMySQL\t0.992224\n25639\t61\tSpark ML/MLlib\t0.9973408\n27045\t1\tApache Cassandra\t0.99366385\n27045\t7\tApache Spark\t1.011296\n27045\t18\tApache Kafka\t0.99261165\n27045\t20\tApache Solr\t1.0017153\n27045\t42\tScala\t0.9930133\n27045\t60\tMySQL\t0.97181416\n27045\t62\tSpark Streaming\t0.99198127\n27045\t63\tSpark SQL\t0.9975652\n27045\t70\tSQL Server\t0.988935\n27045\t79\tTitan GraphDB\t0.9902694\n27569\t1\tApache Cassandra\t0.98017645\n27569\t2\tTachyon\t0.9950109\n27569\t21\tElasticSearch\t0.9935243\n27569\t28\tApache ZooKeeper\t0.9876617\n27569\t37\tiPython/Jupyter\t1.0008771\n27569\t40\tR\t0.98979783\n27569\t44\tPython\t1.002412\n27569\t62\tSpark Streaming\t0.9975171\n28567\t7\tApache Spark\t1.0011351\n28567\t11\tApache YARN\t0.9879249\n28567\t35\tNLTK\t0.99459606\n28567\t61\tSpark ML/MLlib\t0.9881842\n28567\t74\tNeo4j\t1.003644\n28567\t78\tTensor Flow\t0.9835175\n29427\t1\tApache Cassandra\t0.98801714\n29427\t18\tApache Kafka\t0.99666464\n29427\t21\tElasticSearch\t1.0031748\n29427\t42\tScala\t0.9914349\n29427\t51\tRedis\t0.9934148\n29427\t52\tJSON\t0.98762983\n34063\t21\tElasticSearch\t0.99490064\n34063\t24\tApache Mesos\t0.9758102\n34063\t29\tStanford CoreNLP\t0.9920933\n34063\t35\tNLTK\t0.9943242\n34063\t36\tSci-Kit Learn\t0.98533666\n34063\t37\tiPython/Jupyter\t1.0189658\n34063\t41\tSQL\t0.9920933\n34063\t44\tPython\t0.987795\n34063\t49\tAmazon Web Services\t0.9915242\n34063\t50\tGoogle Cloud Platform\t1.0219281\n34063\t52\tJSON\t0.9660691\n34063\t54\tMongoDB\t0.9918776\n34063\t74\tNeo4j\t0.989121\n34063\t77\tS3\t1.0073146\n37022\t7\tApache Spark\t0.98218536\n37022\t20\tApache Solr\t1.0064272\n37022\t24\tApache Mesos\t1.00507\n37022\t28\tApache ZooKeeper\t0.9958637\n37022\t33\tApache Oozie\t1.0032581\n37022\t42\tScala\t0.98786247\n37022\t43\tJava\t0.96218485\n37022\t69\tSpark GraphX\t1.0130084\n37022\t76\tProtobuffers\t0.96218485\n37477\t38\tApache Zeppelin\t0.9941067\n37902\t7\tApache Spark\t1.0035396\n37902\t10\tApache HDFS\t0.98843765\n37902\t11\tApache YARN\t0.9973323\n37902\t12\tApache HBase\t0.98347527\n37902\t39\tTableau\t0.9952329\n37902\t42\tScala\t0.9975672\n37902\t47\tCloudera\t0.98872614\n45777\t38\tApache Zeppelin\t1.0008013\n45777\t45\tPresto\t0.9769999\n45777\t50\tGoogle Cloud Platform\t1.0080638\n45777\t51\tRedis\t0.98600495\n49360\t5\tMicrosft Azure\t0.96948814\n49360\t7\tApache Spark\t1.0018771\n49360\t42\tScala\t0.9955606\n49360\t47\tCloudera\t0.9989531\n49360\t54\tMongoDB\t0.99635065\n49360\t70\tSQL Server\t0.99678326\n53734\t12\tApache HBase\t0.99202627\n53734\t63\tSpark SQL\t0.99841404\n53734\t79\tTitan GraphDB\t0.98969394\n54801\t19\tApache Lucene\t0.975182\n54801\t29\tStanford CoreNLP\t0.99851453\n54801\t35\tNLTK\t1.0002365\n54801\t36\tSci-Kit Learn\t0.9969834\n54801\t37\tiPython/Jupyter\t1.0073044\n54801\t40\tR\t0.99013364\n54801\t41\tSQL\t0.99851453\n54801\t64\tCSV\t1.0023557\n54801\t73\tMemcached\t0.975182\n54801\t75\tPostgres\t0.975182\n56348\t39\tTableau\t0.9786065\n56348\t40\tR\t0.9965318\n56348\t44\tPython\t0.9967073\n56348\t49\tAmazon Web Services\t0.9897578\n56348\t52\tJSON\t0.98476464\n56348\t64\tCSV\t0.9976418\n56348\t77\tS3\t1.0120955\n60978\t7\tApache Spark\t0.98731875\n60978\t36\tSci-Kit Learn\t0.9876903\n60978\t44\tPython\t1.0030305\n60978\t62\tSpark Streaming\t1.0047295\n60978\t67\tKinesis\t0.9827311\n60978\t78\tTensor Flow\t0.9923389\n73744\t7\tApache Spark\t0.9981215\n73744\t18\tApache Kafka\t0.9972105\n73744\t28\tApache ZooKeeper\t1.0007224\n73744\t34\tApache Nifi\t0.9976661\n73744\t68\tDynamoDB\t0.9685109\n74715\t18\tApache Kafka\t0.9976261\n74715\t52\tJSON\t0.9994389\n74715\t81\tVertica\t0.9775569\n80675\t6\tApache Flink\t0.98685193\n80675\t7\tApache Spark\t0.994903\n82510\t7\tApache Spark\t1.0065815\n82510\t21\tElasticSearch\t1.0106863\n82510\t52\tJSON\t0.98839617\n82510\t53\tXML\t0.9706278\n82510\t54\tMongoDB\t0.99465036\n82510\t62\tSpark Streaming\t0.99107885\n82510\t63\tSpark SQL\t0.994573\n82510\t69\tSpark GraphX\t0.98868847\n82510\t74\tNeo4j\t0.9926351\n86868\t7\tApache Spark\t1.0017294\n86868\t20\tApache Solr\t0.9981067\n86868\t59\tOracle\t0.96818453\n86868\t62\tSpark Streaming\t0.9949902\n86868\t63\tSpark SQL\t0.9974294\n86868\t70\tSQL Server\t0.99755955\n88005\t6\tApache Flink\t0.99172395\n96340\t7\tApache Spark\t1.0000899\n96340\t8\tApache Flume\t0.9847123\n96340\t10\tApache HDFS\t0.99471724\n96340\t11\tApache YARN\t1.0051651\n96340\t12\tApache HBase\t1.0008577\n96340\t13\tApache MapReduce\t0.9931928\n96340\t14\tApache Hive\t0.9946158\n96340\t16\tApache HUE\t0.9866793\n96340\t17\tApache Impala\t0.9801122\n96340\t18\tApache Kafka\t0.9893031\n96340\t20\tApache Solr\t0.9945796\n96340\t27\tApache Pig\t0.96926457\n96340\t32\tApache Sqoop\t0.98044574\n96340\t33\tApache Oozie\t0.9904761\n96340\t42\tScala\t1.0068976\n96340\t47\tCloudera\t0.9837968\n96340\t49\tAmazon Web Services\t1.0040331\n96340\t52\tJSON\t0.999617\n96340\t53\tXML\t0.98155487\n96340\t60\tMySQL\t0.99439836\n96340\t61\tSpark ML/MLlib\t1.0056233\n96340\t62\tSpark Streaming\t1.0051556\n96340\t63\tSpark SQL\t1.0046035\n96340\t64\tCSV\t0.9782772\n96971\t1\tApache Cassandra\t0.9864074\n96971\t7\tApache Spark\t1.0013282\n96971\t18\tApache Kafka\t0.990455\n96971\t20\tApache Solr\t0.99552405\n96971\t44\tPython\t0.99392045\n99839\t7\tApache Spark\t1.0010976\n99839\t10\tApache HDFS\t0.9914105\n99839\t11\tApache YARN\t0.98885953\n99839\t18\tApache Kafka\t0.99091315\n99839\t31\tApache Storm\t0.97070414\n99839\t69\tSpark GraphX\t0.9999311\n99839\t77\tS3\t1.0089166\n"
+        "msg": "userId\titemId\ttitle\tconfidence\n3969\t3\tApache Ambari\t0.9896997\n3969\t7\tApache Spark\t0.9988259\n3969\t8\tApache Flume\t0.98703367\n3969\t10\tApache HDFS\t0.99041474\n3969\t11\tApache YARN\t1.0057306\n3969\t12\tApache HBase\t1.0077124\n3969\t14\tApache Hive\t0.9944264\n3969\t15\tHortonworks\t0.9878301\n3969\t18\tApache Kafka\t0.9826016\n3969\t25\tApache Parquet\t0.9869857\n3969\t28\tApache ZooKeeper\t0.98340666\n3969\t29\tStanford CoreNLP\t0.9830165\n3969\t34\tApache Nifi\t0.9867054\n3969\t38\tApache Zeppelin\t0.9885951\n3969\t41\tSQL\t0.9830165\n3969\t42\tScala\t0.9953227\n3969\t51\tRedis\t0.9933697\n3969\t52\tJSON\t1.0003937\n3969\t54\tMongoDB\t0.9973815\n3969\t61\tSpark ML/MLlib\t0.99377394\n3969\t62\tSpark Streaming\t1.0065506\n3969\t63\tSpark SQL\t0.99961126\n5342\t25\tApache Parquet\t1.0023695\n5342\t33\tApache Oozie\t0.9933312\n5342\t34\tApache Nifi\t0.9950878\n5342\t40\tR\t0.9962427\n5342\t50\tGoogle Cloud Platform\t1.0147016\n5342\t62\tSpark Streaming\t0.9893509\n5342\t63\tSpark SQL\t0.98790956\n5342\t66\tRedshift\t0.97248554\n5342\t67\tKinesis\t0.99949974\n5342\t72\tDato GraphLab Create\t0.97248554\n6437\t27\tApache Pig\t0.99714905\n6437\t33\tApache Oozie\t1.0001073\n6437\t42\tScala\t0.99839073\n6437\t61\tSpark ML/MLlib\t0.99427485\n6437\t65\tDeep Learning 4J\t0.9627415\n6437\t69\tSpark GraphX\t1.0007644\n8910\t1\tApache Cassandra\t1.0019248\n8910\t7\tApache Spark\t1.0000035\n8910\t9\tApache Giraph\t0.99803215\n8910\t10\tApache HDFS\t0.99698097\n8910\t14\tApache Hive\t0.9913567\n8910\t15\tHortonworks\t0.9849941\n8910\t16\tApache HUE\t0.97797734\n12663\t1\tApache Cassandra\t1.0039171\n12663\t7\tApache Spark\t1.0072653\n12663\t10\tApache HDFS\t0.9951185\n12663\t11\tApache YARN\t1.0018789\n12663\t12\tApache HBase\t0.9926654\n12663\t13\tApache MapReduce\t0.98893696\n12663\t14\tApache Hive\t0.99352145\n12663\t15\tHortonworks\t0.9867834\n12663\t16\tApache HUE\t0.9807391\n12663\t17\tApache Impala\t0.9792246\n12663\t18\tApache Kafka\t0.9972178\n12663\t24\tApache Mesos\t1.0009418\n12663\t26\tApache ORC\t0.9741111\n12663\t28\tApache ZooKeeper\t0.98401195\n12663\t30\tApache Tez\t0.9741111\n12663\t32\tApache Sqoop\t0.9727974\n12663\t33\tApache Oozie\t0.99614865\n12663\t38\tApache Zeppelin\t0.9902755\n12663\t39\tTableau\t1.0046644\n12663\t42\tScala\t1.0122612\n12663\t44\tPython\t1.0231755\n12663\t49\tAmazon Web Services\t0.98914766\n12663\t51\tRedis\t0.99974954\n12663\t54\tMongoDB\t0.9829052\n12663\t60\tMySQL\t0.99156207\n12663\t61\tSpark ML/MLlib\t0.99262667\n12663\t62\tSpark Streaming\t0.99144256\n12663\t63\tSpark SQL\t0.99119693\n12663\t74\tNeo4j\t0.99386597\n12663\t79\tTitan GraphDB\t0.9956388\n13077\t2\tTachyon\t1.0016364\n13077\t3\tApache Ambari\t0.98421454\n13077\t12\tApache HBase\t0.99454135\n13077\t13\tApache MapReduce\t0.99260473\n13338\t56\tMicroStrategy\t0.98993206\n17841\t9\tApache Giraph\t0.98409325\n17841\t11\tApache YARN\t0.9995604\n17841\t12\tApache HBase\t0.98861206\n17841\t14\tApache Hive\t0.9755351\n17841\t39\tTableau\t0.9966819\n17841\t40\tR\t0.99549305\n17841\t42\tScala\t0.9969621\n17841\t44\tPython\t1.0048954\n17841\t63\tSpark SQL\t0.99716544\n20229\t7\tApache Spark\t1.002576\n20229\t18\tApache Kafka\t0.98813653\n20229\t20\tApache Solr\t1.0037239\n20229\t24\tApache Mesos\t1.0010335\n20229\t28\tApache ZooKeeper\t0.9836302\n20229\t40\tR\t0.99090993\n20229\t42\tScala\t0.99594486\n20229\t49\tAmazon Web Services\t0.9860414\n20229\t51\tRedis\t0.987564\n20229\t62\tSpark Streaming\t0.99208266\n23426\t11\tApache YARN\t0.99904346\n23426\t18\tApache Kafka\t0.98248225\n23426\t42\tScala\t0.9967436\n23426\t63\tSpark SQL\t0.99068195\n23426\t69\tSpark GraphX\t1.000918\n23426\t70\tSQL Server\t0.9910941\n25639\t2\tTachyon\t0.9981251\n25639\t7\tApache Spark\t1.0015198\n25639\t9\tApache Giraph\t0.9971045\n25639\t14\tApache Hive\t0.9895481\n25639\t15\tHortonworks\t0.9910795\n25639\t17\tApache Impala\t0.9891995\n25639\t18\tApache Kafka\t1.0057914\n25639\t33\tApache Oozie\t0.9927039\n25639\t45\tPresto\t0.96101826\n25639\t60\tMySQL\t0.992224\n25639\t61\tSpark ML/MLlib\t0.9973408\n27045\t1\tApache Cassandra\t0.9936639\n27045\t7\tApache Spark\t1.011296\n27045\t18\tApache Kafka\t0.99261165\n27045\t20\tApache Solr\t1.0017153\n27045\t42\tScala\t0.9930133\n27045\t60\tMySQL\t0.97181416\n27045\t62\tSpark Streaming\t0.9919812\n27045\t63\tSpark SQL\t0.99756515\n27045\t70\tSQL Server\t0.988935\n27045\t79\tTitan GraphDB\t0.9902694\n27569\t1\tApache Cassandra\t0.9801765\n27569\t2\tTachyon\t0.9950109\n27569\t21\tElasticSearch\t0.9935243\n27569\t28\tApache ZooKeeper\t0.9876617\n27569\t37\tiPython/Jupyter\t1.0008771\n27569\t40\tR\t0.98979783\n27569\t44\tPython\t1.002412\n27569\t62\tSpark Streaming\t0.9975172\n28567\t7\tApache Spark\t1.0011351\n28567\t11\tApache YARN\t0.9879248\n28567\t35\tNLTK\t0.994596\n28567\t61\tSpark ML/MLlib\t0.9881842\n28567\t74\tNeo4j\t1.003644\n28567\t78\tTensor Flow\t0.9835175\n29427\t1\tApache Cassandra\t0.9880172\n29427\t18\tApache Kafka\t0.99666464\n29427\t21\tElasticSearch\t1.0031748\n29427\t42\tScala\t0.9914349\n29427\t51\tRedis\t0.9934148\n29427\t52\tJSON\t0.98762983\n34063\t21\tElasticSearch\t0.99490064\n34063\t24\tApache Mesos\t0.9758102\n34063\t29\tStanford CoreNLP\t0.9920933\n34063\t35\tNLTK\t0.99432427\n34063\t36\tSci-Kit Learn\t0.9853367\n34063\t37\tiPython/Jupyter\t1.0189657\n34063\t41\tSQL\t0.9920933\n34063\t44\tPython\t0.987795\n34063\t49\tAmazon Web Services\t0.9915242\n34063\t50\tGoogle Cloud Platform\t1.0219281\n34063\t52\tJSON\t0.9660691\n34063\t54\tMongoDB\t0.9918776\n34063\t74\tNeo4j\t0.989121\n34063\t77\tS3\t1.0073146\n37022\t7\tApache Spark\t0.98218536\n37022\t20\tApache Solr\t1.0064272\n37022\t24\tApache Mesos\t1.00507\n37022\t28\tApache ZooKeeper\t0.9958637\n37022\t33\tApache Oozie\t1.0032581\n37022\t42\tScala\t0.98786247\n37022\t43\tJava\t0.9621848\n37022\t69\tSpark GraphX\t1.0130084\n37022\t76\tProtobuffers\t0.9621848\n37477\t38\tApache Zeppelin\t0.99410665\n37902\t7\tApache Spark\t1.0035396\n37902\t10\tApache HDFS\t0.98843765\n37902\t11\tApache YARN\t0.9973322\n37902\t12\tApache HBase\t0.98347527\n37902\t39\tTableau\t0.99523294\n37902\t42\tScala\t0.9975672\n37902\t47\tCloudera\t0.98872614\n45777\t38\tApache Zeppelin\t1.0008013\n45777\t45\tPresto\t0.9769999\n45777\t50\tGoogle Cloud Platform\t1.0080638\n45777\t51\tRedis\t0.98600495\n49360\t5\tMicrosft Azure\t0.9694881\n49360\t7\tApache Spark\t1.0018771\n49360\t42\tScala\t0.9955606\n49360\t47\tCloudera\t0.9989531\n49360\t54\tMongoDB\t0.99635065\n49360\t70\tSQL Server\t0.99678326\n53734\t12\tApache HBase\t0.99202627\n53734\t63\tSpark SQL\t0.998414\n53734\t79\tTitan GraphDB\t0.98969394\n54801\t19\tApache Lucene\t0.975182\n54801\t29\tStanford CoreNLP\t0.9985146\n54801\t35\tNLTK\t1.0002365\n54801\t36\tSci-Kit Learn\t0.99698347\n54801\t37\tiPython/Jupyter\t1.0073044\n54801\t40\tR\t0.99013364\n54801\t41\tSQL\t0.99851453\n54801\t64\tCSV\t1.0023558\n54801\t73\tMemcached\t0.97518194\n54801\t75\tPostgres\t0.97518194\n56348\t39\tTableau\t0.9786065\n56348\t40\tR\t0.9965318\n56348\t44\tPython\t0.9967073\n56348\t49\tAmazon Web Services\t0.9897578\n56348\t52\tJSON\t0.98476464\n56348\t64\tCSV\t0.9976418\n56348\t77\tS3\t1.0120955\n60978\t7\tApache Spark\t0.98731875\n60978\t36\tSci-Kit Learn\t0.9876903\n60978\t44\tPython\t1.0030305\n60978\t62\tSpark Streaming\t1.0047295\n60978\t67\tKinesis\t0.9827311\n60978\t78\tTensor Flow\t0.9923389\n73744\t7\tApache Spark\t0.9981215\n73744\t18\tApache Kafka\t0.9972105\n73744\t28\tApache ZooKeeper\t1.0007224\n73744\t34\tApache Nifi\t0.9976661\n73744\t68\tDynamoDB\t0.9685109\n74715\t18\tApache Kafka\t0.9976261\n74715\t52\tJSON\t0.9994389\n74715\t81\tVertica\t0.9775569\n80675\t6\tApache Flink\t0.9868519\n80675\t7\tApache Spark\t0.994903\n82510\t7\tApache Spark\t1.0065815\n82510\t21\tElasticSearch\t1.0106863\n82510\t52\tJSON\t0.98839617\n82510\t53\tXML\t0.9706278\n82510\t54\tMongoDB\t0.99465036\n82510\t62\tSpark Streaming\t0.99107885\n82510\t63\tSpark SQL\t0.994573\n82510\t69\tSpark GraphX\t0.98868847\n82510\t74\tNeo4j\t0.9926351\n86868\t7\tApache Spark\t1.0017294\n86868\t20\tApache Solr\t0.9981067\n86868\t59\tOracle\t0.9681846\n86868\t62\tSpark Streaming\t0.9949902\n86868\t63\tSpark SQL\t0.9974294\n86868\t70\tSQL Server\t0.99755955\n88005\t6\tApache Flink\t0.99172395\n96340\t7\tApache Spark\t1.0000899\n96340\t8\tApache Flume\t0.98471236\n96340\t10\tApache HDFS\t0.99471724\n96340\t11\tApache YARN\t1.0051651\n96340\t12\tApache HBase\t1.0008577\n96340\t13\tApache MapReduce\t0.9931928\n96340\t14\tApache Hive\t0.99461585\n96340\t16\tApache HUE\t0.9866794\n96340\t17\tApache Impala\t0.9801123\n96340\t18\tApache Kafka\t0.9893031\n96340\t20\tApache Solr\t0.9945796\n96340\t27\tApache Pig\t0.9692646\n96340\t32\tApache Sqoop\t0.9804458\n96340\t33\tApache Oozie\t0.9904761\n96340\t42\tScala\t1.0068976\n96340\t47\tCloudera\t0.9837968\n96340\t49\tAmazon Web Services\t1.0040331\n96340\t52\tJSON\t0.999617\n96340\t53\tXML\t0.98155487\n96340\t60\tMySQL\t0.9943983\n96340\t61\tSpark ML/MLlib\t1.0056233\n96340\t62\tSpark Streaming\t1.0051556\n96340\t63\tSpark SQL\t1.0046035\n96340\t64\tCSV\t0.9782772\n96971\t1\tApache Cassandra\t0.98640746\n96971\t7\tApache Spark\t1.0013282\n96971\t18\tApache Kafka\t0.990455\n96971\t20\tApache Solr\t0.9955241\n96971\t44\tPython\t0.99392045\n99839\t7\tApache Spark\t1.0010976\n99839\t10\tApache HDFS\t0.9914105\n99839\t11\tApache YARN\t0.98885953\n99839\t18\tApache Kafka\t0.99091315\n99839\t31\tApache Storm\t0.97070414\n99839\t69\tSpark GraphX\t0.9999312\n99839\t77\tS3\t1.0089166\n"
       },
       "dateCreated": "Jul 4, 2015 2:51:32 AM",
-      "dateStarted": "Apr 17, 2016 9:19:42 PM",
-      "dateFinished": "Apr 17, 2016 9:19:44 PM",
+      "dateStarted": "Apr 19, 2016 2:39:34 AM",
+      "dateFinished": "Apr 19, 2016 2:39:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Store Full Recommendations on disk",
       "text": "enrichedRecommendationsDF\n .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n .sort($\"userId\", $\"itemId\", $\"confidence\" desc)\n .coalesce(1)\n .write.mode(\"overwrite\")\n .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/full-recs/${System.currentTimeMillis}\"\"\")",
-      "dateUpdated": "Apr 17, 2016 9:27:02 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -423,15 +417,15 @@
         "msg": "warning: there were 1 feature warning(s); re-run with -feature for details\n"
       },
       "dateCreated": "Apr 17, 2016 9:20:50 PM",
-      "dateStarted": "Apr 17, 2016 9:27:02 PM",
-      "dateFinished": "Apr 17, 2016 9:27:07 PM",
+      "dateStarted": "Apr 19, 2016 2:39:39 AM",
+      "dateFinished": "Apr 19, 2016 2:39:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "userFactor Vector dot product ItemFactor vector ",
+      "title": "Calculate Confidence Given userId and ItemId",
       "text": "////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////\n\nimport org.jblas.DoubleMatrix\n\n// Create JBlas DoubleMatrix from features\n\n// User 12663\nval givenUserId \u003d 12663\nval userLatentFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()(0)\n\n// Item 7\nval givenItemId \u003d 7\nval itemLatentFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()(0)\n  \nval userLatentFactorVector \u003d new DoubleMatrix(userLatentFactors)\nval itemLatentFactorVector \u003d new DoubleMatrix(itemLatentFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d userLatentFactorVector.dot(itemLatentFactorVector)\n\n////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////",
-      "dateUpdated": "Apr 17, 2016 9:09:09 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -459,43 +453,25 @@
         "msg": "import org.jblas.DoubleMatrix\ngivenUserId: Int \u003d 12663\nuserLatentFactors: Array[Double] \u003d Array(-0.053693197667598724, -0.06078779697418213, -0.02334728091955185, 0.42118990421295166, 0.056987348943948746, -0.359910249710083, -0.28206831216812134, 0.1254013478755951, 0.169313445687294, -0.49840250611305237)\ngivenItemId: Int \u003d 7\nitemLatentFactors: Array[Double] \u003d Array(-0.08632976561784744, -0.18105295300483704, -0.3020372688770294, 0.44109275937080383, -0.009293047711253166, -0.539569079875946, -0.24600987136363983, 0.6688674092292786, 0.12115743011236191, -0.8654444217681885)\nuserLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.053693; -0.060788; -0.023347; 0.421190; 0.056987; -0.359910; -0.282068; 0.125401; 0.169313; -0.498403]\nitemLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.086330; -0.181053; -0.302037; 0.441093; -0.009293; -0.539569; -0.246010; 0.668867; 0.121157; -0.865444]\nconfidence: Double \u003d 1.0072652680065453\n"
       },
       "dateCreated": "Mar 2, 2016 9:40:12 PM",
-      "dateStarted": "Apr 17, 2016 9:09:09 PM",
-      "dateFinished": "Apr 17, 2016 9:09:10 PM",
+      "dateStarted": "Apr 19, 2016 2:39:41 AM",
+      "dateFinished": "Apr 19, 2016 2:39:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Top 5 Similar Items to a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Given Item: 7 (Spark)\nval givenItemId \u003d 7\n\nval givenItemLatentFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemLatentFactorVector \u003d new DoubleMatrix(givenItemLatentFactors)\n\n// Find Similar Items to the Given Item\nval similarItems \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val itemLatentFactor \u003d row.getSeq[Float](1).map(_.toDouble).toArray\n     val itemLatentFactorVector \u003d new DoubleMatrix(itemLatentFactor)\n     val similarity \u003d Similarity.cosineSimilarity(itemLatentFactorVector, givenItemLatentFactorVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Apr 17, 2016 9:29:04 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 182.0,
           "optionOpen": false,
-          "keys": [
-            {
-              "name": "id",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "itemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
+          "keys": [],
+          "values": [],
           "groups": [],
-          "scatter": {
-            "yAxis": {
-              "name": "itemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
+          "scatter": {}
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
@@ -513,15 +489,15 @@
         "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t42\tScala\t0.9851450233935032\n7\t20\tApache Solr\t0.9839417782283699\n7\t69\tSpark GraphX\t0.9777614787459288\n7\t70\tSQL Server\t0.9475480591978328\n7\t28\tApache ZooKeeper\t0.9468228783762029\n"
       },
       "dateCreated": "Apr 17, 2016 4:11:12 AM",
-      "dateStarted": "Apr 17, 2016 9:29:04 PM",
-      "dateFinished": "Apr 17, 2016 9:29:06 PM",
+      "dateStarted": "Apr 19, 2016 2:39:47 AM",
+      "dateFinished": "Apr 19, 2016 2:39:49 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Top 5 Similar Users to a given user",
       "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\n// User 12663\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Given User: 12663\nval givenUserId \u003d 12663\nval givenUserLatentFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenUserLatentFactorVector \u003d new DoubleMatrix(givenUserLatentFactors)\n\n// Find Similar Users to the Given User\nval similarUsers \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val userLatentFactor \u003d row.getSeq[Float](1).map(_.toDouble).toArray\n     val userLatentFactorVector \u003d new DoubleMatrix(userLatentFactor)\n     val similarity \u003d Similarity.cosineSimilarity(userLatentFactorVector, givenUserLatentFactorVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Users by Similarity to Given Users\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { \n  case (id, similarity) \u003d\u003e similarity \n}).mkString(\"\\n\")\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
-      "dateUpdated": "Apr 17, 2016 9:31:12 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -546,18 +522,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenUserId: Int \u003d 12663\ngivenUserLatentFactors: Array[Double] \u003d Array(-0.053693197667598724, -0.06078779697418213, -0.02334728091955185, 0.42118990421295166, 0.056987348943948746, -0.359910249710083, -0.28206831216812134, 0.1254013478755951, 0.169313445687294, -0.49840250611305237)\ngivenUserLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.053693; -0.060788; -0.023347; 0.421190; 0.056987; -0.359910; -0.282068; 0.125401; 0.169313; -0.498403]\nsimilarUsers: org.apache.spark.rdd.RDD[(Int, Double)] \u003d MapPartitionsRDD[956] at map at \u003cconsole\u003e:114\nsortedSimilarUsers: String \u003d \n(8910,0.9984649874686649)\n(96340,0.994508008437814)\n(17841,0.9928123074295419)\n(20229,0.9917622383685839)\n(3969,0.9862865591662549)\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenUserId: Int \u003d 12663\ngivenUserLatentFactors: Array[Double] \u003d Array(-0.053693197667598724, -0.06078779697418213, -0.02334728091955185, 0.42118990421295166, 0.056987348943948746, -0.359910249710083, -0.28206831216812134, 0.1254013478755951, 0.169313445687294, -0.49840250611305237)\ngivenUserLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.053693; -0.060788; -0.023347; 0.421190; 0.056987; -0.359910; -0.282068; 0.125401; 0.169313; -0.498403]\nsimilarUsers: org.apache.spark.rdd.RDD[(Int, Double)] \u003d MapPartitionsRDD[1370] at map at \u003cconsole\u003e:108\nsortedSimilarUsers: String \u003d \n(8910,0.9984649874686649)\n(96340,0.994508008437814)\n(17841,0.9928123074295419)\n(20229,0.9917622383685839)\n(3969,0.9862865591662549)\n"
       },
       "dateCreated": "Apr 17, 2016 4:44:46 AM",
-      "dateStarted": "Apr 17, 2016 9:31:12 PM",
-      "dateFinished": "Apr 17, 2016 9:31:13 PM",
+      "dateStarted": "Apr 19, 2016 2:39:48 AM",
+      "dateFinished": "Apr 19, 2016 2:39:50 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write to ElasticSearch",
-      "text": "//import org.elasticsearch.spark.sql._ \n//import org.apache.spark.sql.SaveMode\n\n//val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n//enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n//  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
+      "dateUpdated": "Apr 19, 2016 2:40:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -584,16 +560,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Jul 28, 2015 7:56:28 PM",
-      "dateStarted": "Apr 17, 2016 9:00:52 PM",
-      "dateFinished": "Apr 17, 2016 9:00:52 PM",
+      "dateStarted": "Apr 19, 2016 2:40:02 AM",
+      "dateFinished": "Apr 19, 2016 2:40:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 17, 2016 9:00:33 PM",
+      "dateUpdated": "Apr 19, 2016 2:39:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -605,7 +581,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -618,8 +595,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 17, 2016 7:53:45 PM",
-      "dateStarted": "Apr 17, 2016 9:00:52 PM",
-      "dateFinished": "Apr 17, 2016 9:00:52 PM",
+      "dateStarted": "Apr 19, 2016 2:39:51 AM",
+      "dateFinished": "Apr 19, 2016 2:39:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
