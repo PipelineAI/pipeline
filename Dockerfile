@@ -231,7 +231,7 @@ RUN \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elasticsearch/graph/latest \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install kibana/timelion \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip \
+# && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install heatmap -u https://github.com/stormpython/heatmap/archive/master.zip \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install vectormap -u https://github.com/stormpython/vectormap/archive/master.zip \
 
