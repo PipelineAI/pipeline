@@ -1,25 +1,3 @@
-echo '...YOU WILL NEED TO RUN `start-core-services.sh` TO RESTART THE CORE SERVICES AFTER EXITING...'
-echo '...(HINT: IF `jps -l` PRODUCES ONLY `jps`, THEN YOU NEED TO RE-RUN `start-core-services.sh`)...'
-
-# All _VERSION env variables are being set in the Dockerfile and carried through to Docker Containers
-# You can override the Dockerfile values here for application dependency libraries such as Algebird, Cassandra-Spark Connector, etc
-export AKKA_VERSION=2.3.11
-export SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0
-export SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.3.0.BUILD-SNAPSHOT
-export KAFKA_CLIENT_VERSION=0.8.2.2
-export SCALATEST_VERSION=2.2.4
-export JEDIS_VERSION=2.7.3
-export SPARK_CSV_CONNECTOR_VERSION=1.4.0
-export SPARK_AVRO_CONNECTOR_VERSION=2.0.1
-export ALGEBIRD_VERSION=0.11.0
-export STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0
-export SBT_ASSEMBLY_PLUGIN_VERSION=0.14.0
-export SBT_SPARK_PACKAGES_PLUGIN_VERSION=0.2.3
-export SPARK_NIFI_CONNECTOR_VERSION=0.4.1
-export SPARK_XML_VERSION=0.3.1
-export JBLAS_VERSION=1.2.4
-export GRAPHFRAMES_VERSION=0.1.0-spark1.6
-
 #Dev Install
 export DEV_INSTALL_HOME=~
 

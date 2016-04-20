@@ -25,9 +25,9 @@ val jedisVersion = sys.env("JEDIS_VERSION")
 val sparkCsvVersion = sys.env("SPARK_CSV_CONNECTOR_VERSION") 
 val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") 
-//val streamingMatrixFactorizationVersion = sys.env("STREAMING_MATRIX_FACTORIZATION_VERSION") 
-val indexedRddVersion = sys.env("INDEXED_RDD_VERSION")
 val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
+val indexedRddVersion = sys.env("INDEXED_RDD_VERSION")
+val ankurPartVersion = sys.env("ANKUR_PART_VERSION")
 
 lazy val streamingDeps = Seq(
   "com.madhukaraphatak" %% "java-sizeof" % "0.1",
@@ -42,8 +42,7 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"    %% "spark-sql"             % sparkVersion % "provided",
   "org.apache.spark"    %% "spark-streaming"       % sparkVersion % "provided",
   "org.apache.spark"    %% "spark-streaming-kafka" % sparkVersion % "provided",
-//  "brkyvz" % "streaming-matrix-factorization" % streamingMatrixFactorizationVersion % "provided",
-  "amplab"              % "spark-indexedrdd" % "0.3" % "provided",
-  "com.ankurdave"       %% "part" % "0.1" % "provided",
+  "amplab"              % "spark-indexedrdd" % indexedRddVersion % "provided",
+  "com.ankurdave"       %% "part" % ankurPartVersion % "provided",
   "org.apache.nifi"     % "nifi-spark-receiver" % sparkNifiConnectorVersion % "provided"
 )
