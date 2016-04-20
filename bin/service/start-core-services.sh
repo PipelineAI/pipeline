@@ -46,7 +46,7 @@ echo '...Starting Spark Master...'
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 0.0.0.0 
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h 0.0.0.0 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 48g --webui-port 6061 -h 0.0.0.0 spark://127.0.0.1:7077
 
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
@@ -55,7 +55,7 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 8g --webui-port 6061 -h
 #nohup $SPARK_HOME/sbin/start-history-server.sh &
 
 #echo '...Starting Flink...'
-#nohup start-local.sh &
+nohup start-local.sh &
 
 echo '...Starting Kibana...'
 nohup kibana &
@@ -64,13 +64,13 @@ echo '...Starting Jupyter Notebook Server...'
 nohup pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES &
 
 #echo '...Starting NiFi...'
-#nohup nifi.sh start &
+nohup nifi.sh start &
 
 #echo '...Starting Airflow...'
-#nohup airflow webserver &
+nohup airflow webserver &
 
 #echo '...Starting Presto...'
-#nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start
+nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start
 
 echo '...Starting Kafka Schema Registry...'
 # Starting this at the end due to race conditions with other kafka components

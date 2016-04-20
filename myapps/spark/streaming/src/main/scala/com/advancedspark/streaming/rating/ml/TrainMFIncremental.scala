@@ -11,14 +11,15 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.brkyvz.spark.recommendation.StreamingLatentMatrixFactorization
-import com.brkyvz.spark.recommendation.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.recommendation.StreamingLatentMatrixFactorization
+import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
 // TODO:  Look at Sean Owen's Oryx:  
 //https://github.com/OryxProject/oryx/blob/91004a03413eef0fdfd6e75a61b68248d11db0e5/app/oryx-app/src/main/java/com/cloudera/oryx/app/speed/als/ALSSpeedModelManager.java#L193
 
+// This code is based on the following:  https://github.com/brkyvz/streaming-matrix-factorization
 object TrainMFIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
@@ -37,23 +38,11 @@ object TrainMFIncremental {
     import sqlContext.implicits._
 
     val brokers = "127.0.0.1:9092"
-    val trainTopics = Set("item_ratings")
-    val predictTopics = Set("predict_item_ratings")
+    val topics = Set("item_ratings")
 
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    
-    //////////////
-    // Training //
-    //////////////
-    val trainInputStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, trainTopics)
 
-    // We need to inject a dummy rating in order to avoid this defect:
-    //   https://github.com/brkyvz/streaming-matrix-factorization/issues/1
-    val dummyRating = ("0", "0,0,0.0")
-    val dummyRatingRDD = sc.parallelize(dummyRating :: Nil)
-    val dummyStream = new ConstantInputDStream(ssc, dummyRatingRDD)
-
-    val unionedStreams = ssc.union(List(trainInputStream, dummyStream))
+    val trainingStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
     val rank = 20 // suggested number of latent factors
     val maxIterations = 5 // static number of iterations
@@ -68,42 +57,34 @@ object TrainMFIncremental {
 
     val streamingMF = new StreamingLatentMatrixFactorization(streamingMFParams)
 
-    val trainStream = unionedStreams.map(message => {
+    // Setup the initial transformations from String -> ALS.Rating
+    val ratingTrainingStream = trainingStream.map(message => {
       val tokens = message._2.split(",")
 
-      val userId = tokens(0).trim.toLong
-      val itemId = tokens(1).trim.toLong
-      val rating = tokens(2).trim.toFloat
-      
-      Rating(userId, itemId, rating)      
+      // convert Tokens into RDD[ALS.Rating]
+      Rating(tokens(0).trim.toLong, tokens(1).trim.toLong, tokens(2).trim.toFloat)
     })
+   
+    // Internally, this setups up additional transformations on the incoming stream
+    //   to adjust the weights using GradientDescent
+    streamingMF.trainOn(ratingTrainingStream)
 
-    val streamingMFModel = streamingMF.trainOn(trainStream)
+    ratingTrainingStream.print()
 
-    trainStream.print()
+    ratingTrainingStream.foreachRDD {
+      (message: RDD[Rating[Long]], batchTime: Time) => {
+        message.cache()
 
+        System.out.println("batchTime: " + batchTime)
+
+        if (!streamingMF.model.isEmpty) {
+          streamingMF.saveModel(streamingMF.latestModel(), "/root/model.bin")
+        }
+
+        message.unpersist()
+      }
+    }
     
-    /////////////////
-    // Predictions //
-    /////////////////
-
-    // Note:  there is a race condition where the model needs to be built before we can predict    //        this job currently fails because of this race condition.
-    //        possibily serialize the model and read it in a separate predict job?
-    //        then we'd have to place the prediction back on a kafka queue that the caller
-    //          is listening on (clunky)  
-
-//    val predictInputStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, predictTopics)
-//    val predictStream = predictInputStream.map(message => {
-//      val tokens = message._2.split(",")
-//      val userId = tokens(0).trim.toLong
-//      val itemId = tokens(1).trim.toLong
-//      (userId, itemId)
-//    })
-
-//    val predictedStream = streamingMF.predictOn(predictStream)
-
-//    predictedStream.print()
-
     ssc.start()
     ssc.awaitTermination()
   }

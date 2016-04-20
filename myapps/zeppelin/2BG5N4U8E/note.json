@@ -37,7 +37,7 @@
     },
     {
       "text": "%md ### Find Missing Triangles (Inverse of Triangle Counting)\n* Tri-partite relationships\n* aka. Transitive closures, Cliques\n* Recommendations based on missing triangles\n* \nTODO:  Cconnect the users to a common USERS parent and items to a common ITEMS parent",
-      "dateUpdated": "Apr 14, 2016 9:20:57 PM",
+      "dateUpdated": "Apr 19, 2016 8:51:29 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -50,7 +50,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -108,7 +109,7 @@
     {
       "title": "Create Graph From Edges ",
       "text": "import org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
-      "dateUpdated": "Apr 14, 2016 9:19:43 PM",
+      "dateUpdated": "Apr 19, 2016 8:51:31 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
