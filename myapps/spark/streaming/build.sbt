@@ -26,7 +26,7 @@ val sparkCsvVersion = sys.env("SPARK_CSV_CONNECTOR_VERSION")
 val sparkAvroVersion = sys.env("SPARK_AVRO_CONNECTOR_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION") 
 val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
-val indexedRddVersion = sys.env("INDEXED_RDD_VERSION")
+val indexedRddVersion = sys.env("INDEXEDRDD_VERSION")
 val ankurPartVersion = sys.env("ANKUR_PART_VERSION")
 
 lazy val streamingDeps = Seq(
