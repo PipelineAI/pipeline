@@ -103,7 +103,9 @@ RUN \
  && pip install networkx \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
-# && pip install --upgrade -r requirements.txt \
+
+# Python NetworkX/Tribe Demos
+ && pip install --upgrade tribe \
 
 # Cython (Feather)
  && pip install cython \
