@@ -2,7 +2,7 @@
 
 cd $PIPELINE_HOME
 
-stop-slave.sh
+stop-all-services.sh
 
 #echo '...Starting ElasticSearch...'
 #nohup elasticsearch -Des.insecure.allow.root=true -p $ELASTICSEARCH_HOME/RUNNING_PID --path.conf $CONFIG_HOME/elasticsearch &
