@@ -3,7 +3,7 @@
     {
       "title": "Get Edges",
       "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/user-to-item-graph-based-recs.csv\")\n  .toDF(\"userId\", \"itemId\")",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -31,15 +31,15 @@
         "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:49:01 AM",
-      "dateFinished": "Apr 21, 2016 12:49:01 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:10 AM",
+      "dateFinished": "Apr 21, 2016 1:48:10 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Graph From Edges ",
       "text": "import org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -64,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1214] at map at \u003cconsole\u003e:62\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@718079af\n"
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1757] at map at \u003cconsole\u003e:88\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@42bf7b94\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:49:05 AM",
-      "dateFinished": "Apr 21, 2016 12:49:05 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:10 AM",
+      "dateFinished": "Apr 21, 2016 1:48:11 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert to GraphFrame",
       "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -100,18 +100,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: double])\nres144: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres147: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: double]\nres150: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@39f53846\n"
+        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: double])\nres198: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres201: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: double]\nres204: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@77ecb9dd\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:49:50 AM",
-      "dateFinished": "Apr 21, 2016 12:49:51 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:11 AM",
+      "dateFinished": "Apr 21, 2016 1:48:11 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show GraphFrame Triplets",
       "text": "z.show(graphFrame.triplets)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -162,15 +162,15 @@
         "msg": "edge\tsrc\tdst\n[10001,90001,1.0]\t[10001,0]\t[90001,0]\n[10003,90001,1.0]\t[10003,0]\t[90001,0]\n[10001,90002,1.0]\t[10001,0]\t[90002,0]\n[10001,90003,1.0]\t[10001,0]\t[90003,0]\n[10003,90003,1.0]\t[10003,0]\t[90003,0]\n[10001,90004,1.0]\t[10001,0]\t[90004,0]\n[10002,90004,1.0]\t[10002,0]\t[90004,0]\n[10001,90005,1.0]\t[10001,0]\t[90005,0]\n[10002,90006,1.0]\t[10002,0]\t[90006,0]\n[10003,90006,1.0]\t[10003,0]\t[90006,0]\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:49:53 AM",
-      "dateFinished": "Apr 21, 2016 12:49:53 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:11 AM",
+      "dateFinished": "Apr 21, 2016 1:48:12 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Triangle Count with GraphFrame",
-      "text": "//val triangleCountPerVertex \u003d graphFrame.triangleCount.run.select($\"id\", $\"count\").sort($\"count\")\n\nz.show(triangleCountPerVertex)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "text": "// val triangleCountPerVertex \u003d graphFrame.triangleCount.run.select($\"id\", $\"count\").sort($\"count\")\n\n// z.show(triangleCountPerVertex)",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 11.0,
         "editorMode": "ace/mode/scala",
@@ -194,18 +194,18 @@
       "id": "20160414-175706_856269384",
       "result": {
         "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "id\tcount\n10001\t0\n90001\t0\n10002\t0\n90002\t0\n10003\t0\n90003\t0\n90004\t0\n90005\t0\n90006\t0\n"
+        "type": "TEXT",
+        "msg": ""
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:51:01 AM",
-      "dateFinished": "Apr 21, 2016 12:51:03 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:12 AM",
+      "dateFinished": "Apr 21, 2016 1:48:12 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Find Missing Triangles\n* Tri-partite relationships\n* aka. Transitive closures, Cliques\n* Recommendations based on missing triangles\n\n![User-to-Item Graph-based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)\n\n![Graph Missing Triangles](http://advancedspark.com/img/graph-missing-triangles-2.png)\n\n![Bi-partite Recommendations](http://advancedspark.com/img/bipartite-recommendations.png)\n",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -233,14 +233,14 @@
         "msg": "\u003ch3\u003eFind Missing Triangles\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eTri-partite relationships\u003c/li\u003e\n\u003cli\u003eaka. Transitive closures, Cliques\u003c/li\u003e\n\u003cli\u003eRecommendations based on missing triangles\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recommendations\" /\u003e\u003c/p\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/graph-missing-triangles-2.png\" alt\u003d\"Graph Missing Triangles\" /\u003e\u003c/p\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/bipartite-recommendations.png\" alt\u003d\"Bi-partite Recommendations\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 1:15:20 AM",
-      "dateFinished": "Apr 21, 2016 1:15:20 AM",
+      "dateStarted": "Apr 21, 2016 1:48:10 AM",
+      "dateFinished": "Apr 21, 2016 1:48:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -265,17 +265,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cdiv id\u003d\u0027a05faf56f-132f-469d-a1b2-dc1eaecc6366\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a05faf56f-132f-469d-a1b2-dc1eaecc6366\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[3],target:nodes[4]},{source:nodes[1],target:nodes[3]},{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[1]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[3]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+        "msg": "\u003cdiv id\u003d\u0027ae4b40c0c-bca4-44e7-af04-4d4dc2cedf77\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#ae4b40c0c-bca4-44e7-af04-4d4dc2cedf77\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:90004},{id:90006},{id:10001},{id:90005},{id:90001},{id:90003},{id:10003}];\nvar links \u003d [{source:nodes[4],target:nodes[2]},{source:nodes[0],target:nodes[2]},{source:nodes[8],target:nodes[3]},{source:nodes[4],target:nodes[6]},{source:nodes[4],target:nodes[1]},{source:nodes[4],target:nodes[7]},{source:nodes[4],target:nodes[5]},{source:nodes[0],target:nodes[3]},{source:nodes[8],target:nodes[6]},{source:nodes[8],target:nodes[7]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 1:00:48 AM",
-      "dateFinished": "Apr 21, 2016 1:00:48 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:12 AM",
+      "dateFinished": "Apr 21, 2016 1:48:13 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![User-to-Item Graph-based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -303,15 +303,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recommendations\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 1:15:20 AM",
-      "dateFinished": "Apr 21, 2016 1:15:20 AM",
+      "dateStarted": "Apr 21, 2016 1:48:10 AM",
+      "dateFinished": "Apr 21, 2016 1:48:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Motif Finding:  Find Disconnected triangles using structure",
       "text": "val disconnectedTrianglesDF \u003d graphFrame.find(\"(v1)-[e1]-\u003e(v2); (v2)-[e2]-\u003e(v3); !(v1)-[]-\u003e(v3)\")\n  .filter($\"v1.id\" \u003c $\"v3.id\") // eliminate duplicates for undirected graphs\n  .select($\"v1.id\", $\"v2.id\", $\"v3.id\").toDF(\"from\", \"through\", \"to\")\n\nz.show(disconnectedTrianglesDF)",
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 11.0,
         "editorMode": "ace/mode/scala",
@@ -354,16 +354,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "from\tthrough\tto\n10002\t90003\t90001\n10001\t90001\t90002\n90002\t90001\t90003\n10001\t90003\t10002\n"
+        "msg": "from\tthrough\tto\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 1:02:36 AM",
-      "dateFinished": "Apr 21, 2016 1:02:38 AM",
-      "status": "PENDING",
+      "dateStarted": "Apr 21, 2016 1:48:13 AM",
+      "dateFinished": "Apr 21, 2016 1:48:15 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 21, 2016 1:15:20 AM",
+      "dateUpdated": "Apr 21, 2016 1:48:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -388,13 +388,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 12:43:16 AM",
-      "dateFinished": "Apr 21, 2016 12:43:17 AM",
+      "dateStarted": "Apr 21, 2016 1:48:13 AM",
+      "dateFinished": "Apr 21, 2016 1:48:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/04: User-to-Item Graph-based Recs (Motify Finding)",
+  "name": "Recommendations/04: TODO: User-to-Item Graph-based Recs (Motify Finding)",
   "id": "2BG5N4U8E",
   "angularObjects": {
     "2ARR8UZDJ": [],

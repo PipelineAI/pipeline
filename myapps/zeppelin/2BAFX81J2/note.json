@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Most Desirable Users](http://advancedspark.com/img/shortest-path-by-cost.png)",
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,14 +30,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/shortest-path-by-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 3:50:21 AM",
-      "dateStarted": "Apr 5, 2016 4:37:55 AM",
-      "dateFinished": "Apr 5, 2016 4:37:55 AM",
+      "dateStarted": "Apr 21, 2016 1:37:22 AM",
+      "dateFinished": "Apr 21, 2016 1:37:22 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/dijkstra.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,17 +61,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[932] at map at \u003cconsole\u003e:62\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@2538946b\n"
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[3289] at map at \u003cconsole\u003e:98\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@6bb96c69\n"
       },
       "dateCreated": "Dec 28, 2015 3:52:43 AM",
-      "dateStarted": "Apr 5, 2016 4:37:55 AM",
-      "dateFinished": "Apr 5, 2016 4:37:55 AM",
+      "dateStarted": "Apr 21, 2016 1:37:22 AM",
+      "dateFinished": "Apr 21, 2016 1:37:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\r\n   .friction(0.5).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -85,7 +85,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -96,18 +96,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cdiv id\u003d\u0027a401d6f85-992f-467a-a094-eda1ca9a2d09\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a401d6f85-992f-467a-a094-eda1ca9a2d09\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[3]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[1]},{source:nodes[1],target:nodes[3]},{source:nodes[4],target:nodes[0]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\n   .friction(0.5).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+        "msg": "\u003cdiv id\u003d\u0027ab1a32306-fe70-476e-af16-dce2ad2ab592\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#ab1a32306-fe70-476e-af16-dce2ad2ab592\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[3]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[1]},{source:nodes[1],target:nodes[3]},{source:nodes[4],target:nodes[0]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\n   .friction(0.5).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
       },
       "dateCreated": "Mar 2, 2016 7:54:41 PM",
-      "dateStarted": "Apr 5, 2016 4:37:55 AM",
-      "dateFinished": "Apr 5, 2016 4:37:56 AM",
+      "dateStarted": "Apr 21, 2016 1:37:22 AM",
+      "dateFinished": "Apr 21, 2016 1:37:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Run Dijkstra on the entire graph From the given source",
       "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 10002\n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)",
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -132,18 +132,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@69782754\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@3bba91e2\n"
       },
       "dateCreated": "Jan 10, 2016 2:31:04 AM",
-      "dateStarted": "Apr 5, 2016 4:37:56 AM",
-      "dateFinished": "Apr 5, 2016 4:37:56 AM",
+      "dateStarted": "Apr 21, 2016 1:37:23 AM",
+      "dateFinished": "Apr 21, 2016 1:37:24 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Filter the shortest path for the given destination",
       "text": "val dst \u003d 90002\n\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dst).map(_._2).collect()(0)._2\n\n// Example:  Shortest Path (Total Cost \u003d\u003d 11)\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002",
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,13 +171,13 @@
         "msg": "dst: Int \u003d 90002\nshortestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
       },
       "dateCreated": "Dec 29, 2015 2:58:23 PM",
-      "dateStarted": "Apr 5, 2016 4:37:56 AM",
-      "dateFinished": "Apr 5, 2016 4:37:57 AM",
+      "dateStarted": "Apr 21, 2016 1:37:23 AM",
+      "dateFinished": "Apr 21, 2016 1:37:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 5, 2016 4:37:55 AM",
+      "dateUpdated": "Apr 21, 2016 1:37:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -203,8 +203,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Mar 7, 2016 9:47:40 PM",
-      "dateStarted": "Apr 5, 2016 4:37:57 AM",
-      "dateFinished": "Apr 5, 2016 4:37:57 AM",
+      "dateStarted": "Apr 21, 2016 1:37:24 AM",
+      "dateFinished": "Apr 21, 2016 1:37:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
