@@ -6,7 +6,7 @@ curl -X POST http://127.0.0.1:6066/v1/submissions/create --header "Content-Type:
   "action" : "CreateSubmissionRequest",
   "appArgs" : [ "10" ],
   "appResource" : "file:/root/spark-1.6.1-bin-fluxcapacitor/lib/spark-examples-1.6.1-hadoop2.6.0.jar",
-  "clientSparkVersion" : 1.6.1,
+  "clientSparkVersion" : "1.6.1",
   "environmentVariables" : {
     "SPARK_ENV_LOADED" : "1"
   },
@@ -17,9 +17,9 @@ curl -X POST http://127.0.0.1:6066/v1/submissions/create --header "Content-Type:
     "spark.app.name" : "SparkPi",
     "spark.submit.deployMode" : "cluster",
     "spark.master" : "spark://127.0.0.1:7077",
-    "spark.executor.cores" : "20",
-    "spark.executor.memory" : "104g",
-    "spark.cores.max" : "20",
+    "spark.executor.cores" : "1",
+    "spark.executor.memory" : "512m",
+    "spark.cores.max" : "4",
     "spark.eventLog.enabled" : "true",
     "spark.eventLog.dir" : "/root/pipeline/logs/spark",
     "spark.history.fs.logDirectory" : "logs/spark/spark-events",
