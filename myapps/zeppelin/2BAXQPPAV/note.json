@@ -242,13 +242,13 @@
     {
       "title": "Extract word distribution",
       "text": "import org.apache.spark.mllib.linalg.SparseVector\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nval countFeaturesDF \u003d model.transform(itemsDF).select($\"countFeatures\")\n\nval countVectorizerModel \u003d model.stages(2).asInstanceOf[CountVectorizerModel]\n\nval vocabulary \u003d countVectorizerModel.vocabulary\n\nval tuples \u003d countFeaturesDF.map(row \u003d\u003e {\n    val countVector \u003d row.getAs[SparseVector](0)\n    val indices \u003d countVector.indices\n    val values \u003d countVector.values\n    (indices.size, values.size)\n    val words \u003d indices.map(idx \u003d\u003e (vocabulary(idx)))\n    words.zip(values)\n})\n\nval wordCountDF \u003d tuples.map(_(0)).reduceByKey(_ + _).toDF(\"word\", \"count\").sort($\"count\" desc).limit(10)\nz.show(wordCountDF)",
-      "dateUpdated": "Apr 5, 2016 4:40:52 AM",
+      "dateUpdated": "Apr 23, 2016 5:49:30 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
         "title": true,
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 422.0,
           "optionOpen": false,
           "keys": [

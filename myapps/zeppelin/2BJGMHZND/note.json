@@ -36,8 +36,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![User-to-Item Graph-based Recs](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
-      "dateUpdated": "Apr 19, 2016 6:00:44 PM",
+      "text": "%md ![User-to-Item Graph Based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
+      "dateUpdated": "Apr 23, 2016 5:48:56 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -62,11 +62,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recs\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph Based Recommendations\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Apr 14, 2016 6:41:24 PM",
-      "dateStarted": "Apr 19, 2016 6:00:45 PM",
-      "dateFinished": "Apr 19, 2016 6:00:45 PM",
+      "dateStarted": "Apr 23, 2016 5:48:56 AM",
+      "dateFinished": "Apr 23, 2016 5:48:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
