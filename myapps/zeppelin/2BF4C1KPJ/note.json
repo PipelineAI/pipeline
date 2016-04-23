@@ -453,7 +453,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/01: User-to-Item Collaborative Filtering (ALS)",
+  "name": "Recommendations/02: User-to-Item Collaborative Filtering (ALS)",
   "id": "2BF4C1KPJ",
   "angularObjects": {
     "2BCMAZYZ5": [],

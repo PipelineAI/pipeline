@@ -140,7 +140,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/02:  Approximate vs. Exact Counts (Redis, Algebird)",
+  "name": "Live Recs/04:  Approximate vs. Exact Counts (Redis, Algebird)",
   "id": "2B42HQF6Z",
   "angularObjects": {
     "2ARR8UZDJ": [],

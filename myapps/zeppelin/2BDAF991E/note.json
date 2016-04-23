@@ -698,7 +698,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/02: Item-to-Item Collab Filtering + Clustering Recs (ALS + K-Means)",
+  "name": "Recommendations/03: Item-to-Item Collab Filtering + Clustering Recs (ALS + K-Means)",
   "id": "2BDAF991E",
   "angularObjects": {
     "2BCMAZYZ5": [],

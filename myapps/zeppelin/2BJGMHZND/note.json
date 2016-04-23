@@ -341,7 +341,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/03: User-to-Item Graph-based Recommendations (SVD++)",
+  "name": "Recommendations/05: User-to-Item Graph-based Recommendations (SVD++)",
   "id": "2BJGMHZND",
   "angularObjects": {
     "2ARR8UZDJ": [],

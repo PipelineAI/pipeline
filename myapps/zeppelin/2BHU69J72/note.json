@@ -1,0 +1,399 @@
+{
+  "paragraphs": [
+    {
+      "title": "Get Items",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"itemId\", \"title\", \"tags\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"tags\"))",
+      "dateUpdated": "Apr 23, 2016 2:34:48 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378869621_1733122868",
+      "id": "20160423-023429_1650343512",
+      "dateCreated": "Apr 23, 2016 2:34:29 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Item Ratings",
+      "text": "val itemRatingsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/ratings.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF.select($\"userId\", $\"itemId\", $\"rating\", $\"timestamp\"))",
+      "dateUpdated": "Apr 23, 2016 2:34:54 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 180.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487717_1118326419",
+      "id": "20160423-022807_483686003",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\ttimestamp\n1\t50\t4.0\t1329753504\n1\t296\t4.0\t1329753602\n1\t318\t4.5\t1329753494\n1\t527\t4.5\t1329753507\n1\t541\t3.0\t1329753607\n1\t608\t4.0\t1329753638\n1\t750\t3.0\t1329753525\n1\t858\t4.5\t1329753498\n1\t1197\t4.5\t1329753573\n1\t1213\t4.5\t1329753565\n1\t1476\t4.0\t1329753106\n1\t1945\t4.0\t1329753569\n1\t1957\t4.0\t1329753070\n1\t2108\t3.5\t1329753057\n1\t2301\t4.0\t1329753190\n1\t2333\t4.0\t1329753182\n1\t2352\t4.0\t1329753079\n1\t2371\t3.5\t1329753082\n1\t2375\t3.5\t1329753221\n1\t2571\t4.5\t1329753546\n1\t2858\t4.5\t1329753561\n1\t2872\t4.0\t1329753092\n1\t3060\t4.0\t1329753137\n1\t3105\t3.5\t1329753086\n1\t3178\t2.5\t1329753176\n1\t3257\t2.5\t1329753115\n1\t3481\t4.5\t1329753799\n1\t3578\t4.5\t1329753859\n1\t3868\t3.5\t1329753065\n1\t3897\t5.0\t1329753716\n1\t3911\t4.0\t1329753998\n1\t3949\t4.0\t1329753900\n1\t4011\t3.5\t1329753904\n1\t4027\t4.0\t1329753895\n1\t4226\t3.5\t1329753434\n1\t4235\t4.5\t1329753897\n1\t4783\t5.0\t1329754027\n1\t4963\t3.5\t1329753976\n1\t4979\t5.0\t1329753751\n1\t4993\t4.0\t1329753445\n1\t4995\t5.0\t1329753888\n1\t5013\t3.0\t1329753103\n1\t5225\t4.5\t1329753709\n1\t5319\t4.0\t1329754078\n1\t5349\t3.5\t1329753867\n1\t5445\t3.5\t1329753973\n1\t5878\t4.0\t1329753704\n1\t5902\t4.0\t1329753825\n1\t5952\t4.0\t1329753457\n1\t5989\t4.0\t1329753837\n1\t6331\t4.5\t1329753749\n1\t6380\t5.0\t1329753988\n1\t6620\t4.0\t1329753969\n1\t6711\t4.5\t1329753821\n1\t7139\t4.5\t1329753830\n1\t7153\t4.5\t1329753599\n1\t7256\t4.0\t1329753948\n1\t7361\t5.0\t1329753448\n1\t8464\t4.0\t1329753755\n1\t8636\t4.5\t1329753851\n1\t8784\t5.0\t1329753697\n1\t8873\t3.5\t1329753702\n1\t8910\t3.0\t1329754284\n1\t8949\t4.0\t1329753693\n1\t8961\t4.5\t1329753924\n1\t8973\t3.5\t1329754009\n1\t30707\t3.5\t1329753712\n1\t30810\t3.0\t1329754281\n1\t32587\t3.5\t1329753937\n1\t33166\t4.0\t1329753906\n1\t38061\t3.5\t1329753962\n1\t38886\t4.5\t1329753743\n1\t40819\t3.5\t1329753817\n1\t41997\t4.0\t1329754213\n1\t44191\t4.0\t1329753920\n1\t44195\t4.0\t1329753863\n1\t44555\t4.5\t1329753424\n1\t46578\t4.0\t1329753833\n1\t48394\t5.0\t1329753918\n1\t48516\t4.0\t1329753452\n1\t49272\t3.0\t1329754120\n1\t50872\t4.5\t1329754003\n1\t53123\t4.5\t1329754021\n1\t55069\t4.5\t1329753739\n1\t55442\t5.0\t1329753688\n1\t55820\t4.0\t1329753994\n1\t56367\t3.5\t1329753875\n1\t57669\t3.5\t1329753913\n1\t58559\t3.0\t1329753428\n1\t59315\t3.0\t1329754126\n1\t60069\t4.0\t1329753916\n1\t60766\t4.5\t1329754092\n1\t61240\t2.0\t1329753811\n1\t63082\t5.0\t1329754040\n1\t64614\t4.0\t1329754223\n1\t64839\t4.0\t1329754064\n1\t66934\t4.5\t1329753437\n1\t68157\t4.0\t1329754109\n1\t68358\t4.5\t1329754047\n1\t68954\t4.0\t1329753942\n1\t69757\t4.0\t1329754188\n1\t79132\t4.0\t1329753531\n1\t91630\t2.5\t1329753268\n1\t91658\t3.0\t1329753263\n2\t19\t1.0\t1203077567\n2\t31\t4.5\t1202841563\n2\t44\t0.5\t1202841543\n2\t47\t4.5\t1202846082\n2\t110\t4.0\t1203076744\n2\t111\t3.5\t1203077002\n2\t163\t4.0\t1203077854\n2\t185\t3.0\t1203076926\n2\t208\t4.0\t1203076907\n2\t231\t1.0\t1203076858\n2\t253\t5.0\t1203076913\n2\t260\t3.0\t1203076749\n2\t296\t4.5\t1203076721\n2\t337\t5.0\t1202915160\n2\t350\t3.5\t1203077674\n2\t356\t4.5\t1203076725\n2\t364\t5.0\t1203076828\n2\t367\t2.0\t1202846118\n2\t377\t3.5\t1202845592\n2\t454\t3.0\t1203076919\n2\t500\t3.5\t1203076833\n2\t509\t4.5\t1203077637\n2\t520\t1.5\t1203077859\n2\t588\t4.0\t1203076786\n2\t589\t0.5\t1202845009\n2\t593\t5.0\t1203076734\n2\t595\t4.0\t1202845982\n2\t597\t4.0\t1202846094\n2\t708\t3.5\t1203077669\n2\t780\t3.0\t1203076761\n2\t832\t4.0\t1203077759\n2\t858\t5.0\t1202842430\n2\t920\t3.5\t1203077736\n2\t1036\t1.0\t1202922634\n2\t1061\t5.0\t1202842444\n2\t1073\t4.0\t1203076891\n2\t1101\t3.5\t1203077610\n2\t1183\t4.5\t1203077690\n2\t1193\t5.0\t1202842560\n2\t1240\t0.5\t1202846099\n2\t1246\t5.0\t1203077658\n2\t1247\t5.0\t1203077767\n2\t1270\t2.0\t1203076813\n2\t1380\t4.5\t1203077779\n2\t1391\t1.0\t1203077716\n2\t1407\t1.0\t1203077699\n2\t1485\t1.0\t1203077708\n2\t1517\t0.5\t1203077547\n2\t1527\t3.0\t1203076687\n2\t1537\t2.0\t1202841760\n2\t1580\t1.0\t1202845049\n2\t1645\t5.0\t1202841994\n2\t1682\t3.5\t1203077625\n2\t1688\t4.5\t1202841813\n2\t1721\t4.5\t1202844992\n2\t1735\t4.5\t1202841865\n2\t1835\t4.5\t1202844448\n2\t1917\t4.5\t1202922637\n2\t2011\t1.0\t1203077687\n2\t2380\t1.0\t1202841907\n2\t2396\t4.0\t1202845995\n2\t2485\t4.0\t1202841681\n2\t2571\t5.0\t1203076803\n2\t2692\t4.0\t1203077818\n2\t2701\t0.5\t1202841552\n2\t2706\t1.0\t1203077565\n2\t2710\t3.5\t1203077642\n2\t2719\t1.0\t1202841707\n2\t2724\t3.0\t1202841604\n2\t2762\t5.0\t1203076861\n2\t2858\t5.0\t1202937995\n2\t2959\t5.0\t1202842397\n2\t2997\t4.0\t1203076967\n2\t3147\t5.0\t1203077751\n2\t3479\t5.0\t1202842512\n2\t3578\t4.5\t1202842964\n2\t3744\t3.5\t1202841776\n2\t3751\t3.0\t1203077791\n2\t3753\t4.0\t1202843197\n2\t3793\t2.0\t1202845000\n2\t3910\t3.5\t1202843466\n2\t3977\t1.5\t1202846138\n2\t4022\t3.0\t1202846044\n2\t4155\t4.5\t1202844413\n2\t4226\t4.0\t1202842327\n2\t4259\t4.5\t1202937755\n2\t4306\t4.5\t1202842323\n2\t4308\t5.0\t1202842385\n2\t4372\t4.0\t1202844130\n2\t4720\t4.0\t1202843078\n2\t4874\t5.0\t1202842714\n2\t4901\t3.5\t1202843299\n2\t4973\t4.5\t1202842876\n2\t4975\t2.5\t1202844386\n2\t4993\t2.5\t1202842887\n2\t4995\t4.5\t1202842939\n2\t5218\t4.0\t1202843238\n2\t5349\t2.0\t1202842295\n2\t5418\t1.5\t1202844002\n2\t5445\t3.5\t1203077652\n2\t5668\t3.0\t1202842808\n2\t5791\t4.0\t1203077133\n2\t5878\t4.0\t1202843895\n2\t5903\t4.0\t1202842927\n2\t5952\t3.5\t1202842868\n2\t5989\t4.0\t1202841516\n2\t5991\t5.0\t1202843259\n2\t5992\t4.0\t1202915281\n2\t5995\t4.0\t1202843780\n2\t6059\t4.0\t1202844260\n2\t6218\t1.0\t1202843310\n2\t6377\t3.5\t1203077798\n2\t6539\t4.5\t1202842915\n2\t6542\t3.5\t1202915253\n2\t6662\t1.0\t1202937523\n2\t6870\t4.5\t1202937664\n2\t6874\t1.5\t1202843042\n2\t6927\t4.0\t1202914926\n2\t6942\t3.0\t1202843038\n2\t7147\t4.5\t1202842948\n2\t7151\t3.0\t1202843338\n2\t7153\t4.0\t1202842855\n2\t7162\t3.0\t1202843269\n2\t7254\t2.5\t1202842776\n2\t7293\t4.0\t1202844204\n2\t7361\t4.5\t1202914835\n2\t7362\t4.0\t1202915059\n2\t7364\t4.0\t1202843104\n2\t7438\t1.5\t1202843044\n2\t8464\t1.0\t1202844823\n2\t8533\t5.0\t1202842591\n2\t8598\t5.0\t1202842369\n2\t8636\t1.0\t1202844069\n2\t8665\t1.5\t1202841594\n2\t8833\t3.0\t1202844274\n2\t8866\t4.0\t1202844100\n2\t8958\t4.5\t1202843007\n2\t8970\t4.5\t1202842956\n2\t8981\t4.0\t1202842834\n2\t8983\t3.0\t1202841879\n2\t9010\t5.0\t1202842409\n2\t27821\t4.0\t1202914899\n2\t30707\t5.0\t1202843707\n2\t30848\t4.5\t1202937440\n2\t32587\t2.5\t1202843020\n2\t33660\t4.5\t1202842881\n2\t33679\t3.0\t1202844364\n2\t33794\t3.0\t1202842899\n2\t34162\t3.0\t1202844289\n2\t34437\t3.0\t1202843427\n2\t35836\t1.5\t1202843365\n2\t36525\t3.5\t1202844084\n2\t36527\t4.0\t1202844253\n2\t36529\t4.0\t1202915305\n2\t37729\t4.5\t1202842811\n2\t37731\t4.5\t1202842997\n2\t40815\t1.0\t1202843227\n2\t40819\t4.0\t1202842982\n2\t41285\t4.5\t1202843687\n2\t41571\t2.5\t1202843279\n2\t42728\t1.0\t1202843134\n2\t44191\t4.0\t1202843018\n2\t44665\t4.0\t1202842872\n2\t44694\t4.0\t1202843938\n2\t45081\t1.0\t1202844190\n2\t45880\t1.5\t1202914801\n2\t46723\t4.5\t1202843393\n2\t47202\t4.0\t1204211591\n2\t48416\t1.0\t1202842737\n2\t48516\t4.5\t1202915359\n2\t48738\t4.5\t1202843652\n2\t48774\t2.5\t1202846116\n2\t48780\t4.0\t1202842859\n2\t49272\t3.5\t1202842994\n2\t49530\t5.0\t1202842919\n2\t50068\t3.5\t1202938032\n2\t51540\t4.0\t1202843976\n2\t51662\t3.5\t1202841859\n2\t53207\t3.5\t1202845061\n2\t53519\t3.5\t1202843482\n2\t53953\t4.0\t1202844295\n2\t53956\t4.5\t1202842793\n2\t54286\t1.5\t1202843989\n2\t54997\t1.5\t1202844877\n2\t55363\t2.5\t1202915330\n2\t56174\t2.0\t1202844323\n3\t20\t4.0\t986002647\n3\t32\t5.0\t986003563\n3\t36\t2.0\t986003699\n3\t39\t1.0\t986003645\n3\t47\t4.0\t986002941\n3\t111\t4.0\t986003262\n3\t246\t4.0\t986003214\n3\t296\t5.0\t986003347\n3\t356\t4.0\t986002617\n3\t778\t5.0\t986003601\n3\t780\t2.0\t986002570\n3\t858\t5.0\t986003186\n3\t1089\t5.0\t986003463\n3\t1213\t4.0\t986003262\n3\t1617\t4.0\t986002585\n3\t1625\t5.0\t986003781\n3\t1732\t3.0\t986003662\n3\t1885\t2.0\t986003699\n3\t1997\t5.0\t986002888\n3\t2023\t5.0\t986002634\n3\t2273\t3.0\t986003847\n3\t2329\t5.0\t986003699\n3\t2542\t5.0\t986003636\n3\t2692\t5.0\t986003490\n3\t2700\t5.0\t986003620\n3\t2762\t5.0\t986003675\n3\t2858\t5.0\t986003463\n3\t3246\t5.0\t986003699\n3\t3617\t4.0\t986002979\n3\t3948\t5.0\t986002964\n3\t4034\t5.0\t986002774\n4\t2\t5.0\t829042027\n4\t10\t5.0\t829042027\n4\t11\t5.0\t829041064\n4\t14\t5.0\t829041064\n4\t16\t4.0\t829041064\n4\t25\t4.0\t829041064\n4\t32\t4.0\t829041064\n4\t34\t5.0\t829041667\n4\t39\t4.0\t829041667\n4\t41\t5.0\t829042027\n4\t43\t5.0\t829042027\n4\t76\t5.0\t829042027\n4\t95\t5.0\t829041064\n4\t107\t5.0\t829041064\n4\t112\t4.0\t829042027\n4\t135\t5.0\t829041064\n4\t141\t1.0\t829041064\n4\t150\t5.0\t829041667\n4\t151\t4.0\t829041668\n4\t153\t2.0\t829041667\n4\t158\t5.0\t829041667\n4\t165\t4.0\t829041667\n4\t172\t3.0\t829041667\n4\t173\t5.0\t829041667\n4\t174\t4.0\t829041667\n4\t177\t4.0\t829041667\n4\t185\t5.0\t829041668\n4\t186\t3.0\t829041668\n4\t193\t5.0\t829041668\n4\t203\t2.0\t829041668\n4\t204\t4.0\t829041668\n4\t208\t5.0\t829041668\n4\t222\t4.0\t829041667\n4\t225\t4.0\t829041667\n4\t227\t4.0\t829041667\n4\t231\t1.0\t829041667\n4\t253\t4.0\t829041667\n4\t257\t5.0\t829041667\n4\t260\t4.0\t829041667\n4\t261\t5.0\t829041667\n4\t265\t4.0\t829041667\n4\t266\t4.0\t829041667\n4\t272\t4.0\t829041668\n4\t273\t4.0\t829041668\n4\t288\t1.0\t829041668\n4\t292\t4.0\t829041668\n4\t296\t3.0\t829041668\n4\t300\t3.0\t829041668\n4\t304\t3.0\t829041668\n4\t316\t5.0\t829041668\n4\t317\t4.0\t829041668\n4\t329\t5.0\t829041668\n4\t330\t3.0\t829041668\n4\t339\t5.0\t829041668\n4\t349\t5.0\t829041667\n4\t380\t5.0\t829041668\n4\t381\t4.0\t829041668\n4\t432\t4.0\t829041667\n4\t434\t5.0\t829041667\n4\t443\t5.0\t829041667\n4\t553\t4.0\t829041668\n4\t590\t5.0\t829041667\n4\t592\t4.0\t829041667\n4\t637\t5.0\t829042027\n5\t1\t3.0\t855510130\n5\t6\t4.0\t855510154\n5\t11\t3.0\t855511869\n5\t32\t3.0\t855510130\n5\t39\t3.0\t855514679\n5\t62\t4.0\t855510130\n5\t65\t1.0\t855513520\n5\t94\t3.0\t855511153\n5\t105\t2.0\t855512190\n5\t110\t5.0\t855510860\n5\t150\t4.0\t855510690\n5\t160\t3.0\t855513221\n5\t161\t3.0\t855511097\n5\t165\t4.0\t855512822\n5\t173\t3.0\t855513554\n5\t188\t4.0\t855514138\n5\t196\t2.0\t855513095\n5\t231\t4.0\t855513302\n5\t253\t4.0\t855513255\n5\t258\t2.0\t855513238\n5\t260\t5.0\t855510194\n5\t262\t1.0\t855511923\n5\t288\t3.0\t855512227\n5\t292\t4.0\t855511235\n5\t296\t3.0\t855513637\n5\t300\t4.0\t855510887\n5\t327\t3.0\t855513238\n5\t339\t4.0\t855513183\n5\t344\t3.0\t855512973\n5\t345\t3.0\t855511682\n5\t350\t3.0\t855514409\n5\t356\t4.0\t855510653\n5\t357\t3.0\t855512074\n5\t362\t3.0\t855510934\n5\t366\t3.0\t855515375\n5\t368\t3.0\t855511153\n5\t370\t3.0\t855511992\n5\t377\t4.0\t855512808\n5\t379\t3.0\t855512914\n5\t380\t3.0\t855512513\n5\t407\t3.0\t855514487\n5\t434\t3.0\t855514235\n5\t435\t3.0\t855513155\n5\t441\t3.0\t855512354\n5\t445\t3.0\t855511792\n5\t454\t3.0\t855514277\n5\t457\t4.0\t855510653\n5\t458\t3.0\t855511272\n5\t466\t3.0\t855514409\n5\t480\t3.0\t855510653\n5\t481\t4.0\t855511218\n5\t484\t3.0\t855512694\n5\t485\t3.0\t855513032\n5\t493\t3.0\t855513806\n5\t500\t3.0\t855511218\n5\t509\t4.0\t855511923\n5\t512\t3.0\t855514607\n5\t514\t3.0\t855510996\n5\t520\t3.0\t855512731\n5\t527\t5.0\t855510652\n5\t539\t2.0\t855514450\n5\t543\t3.0\t855512228\n5\t551\t3.0\t855511597\n5\t586\t3.0\t855511959\n5\t587\t3.0\t855512010\n5\t588\t3.0\t855512285\n5\t589\t4.0\t855511597\n5\t590\t4.0\t855510653\n5\t592\t3.0\t855515525\n5\t593\t4.0\t855510690\n5\t594\t3.0\t855514570\n5\t597\t3.0\t855512470\n5\t608\t4.0\t855510154\n5\t610\t4.0\t855514472\n5\t611\t3.0\t855512860\n5\t631\t1.0\t855515375\n5\t648\t3.0\t855510130\n5\t663\t4.0\t855510267\n5\t671\t3.0\t855510242\n5\t733\t3.0\t855510154\n5\t743\t3.0\t855515493\n5\t750\t4.0\t855510799\n5\t778\t3.0\t855510214\n5\t780\t3.0\t855510130\n5\t784\t3.0\t855510176\n5\t785\t4.0\t855514100\n5\t786\t3.0\t855515493\n5\t788\t3.0\t855510176\n5\t828\t3.0\t855512310\n5\t838\t1.0\t855511066\n5\t858\t4.0\t855510860\n5\t903\t4.0\t855510972\n5\t914\t3.0\t855512116\n5\t917\t1.0\t855512669\n5\t919\t4.0\t855511218\n5\t920\t4.0\t855512228\n5\t924\t4.0\t855510746\n5\t934\t3.0\t855512374\n5\t952\t3.0\t855512513\n5\t953\t3.0\t855511733\n5\t968\t4.0\t855512151\n5\t1017\t3.0\t855515436\n5\t1019\t4.0\t855514116\n5\t1020\t3.0\t855511992\n5\t1022\t2.0\t855511682\n5\t1023\t3.0\t855514032\n5\t1027\t3.0\t855511066\n5\t1028\t3.0\t855511066\n5\t1029\t3.0\t855515421\n5\t1030\t3.0\t855514570\n5\t1032\t3.0\t855511097\n5\t1036\t3.0\t855510996\n5\t1037\t3.0\t855512310\n5\t1050\t3.0\t855515329\n5\t1064\t2.0\t855512354\n5\t1073\t4.0\t855510154\n5\t1080\t3.0\t855510710\n5\t1090\t5.0\t855510901\n5\t1092\t3.0\t855512252\n5\t1093\t3.0\t855512169\n5\t1097\t4.0\t855510778\n5\t1099\t1.0\t855515546\n5\t1101\t3.0\t855511597\n5\t1125\t4.0\t855514075\n5\t1126\t3.0\t855513006\n5\t1127\t4.0\t855511992\n5\t1135\t3.0\t855514517\n5\t1136\t3.0\t855510824\n5\t1148\t4.0\t855510690\n5\t1185\t5.0\t855512043\n5\t1186\t4.0\t855512228\n5\t1191\t3.0\t855513056\n5\t1196\t4.0\t855510860\n5\t1197\t4.0\t855510996\n5\t1198\t3.0\t855510824\n5\t1200\t3.0\t855511891\n5\t1201\t4.0\t855511733\n5\t1206\t4.0\t855511020\n5\t1208\t4.0\t855510996\n5\t1210\t4.0\t855513728\n5\t1213\t5.0\t855511597\n5\t1214\t3.0\t855511597\n5\t1216\t4.0\t855512151\n5\t1219\t4.0\t855511097\n5\t1220\t4.0\t855513671\n5\t1222\t4.0\t855511766\n5\t1225\t4.0\t855510934\n5\t1240\t3.0\t855511258\n5\t1242\t5.0\t855511037\n5\t1246\t5.0\t855510934\n5\t1258\t4.0\t855511113\n5\t1259\t4.0\t855511113\n5\t1262\t4.0\t855511657\n5\t1265\t3.0\t855511891\n5\t1270\t3.0\t855511852\n5\t1271\t2.0\t855511792\n5\t1275\t4.0\t855513904\n5\t1278\t4.0\t855511766\n5\t1285\t4.0\t855512227\n5\t1287\t3.0\t855511766\n5\t1297\t3.0\t855514117\n5\t1302\t3.0\t855515292\n5\t1320\t3.0\t855512731\n5\t1333\t4.0\t855511733\n5\t1334\t4.0\t855513006\n5\t1339\t3.0\t855512285\n5\t1343\t4.0\t855512285\n5\t1344\t4.0\t855512437\n5\t1345\t4.0\t855512389\n5\t1347\t3.0\t855512669\n5\t1370\t3.0\t855512568\n5\t1371\t3.0\t855514434\n5\t1372\t2.0\t855514330\n5\t1373\t2.0\t855512731\n5\t1374\t2.0\t855514054\n5\t1375\t2.0\t855512492\n5\t1376\t2.0\t855514185\n5\t1378\t4.0\t855512547\n5\t1379\t3.0\t855513095\n5\t1380\t3.0\t855512694\n5\t1385\t3.0\t855512709\n5\t1387\t4.0\t855512074\n5\t1388\t3.0\t855513139\n5\t1389\t3.0\t855515044\n5\t1393\t3.0\t855510296\n5\t1394\t4.0\t855512090\n5\t1396\t3.0\t855512169\n5\t1408\t4.0\t855512169\n5\t5060\t4.0\t855511218\n6\t111\t2.0\t953661033\n6\t367\t2.0\t953661033\n6\t1935\t3.0\t953661033\n6\t1961\t4.0\t953661077\n6\t2457\t1.0\t953661033\n7\t3\t4.0\t1112701639\n7\t18\t4.0\t1112702050\n7\t163\t4.0\t1112701119\n7\t172\t2.5\t1112701136\n7\t260\t5.0\t1112701445\n7\t296\t5.0\t1112701423\n7\t471\t4.5\t1112701252\n7\t511\t3.5\t1112702518\n7\t596\t5.0\t1112701263\n7\t802\t3.0\t1112701583\n7\t1093\t4.0\t1112701957\n7\t1221\t4.5\t1112701537\n7\t1231\t5.0\t1112701926\n7\t1250\t4.5\t1112701291\n7\t1258\t4.5\t1112701556\n7\t1320\t3.0\t1112701286\n7\t1396\t4.0\t1112701220\n7\t1479\t4.0\t1112701886\n7\t1488\t3.5\t1112701882\n7\t1580\t3.0\t1112701523\n7\t1707\t1.5\t1112702449\n7\t1711\t3.5\t1112701869\n7\t1729\t4.0\t1112701894\n7\t1732\t3.0\t1112701124\n7\t1753\t4.5\t1112702438\n7\t1777\t3.5\t1112701322\n7\t1957\t4.0\t1112701863\n7\t2012\t2.5\t1112701485\n7\t2046\t3.5\t1112701852\n7\t2054\t2.5\t1112701132\n7\t2100\t3.5\t1112701268\n7\t2126\t3.5\t1112701845\n7\t2194\t4.5\t1112701234\n7\t2279\t2.5\t1112702393\n7\t2321\t3.0\t1112701297\n7\t2502\t4.5\t1112701476\n7\t2699\t3.0\t1112701158\n7\t2762\t3.5\t1112701453\n7\t2822\t3.5\t1112702329\n7\t2891\t4.0\t1112702319\n7\t2947\t4.0\t1112701798\n7\t2959\t4.5\t1112701418\n7\t3033\t3.0\t1112701790\n7\t3052\t4.5\t1112701311\n7\t3063\t3.5\t1112702312\n7\t3173\t5.0\t1112701763\n7\t3243\t3.0\t1112702298\n7\t3252\t4.5\t1112701736\n7\t3444\t4.0\t1112702271\n7\t3686\t4.0\t1112701721\n7\t4041\t4.0\t1112701697\n7\t4102\t4.5\t1112702220\n7\t4679\t4.0\t1112702210\n7\t5055\t4.0\t1112702169\n7\t5283\t4.0\t1112702161\n7\t5309\t2.0\t1112702181\n7\t5445\t4.0\t1112701315\n7\t5952\t3.5\t1112701143\n7\t5995\t4.5\t1112701628\n7\t6188\t4.5\t1112702141\n7\t6287\t4.0\t1112702115\n7\t6934\t4.5\t1112701634\n7\t7004\t3.5\t1112702094\n7\t7451\t4.0\t1112702077\n7\t7482\t4.5\t1112702085\n8\t31\t3.0\t1348894358\n8\t60\t3.5\t1348894561\n8\t74\t3.0\t1348995884\n8\t111\t4.0\t1348895207\n8\t231\t3.0\t1348995282\n8\t236\t4.0\t1348995426\n8\t265\t4.0\t1348995423\n8\t318\t5.0\t1348895248\n8\t348\t2.5\t1348894480\n8\t412\t5.0\t1348995870\n8\t427\t3.5\t1348995864\n8\t551\t3.0\t1348995214\n8\t585\t4.0\t1348894374\n8\t587\t4.0\t1348895894\n8\t608\t4.0\t1348895234\n8\t724\t2.5\t1348894406\n8\t858\t3.5\t1348895770\n8\t902\t2.5\t1348895991\n8\t904\t5.0\t1348895305\n8\t905\t5.0\t1348895251\n8\t908\t5.0\t1348895259\n8\t909\t4.5\t1349072495\n8\t910\t5.0\t1348994997\n8\t913\t5.0\t1348895254\n8\t916\t4.0\t1348895308\n8\t926\t4.0\t1348895301\n8\t928\t5.0\t1348895265\n8\t943\t4.0\t1348895905\n8\t953\t5.0\t1348895275\n8\t955\t3.0\t1348994900\n8\t969\t4.5\t1349072491\n8\t1019\t3.0\t1348894595\n8\t1042\t3.5\t1348896507\n8\t1047\t4.0\t1348995406\n8\t1073\t4.5\t1348995204\n8\t1079\t4.0\t1348895766\n8\t1088\t4.0\t1348896425\n8\t1095\t4.5\t1348995839\n8\t1097\t4.0\t1348996369\n8\t1103\t3.5\t1348994834\n8\t1104\t5.0\t1348894580\n8\t1172\t4.0\t1348894389\n8\t1179\t3.0\t1348894598\n8\t1193\t5.0\t1348895237\n8\t1223\t3.5\t1348994635\n8\t1226\t4.0\t1348994661\n8\t1235\t3.5\t1348994786\n8\t1240\t4.0\t1348895759\n8\t1248\t4.5\t1348895360\n8\t1259\t4.5\t1348895753\n8\t1263\t5.0\t1348895180\n8\t1265\t3.0\t1348995198\n8\t1270\t4.0\t1348895749\n8\t1285\t3.5\t1348995397\n8\t1296\t4.0\t1348894585\n8\t1305\t3.5\t1349072487\n8\t1339\t4.0\t1348894349\n8\t1344\t4.0\t1348994718\n8\t1356\t3.5\t1348995194\n8\t1371\t4.5\t1348894369\n8\t1380\t5.0\t1348896469\n8\t1513\t5.0\t1348894433\n8\t1641\t3.0\t1348995386\n8\t1674\t4.5\t1348995379\n8\t1777\t4.0\t1348896382\n8\t1923\t3.5\t1348995186\n8\t1945\t4.5\t1348895228\n8\t1952\t5.0\t1348895197\n8\t1962\t4.5\t1348894436\n8\t1968\t3.0\t1348895744\n8\t1997\t5.0\t1348995369\n8\t2020\t4.0\t1348894490\n8\t2076\t5.0\t1348894439\n8\t2160\t4.0\t1348994747\n8\t2186\t5.0\t1348895392\n8\t2248\t3.5\t1348894400\n8\t2287\t3.0\t1348996328\n8\t2291\t4.0\t1348994853\n8\t2313\t5.0\t1348895187\n8\t2348\t3.5\t1348995657\n8\t2355\t4.0\t1348995177\n8\t2455\t4.0\t1348894333\n8\t2648\t3.5\t1348994734\n8\t2683\t4.0\t1348995181\n8\t2710\t3.0\t1348995167\n8\t2859\t4.0\t1348994695\n8\t2866\t4.0\t1348996300\n8\t2917\t4.0\t1348994754\n8\t2970\t4.0\t1348996290\n8\t3072\t4.0\t1348896012\n8\t3088\t4.0\t1348994702\n8\t3095\t4.0\t1348994827\n8\t3097\t4.0\t1348996284\n8\t3176\t3.5\t1348995349\n8\t3251\t3.5\t1348996275\n8\t3359\t3.5\t1348994847\n8\t3362\t5.0\t1348895184\n8\t3424\t3.5\t1348995342\n8\t3435\t5.0\t1348995626\n8\t3498\t5.0\t1348994648\n8\t3499\t3.5\t1348994799\n8\t3507\t4.0\t1348994682\n8\t3671\t4.0\t1348995337\n8\t3703\t3.0\t1348894456\n8\t3741\t4.0\t1348996121\n8\t3844\t5.0\t1348995608\n8\t4066\t3.5\t1348996084\n8\t4086\t3.5\t1348996078\n8\t4306\t1.0\t1348995155\n8\t4361\t3.0\t1348995323\n8\t4447\t4.0\t1348995318\n8\t4641\t4.0\t1348995595\n8\t4700\t2.5\t1348995590\n8\t4835\t4.5\t1348996053\n8\t4886\t4.0\t1348895731\n8\t4890\t3.0\t1348995586\n8\t4951\t3.5\t1348996048\n8\t4969\t4.5\t1348895417\n8\t4975\t3.5\t1348995314\n8\t4995\t4.5\t1348996551\n8\t5103\t4.0\t1348995579\n8\t6487\t3.5\t1348895573\n8\t6852\t4.5\t1348895480\n8\t7293\t4.5\t1348995498\n8\t7361\t3.0\t1348995147\n8\t7451\t3.5\t1348995486\n8\t7700\t5.0\t1348996476\n8\t7916\t3.5\t1349648902\n8\t8337\t5.0\t1349022411\n8\t8961\t4.5\t1348995295\n8\t25923\t5.0\t1349022418\n8\t27808\t4.5\t1348996003\n8\t53460\t4.0\t1348996434\n8\t67267\t4.0\t1348996417\n8\t71745\t0.5\t1348995906\n9\t593\t3.0\t990807888\n9\t1097\t4.0\t990807967\n9\t1198\t5.0\t990807934\n9\t2942\t1.0\t990807855\n9\t3101\t3.0\t990807820\n10\t44\t2.0\t1120730036\n10\t158\t1.0\t1120729972\n10\t186\t3.5\t1120729958\n10\t355\t2.5\t1120730059\n10\t673\t3.0\t1120730091\n10\t899\t4.0\t1120730068\n10\t1088\t3.5\t1120730054\n10\t1219\t4.0\t1120730278\n10\t1380\t4.0\t1120729939\n10\t1690\t4.0\t1120730047\n10\t2003\t1.5\t1120730064\n10\t2012\t2.0\t1120729908\n10\t2699\t3.0\t1120729953\n10\t4886\t4.0\t1120729995\n10\t5445\t5.0\t1120729982\n10\t5952\t5.0\t1120729864\n10\t6377\t4.5\t1120730079\n11\t1\t3.0\t832158391\n11\t21\t4.0\t832158574\n11\t22\t3.0\t832158885\n11\t32\t5.0\t832158599\n11\t34\t3.0\t832158599\n11\t39\t3.0\t832158624\n11\t47\t5.0\t832158599\n11\t150\t5.0\t832158266\n11\t151\t3.0\t832158672\n11\t153\t3.0\t832158308\n11\t157\t3.0\t832159616\n11\t160\t3.0\t832158624\n11\t161\t5.0\t832158391\n11\t165\t5.0\t832158308\n11\t173\t3.0\t832158698\n11\t185\t3.0\t832158546\n11\t186\t3.0\t832158697\n11\t193\t1.0\t832158817\n11\t196\t2.0\t832158716\n11\t198\t5.0\t832159356\n11\t208\t2.0\t832158546\n11\t215\t4.0\t832159432\n11\t216\t1.0\t832158918\n11\t222\t3.0\t832158885\n11\t223\t3.0\t832158794\n11\t225\t5.0\t832158574\n11\t231\t1.0\t832158357\n11\t234\t4.0\t832158918\n11\t249\t5.0\t832159231\n11\t252\t3.0\t832158698\n11\t253\t4.0\t832158391\n11\t260\t4.0\t832159319\n11\t272\t3.0\t832158817\n11\t277\t3.0\t832158817\n11\t280\t4.0\t832158950\n11\t292\t3.0\t832158391\n11\t293\t1.0\t832158738\n11\t296\t5.0\t832158266\n11\t315\t2.0\t832158649\n11\t316\t2.0\t832158331\n11\t317\t3.0\t832158599\n11\t319\t3.0\t832159272\n11\t333\t1.0\t832158774\n11\t338\t1.0\t832159251\n11\t339\t4.0\t832158391\n11\t350\t3.0\t832159381\n11\t353\t5.0\t832159415\n11\t354\t4.0\t832160052\n11\t364\t3.0\t832159251\n11\t376\t4.0\t832159600\n11\t380\t3.0\t832158266\n11\t410\t3.0\t832158574\n11\t417\t3.0\t832159381\n11\t434\t3.0\t832158357\n11\t435\t2.0\t832158672\n11\t442\t4.0\t832159356\n11\t454\t3.0\t832159272\n11\t457\t5.0\t832158860\n11\t514\t4.0\t832159752\n11\t555\t3.0\t832158774\n11\t585\t3.0\t832159449\n11\t590\t3.0\t832158266\n11\t592\t4.0\t832158266\n11\t593\t5.0\t832158860\n11\t606\t3.0\t832159862\n11\t637\t3.0\t832159415\n11\t640\t3.0\t832159699\n11\t708\t5.0\t832159655\n12\t110\t3.5\t1208985929\n12\t318\t4.5\t1208985918\n12\t668\t4.5\t1208985697\n12\t912\t4.0\t1208985877\n12\t913\t3.0\t1208982875\n12\t1272\t4.0\t1208983796\n12\t1350\t3.0\t1208983894\n12\t2302\t3.0\t1208985981\n12\t2389\t3.5\t1208985011\n12\t2575\t3.5\t1208985517\n12\t2581\t2.5\t1208983825\n12\t3578\t3.5\t1208985941\n12\t3654\t4.0\t1208983961\n12\t3798\t2.5\t1208983874\n12\t4886\t3.5\t1208985949\n12\t4963\t3.5\t1208985955\n12\t5135\t3.0\t1208985985\n12\t5349\t3.5\t1208985915\n12\t8012\t4.5\t1208985817\n12\t8360\t3.0\t1208982890\n12\t8958\t3.5\t1208984981\n12\t8961\t3.5\t1208985924\n12\t54997\t4.5\t1208985569\n13\t1\t1.0\t865833968\n13\t3\t2.0\t865834019\n13\t5\t4.0\t865834019\n13\t6\t3.0\t865834018\n13\t7\t3.0\t865834059\n13\t12\t4.0\t865834343\n13\t14\t5.0\t865834122\n13\t17\t3.0\t865833970\n13\t32\t2.0\t865833967\n13\t36\t5.0\t865834018\n13\t61\t5.0\t865834343\n13\t62\t4.0\t865833970\n13\t78\t2.0\t865834421\n13\t79\t3.0\t865834122\n13\t86\t5.0\t865834343\n13\t95\t5.0\t865833969\n13\t100\t3.0\t865834254\n13\t112\t3.0\t865834059\n13\t135\t4.0\t865834122\n13\t141\t3.0\t865833969\n13\t260\t5.0\t865834018\n13\t376\t4.0\t865834059\n13\t494\t5.0\t865834019\n13\t581\t3.0\t865834421\n13\t608\t5.0\t865834018\n13\t628\t5.0\t865834122\n13\t637\t3.0\t865834122\n13\t647\t3.0\t865834254\n13\t648\t5.0\t865833968\n13\t653\t5.0\t865834059\n13\t673\t3.0\t865834343\n13\t694\t3.0\t865834458\n13\t708\t4.0\t865834059\n13\t719\t3.0\t865834458\n13\t733\t5.0\t865834018\n13\t736\t5.0\t865833967\n13\t743\t4.0\t865834253\n13\t748\t4.0\t865834343\n13\t761\t5.0\t865834254\n13\t762\t2.0\t865834122\n13\t780\t5.0\t865833966\n13\t782\t3.0\t865834421\n13\t786\t5.0\t865834019\n13\t788\t3.0\t865834059\n13\t798\t3.0\t865834421\n13\t799\t5.0\t865834458\n13\t802\t5.0\t865834059\n13\t805\t4.0\t865834122\n13\t830\t4.0\t865834300\n13\t832\t5.0\t865834253\n13\t836\t3.0\t865834300\n13\t838\t4.0\t865834254\n13\t852\t5.0\t865834299\n13\t858\t5.0\t865834254\n13\t1003\t4.0\t865834421\n13\t1006\t4.0\t865834299\n13\t1042\t4.0\t865834254\n13\t1047\t5.0\t865834343\n13\t1049\t5.0\t865834254\n13\t1061\t5.0\t865834343\n13\t1073\t2.0\t865834019\n13\t1120\t4.0\t865834180\n13\t1210\t5.0\t865834122\n13\t1356\t5.0\t865834059\n13\t1363\t3.0\t865834379\n13\t1393\t5.0\t865834180\n14\t110\t5.0\t913133383\n14\t260\t5.0\t913133026\n14\t282\t3.0\t913133617\n14\t296\t4.0\t913133480\n14\t318\t5.0\t913133512\n14\t590\t5.0\t913133573\n14\t593\t5.0\t913133480\n14\t1120\t3.0\t913133813\n14\t1196\t5.0\t913133026\n14\t1213\t2.0\t913133617\n14\t1233\t5.0\t913133617\n14\t1253\t5.0\t913133026\n14\t1527\t3.0\t913133026\n14\t1584\t3.0\t913133026\n14\t1721\t2.0\t913133543\n14\t2010\t5.0\t913132968\n14\t2025\t3.0\t913133813\n14\t2269\t2.0\t913133617\n14\t2273\t3.0\t913132576\n14\t2287\t5.0\t913133026\n14\t2291\t1.0\t913133573\n14\t2315\t1.0\t913132784\n14\t2338\t2.0\t913132611\n14\t2354\t2.0\t913132611\n14\t2386\t1.0\t913132784\n14\t2407\t4.0\t913133026\n15\t6\t4.0\t1152381288\n15\t11\t4.0\t1152212422\n15\t15\t1.5\t1152216411\n15\t19\t2.5\t1152212680\n15\t22\t3.0\t1152364297\n15\t23\t3.0\t1152364284\n15\t29\t3.5\t1152214544\n15\t41\t3.5\t1152213089\n15\t50\t5.0\t1152382173\n15\t54\t1.5\t1152215665\n15\t81\t2.0\t1152362933\n15\t98\t2.5\t1152215394\n15\t112\t3.0\t1152384629\n15\t145\t2.5\t1152383062\n15\t165\t3.0\t1152384612\n15\t183\t3.5\t1152365241\n\n\u003cfont color\u003dred\u003eResults are limited by 1000.\u003c/font\u003e"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:34:51 AM",
+      "dateFinished": "Apr 23, 2016 2:35:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Total ratings and Distinct Users",
+      "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487718_1119480666",
+      "id": "20160423-022807_51325490",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 21622187\norg.apache.spark.SparkException: Job 12 cancelled part of cancelled job group zeppelin-20160423-022807_51325490\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1370)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:783)\n\tat scala.collection.mutable.HashSet.foreach(HashSet.scala:79)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1619)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1845)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1858)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1929)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:927)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:926)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:166)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollectPublic(SparkPlan.scala:174)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$execute$1$1.apply(DataFrame.scala:1499)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$execute$1$1.apply(DataFrame.scala:1499)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:2086)\n\tat org.apache.spark.sql.DataFrame.org$apache$spark$sql$DataFrame$$execute$1(DataFrame.scala:1498)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$collect$1.apply(DataFrame.scala:1503)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$collect$1.apply(DataFrame.scala:1503)\n\tat org.apache.spark.sql.DataFrame.withCallback(DataFrame.scala:2099)\n\tat org.apache.spark.sql.DataFrame.org$apache$spark$sql$DataFrame$$collect(DataFrame.scala:1503)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1480)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:37)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:39)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat \u003cinit\u003e(\u003cconsole\u003e:55)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:32:54 AM",
+      "dateFinished": "Apr 23, 2016 2:33:53 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "distribution of ratings ",
+      "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\", $\"img\")\n  .groupBy($\"itemId\", $\"title\", $\"img\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n\nz.show(joinedDF)",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "tableHide": true,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 348.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 3.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487718_1119480666",
+      "id": "20160423-022807_1012376526",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "joinedDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, img: string, count: bigint]\norg.apache.zeppelin.interpreter.InterpreterException: java.lang.reflect.InvocationTargetException\n\tat org.apache.zeppelin.spark.ZeppelinContext.showDF(ZeppelinContext.java:301)\n\tat org.apache.zeppelin.spark.ZeppelinContext.show(ZeppelinContext.java:277)\n\tat org.apache.zeppelin.spark.ZeppelinContext.show(ZeppelinContext.java:250)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:49)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:55)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:57)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:59)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:61)\n\tat \u003cinit\u003e(\u003cconsole\u003e:63)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:67)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.lang.reflect.InvocationTargetException\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.zeppelin.spark.ZeppelinContext.showDF(ZeppelinContext.java:297)\n\t... 42 more\nCaused by: org.apache.spark.SparkException: Job 14 cancelled part of cancelled job group zeppelin-20160423-022807_1012376526\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1370)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:783)\n\tat scala.collection.mutable.HashSet.foreach(HashSet.scala:79)\n\tat org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:783)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1619)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1952)\n\tat org.apache.spark.rdd.RDD$$anonfun$reduce$1.apply(RDD.scala:1025)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.reduce(RDD.scala:1007)\n\tat org.apache.spark.rdd.RDD$$anonfun$takeOrdered$1.apply(RDD.scala:1397)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.takeOrdered(RDD.scala:1384)\n\tat org.apache.spark.sql.execution.TakeOrderedAndProject.collectData(basicOperators.scala:213)\n\tat org.apache.spark.sql.execution.TakeOrderedAndProject.executeCollect(basicOperators.scala:218)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollectPublic(SparkPlan.scala:174)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$execute$1$1.apply(DataFrame.scala:1499)\n\tat org.apache.spark.sql.DataFrame$$anonfun$org$apache$spark$sql$DataFrame$$execute$1$1.apply(DataFrame.scala:1499)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:2086)\n\tat org.apache.spark.sql.DataFrame.org$apache$spark$sql$DataFrame$$execute$1(DataFrame.scala:1498)\n\tat org.apache.spark.sql.DataFrame.org$apache$spark$sql$DataFrame$$collect(DataFrame.scala:1505)\n\tat org.apache.spark.sql.DataFrame$$anonfun$head$1.apply(DataFrame.scala:1375)\n\tat org.apache.spark.sql.DataFrame$$anonfun$head$1.apply(DataFrame.scala:1374)\n\tat org.apache.spark.sql.DataFrame.withCallback(DataFrame.scala:2099)\n\tat org.apache.spark.sql.DataFrame.head(DataFrame.scala:1374)\n\tat org.apache.spark.sql.DataFrame.take(DataFrame.scala:1456)\n\t... 47 more\n\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:33:14 AM",
+      "dateFinished": "Apr 23, 2016 2:34:03 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Compare DataFrame and SQL Query Plans",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487718_1119480666",
+      "id": "20160423-022807_1734347137",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eCompare DataFrame and SQL Query Plans\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:32:53 AM",
+      "dateFinished": "Apr 23, 2016 2:32:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "joinedDF.explain()",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487718_1119480666",
+      "id": "20160423-022807_1238554921",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#64L DESC], output\u003d[itemId#51,title#5,img#3,count#64L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#51,title#5,img#3], functions\u003d[(count(itemId#51),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#51,title#5,img#3,count#64L])\n      +- TungstenExchange hashpartitioning(itemId#51,title#5,img#3,200), None\n         +- TungstenAggregate(key\u003d[itemId#51,title#5,img#3], functions\u003d[(count(itemId#51),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#51,title#5,img#3,count#67L])\n            +- Project [itemId#51,title#5,img#3]\n               +- BroadcastHashJoin [cast(itemId#51 as bigint)], [id#2L], BuildRight\n                  :- Project [movieId#47 AS itemId#51]\n                  :  +- Scan CsvRelation(\u003cfunction0\u003e,Some(file:/root/pipeline/datasets/movielens/ml-latest/ratings.csv),true,,,\",null,#,PERMISSIVE,COMMONS,false,false,false,null,true,null,,null)[movieId#47] \n                  +- Scan JSONRelation[title#5,img#3,id#2L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:33:54 AM",
+      "dateFinished": "Apr 23, 2016 2:34:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")\n\nval joinedSql \u003d sqlContext.sql(\"\"\"SELECT itemId, title, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title \n  ORDER BY count \n  DESC LIMIT 5\"\"\")\n  \njoinedSql.explain()",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487719_1119095917",
+      "id": "20160423-022807_871773339",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "joinedSql: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#70L DESC], output\u003d[itemId#51,title#5,count#70L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#51,title#5], functions\u003d[(count(itemId#51),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#51,title#5,count#70L])\n      +- TungstenExchange hashpartitioning(itemId#51,title#5,200), None\n         +- TungstenAggregate(key\u003d[itemId#51,title#5], functions\u003d[(count(itemId#51),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#51,title#5,count#76L])\n            +- Project [itemId#51,title#5]\n               +- BroadcastHashJoin [cast(itemId#51 as bigint)], [id#2L], BuildRight\n                  :- Project [movieId#47 AS itemId#51]\n                  :  +- Scan CsvRelation(\u003cfunction0\u003e,Some(file:/root/pipeline/datasets/movielens/ml-latest/ratings.csv),true,,,\",null,#,PERMISSIVE,COMMONS,false,false,false,null,true,null,,null)[movieId#47] \n                  +- Scan JSONRelation[title#5,id#2L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:34:03 AM",
+      "dateFinished": "Apr 23, 2016 2:34:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Save Top 5 Most Rated Items to ElasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(joinedDF)\n",
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "tableHide": true,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 196.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487719_1119095917",
+      "id": "20160423-022807_842967288",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\norg.elasticsearch.hadoop.rest.EsHadoopInvalidRequest: [DELETE] on [advancedspark/top-items-by-exact-rating-count] failed; server[127.0.0.1:9200] returned [400|Bad Request:]\n\tat org.elasticsearch.hadoop.rest.RestClient.checkResponse(RestClient.java:368)\n\tat org.elasticsearch.hadoop.rest.RestClient.executeNotFoundAllowed(RestClient.java:344)\n\tat org.elasticsearch.hadoop.rest.RestClient.delete(RestClient.java:397)\n\tat org.elasticsearch.hadoop.rest.RestRepository.delete(RestRepository.java:447)\n\tat org.elasticsearch.spark.sql.ElasticsearchRelation.insert(DefaultSource.scala:299)\n\tat org.elasticsearch.spark.sql.DefaultSource.createRelation(DefaultSource.scala:65)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:222)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:148)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:139)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:47)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:54)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:56)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:60)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:62)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:66)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:68)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:70)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:72)\n\tat \u003cinit\u003e(\u003cconsole\u003e:74)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:34:03 AM",
+      "dateFinished": "Apr 23, 2016 2:34:05 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 23, 2016 2:32:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461378487719_1119095917",
+      "id": "20160423-022807_1433768767",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 23, 2016 2:28:07 AM",
+      "dateStarted": "Apr 23, 2016 2:34:05 AM",
+      "dateFinished": "Apr 23, 2016 2:34:05 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Recommendations/01: TopK and Summary Statistics (SQL, DataFrames)",
+  "id": "2BHU69J72",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

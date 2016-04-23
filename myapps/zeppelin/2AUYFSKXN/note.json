@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Matrix Factorization using Alternating Least Squares (ALS)",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,15 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Apr 20, 2016 8:15:31 AM",
-      "dateFinished": "Apr 20, 2016 8:15:31 AM",
+      "dateStarted": "Apr 23, 2016 1:46:18 AM",
+      "dateFinished": "Apr 23, 2016 1:46:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\"))",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -92,15 +92,15 @@
         "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n11\tApache YARN\timg/software/yarn.png\tWrappedArray(Cluster Resource Manager, Hadoop, Java)\n12\tApache HBase\timg/software/hbase.png\tWrappedArray(Database, Hadoop, NoSQL, Java, Eventually Consistent)\n13\tApache MapReduce\timg/software/mapreduce.png\tWrappedArray(Data Processing, Hadoop, Java, Python)\n14\tApache Hive\timg/software/hive.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, MapReduce)\n15\tHortonworks\timg/software/hortonworks.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n16\tApache HUE\timg/software/hue.png\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java)\n17\tApache Impala\timg/software/impala.png\tWrappedArray(Data Processing, Query Processing, SQL, C++, Batch Analytics)\n18\tApache Kafka\timg/software/kafka.png\tWrappedArray(Message Broker, Java, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\n19\tApache Lucene\timg/software/lucene.png\tWrappedArray(Library, Search, Java, Python)\n20\tApache Solr\timg/software/solr.png\tWrappedArray(Search Engine, Java, REST API, UI, Python, Ruby, XML, JSON)\n21\tElasticSearch\timg/software/elasticsearch.png\tWrappedArray(Search Engine, Java, Python, REST API, Lucene, XML, JSON, Aggregations)\n22\tApache Mahout\timg/software/mahout.png\tWrappedArray(Library, Machine Learning, Java)\n23\tApache Drill\timg/software/drill.png\tWrappedArray(Data Processing, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\n24\tApache Mesos\timg/software/mesos.png\tWrappedArray(Cluster Resource Manager, Docker, Container)\n25\tApache Parquet\timg/software/parquet.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, C++, Python)\n26\tApache ORC\timg/software/orc.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema)\n27\tApache Pig\timg/software/pig.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n28\tApache ZooKeeper\timg/software/zookeeper.png\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n29\tStanford CoreNLP\timg/software/corenlp.png\tWrappedArray(Library, NLP, Java, Text Analytics)\n30\tApache Tez\timg/software/tez.png\tWrappedArray(Data Processing, Hadoop, YARN, Query Processing, Java, Lazy, HiveQL, Pig, SQL)\n31\tApache Storm\timg/software/storm.png\tWrappedArray(Streaming, Java)\n32\tApache Sqoop\timg/software/sqoop.png\tWrappedArray(Data Import, Hadoop, Java)\n33\tApache Oozie\timg/software/oozie.png\tWrappedArray(Workflow, Hadoop, Java, UI)\n34\tApache Nifi\timg/software/nifi.png\tWrappedArray(Workflow, Streaming, Message Broker, Java, UI)\n35\tNLTK\timg/software/nltk.png\tWrappedArray(Library, NLP, Python, Text Analytics)\n36\tSci-Kit Learn\timg/software/scikit-learn.png\tWrappedArray(Library, Python, Machine Learning)\n37\tiPython/Jupyter\timg/software/ipython.png\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\n38\tApache Zeppelin\timg/software/zeppelin.png\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\n39\tTableau\timg/software/tableau.png\tWrappedArray(BI, UI, Visualization, SQL)\n40\tR\timg/software/r.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n41\tSQL\timg/software/sql.png\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\n42\tScala\timg/software/scala.png\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\n43\tJava\timg/software/java.png\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\n44\tPython\timg/software/python.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n45\tPresto\timg/software/presto.png\tWrappedArray(Data Processing, Query Processing, Java, SQL, Machine Learning)\n46\tMapR\timg/software/mapr.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n47\tCloudera\timg/software/cloudera.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n48\tIBM BigInsights\timg/software/biginsights.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n49\tAmazon Web Services\timg/software/aws.png\tWrappedArray(Cloud Provider, AWS)\n50\tGoogle Cloud Platform\timg/software/googlecloud.png\tWrappedArray(Cloud Provider, Google)\n51\tRedis\timg/software/redis.png\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\n52\tJSON\timg/software/json.png\tWrappedArray(File Format, Key Value Store)\n53\tXML\timg/software/xml.png\tWrappedArray(File Format, Key Value Store)\n54\tMongoDB\timg/software/mongodb.png\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\n55\tOn-Premise\timg/software/onpremise.png\tWrappedArray(Cloud Provider, Data Center)\n56\tMicroStrategy\timg/software/microstrategy.png\tWrappedArray(BI, UI, Visualization, SQL)\n57\tKnime\timg/software/knime.png\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\n59\tOracle\timg/software/oracle.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n60\tMySQL\timg/software/mysql.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n61\tSpark ML/MLlib\timg/software/spark-ml.png\tWrappedArray(Library, Spark, Machine Learning)\n62\tSpark Streaming\timg/software/spark-streaming.png\tWrappedArray(Library, Spark, Streaming)\n63\tSpark SQL\timg/software/spark-sql.png\tWrappedArray(Library, Spark, HiveQL, SQL)\n64\tCSV\timg/software/csv.png\tWrappedArray(File Format)\n65\tDeep Learning 4J\timg/software/deeplearning4j.png\tWrappedArray(Library, Deep Learning, Neural Networks)\n66\tRedshift\timg/software/redshift.png\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\n67\tKinesis\timg/software/kinesis.png\tWrappedArray(Library, Streaming, AWS)\n68\tDynamoDB\timg/software/dynamodb.png\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\n69\tSpark GraphX\timg/software/spark-graphx.png\tWrappedArray(Library, Graph Analytics, Spark)\n70\tSQL Server\timg/software/sqlserver.png\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\n71\tElastic MapReduce\timg/software/emr.png\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\n72\tDato GraphLab Create\timg/software/graphlab.png\tWrappedArray(Library, UI, Graph Analytics, Machine Learning, Query Processing, Visualization)\n73\tMemcached\timg/software/memcached.png\tWrappedArray(Distributed Cache, Key Value Store, Java, Python, C++)\n74\tNeo4j\timg/software/neo4j.png\tWrappedArray(Library, Graph Analytics, Java)\n75\tPostgres\timg/software/postgres.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n76\tProtobuffers\timg/software/protobuffers.png\tWrappedArray(File Format, Evolving Schema, Nested Schema)\n77\tS3\timg/software/s3.png\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\n78\tTensor Flow\timg/software/tensorflow.png\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\n79\tTitan GraphDB\timg/software/titandb.png\tWrappedArray(Database, Graph, Graph Analytics, Java, Transactional)\n80\tTeradata\timg/software/teradata.png\tWrappedArray(Database, Data Warehouse, SQL)\n81\tVertica\timg/software/vertica.png\tWrappedArray(Database, Data Warehouse, SQL)\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:06 PM",
-      "dateStarted": "Apr 20, 2016 8:15:31 AM",
-      "dateFinished": "Apr 20, 2016 8:15:35 AM",
+      "dateStarted": "Apr 23, 2016 1:46:18 AM",
+      "dateFinished": "Apr 23, 2016 1:46:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\n  .as(\"itemRatings\")",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -129,15 +129,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:45 PM",
-      "dateStarted": "Apr 20, 2016 8:15:31 AM",
-      "dateFinished": "Apr 20, 2016 8:15:37 AM",
+      "dateStarted": "Apr 23, 2016 1:46:18 AM",
+      "dateFinished": "Apr 23, 2016 1:46:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The ALS Model",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10 // this is k\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -163,18 +163,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_8b97681da74f\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_8b97681da74f\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_70237d3db6d8\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_70237d3db6d8\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Apr 20, 2016 8:15:36 AM",
-      "dateFinished": "Apr 20, 2016 8:15:41 AM",
+      "dateStarted": "Apr 23, 2016 1:46:18 AM",
+      "dateFinished": "Apr 23, 2016 1:46:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Recommendations for all Users",
-      "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"itemId\", $\"confidence\" desc)\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n   .select($\"userId\", $\"items.itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"items.itemId\", $\"confidence\" desc)\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
+      "dateUpdated": "Apr 23, 2016 1:47:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -198,57 +198,20 @@
       "jobName": "paragraph_1461100304691_419185220",
       "id": "20160419-211144_1773438539",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:29: error: not found: value model\n              model.setPredictionCol(\"confidence\")\n              ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\ttitle\tconfidence\n3969\t3\tApache Ambari\t0.9896997\n3969\t7\tApache Spark\t0.9988259\n3969\t8\tApache Flume\t0.98703367\n3969\t10\tApache HDFS\t0.99041474\n3969\t11\tApache YARN\t1.0057306\n3969\t12\tApache HBase\t1.0077124\n3969\t14\tApache Hive\t0.9944264\n3969\t15\tHortonworks\t0.9878301\n3969\t18\tApache Kafka\t0.9826016\n3969\t25\tApache Parquet\t0.9869857\n3969\t28\tApache ZooKeeper\t0.9834066\n3969\t29\tStanford CoreNLP\t0.9830164\n3969\t34\tApache Nifi\t0.9867054\n3969\t38\tApache Zeppelin\t0.9885951\n3969\t41\tSQL\t0.9830164\n3969\t42\tScala\t0.9953227\n3969\t51\tRedis\t0.9933697\n3969\t52\tJSON\t1.0003937\n3969\t54\tMongoDB\t0.9973815\n3969\t61\tSpark ML/MLlib\t0.99377394\n3969\t62\tSpark Streaming\t1.0065506\n3969\t63\tSpark SQL\t0.99961126\n5342\t25\tApache Parquet\t1.0023695\n5342\t33\tApache Oozie\t0.9933312\n5342\t34\tApache Nifi\t0.9950878\n5342\t40\tR\t0.9962427\n5342\t50\tGoogle Cloud Platform\t1.0147016\n5342\t62\tSpark Streaming\t0.9893509\n5342\t63\tSpark SQL\t0.98790956\n5342\t66\tRedshift\t0.97248554\n5342\t67\tKinesis\t0.9994997\n5342\t72\tDato GraphLab Create\t0.97248554\n6437\t27\tApache Pig\t0.99714905\n6437\t33\tApache Oozie\t1.0001073\n6437\t42\tScala\t0.99839073\n6437\t61\tSpark ML/MLlib\t0.99427485\n6437\t65\tDeep Learning 4J\t0.9627415\n6437\t69\tSpark GraphX\t1.0007644\n8910\t1\tApache Cassandra\t1.0019248\n8910\t7\tApache Spark\t1.0000035\n8910\t9\tApache Giraph\t0.9980322\n8910\t10\tApache HDFS\t0.996981\n8910\t14\tApache Hive\t0.99135673\n8910\t15\tHortonworks\t0.9849941\n8910\t16\tApache HUE\t0.97797734\n12663\t1\tApache Cassandra\t1.0039171\n12663\t7\tApache Spark\t1.0072653\n12663\t10\tApache HDFS\t0.99511844\n12663\t11\tApache YARN\t1.0018789\n12663\t12\tApache HBase\t0.9926654\n12663\t13\tApache MapReduce\t0.98893696\n12663\t14\tApache Hive\t0.99352145\n12663\t15\tHortonworks\t0.9867834\n12663\t16\tApache HUE\t0.980739\n12663\t17\tApache Impala\t0.9792247\n12663\t18\tApache Kafka\t0.9972178\n12663\t24\tApache Mesos\t1.0009418\n12663\t26\tApache ORC\t0.9741111\n12663\t28\tApache ZooKeeper\t0.984012\n12663\t30\tApache Tez\t0.9741111\n12663\t32\tApache Sqoop\t0.9727974\n12663\t33\tApache Oozie\t0.99614865\n12663\t38\tApache Zeppelin\t0.9902755\n12663\t39\tTableau\t1.0046644\n12663\t42\tScala\t1.0122612\n12663\t44\tPython\t1.0231755\n12663\t49\tAmazon Web Services\t0.98914766\n12663\t51\tRedis\t0.99974954\n12663\t54\tMongoDB\t0.9829052\n12663\t60\tMySQL\t0.99156207\n12663\t61\tSpark ML/MLlib\t0.99262667\n12663\t62\tSpark Streaming\t0.99144256\n12663\t63\tSpark SQL\t0.99119693\n12663\t74\tNeo4j\t0.99386597\n12663\t79\tTitan GraphDB\t0.99563885\n13077\t2\tTachyon\t1.0016364\n13077\t3\tApache Ambari\t0.98421454\n13077\t12\tApache HBase\t0.9945414\n13077\t13\tApache MapReduce\t0.99260473\n13338\t56\tMicroStrategy\t0.98993206\n17841\t9\tApache Giraph\t0.98409325\n17841\t11\tApache YARN\t0.99956036\n17841\t12\tApache HBase\t0.988612\n17841\t14\tApache Hive\t0.9755351\n17841\t39\tTableau\t0.9966819\n17841\t40\tR\t0.99549305\n17841\t42\tScala\t0.9969621\n17841\t44\tPython\t1.0048954\n17841\t63\tSpark SQL\t0.99716544\n20229\t7\tApache Spark\t1.0025759\n20229\t18\tApache Kafka\t0.98813653\n20229\t20\tApache Solr\t1.0037239\n20229\t24\tApache Mesos\t1.0010335\n20229\t28\tApache ZooKeeper\t0.9836302\n20229\t40\tR\t0.99090993\n20229\t42\tScala\t0.99594486\n20229\t49\tAmazon Web Services\t0.9860414\n20229\t51\tRedis\t0.987564\n20229\t62\tSpark Streaming\t0.99208266\n23426\t11\tApache YARN\t0.99904346\n23426\t18\tApache Kafka\t0.98248225\n23426\t42\tScala\t0.9967436\n23426\t63\tSpark SQL\t0.99068195\n23426\t69\tSpark GraphX\t1.000918\n23426\t70\tSQL Server\t0.99109405\n25639\t2\tTachyon\t0.9981251\n25639\t7\tApache Spark\t1.0015197\n25639\t9\tApache Giraph\t0.9971045\n25639\t14\tApache Hive\t0.9895481\n25639\t15\tHortonworks\t0.9910795\n25639\t17\tApache Impala\t0.9891995\n25639\t18\tApache Kafka\t1.0057914\n25639\t33\tApache Oozie\t0.9927039\n25639\t45\tPresto\t0.96101826\n25639\t60\tMySQL\t0.992224\n25639\t61\tSpark ML/MLlib\t0.9973408\n27045\t1\tApache Cassandra\t0.9936639\n27045\t7\tApache Spark\t1.0112962\n27045\t18\tApache Kafka\t0.99261165\n27045\t20\tApache Solr\t1.0017153\n27045\t42\tScala\t0.9930133\n27045\t60\tMySQL\t0.97181416\n27045\t62\tSpark Streaming\t0.9919812\n27045\t63\tSpark SQL\t0.99756515\n27045\t70\tSQL Server\t0.988935\n27045\t79\tTitan GraphDB\t0.9902694\n27569\t1\tApache Cassandra\t0.9801765\n27569\t2\tTachyon\t0.9950109\n27569\t21\tElasticSearch\t0.9935243\n27569\t28\tApache ZooKeeper\t0.9876617\n27569\t37\tiPython/Jupyter\t1.0008771\n27569\t40\tR\t0.98979783\n27569\t44\tPython\t1.002412\n27569\t62\tSpark Streaming\t0.9975172\n28567\t7\tApache Spark\t1.0011351\n28567\t11\tApache YARN\t0.9879249\n28567\t35\tNLTK\t0.994596\n28567\t61\tSpark ML/MLlib\t0.9881842\n28567\t74\tNeo4j\t1.003644\n28567\t78\tTensor Flow\t0.9835175\n29427\t1\tApache Cassandra\t0.9880172\n29427\t18\tApache Kafka\t0.99666464\n29427\t21\tElasticSearch\t1.0031748\n29427\t42\tScala\t0.9914349\n29427\t51\tRedis\t0.9934148\n29427\t52\tJSON\t0.98762983\n34063\t21\tElasticSearch\t0.99490064\n34063\t24\tApache Mesos\t0.9758102\n34063\t29\tStanford CoreNLP\t0.9920933\n34063\t35\tNLTK\t0.99432427\n34063\t36\tSci-Kit Learn\t0.98533666\n34063\t37\tiPython/Jupyter\t1.0189658\n34063\t41\tSQL\t0.9920933\n34063\t44\tPython\t0.987795\n34063\t49\tAmazon Web Services\t0.99152416\n34063\t50\tGoogle Cloud Platform\t1.0219281\n34063\t52\tJSON\t0.9660691\n34063\t54\tMongoDB\t0.9918776\n34063\t74\tNeo4j\t0.989121\n34063\t77\tS3\t1.0073144\n37022\t7\tApache Spark\t0.9821853\n37022\t20\tApache Solr\t1.0064272\n37022\t24\tApache Mesos\t1.00507\n37022\t28\tApache ZooKeeper\t0.9958637\n37022\t33\tApache Oozie\t1.0032581\n37022\t42\tScala\t0.98786247\n37022\t43\tJava\t0.9621848\n37022\t69\tSpark GraphX\t1.0130084\n37022\t76\tProtobuffers\t0.96218485\n37477\t38\tApache Zeppelin\t0.99410665\n37902\t7\tApache Spark\t1.0035394\n37902\t10\tApache HDFS\t0.98843765\n37902\t11\tApache YARN\t0.9973323\n37902\t12\tApache HBase\t0.9834752\n37902\t39\tTableau\t0.99523294\n37902\t42\tScala\t0.9975672\n37902\t47\tCloudera\t0.98872614\n45777\t38\tApache Zeppelin\t1.0008013\n45777\t45\tPresto\t0.9769999\n45777\t50\tGoogle Cloud Platform\t1.0080638\n45777\t51\tRedis\t0.98600495\n49360\t5\tMicrosft Azure\t0.9694881\n49360\t7\tApache Spark\t1.0018771\n49360\t42\tScala\t0.9955606\n49360\t47\tCloudera\t0.9989531\n49360\t54\tMongoDB\t0.99635065\n49360\t70\tSQL Server\t0.99678314\n53734\t12\tApache HBase\t0.99202627\n53734\t63\tSpark SQL\t0.998414\n53734\t79\tTitan GraphDB\t0.98969394\n54801\t19\tApache Lucene\t0.97518194\n54801\t29\tStanford CoreNLP\t0.99851453\n54801\t35\tNLTK\t1.0002365\n54801\t36\tSci-Kit Learn\t0.9969834\n54801\t37\tiPython/Jupyter\t1.0073044\n54801\t40\tR\t0.99013364\n54801\t41\tSQL\t0.9985146\n54801\t64\tCSV\t1.0023558\n54801\t73\tMemcached\t0.97518194\n54801\t75\tPostgres\t0.97518194\n56348\t39\tTableau\t0.9786065\n56348\t40\tR\t0.99653184\n56348\t44\tPython\t0.9967073\n56348\t49\tAmazon Web Services\t0.9897578\n56348\t52\tJSON\t0.9847646\n56348\t64\tCSV\t0.9976418\n56348\t77\tS3\t1.0120955\n60978\t7\tApache Spark\t0.98731875\n60978\t36\tSci-Kit Learn\t0.9876903\n60978\t44\tPython\t1.0030305\n60978\t62\tSpark Streaming\t1.0047295\n60978\t67\tKinesis\t0.9827311\n60978\t78\tTensor Flow\t0.9923389\n73744\t7\tApache Spark\t0.9981215\n73744\t18\tApache Kafka\t0.9972105\n73744\t28\tApache ZooKeeper\t1.0007224\n73744\t34\tApache Nifi\t0.9976661\n73744\t68\tDynamoDB\t0.9685109\n74715\t18\tApache Kafka\t0.9976261\n74715\t52\tJSON\t0.9994388\n74715\t81\tVertica\t0.9775569\n80675\t6\tApache Flink\t0.9868519\n80675\t7\tApache Spark\t0.99490297\n82510\t7\tApache Spark\t1.0065817\n82510\t21\tElasticSearch\t1.0106863\n82510\t52\tJSON\t0.98839617\n82510\t53\tXML\t0.9706278\n82510\t54\tMongoDB\t0.99465036\n82510\t62\tSpark Streaming\t0.99107885\n82510\t63\tSpark SQL\t0.994573\n82510\t69\tSpark GraphX\t0.98868847\n82510\t74\tNeo4j\t0.9926351\n86868\t7\tApache Spark\t1.0017292\n86868\t20\tApache Solr\t0.9981067\n86868\t59\tOracle\t0.96818453\n86868\t62\tSpark Streaming\t0.9949902\n86868\t63\tSpark SQL\t0.9974294\n86868\t70\tSQL Server\t0.9975596\n88005\t6\tApache Flink\t0.99172395\n96340\t7\tApache Spark\t1.0000899\n96340\t8\tApache Flume\t0.98471236\n96340\t10\tApache HDFS\t0.9947173\n96340\t11\tApache YARN\t1.0051651\n96340\t12\tApache HBase\t1.0008577\n96340\t13\tApache MapReduce\t0.9931927\n96340\t14\tApache Hive\t0.9946158\n96340\t16\tApache HUE\t0.9866793\n96340\t17\tApache Impala\t0.9801122\n96340\t18\tApache Kafka\t0.9893031\n96340\t20\tApache Solr\t0.9945796\n96340\t27\tApache Pig\t0.9692646\n96340\t32\tApache Sqoop\t0.98044574\n96340\t33\tApache Oozie\t0.9904761\n96340\t42\tScala\t1.0068976\n96340\t47\tCloudera\t0.9837968\n96340\t49\tAmazon Web Services\t1.0040331\n96340\t52\tJSON\t0.99961686\n96340\t53\tXML\t0.98155487\n96340\t60\tMySQL\t0.9943983\n96340\t61\tSpark ML/MLlib\t1.0056233\n96340\t62\tSpark Streaming\t1.0051556\n96340\t63\tSpark SQL\t1.0046035\n96340\t64\tCSV\t0.9782772\n96971\t1\tApache Cassandra\t0.98640746\n96971\t7\tApache Spark\t1.0013282\n96971\t18\tApache Kafka\t0.990455\n96971\t20\tApache Solr\t0.9955241\n96971\t44\tPython\t0.99392045\n99839\t7\tApache Spark\t1.0010977\n99839\t10\tApache HDFS\t0.99141043\n99839\t11\tApache YARN\t0.98885953\n99839\t18\tApache Kafka\t0.99091315\n99839\t31\tApache Storm\t0.97070414\n99839\t69\tSpark GraphX\t0.9999312\n99839\t77\tS3\t1.0089166\n"
       },
       "dateCreated": "Apr 19, 2016 9:11:44 PM",
-      "dateStarted": "Apr 20, 2016 8:10:32 AM",
-      "dateFinished": "Apr 20, 2016 8:10:33 AM",
-      "status": "ABORT",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Store full recommendations to disk",
-      "text": "enrichedRecommendationsDF\n .select($\"userId\", $\"itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n .sort($\"userId\", $\"itemId\", $\"confidence\" desc)\n .coalesce(1)\n .write.mode(\"overwrite\")\n .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/full-recs/\"\"\")",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461100402332_-1279142397",
-      "id": "20160419-211322_1021941780",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:29: error: not found: value enrichedRecommendationsDF\nenrichedRecommendationsDF\n^\n"
-      },
-      "dateCreated": "Apr 19, 2016 9:13:22 PM",
-      "dateStarted": "Apr 20, 2016 8:10:33 AM",
-      "dateFinished": "Apr 20, 2016 8:10:33 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:47:17 AM",
+      "dateFinished": "Apr 23, 2016 1:47:18 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Store full recommendations in elasticSearch",
-      "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n  .save(\"advancedspark/personalized-als\")",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "text": "import org.elasticsearch.spark.sql._ \nimport org.apache.spark.sql.SaveMode\n\n//val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n//enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(\"overwrite\").options(esConfig)\n//  .save(\"advancedspark/personalized-als\")\n  \n  \nimport org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/personalized-als\")\n\nz.show(joinedDF)",
+      "dateUpdated": "Apr 23, 2016 1:50:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -274,18 +237,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:35: error: not found: value enrichedRecommendationsDF\n              enrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\").mode(SaveMode.Overwrite).options(esConfig)\n              ^\n"
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nimport org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\norg.elasticsearch.hadoop.rest.EsHadoopInvalidRequest: [DELETE] on [advancedspark/personalized-als] failed; server[127.0.0.1:9200] returned [400|Bad Request:]\n\tat org.elasticsearch.hadoop.rest.RestClient.checkResponse(RestClient.java:368)\n\tat org.elasticsearch.hadoop.rest.RestClient.executeNotFoundAllowed(RestClient.java:344)\n\tat org.elasticsearch.hadoop.rest.RestClient.delete(RestClient.java:397)\n\tat org.elasticsearch.hadoop.rest.RestRepository.delete(RestRepository.java:447)\n\tat org.elasticsearch.spark.sql.ElasticsearchRelation.insert(DefaultSource.scala:299)\n\tat org.elasticsearch.spark.sql.DefaultSource.createRelation(DefaultSource.scala:65)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:222)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:148)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:139)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:133)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:138)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:140)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:142)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:144)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:146)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:148)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:150)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:152)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:154)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:156)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:158)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:160)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:162)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:164)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:166)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:168)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:170)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:172)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:174)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:176)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:178)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:180)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:182)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:184)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:186)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:188)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:190)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:192)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:194)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:196)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:198)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:200)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:202)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:204)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:206)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:208)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:210)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:212)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:214)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:216)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:218)\n\tat \u003cinit\u003e(\u003cconsole\u003e:220)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:224)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Apr 19, 2016 9:14:38 PM",
-      "dateStarted": "Apr 20, 2016 8:10:34 AM",
-      "dateFinished": "Apr 20, 2016 8:10:34 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:50:26 AM",
+      "dateFinished": "Apr 23, 2016 1:50:27 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show User Factors Matrix",
       "text": "val userFactorsDF \u003d model.userFactors.map(row \u003d\u003e \n  (row.getInt(0),  Vectors.dense(row.getSeq[Float](1).toArray.map(_.toDouble)))\n).toDF(\"userId\", \"userFactors\")\n .sort($\"userId\" asc)\n .as(\"userFactors\")\n\nz.show(userFactorsDF)",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -334,18 +297,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:32: error: not found: value model\n         val userFactorsDF \u003d model.userFactors.map(row \u003d\u003e \n                             ^\n"
+        "msg": "\u003cconsole\u003e:71: error: not found: value Vectors\n         (row.getInt(0),  Vectors.dense(row.getSeq[Float](1).toArray.map(_.toDouble)))\n                          ^\n"
       },
       "dateCreated": "Mar 1, 2016 11:06:08 PM",
-      "dateStarted": "Apr 20, 2016 8:10:34 AM",
-      "dateFinished": "Apr 20, 2016 8:10:34 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:21 AM",
+      "dateFinished": "Apr 23, 2016 1:46:21 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show ItemFactors Matrix",
       "text": "val itemFactorsDF \u003d model.itemFactors.map(row \u003d\u003e\n  (row.getInt(0),  Vectors.dense(row.getSeq[Float](1).toArray.map(_.toDouble)))\n).toDF(\"itemId\", \"itemFactors\")\n .sort($\"itemId\" asc)\n .as(\"itemFactors\")\n\nz.show(itemFactorsDF)",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -371,18 +334,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:32: error: not found: value model\n         val itemFactorsDF \u003d model.itemFactors.map(row \u003d\u003e\n                             ^\n"
+        "msg": "\u003cconsole\u003e:71: error: not found: value Vectors\n         (row.getInt(0),  Vectors.dense(row.getSeq[Float](1).toArray.map(_.toDouble)))\n                          ^\n"
       },
       "dateCreated": "Mar 1, 2016 8:46:57 PM",
-      "dateStarted": "Apr 20, 2016 8:10:35 AM",
-      "dateFinished": "Apr 20, 2016 8:10:35 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:21 AM",
+      "dateFinished": "Apr 23, 2016 1:46:21 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enriched the Item Factors",
       "text": "val enrichedItemFactorsDF \u003d itemFactorsDF\n  .join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemFactors.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"tags\", $\"itemFactors\")\n  .sort($\"items.itemId\")\n  .as(\"enrichedItemFactors\")\n\nz.show(enrichedItemFactorsDF)",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -408,18 +371,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:32: error: not found: value itemFactorsDF\n         val enrichedItemFactorsDF \u003d itemFactorsDF\n                                     ^\n"
+        "msg": "\u003cconsole\u003e:60: error: not found: value itemFactorsDF\n         val enrichedItemFactorsDF \u003d itemFactorsDF\n                                     ^\n"
       },
       "dateCreated": "Apr 19, 2016 8:37:45 PM",
-      "dateStarted": "Apr 20, 2016 8:10:35 AM",
-      "dateFinished": "Apr 20, 2016 8:10:35 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:22 AM",
+      "dateFinished": "Apr 23, 2016 1:46:22 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write the User and item factor vectors to elasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nenrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"itemFactors\", $\"description\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -445,18 +408,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:36: error: not found: value userFactorsDF\n              userFactorsDF.select($\"userId\", $\"userFactors\")\n              ^\n"
+        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n\u003cconsole\u003e:62: error: not found: value userFactorsDF\n              userFactorsDF.select($\"userId\", $\"userFactors\")\n              ^\n"
       },
       "dateCreated": "Apr 17, 2016 10:29:19 PM",
-      "dateStarted": "Apr 20, 2016 8:10:37 AM",
-      "dateFinished": "Apr 20, 2016 8:10:37 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:22 AM",
+      "dateFinished": "Apr 23, 2016 1:46:22 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Confidence Given userId and ItemId",
       "text": "////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////\n\nimport org.jblas.DoubleMatrix\n\n// Create JBlas DoubleMatrix from features\n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .collect()(0)\n\n// Item 7\nval givenItemId \u003d 7\nval givenItemFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .collect()(0)\n  \nval userFactors \u003d new DoubleMatrix(givenUserFactors)\nval itemFactors \u003d new DoubleMatrix(givenItemFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d userFactors.dot(itemFactors)\n\n////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -482,18 +445,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.jblas.DoubleMatrix\ngivenUserId: Int \u003d 12663\n\u003cconsole\u003e:35: error: not found: value model\n         val givenUserFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n                                ^\n"
+        "msg": "import org.jblas.DoubleMatrix\ngivenUserId: Int \u003d 12663\ngivenUserFactors: org.apache.spark.sql.Row \u003d [12663,WrappedArray(-0.053693198, -0.060787797, -0.02334728, 0.4211899, 0.05698735, -0.35991025, -0.2820683, 0.12540135, 0.16931345, -0.4984025)]\ngivenItemId: Int \u003d 7\ngivenItemFactors: org.apache.spark.sql.Row \u003d [7,WrappedArray(-0.086329766, -0.18105295, -0.30203727, 0.44109276, -0.009293048, -0.5395691, -0.24600987, 0.6688674, 0.12115743, -0.8654444)]\n\u003cconsole\u003e:76: error: overloaded method constructor DoubleMatrix with alternatives:\n  (x$1: java.util.List[java.lang.Double])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Array[Array[scala.Double]])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: String)org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Array[scala.Double])org.jblas.DoubleMatrix \u003cand\u003e\n  (x$1: Int)org.jblas.DoubleMatrix\n cannot be applied to (org.apache.spark.sql.Row)\n       val userFactors \u003d new DoubleMatrix(givenUserFactors)\n                         ^\n"
       },
       "dateCreated": "Mar 2, 2016 9:40:12 PM",
-      "dateStarted": "Apr 20, 2016 8:10:37 AM",
-      "dateFinished": "Apr 20, 2016 8:10:38 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:23 AM",
+      "dateFinished": "Apr 23, 2016 1:46:24 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Top 5 Similar Items to a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Given Item: 7 (Spark)\nval givenItemId \u003d 7\n\nval givenItemLatentFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemLatentFactorVector \u003d new DoubleMatrix(givenItemLatentFactors)\n\n// Find Similar Items to the Given Item\nval similarItems \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val itemLatentFactor \u003d row.getSeq[Float](1).map(_.toDouble).toArray\n     val itemLatentFactorVector \u003d new DoubleMatrix(itemLatentFactor)\n     val similarity \u003d Similarity.cosineSimilarity(itemLatentFactorVector, givenItemLatentFactorVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"id\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Apr 20, 2016 8:15:32 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:24 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -519,18 +482,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenItemId: Int \u003d 7\n\u003cconsole\u003e:38: error: not found: value model\n       val givenItemLatentFactors \u003d model.itemFactors.select($\"id\".as(\"itemId\"), $\"features\".as(\"itemFeatures\"))\n                                    ^\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenItemId: Int \u003d 7\ngivenItemLatentFactors: Array[Array[Double]] \u003d Array(Array(-0.08632976561784744, -0.18105295300483704, -0.3020372688770294, 0.44109275937080383, -0.009293047711253166, -0.539569079875946, -0.24600987136363983, 0.6688674092292786, 0.12115743011236191, -0.8654444217681885))\ngivenItemLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.086330, -0.181053, -0.302037, 0.441093, -0.009293, -0.539569, -0.246010, 0.668867, 0.121157, -0.865444]\nsimilarItems: org.apache.spark.rdd.RDD[(Int, Double)] \u003d MapPartitionsRDD[1005] at map at \u003cconsole\u003e:83\nsortedSimilarItems: Array[(Int, Double)] \u003d Array((42,0.9851450233935032), (20,0.9839417782283699), (69,0.9777614787459288), (70,0.9475480591978328), (28,0.9468228783762029))\nsortedSimilarItemsDF: org.apache.spark.sql.DataFrame \u003d [similarItemId: int, similarity: double]\nwarning: there were 1 feature warning(s); re-run with -feature for details\norg.apache.spark.sql.AnalysisException: cannot resolve \u0027id\u0027 given input columns: [img, itemId, tags, title, similarItemId, category, description, similarity];\n\tat org.apache.spark.sql.catalyst.analysis.package$AnalysisErrorAt.failAnalysis(package.scala:42)\n\tat org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$2.applyOrElse(CheckAnalysis.scala:60)\n\tat org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$2.applyOrElse(CheckAnalysis.scala:57)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformUp$1.apply(TreeNode.scala:335)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformUp$1.apply(TreeNode.scala:335)\n\tat org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:69)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformUp(TreeNode.scala:334)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:332)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:332)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$4.apply(TreeNode.scala:281)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:321)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.transformUp(TreeNode.scala:332)\n\tat org.apache.spark.sql.catalyst.plans.QueryPlan.transformExpressionUp$1(QueryPlan.scala:108)\n\tat org.apache.spark.sql.catalyst.plans.QueryPlan.org$apache$spark$sql$catalyst$plans$QueryPlan$$recursiveTransform$2(QueryPlan.scala:119)\n\tat org.apache.spark.sql.catalyst.plans.QueryPlan$$anonfun$2.apply(QueryPlan.scala:127)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:328)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.generic.Growable$class.$plus$plus$eq(Growable.scala:48)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:103)\n\tat scala.collection.mutable.ArrayBuffer.$plus$plus$eq(ArrayBuffer.scala:47)\n\tat scala.collection.TraversableOnce$class.to(TraversableOnce.scala:273)\n\tat scala.collection.AbstractIterator.to(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toBuffer(TraversableOnce.scala:265)\n\tat scala.collection.AbstractIterator.toBuffer(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.toArray(TraversableOnce.scala:252)\n\tat scala.collection.AbstractIterator.toArray(Iterator.scala:1157)\n\tat org.apache.spark.sql.catalyst.plans.QueryPlan.transformExpressionsUp(QueryPlan.scala:127)\n\tat org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:57)\n\tat org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:50)\n\tat org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:121)\n\tat org.apache.spark.sql.catalyst.analysis.CheckAnalysis$class.checkAnalysis(CheckAnalysis.scala:50)\n\tat org.apache.spark.sql.catalyst.analysis.Analyzer.checkAnalysis(Analyzer.scala:44)\n\tat org.apache.spark.sql.execution.QueryExecution.assertAnalyzed(QueryExecution.scala:34)\n\tat org.apache.spark.sql.DataFrame.\u003cinit\u003e(DataFrame.scala:133)\n\tat org.apache.spark.sql.DataFrame.org$apache$spark$sql$DataFrame$$withPlan(DataFrame.scala:2126)\n\tat org.apache.spark.sql.DataFrame.join(DataFrame.scala:541)\n\tat org.apache.spark.sql.DataFrame.join(DataFrame.scala:508)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:96)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:98)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:100)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:102)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:104)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:106)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:108)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:110)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:112)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:114)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:116)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:118)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:120)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:122)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:124)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:126)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:128)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:130)\n\tat \u003cinit\u003e(\u003cconsole\u003e:132)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:136)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Apr 17, 2016 4:11:12 AM",
-      "dateStarted": "Apr 20, 2016 8:10:38 AM",
-      "dateFinished": "Apr 20, 2016 8:10:38 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:24 AM",
+      "dateFinished": "Apr 23, 2016 1:46:25 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Top 5 Similar Users to a given user",
       "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\n// User 12663\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Given User: 12663\nval givenUserId \u003d 12663\nval givenUserLatentFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e (row.getSeq[Float](1).toArray.map(_.toDouble)))\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenUserLatentFactorVector \u003d new DoubleMatrix(givenUserLatentFactors)\n\n// Find Similar Users to the Given User\nval similarUsers \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val userLatentFactor \u003d row.getSeq[Float](1).map(_.toDouble).toArray\n     val userLatentFactorVector \u003d new DoubleMatrix(userLatentFactor)\n     val similarity \u003d Similarity.cosineSimilarity(userLatentFactorVector, givenUserLatentFactorVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Users by Similarity to Given Users\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { \n  case (id, similarity) \u003d\u003e similarity \n}).mkString(\"\\n\")\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
-      "dateUpdated": "Apr 20, 2016 8:15:32 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -554,18 +517,18 @@
       "jobName": "paragraph_1460868286479_-213464598",
       "id": "20160417-044446_1052340818",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenUserId: Int \u003d 12663\n\u003cconsole\u003e:40: error: not found: value model\n         val givenUserLatentFactors \u003d model.userFactors.select($\"id\".as(\"userId\"), $\"features\".as(\"userFeatures\"))\n                                      ^\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\ngivenUserId: Int \u003d 12663\ngivenUserLatentFactors: Array[Double] \u003d Array(-0.053693197667598724, -0.06078779697418213, -0.02334728091955185, 0.42118990421295166, 0.056987348943948746, -0.359910249710083, -0.28206831216812134, 0.1254013478755951, 0.169313445687294, -0.49840250611305237)\ngivenUserLatentFactorVector: org.jblas.DoubleMatrix \u003d [-0.053693; -0.060788; -0.023347; 0.421190; 0.056987; -0.359910; -0.282068; 0.125401; 0.169313; -0.498403]\nsimilarUsers: org.apache.spark.rdd.RDD[(Int, Double)] \u003d MapPartitionsRDD[1014] at map at \u003cconsole\u003e:86\nsortedSimilarUsers: String \u003d \n(8910,0.9984649874686649)\n(96340,0.994508008437814)\n(17841,0.9928123074295419)\n(20229,0.9917622383685839)\n(3969,0.9862865591662549)\n"
       },
       "dateCreated": "Apr 17, 2016 4:44:46 AM",
-      "dateStarted": "Apr 20, 2016 8:10:38 AM",
-      "dateFinished": "Apr 20, 2016 8:10:39 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:25 AM",
+      "dateFinished": "Apr 23, 2016 1:46:26 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 20, 2016 8:15:32 AM",
+      "dateUpdated": "Apr 23, 2016 1:46:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -592,13 +555,13 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 17, 2016 7:53:45 PM",
-      "dateStarted": "Apr 20, 2016 8:10:39 AM",
-      "dateFinished": "Apr 20, 2016 8:10:39 AM",
-      "status": "ABORT",
+      "dateStarted": "Apr 23, 2016 1:46:26 AM",
+      "dateFinished": "Apr 23, 2016 1:46:26 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Live Recs/03:  Generate User-to-Item Collaborative Filter Recs (ALS)",
+  "name": "Live Recs/02:  Generate User-to-Item Collaborative Filter Recs (ALS)",
   "id": "2AUYFSKXN",
   "angularObjects": {
     "2ARR8UZDJ": [],
