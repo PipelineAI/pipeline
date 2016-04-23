@@ -104,9 +104,6 @@ RUN \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
 
-# Python NetworkX/Tribe Demos
- && pip install --upgrade tribe \
-
 # Cython (Feather)
  && pip install cython \
  && pip install feather-format \
@@ -178,7 +175,10 @@ RUN \
 
 # TensorFLow
  && cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
+ && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION \
+
+# Python NetworkX/Tribe Demos
+ && pip install tribe 
 
 RUN \
 # Get Latest Pipeline Code
