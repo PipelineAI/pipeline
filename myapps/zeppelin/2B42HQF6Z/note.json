@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\n* $MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh",
-      "dateUpdated": "Apr 14, 2016 11:44:24 PM",
+      "text": "%md ### You must first run the following (and have enough CPU Cores to do so):\n* $MYAPPS_HOME/spark/streaming/start-spark-streaming-ratings-redis-hll.sh\n* $MYAPPS_HOME/spark/streaming/start-spark-streaming-ratings-redis.sh",
+      "dateUpdated": "Apr 23, 2016 4:01:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": false,
+        "editorHide": true,
         "tableHide": false
       },
       "settings": {
@@ -28,11 +28,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/li\u003e\n\u003cli\u003e$MYAPPS_HOME/streaming/start-spark-streaming-ratings-redis.sh\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eYou must first run the following (and have enough CPU Cores to do so):\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e$MYAPPS_HOME/spark/streaming/start-spark-streaming-ratings-redis-hll.sh\u003c/li\u003e\n\u003cli\u003e$MYAPPS_HOME/spark/streaming/start-spark-streaming-ratings-redis.sh\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 4:32:14 AM",
-      "dateStarted": "Apr 14, 2016 11:44:24 PM",
-      "dateFinished": "Apr 14, 2016 11:44:24 PM",
+      "dateStarted": "Apr 23, 2016 4:01:02 AM",
+      "dateFinished": "Apr 23, 2016 4:01:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

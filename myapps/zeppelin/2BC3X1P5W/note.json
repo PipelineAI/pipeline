@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md [TextRank Paper](http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)",
-      "dateUpdated": "Jan 17, 2016 12:01:20 AM",
+      "text": "%md # [TextRank Paper](http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)",
+      "dateUpdated": "Apr 23, 2016 2:41:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -15,7 +15,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -26,17 +27,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003ca href\u003d\"http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf\"\u003eTextRank Paper\u003c/a\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch1\u003e\u003ca href\u003d\"http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf\"\u003eTextRank Paper\u003c/a\u003e\u003c/h1\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 10:44:52 PM",
-      "dateStarted": "Jan 17, 2016 12:01:20 AM",
-      "dateFinished": "Jan 17, 2016 12:01:20 AM",
+      "dateStarted": "Apr 23, 2016 2:41:21 AM",
+      "dateFinished": "Apr 23, 2016 2:41:21 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md Start with spark user list\n",
-      "dateUpdated": "Jan 17, 2016 6:45:40 PM",
+      "text": "%md ## Follow paco\u0027s pattern using the Spark user list:  \n* https://github.com/ceteri/spark-exercises/tree/master/exsto",
+      "dateUpdated": "Apr 23, 2016 2:41:28 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -49,41 +50,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452988870514_-1246670758",
-      "id": "20160117-000110_137832102",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003cp\u003eStart with spark user list\u003c/p\u003e\n"
-      },
-      "dateCreated": "Jan 17, 2016 12:01:10 AM",
-      "dateStarted": "Jan 17, 2016 6:45:40 PM",
-      "dateFinished": "Jan 17, 2016 6:45:40 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md Follow paco\u0027s pattern:  https://github.com/ceteri/spark-exercises/tree/master/exsto",
-      "dateUpdated": "Feb 17, 2016 1:40:28 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -94,24 +62,43 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003eFollow paco\u0027s pattern:  https://github.com/ceteri/spark-exercises/tree/master/exsto\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eFollow paco\u0027s pattern using the Spark user list:\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/ceteri/spark-exercises/tree/master/exsto\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Jan 17, 2016 6:45:40 PM",
-      "dateStarted": "Feb 17, 2016 1:40:28 PM",
-      "dateFinished": "Feb 17, 2016 1:40:28 PM",
+      "dateStarted": "Apr 23, 2016 2:41:15 AM",
+      "dateFinished": "Apr 23, 2016 2:41:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Apr 23, 2016 2:40:43 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1453056365729_1099051800",
       "id": "20160117-184605_564448773",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Jan 17, 2016 6:46:05 PM",
-      "status": "READY",
+      "dateStarted": "Apr 23, 2016 2:40:43 AM",
+      "dateFinished": "Apr 23, 2016 2:40:43 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
