@@ -1,12 +1,10 @@
 {
   "paragraphs": [
     {
-      "title": "Get Edges",
-      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/user-to-item-graph-based-recs.csv\")\n  .toDF(\"userId\", \"itemId\")",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
+      "text": "%md\n## Graph-based Recommendations\n### More Info on Graph-based Recommendations Here:\n* https://markorodriguez.com/2011/09/22/a-graph-based-movie-recommender-engine/\n* http://aimotion.blogspot.com/2013/03/graph-based-recommendations-using-how.html",
+      "dateUpdated": "Apr 23, 2016 1:28:38 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -17,29 +15,252 @@
           "scatter": {}
         },
         "enabled": true,
+        "editorHide": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461372340503_284194690",
+      "id": "20160423-004540_610338591",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eGraph-based Recommendations\u003c/h2\u003e\n\u003ch3\u003eMore Info on Graph-based Recommendations Here:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://markorodriguez.com/2011/09/22/a-graph-based-movie-recommender-engine/\u003c/li\u003e\n\u003cli\u003ehttp://aimotion.blogspot.com/2013/03/graph-based-recommendations-using-how.html\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 12:45:40 AM",
+      "dateStarted": "Apr 23, 2016 1:28:38 AM",
+      "dateFinished": "Apr 23, 2016 1:28:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Bi-partite User -\u003e Item Graph",
+      "text": "%md ![User Likes Item](http://advancedspark.com/img/user-likes-item.png)",
+      "dateUpdated": "Apr 23, 2016 1:28:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
         "title": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1460656626724_-1907069709",
-      "id": "20160414-175706_1896055693",
+      "jobName": "paragraph_1461369619446_410720715",
+      "id": "20160423-000019_1198277845",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n"
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-likes-item.png\" alt\u003d\"User Likes Item\" /\u003e\u003c/p\u003e\n"
       },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:23 AM",
-      "dateFinished": "Apr 21, 2016 2:50:24 AM",
+      "dateCreated": "Apr 23, 2016 12:00:19 AM",
+      "dateStarted": "Apr 23, 2016 1:28:39 AM",
+      "dateFinished": "Apr 23, 2016 1:28:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Create Graph From Edges ",
-      "text": "import org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
+      "title": "3D View of Bi-partite User -\u003e Item Graph including similars",
+      "text": "%md ![Bi-partite Recommendations](http://advancedspark.com/img/bipartite-recommendations.png)",
+      "dateUpdated": "Apr 23, 2016 1:28:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461371044512_-412251725",
+      "id": "20160423-002404_710338527",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/bipartite-recommendations.png\" alt\u003d\"Bi-partite Recommendations\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 12:24:04 AM",
+      "dateStarted": "Apr 23, 2016 1:28:40 AM",
+      "dateFinished": "Apr 23, 2016 1:28:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Build GraphFrame From small dataset",
+      "text": "import org.graphframes.GraphFrame\nimport org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval smallEdgesRDD \u003d sc.parallelize(\n  List(Edge(10001, 90001, 1.0), Edge(10001, 90002, 1.0), Edge(10002, 90001, 1.0), Edge(10002, 90002, 1.0), Edge(10002, 90003, 1.0))\n)\nval smallGraph \u003d Graph.fromEdges(smallEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)\nval smallGraphFrame \u003d GraphFrame.fromGraphX(smallGraph)\n\nz.show(smallGraphFrame.edges.toDF(\"userId\", \"itemId\", \"rating\").sort($\"userId\".asc, $\"itemId\".asc))",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 218.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461369583406_138257197",
+      "id": "20160422-235943_40831674",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\n10001\t90001\t1.0\n10001\t90002\t1.0\n10002\t90001\t1.0\n10002\t90002\t1.0\n10002\t90003\t1.0\n"
+      },
+      "dateCreated": "Apr 22, 2016 11:59:43 PM",
+      "dateStarted": "Apr 23, 2016 1:28:39 AM",
+      "dateFinished": "Apr 23, 2016 1:29:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Generate Item Recommendations based on user-\u003eItem Likes",
+      "text": "val smallRecommendationsDF \u003d smallGraphFrame\n  .find(\"(user1)-[]-\u003e(item1); (user2)-[]-\u003e(item2); !(user1)-[]-\u003e(item2)\")\n  .filter($\"user1.id\" !\u003d\u003d $\"user2.id\") // eliminate duplicates for undirected graphs \n  .select($\"user1.id\",  $\"item2.id\", $\"user2.id\", $\"item2.id\")\n  .toDF(\"userId1\", \"itemId2\", \"userId2\", \"itemId1\")\n  .dropDuplicates()\n  .groupBy($\"userId1\", $\"itemId2\")\n  .count()\n  .sort($\"userId1\", $\"itemId2\", $\"count\".desc)\n\nz.show(smallRecommendationsDF)",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 94.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "userId1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461369742226_-1659476844",
+      "id": "20160423-000222_1376256074",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId1\titemId2\tcount\n10001\t90003\t1\n"
+      },
+      "dateCreated": "Apr 23, 2016 12:02:22 AM",
+      "dateStarted": "Apr 23, 2016 1:28:48 AM",
+      "dateFinished": "Apr 23, 2016 1:29:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![User-to-Item Graph Based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461371852377_1065902643",
+      "id": "20160423-003732_734995611",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph Based Recommendations\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 12:37:32 AM",
+      "dateStarted": "Apr 23, 2016 1:28:40 AM",
+      "dateFinished": "Apr 23, 2016 1:28:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Build Medium GraphFrame From Edges ",
+      "text": "import org.graphframes.GraphFrame\n\nval mediumEdgesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/user-to-item-graph-based-recs.csv\")\n  .toDF(\"userId\", \"itemId\")\n  \nval mediumEdgesRDD \u003d mediumEdgesDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n})\n\nval mediumGraph \u003d Graph.fromEdges(mediumEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)\n\nval mediumGraphFrame \u003d GraphFrame.fromGraphX(mediumGraph)\n\nz.show(mediumGraphFrame.edges.toDF(\"userId\", \"itemId\", \"rating\").sort($\"userId\".asc, $\"itemId\".asc))",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -63,73 +284,35 @@
       "id": "20160414-175706_1293798741",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[2714] at map at \u003cconsole\u003e:117\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@15de5740\n"
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\n10001\t90001\t1.0\n10001\t90002\t1.0\n10001\t90003\t1.0\n10001\t90004\t1.0\n10001\t90005\t1.0\n10002\t90004\t1.0\n10002\t90006\t1.0\n10003\t90001\t1.0\n10003\t90003\t1.0\n10003\t90006\t1.0\n"
       },
       "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:24 AM",
-      "dateFinished": "Apr 21, 2016 2:50:24 AM",
+      "dateStarted": "Apr 23, 2016 1:29:05 AM",
+      "dateFinished": "Apr 23, 2016 1:29:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Convert to GraphFrame",
-      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
+      "title": "Generate Item Recommendations based on user-\u003eItem Likes",
+      "text": "val mediumRecommendationsDF \u003d mediumGraphFrame\n  .find(\"(user1)-[]-\u003e(item1); (user2)-[]-\u003e(item2); !(user1)-[]-\u003e(item2)\")\n  .filter($\"user1.id\" !\u003d\u003d $\"user2.id\") // eliminate duplicates for undirected graphs \n  .select($\"user1.id\",  $\"item2.id\", $\"user2.id\", $\"item2.id\")\n  .toDF(\"userId1\", \"itemId2\", \"userId2\", \"itemId1\")\n  .dropDuplicates()\n  .groupBy($\"userId1\", $\"itemId2\")\n  .count()\n  .sort($\"userId1\", $\"count\".desc, $\"itemId2\")\n  \nz.show(mediumRecommendationsDF)",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_1227216144",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: double])\nres315: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres318: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: double]\nres321: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@5c5441b6\n"
-      },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:24 AM",
-      "dateFinished": "Apr 21, 2016 2:50:25 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Show GraphFrame Triplets",
-      "text": "z.show(graphFrame.triplets)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
         "graph": {
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
           "keys": [
             {
-              "name": "edge",
+              "name": "userId1",
               "index": 0.0,
               "aggr": "sum"
             }
           ],
           "values": [
             {
-              "name": "src",
+              "name": "itemId2",
               "index": 1.0,
               "aggr": "sum"
             }
@@ -137,78 +320,39 @@
           "groups": [],
           "scatter": {
             "xAxis": {
-              "name": "edge",
+              "name": "userId1",
               "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "src",
-              "index": 1.0,
               "aggr": "sum"
             }
           }
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_1644414626",
+      "jobName": "paragraph_1461364916840_132837372",
+      "id": "20160422-224156_1919063189",
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "edge\tsrc\tdst\n[10001,90001,1.0]\t[10001,0]\t[90001,0]\n[10003,90001,1.0]\t[10003,0]\t[90001,0]\n[10001,90002,1.0]\t[10001,0]\t[90002,0]\n[10001,90003,1.0]\t[10001,0]\t[90003,0]\n[10003,90003,1.0]\t[10003,0]\t[90003,0]\n[10001,90004,1.0]\t[10001,0]\t[90004,0]\n[10002,90004,1.0]\t[10002,0]\t[90004,0]\n[10001,90005,1.0]\t[10001,0]\t[90005,0]\n[10002,90006,1.0]\t[10002,0]\t[90006,0]\n[10003,90006,1.0]\t[10003,0]\t[90006,0]\n"
+        "msg": "userId1\titemId2\tcount\n10001\t90006\t2\n10002\t90001\t2\n10002\t90003\t2\n10002\t90002\t1\n10002\t90005\t1\n10003\t90004\t2\n10003\t90002\t1\n10003\t90005\t1\n"
       },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:25 AM",
-      "dateFinished": "Apr 21, 2016 2:50:26 AM",
+      "dateCreated": "Apr 22, 2016 10:41:56 PM",
+      "dateStarted": "Apr 23, 2016 1:29:14 AM",
+      "dateFinished": "Apr 23, 2016 1:29:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Triangle Count with GraphFrame",
-      "text": "// val triangleCountPerVertex \u003d graphFrame.triangleCount.run.select($\"id\", $\"count\").sort($\"count\")\n\n// z.show(triangleCountPerVertex)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
-      "config": {
-        "colWidth": 11.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 189.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_856269384",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:26 AM",
-      "dateFinished": "Apr 21, 2016 2:50:26 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md ### Find Missing Triangles\n* Tri-partite relationships\n* aka. Transitive closures, Cliques\n* Recommendations based on missing triangles\n\n![User-to-Item Graph-based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)\n\n![Graph Missing Triangles](http://advancedspark.com/img/graph-missing-triangles-2.png)\n\n![Bi-partite Recommendations](http://advancedspark.com/img/bipartite-recommendations.png)\n",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
+      "title": "TODO:  Filter Recommended Items by Tags",
+      "text": "%md ![User Likes Item](http://advancedspark.com/img/user-likes-item-with-tags.png)",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
       "config": {
         "colWidth": 12.0,
-        "editorMode": "ace/mode/markdown",
         "graph": {
           "mode": "table",
           "height": 300.0,
@@ -219,151 +363,64 @@
           "scatter": {}
         },
         "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461365195833_177081851",
+      "id": "20160422-224635_623518771",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-likes-item-with-tags.png\" alt\u003d\"User Likes Item\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 22, 2016 10:46:35 PM",
+      "dateStarted": "Apr 23, 2016 1:28:40 AM",
+      "dateFinished": "Apr 23, 2016 1:28:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### More Details on Graph-based Recommendations Here:\n* https://markorodriguez.com/2011/09/22/a-graph-based-movie-recommender-engine/\n* http://aimotion.blogspot.com/2013/03/graph-based-recommendations-using-how.html",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
         "editorHide": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1460656626724_-1907069709",
-      "id": "20160414-175706_475355662",
+      "jobName": "paragraph_1461369515212_39853423",
+      "id": "20160422-235835_1047540640",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eFind Missing Triangles\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eTri-partite relationships\u003c/li\u003e\n\u003cli\u003eaka. Transitive closures, Cliques\u003c/li\u003e\n\u003cli\u003eRecommendations based on missing triangles\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recommendations\" /\u003e\u003c/p\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/graph-missing-triangles-2.png\" alt\u003d\"Graph Missing Triangles\" /\u003e\u003c/p\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/bipartite-recommendations.png\" alt\u003d\"Bi-partite Recommendations\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch3\u003eMore Details on Graph-based Recommendations Here:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://markorodriguez.com/2011/09/22/a-graph-based-movie-recommender-engine/\u003c/li\u003e\n\u003cli\u003ehttp://aimotion.blogspot.com/2013/03/graph-based-recommendations-using-how.html\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:23 AM",
-      "dateFinished": "Apr 21, 2016 2:50:23 AM",
+      "dateCreated": "Apr 22, 2016 11:58:35 PM",
+      "dateStarted": "Apr 23, 2016 1:28:41 AM",
+      "dateFinished": "Apr 23, 2016 1:28:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "editorHide": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460656626724_-1907069709",
-      "id": "20160414-175706_1778871177",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "File name too long"
-      },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:26 AM",
-      "dateFinished": "Apr 21, 2016 2:50:27 AM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md ![User-to-Item Graph-based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": true,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_1630534764",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph-based Recommendations\" /\u003e\u003c/p\u003e\n"
-      },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:23 AM",
-      "dateFinished": "Apr 21, 2016 2:50:23 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Motif Finding:  Find Disconnected triangles using structure",
-      "text": "val disconnectedTrianglesDF \u003d graphFrame.find(\"(v1)-[e1]-\u003e(v2); (v2)-[e2]-\u003e(v3); !(v1)-[]-\u003e(v3)\")\n  .filter($\"v1.id\" \u003c $\"v3.id\") // eliminate duplicates for undirected graphs\n  .select($\"v1.id\", $\"v2.id\", $\"v3.id\").toDF(\"from\", \"through\", \"to\")\n\nz.show(disconnectedTrianglesDF)",
-      "dateUpdated": "Apr 21, 2016 2:50:23 AM",
-      "config": {
-        "colWidth": 11.0,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "graph": {
-          "mode": "table",
-          "height": 314.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "from",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "through",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "from",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_113584140",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "from\tthrough\tto\n"
-      },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:27 AM",
-      "dateFinished": "Apr 21, 2016 2:50:30 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "dateUpdated": "Apr 21, 2016 2:50:24 AM",
+      "dateUpdated": "Apr 23, 2016 1:28:39 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -381,20 +438,20 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1460656626725_-1907454457",
-      "id": "20160414-175706_2047854752",
+      "jobName": "paragraph_1461373956724_-1125439389",
+      "id": "20160423-011236_119690430",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT"
       },
-      "dateCreated": "Apr 14, 2016 5:57:06 PM",
-      "dateStarted": "Apr 21, 2016 2:50:27 AM",
-      "dateFinished": "Apr 21, 2016 2:50:30 AM",
+      "dateCreated": "Apr 23, 2016 1:12:36 AM",
+      "dateStarted": "Apr 23, 2016 1:30:25 AM",
+      "dateFinished": "Apr 23, 2016 1:30:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/04: TODO: User-to-Item Graph-based Recs (Motify Finding)",
+  "name": "Recommendations/04:  User-to-Item Graph-based Recs (Motify Finding)",
   "id": "2BG5N4U8E",
   "angularObjects": {
     "2ARR8UZDJ": [],

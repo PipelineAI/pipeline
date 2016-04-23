@@ -3,7 +3,7 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n\nz.show(itemsDF.select($\"id\", $\"title\", $\"img\", $\"tags\").limit(10))",
-      "dateUpdated": "Apr 17, 2016 7:50:22 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -55,15 +55,15 @@
         "msg": "id\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Apr 17, 2016 7:50:22 PM",
-      "dateFinished": "Apr 17, 2016 7:50:23 PM",
+      "dateStarted": "Apr 23, 2016 12:51:23 AM",
+      "dateFinished": "Apr 23, 2016 12:52:51 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
-      "dateUpdated": "Apr 17, 2016 7:50:22 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -93,15 +93,15 @@
         "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Apr 17, 2016 7:50:23 PM",
-      "dateFinished": "Apr 17, 2016 7:50:24 PM",
+      "dateStarted": "Apr 23, 2016 12:52:51 AM",
+      "dateFinished": "Apr 23, 2016 12:52:52 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Total ratings and Distinct Users",
       "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Apr 17, 2016 7:50:22 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -128,18 +128,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 0\ndistinctUsers: Any \u003d 0\n"
+        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 275\ndistinctUsers: Any \u003d 34\n"
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Apr 17, 2016 7:50:24 PM",
-      "dateFinished": "Apr 17, 2016 7:50:28 PM",
+      "dateStarted": "Apr 23, 2016 12:52:52 AM",
+      "dateFinished": "Apr 23, 2016 12:52:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "distribution of ratings ",
       "text": "val joinedDF \u003d itemRatingsDF.join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"itemId\", $\"title\", $\"img\")\n  .groupBy($\"itemId\", $\"title\", $\"img\")\n  .agg(count($\"itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n\nz.show(joinedDF)",
-      "dateUpdated": "Apr 17, 2016 7:50:22 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -189,17 +189,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n"
+        "msg": "itemId\ttitle\timg\tcount\n7\tApache Spark\timg/software/spark.png\t18\n42\tScala\timg/software/scala.png\t12\n18\tApache Kafka\timg/software/kafka.png\t12\n62\tSpark Streaming\timg/software/spark-streaming.png\t10\n63\tSpark SQL\timg/software/spark-sql.png\t10\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Apr 17, 2016 7:50:25 PM",
-      "dateFinished": "Apr 17, 2016 7:50:30 PM",
+      "dateStarted": "Apr 23, 2016 12:52:53 AM",
+      "dateFinished": "Apr 23, 2016 12:52:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Compare DataFrame and SQL Query Plans",
-      "dateUpdated": "Apr 17, 2016 7:50:22 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -227,14 +227,14 @@
         "msg": "\u003ch3\u003eCompare DataFrame and SQL Query Plans\u003c/h3\u003e\n"
       },
       "dateCreated": "Mar 6, 2016 4:20:16 AM",
-      "dateStarted": "Apr 17, 2016 7:50:23 PM",
-      "dateFinished": "Apr 17, 2016 7:50:23 PM",
+      "dateStarted": "Apr 23, 2016 12:51:23 AM",
+      "dateFinished": "Apr 23, 2016 12:51:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "joinedDF.explain()",
-      "dateUpdated": "Apr 17, 2016 7:50:23 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -258,17 +258,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#30L DESC], output\u003d[itemId#17,title#11,img#9,count#30L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#17,title#11,img#9], functions\u003d[(count(itemId#17),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#17,title#11,img#9,count#30L])\n      +- TungstenExchange hashpartitioning(itemId#17,title#11,img#9,200), None\n         +- TungstenAggregate(key\u003d[itemId#17,title#11,img#9], functions\u003d[(count(itemId#17),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#17,title#11,img#9,count#33L])\n            +- Project [itemId#17,title#11,img#9]\n               +- BroadcastHashJoin [cast(itemId#17 as bigint)], [id#8L], BuildRight\n                  :- Project [itemid#13 AS itemId#17]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@10ac1c91[itemid#13] \n                  +- Scan JSONRelation[title#11,img#9,id#8L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#412L DESC], output\u003d[itemId#399,title#393,img#391,count#412L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#399,title#393,img#391], functions\u003d[(count(itemId#399),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#399,title#393,img#391,count#412L])\n      +- TungstenExchange hashpartitioning(itemId#399,title#393,img#391,200), None\n         +- TungstenAggregate(key\u003d[itemId#399,title#393,img#391], functions\u003d[(count(itemId#399),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#399,title#393,img#391,count#415L])\n            +- Project [itemId#399,title#393,img#391]\n               +- BroadcastHashJoin [cast(itemId#399 as bigint)], [id#390L], BuildRight\n                  :- Project [itemid#395 AS itemId#399]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@79bd277d[itemid#395] \n                  +- Scan JSONRelation[title#393,img#391,id#390L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Mar 6, 2016 4:22:35 AM",
-      "dateStarted": "Apr 17, 2016 7:50:29 PM",
-      "dateFinished": "Apr 17, 2016 7:50:30 PM",
+      "dateStarted": "Apr 23, 2016 12:52:55 AM",
+      "dateFinished": "Apr 23, 2016 12:52:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")\n\nval joinedSql \u003d sqlContext.sql(\"\"\"SELECT itemId, title, count(itemId) as count FROM item_ratings_temp \n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.id) \n  GROUP BY itemId, title \n  ORDER BY count \n  DESC LIMIT 5\"\"\")\n  \njoinedSql.explain()",
-      "dateUpdated": "Apr 17, 2016 7:50:23 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -292,18 +292,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "joinedSql: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#36L DESC], output\u003d[itemId#17,title#11,count#36L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#17,title#11], functions\u003d[(count(itemId#17),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#17,title#11,count#36L])\n      +- TungstenExchange hashpartitioning(itemId#17,title#11,200), None\n         +- TungstenAggregate(key\u003d[itemId#17,title#11], functions\u003d[(count(itemId#17),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#17,title#11,count#42L])\n            +- Project [itemId#17,title#11]\n               +- BroadcastHashJoin [cast(itemId#17 as bigint)], [id#8L], BuildRight\n                  :- Project [itemid#13 AS itemId#17]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@10ac1c91[itemid#13] \n                  +- Scan JSONRelation[title#11,id#8L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "joinedSql: org.apache.spark.sql.DataFrame \u003d [itemId: int, title: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#418L DESC], output\u003d[itemId#399,title#393,count#418L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#399,title#393], functions\u003d[(count(itemId#399),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#399,title#393,count#418L])\n      +- TungstenExchange hashpartitioning(itemId#399,title#393,200), None\n         +- TungstenAggregate(key\u003d[itemId#399,title#393], functions\u003d[(count(itemId#399),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#399,title#393,count#424L])\n            +- Project [itemId#399,title#393]\n               +- BroadcastHashJoin [cast(itemId#399 as bigint)], [id#390L], BuildRight\n                  :- Project [itemid#395 AS itemId#399]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@79bd277d[itemid#395] \n                  +- Scan JSONRelation[title#393,id#390L] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Mar 6, 2016 4:10:39 AM",
-      "dateStarted": "Apr 17, 2016 7:50:30 PM",
-      "dateFinished": "Apr 17, 2016 7:50:32 PM",
+      "dateStarted": "Apr 23, 2016 12:52:57 AM",
+      "dateFinished": "Apr 23, 2016 12:52:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\njoinedDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")\n\nz.show(joinedDF)\n",
-      "dateUpdated": "Apr 17, 2016 7:50:23 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -351,20 +351,20 @@
       "jobName": "paragraph_1447754108027_-274054386",
       "id": "20151117-095508_447614045",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\norg.elasticsearch.hadoop.rest.EsHadoopInvalidRequest: [DELETE] on [advancedspark/top-items-by-exact-rating-count] failed; server[127.0.0.1:9200] returned [400|Bad Request:]\n\tat org.elasticsearch.hadoop.rest.RestClient.checkResponse(RestClient.java:368)\n\tat org.elasticsearch.hadoop.rest.RestClient.executeNotFoundAllowed(RestClient.java:344)\n\tat org.elasticsearch.hadoop.rest.RestClient.delete(RestClient.java:397)\n\tat org.elasticsearch.hadoop.rest.RestRepository.delete(RestRepository.java:447)\n\tat org.elasticsearch.spark.sql.ElasticsearchRelation.insert(DefaultSource.scala:299)\n\tat org.elasticsearch.spark.sql.DefaultSource.createRelation(DefaultSource.scala:65)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:222)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:148)\n\tat org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:139)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:83)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:85)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:87)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:93)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:95)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:97)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat \u003cinit\u003e(\u003cconsole\u003e:119)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:123)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Apr 17, 2016 7:50:31 PM",
-      "dateFinished": "Apr 17, 2016 7:50:34 PM",
-      "status": "FINISHED",
+      "dateStarted": "Apr 23, 2016 12:52:57 AM",
+      "dateFinished": "Apr 23, 2016 12:52:58 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Update TopK model",
       "text": "val topKModelJson \u003d \"/root/pipeline/work/serving/recommendations/topk/model.json\"",
-      "dateUpdated": "Apr 17, 2016 7:53:09 PM",
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -393,21 +393,41 @@
         "msg": "topKModelJson: String \u003d /root/pipeline/work/serving/recommendations/topk/model.json\n"
       },
       "dateCreated": "Dec 27, 2015 9:52:58 PM",
-      "dateStarted": "Apr 17, 2016 7:53:09 PM",
-      "dateFinished": "Apr 17, 2016 7:53:10 PM",
+      "dateStarted": "Apr 23, 2016 12:52:58 AM",
+      "dateFinished": "Apr 23, 2016 12:52:59 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Apr 23, 2016 12:51:23 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1460922712529_1849006590",
       "id": "20160417-195152_2028584432",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Apr 17, 2016 7:51:52 PM",
-      "status": "READY",
+      "dateStarted": "Apr 23, 2016 12:52:59 AM",
+      "dateFinished": "Apr 23, 2016 12:52:59 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

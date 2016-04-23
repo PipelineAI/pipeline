@@ -283,41 +283,6 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md # PUT THIS IN A SEPARATE NOTEBOOK!",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461100352255_809598085",
-      "id": "20160419-211232_1591507464",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch1\u003ePUT THIS IN A SEPARATE NOTEBOOK!\u003c/h1\u003e\n"
-      },
-      "dateCreated": "Apr 19, 2016 9:12:32 PM",
-      "dateStarted": "Apr 20, 2016 8:15:31 AM",
-      "dateFinished": "Apr 20, 2016 8:15:31 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Show User Factors Matrix",
       "text": "val userFactorsDF \u003d model.userFactors.map(row \u003d\u003e \n  (row.getInt(0),  Vectors.dense(row.getSeq[Float](1).toArray.map(_.toDouble)))\n).toDF(\"userId\", \"userFactors\")\n .sort($\"userId\" asc)\n .as(\"userFactors\")\n\nz.show(userFactorsDF)",
       "dateUpdated": "Apr 20, 2016 8:15:31 AM",
@@ -452,43 +417,6 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Write the user and item factor vectors to disk",
-      "text": "//userFactorsDF.select($\"userId\", $\"userFactors\")\n// .sort($\"userId\" asc)\n// .coalesce(1)\n// .write.mode(\"overwrite\")\n// .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/user-factors\"\"\")\n\n//enrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"itemFactors\", $\"description\", $\"tags\", $\"img\")\n// .sort($\"itemId\" asc)\n// .coalesce(1)\n// .write.mode(\"overwrite\")\n// .json(s\"\"\"/root/pipeline/work/serving/recommendations/als/item-factors\"\"\")",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460923887330_-466946993",
-      "id": "20160417-201127_1997357021",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "Apr 17, 2016 8:11:27 PM",
-      "dateStarted": "Apr 20, 2016 8:10:36 AM",
-      "dateFinished": "Apr 20, 2016 8:10:37 AM",
-      "status": "ABORT",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Write the User and item factor vectors to elasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nenrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"itemFactors\", $\"description\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
       "dateUpdated": "Apr 20, 2016 8:15:31 AM",
@@ -523,41 +451,6 @@
       "dateStarted": "Apr 20, 2016 8:10:37 AM",
       "dateFinished": "Apr 20, 2016 8:10:37 AM",
       "status": "ABORT",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%md # TODO MOVE THIS TO A SEPARATE NOTEBOOK!!\n",
-      "dateUpdated": "Apr 20, 2016 8:15:31 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461100072773_584320764",
-      "id": "20160419-210752_1637087894",
-      "result": {
-        "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch1\u003eTODO MOVE THIS TO A SEPARATE NOTEBOOK!!\u003c/h1\u003e\n"
-      },
-      "dateCreated": "Apr 19, 2016 9:07:52 PM",
-      "dateStarted": "Apr 20, 2016 8:15:31 AM",
-      "dateFinished": "Apr 20, 2016 8:15:31 AM",
-      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
