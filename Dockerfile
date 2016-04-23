@@ -77,7 +77,6 @@ RUN \
  && apt-get install -y python-pip \
  && pip install jupyter \
  && pip install ipyparallel \
- && pip install seaborn \
 
 # TensorFlow (CPU-only)
  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
@@ -179,7 +178,8 @@ RUN \
  && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION \
 
 # Python NetworkX/Tribe Demos
- && pip install tribe 
+ && pip install tribe \
+ && pip install seaborn 
 
 RUN \
 # Get Latest Pipeline Code
