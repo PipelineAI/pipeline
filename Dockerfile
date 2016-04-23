@@ -77,6 +77,7 @@ RUN \
  && apt-get install -y python-pip \
  && pip install jupyter \
  && pip install ipyparallel \
+ && pip install seaborn \
 
 # TensorFlow (CPU-only)
  && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
