@@ -82,3 +82,7 @@ nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
 #echo '...Starting Titan...'
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
+
+echo '...Starting Flask-based Recommendation/Prediction Service...'
+nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
+
