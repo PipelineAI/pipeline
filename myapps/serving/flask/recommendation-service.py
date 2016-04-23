@@ -19,12 +19,12 @@ def recommendations(user_id):
 @app.route('/item-factors/<item_id>')
 def item_factors(item_id):
     item_factors_json = requests.get("http://127.0.0.1:9200/advancedspark/item-factors-als/_search?q=itemId:%s" % item_id).json()
-    return json.dumps(item_factors_json['hits']['hits'][0]['_source']['itemFeatures'])
+    return json.dumps(item_factors_json['hits']['hits'][0]['_source']['itemFactors'])
 
 @app.route('/user-factors/<user_id>')
 def user_factors(user_id):
     user_factors_json = requests.get("http://127.0.0.1:9200/advancedspark/user-factors-als/_search?q=userId:%s" % user_id).json()
-    return json.dumps(user_factors_json['hits']['hits'][0]['_source']['userFeatures'])
+    return json.dumps(user_factors_json['hits']['hits'][0]['_source']['userFactors'])
 
 @app.route('/predict/<user_id>/<item_id>')
 def predict(user_id, item_id):

@@ -59,6 +59,8 @@ mkdir -p $LOGS_HOME/spark/ml
 mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
 mkdir -p $LOGS_HOME/finagle
+mkdir -p $LOGS_HOME/flask
+
 # Ganglia
 echo '...Configuring Ganglia...'
 ln -s $CONFIG_HOME/ganglia/ganglia.conf /etc/apache2/sites-available
