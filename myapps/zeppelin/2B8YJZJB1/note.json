@@ -110,7 +110,7 @@
     {
       "title": "Option 1:  Create HyperLogLog Aggregator",
       "text": "import com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(list1)",
-      "dateUpdated": "Apr 4, 2016 3:24:51 AM",
+      "dateUpdated": "Apr 23, 2016 10:46:36 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

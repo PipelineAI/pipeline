@@ -1,7 +1,22 @@
 {
   "paragraphs": [
     {
-      "config": {},
+      "dateUpdated": "Apr 23, 2016 5:58:58 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
       "settings": {
         "params": {},
         "forms": {}
@@ -15,7 +30,11 @@
   ],
   "name": "!!PLEASE DO NOT MODIFY ANYTHING - DOING A DEMO!!",
   "id": "2B2H2FUXV",
-  "angularObjects": {},
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
   "config": {
     "looknfeel": "default"
   },

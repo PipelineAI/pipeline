@@ -74,7 +74,7 @@
     {
       "title": "memory size of scala List",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeList \u003d SizeEstimator.estimate(list1)",
-      "dateUpdated": "Apr 4, 2016 4:33:16 AM",
+      "dateUpdated": "Apr 23, 2016 11:00:02 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
