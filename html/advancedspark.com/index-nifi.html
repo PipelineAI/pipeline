@@ -39,26 +39,27 @@
     var encodedValue = btoa(myId + "," + itemId + "," + rating)
 
     // Kafka REST API
-    $.ajax({
-      url:'/item-rating-kafka',
-      type:'POST',
-      data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
-      contentType:'application/vnd.kafka.binary.v1+json',
-      dataType:'json',
-      success: function(data, status){
-        //NoOp
-      }
-    })
-
-    // NiFi REST API
   //  $.ajax({
-  //    url:'/item-rating-nifi',
+  //    url:'/item-rating-kafka',
   //    type:'POST',
-  //    data:myId + "," + itemId + "," + rating,
+  //    data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
+  //    contentType:'application/vnd.kafka.binary.v1+json',
+  //    dataType:'json',
   //    success: function(data, status){
         //NoOp
   //    }
-  //  })
+    //})
+
+    // NiFi REST API
+    $.ajax({
+      url:'/item-rating-nifi',
+      type:'POST',
+      data:myId + "," + itemId + "," + rating,
+      success: function(data, status){
+        //NoOp
+      },
+        contentType:'text/plain'
+    })
   }
 
   function loadItems() {

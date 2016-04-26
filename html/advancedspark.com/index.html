@@ -55,9 +55,10 @@
       url:'/item-rating-nifi',
       type:'POST',
       data:myId + "," + itemId + "," + rating,
-      success: function(data, status){
-        //NoOp
-      }
+        success: function(data, status){
+          //NoOp
+        },
+      contentType:'text/plain'
     })
   }
 

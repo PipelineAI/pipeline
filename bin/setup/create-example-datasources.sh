@@ -27,6 +27,7 @@ echo '...Creating Example Cassandra Keyspaces, Column Families/Tables...'
 echo '...**** MAKE SURE NO SPARK JOBS ARE RUNNING BEFORE STARTING THIS SCRIPT ****...'
 echo '...**** SPECIFICALLY, ANY JOB USING THE advancedspark COLUMN FAMILY OR advancedspark.item_ratings TABLE WILL FAIL AFTER RUNNING THIS SCRIPT ****...' 
 cqlsh -e "DROP KEYSPACE IF EXISTS advancedspark; CREATE KEYSPACE advancedspark WITH REPLICATION = {'class': 'SimpleStrategy',  'replication_factor':1}; USE advancedspark; DROP TABLE IF EXISTS item_ratings; USE advancedspark; CREATE TABLE item_ratings(userId int, itemId int, rating int, timestamp bigint, PRIMARY KEY(userId, itemId)); USE advancedspark; COPY item_ratings FROM '/root/pipeline/datasets/graph/item-ratings.csv'; USE advancedspark; DROP TABLE IF EXISTS item_ratings_geo; USE advancedspark; CREATE TABLE item_ratings_geo(userId int, itemId int, rating int, timestamp bigint, geoCity text, PRIMARY KEY(userId, itemId));"
+# USE advancedspark; COPY item_ratings_geo FROM '/root/pipeline/datasets/graph/item-ratings-geo.csv';"
 
 echo '...Flushing Redis...'
 redis-cli FLUSHALL

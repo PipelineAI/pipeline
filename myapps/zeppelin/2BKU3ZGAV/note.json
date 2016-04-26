@@ -3,7 +3,7 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\").limit(10))",
-      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:26 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -50,15 +50,15 @@
         "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:20 PM",
-      "dateFinished": "Apr 26, 2016 7:30:21 PM",
+      "dateStarted": "Apr 26, 2016 11:24:26 PM",
+      "dateFinished": "Apr 26, 2016 11:24:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings_geo\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .select($\"userid\", $\"itemid\", $\"rating\", $\"timestamp\")\n  .withColumnRenamed(\"userid\", \"userId\")\n  .withColumnRenamed(\"itemid\", \"itemId\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF)",
-      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:26 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -85,18 +85,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\trating\ttimestamp\n57266\t27\t1\t1461696272000\n57266\t28\t1\t1461696272000\n57266\t33\t1\t1461696272000\n57266\t37\t1\t1461696262000\n57266\t38\t1\t1461696262000\n42325\t42\t1\t1461698956000\n42325\t43\t1\t1461698964000\n42325\t47\t1\t1461698968000\n42325\t48\t1\t1461698956000\n42325\t49\t1\t1461698964000\n42325\t50\t1\t1461698962000\n42325\t53\t1\t1461698968000\n42325\t54\t1\t1461698968000\n42325\t55\t1\t1461698964000\n42325\t56\t1\t1461698966000\n42325\t57\t1\t1461698966000\n42325\t59\t1\t1461698966000\n42325\t60\t1\t1461698966000\n42325\t63\t1\t1461698970000\n42325\t65\t1\t1461698960000\n42325\t66\t1\t1461698960000\n42325\t68\t1\t1461698976000\n42325\t69\t1\t1461698972000\n42325\t71\t1\t1461698960000\n42325\t75\t1\t1461698976000\n42325\t76\t1\t1461698976000\n42325\t78\t1\t1461698976000\n"
+        "msg": "userId\titemId\trating\ttimestamp\n57266\t27\t1\t1461696272000\n57266\t28\t1\t1461696272000\n57266\t33\t1\t1461696272000\n57266\t37\t1\t1461696262000\n57266\t38\t1\t1461696262000\n58700\t1\t1\t1461710696000\n58700\t2\t1\t1461710698000\n58700\t3\t1\t1461710698000\n58700\t4\t1\t1461710698000\n58700\t5\t1\t1461710698000\n58700\t6\t1\t1461710700000\n58700\t7\t1\t1461710696000\n58700\t8\t1\t1461710696000\n58700\t9\t1\t1461710696000\n58700\t10\t1\t1461710694000\n58700\t12\t1\t1461710700000\n58700\t80\t1\t1461710654000\n58700\t81\t1\t1461710656000\n4\t19\t1\t1461708850000\n4\t25\t1\t1461708850000\n4\t29\t1\t1461708848000\n4\t31\t1\t1461708850000\n4\t34\t1\t1461708846000\n4\t35\t1\t1461708848000\n68044\t2\t1\t1461703538000\n68044\t3\t1\t1461703536000\n68044\t4\t1\t1461703536000\n68044\t5\t1\t1461703536000\n68044\t9\t1\t1461703514000\n68044\t10\t1\t1461703514000\n68044\t14\t1\t1461703528000\n68044\t15\t1\t1461703516000\n68044\t16\t1\t1461703516000\n68044\t17\t1\t1461703522000\n68044\t20\t1\t1461703520000\n68044\t21\t1\t1461703516000\n68044\t22\t1\t1461703522000\n68044\t23\t1\t1461703522000\n76082\t19\t1\t1461704400000\n76082\t24\t1\t1461704402000\n76082\t25\t1\t1461704400000\n76082\t30\t1\t1461704402000\n76082\t31\t1\t1461704398000\n76082\t32\t1\t1461704380000\n76082\t33\t1\t1461704380000\n76082\t34\t1\t1461704380000\n76082\t35\t1\t1461704380000\n76082\t36\t1\t1461704432000\n76082\t37\t1\t1461704416000\n76082\t38\t1\t1461704382000\n76082\t39\t1\t1461704384000\n76082\t40\t1\t1461704382000\n76082\t41\t1\t1461704384000\n76082\t42\t1\t1461704402000\n76082\t49\t1\t1461707026000\n76082\t50\t1\t1461707026000\n76082\t51\t1\t1461707026000\n76082\t52\t1\t1461707026000\n76082\t55\t1\t1461707024000\n76082\t57\t1\t1461707028000\n76082\t59\t1\t1461707028000\n76082\t62\t1\t1461707024000\n76082\t65\t1\t1461707028000\n76082\t69\t1\t1461707024000\n42325\t42\t1\t1461698956000\n42325\t43\t1\t1461698964000\n42325\t47\t1\t1461698968000\n42325\t48\t1\t1461698956000\n42325\t49\t1\t1461698964000\n42325\t50\t1\t1461698962000\n42325\t53\t1\t1461698968000\n42325\t54\t1\t1461698968000\n42325\t55\t1\t1461698964000\n42325\t56\t1\t1461698966000\n42325\t57\t1\t1461698966000\n42325\t59\t1\t1461698966000\n42325\t60\t1\t1461698966000\n42325\t63\t1\t1461698970000\n42325\t65\t1\t1461698960000\n42325\t66\t1\t1461698960000\n42325\t68\t1\t1461698976000\n42325\t69\t1\t1461698972000\n42325\t71\t1\t1461698960000\n42325\t75\t1\t1461698976000\n42325\t76\t1\t1461698976000\n42325\t78\t1\t1461698976000\n"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:21 PM",
-      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "dateStarted": "Apr 26, 2016 11:24:27 PM",
+      "dateFinished": "Apr 26, 2016 11:24:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Total ratings and Distinct Users",
       "text": "//import org.apache.spark.sql.functions._\n\n//val totalRatings \u003d itemRatingsDF.count()\n//val distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:26 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -126,15 +126,15 @@
         "msg": ""
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:22 PM",
-      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "dateStarted": "Apr 26, 2016 11:24:27 PM",
+      "dateFinished": "Apr 26, 2016 11:24:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the item Ratings",
       "text": "val enrichedItemRatingsDF \u003d itemRatingsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"img\")",
-      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:26 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -162,15 +162,15 @@
         "msg": "enrichedItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, title: string, img: string]\n"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:23 PM",
-      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "dateStarted": "Apr 26, 2016 11:24:29 PM",
+      "dateFinished": "Apr 26, 2016 11:24:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "distribution of rating count ",
       "text": "val enrichedItemRatingsCountDF \u003d enrichedItemRatingsDF\n  .groupBy($\"items.itemId\", $\"title\", $\"img\")\n  .agg(count($\"items.itemId\").as(\"count\"))\n  .orderBy($\"count\".desc, $\"items.itemId\")\n  .limit(5)\n\nz.show(enrichedItemRatingsCountDF)",
-      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:26 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -220,18 +220,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n27\tApache Pig\timg/software/pig.png\t1\n28\tApache ZooKeeper\timg/software/zookeeper.png\t1\n33\tApache Oozie\timg/software/oozie.png\t1\n37\tiPython/Jupyter\timg/software/ipython.png\t1\n38\tApache Zeppelin\timg/software/zeppelin.png\t1\n"
+        "msg": "itemId\ttitle\timg\tcount\n2\tTachyon\timg/software/tachyon.png\t2\n3\tApache Ambari\timg/software/ambari.png\t2\n4\tDocker\timg/software/docker.png\t2\n5\tMicrosft Azure\timg/software/azure.png\t2\n9\tApache Giraph\timg/software/giraph.png\t2\n"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:23 PM",
-      "dateFinished": "Apr 26, 2016 7:30:25 PM",
+      "dateStarted": "Apr 26, 2016 11:24:30 PM",
+      "dateFinished": "Apr 26, 2016 11:24:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedItemRatingsCountDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")",
-      "dateUpdated": "Apr 26, 2016 7:30:21 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:27 PM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -284,14 +284,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:24 PM",
-      "dateFinished": "Apr 26, 2016 7:30:28 PM",
+      "dateStarted": "Apr 26, 2016 11:24:30 PM",
+      "dateFinished": "Apr 26, 2016 11:24:34 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Apr 26, 2016 7:30:21 PM",
+      "dateUpdated": "Apr 26, 2016 11:24:27 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -317,8 +317,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 26, 2016 6:46:41 PM",
-      "dateStarted": "Apr 26, 2016 7:30:26 PM",
-      "dateFinished": "Apr 26, 2016 7:30:28 PM",
+      "dateStarted": "Apr 26, 2016 11:24:32 PM",
+      "dateFinished": "Apr 26, 2016 11:24:34 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

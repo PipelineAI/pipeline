@@ -12,9 +12,11 @@ object RecommendationServer extends App {
     def apply(request: Request): Future[Response] = {
       val response = request.uri match {
         case _ => {
-          val prediction = new PredictionCommand(12663, 7).execute()
+          val userId = request.getIntParam("userId", 12663)
+          val itemId = request.getIntParam("itemId", 7)
+          val prediction = new PredictionCommand(userId, itemId).execute()
           val recommendResponse = Response(request.version, Status.Ok)
-          val items = Array(s"""${prediction}:item1""", s"""${prediction}:item2""")
+          val items = Array(s"""userId:${userId}, itemId:${itemId}, confidence:${prediction}""")
           recommendResponse.setContentString(items.mkString(","))
           recommendResponse
         }
