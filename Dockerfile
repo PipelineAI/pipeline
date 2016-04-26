@@ -246,7 +246,7 @@ RUN \
 
 # Apache Kafka (Confluent Distribution)
  && cd ~ \
- && wget http://packages.confluent.io/archive/1.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+ && wget http://packages.confluent.io/archive/2.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
