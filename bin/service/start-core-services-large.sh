@@ -28,7 +28,7 @@ echo '...Starting Hive Metastore...'
 nohup hive --service metastore &
 
 echo '...Starting ZooKeeper...'
-nohup zookeeper-server-start $CONFIG_HOME/kafka/zookeeper.properties &
+nohup zookeeper-server-start $KAFKA_HOME/etc/kafka/zookeeper.properties &
 
 echo '...Starting Redis...'
 nohup redis-server &
@@ -37,7 +37,7 @@ echo '...Starting Webdis...'
 nohup webdis $WEBDIS_HOME/webdis.json &
 
 echo '...Starting Kafka...'
-nohup kafka-server-start $CONFIG_HOME/kafka/server.properties &
+nohup kafka-server-start $KAFKA_HOME/etc/kafka/server.properties &
 
 echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
@@ -73,11 +73,12 @@ nohup airflow webserver &
 nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start
 
 echo '...Starting Kafka Schema Registry...'
-# Starting this at the end due to race conditions with other kafka components
-nohup schema-registry-start $CONFIG_HOME/schema-registry/schema-registry.properties &
+sleep 5
+# Starting this at the end - and with a sleep - due to race conditions with other kafka components
+nohup schema-registry-start $KAFKA_HOME/etc/schema-registry/schema-registry.properties &
 
 echo '...Starting Kafka REST Proxy...'
-nohup kafka-rest-start $CONFIG_HOME/kafka-rest/kafka-rest.properties &
+nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 
 #echo '...Starting Titan...'
 #nodetool enablethrift

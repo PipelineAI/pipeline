@@ -120,6 +120,8 @@ ln -s $CONFIG_HOME/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 
 # Kafka
 echo '...Configuring Kafka...'
+mv $KAFKA_HOME/etc/ $KAFKA_HOME/etc.orig
+ln -s $CONFIG_HOME/kafka/etc $KAFKA_HOME/etc
 
 # ZooKeeper
 echo '...Configuring ZooKeeper...'
@@ -183,7 +185,6 @@ ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/state-management.xml $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
-mkdir -p $MYAPPS_HOME/nifi/flows
 
 # Airflow
 echo '...Configuring Airflow...'
