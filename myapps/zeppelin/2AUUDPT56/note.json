@@ -169,8 +169,8 @@
     },
     {
       "title": "distribution of rating count ",
-      "text": "val enrichedItemRatingsCountDF \u003d enrichedItemRatingsDF\n  .groupBy($\"items.itemId\", $\"title\", $\"img\")\n  .agg(count($\"items.itemId\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(5)\n\nz.show(enrichedItemRatingsCountDF)",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "text": "val enrichedItemRatingsCountDF \u003d enrichedItemRatingsDF\n  .groupBy($\"items.itemId\", $\"title\", $\"img\")\n  .agg(count($\"items.itemId\").as(\"count\"))\n  .orderBy($\"count\".desc, $\"items.itemId\")\n  .limit(5)\n\nz.show(enrichedItemRatingsCountDF)",
+      "dateUpdated": "Apr 26, 2016 7:22:58 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -220,11 +220,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n7\tApache Spark\timg/software/spark.png\t18\n42\tScala\timg/software/scala.png\t13\n18\tApache Kafka\timg/software/kafka.png\t12\n62\tSpark Streaming\timg/software/spark-streaming.png\t10\n63\tSpark SQL\timg/software/spark-sql.png\t10\n"
+        "msg": "itemId\ttitle\timg\tcount\n27\tApache Pig\timg/software/pig.png\t1\n28\tApache ZooKeeper\timg/software/zookeeper.png\t1\n33\tApache Oozie\timg/software/oozie.png\t1\n37\tiPython/Jupyter\timg/software/ipython.png\t1\n38\tApache Zeppelin\timg/software/zeppelin.png\t1\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Apr 26, 2016 3:53:13 AM",
-      "dateFinished": "Apr 26, 2016 3:53:14 AM",
+      "dateStarted": "Apr 26, 2016 7:22:58 PM",
+      "dateFinished": "Apr 26, 2016 7:23:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

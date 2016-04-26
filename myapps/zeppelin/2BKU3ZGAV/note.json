@@ -1,0 +1,337 @@
+{
+  "paragraphs": [
+    {
+      "title": "Load Reference Data for Enrichment",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\").limit(10))",
+      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 180.0,
+          "optionOpen": true,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401090_-54184039",
+      "id": "20160426-184641_467227544",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:20 PM",
+      "dateFinished": "Apr 26, 2016 7:30:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Live Ratings from Cassandra",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings_geo\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .select($\"userid\", $\"itemid\", $\"rating\", $\"timestamp\")\n  .withColumnRenamed(\"userid\", \"userId\")\n  .withColumnRenamed(\"itemid\", \"itemId\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF)",
+      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401091_-54568788",
+      "id": "20160426-184641_274500870",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\ttimestamp\n57266\t27\t1\t1461696272000\n57266\t28\t1\t1461696272000\n57266\t33\t1\t1461696272000\n57266\t37\t1\t1461696262000\n57266\t38\t1\t1461696262000\n42325\t42\t1\t1461698956000\n42325\t43\t1\t1461698964000\n42325\t47\t1\t1461698968000\n42325\t48\t1\t1461698956000\n42325\t49\t1\t1461698964000\n42325\t50\t1\t1461698962000\n42325\t53\t1\t1461698968000\n42325\t54\t1\t1461698968000\n42325\t55\t1\t1461698964000\n42325\t56\t1\t1461698966000\n42325\t57\t1\t1461698966000\n42325\t59\t1\t1461698966000\n42325\t60\t1\t1461698966000\n42325\t63\t1\t1461698970000\n42325\t65\t1\t1461698960000\n42325\t66\t1\t1461698960000\n42325\t68\t1\t1461698976000\n42325\t69\t1\t1461698972000\n42325\t71\t1\t1461698960000\n42325\t75\t1\t1461698976000\n42325\t76\t1\t1461698976000\n42325\t78\t1\t1461698976000\n"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:21 PM",
+      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Total ratings and Distinct Users",
+      "text": "//import org.apache.spark.sql.functions._\n\n//val totalRatings \u003d itemRatingsDF.count()\n//val distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
+      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401091_-54568788",
+      "id": "20160426-184641_1707491098",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:22 PM",
+      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the item Ratings",
+      "text": "val enrichedItemRatingsDF \u003d itemRatingsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"img\")",
+      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401091_-54568788",
+      "id": "20160426-184641_593994158",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "enrichedItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, title: string, img: string]\n"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:23 PM",
+      "dateFinished": "Apr 26, 2016 7:30:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "distribution of rating count ",
+      "text": "val enrichedItemRatingsCountDF \u003d enrichedItemRatingsDF\n  .groupBy($\"items.itemId\", $\"title\", $\"img\")\n  .agg(count($\"items.itemId\").as(\"count\"))\n  .orderBy($\"count\".desc, $\"items.itemId\")\n  .limit(5)\n\nz.show(enrichedItemRatingsCountDF)",
+      "dateUpdated": "Apr 26, 2016 7:30:20 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 192.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 3.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401091_-54568788",
+      "id": "20160426-184641_1920164809",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\timg\tcount\n27\tApache Pig\timg/software/pig.png\t1\n28\tApache ZooKeeper\timg/software/zookeeper.png\t1\n33\tApache Oozie\timg/software/oozie.png\t1\n37\tiPython/Jupyter\timg/software/ipython.png\t1\n38\tApache Zeppelin\timg/software/zeppelin.png\t1\n"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:23 PM",
+      "dateFinished": "Apr 26, 2016 7:30:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Save Top 5 Most Rated Items to ElasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedItemRatingsCountDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")",
+      "dateUpdated": "Apr 26, 2016 7:30:21 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 196.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401092_-56492533",
+      "id": "20160426-184641_623500108",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:24 PM",
+      "dateFinished": "Apr 26, 2016 7:30:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Apr 26, 2016 7:30:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461696401093_-56877282",
+      "id": "20160426-184641_1017268673",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 26, 2016 6:46:41 PM",
+      "dateStarted": "Apr 26, 2016 7:30:26 PM",
+      "dateFinished": "Apr 26, 2016 7:30:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/07: NiFi Geo Top K Summary Statistics",
+  "id": "2BKU3ZGAV",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,499 @@
+{
+  "paragraphs": [
+    {
+      "title": "Collaborative Filtering:  Matrix Factorization using Alternating Least Squares (ALS)",
+      "text": "%md ![Alternating Least Squares - Matrix Factorization](http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
+      "dateUpdated": "Apr 26, 2016 7:30:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351908_-2100979560",
+      "id": "20160426-191911_1292380278",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:30:52 PM",
+      "dateFinished": "Apr 26, 2016 7:30:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Reference Data for Enrichment",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\"))",
+      "dateUpdated": "Apr 26, 2016 7:30:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 175.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351908_-2100979560",
+      "id": "20160426-191911_293623593",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n11\tApache YARN\timg/software/yarn.png\tWrappedArray(Cluster Resource Manager, Hadoop, Java)\n12\tApache HBase\timg/software/hbase.png\tWrappedArray(Database, Hadoop, NoSQL, Java, Eventually Consistent)\n13\tApache MapReduce\timg/software/mapreduce.png\tWrappedArray(Data Processing, Hadoop, Java, Python)\n14\tApache Hive\timg/software/hive.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, MapReduce)\n15\tHortonworks\timg/software/hortonworks.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n16\tApache HUE\timg/software/hue.png\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java)\n17\tApache Impala\timg/software/impala.png\tWrappedArray(Data Processing, Query Processing, SQL, C++, Batch Analytics)\n18\tApache Kafka\timg/software/kafka.png\tWrappedArray(Message Broker, Java, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\n19\tApache Lucene\timg/software/lucene.png\tWrappedArray(Library, Search, Java, Python)\n20\tApache Solr\timg/software/solr.png\tWrappedArray(Search Engine, Java, REST API, UI, Python, Ruby, XML, JSON)\n21\tElasticSearch\timg/software/elasticsearch.png\tWrappedArray(Search Engine, Java, Python, REST API, Lucene, XML, JSON, Aggregations)\n22\tApache Mahout\timg/software/mahout.png\tWrappedArray(Library, Machine Learning, Java)\n23\tApache Drill\timg/software/drill.png\tWrappedArray(Data Processing, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\n24\tApache Mesos\timg/software/mesos.png\tWrappedArray(Cluster Resource Manager, Docker, Container)\n25\tApache Parquet\timg/software/parquet.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, C++, Python)\n26\tApache ORC\timg/software/orc.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema)\n27\tApache Pig\timg/software/pig.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n28\tApache ZooKeeper\timg/software/zookeeper.png\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\n29\tStanford CoreNLP\timg/software/corenlp.png\tWrappedArray(Library, NLP, Java, Text Analytics)\n30\tApache Tez\timg/software/tez.png\tWrappedArray(Data Processing, Hadoop, YARN, Query Processing, Java, Lazy, HiveQL, Pig, SQL)\n31\tApache Storm\timg/software/storm.png\tWrappedArray(Streaming, Java)\n32\tApache Sqoop\timg/software/sqoop.png\tWrappedArray(Data Import, Hadoop, Java)\n33\tApache Oozie\timg/software/oozie.png\tWrappedArray(Workflow, Hadoop, Java, UI)\n34\tApache Nifi\timg/software/nifi.png\tWrappedArray(Workflow, Streaming, Message Broker, Java, UI)\n35\tNLTK\timg/software/nltk.png\tWrappedArray(Library, NLP, Python, Text Analytics)\n36\tSci-Kit Learn\timg/software/scikit-learn.png\tWrappedArray(Library, Python, Machine Learning)\n37\tiPython/Jupyter\timg/software/ipython.png\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\n38\tApache Zeppelin\timg/software/zeppelin.png\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\n39\tTableau\timg/software/tableau.png\tWrappedArray(BI, UI, Visualization, SQL)\n40\tR\timg/software/r.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n41\tSQL\timg/software/sql.png\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\n42\tScala\timg/software/scala.png\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\n43\tJava\timg/software/java.png\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\n44\tPython\timg/software/python.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\n45\tPresto\timg/software/presto.png\tWrappedArray(Data Processing, Query Processing, Java, SQL, Machine Learning)\n46\tMapR\timg/software/mapr.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n47\tCloudera\timg/software/cloudera.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n48\tIBM BigInsights\timg/software/biginsights.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\n49\tAmazon Web Services\timg/software/aws.png\tWrappedArray(Cloud Provider, AWS)\n50\tGoogle Cloud Platform\timg/software/googlecloud.png\tWrappedArray(Cloud Provider, Google)\n51\tRedis\timg/software/redis.png\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\n52\tJSON\timg/software/json.png\tWrappedArray(File Format, Key Value Store)\n53\tXML\timg/software/xml.png\tWrappedArray(File Format, Key Value Store)\n54\tMongoDB\timg/software/mongodb.png\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\n55\tOn-Premise\timg/software/onpremise.png\tWrappedArray(Cloud Provider, Data Center)\n56\tMicroStrategy\timg/software/microstrategy.png\tWrappedArray(BI, UI, Visualization, SQL)\n57\tKnime\timg/software/knime.png\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\n59\tOracle\timg/software/oracle.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n60\tMySQL\timg/software/mysql.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n61\tSpark ML/MLlib\timg/software/spark-ml.png\tWrappedArray(Library, Spark, Machine Learning)\n62\tSpark Streaming\timg/software/spark-streaming.png\tWrappedArray(Library, Spark, Streaming)\n63\tSpark SQL\timg/software/spark-sql.png\tWrappedArray(Library, Spark, HiveQL, SQL)\n64\tCSV\timg/software/csv.png\tWrappedArray(File Format)\n65\tDeep Learning 4J\timg/software/deeplearning4j.png\tWrappedArray(Library, Deep Learning, Neural Networks)\n66\tRedshift\timg/software/redshift.png\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\n67\tKinesis\timg/software/kinesis.png\tWrappedArray(Library, Streaming, AWS)\n68\tDynamoDB\timg/software/dynamodb.png\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\n69\tSpark GraphX\timg/software/spark-graphx.png\tWrappedArray(Library, Graph Analytics, Spark)\n70\tSQL Server\timg/software/sqlserver.png\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\n71\tElastic MapReduce\timg/software/emr.png\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\n72\tDato GraphLab Create\timg/software/graphlab.png\tWrappedArray(Library, UI, Graph Analytics, Machine Learning, Query Processing, Visualization)\n73\tMemcached\timg/software/memcached.png\tWrappedArray(Distributed Cache, Key Value Store, Java, Python, C++)\n74\tNeo4j\timg/software/neo4j.png\tWrappedArray(Library, Graph Analytics, Java)\n75\tPostgres\timg/software/postgres.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\n76\tProtobuffers\timg/software/protobuffers.png\tWrappedArray(File Format, Evolving Schema, Nested Schema)\n77\tS3\timg/software/s3.png\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\n78\tTensor Flow\timg/software/tensorflow.png\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\n79\tTitan GraphDB\timg/software/titandb.png\tWrappedArray(Database, Graph, Graph Analytics, Java, Transactional)\n80\tTeradata\timg/software/teradata.png\tWrappedArray(Database, Data Warehouse, SQL)\n81\tVertica\timg/software/vertica.png\tWrappedArray(Database, Data Warehouse, SQL)\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:30:53 PM",
+      "dateFinished": "Apr 26, 2016 7:30:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Live Ratings from Cassandra",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings_geo\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .select($\"userid\", $\"itemid\", $\"rating\", $\"timestamp\")\n  .withColumnRenamed(\"userid\", \"userId\")\n  .withColumnRenamed(\"itemid\", \"itemId\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF)",
+      "dateUpdated": "Apr 26, 2016 7:30:53 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351908_-2101364309",
+      "id": "20160426-191911_1075857760",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\ttimestamp\n57266\t27\t1\t1461696272000\n57266\t28\t1\t1461696272000\n57266\t33\t1\t1461696272000\n57266\t37\t1\t1461696262000\n57266\t38\t1\t1461696262000\n42325\t42\t1\t1461698956000\n42325\t43\t1\t1461698964000\n42325\t47\t1\t1461698968000\n42325\t48\t1\t1461698956000\n42325\t49\t1\t1461698964000\n42325\t50\t1\t1461698962000\n42325\t53\t1\t1461698968000\n42325\t54\t1\t1461698968000\n42325\t55\t1\t1461698964000\n42325\t56\t1\t1461698966000\n42325\t57\t1\t1461698966000\n42325\t59\t1\t1461698966000\n42325\t60\t1\t1461698966000\n42325\t63\t1\t1461698970000\n42325\t65\t1\t1461698960000\n42325\t66\t1\t1461698960000\n42325\t68\t1\t1461698976000\n42325\t69\t1\t1461698972000\n42325\t71\t1\t1461698960000\n42325\t75\t1\t1461698976000\n42325\t76\t1\t1461698976000\n42325\t78\t1\t1461698976000\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:30:56 PM",
+      "dateFinished": "Apr 26, 2016 7:30:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Train The ALS Model",
+      "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10 // this is k, number of latent factors we think exist\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)",
+      "dateUpdated": "Apr 26, 2016 7:30:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351909_-2101364309",
+      "id": "20160426-191911_858070529",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_a36f058fc370\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_a36f058fc370\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:01 PM",
+      "dateFinished": "Apr 26, 2016 7:31:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Generate Recommendations for all Users",
+      "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n   .select($\"userId\", $\"items.itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc, $\"items.itemId\")\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
+      "dateUpdated": "Apr 26, 2016 7:31:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351909_-2101364309",
+      "id": "20160426-191911_1071827851",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\ttitle\tconfidence\n42325\t42\tScala\t0.98993194\n42325\t43\tJava\t0.98993194\n42325\t47\tCloudera\t0.98993194\n42325\t48\tIBM BigInsights\t0.98993194\n42325\t49\tAmazon Web Services\t0.98993194\n42325\t50\tGoogle Cloud Platform\t0.98993194\n42325\t53\tXML\t0.98993194\n42325\t54\tMongoDB\t0.98993194\n42325\t55\tOn-Premise\t0.98993194\n42325\t56\tMicroStrategy\t0.98993194\n42325\t57\tKnime\t0.98993194\n42325\t59\tOracle\t0.98993194\n42325\t60\tMySQL\t0.98993194\n42325\t63\tSpark SQL\t0.98993194\n42325\t65\tDeep Learning 4J\t0.98993194\n42325\t66\tRedshift\t0.98993194\n42325\t68\tDynamoDB\t0.98993194\n42325\t69\tSpark GraphX\t0.98993194\n42325\t71\tElastic MapReduce\t0.98993194\n42325\t75\tPostgres\t0.98993194\n42325\t76\tProtobuffers\t0.98993194\n42325\t78\tTensor Flow\t0.98993194\n57266\t27\tApache Pig\t0.989932\n57266\t28\tApache ZooKeeper\t0.989932\n57266\t33\tApache Oozie\t0.989932\n57266\t37\tiPython/Jupyter\t0.989932\n57266\t38\tApache Zeppelin\t0.989932\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:02 PM",
+      "dateFinished": "Apr 26, 2016 7:31:10 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Store full recommendations in elasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/personalized-als\")\n\nz.show(enrichedRecommendationsDF)",
+      "dateUpdated": "Apr 26, 2016 7:31:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351910_-2100210062",
+      "id": "20160426-191911_751368769",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\ttitle\tdescription\ttags\timg\tconfidence\n42325\t42\tScala\tScala began life in 2003, created by Martin Odersky and his research group at EPFL, next to Lake Geneva and the Alps, in Lausanne, Switzerland. Scala has since grown into a mature open source programming language, used by hundreds of thousands of developers, and is developed and maintained by scores of people all over the world. Have the best of both worlds. Construct elegant class hierarchies for maximum code reuse and extensibility, implement their behavior using higher-order functions. Or anything in-between.\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\timg/software/scala.png\t0.98993194\n42325\t43\tJava\tJava is a general-purpose computer programming language that is concurrent, class-based, object-oriented, and specifically designed to have as few implementation dependencies as possible.\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\timg/software/java.png\t0.98993194\n42325\t47\tCloudera\tWe provide the world’s fastest, easiest, and most secure data platform built on Hadoop. We help solve your most demanding business challenges with data.\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\timg/software/cloudera.png\t0.98993194\n42325\t48\tIBM BigInsights\tApache™ Hadoop® is an open source software project that enables distributed processing of large data sets across clusters of commodity servers. It is designed to scale up from a single server to thousands of machines, with a very high degree of fault tolerance.\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\timg/software/biginsights.png\t0.98993194\n42325\t49\tAmazon Web Services\tAmazon Web Services offers reliable, scalable, and inexpensive cloud computing services. Free to join, pay only for what you use.\tWrappedArray(Cloud Provider, AWS)\timg/software/aws.png\t0.98993194\n42325\t50\tGoogle Cloud Platform\tGoogle Cloud Platform enables developers to build, test and deploy applications on Google’s highly-scalable and reliable infrastructure. Choose from computing, storage and application services for your web, mobile and backend solutions.\tWrappedArray(Cloud Provider, Google)\timg/software/googlecloud.png\t0.98993194\n42325\t53\tXML\tXML, or Extensible Markup Language, is a markup language that defines a set of rules for encoding documents in a format which is both human-readable and machine-readable.\tWrappedArray(File Format, Key Value Store)\timg/software/xml.png\t0.98993194\n42325\t54\tMongoDB\tMongoDB is an open-source database developed by MongoDB, Inc. MongoDB stores data in JSON-like documents that can vary in structure. Related information is stored together for fast query access through the MongoDB query language. MongoDB uses dynamic schemas, meaning that you can create records without first defining the structure, such as the fields or the types of their values.\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\timg/software/mongodb.png\t0.98993194\n42325\t55\tOn-Premise\tOn-Premise implies that all compute, network, and storage are managed by a customer and contained within their own data centers.\tWrappedArray(Cloud Provider, Data Center)\timg/software/onpremise.png\t0.98993194\n42325\t56\tMicroStrategy\tMicroStrategy is the only analytics platform that meets the needs of business and IT. It empowers organizations to make sense of large data volumes, get answers to their toughest business questions, build beautiful data visualizations, and ensure a single version of the truth–at any scale, on any device.\tWrappedArray(BI, UI, Visualization, SQL)\timg/software/microstrategy.png\t0.98993194\n42325\t57\tKnime\tThe KNIME Analytics Platform incorporates hundreds of processing nodes for data I/O, preprocessing and cleansing, modeling, analysis and data mining as well as various interactive views, such as scatter plots, parallel coordinates and others.  KNIME is based on the Eclipse platform and easily extensible through its modular API.\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\timg/software/knime.png\t0.98993194\n42325\t59\tOracle\tOracle helps you simplify your IT environment to save money, time, and resources and invest in innovation. Oracle provises a comprehensive and fully integrated stack of cloud applications, platform services, and engineered systems.\tWrappedArray(Database, SQL, RDBMS, Transactional)\timg/software/oracle.png\t0.98993194\n42325\t60\tMySQL\tMySQL is an open-source, relational database management system (RDBMS) developed, distributed and supported by Oracle Corporation. MySQL stores data in tables and uses structured query language (SQL) for database access. In MySQL, you pre-define your database schema based on your requirements and set up rules to govern the relationships between fields in your tables. In MySQL, related information may be stored in separate tables, but associated through the use of joins.\tWrappedArray(Database, SQL, RDBMS, Transactional)\timg/software/mysql.png\t0.98993194\n42325\t63\tSpark SQL\tSpark SQL is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as distributed SQL query engine. Spark SQL can also be used to read data from an existing Hive installation.\tWrappedArray(Library, Spark, HiveQL, SQL)\timg/software/spark-sql.png\t0.98993194\n42325\t65\tDeep Learning 4J\tDeeplearning4j is the first commercial-grade, open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments, rather than as a research tool.\tWrappedArray(Library, Deep Learning, Neural Networks)\timg/software/deeplearning4j.png\t0.98993194\n42325\t66\tRedshift\tAmazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using your existing business intelligence tools.\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\timg/software/redshift.png\t0.98993194\n42325\t68\tDynamoDB\tAmazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale. It is a fully managed cloud database and supports both document and key-value store models.\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\timg/software/dynamodb.png\t0.98993194\n42325\t69\tSpark GraphX\tGraphX, Spark\u0027s API for graph and graph-parallel computation, unifies ETL, exploratory analysis, and iterative graph computation within a single system.\tWrappedArray(Library, Graph Analytics, Spark)\timg/software/spark-graphx.png\t0.98993194\n42325\t71\tElastic MapReduce\tAmazon EMR simplifies big data processing, providing a managed Hadoop framework that makes it easy, fast, and cost-effective for you to distribute and process vast amounts of your data across dynamically scalable Amazon EC2 instances.\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\timg/software/emr.png\t0.98993194\n42325\t75\tPostgres\tPostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.\tWrappedArray(Database, SQL, RDBMS, Transactional)\timg/software/postgres.png\t0.98993194\n42325\t76\tProtobuffers\tProtocol buffers are language-neutral, platform-neutral, extensible mechanism for serializing structured data - think XML, but smaller, faster, and simpler.\tWrappedArray(File Format, Evolving Schema, Nested Schema)\timg/software/protobuffers.png\t0.98993194\n42325\t78\tTensor Flow\tTensorFlow is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them.\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\timg/software/tensorflow.png\t0.98993194\n57266\t27\tApache Pig\tApache Pig is a platform for analyzing large data sets that consists of a high-level language for expressing data analysis programs, coupled with infrastructure for evaluating these programs. The salient property of Pig programs is that their structure is amenable to substantial parallelization, which in turns enables them to handle very large data sets.\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\timg/software/pig.png\t0.989932\n57266\t28\tApache ZooKeeper\tApache ZooKeeper server which enables highly reliable distributed coordination.\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\timg/software/zookeeper.png\t0.989932\n57266\t33\tApache Oozie\tOozie is a workflow scheduler system integrated with the rest of the Hadoop stack supporting several types of Hadoop jobs out of the box (such as Java map-reduce, Streaming map-reduce, Pig, Hive, Sqoop and Distcp) as well as system specific jobs (such as Java programs and shell script.\tWrappedArray(Workflow, Hadoop, Java, UI)\timg/software/oozie.png\t0.989932\n57266\t37\tiPython/Jupyter\tThe Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more.\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\timg/software/ipython.png\t0.989932\n57266\t38\tApache Zeppelin\tA web-based notebook that enables interactive data analytics.  You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala and more.\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\timg/software/zeppelin.png\t0.989932\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:06 PM",
+      "dateFinished": "Apr 26, 2016 7:31:19 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show UserFactors Matrix",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\n\nval userFactorsDF \u003d model.userFactors.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"userId\", \"userFactors\")\n .sort($\"userId\" asc)\n .as(\"userFactors\")\n\nz.show(userFactorsDF)",
+      "dateUpdated": "Apr 26, 2016 7:31:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "userFactors",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "userFactors",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351911_-2100594811",
+      "id": "20160426-191911_1851903473",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tuserFactors\n42325\tWrappedArray(0.08435211330652237, -0.11324051767587662, 0.2353677749633789, 0.15545819699764252, -0.6517176628112793, 0.1308271437883377, -0.26987212896347046, 0.5939062833786011, -0.11023368686437607, -0.13267327845096588)\n57266\tWrappedArray(-0.026263216510415077, 0.06722971796989441, -0.014263018034398556, 0.050682343542575836, 0.24708203971385956, 0.6719349026679993, -0.4534297585487366, 0.08114103972911835, 0.15636658668518066, -0.48939162492752075)\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:11 PM",
+      "dateFinished": "Apr 26, 2016 7:31:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show ItemFactors Matrix",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\n \nval itemFactorsDF \u003d model.itemFactors.map(row \u003d\u003e\n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"itemId\", \"itemFactors\")\n .sort($\"itemId\" asc)\n .as(\"itemFactors\")\n\nz.show(itemFactorsDF)",
+      "dateUpdated": "Apr 26, 2016 7:31:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 314.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351912_-2102518556",
+      "id": "20160426-191911_1974403882",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\titemFactors\n27\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\n28\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\n33\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\n37\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\n38\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\n42\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n43\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n47\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n48\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n49\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n50\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n53\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n54\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n55\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n56\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n57\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n59\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n60\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n63\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n65\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n66\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n68\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n69\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n71\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n75\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n76\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n78\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:20 PM",
+      "dateFinished": "Apr 26, 2016 7:31:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enriched ItemFactors Matrix",
+      "text": "val enrichedItemFactorsDF \u003d itemFactorsDF\n  .join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemFactors.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"tags\", $\"itemFactors\", $\"img\")\n  .sort($\"items.itemId\")\n  .as(\"enrichedItemFactors\")\n\nz.show(enrichedItemFactorsDF)",
+      "dateUpdated": "Apr 26, 2016 7:31:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351912_-2102518556",
+      "id": "20160426-191911_1555570823",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttags\titemFactors\timg\n27\tApache Pig\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\timg/software/pig.png\n28\tApache ZooKeeper\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\timg/software/zookeeper.png\n33\tApache Oozie\tWrappedArray(Workflow, Hadoop, Java, UI)\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\timg/software/oozie.png\n37\tiPython/Jupyter\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\timg/software/ipython.png\n38\tApache Zeppelin\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\tWrappedArray(-0.02608579955995083, 0.06677555292844772, -0.014166666194796562, 0.050339967012405396, 0.2454129159450531, 0.6673957109451294, -0.45036667585372925, 0.08059290051460266, 0.1553102731704712, -0.48608559370040894)\timg/software/zeppelin.png\n42\tScala\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/scala.png\n43\tJava\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/java.png\n47\tCloudera\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/cloudera.png\n48\tIBM BigInsights\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/biginsights.png\n49\tAmazon Web Services\tWrappedArray(Cloud Provider, AWS)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/aws.png\n50\tGoogle Cloud Platform\tWrappedArray(Cloud Provider, Google)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/googlecloud.png\n53\tXML\tWrappedArray(File Format, Key Value Store)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/xml.png\n54\tMongoDB\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/mongodb.png\n55\tOn-Premise\tWrappedArray(Cloud Provider, Data Center)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/onpremise.png\n56\tMicroStrategy\tWrappedArray(BI, UI, Visualization, SQL)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/microstrategy.png\n57\tKnime\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/knime.png\n59\tOracle\tWrappedArray(Database, SQL, RDBMS, Transactional)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/oracle.png\n60\tMySQL\tWrappedArray(Database, SQL, RDBMS, Transactional)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/mysql.png\n63\tSpark SQL\tWrappedArray(Library, Spark, HiveQL, SQL)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/spark-sql.png\n65\tDeep Learning 4J\tWrappedArray(Library, Deep Learning, Neural Networks)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/deeplearning4j.png\n66\tRedshift\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/redshift.png\n68\tDynamoDB\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/dynamodb.png\n69\tSpark GraphX\tWrappedArray(Library, Graph Analytics, Spark)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/spark-graphx.png\n71\tElastic MapReduce\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/emr.png\n75\tPostgres\tWrappedArray(Database, SQL, RDBMS, Transactional)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/postgres.png\n76\tProtobuffers\tWrappedArray(File Format, Evolving Schema, Nested Schema)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/protobuffers.png\n78\tTensor Flow\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\tWrappedArray(0.08378227800130844, -0.11247552931308746, 0.23377776145935059, 0.15440800786018372, -0.6473150253295898, 0.1299433410167694, -0.268049031496048, 0.58989417552948, -0.10948900878429413, -0.13177700340747833)\timg/software/tensorflow.png\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:22 PM",
+      "dateFinished": "Apr 26, 2016 7:31:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Write the User and item factor vectors to elasticSearch",
+      "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nenrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"itemFactors\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
+      "dateUpdated": "Apr 26, 2016 7:31:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351913_-2102903305",
+      "id": "20160426-191911_927585187",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\nwarning: there were 1 feature warning(s); re-run with -feature for details\nwarning: there were 1 feature warning(s); re-run with -feature for details\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:24 PM",
+      "dateFinished": "Apr 26, 2016 7:31:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Predicted Rating for a Given userId and ItemId - compare to above",
+      "text": "////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////\nimport org.jblas.DoubleMatrix\nimport org.apache.spark.mllib.linalg.Vector\n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Item 7\nval givenItemId \u003d 7\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n  \nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d givenUserFactorsMatrix.dot(givenItemFactorsMatrix)\n\n////////////////////////////////////////////\n// TODO:  Must Update Item ID and User ID //\n////////////////////////////////////////////",
+      "dateUpdated": "Apr 26, 2016 7:31:09 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351913_-2102903305",
+      "id": "20160426-191911_1462214398",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.jblas.DoubleMatrix\nimport org.apache.spark.mllib.linalg.Vector\ngivenUserId: Int \u003d 12663\njava.lang.ArrayIndexOutOfBoundsException: 0\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:86)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:93)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:95)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:97)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:121)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:123)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:125)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:127)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:129)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:131)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:133)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:135)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:137)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:139)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:141)\n\tat \u003cinit\u003e(\u003cconsole\u003e:143)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:147)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:26 PM",
+      "dateFinished": "Apr 26, 2016 7:31:32 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 26, 2016 7:31:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461698351913_-2102903305",
+      "id": "20160426-191911_1520202083",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 26, 2016 7:19:11 PM",
+      "dateStarted": "Apr 26, 2016 7:31:32 PM",
+      "dateFinished": "Apr 26, 2016 7:31:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/08: NiFi Geo Collab Filtering Recommendations (ALS)",
+  "id": "2BJ9RMAMB",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
