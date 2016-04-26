@@ -12,7 +12,7 @@ FROM ubuntu:14.04
 #  at the end in order to pre-bake the dependencies into the Docker image.  This saves time and network bandwidth later.
 #
 ENV \ 
- CASSANDRA_VERSION=2.2.5 \
+ CASSANDRA_VERSION=2.2.6 \
  CONFLUENT_VERSION=2.0.1 \
  ELASTICSEARCH_VERSION=2.3.0 \
  LOGSTASH_VERSION=2.3.0 \
