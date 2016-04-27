@@ -6,7 +6,12 @@ package com.advancedspark.streaming.recommendation.optimization
 // Thanks, Burak!
 //////////////////////////////////////////////////////////////////////
 
-import com.advancedspark.streaming.recommendation._
+import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.recommendation.model.StreamingLatentMatrixFactorizationModel
+import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModel
+import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.recommendation.model.LatentFactorGenerator
+import com.advancedspark.streaming.recommendation.model.LatentFactor
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 import org.apache.spark.ml.recommendation.ALS.Rating
@@ -89,7 +94,7 @@ object MFGradientDescent extends Serializable {
       stepSize: Double,
       biasStepSize: Double,
       lambda: Double): (LatentFactor, LatentFactor) = {
-    val predicted = LatentMatrixFactorizationModel.getRating(userFeatures, prodFeatures, bias)
+    val predicted = LatentMatrixFactorizationModelOps.getRating(userFeatures, prodFeatures, bias)
     val epsilon = rating - predicted
     val user = userFeatures.vector
     val rank = user.length

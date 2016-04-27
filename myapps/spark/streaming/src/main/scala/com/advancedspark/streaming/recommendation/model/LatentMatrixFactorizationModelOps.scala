@@ -1,74 +1,15 @@
-package com.advancedspark.streaming.recommendation
+package com.advancedspark.streaming.recommendation.model
 
-//////////////////////////////////////////////////////////////////////
-// This code has been adapted from the following source:
-//   https://github.com/brkyvz/streaming-matrix-factorization
-// Thanks, Burak!
-//////////////////////////////////////////////////////////////////////
-
-import java.util.Random
-
-import edu.berkeley.cs.amplab.spark.indexedrdd.{KeySerializer, IndexedRDD}
+import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 
 import org.apache.spark.Logging
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.rdd.RDD
-
 import com.advancedspark.streaming.recommendation.utils.VectorUtils
+import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
 
-class LatentMatrixFactorizationModel(
-    val rank: Int,
-    val userFeatures: IndexedRDD[Long, LatentFactor], // bias and the user row
-    val productFeatures: IndexedRDD[Long, LatentFactor], // bias and the product row
-    val globalBias: Float,
-    val minRating: Float,
-    val maxRating: Float) extends Logging {
-
-  /** Predict the rating of one user for one product. */
-  def predict(user: Long, product: Long): Float = {
-    val uFeatures = userFeatures.get(user)
-    val pFeatures = productFeatures.get(product)
-    LatentMatrixFactorizationModel.predict(user, product, uFeatures, pFeatures, globalBias,
-      minRating, maxRating).rating
-  }
-
-  /**
-   * Predict the rating of many users for many products.
-   * The output RDD will return a prediction for all user - product pairs. For users or
-   * products that were missing from the training data, the prediction will be made with the global
-   * bias (global average) +- the user or product bias, if they exist.
-   *
-   * @param usersProducts  RDD of (user, product) pairs.
-   * @return RDD of Ratings.
-   */
-  def predict(usersProducts: RDD[(Long, Long)]): RDD[Rating[Long]] = {
-    val users = usersProducts.leftOuterJoin(userFeatures).map { case (user, (product, uFeatures)) =>
-      (product, (user, uFeatures))
-    }
-    val sc = usersProducts.sparkContext
-    val globalAvg = sc.broadcast(globalBias)
-    val min = sc.broadcast(minRating)
-    val max = sc.broadcast(maxRating)
-    users.leftOuterJoin(productFeatures).map { case (product, ((user, uFeatures), pFeatures)) =>
-      LatentMatrixFactorizationModel.predict(user, product, uFeatures, pFeatures, globalAvg.value,
-        min.value, max.value)
-    }
-  }
-}
-
-case class StreamingLatentMatrixFactorizationModel(
-    override val rank: Int,
-    override val userFeatures: IndexedRDD[Long, LatentFactor], // bias and the user row
-    override val productFeatures: IndexedRDD[Long, LatentFactor], // bias and the product row
-    override val globalBias: Float,
-    observedExamples: Long,
-    override val minRating: Float,
-    override val maxRating: Float)
-  extends LatentMatrixFactorizationModel(rank, userFeatures, productFeatures,
-    globalBias, minRating, maxRating)
-
-object LatentMatrixFactorizationModel extends Serializable with Logging {
+object LatentMatrixFactorizationModelOps extends Serializable with Logging {
 
   /**
    * Adds random factors for missing user - product entries and updates the global bias and
@@ -155,7 +96,7 @@ object LatentMatrixFactorizationModel extends Serializable with Logging {
       maxRating: Float): Rating[Long] = {
     val finalRating =
       if (uFeatures.isDefined && pFeatures.isDefined) {
-        Rating(user, product, LatentMatrixFactorizationModel.getRating(uFeatures.get, pFeatures.get,
+        Rating(user, product, LatentMatrixFactorizationModelOps.getRating(uFeatures.get, pFeatures.get,
           globalBias, minRating, maxRating))
       } else if (uFeatures.isDefined) {
         logWarning(s"Product data missing for product id $product. Will use user factors.")
@@ -190,39 +131,4 @@ object LatentMatrixFactorizationModel extends Serializable with Logging {
     val dot = VectorUtils.dot(userFeatures.vector, prodFeatures.vector)
     dot + userFeatures.bias + prodFeatures.bias + bias
   }
-}
-
-case class LatentFactor(var bias: Float, vector: Array[Float]) extends Serializable {
-
-  def +=(other: LatentFactor): this.type = {
-    bias += other.bias
-    VectorUtils.addInto(vector, other.vector)
-    this
-  }
-
-  def divideAndAdd(other: LatentFactor, scale: Long): this.type = {
-    bias += other.bias / scale
-    VectorUtils.addInto(vector, other.vector, scale)
-    this
-  }
-
-  override def toString: String = {
-    s"bias: $bias, factors: " + vector.mkString(", ")
-  }
-}
-
-class LatentFactorGenerator(rank: Int, min: Float, max: Float) extends Serializable {
-
-  private val random = new Random()
-
-  private val scale = max - min
-
-  def nextValue(): LatentFactor = {
-    new LatentFactor(scaleValue(random.nextDouble),
-      Array.tabulate(rank)(i => scaleValue(random.nextDouble)))
-  }
-
-  def scaleValue(value: Double): Float = math.sqrt(value * scale + min).toFloat / rank
-
-  def setSeed(seed: Long) = random.setSeed(seed)
 }
