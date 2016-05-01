@@ -70,8 +70,8 @@
     },
     {
       "title": "Load dataset including tags",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")",
-      "dateUpdated": "Jan 10, 2016 6:22:20 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 1, 2016 3:22:01 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -100,8 +100,9 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
       },
       "dateCreated": "Jan 10, 2016 6:22:20 AM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "May 1, 2016 3:22:01 AM",
+      "dateFinished": "May 1, 2016 3:22:02 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -262,13 +263,9 @@
   "name": "TODO: Live Recs/09: LSH Similarity Item-to-Item Recs by (itemId1, [userId1, userId2, userId3, ...]) Vectors",
   "id": "2BBC8NSFW",
   "angularObjects": {
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BF666AQP": []
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

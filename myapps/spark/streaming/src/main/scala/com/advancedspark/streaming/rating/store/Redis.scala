@@ -13,7 +13,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Transaction
-import com.advancedspark.streaming.rating.core.Rating
+import com.advancedspark.streaming.rating.core.RatingGeo
 
 object Redis {
   def main(args: Array[String]) {
@@ -47,7 +47,7 @@ object Redis {
 
         // convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token =>
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
+          RatingGeo(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
         )
 
        // increment the exact count for touserid in Redis

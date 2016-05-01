@@ -36,8 +36,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
+      "dateUpdated": "May 1, 2016 3:22:54 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -87,8 +87,8 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Mar 5, 2016 5:33:56 AM",
-      "dateFinished": "Mar 5, 2016 5:34:00 AM",
+      "dateStarted": "May 1, 2016 3:22:54 AM",
+      "dateFinished": "May 1, 2016 3:22:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

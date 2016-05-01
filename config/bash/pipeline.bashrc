@@ -36,8 +36,11 @@ export DATASETS_HOME=$PIPELINE_HOME/datasets
 # Logs Home (where log data from apps is written)
 export LOGS_HOME=$PIPELINE_HOME/logs
 
+# MyApps
+export MYAPPS_HOME=$PIPELINE_HOME/myapps
+
 # HTML Home
-export HTML_HOME=$PIPELINE_HOME/html
+export HTML_HOME=$MYAPPS_HOME/html
 
 ###################################################################
 
@@ -122,9 +125,6 @@ export PATH=$NIFI_HOME/bin:$PATH
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$SBT_HOME/bin:$PATH
 export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
-
-# MyApps
-export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # --repositories used to resolve --packages
 export SPARK_REPOSITORIES=http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots

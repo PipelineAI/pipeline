@@ -11,7 +11,7 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.streaming.rating.core.Rating
+import com.advancedspark.streaming.rating.core.RatingGeo
 
 object Cassandra {
   def main(args: Array[String]) {
@@ -52,13 +52,13 @@ object Cassandra {
 
 	// convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token => 
-          Rating(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
+          RatingGeo(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
         )
 
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "timestamp")
+        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "timestamp", "geocity")
 
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)

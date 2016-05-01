@@ -11,7 +11,7 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.streaming.rating.core.Rating
+import com.advancedspark.streaming.rating.core.RatingGeo
 
 object Parquet {
   def main(args: Array[String]) {
@@ -43,7 +43,7 @@ object Parquet {
         message.cache()
 
         // convert each RDD from the batch into a DataFrame
-        val ratingsDF = message.map(_._2.split(",")).map(rating => Rating(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds)).toDF("userId", "itemId", "rating", "timestamp")
+        val ratingsDF = message.map(_._2.split(",")).map(rating => RatingGeo(rating(0).trim.toInt, rating(1).trim.toInt, rating(2).trim.toInt, batchTime.milliseconds, rating(3).trim.toString)).toDF("userId", "itemId", "rating", "timestamp", "geocity")
         
         ratingsDF.write.format("parquet").partitionBy("rating").save(s"""file:${dataWorkHome}/item_ratings/ratings-partitioned.parquet""")
 

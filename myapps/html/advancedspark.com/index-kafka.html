@@ -35,10 +35,10 @@
   function rate(itemId, rating) {
     $("#like" + itemId).show()
 
-    var encodedKey = btoa(myId)
-    var encodedValue = btoa(myId + "," + itemId + "," + rating)
-
     // Kafka REST API
+    var encodedKey = btoa(myId)
+    var encodedValue = btoa(myId + "," + itemId + "," + rating + ",San Francisco")
+
     $.ajax({
       url:'/item-rating-kafka',
       type:'POST',
@@ -49,16 +49,6 @@
         //NoOp
       }
     })
-
-    // NiFi REST API
-  //  $.ajax({
-  //    url:'/item-rating-nifi',
-  //    type:'POST',
-  //    data:myId + "," + itemId + "," + rating,
-  //    success: function(data, status){
-        //NoOp
-  //    }
-  //  })
   }
 
   function loadItems() {

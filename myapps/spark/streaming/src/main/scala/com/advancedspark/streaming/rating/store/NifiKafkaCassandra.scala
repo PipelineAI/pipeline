@@ -32,12 +32,12 @@ object NiFiKafkaCassandra {
     import sqlContext.implicits._
 
     // Cassandra Config
-    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings_geo")
+    val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings")
 
     // Kafka Config    
     val brokers = "127.0.0.1:9092"
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
-    val topics = Set("item_ratings_geo")
+    val topics = Set("item_ratings")
  
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
@@ -53,9 +53,7 @@ object NiFiKafkaCassandra {
         val ratings = tokens.map(token => 
           RatingGeo(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
         )
-  	
-        println(s"${tokens.collect()} -> ${ratings.collect()}")
-
+  
         // save the DataFrame to Cassandra
         // Note:  Cassandra has been initialized through spark-env.sh
         //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1

@@ -37,8 +37,8 @@
     },
     {
       "title": "Retrieve Dataset",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .option(\"inferSchema\", \"false\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")",
-      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .option(\"inferSchema\", \"false\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 1, 2016 3:21:46 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -67,8 +67,8 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
       },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Mar 5, 2016 3:49:17 AM",
-      "dateFinished": "Mar 5, 2016 3:49:17 AM",
+      "dateStarted": "May 1, 2016 3:21:46 AM",
+      "dateFinished": "May 1, 2016 3:21:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

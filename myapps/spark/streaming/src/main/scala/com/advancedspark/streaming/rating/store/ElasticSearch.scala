@@ -12,7 +12,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import org.elasticsearch.spark.sql._ 
-import com.advancedspark.streaming.rating.core.Rating
+import com.advancedspark.streaming.rating.core.RatingGeo
 
 object ElasticSearch {
   def main(args: Array[String]) {
@@ -47,11 +47,11 @@ object ElasticSearch {
 
         // convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token =>
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
+          RatingGeo(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
         )
 
         // save the DataFrame to ElasticSearch
-        val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp")
+        val ratingsDF = ratings.toDF("userId", "itemId", "rating", "timestamp", "geocity")
 
 	ratingsDF.write.format("org.elasticsearch.spark.sql")
     	  .mode(SaveMode.Append)

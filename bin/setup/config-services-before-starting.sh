@@ -49,7 +49,7 @@ ln -s $CONFIG_HOME/advancedspark.com/advancedspark.conf /etc/apache2/sites-avail
 a2ensite advancedspark.conf
 # We're just copying these under /var/www/html for now
 # Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
-cp -R $PIPELINE_HOME/html/advancedspark.com/* /var/www/html
+cp -R $MYAPPS_HOME/html/advancedspark.com/* /var/www/html
 
 # My Apps
 echo '...Configuring Apps...'

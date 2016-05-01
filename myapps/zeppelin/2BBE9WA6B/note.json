@@ -37,8 +37,8 @@
     },
     {
       "title": "Load dataset including tags",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")",
-      "dateUpdated": "Jan 17, 2016 12:05:24 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 1, 2016 3:21:56 AM",
       "config": {
         "tableHide": false,
         "colWidth": 12.0,
@@ -67,8 +67,8 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
       },
       "dateCreated": "Jan 10, 2016 11:16:12 PM",
-      "dateStarted": "Jan 17, 2016 12:05:28 AM",
-      "dateFinished": "Jan 17, 2016 12:05:33 AM",
+      "dateStarted": "May 1, 2016 3:21:56 AM",
+      "dateFinished": "May 1, 2016 3:21:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

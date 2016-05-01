@@ -10,9 +10,6 @@ import kafka.serializer.StringDecoder
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming._
-//import org.apache.spark.streaming.Time
-//import org.apache.spark.streaming.State
-//import org.apache.spark.streaming.StateSpec
 import org.apache.spark.sql._
 import org.apache.spark.sql.types._
 
@@ -21,9 +18,6 @@ import com.twitter.algebird.HLL
 import com.twitter.algebird.HyperLogLog._
 import com.twitter.algebird.HyperLogLogAggregator
 import com.twitter.algebird.HyperLogLogMonoid
-
-// Advanced Spark Libs
-import com.advancedspark.streaming.rating.core.Rating
 
 object AlgebirdHyperLogLog {
   def main(args: Array[String]) {

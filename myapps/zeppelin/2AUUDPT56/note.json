@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Load Reference Data for Enrichment",
-      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\").limit(10))",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\").limit(10))",
+      "dateUpdated": "May 1, 2016 3:23:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,8 +50,8 @@
         "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "Apr 26, 2016 3:53:08 AM",
-      "dateFinished": "Apr 26, 2016 3:53:09 AM",
+      "dateStarted": "May 1, 2016 3:23:17 AM",
+      "dateFinished": "May 1, 2016 3:23:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

@@ -12,7 +12,6 @@ import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import org.elasticsearch.spark.sql._ 
-import com.advancedspark.streaming.rating.core.Rating
 import org.apache.spark.sql.functions._
 
 object TopKItemsByRatingCount {

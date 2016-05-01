@@ -13,7 +13,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Transaction
-import com.advancedspark.streaming.rating.core.Rating
+
+import com.advancedspark.streaming.rating.core.RatingGeo
 
 object RedisHyperLogLog {
   def main(args: Array[String]) {
@@ -32,7 +33,7 @@ object RedisHyperLogLog {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    val brokers = "127.0.01:9092"
+    val brokers = "127.0.0.1:9092"
     val topics = Set("item_ratings")
     val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
    
@@ -47,10 +48,8 @@ object RedisHyperLogLog {
 
         // convert messageTokens into RDD[Ratings]
         val ratings = tokens.map(token => 
-          Rating(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds)
+          RatingGeo(token(0).trim.toInt, token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
         )
-
-        //val jedis = new Jedis("127.0.0.1", 6379)
 
         // increment the HyperLogLog distinct count for each fromuserid that chooses the touserid in Redis
         ratings.foreachPartition(ratingsPartitionIter => {
@@ -68,7 +67,6 @@ object RedisHyperLogLog {
           t.exec()
           jedis.close()
         })
-        //jedis.close()
 
         message.unpersist()
       }
