@@ -3,7 +3,7 @@
     {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\").limit(10))",
-      "dateUpdated": "May 1, 2016 3:23:17 AM",
+      "dateUpdated": "May 1, 2016 4:41:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,20 +50,20 @@
         "msg": "itemId\ttitle\timg\ttags\n1\tApache Cassandra\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\n2\tTachyon\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\n3\tApache Ambari\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\n4\tDocker\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\n5\tMicrosft Azure\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\n6\tApache Flink\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\n7\tApache Spark\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\n8\tApache Flume\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\n9\tApache Giraph\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\n10\tApache HDFS\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\n"
       },
       "dateCreated": "Nov 24, 2015 6:17:56 PM",
-      "dateStarted": "May 1, 2016 3:23:17 AM",
-      "dateFinished": "May 1, 2016 3:23:18 AM",
+      "dateStarted": "May 1, 2016 4:41:23 AM",
+      "dateFinished": "May 1, 2016 4:41:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
-      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF)",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .select($\"userid\", $\"itemid\", $\"rating\", $\"timestamp\")\n  .withColumnRenamed(\"userid\", \"userId\")\n  .withColumnRenamed(\"itemid\", \"itemId\")\n  .as(\"itemRatings\")\n\nz.show(itemRatingsDF)",
+      "dateUpdated": "May 1, 2016 4:41:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 129.0,
           "optionOpen": false,
           "keys": [],
           "values": [],
@@ -85,18 +85,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\trating\ttimestamp\n49360\t5\t1\t1460676654000\n49360\t7\t1\t1460676582000\n49360\t42\t1\t1460676574000\n49360\t47\t1\t1460676664000\n49360\t54\t1\t1460676620000\n49360\t70\t1\t1460676646000\n53734\t12\t1\t1460752840000\n53734\t63\t1\t1460752842000\n53734\t79\t1\t1460752870000\n34063\t21\t1\t1460676560000\n34063\t24\t1\t1460676562000\n34063\t29\t1\t1460676566000\n34063\t35\t1\t1460676568000\n34063\t36\t1\t1460676570000\n34063\t37\t1\t1460676572000\n34063\t41\t1\t1460676576000\n34063\t44\t1\t1460676580000\n34063\t49\t1\t1460676594000\n34063\t50\t1\t1460676578000\n34063\t52\t1\t1460676592000\n34063\t54\t1\t1460676582000\n34063\t74\t1\t1460676608000\n34063\t77\t1\t1460676624000\n99839\t7\t1\t1460676556000\n99839\t10\t1\t1460676552000\n99839\t11\t1\t1460676554000\n99839\t18\t1\t1460676558000\n99839\t31\t1\t1460676604000\n99839\t69\t1\t1460676564000\n99839\t77\t1\t1460676568000\n29427\t1\t1\t1460676622000\n29427\t18\t1\t1460676600000\n29427\t21\t1\t1460676602000\n29427\t42\t1\t1460676680000\n29427\t51\t1\t1460676628000\n29427\t52\t1\t1460676958000\n6437\t27\t1\t1460676664000\n6437\t33\t1\t1460676670000\n6437\t42\t1\t1460676672000\n6437\t61\t1\t1460676678000\n6437\t65\t1\t1460676920000\n6437\t69\t1\t1460676686000\n86868\t7\t1\t1460676718000\n86868\t20\t1\t1460676872000\n86868\t59\t1\t1460676694000\n86868\t62\t1\t1460676868000\n86868\t63\t1\t1460676868000\n86868\t70\t1\t1460676876000\n96971\t1\t1\t1460763032000\n96971\t7\t1\t1460763036000\n96971\t18\t1\t1460763038000\n96971\t20\t1\t1460763040000\n96971\t44\t1\t1460763046000\n56348\t39\t1\t1460676624000\n56348\t40\t1\t1460676630000\n56348\t44\t1\t1460676642000\n56348\t49\t1\t1460676656000\n56348\t52\t1\t1460676624000\n56348\t64\t1\t1460676678000\n56348\t77\t1\t1460676676000\n37477\t38\t1\t1460677094000\n37022\t7\t1\t1460676692000\n37022\t20\t1\t1460676656000\n37022\t24\t1\t1460676788000\n37022\t28\t1\t1460676626000\n37022\t33\t1\t1460677644000\n37022\t42\t1\t1460676650000\n37022\t43\t1\t1460676648000\n37022\t69\t1\t1460676668000\n37022\t76\t1\t1460676670000\n25639\t2\t1\t1460676656000\n25639\t7\t1\t1460676662000\n25639\t9\t1\t1460676154000\n25639\t14\t1\t1460676318000\n25639\t15\t1\t1460676686000\n25639\t17\t1\t1460676686000\n25639\t18\t1\t1460676664000\n25639\t33\t1\t1460676448000\n25639\t45\t1\t1460676084000\n25639\t60\t1\t1460676132000\n25639\t61\t1\t1460676834000\n43063\t37\t1\t1461642774000\n43063\t38\t1\t1461642770000\n43063\t41\t1\t1461642768000\n43063\t42\t1\t1461642768000\n43063\t43\t1\t1461642772000\n43063\t44\t1\t1461642770000\n43063\t48\t1\t1461642768000\n43063\t49\t1\t1461642772000\n43063\t50\t1\t1461642772000\n43063\t55\t1\t1461642776000\n43063\t56\t1\t1461642776000\n43063\t59\t1\t1461642766000\n43063\t60\t1\t1461642776000\n43063\t61\t1\t1461642774000\n96340\t7\t1\t1460676578000\n96340\t8\t1\t1460676610000\n96340\t10\t1\t1460676586000\n96340\t11\t1\t1460676586000\n96340\t12\t1\t1460676560000\n96340\t13\t1\t1460676562000\n96340\t14\t1\t1460676564000\n96340\t16\t1\t1460676576000\n96340\t17\t1\t1460676582000\n96340\t18\t1\t1460676580000\n96340\t20\t1\t1460676584000\n96340\t27\t1\t1460676576000\n96340\t32\t1\t1460676588000\n96340\t33\t1\t1460676588000\n96340\t42\t1\t1460676612000\n96340\t47\t1\t1460676566000\n96340\t49\t1\t1460676574000\n96340\t52\t1\t1460676614000\n96340\t53\t1\t1460676614000\n96340\t60\t1\t1460676660000\n96340\t61\t1\t1460676574000\n96340\t62\t1\t1460676572000\n96340\t63\t1\t1460676572000\n96340\t64\t1\t1460676616000\n8910\t1\t1\t1460670952000\n8910\t7\t1\t1460670964000\n8910\t9\t1\t1460670952000\n8910\t10\t1\t1460670952000\n8910\t14\t1\t1460670954000\n8910\t15\t1\t1460670954000\n8910\t16\t1\t1460670952000\n27569\t1\t1\t1460677316000\n27569\t2\t1\t1460677318000\n27569\t21\t1\t1460676674000\n27569\t28\t1\t1460676678000\n27569\t37\t1\t1460676680000\n27569\t40\t1\t1460676682000\n27569\t44\t1\t1460676686000\n27569\t62\t1\t1460676690000\n17841\t9\t1\t1460676606000\n17841\t11\t1\t1460676606000\n17841\t12\t1\t1460676608000\n17841\t14\t1\t1460676610000\n17841\t39\t1\t1460676620000\n17841\t40\t1\t1460676622000\n17841\t42\t1\t1460676624000\n17841\t44\t1\t1460676624000\n17841\t63\t1\t1460676632000\n27045\t1\t1\t1460676672000\n27045\t7\t1\t1460676668000\n27045\t18\t1\t1460676678000\n27045\t20\t1\t1460676680000\n27045\t42\t1\t1460676686000\n27045\t60\t1\t1460676874000\n27045\t62\t1\t1460676862000\n27045\t63\t1\t1460676862000\n27045\t70\t1\t1460676858000\n27045\t79\t1\t1460676884000\n5342\t25\t1\t1460676660000\n5342\t33\t1\t1460676658000\n5342\t34\t1\t1460676658000\n5342\t40\t1\t1460676662000\n5342\t50\t1\t1460676656000\n5342\t62\t1\t1460676652000\n5342\t63\t1\t1460676652000\n5342\t66\t1\t1460676652000\n5342\t67\t1\t1460676650000\n5342\t72\t1\t1460676650000\n73744\t7\t1\t1460675948000\n73744\t18\t1\t1460675942000\n73744\t28\t1\t1460675922000\n73744\t34\t1\t1460675910000\n73744\t68\t1\t1460675930000\n23426\t11\t1\t1460676766000\n23426\t18\t1\t1460676770000\n23426\t42\t1\t1460676740000\n23426\t63\t1\t1460676814000\n23426\t69\t1\t1460676812000\n23426\t70\t1\t1460676754000\n3969\t3\t1\t1460676594000\n3969\t7\t1\t1460676596000\n3969\t8\t1\t1460676598000\n3969\t10\t1\t1460676598000\n3969\t11\t1\t1460676598000\n3969\t12\t1\t1460676600000\n3969\t14\t1\t1460676602000\n3969\t15\t1\t1460676600000\n3969\t18\t1\t1460676602000\n3969\t25\t1\t1460676604000\n3969\t28\t1\t1460676606000\n3969\t29\t1\t1460676608000\n3969\t34\t1\t1460676652000\n3969\t38\t1\t1460676610000\n3969\t41\t1\t1460676612000\n3969\t42\t1\t1460676612000\n3969\t51\t1\t1460676614000\n3969\t52\t1\t1460676614000\n3969\t54\t1\t1460676614000\n3969\t61\t1\t1460676618000\n3969\t62\t1\t1460676618000\n3969\t63\t1\t1460676618000\n80675\t6\t1\t1460726666000\n80675\t7\t1\t1460726668000\n28567\t7\t1\t1460676602000\n28567\t11\t1\t1460676616000\n28567\t35\t1\t1460676612000\n28567\t61\t1\t1460676628000\n28567\t74\t1\t1460676642000\n28567\t78\t1\t1460676676000\n82510\t7\t1\t1460676618000\n82510\t21\t1\t1460676588000\n82510\t52\t1\t1460676644000\n82510\t53\t1\t1460676646000\n82510\t54\t1\t1460676642000\n82510\t62\t1\t1460676626000\n82510\t63\t1\t1460676626000\n82510\t69\t1\t1460676628000\n82510\t74\t1\t1460676632000\n54801\t19\t1\t1460676616000\n54801\t29\t1\t1460676624000\n54801\t35\t1\t1460676788000\n54801\t36\t1\t1460676632000\n54801\t37\t1\t1460676634000\n54801\t40\t1\t1460676636000\n54801\t41\t1\t1460676638000\n54801\t64\t1\t1460676654000\n54801\t73\t1\t1460676662000\n54801\t75\t1\t1460676658000\n12663\t1\t1\t1460676716000\n12663\t7\t1\t1460676720000\n12663\t10\t1\t1460676724000\n12663\t11\t1\t1460676724000\n12663\t12\t1\t1460676718000\n12663\t13\t1\t1460676728000\n12663\t14\t1\t1460676726000\n12663\t15\t1\t1460676726000\n12663\t16\t1\t1460676730000\n12663\t17\t1\t1460676730000\n12663\t18\t1\t1460676730000\n12663\t24\t1\t1460676732000\n12663\t26\t1\t1460676736000\n12663\t28\t1\t1460676738000\n12663\t30\t1\t1460676740000\n12663\t32\t1\t1460676744000\n12663\t33\t1\t1460676742000\n12663\t38\t1\t1460676746000\n12663\t39\t1\t1460676746000\n12663\t42\t1\t1460676748000\n12663\t44\t1\t1460676750000\n12663\t49\t1\t1460676752000\n12663\t51\t1\t1460676754000\n12663\t54\t1\t1460676756000\n12663\t60\t1\t1460676766000\n12663\t61\t1\t1460676764000\n12663\t62\t1\t1460676760000\n12663\t63\t1\t1460676760000\n12663\t74\t1\t1460676776000\n12663\t79\t1\t1460676768000\n74715\t18\t1\t1460676688000\n74715\t52\t1\t1460676660000\n74715\t81\t1\t1460676656000\n13338\t56\t1\t1460676660000\n88005\t6\t1\t1460845306000\n45777\t38\t1\t1460671896000\n45777\t45\t1\t1460671896000\n45777\t50\t1\t1460671896000\n45777\t51\t1\t1460671898000\n60978\t7\t1\t1460676622000\n60978\t36\t1\t1460676638000\n60978\t44\t1\t1460676642000\n60978\t62\t1\t1460676670000\n60978\t67\t1\t1460676648000\n60978\t78\t1\t1460676652000\n20229\t7\t1\t1460676668000\n20229\t18\t1\t1460676678000\n20229\t20\t1\t1460676766000\n20229\t24\t1\t1460676682000\n20229\t28\t1\t1460676684000\n20229\t40\t1\t1460676696000\n20229\t42\t1\t1460676688000\n20229\t49\t1\t1460676692000\n20229\t51\t1\t1460676692000\n20229\t62\t1\t1460676698000\n13077\t2\t1\t1460752818000\n13077\t3\t1\t1460752818000\n13077\t12\t1\t1460752816000\n13077\t13\t1\t1460752824000\n37902\t7\t1\t1460676602000\n37902\t10\t1\t1460676668000\n37902\t11\t1\t1460676874000\n37902\t12\t1\t1460676664000\n37902\t39\t1\t1460676614000\n37902\t42\t1\t1460676642000\n37902\t47\t1\t1460676612000\n"
+        "msg": "userId\titemId\trating\ttimestamp\n49360\t5\t1\t1460676654000\n49360\t7\t1\t1460676582000\n49360\t42\t1\t1460676574000\n49360\t47\t1\t1460676664000\n49360\t54\t1\t1460676620000\n49360\t70\t1\t1460676646000\n53734\t12\t1\t1460752840000\n53734\t63\t1\t1460752842000\n53734\t79\t1\t1460752870000\n34063\t21\t1\t1460676560000\n34063\t24\t1\t1460676562000\n34063\t29\t1\t1460676566000\n34063\t35\t1\t1460676568000\n34063\t36\t1\t1460676570000\n34063\t37\t1\t1460676572000\n34063\t41\t1\t1460676576000\n34063\t44\t1\t1460676580000\n34063\t49\t1\t1460676594000\n34063\t50\t1\t1460676578000\n34063\t52\t1\t1460676592000\n34063\t54\t1\t1460676582000\n34063\t74\t1\t1460676608000\n34063\t77\t1\t1460676624000\n99839\t7\t1\t1460676556000\n99839\t10\t1\t1460676552000\n99839\t11\t1\t1460676554000\n99839\t18\t1\t1460676558000\n99839\t31\t1\t1460676604000\n99839\t69\t1\t1460676564000\n99839\t77\t1\t1460676568000\n29427\t1\t1\t1460676622000\n29427\t18\t1\t1460676600000\n29427\t21\t1\t1460676602000\n29427\t42\t1\t1460676680000\n29427\t51\t1\t1460676628000\n29427\t52\t1\t1460676958000\n6437\t27\t1\t1460676664000\n6437\t33\t1\t1460676670000\n6437\t42\t1\t1460676672000\n6437\t61\t1\t1460676678000\n6437\t65\t1\t1460676920000\n6437\t69\t1\t1460676686000\n86868\t7\t1\t1460676718000\n86868\t20\t1\t1460676872000\n86868\t59\t1\t1460676694000\n86868\t62\t1\t1460676868000\n86868\t63\t1\t1460676868000\n86868\t70\t1\t1460676876000\n96971\t1\t1\t1460763032000\n96971\t7\t1\t1460763036000\n96971\t18\t1\t1460763038000\n96971\t20\t1\t1460763040000\n96971\t44\t1\t1460763046000\n56348\t39\t1\t1460676624000\n56348\t40\t1\t1460676630000\n56348\t44\t1\t1460676642000\n56348\t49\t1\t1460676656000\n56348\t52\t1\t1460676624000\n56348\t64\t1\t1460676678000\n56348\t77\t1\t1460676676000\n37477\t38\t1\t1460677094000\n37022\t7\t1\t1460676692000\n37022\t20\t1\t1460676656000\n37022\t24\t1\t1460676788000\n37022\t28\t1\t1460676626000\n37022\t33\t1\t1460677644000\n37022\t42\t1\t1460676650000\n37022\t43\t1\t1460676648000\n37022\t69\t1\t1460676668000\n37022\t76\t1\t1460676670000\n25639\t2\t1\t1460676656000\n25639\t7\t1\t1460676662000\n25639\t9\t1\t1460676154000\n25639\t14\t1\t1460676318000\n25639\t15\t1\t1460676686000\n25639\t17\t1\t1460676686000\n25639\t18\t1\t1460676664000\n25639\t33\t1\t1460676448000\n25639\t45\t1\t1460676084000\n25639\t60\t1\t1460676132000\n25639\t61\t1\t1460676834000\n74393\t15\t1\t1462076052000\n74393\t16\t1\t1462076054000\n74393\t21\t1\t1462076054000\n74393\t22\t1\t1462076054000\n74393\t27\t1\t1462076056000\n74393\t28\t1\t1462076056000\n96340\t7\t1\t1460676578000\n96340\t8\t1\t1460676610000\n96340\t10\t1\t1460676586000\n96340\t11\t1\t1460676586000\n96340\t12\t1\t1460676560000\n96340\t13\t1\t1460676562000\n96340\t14\t1\t1460676564000\n96340\t16\t1\t1460676576000\n96340\t17\t1\t1460676582000\n96340\t18\t1\t1460676580000\n96340\t20\t1\t1460676584000\n96340\t27\t1\t1460676576000\n96340\t32\t1\t1460676588000\n96340\t33\t1\t1460676588000\n96340\t42\t1\t1460676612000\n96340\t47\t1\t1460676566000\n96340\t49\t1\t1460676574000\n96340\t52\t1\t1460676614000\n96340\t53\t1\t1460676614000\n96340\t60\t1\t1460676660000\n96340\t61\t1\t1460676574000\n96340\t62\t1\t1460676572000\n96340\t63\t1\t1460676572000\n96340\t64\t1\t1460676616000\n8910\t1\t1\t1460670952000\n8910\t7\t1\t1460670964000\n8910\t9\t1\t1460670952000\n8910\t10\t1\t1460670952000\n8910\t14\t1\t1460670954000\n8910\t15\t1\t1460670954000\n8910\t16\t1\t1460670952000\n27569\t1\t1\t1460677316000\n27569\t2\t1\t1460677318000\n27569\t21\t1\t1460676674000\n27569\t28\t1\t1460676678000\n27569\t37\t1\t1460676680000\n27569\t40\t1\t1460676682000\n27569\t44\t1\t1460676686000\n27569\t62\t1\t1460676690000\n17841\t9\t1\t1460676606000\n17841\t11\t1\t1460676606000\n17841\t12\t1\t1460676608000\n17841\t14\t1\t1460676610000\n17841\t39\t1\t1460676620000\n17841\t40\t1\t1460676622000\n17841\t42\t1\t1460676624000\n17841\t44\t1\t1460676624000\n17841\t63\t1\t1460676632000\n27045\t1\t1\t1460676672000\n27045\t7\t1\t1460676668000\n27045\t18\t1\t1460676678000\n27045\t20\t1\t1460676680000\n27045\t42\t1\t1460676686000\n27045\t60\t1\t1460676874000\n27045\t62\t1\t1460676862000\n27045\t63\t1\t1460676862000\n27045\t70\t1\t1460676858000\n27045\t79\t1\t1460676884000\n5342\t25\t1\t1460676660000\n5342\t33\t1\t1460676658000\n5342\t34\t1\t1460676658000\n5342\t40\t1\t1460676662000\n5342\t50\t1\t1460676656000\n5342\t62\t1\t1460676652000\n5342\t63\t1\t1460676652000\n5342\t66\t1\t1460676652000\n5342\t67\t1\t1460676650000\n5342\t72\t1\t1460676650000\n73744\t7\t1\t1460675948000\n73744\t18\t1\t1460675942000\n73744\t28\t1\t1460675922000\n73744\t34\t1\t1460675910000\n73744\t68\t1\t1460675930000\n23426\t11\t1\t1460676766000\n23426\t18\t1\t1460676770000\n23426\t42\t1\t1460676740000\n23426\t63\t1\t1460676814000\n23426\t69\t1\t1460676812000\n23426\t70\t1\t1460676754000\n3969\t3\t1\t1460676594000\n3969\t7\t1\t1460676596000\n3969\t8\t1\t1460676598000\n3969\t10\t1\t1460676598000\n3969\t11\t1\t1460676598000\n3969\t12\t1\t1460676600000\n3969\t14\t1\t1460676602000\n3969\t15\t1\t1460676600000\n3969\t18\t1\t1460676602000\n3969\t25\t1\t1460676604000\n3969\t28\t1\t1460676606000\n3969\t29\t1\t1460676608000\n3969\t34\t1\t1460676652000\n3969\t38\t1\t1460676610000\n3969\t41\t1\t1460676612000\n3969\t42\t1\t1460676612000\n3969\t51\t1\t1460676614000\n3969\t52\t1\t1460676614000\n3969\t54\t1\t1460676614000\n3969\t61\t1\t1460676618000\n3969\t62\t1\t1460676618000\n3969\t63\t1\t1460676618000\n18102\t8\t1\t1462077446000\n18102\t9\t1\t1462077446000\n18102\t10\t1\t1462077446000\n18102\t11\t1\t1462077446000\n18102\t14\t1\t1462077448000\n18102\t15\t1\t1462077448000\n18102\t16\t1\t1462077448000\n18102\t17\t1\t1462077448000\n18102\t20\t1\t1462077450000\n18102\t21\t1\t1462077450000\n18102\t22\t1\t1462077450000\n18102\t23\t1\t1462077450000\n80675\t6\t1\t1460726666000\n80675\t7\t1\t1460726668000\n28567\t7\t1\t1460676602000\n28567\t11\t1\t1460676616000\n28567\t35\t1\t1460676612000\n28567\t61\t1\t1460676628000\n28567\t74\t1\t1460676642000\n28567\t78\t1\t1460676676000\n82510\t7\t1\t1460676618000\n82510\t21\t1\t1460676588000\n82510\t52\t1\t1460676644000\n82510\t53\t1\t1460676646000\n82510\t54\t1\t1460676642000\n82510\t62\t1\t1460676626000\n82510\t63\t1\t1460676626000\n82510\t69\t1\t1460676628000\n82510\t74\t1\t1460676632000\n54801\t19\t1\t1460676616000\n54801\t29\t1\t1460676624000\n54801\t35\t1\t1460676788000\n54801\t36\t1\t1460676632000\n54801\t37\t1\t1460676634000\n54801\t40\t1\t1460676636000\n54801\t41\t1\t1460676638000\n54801\t64\t1\t1460676654000\n54801\t73\t1\t1460676662000\n54801\t75\t1\t1460676658000\n12663\t1\t1\t1460676716000\n12663\t7\t1\t1460676720000\n12663\t10\t1\t1460676724000\n12663\t11\t1\t1460676724000\n12663\t12\t1\t1460676718000\n12663\t13\t1\t1460676728000\n12663\t14\t1\t1460676726000\n12663\t15\t1\t1460676726000\n12663\t16\t1\t1460676730000\n12663\t17\t1\t1460676730000\n12663\t18\t1\t1460676730000\n12663\t24\t1\t1460676732000\n12663\t26\t1\t1460676736000\n12663\t28\t1\t1460676738000\n12663\t30\t1\t1460676740000\n12663\t32\t1\t1460676744000\n12663\t33\t1\t1460676742000\n12663\t38\t1\t1460676746000\n12663\t39\t1\t1460676746000\n12663\t42\t1\t1460676748000\n12663\t44\t1\t1460676750000\n12663\t49\t1\t1460676752000\n12663\t51\t1\t1460676754000\n12663\t54\t1\t1460676756000\n12663\t60\t1\t1460676766000\n12663\t61\t1\t1460676764000\n12663\t62\t1\t1460676760000\n12663\t63\t1\t1460676760000\n12663\t74\t1\t1460676776000\n12663\t79\t1\t1460676768000\n74715\t18\t1\t1460676688000\n74715\t52\t1\t1460676660000\n74715\t81\t1\t1460676656000\n13338\t56\t1\t1460676660000\n88005\t6\t1\t1460845306000\n45777\t38\t1\t1460671896000\n45777\t45\t1\t1460671896000\n45777\t50\t1\t1460671896000\n45777\t51\t1\t1460671898000\n60978\t7\t1\t1460676622000\n60978\t36\t1\t1460676638000\n60978\t44\t1\t1460676642000\n60978\t62\t1\t1460676670000\n60978\t67\t1\t1460676648000\n60978\t78\t1\t1460676652000\n20229\t7\t1\t1460676668000\n20229\t18\t1\t1460676678000\n20229\t20\t1\t1460676766000\n20229\t24\t1\t1460676682000\n20229\t28\t1\t1460676684000\n20229\t40\t1\t1460676696000\n20229\t42\t1\t1460676688000\n20229\t49\t1\t1460676692000\n20229\t51\t1\t1460676692000\n20229\t62\t1\t1460676698000\n13077\t2\t1\t1460752818000\n13077\t3\t1\t1460752818000\n13077\t12\t1\t1460752816000\n13077\t13\t1\t1460752824000\n37902\t7\t1\t1460676602000\n37902\t10\t1\t1460676668000\n37902\t11\t1\t1460676874000\n37902\t12\t1\t1460676664000\n37902\t39\t1\t1460676614000\n37902\t42\t1\t1460676642000\n37902\t47\t1\t1460676612000\n"
       },
       "dateCreated": "Jul 3, 2015 5:15:11 AM",
-      "dateStarted": "Apr 26, 2016 3:53:08 AM",
-      "dateFinished": "Apr 26, 2016 3:53:10 AM",
+      "dateStarted": "May 1, 2016 4:41:24 AM",
+      "dateFinished": "May 1, 2016 4:41:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Total ratings and Distinct Users",
-      "text": "import org.apache.spark.sql.functions._\n\nval totalRatings \u003d itemRatingsDF.count()\nval distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "text": "//import org.apache.spark.sql.functions._\n\n//val totalRatings \u003d itemRatingsDF.count()\n//val distinctUsers \u003d itemRatingsDF.select(countDistinct($\"userId\")).collect()(0)(0)",
+      "dateUpdated": "May 1, 2016 4:41:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -112,7 +112,7 @@
         "tableHide": false,
         "editorMode": "ace/mode/scala",
         "enabled": true,
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -123,18 +123,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.functions._\ntotalRatings: Long \u003d 289\ndistinctUsers: Any \u003d 35\n"
+        "msg": ""
       },
       "dateCreated": "Jul 3, 2015 6:09:46 AM",
-      "dateStarted": "Apr 26, 2016 3:53:09 AM",
-      "dateFinished": "Apr 26, 2016 3:53:12 AM",
+      "dateStarted": "May 1, 2016 4:41:32 AM",
+      "dateFinished": "May 1, 2016 4:41:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the item Ratings",
       "text": "val enrichedItemRatingsDF \u003d itemRatingsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"img\")",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "dateUpdated": "May 1, 2016 4:41:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -162,15 +162,15 @@
         "msg": "enrichedItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, title: string, img: string]\n"
       },
       "dateCreated": "Apr 23, 2016 5:01:20 AM",
-      "dateStarted": "Apr 26, 2016 3:53:11 AM",
-      "dateFinished": "Apr 26, 2016 3:53:13 AM",
+      "dateStarted": "May 1, 2016 4:41:34 AM",
+      "dateFinished": "May 1, 2016 4:41:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "distribution of rating count ",
       "text": "val enrichedItemRatingsCountDF \u003d enrichedItemRatingsDF\n  .groupBy($\"items.itemId\", $\"title\", $\"img\")\n  .agg(count($\"items.itemId\").as(\"count\"))\n  .orderBy($\"count\".desc, $\"items.itemId\")\n  .limit(5)\n\nz.show(enrichedItemRatingsCountDF)",
-      "dateUpdated": "Apr 26, 2016 7:22:58 PM",
+      "dateUpdated": "May 1, 2016 4:41:24 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -220,17 +220,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\ttitle\timg\tcount\n27\tApache Pig\timg/software/pig.png\t1\n28\tApache ZooKeeper\timg/software/zookeeper.png\t1\n33\tApache Oozie\timg/software/oozie.png\t1\n37\tiPython/Jupyter\timg/software/ipython.png\t1\n38\tApache Zeppelin\timg/software/zeppelin.png\t1\n"
+        "msg": "itemId\ttitle\timg\tcount\n7\tApache Spark\timg/software/spark.png\t18\n18\tApache Kafka\timg/software/kafka.png\t12\n42\tScala\timg/software/scala.png\t12\n62\tSpark Streaming\timg/software/spark-streaming.png\t10\n63\tSpark SQL\timg/software/spark-sql.png\t10\n"
       },
       "dateCreated": "Dec 25, 2015 7:35:11 PM",
-      "dateStarted": "Apr 26, 2016 7:22:58 PM",
-      "dateFinished": "Apr 26, 2016 7:23:00 PM",
+      "dateStarted": "May 1, 2016 4:41:34 AM",
+      "dateFinished": "May 1, 2016 4:41:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ### Compare DataFrame and SQL Query Plans",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "dateUpdated": "May 1, 2016 4:41:24 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -258,14 +258,14 @@
         "msg": "\u003ch3\u003eCompare DataFrame and SQL Query Plans\u003c/h3\u003e\n"
       },
       "dateCreated": "Mar 6, 2016 4:20:16 AM",
-      "dateStarted": "Apr 26, 2016 3:53:08 AM",
-      "dateFinished": "Apr 26, 2016 3:53:08 AM",
+      "dateStarted": "May 1, 2016 4:41:25 AM",
+      "dateFinished": "May 1, 2016 4:41:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "enrichedItemRatingsCountDF.explain(false)",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "dateUpdated": "May 1, 2016 4:41:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -290,17 +290,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#101L DESC], output\u003d[itemId#82L,title#81,img#79,count#101L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#82L,title#81,img#79], functions\u003d[(count(itemId#82L),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#82L,title#81,img#79,count#101L])\n      +- TungstenExchange hashpartitioning(itemId#82L,title#81,img#79,200), None\n         +- TungstenAggregate(key\u003d[itemId#82L,title#81,img#79], functions\u003d[(count(itemId#82L),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#82L,title#81,img#79,count#104L])\n            +- Project [itemId#82L,title#81,img#79]\n               +- BroadcastHashJoin [cast(itemId#88 as bigint)], [itemId#82L], BuildRight\n                  :- Project [itemid#84 AS itemId#88]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@4a80e526[itemid#84] \n                  +- Project [id#78L AS itemId#82L,title#81,img#79]\n                     +- Scan JSONRelation[id#78L,title#81,img#79] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#118L DESC,itemId#110L ASC], output\u003d[itemId#110L,title#109,img#107,count#118L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#110L,title#109,img#107], functions\u003d[(count(itemId#110L),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#110L,title#109,img#107,count#118L])\n      +- TungstenExchange hashpartitioning(itemId#110L,title#109,img#107,200), None\n         +- TungstenAggregate(key\u003d[itemId#110L,title#109,img#107], functions\u003d[(count(itemId#110L),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#110L,title#109,img#107,count#121L])\n            +- Project [itemId#110L,title#109,img#107]\n               +- BroadcastHashJoin [cast(itemId#117 as bigint)], [itemId#110L], BuildRight\n                  :- Project [itemid#112 AS itemId#117]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@4831b57d[itemid#112] \n                  +- Project [id#106L AS itemId#110L,title#109,img#107]\n                     +- Scan JSONRelation[id#106L,title#109,img#107] InputPaths: file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Mar 6, 2016 4:22:35 AM",
-      "dateStarted": "Apr 26, 2016 3:53:13 AM",
-      "dateFinished": "Apr 26, 2016 3:53:15 AM",
+      "dateStarted": "May 1, 2016 4:41:35 AM",
+      "dateFinished": "May 1, 2016 4:41:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "itemsDF.registerTempTable(\"items_temp\")\nitemRatingsDF.registerTempTable(\"item_ratings_temp\")\n\nval enrichedItemRatingsCountSql \u003d sqlContext.sql(\"\"\"SELECT items_temp.itemId, title, count(items_temp.itemId) as count FROM item_ratings_temp\n  JOIN items_temp ON (item_ratings_temp.itemId \u003d items_temp.itemid) \n  GROUP BY items_temp.itemId, title \n  ORDER BY count \n  DESC LIMIT 5\"\"\")\n  \nenrichedItemRatingsCountSql.explain()",
-      "dateUpdated": "Apr 26, 2016 3:53:08 AM",
+      "dateUpdated": "May 1, 2016 4:41:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -324,18 +324,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "enrichedItemRatingsCountSql: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, title: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#107L DESC], output\u003d[itemId#82L,title#81,count#107L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#82L,title#81], functions\u003d[(count(itemId#82L),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#82L,title#81,count#107L])\n      +- TungstenExchange hashpartitioning(itemId#82L,title#81,200), None\n         +- TungstenAggregate(key\u003d[itemId#82L,title#81], functions\u003d[(count(itemId#82L),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#82L,title#81,count#113L])\n            +- Project [itemId#82L,title#81]\n               +- BroadcastHashJoin [cast(itemId#88 as bigint)], [itemid#82L], BuildRight\n                  :- Project [itemid#84 AS itemId#88]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@4a80e526[itemid#84] \n                  +- Project [id#78L AS itemId#82L,title#81]\n                     +- Scan JSONRelation[id#78L,title#81] InputPaths: file:/root/pipeline/html/advancedspark.com/json/software.json\n"
+        "msg": "enrichedItemRatingsCountSql: org.apache.spark.sql.DataFrame \u003d [itemId: bigint, title: string, count: bigint]\n\u003d\u003d Physical Plan \u003d\u003d\nTakeOrderedAndProject(limit\u003d5, orderBy\u003d[count#124L DESC], output\u003d[itemId#110L,title#109,count#124L])\n+- ConvertToSafe\n   +- TungstenAggregate(key\u003d[itemId#110L,title#109], functions\u003d[(count(itemId#110L),mode\u003dFinal,isDistinct\u003dfalse)], output\u003d[itemId#110L,title#109,count#124L])\n      +- TungstenExchange hashpartitioning(itemId#110L,title#109,200), None\n         +- TungstenAggregate(key\u003d[itemId#110L,title#109], functions\u003d[(count(itemId#110L),mode\u003dPartial,isDistinct\u003dfalse)], output\u003d[itemId#110L,title#109,count#130L])\n            +- Project [itemId#110L,title#109]\n               +- BroadcastHashJoin [cast(itemId#117 as bigint)], [itemid#110L], BuildRight\n                  :- Project [itemid#112 AS itemId#117]\n                  :  +- Scan org.apache.spark.sql.cassandra.CassandraSourceRelation@4831b57d[itemid#112] \n                  +- Project [id#106L AS itemId#110L,title#109]\n                     +- Scan JSONRelation[id#106L,title#109] InputPaths: file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\n"
       },
       "dateCreated": "Mar 6, 2016 4:10:39 AM",
-      "dateStarted": "Apr 26, 2016 3:53:15 AM",
-      "dateFinished": "Apr 26, 2016 3:53:16 AM",
+      "dateStarted": "May 1, 2016 4:41:39 AM",
+      "dateFinished": "May 1, 2016 4:41:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save Top 5 Most Rated Items to ElasticSearch",
       "text": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedItemRatingsCountDF.limit(5).write.format(\"org.elasticsearch.spark.sql\")\n  .mode(SaveMode.Overwrite)\n  .options(esConfig)\n  .save(\"advancedspark/top-items-by-exact-rating-count\")",
-      "dateUpdated": "Apr 26, 2016 3:53:09 AM",
+      "dateUpdated": "May 1, 2016 4:41:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -388,14 +388,14 @@
         "msg": "import org.elasticsearch.spark.sql._\nimport org.apache.spark.sql.SaveMode\nesConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\n"
       },
       "dateCreated": "Nov 17, 2015 9:55:08 AM",
-      "dateStarted": "Apr 26, 2016 3:53:15 AM",
-      "dateFinished": "Apr 26, 2016 3:53:18 AM",
+      "dateStarted": "May 1, 2016 4:41:39 AM",
+      "dateFinished": "May 1, 2016 4:41:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "Apr 26, 2016 3:53:09 AM",
+      "dateUpdated": "May 1, 2016 4:41:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -421,8 +421,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 17, 2016 7:51:52 PM",
-      "dateStarted": "Apr 26, 2016 3:53:16 AM",
-      "dateFinished": "Apr 26, 2016 3:53:18 AM",
+      "dateStarted": "May 1, 2016 4:41:40 AM",
+      "dateFinished": "May 1, 2016 4:41:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
