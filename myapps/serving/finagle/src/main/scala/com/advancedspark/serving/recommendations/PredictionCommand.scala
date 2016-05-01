@@ -15,33 +15,42 @@ class PredictionCommand(userId: Int, itemId: Int)
 
   def run(): Double = {
     val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/user-factors-als/_search?q=userId:${userId}""")
-    val itemFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/item-factors-als/_search?q=itemId:${itemId}""")
 
-    System.out.println(userFactorsStr)
-
+    // This is the worst piece of code I've ever written
     val userFactorsJson = JSON.parseFull(userFactorsStr)
-    System.out.println(userFactorsJson)
+    val userFactors = userFactorsJson.get
+      .asInstanceOf[Map[String,Any]]("hits")
+      .asInstanceOf[Map[String,Any]]("hits")
+      .asInstanceOf[List[Any]](0)
+      .asInstanceOf[Map[String,Any]]("_source")
+      .asInstanceOf[Map[String,Any]]("userFactors")
+      .asInstanceOf[List[Double]]
 
-    val userFactors = userFactorsJson
-/*    
-    userFactors match { 
-      case Some(hits: Map[String, Any]) => hits("hits") match {
-        case Some(hits: Map[String, Any]) => hits(0) match {
-          case Some(source: Map[String, Any]) => source("_source") match {
-            case Some(userFeatures: Map[String, Any]) => source("userFeatures") match {
-              case userFactors: List[Double] => userFactors
- 	    }
-          }
-        }
-      }
+    // This is the second worst piece of code I've ever written
+    val itemFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/item-factors-als/_search?q=itemId:${itemId}""")   
+    val itemFactorsJson = JSON.parseFull(itemFactorsStr)
+    val itemFactors = itemFactorsJson.get
+      .asInstanceOf[Map[String,Any]]("hits")
+      .asInstanceOf[Map[String,Any]]("hits")
+      .asInstanceOf[List[Any]](0)
+      .asInstanceOf[Map[String,Any]]("_source")
+      .asInstanceOf[Map[String,Any]]("itemFactors")
+      .asInstanceOf[List[Double]]
+ 
+    try{
+      val userFactorsMatrix = new DoubleMatrix(userFactors.toArray)
+      val itemFactorsMatrix = new DoubleMatrix(itemFactors.toArray)
+    
+      // Calculate confidence
+      userFactorsMatrix.dot(itemFactorsMatrix)
+    } catch { 
+       case e: Throwable => {
+         System.out.println(e) 
+         throw e
+       }
     }
-*/
-//["hits"]['hits'][0]['_source']['userFeatures']
-//    userFactorsStr.split(",")(1).toDouble
 
-    System.out.println(userFactors)
-
-    1.0;
+   // 1.0;
   }
 
   override def getFallback(): Double = {
