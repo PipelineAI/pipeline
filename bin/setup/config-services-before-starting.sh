@@ -171,8 +171,6 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 # iPython/Jupyter
 echo '...Configuring iPython/Jupyter...'
 mkdir -p ~/.jupyter
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
 
 # Nifi
 echo '...Configuring NiFi...'

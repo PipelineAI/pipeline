@@ -144,8 +144,6 @@ export FLINK_HOME=$DEV_INSTALL_HOME/flink-$FLINK_VERSION
 export PATH=$FLINK_HOME/bin:$PATH
 
 # Jupyter/iPython
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py"
 
 # Airflow
 export AIRFLOW_HOME=$DEV_INSTALL_HOME/airflow

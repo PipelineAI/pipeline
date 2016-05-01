@@ -61,7 +61,7 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting Jupyter Notebook Server...'
-nohup pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES &
+PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py" nohup pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES &
 
 #echo '...Starting NiFi...'
 nohup nifi.sh start &
