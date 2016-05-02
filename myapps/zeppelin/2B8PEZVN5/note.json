@@ -488,7 +488,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "TODO: Live Recs/09: Approx LSH (itemId, userId) Similarity",
+  "name": "TODO: Recommendations/09: Approx Similarity of (itemId, userId) Tuples (LSH)",
   "id": "2B8PEZVN5",
   "angularObjects": {
     "2ARR8UZDJ": [],

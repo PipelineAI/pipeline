@@ -24,14 +24,14 @@
         "cassandra.speculative.execution.policy": "DEFAULT",
         "cassandra.compression.protocol": "NONE",
         "cassandra.query.default.fetchSize": "5000",
-        "cassandra.pooling.idle.timeout.seconds": "120",
         "cassandra.keyspace": "system",
-        "cassandra.max.schema.agreement.wait.second": "10",
-        "cassandra.socket.tcp.no_delay": "true",
+        "cassandra.pooling.idle.timeout.seconds": "120",
         "cassandra.credentials.username": "none",
-        "cassandra.socket.connection.timeout.millisecs": "5000",
-        "cassandra.interpreter.parallelism": "10",
+        "cassandra.socket.tcp.no_delay": "true",
+        "cassandra.max.schema.agreement.wait.second": "10",
         "cassandra.query.default.serial.consistency": "SERIAL",
+        "cassandra.interpreter.parallelism": "10",
+        "cassandra.socket.connection.timeout.millisecs": "5000",
         "cassandra.pooling.max.connection.per.host.remote": "2",
         "cassandra.pooling.heartbeat.interval.seconds": "30",
         "cassandra.reconnection.policy": "DEFAULT",
@@ -52,7 +52,7 @@
       "name": "elasticsearch",
       "group": "elasticsearch",
       "properties": {
-        "elasticsearch.port": "9300",
+        "elasticsearch.port": "9200",
         "elasticsearch.result.size": "10",
         "elasticsearch.cluster.name": "elasticsearch",
         "elasticsearch.host": "localhost"
@@ -95,9 +95,9 @@
         "spark.app.name": "Zeppelin",
         "spark.executor.memory": "24gb",
         "zeppelin.spark.useHiveContext": "true",
-        "spark.home": "/root/spark-1.6.1-bin-fluxcapacitor",
-        "zeppelin.spark.concurrentSQL": "false",
         "args": "",
+        "zeppelin.spark.concurrentSQL": "false",
+        "spark.home": "/root/spark-1.6.1-bin-fluxcapacitor",
         "zeppelin.pyspark.python": "python",
         "zeppelin.dep.additionalRemoteRepository": "spark-packages,http://dl.bintray.com/spark-packages/maven,false;sonatype-snapshots,https://oss.sonatype.org/content/repositories/snapshots,true;"
       },
@@ -131,8 +131,8 @@
         "default.password": "",
         "default.user": "hive",
         "hive.hiveserver2.url": "jdbc:hive2://127.0.0.1:10000",
-        "default.url": "jdbc:hive2://127.0.0.1:10000",
         "default.driver": "org.apache.hive.jdbc.HiveDriver",
+        "default.url": "jdbc:hive2://127.0.0.1:10000",
         "common.max_count": "1000",
         "hive.hiveserver2.password": "",
         "hive.hiveserver2.user": "hiveuser"
@@ -766,6 +766,11 @@
       "2AR33ZMZJ"
     ],
     "2BJ9RMAMB": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ"
+    ],
+    "2BKMYGEP3": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ"
