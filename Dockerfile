@@ -47,7 +47,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.1 \ 
- TENSORFLOW_VERSION=0.8.0rc0 \
+ TENSORFLOW_VERSION=0.8.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -98,6 +98,7 @@ RUN \
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-nltk \
  && apt-get install -y python-sklearn \
+# TODO:  This is no longer needed as of TF v0.8.0
  && pip install --upgrade skflow \
  && pip install ggplot \
  && pip install networkx \

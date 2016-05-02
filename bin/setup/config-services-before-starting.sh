@@ -220,6 +220,12 @@ ln -s $CONFIG_HOME/titan/gremlin-server/tinkergraph-empty.properties $TITAN_HOME
 ln -s $CONFIG_HOME/titan/titan-cassandra-es.properties $TITAN_HOME/conf/
 mkdir -p $LOGS_HOME/gremlin
 
+# TensorFlow
+echo ...Configuring TensorFlow...
+cd /root/pipeline/datasets/tensorflow/serving/inception_model
+tar -xvzf 00157585.tgz
+cd $PIPELINE_HOME
+
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'
 # We need to keep the SSH service running for other services to be configured above
