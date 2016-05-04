@@ -1,0 +1,97 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
+      "dateUpdated": "May 4, 2016 5:23:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462339433520_555240071",
+      "id": "20160504-052353_367608985",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
+      },
+      "dateCreated": "May 4, 2016 5:23:53 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Top 5 similar items for a given item",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Item 7\nval givenItemId \u003d 7\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
+      "dateUpdated": "May 4, 2016 5:23:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462339433521_554855322",
+      "id": "20160504-052353_1563651621",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t42\tScala\t0.9754845398888963\n7\t69\tSpark GraphX\t0.9590828836010578\n7\t20\tApache Solr\t0.957852580831293\n7\t10\tApache HDFS\t0.954642091518789\n7\t70\tSQL Server\t0.9398534964705206\n"
+      },
+      "dateCreated": "May 4, 2016 5:23:53 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 4, 2016 5:23:53 AM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462339433521_554855322",
+      "id": "20160504-052353_867700629",
+      "dateCreated": "May 4, 2016 5:23:53 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Recommendations/04: TODO:  Item-to-Item Similarity",
+  "id": "2BJFFS9X2",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
