@@ -2,77 +2,80 @@ package com.advancedspark.ml.image
 
 import java.util.Properties
 import scala.collection.JavaConversions._
-import edu.stanford.nlp.pipeline._
-import edu.stanford.nlp.hcoref.data._
-import edu.stanford.nlp.dcoref._
-import edu.stanford.nlp.dcoref.CorefCoreAnnotations
-import edu.stanford.nlp.dcoref.CorefCoreAnnotations._
-import edu.stanford.nlp.util._
-import edu.stanford.nlp.semgraph.SemanticGraph
-import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations
-import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation
-import edu.stanford.nlp.ling.CoreAnnotations
-import edu.stanford.nlp.ling.CoreAnnotations._;
-import edu.stanford.nlp.trees.TreeCoreAnnotations
-import edu.stanford.nlp.trees.TreeCoreAnnotations._;
-import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
+import java.io.File
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.linalg.Vector
+import org.apache.spark.mllib.linalg.Matrix
+import org.apache.spark.mllib.linalg.distributed.RowMatrix
+import org.apache.spark.mllib.feature.StandardScaler
+import breeze.linalg.DenseMatrix
+import breeze.linalg.csvwrite
 
-object Eigenfacea{
+object Eigenfaces {
+  def saveMatrix(matrix: DenseMatrix[Double], filename: String): Unit = {
+    val file = new File(filename)
+    file.getParentFile().mkdirs()
+    csvwrite(file, matrix)
+  }
+
+  def extractPixelArrays(imagePath: String, width: Int, height: Int): Array[Double] = {
+    val originalImage = ImageIO.read(new File(imagePath))
+    val newImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)
+    val graphics = originalImage.getGraphics()
+    graphics.drawImage(originalImage, 0, 0, width, height, null)
+    graphics.dispose()
+    newImage.getData.getPixels(0, 0, width, height, Array.ofDim[Double](width * height))
+  }
+
+  /** 
+    val inputImagesPath = args[0]
+    val outputCsvPath = args[1]
+    val scaledWidth = args[2]
+    val scaledHeight = args[3]
+    val numPrincipalComponents = args[4]
+  */
   def main(args: Array[String]) {
     val conf = new SparkConf()
+    val sc = new SparkContext(conf)
 
-    val sc = SparkContext.getOrCreate(conf)
+    val inputImagesPath = args(0)
+    val outputCsvPath = args(1)
+    val scaledWidth = args(2).toInt
+    val scaledHeight = args(3).toInt
+    val numPrincipalComponents = args(4).toInt
 
-    val sqlContext = SQLContext.getOrCreate(sc)
-    import sqlContext.implicits._
-
-    // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution 
-    val props = new Properties();
-    props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-    val pipeline = new StanfordCoreNLP(props);
-    
-    // read some text in the text variable
-    val text = "Stanford University is located in California. It is a great university." // Add your text here!
-    
-    // create an empty Annotation just with the given text
-    val document = new Annotation(text);
-    
-    // run all Annotators on this text
-    pipeline.annotate(document);
-    
-    // these are all the sentences in this document
-    // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
-    val sentences = document.get(new SentencesAnnotation().getClass);
-    
-    for(sentence <- sentences) {
-      // traversing the words in the current sentence
-      // a CoreLabel is a CoreMap with additional token-specific methods
-      for (token <- sentence.get(new TokensAnnotation().getClass)) {
-        // this is the text of the token
-        val word = token.get(new TextAnnotation().getClass);
-        // this is the POS tag of the token
-        val pos = token.get(new PartOfSpeechAnnotation().getClass);
-        // this is the NER label of the token
-        val ne = token.get(new NamedEntityTagAnnotation().getClass);       
-      }
-
-      // this is the parse tree of the current sentence
-      val tree = sentence.get(new TreeAnnotation().getClass);
-
-      // this is the Stanford dependency graph of the current sentence
-      val dependencies = sentence.get(new CollapsedCCProcessedDependenciesAnnotation().getClass);
+    val imageFilesRDD = sc.wholeTextFiles(inputImagesPath).map {
+      case (filename, content) => filename.replace("file:", "")
     }
 
-    // This is the coreference link graph
-    // Each chain stores a set of mentions that link to each other,
-    // along with a method for getting the most representative mention
-    // Both sentence and token offsets start at 1!
-    val graph = document.get(new CorefChainAnnotation().getClass);
-    System.out.println(graph)
+    val imagesAsPixelArrays = imageFilesRDD.map(imageFile => extractPixelArrays(imageFile, scaledWidth, scaledHeight))
+
+    val imagesAsPixelVectors = imagesAsPixelArrays.map(pixelArray => Vectors.dense(pixelArray))
+
+    // Fit the standard scaler transformer
+    val standardScaler = new StandardScaler(withMean = true, withStd = false)
+      .fit(imagesAsPixelVectors)
+
+    // Substract mean to normalize the pixel data
+    val scaledImagesAsPixelVectors = imagesAsPixelVectors.map(standardScaler.transform(_))
+
+    // Create RowMatrix out of RDD[Vector]
+    val imagesAsPixelsVectorsMatrix = new RowMatrix(scaledImagesAsPixelVectors)
+
+    // Find Principal Components to reveal the underlying structure of the data
+    val principalComponents = imagesAsPixelsVectorsMatrix.computePrincipalComponents(numPrincipalComponents)
+
+    val (rows, cols) = (principalComponents.numRows, principalComponents.numCols)
+
+    val principalComponentsMatrix = new DenseMatrix(rows, cols, principalComponents.toArray)
+
+    saveMatrix(principalComponentsMatrix, s"""$outputCsvPath/principal-components.csv""")
   }
 }

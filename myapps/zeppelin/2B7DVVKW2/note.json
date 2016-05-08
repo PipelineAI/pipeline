@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import com.elsevier.spark_xml_utils.xpath.XPathProcessor\nimport scala.collection.JavaConverters._\nimport java.util.HashMap \n\n\nval xmlKeyPair \u003d sc.sequenceFile[String, String](\"/root/pipeline/datasets/meetup/meetup-calendar-rss.xml\")",
-      "dateUpdated": "Jan 19, 2016 1:33:45 AM",
+      "text": "import com.elsevier.spark_xml_utils.xpath.XPathProcessor\nimport scala.collection.JavaConverters._\nimport java.util.HashMap \n\nval xmlKeyPair \u003d sc.sequenceFile[String, String](\"/root/pipeline/datasets/meetup/meetup-calendar-rss.xml\")",
+      "dateUpdated": "May 5, 2016 2:14:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -137,7 +137,22 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "http://vis-www.cs.umass.edu/lfw/lfw-names.txt",
+      "dateUpdated": "May 5, 2016 2:14:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}

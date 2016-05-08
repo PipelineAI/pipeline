@@ -1,5 +1,7 @@
 .Dockerfile.swp
 stanford-corenlp-full-2015-12-09
+lfw-deepfunneled/
+lfw-deepfunneled.tgz
 myapps/airflow/dags/*.pyc
 data
 work

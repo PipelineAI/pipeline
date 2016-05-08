@@ -50,6 +50,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Java Home
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 export PATH=$JAVA_HOME/bin:$PATH
+export JAVA_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
 
 # Bazel Home
 export BAZEL_HOME=$DEV_INSTALL_HOME/bazel-$BAZEL_VERSION
@@ -124,7 +125,7 @@ export PATH=$NIFI_HOME/bin:$PATH
 # SBT
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$SBT_HOME/bin:$PATH
-export SBT_OPTS="-Xmx10G -XX:+CMSClassUnloadingEnabled"
+export SBT_OPTS=$JAVA_OPTS
 
 # --repositories used to resolve --packages
 export SPARK_REPOSITORIES=http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots
