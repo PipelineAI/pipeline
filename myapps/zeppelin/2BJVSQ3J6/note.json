@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "Setup params for eigenfaces and principal component analysis",
-      "text": "val name \u003d \"Tom_Cruise\"\nval scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval principalComponents \u003d 8\n\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/${name}/\"\nval outputCsvPath \u003d s\"/tmp/${name}/principal-components.csv\"",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "text": "val name \u003d \"Tom_Cruise\"\nval scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval principalComponents \u003d 8\n\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/\"\nval outputCsvPath \u003d s\"/tmp/\"",
+      "dateUpdated": "May 9, 2016 3:46:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -28,18 +28,77 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "name: String \u003d Tom_Cruise\nscaledWidth: Int \u003d 50\nscaledHeight: Int \u003d 50\nprincipalComponents: Int \u003d 8\ninputImagesPath: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled/Tom_Cruise/\noutputCsvPath: String \u003d /tmp/Tom_Cruise/principal-components.csv\n"
+        "msg": "name: String \u003d Tom_Cruise\nscaledWidth: Int \u003d 50\nscaledHeight: Int \u003d 50\nprincipalComponents: Int \u003d 8\ninputImagesPath: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled/\noutputCsvPath: String \u003d /tmp/\n"
       },
       "dateCreated": "May 8, 2016 4:16:02 PM",
-      "dateStarted": "May 9, 2016 1:14:49 AM",
-      "dateFinished": "May 9, 2016 1:15:19 AM",
+      "dateStarted": "May 9, 2016 3:46:11 AM",
+      "dateFinished": "May 9, 2016 3:46:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Extract the pixel Vectors for each given image",
-      "text": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\n\nval imageFilesRDD \u003d sc.wholeTextFiles(inputImagesPath).map {\n  case (filename, content) \u003d\u003e filename.replace(\"file:\", \"\")\n}\n\nval imagesAsPixelArrays \u003d imageFilesRDD.map(imageFile \u003d\u003e\n  ImageIO.extractAndScalePixelArrays(imageFile, scaledWidth, scaledHeight)\n)\n\nval imagesAsPixelVectors \u003d imagesAsPixelArrays.map(pixelArray \u003d\u003e Vectors.dense(pixelArray))",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "text": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\n\nval imagePathsRDD \u003d sc.wholeTextFiles(inputImagesPath).map {\n  case (path, content) \u003d\u003e path.replace(\"file:\", \"\")\n}\n\nval imagesAsPixelArray \u003d imagePathsRDD.map(imagePath \u003d\u003e {\n  (imagePath, ImageIO.extractAndScalePixelArray(imagePath, scaledWidth, scaledHeight))\n})\n\nval imagesAsPixelVector \u003d imagesAsPixelArray.map { \n  case (imagePath, pixelArray) \u003d\u003e (imagePath, Vectors.dense(pixelArray))\n}",
+      "dateUpdated": "May 9, 2016 3:42:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "pixelVector",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "pixelVector",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462724170505_-408898232",
+      "id": "20160508-161610_749557459",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\nimagePathsRDD: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[242] at map at \u003cconsole\u003e:134\nimagesAsPixelArray: org.apache.spark.rdd.RDD[(String, Array[Double])] \u003d MapPartitionsRDD[243] at map at \u003cconsole\u003e:140\nimagesAsPixelVector: org.apache.spark.rdd.RDD[(String, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[244] at map at \u003cconsole\u003e:142\n"
+      },
+      "dateCreated": "May 8, 2016 4:16:10 PM",
+      "dateStarted": "May 9, 2016 3:42:20 AM",
+      "dateFinished": "May 9, 2016 3:42:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Standardize/Scale The Input Pixel Vectors",
+      "text": "import org.apache.spark.mllib.feature.StandardScaler\n\nval imagesAsPixelVectorNonDF \u003d imagesAsPixelVector.map{ case (imagePath, pixelArray) \u003d\u003e pixelArray }\n\nval mllibStandardScaler \u003d new StandardScaler(withMean\u003dtrue, withStd\u003dfalse)\n  .fit(imagesAsPixelVectorNonDF)\n\nval scaledImagesAsPixelVector \u003d imagesAsPixelVectorNonDF.map(mllibStandardScaler.transform(_))",
+      "dateUpdated": "May 9, 2016 3:50:00 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -59,59 +118,23 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1462724170505_-408898232",
-      "id": "20160508-161610_749557459",
+      "jobName": "paragraph_1462762659013_-2057439247",
+      "id": "20160509-025739_1302023948",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\nimageFilesRDD: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[2] at map at \u003cconsole\u003e:36\nimagesAsPixelArrays: org.apache.spark.rdd.RDD[Array[Double]] \u003d MapPartitionsRDD[3] at map at \u003cconsole\u003e:42\nimagesAsPixelVectors: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[4] at map at \u003cconsole\u003e:44\n"
+        "msg": "import org.apache.spark.mllib.feature.StandardScaler\nimagesAsPixelVectorNonDF: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[250] at map at \u003cconsole\u003e:149\nmllibStandardScaler: org.apache.spark.mllib.feature.StandardScalerModel \u003d org.apache.spark.mllib.feature.StandardScalerModel@599c114e\nscaledImagesAsPixelVector: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[252] at map at \u003cconsole\u003e:153\n"
       },
-      "dateCreated": "May 8, 2016 4:16:10 PM",
-      "dateStarted": "May 9, 2016 1:14:55 AM",
-      "dateFinished": "May 9, 2016 1:15:21 AM",
+      "dateCreated": "May 9, 2016 2:57:39 AM",
+      "dateStarted": "May 9, 2016 3:50:00 AM",
+      "dateFinished": "May 9, 2016 3:50:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Standardize/Scale the input pixel Vectors",
-      "text": "import org.apache.spark.mllib.feature.StandardScaler\n\nval standardScaler \u003d new StandardScaler(withMean \u003d true, withStd \u003d false)\n  .fit(imagesAsPixelVectors)\n\nval scaledImagesAsPixelVectors \u003d imagesAsPixelVectors.map(standardScaler.transform(_))",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "title": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1462737813085_-112186337",
-      "id": "20160508-200333_728887833",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.feature.StandardScaler\nstandardScaler: org.apache.spark.mllib.feature.StandardScalerModel \u003d org.apache.spark.mllib.feature.StandardScalerModel@5ed7e07c\nscaledImagesAsPixelVectors: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[6] at map at \u003cconsole\u003e:49\n"
-      },
-      "dateCreated": "May 8, 2016 8:03:33 PM",
-      "dateStarted": "May 9, 2016 1:15:19 AM",
-      "dateFinished": "May 9, 2016 1:15:30 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Get top K principal components For all given images",
-      "text": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\n\n// Create RowMatrix out of RDD[Vector]\nval scaledImagesAsPixelsVectorsMatrix \u003d new RowMatrix(scaledImagesAsPixelVectors)\n\n// Find Principal Components to reveal the underlying structure of the data\nval principalComponentsMatrix \u003d scaledImagesAsPixelsVectorsMatrix.computePrincipalComponents(principalComponents)\n\nval (numPixels, numPrincipalComponents) \u003d (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "title": "Get top K principal components For given images",
+      "text": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\n\n// Create RowMatrix out of RDD[Vector]\nval scaledImagesAsPixelsVectorMatrix \u003d new RowMatrix(scaledImagesAsPixelVector)\n\n// Find Principal Components to reveal the underlying structure of the data\nval principalComponentsMatrix \u003d scaledImagesAsPixelsVectorMatrix.computePrincipalComponents(principalComponents)\n\nval (numPixels, numPrincipalComponents) \u003d (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)",
+      "dateUpdated": "May 9, 2016 3:42:29 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -136,18 +159,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\nscaledImagesAsPixelsVectorsMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@4bce5a09\nprincipalComponentsMatrix: org.apache.spark.mllib.linalg.Matrix \u003d \n-0.022166762307644805   -0.035124959290435354  ... (8 total)\n-0.021919933071194442   -0.033534723580303856  ...\n-0.022051292369369313   -0.034036846344422944  ...\n-0.020375829072685175   -0.03243787641073048   ...\n-0.018493496572857475   -0.03169136830068181   ...\n-0.01715952742581168    -0.030638245786125486  ...\n-0.013992271208424877   -0.02914898104546397   ...\n-0.012781304314008332   -0.028608256427248516  ...\n-0.014098914078969299   -0.029662594295736762  ...\n-0.016045087858255012   -0.03005943627154979   ...\n-0.013444490789664558   -0.03509168238064672   ...\n-0.012063995040249492   -0.03326945138662194   ...\n-0.008229609283828997   -0.029898412254041967  ...\n-0.008709421118043634   -0.014842788446839443  ...\n-0.008...numPixels: Int \u003d 2500\nnumPrincipalComponents: Int \u003d 8\n"
+        "msg": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\nscaledImagesAsPixelsVectorMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@66d8ce18\nprincipalComponentsMatrix: org.apache.spark.mllib.linalg.Matrix \u003d \n-0.022166762307644916   -0.035124959290435354   ... (8 total)\n-0.021919933071194664   -0.03353472358030377    ...\n-0.022051292369369258   -0.034036846344423055   ...\n-0.02037582907268516    -0.03243787641073054    ...\n-0.018493496572857468   -0.03169136830068181    ...\n-0.01715952742581168    -0.03063824578612548    ...\n-0.01399227120842488    -0.029148981045463963   ...\n-0.012781304314008334   -0.028608256427248503   ...\n-0.014098914078969304   -0.029662594295736762   ...\n-0.016045087858255012   -0.030059436271549774   ...\n-0.013444490789664554   -0.03509168238064672    ...\n-0.012063995040249489   -0.033269451386621934   ...\n-0.008229609283828996   -0.029898412254041967   ...\n-0.008709421118043638   -0.01484278844683944...numPixels: Int \u003d 2500\nnumPrincipalComponents: Int \u003d 8\n"
       },
       "dateCreated": "May 8, 2016 8:05:12 PM",
-      "dateStarted": "May 9, 2016 1:15:21 AM",
-      "dateFinished": "May 9, 2016 1:16:03 AM",
+      "dateStarted": "May 9, 2016 3:42:29 AM",
+      "dateFinished": "May 9, 2016 3:43:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save the eigenface matrix to be rendered in a jupyter notebook",
-      "text": "import com.advancedspark.spark.ml.MatrixIO\n\nMatrixIO.saveMatrix(principalComponentsMatrix, s\"\"\"${outputCsvPath}\"\"\")",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "text": "import com.advancedspark.spark.ml.MatrixIO\n\nMatrixIO.saveMatrix(principalComponentsMatrix, s\"${outputCsvPath}/${name}/principal-components.csv\")",
+      "dateUpdated": "May 9, 2016 3:46:17 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -175,15 +198,15 @@
         "msg": "import com.advancedspark.spark.ml.MatrixIO\n"
       },
       "dateCreated": "May 8, 2016 4:17:12 PM",
-      "dateStarted": "May 9, 2016 1:15:30 AM",
-      "dateFinished": "May 9, 2016 1:16:04 AM",
+      "dateStarted": "May 9, 2016 3:46:17 AM",
+      "dateFinished": "May 9, 2016 3:46:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Project all images into lower-dimensional Principal Component Space",
-      "text": "val scaledImagesProjectedIntoPrincipalComponentSpaceMatrix \u003d \n  scaledImagesAsPixelsVectorsMatrix.multiply(principalComponentsMatrix)\n\nval (numImages, numProjectedFeatures) \u003d\n  (scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows, \n   scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols)",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "text": "val scaledImagesProjectedIntoPrincipalComponentSpaceMatrix \u003d \n  scaledImagesAsPixelsVectorMatrix.multiply(principalComponentsMatrix)\n\nval (numImages, numProjectedFeatures) \u003d\n  (scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows, \n   scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols)\n   \n// TODO:  scaledImagesProjectedIntoPrincipalComponentSpaceMatrix should match \n//        the values produced from the spark.ml PCA in next notebook",
+      "dateUpdated": "May 9, 2016 3:38:00 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -208,18 +231,87 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "scaledImagesProjectedIntoPrincipalComponentSpaceMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@566ca69d\nnumImages: Long \u003d 10\nnumProjectedFeatures: Long \u003d 8\n"
+        "msg": "scaledImagesProjectedIntoPrincipalComponentSpaceMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@47a8704e\nnumImages: Long \u003d 30\nnumProjectedFeatures: Long \u003d 8\n"
       },
       "dateCreated": "May 8, 2016 7:04:27 PM",
-      "dateStarted": "May 9, 2016 1:16:04 AM",
-      "dateFinished": "May 9, 2016 1:16:04 AM",
+      "dateStarted": "May 9, 2016 3:38:00 AM",
+      "dateFinished": "May 9, 2016 3:38:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//import breeze.linalg.DenseMatrix\n\n//val breezeMatrix \u003d new DenseMatrix(\n//  scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows,\n//  scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols, \n//  scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.toArray\n//)\n\n//val denseMatrix \u003d new DenseMatrix(scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.rows)\n//transpose.columnSimilarities()",
+      "dateUpdated": "May 9, 2016 5:02:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462768670021_-699292672",
+      "id": "20160509-043750_139542530",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import breeze.linalg.DenseMatrix\n\u003cconsole\u003e:178: error: overloaded method constructor DenseMatrix with alternatives:\n  (rows: Int,data: Array[V],offset: Int)breeze.linalg.DenseMatrix[V] \u003cand\u003e\n  (rows: Int,cols: Int,data: Array[V])breeze.linalg.DenseMatrix[V] \u003cand\u003e\n  (rows: Int,cols: Int,data: Array[V],offset: Int)breeze.linalg.DenseMatrix[V] \u003cand\u003e\n  (rows: Int,cols: Int)(implicit man: scala.reflect.ClassTag[V])breeze.linalg.DenseMatrix[V] \u003cand\u003e\n  (rows: Int,cols: Int,data: Array[V],offset: Int,majorStride: Int,isTranspose: Boolean)breeze.linalg.DenseMatrix[V]\n cannot be applied to (org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector])\n       val denseMatrix \u003d new DenseMatrix(scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.rows)\n                         ^\n"
+      },
+      "dateCreated": "May 9, 2016 4:37:50 AM",
+      "dateStarted": "May 9, 2016 5:02:19 AM",
+      "dateFinished": "May 9, 2016 5:02:19 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### BONUS:  Singular Value Decomposition (SVD)",
+      "dateUpdated": "May 9, 2016 4:58:31 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462769891380_36277706",
+      "id": "20160509-045811_1160890120",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eBONUS:  Singular Value Decomposition (SVD)\u003c/h3\u003e\n"
+      },
+      "dateCreated": "May 9, 2016 4:58:11 AM",
+      "dateStarted": "May 9, 2016 4:58:26 AM",
+      "dateFinished": "May 9, 2016 4:58:27 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Compute SVD Singular Values (S)",
-      "text": "val numSingularValues \u003d 8\n\nval svd \u003d scaledImagesAsPixelsVectorsMatrix.computeSVD(numSingularValues, computeU \u003d false)",
-      "dateUpdated": "May 9, 2016 1:14:49 AM",
+      "text": "val numSingularValues \u003d 8\n\nval svd \u003d scaledImagesAsPixelsVectorMatrix.computeSVD(numSingularValues, computeU \u003d false)",
+      "dateUpdated": "May 9, 2016 3:38:09 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -244,17 +336,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "numSingularValues: Int \u003d 8\nsvd: org.apache.spark.mllib.linalg.SingularValueDecomposition[org.apache.spark.mllib.linalg.distributed.RowMatrix,org.apache.spark.mllib.linalg.Matrix] \u003d \nSingularValueDecomposition(null,[4190.686121745291,3736.6937597250676,3285.6025214007686,2842.557081491302,2635.085593783697,2546.603068608976,2161.6596736167517,2096.03256968776],0.02216676230764502    0.03512495929043577     ... (8 total)\n0.021919933071194365   0.03353472358030386     ...\n0.022051292369369528   0.03403684634442258     ...\n0.020375829072685224   0.03243787641073036     ...\n0.01849349657285751    0.03169136830068174     ...\n0.01715952742581171    0.030638245786125496    ...\n0.013992271208424924   0.02914898104546396     ...\n0.012781304314008365   0.028608256427248506    ...\n0.014098914078969314   0.029662594295736727 ..."
+        "msg": "numSingularValues: Int \u003d 8\nsvd: org.apache.spark.mllib.linalg.SingularValueDecomposition[org.apache.spark.mllib.linalg.distributed.RowMatrix,org.apache.spark.mllib.linalg.Matrix] \u003d \nSingularValueDecomposition(null,[7844.486136369823,5167.92313641694,4918.16364829067,4532.231016607705,4339.862531454046,3942.410828449781,3713.7206440844498,3436.9800276317405],-0.023471672407530557  0.03596760219853107     ... (8 total)\n-0.023448305164489123  0.033756431682690935    ...\n-0.028183343233029783  0.0343985442285556      ...\n-0.02892690155700398   0.033690175048039596    ...\n-0.02907645734833089   0.03362729705748027     ...\n-0.02885691468798391   0.033349514358621865    ...\n-0.02766874293585338   0.029568511216460078    ...\n-0.028885369512666893  0.02089195456536353     ...\n-0.03172755021886145   0.013350214753137246   ..."
       },
       "dateCreated": "May 8, 2016 11:43:49 PM",
-      "dateStarted": "May 9, 2016 1:16:04 AM",
-      "dateFinished": "May 9, 2016 1:16:09 AM",
+      "dateStarted": "May 9, 2016 3:38:09 AM",
+      "dateFinished": "May 9, 2016 3:38:29 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val singularValues \u003d svd.s.toArray.zipWithIndex.map(tuple \u003d\u003e tuple.swap)\n\nz.show(sc.parallelize(singularValues).toDF(\"numSingularValues\", \"singularValue\"))",
-      "dateUpdated": "May 9, 2016 1:14:50 AM",
+      "dateUpdated": "May 9, 2016 3:38:32 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -278,17 +370,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "numSingularValues\tsingularValue\n0\t4190.686121745291\n1\t3736.6937597250676\n2\t3285.6025214007686\n3\t2842.557081491302\n4\t2635.085593783697\n5\t2546.603068608976\n6\t2161.6596736167517\n7\t2096.03256968776\n"
+        "msg": "numSingularValues\tsingularValue\n0\t7844.486136369823\n1\t5167.92313641694\n2\t4918.16364829067\n3\t4532.231016607705\n4\t4339.862531454046\n5\t3942.410828449781\n6\t3713.7206440844498\n7\t3436.9800276317405\n"
       },
       "dateCreated": "May 9, 2016 12:06:10 AM",
-      "dateStarted": "May 9, 2016 1:16:05 AM",
-      "dateFinished": "May 9, 2016 1:16:12 AM",
+      "dateStarted": "May 9, 2016 3:38:32 AM",
+      "dateFinished": "May 9, 2016 3:38:34 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "MatrixIO.saveArray(svd.s.toArray, \"/tmp/svd-s.csv\")",
-      "dateUpdated": "May 9, 2016 1:14:50 AM",
+      "text": "MatrixIO.saveArray(svd.s.toArray, s\"${outputCsvPath}/${name}/svd-s.csv\")",
+      "dateUpdated": "May 9, 2016 3:46:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -315,13 +407,13 @@
         "msg": ""
       },
       "dateCreated": "May 9, 2016 12:17:25 AM",
-      "dateStarted": "May 9, 2016 1:16:09 AM",
-      "dateFinished": "May 9, 2016 1:16:13 AM",
+      "dateStarted": "May 9, 2016 3:46:30 AM",
+      "dateFinished": "May 9, 2016 3:46:31 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 9, 2016 1:14:50 AM",
+      "dateUpdated": "May 9, 2016 1:49:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -347,8 +439,8 @@
         "type": "TEXT"
       },
       "dateCreated": "May 9, 2016 12:54:02 AM",
-      "dateStarted": "May 9, 2016 1:16:13 AM",
-      "dateFinished": "May 9, 2016 1:16:13 AM",
+      "dateStarted": "May 9, 2016 1:50:03 AM",
+      "dateFinished": "May 9, 2016 1:50:03 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

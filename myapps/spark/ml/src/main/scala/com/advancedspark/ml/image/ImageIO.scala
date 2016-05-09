@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 
 object ImageIO {
-  def extractAndScalePixelArrays(imagePath: String, width: Int, height: Int): Array[Double] = {
+  def extractAndScalePixelArray(imagePath: String, width: Int, height: Int): Array[Double] = {
     val originalImage = javax.imageio.ImageIO.read(new File(imagePath))
 
     val newImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)

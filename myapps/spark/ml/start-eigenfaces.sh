@@ -9,7 +9,7 @@ echo '...Starting Eigenfaces App...'
 #    If you specify a value that exceeds the maximum available on any single node
 #    the Spark App will not start
 #  --total-executor-cores is across the whole cluster (not per node)
-NAME=George_W_Bush spark-submit --executor-memory 48g --total-executor-cores 14 --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --class com.advancedspark.ml.image.Eigenfaces $MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar /root/pipeline/datasets/eigenface/lfw-deepfunneled/$NAME/ /tmp/$NAME/ 50 50 10 2>&1 1>$LOGS_HOME/spark/ml/images-eigenfaces.log 
+spark-submit --executor-memory 45g --total-executor-cores 14 --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --class com.advancedspark.ml.image.Eigenfaces $MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar /root/pipeline/datasets/eigenface/lfw-deepfunneled/George_W_Bush/ /tmp/George_W_Bush/ 50 50 10 2>&1 1>$LOGS_HOME/spark/ml/images-eigenfaces.log 
 echo '...'
 echo '...logs available with "tail -f $LOGS_HOME/spark/ml/images-eigenfaces.log"'
 echo '...'

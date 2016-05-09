@@ -1,0 +1,336 @@
+{
+  "paragraphs": [
+    {
+      "title": "Setup params for eigenfaces and principal component analysis",
+      "text": "val name \u003d \"\"\nval scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval principalComponents \u003d 8\n\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/${name}/\"\nval outputCsvPath \u003d s\"/tmp/${name}/\"",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580276_-274609198",
+      "id": "20160509-031300_170332012",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "name: String \u003d \"\"\nscaledWidth: Int \u003d 50\nscaledHeight: Int \u003d 50\nprincipalComponents: Int \u003d 8\ninputImagesPath: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled//\noutputCsvPath: String \u003d /tmp//\n"
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:01 AM",
+      "dateFinished": "May 9, 2016 6:11:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Extract the pixel Vectors for each given image",
+      "text": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\n\nval imagePathsRDD \u003d sc.wholeTextFiles(inputImagesPath).map {\n  case (path, content) \u003d\u003e path.replace(\"file:\", \"\")\n}\n\nval imagesAsPixelArray \u003d imagePathsRDD.map(imagePath \u003d\u003e {\n  (imagePath, ImageIO.extractAndScalePixelArray(imagePath, scaledWidth, scaledHeight))\n})\n\nval imagesAsPixelVector \u003d imagesAsPixelArray.map { \n  case (imagePath, pixelArray) \u003d\u003e (imagePath, Vectors.dense(pixelArray))\n}\n\nval imagesAsPixelVectorDF \u003d imagesAsPixelVector.toDF(\"imagePath\", \"pixelVector\")\nz.show(imagesAsPixelVectorDF)",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "pixelVector",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "pixelVector",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580277_-274993947",
+      "id": "20160509-031300_127896557",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "imagePath\tpixelVector\n"
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:01 AM",
+      "dateFinished": "May 9, 2016 6:11:42 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Scale the Features",
+      "text": "import org.apache.spark.ml.feature.StandardScaler\n\nval standardScaler \u003d new StandardScaler()\n  .setInputCol(\"pixelVector\")\n  .setOutputCol(\"scaledPixelVector\")\n  .setWithMean(true)\n  .setWithStd(false)",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580281_-276532943",
+      "id": "20160509-031300_639131386",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.StandardScaler\nstandardScaler: org.apache.spark.ml.feature.StandardScaler \u003d stdScal_e17c36b4d6a8\n"
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:03 AM",
+      "dateFinished": "May 9, 2016 6:11:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find Principal Components",
+      "text": "import org.apache.spark.ml.feature.PCA\n\nval pca \u003d new PCA()\n  .setInputCol(standardScaler.getOutputCol)\n  .setOutputCol(\"pcaVector\")\n  .setK(principalComponents)",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580281_-276532943",
+      "id": "20160509-031300_1064960706",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.PCA\npca: org.apache.spark.ml.feature.PCA \u003d pca_b71ed035b8f1\n"
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:43 AM",
+      "dateFinished": "May 9, 2016 6:11:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Build and run the pipeline",
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(standardScaler, pca))\n  \nval pipelineModel \u003d pipeline.fit(imagesAsPixelVectorDF)\n\nval transformedDF \u003d pipelineModel.transform(imagesAsPixelVectorDF)\n\nz.show(transformedDF.select($\"imagePath\", $\"pcaVector\"))",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "pcaVector",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "imagePath",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580281_-276532943",
+      "id": "20160509-031300_227817006",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_ec7fab7025a4\njava.lang.IllegalArgumentException: requirement failed: Nothing has been added to this summarizer.\n\tat scala.Predef$.require(Predef.scala:233)\n\tat org.apache.spark.mllib.stat.MultivariateOnlineSummarizer.variance(MultivariateOnlineSummarizer.scala:194)\n\tat org.apache.spark.mllib.feature.StandardScaler.fit(StandardScaler.scala:57)\n\tat org.apache.spark.ml.feature.StandardScaler.fit(StandardScaler.scala:92)\n\tat org.apache.spark.ml.feature.StandardScaler.fit(StandardScaler.scala:71)\n\tat org.apache.spark.ml.Pipeline$$anonfun$fit$2.apply(Pipeline.scala:144)\n\tat org.apache.spark.ml.Pipeline$$anonfun$fit$2.apply(Pipeline.scala:140)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.IterableViewLike$Transformed$class.foreach(IterableViewLike.scala:42)\n\tat scala.collection.SeqViewLike$AbstractTransformed.foreach(SeqViewLike.scala:43)\n\tat org.apache.spark.ml.Pipeline.fit(Pipeline.scala:140)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:69)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:74)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:76)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:80)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:82)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:84)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:86)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:88)\n\tat \u003cinit\u003e(\u003cconsole\u003e:90)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:94)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:43 AM",
+      "dateFinished": "May 9, 2016 6:11:44 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Use Transformed PCA Vectors as Inputs to Other ML Models (Classification, Clustering, etc)",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462763580284_-277687190",
+      "id": "20160509-031300_166695062",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 9, 2016 3:13:00 AM",
+      "dateStarted": "May 9, 2016 6:11:44 AM",
+      "dateFinished": "May 9, 2016 6:11:44 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.apache.spark.mllib.linalg.DenseVector\nimport org.jblas.DoubleMatrix\n\n// Given Image Path: Tom_Cruise_0006.jpg\nval givenItemId \u003d \"/root/pipeline/datasets/eigenface/lfw-deepfunneled/Tom_Cruise/Tom_Cruise_0006.jpg\"\nval givenItemFactors \u003d transformedDF.select($\"imagePath\", $\"pcaVector\")\n  .where($\"imagePath\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.get(1).asInstanceOf[DenseVector].toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d transformedDF.select($\"imagePath\", $\"pcaVector\")\n  .filter($\"imagePath\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getString(0)\n     val otherItemFactors \u003d row.get(1).asInstanceOf[DenseVector].toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(String, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"similarity\"))\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462770697179_-891772223",
+      "id": "20160509-051137_822700435",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport org.apache.spark.mllib.linalg.DenseVector\nimport org.jblas.DoubleMatrix\ngivenItemId: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled/Tom_Cruise/Tom_Cruise_0006.jpg\n\u003cconsole\u003e:48: error: not found: value transformedDF\n         val givenItemFactors \u003d transformedDF.select($\"imagePath\", $\"pcaVector\")\n                                ^\n"
+      },
+      "dateCreated": "May 9, 2016 5:11:37 AM",
+      "dateStarted": "May 9, 2016 6:11:44 AM",
+      "dateFinished": "May 9, 2016 6:11:45 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 9, 2016 6:11:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462771072499_-1630539896",
+      "id": "20160509-051752_267567907",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "May 9, 2016 5:17:52 AM",
+      "dateStarted": "May 9, 2016 6:11:45 AM",
+      "dateFinished": "May 9, 2016 6:11:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Images/02: Eigenfaces (ML Pipeline + PCA)",
+  "id": "2BJB7GHA8",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}
