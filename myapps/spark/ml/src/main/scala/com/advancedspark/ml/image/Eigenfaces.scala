@@ -7,8 +7,6 @@ import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
-import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
 import java.io.File
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.Vector
@@ -26,11 +24,16 @@ object Eigenfaces {
   }
 
   def extractPixelArrays(imagePath: String, width: Int, height: Int): Array[Double] = {
+    import java.awt.image.BufferedImage
+    import javax.imageio.ImageIO 
+
     val originalImage = ImageIO.read(new File(imagePath))
+    
     val newImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)
-    val graphics = originalImage.getGraphics()
+    val graphics = newImage.getGraphics()
     graphics.drawImage(originalImage, 0, 0, width, height, null)
     graphics.dispose()
+    
     newImage.getData.getPixels(0, 0, width, height, Array.ofDim[Double](width * height))
   }
 
@@ -49,7 +52,7 @@ object Eigenfaces {
     val outputCsvPath = args(1)
     val scaledWidth = args(2).toInt
     val scaledHeight = args(3).toInt
-    val numPrincipalComponents = args(4).toInt
+    val principalComponents = args(4).toInt
 
     val imageFilesRDD = sc.wholeTextFiles(inputImagesPath).map {
       case (filename, content) => filename.replace("file:", "")
@@ -67,15 +70,19 @@ object Eigenfaces {
     val scaledImagesAsPixelVectors = imagesAsPixelVectors.map(standardScaler.transform(_))
 
     // Create RowMatrix out of RDD[Vector]
-    val imagesAsPixelsVectorsMatrix = new RowMatrix(scaledImagesAsPixelVectors)
+    val scaledImagesAsPixelsVectorsMatrix = new RowMatrix(scaledImagesAsPixelVectors)
 
     // Find Principal Components to reveal the underlying structure of the data
-    val principalComponents = imagesAsPixelsVectorsMatrix.computePrincipalComponents(numPrincipalComponents)
+    val principalComponentsMatrix = scaledImagesAsPixelsVectorsMatrix.computePrincipalComponents(principalComponents)
+    val (numPixels, numPrincipalComponents) = (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)
+    
+    // Convert to Breeze Matrix to take advantage of Breeze's CSV-export utility
+    val principalComponentsBreezeMatrix = new DenseMatrix(numPixels, numPrincipalComponents, principalComponentsMatrix.toArray)
+    saveMatrix(principalComponentsBreezeMatrix, s"""$outputCsvPath/principal-components.csv""")
 
-    val (rows, cols) = (principalComponents.numRows, principalComponents.numCols)
+    val scaledImagesProjectedIntoPrincipalComponentSpaceMatrix = scaledImagesAsPixelsVectorsMatrix.multiply(principalComponentsMatrix)
 
-    val principalComponentsMatrix = new DenseMatrix(rows, cols, principalComponents.toArray)
-
-    saveMatrix(principalComponentsMatrix, s"""$outputCsvPath/principal-components.csv""")
+    val (numImages, numProjectedFeatures) =
+      (scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows, scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols)
   }
 }

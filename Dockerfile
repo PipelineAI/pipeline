@@ -347,7 +347,7 @@ RUN \
  && rm stanford-corenlp-full-2015-12-09.zip \
  && cd ~/pipeline/myapps/spark/ml \
  && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar lib/ \
- && sbt assembly \
+ && sbt package \
 
 # Sbt Streaming
  && cd ~/pipeline/myapps/spark/streaming && sbt package \

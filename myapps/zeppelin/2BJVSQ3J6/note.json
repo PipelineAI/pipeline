@@ -1,79 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "import java.io.File\nimport org.apache.spark.mllib.feature.StandardScaler\nimport breeze.linalg.DenseMatrix\nimport breeze.linalg.csvwrite\nimport org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.mllib.linalg.Matrix\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\nimport breeze.linalg.csvwrite",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1462723967588_767154918",
-      "id": "20160508-161247_1233807762",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import java.io.File\nimport org.apache.spark.mllib.feature.StandardScaler\nimport breeze.linalg.DenseMatrix\nimport breeze.linalg.csvwrite\nimport org.apache.spark.mllib.linalg.Vectors\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.mllib.linalg.Matrix\nimport org.apache.spark.mllib.linalg.distributed.RowMatrix\nimport breeze.linalg.csvwrite\n"
-      },
-      "dateCreated": "May 8, 2016 4:12:47 PM",
-      "dateStarted": "May 8, 2016 8:37:01 PM",
-      "dateFinished": "May 8, 2016 8:37:31 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "helper function to extract reshaped pixel array from matrix of pixels for given image",
-      "text": "def extractPixelArrays(imagePath: String, width: Int, height: Int): Array[Double] \u003d {\n  import java.awt.image.BufferedImage\n  import javax.imageio.ImageIO\n\n  val originalImage \u003d ImageIO.read(new File(imagePath))\n  val newImage \u003d new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)\n  val graphics \u003d originalImage.getGraphics()\n  graphics.drawImage(originalImage, 0, 0, width, height, null)\n  graphics.dispose()\n  newImage.getData.getPixels(0, 0, width, height, Array.ofDim[Double](width * height))\n}",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1462725658660_1310670485",
-      "id": "20160508-164058_1094334266",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "extractPixelArrays: (imagePath: String, width: Int, height: Int)Array[Double]\n"
-      },
-      "dateCreated": "May 8, 2016 4:40:58 PM",
-      "dateStarted": "May 8, 2016 8:37:07 PM",
-      "dateFinished": "May 8, 2016 8:37:32 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Setup params for eigenfaces and principal component analysis",
-      "text": "val name \u003d \"Jennifer_Capriati\"\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/${name}/\"\nval outputCsvPath \u003d s\"/tmp/${name}/principal-components.csv\"\nval scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval numPrincipalComponents \u003d 10",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "text": "val name \u003d \"Tom_Cruise\"\nval scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval principalComponents \u003d 8\n\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/${name}/\"\nval outputCsvPath \u003d s\"/tmp/${name}/principal-components.csv\"",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,18 +28,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "name: String \u003d Jennifer_Capriati\ninputImagesPath: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled/Jennifer_Capriati/\noutputCsvPath: String \u003d /tmp/Jennifer_Capriati/principal-components.csv\nscaledWidth: Int \u003d 50\nscaledHeight: Int \u003d 50\nnumPrincipalComponents: Int \u003d 10\n"
+        "msg": "name: String \u003d Tom_Cruise\nscaledWidth: Int \u003d 50\nscaledHeight: Int \u003d 50\nprincipalComponents: Int \u003d 8\ninputImagesPath: String \u003d /root/pipeline/datasets/eigenface/lfw-deepfunneled/Tom_Cruise/\noutputCsvPath: String \u003d /tmp/Tom_Cruise/principal-components.csv\n"
       },
       "dateCreated": "May 8, 2016 4:16:02 PM",
-      "dateStarted": "May 8, 2016 8:37:32 PM",
-      "dateFinished": "May 8, 2016 8:37:34 PM",
+      "dateStarted": "May 9, 2016 1:02:10 AM",
+      "dateFinished": "May 9, 2016 1:02:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Extract the pixel Vectors for each given image",
-      "text": "val imageFilesRDD \u003d sc.wholeTextFiles(inputImagesPath).map {\n  case (filename, content) \u003d\u003e filename.replace(\"file:\", \"\")\n}\n\nval imagesAsPixelArrays \u003d imageFilesRDD.map(imageFile \u003d\u003e extractPixelArrays(imageFile, scaledWidth, scaledHeight))\n\nval imagesAsPixelVectors \u003d imagesAsPixelArrays.map(pixelArray \u003d\u003e Vectors.dense(pixelArray))",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "text": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\n\nval imageFilesRDD \u003d sc.wholeTextFiles(inputImagesPath).map {\n  case (filename, content) \u003d\u003e filename.replace(\"file:\", \"\")\n}\n\nval imagesAsPixelArrays \u003d imageFilesRDD.map(imageFile \u003d\u003e\n  ImageIO.extractAndScalePixelArrays(imageFile, scaledWidth, scaledHeight)\n)\n\nval imagesAsPixelVectors \u003d imagesAsPixelArrays.map(pixelArray \u003d\u003e Vectors.dense(pixelArray))",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,18 +64,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "imageFilesRDD: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[2] at map at \u003cconsole\u003e:43\nimagesAsPixelArrays: org.apache.spark.rdd.RDD[Array[Double]] \u003d MapPartitionsRDD[3] at map at \u003cconsole\u003e:52\nimagesAsPixelVectors: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[4] at map at \u003cconsole\u003e:54\n"
+        "msg": "import com.advancedspark.spark.ml.image.ImageIO\nimport org.apache.spark.mllib.linalg.Vectors\nimageFilesRDD: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[961] at map at \u003cconsole\u003e:42\nimagesAsPixelArrays: org.apache.spark.rdd.RDD[Array[Double]] \u003d MapPartitionsRDD[962] at map at \u003cconsole\u003e:48\nimagesAsPixelVectors: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[963] at map at \u003cconsole\u003e:50\n"
       },
       "dateCreated": "May 8, 2016 4:16:10 PM",
-      "dateStarted": "May 8, 2016 8:37:33 PM",
-      "dateFinished": "May 8, 2016 8:37:36 PM",
+      "dateStarted": "May 9, 2016 1:02:10 AM",
+      "dateFinished": "May 9, 2016 1:02:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Standardize/Scale the input pixel Vectors",
-      "text": "val standardScaler \u003d new StandardScaler(withMean \u003d true, withStd \u003d false)\n  .fit(imagesAsPixelVectors)\n\nval scaledImagesAsPixelVectors \u003d imagesAsPixelVectors.map(standardScaler.transform(_))",
-      "dateUpdated": "May 8, 2016 8:39:14 PM",
+      "text": "import org.apache.spark.mllib.feature.StandardScaler\n\nval standardScaler \u003d new StandardScaler(withMean \u003d true, withStd \u003d false)\n  .fit(imagesAsPixelVectors)\n\nval scaledImagesAsPixelVectors \u003d imagesAsPixelVectors.map(standardScaler.transform(_))",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -168,20 +98,20 @@
       "jobName": "paragraph_1462737813085_-112186337",
       "id": "20160508-200333_728887833",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 1.0 failed 4 times, most recent failure: Lost task 1.3 in stage 1.0 (TID 9, pipeline-training-v4-v0ik.c.flux-capacitor1.internal): java.io.FileNotFoundException: File file:/root/pipeline/datasets/eigenface/lfw-deepfunneled/Jennifer_Capriati/Jennifer_Capriati_0008.jpg does not exist\n\tat org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:534)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:747)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:524)\n\tat org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:409)\n\tat org.apache.hadoop.fs.ChecksumFileSystem$ChecksumFSInputChecker.\u003cinit\u003e(ChecksumFileSystem.java:140)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.open(ChecksumFileSystem.java:341)\n\tat org.apache.hadoop.fs.FileSystem.open(FileSystem.java:766)\n\tat org.apache.spark.input.WholeTextFileRecordReader.nextKeyValue(WholeTextFileRecordReader.scala:79)\n\tat org.apache.hadoop.mapreduce.lib.input.CombineFileRecordReader.nextKeyValue(CombineFileRecordReader.java:69)\n\tat org.apache.spark.rdd.NewHadoopRDD$$anon$1.hasNext(NewHadoopRDD.scala:168)\n\tat org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:39)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.foldLeft(TraversableOnce.scala:144)\n\tat scala.collection.AbstractIterator.foldLeft(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.aggregate(TraversableOnce.scala:201)\n\tat scala.collection.AbstractIterator.aggregate(Iterator.scala:1157)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$23.apply(RDD.scala:1135)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$23.apply(RDD.scala:1135)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$24.apply(RDD.scala:1136)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$24.apply(RDD.scala:1136)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitions$1$$anonfun$apply$20.apply(RDD.scala:710)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitions$1$$anonfun$apply$20.apply(RDD.scala:710)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:270)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1419)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1418)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1418)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:799)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1640)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1952)\n\tat org.apache.spark.rdd.RDD$$anonfun$reduce$1.apply(RDD.scala:1025)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.reduce(RDD.scala:1007)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1.apply(RDD.scala:1150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.treeAggregate(RDD.scala:1127)\n\tat org.apache.spark.mllib.feature.StandardScaler.fit(StandardScaler.scala:53)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:56)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:61)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:63)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:65)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:67)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:69)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:71)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:73)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:75)\n\tat \u003cinit\u003e(\u003cconsole\u003e:77)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:81)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.io.FileNotFoundException: File file:/root/pipeline/datasets/eigenface/lfw-deepfunneled/Jennifer_Capriati/Jennifer_Capriati_0008.jpg does not exist\n\tat org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:534)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:747)\n\tat org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:524)\n\tat org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:409)\n\tat org.apache.hadoop.fs.ChecksumFileSystem$ChecksumFSInputChecker.\u003cinit\u003e(ChecksumFileSystem.java:140)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.open(ChecksumFileSystem.java:341)\n\tat org.apache.hadoop.fs.FileSystem.open(FileSystem.java:766)\n\tat org.apache.spark.input.WholeTextFileRecordReader.nextKeyValue(WholeTextFileRecordReader.scala:79)\n\tat org.apache.hadoop.mapreduce.lib.input.CombineFileRecordReader.nextKeyValue(CombineFileRecordReader.java:69)\n\tat org.apache.spark.rdd.NewHadoopRDD$$anon$1.hasNext(NewHadoopRDD.scala:168)\n\tat org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:39)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)\n\tat scala.collection.Iterator$class.foreach(Iterator.scala:727)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.foldLeft(TraversableOnce.scala:144)\n\tat scala.collection.AbstractIterator.foldLeft(Iterator.scala:1157)\n\tat scala.collection.TraversableOnce$class.aggregate(TraversableOnce.scala:201)\n\tat scala.collection.AbstractIterator.aggregate(Iterator.scala:1157)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$23.apply(RDD.scala:1135)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$23.apply(RDD.scala:1135)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$24.apply(RDD.scala:1136)\n\tat org.apache.spark.rdd.RDD$$anonfun$treeAggregate$1$$anonfun$24.apply(RDD.scala:1136)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitions$1$$anonfun$apply$20.apply(RDD.scala:710)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitions$1$$anonfun$apply$20.apply(RDD.scala:710)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:270)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:89)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\t... 3 more\n\n"
+        "msg": "import org.apache.spark.mllib.feature.StandardScaler\nstandardScaler: org.apache.spark.mllib.feature.StandardScalerModel \u003d org.apache.spark.mllib.feature.StandardScalerModel@2d6d8ebc\nscaledImagesAsPixelVectors: org.apache.spark.rdd.RDD[org.apache.spark.mllib.linalg.Vector] \u003d MapPartitionsRDD[965] at map at \u003cconsole\u003e:55\n"
       },
       "dateCreated": "May 8, 2016 8:03:33 PM",
-      "dateStarted": "May 8, 2016 8:39:14 PM",
-      "dateFinished": "May 8, 2016 8:39:15 PM",
-      "status": "ERROR",
+      "dateStarted": "May 9, 2016 1:02:12 AM",
+      "dateFinished": "May 9, 2016 1:02:13 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get top K principal components For all given images",
-      "text": "// Create RowMatrix out of RDD[Vector]\nval imagesAsPixelsVectorsMatrix \u003d new RowMatrix(scaledImagesAsPixelVectors)\n\n// Find Principal Components to reveal the underlying structure of the data\nval principalComponents \u003d imagesAsPixelsVectorsMatrix.computePrincipalComponents(numPrincipalComponents)\n\nval rows \u003d principalComponents.numRows\nval cols \u003d principalComponents.numCols",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "text": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\n\n// Create RowMatrix out of RDD[Vector]\nval scaledImagesAsPixelsVectorsMatrix \u003d new RowMatrix(scaledImagesAsPixelVectors)\n\n// Find Principal Components to reveal the underlying structure of the data\nval principalComponentsMatrix \u003d scaledImagesAsPixelsVectorsMatrix.computePrincipalComponents(principalComponents)\n\nval (numPixels, numPrincipalComponents) \u003d (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -204,54 +134,20 @@
       "jobName": "paragraph_1462737912602_-2056201580",
       "id": "20160508-200512_1746849414",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:38: error: not found: value scaledImagesAsPixelVectors\n       val imagesAsPixelsVectorsMatrix \u003d new RowMatrix(scaledImagesAsPixelVectors)\n                                                       ^\n"
+        "msg": "import org.apache.spark.mllib.linalg.distributed.RowMatrix\nscaledImagesAsPixelsVectorsMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@2732f72e\nprincipalComponentsMatrix: org.apache.spark.mllib.linalg.Matrix \u003d \n-0.022166762307644805  -0.035124959290435354   ... (8 total)\n-0.021919933071194442  -0.033534723580303835   ...\n-0.022051292369369258  -0.034036846344422944   ...\n-0.020375829072685175  -0.03243787641073048    ...\n-0.018493496572857482  -0.031691368300681796   ...\n-0.017159527425811685  -0.030638245786125486   ...\n-0.013992271208424884  -0.029148981045463977   ...\n-0.012781304314008344  -0.02860825642724851    ...\n-0.014098914078969307  -0.02966259429573677    ...\n-0.01604508785825502   -0.030059436271549795   ...\n-0.013444490789664563  -0.035091682380646735   ...\n-0.012063995040249497  -0.03326945138662195    ...\n-0.008229609283829     -0.02989841225404197    ...\n-0.00870942111804364   -0.014842788446839447   ...\n-0.008...numPixels: Int \u003d 2500\nnumPrincipalComponents: Int \u003d 8\n"
       },
       "dateCreated": "May 8, 2016 8:05:12 PM",
-      "dateStarted": "May 8, 2016 8:37:37 PM",
-      "dateFinished": "May 8, 2016 8:37:44 PM",
-      "status": "ERROR",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "val principalComponentsMatrix \u003d new DenseMatrix(rows, cols, principalComponents.toArray)",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1462738806885_-1060116573",
-      "id": "20160508-202006_1248610100",
-      "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:37: error: not found: value rows\n         val principalComponentsMatrix \u003d new DenseMatrix(rows, cols, principalComponents.toArray)\n                                                         ^\n\u003cconsole\u003e:37: error: not found: value cols\n         val principalComponentsMatrix \u003d new DenseMatrix(rows, cols, principalComponents.toArray)\n                                                               ^\n\u003cconsole\u003e:37: error: not found: value principalComponents\n         val principalComponentsMatrix \u003d new DenseMatrix(rows, cols, principalComponents.toArray)\n                                                                     ^\n"
-      },
-      "dateCreated": "May 8, 2016 8:20:06 PM",
-      "dateStarted": "May 8, 2016 8:37:44 PM",
-      "dateFinished": "May 8, 2016 8:37:44 PM",
-      "status": "ERROR",
+      "dateStarted": "May 9, 2016 1:02:13 AM",
+      "dateFinished": "May 9, 2016 1:02:52 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save the eigenface matrix to be rendered in a jupyter notebook",
-      "text": "def saveMatrix(matrix: DenseMatrix[Double], filename: String): Unit \u003d {\n  val file \u003d new File(filename)\n  file.getParentFile().mkdirs()\n  csvwrite(file, matrix)\n}\n\nsaveMatrix(principalComponentsMatrix, s\"\"\"${outputCsvPath}\"\"\")",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "text": "import com.advancedspark.spark.ml.MatrixIO\n\nMatrixIO.saveMatrix(principalComponentsMatrix, s\"\"\"${outputCsvPath}\"\"\")",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -274,19 +170,20 @@
       "jobName": "paragraph_1462724232193_1607060122",
       "id": "20160508-161712_1133170936",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "saveMatrix: (matrix: breeze.linalg.DenseMatrix[Double], filename: String)Unit\n\u003cconsole\u003e:45: error: not found: value principalComponentsMatrix\nsaveMatrix(principalComponentsMatrix, s\"\"\"${outputCsvPath}\"\"\")\n           ^\n"
+        "msg": "import com.advancedspark.spark.ml.MatrixIO\n"
       },
       "dateCreated": "May 8, 2016 4:17:12 PM",
-      "dateStarted": "May 8, 2016 8:37:44 PM",
-      "dateFinished": "May 8, 2016 8:37:45 PM",
-      "status": "ERROR",
+      "dateStarted": "May 9, 2016 1:02:14 AM",
+      "dateFinished": "May 9, 2016 1:02:52 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ### Find the Eignefaces.ipynb and follow the steps to display the Eigenfaces we just saved\n* http://[your-public-ip]:8754/notebooks/Eigenfaces/Eigenfaces.ipynb ",
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "title": "Project all images into lower-dimensional Principal Component Space",
+      "text": "val scaledImagesProjectedIntoPrincipalComponentSpaceMatrix \u003d \n  scaledImagesAsPixelsVectorsMatrix.multiply(principalComponentsMatrix)\n\nval (numImages, numProjectedFeatures) \u003d\n  (scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows, \n   scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols)",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -299,28 +196,99 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1462725683522_533508355",
-      "id": "20160508-164123_679057164",
+      "jobName": "paragraph_1462734267329_960808303",
+      "id": "20160508-190427_8277489",
       "result": {
         "code": "SUCCESS",
-        "type": "HTML",
-        "msg": "\u003ch3\u003eFind the Eignefaces.ipynb and follow the steps to display the Eigenfaces we just saved\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttp://[your-public-ip]:8754/notebooks/Eigenfaces/Eigenfaces.ipynb\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "type": "TEXT",
+        "msg": "scaledImagesProjectedIntoPrincipalComponentSpaceMatrix: org.apache.spark.mllib.linalg.distributed.RowMatrix \u003d org.apache.spark.mllib.linalg.distributed.RowMatrix@77b6f115\nnumImages: Long \u003d 10\nnumProjectedFeatures: Long \u003d 8\n"
       },
-      "dateCreated": "May 8, 2016 4:41:23 PM",
-      "dateStarted": "May 8, 2016 8:37:01 PM",
-      "dateFinished": "May 8, 2016 8:37:01 PM",
+      "dateCreated": "May 8, 2016 7:04:27 PM",
+      "dateStarted": "May 9, 2016 1:02:52 AM",
+      "dateFinished": "May 9, 2016 1:02:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 8, 2016 8:37:01 PM",
+      "title": "Compute SVD Singular Values (S)",
+      "text": "val numSingularValues \u003d 8\n\nval svd \u003d scaledImagesAsPixelsVectorsMatrix.computeSVD(numSingularValues, computeU \u003d false)",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462751029443_523160062",
+      "id": "20160508-234349_632550980",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "numSingularValues: Int \u003d 8\nsvd: org.apache.spark.mllib.linalg.SingularValueDecomposition[org.apache.spark.mllib.linalg.distributed.RowMatrix,org.apache.spark.mllib.linalg.Matrix] \u003d \nSingularValueDecomposition(null,[4190.686121745289,3736.6937597250662,3285.602521400768,2842.557081491302,2635.085593783697,2546.603068608976,2161.6596736167517,2096.03256968776],-0.022166762307644968   0.035124959290435805    ... (8 total)\n-0.02191993307119433    0.033534723580303905    ...\n-0.02205129236936948    0.034036846344422625    ...\n-0.020375829072685196   0.032437876410730385    ...\n-0.018493496572857485   0.031691368300681776    ...\n-0.01715952742581168    0.03063824578612552     ...\n-0.013992271208424889   0.029148981045463984    ...\n-0.012781304314008334   0.028608256427248513    ...\n-0.01409891407896928    0.02966259429..."
+      },
+      "dateCreated": "May 8, 2016 11:43:49 PM",
+      "dateStarted": "May 9, 2016 1:02:53 AM",
+      "dateFinished": "May 9, 2016 1:02:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val singularValues \u003d svd.s.toArray.zipWithIndex.map(tuple \u003d\u003e tuple.swap)\n\nz.show(sc.parallelize(singularValues).toDF(\"numSingularValues\", \"singularValue\"))",
+      "dateUpdated": "May 9, 2016 1:02:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "lineChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462752370489_-1657499826",
+      "id": "20160509-000610_1251715834",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "numSingularValues\tsingularValue\n0\t4190.686121745289\n1\t3736.6937597250662\n2\t3285.602521400768\n3\t2842.557081491302\n4\t2635.085593783697\n5\t2546.603068608976\n6\t2161.6596736167517\n7\t2096.03256968776\n"
+      },
+      "dateCreated": "May 9, 2016 12:06:10 AM",
+      "dateStarted": "May 9, 2016 1:02:53 AM",
+      "dateFinished": "May 9, 2016 1:02:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "MatrixIO.saveArray(svd.s.toArray, \"/tmp/svd-s.csv\")",
+      "dateUpdated": "May 9, 2016 1:02:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -339,20 +307,52 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1462734267329_960808303",
-      "id": "20160508-190427_8277489",
+      "jobName": "paragraph_1462753045589_-1070605632",
+      "id": "20160509-001725_77786704",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 9, 2016 12:17:25 AM",
+      "dateStarted": "May 9, 2016 1:02:56 AM",
+      "dateFinished": "May 9, 2016 1:02:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 9, 2016 1:02:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462755242103_-243533120",
+      "id": "20160509-005402_1751968775",
       "result": {
         "code": "SUCCESS",
         "type": "TEXT"
       },
-      "dateCreated": "May 8, 2016 7:04:27 PM",
-      "dateStarted": "May 8, 2016 8:37:45 PM",
-      "dateFinished": "May 8, 2016 8:37:45 PM",
+      "dateCreated": "May 9, 2016 12:54:02 AM",
+      "dateStarted": "May 9, 2016 1:02:57 AM",
+      "dateFinished": "May 9, 2016 1:02:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Images/01: Eigenfaces (PCA)",
+  "name": "Images/01: Eigenfaces (PCA + SVD)",
   "id": "2BJVSQ3J6",
   "angularObjects": {
     "2BCMAZYZ5": [],
