@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Spark After Dark](http://advancedspark.com/img/sparkafterdark.png)",
-      "dateUpdated": "May 11, 2016 7:13:03 AM",
+      "text": "%md ![Spark After Dark](http://advancedspark.com/img/sparkafterdark.png)\n## Originally Started as a Mock Dating Site",
+      "dateUpdated": "May 11, 2016 5:43:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,17 +27,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/sparkafterdark.png\" alt\u003d\"Spark After Dark\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/sparkafterdark.png\" alt\u003d\"Spark After Dark\" /\u003e\u003c/p\u003e\n\u003ch2\u003eOriginally Started as a Mock Dating Site\u003c/h2\u003e\n"
       },
       "dateCreated": "May 11, 2016 7:12:19 AM",
-      "dateStarted": "May 11, 2016 7:13:01 AM",
-      "dateFinished": "May 11, 2016 7:13:01 AM",
+      "dateStarted": "May 11, 2016 5:43:08 PM",
+      "dateFinished": "May 11, 2016 5:43:08 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ## Originally Started as a Mock Dating Site",
-      "dateUpdated": "May 11, 2016 7:13:11 AM",
+      "text": "%md ## Powered by [Flux Capacitor](https://github.com/fluxcapacitor/pipeline/wiki) and [PANCAKE STACK](http://pancake-stack.com)!",
+      "dateUpdated": "May 11, 2016 5:42:03 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -57,16 +57,16 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1462950716484_-1037404696",
-      "id": "20160511-071156_1181860205",
+      "jobName": "paragraph_1462987132345_456728972",
+      "id": "20160511-171852_591141315",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eOriginally Started as a Mock Dating Site\u003c/h2\u003e\n"
+        "msg": "\u003ch2\u003ePowered by \u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/wiki\"\u003eFlux Capacitor\u003c/a\u003e and \u003ca href\u003d\"http://pancake-stack.com\"\u003ePANCAKE STACK\u003c/a\u003e!\u003c/h2\u003e\n"
       },
-      "dateCreated": "May 11, 2016 7:11:56 AM",
-      "dateStarted": "May 11, 2016 7:13:09 AM",
-      "dateFinished": "May 11, 2016 7:13:09 AM",
+      "dateCreated": "May 11, 2016 5:18:52 PM",
+      "dateStarted": "May 11, 2016 5:41:58 PM",
+      "dateFinished": "May 11, 2016 5:41:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -257,8 +257,8 @@
     },
     {
       "title": "Fault Tolerant Recommendation Serving Layer (NetflixOSS Hystrix)",
-      "text": "%md ![Hystrix Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
-      "dateUpdated": "May 11, 2016 5:13:01 PM",
+      "text": "%md \n### Finagle Based\n* [Flux Capacitor Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle)\n* [Demo URL](http://demo.advancedspark.com:5080/predict/12663/7)\n\n### Flask Based\n* [Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask)\n* [Demo URL](http://demo.advancedspark.com:5090/predict/12663/7)\n\n### TensorFlow Based\n* [Demo URL] (http://demo.advancedspark.com:5070/classify/cropped_panda.jpg)\n\n### Hystrix Circuit Breaker\n![Hystrix Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
+      "dateUpdated": "May 11, 2016 5:41:23 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -284,11 +284,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystrix Circuit Breaker\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch3\u003eFinagle Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle\"\u003eFlux Capacitor Source\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5080/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eFlask Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask\"\u003eSource\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5090/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eTensorFlow Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5070/classify/cropped_panda.jpg\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eHystrix Circuit Breaker\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystrix Circuit Breaker\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 2:53:04 PM",
-      "dateStarted": "May 11, 2016 5:13:01 PM",
-      "dateFinished": "May 11, 2016 5:13:01 PM",
+      "dateStarted": "May 11, 2016 5:41:14 PM",
+      "dateFinished": "May 11, 2016 5:41:14 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
