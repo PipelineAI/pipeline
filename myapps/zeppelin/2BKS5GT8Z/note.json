@@ -1,0 +1,319 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Spark After Dark](http://advancedspark.com/img/sparkafterdark.png)",
+      "dateUpdated": "May 11, 2016 7:13:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462950739374_-524519088",
+      "id": "20160511-071219_70320003",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/sparkafterdark.png\" alt\u003d\"Spark After Dark\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:12:19 AM",
+      "dateStarted": "May 11, 2016 7:13:01 AM",
+      "dateFinished": "May 11, 2016 7:13:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ## Originally Started as a Mock Dating Site",
+      "dateUpdated": "May 11, 2016 7:13:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462950716484_-1037404696",
+      "id": "20160511-071156_1181860205",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eOriginally Started as a Mock Dating Site\u003c/h2\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:11:56 AM",
+      "dateStarted": "May 11, 2016 7:13:09 AM",
+      "dateFinished": "May 11, 2016 7:13:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Tinderbox Blog Post",
+      "text": "%md\n### [Tinderbox Blog Post](http://crockpotveggies.com/2015/02/09/automating-tinder-with-eigenfaces.html)\n![Tinderbox Blog Post](http://advancedspark.com/img/tinderbox-blog-post.png)",
+      "dateUpdated": "May 11, 2016 5:04:43 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462950775433_-1678503633",
+      "id": "20160511-071255_1157884489",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003e\u003ca href\u003d\"http://crockpotveggies.com/2015/02/09/automating-tinder-with-eigenfaces.html\"\u003eTinderbox Blog Post\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-blog-post.png\" alt\u003d\"Tinderbox Blog Post\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:12:55 AM",
+      "dateStarted": "May 11, 2016 5:04:34 PM",
+      "dateFinished": "May 11, 2016 5:04:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Tinderbox Github",
+      "text": "%md ![Tinderbox Github](http://advancedspark.com/img/tinderbox-github.png)",
+      "dateUpdated": "May 11, 2016 5:03:42 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462951080955_-1476866206",
+      "id": "20160511-071800_11464525",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-github.png\" alt\u003d\"Tinderbox Github\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:18:00 AM",
+      "dateStarted": "May 11, 2016 5:00:50 PM",
+      "dateFinished": "May 11, 2016 5:00:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Facial Similarity Recommender (Eigenvalues)",
+      "text": "%md ![Tinderbox Eigenfaces](http://advancedspark.com/img/tinderbox-eigenfaces.png)",
+      "dateUpdated": "May 11, 2016 5:03:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462951121828_-1146489494",
+      "id": "20160511-071841_394458925",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-eigenfaces.png\" alt\u003d\"Tinderbox Eigenfaces\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:18:41 AM",
+      "dateStarted": "May 11, 2016 5:00:57 PM",
+      "dateFinished": "May 11, 2016 5:00:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Chat Bot (Recurrent Neural Nets and LSTM\u0027s)",
+      "text": "%md ![Tinderbox Conversation Bot](http://advancedspark.com/img/tinderbox-conversation-bot.png)",
+      "dateUpdated": "May 11, 2016 5:02:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462951161156_-1882251984",
+      "id": "20160511-071921_2070202323",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-conversation-bot.png\" alt\u003d\"Tinderbox Conversation Bot\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:19:21 AM",
+      "dateStarted": "May 11, 2016 5:02:09 PM",
+      "dateFinished": "May 11, 2016 5:02:09 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Streaming Matrix Factorization (Online Model Training)",
+      "text": "%md ![Streaming Matrix Factorization](http://advancedspark.com/img/streaming-matrix-factorization.png)",
+      "dateUpdated": "May 11, 2016 5:03:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462951284819_818649189",
+      "id": "20160511-072124_2069886127",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/streaming-matrix-factorization.png\" alt\u003d\"Streaming Matrix Factorization\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:21:24 AM",
+      "dateStarted": "May 11, 2016 5:03:23 PM",
+      "dateFinished": "May 11, 2016 5:03:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Fault Tolerant Recommendation Serving Layer (NetflixOSS Hystrix)",
+      "text": "%md ![Hystrix Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
+      "dateUpdated": "May 11, 2016 5:13:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462978384976_-1619258359",
+      "id": "20160511-145304_1358714552",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystrix Circuit Breaker\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 2:53:04 PM",
+      "dateStarted": "May 11, 2016 5:13:01 PM",
+      "dateFinished": "May 11, 2016 5:13:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462986669389_1807895946",
+      "id": "20160511-171109_1293457508",
+      "dateCreated": "May 11, 2016 5:11:09 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "* What is Spark After Dark? *",
+  "id": "2BKS5GT8Z",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

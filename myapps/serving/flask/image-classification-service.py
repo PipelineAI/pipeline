@@ -6,7 +6,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-@app.route('/classify-image/<image_url>')
+@app.route('/classify/<image_url>')
 def classify_image(image_url):
 #    wgetcmd = 'wget %s' % image_url
 #    p = subprocess.Popen(wgetcmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -16,7 +16,7 @@ def classify_image(image_url):
 
     # TODO  get filename from url
 
-    classifycmd = '$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9091 --image=$DATASETS_HOME/inception/cropped_panda.jpg'
+    classifycmd = '$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9091 --image=$DATASETS_HOME/inception/%s' % image_url
 
     p = subprocess.Popen(classifycmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     #for line in p.stdout.readlines():

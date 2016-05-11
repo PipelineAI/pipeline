@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md\n## Chris Fregly\n### @cfregly",
-      "dateUpdated": "May 11, 2016 5:41:28 AM",
+      "text": "%md\n## Chris Fregly (@cfregly, chris@fregly.com)",
+      "dateUpdated": "May 11, 2016 4:49:15 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,11 +27,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eChris Fregly\u003c/h2\u003e\n\u003ch3\u003e@cfregly\u003c/h3\u003e\n"
+        "msg": "\u003ch2\u003eChris Fregly (@cfregly, chris@fregly.com)\u003c/h2\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:40:34 AM",
-      "dateStarted": "May 11, 2016 5:41:25 AM",
-      "dateFinished": "May 11, 2016 5:41:25 AM",
+      "dateStarted": "May 11, 2016 4:49:13 PM",
+      "dateFinished": "May 11, 2016 4:49:13 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -219,9 +219,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Upcoming Workshops",
-      "text": "%md \n* [June 4th (San Francisco)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230553341/) \n* [July 30th (Seattle)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/) ",
-      "dateUpdated": "May 11, 2016 5:40:21 AM",
+      "text": "%md ## Upcoming Workshops\n* [June 4th (San Francisco)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230553341/) \n* [July 30th (Seattle)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/)",
+      "dateUpdated": "May 11, 2016 7:35:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -235,23 +234,22 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "title": true,
         "editorHide": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1462944873848_-2044794379",
-      "id": "20160511-053433_784908713",
+      "jobName": "paragraph_1462952050807_416288851",
+      "id": "20160511-073410_1744825527",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230553341/\"\u003eJune 4th (San Francisco)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/\"\u003eJuly 30th (Seattle)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch2\u003eUpcoming Workshops\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230553341/\"\u003eJune 4th (San Francisco)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/\"\u003eJuly 30th (Seattle)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
-      "dateCreated": "May 11, 2016 5:34:33 AM",
-      "dateStarted": "May 11, 2016 5:40:19 AM",
-      "dateFinished": "May 11, 2016 5:40:19 AM",
+      "dateCreated": "May 11, 2016 7:34:10 AM",
+      "dateStarted": "May 11, 2016 7:35:10 AM",
+      "dateFinished": "May 11, 2016 7:35:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
