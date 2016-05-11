@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%elasticsearch get /item_ratings/",
-      "dateUpdated": "Mar 1, 2016 7:06:41 PM",
+      "text": "%elasticsearch get /advancedspark/item_ratings/1",
+      "dateUpdated": "May 11, 2016 5:56:09 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,8 +23,15 @@
       },
       "jobName": "paragraph_1456859168578_-350315456",
       "id": "20160301-190608_163717146",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Error : None of the configured nodes are available: [{#transport#-1}{127.0.0.1}{localhost/127.0.0.1:9200}]"
+      },
       "dateCreated": "Mar 1, 2016 7:06:08 PM",
-      "status": "READY",
+      "dateStarted": "May 11, 2016 5:56:09 AM",
+      "dateFinished": "May 11, 2016 5:56:09 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

@@ -87,13 +87,13 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "8",
+        "spark.cores.max": "4",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "48gb",
+        "spark.executor.memory": "24gb",
         "zeppelin.spark.useHiveContext": "true",
         "spark.home": "/root/spark-1.6.1-bin-fluxcapacitor",
         "zeppelin.spark.concurrentSQL": "false",
@@ -804,6 +804,20 @@
       "2BDF8WQWY"
     ],
     "2BJB7GHA8": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BM6NJCPX": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BMM3NH9D": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ",

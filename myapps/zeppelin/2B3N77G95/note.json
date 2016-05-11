@@ -59,8 +59,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ### Make sure to start the Spark Hive ThriftServer from **$PIPELINE_HOME/bin**\n* The tables will be ",
-      "dateUpdated": "Dec 28, 2015 3:34:38 PM",
+      "text": "%md ### Make sure to start the Spark Hive ThriftServer from **$PIPELINE_HOME/bin**",
+      "dateUpdated": "May 11, 2016 5:55:03 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -74,7 +74,8 @@
         },
         "editorMode": "ace/mode/markdown",
         "tableHide": false,
-        "editorHide": false
+        "editorHide": true,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -85,11 +86,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eMake sure to start the Spark Hive ThriftServer from \u003cstrong\u003e$PIPELINE_HOME/bin\u003c/strong\u003e\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eThe tables will be\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eMake sure to start the Spark Hive ThriftServer from \u003cstrong\u003e$PIPELINE_HOME/bin\u003c/strong\u003e\u003c/h3\u003e\n"
       },
       "dateCreated": "Dec 28, 2015 2:48:13 PM",
-      "dateStarted": "Dec 28, 2015 2:54:07 PM",
-      "dateFinished": "Dec 28, 2015 2:54:07 PM",
+      "dateStarted": "May 11, 2016 5:54:57 AM",
+      "dateFinished": "May 11, 2016 5:54:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -216,7 +217,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SQL/05: Hive Beeline \u0026 Tableau (Hive ThriftServer)",
+  "name": "SQL/04: Hive Beeline \u0026 Tableau (Hive ThriftServer)",
   "id": "2B3N77G95",
   "angularObjects": {
     "2ARR8UZDJ": [],

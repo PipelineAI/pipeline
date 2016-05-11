@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "May 4, 2016 8:16:03 PM",
+      "dateUpdated": "May 11, 2016 5:06:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "May 4, 2016 8:16:03 PM",
-      "dateFinished": "May 4, 2016 8:16:03 PM",
+      "dateStarted": "May 11, 2016 5:06:45 AM",
+      "dateFinished": "May 11, 2016 5:06:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Item 7\nval givenItemId \u003d 7\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "May 4, 2016 8:16:03 PM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// Item 7\nval givenItemId \u003d 7 // Spark\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
+      "dateUpdated": "May 11, 2016 3:22:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,16 +63,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t2\tTachyon\t0.9947166964274208\n7\t1\tApache Cassandra\t0.9946358362488386\n7\t52\tJSON\t0.9918202559459598\n7\t18\tApache Kafka\t0.9898735956043212\n7\t37\tiPython/Jupyter\t0.989246960590472\n"
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t11\tApache YARN\t0.9999444581437963\n7\t62\tSpark Streaming\t0.999919521999337\n7\t18\tApache Kafka\t0.9999163434685165\n7\t1\tApache Cassandra\t0.9999147575131199\n7\t54\tMongoDB\t0.9998953125557497\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "May 4, 2016 8:16:03 PM",
-      "dateFinished": "May 4, 2016 8:16:09 PM",
+      "dateStarted": "May 11, 2016 3:22:34 AM",
+      "dateFinished": "May 11, 2016 3:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 4, 2016 8:16:03 PM",
+      "dateUpdated": "May 11, 2016 3:22:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,8 +98,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "May 4, 2016 8:16:03 PM",
-      "dateFinished": "May 4, 2016 8:16:09 PM",
+      "dateStarted": "May 11, 2016 3:22:34 AM",
+      "dateFinished": "May 11, 2016 3:22:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

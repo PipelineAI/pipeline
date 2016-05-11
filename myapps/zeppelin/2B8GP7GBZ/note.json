@@ -159,7 +159,7 @@
     {
       "title": "Distribution Of Tags Within Dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
-      "dateUpdated": "Apr 4, 2016 4:39:31 AM",
+      "dateUpdated": "May 11, 2016 5:50:35 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

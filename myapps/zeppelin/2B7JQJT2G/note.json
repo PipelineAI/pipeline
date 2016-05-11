@@ -69,7 +69,7 @@
     },
     {
       "text": "%md ### Partitioned vs. Unpartitioned Join",
-      "dateUpdated": "Jan 8, 2016 10:41:56 PM",
+      "dateUpdated": "May 11, 2016 5:54:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -82,7 +82,7 @@
           "scatter": {}
         },
         "editorHide": true,
-        "tableHide": true,
+        "tableHide": false,
         "editorMode": "ace/mode/markdown",
         "enabled": true
       },
@@ -447,7 +447,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "SQL/04: Compare Query Plans (Partial)",
+  "name": "SQL/03: Compare Query Plans (Partial)",
   "id": "2B7JQJT2G",
   "angularObjects": {
     "2ARR8UZDJ": [],

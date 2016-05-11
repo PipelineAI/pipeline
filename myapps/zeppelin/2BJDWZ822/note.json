@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "May 4, 2016 5:23:21 AM",
+      "dateUpdated": "May 11, 2016 5:23:25 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -30,14 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "May 4, 2016 5:23:21 AM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "May 11, 2016 5:23:25 AM",
+      "dateFinished": "May 11, 2016 5:23:25 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar users to a given user",
-      "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsMatrix \u003d new DoubleMatrix(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsMatrix, givenUserFactorsMatrix)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
-      "dateUpdated": "May 9, 2016 5:58:17 AM",
+      "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// User 1\nval givenUserId \u003d 1\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsMatrix \u003d new DoubleMatrix(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsMatrix, givenUserFactorsMatrix)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
+      "dateUpdated": "May 11, 2016 5:23:25 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -62,29 +63,48 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\tsimilarUserId\tsimilarity\n12663\t96340\t0.9956390322203675\n12663\t82510\t0.9943064219349633\n12663\t20229\t0.9881795459437969\n12663\t27569\t0.9846378064737571\n12663\t29427\t0.9843030135617991\n"
+        "msg": "userId\tsimilarUserId\tsimilarity\n1\t100190\t0.9958106247164142\n1\t174237\t0.9953430966118992\n1\t182189\t0.9950581364030233\n1\t146574\t0.9950240988601099\n1\t62179\t0.9949913167460438\n"
       },
       "dateCreated": "May 4, 2016 5:23:21 AM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "May 11, 2016 5:23:25 AM",
+      "dateFinished": "May 11, 2016 5:23:37 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 4, 2016 5:23:21 AM",
-      "config": {},
+      "dateUpdated": "May 11, 2016 5:23:25 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1462339401259_71949480",
       "id": "20160504-052321_1257808397",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "May 4, 2016 5:23:21 AM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "May 11, 2016 5:23:26 AM",
+      "dateFinished": "May 11, 2016 5:23:37 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/03: TODO:  User-to-User Similarity",
+  "name": "Recommendations/03: User-to-User Similarity Based on ALS",
   "id": "2BJDWZ822",
   "angularObjects": {
     "2BCMAZYZ5": [],
@@ -93,6 +113,8 @@
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

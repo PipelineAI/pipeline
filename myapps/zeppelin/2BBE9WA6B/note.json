@@ -308,7 +308,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/07:  TODO:  Item-to-Item Similarity (Cosine Similarity Description TF/IDF)",
+  "name": "Recommendations/09:  TODO:  Item-to-Item Similarity (Cosine Similarity Description TF/IDF)",
   "id": "2BBE9WA6B",
   "angularObjects": {
     "2ARR8UZDJ": [],

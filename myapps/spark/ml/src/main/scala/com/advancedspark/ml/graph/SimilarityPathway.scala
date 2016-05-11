@@ -63,9 +63,9 @@ object SimilarityPathway {
     val src = 1 
     val dest = 9
 
-    val shortestPathGraph = Dijkstra.run(graph, src)
+    val lightestPathGraph = Dijkstra.lightestPath(graph, src)
 
-    val shortestPath = shortestPathGraph.vertices.filter(_._1 == dest).map(_._2).collect()(0)._2
-    println("ShortestPath: " + shortestPath)
+    val lightestPath = lightestPathGraph.vertices.filter(_._1 == dest).map(_._2).collect()(0)._2
+    println("Lightest Path: " + lightestPath)
   }
 }

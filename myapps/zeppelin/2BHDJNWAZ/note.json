@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "Apr 23, 2016 4:22:09 AM",
+      "dateUpdated": "May 11, 2016 3:22:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:21:33 AM",
-      "dateStarted": "Apr 23, 2016 4:22:01 AM",
-      "dateFinished": "Apr 23, 2016 4:22:01 AM",
+      "dateStarted": "May 11, 2016 3:22:27 AM",
+      "dateFinished": "May 11, 2016 3:22:27 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar users to a given user",
       "text": "/////////////////////////////////////\n// May Need to Update User ID      //\n/////////////////////////////////////\n\nimport org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Convert Array[Double] to DoubleMatrix\nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsMatrix \u003d new DoubleMatrix(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsMatrix, givenUserFactorsMatrix)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
-      "dateUpdated": "Apr 23, 2016 4:21:58 AM",
+      "dateUpdated": "May 11, 2016 3:22:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,24 +63,44 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\tsimilarUserId\tsimilarity\n12663\t96340\t0.9956390322203675\n12663\t82510\t0.9943064219349633\n12663\t20229\t0.9881795459437969\n12663\t27569\t0.9846378064737571\n12663\t29427\t0.9843030135617991\n"
+        "msg": "userId\tsimilarUserId\tsimilarity\n12663\t55693\t0.9999976560244433\n12663\t96340\t0.9999971165305238\n12663\t17841\t0.9999948097028465\n12663\t25639\t0.999993388236756\n12663\t29427\t0.9999932286946982\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:28 AM",
-      "dateStarted": "Apr 23, 2016 4:21:58 AM",
-      "dateFinished": "Apr 23, 2016 4:21:59 AM",
+      "dateStarted": "May 11, 2016 3:22:27 AM",
+      "dateFinished": "May 11, 2016 3:22:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "May 11, 2016 3:22:27 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1461385321569_960829187",
       "id": "20160423-042201_249071245",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Apr 23, 2016 4:22:01 AM",
-      "status": "READY",
+      "dateStarted": "May 11, 2016 3:22:27 AM",
+      "dateFinished": "May 11, 2016 3:22:33 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

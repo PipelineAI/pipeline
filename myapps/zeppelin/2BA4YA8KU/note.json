@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![Similarity Pathway](http://advancedspark.com/img/similarity-pathway.png)",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -31,15 +31,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/similarity-pathway.png\" alt\u003d\"Similarity Pathway\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 1:43:36 AM",
-      "dateStarted": "Apr 23, 2016 10:14:38 PM",
-      "dateFinished": "Apr 23, 2016 10:14:39 PM",
+      "dateStarted": "May 11, 2016 4:30:12 AM",
+      "dateFinished": "May 11, 2016 4:30:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Load dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\").toDF(\"id\", \"title\", \"tags\")\n  \nz.show(itemsDF)",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -68,15 +68,15 @@
         "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "Dec 28, 2015 5:18:31 PM",
-      "dateStarted": "Apr 23, 2016 10:14:38 PM",
-      "dateFinished": "Apr 23, 2016 10:14:43 PM",
+      "dateStarted": "May 11, 2016 4:30:12 AM",
+      "dateFinished": "May 11, 2016 4:30:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Convert CSV-based DataFrame into TaggedItems",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n})",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -101,18 +101,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[21] at map at \u003cconsole\u003e:39\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[21] at map at \u003cconsole\u003e:32\n"
       },
       "dateCreated": "Dec 29, 2015 2:49:26 PM",
-      "dateStarted": "Apr 23, 2016 10:14:38 PM",
-      "dateFinished": "Apr 23, 2016 10:14:44 PM",
+      "dateStarted": "May 11, 2016 4:30:19 AM",
+      "dateFinished": "May 11, 2016 4:30:56 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Distribution of tags within dataset",
       "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n\nz.show(tagsCountRDD.toDF())",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -164,15 +164,15 @@
         "msg": "_1\t_2\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
       },
       "dateCreated": "Dec 28, 2015 4:42:14 AM",
-      "dateStarted": "Apr 23, 2016 10:14:44 PM",
-      "dateFinished": "Apr 23, 2016 10:14:45 PM",
+      "dateStarted": "May 11, 2016 4:30:55 AM",
+      "dateFinished": "May 11, 2016 4:30:59 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Cartesian product of all items",
       "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD).cache()",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -197,18 +197,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[27] at cartesian at \u003cconsole\u003e:40\n"
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d CartesianRDD[27] at cartesian at \u003cconsole\u003e:33\n"
       },
       "dateCreated": "Jan 10, 2016 2:44:15 AM",
-      "dateStarted": "Apr 23, 2016 10:14:44 PM",
-      "dateFinished": "Apr 23, 2016 10:14:45 PM",
+      "dateStarted": "May 11, 2016 4:30:56 AM",
+      "dateFinished": "May 11, 2016 4:31:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
       "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)\n\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\n\nsimilarItemsAboveThresholdRDD.collect().mkString(\"\\n\")",
-      "dateUpdated": "Apr 23, 2016 10:14:38 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -234,18 +234,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[28] at flatMap at \u003cconsole\u003e:48\nsimilarItemPairCount: Long \u003d 48\nres25: String \u003d \n(1,1,1.0)\n(1,2,0.6)\n(1,3,0.16666666666666666)\n(1,4,0.14285714285714285)\n(1,5,0.2)\n(2,1,0.6)\n(2,2,1.0)\n(3,1,0.16666666666666666)\n(3,3,1.0)\n(3,4,0.6666666666666666)\n(3,5,0.5)\n(4,1,0.14285714285714285)\n(4,3,0.6666666666666666)\n(4,4,1.0)\n(4,5,0.3333333333333333)\n(5,1,0.2)\n(5,3,0.5)\n(5,4,0.3333333333333333)\n(5,5,1.0)\n(1,7,0.16666666666666666)\n(1,8,0.4)\n(1,10,0.14285714285714285)\n(2,8,0.6666666666666666)\n(2,10,0.2)\n(3,7,1.0)\n(4,7,0.6666666666666666)\n(5,7,0.5)\n(7,1,0.16666666666666666)\n(7,3,1.0)\n(7,4,0.6666666666666666)\n(7,5,0.5)\n(8,1,0.4)\n(8,2,0.6666666666666666)\n(10,1,0.14285714285714285)\n(10,2,0.2)\n(6,6,1.0)\n(6,9,0.3333333333333333)\n(6,10,0.5)\n(7,7,1.0)\n(8,8,1.0)\n(8,10,0.25)\n(9,6,0.3333333333333333)\n(9,9,1.0)\n(9,10,0.3333333333333333)\n(10,6,0.5)\n(10,8,0.25)\n(10,9,0.33333333..."
+        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\nsimilarItemsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[28] at flatMap at \u003cconsole\u003e:41\nsimilarItemPairCount: Long \u003d 48\nres15: String \u003d \n(1,1,1.0)\n(1,2,0.6)\n(1,3,0.16666666666666666)\n(1,4,0.14285714285714285)\n(1,5,0.2)\n(2,1,0.6)\n(2,2,1.0)\n(3,1,0.16666666666666666)\n(3,3,1.0)\n(3,4,0.6666666666666666)\n(3,5,0.5)\n(4,1,0.14285714285714285)\n(4,3,0.6666666666666666)\n(4,4,1.0)\n(4,5,0.3333333333333333)\n(5,1,0.2)\n(5,3,0.5)\n(5,4,0.3333333333333333)\n(5,5,1.0)\n(1,7,0.16666666666666666)\n(1,8,0.4)\n(1,10,0.14285714285714285)\n(2,8,0.6666666666666666)\n(2,10,0.2)\n(3,7,1.0)\n(4,7,0.6666666666666666)\n(5,7,0.5)\n(7,1,0.16666666666666666)\n(7,3,1.0)\n(7,4,0.6666666666666666)\n(7,5,0.5)\n(8,1,0.4)\n(8,2,0.6666666666666666)\n(10,1,0.14285714285714285)\n(10,2,0.2)\n(6,6,1.0)\n(6,9,0.3333333333333333)\n(6,10,0.5)\n(7,7,1.0)\n(8,8,1.0)\n(8,10,0.25)\n(9,6,0.3333333333333333)\n(9,9,1.0)\n(9,10,0.3333333333333333)\n(10,6,0.5)\n(10,8,0.25)\n(10,9,0.33333333..."
       },
       "dateCreated": "Dec 28, 2015 3:43:14 PM",
-      "dateStarted": "Apr 23, 2016 10:14:45 PM",
-      "dateFinished": "Apr 23, 2016 10:14:46 PM",
+      "dateStarted": "May 11, 2016 4:31:00 AM",
+      "dateFinished": "May 11, 2016 4:31:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Tag similarity Graph",
       "text": "import org.apache.spark.graphx._\n\nval similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) \n})\n\nval similarityGraph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)\n  .cache()",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "dateUpdated": "May 11, 2016 4:30:12 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -272,17 +272,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[29] at map at \u003cconsole\u003e:51\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@21657751\n"
+        "msg": "import org.apache.spark.graphx._\nsimilarItemsAboveThresholdEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[29] at map at \u003cconsole\u003e:44\nsimilarityGraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@677a0528\n"
       },
       "dateCreated": "Dec 29, 2015 1:21:34 AM",
-      "dateStarted": "Apr 23, 2016 10:14:46 PM",
-      "dateFinished": "Apr 23, 2016 10:14:47 PM",
+      "dateStarted": "May 11, 2016 4:31:00 AM",
+      "dateFinished": "May 11, 2016 4:31:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ![Similarity Graph](https://s3.amazonaws.com/fluxcapacitor.com/img/similarity-graph.png)",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "dateUpdated": "May 11, 2016 4:41:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -296,7 +296,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorHide": false
       },
       "settings": {
         "params": {},
@@ -310,48 +310,14 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"https://s3.amazonaws.com/fluxcapacitor.com/img/similarity-graph.png\" alt\u003d\"Similarity Graph\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Mar 6, 2016 3:05:07 AM",
-      "dateStarted": "Apr 23, 2016 10:14:39 PM",
-      "dateFinished": "Apr 23, 2016 10:14:39 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "similarityGraph.edges.collect().mkString(\"\\n\")",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461027112495_-19872264",
-      "id": "20160419-005152_33114829",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "res30: String \u003d \nEdge(1,1,1.0)\nEdge(1,2,0.6)\nEdge(1,3,0.16666666666666666)\nEdge(1,4,0.14285714285714285)\nEdge(1,5,0.2)\nEdge(2,1,0.6)\nEdge(2,2,1.0)\nEdge(3,1,0.16666666666666666)\nEdge(3,3,1.0)\nEdge(3,4,0.6666666666666666)\nEdge(3,5,0.5)\nEdge(4,1,0.14285714285714285)\nEdge(4,3,0.6666666666666666)\nEdge(4,4,1.0)\nEdge(4,5,0.3333333333333333)\nEdge(5,1,0.2)\nEdge(5,3,0.5)\nEdge(5,4,0.3333333333333333)\nEdge(5,5,1.0)\nEdge(1,7,0.16666666666666666)\nEdge(1,8,0.4)\nEdge(1,10,0.14285714285714285)\nEdge(2,8,0.6666666666666666)\nEdge(2,10,0.2)\nEdge(3,7,1.0)\nEdge(4,7,0.6666666666666666)\nEdge(5,7,0.5)\nEdge(7,1,0.16666666666666666)\nEdge(7,3,1.0)\nEdge(7,4,0.6666666666666666)\nEdge(7,5,0.5)\nEdge(8,1,0.4)\nEdge(8,2,0.6666666666666666)\nEdge(10,1,0.14285714285714285)\nEdge(10,2,0.2)\nEdge(6,6,1.0)\nEdge(6,9,0.3333333333333..."
-      },
-      "dateCreated": "Apr 19, 2016 12:51:52 AM",
-      "dateStarted": "Apr 23, 2016 10:14:46 PM",
-      "dateFinished": "Apr 23, 2016 10:14:47 PM",
+      "dateStarted": "May 11, 2016 4:30:14 AM",
+      "dateFinished": "May 11, 2016 4:30:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: blue; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 20);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(100).charge(-200).chargeDistance(300)\r\n   .friction(0.95).linkStrength(0.5).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(similarityGraph)",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "dateUpdated": "May 11, 2016 4:30:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -376,17 +342,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cdiv id\u003d\u0027a63ae3d1a-ee66-4869-86af-9caeb16bb691\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: blue; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a63ae3d1a-ee66-4869-86af-9caeb16bb691\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:4},{id:8},{id:1},{id:9},{id:5},{id:6},{id:10},{id:2},{id:3},{id:7}];\nvar links \u003d [{source:nodes[2],target:nodes[2]},{source:nodes[2],target:nodes[7]},{source:nodes[2],target:nodes[8]},{source:nodes[2],target:nodes[0]},{source:nodes[2],target:nodes[4]},{source:nodes[7],target:nodes[2]},{source:nodes[7],target:nodes[7]},{source:nodes[8],target:nodes[2]},{source:nodes[8],target:nodes[8]},{source:nodes[8],target:nodes[0]},{source:nodes[8],target:nodes[4]},{source:nodes[0],target:nodes[2]},{source:nodes[0],target:nodes[8]},{source:nodes[0],target:nodes[0]},{source:nodes[0],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[8]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[4]},{source:nodes[2],target:nodes[9]},{source:nodes[2],target:nodes[1]},{source:nodes[2],target:nodes[6]},{source:nodes[7],target:nodes[1]},{source:nodes[7],target:nodes[6]},{source:nodes[8],target:nodes[9]},{source:nodes[0],target:nodes[9]},{source:nodes[4],target:nodes[9]},{source:nodes[9],target:nodes[2]},{source:nodes[9],target:nodes[8]},{source:nodes[9],target:nodes[0]},{source:nodes[9],target:nodes[4]},{source:nodes[1],target:nodes[2]},{source:nodes[1],target:nodes[7]},{source:nodes[6],target:nodes[2]},{source:nodes[6],target:nodes[7]},{source:nodes[5],target:nodes[5]},{source:nodes[5],target:nodes[3]},{source:nodes[5],target:nodes[6]},{source:nodes[9],target:nodes[9]},{source:nodes[1],target:nodes[1]},{source:nodes[1],target:nodes[6]},{source:nodes[3],target:nodes[5]},{source:nodes[3],target:nodes[3]},{source:nodes[3],target:nodes[6]},{source:nodes[6],target:nodes[5]},{source:nodes[6],target:nodes[1]},{source:nodes[6],target:nodes[3]},{source:nodes[6],target:nodes[6]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 20);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(100).charge(-200).chargeDistance(300)\n   .friction(0.95).linkStrength(0.5).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+        "msg": "\u003cdiv id\u003d\u0027afbf30486-d58f-483d-b313-ac17ac2cf8fe\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: blue; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#afbf30486-d58f-483d-b313-ac17ac2cf8fe\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:4},{id:8},{id:1},{id:9},{id:5},{id:6},{id:10},{id:2},{id:3},{id:7}];\nvar links \u003d [{source:nodes[2],target:nodes[2]},{source:nodes[2],target:nodes[7]},{source:nodes[2],target:nodes[8]},{source:nodes[2],target:nodes[0]},{source:nodes[2],target:nodes[4]},{source:nodes[7],target:nodes[2]},{source:nodes[7],target:nodes[7]},{source:nodes[8],target:nodes[2]},{source:nodes[8],target:nodes[8]},{source:nodes[8],target:nodes[0]},{source:nodes[8],target:nodes[4]},{source:nodes[0],target:nodes[2]},{source:nodes[0],target:nodes[8]},{source:nodes[0],target:nodes[0]},{source:nodes[0],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[8]},{source:nodes[4],target:nodes[0]},{source:nodes[4],target:nodes[4]},{source:nodes[2],target:nodes[9]},{source:nodes[2],target:nodes[1]},{source:nodes[2],target:nodes[6]},{source:nodes[7],target:nodes[1]},{source:nodes[7],target:nodes[6]},{source:nodes[8],target:nodes[9]},{source:nodes[0],target:nodes[9]},{source:nodes[4],target:nodes[9]},{source:nodes[9],target:nodes[2]},{source:nodes[9],target:nodes[8]},{source:nodes[9],target:nodes[0]},{source:nodes[9],target:nodes[4]},{source:nodes[1],target:nodes[2]},{source:nodes[1],target:nodes[7]},{source:nodes[6],target:nodes[2]},{source:nodes[6],target:nodes[7]},{source:nodes[5],target:nodes[5]},{source:nodes[5],target:nodes[3]},{source:nodes[5],target:nodes[6]},{source:nodes[9],target:nodes[9]},{source:nodes[1],target:nodes[1]},{source:nodes[1],target:nodes[6]},{source:nodes[3],target:nodes[5]},{source:nodes[3],target:nodes[3]},{source:nodes[3],target:nodes[6]},{source:nodes[6],target:nodes[5]},{source:nodes[6],target:nodes[1]},{source:nodes[6],target:nodes[3]},{source:nodes[6],target:nodes[6]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 20);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(100).charge(-200).chargeDistance(300)\n   .friction(0.95).linkStrength(0.5).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
       },
       "dateCreated": "Mar 2, 2016 7:55:34 PM",
-      "dateStarted": "Apr 23, 2016 10:14:47 PM",
-      "dateFinished": "Apr 23, 2016 10:14:48 PM",
+      "dateStarted": "May 11, 2016 4:31:04 AM",
+      "dateFinished": "May 11, 2016 4:31:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md\n### Problem:  Find a Movie for Me and You\n* Me:  Toy Story \\[Adventure|Animation|Children|Comedy|Fantasy\\]\n* You:  Sudden Death \\[Action\\]\n* Us:  ??",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "dateUpdated": "May 11, 2016 4:30:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -414,15 +380,15 @@
         "msg": "\u003ch3\u003eProblem:  Find a Movie for Me and You\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe:  Toy Story [Adventure|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eYou:  Sudden Death [Action]\u003c/li\u003e\n\u003cli\u003eUs:  ??\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 6:54:19 AM",
-      "dateStarted": "Apr 23, 2016 10:14:39 PM",
-      "dateFinished": "Apr 23, 2016 10:14:39 PM",
+      "dateStarted": "May 11, 2016 4:30:14 AM",
+      "dateFinished": "May 11, 2016 4:30:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Dijkstra Shortest Path Between 2 Items",
-      "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Toy Story (Me)\nval src \u003d 1 \n\n// Sudden Death (You)\nval dest \u003d 9 \n\n// Generate Shortest Path for all nodes in the graph\nval shortestPathGraph \u003d Dijkstra.run(similarityGraph, src)\n  .cache()\n  \n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)  \n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices\n  .filter(_._1 \u003d\u003d dest)\n  .map(_._2)\n  .collect()(0)._2",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "title": "Dijkstra Heaviest Path Between 2 Items",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Toy Story (Me)\nval src \u003d 1 \n\n// Sudden Death (You)\nval dest \u003d 9 \n\n// Generate Heaviest Path for all nodes in the graph\nval heaviestPathGraph \u003d Dijkstra.heaviestPath(similarityGraph, src)\n  .cache()\n  \n// Shortest Path\n// 1 (Toy Story) -\u003e 10 (GoldenEye) -\u003e 9 (Sudden Death)  \n// Filter out only the ones with dest as the destination vertex\nval heaviestPathFromSrcToDest \u003d heaviestPathGraph.vertices\n  .filter(_._1 \u003d\u003d dest)\n  .map(_._2)\n  .collect()(0)._2",
+      "dateUpdated": "May 11, 2016 4:30:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -447,17 +413,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nshortestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@156e8b46\nshortestPathFromSrcToDest: List[Any] \u003d List(0.47619047619047616, List(1, 10))\n"
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 1\ndest: Int \u003d 9\nheaviestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@45b872db\nheaviestPathFromSrcToDest: List[Any] \u003d List(3.35, List(1, 2, 8, 10, 6, 9))\n"
       },
       "dateCreated": "Jan 13, 2016 5:24:02 AM",
-      "dateStarted": "Apr 23, 2016 10:14:47 PM",
-      "dateFinished": "Apr 23, 2016 10:14:49 PM",
+      "dateStarted": "May 11, 2016 4:31:04 AM",
+      "dateFinished": "May 11, 2016 4:31:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md\n### Solution\n* Me: Toy Story \\[**Adventure**|Animation|Children|Comedy|Fantasy\\]\n* You: Sudden Death \\[**Action**\\]\n* Us: **Golden Eye** \\[**Action**|**Adventure**|Thriller\\]   \u003c--  Recommendation for Us\n",
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "text": "%md\n### Solution\n* Me: Toy Story \\[Adventure|Animation|Children|Comedy|Fantasy\\]\n* You: Sudden Death \\[Action\\]\n\n* Us: Toy Story -\u003e **Jumanji** -\u003e **Tom and Huck** -\u003e **Golden Eye** -\u003e **Heat** -\u003e Sudden Death",
+      "dateUpdated": "May 11, 2016 4:35:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -482,16 +448,73 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eSolution\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eMe: Toy Story [\u003cstrong\u003eAdventure\u003c/strong\u003e|Animation|Children|Comedy|Fantasy]\u003c/li\u003e\n\u003cli\u003eYou: Sudden Death [\u003cstrong\u003eAction\u003c/strong\u003e]\u003c/li\u003e\n\u003cli\u003eUs: \u003cstrong\u003eGolden Eye\u003c/strong\u003e [\u003cstrong\u003eAction\u003c/strong\u003e|\u003cstrong\u003eAdventure\u003c/strong\u003e|Thriller]   \u0026lt;\u0026ndash;  Recommendation for Us\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch3\u003eSolution\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cp\u003eMe: Toy Story [Adventure|Animation|Children|Comedy|Fantasy]\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eYou: Sudden Death [Action]\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eUs: Toy Story -\u003e \u003cstrong\u003eJumanji\u003c/strong\u003e -\u003e \u003cstrong\u003eTom and Huck\u003c/strong\u003e -\u003e \u003cstrong\u003eGolden Eye\u003c/strong\u003e -\u003e \u003cstrong\u003eHeat\u003c/strong\u003e -\u003e Sudden Death\u003c/p\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Dec 29, 2015 2:40:14 PM",
-      "dateStarted": "Apr 23, 2016 10:14:39 PM",
-      "dateFinished": "Apr 23, 2016 10:14:39 PM",
+      "dateStarted": "May 11, 2016 4:35:04 AM",
+      "dateFinished": "May 11, 2016 4:35:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 23, 2016 10:14:39 PM",
+      "text": "z.show(itemsDF)",
+      "dateUpdated": "May 11, 2016 4:32:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 326.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462941114588_-1966272714",
+      "id": "20160511-043154_2109199602",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "May 11, 2016 4:31:54 AM",
+      "dateStarted": "May 11, 2016 4:31:57 AM",
+      "dateFinished": "May 11, 2016 4:31:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 11, 2016 4:30:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -517,8 +540,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Feb 4, 2016 6:58:53 AM",
-      "dateStarted": "Apr 23, 2016 10:14:48 PM",
-      "dateFinished": "Apr 23, 2016 10:14:49 PM",
+      "dateStarted": "May 11, 2016 4:31:07 AM",
+      "dateFinished": "May 11, 2016 4:31:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
