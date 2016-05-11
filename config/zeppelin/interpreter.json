@@ -87,7 +87,7 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "4",
+        "spark.cores.max": "2",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
@@ -818,6 +818,27 @@
       "2BDF8WQWY"
     ],
     "2BMM3NH9D": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BHYJBBHV": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BKS5GT8Z": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BJCP2T28": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ",
