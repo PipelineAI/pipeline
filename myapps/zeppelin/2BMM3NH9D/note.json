@@ -184,7 +184,7 @@
     {
       "title": "Creator @ Pancake Stack",
       "text": "%md ![Pancake Stack](http://advancedspark.com/img/pancake-stack.png)",
-      "dateUpdated": "May 11, 2016 5:34:54 AM",
+      "dateUpdated": "May 11, 2016 5:59:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -198,7 +198,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": false,
+        "editorHide": true,
         "title": true
       },
       "settings": {

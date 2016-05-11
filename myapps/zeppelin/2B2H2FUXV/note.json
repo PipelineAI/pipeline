@@ -1,7 +1,8 @@
 {
   "paragraphs": [
     {
-      "dateUpdated": "Apr 23, 2016 5:58:58 PM",
+      "text": "",
+      "dateUpdated": "May 11, 2016 6:12:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -23,8 +24,14 @@
       },
       "jobName": "paragraph_1444175763075_-1838688978",
       "id": "20151006-235603_1193118872",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Oct 6, 2015 11:56:03 PM",
-      "status": "READY",
+      "dateStarted": "May 11, 2016 6:12:35 PM",
+      "dateFinished": "May 11, 2016 6:12:35 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

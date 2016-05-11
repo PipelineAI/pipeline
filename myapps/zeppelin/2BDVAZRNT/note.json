@@ -277,12 +277,12 @@
     {
       "title": "analyze the Clusters",
       "text": "val enrichedClusteredItems \u003d kmeansModel.transform(enrichedDenseVectorItemFactorsDF)\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\", $\"itemFactors\")\n  .sort($\"clusterId\", $\"itemId\")\n  \nz.show(enrichedClusteredItems)",
-      "dateUpdated": "May 11, 2016 3:22:54 AM",
+      "dateUpdated": "May 11, 2016 6:24:56 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 300.0,
           "optionOpen": false,
           "keys": [

@@ -62,7 +62,7 @@
     {
       "title": "Show Dataset",
       "text": "val distinctCategoriesDF \u003d itemsDF.select($\"title\", $\"category\", $\"description\").distinct()\nz.show(distinctCategoriesDF)",
-      "dateUpdated": "May 5, 2016 9:51:17 PM",
+      "dateUpdated": "May 11, 2016 8:11:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
