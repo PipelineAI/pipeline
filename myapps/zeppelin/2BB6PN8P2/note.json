@@ -1,43 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.NGram\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._",
-      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
-      "config": {
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorHide": false
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1452639587336_1128670671",
-      "id": "20160112-225947_1943028405",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.StopWordsRemover\nimport org.apache.spark.ml.feature.Word2Vec\nimport org.apache.spark.ml.feature.Word2VecModel\nimport org.apache.spark.ml.feature.HashingTF\nimport org.apache.spark.ml.feature.IDF\nimport org.apache.spark.ml.feature.IDFModel\nimport org.apache.spark.ml.feature.RegexTokenizer\nimport org.apache.spark.ml.feature.OneHotEncoder\nimport org.apache.spark.ml.feature.NGram\nimport org.apache.spark.ml.feature.VectorAssembler\nimport org.apache.spark.ml.feature.StringIndexer\nimport org.apache.spark.ml.feature.StringIndexerModel\nimport org.apache.spark.ml.feature.IndexToString\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.ml.tuning.ParamGridBuilder\nimport org.apache.spark.ml.tuning.CrossValidator\nimport org.apache.spark.ml.tuning.TrainValidationSplit\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineModel\nimport org.apache.spark.mllib.clustering.LDA\nimport org.apache.spark.mllib.clustering.OnlineLDAOptimizer\nimport org.apache.spark.mllib.linalg.Vector\nimport org.apache.spark.sql.Row\nimport sqlContext.implicits._\n"
-      },
-      "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Mar 5, 2016 5:33:56 AM",
-      "dateFinished": "Mar 5, 2016 5:33:59 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "May 1, 2016 3:22:54 AM",
+      "dateUpdated": "May 13, 2016 1:39:07 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -87,14 +52,14 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "May 1, 2016 3:22:54 AM",
-      "dateFinished": "May 1, 2016 3:22:54 AM",
+      "dateStarted": "May 13, 2016 1:39:07 AM",
+      "dateFinished": "May 13, 2016 1:39:08 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val distinctCategories \u003d itemsDF.select($\"category\").distinct().collect()\nval distinctCategoriesCount \u003d itemsDF.select($\"category\").distinct().count()",
-      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "dateUpdated": "May 13, 2016 1:39:11 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -121,8 +86,8 @@
         "msg": "distinctCategories: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Data Processing], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Search Engine], [Data Import], [Container], [Workflow], [File Format], [Library], [File System], [Database])\ndistinctCategoriesCount: Long \u003d 21\n"
       },
       "dateCreated": "Jan 12, 2016 10:59:47 PM",
-      "dateStarted": "Mar 5, 2016 5:34:00 AM",
-      "dateFinished": "Mar 5, 2016 5:34:01 AM",
+      "dateStarted": "May 13, 2016 1:39:11 AM",
+      "dateFinished": "May 13, 2016 1:39:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

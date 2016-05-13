@@ -226,6 +226,7 @@ mkdir -p $LOGS_HOME/gremlin
 
 # TensorFlow
 echo ...Configuring TensorFlow...
+mkdir -p $LOGS_HOME/tensorflow/serving/
 cd /root/pipeline/datasets/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
 cd $PIPELINE_HOME
