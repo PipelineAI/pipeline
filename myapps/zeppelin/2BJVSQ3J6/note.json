@@ -149,6 +149,43 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "title": "Notes about PCA results",
+      "text": "%md \n* Use eigenvectors to find the top (principal) components that describe the data\n* Loosely described as the top classes/separations/decision boundaries of the data\n* Reduces dimensions of data\n* Can project original data into reduced-dimension space\n* Components represent direction of eigenvector\n* Explained variance is the magnitude\n* Can\u0027t get back to actual feature from a component (limitation of PCA)\n\n![Iris PCA Eigenvectors](http://advancedspark.com/img/iris-pca-eigenvectors.png)",
+      "dateUpdated": "May 14, 2016 7:21:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463253140233_-1154145488",
+      "id": "20160514-191220_846431834",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cul\u003e\n\u003cli\u003eUse eigenvectors to find the top (principal) components that describe the data\u003c/li\u003e\n\u003cli\u003eLoosely described as the top classes/separations/decision boundaries of the data\u003c/li\u003e\n\u003cli\u003eReduces dimensions of data\u003c/li\u003e\n\u003cli\u003eCan project original data into reduced-dimension space\u003c/li\u003e\n\u003cli\u003eComponents represent direction of eigenvector\u003c/li\u003e\n\u003cli\u003eExplained variance is the magnitude\u003c/li\u003e\n\u003cli\u003eCan\u0027t get back to actual feature from a component (limitation of PCA)\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/iris-pca-eigenvectors.png\" alt\u003d\"Iris PCA Eigenvectors\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 14, 2016 7:12:20 PM",
+      "dateStarted": "May 14, 2016 7:21:18 PM",
+      "dateFinished": "May 14, 2016 7:21:19 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Setup params for eigenfaces and principal component analysis",
       "text": "val scaledWidth \u003d 50\nval scaledHeight \u003d 50\nval principalComponents \u003d 8\n\nval inputImagesPath \u003d s\"/root/pipeline/datasets/eigenface/lfw-deepfunneled/*\"",
       "dateUpdated": "May 15, 2016 7:22:40 AM",
