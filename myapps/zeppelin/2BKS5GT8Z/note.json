@@ -36,8 +36,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ## Powered by [Flux Capacitor](https://github.com/fluxcapacitor/pipeline/wiki) and [PANCAKE STACK](http://pancake-stack.com)!",
-      "dateUpdated": "May 11, 2016 5:42:03 PM",
+      "text": "%md ## Powered by [Flux Capacitor](https://github.com/fluxcapacitor/pipeline/wiki) and the [PANCAKE STACK](http://pancake-stack.com)!",
+      "dateUpdated": "May 15, 2016 5:40:20 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -62,11 +62,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003ePowered by \u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/wiki\"\u003eFlux Capacitor\u003c/a\u003e and \u003ca href\u003d\"http://pancake-stack.com\"\u003ePANCAKE STACK\u003c/a\u003e!\u003c/h2\u003e\n"
+        "msg": "\u003ch2\u003ePowered by \u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/wiki\"\u003eFlux Capacitor\u003c/a\u003e and the \u003ca href\u003d\"http://pancake-stack.com\"\u003ePANCAKE STACK\u003c/a\u003e!\u003c/h2\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:18:52 PM",
-      "dateStarted": "May 11, 2016 5:41:58 PM",
-      "dateFinished": "May 11, 2016 5:41:58 PM",
+      "dateStarted": "May 15, 2016 5:40:18 AM",
+      "dateFinished": "May 15, 2016 5:40:18 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -147,7 +147,7 @@
     {
       "title": "Facial Similarity Recommender (Eigenvalues)",
       "text": "%md ![Tinderbox Eigenfaces](http://advancedspark.com/img/tinderbox-eigenfaces.png)",
-      "dateUpdated": "May 11, 2016 5:03:13 PM",
+      "dateUpdated": "May 15, 2016 5:40:51 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -257,13 +257,13 @@
     },
     {
       "title": "Fault Tolerant Recommendation Serving Layer (NetflixOSS Hystrix)",
-      "text": "%md \n### Finagle Based\n* [Flux Capacitor Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle)\n* [Demo URL](http://demo.advancedspark.com:5080/predict/12663/7)\n\n### Flask Based\n* [Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask)\n* [Demo URL](http://demo.advancedspark.com:5090/predict/12663/7)\n\n### TensorFlow Based\n* [Demo URL] (http://demo.advancedspark.com:5070/classify/cropped_panda.jpg)\n\n### Hystrix Circuit Breaker\n![Hystrix Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
-      "dateUpdated": "May 11, 2016 5:41:23 PM",
+      "text": "%md \n### Finagle Based\n* [Flux Capacitor Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle)\n* [Demo URL](http://demo.advancedspark.com:5080/predict/12663/7)\n\n### Flask Based\n* [Source](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask)\n* [Demo URL](http://demo.advancedspark.com:5090/predict/12663/7)\n\n### TensorFlow Based\n* [Demo URL (Experimental)] (http://demo.advancedspark.com:5070/classify/cropped_panda.jpg)\n\n### Hystrix Circuit Breaker\n![Hystrix Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
+      "dateUpdated": "May 15, 2016 5:43:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 925.0,
           "optionOpen": false,
           "keys": [],
           "values": [],
@@ -284,11 +284,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch3\u003eFinagle Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle\"\u003eFlux Capacitor Source\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5080/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eFlask Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask\"\u003eSource\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5090/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eTensorFlow Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5070/classify/cropped_panda.jpg\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eHystrix Circuit Breaker\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystrix Circuit Breaker\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch3\u003eFinagle Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle\"\u003eFlux Capacitor Source\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5080/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eFlask Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask\"\u003eSource\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5090/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eTensorFlow Based\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5070/classify/cropped_panda.jpg\"\u003eDemo URL (Experimental)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eHystrix Circuit Breaker\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystrix Circuit Breaker\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 2:53:04 PM",
-      "dateStarted": "May 11, 2016 5:41:14 PM",
-      "dateFinished": "May 11, 2016 5:41:14 PM",
+      "dateStarted": "May 15, 2016 5:43:26 AM",
+      "dateFinished": "May 15, 2016 5:43:26 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

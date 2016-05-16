@@ -141,8 +141,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![SVD++ Return Value](http://fluxcapacitor.com/img/svdplusplus-return-value.png)",
-      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "text": "%md ![SVD++ Return Value](http://advancedspark.com/img/svdplusplus-return-value.png)",
+      "dateUpdated": "May 16, 2016 1:45:51 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -155,7 +155,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -166,11 +167,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 10, 2016 11:39:21 PM",
-      "dateStarted": "Mar 5, 2016 3:49:17 AM",
-      "dateFinished": "Mar 5, 2016 3:49:17 AM",
+      "dateStarted": "May 16, 2016 1:45:47 AM",
+      "dateFinished": "May 16, 2016 1:45:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

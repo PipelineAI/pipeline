@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Item-to-Item Collaborative Filtering](http://fluxcapacitor.com/img/item-to-item-vector-space.png)",
-      "dateUpdated": "Feb 6, 2016 7:35:20 AM",
+      "text": "%md ![Item-to-Item Collaborative Filtering](http://advancedspark.com/img/item-to-item-vector-space.png)",
+      "dateUpdated": "May 16, 2016 1:49:12 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -15,7 +15,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/markdown"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -26,11 +27,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/item-to-item-vector-space.png\" alt\u003d\"Item-to-Item Collaborative Filtering\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/item-to-item-vector-space.png\" alt\u003d\"Item-to-Item Collaborative Filtering\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 6, 2016 7:34:45 AM",
-      "dateStarted": "Feb 6, 2016 7:35:20 AM",
-      "dateFinished": "Feb 6, 2016 7:35:20 AM",
+      "dateStarted": "May 16, 2016 1:49:12 AM",
+      "dateFinished": "May 16, 2016 1:49:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

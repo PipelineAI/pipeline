@@ -6,8 +6,12 @@ import com.twitter.algebird.MinHashSignature
 import org.jblas.DoubleMatrix
 
 object Similarity {
-  def cosineSimilarity(vector1: DoubleMatrix, vector2: DoubleMatrix): Double = {
-    vector1.dot(vector2) / (vector1.norm2() * vector2.norm2())
+  def cosineSimilarity(matrix1: DoubleMatrix, matrix2: DoubleMatrix): Double = {
+    matrix1.dot(matrix2) / (matrix1.norm2() * matrix2.norm2())
+  }
+
+  def cosineSimilarity(vector1: Vector, vector2: Vector): Double = {
+    BLAS.dot(vector1, vector2) / (Vectors.norm(vector1, 2) * Vectors.norm(vector2, 2))
   }
 
   def jaccardSimilarity[T <: Any](seq1: Seq[T], seq2: Seq[T]): Double = {

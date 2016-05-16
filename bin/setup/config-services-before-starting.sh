@@ -46,6 +46,7 @@ tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.avro.tar.bz2 -C $DATASETS_H
 #   split --bytes=100MB --numeric-suffixes --suffix-length=1 lfw-deepfunneled.tgz lfw-deepfunneled.tgz-part-
 cat $DATASETS_HOME/eigenface/lfw-deepfunneled.tgz-part-* > $DATASETS_HOME/eigenface/lfw-deepfunneled.tgz
 tar --directory $DATASETS_HOME/eigenface/ -xzvf $DATASETS_HOME/eigenface/lfw-deepfunneled.tgz
+tar --directory $DATASETS_HOME/serving/recommendations/spark-1.6.1/ -xzvf $DATASETS_HOME/serving/recommendations/spark-1.6.1/als.tar.gz
 
 # Sample WebApp
 echo '...Configuring Example WebApp...'
@@ -64,6 +65,7 @@ mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
 mkdir -p $LOGS_HOME/finagle
 mkdir -p $LOGS_HOME/flask
+mkdir -p $LOGS_HOME/watcher 
 
 # Ganglia
 echo '...Configuring Ganglia...'

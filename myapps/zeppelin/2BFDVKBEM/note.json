@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Shortest Path By Hops](http://fluxcapacitor.com/img/triangle-counting-centrality.png)",
-      "dateUpdated": "Mar 12, 2016 6:31:44 PM",
+      "text": "%md ![Shortest Path By Hops](http://advancedspark.com/img/triangle-counting-centrality.png)",
+      "dateUpdated": "May 16, 2016 1:48:15 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -15,7 +15,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -26,11 +27,12 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/triangle-counting-centrality.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/triangle-counting-centrality.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Mar 12, 2016 6:31:44 PM",
-      "status": "READY",
-      "errorMessage": "",
+      "dateStarted": "May 16, 2016 1:48:15 AM",
+      "dateFinished": "May 16, 2016 1:48:15 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -84,20 +86,11 @@
   "name": "TODO:  Graph/09: Closeness Centrality",
   "id": "2BFDVKBEM",
   "angularObjects": {
-    "2BEGD5PKY": [],
-    "2BE77VGXX": [],
-    "2BCP5RYPW": [],
-    "2BE5B7T6C": [],
-    "2BDHX9C4U": [],
-    "2BFE8ZRKW": [],
-    "2BG7XUMST": [],
-    "2BEWT9BTQ": [],
-    "2BF9JBZN5": [],
-    "2BF666AQP": [],
-    "2BF7MKGKF": [],
-    "2BG2MTBAA": [],
-    "2BCR6TSCQ": [],
-    "2BFVSJYDM": []
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
   },
   "config": {
     "looknfeel": "default"

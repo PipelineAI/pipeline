@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Community Detection](http://fluxcapacitor.com/img/connected-components.png)",
-      "dateUpdated": "Apr 21, 2016 1:46:25 AM",
+      "text": "%md ![Community Detection](http://advancedspark.com/img/connected-components.png)",
+      "dateUpdated": "May 16, 2016 1:47:54 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/markdown",
@@ -27,11 +27,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/connected-components.png\" alt\u003d\"Community Detection\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/connected-components.png\" alt\u003d\"Community Detection\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Mar 5, 2016 2:19:48 AM",
-      "dateStarted": "Apr 21, 2016 1:46:25 AM",
-      "dateFinished": "Apr 21, 2016 1:46:25 AM",
+      "dateStarted": "May 16, 2016 1:47:52 AM",
+      "dateFinished": "May 16, 2016 1:47:52 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

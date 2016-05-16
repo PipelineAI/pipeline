@@ -2,8 +2,8 @@
   "paragraphs": [
     {
       "title": "cosine similarity",
-      "text": "%md ![Cosine Similarity](http://fluxcapacitor.com/img/cosine-similarity.png)\n![Cosine Similarity Calculation](http://fluxcapacitor.com/img/cosine-similarity-calculation.png)\n## Normalize to unit vectors\n### (dot product of two vectors) / (product of their lengths)",
-      "dateUpdated": "Apr 4, 2016 4:40:43 AM",
+      "text": "%md ![Cosine Similarity](http://advancedspark.com/img/cosine-similarity.png)\n![Cosine Similarity Calculation](http://advancedspark.com/img/cosine-similarity-calculation.png)\n## Normalize to unit vectors\n### (dot product of two vectors) / (product of their lengths)",
+      "dateUpdated": "May 16, 2016 1:45:13 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,11 +29,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity.png\" alt\u003d\"Cosine Similarity\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/cosine-similarity-calculation.png\" alt\u003d\"Cosine Similarity Calculation\" /\u003e\u003c/p\u003e\n\u003ch2\u003eNormalize to unit vectors\u003c/h2\u003e\n\u003ch3\u003e(dot product of two vectors) / (product of their lengths)\u003c/h3\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/cosine-similarity.png\" alt\u003d\"Cosine Similarity\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/cosine-similarity-calculation.png\" alt\u003d\"Cosine Similarity Calculation\" /\u003e\u003c/p\u003e\n\u003ch2\u003eNormalize to unit vectors\u003c/h2\u003e\n\u003ch3\u003e(dot product of two vectors) / (product of their lengths)\u003c/h3\u003e\n"
       },
       "dateCreated": "Feb 5, 2016 12:30:33 AM",
-      "dateStarted": "Apr 4, 2016 4:40:31 AM",
-      "dateFinished": "Apr 4, 2016 4:40:31 AM",
+      "dateStarted": "May 16, 2016 1:44:54 AM",
+      "dateFinished": "May 16, 2016 1:44:54 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

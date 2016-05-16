@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec.png)",
-      "dateUpdated": "Mar 6, 2016 4:47:46 AM",
+      "text": "%md ![Word2Vec](http://advancedspark.com/img/word2vec.png)",
+      "dateUpdated": "May 16, 2016 1:46:21 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,17 +27,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/word2vec.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 4:19:30 AM",
-      "dateStarted": "Mar 6, 2016 4:47:46 AM",
-      "dateFinished": "Mar 6, 2016 4:47:46 AM",
+      "dateStarted": "May 16, 2016 1:46:19 AM",
+      "dateFinished": "May 16, 2016 1:46:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-4.png)",
-      "dateUpdated": "Feb 5, 2016 7:22:21 PM",
+      "text": "%md ![Word2Vec](http://advancedspark.com/img/word2vec-4.png)",
+      "dateUpdated": "May 16, 2016 1:46:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -50,7 +50,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -61,17 +62,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-4.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/word2vec-4.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 5, 2016 7:20:27 PM",
-      "dateStarted": "Feb 5, 2016 7:22:21 PM",
-      "dateFinished": "Feb 5, 2016 7:22:21 PM",
+      "dateStarted": "May 16, 2016 1:46:29 AM",
+      "dateFinished": "May 16, 2016 1:46:30 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-2.png)",
-      "dateUpdated": "Mar 6, 2016 4:47:47 AM",
+      "text": "%md ![Word2Vec](http://advancedspark.com/img/word2vec-2.png)",
+      "dateUpdated": "May 16, 2016 1:46:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -96,17 +97,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-2.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/word2vec-2.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 1:37:30 AM",
-      "dateStarted": "Mar 6, 2016 4:47:47 AM",
-      "dateFinished": "Mar 6, 2016 4:47:47 AM",
+      "dateStarted": "May 16, 2016 1:46:37 AM",
+      "dateFinished": "May 16, 2016 1:46:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![Word2Vec](http://fluxcapacitor.com/img/word2vec-3.png)",
-      "dateUpdated": "May 11, 2016 3:25:10 AM",
+      "text": "%md ![Word2Vec](http://advancedspark.com/img/word2vec-3.png)",
+      "dateUpdated": "May 16, 2016 1:46:49 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -119,7 +120,7 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala",
+        "editorMode": "ace/mode/markdown",
         "editorHide": true
       },
       "settings": {
@@ -131,17 +132,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-3.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/word2vec-3.png\" alt\u003d\"Word2Vec\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 1:37:50 AM",
-      "dateStarted": "Mar 6, 2016 4:47:48 AM",
-      "dateFinished": "Mar 6, 2016 4:47:48 AM",
+      "dateStarted": "May 16, 2016 1:46:47 AM",
+      "dateFinished": "May 16, 2016 1:46:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md ![Word2Vec Cosine Similarity](http://fluxcapacitor.com/img/word2vec-cosine-similarity.png)",
-      "dateUpdated": "Mar 6, 2016 4:47:48 AM",
+      "text": "%md ![Word2Vec Cosine Similarity](http://advancedspark.com/img/word2vec-cosine-similarity.png)",
+      "dateUpdated": "May 16, 2016 1:47:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -166,11 +167,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/word2vec-cosine-similarity.png\" alt\u003d\"Word2Vec Cosine Similarity\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/word2vec-cosine-similarity.png\" alt\u003d\"Word2Vec Cosine Similarity\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 4:22:03 AM",
-      "dateStarted": "Mar 6, 2016 4:47:48 AM",
-      "dateFinished": "Mar 6, 2016 4:47:48 AM",
+      "dateStarted": "May 16, 2016 1:47:04 AM",
+      "dateFinished": "May 16, 2016 1:47:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%elasticsearch get /advancedspark/item_ratings/1",
-      "dateUpdated": "May 11, 2016 5:56:09 AM",
+      "text": "%elasticsearch size *",
+      "dateUpdated": "May 13, 2016 7:57:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,11 +26,11 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "Error : None of the configured nodes are available: [{#transport#-1}{127.0.0.1}{localhost/127.0.0.1:9200}]"
+        "msg": "Size cmd must be followed by a search\nElasticsearch interpreter:\nGeneral format: \u003ccommand\u003e /\u003cindices\u003e/\u003ctypes\u003e/\u003cid\u003e \u003coption\u003e \u003cJSON\u003e\n  - indices: list of indices separated by commas (depends on the command)\n  - types: list of document types separated by commas (depends on the command)\nCommands:\n  - search /indices/types \u003cquery\u003e\n    . indices and types can be omitted (at least, you have to provide \u0027/\u0027)\n    . a query is either a JSON-formatted query, nor a lucene query\n  - size \u003cvalue\u003e\n    . defines the size of the result set (default value is in the config)\n    . if used, this command must be declared before a search command\n  - count /indices/types \u003cquery\u003e\n    . same comments as for the search\n  - get /index/type/id\n  - delete /index/type/id\n  - index /ndex/type/id \u003cjson-formatted document\u003e\n    . the id can be omitted, elasticsearch will generate one\n"
       },
       "dateCreated": "Mar 1, 2016 7:06:08 PM",
-      "dateStarted": "May 11, 2016 5:56:09 AM",
-      "dateFinished": "May 11, 2016 5:56:09 AM",
+      "dateStarted": "May 13, 2016 7:57:40 AM",
+      "dateFinished": "May 13, 2016 7:57:40 AM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },

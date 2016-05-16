@@ -563,7 +563,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Recommendations/08: TODO: Item to Item Similarity (Jaccard Similarity Tag One-Hot Encode)",
+  "name": "TODO: Recommendations/08: Item to Item Similarity (Jaccard Similarity Tag One-Hot Encode)",
   "id": "2BKMYGEP3",
   "angularObjects": {
     "2ARR8UZDJ": [],

@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md\n## Locality Sensitive Hashing (LSH)\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png) \n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket",
-      "dateUpdated": "Apr 4, 2016 4:39:27 AM",
+      "text": "%md\n## Locality Sensitive Hashing (LSH)\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n![Locality Sensitive Hashing](http://advancedspark.com/img/locality-sensitive-hashing.png) \n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket",
+      "dateUpdated": "May 16, 2016 1:48:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,11 +27,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eLocality Sensitive Hashing (LSH)\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eHash items into multiple buckets\u003c/li\u003e\n\u003cli\u003eSimilar items will hash to overlapping buckets over many different hash functions\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eAvoid cartesian\u003c/em\u003e and compare only items within each bucket\u003c/h3\u003e\n"
+        "msg": "\u003ch2\u003eLocality Sensitive Hashing (LSH)\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eHash items into multiple buckets\u003c/li\u003e\n\u003cli\u003eSimilar items will hash to overlapping buckets over many different hash functions\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n\u003ch3\u003eIntuition: \u003cem\u003eAvoid cartesian\u003c/em\u003e and compare only items within each bucket\u003c/h3\u003e\n"
       },
       "dateCreated": "Feb 4, 2016 5:38:55 AM",
-      "dateStarted": "Apr 4, 2016 4:39:27 AM",
-      "dateFinished": "Apr 4, 2016 4:39:27 AM",
+      "dateStarted": "May 16, 2016 1:48:45 AM",
+      "dateFinished": "May 16, 2016 1:48:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
