@@ -100,8 +100,8 @@
     },
     {
       "title": "save singular values to tmp path in scala",
-      "text": "import com.advancedspark.spark.ml.MatrixIO\n\nMatrixIO.saveArray(svd.s.toArray, \"/tmp/singular-values.csv\")",
-      "dateUpdated": "May 15, 2016 11:31:38 PM",
+      "text": "import com.advancedspark.spark.ml.MatrixIO\n\nMatrixIO.saveArray(svd.s.toArray, \"/tmp/eigenface/singular-values.csv\")",
+      "dateUpdated": "May 16, 2016 4:23:27 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -131,7 +131,7 @@
       "dateCreated": "May 15, 2016 9:35:06 PM",
       "dateStarted": "May 15, 2016 11:31:38 PM",
       "dateFinished": "May 15, 2016 11:31:38 PM",
-      "status": "FINISHED",
+      "status": "PENDING",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -170,8 +170,8 @@
     },
     {
       "title": "retrieve singular values from tmp path in python",
-      "text": "%pyspark\n\nsingular_values \u003d np.loadtxt(\"/tmp/singular-values.csv\", delimiter\u003d\",\")\n\nprint(singular_values)",
-      "dateUpdated": "May 15, 2016 11:32:04 PM",
+      "text": "%pyspark\n\nsingular_values \u003d np.loadtxt(\"/tmp/eigenface/singular-values.csv\", delimiter\u003d\",\")\n\nprint(singular_values)",
+      "dateUpdated": "May 16, 2016 4:23:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
