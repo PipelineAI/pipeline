@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "May 11, 2016 3:22:27 AM",
+      "dateUpdated": "May 16, 2016 9:44:34 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:21:33 AM",
-      "dateStarted": "May 11, 2016 3:22:27 AM",
-      "dateFinished": "May 11, 2016 3:22:27 AM",
+      "dateStarted": "May 16, 2016 9:44:34 PM",
+      "dateFinished": "May 16, 2016 9:44:35 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar users to a given user",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n/////////////////////////////////\n// Must Update User ID         //\n/////////////////////////////////",
-      "dateUpdated": "May 16, 2016 2:18:18 AM",
+      "dateUpdated": "May 16, 2016 9:44:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,16 +63,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\tsimilarUserId\tsimilarity\n12663\t8910\t0.9984649874686649\n12663\t96340\t0.994508008437814\n12663\t17841\t0.9928123074295419\n12663\t20229\t0.9917622383685839\n12663\t3969\t0.9862865591662549\n"
+        "msg": "userId\tsimilarUserId\tsimilarity\n12663\t96340\t0.999895109763547\n12663\t17841\t0.9998545986934535\n12663\t37902\t0.9997881816711892\n12663\t12659\t0.99973003897393\n12663\t12622\t0.9997255299042305\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:28 AM",
-      "dateStarted": "May 16, 2016 2:18:18 AM",
-      "dateFinished": "May 16, 2016 2:18:22 AM",
+      "dateStarted": "May 16, 2016 9:44:35 PM",
+      "dateFinished": "May 16, 2016 9:44:40 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 11, 2016 3:22:27 AM",
+      "dateUpdated": "May 16, 2016 9:44:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,8 +98,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 23, 2016 4:22:01 AM",
-      "dateStarted": "May 11, 2016 3:22:27 AM",
-      "dateFinished": "May 11, 2016 3:22:33 AM",
+      "dateStarted": "May 16, 2016 9:44:35 PM",
+      "dateFinished": "May 16, 2016 9:44:40 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

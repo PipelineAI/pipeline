@@ -247,14 +247,14 @@
       "jobName": "paragraph_1463277377396_196655129",
       "id": "20160515-015617_1183012793",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:65: error: not found: value imagePcaVectorsDF\n              imagePcaVectorsDF.write\n              ^\n"
+        "msg": ""
       },
       "dateCreated": "May 15, 2016 1:56:17 AM",
       "dateStarted": "May 16, 2016 4:17:56 AM",
-      "dateFinished": "May 16, 2016 4:16:29 AM",
-      "status": "PENDING",
+      "dateFinished": "May 16, 2016 4:26:56 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -283,14 +283,14 @@
       "jobName": "paragraph_1463277442358_-135859866",
       "id": "20160515-015722_1394067839",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "java.lang.AssertionError: assertion failed: No predefined schema found, and no Parquet data files or summary files found under file:/tmp/eigenface/image-pca-vectors.parquet.\n\tat scala.Predef$.assert(Predef.scala:179)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$MetadataCache.org$apache$spark$sql$execution$datasources$parquet$ParquetRelation$MetadataCache$$readSchema(ParquetRelation.scala:512)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$MetadataCache$$anonfun$12.apply(ParquetRelation.scala:421)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$MetadataCache$$anonfun$12.apply(ParquetRelation.scala:421)\n\tat scala.Option.orElse(Option.scala:257)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$MetadataCache.refresh(ParquetRelation.scala:421)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation.org$apache$spark$sql$execution$datasources$parquet$ParquetRelation$$metadataCache$lzycompute(ParquetRelation.scala:145)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation.org$apache$spark$sql$execution$datasources$parquet$ParquetRelation$$metadataCache(ParquetRelation.scala:143)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$$anonfun$6.apply(ParquetRelation.scala:202)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation$$anonfun$6.apply(ParquetRelation.scala:202)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.sql.execution.datasources.parquet.ParquetRelation.dataSchema(ParquetRelation.scala:202)\n\tat org.apache.spark.sql.sources.HadoopFsRelation.schema$lzycompute(interfaces.scala:636)\n\tat org.apache.spark.sql.sources.HadoopFsRelation.schema(interfaces.scala:635)\n\tat org.apache.spark.sql.execution.datasources.LogicalRelation.\u003cinit\u003e(LogicalRelation.scala:37)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:125)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:66)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:71)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:73)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:75)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:77)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:79)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:81)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:83)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:85)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:87)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:93)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:95)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:97)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat \u003cinit\u003e(\u003cconsole\u003e:105)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "newImagePcaVectorsDF: org.apache.spark.sql.DataFrame \u003d [imagePath: string, pixelVector: vector, scaledPixelVector: vector, pcaVector: vector]\n"
       },
       "dateCreated": "May 15, 2016 1:57:22 AM",
-      "dateStarted": "May 16, 2016 4:16:30 AM",
-      "dateFinished": "May 16, 2016 4:16:31 AM",
-      "status": "PENDING",
+      "dateStarted": "May 16, 2016 4:25:16 AM",
+      "dateFinished": "May 16, 2016 4:26:57 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -416,12 +416,12 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "similarItemId\tsimilarity\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Olene_Walker/Olene_Walker_0001.jpg\t0.9572503050295283\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Candace_Sutton/Candace_Sutton_0001.jpg\t0.9519771055782965\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Gerhard_Schroeder/Gerhard_Schroeder_0040.jpg\t0.951412766383636\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Yuri_Malenchenko/Yuri_Malenchenko_0002.jpg\t0.9465030985220388\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Cheryl_James/Cheryl_James_0001.jpg\t0.9454946830119514\n"
+        "msg": "similarItemId\tsimilarity\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Olene_Walker/Olene_Walker_0001.jpg\t0.9572503050295282\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Candace_Sutton/Candace_Sutton_0001.jpg\t0.951977105578297\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Gerhard_Schroeder/Gerhard_Schroeder_0040.jpg\t0.951412766383636\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Yuri_Malenchenko/Yuri_Malenchenko_0002.jpg\t0.9465030985220387\n/root/pipeline/datasets/eigenface/lfw-deepfunneled/Cheryl_James/Cheryl_James_0001.jpg\t0.9454946830119514\n"
       },
       "dateCreated": "May 10, 2016 5:26:34 PM",
-      "dateStarted": "May 15, 2016 8:57:34 PM",
-      "dateFinished": "May 15, 2016 8:57:38 PM",
-      "status": "PENDING",
+      "dateStarted": "May 16, 2016 4:26:57 AM",
+      "dateFinished": "May 16, 2016 4:27:00 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -662,8 +662,14 @@
       },
       "jobName": "paragraph_1463283213981_202774409",
       "id": "20160515-033333_407175610",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "May 15, 2016 3:33:33 AM",
-      "status": "PENDING",
+      "dateStarted": "May 16, 2016 4:26:57 AM",
+      "dateFinished": "May 16, 2016 4:27:00 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

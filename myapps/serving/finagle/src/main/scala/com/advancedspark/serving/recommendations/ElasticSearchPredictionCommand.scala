@@ -4,11 +4,13 @@ import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 
 import org.jblas.DoubleMatrix
+//import com.advancedspark.ml.BLAS
+//import com.advancedspark.ml.Vectors
 
 import scala.util.parsing.json._
 
-class PredictionCommand(userId: Int, itemId: Int) 
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("Prediction")) {
+class ElasticSearchPredictionCommand(userId: Int, itemId: Int) 
+    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("ElasticSearchPrediction")) {
 
   @throws(classOf[java.io.IOException])
   def get(url: String) = io.Source.fromURL(url).mkString
@@ -40,9 +42,12 @@ class PredictionCommand(userId: Int, itemId: Int)
     try{
       val userFactorsMatrix = new DoubleMatrix(userFactors.toArray)
       val itemFactorsMatrix = new DoubleMatrix(itemFactors.toArray)
-    
+      //val userFactorsVector = Vectors.dense(userFactors.toArray)
+      //val itemFactorsVector = Vectors.dense(itemFactors.toArray)
+     
       // Calculate confidence
       userFactorsMatrix.dot(itemFactorsMatrix)
+      //userFactorsVector.dot(itemFactorsVector)
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -59,7 +64,7 @@ class PredictionCommand(userId: Int, itemId: Int)
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
     //return fallbackRecommendationsModel;
 
-    System.out.println("Prediction Service is Down!  Fallback!!")
+    System.out.println("ElasticSearch is Down!  Fallback!!")
 
     0.0;
   }

@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "May 11, 2016 5:06:45 AM",
+      "dateUpdated": "May 16, 2016 9:45:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "May 11, 2016 5:06:45 AM",
-      "dateFinished": "May 11, 2016 5:06:45 AM",
+      "dateStarted": "May 16, 2016 9:45:31 PM",
+      "dateFinished": "May 16, 2016 9:45:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 7\nval givenItemId \u003d 7 // Spark\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "May 16, 2016 2:54:58 AM",
+      "dateUpdated": "May 16, 2016 9:45:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,16 +60,19 @@
       },
       "jobName": "paragraph_1461385221568_1720553379",
       "id": "20160423-042021_1267485878",
-      "result": "org.apache.thrift.transport.TTransportException: java.net.SocketException: Broken pipe",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t28\tApache ZooKeeper\t0.9992873527918293\n7\t11\tApache YARN\t0.9989691811868899\n7\t1\tApache Cassandra\t0.9987149811484451\n7\t20\tApache Solr\t0.9986567688092891\n7\t10\tApache HDFS\t0.9985565451254506\n"
+      },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "May 16, 2016 2:54:58 AM",
-      "dateFinished": "May 16, 2016 2:54:58 AM",
-      "status": "ERROR",
-      "errorMessage": "java.net.SocketException: Broken pipe\n\tat java.net.SocketOutputStream.socketWrite0(Native Method)\n\tat java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)\n\tat java.net.SocketOutputStream.write(SocketOutputStream.java:153)\n\tat java.io.BufferedOutputStream.write(BufferedOutputStream.java:122)\n\tat org.apache.thrift.transport.TIOStreamTransport.write(TIOStreamTransport.java:145)\n\tat org.apache.thrift.protocol.TBinaryProtocol.writeString(TBinaryProtocol.java:202)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4486)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args$interpret_argsStandardScheme.write(RemoteInterpreterService.java:4427)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$interpret_args.write(RemoteInterpreterService.java:4362)\n\tat org.apache.thrift.TServiceClient.sendBase(TServiceClient.java:63)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.send_interpret(RemoteInterpreterService.java:214)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:204)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:208)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:211)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:322)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "dateStarted": "May 16, 2016 9:45:31 PM",
+      "dateFinished": "May 16, 2016 9:45:36 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 11, 2016 3:22:34 AM",
+      "dateUpdated": "May 16, 2016 9:45:31 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -95,8 +98,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "May 11, 2016 3:22:34 AM",
-      "dateFinished": "May 11, 2016 3:22:39 AM",
+      "dateStarted": "May 16, 2016 9:45:31 PM",
+      "dateFinished": "May 16, 2016 9:45:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

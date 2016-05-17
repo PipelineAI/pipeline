@@ -28,6 +28,7 @@ $SPARK_HOME/sbin/stop-thriftserver.sh
 
 echo '...Stopping Flink...'
 stop-local.sh
+ps -aef | grep "JobManager" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Redis...'
 redis-cli shutdown
@@ -97,6 +98,9 @@ jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Flask-based Recommendation/Prediction Service...'
 ps -aef | grep "recommendation-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping SBT Runtime...'
+ps -aef | grep "Nailgun" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping SSH...'
 service ssh stop

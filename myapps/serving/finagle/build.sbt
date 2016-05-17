@@ -16,8 +16,10 @@ val scalaTestVersion = sys.env("SCALATEST_VERSION")
 val finagleVersion = sys.env("FINAGLE_VERSION")
 val jblasVersion = sys.env("JBLAS_VERSION")
 val hystrixVersion = sys.env("HYSTRIX_VERSION")
+val betterFilesVersion = sys.env("BETTER_FILES_VERSION")
 
 lazy val deps = Seq(
+  "com.github.pathikrit" %% "better-files"      % betterFilesVersion,
   "com.twitter"          %% "finagle-http"    	% finagleVersion,
   "org.jblas" 	         % "jblas" 		% jblasVersion,
   "com.netflix.hystrix"  % "hystrix-core"       % hystrixVersion
