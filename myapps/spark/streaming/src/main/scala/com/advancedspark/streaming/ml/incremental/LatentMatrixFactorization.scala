@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.recommendation
+package com.advancedspark.streaming.ml.incremental
 
 //////////////////////////////////////////////////////////////////////
 // This code has been adapted from the following source:
@@ -19,11 +19,11 @@ import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 
 import scala.reflect.ClassTag
 
-import com.advancedspark.streaming.recommendation.optimization.MFGradientDescent
-import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModel
-import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModelOps
-import com.advancedspark.streaming.recommendation.model.LatentFactorGenerator
-import com.advancedspark.streaming.recommendation.model.LatentFactor
+import com.advancedspark.streaming.ml.incremental.optimization.MFGradientDescent
+import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModel
+import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.ml.incremental.model.LatentFactorGenerator
+import com.advancedspark.streaming.ml.incremental.model.LatentFactor
 
 /**
  * Trains a Matrix Factorization Model for Recommendation Systems. The model consists of

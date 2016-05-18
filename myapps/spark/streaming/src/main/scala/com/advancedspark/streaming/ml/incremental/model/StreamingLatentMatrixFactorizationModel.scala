@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.recommendation.model
+package com.advancedspark.streaming.ml.incremental.model
 
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._

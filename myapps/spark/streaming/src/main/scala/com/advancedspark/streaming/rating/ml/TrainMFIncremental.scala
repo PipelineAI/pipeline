@@ -11,8 +11,8 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.streaming.recommendation.StreamingLatentMatrixFactorization
-import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.ml.incremental.StreamingLatentMatrixFactorization
+import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 

@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.recommendation.model
+package com.advancedspark.streaming.ml.incremental.model
 
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
@@ -6,8 +6,8 @@ import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 import org.apache.spark.Logging
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.rdd.RDD
-import com.advancedspark.streaming.recommendation.utils.VectorUtils
-import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.ml.incremental.utils.VectorUtils
+import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
 
 object LatentMatrixFactorizationModelOps extends Serializable with Logging {
 

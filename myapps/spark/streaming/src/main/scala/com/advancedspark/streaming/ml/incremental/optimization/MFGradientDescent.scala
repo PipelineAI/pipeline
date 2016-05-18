@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.recommendation.optimization
+package com.advancedspark.streaming.ml.incremental.optimization
 
 //////////////////////////////////////////////////////////////////////
 // This code has been adapted from the following source:
@@ -6,12 +6,12 @@ package com.advancedspark.streaming.recommendation.optimization
 // Thanks, Burak!
 //////////////////////////////////////////////////////////////////////
 
-import com.advancedspark.streaming.recommendation.LatentMatrixFactorizationParams
-import com.advancedspark.streaming.recommendation.model.StreamingLatentMatrixFactorizationModel
-import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModel
-import com.advancedspark.streaming.recommendation.model.LatentMatrixFactorizationModelOps
-import com.advancedspark.streaming.recommendation.model.LatentFactorGenerator
-import com.advancedspark.streaming.recommendation.model.LatentFactor
+import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.ml.incremental.model.StreamingLatentMatrixFactorizationModel
+import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModel
+import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.ml.incremental.model.LatentFactorGenerator
+import com.advancedspark.streaming.ml.incremental.model.LatentFactor
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 import org.apache.spark.ml.recommendation.ALS.Rating

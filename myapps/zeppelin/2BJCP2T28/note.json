@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md\n## Datasets\n### * Labeled Faces in the Wild (Item Similarity - Eigenfaces)\n### * Dating Site (Item Ratings - Gender)\n### * MovieLens (Item Similarity - Tags)\n### * Hand-made Stick Figures (Various)",
-      "dateUpdated": "May 16, 2016 9:19:50 PM",
+      "text": "%md\n## Datasets\n* [Labeled Faces in the Wild (Item-to-Item Similarity)](http://vis-www.cs.umass.edu/lfw/)\n* [MovieLens (Item-to-Item Similarity)](http://grouplens.org/datasets/movielens/)\n* [Dating Site (Collaborative Filtering)](http://www.occamslab.com/petricek/data/)",
+      "dateUpdated": "May 17, 2016 11:14:22 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -27,11 +27,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eDatasets\u003c/h2\u003e\n\u003ch3\u003e* Labeled Faces in the Wild (Item Similarity - Eigenfaces)\u003c/h3\u003e\n\u003ch3\u003e* Dating Site (Item Ratings - Gender)\u003c/h3\u003e\n\u003ch3\u003e* MovieLens (Item Similarity - Tags)\u003c/h3\u003e\n\u003ch3\u003e* Hand-made Stick Figures (Various)\u003c/h3\u003e\n"
+        "msg": "\u003ch2\u003eDatasets\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://vis-www.cs.umass.edu/lfw/\"\u003eLabeled Faces in the Wild (Item-to-Item Similarity)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://grouplens.org/datasets/movielens/\"\u003eMovieLens (Item-to-Item Similarity)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.occamslab.com/petricek/data/\"\u003eDating Site (Collaborative Filtering)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "May 11, 2016 7:39:26 AM",
-      "dateStarted": "May 11, 2016 4:41:32 PM",
-      "dateFinished": "May 11, 2016 4:41:32 PM",
+      "dateStarted": "May 17, 2016 11:14:22 PM",
+      "dateFinished": "May 17, 2016 11:14:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -48,7 +48,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "* Datasets We Use *",
+  "name": "* Datasets *",
   "id": "2BJCP2T28",
   "angularObjects": {
     "2BCMAZYZ5": [],

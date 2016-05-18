@@ -1,6 +1,6 @@
-package com.advancedspark.streaming.recommendation.model
+package com.advancedspark.streaming.ml.incremental.model
 
-import com.advancedspark.streaming.recommendation.utils.VectorUtils
+import com.advancedspark.streaming.ml.incremental.utils.VectorUtils
 
 case class LatentFactor(var bias: Float, vector: Array[Float]) extends Serializable {
 

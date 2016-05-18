@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.recommendation.utils
+package com.advancedspark.streaming.ml.incremental.utils
 
 //////////////////////////////////////////////////////////////////////
 // This code has been adapted from the following source:

@@ -39,8 +39,8 @@
     },
     {
       "title": "Item-to-Item Recommendations with Eigenfaces",
-      "text": "%md ![Eigenfaces](http://advancedspark.com/img/eigen-faces.png)",
-      "dateUpdated": "May 16, 2016 5:50:44 PM",
+      "text": "%md ![Eigenfaces](http://advancedspark.com/img/tinderbox-eigenfaces.png)",
+      "dateUpdated": "May 18, 2016 2:21:31 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,11 +66,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/eigen-faces.png\" alt\u003d\"Eigenfaces\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-eigenfaces.png\" alt\u003d\"Eigenfaces\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 6:53:51 AM",
-      "dateStarted": "May 16, 2016 5:50:45 PM",
-      "dateFinished": "May 16, 2016 5:50:45 PM",
+      "dateStarted": "May 18, 2016 2:21:28 AM",
+      "dateFinished": "May 18, 2016 2:21:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
