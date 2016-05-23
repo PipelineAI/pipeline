@@ -371,7 +371,32 @@ RUN \
  && cd ~/pipeline/myapps/kafka && sbt assembly \
 
 # Sbt Codegen 
- && cd ~/pipeline/myapps/codegen && sbt assembly
+ && cd ~/pipeline/myapps/codegen && sbt package 
+
+# Bleeding Edge Spark
+RUN \
+  cd ~ \
+  && git clone --branch 'branch-2.0' --single-branch https://github.com/apache/spark.git branch-2.0 \
+  && cd branch-2.0 \
+  && ./dev/make-distribution.sh --name fluxcapacitor --tgz -Phadoop-2.6 -Dhadoop.version=2.6.0 -Psparkr -Phive -Pspark-ganglia-lgpl -Pnetlib-lgpl -Dscala-2.10 -DskipTests \
+  && cp spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz ../ \
+  && cd .. \
+  && tar -xzvf spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz \
+  && rm spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
+
+# Bleeding Edge TensorFlow
+RUN \
+  cd ~ \
+  && git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+  && git clone --recurse-submodules https://github.com/tensorflow/serving.git \
+  && git clone --recurse-submodules https://github.com/tensorflow/models.git \
+  && git clone --recurse-submodules https://github.com/tensorflow/playground.git
+
+# Bleeding Edge Theano
+RUN \
+  git clone git://github.com/Theano/Theano.git \
+  && cd Theano \
+  && python setup.py develop --user
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090
