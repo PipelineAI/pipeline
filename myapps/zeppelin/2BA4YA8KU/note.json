@@ -357,12 +357,12 @@
     {
       "title": "Bonus:  Most Influential Items based on Similarity + pageRank",
       "text": "val convergenceThreshold \u003d 0.01\n\nval pageRank \u003d similarityGraph.pageRank(convergenceThreshold)\n\nval topInfluencers \u003d pageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d topInfluencersDF.join(itemsDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"title\", $\"tags\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedTopInfluencersDF)\n",
-      "dateUpdated": "May 23, 2016 1:11:52 AM",
+      "dateUpdated": "May 23, 2016 1:29:28 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 209.0,
           "optionOpen": false,
           "keys": [
             {
