@@ -414,6 +414,63 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "val convergenceThreshold \u003d 0.01\n\nval startItemId \u003d 1 // Toy Story\nval personalizedPageRank \u003d similarityGraph.personalizedPageRank(startItemId, convergenceThreshold)\n\nval personaliedTopInfluencers \u003d personalizedPageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval personalizedTopInfluencersDF \u003d sc.parallelize(personaliedTopInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedPersonalizedTopInfluencersDF \u003d personalizedTopInfluencersDF.join(itemsDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"title\", $\"tags\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedPersonalizedTopInfluencersDF)\n",
+      "dateUpdated": "May 23, 2016 1:28:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 194.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463966828336_-1675031482",
+      "id": "20160523-012708_755432687",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\trank\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\t0.18979058349609373\n3\tGrumpier Old Men (1995)\tComedy|Romance\t0.00229097412109375\n2\tJumanji (1995)\tAdventure|Children|Fantasy\t0.00229097412109375\n7\tSabrina (1995)\tComedy|Romance\t0.00229097412109375\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\t0.00229097412109375\n"
+      },
+      "dateCreated": "May 23, 2016 1:27:08 AM",
+      "dateStarted": "May 23, 2016 1:28:41 AM",
+      "dateFinished": "May 23, 2016 1:28:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Dijkstra Heaviest Path Between 2 Items",
       "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Toy Story (Me)\nval src \u003d 1 \n\n// Sudden Death (You)\nval dest \u003d 9 \n\n// Generate Heaviest Path for all nodes in the graph\nval heaviestPathGraph \u003d Dijkstra.heaviestPath(similarityGraph, src)\n  .cache()\n  \nval heaviestPathFromSrcToDest \u003d heaviestPathGraph.vertices\n  .filter(_._1 \u003d\u003d dest)\n  .map(_._2)\n  .collect()(0)._2(1).asInstanceOf[List[Long]]\n  \nval heaviestPathFromSrcToDestDF \u003d sc.parallelize(heaviestPathFromSrcToDest).toDF(\"itemId\")\n  \n//z.show(heaviestPathFromSrcToDestDF)\n\n//  SRC:  Toy Story (1) \n//          -\u003e Jumanji (2)\n//          -\u003e Tom and Huck (8)\n//          -\u003e Golden Eye (10)\n//          -\u003e Heat (6)\n// DEST:  Sudden Death (9)",
       "dateUpdated": "May 23, 2016 1:11:52 AM",
