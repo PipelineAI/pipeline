@@ -571,7 +571,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Graph/01:  Top Influencers (Overall and Personalized Page Rank)",
+  "name": "Graph/01:  Top Influencers (Global and Personalized Page Rank)",
   "id": "2ASEWJ19K",
   "angularObjects": {
     "2ARR8UZDJ": [],

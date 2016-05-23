@@ -491,7 +491,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Images/01: Eigenfaces and Principal Component Analysis (PCA)",
+  "name": "Images/01: Item-to-Item Recommendations (Eigenfaces + PCA)",
   "id": "2BJVSQ3J6",
   "angularObjects": {
     "2BCMAZYZ5": [],
