@@ -454,42 +454,6 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Save model in spark parquet format",
-      "text": "model.save(s\"/root/pipeline/datasets/serving/live-recommendations/spark-1.6.1/als/${System.currentTimeMillis}.parquet\")",
-      "dateUpdated": "May 22, 2016 9:31:35 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1463371290389_-1491857833",
-      "id": "20160516-040130_1028627154",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": ""
-      },
-      "dateCreated": "May 16, 2016 4:01:30 AM",
-      "dateStarted": "May 22, 2016 9:32:17 PM",
-      "dateFinished": "May 22, 2016 9:32:39 PM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Save UserFactors In Json Format",
       "text": "userFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .coalesce(1)\n .write.format(\"json\")\n .partitionBy(\"userId\")\n .mode(\"overwrite\")\n .save(\"/root/pipeline/datasets/serving/live-recommendations/json/als\")",
       "dateUpdated": "May 22, 2016 9:31:35 PM",
@@ -558,6 +522,42 @@
       "dateCreated": "May 16, 2016 7:07:50 PM",
       "dateStarted": "May 22, 2016 9:32:40 PM",
       "dateFinished": "May 22, 2016 9:32:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Save model in spark parquet format",
+      "text": "model.save(s\"/root/pipeline/datasets/serving/live-recommendations/spark-1.6.1/als/${System.currentTimeMillis}.parquet\")",
+      "dateUpdated": "May 22, 2016 9:31:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463371290389_-1491857833",
+      "id": "20160516-040130_1028627154",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 16, 2016 4:01:30 AM",
+      "dateStarted": "May 22, 2016 9:32:17 PM",
+      "dateFinished": "May 22, 2016 9:32:39 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
