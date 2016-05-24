@@ -11,15 +11,12 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.streaming.ml.incremental.StreamingLatentMatrixFactorization
 import com.advancedspark.streaming.ml.incremental.model.StreamingLatentMatrixFactorizationModel
 import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorization
 import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
-
-// TODO:  Look at Sean Owen's Oryx:  
-//https://github.com/OryxProject/oryx/blob/91004a03413eef0fdfd6e75a61b68248d11db0e5/app/oryx-app/src/main/java/com/cloudera/oryx/app/speed/als/ALSSpeedModelManager.java#L193
 
 object TrainMFIncremental {
   def main(args: Array[String]) {
@@ -56,16 +53,15 @@ object TrainMFIncremental {
       .setMinRating(0)
       .setMaxRating(1)
 
-    //val itemLatentFactor1 = LatentFactor(0.0, Array(0.0, 0.0))
-    //val userLatentFactor1 = LatentFactor(0.0, Array(0.0, 0.0))
-
-    val matrixFactorization = new StreamingLatentMatrixFactorization(params)
+    val matrixFactorization = new LatentMatrixFactorization(params)
 
     // TODO:  fix these hacks to work around the issue of not having an initialModel
     val initialRatingRDD = sc.parallelize(Rating(0L, 0L, 0L) :: Nil)
     val initialModel = None
 
-    var (model, numExamples) = LatentMatrixFactorizationModelOps.initialize(initialRatingRDD, params, initialModel, isStreaming = true)
+    // Internally, this setups up additional transformations on the incoming stream
+    //   to adjust the weights using GradientDescent
+    var (model, numObservations) = LatentMatrixFactorizationModelOps.train(initialRatingRDD, params, initialModel, isStreaming = true)
 
     // Setup the initial transformations from String -> ALS.Rating
     val ratingTrainingStream = trainingStream.map(message => {
@@ -75,33 +71,27 @@ object TrainMFIncremental {
       Rating(tokens(0).trim.toLong, tokens(1).trim.toLong, tokens(2).trim.toFloat)
     })
    
-    // Internally, this setups up additional transformations on the incoming stream
-    //   to adjust the weights using GradientDescent
-//    streamingMF.trainOn(ratingTrainingStream)
-
-    ratingTrainingStream.print()
+   // ratingTrainingStream.print()
 
     ratingTrainingStream.foreachRDD {
       (ratingsBatchRDD: RDD[Rating[Long]], batchTime: Time) => {
       
-      System.out.println("batchTime: " + batchTime)
-      System.out.println("ratingsBatchRDD: " + ratingsBatchRDD)
+        //System.out.println("batchTime: " + batchTime)
+        //System.out.println("ratingsBatchRDD: " + ratingsBatchRDD)
 
-      if (!ratingsBatchRDD.isEmpty) {
-        var (newModel, numExamples) = LatentMatrixFactorizationModelOps.initialize(ratingsBatchRDD, params, Some(model), isStreaming = true)
+        if (!ratingsBatchRDD.isEmpty) {
+          var (newModel, numObservations) = LatentMatrixFactorizationModelOps.train(ratingsBatchRDD, params, Some(model), isStreaming = true)
 
-        model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numExamples).asInstanceOf[StreamingLatentMatrixFactorizationModel]
+          model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
-        System.out.println(s"Model updated at time $batchTime : $model")
-    } else {
-        //System.out.println(s"Model not updated since ratingsBatchRDD is empty @ time $batchTime")
-      }
+          val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
 
-//        if (!streamingMF.model.isEmpty) {
-//          streamingMF.saveModel(streamingMF.latestModel(), "/root/model.bin")
-//        }
+          matrixFactorization.saveModel(model, modelFilename)
 
-//        message.unpersist()
+          System.out.println(s"Model updated @ time $batchTime : $model : $modelFilename ")
+        } else {
+          //System.out.println(s"Model not updated since ratingsBatchRDD is empty @ time $batchTime")
+        }
       }
     }
     

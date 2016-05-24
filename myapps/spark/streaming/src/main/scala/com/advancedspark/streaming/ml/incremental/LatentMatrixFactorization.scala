@@ -46,7 +46,7 @@ class LatentMatrixFactorization (params: LatentMatrixFactorizationParams) extend
   def trainOn(ratings: RDD[Rating[Long]]): LatentMatrixFactorizationModel = {
     if (!model.isEmpty) {
       val (initialModel, numExamples) =
-        LatentMatrixFactorizationModelOps.initialize(ratings, params, model, isStreaming = false)
+        LatentMatrixFactorizationModelOps.train(ratings, params, model, isStreaming = false)
       model = Some(optimizer.train(ratings, initialModel, numExamples))
     }
     model.get

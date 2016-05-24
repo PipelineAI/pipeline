@@ -15,7 +15,7 @@ object LatentMatrixFactorizationModelOps extends Serializable with Logging {
    * Adds random factors for missing user - product entries and updates the global bias and
    * number of observed examples. Returns the initialized model, and number of examples in this rdd.
    */
-  def initialize(
+  def train(
       ratings: RDD[Rating[Long]],
       params: LatentMatrixFactorizationParams,
       initialModel: Option[LatentMatrixFactorizationModel],
