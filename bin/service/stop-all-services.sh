@@ -81,14 +81,31 @@ jps | grep "GremlinServer" | cut -d " " -f "1" | xargs kill -KILL
 echo '...Stopping ElasticSearch...'
 jps | grep "Elasticsearch" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stopping Long-Running Ratings Spark Streaming Job...'
+echo '...Stopping Long-Running Spark Job (1)...'
 jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stopping Long-Running Spark Job Server Job...'
+echo '...Stopping Long-Running Spark Job (2)...'
 jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stopping TensorFlow Serving Service...'
-jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
+echo '...Stopping Long-Running Spark Job (3)...'
+jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
+
+echo '...Stopping Long-Running Spark Job (4)...'
+jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
+
+echo '...Stopping TensorFlow Serving Inception Service...'
+#jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
+ps -aef | grep "inception_inference.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping TensorFlow Serving MNIST Service...'
+#jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
+ps -aef | grep "mnist_inference_2.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping TensorFlow Inception Client...'
+ps -aef | grep "inception_client.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping TensorFlow MNIST Client...'
+ps -aef | grep "mnist_client.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Spark History Server...'
 $SPARK_HOME/sbin/stop-history-server.sh
@@ -98,6 +115,12 @@ jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Flask-based Recommendation/Prediction Service...'
 ps -aef | grep "recommendation-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping Finagle-based Recommendation/Prediction Service...'
+jps | grep "finagle" | cut -d " " -f "1" | xargs kill -KILL
+
+echo '...Stopping Model Watcher Service...'
+jps | grep "watcher" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping SBT Runtime...'
 ps -aef | grep "Nailgun" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
