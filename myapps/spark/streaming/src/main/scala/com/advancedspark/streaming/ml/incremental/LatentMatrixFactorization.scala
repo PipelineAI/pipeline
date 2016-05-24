@@ -86,6 +86,9 @@ class LatentMatrixFactorization (params: LatentMatrixFactorizationParams) extend
     data.transform((rdd, time) => rdd.keys.zip(model.get.predict(rdd.values)))
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////
+  // TODO:  Update this save/load code to match the latest Spark model saving using Parquet
+  //////////////////////////////////////////////////////////////////////////////////////////
   /**
     * @param model
     * @param path
@@ -117,6 +120,29 @@ class LatentMatrixFactorization (params: LatentMatrixFactorizationParams) extend
     val otherParams = sc.textFile(path + "/" + "other").collect()
     require(otherParams.length == 4)
     new LatentMatrixFactorizationModel(otherParams(3).toInt, uf, vf, otherParams(0).toFloat, otherParams(2).toFloat, otherParams(1).toFloat)
+  }
+
+
+  /**********************/
+  /* DEBUGGING PURPOSES */
+  /**********************/
+  /**
+    * @param model
+    * @param path
+    */
+  def saveModelText(model: LatentMatrixFactorizationModel, path: String) = {
+    require(model != null)
+    //val pt = new Path(path)
+    //pt.deleteIfExists()
+    model.productFeatures.saveAsTextFile(path + "/" + "itemFeature")
+    model.userFeatures.saveAsTextFile(path + "/" + "userFeature")
+    val pw = new PrintWriter(path + "/" + "other")
+    pw.println(model.globalBias)
+    pw.println(model.maxRating)
+    pw.println(model.minRating)
+    pw.print(model.rank)
+    // TODO:  numObservations/Examples?
+    pw.close()
   }
 
   /**

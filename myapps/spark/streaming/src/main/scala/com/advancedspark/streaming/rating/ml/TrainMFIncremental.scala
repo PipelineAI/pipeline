@@ -84,13 +84,14 @@ object TrainMFIncremental {
 
           model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
-          val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
+          //val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
+          //matrixFactorization.saveModel(model, modelFilename)
 
-          matrixFactorization.saveModel(model, modelFilename)
+          /* USING TEXT VERSION FOR DEBUG/TESTING/GROK PURPOSES */
+          val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/$batchTime.bin"
+          matrixFactorization.saveModelText(model, modelTextFilename)
 
-          System.out.println(s"Model updated @ time $batchTime : $model : $modelFilename ")
-        } else {
-          //System.out.println(s"Model not updated since ratingsBatchRDD is empty @ time $batchTime")
+          System.out.println(s"Model updated @ time $batchTime : $model : $modelTextFilename ")
         }
       }
     }
