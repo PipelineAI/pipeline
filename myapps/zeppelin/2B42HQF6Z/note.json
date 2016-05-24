@@ -39,7 +39,7 @@
     {
       "title": "Approximate HyperLogLog (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Apr 3, 2016 5:30:58 AM",
+      "dateUpdated": "May 24, 2016 12:41:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@5b985a11\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@68982a6c\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "Apr 3, 2016 5:30:58 AM",
-      "dateFinished": "Apr 3, 2016 5:30:59 AM",
+      "dateStarted": "May 24, 2016 12:41:37 AM",
+      "dateFinished": "May 24, 2016 12:41:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Exact Count (Redis)",
       "text": "val exactNumNonDistinctUsersWhoRatedItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "Apr 3, 2016 5:31:01 AM",
+      "dateUpdated": "May 24, 2016 12:41:41 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -103,40 +103,24 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d 5\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 1\n"
+        "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "Apr 3, 2016 5:31:01 AM",
-      "dateFinished": "Apr 3, 2016 5:31:01 AM",
+      "dateStarted": "May 24, 2016 12:41:41 AM",
+      "dateFinished": "May 24, 2016 12:41:41 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jan 29, 2016 4:24:20 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "tableHide": false
-      },
+      "config": {},
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1454040082116_986786514",
-      "id": "20160129-040122_1823942882",
-      "dateCreated": "Jan 29, 2016 4:01:22 AM",
+      "jobName": "paragraph_1464050522638_1421739842",
+      "id": "20160524-004202_806612147",
+      "dateCreated": "May 24, 2016 12:42:02 AM",
       "status": "READY",
-      "errorMessage": "",
       "progressUpdateIntervalMs": 500
     }
   ],
