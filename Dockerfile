@@ -378,13 +378,14 @@ RUN \
 # Bleeding Edge Spark
 RUN \
   cd ~ \
-  && git clone --branch 'branch-2.0' --single-branch https://github.com/apache/spark.git branch-2.0 \
-  && cd branch-2.0 \
-  && ./dev/make-distribution.sh --name fluxcapacitor --tgz -Phadoop-2.6 -Dhadoop.version=2.6.0 -Psparkr -Phive -Pspark-ganglia-lgpl -Pnetlib-lgpl -Dscala-2.10 -DskipTests \
-  && cp spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz ../ \
-  && cd .. \
-  && tar -xzvf spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz \
-  && rm spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
+  &&  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
+#  && git clone --branch 'branch-2.0' --single-branch https://github.com/apache/spark.git branch-2.0 
+#  && cd branch-2.0 \
+#  && ./dev/make-distribution.sh --name fluxcapacitor --tgz -Phadoop-2.6 -Dhadoop.version=2.6.0 -Psparkr -Phive -Pspark-ganglia-lgpl -Pnetlib-lgpl -Dscala-2.10 -DskipTests \
+#  && cp spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz ../ \
+#  && cd .. \
+#  && tar -xzvf spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz \
+#  && rm spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
 
 # Bleeding Edge TensorFlow
 RUN \
