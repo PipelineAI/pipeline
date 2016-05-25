@@ -42,9 +42,11 @@ object NiFiKafkaCassandra {
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
+    ratingsStream.print()
+
     ratingsStream.foreachRDD {
       (message: RDD[(String, String)], batchTime: Time) => {
-        message.cache()
+//        message.cache()
 
         // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
         val tokens = message.map(_._2.split(","))
@@ -65,7 +67,7 @@ object NiFiKafkaCassandra {
           .save()
 	}
 
-	message.unpersist()
+//	message.unpersist()
    }
 
     ssc.start()

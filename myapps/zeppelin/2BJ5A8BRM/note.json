@@ -38,7 +38,7 @@
     {
       "title": "Perform Singular Value Decomposition (SVD)",
       "text": "val numSingularValues \u003d 8\n\nval svd \u003d scaledImagesAsPixelRoxMatricesRDD.computeSVD(numSingularValues, computeU \u003d false)",
-      "dateUpdated": "May 16, 2016 6:06:30 PM",
+      "dateUpdated": "May 25, 2016 7:56:19 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

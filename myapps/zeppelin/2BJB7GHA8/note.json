@@ -572,7 +572,7 @@
     {
       "title": "#4: Yuri Malenchenko",
       "text": "%md ![Yuri Malenchenko](http://advancedspark.com/img/Yuri_Malenchenko_0002.jpg)",
-      "dateUpdated": "May 16, 2016 4:16:56 AM",
+      "dateUpdated": "May 24, 2016 11:52:26 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -586,7 +586,8 @@
         },
         "enabled": true,
         "title": true,
-        "editorHide": true
+        "editorHide": true,
+        "editorMode": "ace/mode/markdown"
       },
       "settings": {
         "params": {},

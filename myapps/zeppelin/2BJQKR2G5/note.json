@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
-      "dateUpdated": "May 16, 2016 9:45:31 PM",
+      "dateUpdated": "May 24, 2016 11:32:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "May 16, 2016 9:45:31 PM",
-      "dateFinished": "May 16, 2016 9:45:31 PM",
+      "dateStarted": "May 24, 2016 11:32:11 PM",
+      "dateFinished": "May 24, 2016 11:32:11 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 7\nval givenItemId \u003d 7 // Spark\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nval enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "May 16, 2016 9:45:31 PM",
+      "dateUpdated": "May 24, 2016 11:32:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,16 +63,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t28\tApache ZooKeeper\t0.9992873527918293\n7\t11\tApache YARN\t0.9989691811868899\n7\t1\tApache Cassandra\t0.9987149811484451\n7\t20\tApache Solr\t0.9986567688092891\n7\t10\tApache HDFS\t0.9985565451254506\n"
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t38\tApache Zeppelin\t0.9998622701537675\n7\t40\tR\t0.9997478107265702\n7\t15\tHortonworks\t0.9997448483905251\n7\t77\tS3\t0.999742880185548\n7\t18\tApache Kafka\t0.9997341592410012\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "May 16, 2016 9:45:31 PM",
-      "dateFinished": "May 16, 2016 9:45:36 PM",
+      "dateStarted": "May 24, 2016 11:32:11 PM",
+      "dateFinished": "May 24, 2016 11:32:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 16, 2016 9:45:31 PM",
+      "dateUpdated": "May 24, 2016 11:32:11 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,8 +98,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "May 16, 2016 9:45:31 PM",
-      "dateFinished": "May 16, 2016 9:45:36 PM",
+      "dateStarted": "May 24, 2016 11:32:11 PM",
+      "dateFinished": "May 24, 2016 11:32:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

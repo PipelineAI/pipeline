@@ -62,6 +62,9 @@ ps -aef | grep "logstash" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stopping Jupyter...'
 ps -aef | grep "jupyter" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stopping Jupyter Hub...'
+ps -aef | grep "jupyter" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stopping Nifi...'
 nifi.sh stop
 
@@ -115,6 +118,9 @@ jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
 echo '...Stopping Flask-based Recommendation/Prediction Service...'
 ps -aef | grep "recommendation-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
+echo '...Stopping Flask-based Image Classification Service...'
+ps -aef | grep "image-classification-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Finagle-based Recommendation/Prediction Service...'
 jps | grep "finagle" | cut -d " " -f "1" | xargs kill -KILL

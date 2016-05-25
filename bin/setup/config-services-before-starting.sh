@@ -66,6 +66,7 @@ mkdir -p $LOGS_HOME/spark/core
 mkdir -p $LOGS_HOME/finagle
 mkdir -p $LOGS_HOME/flask
 mkdir -p $LOGS_HOME/watcher 
+mkdir -p $LOGS_HOME/jupyterhub
 
 # Ganglia
 echo '...Configuring Ganglia...'

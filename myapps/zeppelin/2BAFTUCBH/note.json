@@ -191,11 +191,11 @@
     },
     {
       "text": "val sentimentsByCountDF \u003d sentimentsDF.groupBy(\"sentiment\").count().sort($\"count\" desc)\n\nz.show(sentimentsByCountDF)",
-      "dateUpdated": "May 12, 2016 3:47:46 AM",
+      "dateUpdated": "May 24, 2016 11:54:47 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "multiBarChart",
+          "mode": "table",
           "height": 300.0,
           "optionOpen": false,
           "keys": [

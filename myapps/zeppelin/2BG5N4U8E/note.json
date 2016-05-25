@@ -112,7 +112,7 @@
     {
       "title": "Build GraphFrame From small dataset",
       "text": "import org.graphframes.GraphFrame\nimport org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval smallEdgesRDD \u003d sc.parallelize(\n  List(Edge(10001, 90001, 1.0), Edge(10001, 90002, 1.0), Edge(10002, 90001, 1.0), Edge(10002, 90002, 1.0), Edge(10002, 90003, 1.0))\n)\nval smallGraph \u003d Graph.fromEdges(smallEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)\nval smallGraphFrame \u003d GraphFrame.fromGraphX(smallGraph)\n\nz.show(smallGraphFrame.edges.toDF(\"userId\", \"itemId\", \"rating\").sort($\"userId\".asc, $\"itemId\".asc))",
-      "dateUpdated": "May 11, 2016 5:42:25 AM",
+      "dateUpdated": "May 24, 2016 11:41:35 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

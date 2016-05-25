@@ -210,7 +210,7 @@
     {
       "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
       "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)\n\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()",
-      "dateUpdated": "May 23, 2016 1:11:52 AM",
+      "dateUpdated": "May 24, 2016 11:44:38 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
