@@ -116,10 +116,10 @@ c.JupyterHub.confirm_no_ssl = True
 # c.JupyterHub.cookie_secret = b''
 
 # File in which to store the cookie secret.
-#c.JupyterHub.cookie_secret_file = '/root/pipeline/work/jupyterhub_cookie_secret'
+c.JupyterHub.cookie_secret_file = '/root/pipeline/work/jupyterhub/jupyterhub_cookie_secret'
 
 # The location of jupyterhub data files (e.g. /usr/local/share/jupyter/hub)
-# c.JupyterHub.data_files_path = '/root/pipeline/work/jupyterhub/'
+# c.JupyterHub.data_files_path = '/root/pipeline/work/jupyterhub'
 
 # Include any kwargs to pass to the database connection. See
 # sqlalchemy.create_engine for details.

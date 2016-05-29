@@ -25,6 +25,8 @@ ENV \
  GENSORT_VERSION=1.5 \
  SCALA_VERSION=2.10.5 \
  SPARK_VERSION=1.6.1 \
+ SPARK_BLEEDINGEDGE_VERSION=2.0.0-SNAPSHOT \
+ SPARK_PREVIOUS_VERSION=1.5.1 \
  STANFORD_CORENLP_VERSION=3.6.0 \
  STREAMING_MATRIX_FACTORIZATION_VERSION=0.1.0 \
  NIFI_VERSION=0.6.1 \
@@ -48,6 +50,8 @@ ENV \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.2 \ 
  TENSORFLOW_VERSION=0.8.0 \
+ TENSORFLOW_BLEEDINGEDGE_VERSION=master \
+ TENSORFLOW_PREVIOUS_VERSION=0.7.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -59,8 +63,7 @@ ENV \
  JANINO_VERSION=2.7.8 \
  BETTER_FILES_VERSION=2.14.0 \
  COMMONS_DAEMON_VERSION=1.0.15 \
- SPARK_REDIS_VERSION=0.1.1 \
- SPARK_BLEEDING_EDGE_VERSION=2.0.0-SNAPSHOT 
+ SPARK_REDIS_CONNECTOR_VERSION=0.1.1 
 
 RUN \
  apt-get update \
@@ -179,7 +182,7 @@ RUN \
  && cd ~ \
  && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
 
-# TensorFLow
+# TensorFlow Latest Release Source
  && cd ~ \
  && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION \
 
@@ -240,7 +243,6 @@ RUN \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elasticsearch/graph/latest \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install kibana/timelion \
-# && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install heatmap -u https://github.com/stormpython/heatmap/archive/master.zip \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install vectormap -u https://github.com/stormpython/vectormap/archive/master.zip \
 
@@ -261,6 +263,18 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+
+# Apache Bleeding Edge Spark
+ && cd ~ \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
+
+# Apache Previous Spark
+ && cd ~ \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
 
 # Livy Spark REST Server
  && cd ~ \

@@ -5,8 +5,8 @@ val globalSettings = Seq(
 
 //addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 
-lazy val finagle = (project in file("."))
-                    .settings(name := "finagle")
+lazy val codegen = (project in file("."))
+                    .settings(name := "codegen")
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= codeGenDeps)
 		    .settings(javaOptions += "-Xmx10G")

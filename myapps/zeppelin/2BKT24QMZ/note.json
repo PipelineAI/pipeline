@@ -1,0 +1,95 @@
+{
+  "paragraphs": [
+    {
+      "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil), (\"127.0.0.1\", 6379))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil), (\"127.0.0.1\", 6379))",
+      "dateUpdated": "May 29, 2016 2:46:44 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488984909_-1042053386",
+      "id": "20160529-022944_484526296",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.redislabs.provider.redis._\n"
+      },
+      "dateCreated": "May 29, 2016 2:29:44 AM",
+      "dateStarted": "May 29, 2016 2:46:44 AM",
+      "dateFinished": "May 29, 2016 2:46:46 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val keysRDD \u003d sc.fromRedisKV(\"key1\")",
+      "dateUpdated": "May 29, 2016 2:48:33 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488988531_-845831447",
+      "id": "20160529-022948_802525869",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:78: error: value fromRedisKV is not a member of org.apache.spark.SparkContext\n         val keysRDD \u003d sc.fromRedisKV(\"key1\")\n                          ^\n"
+      },
+      "dateCreated": "May 29, 2016 2:29:48 AM",
+      "dateStarted": "May 29, 2016 2:48:33 AM",
+      "dateFinished": "May 29, 2016 2:48:34 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488996179_506576261",
+      "id": "20160529-022956_1305989392",
+      "dateCreated": "May 29, 2016 2:29:56 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Redis",
+  "id": "2BKT24QMZ",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

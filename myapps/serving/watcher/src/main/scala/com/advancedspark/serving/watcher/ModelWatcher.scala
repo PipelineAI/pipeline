@@ -57,7 +57,8 @@ class Application() extends ApplicationLifecycle {
     System.out.println(s"Starting $applicationName Service")
 
     if (!started) {
-      val watcher = new ThreadBackedFileMonitor(File("/root/pipeline/datasets/serving/"), recursive = true) {
+      val watcher = new ThreadBackedFileMonitor(File("/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/"), recursive = true) {
+//      val watcher = new ThreadBackedFileMonitor(File("/root/pipeline/datasets/serving/"), recursive = true) {
         override def onCreate(file: File) = println(s"$file got created")
         override def onModify(file: File) = println(s"$file got modified")
         override def onDelete(file: File) = println(s"$file got deleted")
