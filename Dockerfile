@@ -106,14 +106,13 @@ RUN \
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-nltk \
  && apt-get install -y python-sklearn \
- && pip install ggplot \
- && pip install networkx \
+ && pip install --upgrade networkx \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
 
 # Cython (Feather)
- && pip install cython \
- && pip install feather-format \
+ && pip install --upgrade cython \
+ && pip install --upgrade feather-format \
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
@@ -162,7 +161,7 @@ RUN \
  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
 
 # TensorFlow Serving
- && pip install grpcio \
+ && pip install --upgrade grpcio \
  && apt-get update \
  && apt-get install -y \
       build-essential \

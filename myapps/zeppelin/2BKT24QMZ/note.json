@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil), (\"127.0.0.1\", 6379))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil), (\"127.0.0.1\", 6379))",
-      "dateUpdated": "May 29, 2016 2:46:44 AM",
+      "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil))",
+      "dateUpdated": "May 29, 2016 10:52:34 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "import com.redislabs.provider.redis._\n"
       },
       "dateCreated": "May 29, 2016 2:29:44 AM",
-      "dateStarted": "May 29, 2016 2:46:44 AM",
-      "dateFinished": "May 29, 2016 2:46:46 AM",
+      "dateStarted": "May 29, 2016 10:52:34 PM",
+      "dateFinished": "May 29, 2016 10:52:36 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val keysRDD \u003d sc.fromRedisKV(\"key1\")",
-      "dateUpdated": "May 29, 2016 2:48:33 AM",
+      "text": "val valuesRDD \u003d sc.fromRedisKV(\"key1\")\nvaluesRDD.collect()",
+      "dateUpdated": "May 29, 2016 10:55:12 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -58,18 +58,32 @@
       "jobName": "paragraph_1464488988531_-845831447",
       "id": "20160529-022948_802525869",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:78: error: value fromRedisKV is not a member of org.apache.spark.SparkContext\n         val keysRDD \u003d sc.fromRedisKV(\"key1\")\n                          ^\n"
+        "msg": "keysRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d RedisKVRDD[7] at RDD at RedisRDD.scala:19\nres10: Array[(String, String)] \u003d Array((key1,val1))\n"
       },
       "dateCreated": "May 29, 2016 2:29:48 AM",
-      "dateStarted": "May 29, 2016 2:48:33 AM",
-      "dateFinished": "May 29, 2016 2:48:34 AM",
-      "status": "ERROR",
+      "dateStarted": "May 29, 2016 10:52:39 PM",
+      "dateFinished": "May 29, 2016 10:52:40 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "",
+      "dateUpdated": "May 29, 2016 10:52:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
       "settings": {
         "params": {},
         "forms": {}

@@ -63,10 +63,12 @@ mkdir -p $LOGS_HOME/spark/streaming
 mkdir -p $LOGS_HOME/spark/ml
 mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
+mkdir -p $LOGS_HOME/spark/redis
 mkdir -p $LOGS_HOME/finagle
 mkdir -p $LOGS_HOME/flask
 mkdir -p $LOGS_HOME/watcher 
 mkdir -p $LOGS_HOME/jupyterhub
+mkdir -p $LOGS_HOME/spark/redis
 
 # Ganglia
 echo '...Configuring Ganglia...'
