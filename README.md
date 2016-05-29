@@ -5,7 +5,7 @@
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
 ## Architecture Overview
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-sm.png)
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
 
 ## Screenshots
 ### Apache Zeppelin Notebooks
