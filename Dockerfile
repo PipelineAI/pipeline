@@ -87,7 +87,7 @@ RUN \
  && pip install ipyparallel \
 
 # TensorFlow (CPU-only)
- && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
+ && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl \
 
 # TensorFlow GPU-enabled
 # && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
@@ -106,8 +106,6 @@ RUN \
  && apt-get install -y python-matplotlib \
  && apt-get install -y python-nltk \
  && apt-get install -y python-sklearn \
-# TODO:  This is no longer needed as of TF v0.8.0
- && pip install --upgrade skflow \
  && pip install ggplot \
  && pip install networkx \
  && apt-get install -y pkg-config \
