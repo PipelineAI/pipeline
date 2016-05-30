@@ -1,6 +1,7 @@
+# End-to-End, Real-time ML Reference Data Pipeline
+
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# End-to-End, Real-time Machine Learning Data Pipeline
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
