@@ -1,26 +1,27 @@
-## PipelineIO
+## PipelineIO 
 
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-### End-to-End Streaming Advanced Analytics and Machine Learning Recommendation Pipeline
+## Spark After Dark:  End-to-End Reference Data Pipeline with Spark ML, Kafka, and TensorFlow
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
 
+### Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
-## Architecture Overview
+### Architecture Overview
 ![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
 
-## Screenshots
-### Apache Zeppelin Notebooks
+### Screenshots
+* Apache Zeppelin Notebooks
 ![Apache Zeppelin Notebooks](http://advancedspark.com/img/zeppelin-notebooks-sm.png)
 
-### Stanford CoreNLP Sentiment Analysis
+* Stanford CoreNLP Sentiment Analysis
 ![Stanford CoreNLP Sentiment](http://advancedspark.com/img/corenlp-sentiment.png)
 
-### Jupyter/iPython Notebooks
+* Jupyter/iPython Notebooks
 ![Jupyter/iPython Notebooks](http://advancedspark.com/img/jupyter.png)
 
-### SparkR Notebooks
+* SparkR Notebooks
 ![SparkR Notebooks](http://advancedspark.com/img/sparkr.png)
 
 ### TensorFlow Notebooks
