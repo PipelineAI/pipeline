@@ -1,6 +1,6 @@
 ## PipelineIO
 
-![Join the chat at https://gitter.im/fluxcapacitor/pipeline](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### End-to-End Streaming Advanced Analytics and Machine Learning Recommendation Pipeline
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
