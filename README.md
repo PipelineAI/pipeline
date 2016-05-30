@@ -5,6 +5,54 @@
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
+## Upcoming PANCAKE STACK Workshops!
+### Title
+**Building an End-to-End Streaming Analytics and Recommendations Pipeline with Spark, Kafka, and TensorFlow**
+
+### Agenda (Full Day)
+**Part 1 (Analytics and Visualizations)**
+* Analytics and Visualizations Overview (Live Demo!)
+* Verify Environment Setup (Docker, Cloud Instance)
+* Notebooks (Zeppelin, Jupyter/iPython)
+* Interactive Data Analytics (Spark SQL, Hive, Presto)
+* Graph Analytics (Spark, Elastic, NetworkX, TitanDB)
+* Time-series Analytics (Spark, Cassandra)
+* Visualizations (Kibana, Matplotlib, D3)
+* Approximate Queries (Spark SQL, Redis, Algebird)
+* Workflow Management (Airflow)
+
+**Part 2 (Streaming and Recommendations)**
+* Streaming and Recommendations (Live Demo!)
+* Streaming (NiFi, Kafka, Spark Streaming, Flink)
+* Cluster-based Recommendation (Spark ML, Scikit-Learn)
+* Graph-based Recommendation (Spark ML, Spark Graph)
+* Collaborative-based Recommendation (Spark ML)
+* NLP-based Recommendation (CoreNLP, NLTK)
+* Geo-based Recommendation (ElasticSearch)
+* Hybrid On-Premise+Cloud Auto-scale Deploy (Docker)
+* Save Workshop Environment for Your Use Cases
+
+### Locations and Dates
+* [San Francisco](http://advanced-spark-tensorflow-june.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, June 4th
+* [Washington DC](https://advanced-spark-kafka-tensorflow-washington-dc.eventbrite.com/?discount=ADVANCEDSPARK20):  Saturday, June 18th
+* [Seattle](https://end-to-end-streaming-recommendations-spark-seattle.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, July 30th
+* [SF Bay](https://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
+* [Chicago](https://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, September 17th
+* [Toronto](https://end-to-end-streaming-recommendations-spark-toronto.eventbrite.com?discount=ADVANCEDSPARK20): Saturday, September 24th
+* [New York](https://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 1st
+* [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
+* [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
+* [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
+
+[>>> Click Here To Suggest a City and Date <<<](https://docs.google.com/forms/d/1fYqnjfXZjHYF0QgxWGQPXDcdCneBeOhGZasvejTw0WE/edit?usp=sharing)
+      
+### Description
+The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
+* First, we create a data pipeline to interactively analyze, approximate, and visualize streaming data using modern tools such as Apache Spark, Kafka, Zeppelin, iPython, and ElasticSearch.
+* Next, we extend our pipeline to use streaming data to generate personalized recommendation models using popular machine learning, graph, and natural language processing techniques such as collaborative filtering, clustering, and topic modeling.
+* Last, we productionize our pipeline and serve live recommendations to our users!
+  
+
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
 ![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
