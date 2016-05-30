@@ -36,7 +36,7 @@
 * [San Francisco](http://advanced-spark-tensorflow-june.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, June 4th
 * [Washington DC](https://advanced-spark-kafka-tensorflow-washington-dc.eventbrite.com/?discount=ADVANCEDSPARK20):  Saturday, June 18th
 * [Seattle](https://end-to-end-streaming-recommendations-spark-seattle.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, July 30th
-* [SF Bay](https://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
+* [SF Bay Area](https://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
 * [Chicago](https://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, September 17th
 * [Toronto](https://end-to-end-streaming-recommendations-spark-toronto.eventbrite.com?discount=ADVANCEDSPARK20): Saturday, September 24th
 * [New York](https://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 1st
@@ -44,7 +44,7 @@
 * [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
 * [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
 
-[>>> Click Here To Suggest a City and Date <<<](https://docs.google.com/forms/d/1fYqnjfXZjHYF0QgxWGQPXDcdCneBeOhGZasvejTw0WE/edit?usp=sharing)
+[Suggest a City and Date](https://docs.google.com/forms/d/1fYqnjfXZjHYF0QgxWGQPXDcdCneBeOhGZasvejTw0WE/edit?usp=sharing)
       
 ### Description
 The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
