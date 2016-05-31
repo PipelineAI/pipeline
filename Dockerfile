@@ -24,6 +24,7 @@ ENV \
  ZEPPELIN_VERSION=0.6.0 \
  GENSORT_VERSION=1.5 \
  SCALA_VERSION=2.10.5 \
+ SCALA_MAJOR_VERSION=2.10 \
  SPARK_VERSION=1.6.1 \
  SPARK_BLEEDINGEDGE_VERSION=2.0.0-SNAPSHOT \
  SPARK_PREVIOUS_VERSION=1.5.1 \
@@ -248,11 +249,17 @@ RUN \
  && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
 
-# Apache Kafka (Confluent Distribution)
+# Apache Kafka (Confluent 2.0 Distribution)
  && cd ~ \
  && wget http://packages.confluent.io/archive/2.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
  && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+
+# Apache Kafka (Confluent 3.0 Distribution)
+ && cd ~ \
+ && wget http://packages.confluent.io/archive/3.0/confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
+ && tar xvzf confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
+ && rm confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
 
 # Apache Spark
  && cd ~ \
