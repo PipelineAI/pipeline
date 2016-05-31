@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil))",
-      "dateUpdated": "May 29, 2016 10:52:34 PM",
+      "dateUpdated": "May 31, 2016 3:27:53 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "import com.redislabs.provider.redis._\n"
       },
       "dateCreated": "May 29, 2016 2:29:44 AM",
-      "dateStarted": "May 29, 2016 10:52:34 PM",
-      "dateFinished": "May 29, 2016 10:52:36 PM",
+      "dateStarted": "May 31, 2016 3:27:54 AM",
+      "dateFinished": "May 31, 2016 3:28:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val valuesRDD \u003d sc.fromRedisKV(\"key1\")\nvaluesRDD.collect()",
-      "dateUpdated": "May 29, 2016 10:55:12 PM",
+      "dateUpdated": "May 31, 2016 3:27:54 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -60,17 +60,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "keysRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d RedisKVRDD[7] at RDD at RedisRDD.scala:19\nres10: Array[(String, String)] \u003d Array((key1,val1))\n"
+        "msg": "valuesRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d RedisKVRDD[3] at RDD at RedisRDD.scala:19\nres4: Array[(String, String)] \u003d Array((key1,val1))\n"
       },
       "dateCreated": "May 29, 2016 2:29:48 AM",
-      "dateStarted": "May 29, 2016 10:52:39 PM",
-      "dateFinished": "May 29, 2016 10:52:40 PM",
+      "dateStarted": "May 31, 2016 3:28:01 AM",
+      "dateFinished": "May 31, 2016 3:28:39 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
-      "dateUpdated": "May 29, 2016 10:52:26 PM",
+      "dateUpdated": "May 31, 2016 3:27:54 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -82,7 +82,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -90,8 +91,14 @@
       },
       "jobName": "paragraph_1464488996179_506576261",
       "id": "20160529-022956_1305989392",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "May 29, 2016 2:29:56 AM",
-      "status": "READY",
+      "dateStarted": "May 31, 2016 3:28:38 AM",
+      "dateFinished": "May 31, 2016 3:28:39 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],

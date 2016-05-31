@@ -112,7 +112,22 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "",
+      "dateUpdated": "May 30, 2016 10:38:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}

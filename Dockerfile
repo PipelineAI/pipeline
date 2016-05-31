@@ -382,8 +382,9 @@ RUN \
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt assembly \
 
-# Sbt Codegen 
- && cd ~/pipeline/myapps/codegen && sbt package 
+# Sbt Codegen
+ && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt package \
+ && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt package
 
 # Bleeding Edge Spark
 RUN \
