@@ -55,17 +55,17 @@ object SimilarityPathway {
     similarItemsAboveThresholdRDD.collect().mkString(",")
 
     val similarItemsAboveThresholdEdgeRDD = similarItemsAboveThresholdRDD.map(rdd => {
-      Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble) 
+      Edge(rdd._1.toLong, rdd._2.toLong, rdd._3.toDouble)
     })
 
     val graph = Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)
 
-    val src = 1 
+    val src = 1
     val dest = 9
 
-    val lightestPathGraph = Dijkstra.lightestPath(graph, src)
+    val heaviestPathGraph = Dijkstra.heaviestPath(graph, src)
 
-    val lightestPath = lightestPathGraph.vertices.filter(_._1 == dest).map(_._2).collect()(0)._2
-    println("Lightest Path: " + lightestPath)
+    val heaviestPath = heaviestPathGraph.vertices.filter(_._1 == dest).map(_._2).collect()(0)._2
+    println("Heaviest Path: " + heaviestPath)
   }
 }
