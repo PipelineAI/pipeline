@@ -675,9 +675,9 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Show generated Decision tree",
-      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval bestClassificationModel \u003d bestPipelineModel.stages(5).asInstanceOf[DecisionTreeClassificationModel]\nbestClassificationModel.toDebugString",
-      "dateUpdated": "May 24, 2016 5:22:23 PM",
+      "title": "Trained Decision tree",
+      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval bestClassificationModel \u003d bestPipelineModel.stages(5).asInstanceOf[DecisionTreeClassificationModel]\n\nbestClassificationModel.toDebugString",
+      "dateUpdated": "May 31, 2016 11:30:45 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

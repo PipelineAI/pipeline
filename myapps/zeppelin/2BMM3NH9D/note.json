@@ -3,7 +3,7 @@
     {
       "title": "",
       "text": "%md\n# **CHRIS FREGLY** (@cfregly)\n![Chris Fregly](http://advancedspark.com/img/fregly-300x300.png)\n![Chris Fregly Emoji](http://advancedspark.com/img/fregly-emoji-300x300.png)",
-      "dateUpdated": "May 16, 2016 8:33:50 PM",
+      "dateUpdated": "May 31, 2016 12:42:18 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -18,7 +18,8 @@
         "enabled": true,
         "editorMode": "ace/mode/markdown",
         "editorHide": true,
-        "title": false
+        "title": false,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -75,7 +76,7 @@
     {
       "title": "",
       "text": "%md \n## Research Scientist @ fluxcapacitor.com\n### (Shh... It\u0027s Stealth!)\n![Flux Capacitor](http://advancedspark.com/img/fluxcapacitor-logo-250x250.png)\n\n## Bringing AI Back to the Future!",
-      "dateUpdated": "May 16, 2016 8:32:56 PM",
+      "dateUpdated": "May 31, 2016 12:42:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -89,7 +90,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true,
+        "editorHide": false,
         "title": false
       },
       "settings": {
@@ -104,8 +105,8 @@
         "msg": "\u003ch2\u003eResearch Scientist @ fluxcapacitor.com\u003c/h2\u003e\n\u003ch3\u003e(Shh\u0026hellip; It\u0027s Stealth!)\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fluxcapacitor-logo-250x250.png\" alt\u003d\"Flux Capacitor\" /\u003e\u003c/p\u003e\n\u003ch2\u003eBringing AI Back to the Future!\u003c/h2\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:10:26 AM",
-      "dateStarted": "May 16, 2016 8:32:53 PM",
-      "dateFinished": "May 16, 2016 8:32:53 PM",
+      "dateStarted": "May 31, 2016 12:42:41 PM",
+      "dateFinished": "May 31, 2016 12:42:41 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
