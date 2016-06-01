@@ -140,6 +140,9 @@ jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 
+echo '...Stop TensorBoard...'
+ps -aef | grep "tensorboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stopping SSH...'
 service ssh stop
 
