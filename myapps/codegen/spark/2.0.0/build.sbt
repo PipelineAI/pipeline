@@ -6,7 +6,9 @@ val globalSettings = Seq(
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
 addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PACKAGES_PLUGIN_VERSION"))
 
-resolvers += "Apache Snapshots" at "https://repository.apache.org/content/group"
+//resolvers += "Apache Snapshots" at "https://repository.apache.org/content/groups/snapshots"
+
+//resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots/"
 
 val sparkVersion = "2.0.0-SNAPSHOT"
 
