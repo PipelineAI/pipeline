@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing">
+  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
   <title>Spark After Dark</title>
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
   <style>
@@ -151,10 +151,9 @@
     document.getElementById('pyspark').href = window.location.protocol + "//" + window.location.hostname + ":8754";
     document.getElementById('sparkr').href = window.location.protocol + "//" + window.location.hostname + ":8754";
     document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
-    document.getElementById('spark-driver').href = window.location.protocol + "//" + window.location.hostname + ":4040";
     document.getElementById('spark-worker').href = window.location.protocol + "//" + window.location.hostname + ":6061";
     document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
-    document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":5060";
+    document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060";
     document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
     document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
     document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
@@ -172,7 +171,6 @@
 <a href="http://127.0.0.1:8754" target="_blank" id="pyspark">PySpark</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="sparkr">SparkR</a> |
 <a href="http://127.0.0.1:6060" target="_blank" id="spark-admin">Spark Admin</a> |
-<a href="http://127.0.0.1:4040" target="_blank" id="spark-driver">Spark Driver</a> |
 <a href="http://127.0.0.1:6061" target="_blank" id="spark-worker">Spark Worker</a> |
 <a href="http://127.0.0.1:9081" target="_blank" id="flink">Flink Admin</a> |
 <a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
@@ -186,7 +184,7 @@
   updateNav()
 </script>
 
-<hr><center><a href="http://advancedspark.com"><img style="width: 320; height=400;" src="img/sparkafterdark.png"></a></center>
+<hr><center><a href="http://pipeline.io"><img style="width: 320; height=400;" src="img/sparkafterdark.png"></a></center>
 <hr>
 
 <script> $("body").append("<h1><center>Welcome, Anonymous User ID " + myId + "!</center></h1>") 
@@ -195,7 +193,7 @@
 <div id="items">
 </div>
 
-<hr><h3><center>...Please Wait Before Moving On...</a></center></h3>
+<hr><h3><center>...Please Wait Before Clicking These Links...</a></center></h3>
 <hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2: Click For Top 5 Items</a></center></h3>
 <div id="top-items-by-exact-rating-count">
 </div>
