@@ -3,6 +3,9 @@ Observer pattern lab
 "Lab: Watching a File Change Size"
 
 From Aaron Maxwell's awesome class "Python: Beyond Basics"
+
+In production, should use something like this:
+  https://pypi.python.org/pypi/inotify
 '''
 
 import os

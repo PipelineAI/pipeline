@@ -41,3 +41,6 @@ spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --package
 #        (The EXTERNAL keyword does not affect this behavior.)
 cp $DATASETS_HOME/movielens/ml-latest/movies.csv $DATASETS_HOME/movielens/ml-latest/movies-hive-friendly.csv
 spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "DROP TABLE IF EXISTS movies_hive_friendly; CREATE EXTERNAL TABLE movies_hive_friendly (id INT, title STRING, tags STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE; LOAD DATA INPATH '/root/pipeline/datasets/movielens/ml-latest/movies-hive-friendly.csv' OVERWRITE INTO TABLE movies_hive_friendly;"
+
+cp $DATASETS_HOME/movielens/ml-latest/ratings.csv $DATASETS_HOME/movielens/ml-latest/ratings-hive-friendly.csv
+spark-sql --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES -e "DROP TABLE IF EXISTS ratings_hive_friendly; CREATE EXTERNAL TABLE ratings_hive_friendly (userId INT, itemId INT, rating INT, timestamp INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE; LOAD DATA INPATH '/root/pipeline/datasets/movielens/ml-latest/ratings-hive-friendly.csv' OVERWRITE INTO TABLE ratings_hive_friendly;"

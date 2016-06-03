@@ -173,8 +173,8 @@
     },
     {
       "title": "Generate Recommendations for all Users",
-      "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n   .select($\"userId\", $\"items.itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc, $\"items.itemId\")\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
-      "dateUpdated": "Jun 2, 2016 4:38:31 AM",
+      "text": "model.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\nval enrichedRecommendationsDF \u003d \n   recommendationsDF.filter(join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemRatings.itemId\")\n   .select($\"userId\", $\"items.itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"confidence\")\n   .sort($\"userId\", $\"confidence\" desc, $\"items.itemId\")\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"confidence\"))",
+      "dateUpdated": "Jun 3, 2016 4:09:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
