@@ -106,7 +106,7 @@
 
   function loadPersonalizedALS() {
     $("#personalized-als").empty()
-    $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=confidence:desc", function (data) {
+    $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
       var items = [];
       var hits = data.hits.hits
       $.each( hits, function( arrayIdx, hit ) {
@@ -125,7 +125,7 @@
 
   function loadPersonalizedItemSimilarity() {
     $("#personalized-item-similarity").empty()
-    $.getJSON ("/personalized-item-similarity/_search?q=userId:" + myId + "&sort=confidence:desc", function (data) {
+    $.getJSON ("/personalized-item-similarity/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
       var items = [];
       var hits = data.hits.hits
       $.each( hits, function( arrayIdx, hit ) {
@@ -140,23 +140,6 @@
         html: "</br><center>" + items.join( "" ) + "</center>"
       }).appendTo( "#personalized-als" );
     });
-  }
-  </script>
-
-  <script>
-  function updateNav() {
-    document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":8080";
-    document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-    document.getElementById('tensorflow').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-    document.getElementById('pyspark').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-    document.getElementById('sparkr').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-    document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
-    document.getElementById('spark-worker').href = window.location.protocol + "//" + window.location.hostname + ":6061";
-    document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
-    document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060";
-    document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
-    document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
-    document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
   }
   </script>
 </head>
@@ -180,36 +163,70 @@
 <a href="/ganglia" target="_blank" id="ganglia">Ganglia</a>
 </center>
 
-<script>
-  updateNav()
-</script>
-
 <hr><center><a href="http://pipeline.io"><img style="width: 320; height=400;" src="img/sparkafterdark.png"></a></center>
 <hr>
 
-<script> $("body").append("<h1><center>Welcome, Anonymous User ID " + myId + "!</center></h1>") 
+<script> $("body").append("<h1><center>Welcome, Anonymous User ID " + myId + "!</center></h1><hr>") 
 </script>
 
 <div id="items">
 </div>
 
-<hr><h3><center>...Please Wait Before Clicking These Links...</a></center></h3>
-<hr><h3><center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 2: Click For Top 5 Items</a></center></h3>
+<hr>
+<hr>
+<h3>
+<center>Run the following notebook:</p>
+<a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" target="_blank" id="topk">Step 2: Non-Personalized - Summary Statistics - Top K</a>
+</center>
+</h3>
+<h3><center>...Please Wait For the Notebook Above to Finish Before Clicking This Next Link...</a></center></h3>
+<h3>
+<center><a href='javascript:loadTopItemsByExactRatingCount()'>Step 3: Click For Top 5 Items</a></center>
+</h3>
 <div id="top-items-by-exact-rating-count">
 </div>
-<hr><h3><center><a href='javascript:loadPersonalizedALS()'>Step 3: Click For Personalized User-to-Item Recommendations</a></center></h3>
+
+<hr>
+
+<h3>
+<center>
+Run the following notebook:</p>
+<a href="http://127.0.0.1:8080/#/notebook/2AUYFSKXN" target="_blank" id="als">Step 4: Personalized - Collaborative Filtering - Matrix Factorization</a>
+</center>
+</h3>
+<h3><center>...Please Wait For the Notebook Above to Finish Before Clicking This Next Link...</a></center></h3>
+<h3>
+<center><a href='javascript:loadPersonalizedALS()'>Step 5: Click For Personalized User-to-Item Recommendations</a></center>
+</h3>
 <div id="personalized-als">
 </div>
+<hr>
+<hr>
 <!--
 <hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
 <div id="personalized-item-similarity">
 </div>
 -->
-<hr>
 
+<script>
+  document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":8080";
+  document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('tensorflow').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('pyspark').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('sparkr').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
+  document.getElementById('spark-worker').href = window.location.protocol + "//" + window.location.hostname + ":6061";
+  document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
+  document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060";
+  document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
+  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
+  document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
+  document.getElementById('topk').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUUDPT56";
+  document.getElementById('als').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
+//  document.getElementById('item-to-item').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2BJQKR2G5";
+</script>
 <script>
   loadItems()
 </script>
-
 </body>
 </html>
