@@ -33,35 +33,73 @@ object ALS {
     val itemRatingsDF = sqlContext.read.format("com.databricks.spark.csv")
       .option("header", "true")
       .option("inferSchema", "true")
-      .load("file:/root/pipeline/datasets/movielens/ml-latest/ratings.csv")
+      .load("file:/root/pipeline/datasets/movielens/ml-latest/ratings-sm.csv")
       .toDF("userId", "itemId", "rating", "timestamp")
       .as("itemRatings")
+
+    val Array(trainingItemRatingsDF, testItemRatingsDF) = itemRatingsDF.randomSplit(Array(0.8, 0.2))
 
     import org.apache.spark.ml.recommendation.ALS
 
     val rank = 10 // this is k, number of latent factors we think exist
     val maxIterations = 20
     val convergenceThreshold = 0.01
+    val implicitPrefs = true
+    val alpha = 1.0
 
     val als = new ALS()
       .setRank(rank)
       .setRegParam(convergenceThreshold)
+      .setImplicitPrefs(implicitPrefs)
+      .setAlpha(alpha)
       .setUserCol("userId")
       .setItemCol("itemId")
       .setRatingCol("rating")
 
+    val trainingModel = als.fit(trainingItemRatingsDF)
+
+    trainingModel.setPredictionCol("prediction")
+
+    import org.apache.spark.ml.evaluation.RegressionEvaluator
+
+    val actualItemRatingsDF = trainingModel.transform(testItemRatingsDF)
+
+    val modelEvaluator = new RegressionEvaluator()
+      .setMetricName("rmse")
+      .setLabelCol("rating")
+      .setPredictionCol("prediction")
+
+    val rmse = modelEvaluator.evaluate(actualItemRatingsDF)
+
+    System.out.println(s"Root Mean Square Error = $rmse between actual and expected itemRatings")
+
+    // Retrain with all data
     val model = als.fit(itemRatingsDF)
 
-    model.setPredictionCol("confidence")
+    model.setPredictionCol("prediction")
 
-    val recommendationsDF = model.transform(itemRatingsDF.select($"userId", $"itemId"))
-      .toDF("userId", "recommendedItemId", "confidence")
+    val allDistinctUsersDF = itemRatingsDF
+      .select($"userId")
+      .distinct()
+      .as("users")
+
+    val allDistinctItemsDF = itemRatingsDF
+      .select($"itemId")
+      .distinct()
+      .as("items")
+
+    val allUserItemPairsDF = allDistinctUsersDF.join(allDistinctItemsDF)
+      .except(itemRatingsDF.select($"userId", $"itemId"))
+
+    val recommendationsDF = model.transform(allUserItemPairsDF)
+      .as("recommendations")
+      .cache()
 
     val enrichedRecommendationsDF =
-      recommendationsDF.join(itemsDF, $"items.itemId" === $"recommendedItemId")
-      .select($"userId", $"recommendedItemId", $"title", $"tags", $"confidence", $"tags")
-      .sort($"userId", $"recommendedItemId", $"confidence" desc)
+      recommendationsDF.join(itemsDF, $"items.itemId" === $"recommendations.itemId")
+      .select($"userId", $"recommendations.itemId", $"title", $"tags", $"prediction", $"tags")
+      .sort($"userId", $"prediction" desc, $"recommendations.itemId")
 
-    System.out.println(enrichedRecommendationsDF.take(5))
+    System.out.println(enrichedRecommendationsDF.take(50))
   }
 }

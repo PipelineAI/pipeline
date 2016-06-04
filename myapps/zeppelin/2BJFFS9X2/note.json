@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "import org.apache.spark.ml.recommendation.ALSModel\n\nval model \u003d ALSModel.load(\"/root/pipeline/datasets/serving/recommendations/spark-1.6.1/als/0000000000000.parquet\")\n\nval itemFactorsDF \u003d model.itemFactors.toDF(\"itemId\", \"itemFactors\")",
-      "dateUpdated": "May 16, 2016 2:21:04 AM",
+      "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Recommendations/02:` NOTEBOOK",
+      "dateUpdated": "Jun 4, 2016 4:15:16 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -15,29 +15,30 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
       },
       "settings": {
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1463295720516_-518506441",
-      "id": "20160515-070200_317478353",
+      "jobName": "paragraph_1465013514378_192527123",
+      "id": "20160604-041154_1984213069",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALSModel\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_7a76857aa701\nitemFactorsDF: org.apache.spark.sql.DataFrame \u003d [itemId: int, itemFactors: array\u003cfloat\u003e]\n"
+        "type": "HTML",
+        "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eRecommendations/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
-      "dateCreated": "May 15, 2016 7:02:00 AM",
-      "dateStarted": "May 16, 2016 2:21:04 AM",
-      "dateFinished": "May 16, 2016 2:21:05 AM",
+      "dateCreated": "Jun 4, 2016 4:11:54 AM",
+      "dateStarted": "Jun 4, 2016 4:15:16 AM",
+      "dateFinished": "Jun 4, 2016 4:15:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 318 // Shawshank Redemption\nval givenItemId \u003d 318\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Float](1).toArray.map(_.toDouble))\n  .collect()(0)\n  \nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n  \n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Float](1).toArray.map(_.toDouble))\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"similarity\")\n)",
-      "dateUpdated": "May 16, 2016 2:26:41 AM",
+      "dateUpdated": "Jun 4, 2016 4:12:42 AM",
       "config": {
         "colWidth": 12.0,
         "title": true,
@@ -85,18 +86,18 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\ngivenItemId: Int \u003d 318\ngivenItemFactors: Array[Double] \u003d Array(-0.6692913770675659, -0.03589348495006561, -0.31383973360061646, -0.29175570607185364, -0.04289939999580383, -0.1401212513446808, -0.48742443323135376, 0.10276120156049728, -0.05538259074091911, -0.28619977831840515)\ngivenItemFactorsVector: com.advancedspark.ml.Vector \u003d [-0.6692913770675659,-0.03589348495006561,-0.31383973360061646,-0.29175570607185364,-0.04289939999580383,-0.1401212513446808,-0.48742443323135376,0.10276120156049728,-0.05538259074091911,-0.28619977831840515]\n\u003cconsole\u003e:7: error: \u0027;\u0027 expected but \u0027)\u0027 found.\n            val otherItemFactors \u003d row.getSeq[Float](1).toArray.map(_.toDouble))\n                                                                               ^\n"
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\ngivenItemId: Int \u003d 318\n\u003cconsole\u003e:36: error: not found: value itemFactorsDF\n         val givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n                                ^\n"
       },
       "dateCreated": "May 4, 2016 5:23:53 AM",
-      "dateStarted": "May 16, 2016 2:21:07 AM",
-      "dateFinished": "May 16, 2016 2:21:08 AM",
-      "status": "ABORT",
+      "dateStarted": "Jun 4, 2016 4:12:43 AM",
+      "dateFinished": "Jun 4, 2016 4:12:44 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Reference Data for Item enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"itemId\", \"title\", \"tags\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"tags\").limit(10))",
-      "dateUpdated": "May 16, 2016 2:21:16 AM",
+      "dateUpdated": "Jun 4, 2016 4:12:48 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -147,15 +148,15 @@
         "msg": "itemId\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "May 16, 2016 1:41:42 AM",
-      "dateStarted": "May 16, 2016 2:21:16 AM",
-      "dateFinished": "May 16, 2016 2:21:17 AM",
+      "dateStarted": "Jun 4, 2016 4:12:48 AM",
+      "dateFinished": "Jun 4, 2016 4:12:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich and Display the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n)",
-      "dateUpdated": "May 16, 2016 2:21:18 AM",
+      "dateUpdated": "Jun 4, 2016 4:12:48 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -178,18 +179,18 @@
       "jobName": "paragraph_1462339433521_554855322",
       "id": "20160504-052353_867700629",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\ttags\tsimilarity\n318\t123229\tThe Flesh and the Fiends (1961)\tHorror\t0.9998484477982937\n318\t106914\tRouva presidentti (2012)\tDocumentary\t0.9742996877188428\n318\t107603\tHeiter bis wolkig (2012)\tComedy|Drama|Romance\t0.9660526611706514\n318\t133693\tAccused (2014)\tDrama|Thriller\t0.9645844513246719\n318\t125183\tVenus and Serena (2012)\tDocumentary\t0.9633233166816273\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:37: error: not found: value sortedSimilarItemsDF\n          sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n          ^\n"
       },
       "dateCreated": "May 4, 2016 5:23:53 AM",
-      "dateStarted": "May 16, 2016 2:21:18 AM",
-      "dateFinished": "May 16, 2016 2:21:19 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jun 4, 2016 4:12:49 AM",
+      "dateFinished": "Jun 4, 2016 4:12:58 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 16, 2016 2:11:51 AM",
+      "dateUpdated": "Jun 4, 2016 4:12:48 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -215,8 +216,8 @@
         "type": "TEXT"
       },
       "dateCreated": "May 16, 2016 1:42:22 AM",
-      "dateStarted": "May 16, 2016 2:11:56 AM",
-      "dateFinished": "May 16, 2016 2:11:57 AM",
+      "dateStarted": "Jun 4, 2016 4:12:58 AM",
+      "dateFinished": "Jun 4, 2016 4:12:58 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

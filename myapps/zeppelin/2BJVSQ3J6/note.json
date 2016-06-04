@@ -244,8 +244,8 @@
     },
     {
       "title": "Get top K principal components For given images",
-      "text": "\nval principalComponentsMatrix \u003d scaledImagesAsPixelRoxMatricesRDD.computePrincipalComponents(principalComponents)\n\nval (numPixels, numPrincipalComponents) \u003d (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)",
-      "dateUpdated": "May 16, 2016 5:50:44 PM",
+      "text": "val principalComponentsMatrix \u003d scaledImagesAsPixelRoxMatricesRDD.computePrincipalComponents(principalComponents)\n\nval (numPixels, numPrincipalComponents) \u003d (principalComponentsMatrix.numRows, principalComponentsMatrix.numCols)",
+      "dateUpdated": "Jun 4, 2016 4:23:25 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

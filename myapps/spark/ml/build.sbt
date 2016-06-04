@@ -11,7 +11,7 @@ resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots"
 
 (unmanagedClasspath in Compile) += file("/root/stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar")
 
-val sparkVersion = "2.0.0-SNAPSHOT"
+//val sparkVersion = "2.0.0-SNAPSHOT"
 
 lazy val ml = (project in file("."))
                     .settings(name := "ml")
@@ -19,7 +19,7 @@ lazy val ml = (project in file("."))
                     .settings(libraryDependencies ++= mlDeps)
 		    .settings(javaOptions += "-Xmx10G")
 
-//val sparkVersion = sys.env("SPARK_VERSION") 
+val sparkVersion = sys.env("SPARK_VERSION") 
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 val coreNlpVersion = sys.env("STANFORD_CORENLP_VERSION") 
 val algebirdVersion = sys.env("ALGEBIRD_VERSION")

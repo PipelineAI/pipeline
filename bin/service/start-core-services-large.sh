@@ -67,7 +67,7 @@ echo '...Starting Jupyter Hub Server...'
 nohup jupyterhub -f $CONFIG_HOME/jupyter/jupyterhub_config.py &
 
 #echo '...Starting NiFi...'
-nohup nifi.sh start &
+#nohup nifi.sh start &
 
 #echo '...Starting Airflow...'
 nohup airflow webserver &
@@ -87,14 +87,14 @@ nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-#echo '...Starting Nifi-Kafka-Cassandra Spark Streaming Demo...'
-#nohup $MYAPPS_HOME/spark/streaming/start-streaming-ratings-nifi-kafka-cassandra.sh &
+echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
+nohup $MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh &
 
-#echo '...Starting Flask-based Recommendation/Prediction Service...'
-#nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
+echo '...Starting Flask-based Recommendation/Prediction Service...'
+nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
 
-#echo '...Starting Finagle-based Recommendation/Prediction Service...'
-#nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
+echo '...Starting Finagle-based Recommendation/Prediction Service...'
+nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
 
-#echo '...Starting Model Watcher Service...'
-#nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &
+echo '...Starting Model Watcher Service...'
+nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &

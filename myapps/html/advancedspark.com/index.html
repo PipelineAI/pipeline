@@ -35,35 +35,21 @@
   function rate(itemId, rating) {
     $("#like" + itemId).show()
 
-    // NiFi REST API
-    $.ajax({
-      url:'/item-rating-nifi',
-      type:'POST',
-      data:myId + "," + itemId + "," + rating,
-        success: function(data, status){
-          //NoOp
-        },
-      contentType:'text/plain'
-    })
+    var encodedKey = btoa(myId)
+    // Hard-coded with "San Francisco since there's no GeoIP resolving in this current demo
+    var encodedValue = btoa(myId + "," + itemId + "," + rating + ",San Francisco")
 
-/////////////////////////////////////////////////////////////////////////////////
-// Replace the above Ajax call with this code to send messages to Kafka directly
-/////////////////////////////////////////////////////////////////////////////////
-//    // Kafka REST API
-//    var encodedKey = btoa(myId)
-//    var encodedValue = btoa(myId + "," + itemId + "," + rating + ",San Francisco")
-//
-//    $.ajax({
-//      url:'/item-rating-kafka',
-//      type:'POST',
-//      data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
-//      contentType:'application/vnd.kafka.binary.v1+json',
-//      dataType:'json',
-//      success: function(data, status){
-//        //NoOp
-//      }
-//    })
-////////////////////////////////////////////////////////////////////////////////
+    // Call the Kafka Rest Api
+    $.ajax({
+      url:'/item-rating-kafka',
+      type:'POST',
+      data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
+      contentType:'application/vnd.kafka.binary.v1+json',
+      dataType:'json',
+      success: function(data, status){
+        //NoOp
+      }
+    })
   }
 
   function loadItems() {
@@ -157,9 +143,9 @@
 <a href="http://127.0.0.1:6061" target="_blank" id="spark-worker">Spark Worker</a> |
 <a href="http://127.0.0.1:9081" target="_blank" id="flink">Flink Admin</a> |
 <a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
-<a href="http://127.0.0.1:5060" target="_blank" id="airflow">AirFlow</a> |
+<a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
 <a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
-<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> |
+<!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> | -->
 <a href="/ganglia" target="_blank" id="ganglia">Ganglia</a>
 </center>
 
@@ -204,7 +190,7 @@ Run the following notebook:</p>
 <hr>
 <!--
 <hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
-<div id="personalized-item-similarity">
+<div id="personalized-item-to-item-similarity">
 </div>
 -->
 
@@ -217,9 +203,9 @@ Run the following notebook:</p>
   document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
   document.getElementById('spark-worker').href = window.location.protocol + "//" + window.location.hostname + ":6061";
   document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
-  document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060";
+  document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060/admin";
   document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
-  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
+//  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
   document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
   document.getElementById('topk').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUUDPT56";
   document.getElementById('als').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
