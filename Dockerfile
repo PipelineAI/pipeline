@@ -356,7 +356,7 @@ RUN \
 
 RUN \
 # Sbt Feeder
- cd ~/pipeline/myapps/akka/feeder && sbt assembly 
+ cd ~/pipeline/myapps/akka/feeder && sbt clean assembly 
 
 RUN \
 # Sbt ML 
@@ -369,29 +369,29 @@ RUN \
  && rm stanford-corenlp-full-2015-12-09.zip \
  && cd ~/pipeline/myapps/spark/ml \
  && cp ~/stanford-corenlp-full-2015-12-09/stanford-corenlp-${STANFORD_CORENLP_VERSION}-models.jar lib/ \
- && sbt package \
+ && sbt clean package \
 
 # Sbt Streaming
- && cd ~/pipeline/myapps/spark/streaming && sbt package \
+ && cd ~/pipeline/myapps/spark/streaming && sbt clean package \
 
 # Sbt SQL 
- && cd ~/pipeline/myapps/spark/sql && sbt package \
+ && cd ~/pipeline/myapps/spark/sql && sbt clean package \
 
 # Sbt Core 
- && cd ~/pipeline/myapps/spark/core && sbt package \
+ && cd ~/pipeline/myapps/spark/core && sbt clean package \
 
 # Sbt Flink CEP Streaming  
- && cd ~/pipeline/myapps/flink/streaming && sbt assembly \
+ && cd ~/pipeline/myapps/flink/streaming && sbt clean assembly \
 
 # Sbt Serving RecommendationService (Finagle)
- && cd ~/pipeline/myapps/serving/finagle && sbt assembly \
+ && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
 
 # Sbt Kafka
- && cd ~/pipeline/myapps/kafka && sbt assembly \
+ && cd ~/pipeline/myapps/kafka && sbt clean assembly \
 
 # Sbt Codegen
- && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt package \
- && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt package
+ && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
+ && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt clean package
 
 # Bleeding Edge Spark
 RUN \
