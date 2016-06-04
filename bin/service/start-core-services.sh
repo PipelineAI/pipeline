@@ -95,10 +95,10 @@ echo '...Starting Flask-based Recommendation/Prediction Service...'
 cd $MYAPPS_HOME/serving/flask/
 nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
 
-echo '...Starting Finagle-based Recommendation/Prediction Service...'
-cd $MYAPPS_HOME/serving/finagle/
-nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
+#echo '...Starting Finagle-based Recommendation/Prediction Service...'
+#cd $MYAPPS_HOME/serving/finagle/
+#nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
 
-echo '...Starting Model Watcher Service...'
-cd $MYAPPS_HOME/spark/watcher/
-nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &
+#echo '...Starting Model Watcher Service...'
+#cd $MYAPPS_HOME/spark/watcher/
+#nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &
