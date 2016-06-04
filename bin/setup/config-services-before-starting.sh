@@ -186,11 +186,12 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 
 # iPython/Jupyter
 echo '...Configuring iPython/Jupyter...'
+mkdir -p $WORK_HOME/jupyter
 mkdir -p ~/.jupyter
 
 # JupyterHub
 echo '...Configuring JupyterHub...'
-mkdir -P $WORK_HOME/jupyterhub
+mkdir -p $WORK_HOME/jupyterhub
 
 # Nifi
 echo '...Configuring NiFi...'
@@ -203,6 +204,7 @@ ln -s $CONFIG_HOME/nifi/logback.xml $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/bootstrap.conf $NIFI_HOME/conf
 ln -s $CONFIG_HOME/nifi/state-management.xml $NIFI_HOME/conf
 mkdir -p $LOGS_HOME/nifi
+mkdir -o $WORK_HOME/nifi
 
 # Airflow
 echo '...Configuring Airflow...'
