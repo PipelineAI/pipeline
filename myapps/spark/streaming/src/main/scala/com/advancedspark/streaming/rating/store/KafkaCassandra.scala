@@ -53,7 +53,7 @@ object KafkaCassandra {
 
 	// convert Tokens into RDD[Ratings]
         val ratings = tokens.map(token => 
-          RatingGeo(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toInt, batchTime.milliseconds, token(3).trim.toString)
+          RatingGeo(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toFloat, batchTime.milliseconds, token(3).trim.toString)
         )
   
         // save the DataFrame to Cassandra
