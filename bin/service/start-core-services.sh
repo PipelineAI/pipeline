@@ -87,18 +87,18 @@ nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
-cd $MYAPPS_HOME/spark/streaming/
-nohup $MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh &
+#echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
+#cd $MYAPPS_HOME/spark/streaming/
+#nohup $MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh &
 
-echo '...Starting Flask-based Recommendation/Prediction Service...'
-cd $MYAPPS_HOME/serving/flask/
-nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
+#echo '...Starting Flask-based Recommendation/Prediction Service...'
+#cd $MYAPPS_HOME/serving/flask/
+#nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
 
 #echo '...Starting Finagle-based Recommendation/Prediction Service...'
 #cd $MYAPPS_HOME/serving/finagle/
 #nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
 
 #echo '...Starting Model Watcher Service...'
-#cd $MYAPPS_HOME/spark/watcher/
+#cd $MYAPPS_HOME/serving/watcher/
 #nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &
