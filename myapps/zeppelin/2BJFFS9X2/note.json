@@ -37,8 +37,8 @@
     },
     {
       "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 318 // Shawshank Redemption\nval givenItemId \u003d 318\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Float](1).toArray.map(_.toDouble))\n  .collect()(0)\n  \nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n  \n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Float](1).toArray.map(_.toDouble))\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"similarity\")\n)",
-      "dateUpdated": "Jun 4, 2016 4:12:42 AM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 318 // Shawshank Redemption\nval givenItemId \u003d 318\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n  \nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n  \n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"similarity\")\n)",
+      "dateUpdated": "Jun 4, 2016 2:05:51 PM",
       "config": {
         "colWidth": 12.0,
         "title": true,
@@ -84,20 +84,20 @@
       "jobName": "paragraph_1462339433521_554855322",
       "id": "20160504-052353_1563651621",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\ngivenItemId: Int \u003d 318\n\u003cconsole\u003e:36: error: not found: value itemFactorsDF\n         val givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n                                ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\tsimilarity\n318\t5225\t0.9999999999999999\n318\t3481\t0.9999999999999999\n318\t4235\t0.9999999999999999\n318\t1197\t0.9999999999999999\n318\t6331\t0.9999999999999999\n"
       },
       "dateCreated": "May 4, 2016 5:23:53 AM",
-      "dateStarted": "Jun 4, 2016 4:12:43 AM",
-      "dateFinished": "Jun 4, 2016 4:12:44 AM",
-      "status": "ERROR",
+      "dateStarted": "Jun 4, 2016 2:05:51 PM",
+      "dateFinished": "Jun 4, 2016 2:05:56 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Reference Data for Item enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"itemId\", \"title\", \"tags\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"tags\").limit(10))",
-      "dateUpdated": "Jun 4, 2016 4:12:48 AM",
+      "dateUpdated": "Jun 4, 2016 2:05:58 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -148,15 +148,15 @@
         "msg": "itemId\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
       },
       "dateCreated": "May 16, 2016 1:41:42 AM",
-      "dateStarted": "Jun 4, 2016 4:12:48 AM",
-      "dateFinished": "Jun 4, 2016 4:12:58 AM",
+      "dateStarted": "Jun 4, 2016 2:05:58 PM",
+      "dateFinished": "Jun 4, 2016 2:05:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich and Display the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n)",
-      "dateUpdated": "Jun 4, 2016 4:12:48 AM",
+      "dateUpdated": "Jun 4, 2016 2:06:01 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -179,14 +179,14 @@
       "jobName": "paragraph_1462339433521_554855322",
       "id": "20160504-052353_867700629",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:37: error: not found: value sortedSimilarItemsDF\n          sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n          ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\ttags\tsimilarity\n318\t1197\tPrincess Bride, The (1987)\tAction|Adventure|Comedy|Fantasy|Romance\t0.9999999999999999\n318\t3481\tHigh Fidelity (2000)\tComedy|Drama|Romance\t0.9999999999999999\n318\t4235\tAmores Perros (Love\u0027s a Bitch) (2000)\tDrama|Thriller\t0.9999999999999999\n318\t5225\tAnd Your Mother Too (Y tu mamá también) (2001)\tDrama|Romance\t0.9999999999999999\n318\t6331\tSpellbound (2002)\tDocumentary\t0.9999999999999999\n"
       },
       "dateCreated": "May 4, 2016 5:23:53 AM",
-      "dateStarted": "Jun 4, 2016 4:12:49 AM",
-      "dateFinished": "Jun 4, 2016 4:12:58 AM",
-      "status": "ERROR",
+      "dateStarted": "Jun 4, 2016 2:06:01 PM",
+      "dateFinished": "Jun 4, 2016 2:06:02 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {

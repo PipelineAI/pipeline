@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jun 4, 2016 6:20:37 AM",
+      "dateUpdated": "Jun 4, 2016 2:07:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,20 +30,20 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:21:33 AM",
-      "dateStarted": "Jun 4, 2016 6:20:37 AM",
-      "dateFinished": "Jun 4, 2016 6:20:37 AM",
+      "dateStarted": "Jun 4, 2016 2:07:50 PM",
+      "dateFinished": "Jun 4, 2016 2:07:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar users to a given user",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n//////////////////////////////////////////////\n// Step 1:  Must Update User ID with your ID\n//////////////////////////////////////////////\n\n// User 59737\nval givenUserId \u003d 59737\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n//////////////////////////////////////////////////\n// See Step 1:  Must Update User ID         //\n//////////////////////////////////////////////////",
-      "dateUpdated": "Jun 4, 2016 11:38:12 AM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n//////////////////////////////////////////////\n// Step 1:  Must Update User ID with your ID\n//////////////////////////////////////////////\n// User 27981\nval givenUserId \u003d 27981\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n//////////////////////////////////////////////////\n// See Step 1:  Must Update User ID         //\n//////////////////////////////////////////////////",
+      "dateUpdated": "Jun 4, 2016 2:53:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 99.0,
           "optionOpen": false,
           "keys": [],
           "values": [],
@@ -61,18 +61,18 @@
       "jobName": "paragraph_1461384988794_-1881586773",
       "id": "20160423-041628_342476534",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport com.advancedspark.ml.Vectors\ngivenUserId: Int \u003d 59737\njava.lang.ArrayIndexOutOfBoundsException: 0\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:63)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:68)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:70)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:72)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:74)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:76)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:80)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:82)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:84)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:86)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:88)\n\tat \u003cinit\u003e(\u003cconsole\u003e:90)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:94)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tsimilarUserId\tsimilarity\n27981\t21619\t0.05584775759864715\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:28 AM",
-      "dateStarted": "Jun 4, 2016 6:22:04 AM",
-      "dateFinished": "Jun 4, 2016 6:22:05 AM",
-      "status": "ERROR",
+      "dateStarted": "Jun 4, 2016 2:43:38 PM",
+      "dateFinished": "Jun 4, 2016 2:43:40 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 4, 2016 6:20:37 AM",
+      "dateUpdated": "Jun 4, 2016 2:07:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,8 +98,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Apr 23, 2016 4:22:01 AM",
-      "dateStarted": "Jun 4, 2016 6:20:38 AM",
-      "dateFinished": "Jun 4, 2016 6:20:39 AM",
+      "dateStarted": "Jun 4, 2016 2:07:51 PM",
+      "dateFinished": "Jun 4, 2016 2:07:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

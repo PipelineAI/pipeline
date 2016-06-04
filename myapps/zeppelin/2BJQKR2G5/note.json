@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jun 4, 2016 2:00:22 AM",
+      "dateUpdated": "Jun 4, 2016 2:54:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "Jun 4, 2016 2:00:03 AM",
-      "dateFinished": "Jun 4, 2016 2:00:03 AM",
+      "dateStarted": "Jun 4, 2016 2:54:00 PM",
+      "dateFinished": "Jun 4, 2016 2:54:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// Item 7\nval givenItemId \u003d 7 // Spark\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
-      "dateUpdated": "Jun 3, 2016 9:50:59 PM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
+      "dateUpdated": "Jun 4, 2016 2:54:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,18 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n7\t38\tApache Zeppelin\t0.9998622701537675\n7\t40\tR\t0.9997478107265702\n7\t15\tHortonworks\t0.9997448483905251\n7\t77\tS3\t0.999742880185548\n7\t18\tApache Kafka\t0.9997341592410012\n"
+        "msg": "similarItemId\tsimilarity\n90010\t0.9999999999999999\n10008\t0.9999999999999999\n10007\t0.9999999999999999\n90009\t0.9999999999999999\n90011\t0.9999999999999999\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "May 24, 2016 11:32:11 PM",
-      "dateFinished": "May 24, 2016 11:32:17 PM",
+      "dateStarted": "Jun 4, 2016 2:54:00 PM",
+      "dateFinished": "Jun 4, 2016 2:54:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jun 3, 2016 9:51:10 PM",
+      "dateUpdated": "Jun 4, 2016 2:54:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -98,11 +98,44 @@
       "id": "20160423-042051_541116515",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT"
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t90010\tTiffani Thiessen\t0.9999999999999999\n10006\t90009\tPam Grier\t0.9999999999999999\n10006\t90011\tAshley Judd\t0.9999999999999999\n10006\t10007\tDenzel Washington\t0.9999999999999999\n10006\t10008\tRobert De Niro\t0.9999999999999999\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "May 24, 2016 11:32:11 PM",
-      "dateFinished": "May 24, 2016 11:32:17 PM",
+      "dateStarted": "Jun 4, 2016 2:54:00 PM",
+      "dateFinished": "Jun 4, 2016 2:54:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 4, 2016 2:54:00 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465048449224_-1966611788",
+      "id": "20160604-135409_1203654829",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jun 4, 2016 1:54:09 PM",
+      "dateStarted": "Jun 4, 2016 2:54:02 PM",
+      "dateFinished": "Jun 4, 2016 2:54:02 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
