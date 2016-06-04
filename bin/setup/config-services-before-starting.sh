@@ -188,6 +188,10 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 echo '...Configuring iPython/Jupyter...'
 mkdir -p ~/.jupyter
 
+# JupyterHub
+echo '...Configuring JupyterHub...'
+mkdir -P $WORK_HOME/jupyterhub
+
 # Nifi
 echo '...Configuring NiFi...'
 mv $NIFI_HOME/conf/nifi.properties $NIFI_HOME/conf/nifi.properties.orig
