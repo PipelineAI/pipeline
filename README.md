@@ -1,13 +1,17 @@
-# See [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for more info! 
+# See [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for Setup Instructions! 
 
 # End-to-End, Real-time ML Reference Data Pipeline
 
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## Architecture Overview
+**Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
+
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
-## Upcoming PANCAKE STACK Workshops!
+## Upcoming Workshops!
 ### Title
 **Building an End-to-End Streaming Analytics and Recommendations Pipeline with Spark, Kafka, and TensorFlow**
 
@@ -64,10 +68,6 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 * Next, we extend our pipeline to use streaming data to generate personalized recommendation models using popular machine learning, graph, and natural language processing techniques such as collaborative filtering, clustering, and topic modeling.
 * Last, we productionize our pipeline and serve live recommendations to our users!
   
-## Architecture Overview
-**Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
-
 ##  Screenshots
 ### Apache Zeppelin Notebooks
 ![Apache Zeppelin Notebooks](http://advancedspark.com/img/zeppelin-notebooks-sm.png)
