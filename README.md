@@ -1,4 +1,4 @@
-# See [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for Setup Instructions! 
+# Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
 # End-to-End, Real-time ML Reference Data Pipeline
 
@@ -11,7 +11,7 @@
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
 
-## Upcoming Workshops!
+## Upcoming Workshops
 ### Title
 **Building an End-to-End Streaming Analytics and Recommendations Pipeline with Spark, Kafka, and TensorFlow**
 
