@@ -1,4 +1,4 @@
-See the [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for more details on setting up the environment. 
+# See [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for more info! 
 
 # End-to-End, Real-time ML Reference Data Pipeline
 
