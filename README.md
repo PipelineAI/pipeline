@@ -33,18 +33,28 @@
 * Save Workshop Environment for Your Use Cases
 
 ### Locations and Dates
-* [San Francisco](http://advanced-spark-tensorflow-june.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, June 4th
-* [Washington DC](https://advanced-spark-kafka-tensorflow-washington-dc.eventbrite.com/?discount=ADVANCEDSPARK20):  Saturday, June 18th
-* [Seattle](https://end-to-end-streaming-recommendations-spark-seattle.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, July 30th
-* [SF Bay Area](https://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
-* [Chicago](https://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, September 17th
-* [Toronto](https://end-to-end-streaming-recommendations-spark-toronto.eventbrite.com?discount=ADVANCEDSPARK20): Saturday, September 24th
-* [New York](https://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 1st
+* [Washington DC](http://advanced-spark-kafka-tensorflow-washington-dc.eventbrite.com/?discount=ADVANCEDSPARK20):  Saturday, June 18th
+* [Seattle](http://end-to-end-streaming-recommendations-spark-seattle.eventbrite.com/?discount=ADVANCEDSPARK25): Saturday, July 30th
+* [Santa Clara](http://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
+* [Chicago](http://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, September 10th
+* [Toronto](http://end-to-end-streaming-recommendations-spark-toronto.eventbrite.com?discount=ADVANCEDSPARK20): Saturday, September 17th
+* [New York](http://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, September 24th
+* [Barcelona](http://end-to-end-streaming-recommendations-spark-barcelo.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, October 1st
 * [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
 * [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
 * [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
+* [Oslo](http://end-to-end-streaming-recommendations-spark-oslo.eventbrite.com?discount=ADVANCEDSPARK25): Monday, October 31st
+* [Tokyo](http://end-to-end-streaming-recommendations-spark-tokyo.eventbrite.com?discount=ADVANCEDSPARK25): December 3rd
+* [Shanghai](http://end-to-end-streaming-recommendation-spark-shanghai.eventbrite.com?discount=ADVANCEDSPARK25): December 10th
+* [Beijing](http://end-to-end-streaming-recommendations-spark-beijing.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 17th
+* [Hyderabad](http://endtoend-streaming-recommendations-spark-hyderabad.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 24th
+* [Bangalore](http://endtoend-streaming-recommendations-spark-bangalore.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 31st
+* [Sydney](http://end-to-end-streaming-recommendations-spark-sydney.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, January 7th, 2017
+* [Melbourne](http://endtoend-streaming-recommendations-spark-melbourne.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, January 14th, 2017
+* [Sao Paulo](http://endtoend-streaming-recommendations-spark-sao-paulo.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, February 11th, 2017
+* [Rio de Janeiro](http://endtoend-streaming-recommendations-spark-rio.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, February 18th, 2017
 
-[Suggest a City and Date](https://docs.google.com/forms/d/1fYqnjfXZjHYF0QgxWGQPXDcdCneBeOhGZasvejTw0WE/edit?usp=sharing)
+[Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)
       
 ### Description
 The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
@@ -52,7 +62,6 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 * Next, we extend our pipeline to use streaming data to generate personalized recommendation models using popular machine learning, graph, and natural language processing techniques such as collaborative filtering, clustering, and topic modeling.
 * Last, we productionize our pipeline and serve live recommendations to our users!
   
-
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
 ![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
