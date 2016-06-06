@@ -1,3 +1,5 @@
+See the [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) for more details on setting up the environment. 
+
 # End-to-End, Real-time ML Reference Data Pipeline
 
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
