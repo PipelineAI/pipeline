@@ -24,14 +24,9 @@ import org.apache.flink.streaming.util.serialization.SimpleStringSchema
 object KafkaTextStreamWordCount {
 
   def main(args: Array[String]): Unit = {
-    if (args.length != 1) {
-      System.err.println("USAGE:\nKafkaTextStreamWordCount <hostname>")
-      return
-    }
+    val hostname = "127.0.0.1" 
 
-    val hostname = args(0)
-
-    val env = StreamExecutionEnvironment.createLocalEnvironment()
+    val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     val kafkaConsumerProperties = Map(
       "zookeeper.connect" -> (hostname+":2181"),

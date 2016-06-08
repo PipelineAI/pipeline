@@ -1,6 +1,6 @@
-name := "streaming"
+name := "flink-streaming"
 
-version := "0.1-SNAPSHOT"
+version := "1.0"
 
 organization := "com.advancedflink.streaming"
 
@@ -8,7 +8,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERS
 
 scalaVersion in ThisBuild := "2.10.4"
 
-val flinkVersion = "1.0.3"
+val flinkVersion = sys.env("FLINK_VERSION") 
 
 val flinkDependencies = Seq(
   "org.apache.flink" %% "flink-scala" % flinkVersion % "provided",
