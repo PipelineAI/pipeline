@@ -3,7 +3,7 @@ sudo: required
 services:
   - docker
   
-before_install:
-  - docker build -t fluxcapacitor/pipeline .
+install:
+  - travis_wait 75 docker build -t fluxcapacitor/pipeline . > build.out
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push fluxcapacitor/pipeline
+  - travis_wait 30 docker push fluxcapacitor/pipeline
