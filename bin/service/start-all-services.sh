@@ -87,12 +87,18 @@ nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
-cd ~
-$MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh
+########################################################
+# Be careful what starts up here.
+# This same script is used upon initial startup -
+#   before the create-datasources.sh script runs
+########################################################
 
-echo '...Starting Kafka-Cassandra Incremental MatrixFactorization Spark Streaming Demo...'
-$MYAPPS_HOME/spark/streaming/start-streaming-ratings-train-mf-incremental.sh
+#echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
+#cd ~
+#$MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh
+
+#echo '...Starting Kafka-Cassandra Incremental MatrixFactorization Spark Streaming Demo...'
+#$MYAPPS_HOME/spark/streaming/start-streaming-ratings-train-mf-incremental.sh
 
 #echo '...Starting Flask-based Recommendation/Prediction Service...'
 #cd $MYAPPS_HOME/serving/flask/

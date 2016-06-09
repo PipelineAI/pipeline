@@ -388,7 +388,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
 
 # Sbt Serving Recommendationi Service (Spring Boot)
- && cd ~/pipeline/myapps/serving/spring && sbt clean assembly \
+ && cd ~/pipeline/myapps/serving/spring && sbt clean package \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \
