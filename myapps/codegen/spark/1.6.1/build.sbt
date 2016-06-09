@@ -20,13 +20,15 @@ val sparkVersion = "1.6.1"
 val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 val jblasVersion = "1.2.4" 
 val janinoVersion = sys.env("JANINO_VERSION")
+val breezeVersion = "0.11.2"
 
 lazy val codegenDeps = Seq(
-  "org.codehaus.janino"  % "janino"             % janinoVersion,
-  "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
-  "org.apache.spark"  %% "spark-mllib"           % sparkVersion % "provided",
-  "org.apache.spark"  %% "spark-graphx"          % sparkVersion % "provided",
-  "org.apache.spark"  %% "spark-sql"             % sparkVersion % "provided",
-  "org.jblas" 	       % "jblas" 		 % jblasVersion % "provided"
+  "org.codehaus.janino"  % "janino"              % janinoVersion,
+  "org.codehaus.janino"  % "commons-compiler"    % janinoVersion,
+  "org.apache.spark"  %% "spark-mllib"           % sparkVersion  % "provided",
+  "org.apache.spark"  %% "spark-graphx"          % sparkVersion  % "provided",
+  "org.apache.spark"  %% "spark-sql"             % sparkVersion  % "provided",
+  "org.jblas" 	       % "jblas" 		 % jblasVersion  % "provided",
+  "org.scalanlp"      %% "breeze"                % breezeVersion % "provided"
 )
 
