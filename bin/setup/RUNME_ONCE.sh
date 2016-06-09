@@ -8,13 +8,16 @@ echo '...Retrieving Latest Updates From Github...'
 git reset --hard && git pull
 
 echo '...Configuring Services Before Starting...'
-$SCRIPTS_HOME/setup/config-services-before-starting.sh
+cd ~/pipeline
+$SCRIPTS_HOME/setup/config-services-before-starting.sh > config.out
 
 echo '...Start All Services...'
-$SCRIPTS_HOME/service/start-all-services.sh
+cd ~/pipeline
+$SCRIPTS_HOME/service/start-all-services.sh > start.out
 
 echo '...Create Examples Data Sources...'
-$SCRIPTS_HOME/setup/create-example-datasources.sh
+cd ~/pipeline
+$SCRIPTS_HOME/setup/create-example-datasources.sh > create.out
 
 echo '...Show Exported Variables...'
 export
