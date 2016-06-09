@@ -3,7 +3,7 @@
     {
       "title": "",
       "text": "%md\n# **CHRIS FREGLY** (@cfregly)\n![Chris Fregly](http://advancedspark.com/img/fregly-300x300.png)\n![Chris Fregly Emoji](http://advancedspark.com/img/fregly-emoji-300x300.png)",
-      "dateUpdated": "May 31, 2016 12:42:18 PM",
+      "dateUpdated": "Jun 8, 2016 12:05:37 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -33,8 +33,8 @@
         "msg": "\u003ch1\u003e\u003cstrong\u003eCHRIS FREGLY\u003c/strong\u003e (@cfregly)\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-300x300.png\" alt\u003d\"Chris Fregly\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-emoji-300x300.png\" alt\u003d\"Chris Fregly Emoji\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:40:34 AM",
-      "dateStarted": "May 16, 2016 8:33:48 PM",
-      "dateFinished": "May 16, 2016 8:33:48 PM",
+      "dateStarted": "Jun 8, 2016 12:05:37 AM",
+      "dateFinished": "Jun 8, 2016 12:05:37 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -113,7 +113,7 @@
     {
       "title": "",
       "text": "%md\n## Organizer @ Advanced Spark And TensorFlow Meetup \n### SF Bay Area\n![Meetup](http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png)",
-      "dateUpdated": "May 15, 2016 4:43:18 AM",
+      "dateUpdated": "Jun 7, 2016 4:48:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -150,7 +150,7 @@
     {
       "title": "",
       "text": "%md \n## Book Author @ advancedspark.com\n![Book](http://advancedspark.com/img/advancedspark-book.png)",
-      "dateUpdated": "May 15, 2016 4:45:12 AM",
+      "dateUpdated": "Jun 7, 2016 4:48:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {

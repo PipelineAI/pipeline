@@ -63,7 +63,8 @@ ENV \
  JANINO_VERSION=2.7.8 \
  BETTER_FILES_VERSION=2.14.0 \
  COMMONS_DAEMON_VERSION=1.0.15 \
- SPARK_REDIS_CONNECTOR_VERSION=0.2.0 
+ SPARK_REDIS_CONNECTOR_VERSION=0.2.0 \
+ TENSORFRAMES_VERSION=0.2.2
 
 RUN \
  apt-get update \
@@ -348,7 +349,7 @@ RUN \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
  && rm titan-${TITAN_VERSION}.zip 
- 
+
 RUN \
 # Get Latest Pipeline Code 
  cd ~/pipeline \
@@ -383,8 +384,11 @@ RUN \
 # Sbt Flink CEP Streaming  
  && cd ~/pipeline/myapps/flink/streaming && sbt clean assembly \
 
-# Sbt Serving RecommendationService (Finagle)
+# Sbt Serving Recommendation Service (Finagle)
  && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
+
+# Sbt Serving Recommendationi Service (Spring Boot)
+ && cd ~/pipeline/myapps/serving/spring && sbt clean assembly \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \

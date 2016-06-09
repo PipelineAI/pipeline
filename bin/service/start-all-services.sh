@@ -46,7 +46,7 @@ echo '...Starting Spark Master...'
 nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 0.0.0.0 
 
 echo '...Starting Spark Worker...'
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 16 --memory 100g --webui-port 6061 -h 0.0.0.0 spark://127.0.0.1:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 48g --webui-port 6061 -h 0.0.0.0 spark://127.0.0.1:7077
 
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
@@ -87,9 +87,12 @@ nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-#echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
-#cd $MYAPPS_HOME/spark/streaming/
-#nohup $MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh &
+echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
+cd ~
+$MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh
+
+echo '...Starting Kafka-Cassandra Incremental MatrixFactorization Spark Streaming Demo...'
+$MYAPPS_HOME/spark/streaming/start-streaming-ratings-train-mf-incremental.sh
 
 #echo '...Starting Flask-based Recommendation/Prediction Service...'
 #cd $MYAPPS_HOME/serving/flask/
