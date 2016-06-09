@@ -4,6 +4,6 @@ services:
   - docker
   
 install:
-  - travis_wait 75 docker build -t fluxcapacitor/pipeline . > build.out
+  - travis_wait docker build -t fluxcapacitor/pipeline .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - travis_wait 30 docker push fluxcapacitor/pipeline
