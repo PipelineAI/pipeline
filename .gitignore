@@ -1,4 +1,6 @@
 .Dockerfile.swp
+datasets/movielens/ml-latest/movies-hive-friendly.csv
+datasets/movielens/ml-latest/ratings-hive-friendly.csv
 datasets/notmnist/notMNIST_large.tar.gz
 datasets/notmnist/notMNIST_small/
 datasets/notmnist/notMNIST_large/
