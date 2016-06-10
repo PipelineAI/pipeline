@@ -361,12 +361,19 @@ RUN \
 
 # Dynomite
  && cd ~ \
- && git clone --branch 'v${DYNOMITE_VERSION}' git@github.com:Netflix/dynomite.git v${DYNOMITE_VERSION} \
+ && git clone https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
  && make \
- && sudo make install 
+ && sudo make install \
+
+# Jenkins
+ && wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
+ && echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list \ 
+ && apt-get update \
+ && apt-get install jenkins \
+ && replace "HTTP_PORT=8080" "HTTP_PORT=10080" -- /etc/default/jenkins
 
 RUN \
 # Get Latest Pipeline Code 
@@ -455,6 +462,6 @@ RUN \
   && pip install keras
 
 # Ports to expose 
-EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222
+EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080
 
 WORKDIR /root
