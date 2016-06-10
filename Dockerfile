@@ -83,6 +83,7 @@ RUN \
  && apt-get install -y git \
  && apt-get install -y openssh-server \
  && apt-get install -y apache2 \
+ && apt-get install -y libssl-dev \
 
 # iPython/Jupyter
  && apt-get install -y python-dev \
