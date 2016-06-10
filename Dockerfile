@@ -361,7 +361,7 @@ RUN \
 
 # Dynomite
  && cd ~ \
- && git clone --branch 'v${DYNOMITE_VERSION}' git@github.com:Netflix/dynomite.git dynomite-${DYNOMITE_VERSION} \
+ && git clone --branch 'v${DYNOMITE_VERSION}' git@github.com:Netflix/dynomite.git v${DYNOMITE_VERSION} \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
