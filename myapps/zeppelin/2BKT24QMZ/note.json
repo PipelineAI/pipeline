@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil))",
-      "dateUpdated": "May 31, 2016 3:27:53 AM",
+      "dateUpdated": "Jun 10, 2016 5:29:30 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "import com.redislabs.provider.redis._\n"
       },
       "dateCreated": "May 29, 2016 2:29:44 AM",
-      "dateStarted": "May 31, 2016 3:27:54 AM",
-      "dateFinished": "May 31, 2016 3:28:38 AM",
+      "dateStarted": "Jun 10, 2016 5:29:30 AM",
+      "dateFinished": "Jun 10, 2016 5:30:33 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val valuesRDD \u003d sc.fromRedisKV(\"key1\")\nvaluesRDD.collect()",
-      "dateUpdated": "May 31, 2016 3:27:54 AM",
+      "dateUpdated": "Jun 10, 2016 5:31:21 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,14 +63,14 @@
         "msg": "valuesRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d RedisKVRDD[3] at RDD at RedisRDD.scala:19\nres4: Array[(String, String)] \u003d Array((key1,val1))\n"
       },
       "dateCreated": "May 29, 2016 2:29:48 AM",
-      "dateStarted": "May 31, 2016 3:28:01 AM",
-      "dateFinished": "May 31, 2016 3:28:39 AM",
+      "dateStarted": "Jun 10, 2016 5:31:21 AM",
+      "dateFinished": "Jun 10, 2016 5:31:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "",
-      "dateUpdated": "May 31, 2016 3:27:54 AM",
+      "text": "import com.netflix.dyno.jedis.*;\nimport com.netflix.dyno.connectionpool.*;\nimport com.netflix.dyno.connectionpool.exception.DynoException;\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl;\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl;\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils;\n\nDynoJedisClient dynoClient \u003d new DynoJedisClient.Builder()\n                                 .withApplicationName(\"MY APP\")\n            .withDynomiteClusterName(\"MY CLUSTER\")\n            .withHostSupplier(customHostSupplier)\n            .build();\n\n            dynoClient.set(\"foo\", \"puneetTest\");\n            System.out.println(\"Value: \" + dynoClient.get(\"foo\"));\n\n            dynoClient.stopClient();",
+      "dateUpdated": "Jun 10, 2016 5:36:49 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -92,13 +92,26 @@
       "jobName": "paragraph_1464488996179_506576261",
       "id": "20160529-022956_1305989392",
       "result": {
-        "code": "SUCCESS",
-        "type": "TEXT"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:30: error: object * is not a member of package com.netflix.dyno.jedis\n         import com.netflix.dyno.jedis.*;\n                ^\n"
       },
       "dateCreated": "May 29, 2016 2:29:56 AM",
-      "dateStarted": "May 31, 2016 3:28:38 AM",
-      "dateFinished": "May 31, 2016 3:28:39 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jun 10, 2016 5:36:49 AM",
+      "dateFinished": "Jun 10, 2016 5:36:49 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465536807740_1155479092",
+      "id": "20160610-053327_1336530203",
+      "dateCreated": "Jun 10, 2016 5:33:27 AM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],

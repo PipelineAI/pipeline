@@ -16,6 +16,9 @@ val jblasVersion = sys.env("JBLAS_VERSION")
 val hystrixVersion = sys.env("HYSTRIX_VERSION")
 val betterFilesVersion = sys.env("BETTER_FILES_VERSION")
 val breezeVersion = "0.11.2"
+val dynomiteVersion = sys.env("DYNOMITE_VERSION")
+val json4sVersion = sys.env("JSON4S_VERSION")
+val springBootVersion = sys.env("SPRINGBOOT_VERSION")
 
 lazy val deps = Seq(
   "com.github.pathikrit" %% "better-files"                 % betterFilesVersion,
@@ -23,7 +26,8 @@ lazy val deps = Seq(
   "com.netflix.hystrix"  % "hystrix-core"                  % hystrixVersion,
   "com.netflix.hystrix"  % "hystrix-request-servlet"       % hystrixVersion,  
   "com.netflix.hystrix"  % "hystrix-metrics-event-stream"  % hystrixVersion,
-  "org.springframework.boot" % "spring-boot-starter-web"   % "1.3.5.RELEASE",
-  "org.json4s"           % "json4s-jackson_2.10"           % "3.3.0",
-  "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided"
+  "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
+  "org.json4s"           % "json4s-jackson_2.10"           % json4sVersion,
+  "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
+  "com.netflix.dyno"     % "dyno-jedis"                    % dynomiteVersion
 )
