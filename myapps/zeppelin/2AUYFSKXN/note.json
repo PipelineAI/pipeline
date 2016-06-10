@@ -3,7 +3,7 @@
     {
       "title": "Collaborative Filtering:  Matrix Factorization using Alternating Least Squares (ALS)",
       "text": "%md ![Alternating Least Squares - Matrix Factorization](http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png)",
-      "dateUpdated": "Jun 6, 2016 5:36:18 PM",
+      "dateUpdated": "Jun 10, 2016 2:52:43 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -32,15 +32,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/collaborative-filtering-with-als-matrix-factorization.png\" alt\u003d\"Alternating Least Squares - Matrix Factorization\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Jul 4, 2015 2:49:13 AM",
-      "dateStarted": "Jun 6, 2016 4:39:02 AM",
-      "dateFinished": "Jun 6, 2016 4:39:02 AM",
+      "dateStarted": "Jun 10, 2016 2:52:43 AM",
+      "dateFinished": "Jun 10, 2016 2:52:43 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/actors.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\", $\"description\"))",
-      "dateUpdated": "Jun 7, 2016 3:31:04 PM",
+      "dateUpdated": "Jun 10, 2016 2:52:43 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -92,15 +92,15 @@
         "msg": "itemId\ttitle\timg\ttags\tdescription\n90001\tLinda Blair\timg/actors/90001.jpg\tSt. Louis, Missouri, United States\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\n90002\tShannon Whirry\timg/actors/90002.jpg\tGreen Lake, Wisconsin, United States\tShannon Whirry is not just a talented actress with girl-next-door looks, she captured a generation of viewers\u0027 imaginations by wishing that she actually was the girl-next-door. Born in Green Lake County, Wisconsin, Whirry graduated from high school and packed her bags for New York. She trained at the...\n90003\tRosalind Allen\timg/actors/90003.jpg\tWellington, New Zealand, New Zealand\tRosalind Allen (born Rosalind Ingledew) hails from New Zealand and studied acting there before coming to the United States. Her movie debut was in the film, Perfect, and she continues a long career in television \u0026 film. Famously remembered as the \"It girl\" in the Seinfeld episode, The Marine Biologist...\n90004\tBobbie Phillips\timg/actors/90004.jpg\tSalisbury, North Carolina, United States\tBrains and beauty are two words that have been repeatedly used to describe Bobbie Phillips throughout her career. Graduating high school at 16 years old, Bobbie tried several different career paths. After taking college classes to become a litigation attorney, it was suggested she also take drama classes...\n90005\tKeshia Knight Pulliam\timg/actors/90005.jpg\tNewark, New Jersey, United States\tKeshia Knight Pulliam was born on April 9, 1979 in Newark, New Jersey, USA. She is an actress, known for The Cosby Show (1984), Madea Goes to Jail (2009) and Beauty Shop (2005).\n90006\tTatyana Ali\timg/actors/90006.jpg\tBrooklyn, New York, United States\tOn January 24, 1979, Tatyana Marisol Ali was born to Sonia, who was a nurse from Panama, and Sheriff Ali, a retired police officer from Trinidad. At the age of four she started singing and got a taste of fame when she begged her mother to take her to an audition for Sesame Street. She went on to perform in many productions in her native city...\n90007\tAngell Conwell\timg/actors/90007.jpg\tOrangeburg, South Carolina, United States\tBorn in the tiny town of Orangeburg, South Carolina, Angell Conwell began her journey at a very young age. After winning countless pageants locally, she signed with Wilhelmina\u0027s Kids Division in New York at the age of 10. Angell enjoyed modeling but yearned for more of a challenge. She begged for her parents permission to audition for a role in August Wilson\u0027s highly acclaimed...\n90008\tShannah Laumeister\timg/actors/90008.jpg\tSan Francisco, California, United States\tShannah Laumeister was born on July 23, 1969 in San Francisco, California, USA. She is an actress and director, known for Bullets Over Broadway (1994), Nobody\u0027s Fool (1994) and 61* (2001). She was previously married to Bert Stern.\n90009\tPam Grier\timg/actors/90009.jpg\tWinstom-Salem, North Carolina, United States\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\n90010\tTiffani Thiessen\timg/actors/90010.jpg\tLong Beach, California, United States\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\n90011\tAshley Judd\timg/actors/90011.jpg\tGranada Hills, California, United States\tAshley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.\n90012\tStacey Dash\timg/actors/90012.jpg\tBronx, New York, United States\tStacey Dash was born in the Bronx, New York. Stacy knew that she wanted to act, and from an early age began to act professionally. She made regular appearances on The Cosby Show, The Fresh Prince of Bel-Air, and also St. Elsewhere. At 21 she made her feature film debut in Enemy Territory, which was quickly followed by Moving...\n90013\tSofia Vergara\timg/actors/90013.jpg\tBarranquilla, Atlantico, Colombia\tSofia Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Davila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\n90014\tGail O\u0027Grady\timg/actors/90014.jpg\tDetroit, Michigan, United States\tGail O\u0027Grady was born on January 23, 1963 in Detroit, Michigan, USA as Gail Ann O\u0027Grady. She is an actress and producer, known for American Dreams (2002), Deuce Bigalow: Male Gigolo (1999) and NYPD Blue (1993). She was previously married to John Stamatakis, Anthony J Pellegrino, Steve Fenton, Severin Wunderman, Jeffrey Byron and Richard Dasko.\n90015\tBarbara Niven\timg/actors/90015.jpg\tPortland, Oregon, United States\tBarbara Niven was born on February 26, 1953 in Portland, Oregon, USA as Barbara Lee Bucholz. She is an actress and producer, known for A Perfect Ending (2012), Pensacola: Wings of Gold (1997) and The Rat Pack (1998).\n10001\tLeonardo DiCaprio\timg/actors/10001.jpg\tHollywood, California, United States\tFew actors in the world have had a career quite as diverse as Leonardo DiCaprio\u0027s. DiCaprio has gone from relatively humble beginnings, as a supporting cast member of the sitcom Growing Pains and low budget horror movies, such as Critters 3, to a major teenage heartthrob in the 1990s, as the hunky lead actor in movies such as Romeo + Juliet and Titanic...\n10002\tAnthony Hopkins\timg/actors/10002.jpg\tPort Talbot, Glamorgan, Wales\tAnthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, he moved to London and joined the National Theatre...\n10003\tAl Pacino\timg/actors/10003.jpg\tManhattan, New York, United States\tOne of the greatest actors in all of film history, Al Pacino established himself during one of film\u0027s greatest decades, the 1970s, and has become an enduring and iconic figure in the world of American movies. Pacino was born on April 25, 1940, in the Bronx, New York, to an Italian-American family. His parents...\n10004\tMorgan Freeman\timg/actors/10004.jpg\tMemphis, Tennessee, United States\tWith an authoritative voice and calm demeanor, this ever popular American actor has grown into one of the most respected figures in modern US cinema. Morgan was born in June 1937 in Memphis, Tennessee, to Mayme Edna (Revere), a teacher, and Morgan Porterfield Freeman, a barber. The young Freeman attended...\n10005\tJames Gandolfini\timg/actors/10005.jpg\tWestwood, New Jersey, United States\tJames Gandolfini was born in Westwood, New Jersey, to Santa (Penna), a high school lunchlady, and James Joseph Gandolfini, Sr., a bricklayer and head school janitor. His parents were both of Italian origin. Gandolfini began acting in the New York theater. His Broadway debut was in the 1992 revival of \"A Streetcar Named Desire\" with Jessica Lange and Alec Baldwin...\n10006\tTom Cruise\timg/actors/10006.jpg\tSyracuse, New York, United States\tIf you had told fourteen-year-old Franciscan seminary student Thomas Cruise Mapother IV that one day in the not-too-distant future he would be considered one of the top hundred movie stars of all time, he would have probably grinned and told you that his ambition was to become a priest. None the less, this sensitive, deeply religious youngster who...\n10007\tDenzel Washington\timg/actors/10007.jpg\tMount Vernon, New York, United States\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\n10008\tRobert De Niro\timg/actors/10008.jpg\tManhattan, New York, United States\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\n10009\tChazz Palminteri\timg/actors/10009.jpg\tBronx, New York, United States\tBronx-born and raised Chazz Palminteri was a natural choice to continue the Italianate torch in film. In the tradition set forth in the 1970s by such icons as director Martin Scorsese and actors Robert De Niro, Al Pacino, John Cazale and Joe Pesci, Palminteri has brought grit, muscle and an evocative realism to the sidewalks of his New York neighborhood...\n10010\tTom Hanks\timg/actors/10010.jpg\tConcord, California, United States\tThomas Jeffrey Hanks was born in Concord, California, to Janet Marylyn (Frager), a hospital worker, and Amos Mefford Hanks, an itinerant cook. His father had English, and some German, ancestry, while his mother\u0027s family, originally surnamed \"Fraga\", was entirely Portuguese. Tom grew up in what he has called a \"fractured\" family...\n10011\tJohn Travolta\timg/actors/10011.jpg\tEnglewood, New York, United States\tJohn Travolta was born in Englewood, New Jersey, one of six children of Helen Travolta Helen Cecilia Burke) and Salvatore Travolta. His father was of Italian descent and his mother was of Irish ancestry. His father owned a tire repair shop called Travolta Tires in Hillsdale, NJ. Travolta appeared in a local production of \"Who\u0027ll Save the Plowboy?\"...\n10012\tJohnny Depp\timg/actors/10012.jpg\tOwensboro, Kentucky, United States\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\n10013\tMark Wahlberg\timg/actors/10013.jpg\tBoston, Massachusetts, United States\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\n10014\tJames Franco\timg/actors/10014.jpg\tPalo Alto, California, United States\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\n10015\tClive Owen\timg/actors/10015.jpg\tCoventry, Warwickshire, England\tDarkly handsome British actor Clive Owen is one of a handful of stars best known for his art house films but how has handle more mainstream action films lately with equal measures of grace and skill. Owen typically is cast as characters whose primary traits are a balance of physical strength, intellect...\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:06 PM",
-      "dateStarted": "Jun 6, 2016 4:39:02 AM",
-      "dateFinished": "Jun 6, 2016 4:39:03 AM",
+      "dateStarted": "Jun 10, 2016 2:52:43 AM",
+      "dateFinished": "Jun 10, 2016 2:52:44 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Get Live Ratings from Cassandra",
       "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\")\n  .options(cassandraConfig)\n  .load()\n  .select($\"userid\", $\"itemid\", $\"rating\", $\"timestamp\")\n  .withColumnRenamed(\"userid\", \"userId\")\n  .withColumnRenamed(\"itemid\", \"itemId\")\n  .as(\"itemRatings\")\n  \nz.show(itemRatingsDF.sort($\"userId\" asc))",
-      "dateUpdated": "Jun 6, 2016 4:39:02 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:43 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -152,15 +152,15 @@
         "msg": "userId\titemId\trating\ttimestamp\n21619\t10012\t1.0\t1465049318000\n21619\t10014\t1.0\t1465049318000\n21619\t90001\t1.0\t1465049312000\n21619\t10013\t1.0\t1465049318000\n21619\t90013\t1.0\t1465049314000\n21619\t90015\t1.0\t1465049314000\n27981\t10006\t1.0\t1465047836000\n27981\t10007\t1.0\t1465047836000\n27981\t90011\t1.0\t1465047834000\n27981\t10008\t1.0\t1465047836000\n27981\t90009\t1.0\t1465047834000\n27981\t90010\t1.0\t1465047834000\n"
       },
       "dateCreated": "Mar 1, 2016 8:33:45 PM",
-      "dateStarted": "Jun 6, 2016 4:39:03 AM",
-      "dateFinished": "Jun 6, 2016 4:39:05 AM",
+      "dateStarted": "Jun 10, 2016 2:52:43 AM",
+      "dateFinished": "Jun 10, 2016 2:52:45 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Split the dataset into training (80%) and test (20%) datasets",
       "text": "val Array(trainingItemRatingsDF, testItemRatingsDF) \u003d itemRatingsDF.randomSplit(Array(0.8, 0.2))",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:43 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -188,15 +188,15 @@
         "msg": "trainingItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: float, timestamp: bigint]\ntestItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: float, timestamp: bigint]\n"
       },
       "dateCreated": "Jun 3, 2016 10:33:47 PM",
-      "dateStarted": "Jun 6, 2016 4:39:04 AM",
-      "dateFinished": "Jun 6, 2016 4:39:05 AM",
+      "dateStarted": "Jun 10, 2016 2:52:45 AM",
+      "dateFinished": "Jun 10, 2016 2:52:46 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train The ALS Model With the training dataset",
       "text": "import org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 10 // this is k, number of latent factors we think exist\nval maxIterations \u003d 20\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n  .setImplicitPrefs(true)\n\nval trainingModel \u003d als.fit(trainingItemRatingsDF)\n\ntrainingModel.setPredictionCol(\"prediction\")",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -222,18 +222,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_c42dc98ef1cb\ntrainingModel: org.apache.spark.ml.recommendation.ALSModel \u003d als_c42dc98ef1cb\nres128: trainingModel.type \u003d als_c42dc98ef1cb\n"
+        "msg": "import org.apache.spark.ml.recommendation.ALS\nrank: Int \u003d 10\nmaxIterations: Int \u003d 20\nconvergenceThreshold: Double \u003d 0.01\nals: org.apache.spark.ml.recommendation.ALS \u003d als_cc6fca566672\ntrainingModel: org.apache.spark.ml.recommendation.ALSModel \u003d als_cc6fca566672\nres68: trainingModel.type \u003d als_cc6fca566672\n"
       },
       "dateCreated": "Jul 4, 2015 2:50:56 AM",
-      "dateStarted": "Jun 6, 2016 4:39:05 AM",
-      "dateFinished": "Jun 6, 2016 4:39:11 AM",
+      "dateStarted": "Jun 10, 2016 2:52:45 AM",
+      "dateFinished": "Jun 10, 2016 2:52:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Evaluate the Model with the test dataset",
       "text": "import org.apache.spark.ml.evaluation.RegressionEvaluator\n\nval actualItemRatingsDF \u003d trainingModel.transform(testItemRatingsDF)\n\nval modelEvaluator \u003d new RegressionEvaluator()\n  .setMetricName(\"rmse\")\n  .setLabelCol(\"rating\")\n  .setPredictionCol(\"prediction\")\n\nval rmse \u003d modelEvaluator.evaluate(actualItemRatingsDF)\n\nprintln(s\"Root Mean Square Error \u003d $rmse between actual and expected itemRatings\")",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -258,18 +258,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.evaluation.RegressionEvaluator\nactualItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: float, timestamp: bigint, prediction: float]\nmodelEvaluator: org.apache.spark.ml.evaluation.RegressionEvaluator \u003d regEval_238b98ff82eb\nrmse: Double \u003d NaN\nRoot Mean Square Error \u003d NaN between actual and expected itemRatings\n"
+        "msg": "import org.apache.spark.ml.evaluation.RegressionEvaluator\nactualItemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: float, timestamp: bigint, prediction: float]\nmodelEvaluator: org.apache.spark.ml.evaluation.RegressionEvaluator \u003d regEval_f6e44b4abd3a\nrmse: Double \u003d NaN\nRoot Mean Square Error \u003d NaN between actual and expected itemRatings\n"
       },
       "dateCreated": "Jun 3, 2016 10:26:53 PM",
-      "dateStarted": "Jun 6, 2016 4:39:06 AM",
-      "dateFinished": "Jun 6, 2016 4:39:14 AM",
+      "dateStarted": "Jun 10, 2016 2:52:47 AM",
+      "dateFinished": "Jun 10, 2016 2:52:57 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Retrain with the entire dataset",
       "text": "val model \u003d als.fit(itemRatingsDF)\n\nmodel.setPredictionCol(\"prediction\")",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:44 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -294,18 +294,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "model: org.apache.spark.ml.recommendation.ALSModel \u003d als_c42dc98ef1cb\nres137: model.type \u003d als_c42dc98ef1cb\n"
+        "msg": "model: org.apache.spark.ml.recommendation.ALSModel \u003d als_cc6fca566672\nres77: model.type \u003d als_cc6fca566672\n"
       },
       "dateCreated": "Jun 3, 2016 11:25:31 PM",
-      "dateStarted": "Jun 6, 2016 4:39:11 AM",
-      "dateFinished": "Jun 6, 2016 4:39:18 AM",
+      "dateStarted": "Jun 10, 2016 2:52:53 AM",
+      "dateFinished": "Jun 10, 2016 2:53:01 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find all (User, item) pairs without an existing Rating",
-      "text": "val allDistinctUsersDF \u003d itemRatingsDF.select($\"userId\")\n  .distinct()\n  .as(\"users\")\n\nval allDistinctItemsDF \u003d itemRatingsDF.select($\"itemId\")\n  .distinct()\n  .as(\"items\")\n\nval allUserItemPairsDF \u003d allDistinctUsersDF.join(allDistinctItemsDF)\n  .except(itemRatingsDF.select($\"userId\", $\"itemId\"))",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "text": "val allDistinctUsersDF \u003d itemRatingsDF.select($\"userId\")\n  .distinct()\n  .as(\"users\")\n\nval allDistinctItemsDF \u003d itemRatingsDF.select($\"itemId\")\n  .distinct()\n  .as(\"items\")\n\nval allUserItemPairsDF \u003d allDistinctUsersDF.join(allDistinctItemsDF)\n  .except(itemRatingsDF.select($\"userId\", $\"itemId\"))\n  .cache()\n\nz.show(allUserItemPairsDF.sort($\"userId\", $\"itemId\"))",
+      "dateUpdated": "Jun 10, 2016 3:39:50 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -353,29 +353,52 @@
       "id": "20160419-211144_1773438539",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "allDistinctUsersDF: org.apache.spark.sql.DataFrame \u003d [userId: int]\nallDistinctItemsDF: org.apache.spark.sql.DataFrame \u003d [itemId: int]\nallUserItemPairsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int]\n"
+        "type": "TABLE",
+        "msg": "userId\titemId\n21619\t90015\n21619\t10012\n21619\t10014\n27981\t90001\n21619\t90011\n27981\t10008\n21619\t10008\n27981\t10014\n21619\t10006\n21619\t90001\n21619\t90010\n27981\t10012\n21619\t10013\n27981\t10007\n27981\t90010\n27981\t90013\n27981\t10006\n21619\t90013\n21619\t10007\n27981\t90009\n27981\t90015\n21619\t90009\n27981\t90011\n27981\t10013\n"
       },
       "dateCreated": "Apr 19, 2016 9:11:44 PM",
-      "dateStarted": "Jun 6, 2016 4:39:15 AM",
-      "dateFinished": "Jun 6, 2016 4:39:19 AM",
+      "dateStarted": "Jun 10, 2016 3:14:43 AM",
+      "dateFinished": "Jun 10, 2016 3:20:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Generate Recommendations for (user, Item) Pairs",
-      "text": "val recommendationsDF \u003d model.transform(allUserItemPairsDF)\n  .as(\"recommendations\")\n  .cache()",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "text": "val recommendationsDF \u003d model.transform(allUserItemPairsDF)\n  .as(\"recommendations\")\n  .cache()\n//  .except(itemRatingsDF.select($\"userId\", $\"itemId\"))\n\n//  .cache()\n\nz.show(recommendationsDF.sort($\"userId\", $\"itemId\"))",
+      "dateUpdated": "Jun 10, 2016 3:40:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 300.0,
           "optionOpen": false,
-          "keys": [],
-          "values": [],
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
           "groups": [],
-          "scatter": {}
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
@@ -389,19 +412,19 @@
       "id": "20160603-221143_1134516290",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "recommendationsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, prediction: float]\n"
+        "type": "TABLE",
+        "msg": "userId\titemId\tprediction\n21619\t10006\t-5.657524E-4\n21619\t10007\t-5.657524E-4\n21619\t10008\t-5.657524E-4\n21619\t10012\t0.9949857\n21619\t10013\t0.9949857\n21619\t10014\t0.9949857\n21619\t90001\t0.9949857\n21619\t90009\t-5.657524E-4\n21619\t90010\t-5.657524E-4\n21619\t90011\t-5.657524E-4\n21619\t90013\t0.9949857\n21619\t90015\t0.9949857\n27981\t10006\t0.9949857\n27981\t10007\t0.99498576\n27981\t10008\t0.9949857\n27981\t10012\t-5.657524E-4\n27981\t10013\t-5.657673E-4\n27981\t10014\t-5.657524E-4\n27981\t90001\t-5.657673E-4\n27981\t90009\t0.99498576\n27981\t90010\t0.99498576\n27981\t90011\t0.99498576\n27981\t90013\t-5.657524E-4\n27981\t90015\t-5.657673E-4\n"
       },
       "dateCreated": "Jun 3, 2016 10:11:43 PM",
-      "dateStarted": "Jun 6, 2016 4:39:19 AM",
-      "dateFinished": "Jun 6, 2016 4:39:19 AM",
+      "dateStarted": "Jun 10, 2016 3:40:19 AM",
+      "dateFinished": "Jun 10, 2016 3:46:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the Recommendations",
       "text": "val enrichedRecommendationsDF \u003d \n   recommendationsDF.join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"recommendations.itemId\")\n   .select($\"userId\", $\"items.itemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"prediction\")\n   .sort($\"userId\", $\"prediction\" desc, $\"items.itemId\")\n   \nz.show(enrichedRecommendationsDF.select($\"userId\", $\"itemId\", $\"title\", $\"prediction\"))",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 3:49:42 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -426,18 +449,78 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\titemId\ttitle\tprediction\n21619\t10012\tJohnny Depp\t0.9949857\n21619\t10013\tMark Wahlberg\t0.9949857\n21619\t10014\tJames Franco\t0.9949857\n21619\t90001\tLinda Blair\t0.9949857\n21619\t90013\tSofia Vergara\t0.9949857\n21619\t90015\tBarbara Niven\t0.9949857\n21619\t10006\tTom Cruise\t-5.657524E-4\n21619\t10007\tDenzel Washington\t-5.657524E-4\n21619\t10008\tRobert De Niro\t-5.657524E-4\n21619\t90009\tPam Grier\t-5.657524E-4\n21619\t90010\tTiffani Thiessen\t-5.657524E-4\n21619\t90011\tAshley Judd\t-5.657524E-4\n27981\t10007\tDenzel Washington\t0.99498576\n27981\t10008\tRobert De Niro\t0.99498576\n27981\t10006\tTom Cruise\t0.9949857\n27981\t90009\tPam Grier\t0.9949857\n27981\t90010\tTiffani Thiessen\t0.9949857\n27981\t90011\tAshley Judd\t0.9949857\n27981\t10013\tMark Wahlberg\t-5.657524E-4\n27981\t10014\tJames Franco\t-5.657524E-4\n27981\t90001\tLinda Blair\t-5.657524E-4\n27981\t90015\tBarbara Niven\t-5.657524E-4\n27981\t10012\tJohnny Depp\t-5.657673E-4\n27981\t90013\tSofia Vergara\t-5.657673E-4\n"
+        "msg": "userId\titemId\ttitle\tprediction\n21619\t10012\tJohnny Depp\t0.9949857\n21619\t10013\tMark Wahlberg\t0.9949857\n21619\t10014\tJames Franco\t0.9949857\n21619\t90001\tLinda Blair\t0.9949857\n21619\t90013\tSofia Vergara\t0.9949857\n21619\t90015\tBarbara Niven\t0.9949857\n21619\t10006\tTom Cruise\t-5.657524E-4\n21619\t10007\tDenzel Washington\t-5.657524E-4\n21619\t10008\tRobert De Niro\t-5.657524E-4\n21619\t90009\tPam Grier\t-5.657524E-4\n21619\t90010\tTiffani Thiessen\t-5.657524E-4\n21619\t90011\tAshley Judd\t-5.657524E-4\n27981\t10007\tDenzel Washington\t0.99498576\n27981\t90009\tPam Grier\t0.99498576\n27981\t90010\tTiffani Thiessen\t0.99498576\n27981\t90011\tAshley Judd\t0.99498576\n27981\t10006\tTom Cruise\t0.9949857\n27981\t10008\tRobert De Niro\t0.9949857\n27981\t10012\tJohnny Depp\t-5.657524E-4\n27981\t10014\tJames Franco\t-5.657524E-4\n27981\t90013\tSofia Vergara\t-5.657524E-4\n27981\t10013\tMark Wahlberg\t-5.657673E-4\n27981\t90001\tLinda Blair\t-5.657673E-4\n27981\t90015\tBarbara Niven\t-5.657673E-4\n"
       },
       "dateCreated": "Jun 3, 2016 9:04:28 PM",
-      "dateStarted": "Jun 6, 2016 4:39:19 AM",
-      "dateFinished": "Jun 6, 2016 4:46:57 AM",
+      "dateStarted": "Jun 10, 2016 3:49:42 AM",
+      "dateFinished": "Jun 10, 2016 3:49:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Store Recommendations in ElasticSearch",
+      "text": "import org.elasticsearch.spark.sql._\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(\"overwrite\")\n  .options(esConfig)\n  .save(\"advancedspark/personalized-als\")\n\nz.show(enrichedRecommendationsDF)",
+      "dateUpdated": "Jun 10, 2016 3:50:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460922825977_-689845777",
+      "id": "20160417-195345_2022099383",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\ttitle\tdescription\ttags\timg\tprediction\n21619\t10012\tJohnny Depp\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\tOwensboro, Kentucky, United States\timg/actors/10012.jpg\t0.9949857\n21619\t10013\tMark Wahlberg\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\tBoston, Massachusetts, United States\timg/actors/10013.jpg\t0.9949857\n21619\t10014\tJames Franco\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\tPalo Alto, California, United States\timg/actors/10014.jpg\t0.9949857\n21619\t90001\tLinda Blair\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\tSt. Louis, Missouri, United States\timg/actors/90001.jpg\t0.9949857\n21619\t90013\tSofia Vergara\tSofia Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Davila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\tBarranquilla, Atlantico, Colombia\timg/actors/90013.jpg\t0.9949857\n21619\t90015\tBarbara Niven\tBarbara Niven was born on February 26, 1953 in Portland, Oregon, USA as Barbara Lee Bucholz. She is an actress and producer, known for A Perfect Ending (2012), Pensacola: Wings of Gold (1997) and The Rat Pack (1998).\tPortland, Oregon, United States\timg/actors/90015.jpg\t0.9949857\n21619\t10006\tTom Cruise\tIf you had told fourteen-year-old Franciscan seminary student Thomas Cruise Mapother IV that one day in the not-too-distant future he would be considered one of the top hundred movie stars of all time, he would have probably grinned and told you that his ambition was to become a priest. None the less, this sensitive, deeply religious youngster who...\tSyracuse, New York, United States\timg/actors/10006.jpg\t-5.657524E-4\n21619\t10007\tDenzel Washington\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\tMount Vernon, New York, United States\timg/actors/10007.jpg\t-5.657524E-4\n21619\t10008\tRobert De Niro\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\tManhattan, New York, United States\timg/actors/10008.jpg\t-5.657524E-4\n21619\t90009\tPam Grier\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\tWinstom-Salem, North Carolina, United States\timg/actors/90009.jpg\t-5.657524E-4\n21619\t90010\tTiffani Thiessen\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\tLong Beach, California, United States\timg/actors/90010.jpg\t-5.657524E-4\n21619\t90011\tAshley Judd\tAshley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.\tGranada Hills, California, United States\timg/actors/90011.jpg\t-5.657524E-4\n27981\t10007\tDenzel Washington\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\tMount Vernon, New York, United States\timg/actors/10007.jpg\t0.99498576\n27981\t90009\tPam Grier\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\tWinstom-Salem, North Carolina, United States\timg/actors/90009.jpg\t0.99498576\n27981\t90010\tTiffani Thiessen\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\tLong Beach, California, United States\timg/actors/90010.jpg\t0.99498576\n27981\t90011\tAshley Judd\tAshley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.\tGranada Hills, California, United States\timg/actors/90011.jpg\t0.99498576\n27981\t10006\tTom Cruise\tIf you had told fourteen-year-old Franciscan seminary student Thomas Cruise Mapother IV that one day in the not-too-distant future he would be considered one of the top hundred movie stars of all time, he would have probably grinned and told you that his ambition was to become a priest. None the less, this sensitive, deeply religious youngster who...\tSyracuse, New York, United States\timg/actors/10006.jpg\t0.9949857\n27981\t10008\tRobert De Niro\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\tManhattan, New York, United States\timg/actors/10008.jpg\t0.9949857\n27981\t10012\tJohnny Depp\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\tOwensboro, Kentucky, United States\timg/actors/10012.jpg\t-5.657524E-4\n27981\t10014\tJames Franco\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\tPalo Alto, California, United States\timg/actors/10014.jpg\t-5.657524E-4\n27981\t90013\tSofia Vergara\tSofia Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Davila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\tBarranquilla, Atlantico, Colombia\timg/actors/90013.jpg\t-5.657524E-4\n27981\t10013\tMark Wahlberg\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\tBoston, Massachusetts, United States\timg/actors/10013.jpg\t-5.657673E-4\n27981\t90001\tLinda Blair\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\tSt. Louis, Missouri, United States\timg/actors/90001.jpg\t-5.657673E-4\n27981\t90015\tBarbara Niven\tBarbara Niven was born on February 26, 1953 in Portland, Oregon, USA as Barbara Lee Bucholz. She is an actress and producer, known for A Perfect Ending (2012), Pensacola: Wings of Gold (1997) and The Rat Pack (1998).\tPortland, Oregon, United States\timg/actors/90015.jpg\t-5.657673E-4\n"
+      },
+      "dateCreated": "Apr 17, 2016 7:53:45 PM",
+      "dateStarted": "Jun 10, 2016 3:50:09 AM",
+      "dateFinished": "Jun 10, 2016 3:50:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show UserFactors Matrix",
       "text": "import org.apache.spark.mllib.linalg.Vectors\n\nval userFactorsDF \u003d model.userFactors.map(row \u003d\u003e \n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"userId\", \"userFactors\")\n .sort($\"userId\" asc)\n .as(\"userFactors\")\n\nz.show(userFactorsDF)",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 3:49:46 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -489,15 +572,15 @@
         "msg": "userId\tuserFactors\n21619\tWrappedArray(-0.4096800982952118, -0.25326716899871826, -0.4242548644542694, 0.20316872000694275, 0.19432096183300018, -0.31610172986984253, -0.07034748792648315, -0.1451500654220581, -0.4093455672264099, 0.4618324041366577)\n27981\tWrappedArray(-0.04865466058254242, 0.10689748823642731, 0.111043281853199, -0.006137430667877197, 0.28406915068626404, -0.4319809377193451, 0.02819603495299816, 0.8342183232307434, -0.00563474278897047, 0.08712407201528549)\n"
       },
       "dateCreated": "Mar 1, 2016 11:06:08 PM",
-      "dateStarted": "Jun 6, 2016 4:39:19 AM",
-      "dateFinished": "Jun 6, 2016 4:46:58 AM",
+      "dateStarted": "Jun 10, 2016 3:49:46 AM",
+      "dateFinished": "Jun 10, 2016 3:49:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show ItemFactors Matrix",
       "text": "import org.apache.spark.mllib.linalg.Vectors\n \nval itemFactorsDF \u003d model.itemFactors.map(row \u003d\u003e\n  (row.getInt(0), row.getSeq[Float](1).toArray.map(_.toDouble))\n).toDF(\"itemId\", \"itemFactors\")\n .sort($\"itemId\" asc)\n .as(\"itemFactors\")\n\nz.show(itemFactorsDF)",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 3:49:48 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -526,15 +609,15 @@
         "msg": "itemId\titemFactors\n10006\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n10007\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n10008\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n10012\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n10013\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n10014\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n90001\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n90009\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n90010\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n90011\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\n90013\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n90015\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\n"
       },
       "dateCreated": "Mar 1, 2016 8:46:57 PM",
-      "dateStarted": "Jun 6, 2016 4:46:58 AM",
-      "dateFinished": "Jun 6, 2016 4:46:59 AM",
+      "dateStarted": "Jun 10, 2016 3:49:49 AM",
+      "dateFinished": "Jun 10, 2016 3:49:49 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enriched ItemFactors Matrix",
       "text": "val enrichedItemFactorsDF \u003d itemFactorsDF\n  .join(itemsDF, $\"items.itemId\" \u003d\u003d\u003d $\"itemFactors.itemId\")\n  .select($\"items.itemId\", $\"title\", $\"tags\", $\"itemFactors\", $\"img\")\n  .sort($\"items.itemId\")\n  .as(\"enrichedItemFactors\")\n\nz.show(enrichedItemFactorsDF)",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 3:49:52 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -563,15 +646,15 @@
         "msg": "itemId\ttitle\ttags\titemFactors\timg\n10006\tTom Cruise\tSyracuse, New York, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/10006.jpg\n10007\tDenzel Washington\tMount Vernon, New York, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/10007.jpg\n10008\tRobert De Niro\tManhattan, New York, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/10008.jpg\n10012\tJohnny Depp\tOwensboro, Kentucky, United States\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/10012.jpg\n10013\tMark Wahlberg\tBoston, Massachusetts, United States\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/10013.jpg\n10014\tJames Franco\tPalo Alto, California, United States\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/10014.jpg\n90001\tLinda Blair\tSt. Louis, Missouri, United States\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/90001.jpg\n90009\tPam Grier\tWinstom-Salem, North Carolina, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/90009.jpg\n90010\tTiffani Thiessen\tLong Beach, California, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/90010.jpg\n90011\tAshley Judd\tGranada Hills, California, United States\tWrappedArray(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\timg/actors/90011.jpg\n90013\tSofia Vergara\tBarranquilla, Atlantico, Colombia\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/90013.jpg\n90015\tBarbara Niven\tPortland, Oregon, United States\tWrappedArray(-0.40706881880760193, -0.25938284397125244, -0.430660605430603, 0.20358175039291382, 0.17835383117198944, -0.2918274402618408, -0.07196176052093506, -0.19227521121501923, -0.40916192531585693, 0.4570672810077667)\timg/actors/90015.jpg\n"
       },
       "dateCreated": "Apr 19, 2016 8:37:45 PM",
-      "dateStarted": "Jun 6, 2016 4:46:59 AM",
-      "dateFinished": "Jun 6, 2016 4:47:00 AM",
+      "dateStarted": "Jun 10, 2016 3:49:52 AM",
+      "dateFinished": "Jun 10, 2016 3:49:53 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Calculate Predicted Rating for a Given userId and ItemId - compare Prediction to above",
-      "text": "import com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// User 12663\nval givenUserId \u003d 12663\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Item 7\nval givenItemId \u003d 7\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n  \nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the prediction value in the offline-generated matrix\nval prediction \u003d BLAS.dot(givenUserFactorsVector, givenItemFactorsVector)",
-      "dateUpdated": "Jun 6, 2016 4:47:08 AM",
+      "text": "import com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\n\n// User 21619\nval givenUserId \u003d 21619\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n// Item 10006 - Tom Cruise\nval givenItemId \u003d 10006\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n  \nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\nval givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the prediction value in the offline-generated matrix\nval prediction \u003d BLAS.dot(givenUserFactorsVector, givenItemFactorsVector)",
+      "dateUpdated": "Jun 10, 2016 3:49:55 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -595,20 +678,20 @@
       "jobName": "paragraph_1456954812726_1681075178",
       "id": "20160302-214012_540640872",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\ngivenUserId: Int \u003d 12663\njava.lang.ArrayIndexOutOfBoundsException: 0\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:83)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:85)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:87)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:93)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:95)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:97)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat \u003cinit\u003e(\u003cconsole\u003e:121)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:125)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "import com.advancedspark.ml.BLAS\nimport com.advancedspark.ml.Vectors\ngivenUserId: Int \u003d 21619\ngivenUserFactors: Array[Double] \u003d Array(-0.4096800982952118, -0.25326716899871826, -0.4242548644542694, 0.20316872000694275, 0.19432096183300018, -0.31610172986984253, -0.07034748792648315, -0.1451500654220581, -0.4093455672264099, 0.4618324041366577)\ngivenItemId: Int \u003d 10006\ngivenItemFactors: Array[Double] \u003d Array(-0.025551114231348038, 0.12122520804405212, 0.13502173125743866, -0.017604881897568703, 0.2731962203979492, -0.4142840802669525, 0.032175213098526, 0.8426833152770996, 0.017464041709899902, 0.06109003350138664)\ngivenUserFactorsVector: com.advancedspark.ml.Vector \u003d [-0.4096800982952118,-0.25326716899871826,-0.4242548644542694,0.20316872000694275,0.19432096183300018,-0.31610172986984253,-0.07034748792648315,-0.1451500654220581,-0.4093455672264099,0.4618324041366577]\ngivenItemFactorsVector: com.advancedspark.ml.Vector \u003d [-0.025551114231348038,0.12122520804405212,0.13502173125743866,-0.017604881897568703,0.2731962203979492,-0.4142840802669525,0.032175213098526,0.8426833152770996,0.017464041709899902,0.06109003350138664]\nprediction: Double \u003d -5.65757906563269E-4\n"
       },
       "dateCreated": "Mar 2, 2016 9:40:12 PM",
-      "dateStarted": "Jun 6, 2016 4:47:15 AM",
-      "dateFinished": "Jun 6, 2016 4:47:16 AM",
-      "status": "ERROR",
+      "dateStarted": "Jun 10, 2016 3:49:55 AM",
+      "dateFinished": "Jun 10, 2016 3:49:57 AM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Write the User and item factor vectors to elasticSearch",
       "text": "val esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nuserFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/user-factors-als\")\n \nenrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"itemFactors\", $\"tags\", $\"img\")\n .sort($\"itemId\" asc)\n .write.format(\"org.elasticsearch.spark.sql\")\n .mode(\"overwrite\")\n .options(esConfig)\n .save(\"advancedspark/item-factors-als\")",
-      "dateUpdated": "Jun 6, 2016 4:39:03 AM",
+      "dateUpdated": "Jun 10, 2016 3:50:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -637,75 +720,15 @@
         "msg": "esConfig: scala.collection.immutable.Map[String,String] \u003d Map(pushdown -\u003e true, es.nodes -\u003e 127.0.0.1, es.port -\u003e 9200)\nwarning: there were 1 feature warning(s); re-run with -feature for details\nwarning: there were 1 feature warning(s); re-run with -feature for details\n"
       },
       "dateCreated": "Apr 17, 2016 10:29:19 PM",
-      "dateStarted": "Jun 6, 2016 4:47:00 AM",
-      "dateFinished": "Jun 6, 2016 4:47:05 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Store Recommendations in ElasticSearch",
-      "text": "import org.elasticsearch.spark.sql._\n\nval esConfig \u003d Map(\"pushdown\" -\u003e \"true\", \"es.nodes\" -\u003e \"127.0.0.1\", \"es.port\" -\u003e \"9200\")\n\nenrichedRecommendationsDF.write.format(\"org.elasticsearch.spark.sql\")\n  .mode(\"overwrite\")\n  .options(esConfig)\n  .save(\"advancedspark/personalized-als\")\n\nz.show(enrichedRecommendationsDF)",
-      "dateUpdated": "Jun 6, 2016 4:39:04 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "userId",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "itemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "userId",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "itemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "editorHide": false,
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1460922825977_-689845777",
-      "id": "20160417-195345_2022099383",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "userId\titemId\ttitle\tdescription\ttags\timg\tprediction\n21619\t10012\tJohnny Depp\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\tOwensboro, Kentucky, United States\timg/actors/10012.jpg\t0.9949857\n21619\t10013\tMark Wahlberg\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\tBoston, Massachusetts, United States\timg/actors/10013.jpg\t0.9949857\n21619\t10014\tJames Franco\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\tPalo Alto, California, United States\timg/actors/10014.jpg\t0.9949857\n21619\t90001\tLinda Blair\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\tSt. Louis, Missouri, United States\timg/actors/90001.jpg\t0.9949857\n21619\t90013\tSofia Vergara\tSofia Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Davila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\tBarranquilla, Atlantico, Colombia\timg/actors/90013.jpg\t0.9949857\n21619\t90015\tBarbara Niven\tBarbara Niven was born on February 26, 1953 in Portland, Oregon, USA as Barbara Lee Bucholz. She is an actress and producer, known for A Perfect Ending (2012), Pensacola: Wings of Gold (1997) and The Rat Pack (1998).\tPortland, Oregon, United States\timg/actors/90015.jpg\t0.9949857\n21619\t10006\tTom Cruise\tIf you had told fourteen-year-old Franciscan seminary student Thomas Cruise Mapother IV that one day in the not-too-distant future he would be considered one of the top hundred movie stars of all time, he would have probably grinned and told you that his ambition was to become a priest. None the less, this sensitive, deeply religious youngster who...\tSyracuse, New York, United States\timg/actors/10006.jpg\t-5.657524E-4\n21619\t10007\tDenzel Washington\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\tMount Vernon, New York, United States\timg/actors/10007.jpg\t-5.657524E-4\n21619\t10008\tRobert De Niro\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\tManhattan, New York, United States\timg/actors/10008.jpg\t-5.657524E-4\n21619\t90009\tPam Grier\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\tWinstom-Salem, North Carolina, United States\timg/actors/90009.jpg\t-5.657524E-4\n21619\t90010\tTiffani Thiessen\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\tLong Beach, California, United States\timg/actors/90010.jpg\t-5.657524E-4\n21619\t90011\tAshley Judd\tAshley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.\tGranada Hills, California, United States\timg/actors/90011.jpg\t-5.657524E-4\n27981\t10007\tDenzel Washington\tDenzel Hayes Washington, Jr. was born on December 28, 1954 in Mount Vernon, New York. He is the middle of three children of a beautician mother, Lennis (Lowe), from Georgia, and a Pentecostal minister father, Denzel Washington, Sr., from Virginia. After graduating from high school, Denzel enrolled at Fordham University...\tMount Vernon, New York, United States\timg/actors/10007.jpg\t0.99498576\n27981\t10008\tRobert De Niro\tRobert De Niro, thought of as one of the greatest American actors of all time, was born in New York City, to artists Virginia (Admiral) and Robert De Niro Sr. His paternal grandfather was of Italian descent, and his other ancestry is Irish, Dutch, English, French, and German. He was trained at the Stella Adler Conservatory and the American Workshop...\tManhattan, New York, United States\timg/actors/10008.jpg\t0.99498576\n27981\t10006\tTom Cruise\tIf you had told fourteen-year-old Franciscan seminary student Thomas Cruise Mapother IV that one day in the not-too-distant future he would be considered one of the top hundred movie stars of all time, he would have probably grinned and told you that his ambition was to become a priest. None the less, this sensitive, deeply religious youngster who...\tSyracuse, New York, United States\timg/actors/10006.jpg\t0.9949857\n27981\t90009\tPam Grier\tPam Grier was born in Winston-Salem, NC, one of four children of Gwendolyn Sylvia (Samuels), a nurse, and Clarence Ransom Grier Jr., an Air Force mechanic. Pam has been a major African-American star from the early 1970s. Her career started in 1971, when Roger Corman of New World Pictures launched her with The Big Doll House...\tWinstom-Salem, North Carolina, United States\timg/actors/90009.jpg\t0.9949857\n27981\t90010\tTiffani Thiessen\tTiffani-Amber Thiessen was born on January 23, 1974, in Long Beach, California, USA, to Frank Thiessen, a park designer, and Robyn Ernest, a homemaker. She grew up in Long Beach with her parents and her brothers, professional cyclist Todd (b. 1968) and Schuyler (b. 1977). When Tiffani was 8, her uncle...\tLong Beach, California, United States\timg/actors/90010.jpg\t0.9949857\n27981\t90011\tAshley Judd\tAshley Judd was born on April 19, 1968 in Granada Hills, California, USA as Ashley Tyler Ciminella. She is an actress and producer, known for Divergent (2014), Heat (1995) and Double Jeopardy (1999). She was previously married to Dario Franchitti.\tGranada Hills, California, United States\timg/actors/90011.jpg\t0.9949857\n27981\t10013\tMark Wahlberg\tAmerican actor Mark Wahlberg is one of a handful of respected entertainers who successfully made the transition from teen pop idol to respected actor. A Best Supporting Actor Oscar nominee for The Departed who went on to receive positive critical reviews for his performance in The Fighter, Wahlberg also is a solid comedy actor, proven by his starring role in Ted...\tBoston, Massachusetts, United States\timg/actors/10013.jpg\t-5.657524E-4\n27981\t10014\tJames Franco\tKnown for his breakthrough starring role on Freaks and Geeks, James Franco was born in Palo Alto, California on April 19, 1978. His mother, Betsy Franco, is Jewish, and his father, Douglas Eugene \"Doug\" Franco, was of Portuguese and Swedish descent, and ran a Silicon Valley business. James\u0027s mother, a writer, has occasionally acted...\tPalo Alto, California, United States\timg/actors/10014.jpg\t-5.657524E-4\n27981\t90001\tLinda Blair\tFrom the age of five, Linda Blair had to get used to the spotlight, first as a child model and then as an actress, when out of 600 applicants she was picked for the role of Regan, the possessed child, in The Exorcist. Linda quickly rose to international fame, won the Golden Globe, and seemed to be set to take the Academy Award for that role...\tSt. Louis, Missouri, United States\timg/actors/90001.jpg\t-5.657524E-4\n27981\t90015\tBarbara Niven\tBarbara Niven was born on February 26, 1953 in Portland, Oregon, USA as Barbara Lee Bucholz. She is an actress and producer, known for A Perfect Ending (2012), Pensacola: Wings of Gold (1997) and The Rat Pack (1998).\tPortland, Oregon, United States\timg/actors/90015.jpg\t-5.657524E-4\n27981\t10012\tJohnny Depp\tJohnny Depp is perhaps one of the most versatile actors of his day and age in Hollywood. He was born John Christopher Depp II in Owensboro, Kentucky, on June 9, 1963, to Betty Sue (Wells), who worked as a waitress, and John Christopher Depp, a civil engineer. Depp was raised in Florida. He dropped out of school when he was 15...\tOwensboro, Kentucky, United States\timg/actors/10012.jpg\t-5.657673E-4\n27981\t90013\tSofia Vergara\tSofia Margarita Vergara Vergara was born and raised in Barranquilla, Colombia. Her mother, Margarita Vergara Davila de Vergara, is a housewife. Her father, Julio Enrique Vergara Robayo, provides cattle to the meat industry. She has five siblings. She was educated at a private bilingual Spanish/English school...\tBarranquilla, Atlantico, Colombia\timg/actors/90013.jpg\t-5.657673E-4\n"
-      },
-      "dateCreated": "Apr 17, 2016 7:53:45 PM",
-      "dateStarted": "Jun 6, 2016 4:47:01 AM",
-      "dateFinished": "Jun 6, 2016 4:47:12 AM",
+      "dateStarted": "Jun 10, 2016 3:50:04 AM",
+      "dateFinished": "Jun 10, 2016 3:50:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save UserFactors In Json Format",
       "text": "userFactorsDF.select($\"userId\", $\"userFactors\")\n .sort($\"userId\" asc)\n .coalesce(1)\n .write.format(\"json\")\n .partitionBy(\"userId\")\n .mode(\"overwrite\")\n .save(\"/root/pipeline/datasets/serving/live-recommendations/json/als\")",
-      "dateUpdated": "Jun 6, 2016 4:39:04 AM",
+      "dateUpdated": "Jun 10, 2016 3:50:22 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -733,15 +756,15 @@
         "msg": "warning: there were 1 feature warning(s); re-run with -feature for details\n"
       },
       "dateCreated": "May 16, 2016 8:24:19 PM",
-      "dateStarted": "Jun 6, 2016 4:47:05 AM",
-      "dateFinished": "Jun 6, 2016 4:47:12 AM",
+      "dateStarted": "Jun 10, 2016 3:50:22 AM",
+      "dateFinished": "Jun 10, 2016 3:50:23 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save ItemFactors in json Format",
       "text": "enrichedItemFactorsDF.select($\"itemId\", $\"itemFactors\")\n .sort($\"itemId\" asc)\n .coalesce(1)\n .write.format(\"json\")\n .partitionBy(\"itemId\")\n .mode(\"overwrite\")\n .save(\"/root/pipeline/datasets/serving/live-recommendations/json/als\")",
-      "dateUpdated": "Jun 6, 2016 4:39:04 AM",
+      "dateUpdated": "Jun 10, 2016 3:50:23 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -769,15 +792,15 @@
         "msg": "warning: there were 1 feature warning(s); re-run with -feature for details\n"
       },
       "dateCreated": "May 16, 2016 7:07:50 PM",
-      "dateStarted": "Jun 6, 2016 4:47:12 AM",
-      "dateFinished": "Jun 6, 2016 4:47:14 AM",
+      "dateStarted": "Jun 10, 2016 3:50:23 AM",
+      "dateFinished": "Jun 10, 2016 3:50:25 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save model in spark parquet format",
       "text": "model.save(s\"/root/pipeline/datasets/serving/live-recommendations/spark-1.6.1/als/${System.currentTimeMillis}.parquet\")",
-      "dateUpdated": "Jun 6, 2016 4:39:04 AM",
+      "dateUpdated": "Jun 10, 2016 3:50:28 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -805,13 +828,13 @@
         "msg": ""
       },
       "dateCreated": "May 16, 2016 4:01:30 AM",
-      "dateStarted": "Jun 6, 2016 4:47:13 AM",
-      "dateFinished": "Jun 6, 2016 4:47:15 AM",
+      "dateStarted": "Jun 10, 2016 3:50:28 AM",
+      "dateFinished": "Jun 10, 2016 3:50:29 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 6, 2016 4:39:04 AM",
+      "dateUpdated": "Jun 10, 2016 2:52:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -837,8 +860,8 @@
         "type": "TEXT"
       },
       "dateCreated": "May 31, 2016 3:29:01 AM",
-      "dateStarted": "Jun 6, 2016 4:47:14 AM",
-      "dateFinished": "Jun 6, 2016 4:47:15 AM",
+      "dateStarted": "Jun 10, 2016 2:59:05 AM",
+      "dateFinished": "Jun 10, 2016 2:59:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

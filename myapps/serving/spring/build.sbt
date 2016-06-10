@@ -3,8 +3,6 @@ val globalSettings = Seq(
   scalaVersion := sys.env("SCALA_VERSION") 
 )
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
-
 lazy val settings = (project in file("."))
                     .settings(name := "spring")
                     .settings(globalSettings:_*)

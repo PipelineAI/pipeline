@@ -57,7 +57,7 @@ ENV \
 #   in order to properly install Bazel (used by TensorFlow) 
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
  FINAGLE_VERSION=6.34.0 \ 
- HYSTRIX_VERSION=1.5.2 \
+ HYSTRIX_VERSION=1.5.3 \
  INDEXEDRDD_VERSION=0.3 \
  ANKUR_PART_VERSION=0.1 \
  JANINO_VERSION=2.7.8 \
@@ -348,23 +348,28 @@ RUN \
  && cd ~ \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
- && rm titan-${TITAN_VERSION}.zip 
+ && rm titan-${TITAN_VERSION}.zip \
+
+# Hystrix Dashboard
+ && cd ~ \
+ && mkdir -p ~/hystrix-dashboard-${HYSTRIX_VERSION} \
+ && cd ~/hystrix-dashboard-${HYSTRIX_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar 	
 
 RUN \
 # Get Latest Pipeline Code 
  cd ~/pipeline \
- && git pull 
+ && git pull  
 
-RUN \
 # Sbt Feeder
- cd ~/pipeline/myapps/akka/feeder && sbt clean assembly 
-
 RUN \
+ cd ~/pipeline/myapps/akka/feeder && sbt clean assembly \
+
 # Sbt ML 
 # This is temporary while we figure out how to specify the following dependency as a --package into Spark (note `models` classifier)
 #   edu.stanford.corenlp:stanford-corenlp:${STANFORD_CORENLP_VERSION}:models
 # Classifiers don't appear to be supported by --packages
- cd ~ \
+ && cd ~ \
  && wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip \
  && unzip stanford-corenlp-full-2015-12-09.zip \
  && rm stanford-corenlp-full-2015-12-09.zip \
@@ -400,7 +405,7 @@ RUN \
 # Bleeding Edge Spark
 RUN \
   cd ~ \
-  &&  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
+  &&  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz
 #  && git clone --branch 'branch-2.0' --single-branch https://github.com/apache/spark.git branch-2.0 
 #  && cd branch-2.0 \
 #  && ./dev/make-distribution.sh --name fluxcapacitor --tgz -Phadoop-2.6 -Dhadoop.version=2.6.0 -Psparkr -Phive -Pspark-ganglia-lgpl -Pnetlib-lgpl -Dscala-2.10 -DskipTests \

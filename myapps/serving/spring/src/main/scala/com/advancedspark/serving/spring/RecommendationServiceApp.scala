@@ -19,11 +19,23 @@ import com.netflix.hystrix.contrib.requests.stream.HystrixRequestEventsSseServle
 @Configuration
 @RestController
 @EnableAutoConfiguration
-class SpringRecommendationService {
-  @RequestMapping(Array("/predict/{userId}/{itemId}"))
+class RecommendationService {
+  @RequestMapping(Array("/prediction/{userId}/{itemId}"))
   def predict(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
-    val prediction = new ElasticSearchPredictionCommand(userId, itemId).execute()
+    val prediction = new UserItemPredictionCommand(userId, itemId).execute()
     "userId:" + userId + ", itemId:" + itemId + ", prediction:" + prediction
+  }
+
+  @RequestMapping(Array("/recommendations/{userId}"))
+  def recommendations(@PathVariable("userId") userId: Int): String = {
+    val recommendations = new UserRecommendationsCommand(userId).execute()
+    "userId:" + userId + ", recommendations:" + recommendations 
+  }
+
+  @RequestMapping(Array("/similars/{itemId}"))
+  def similars(@PathVariable("itemId") itemId: Int): String = {
+    val similars = new ItemSimilarsCommand(itemId).execute()
+    "itemId:" + itemId + ", similars:" + similars
   }
 
   @Bean
@@ -79,8 +91,8 @@ class SpringRecommendationService {
   }
 }
 
-object SpringRecommendationServiceApp {
+object RecommendationServiceApp {
   def main(args: Array[String]): Unit = {
-    SpringApplication.run(classOf[SpringRecommendationService])
+    SpringApplication.run(classOf[RecommendationService])
   }
 }
