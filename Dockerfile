@@ -83,6 +83,7 @@ RUN \
  && apt-get install -y git \
  && apt-get install -y openssh-server \
  && apt-get install -y apache2 \
+ && apt-get install -y libssl-dev \
 
 # iPython/Jupyter
  && apt-get install -y python-dev \
@@ -372,7 +373,7 @@ RUN \
  && wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
  && echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list \ 
  && apt-get update \
- && apt-get install jenkins \
+ && apt-get install -y jenkins \
  && replace "HTTP_PORT=8080" "HTTP_PORT=10080" -- /etc/default/jenkins
 
 RUN \
