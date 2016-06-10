@@ -71,11 +71,13 @@ mkdir -p $LOGS_HOME/spark/ml
 mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
 mkdir -p $LOGS_HOME/spark/redis
-mkdir -p $LOGS_HOME/finagle
-mkdir -p $LOGS_HOME/flask
-mkdir -p $LOGS_HOME/watcher 
 mkdir -p $LOGS_HOME/jupyterhub
 mkdir -p $LOGS_HOME/spark/redis
+mkdir -p $LOGS_HOME/flink/streaming
+mkdir -p $LOGS_HOME/serving/spring
+mkdir -p $LOGS_HOME/serving/finagle
+mkdir -p $LOGS_HOME/serving/flask
+mkdir -p $LOGS_HOME/serving/watcher
 
 # Ganglia
 echo '...Configuring Ganglia...'
@@ -87,7 +89,7 @@ ln -s $CONFIG_HOME/ganglia/gmetad.conf /etc/ganglia
 ln -s $CONFIG_HOME/ganglia/gmond.conf /etc/ganglia
 
 # MySQL (Required by HiveQL Exercises)
-echo '...Configurating MySQL...'
+echo '...Configuring MySQL...'
 service mysql start
 mysqladmin -u root password "password"
 echo '...****Ignore the ERROR 2002s Below****...'

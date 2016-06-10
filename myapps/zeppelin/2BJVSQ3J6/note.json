@@ -425,7 +425,7 @@
     {
       "title": "Project all images into lower-dimensional Principal Component Space",
       "text": "val scaledImagesProjectedIntoPrincipalComponentSpaceMatrix \u003d \n  scaledImagesAsPixelRoxMatricesRDD.multiply(principalComponentsMatrix)\n\nval (numImages, numProjectedFeatures) \u003d\n  (scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numRows, \n   scaledImagesProjectedIntoPrincipalComponentSpaceMatrix.numCols)",
-      "dateUpdated": "May 16, 2016 6:05:24 PM",
+      "dateUpdated": "Jun 4, 2016 3:31:47 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

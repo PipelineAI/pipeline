@@ -1,6 +1,6 @@
-name := "streaming"
+name := "flink-streaming"
 
-version := "0.1-SNAPSHOT"
+version := "1.0"
 
 organization := "com.advancedflink.streaming"
 
@@ -8,13 +8,13 @@ addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERS
 
 scalaVersion in ThisBuild := "2.10.4"
 
-val flinkVersion = "1.0.0"
+val flinkVersion = sys.env("FLINK_VERSION") 
 
 val flinkDependencies = Seq(
   "org.apache.flink" %% "flink-scala" % flinkVersion % "provided",
   "org.apache.flink" %% "flink-streaming-scala" % flinkVersion % "provided",
-  "org.apache.flink" %% "flink-connector-kafka-0.8" % flinkVersion % "provided",
-  "org.apache.kafka" %% "kafka" % "0.8.2.2" % "provided",
+  "org.apache.flink" %% "flink-connector-kafka-0.9" % flinkVersion % "provided",
+  "org.apache.kafka" %% "kafka" % "0.9.0.1" % "provided",
   "org.apache.flink" %% "flink-cep" % flinkVersion % "provided"
 )
 
@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= flinkDependencies
   )
 
-mainClass in assembly := Some("com.advancedflink.streaming.SocketTextStreamWordCount")
+mainClass in assembly := Some("com.advancedflink.streaming.KafkaTextStreamWordCount")
 
 // make run command include the provided dependencies
 run in Compile <<= Defaults.runTask(fullClasspath in Compile, mainClass in (Compile, run), runner in (Compile, run))
