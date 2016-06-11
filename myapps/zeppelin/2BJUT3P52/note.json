@@ -1,8 +1,8 @@
 {
   "paragraphs": [
     {
-      "text": "%md # End-to-End, Real-time, AI/Machine Learning Platform",
-      "dateUpdated": "May 17, 2016 11:53:27 PM",
+      "text": "%md # Check Us Out! [PipelineIO](http://pipeline.io)\n## Extending Your ML Pipelines into Production\n### Continuous Delivery of Real-time Spark ML and TensorFlow Models",
+      "dateUpdated": "Jun 11, 2016 2:48:18 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -22,16 +22,16 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1463529123223_361180359",
-      "id": "20160517-235203_1466801184",
+      "jobName": "paragraph_1465613154358_-820538553",
+      "id": "20160611-024554_551985670",
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch1\u003eEnd-to-End, Real-time, AI/Machine Learning Platform\u003c/h1\u003e\n"
+        "msg": "\u003ch1\u003eCheck Us Out! \u003ca href\u003d\"http://pipeline.io\"\u003ePipelineIO\u003c/a\u003e\u003c/h1\u003e\n\u003ch2\u003eExtending Your ML Pipelines into Production\u003c/h2\u003e\n\u003ch3\u003eContinuous Delivery of Real-time Spark ML and TensorFlow Models\u003c/h3\u003e\n"
       },
-      "dateCreated": "May 17, 2016 11:52:03 PM",
-      "dateStarted": "May 17, 2016 11:53:24 PM",
-      "dateFinished": "May 17, 2016 11:53:24 PM",
+      "dateCreated": "Jun 11, 2016 2:45:54 AM",
+      "dateStarted": "Jun 11, 2016 2:48:15 AM",
+      "dateFinished": "Jun 11, 2016 2:48:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -72,7 +72,7 @@
     },
     {
       "text": "%md \n\n### [Fault-Tolerant, Dynamic, Hot-Swappable AI/Machine Learning Serving Layer](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle/src/main/scala/com/advancedspark/serving/recommendations)\n![Fault-Tolerant, Dymamic AI Serving Layer](http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png)\n\n### Scala/Java/Finagle-Based Server\n* [Source Code](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle)\n* [Demo URL](http://demo.advancedspark.com:5080/predict/12663/7)\n\n### Python/Flask-Based Server\n* [Source Code](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask)\n* [Demo URL](http://demo.advancedspark.com:5090/predict/12663/7)\n\n### TensorFlow-Based Server\n* [Demo URL (Experimental)] (http://demo.advancedspark.com:5070/classify/cropped_panda.jpg)\n",
-      "dateUpdated": "May 18, 2016 12:42:14 AM",
+      "dateUpdated": "Jun 11, 2016 2:45:36 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -85,7 +85,7 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -106,7 +106,7 @@
     },
     {
       "text": "%md \n\n### [Dynamic, Highly-Optimized, Code Generated Spark ML and TensorFlow Models](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/spark/ml/codegen)\n![Fault-Tolerant, Dymamic AI Serving Layer](http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png)\n",
-      "dateUpdated": "May 18, 2016 12:44:41 AM",
+      "dateUpdated": "Jun 11, 2016 2:45:41 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -120,7 +120,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "editorHide": false
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -187,7 +187,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "* What is Flux Capacitor? *",
+  "name": "* What is PipelineIO? *",
   "id": "2BJUT3P52",
   "angularObjects": {
     "2BCMAZYZ5": [],
@@ -196,6 +196,8 @@
     "2AS9P7JSA": [],
     "2AR33ZMZJ": []
   },
-  "config": {},
+  "config": {
+    "looknfeel": "default"
+  },
   "info": {}
 }

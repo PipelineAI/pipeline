@@ -27,5 +27,5 @@ dag = DAG('spark_pi', default_args=default_args)
 # t1 is an example of tasks created by instatiating operators
 t1 = BashOperator(
     task_id='spark_pi',
-    bash_command='spark-submit --class org.apache.spark.examples.SparkPi --master spark://127.0.0.1:7077 $SPARK_EXAMPLES_JAR 10',
+    bash_command='spark-submit --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES --class org.apache.spark.examples.SparkPi --master spark://127.0.0.1:7077 $SPARK_EXAMPLES_JAR 10',
     dag=dag)

@@ -251,6 +251,13 @@ cd /root/pipeline/datasets/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
 cd $PIPELINE_HOME
 
+# Dynomite 
+echo ...Configuring Dynomite... 
+mkdir -p $LOGS_HOME/dynomite
+mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
+ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
+cd $PIPELINE_HOME
+
 # SSH (Part 2/2)
 echo '...Configuring SSH Part 2 of 2...'
 # We need to keep the SSH service running for other services to be configured above

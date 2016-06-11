@@ -24,19 +24,20 @@ object AlgebirdHyperLogLog {
     val conf = new SparkConf()
     
     val sc = SparkContext.getOrCreate(conf)
-    val dataWorkHome = sys.env("DATA_WORK_HOME")
+    val workHome = sys.env("WORK_HOME")
 
     def createStreamingContext(): StreamingContext = {
       @transient val newSsc = new StreamingContext(sc, Seconds(2))
       println(s"Creating new StreamingContext $newSsc")
 
-      newSsc.checkpoint(s"""${dataWorkHome}/streaming""")
+      newSsc.checkpoint(s"""${workHome}/streaming""")
       newSsc
     }
     val ssc = StreamingContext.getActiveOrCreate(createStreamingContext)
 
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
+
 
     // Kafka Config
     val brokers = "127.0.0.1:9092"
@@ -46,7 +47,7 @@ object AlgebirdHyperLogLog {
     val htmlHome = sys.env("HTML_HOME")
 
     val itemsDF = sqlContext.read.format("json")
-      .load(s"""file:${htmlHome}/advancedspark.com/json/software.json""")
+      .load(s"""file:${htmlHome}/advancedspark.com/json/actors.json""")
 
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
@@ -91,10 +92,11 @@ object AlgebirdHyperLogLog {
 
     val schema = StructType(StructField("itemId", IntegerType, true) :: StructField("approxDistinctCount", LongType, true) :: Nil)
 
-    val sumItemIdApproxDistrinctCountRowStream = sumItemIdApproxDistinctCountStream.map(rdd => Row(rdd._1, rdd._2))
+    val sumItemIdApproxDistrinctCountRowStream = sumItemIdApproxDistinctCountStream.map(rdd => (rdd._1, rdd._2))
 
     sumItemIdApproxDistrinctCountRowStream.foreachRDD(rdd => {
-      val sumItemIdApproxDistinctCountRowsDF = sqlContext.createDataFrame(rdd, schema)
+      val sumItemIdApproxDistinctCountRowsDF = rdd.toDF("itemId", "approxDistinctCount")
+
       val enrichedDF =
         sumItemIdApproxDistinctCountRowsDF.join(itemsDF, $"itemId" === $"id")
           .select($"itemId", $"title", $"approxDistinctCount")

@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.rating.ml
+package com.advancedspark.streaming.rating.ml.incremental
 
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.Seconds
@@ -11,10 +11,8 @@ import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
-import com.advancedspark.streaming.ml.incremental.model.StreamingLatentMatrixFactorizationModel
-import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModelOps
-import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorization
-import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.rating.ml.incremental.model.StreamingLatentMatrixFactorizationModel
+import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFactorizationModelOps
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
@@ -25,7 +23,7 @@ object TrainMFIncremental {
     val sc = SparkContext.getOrCreate(conf)
 
     def createStreamingContext(): StreamingContext = {
-      @transient val newSsc = new StreamingContext(sc, Seconds(2))
+      @transient val newSsc = new StreamingContext(sc, Seconds(20))
       println(s"Creating new StreamingContext $newSsc")
 
       newSsc
@@ -82,16 +80,21 @@ object TrainMFIncremental {
         if (!ratingsBatchRDD.isEmpty) {
           var (newModel, numObservations) = LatentMatrixFactorizationModelOps.train(ratingsBatchRDD, params, Some(model), isStreaming = true)
 
-          model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
+	  // TODO:  Hide optimizer so it's not publicly available
+  	  // TODO:  Figure out why we're passing in newModel here
+          // TODO:  Also,  why are we returning a model here.  
+	  // TODO:  And why do we need LatentMatrixFactorizationModelOps
+	  // TODO:  Clean this all up
+	  model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
           //val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
-          //matrixFactorization.saveModel(model, modelFilename)
+          //matrixFactorization.saveModel(modelFilename)
 
           /* USING TEXT VERSION FOR DEBUG/TESTING/GROK PURPOSES */
-          val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/$batchTime.bin"
-          matrixFactorization.saveModelText(model, modelTextFilename)
+          val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
+          matrixFactorization.saveText(model, modelTextFilename)
 
-          System.out.println(s"Model updated @ time $batchTime : $model : $modelTextFilename ")
+          System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
         }
       }
     }

@@ -146,6 +146,12 @@ ps -aef | grep "tensorboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stop Hystrix Dashboard...'
 ps -aef | grep "hystrix-dashboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stop Jenkins...'
+service jenkins stop
+
+echo '...Stop Dynomite...'
+ps -aef | grep "dynomite" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stopping SSH...'
 service ssh stop
 

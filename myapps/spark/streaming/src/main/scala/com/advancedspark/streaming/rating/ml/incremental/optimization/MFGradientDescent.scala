@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.ml.incremental.optimization
+package com.advancedspark.streaming.rating.ml.incremental.optimization
 
 //////////////////////////////////////////////////////////////////////
 // This code has been adapted from the following source:
@@ -6,12 +6,12 @@ package com.advancedspark.streaming.ml.incremental.optimization
 // Thanks, Burak!
 //////////////////////////////////////////////////////////////////////
 
-import com.advancedspark.streaming.ml.incremental.LatentMatrixFactorizationParams
-import com.advancedspark.streaming.ml.incremental.model.StreamingLatentMatrixFactorizationModel
-import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModel
-import com.advancedspark.streaming.ml.incremental.model.LatentMatrixFactorizationModelOps
-import com.advancedspark.streaming.ml.incremental.model.LatentFactorGenerator
-import com.advancedspark.streaming.ml.incremental.model.LatentFactor
+import com.advancedspark.streaming.rating.ml.incremental.LatentMatrixFactorizationParams
+import com.advancedspark.streaming.rating.ml.incremental.model.StreamingLatentMatrixFactorizationModel
+import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFactorizationModel
+import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.rating.ml.incremental.model.LatentFactorGenerator
+import com.advancedspark.streaming.rating.ml.incremental.model.LatentFactor
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD
 import edu.berkeley.cs.amplab.spark.indexedrdd.IndexedRDD._
 import org.apache.spark.ml.recommendation.ALS.Rating
@@ -31,8 +31,8 @@ class MFGradientDescent(params: LatentMatrixFactorizationParams) {
       initialModel: LatentMatrixFactorizationModel,
       numExamples: Long): LatentMatrixFactorizationModel = {
 
-    var userFeatures = initialModel.userFeatures
-    var prodFeatures = initialModel.productFeatures
+    var userFactors = initialModel.userFactors
+    var itemFactors = initialModel.itemFactors
     val globalBias = initialModel.globalBias
     val lambda = params.getLambda
     val stepSize = params.getStepSize
@@ -45,11 +45,11 @@ class MFGradientDescent(params: LatentMatrixFactorizationParams) {
     for (i <- 0 until iter) {
       val currentStepSize = stepSize * math.pow(stepDecay, i)
       val currentBiasStepSize = biasStepSize * math.pow(stepDecay, i)
-      val gradients = ratings.map(r => (r.user, r)).join(userFeatures)
-        .map { case (user, (rating, uFeatures)) =>
-          (rating.item, (user, rating.rating, uFeatures))
-        }.join(prodFeatures).map { case (item, ((user, rating, uFeatures), pFeatures)) =>
-          val step = MFGradientDescent.gradientStep(rating, uFeatures, pFeatures,
+      val gradients = ratings.map(r => (r.user, r)).join(userFactors)
+        .map { case (user, (rating, userFactorsForSingleUser)) =>
+          (rating.item, (user, rating.rating, userFactorsForSingleUser))
+        }.join(itemFactors).map { case (item, ((user, rating, userFactorsForSingleUser), itemFactorsForSingleUser)) =>
+          val step = MFGradientDescent.gradientStep(rating, userFactorsForSingleUser, itemFactorsForSingleUser,
             globalBias, currentStepSize, currentBiasStepSize, lambda)
           ((user, step._1), (item, step._2))
         }.persist(intermediateStorageLevel)
@@ -58,26 +58,26 @@ class MFGradientDescent(params: LatentMatrixFactorizationParams) {
           seqOp = (base, example) => base += example,
           combOp = (a, b) => a += b
         ))
-      val prodGradients = IndexedRDD(gradients.map(_._2)
+      val itemGradients = IndexedRDD(gradients.map(_._2)
         .aggregateByKey(new LatentFactor(0f, new Array[Float](rank)))(
           seqOp = (base, example) => base += example,
           combOp = (a, b) => a += b
         ))
-      userFeatures = userFeatures.leftJoin(userGradients) { case (id, base, gradient) =>
+      userFactors = userFactors.leftJoin(userGradients) { case (id, base, gradient) =>
         gradient.foreach(g => base.divideAndAdd(g, numExamples))
         base
       }
-      prodFeatures = prodFeatures.leftJoin(prodGradients) { case (id, base, gradient) =>
+      itemFactors = itemFactors.leftJoin(itemGradients) { case (id, base, gradient) =>
         gradient.foreach(g => base.divideAndAdd(g, numExamples))
         base
       }
     }
     initialModel match {
       case streaming: StreamingLatentMatrixFactorizationModel =>
-        new StreamingLatentMatrixFactorizationModel(rank, userFeatures, prodFeatures,
+        new StreamingLatentMatrixFactorizationModel(rank, userFactors, itemFactors,
           globalBias, streaming.observedExamples, initialModel.minRating, initialModel.maxRating)
       case _ =>
-        new LatentMatrixFactorizationModel(rank, userFeatures, prodFeatures, globalBias,
+        new LatentMatrixFactorizationModel(rank, userFactors, itemFactors, globalBias,
           initialModel.minRating, initialModel.maxRating)
     }
   }
@@ -88,27 +88,27 @@ object MFGradientDescent extends Serializable {
   // Exposed for testing
   def gradientStep(
       rating: Float,
-      userFeatures: LatentFactor,
-      prodFeatures: LatentFactor,
+      userFactors: LatentFactor,
+      itemFactors: LatentFactor,
       bias: Float,
       stepSize: Double,
       biasStepSize: Double,
       lambda: Double): (LatentFactor, LatentFactor) = {
-    val predicted = LatentMatrixFactorizationModelOps.getRating(userFeatures, prodFeatures, bias)
+    val predicted = LatentMatrixFactorizationModelOps.getRating(userFactors, itemFactors, bias)
     val epsilon = rating - predicted
-    val user = userFeatures.vector
+    val user = userFactors.vector
     val rank = user.length
-    val prod = prodFeatures.vector
+    val item = itemFactors.vector
 
     val featureGradients = Array.tabulate(rank) { i =>
-      ((stepSize * (prod(i) * epsilon - lambda * user(i))).toFloat,
-        (stepSize * (user(i) * epsilon - lambda * prod(i))).toFloat)
+      ((stepSize * (item(i) * epsilon - lambda * user(i))).toFloat,
+        (stepSize * (user(i) * epsilon - lambda * item(i))).toFloat)
     }
-    val userBiasGrad: Float = (biasStepSize * (epsilon - lambda * userFeatures.bias)).toFloat
-    val prodBiasGrad: Float = (biasStepSize * (epsilon - lambda * prodFeatures.bias)).toFloat
+    val userBiasGrad: Float = (biasStepSize * (epsilon - lambda * userFactors.bias)).toFloat
+    val itemBiasGrad: Float = (biasStepSize * (epsilon - lambda * itemFactors.bias)).toFloat
 
-    val uFeatures = featureGradients.map(_._1)
-    val pFeatures = featureGradients.map(_._2)
-    (new LatentFactor(userBiasGrad, uFeatures), new LatentFactor(prodBiasGrad, pFeatures))
+    val userFactorsForSingleUser = featureGradients.map(_._1)
+    val itemFactorsForSingleItem = featureGradients.map(_._2)
+    (new LatentFactor(userBiasGrad, userFactorsForSingleUser), new LatentFactor(itemBiasGrad, itemFactorsForSingleItem))
   }
 }

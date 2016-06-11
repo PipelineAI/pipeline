@@ -90,6 +90,12 @@ nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
 echo '...Starting Hystrix Dashboard...'
 nohup java -jar ~/hystrix-dashboard-1.5.3/standalone-hystrix-dashboard-1.5.3-all.jar &
 
+echo '...Starting Jenkins...'
+service jenkins start
+
+echo '...Starting Dynomite...'
+dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
+
 ########################################################
 # Be careful what starts up here.
 # This same script is used upon initial startup -

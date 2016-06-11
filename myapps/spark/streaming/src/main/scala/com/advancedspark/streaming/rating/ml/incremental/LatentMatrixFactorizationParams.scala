@@ -1,4 +1,4 @@
-package com.advancedspark.streaming.ml.incremental
+package com.advancedspark.streaming.rating.ml.incremental
 
 import org.apache.spark.storage.StorageLevel
 

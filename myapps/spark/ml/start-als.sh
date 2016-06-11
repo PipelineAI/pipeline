@@ -1,8 +1,5 @@
 #!/bin/bash
 #
-echo '...Building ALS...'
-sbt package
-
 echo '...Starting ALS...'
 echo '...Note:  This is using a small ratings-sm.csv dataset to speed up the demo...'
 echo '...       For more accurate predictions, change the dataset in the code to use the full ratings.csv...'

@@ -45,7 +45,7 @@ object AlgebirdCountMinSketchTopK {
     val htmlHome = sys.env("HTML_HOME")
 
     val itemsDF = sqlContext.read.format("json")
-      .load(s"""file:${htmlHome}/advancedspark.com/json/software.json""")
+      .load(s"""file:${htmlHome}/advancedspark.com/json/actors.json""")
 
     // Create Kafka Direct Stream Receiver
     val ratingsStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)

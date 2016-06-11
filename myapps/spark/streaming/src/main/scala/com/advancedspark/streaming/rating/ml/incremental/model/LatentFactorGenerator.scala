@@ -1,11 +1,9 @@
-package com.advancedspark.streaming.ml.incremental.model
+package com.advancedspark.streaming.rating.ml.incremental.model
 
 import java.util.Random
 
 class LatentFactorGenerator(rank: Int, min: Float, max: Float) extends Serializable {
-
   private val random = new Random()
-
   private val scale = max - min
 
   def nextValue(): LatentFactor = {
@@ -14,6 +12,6 @@ class LatentFactorGenerator(rank: Int, min: Float, max: Float) extends Serializa
   }
 
   def scaleValue(value: Double): Float = math.sqrt(value * scale + min).toFloat / rank
-
+  
   def setSeed(seed: Long) = random.setSeed(seed)
 }
