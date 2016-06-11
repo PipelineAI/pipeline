@@ -16,7 +16,7 @@ val jblasVersion = sys.env("JBLAS_VERSION")
 val hystrixVersion = sys.env("HYSTRIX_VERSION")
 val betterFilesVersion = sys.env("BETTER_FILES_VERSION")
 val breezeVersion = "0.11.2"
-val dynomiteVersion = sys.env("DYNOMITE_VERSION")
+val dynoVersion = sys.env("DYNO_VERSION")
 val json4sVersion = sys.env("JSON4S_VERSION")
 val springBootVersion = sys.env("SPRINGBOOT_VERSION")
 

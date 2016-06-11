@@ -164,4 +164,4 @@ export PATH=$TITAN_HOME/bin:$PATH
 # Dynomite
 # Titan
 export DYNOMITE_HOME=$DEV_INSTALL_HOME/dynomite
-export PATH=$DYNOMITE_VERSION_HOME:$PATH
+export PATH=$DYNOMITE_HOME:$PATH
