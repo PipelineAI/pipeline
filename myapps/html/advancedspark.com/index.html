@@ -36,8 +36,7 @@
     $("#like" + itemId).show()
 
     var encodedKey = btoa(myId)
-    // Hard-coded with "San Francisco since there's no GeoIP resolving in this current demo
-    var encodedValue = btoa(myId + "," + itemId + "," + rating + ",San Francisco")
+    var encodedValue = btoa(myId + "," + itemId + "," + rating + "," + location.hostname)
 
     // Call the Kafka Rest Api
     $.ajax({

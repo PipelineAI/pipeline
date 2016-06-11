@@ -28,6 +28,7 @@ val algebirdVersion = sys.env("ALGEBIRD_VERSION")
 val sparkNifiConnectorVersion = sys.env("SPARK_NIFI_CONNECTOR_VERSION")
 val indexedRddVersion = sys.env("INDEXEDRDD_VERSION")
 val ankurPartVersion = sys.env("ANKUR_PART_VERSION")
+val maxmindGeoIpVersion = sys.env("MAXMIND_GEOIP_VERSION")
 
 lazy val streamingDeps = Seq(
   "com.madhukaraphatak" %% "java-sizeof" % "0.1",
@@ -44,5 +45,6 @@ lazy val streamingDeps = Seq(
   "org.apache.spark"    %% "spark-streaming-kafka" % sparkVersion % "provided",
   "amplab"              % "spark-indexedrdd" % indexedRddVersion % "provided",
   "com.ankurdave"       %% "part" % ankurPartVersion % "provided",
-  "org.apache.nifi"     % "nifi-spark-receiver" % sparkNifiConnectorVersion % "provided"
+  "org.apache.nifi"     % "nifi-spark-receiver" % sparkNifiConnectorVersion % "provided",
+  "com.maxmind.geoip2"  % "geoip2"		% maxmindGeoIpVersion % "provided"
 )
