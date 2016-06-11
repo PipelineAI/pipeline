@@ -36,7 +36,9 @@ object KafkaCassandra {
     val sqlContext = SQLContext.getOrCreate(sc)
     import sqlContext.implicits._
 
-    // Cassandra Config
+    // Save the DataFrame to Cassandra
+    // Note:  Cassandra has been initialized through spark-env.sh
+    //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
     val cassandraConfig = Map("keyspace" -> "advancedspark", "table" -> "item_ratings")
 
     // Kafka Config    
@@ -50,52 +52,53 @@ object KafkaCassandra {
     ratingsStream.print()
 
     ratingsStream.foreachRDD {
-      (message: RDD[(String, String)], batchTime: Time) => {
-        // Split each _2 element of the RDD (String,String) tuple into a RDD[Seq[String]]
-        val tokens = message.map(_._2.split(","))
+      (messages: RDD[(String, String)], batchTime: Time) => {
+        // Using the foreachPartition() pattern: 
+        //   http://spark.apache.org/docs/latest/streaming-programming-guide.html#performance-tuning
+        // to initialize the geoIPResolver (Maxmind DB) for each partition vs. each record
+        val ratingsIter = messages.mapPartitions { partitionIter =>
+          // A File object pointing to the GeoLite2 database
+          val datasetsHome = sys.env("DATASETS_HOME")
+          val geoDB = new File(s"${datasetsHome}/geo/GeoLite2-City.mmdb");
 
-	// convert Tokens into RDD[Ratings]
-        val ratings = tokens.map(token => {
-          // Resolve City from hostname (if provided)
-          val geocity =
-            if (token.length >= 4) {
-	      val datasetsHome = sys.env("DATASETS_HOME")
+          // This creates the DatabaseReader object, which should be reused across lookups
+          val geoIPResolver = new DatabaseReader.Builder(geoDB).withCache(new CHMCache()).build();
 
-	      // **********************************************************************************************************
-	      // This is not the best implementation as this is creating a new geoIPResolver per record
-	      // TODO:  Use foreachPartition() instead per the following URL:
-	      //          http://stackoverflow.com/questions/36951207/spark-scala-get-data-back-from-rdd-foreachpartition 
-	      // **********************************************************************************************************
+          val ratingsIterInner = partitionIter.map( message => {
+            // Split each _2 element of the (String,String) message tuple into Seq[String]
+            val tokens = message._2.split(",")
 
-   	      // A File object pointing to the GeoLite2 database
-    	      val geoDB = new File(s"${datasetsHome}/geo/GeoLite2-City.mmdb");
+    	    // convert tokens into Rating
+            // tokens.map(token => {
+            // Resolve City from hostname (if provided)
+            val geocity =
+              if (tokens.length >= 4) {
+                val inetAddress = InetAddress.getByName(tokens(3))
 
-  	      // This creates the DatabaseReader object, which should be reused across lookups
-	      val geoIPResolver = new DatabaseReader.Builder(geoDB).withCache(new CHMCache()).build();
-              val inetAddress = InetAddress.getByName(token(3))
+                val geoResponse = geoIPResolver.city(inetAddress)
 
-              val geoResponse = geoIPResolver.city(inetAddress)
-              val cityNames = geoResponse.getCity.getNames
-              if (cityNames != null && !cityNames.values.isEmpty)
-                cityNames.values.toArray()(0).toString
-              else
-                s"UNKNOWN: ${inetAddress.toString}"
-            } else {
-              "UNKNOWN"
-            }
+                val cityNames = geoResponse.getCity.getNames
 
-          RatingGeo(token(0).trim.toInt,token(1).trim.toInt, token(2).trim.toFloat, batchTime.milliseconds, geocity)
-        })
-  
-        // save the DataFrame to Cassandra
-        // Note:  Cassandra has been initialized through spark-env.sh
-        //        Specifically, export SPARK_JAVA_OPTS=-Dspark.cassandra.connection.host=127.0.0.1
-        val ratingsDF = ratings.toDF("userid", "itemid", "rating", "timestamp", "geocity")
+                if (cityNames != null && !cityNames.values.isEmpty)
+                  cityNames.values.toArray()(0).toString
+                else
+                  s"UNKNOWN: ${inetAddress.toString}"
+              } else {
+                "UNKNOWN"
+              }
+
+            RatingGeo(tokens(0).trim.toInt, tokens(1).trim.toInt, tokens(2).trim.toFloat, batchTime.milliseconds, geocity)
+          })
+         
+          ratingsIterInner
+        }
+          
+        val ratingsDF = ratingsIter.toDF("userid", "itemid", "rating", "timestamp", "geocity")
 
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
           .options(cassandraConfig)
-          .save()
+            .save()
       }
     }
 
