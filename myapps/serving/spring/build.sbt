@@ -29,5 +29,5 @@ lazy val deps = Seq(
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
   "org.json4s"           % "json4s-jackson_2.10"           % json4sVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
-  "com.netflix.dyno"     % "dyno-jedis"                    % dynomiteVersion
+  "com.netflix.dyno"     % "dyno-jedis"                    % dynoVersion
 )
