@@ -6,7 +6,11 @@ echo '...Starting ElasticSearch...'
 nohup elasticsearch -Des.insecure.allow.root=true -p $ELASTICSEARCH_HOME/RUNNING_PID --path.conf $CONFIG_HOME/elasticsearch &
 
 echo '...Starting Logstash...'
+export JAVA_OPTS_BACKUP=$JAVA_OPTS
+unset JAVA_OPTS
 nohup logstash -f $LOGSTASH_HOME/logstash.conf &
+export JAVA_OPTS=$JAVA_OPTS_BACKUP
+unset JAVA_OPTS_BACKUP
 
 echo '...Starting SSH...'
 service ssh start
