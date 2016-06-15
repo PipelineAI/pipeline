@@ -84,12 +84,12 @@ export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-$SPARK_VERSION-hadoop$H
 export TACHYON_HOME=$SPARK_HOME/tachyon
 export PATH=$TACHYON_HOME/bin:$PATH
 
-# Kafka
-export KAFKA_HOME=$DEV_INSTALL_HOME/confluent-$CONFLUENT_VERSION
-export PATH=$KAFKA_HOME/bin:$PATH
+# Kafka/Confluent
+export CONFLUENT_HOME=$DEV_INSTALL_HOME/confluent-$CONFLUENT_VERSION
+export PATH=$CONFLUENT_HOME/bin:$PATH
 
 # ZooKeeper
-export ZOOKEEPER_HOME=$KAFKA_HOME
+export ZOOKEEPER_HOME=$CONFLUENT_HOME
 export PATH=$ZOOKEEPER_HOME/bin:$PATH
 
 # ElasticSearch
@@ -134,7 +134,7 @@ export SBT_OPTS=$JAVA_OPTS
 export SPARK_REPOSITORIES=http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots,https://repository.apache.org/content/groups/snapshots
 
 # --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=com.maxmind.geoip2:geoip2:${MAXMIND_GEOIP_VERSION},com.netflix.dyno:dyno-jedis:${DYNO_VERSION},org.json4s:json4s-jackson_2.10:${JSON4S_VERSION},amplab:spark-indexedrdd:$INDEXEDRDD_VERSION,org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION,graphframes:graphframes:$GRAPHFRAMES_VERSION
+export SPARK_SUBMIT_PACKAGES=tjhunter:tensorframes:${TENSORFRAMES_VERSION}-s_2.10,com.maxmind.geoip2:geoip2:${MAXMIND_GEOIP_VERSION},com.netflix.dyno:dyno-jedis:${DYNO_VERSION},org.json4s:json4s-jackson_2.10:${JSON4S_VERSION},amplab:spark-indexedrdd:$INDEXEDRDD_VERSION,org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION,graphframes:graphframes:$GRAPHFRAMES_VERSION
 
 # We still need to include a reference to a local stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar because SparkSubmit doesn't support a classifier in --packages
 export SPARK_SUBMIT_JARS=$MYAPPS_HOME/codegen/spark/1.6.1/target/scala-2.10/codegen-spark-1-6-1_2.10-1.0.jar,$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar

@@ -37,8 +37,8 @@
     },
     {
       "title": "Top 5 similar users to a given user",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n//////////////////////////////////////////////\n// Step 1:  Must Update User ID with your ID\n//////////////////////////////////////////////\n// User 27981\nval givenUserId \u003d 27981\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n//////////////////////////////////////////////////\n// See Step 1:  Must Update User ID         //\n//////////////////////////////////////////////////",
-      "dateUpdated": "Jun 4, 2016 2:53:50 PM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n//////////////////////////////////////////////\n// Step 1:  Must Update User ID with your ID\n//////////////////////////////////////////////\n// User 21619\nval givenUserId \u003d 21619\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))\n\n//////////////////////////////////////////////////\n// See Step 1:  Must Update User ID         //\n//////////////////////////////////////////////////",
+      "dateUpdated": "Jun 12, 2016 9:07:02 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,14 +61,14 @@
       "jobName": "paragraph_1461384988794_-1881586773",
       "id": "20160423-041628_342476534",
       "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "userId\tsimilarUserId\tsimilarity\n27981\t21619\t0.05584775759864715\n"
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport com.advancedspark.ml.Vectors\ngivenUserId: Int \u003d 21619\n\u003cconsole\u003e:60: error: not found: value userFactorsDF\n         val givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n                                ^\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:28 AM",
-      "dateStarted": "Jun 4, 2016 2:43:38 PM",
-      "dateFinished": "Jun 4, 2016 2:43:40 PM",
-      "status": "FINISHED",
+      "dateStarted": "Jun 12, 2016 9:07:02 PM",
+      "dateFinished": "Jun 12, 2016 9:07:03 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {

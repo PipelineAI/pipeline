@@ -28,7 +28,7 @@ echo '...Starting Hive Metastore...'
 nohup hive --service metastore &
 
 echo '...Starting ZooKeeper...'
-nohup zookeeper-server-start $KAFKA_HOME/etc/kafka/zookeeper.properties &
+nohup zookeeper-server-start $CONFLUENT_HOME/etc/kafka/zookeeper.properties &
 
 echo '...Starting Redis...'
 nohup redis-server &
@@ -36,8 +36,8 @@ nohup redis-server &
 echo '...Starting Webdis...'
 nohup webdis $WEBDIS_HOME/webdis.json &
 
-echo '...Starting Kafka...'
-nohup kafka-server-start $KAFKA_HOME/etc/kafka/server.properties &
+echo '...Starting Confluent Kafka...'
+nohup kafka-server-start $CONFLUENT_HOME/etc/kafka/server.properties &
 
 echo '...Starting Zeppelin...'
 nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
@@ -61,7 +61,8 @@ echo '...Starting Kibana...'
 nohup kibana &
 
 echo '...Starting Jupyter Notebook Server...'
-PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py" nohup pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS --packages $SPARK_SUBMIT_PACKAGES &
+# Note:  We are using pipeline-pyspark-shell.sh to pick up the --repositories, --jars, --packages of the rest of the environment 
+PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py" nohup pipeline-pyspark-shell.sh &
 
 echo '...Starting Jupyter Hub Server...'
 nohup jupyterhub -f $CONFIG_HOME/jupyter/jupyterhub_config.py &
@@ -78,10 +79,10 @@ nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/prest
 echo '...Starting Kafka Schema Registry...'
 sleep 5
 # Starting this at the end - and with a sleep - due to race conditions with other kafka components
-nohup schema-registry-start $KAFKA_HOME/etc/schema-registry/schema-registry.properties &
+nohup schema-registry-start $CONFLUENT_HOME/etc/schema-registry/schema-registry.properties &
 
 echo '...Starting Kafka REST Proxy...'
-nohup kafka-rest-start $KAFKA_HOME/etc/kafka-rest/kafka-rest.properties &
+nohup kafka-rest-start $CONFLUENT_HOME/etc/kafka-rest/kafka-rest.properties &
 
 #echo '...Starting Titan...'
 #nodetool enablethrift

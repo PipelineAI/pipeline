@@ -137,9 +137,9 @@ echo '...Configuring Tachyon...'
 ln -s $CONFIG_HOME/tachyon/tachyon-env.sh $TACHYON_HOME/conf
 
 # Kafka
-echo '...Configuring Kafka...'
-mv $KAFKA_HOME/etc/ $KAFKA_HOME/etc.orig
-ln -s $CONFIG_HOME/kafka/etc $KAFKA_HOME/etc
+echo '...Configuring Confluent Kafka...'
+mv $CONFLUENT_HOME/etc/ $CONFLUENT_HOME/etc.orig
+ln -s $CONFIG_HOME/kafka/etc $CONFLUENT_HOME/etc
 
 # ZooKeeper
 echo '...Configuring ZooKeeper...'

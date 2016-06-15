@@ -102,17 +102,17 @@
       "name": "spark",
       "group": "spark",
       "properties": {
-        "spark.cores.max": "2",
+        "spark.cores.max": "4",
         "spark.yarn.jar": "",
         "master": "spark://127.0.0.1:7077",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "4gb",
+        "spark.executor.memory": "36gb",
         "zeppelin.spark.useHiveContext": "true",
-        "args": "",
-        "zeppelin.spark.concurrentSQL": "false",
         "spark.home": "/root/spark-1.6.1-bin-fluxcapacitor",
+        "zeppelin.spark.concurrentSQL": "false",
+        "args": "",
         "zeppelin.pyspark.python": "python",
         "zeppelin.dep.additionalRemoteRepository": "spark-packages,http://dl.bintray.com/spark-packages/maven,false;sonatype-snapshots,https://oss.sonatype.org/content/repositories/snapshots,true;"
       },
@@ -911,6 +911,14 @@
       "2BDF8WQWY"
     ],
     "2BNQNXKH5": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
+      "2BKR518HR",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BPMNPH1J": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2BKR518HR",

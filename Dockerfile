@@ -13,7 +13,7 @@ FROM ubuntu:14.04
 #
 ENV \ 
  CASSANDRA_VERSION=2.2.6 \
- CONFLUENT_VERSION=2.0.1 \
+ CONFLUENT_VERSION=3.0.0 \
  ELASTICSEARCH_VERSION=2.3.0 \
  LOGSTASH_VERSION=2.3.0 \
  KIBANA_VERSION=4.5.0 \
@@ -35,7 +35,7 @@ ENV \
  AKKA_VERSION=2.3.11 \
  SPARK_CASSANDRA_CONNECTOR_VERSION=1.4.0 \
  SPARK_ELASTICSEARCH_CONNECTOR_VERSION=2.3.0.BUILD-SNAPSHOT \
- KAFKA_CLIENT_VERSION=0.9.0.1 \
+ KAFKA_CLIENT_VERSION=0.10.0.0 \
  SCALATEST_VERSION=2.2.4 \
  JEDIS_VERSION=2.7.3 \
  SPARK_CSV_CONNECTOR_VERSION=1.4.0 \
@@ -68,7 +68,9 @@ ENV \
  DYNO_VERSION=1.4.6 \
  JSON4S_VERSION=3.3.0 \
  SPRINGBOOT_VERSION=1.3.5.RELEASE \
- MAXMIND_GEOIP_VERSION=2.7.0
+# We can't promote this over version 2.5.0 otherwise it conflicts with Spark 1.6 version of Jackson.
+# TODO:  Revisit once we upgrade to Spark 2.0.0 which shades most internal dependencies
+ MAXMIND_GEOIP_VERSION=2.5.0
 
 RUN \
  apt-get update \
@@ -256,16 +258,16 @@ RUN \
  && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
 
 # Apache Kafka (Confluent 2.0 Distribution)
- && cd ~ \
- && wget http://packages.confluent.io/archive/2.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
- && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
- && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+# && cd ~ \
+# && wget http://packages.confluent.io/archive/2.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+# && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
+# && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # Apache Kafka (Confluent 3.0 Distribution)
  && cd ~ \
- && wget http://packages.confluent.io/archive/3.0/confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
- && tar xvzf confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
- && rm confluent-3.0.0-${SCALA_MAJOR_VERSION}.tar.gz \
+ && wget http://packages.confluent.io/archive/3.0/confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
+ && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
+ && rm confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
 
 # Apache Spark
  && cd ~ \
