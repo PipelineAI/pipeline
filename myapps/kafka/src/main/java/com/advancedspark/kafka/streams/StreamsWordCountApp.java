@@ -36,7 +36,7 @@ import java.util.Properties;
  * Demonstrates, using the high-level KStream DSL, how to implement the WordCount program
  * that computes a simple word occurrence histogram from an input text.
  *
- * In this example, the input stream reads from a topic named "streams-file-input", where the values of messages
+ * In this example, the input stream reads from a topic named "streams-wordcount-input", where the values of messages
  * represent lines of text; and the histogram output is written to topic "streams-wordcount-output" where each record
  * is an updated count of a single word.
  *
@@ -56,31 +56,23 @@ public class StreamsWordCountApp {
 
         KStreamBuilder builder = new KStreamBuilder();
 
-        KStream<String, String> source = builder.stream("streams-wordcount-input");
+        KStream<String, String> textLines = builder.stream("streams-wordcount-input");
 
-        KTable<String, Long> counts = source
-                .flatMapValues(new ValueMapper<String, Iterable<String>>() {
-                    @Override
-                    public Iterable<String> apply(String value) {
-                        return Arrays.asList(value.toLowerCase(Locale.getDefault()).split(" "));
-                    }
-                }).map(new KeyValueMapper<String, String, KeyValue<String, String>>() {
-                    @Override
-                    public KeyValue<String, String> apply(String key, String value) {
-                        return new KeyValue<>(value, value);
-                    }
-                })
-                .countByKey("Counts");
+	KStream<String, Long> wordCounts = textLines
+            .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
+            .map((key, value) -> new KeyValue<>(value, value))
+            .countByKey("Counts")
+            .toStream();
 
         // need to override value serde to Long type
-        counts.to(Serdes.String(), Serdes.Long(), "streams-wordcount-output");
+        wordCounts.to(Serdes.String(), Serdes.Long(), "streams-wordcount-output");
 
         KafkaStreams streams = new KafkaStreams(builder, props);
         streams.start();
 
         // usually the stream application would be running forever,
         // in this example we just let it run for some time and stop since the input data is finite.
-        Thread.sleep(60000L);
+        Thread.sleep(120000L);
 
         streams.close();
     }
