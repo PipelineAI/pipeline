@@ -63,8 +63,8 @@ a2ensite advancedspark.conf
 # Ideally, a symlink would be more appropriate, but Apache is being a pain with permissions
 cp -R $MYAPPS_HOME/html/advancedspark.com/* /var/www/html
 
-# My Apps
-echo '...Configuring Apps...'
+# Log Dirs
+echo '...Configuring Log Dirs...'
 mkdir -p $LOGS_HOME/akka/feeder
 mkdir -p $LOGS_HOME/spark/streaming
 mkdir -p $LOGS_HOME/spark/ml
@@ -78,6 +78,7 @@ mkdir -p $LOGS_HOME/serving/spring
 mkdir -p $LOGS_HOME/serving/finagle
 mkdir -p $LOGS_HOME/serving/flask
 mkdir -p $LOGS_HOME/serving/watcher
+mkdir -p $LOGS_HOME/kafka/streams
 
 # Ganglia
 echo '...Configuring Ganglia...'
