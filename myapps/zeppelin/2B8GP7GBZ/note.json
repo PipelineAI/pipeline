@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md\n## Locality Sensitive Hashing (LSH)\n* Hash items into multiple buckets\n* Similar items will hash to overlapping buckets over many different hash functions\n\n![Locality Sensitive Hashing](http://advancedspark.com/img/locality-sensitive-hashing.png) \n\n### Intuition: _Avoid cartesian_ and compare only items within each bucket",
-      "dateUpdated": "May 16, 2016 1:48:45 AM",
+      "dateUpdated": "Jun 17, 2016 2:02:10 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

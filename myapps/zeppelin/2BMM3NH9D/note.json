@@ -75,8 +75,8 @@
     },
     {
       "title": "",
-      "text": "%md \n## Research Scientist @ fluxcapacitor.com\n### (Shh... It\u0027s Stealth!)\n![Flux Capacitor](http://advancedspark.com/img/fluxcapacitor-logo-250x250.png)\n\n## Bringing AI Back to the Future!",
-      "dateUpdated": "May 31, 2016 12:42:50 PM",
+      "text": "%md \n## Research Scientist @ PipelineIO\n### (Shh... It\u0027s Stealth!)\n![PipelineIO](http://advancedspark.com/img/fluxcapacitor-logo-250x250.png)\n\n## Bringing AI Back to the Future!",
+      "dateUpdated": "Jun 17, 2016 1:14:50 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -90,7 +90,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": false,
+        "editorHide": true,
         "title": false
       },
       "settings": {
@@ -102,11 +102,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eResearch Scientist @ fluxcapacitor.com\u003c/h2\u003e\n\u003ch3\u003e(Shh\u0026hellip; It\u0027s Stealth!)\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fluxcapacitor-logo-250x250.png\" alt\u003d\"Flux Capacitor\" /\u003e\u003c/p\u003e\n\u003ch2\u003eBringing AI Back to the Future!\u003c/h2\u003e\n"
+        "msg": "\u003ch2\u003eResearch Scientist @ PipelineIO\u003c/h2\u003e\n\u003ch3\u003e(Shh\u0026hellip; It\u0027s Stealth!)\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fluxcapacitor-logo-250x250.png\" alt\u003d\"PipelineIO\" /\u003e\u003c/p\u003e\n\u003ch2\u003eBringing AI Back to the Future!\u003c/h2\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:10:26 AM",
-      "dateStarted": "May 31, 2016 12:42:41 PM",
-      "dateFinished": "May 31, 2016 12:42:41 PM",
+      "dateStarted": "Jun 17, 2016 1:14:39 PM",
+      "dateFinished": "Jun 17, 2016 1:14:39 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
