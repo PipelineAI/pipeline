@@ -10,9 +10,9 @@ object Similarity {
     matrix1.dot(matrix2) / (matrix1.norm2() * matrix2.norm2())
   }
 
-  def cosineSimilarity(vector1: Vector, vector2: Vector): Double = {
-    BLAS.dot(vector1, vector2) / (Vectors.norm(vector1, 2) * Vectors.norm(vector2, 2))
-  }
+  //def cosineSimilarity(vector1: Vector, vector2: Vector): Double = {
+  //  BLAS.dot(vector1, vector2) / (Vectors.norm(vector1, 2) * Vectors.norm(vector2, 2))
+  //}
 
   def jaccardSimilarity[T <: Any](seq1: Seq[T], seq2: Seq[T]): Double = {
     val intersection = seq1 intersect seq2

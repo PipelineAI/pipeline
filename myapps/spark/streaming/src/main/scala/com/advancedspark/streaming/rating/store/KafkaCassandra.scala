@@ -68,8 +68,6 @@ object KafkaCassandra {
             // Split each _2 element of the (String,String) message tuple into Seq[String]
             val tokens = message._2.split(",")
 
-    	    // convert tokens into Rating
-            // tokens.map(token => {
             // Resolve City from hostname (if provided)
             val geocity =
               if (tokens.length >= 4) {
@@ -98,7 +96,7 @@ object KafkaCassandra {
         ratingsDF.write.format("org.apache.spark.sql.cassandra")
           .mode(SaveMode.Append)
           .options(cassandraConfig)
-            .save()
+          .save()
       }
     }
 
