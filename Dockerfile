@@ -471,4 +471,4 @@ EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 
 
 WORKDIR /root/pipeline
 
-CMD ["git", "pull", "&&", "/root/pipeline/bin/setup/RUNME_ONCE.sh"]
+CMD ["/root/pipeline/bin/setup/RUNME_ONCE.sh"]
