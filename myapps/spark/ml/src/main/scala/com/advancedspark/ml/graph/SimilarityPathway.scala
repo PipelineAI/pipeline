@@ -26,7 +26,8 @@ object SimilarityPathway {
     val itemsDF = sqlContext.read.format("com.databricks.spark.csv")
       .option("header", "true")
       .option("inferSchema", "true")
-      .load("file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv").toDF("id", "title", "tags")
+      .load("file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv")
+      .toDF("id", "title", "tags")
 
     // Convert from RDD[Row] to RDD[Item]
     val itemsRDD = itemsDF.select($"id", $"title", $"tags").map(row => {
@@ -34,7 +35,7 @@ object SimilarityPathway {
       val title = row.getString(1)
       val tags = row.getString(2).trim.split("\\|")
       TaggedItem(id, title, tags)
-    }).rdd
+    })
 
     val allItemPairsRDD = itemsRDD.cartesian(itemsRDD)
 

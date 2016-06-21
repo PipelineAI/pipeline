@@ -47,21 +47,6 @@
         "remote": true
       }
     },
-    "2BKR518HR": {
-      "id": "2BKR518HR",
-      "name": "not a good Idea",
-      "group": "sh",
-      "properties": {},
-      "interpreterGroup": [
-        {
-          "class": "org.apache.zeppelin.shell.ShellInterpreter",
-          "name": "sh"
-        }
-      ],
-      "option": {
-        "remote": true
-      }
-    },
     "2BDF8WQWY": {
       "id": "2BDF8WQWY",
       "name": "elasticsearch",
@@ -903,7 +888,6 @@
       "2BDF8WQWY"
     ],
     "2BQ47W6WT": [
-      "2BKR518HR",
       "2AS9P7JSA",
       "2ARR8UZDJ",
       "2AR33ZMZJ",
@@ -913,7 +897,6 @@
     "2BNQNXKH5": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
-      "2BKR518HR",
       "2AR33ZMZJ",
       "2BCMAZYZ5",
       "2BDF8WQWY"
@@ -921,7 +904,13 @@
     "2BPMNPH1J": [
       "2AS9P7JSA",
       "2ARR8UZDJ",
-      "2BKR518HR",
+      "2AR33ZMZJ",
+      "2BCMAZYZ5",
+      "2BDF8WQWY"
+    ],
+    "2BNE3KY1S": [
+      "2AS9P7JSA",
+      "2ARR8UZDJ",
       "2AR33ZMZJ",
       "2BCMAZYZ5",
       "2BDF8WQWY"

@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # [TextRank Paper](http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)",
-      "dateUpdated": "Apr 23, 2016 2:41:27 AM",
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,14 +30,14 @@
         "msg": "\u003ch1\u003e\u003ca href\u003d\"http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf\"\u003eTextRank Paper\u003c/a\u003e\u003c/h1\u003e\n"
       },
       "dateCreated": "Jan 16, 2016 10:44:52 PM",
-      "dateStarted": "Apr 23, 2016 2:41:21 AM",
-      "dateFinished": "Apr 23, 2016 2:41:21 AM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%md ## Follow paco\u0027s pattern using the Spark user list:  \n* https://github.com/ceteri/spark-exercises/tree/master/exsto",
-      "dateUpdated": "Apr 23, 2016 2:41:28 AM",
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,13 +65,13 @@
         "msg": "\u003ch2\u003eFollow paco\u0027s pattern using the Spark user list:\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/ceteri/spark-exercises/tree/master/exsto\u003c/li\u003e\n\u003c/ul\u003e\n"
       },
       "dateCreated": "Jan 17, 2016 6:45:40 PM",
-      "dateStarted": "Apr 23, 2016 2:41:15 AM",
-      "dateFinished": "Apr 23, 2016 2:41:15 AM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 23, 2016 2:40:43 AM",
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -83,7 +83,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -96,8 +97,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jan 17, 2016 6:46:05 PM",
-      "dateStarted": "Apr 23, 2016 2:40:43 AM",
-      "dateFinished": "Apr 23, 2016 2:40:43 AM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

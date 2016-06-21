@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jun 17, 2016 4:07:05 PM",
+      "dateUpdated": "Jun 21, 2016 3:39:38 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "Jun 17, 2016 4:07:05 PM",
-      "dateFinished": "Jun 17, 2016 4:07:05 PM",
+      "dateStarted": "Jun 21, 2016 3:39:38 PM",
+      "dateFinished": "Jun 21, 2016 3:39:38 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \n//import com.advancedspark.ml.BLAS\nimport org.jblas.DoubleMatrix\n//import com.advancedspark.ml.Vectors\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\n//val givenItemFactorsVector \u003d Vectors.dense(givenItemFactors)\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     //val otherItemFactorsVector \u003d Vectors.dense(otherItemFactors)\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
-      "dateUpdated": "Jun 17, 2016 4:07:05 PM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
+      "dateUpdated": "Jun 21, 2016 3:39:58 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -61,20 +61,20 @@
       "jobName": "paragraph_1461385221568_1720553379",
       "id": "20160423-042021_1267485878",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport org.jblas.DoubleMatrix\ngivenItemId: Int \u003d 10006\ngivenItemFactors: Array[Double] \u003d Array(0.9156990051269531, 0.7406412959098816, 0.10244716703891754, 0.6231880187988281, 0.7040423154830933, 0.02522934228181839, 0.4307180941104889, 0.4666503965854645, 0.020040182396769524, 0.7545086145401001, 0.05519915744662285, 0.46544939279556274, 0.8443670272827148, 0.035215556621551514, 0.18643923103809357)\ngivenItemFactorsMatrix: org.jblas.DoubleMatrix \u003d [0.915699; 0.740641; 0.102447; 0.623188; 0.704042; 0.025229; 0.430718; 0.466650; 0.020040; 0.754509; 0.055199; 0.465449; 0.844367; 0.035216; 0.186439]\n\u003cconsole\u003e:215: error: not found: value otherItemFactorsVector\n            val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsVector, givenItemFactorsVector)\n                                                         ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "similarItemId\tsimilarity\n90004\t0.9999999996488174\n90011\t0.9999999994106175\n10001\t0.9999999986323609\n90013\t0.9999999982643314\n10005\t0.9999999982494749\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "Jun 17, 2016 4:07:05 PM",
-      "dateFinished": "Jun 17, 2016 4:07:07 PM",
-      "status": "ERROR",
+      "dateStarted": "Jun 21, 2016 3:39:58 PM",
+      "dateFinished": "Jun 21, 2016 3:40:02 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jun 17, 2016 4:07:05 PM",
+      "dateUpdated": "Jun 21, 2016 3:40:05 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -97,18 +97,18 @@
       "jobName": "paragraph_1461385251557_184497852",
       "id": "20160423-042051_541116515",
       "result": {
-        "code": "ERROR",
-        "type": "TEXT",
-        "msg": "\u003cconsole\u003e:171: error: not found: value sortedSimilarItemsDF\n          sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n          ^\n"
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t90004\tBobbie Phillips\t0.9999999996488174\n10006\t90011\tAshley Judd\t0.9999999994106175\n10006\t10001\tLeonardo DiCaprio\t0.9999999986323609\n10006\t90013\tSofia Vergara\t0.9999999982643314\n10006\t10005\tJames Gandolfini\t0.9999999982494749\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "Jun 17, 2016 4:07:05 PM",
-      "dateFinished": "Jun 17, 2016 4:07:07 PM",
-      "status": "ERROR",
+      "dateStarted": "Jun 21, 2016 3:40:05 PM",
+      "dateFinished": "Jun 21, 2016 3:40:06 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 17, 2016 4:07:05 PM",
+      "dateUpdated": "Jun 21, 2016 3:39:38 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,8 +134,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jun 4, 2016 1:54:09 PM",
-      "dateStarted": "Jun 17, 2016 4:07:07 PM",
-      "dateFinished": "Jun 17, 2016 4:07:07 PM",
+      "dateStarted": "Jun 21, 2016 3:39:40 PM",
+      "dateFinished": "Jun 21, 2016 3:39:40 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

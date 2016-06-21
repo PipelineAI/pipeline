@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![HyperLogLog In Action](http://advancedspark.com/img/hyperloglog-sm.png)",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -16,7 +16,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/markdown",
-        "editorHide": true
+        "editorHide": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -38,7 +39,7 @@
     {
       "title": "Create List",
       "text": "val list1 \u003d (1 to 100000).toList",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -52,7 +53,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -74,7 +76,7 @@
     {
       "title": "Memory Size of List",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(list1)",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -88,7 +90,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -110,7 +113,7 @@
     {
       "title": "Option 1:  Create HyperLogLog Aggregator",
       "text": "import com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(list1)",
-      "dateUpdated": "May 25, 2016 12:04:19 AM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -124,7 +127,8 @@
         },
         "editorMode": "ace/mode/scala",
         "title": true,
-        "enabled": true
+        "enabled": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -146,7 +150,7 @@
     {
       "title": "Memory Size of HyperLogLog Aggregator",
       "text": "val sizeInMemoryHll \u003d SizeEstimator.estimate(hllAggs)",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -160,7 +164,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -182,7 +187,7 @@
     {
       "title": "HyperLogLog Aggregator Details",
       "text": "val approxSetSize \u003d hllAggs.approximateSize\nval approxSetSizeMin \u003d approxSetSize.min\nval approxSetSizeEstimate \u003d approxSetSize.estimate\nval approxSetSizeMax \u003d approxSetSize.max\nval approxSetSizeEstimateProbabilityWithinBounds \u003d approxSetSize.probWithinBounds",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -196,7 +201,8 @@
         },
         "enabled": true,
         "title": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -218,7 +224,7 @@
     {
       "title": "Option 2:  Create HyperLogLog Monoid",
       "text": "import com.twitter.algebird.HyperLogLog.int2Bytes\nimport com.twitter.algebird.HyperLogLogMonoid\n\nval hllMonoid \u003d new HyperLogLogMonoid(bits \u003d 14)\n\nval hlls \u003d list1.map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -232,7 +238,8 @@
         },
         "editorMode": "ace/mode/scala",
         "title": true,
-        "enabled": true
+        "enabled": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -254,7 +261,7 @@
     {
       "title": "Memory Size of HyperLogLog Monoid",
       "text": "val memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)",
-      "dateUpdated": "May 5, 2016 11:11:43 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -268,7 +275,8 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "title": true
+        "title": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -288,7 +296,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "May 5, 2016 11:11:44 PM",
+      "dateUpdated": "Jun 18, 2016 8:42:48 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -300,7 +308,9 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
       },
       "settings": {
         "params": {},
