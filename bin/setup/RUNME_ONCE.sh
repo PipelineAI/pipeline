@@ -8,7 +8,7 @@ echo '...Retrieving Latest Updates From Github...'
 git pull
 
 echo '...Sourcing Pipeline-specific Env Variables...'
-source /root/pipeline/bash/pipeline.bashrc
+source /root/pipeline/config/bash/pipeline.bashrc
 
 echo '...Configuring Services Before Starting...'
 echo ''
