@@ -5,7 +5,10 @@ echo '*** MAKE SURE YOU RUN THIS ONLY ONCE ***'
 cd ~/pipeline
 
 echo '...Retrieving Latest Updates From Github...'
-git reset --hard && git pull
+git pull
+
+echo '...Sourcing Pipeline-specific Env Variables...'
+source $CONFIG_HOME/bash/pipeline.bashrc
 
 echo '...Configuring Services Before Starting...'
 echo ''
@@ -25,11 +28,6 @@ $SCRIPTS_HOME/service/start-all-services.sh > $LOGS_HOME/setup/start.out
 echo '...Create Examples Data Sources...'
 cd ~/pipeline
 $SCRIPTS_HOME/setup/create-example-datasources.sh > $LOGS_HOME/setup/create.out
-
-echo '...Building Projects...'
-cd $MYAPPS_HOME/spark/ml
-sbt package
-cd ~/pipeline
 
 echo '...Show Exported Variables...'
 export
