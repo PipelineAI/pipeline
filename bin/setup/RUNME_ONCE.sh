@@ -18,15 +18,16 @@ echo '********************************************'
 echo ''
 
 mkdir -p $LOGS_HOME/setup
-cd ~/pipeline
+
+cd $PIPELINE_HOME 
 $SCRIPTS_HOME/setup/config-services-before-starting.sh
 
 echo '...Start All Services...'
-cd ~/pipeline
+cd $PIPELINE_HOME 
 $SCRIPTS_HOME/service/start-all-services.sh
 
 echo '...Create Examples Data Sources...'
-cd ~/pipeline
+cd $PIPELINE_HOME 
 $SCRIPTS_HOME/setup/create-example-datasources.sh
 
 echo '...Show Exported Variables...'
