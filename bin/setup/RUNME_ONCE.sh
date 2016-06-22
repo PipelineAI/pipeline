@@ -41,5 +41,3 @@ echo '********************************'
 echo '*** All Services Running OK! ***'
 echo '********************************'
 echo ''
-echo '...Tailing Log File...'
-tail -f $PIPELINE_HOME/nohup.out
