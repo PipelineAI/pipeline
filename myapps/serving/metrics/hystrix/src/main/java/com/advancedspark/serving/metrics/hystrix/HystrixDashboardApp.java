@@ -1,4 +1,4 @@
-package demo;
+package com.advancedspark.serving.metrics.hystrix;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,8 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 
 @SpringBootApplication
 @EnableHystrixDashboard
-public class HystrixApplication {
-
+public class HystrixDashboardApp {
     public static void main(String[] args) {
-        SpringApplication.run(HystrixApplication.class, args);
+        SpringApplication.run(HystrixDashboardApp.class, args);
     }
 }

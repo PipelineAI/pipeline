@@ -15,14 +15,8 @@ import java.util.List
 
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
-//import com.netflix.hystrix.contrib.requestservlet.HystrixRequestContextServletFilter
-//import com.netflix.hystrix.contrib.requestservlet.HystrixRequestLogViaResponseHeaderServletFilter
-//import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet
-//import com.netflix.hystrix.contrib.sample.stream.HystrixConfigSseServlet
-//import com.netflix.hystrix.contrib.sample.stream.HystrixUtilizationSseServlet
-//import com.netflix.hystrix.contrib.requests.stream.HystrixRequestEventsSseServlet
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.netflix.dyno.jedis._
 import com.netflix.dyno.connectionpool.Host
@@ -35,24 +29,24 @@ import com.netflix.dyno.connectionpool.impl.ConnectionContextImpl
 import com.netflix.dyno.connectionpool.impl.OperationResultImpl
 import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
-@Configuration
+@SpringBootApplication
 @RestController
-@EnableAutoConfiguration
 @EnableHystrix
-@EnableHystrixDashboard
 @EnableEurekaClient
 class PredictionService {
   // TODO:  Fold the Command code into the methods here wrapped with @HystrixCommand
   // Follow this to give human-readable names:  
   //    https://github.com/Netflix/Hystrix/blob/master/hystrix-contrib/hystrix-javanica/src/main/java/com/netflix/hystrix/contrib/javanica/annotation/HystrixCommand.java
 //  @HystrixCommand
+
+  @HystrixCommand(groupKey="PredictionService", commandKey="UserItemPrediction", threadPoolKey="UserItemPrediction")
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
   def predict(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
     val prediction = new UserItemPredictionCommand(userId, itemId).execute()
     "userId:" + userId + ", itemId:" + itemId + ", prediction:" + prediction
   }
 
-  @HystrixCommand(groupKey="PredictionService", commandKey="recommendations", threadPoolKey="recommendations")
+  @HystrixCommand(groupKey="PredictionService", commandKey="Recommendations", threadPoolKey="Recommendations")
   @RequestMapping(Array("/recommendations/{userId}"))
   def recommendations(@PathVariable("userId") userId: Int): String = {
 //    val recommendations = new UserRecommendationsCommand(userId).execute()
@@ -60,72 +54,19 @@ class PredictionService {
     "userId:" + userId + ", recommendations:" + recommendations(0) 
   }
 
-//  @HystrixCommand
+  @HystrixCommand(groupKey="PredictionService", commandKey="ItemSimilars", threadPoolKey="ItemSimilars")
   @RequestMapping(Array("/similars/{itemId}"))
   def similars(@PathVariable("itemId") itemId: Int): String = {
     val similars = new ItemSimilarsCommand(itemId).execute()
     "itemId:" + itemId + ", similars:" + similars
   }
 
-//  @HystrixCommand
+  @HystrixCommand(groupKey="PredictionService", commandKey="Classification", threadPoolKey="Classification")
   @RequestMapping(Array("/classification/{itemId}"))
   def classify(@PathVariable("itemId") itemId: Int): String = {
     val classification = new ClassificationCommand(itemId).execute()
     "itemId:" + itemId + ", classification: " + classification
   }
-/**
-  @Bean
-  def hystrixRequestContextServletFilter(): FilterRegistrationBean = {
-    val registrationBean = new FilterRegistrationBean()
-    val filter = new HystrixRequestContextServletFilter()
-    registrationBean.setFilter(filter)
-    registrationBean
-  }
-
-  @Bean
-  def hystrixRequestLogViaResponseHeaderServletFilter(): FilterRegistrationBean = {
-    val registrationBean = new FilterRegistrationBean()
-    val filter = new HystrixRequestLogViaResponseHeaderServletFilter()
-    registrationBean.setFilter(filter)
-    registrationBean
-  }
-
-  @Bean
-  def hystrixMetricsStreamServlet(): ServletRegistrationBean = {
-    val registrationBean = new ServletRegistrationBean()
-    val servlet = new HystrixMetricsStreamServlet()
-    registrationBean.setServlet(servlet)
-    registrationBean.setUrlMappings(Seq("/hystrix.stream"))
-    registrationBean
-  }
-
-  @Bean
-  def hystrixConfigSseServlet(): ServletRegistrationBean = {
-    val registrationBean = new ServletRegistrationBean()
-    val servlet = new HystrixConfigSseServlet()
-    registrationBean.setServlet(servlet)
-    registrationBean.setUrlMappings(Seq("/hystrix/config.stream"))
-    registrationBean
-  }
-
-  @Bean
-  def hystrixUtilizationSseServlet(): ServletRegistrationBean = {
-    val registrationBean = new ServletRegistrationBean()
-    val servlet = new HystrixUtilizationSseServlet()
-    registrationBean.setServlet(servlet)
-    registrationBean.setUrlMappings(Seq("/hystrix/utilization.stream"))
-    registrationBean
-  }
-
-  @Bean
-  def hystrixRequestEventsSseServlet(): ServletRegistrationBean = {
-    val registrationBean = new ServletRegistrationBean()
-    val servlet = new HystrixRequestEventsSseServlet()
-    registrationBean.setServlet(servlet)
-    registrationBean.setUrlMappings(Seq("/hystrix/requests.stream"))
-    registrationBean
-  }
-*/
 }
 
 object PredictionServiceMain {
