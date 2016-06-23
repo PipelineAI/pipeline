@@ -74,7 +74,8 @@ mkdir -p $LOGS_HOME/spark/redis
 mkdir -p $LOGS_HOME/jupyterhub
 mkdir -p $LOGS_HOME/spark/redis
 mkdir -p $LOGS_HOME/flink/streaming
-mkdir -p $LOGS_HOME/serving/spring
+mkdir -p $LOGS_HOME/serving/discovery
+mkdir -p $LOGS_HOME/serving/prediction
 mkdir -p $LOGS_HOME/serving/finagle
 mkdir -p $LOGS_HOME/serving/flask
 mkdir -p $LOGS_HOME/serving/watcher

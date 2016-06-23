@@ -166,3 +166,8 @@ export PATH=$TITAN_HOME/bin:$PATH
 # Titan
 export DYNOMITE_HOME=$DEV_INSTALL_HOME/dynomite
 export PATH=$DYNOMITE_HOME:$PATH
+
+# Temporary Library Versions until new Dockerfile is pushed (added 0622/2016)
+export SPRING_BOOT_VERSION=1.3.5.RELEASE
+export SPRING_CLOUD_VERSION=1.1.2.RELEASE
+

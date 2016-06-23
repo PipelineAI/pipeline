@@ -1,0 +1,10 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kbastani/spring-cloud-event-sourcing-config.git
