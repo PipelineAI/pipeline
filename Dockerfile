@@ -69,7 +69,8 @@ ENV \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
 # We can't promote this over version 2.5.0 otherwise it conflicts with Spark 1.6 version of Jackson.
 # TODO:  Revisit once we upgrade to Spark 2.0.0 which shades most internal dependencies
- MAXMIND_GEOIP_VERSION=2.5.0
+ MAXMIND_GEOIP_VERSION=2.5.0 \
+ ATLAS_VERSION=1.4.5
 
 RUN \
  apt-get update \
@@ -362,6 +363,12 @@ RUN \
  && cd ~/hystrix-dashboard-${HYSTRIX_VERSION} \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar \
 
+# Atlas 
+ && cd ~ \
+ && mkdir -p ~/atlas-${ATLAS_VERSION} \
+ && cd ~/atlas-${ATLAS_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar \
+
 # Dynomite
  && cd ~ \
  && git clone https://github.com/Netflix/dynomite.git \
@@ -414,11 +421,23 @@ RUN \
 # Sbt Serving Recommendation Service (Finagle)
  && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
 
-# Sbt Serving Prediction Service (Spring Boot + Netflix)
- && cd ~/pipeline/myapps/serving/predictions && sbt clean package \
+# Mvn Config Service (Spring + Netflix)
+ && cd ~/pipeline/myapps/serving/config && mvn -DskipTests clean install \
 
-# Sbt Discovery Service (Netflix Eureka)
- && cd ~/pipeline/myapps/serving/discovery && sbt clean package \
+# Mvn Discovery Service (Netflix Eureka)
+ && cd ~/pipeline/myapps/serving/discovery && mvn -DskipTests clean install \
+
+# Mvn Metrics Collector Service (Netflix Atlas)
+ && cd ~/pipeline/myapps/serving/metrics/atlas && mvn -DskipTests clean install \
+
+# Mvn Circuit Breaker Metrics Service (Netflix Hystrix Dashboard)
+ && cd ~/pipeline/myapps/serving/metrics/hystrix && mvn -DskipTests clean install \
+
+# Mvn Cluster-wide Circtui Breaker Metrics Service (Netflix Turbine)
+ && cd ~/pipeline/myapps/serving/metrics/turbine && mvn -DskipTests clean install \
+
+# Sbt Serving Prediction Service (Spring + Netflix)
+ && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \

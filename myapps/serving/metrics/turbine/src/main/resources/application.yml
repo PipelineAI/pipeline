@@ -1,0 +1,35 @@
+info:
+  component: Turbine
+
+PREFIX:
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+server:
+  port: ${PORT:8989}
+
+management:
+  port: 8990
+
+logging:
+  level:
+    root: INFO
+    com.netflix.discovery: 'OFF'
+    # org.springframework.integration: DEBUG
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+  client:
+    serviceUrl:
+      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://user:password@localhost:8761}/eureka/
+
+---
+spring:
+  profiles: cloud
+management:
+  port: -1

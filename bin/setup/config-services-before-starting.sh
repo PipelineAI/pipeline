@@ -80,6 +80,8 @@ mkdir -p $LOGS_HOME/serving/finagle
 mkdir -p $LOGS_HOME/serving/flask
 mkdir -p $LOGS_HOME/serving/watcher
 mkdir -p $LOGS_HOME/kafka/streams
+mkdir -p $LOGS_HOME/hystrix-dashboard
+mkdir -p $LOGS_HOME/atlas
 
 # Ganglia
 echo '...Configuring Ganglia...'
@@ -258,6 +260,13 @@ echo ...Configuring Dynomite...
 mkdir -p $LOGS_HOME/dynomite
 mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
 ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
+cd $PIPELINE_HOME
+
+# Atlas 
+echo ...Configuring Atlas... 
+mkdir -p $LOGS_HOME/atlas
+mkdir -p $ATLAS_HOME/conf
+ln -s $CONFIG_HOME/atlas/atlas.conf $ATLAS_HOME/conf/
 cd $PIPELINE_HOME
 
 # SSH (Part 2/2)

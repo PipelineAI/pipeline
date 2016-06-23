@@ -1,0 +1,8 @@
+spring.application.name: atlas
+
+eureka.client:
+  serviceUrl.defaultZone: http://localhost:8761
+  register-with-eureka: false
+  fetch-registry: false
+
+netflix.atlas.uri: http://atlas/api/v1/publish/

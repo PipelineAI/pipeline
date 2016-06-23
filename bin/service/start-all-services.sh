@@ -101,6 +101,9 @@ service jenkins start
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
+echo '...Starting Atlas...'
+nohup java -jar $ATLAS_HOME/atlas-1.4.5-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/atlas/atlas.log &
+
 ########################################################
 # Be careful what starts up here.
 # This same script is used upon initial startup -
