@@ -24,7 +24,7 @@ import com.netflix.dyno.connectionpool.HostSupplier
 import com.netflix.dyno.connectionpool.TokenMapSupplier
 import com.netflix.dyno.connectionpool.impl.lb.HostToken
 import com.netflix.dyno.connectionpool.exception.DynoException
-import com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl;
+import com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl
 import com.netflix.dyno.connectionpool.impl.ConnectionContextImpl
 import com.netflix.dyno.connectionpool.impl.OperationResultImpl
 import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
@@ -39,33 +39,69 @@ class PredictionService {
   //    https://github.com/Netflix/Hystrix/blob/master/hystrix-contrib/hystrix-javanica/src/main/java/com/netflix/hystrix/contrib/javanica/annotation/HystrixCommand.java
 //  @HystrixCommand
 
-  @HystrixCommand(groupKey="PredictionService", commandKey="UserItemPrediction", threadPoolKey="UserItemPrediction")
+//  @HystrixCommand(groupKey="PredictionService", commandKey="UserItemPrediction", threadPoolKey="UserItemPrediction")
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
-  def predict(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
-    val prediction = new UserItemPredictionCommand(userId, itemId).execute()
-    "userId:" + userId + ", itemId:" + itemId + ", prediction:" + prediction
+  def prediction(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
+    val pred = getPrediction(userId, itemId)
+
+    "userId:" + userId + ", itemId:" + itemId + ", prediction:" + pred
   }
 
-  @HystrixCommand(groupKey="PredictionService", commandKey="Recommendations", threadPoolKey="Recommendations")
+//  @HystrixCommand(groupKey="PredictionService",
+//                 commandKey="UserItemPrediction",
+//                 threadPoolKey="UserItemPrediction",
+//                 fallbackMethod="getPredictionFallback")
+  def getPrediction(userId: Int, itemId: Int): Double = {
+    val pred = new UserItemPredictionCommand(userId, itemId).execute()
+    pred
+    //1.0
+  }
+
+//  def getPredictionFallback(userId: Int, itemId: Int): Double = {
+//    0.0
+//  }
+  
   @RequestMapping(Array("/recommendations/{userId}"))
   def recommendations(@PathVariable("userId") userId: Int): String = {
-//    val recommendations = new UserRecommendationsCommand(userId).execute()
-    val recommendations = PredictionServiceOps.dynoClient.get("personalized-als")
-    "userId:" + userId + ", recommendations:" + recommendations(0) 
+    val recs = getRecommendations(userId) 
+    "userId:" + userId + ", recommendations:" + recs
   }
 
-  @HystrixCommand(groupKey="PredictionService", commandKey="ItemSimilars", threadPoolKey="ItemSimilars")
+
+//  @HystrixCommand(groupKey="PredictionService",
+//                 commandKey="UserItemRecommendations",
+//                 threadPoolKey="UserItemRecommendations",
+//                 fallbackMethod="getRecommendationsFallback")
+  def getRecommendations(userId: Int): String = {
+    try{
+      // TODO:  Add userIda
+      val recommendations = new UserRecommendationsCommand(userId, PredictionServiceOps.dynoClient).execute()
+//      val recommendations = PredictionServiceOps.dynoClient.get("recommendations")
+      recommendations.toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
+
+//  def getRecommendationsFallback(userId: Int): String = {
+//    "0.0"
+//  }
+
   @RequestMapping(Array("/similars/{itemId}"))
   def similars(@PathVariable("itemId") itemId: Int): String = {
-    val similars = new ItemSimilarsCommand(itemId).execute()
-    "itemId:" + itemId + ", similars:" + similars
+    // TODO:  
+    val sims = "1.0"
+    "itemId:" + itemId + ", similars:" + sims
   }
 
-  @HystrixCommand(groupKey="PredictionService", commandKey="Classification", threadPoolKey="Classification")
-  @RequestMapping(Array("/classification/{itemId}"))
-  def classify(@PathVariable("itemId") itemId: Int): String = {
-    val classification = new ClassificationCommand(itemId).execute()
-    "itemId:" + itemId + ", classification: " + classification
+  @RequestMapping(Array("/classifications/{itemId}"))
+  def classifications(@PathVariable("itemId") itemId: Int): String = {
+    // TODO:
+    val classes = "1.0"
+    "itemId:" + itemId + ", classifications: " + classes
   }
 }
 

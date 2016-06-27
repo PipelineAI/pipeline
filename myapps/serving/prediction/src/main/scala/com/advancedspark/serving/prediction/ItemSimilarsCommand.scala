@@ -10,8 +10,8 @@ import scala.util.parsing.json._
 class ItemSimilarsCommand(itemId: Int) 
     extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("ItemSimilarsCommand")) {
 
-  @throws(classOf[java.io.IOException])
-  def get(url: String) = io.Source.fromURL(url).mkString
+  //@throws(classOf[java.io.IOException])
+  //def get(url: String) = io.Source.fromURL(url).mkString
 
   def run(): Double = {
     try{

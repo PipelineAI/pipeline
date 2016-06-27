@@ -8,3 +8,7 @@ spring:
       server:
         git:
           uri: https://github.com/kbastani/spring-cloud-event-sourcing-config.git
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

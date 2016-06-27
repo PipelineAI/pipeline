@@ -11,7 +11,7 @@ class UserItemPredictionCommand(userId: Int, itemId: Int)
     extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPredictionCommand")) {
 
   @throws(classOf[java.io.IOException])
-  def get(url: String) = io.Source.fromURL(url).mkString
+  def get(url: String) = scala.io.Source.fromURL(url).mkString
 
   def run(): Double = {
     val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/user-factors-als/_search?q=userId:${userId}""")

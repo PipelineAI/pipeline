@@ -56,6 +56,7 @@ ENV \
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
  FINAGLE_VERSION=6.34.0 \ 
  HYSTRIX_VERSION=1.5.3 \
+ HYSTRIX_DASHBOARD_VERSION=1.5.3 \
  INDEXEDRDD_VERSION=0.3 \
  ANKUR_PART_VERSION=0.1 \
  JANINO_VERSION=2.7.8 \
@@ -67,6 +68,7 @@ ENV \
  JSON4S_VERSION=3.3.0 \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
+ SPRING_CORE_VERSION=4.3.0.RELEASE \
 # We can't promote this over version 2.5.0 otherwise it conflicts with Spark 1.6 version of Jackson.
 # TODO:  Revisit once we upgrade to Spark 2.0.0 which shades most internal dependencies
  MAXMIND_GEOIP_VERSION=2.5.0 \

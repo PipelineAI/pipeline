@@ -92,17 +92,11 @@ nohup kafka-rest-start $CONFLUENT_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-echo '...Starting Hystrix Dashboard...'
-nohup java -jar ~/hystrix-dashboard-1.5.3/standalone-hystrix-dashboard-1.5.3-all.jar &
-
 echo '...Starting Jenkins...'
 service jenkins start
 
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
-
-echo '...Starting Atlas...'
-nohup java -jar $ATLAS_HOME/atlas-1.4.5-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/atlas/atlas.log &
 
 ########################################################
 # Be careful what starts up here.
