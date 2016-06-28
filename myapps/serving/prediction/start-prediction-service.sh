@@ -1,3 +1,4 @@
+#!/bin/sh
 cd $MYAPPS_HOME/serving/prediction/
 
 #nohup sbt run > $LOGS_HOME/serving/prediction/prediction.log &
