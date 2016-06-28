@@ -3,8 +3,8 @@ source /root/pipeline/config/bash/pipeline.bashrc
 
 mkdir -p $LOGS_HOME/setup
 
-cd $PIPELINE_HOME
-$SCRIPTS_HOME/setup/config-services-before-starting.sh
+#cd $PIPELINE_HOME
+#$SCRIPTS_HOME/setup/config-services-before-starting.sh
 
 echo '...Starting Redis...'
 cd $PIPELINE_HOME
