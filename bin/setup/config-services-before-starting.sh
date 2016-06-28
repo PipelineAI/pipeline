@@ -173,6 +173,8 @@ ln -s $MYSQL_CONNECTOR_JAR $HIVE_HOME/lib
 
 # Redis
 echo '...Configuring Redis...'
+mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
+ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
 
 # Webdis
 echo '...Configuring Webdis...'
