@@ -72,7 +72,6 @@ mkdir -p $LOGS_HOME/spark/sql
 mkdir -p $LOGS_HOME/spark/core
 mkdir -p $LOGS_HOME/spark/redis
 mkdir -p $LOGS_HOME/jupyterhub
-mkdir -p $LOGS_HOME/spark/redis
 mkdir -p $LOGS_HOME/flink/streaming
 mkdir -p $LOGS_HOME/kafka/streams
 mkdir -p $LOGS_HOME/serving/discovery
