@@ -7,16 +7,19 @@ import org.jblas.DoubleMatrix
 
 import com.netflix.dyno.jedis._
 
-class UserRecommendationsCommand(userId: Int, dynoClient: DynoJedisClient) 
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserRecommendationsCommand")) {
+import collection.JavaConverters._
+import scala.collection.immutable.List
 
-  def run(): Double = {
+class UserRecommendationsCommand(userId: Int, dynoClient: DynoJedisClient) 
+    extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserRecommendationsCommand")) {
+
+  def run(): Seq[String] = {
 //    val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/personalized-als/_search?q=userId:${userId}""")
 //    System.out.println(userFactorsStr)
 
     try{
-      val recommendations = dynoClient.get("recommendations")
-      1.0
+      val recommendations = dynoClient.lrange(s"recommendations:${userId}", 0, 9)
+      recommendations.asScala
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -25,7 +28,7 @@ class UserRecommendationsCommand(userId: Int, dynoClient: DynoJedisClient)
     }
   }
 
-  override def getFallback(): Double = {
+  override def getFallback(): Seq[String] = {
     // Retrieve fallback (ie. non-personalized top k)
     //val source = scala.io.Source.fromFile("/root/pipeline/datasets/serving/recommendations/fallback/model.json")
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
@@ -33,6 +36,6 @@ class UserRecommendationsCommand(userId: Int, dynoClient: DynoJedisClient)
 
     System.out.println("UserRecommendations Source is Down!  Fallback!!")
 
-    0.0;
+    List("10001", "10002", "10003", "10004", "10005");
   }
 }

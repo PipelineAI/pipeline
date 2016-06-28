@@ -15,6 +15,7 @@ val breezeVersion = "0.11.2"
 val dynoVersion = sys.env("DYNO_VERSION")
 val springBootVersion = sys.env("SPRING_BOOT_VERSION")
 val springCloudVersion = sys.env("SPRING_CLOUD_VERSION")
+val springCoreVersion = sys.env("SPRING_CORE_VERSION")
 
 lazy val deps = Seq(
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
@@ -26,5 +27,4 @@ lazy val deps = Seq(
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion
-//  "org.springframework.cloud" % "spring-cloud-starter-hystrix-dashboard" % springCloudVersion
 )

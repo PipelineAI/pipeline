@@ -91,6 +91,8 @@
 
   function loadPersonalizedALS() {
     $("#personalized-als").empty()
+    // TODO: http://demo.pipeline.io/redis/LRANGE/recommendations:21619/0/9
+
     $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
       var items = [];
       var hits = data.hits.hits
