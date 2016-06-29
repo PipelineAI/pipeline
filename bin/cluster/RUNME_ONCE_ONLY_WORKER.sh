@@ -10,8 +10,8 @@ git reset --hard && git pull
 echo '...Configuring Services Before Starting...'
 $SCRIPTS_HOME/cluster/config-services-before-starting-only-worker.sh
 
-echo '...Start Core Services...'
-$SCRIPTS_HOME/service/start-core-services-only-worker.sh
+echo '...Start All Services...'
+$SCRIPTS_HOME/service/start-all-services-only-worker.sh
 
 echo '...Create Examples Data Sources...'
 $SCRIPTS_HOME/initial/create-example-datasources-only-worker.sh
