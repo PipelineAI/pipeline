@@ -34,12 +34,10 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 @EnableHystrix
 @EnableEurekaClient
 class PredictionService {
-  // TODO:  Fold the Command code into the methods here wrapped with @HystrixCommand
-  // Follow this to give human-readable names:  
-  //    https://github.com/Netflix/Hystrix/blob/master/hystrix-contrib/hystrix-javanica/src/main/java/com/netflix/hystrix/contrib/javanica/annotation/HystrixCommand.java
-//  @HystrixCommand
+  @Bean
+//  @RefreshScope
+  val version = 0
 
-//  @HystrixCommand(groupKey="PredictionService", commandKey="UserItemPrediction", threadPoolKey="UserItemPrediction")
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
   def prediction(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
     val pred = getPrediction(userId, itemId)
@@ -47,20 +45,12 @@ class PredictionService {
     "userId:" + userId + ", itemId:" + itemId + ", prediction:" + pred
   }
 
-//  @HystrixCommand(groupKey="PredictionService",
-//                 commandKey="UserItemPrediction",
-//                 threadPoolKey="UserItemPrediction",
-//                 fallbackMethod="getPredictionFallback")
   def getPrediction(userId: Int, itemId: Int): Double = {
-    val pred = new UserItemPredictionCommand(userId, itemId).execute()
+    val pred = new UserItemPredictionCommand(PredictionServiceOps.dynoClient, version, userId, itemId).execute()
     pred
     //1.0
   }
 
-//  def getPredictionFallback(userId: Int, itemId: Int): Double = {
-//    0.0
-//  }
-  
   @RequestMapping(Array("/recommendations/{userId}"))
   def recommendations(@PathVariable("userId") userId: Int): String = {
     val recs = getRecommendations(userId) 
@@ -68,15 +58,9 @@ class PredictionService {
   }
 
 
-//  @HystrixCommand(groupKey="PredictionService",
-//                 commandKey="UserItemRecommendations",
-//                 threadPoolKey="UserItemRecommendations",
-//                 fallbackMethod="getRecommendationsFallback")
   def getRecommendations(userId: Int): String = {
     try{
-      // TODO:  Add userIda
-      val recommendations = new UserRecommendationsCommand(userId, PredictionServiceOps.dynoClient).execute()
-//      val recommendations = PredictionServiceOps.dynoClient.get("recommendations")
+      val recommendations = new UserRecommendationsCommand(PredictionServiceOps.dynoClient, version, userId).execute()
       recommendations.toString
     } catch {
        case e: Throwable => {
@@ -85,10 +69,6 @@ class PredictionService {
        }
     }
   }
-
-//  def getRecommendationsFallback(userId: Int): String = {
-//    "0.0"
-//  }
 
   @RequestMapping(Array("/similars/{itemId}"))
   def similars(@PathVariable("itemId") itemId: Int): String = {
@@ -112,7 +92,7 @@ object PredictionServiceMain {
 }
 
 object PredictionServiceOps {
-  val localhostHost = new Host("127.0.0.1", Host.Status.Up)
+  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
   val localhostToken = new HostToken(100000L, localhostHost)
 
   val localhostHostSupplier = new HostSupplier() {

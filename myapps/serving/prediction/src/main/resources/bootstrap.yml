@@ -2,4 +2,7 @@ server:
   port: 9040 
 spring:
   application:
-    name: prediction-service 
+    name: prediction-service
+netflix:
+  appinfo.name: ${spring.application.name}
+  atlas.uri: http://demo.pipeline.io:7101/api/v1/publish

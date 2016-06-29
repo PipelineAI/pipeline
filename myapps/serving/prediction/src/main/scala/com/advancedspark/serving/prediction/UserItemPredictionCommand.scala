@@ -7,7 +7,12 @@ import org.jblas.DoubleMatrix
 
 import scala.util.parsing.json._
 
-class UserItemPredictionCommand(userId: Int, itemId: Int) 
+import com.netflix.dyno.jedis._
+
+import collection.JavaConverters._
+import scala.collection.immutable.List
+
+class UserItemPredictionCommand(dynoClient: DynoJedisClient, version: Int, userId: Int, itemId: Int)
     extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPredictionCommand")) {
 
   @throws(classOf[java.io.IOException])

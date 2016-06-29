@@ -28,6 +28,10 @@ eureka:
     serviceUrl:
       defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://user:password@localhost:8761}/eureka/
 
+turbine:
+  appConfig: prediction-service
+  clusterNameExpression: "'default'"
+  instanceUrlSuffix: /hystrix.stream
 ---
 spring:
   profiles: cloud

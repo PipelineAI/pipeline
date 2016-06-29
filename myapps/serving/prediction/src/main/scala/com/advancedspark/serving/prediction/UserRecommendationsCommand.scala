@@ -10,13 +10,10 @@ import com.netflix.dyno.jedis._
 import collection.JavaConverters._
 import scala.collection.immutable.List
 
-class UserRecommendationsCommand(userId: Int, dynoClient: DynoJedisClient) 
+class UserRecommendationsCommand(dynoClient: DynoJedisClient, version: Int, userId: Int) 
     extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserRecommendationsCommand")) {
 
   def run(): Seq[String] = {
-//    val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/personalized-als/_search?q=userId:${userId}""")
-//    System.out.println(userFactorsStr)
-
     try{
       val recommendations = dynoClient.lrange(s"recommendations:${userId}", 0, 9)
       recommendations.asScala
