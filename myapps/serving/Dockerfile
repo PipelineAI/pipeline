@@ -113,6 +113,16 @@ RUN \
  && git clone https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
+# Source the pipeline-specific env variables
+# This is needed to re-attach to a Docker container after exiting
+ cd ~ \
+ && echo "" >> ~/.bashrc \
+ && echo "# Pipeline-specific" >> ~/.bashrc \
+ && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
+ && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
+ && echo "fi" >> ~/.bashrc
+
+RUN \
 # && git config core.sparseCheckout true \
 # && echo "myapps/serving/prediction/*"> .git/info/sparse-checkout \
  cd ~/pipeline/myapps/serving/prediction \

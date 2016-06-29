@@ -10,27 +10,27 @@ git pull
 source /root/pipeline/config/bash/pipeline.bashrc
 
 echo '...Configuring Datasets...'
-bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
-bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
-bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
-bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/genders.json.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/genders.csv.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/ratings.json.bz2
+#bzip2 -d -k $DATASETS_HOME/dating/ratings.csv.bz2
 bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/movies.csv.bz2
 cat $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2-part-* > $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
 bzip2 -d -k $DATASETS_HOME/movielens/ml-latest/ratings.csv.bz2
-tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
-tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
-tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/genders-partitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/ratings-partitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/genders-partitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/ratings-partitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
-tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
+#tar -xjf $DATASETS_HOME/dating/ratings-partitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating
+#tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.parquet.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-partitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/ratings-partitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.orc.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-partitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/genders-unpartitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/ratings-partitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
+#tar -xjf $DATASETS_HOME/dating/ratings-unpartitioned.avro.tar.bz2 -C $DATASETS_HOME/dating/
 tar --directory $DATASETS_HOME/serving/recommendations/spark-1.6.1/ -xzvf $DATASETS_HOME/serving/recommendations/spark-1.6.1/als.tar.gz
-tar --directory $DATASETS_HOME/notmnist/ -xzvf $DATASETS_HOME/notmnist/notMNIST_small.tar.gz
+#tar --directory $DATASETS_HOME/notmnist/ -xzvf $DATASETS_HOME/notmnist/notMNIST_small.tar.gz
 
 # these part files were created with the following command:
 #   split --bytes=100MB --numeric-suffixes --suffix-length=1 lfw-deepfunneled.tgz lfw-deepfunneled.tgz-part-
@@ -57,23 +57,23 @@ mkdir -p $LOGS_HOME/serving/watcher
 mkdir -p $LOGS_HOME/serving/hystrix
 mkdir -p $LOGS_HOME/serving/atlas
 
-echo '...Configuring Redis...'
-mkdir -p $LOGS_HOME/redis
-mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
-ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
+#echo '...Configuring Redis...'
+#mkdir -p $LOGS_HOME/redis
+#mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
+#ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
 
-echo '...Starting Redis...'
-cd $PIPELINE_HOME
-nohup redis-server $REDIS_HOME/redis.conf & 
+#echo '...Starting Redis...'
+#cd $PIPELINE_HOME
+#nohup redis-server $REDIS_HOME/redis.conf & 
 
-echo ...Configuring Dynomite...
-mkdir -p $LOGS_HOME/dynomite
-mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
-ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
+#echo ...Configuring Dynomite...
+#mkdir -p $LOGS_HOME/dynomite
+#mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
+#ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
 
-echo '...Starting Dynomite...'
-cd $PIPELINE_HOME
-dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
+#echo '...Starting Dynomite...'
+#cd $PIPELINE_HOME
+#dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
 echo '...Configuring Spark...'
 mkdir -p $LOGS_HOME/spark
