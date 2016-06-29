@@ -19,6 +19,7 @@ class UserItemPredictionCommand(dynoClient: DynoJedisClient, version: Int, userI
   def get(url: String) = scala.io.Source.fromURL(url).mkString
 
   def run(): Double = {
+/**
     val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/user-factors-als/_search?q=userId:${userId}""")
 
     // This is the worst piece of code I've ever written
@@ -41,21 +42,22 @@ class UserItemPredictionCommand(dynoClient: DynoJedisClient, version: Int, userI
       .asInstanceOf[Map[String,Any]]("_source")
       .asInstanceOf[Map[String,Any]]("itemFactors")
       .asInstanceOf[List[Double]]
- 
+*/ 
     try{
-      val userFactorsMatrix = new DoubleMatrix(userFactors.toArray)
-      val itemFactorsMatrix = new DoubleMatrix(itemFactors.toArray)
+      val userFactors = dynoClient.get(s"user-factors:${userId}")
+      val itemFactors = dynoClient.get(s"item-factors:${itemId}")
+//      val userFactorsMatrix = new DoubleMatrix(userFactors.toArray)
+//      val itemFactorsMatrix = new DoubleMatrix(itemFactors.toArray)
      
       // Calculate prediction 
-      userFactorsMatrix.dot(itemFactorsMatrix)
+ //     userFactorsMatrix.dot(itemFactorsMatrix)
+      1.1
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
          throw e
        }
     }
-
-   // 1.0;
   }
 
   override def getFallback(): Double = {
