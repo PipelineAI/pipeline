@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# Get any last minute changes
+cd /root/pipeline
+git pull
+
 source /root/pipeline/config/bash/pipeline.bashrc
 
 echo '...Configuring Tools...'

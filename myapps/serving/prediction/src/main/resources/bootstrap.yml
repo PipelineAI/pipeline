@@ -6,7 +6,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://demo.pipeline.io:8761/
+      defaultZone: http://demo.pipeline.io:8761/eureka/
 netflix:
   appinfo.name: ${spring.application.name}
   atlas.uri: http://demo.pipeline.io:7101/api/v1/publish
