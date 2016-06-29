@@ -71,6 +71,13 @@ RUN \
 #               so we get it out of the way at Docker build time.
  && sbt clean clean-files
 
+# Apache Spark
+RUN \
+ cd ~ \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz 
+
 # Logstash
 RUN \
  cd ~ \
