@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "import org.tensorframes.{dsl \u003d\u003e tf}\nimport org.tensorframes.dsl.Implicits._\n\nval df \u003d sqlContext.createDataFrame(Seq(1.0-\u003e1.1, 2.0-\u003e2.2)).toDF(\"a\", \"b\")\n\n// As in Python, scoping is recommended to prevent name collisions.\nval df2 \u003d tf.withGraph {\n    val a \u003d df.block(\"a\")\n    // Unlike python, the scala syntax is more flexible:\n    val out \u003d a + 3.0 named \"out\"\n    // The \u0027mapBlocks\u0027 method is added using implicits to dataframes.\n    df.mapBlocks(out).select(\"a\", \"out\")\n}\n\n// The transform is all lazy at this point, let\u0027s execute it with collect:\ndf2.collect()",
-      "dateUpdated": "Jun 14, 2016 2:15:03 AM",
+      "dateUpdated": "Jun 28, 2016 1:34:57 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,11 +26,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.tensorframes.{dsl\u003d\u003etf}\nimport org.tensorframes.dsl.Implicits._\ndf: org.apache.spark.sql.DataFrame \u003d [a: double, b: double]\ndf2: org.apache.spark.sql.DataFrame \u003d [a: double, out: double]\nres24: Array[org.apache.spark.sql.Row] \u003d Array([1.0,4.0], [2.0,5.0])\n"
+        "msg": "import org.tensorframes.{dsl\u003d\u003etf}\nimport org.tensorframes.dsl.Implicits._\ndf: org.apache.spark.sql.DataFrame \u003d [a: double, b: double]\ndf2: org.apache.spark.sql.DataFrame \u003d [a: double, out: double]\nres165: Array[org.apache.spark.sql.Row] \u003d Array([1.0,4.0], [2.0,5.0])\n"
       },
       "dateCreated": "Jun 9, 2016 2:32:20 PM",
-      "dateStarted": "Jun 14, 2016 2:15:03 AM",
-      "dateFinished": "Jun 14, 2016 2:15:04 AM",
+      "dateStarted": "Jun 28, 2016 1:34:57 AM",
+      "dateFinished": "Jun 28, 2016 1:35:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -70,7 +70,6 @@
   "id": "2BNQNXKH5",
   "angularObjects": {
     "2BCMAZYZ5": [],
-    "2BKR518HR": [],
     "2BDF8WQWY": [],
     "2ARR8UZDJ": [],
     "2AS9P7JSA": [],

@@ -39,7 +39,7 @@
     {
       "title": "Approximate HyperLogLog (Redis)",
       "text": "import redis.clients.jedis.Jedis\n\nval itemId \u003d 7 // Spark\n\nval jedis \u003d new Jedis(\"127.0.0.1\", 6379)\n\nval approxNumDistinctUsersWhoRatedItemId \u003d jedis.pfcount(s\"\"\"approx-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "May 29, 2016 2:22:37 AM",
+      "dateUpdated": "Jun 28, 2016 1:34:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -65,18 +65,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@52a16d7b\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
+        "msg": "import redis.clients.jedis.Jedis\nitemId: Int \u003d 7\njedis: redis.clients.jedis.Jedis \u003d redis.clients.jedis.Jedis@61e4d4e7\napproxNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Nov 23, 2015 4:48:26 PM",
-      "dateStarted": "May 29, 2016 2:22:37 AM",
-      "dateFinished": "May 29, 2016 2:22:39 AM",
+      "dateStarted": "Jun 28, 2016 1:34:34 AM",
+      "dateFinished": "Jun 28, 2016 1:34:35 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Exact Count (Redis)",
       "text": "val exactNumNonDistinctUsersWhoRatedItemId \u003d jedis.get(s\"\"\"exact-rating-count:${itemId}\"\"\")\nval exactNumDistinctUsersWhoRatedItemId \u003d jedis.scard(s\"\"\"exact-distinct-user-rating-count:${itemId}\"\"\")",
-      "dateUpdated": "May 29, 2016 2:22:42 AM",
+      "dateUpdated": "Jun 28, 2016 1:34:38 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -106,8 +106,8 @@
         "msg": "exactNumNonDistinctUsersWhoRatedItemId: String \u003d null\nexactNumDistinctUsersWhoRatedItemId: Long \u003d 0\n"
       },
       "dateCreated": "Jan 15, 2016 5:09:46 AM",
-      "dateStarted": "May 29, 2016 2:22:42 AM",
-      "dateFinished": "May 29, 2016 2:22:42 AM",
+      "dateStarted": "Jun 28, 2016 1:34:38 AM",
+      "dateFinished": "Jun 28, 2016 1:34:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

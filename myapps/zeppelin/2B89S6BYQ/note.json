@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md ![BloomFilter In Action](http://advancedspark.com/img/bloomfilter-sm.png)",
-      "dateUpdated": "Apr 4, 2016 3:06:02 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/bloomfilter-sm.png\" alt\u003d\"BloomFilter In Action\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "Apr 4, 2016 2:33:39 AM",
-      "dateStarted": "Apr 4, 2016 3:06:00 AM",
-      "dateFinished": "Apr 4, 2016 3:06:00 AM",
+      "dateStarted": "Jun 29, 2016 3:09:11 AM",
+      "dateFinished": "Jun 29, 2016 3:09:11 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Scala List",
       "text": "val list1 \u003d (1 to 100000).map(_.toString).toList",
-      "dateUpdated": "Apr 4, 2016 4:33:14 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -66,15 +66,15 @@
         "msg": "list1: List[String] \u003d List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176..."
       },
       "dateCreated": "Apr 4, 2016 4:32:53 AM",
-      "dateStarted": "Apr 4, 2016 4:33:14 AM",
-      "dateFinished": "Apr 4, 2016 4:33:14 AM",
+      "dateStarted": "Jun 29, 2016 3:09:11 AM",
+      "dateFinished": "Jun 29, 2016 3:09:12 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "memory size of scala List",
       "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval memorySizeList \u003d SizeEstimator.estimate(list1)",
-      "dateUpdated": "Apr 23, 2016 11:00:02 PM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -102,15 +102,15 @@
         "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nmemorySizeList: Long \u003d 7920024\n"
       },
       "dateCreated": "Dec 20, 2015 4:17:40 AM",
-      "dateStarted": "Apr 4, 2016 4:33:16 AM",
-      "dateFinished": "Apr 4, 2016 4:33:16 AM",
+      "dateStarted": "Jun 29, 2016 3:09:11 AM",
+      "dateFinished": "Jun 29, 2016 3:09:13 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create Bloom Filter",
       "text": "import com.twitter.algebird.BloomFilterAggregator\n\nval bfAgg \u003d BloomFilterAggregator(5, 64, 0)\n\nval bfAggs \u003d bfAgg(list1)",
-      "dateUpdated": "Apr 4, 2016 4:33:59 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -135,18 +135,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 64 size in words \u003d 1\n1 1x11\n0 dirties\n,64)\nmemorySizeSet: Long \u003d 176\n"
+        "msg": "import com.twitter.algebird.BloomFilterAggregator\nbfAgg: com.twitter.algebird.BloomFilterAggregator \u003d BloomFilterAggregator(BloomFilterMonoid(5,64,0))\nbfAggs: com.twitter.algebird.BF \u003d \nBFSparse(\u003cfunction1\u003e, EWAHCompressedBitmap, size in bits \u003d 64 size in words \u003d 1\n1 1x11\n0 dirties\n,64)\n"
       },
       "dateCreated": "Dec 20, 2015 4:59:23 AM",
-      "dateStarted": "Apr 4, 2016 4:33:17 AM",
-      "dateFinished": "Apr 4, 2016 4:33:17 AM",
+      "dateStarted": "Jun 29, 2016 3:09:13 AM",
+      "dateFinished": "Jun 29, 2016 3:09:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Memory Size of Bloom Filter",
       "text": "val memorySizeSet \u003d SizeEstimator.estimate(bfAggs)",
-      "dateUpdated": "Apr 4, 2016 4:34:12 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -171,18 +171,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "memorySizeSet: Long \u003d 248\n"
+        "msg": "memorySizeSet: Long \u003d 176\n"
       },
       "dateCreated": "Apr 4, 2016 4:34:03 AM",
-      "dateStarted": "Apr 4, 2016 4:34:12 AM",
-      "dateFinished": "Apr 4, 2016 4:34:12 AM",
+      "dateStarted": "Jun 29, 2016 3:09:14 AM",
+      "dateFinished": "Jun 29, 2016 3:09:15 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Bloom Filter contains",
       "text": "bfAggs.contains(\"3\")\nbfAggs.contains(\"100001\")\nbfAggs.contains(\"999999999\")",
-      "dateUpdated": "Apr 4, 2016 4:33:22 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -207,16 +207,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "res115: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\nres116: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\nres117: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\n"
+        "msg": "res9: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\nres10: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\nres11: com.twitter.algebird.ApproximateBoolean \u003d ApproximateBoolean(true,0.0)\n"
       },
       "dateCreated": "Dec 26, 2015 10:55:47 PM",
-      "dateStarted": "Apr 4, 2016 4:33:22 AM",
-      "dateFinished": "Apr 4, 2016 4:33:22 AM",
+      "dateStarted": "Jun 29, 2016 3:09:15 AM",
+      "dateFinished": "Jun 29, 2016 3:09:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Apr 4, 2016 3:04:56 AM",
+      "dateUpdated": "Jun 29, 2016 3:09:11 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -242,8 +242,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Feb 16, 2016 5:04:46 PM",
-      "dateStarted": "Apr 4, 2016 3:04:57 AM",
-      "dateFinished": "Apr 4, 2016 3:04:57 AM",
+      "dateStarted": "Jun 29, 2016 3:09:15 AM",
+      "dateFinished": "Jun 29, 2016 3:09:16 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

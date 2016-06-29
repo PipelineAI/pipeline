@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jun 21, 2016 3:39:38 PM",
+      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "Jun 21, 2016 3:39:38 PM",
-      "dateFinished": "Jun 21, 2016 3:39:38 PM",
+      "dateStarted": "Jun 28, 2016 1:24:02 AM",
+      "dateFinished": "Jun 28, 2016 1:24:02 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
-      "dateUpdated": "Jun 21, 2016 3:39:58 PM",
+      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,18 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "similarItemId\tsimilarity\n90004\t0.9999999996488174\n90011\t0.9999999994106175\n10001\t0.9999999986323609\n90013\t0.9999999982643314\n10005\t0.9999999982494749\n"
+        "msg": "similarItemId\tsimilarity\n10013\t0.9999999999082808\n10012\t0.9999999998416731\n10001\t0.9999999998043172\n90014\t0.9999999997584427\n90015\t0.999999999719416\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "Jun 21, 2016 3:39:58 PM",
-      "dateFinished": "Jun 21, 2016 3:40:02 PM",
+      "dateStarted": "Jun 28, 2016 1:24:02 AM",
+      "dateFinished": "Jun 28, 2016 1:24:05 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jun 21, 2016 3:40:05 PM",
+      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -99,16 +99,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t90004\tBobbie Phillips\t0.9999999996488174\n10006\t90011\tAshley Judd\t0.9999999994106175\n10006\t10001\tLeonardo DiCaprio\t0.9999999986323609\n10006\t90013\tSofia Vergara\t0.9999999982643314\n10006\t10005\tJames Gandolfini\t0.9999999982494749\n"
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t10013\tMark Wahlberg\t0.9999999999082808\n10006\t10012\tJohnny Depp\t0.9999999998416731\n10006\t10001\tLeonardo DiCaprio\t0.9999999998043172\n10006\t90014\tGail O\u0027Grady\t0.9999999997584427\n10006\t90015\tBarbara Niven\t0.999999999719416\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "Jun 21, 2016 3:40:05 PM",
-      "dateFinished": "Jun 21, 2016 3:40:06 PM",
+      "dateStarted": "Jun 28, 2016 1:24:03 AM",
+      "dateFinished": "Jun 28, 2016 1:24:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 21, 2016 3:39:38 PM",
+      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -134,8 +134,8 @@
         "type": "TEXT"
       },
       "dateCreated": "Jun 4, 2016 1:54:09 PM",
-      "dateStarted": "Jun 21, 2016 3:39:40 PM",
-      "dateFinished": "Jun 21, 2016 3:39:40 PM",
+      "dateStarted": "Jun 28, 2016 1:24:05 AM",
+      "dateFinished": "Jun 28, 2016 1:24:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

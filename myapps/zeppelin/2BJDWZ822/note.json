@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Recommendations/03:` NOTEBOOK",
-      "dateUpdated": "Jun 4, 2016 2:02:56 PM",
+      "dateUpdated": "Jun 21, 2016 5:52:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eRecommendations/03:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Jun 4, 2016 4:10:33 AM",
-      "dateStarted": "Jun 4, 2016 2:02:56 PM",
-      "dateFinished": "Jun 4, 2016 2:02:56 PM",
+      "dateStarted": "Jun 21, 2016 5:52:44 PM",
+      "dateFinished": "Jun 21, 2016 5:52:45 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar users to a given user",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport com.advancedspark.ml.Vectors\n\n// User 1\nval givenUserId \u003d 1\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsVector \u003d Vectors.dense(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsVector \u003d Vectors.dense(otherUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsVector, givenUserFactorsVector)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))",
-      "dateUpdated": "Jun 4, 2016 2:05:00 PM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n// User 1\nval givenUserId \u003d 1\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsMatrix \u003d new DoubleMatrix(otherUserFactors)\n\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsMatrix, givenUserFactorsMatrix)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))",
+      "dateUpdated": "Jun 21, 2016 5:52:44 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -86,16 +86,16 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "userId\tsimilarUserId\tsimilarity\n1\t2\t0.4433268263437577\n1\t4\t0.34957633024277446\n1\t3\t0.21851139234972686\n1\t5\t0.1782123878659687\n"
+        "msg": "userId\tsimilarUserId\tsimilarity\n1\t3\t0.6900115906108402\n1\t2\t0.6296444114216041\n1\t5\t0.5166556543068478\n1\t4\t0.23693451527032677\n"
       },
       "dateCreated": "May 4, 2016 5:23:21 AM",
-      "dateStarted": "Jun 4, 2016 2:05:00 PM",
-      "dateFinished": "Jun 4, 2016 2:05:02 PM",
+      "dateStarted": "Jun 21, 2016 5:52:44 PM",
+      "dateFinished": "Jun 21, 2016 5:52:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 4, 2016 2:02:56 PM",
+      "dateUpdated": "Jun 21, 2016 5:52:44 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -121,8 +121,8 @@
         "type": "TEXT"
       },
       "dateCreated": "May 4, 2016 5:23:21 AM",
-      "dateStarted": "Jun 4, 2016 2:02:56 PM",
-      "dateFinished": "Jun 4, 2016 2:02:57 PM",
+      "dateStarted": "Jun 21, 2016 5:52:45 PM",
+      "dateFinished": "Jun 21, 2016 5:52:50 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }

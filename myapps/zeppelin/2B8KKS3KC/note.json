@@ -3,7 +3,7 @@
     {
       "title": "Retrieve dataset",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -54,19 +54,19 @@
         "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
       },
       "dateCreated": "Jan 2, 2016 3:20:34 AM",
-      "dateStarted": "Jun 13, 2016 11:06:57 AM",
-      "dateFinished": "Jun 13, 2016 11:06:58 AM",
+      "dateStarted": "Jun 25, 2016 2:55:20 PM",
+      "dateFinished": "Jun 25, 2016 2:55:21 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show Dataset",
       "text": "val distinctCategoriesDF \u003d itemsDF.select($\"title\", $\"category\", $\"description\").distinct()\n\nz.show(distinctCategoriesDF)",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
-          "mode": "table",
+          "mode": "multiBarChart",
           "height": 300.0,
           "optionOpen": true,
           "keys": [
@@ -113,14 +113,14 @@
         "msg": "title\tcategory\tdescription\nApache Ambari\tCluster Provision\tThe Apache Ambari project is aimed at making Hadoop management simpler by developing software for provisioning, managing, and monitoring Apache Hadoop clusters. Ambari provides an intuitive, easy-to-use Hadoop management web UI backed by its RESTful APIs.\nTachyon\tDistributed Cache\tTachyon is a memory-centric distributed storage system enabling reliable data sharing at memory-speed across cluster frameworks.\nSQL\tProgramming Language\tis a special-purpose programming language designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS)\nSQL Server\tDatabase\tSQL Server is a relational database management system developed by Microsoft. As a database server, it is a software product with the primary function of storing and retrieving data as requested by other software applications which may run either on the same computer or on another computer across a network (including the Internet).\nApache HUE\tUI\tHUE is the Hadoop User Experience and is a Web interface for to load and analytze data with Apache Hadoop.,\nSpark SQL\tLibrary\tSpark SQL is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as distributed SQL query engine. Spark SQL can also be used to read data from an existing Hive installation.\nApache HDFS\tFile System\t A distributed file system that provides high-throughput access to application data.\nApache Zeppelin\tNotebook\tA web-based notebook that enables interactive data analytics.  You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala and more.\nCSV\tFile Format\tA comma-separated values (CSV) file stores tabular data (numbers and text) in plain text. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format.\nOracle\tDatabase\tOracle helps you simplify your IT environment to save money, time, and resources and invest in innovation. Oracle provises a comprehensive and fully integrated stack of cloud applications, platform services, and engineered systems.\nNLTK\tLibrary\tNLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning, wrappers for industrial-strength NLP libraries, and an active discussion forum.\nApache Oozie\tWorkflow\tOozie is a workflow scheduler system integrated with the rest of the Hadoop stack supporting several types of Hadoop jobs out of the box (such as Java map-reduce, Streaming map-reduce, Pig, Hive, Sqoop and Distcp) as well as system specific jobs (such as Java programs and shell script.\nApache Kafka\tMessage Broker\tApache Kafka is publish-subscribe messaging system implementaed as a distributed commit log with a cluster centric design with string durability and fault tolerance guarantees.\nOn-Premise\tCloud Provider\tOn-Premise implies that all compute, network, and storage are managed by a customer and contained within their own data centers.\nApache YARN\tCluster Resource Manager\tA framework for job scheduling and cluster resource management.\nDeep Learning 4J\tLibrary\tDeeplearning4j is the first commercial-grade, open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments, rather than as a research tool.\nProtobuffers\tFile Format\tProtocol buffers are language-neutral, platform-neutral, extensible mechanism for serializing structured data - think XML, but smaller, faster, and simpler.\nPresto\tData Processing\tPresto, designed and written from the ground up for interactive analytics at scale, is an open source distributed SQL query engine for running interactive analytic queries against data sources of all sizes ranging from gigabytes to petabytes.\nAmazon Web Services\tCloud Provider\tAmazon Web Services offers reliable, scalable, and inexpensive cloud computing services. Free to join, pay only for what you use.\nIBM BigInsights\tDistribution\tApache™ Hadoop® is an open source software project that enables distributed processing of large data sets across clusters of commodity servers. It is designed to scale up from a single server to thousands of machines, with a very high degree of fault tolerance.\nVertica\tDatabase\tUsing a shared nothing architecture, Vertica is a cluster-based, column-oriented platform designed to manage large, fast-growing volumes of data and provide very fast query performance when used for data warehouses and other query-intensive applications.\nApache Parquet\tFile Format\tApache Parquet is a columnar storage format available to any project in the Hadoop ecosystem, regardless of the choice of data processing framework, data model or programming language.\nS3\tFile System\tSimple Storage Service (S3) provides developers and IT teams with secure, durable, highly-scalable object storage.\nSci-Kit Learn\tLibrary\tSimple and efficient tools for data mining and data analysis, accessible to everybody, reusable in various contexts, built on NumPy, SciPy, and matplotlib\nKnime\tWorkflow\tThe KNIME Analytics Platform incorporates hundreds of processing nodes for data I/O, preprocessing and cleansing, modeling, analysis and data mining as well as various interactive views, such as scatter plots, parallel coordinates and others.  KNIME is based on the Eclipse platform and easily extensible through its modular API.\nApache Mesos\tCluster Resource Manager\tApache Mesos is a cluster manager that provides efficient resource isolation and sharing across distributed applications, or frameworks. It can run Hadoop, MPI, Hypertable, Spark, and other frameworks on a dynamically shared pool of nodes.\nTableau\tBI\tTableau can help anyone see and understand their data. Connect to almost any database, drag and drop to create visualizations, and share with a click.\nJSON\tFile Format\tJSON is an open standard format that uses human-readable text to transmit data objects consisting of key value pairs.\nDynamoDB\tDatabase\tAmazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale. It is a fully managed cloud database and supports both document and key-value store models.\nApache Tez\tData Processing\tTez aims build an application framework which allows for a complex directed-acyclic-graph of tasks for processing data.\nMicrosft Azure\tCloud Provider\tMicrosoft Azure is a growing collection of integrated cloud services and analytics, computing, database, mobile, networking, storage, and web for moving faster, achieving more, and saving money.\nApache Giraph\tLibrary\tApache Giraph is an iterative graph processing system built for high scalability.\nPython\tProgramming Language\tPython is a widely used general-purpose, high-level programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than would be possible in languages such as C++ or Java.\nApache Mahout\tLibrary\tApache Mahout is a project of the Apache Software Foundation to produce free implementations of distributed or otherwise scalable machine learning algorithms focused primarily in the areas of collaborative filtering, clustering and classification.\nApache ORC\tFile Format\tORC is a self-describing type-aware columnar file format designed for Hadoop workloads. It is optimized for large streaming reads, but with integrated support for finding required rows quickly. Storing data in a columnar format lets the reader read, decompress, and process only the values that are required for the current query.\nApache Solr\tSearch Engine\tHigh performance search engine built using Lucene Core, with XML/HTTP and JSON/Python/Ruby APIs, hit highlighting, faceted search, caching, replication, and a web admin interface.\nTensor Flow\tData Processing\tTensorFlow is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them.\nApache Cassandra\tDatabase\tThe Apache Cassandra database is the right choice when you need scalability and high availability without compromising performance. Linear scalability and proven fault-tolerance on commodity hardware or cloud infrastructure make it the perfect platform for mission-critical data. Cassandra\u0027s support for replicating across multiple datacenters is best-in-class, providing lower latency for your users and the peace of mind of knowing that you can survive regional outages.  Cassandra\u0027s data model offers the convenience of column indexes with the performance of log-structured updates, strong support for denormalization and materialized views, and powerful built-in caching.\nApache Hive\tData Processing\tA data warehouse infrastructure that provides data summarization and ad hoc querying\nSpark GraphX\tLibrary\tGraphX, Spark\u0027s API for graph and graph-parallel computation, unifies ETL, exploratory analysis, and iterative graph computation within a single system.\nHortonworks\tDistribution\tHortonworks develops, distributes and supports HDP - the completely open-source Apache Hadoop data platform, architected for the enterprise.\nElastic MapReduce\tData Processing\tAmazon EMR simplifies big data processing, providing a managed Hadoop framework that makes it easy, fast, and cost-effective for you to distribute and process vast amounts of your data across dynamically scalable Amazon EC2 instances.\nRedshift\tDatabase\tAmazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using your existing business intelligence tools.\nRedis\tDistributed Cache\tRedis is an open source, in-memory Data Structure Store, used as a database, a caching layer for a message broker.\nApache Storm\tStreaming\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\nScala\tProgramming Language\tScala began life in 2003, created by Martin Odersky and his research group at EPFL, next to Lake Geneva and the Alps, in Lausanne, Switzerland. Scala has since grown into a mature open source programming language, used by hundreds of thousands of developers, and is developed and maintained by scores of people all over the world. Have the best of both worlds. Construct elegant class hierarchies for maximum code reuse and extensibility, implement their behavior using higher-order functions. Or anything in-between.\nApache Drill\tData Processing\tApache Drill is a distributed MPP query layer that supports SQL and alternative query languages against NoSQL and Hadoop data storage systems. It was inspired in part by Google\u0027s Dremel.\nTeradata\tDatabase\tTeradata uses a shared nothing architecture, which means that each server node has its own memory and processing power.  Teradata also supports text analytics to track unstructured data, such as word processor documents, and semi-structured data, such as spreadsheets.\nSpark Streaming\tLibrary\tSpark Streaming is an extension of the core Spark API that enables scalable, high-throughput, fault-tolerant stream processing of live data streams. Data can be ingested from many sources like Kafka, Flume, Twitter, ZeroMQ, Kinesis, or TCP sockets, and can be processed using complex algorithms expressed with high-level functions like map, reduce, join and window. Finally, processed data can be pushed out to filesystems, databases, and live dashboards.\nMySQL\tDatabase\tMySQL is an open-source, relational database management system (RDBMS) developed, distributed and supported by Oracle Corporation. MySQL stores data in tables and uses structured query language (SQL) for database access. In MySQL, you pre-define your database schema based on your requirements and set up rules to govern the relationships between fields in your tables. In MySQL, related information may be stored in separate tables, but associated through the use of joins.\nApache Pig\tData Processing\tApache Pig is a platform for analyzing large data sets that consists of a high-level language for expressing data analysis programs, coupled with infrastructure for evaluating these programs. The salient property of Pig programs is that their structure is amenable to substantial parallelization, which in turns enables them to handle very large data sets.\nR\tProgramming Language\tR is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT\u0026T, now Lucent Technologies) by John Chambers and colleagues.  R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, and clustering) and graphical techniques, and is highly extensible.\nApache Spark\tData Processing\tApache Spark is fast and general compute engine for Hadoop data.  Spark provides a simple and expressive programming model that supports a wide range of applications, including ETL, machine learning, stream processing, and graph computation.\nGoogle Cloud Platform\tCloud Provider\tGoogle Cloud Platform enables developers to build, test and deploy applications on Google’s highly-scalable and reliable infrastructure. Choose from computing, storage and application services for your web, mobile and backend solutions.\nSpark ML/MLlib\tLibrary\tMLlib is Spark’s machine learning (ML) library. Its goal is to make practical machine learning scalable and easy. It consists of common learning algorithms and utilities, including classification, regression, clustering, collaborative filtering, dimensionality reduction, as well as lower-level optimization primitives and higher-level pipeline APIs.\nApache MapReduce\tData Processing\tA YARN-based system for parallel processing of large data sets.\nApache Flume\tLibrary\tFlume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.\nJava\tProgramming Language\tJava is a general-purpose computer programming language that is concurrent, class-based, object-oriented, and specifically designed to have as few implementation dependencies as possible.\nXML\tFile Format\tXML, or Extensible Markup Language, is a markup language that defines a set of rules for encoding documents in a format which is both human-readable and machine-readable.\nApache ZooKeeper\tDistributed Coordinator\tApache ZooKeeper server which enables highly reliable distributed coordination.\nApache Sqoop\tData Import\tSqoop is designed for efficiently transferring bulk data between Apache Hadoop and structured datastores such as relational databases.\nNeo4j\tLibrary\tNeo4j is an open-source graph database implemented in Java and accessible from software written in other languages using the Cypher Query Language through a transactional HTTP endpoint.[1][2][3] The developers describe Neo4j as an ACID-compliant transactional database with native graph storage and processing.\niPython/Jupyter\tNotebook\tThe Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more.\nMapR\tDistribution\tThe MapR Converged Data Platform integrates the power of Hadoop and Spark with global event streaming, real-time database capabilities, and enterprise storage for developing and running innovative data applications. The MapR Platform is powered by the industry’s fastest, most reliable, secure, and open data infrastructure that dramatically lowers TCO and enables global real-time data applications.\nMemcached\tDistributed Cache\tMemcached is an in-memory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.\nPostgres\tDatabase\tPostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.\nKinesis\tLibrary\tAmazon Kinesis is a platform for streaming data on AWS, offering powerful services to make it easy to load and analyze streaming data, and also providing the ability for you to build custom streaming data applications for specialized needs.\nApache Impala\tData Processing\tAchieve order-of-magnitude performance increase compared to alternatives for the only true interactive analytic solution native to Hadoop.\nDocker\tContainer\tDocker allows you to package an application with all of its dependencies into a standardized unit for software and provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere.\nCloudera\tDistribution\tWe provide the world’s fastest, easiest, and most secure data platform built on Hadoop. We help solve your most demanding business challenges with data.\nApache HBase\tDatabase\tUse Apache HBase software when you need random, realtime read/write access to your Big Data. This project\u0027s goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware. HBase is an open-source, distributed, versioned, column-oriented store modeled after Google\u0027s Bigtable: A Distributed Storage System for Structured Data by Chang et al. Just as Bigtable leverages the distributed data storage provided by the Google File System, HBase provides Bigtable-like capabilities on top of Hadoop and HDFS.\nStanford CoreNLP\tLibrary\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\nApache Nifi\tWorkflow\tApache nifi supports powerful and scalable directed graphs of data routing, transformation, and system mediation logic.\nElasticSearch\tSearch Engine\tElasticsearch is a distributed, open source search and analytics engine, designed for horizontal scalability, reliability, and easy management. It combines the speed of search with the power of analytics via a sophisticated, developer-friendly query language covering structured, unstructured, and time-series data.\nApache Flink\tData Processing\tFlink is a streaming dataflow engine that provides data distribution, communication, and fault tolerance for distributed computations over data streams.\nDato GraphLab Create\tLibrary\tDato GraphLab Create is an extensible machine learning framework that enables developers and data scientists to easily build and deploy intelligent applications and services at scale. It includes distributed data structures and rich libraries for data transformation and manipulation, scalable task-oriented machine learning toolkits for creating, evaluating, and improving machine learning models, data and model visualization for all aspects of development.\nMicroStrategy\tBI\tMicroStrategy is the only analytics platform that meets the needs of business and IT. It empowers organizations to make sense of large data volumes, get answers to their toughest business questions, build beautiful data visualizations, and ensure a single version of the truth–at any scale, on any device.\nMongoDB\tDatabase\tMongoDB is an open-source database developed by MongoDB, Inc. MongoDB stores data in JSON-like documents that can vary in structure. Related information is stored together for fast query access through the MongoDB query language. MongoDB uses dynamic schemas, meaning that you can create records without first defining the structure, such as the fields or the types of their values.\nTitan GraphDB\tDatabase\tTitan is a scalable graph database optimized for storing and querying graphs containing hundreds of billions of vertices and edges distributed across a multi-machine cluster.\nApache Lucene\tLibrary\tLucene provides Java-based indexing and search technology, as well as spellchecking, hit highlighting and advanced analysis/tokenization capabilities.\n"
       },
       "dateCreated": "Jan 2, 2016 9:57:07 PM",
-      "dateStarted": "Jun 13, 2016 11:06:57 AM",
-      "dateFinished": "Jun 13, 2016 11:07:01 AM",
+      "dateStarted": "Jun 25, 2016 2:55:20 PM",
+      "dateFinished": "Jun 25, 2016 2:55:22 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "val categoriesDF \u003d itemsDF.select($\"category\")\n  .groupBy($\"category\")\n  .agg(count($\"category\").as(\"count\"))\n  .orderBy($\"count\".desc)\n\nz.show(categoriesDF)",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -162,18 +162,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "category\tcount\nLibrary\t15\nDatabase\t12\nData Processing\t11\nFile Format\t6\nProgramming Language\t5\nCloud Provider\t4\nDistribution\t4\nWorkflow\t3\nDistributed Cache\t3\nCluster Resource Manager\t2\nFile System\t2\nNotebook\t2\nSearch Engine\t2\nBI\t2\nUI\t1\nCluster Provision\t1\nStreaming\t1\nContainer\t1\nMessage Broker\t1\nDistributed Coordinator\t1\nData Import\t1\n"
+        "msg": "category\tcount\nLibrary\t15\nDatabase\t12\nData Processing\t11\nFile Format\t6\nProgramming Language\t5\nCloud Provider\t4\nDistribution\t4\nWorkflow\t3\nDistributed Cache\t3\nNotebook\t2\nCluster Resource Manager\t2\nFile System\t2\nSearch Engine\t2\nBI\t2\nUI\t1\nCluster Provision\t1\nDistributed Coordinator\t1\nContainer\t1\nMessage Broker\t1\nData Import\t1\nStreaming\t1\n"
       },
       "dateCreated": "Feb 3, 2016 7:18:50 AM",
-      "dateStarted": "Jun 13, 2016 11:06:58 AM",
-      "dateFinished": "Jun 13, 2016 11:07:02 AM",
+      "dateStarted": "Jun 25, 2016 2:55:21 PM",
+      "dateFinished": "Jun 25, 2016 2:55:23 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Tokenize Descriptions",
       "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -198,18 +198,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_ebf9a34fe2a7\n"
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_921a262e9c0f\n"
       },
       "dateCreated": "Jan 2, 2016 3:15:51 AM",
-      "dateStarted": "Jun 13, 2016 11:07:01 AM",
-      "dateFinished": "Jun 13, 2016 11:07:03 AM",
+      "dateStarted": "Jun 25, 2016 2:55:22 PM",
+      "dateFinished": "Jun 25, 2016 2:55:24 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Remove Common Stop Words",
       "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -234,18 +234,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_71ed8638f2ed\n"
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_82f8475a27bf\n"
       },
       "dateCreated": "Dec 29, 2015 6:25:20 PM",
-      "dateStarted": "Jun 13, 2016 11:07:03 AM",
-      "dateFinished": "Jun 13, 2016 11:07:04 AM",
+      "dateStarted": "Jun 25, 2016 2:55:23 PM",
+      "dateFinished": "Jun 25, 2016 2:55:24 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "TF transformer",
       "text": "import org.apache.spark.ml.feature.HashingTF\n\nval tf \u003d new HashingTF()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"tfFeatures\")",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -270,18 +270,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.HashingTF\ntf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_fb8ac3cf3eca\n"
+        "msg": "import org.apache.spark.ml.feature.HashingTF\ntf: org.apache.spark.ml.feature.HashingTF \u003d hashingTF_2b2be0b1f445\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:21 AM",
-      "dateStarted": "Jun 13, 2016 11:07:04 AM",
-      "dateFinished": "Jun 13, 2016 11:07:05 AM",
+      "dateStarted": "Jun 25, 2016 2:55:24 PM",
+      "dateFinished": "Jun 25, 2016 2:55:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "IDF transformer",
       "text": "import org.apache.spark.ml.feature.IDF\n\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -306,18 +306,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.IDF\nidf: org.apache.spark.ml.feature.IDF \u003d idf_24e2d2b1d8b1\n"
+        "msg": "import org.apache.spark.ml.feature.IDF\nidf: org.apache.spark.ml.feature.IDF \u003d idf_756127c0f7ea\n"
       },
       "dateCreated": "Jan 2, 2016 11:02:51 PM",
-      "dateStarted": "Jun 13, 2016 11:07:04 AM",
-      "dateFinished": "Jun 13, 2016 11:07:06 AM",
+      "dateStarted": "Jun 25, 2016 2:55:25 PM",
+      "dateFinished": "Jun 25, 2016 2:55:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "convert the category labels into category indexes",
       "text": "import org.apache.spark.ml.feature.StringIndexer\n\nval categoryIndexerModel \u003d new StringIndexer()\n  .setInputCol(\"category\")\n  .setOutputCol(\"indexedCategory\")\n  .fit(itemsDF)",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -342,18 +342,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.StringIndexer\ncategoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_0ee739ac4f5f\n"
+        "msg": "import org.apache.spark.ml.feature.StringIndexer\ncategoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_7be1be97f7dc\n"
       },
       "dateCreated": "Jan 2, 2016 9:05:08 PM",
-      "dateStarted": "Jun 13, 2016 11:07:05 AM",
-      "dateFinished": "Jun 13, 2016 11:07:07 AM",
+      "dateStarted": "Jun 25, 2016 2:55:25 PM",
+      "dateFinished": "Jun 25, 2016 2:55:26 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "create decision tree classifer",
       "text": "import org.apache.spark.ml.classification.DecisionTreeClassifier\n\nval classifier \u003d new DecisionTreeClassifier()\n  .setFeaturesCol(idf.getOutputCol)\n  .setLabelCol(categoryIndexerModel.getOutputCol)\n  .setPredictionCol(\"prediction\")\n  .setRawPredictionCol(\"confidence\")\n  .setProbabilityCol(\"probability\")",
-      "dateUpdated": "Jun 13, 2016 11:06:57 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -378,18 +378,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.classification.DecisionTreeClassifier\nclassifier: org.apache.spark.ml.classification.DecisionTreeClassifier \u003d dtc_fe32542bf3cc\n"
+        "msg": "import org.apache.spark.ml.classification.DecisionTreeClassifier\nclassifier: org.apache.spark.ml.classification.DecisionTreeClassifier \u003d dtc_b967750c4b1a\n"
       },
       "dateCreated": "Jan 2, 2016 5:57:01 AM",
-      "dateStarted": "Jun 13, 2016 11:07:06 AM",
-      "dateFinished": "Jun 13, 2016 11:07:08 AM",
+      "dateStarted": "Jun 25, 2016 2:55:26 PM",
+      "dateFinished": "Jun 25, 2016 2:55:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "convert the category index back to String",
       "text": "import org.apache.spark.ml.feature.IndexToString\n\nval categoryReverseIndexer \u003d new IndexToString()\n  .setInputCol(classifier.getPredictionCol)\n  .setOutputCol(\"predictedCategory\")\n  .setLabels(categoryIndexerModel.labels)",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -414,18 +414,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.feature.IndexToString\ncategoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_5ee47dd23a19\n"
+        "msg": "import org.apache.spark.ml.feature.IndexToString\ncategoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_44e3b17e7e0d\n"
       },
       "dateCreated": "Jan 8, 2016 2:20:59 AM",
-      "dateStarted": "Jun 13, 2016 11:07:07 AM",
-      "dateFinished": "Jun 13, 2016 11:07:08 AM",
+      "dateStarted": "Jun 25, 2016 2:55:26 PM",
+      "dateFinished": "Jun 25, 2016 2:55:27 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create the training pipeline",
       "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, tf, idf, categoryIndexerModel, classifier, categoryReverseIndexer))",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "editorMode": "ace/mode/scala",
@@ -450,18 +450,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_8d821fd8a483\n"
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_3eb826279f84\n"
       },
       "dateCreated": "Jan 2, 2016 5:59:26 AM",
-      "dateStarted": "Jun 13, 2016 11:07:08 AM",
-      "dateFinished": "Jun 13, 2016 11:07:09 AM",
+      "dateStarted": "Jun 25, 2016 2:55:27 PM",
+      "dateFinished": "Jun 25, 2016 2:55:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create evaluator for multiclass decision tree model",
       "text": "import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\n\nval metricName \u003d \"f1\"\n\nval modelEvaluator \u003d new MulticlassClassificationEvaluator()\n  .setLabelCol(classifier.getLabelCol)\n  .setPredictionCol(classifier.getPredictionCol)\n  .setMetricName(metricName)",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -486,18 +486,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nmetricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_73533c4a4201\n"
+        "msg": "import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nmetricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_0c2c6f8489bb\n"
       },
       "dateCreated": "Jan 2, 2016 9:17:25 PM",
-      "dateStarted": "Jun 13, 2016 11:07:08 AM",
-      "dateFinished": "Jun 13, 2016 11:07:11 AM",
+      "dateStarted": "Jun 25, 2016 2:55:28 PM",
+      "dateFinished": "Jun 25, 2016 2:55:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Build param grid search",
       "text": "import org.apache.spark.ml.tuning.ParamGridBuilder\n\nval paramGrid \u003d new ParamGridBuilder()\n  .addGrid(tf.numFeatures, Array(3, 5))\n  .addGrid(idf.minDocFreq, Array(2, 4))\n  .addGrid(classifier.maxDepth, Array(3, 5))\n  .build()\n  \nparamGrid.size",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -522,18 +522,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.tuning.ParamGridBuilder\nparamGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tdtc_fe32542bf3cc-maxDepth: 3,\n\tidf_24e2d2b1d8b1-minDocFreq: 2,\n\thashingTF_fb8ac3cf3eca-numFeatures: 3\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 3,\n\tidf_24e2d2b1d8b1-minDocFreq: 4,\n\thashingTF_fb8ac3cf3eca-numFeatures: 3\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 3,\n\tidf_24e2d2b1d8b1-minDocFreq: 2,\n\thashingTF_fb8ac3cf3eca-numFeatures: 5\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 3,\n\tidf_24e2d2b1d8b1-minDocFreq: 4,\n\thashingTF_fb8ac3cf3eca-numFeatures: 5\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 5,\n\tidf_24e2d2b1d8b1-minDocFreq: 2,\n\thashingTF_fb8ac3cf3eca-numFeatures: 3\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 5,\n\tidf_24e2d2b1d8b1-minDocFreq: 4,\n\thashingTF_fb8ac3cf3eca-numFeatures: 3\n}, {\n\tdtc_fe32542bf3cc-maxDepth: 5,\n\tidf_24e2d2b1d8b1-minDocFreq: 2,\n\thashingTF_fb8ac3cf3e...res955: Int \u003d 8\n"
+        "msg": "import org.apache.spark.ml.tuning.ParamGridBuilder\nparamGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d \nArray({\n\tdtc_b967750c4b1a-maxDepth: 3,\n\tidf_756127c0f7ea-minDocFreq: 2,\n\thashingTF_2b2be0b1f445-numFeatures: 3\n}, {\n\tdtc_b967750c4b1a-maxDepth: 5,\n\tidf_756127c0f7ea-minDocFreq: 2,\n\thashingTF_2b2be0b1f445-numFeatures: 3\n}, {\n\tdtc_b967750c4b1a-maxDepth: 3,\n\tidf_756127c0f7ea-minDocFreq: 4,\n\thashingTF_2b2be0b1f445-numFeatures: 3\n}, {\n\tdtc_b967750c4b1a-maxDepth: 5,\n\tidf_756127c0f7ea-minDocFreq: 4,\n\thashingTF_2b2be0b1f445-numFeatures: 3\n}, {\n\tdtc_b967750c4b1a-maxDepth: 3,\n\tidf_756127c0f7ea-minDocFreq: 2,\n\thashingTF_2b2be0b1f445-numFeatures: 5\n}, {\n\tdtc_b967750c4b1a-maxDepth: 5,\n\tidf_756127c0f7ea-minDocFreq: 2,\n\thashingTF_2b2be0b1f445-numFeatures: 5\n}, {\n\tdtc_b967750c4b1a-maxDepth: 3,\n\tidf_756127c0f7ea-minDocFreq: 4,\n\thashingTF_2b2be0b1f4...res300: Int \u003d 8\n"
       },
       "dateCreated": "Jan 2, 2016 9:43:55 PM",
-      "dateStarted": "Jun 13, 2016 11:07:09 AM",
-      "dateFinished": "Jun 13, 2016 11:07:12 AM",
+      "dateStarted": "Jun 25, 2016 2:55:28 PM",
+      "dateFinished": "Jun 25, 2016 2:55:29 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Create cross validator",
       "text": "import org.apache.spark.ml.tuning.CrossValidator\n\nval numFolds \u003d 5\n\nval modelValidator \u003d new CrossValidator()\n  .setEstimator(pipeline)\n  .setEvaluator(modelEvaluator)\n  .setEstimatorParamMaps(paramGrid)\n  .setNumFolds(numFolds) ",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -558,18 +558,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.tuning.CrossValidator\nnumFolds: Int \u003d 5\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_496e4ea0fd7c\n"
+        "msg": "import org.apache.spark.ml.tuning.CrossValidator\nnumFolds: Int \u003d 5\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_3939d8c7bf63\n"
       },
       "dateCreated": "Jan 2, 2016 9:43:09 PM",
-      "dateStarted": "Jun 13, 2016 11:07:11 AM",
-      "dateFinished": "Jun 13, 2016 11:07:13 AM",
+      "dateStarted": "Jun 25, 2016 2:55:29 PM",
+      "dateFinished": "Jun 25, 2016 2:55:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Train crossValidator model to find best model",
       "text": "val crossValidatorModel \u003d modelValidator.fit(itemsDF)",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -594,18 +594,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "crossValidatorModel: org.apache.spark.ml.tuning.CrossValidatorModel \u003d cv_496e4ea0fd7c\n"
+        "msg": "crossValidatorModel: org.apache.spark.ml.tuning.CrossValidatorModel \u003d cv_3939d8c7bf63\n"
       },
       "dateCreated": "Jan 2, 2016 9:47:19 PM",
-      "dateStarted": "Jun 13, 2016 11:07:12 AM",
-      "dateFinished": "Jun 13, 2016 11:07:37 AM",
+      "dateStarted": "Jun 25, 2016 2:55:30 PM",
+      "dateFinished": "Jun 25, 2016 2:55:57 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find Best Param Grid Options",
       "text": "val avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n\nval combined \u003d paramGrid.zip(avgMetricsParamGrid)\n  .sortBy(paramGridMetricTuple \u003d\u003e (1 - paramGridMetricTuple._2))\n  .take(1)(0)._1",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -630,18 +630,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "avgMetricsParamGrid: Array[Double] \u003d Array(0.17280929596719072, 0.17280929596719072, 0.08659331037040018, 0.08659331037040018, 0.1580415095740173, 0.1580415095740173, 0.05706894687699642, 0.05706894687699642)\ncombined: org.apache.spark.ml.param.ParamMap \u003d \n{\n\tdtc_fe32542bf3cc-maxDepth: 3,\n\tidf_24e2d2b1d8b1-minDocFreq: 2,\n\thashingTF_fb8ac3cf3eca-numFeatures: 3\n}\n"
+        "msg": "avgMetricsParamGrid: Array[Double] \u003d Array(0.17280929596719072, 0.1580415095740173, 0.17280929596719072, 0.1580415095740173, 0.08659331037040018, 0.05706894687699642, 0.08659331037040018, 0.05706894687699642)\ncombined: org.apache.spark.ml.param.ParamMap \u003d \n{\n\tdtc_b967750c4b1a-maxDepth: 3,\n\tidf_756127c0f7ea-minDocFreq: 2,\n\thashingTF_2b2be0b1f445-numFeatures: 3\n}\n"
       },
       "dateCreated": "Jan 2, 2016 10:15:19 PM",
-      "dateStarted": "Jun 13, 2016 11:07:14 AM",
-      "dateFinished": "Jun 13, 2016 11:07:38 AM",
+      "dateStarted": "Jun 25, 2016 2:55:31 PM",
+      "dateFinished": "Jun 25, 2016 2:55:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Find best Pipeline model",
       "text": "import org.apache.spark.ml.PipelineModel\n\nval bestPipelineModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]",
-      "dateUpdated": "Jun 13, 2016 12:11:20 PM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -666,18 +666,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.PipelineModel\nbestPipelineModel: org.apache.spark.ml.PipelineModel \u003d pipeline_11f76d046c96\n"
+        "msg": "import org.apache.spark.ml.PipelineModel\nbestPipelineModel: org.apache.spark.ml.PipelineModel \u003d pipeline_445409e63793\n"
       },
       "dateCreated": "Feb 4, 2016 6:08:43 AM",
-      "dateStarted": "Jun 13, 2016 11:07:37 AM",
-      "dateFinished": "Jun 13, 2016 11:07:39 AM",
+      "dateStarted": "Jun 25, 2016 2:55:58 PM",
+      "dateFinished": "Jun 25, 2016 2:55:58 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Extract Best Decision tree",
       "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval bestClassificationModel \u003d bestPipelineModel.stages(5).asInstanceOf[DecisionTreeClassificationModel]\n\n//s\"Model has most important feature: ${bestClassificationModel.featureImportances.argmax}\"\n\nbestClassificationModel.toDebugString",
-      "dateUpdated": "Jun 13, 2016 12:12:00 PM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -700,20 +700,20 @@
       "jobName": "paragraph_1464109889391_1930241918",
       "id": "20160524-171129_1119118191",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\njava.lang.ArrayIndexOutOfBoundsException: 5\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:89)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:94)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:96)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:98)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:100)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:102)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:104)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:106)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:108)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:110)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:112)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:114)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:116)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:118)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:120)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:122)\n\tat \u003cinit\u003e(\u003cconsole\u003e:124)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:128)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\nbestClassificationModel: org.apache.spark.ml.classification.DecisionTreeClassificationModel \u003d DecisionTreeClassificationModel (uid\u003ddtc_b967750c4b1a) of depth 3 with 11 nodes\nres314: String \u003d \n\"DecisionTreeClassificationModel (uid\u003ddtc_b967750c4b1a) of depth 3 with 11 nodes\n  If (feature 1 \u003c\u003d 0.1242251999855711)\n   If (feature 0 \u003c\u003d 0.3250169286704234)\n    If (feature 0 \u003c\u003d 0.22501171984875468)\n     Predict: 2.0\n    Else (feature 0 \u003e 0.22501171984875468)\n     Predict: 0.0\n   Else (feature 0 \u003e 0.3250169286704234)\n    Predict: 4.0\n  Else (feature 1 \u003e 0.1242251999855711)\n   If (feature 0 \u003c\u003d 0.45002343969750935)\n    If (feature 0 \u003c\u003d 0.22501171984875468)\n     Predict: 1.0\n    Else (feature 0 \u003e 0.22501171984875468)\n     Predict: 0.0\n   Else (feature 0 \u003e 0.45002343969750935)\n    Predict: 1.0\n\"\n"
       },
       "dateCreated": "May 24, 2016 5:11:29 PM",
-      "dateStarted": "Jun 13, 2016 12:08:05 PM",
-      "dateFinished": "Jun 13, 2016 12:08:05 PM",
-      "status": "ERROR",
+      "dateStarted": "Jun 25, 2016 2:55:58 PM",
+      "dateFinished": "Jun 25, 2016 2:55:59 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Show categories",
       "text": "val categoryReverseIndexer \u003d bestPipelineModel.stages(6).asInstanceOf[IndexToString]\n\ncategoryReverseIndexer.getLabels.zipWithIndex.map(_.swap).mkString(\"\\n\")",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -738,18 +738,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_5ee47dd23a19\nres972: String \u003d \n(0,Library)\n(1,Database)\n(2,Data Processing)\n(3,File Format)\n(4,Programming Language)\n(5,Distribution)\n(6,Cloud Provider)\n(7,Distributed Cache)\n(8,Workflow)\n(9,Search Engine)\n(10,Notebook)\n(11,BI)\n(12,File System)\n(13,Cluster Resource Manager)\n(14,UI)\n(15,Streaming)\n(16,Container)\n(17,Cluster Provision)\n(18,Message Broker)\n(19,Data Import)\n(20,Distributed Coordinator)\n"
+        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_44e3b17e7e0d\nres317: String \u003d \n(0,Library)\n(1,Database)\n(2,Data Processing)\n(3,File Format)\n(4,Programming Language)\n(5,Distribution)\n(6,Cloud Provider)\n(7,Distributed Cache)\n(8,Workflow)\n(9,Search Engine)\n(10,Notebook)\n(11,BI)\n(12,File System)\n(13,Cluster Resource Manager)\n(14,UI)\n(15,Streaming)\n(16,Container)\n(17,Cluster Provision)\n(18,Message Broker)\n(19,Data Import)\n(20,Distributed Coordinator)\n"
       },
       "dateCreated": "May 24, 2016 5:22:27 PM",
-      "dateStarted": "Jun 13, 2016 11:07:39 AM",
-      "dateFinished": "Jun 13, 2016 11:07:40 AM",
+      "dateStarted": "Jun 25, 2016 2:55:59 PM",
+      "dateFinished": "Jun 25, 2016 2:56:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Predict on new data",
       "text": "val predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"database\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestClassificationModel.transform(predictOnDF)\n .select(\n    classifier.getPredictionCol,\n    categoryReverseIndexer.getOutputCol, \n    stopWordsFilter.getOutputCol,\n    classifier.getRawPredictionCol, \n    classifier.getProbabilityCol\n  )\n\nz.show(predictedResultsDF)",
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 11.0,
         "editorMode": "ace/mode/scala",
@@ -792,16 +792,16 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\njava.lang.IllegalArgumentException: Field \"idfFeatures\" does not exist.\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat scala.collection.MapLike$class.getOrElse(MapLike.scala:128)\n\tat scala.collection.AbstractMap.getOrElse(Map.scala:58)\n\tat org.apache.spark.sql.types.StructType.apply(StructType.scala:211)\n\tat org.apache.spark.ml.util.SchemaUtils$.checkColumnType(SchemaUtils.scala:40)\n\tat org.apache.spark.ml.PredictorParams$class.validateAndTransformSchema(Predictor.scala:50)\n\tat org.apache.spark.ml.classification.ClassificationModel.org$apache$spark$ml$classification$ClassifierParams$$super$validateAndTransformSchema(Classifier.scala:78)\n\tat org.apache.spark.ml.classification.ClassifierParams$class.validateAndTransformSchema(Classifier.scala:40)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.org$apache$spark$ml$classification$ProbabilisticClassifierParams$$super$validateAndTransformSchema(ProbabilisticClassifier.scala:77)\n\tat org.apache.spark.ml.classification.ProbabilisticClassifierParams$class.validateAndTransformSchema(ProbabilisticClassifier.scala:37)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.validateAndTransformSchema(ProbabilisticClassifier.scala:77)\n\tat org.apache.spark.ml.PredictionModel.transformSchema(Predictor.scala:163)\n\tat org.apache.spark.ml.PipelineStage.transformSchema(Pipeline.scala:68)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.transform(ProbabilisticClassifier.scala:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:183)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:195)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:197)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:199)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:201)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:203)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:205)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:207)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:209)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:211)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:213)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:215)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:217)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:219)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:221)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:223)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:225)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:227)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:229)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:231)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:233)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:235)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:237)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:239)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:241)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:243)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:245)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:247)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:249)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:251)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:253)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:255)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:257)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:259)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:261)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:263)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:265)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:267)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:269)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:271)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:273)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:275)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:277)\n\tat \u003cinit\u003e(\u003cconsole\u003e:279)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:283)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\njava.lang.IllegalArgumentException: Field \"idfFeatures\" does not exist.\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat org.apache.spark.sql.types.StructType$$anonfun$apply$1.apply(StructType.scala:212)\n\tat scala.collection.MapLike$class.getOrElse(MapLike.scala:128)\n\tat scala.collection.AbstractMap.getOrElse(Map.scala:58)\n\tat org.apache.spark.sql.types.StructType.apply(StructType.scala:211)\n\tat org.apache.spark.ml.util.SchemaUtils$.checkColumnType(SchemaUtils.scala:40)\n\tat org.apache.spark.ml.PredictorParams$class.validateAndTransformSchema(Predictor.scala:50)\n\tat org.apache.spark.ml.classification.ClassificationModel.org$apache$spark$ml$classification$ClassifierParams$$super$validateAndTransformSchema(Classifier.scala:78)\n\tat org.apache.spark.ml.classification.ClassifierParams$class.validateAndTransformSchema(Classifier.scala:40)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.org$apache$spark$ml$classification$ProbabilisticClassifierParams$$super$validateAndTransformSchema(ProbabilisticClassifier.scala:77)\n\tat org.apache.spark.ml.classification.ProbabilisticClassifierParams$class.validateAndTransformSchema(ProbabilisticClassifier.scala:37)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.validateAndTransformSchema(ProbabilisticClassifier.scala:77)\n\tat org.apache.spark.ml.PredictionModel.transformSchema(Predictor.scala:163)\n\tat org.apache.spark.ml.PipelineStage.transformSchema(Pipeline.scala:68)\n\tat org.apache.spark.ml.classification.ProbabilisticClassificationModel.transform(ProbabilisticClassifier.scala:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:141)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:153)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:155)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:157)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:159)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:161)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:163)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:165)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:167)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:169)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:171)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:173)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:175)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:177)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:179)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:181)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:183)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:185)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:187)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:189)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:191)\n\tat \u003cinit\u003e(\u003cconsole\u003e:193)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:197)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
       },
       "dateCreated": "Jan 2, 2016 3:16:54 AM",
-      "dateStarted": "Jun 13, 2016 11:07:40 AM",
-      "dateFinished": "Jun 13, 2016 11:07:41 AM",
+      "dateStarted": "Jun 25, 2016 2:55:59 PM",
+      "dateFinished": "Jun 25, 2016 2:56:00 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jun 13, 2016 11:06:58 AM",
+      "dateUpdated": "Jun 25, 2016 2:55:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -813,7 +813,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
@@ -826,8 +827,8 @@
         "type": "TEXT"
       },
       "dateCreated": "May 31, 2016 2:10:18 AM",
-      "dateStarted": "Jun 13, 2016 11:07:41 AM",
-      "dateFinished": "Jun 13, 2016 11:07:41 AM",
+      "dateStarted": "Jun 25, 2016 2:56:00 PM",
+      "dateFinished": "Jun 25, 2016 2:56:00 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
