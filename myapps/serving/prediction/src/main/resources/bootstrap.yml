@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: prediction-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://demo.pipeline.io:8761/
 netflix:
   appinfo.name: ${spring.application.name}
   atlas.uri: http://demo.pipeline.io:7101/api/v1/publish
