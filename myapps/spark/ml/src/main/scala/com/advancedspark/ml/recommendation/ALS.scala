@@ -21,6 +21,8 @@ object ALS {
     val sc = SparkContext.getOrCreate(conf)
 
     val sqlContext = SQLContext.getOrCreate(sc)
+    //sqlContext.setConf("spark.sql.shuffle.partitions", "500")
+
     import sqlContext.implicits._
 
     val itemsDF = sqlContext.read.format("com.databricks.spark.csv")
@@ -37,69 +39,47 @@ object ALS {
       .toDF("userId", "itemId", "rating", "timestamp")
       .as("itemRatings")
 
-    val Array(trainingItemRatingsDF, testItemRatingsDF) = itemRatingsDF.randomSplit(Array(0.8, 0.2))
-
     import org.apache.spark.ml.recommendation.ALS
 
-    val rank = 10 // this is k, number of latent factors we think exist
-    val maxIterations = 20
+    val rank = 5 // this is k, number of latent factors we think exist
+    val maxIterations = 10
     val convergenceThreshold = 0.01
-    val implicitPrefs = true
+    val implicitPrefs = false
     val alpha = 1.0
+    val nonnegative = true
 
     val als = new ALS()
       .setRank(rank)
+      .setMaxIter(maxIterations)
       .setRegParam(convergenceThreshold)
       .setImplicitPrefs(implicitPrefs)
       .setAlpha(alpha)
+      .setNonnegative(nonnegative)
       .setUserCol("userId")
       .setItemCol("itemId")
       .setRatingCol("rating")
-
-    val trainingModel = als.fit(trainingItemRatingsDF)
-
-    trainingModel.setPredictionCol("prediction")
-
-    import org.apache.spark.ml.evaluation.RegressionEvaluator
-
-    val actualItemRatingsDF = trainingModel.transform(testItemRatingsDF)
-
-    val modelEvaluator = new RegressionEvaluator()
-      .setMetricName("rmse")
-      .setLabelCol("rating")
       .setPredictionCol("prediction")
 
-    val rmse = modelEvaluator.evaluate(actualItemRatingsDF)
+    val allDistinctUsersDF = itemRatingsDF.select($"userId").dropDuplicates()
 
-    System.out.println(s"Root Mean Square Error = $rmse between actual and expected itemRatings")
+    val allDistinctUserItemPairsDF = allDistinctUsersDF
+      .join(itemsDF.select($"itemId"))
+      .select($"userId", $"itemId")
+      .distinct()
 
-    // Retrain with all data
+    import org.apache.spark.ml.recommendation.ALSModel
+    
     val model = als.fit(itemRatingsDF)
 
-    model.setPredictionCol("prediction")
-
-    val allDistinctUsersDF = itemRatingsDF
-      .select($"userId")
-      .distinct()
-      .as("users")
-
-    val allDistinctItemsDF = itemRatingsDF
-      .select($"itemId")
-      .distinct()
-      .as("items")
-
-    val allUserItemPairsDF = allDistinctUsersDF.join(allDistinctItemsDF)
-      .except(itemRatingsDF.select($"userId", $"itemId"))
-
-    val recommendationsDF = model.transform(allUserItemPairsDF)
+    val recommendationsDF = model.transform(allDistinctUserItemPairsDF)
       .as("recommendations")
       .cache()
-
+  
     val enrichedRecommendationsDF =
       recommendationsDF.join(itemsDF, $"items.itemId" === $"recommendations.itemId")
       .select($"userId", $"recommendations.itemId", $"title", $"tags", $"prediction", $"tags")
       .sort($"userId", $"prediction" desc, $"recommendations.itemId")
 
-    System.out.println(enrichedRecommendationsDF.take(50))
+    System.out.println(enrichedRecommendationsDF.head(10).mkString("\n"))
   }
 }
