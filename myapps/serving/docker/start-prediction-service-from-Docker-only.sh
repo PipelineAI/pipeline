@@ -56,6 +56,7 @@ mkdir -p $LOGS_HOME/serving/flask
 mkdir -p $LOGS_HOME/serving/watcher
 mkdir -p $LOGS_HOME/serving/hystrix
 mkdir -p $LOGS_HOME/serving/atlas
+mkdir -p $LOGS_HOME/serving/tensorflow
 
 #echo '...Configuring Redis...'
 #mkdir -p $LOGS_HOME/redis
