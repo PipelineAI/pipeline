@@ -90,7 +90,7 @@ RUN \
 
 # Redis
 RUN \
- && cd ~ \
+ cd ~ \
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
  && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
  && rm redis-${REDIS_VERSION}.tar.gz \
