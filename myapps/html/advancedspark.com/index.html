@@ -67,7 +67,7 @@
       });
     
       $( "<ul/>", {
-        html: "<div id='items-inner'><hr><h3><center> Step 1:  Click 3 Women and 3 Men</center></h3><center>" + items.join( "" ) + "</center></div>"
+        html: "<div id='items-inner'><hr><h3><center>Click 6 Actresses/Actors Total </center></h3><center>" + items.join( "" ) + "</center></div>"
       }).appendTo("#items");  
     });
   }
@@ -95,8 +95,8 @@
   function loadPersonalizedALS() {
     $("#personalized-als").empty()
 
-//    $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
     $.getJSON ("/redis/LRANGE/recommendations:" + myId + "/0/9", function(data) {
+//    $.getJSON ("/serving/recommendations:" + myId + "/0/9", function(data) {
       var items = [];
       var recs = data.LRANGE
 
@@ -115,22 +115,24 @@
   }
 
 <!--
-  function loadPersonalizedItemSimilarity() {
+  function loadPersonalizedItemSimilarity(itemId) {
     $("#personalized-item-similarity").empty()
     $.getJSON ("/redis/LRANGE/item-similarity:" + myId + "/0/9", function (data) {
+//    $.getJSON ("/serving/item-similarity:" + itemId + "/0/9", function (data) {
       var items = [];
-      var hits = data.hits.hits
-      $.each( hits, function( arrayIdx, hit ) {
-        var id = hit._source.itemId
-        var title = hit._source.title
-        var imgSrc = hit._source.img
+      var recs = data.LRANGE
+
+      $.each( recs, function( arrayIdx, recId ) {
+        var id = recId
+        var title = allItems[id].title
+        var imgSrc = allItems[id].img
 
         items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
 
       $( "<ul/>", {
         html: "</br><center>" + items.join( "" ) + "</center>"
-      }).appendTo( "#personalized-als" );
+      }).appendTo( "#personalized-item-similarity" );
     });
   }
 -->
@@ -240,12 +242,12 @@ Your Real-time Recommendations Will Soon Show Below
 
   var startTime = new Date().getTime();
   var interval = setInterval(function(){
-    if(new Date().getTime() - startTime > 90 * 60000){
+    if(new Date().getTime() - startTime > 20 * 60000){
         clearInterval(interval);
         return;
     }
     loadPersonalizedALS()
-  }, 4000);  
+  }, 5000);  
 </script>
 </body>
 </html>
