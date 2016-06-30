@@ -49,9 +49,15 @@ RUN \
  && apt-get install -y wget \
  && apt-get install -y vim \
  && apt-get install -y git \
-
  && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
  && apt-get install -y libgfortran3 \
+ && apt-get install -y autoconf \
+ && apt-get install -y build-essential \
+ && apt-get install -y dh-autoreconf \
+ && apt-get install -y libssl-dev \
+ && apt-get install -y libtool \
+ && apt-get install -y python-software-properties \
+ && apt-get install -y tcl8.5 \
 
 # OpenBLAS
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
@@ -99,14 +105,7 @@ RUN \
 
 # Dynomite
 RUN \
- apt-get install -y autoconf \
- && apt-get install -y build-essential \
- && apt-get install -y dh-autoreconf \
- && apt-get install -y libssl-dev \
- && apt-get install -y libtool \
- && apt-get install -y python-software-properties \
- && apt-get install -y tcl8.5 \
- && cd ~ \
+ cd ~ \
  && git clone https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
