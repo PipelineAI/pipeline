@@ -16,6 +16,22 @@ import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFacto
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
+import scala.collection.JavaConversions._
+import java.util.Collections
+import java.util.Collection
+import java.util.List
+
+import com.netflix.dyno.jedis._
+import com.netflix.dyno.connectionpool.Host
+import com.netflix.dyno.connectionpool.HostSupplier
+import com.netflix.dyno.connectionpool.TokenMapSupplier
+import com.netflix.dyno.connectionpool.impl.lb.HostToken
+import com.netflix.dyno.connectionpool.exception.DynoException
+import com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl
+import com.netflix.dyno.connectionpool.impl.ConnectionContextImpl
+import com.netflix.dyno.connectionpool.impl.OperationResultImpl
+import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
+
 object TrainMFIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
@@ -69,8 +85,6 @@ object TrainMFIncremental {
       Rating(tokens(0).trim.toLong, tokens(1).trim.toLong, tokens(2).trim.toFloat)
     })
    
-   // ratingTrainingStream.print()
-
     ratingTrainingStream.foreachRDD {
       (ratingsBatchRDD: RDD[Rating[Long]], batchTime: Time) => {
       
@@ -78,23 +92,46 @@ object TrainMFIncremental {
         //System.out.println("ratingsBatchRDD: " + ratingsBatchRDD)
 
         if (!ratingsBatchRDD.isEmpty) {
-          var (newModel, numObservations) = LatentMatrixFactorizationModelOps.train(ratingsBatchRDD, params, Some(model), isStreaming = true)
+          var (newModel, numObservations) = LatentMatrixFactorizationModelOps
+            .train(ratingsBatchRDD, params, Some(model), isStreaming = true)
 
 	  // TODO:  Hide optimizer so it's not publicly available
   	  // TODO:  Figure out why we're passing in newModel here
           // TODO:  Also,  why are we returning a model here.  
 	  // TODO:  And why do we need LatentMatrixFactorizationModelOps
 	  // TODO:  Clean this all up
-	  model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
+	  model = matrixFactorization.optimizer
+            .train(ratingsBatchRDD, newModel, numObservations)
+            .asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
           //val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
           //matrixFactorization.saveModel(modelFilename)
 
           /* USING TEXT VERSION FOR DEBUG/TESTING/GROK PURPOSES */
-          val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
-          matrixFactorization.saveText(model, modelTextFilename)
+          //  val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
+          //  matrixFactorization.saveText(model, modelTextFilename)
+          //  System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
 
-          System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
+          // Update Redis in real-time with userFactors and itemFactors
+          val userFactors = model.userFactors.collect()
+          userFactors.foreach(factor => {
+            val userId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.del(s"user-factors:${userId}")
+            DynomiteOps.dynoClient.set(s"user-factors:${userId}", factors.mkString(","))
+            System.out.println(s"Updated key 'user-factors:${userId}' : ${factors.mkString(",")}")
+          })
+
+          val itemFactors = model.itemFactors.collect()
+          itemFactors.foreach(factor => {
+            val itemId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.del(s"item-factors:${itemId}")
+            DynomiteOps.dynoClient.set(s"item-factors:${itemId}", factors.mkString(","))
+            System.out.println(s"Updated key 'item-factors:${itemId}' : ${factors.mkString(",")}")
+          })
+
+          System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
         }
       }
     }
@@ -102,4 +139,38 @@ object TrainMFIncremental {
     ssc.start()
     ssc.awaitTermination()
   }
+}
+
+object DynomiteOps {
+  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
+  val localhostToken = new HostToken(100000L, localhostHost)
+
+  val localhostHostSupplier = new HostSupplier() {
+    @Override
+    def getHosts(): Collection[Host] = {
+      Collections.singletonList(localhostHost)
+    }
+  }
+
+  val localhostTokenMapSupplier = new TokenMapSupplier() {
+    @Override
+    def getTokens(activeHosts: java.util.Set[Host]): List[HostToken] = {
+      Collections.singletonList(localhostToken)
+    }
+
+    @Override
+    def getTokenForHost(host: Host, activeHosts: java.util.Set[Host]): HostToken = {
+      return localhostToken
+    }
+  }
+
+  val redisPort = 6379
+  val dynoClient = new DynoJedisClient.Builder()
+             .withApplicationName("pipeline")
+             .withDynomiteClusterName("pipeline-dynomite")
+             .withHostSupplier(localhostHostSupplier)
+             .withCPConfig(new ConnectionPoolConfigurationImpl("localhostTokenMapSupplier")
+                .withTokenSupplier(localhostTokenMapSupplier))
+             .withPort(redisPort)
+             .build()
 }

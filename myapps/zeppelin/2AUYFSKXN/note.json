@@ -507,12 +507,12 @@
     {
       "title": "Save Recommendations in Redis",
       "text": "val recommendations \u003d enrichedRecommendationsDF.collect()\n\nrecommendations.foreach(rec \u003d\u003e {\n  val userId \u003d rec.getInt(0).toString\n  dynoClient.del(s\"recommendations:${userId}\")\n})\n\nrecommendations.foreach(rec \u003d\u003e {\n  val userId \u003d rec.getInt(0).toString\n  val itemId \u003d rec.getLong(1).toString\n  dynoClient.rpush(s\"recommendations:${userId}\", itemId)\n})\n\nval retrievedRecommendations \u003d dynoClient.lrange(\"recommendations:21619\", 0, 9)",
-      "dateUpdated": "Jun 30, 2016 3:44:43 AM",
+      "dateUpdated": "Jun 30, 2016 4:18:55 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 114.0,
           "optionOpen": false,
           "keys": [],
           "values": [],
