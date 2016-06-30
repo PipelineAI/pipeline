@@ -72,7 +72,8 @@ ENV \
 # We can't promote this over version 2.5.0 otherwise it conflicts with Spark 1.6 version of Jackson.
 # TODO:  Revisit once we upgrade to Spark 2.0.0 which shades most internal dependencies
  MAXMIND_GEOIP_VERSION=2.5.0 \
- ATLAS_VERSION=1.4.5
+ ATLAS_VERSION=1.4.5 \
+ JMETER_VERSION=3.0
 
 RUN \
  apt-get update \
@@ -335,6 +336,7 @@ RUN \
  && rm nifi-${NIFI_VERSION}-bin.tar.gz \
 
 # Flink
+ && cd ~ \
  && wget http://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
  && tar xvzf flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
  && rm flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
@@ -358,6 +360,12 @@ RUN \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
  && rm titan-${TITAN_VERSION}.zip \
+
+# JMeter
+ && cd ~ \
+ && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+ && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
+ && rm apache-jmeter-${JMETER_VERSION}.tgz \
 
 # Hystrix Dashboard
  && cd ~ \
