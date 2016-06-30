@@ -35,7 +35,8 @@ echo '...Starting ZooKeeper...'
 nohup zookeeper-server-start $CONFLUENT_HOME/etc/kafka/zookeeper.properties &
 
 echo '...Starting Redis...'
-nohup redis-server $REDIS_HOME/redis.conf &
+#nohup redis-server $REDIS_HOME/redis.conf &
+nohup redis-server &
 
 echo '...Starting Webdis...'
 nohup webdis $WEBDIS_HOME/webdis.json &
@@ -97,6 +98,9 @@ service jenkins start
 
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
+
+#echo '...Starting Serving Serices...'
+#$MYAPPS_HOME/serving/start-serving-services.sh
 
 ########################################################
 # Be careful what starts up here.

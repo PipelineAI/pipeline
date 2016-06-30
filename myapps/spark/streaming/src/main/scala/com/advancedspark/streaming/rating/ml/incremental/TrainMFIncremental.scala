@@ -16,6 +16,24 @@ import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFacto
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
+import scala.collection.JavaConversions._
+import java.util.Collections
+import java.util.Collection
+import java.util.List
+
+import org.jblas.DoubleMatrix
+
+import com.netflix.dyno.jedis._
+import com.netflix.dyno.connectionpool.Host
+import com.netflix.dyno.connectionpool.HostSupplier
+import com.netflix.dyno.connectionpool.TokenMapSupplier
+import com.netflix.dyno.connectionpool.impl.lb.HostToken
+import com.netflix.dyno.connectionpool.exception.DynoException
+import com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl
+import com.netflix.dyno.connectionpool.impl.ConnectionContextImpl
+import com.netflix.dyno.connectionpool.impl.OperationResultImpl
+import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
+
 object TrainMFIncremental {
   def main(args: Array[String]) {
     val conf = new SparkConf()
@@ -36,11 +54,12 @@ object TrainMFIncremental {
     val brokers = "127.0.0.1:9092"
     val topics = Set("item_ratings")
 
-    val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+    val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers, 
+                                          "auto.offset.reset" -> "smallest")
 
     val trainingStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
-    val rank = 10 // suggested number of latent factors
+    val rank = 5 // suggested number of latent factors
     val maxIterations = 5 // static number of iterations
     val lambdaRegularization = 0.1 // prevent overfitting
 
@@ -53,13 +72,14 @@ object TrainMFIncremental {
 
     val matrixFactorization = new LatentMatrixFactorization(params)
 
-    // TODO:  fix these hacks to work around the issue of not having an initialModel
+    // TODO:  Fix these hacks to work around the issue of not having an initialModel
     val initialRatingRDD = sc.parallelize(Rating(0L, 0L, 0L) :: Nil)
     val initialModel = None
 
     // Internally, this setups up additional transformations on the incoming stream
     //   to adjust the weights using GradientDescent
-    var (model, numObservations) = LatentMatrixFactorizationModelOps.train(initialRatingRDD, params, initialModel, isStreaming = true)
+    var (model, numObservations) = LatentMatrixFactorizationModelOps
+      .train(initialRatingRDD, params, initialModel, isStreaming = true)
 
     // Setup the initial transformations from String -> ALS.Rating
     val ratingTrainingStream = trainingStream.map(message => {
@@ -69,32 +89,72 @@ object TrainMFIncremental {
       Rating(tokens(0).trim.toLong, tokens(1).trim.toLong, tokens(2).trim.toFloat)
     })
    
-   // ratingTrainingStream.print()
-
     ratingTrainingStream.foreachRDD {
       (ratingsBatchRDD: RDD[Rating[Long]], batchTime: Time) => {
       
-        //System.out.println("batchTime: " + batchTime)
-        //System.out.println("ratingsBatchRDD: " + ratingsBatchRDD)
-
         if (!ratingsBatchRDD.isEmpty) {
-          var (newModel, numObservations) = LatentMatrixFactorizationModelOps.train(ratingsBatchRDD, params, Some(model), isStreaming = true)
+          var (newModel, numObservations) = LatentMatrixFactorizationModelOps
+            .train(ratingsBatchRDD, params, Some(model), isStreaming = true)
 
 	  // TODO:  Hide optimizer so it's not publicly available
   	  // TODO:  Figure out why we're passing in newModel here
           // TODO:  Also,  why are we returning a model here.  
 	  // TODO:  And why do we need LatentMatrixFactorizationModelOps
 	  // TODO:  Clean this all up
-	  model = matrixFactorization.optimizer.train(ratingsBatchRDD, newModel, numObservations).asInstanceOf[StreamingLatentMatrixFactorizationModel]
+	  model = matrixFactorization.optimizer
+            .train(ratingsBatchRDD, newModel, numObservations)
+            .asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
           //val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
           //matrixFactorization.saveModel(modelFilename)
 
           /* USING TEXT VERSION FOR DEBUG/TESTING/GROK PURPOSES */
-          val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
-          matrixFactorization.saveText(model, modelTextFilename)
+          //  val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
+          //  matrixFactorization.saveText(model, modelTextFilename)
+          //  System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
 
-          System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
+          // Update Redis in real-time with userFactors and itemFactors
+          val userFactors = model.userFactors.filter(_._1 != 0).collect()
+          userFactors.foreach(factor => {
+            val userId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.set(s"user-factors:${userId}", factors.mkString(","))
+            System.out.println(s"Updated key 'user-factors:${userId}' : ${factors.mkString(",")}")
+          })
+
+          val itemFactors = model.itemFactors.filter(_._1 != 0).collect()
+          itemFactors.foreach(factor => {
+            val itemId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.set(s"item-factors:${itemId}", factors.mkString(","))
+            System.out.println(s"Updated key 'item-factors:${itemId}' : ${factors.mkString(",")}")
+          })
+
+          // For every (userId, itemId) tuple, calculate prediction
+          val allUserItemPredictions =
+            for { 
+              userFactor <- userFactors 
+              itemFactor <- itemFactors
+              val prediction = new DoubleMatrix(userFactor._2.vector.map(_.toDouble))
+                .dot(new DoubleMatrix(itemFactor._2.vector.map(_.toDouble)))
+            } yield (userFactor._1, itemFactor._1, prediction)
+
+          // TODO: Group by (userId, itemId), sort by prediction desc, iterate and rpush(itemId) onto recommendations:${userId}
+          // Something like this...
+          // val sortedUserItemPredictions = allUserItemPredictions.top(5)
+          //   (Ordering.by[(Int, Int, Double), Double] { case (id, similarity) => similarity
+          //})
+
+          // Clear out the current recommendations in favor of these new ones
+          allUserItemPredictions.foreach{ case (userId, itemId, prediction) =>
+            DynomiteOps.dynoClient.del(s"recommendations:${userId}")
+          }
+
+          allUserItemPredictions.foreach{ case (userId, itemId, prediction) => 
+            DynomiteOps.dynoClient.rpush(s"recommendations:${userId}", itemId.toString)
+          }
+
+          System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
         }
       }
     }
@@ -102,4 +162,38 @@ object TrainMFIncremental {
     ssc.start()
     ssc.awaitTermination()
   }
+}
+
+object DynomiteOps {
+  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
+  val localhostToken = new HostToken(100000L, localhostHost)
+
+  val localhostHostSupplier = new HostSupplier() {
+    @Override
+    def getHosts(): Collection[Host] = {
+      Collections.singletonList(localhostHost)
+    }
+  }
+
+  val localhostTokenMapSupplier = new TokenMapSupplier() {
+    @Override
+    def getTokens(activeHosts: java.util.Set[Host]): List[HostToken] = {
+      Collections.singletonList(localhostToken)
+    }
+
+    @Override
+    def getTokenForHost(host: Host, activeHosts: java.util.Set[Host]): HostToken = {
+      return localhostToken
+    }
+  }
+
+  val redisPort = 6379
+  val dynoClient = new DynoJedisClient.Builder()
+             .withApplicationName("pipeline")
+             .withDynomiteClusterName("pipeline-dynomite")
+             .withHostSupplier(localhostHostSupplier)
+             .withCPConfig(new ConnectionPoolConfigurationImpl("localhostTokenMapSupplier")
+                .withTokenSupplier(localhostTokenMapSupplier))
+             .withPort(redisPort)
+             .build()
 }

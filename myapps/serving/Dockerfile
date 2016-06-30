@@ -49,10 +49,18 @@ RUN \
  && apt-get install -y wget \
  && apt-get install -y vim \
  && apt-get install -y git \
-
  && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
  && apt-get install -y libgfortran3 \
-
+ && apt-get install -y autoconf \
+ && apt-get install -y build-essential \
+ && apt-get install -y dh-autoreconf \
+ && apt-get install -y libssl-dev \
+ && apt-get install -y libtool \
+ && apt-get install -y python-software-properties \
+ && apt-get install -y tcl8.5 \
+ && apt-get install -y python-dev \
+ && apt-get install -y python-pip \
+ && apt-get install -y unzip \
 # OpenBLAS
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
 #        For the best performance, follow the instructions here:
@@ -88,17 +96,18 @@ RUN \
  && tar xvzf logstash-${LOGSTASH_VERSION}.tar.gz \
  && rm logstash-${LOGSTASH_VERSION}.tar.gz
 
+# Redis
+RUN \
+ cd ~ \
+ && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
+ && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
+ && rm redis-${REDIS_VERSION}.tar.gz \
+ && cd redis-${REDIS_VERSION} \
+ && make install 
+
 # Dynomite
 RUN \
- apt-get install -y autoconf \
- && apt-get install -y build-essential \
- && apt-get install -y dh-autoreconf \
- && apt-get install -y libssl-dev \
- && apt-get install -y libtool \
- && apt-get install -y python-software-properties \
- && apt-get install -y redis-server \
- && apt-get install -y tcl8.5 \
- && cd ~ \
+ cd ~ \
  && git clone https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
@@ -106,11 +115,46 @@ RUN \
  && make \
  && sudo make install
 
+# TensorFlow
+RUN \
+  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl 
+# Bazel (Required for TensorFlow Serving)
+RUN \
+ cd ~ \
+ && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
+ && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
+
+# TensorFlow Serving
+RUN \
+ pip install --upgrade grpcio \
+ && apt-get update \
+ && apt-get install -y \
+      build-essential \
+      libfreetype6-dev \
+      libpng12-dev \
+      libzmq3-dev \
+      pkg-config \
+      python-dev \
+      python-numpy \
+      python-pip \
+      software-properties-common \
+      swig \
+      zip \
+      zlib1g-dev \
+ && cd ~ \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION 
+
+# TensorFlow Latest Release Source
+RUN \
+ cd ~ \
+ && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
+
 # Sbt Serving Prediction Service
 RUN \
-# TODO:  Get Latest Scale.ML Bundle
  cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git
+ && git clone --single-branch https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Source the pipeline-specific env variables
@@ -123,8 +167,6 @@ RUN \
  && echo "fi" >> ~/.bashrc
 
 RUN \
-# && git config core.sparseCheckout true \
-# && echo "myapps/serving/prediction/*"> .git/info/sparse-checkout \
  cd ~/pipeline/myapps/serving/prediction \
  && sbt clean package
 
@@ -133,8 +175,4 @@ EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 
 
 WORKDIR /root
 
-# TODO: Modify this script to start Prediction Service and Spark Worker.
-# TODO: Prediction Service should be configured to use a "<prefix>:" in Dynomite/Redis.
-# TODO: Configuration will be dynamic through Config Service listening on well-known host at well-known port.
-CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/prediction/start-prediction-service-thin.sh"]
-
+CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/docker/start-prediction-service-from-Dockerfile-only.sh"]

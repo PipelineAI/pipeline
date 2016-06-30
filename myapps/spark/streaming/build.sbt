@@ -28,8 +28,11 @@ val indexedRddVersion = sys.env("INDEXEDRDD_VERSION")
 val ankurPartVersion = sys.env("ANKUR_PART_VERSION")
 // We can't promote this over version 2.5.0 otherwise it conflicts with Spark 1.6 version of Jackson
 val maxmindGeoIpVersion = sys.env("MAXMIND_GEOIP_VERSION")
+val dynoVersion = sys.env("DYNO_VERSION")
+val jblasVersion = sys.env("JBLAS_VERSION")
 
 lazy val streamingDeps = Seq(
+  "org.jblas"            % "jblas"                 % jblasVersion,
   "com.madhukaraphatak" %% "java-sizeof" % "0.1",
   "com.datastax.spark"  %% "spark-cassandra-connector" % sparkCassandraConnectorVersion % "provided",
   "org.elasticsearch"   %% "elasticsearch-spark" % sparkElasticSearchConnectorVersion % "provided",
@@ -45,5 +48,6 @@ lazy val streamingDeps = Seq(
   "amplab"              % "spark-indexedrdd" % indexedRddVersion % "provided",
   "com.ankurdave"       %% "part" % ankurPartVersion % "provided",
   "org.apache.nifi"     % "nifi-spark-receiver" % sparkNifiConnectorVersion % "provided",
-  "com.maxmind.geoip2"  % "geoip2"		% maxmindGeoIpVersion % "provided"
+  "com.maxmind.geoip2"  % "geoip2"		% maxmindGeoIpVersion % "provided",
+  "com.netflix.dyno"     % "dyno-jedis"                    % dynoVersion
 )

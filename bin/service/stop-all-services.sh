@@ -131,7 +131,7 @@ jps | grep "watcher" | cut -d " " -f "1" | xargs kill -KILL
 echo '...Stopping SBT Runtime...'
 ps -aef | grep "Nailgun" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-echo '...Stop sbt-launch.jar Processes...'
+echo '...Stopping Lots of sbt-launch.jar Processes...'
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
@@ -140,20 +140,17 @@ jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 jps | grep "sbt-launch" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stop TensorBoard...'
+echo '...Stopiping TensorBoard...'
 ps -aef | grep "tensorboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-echo '...Stop Jenkins...'
+echo '...Stopping Jenkins...'
 service jenkins stop
 
-echo '...Stop Dynomite...'
+echo '...Stopping Dynomite...'
 ps -aef | grep "dynomite" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-#echo '...Stop Hystrix Dashboard...'
-#ps -aef | grep "hystrix-dashboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-#echo '...Stop Atlas...'
-#ps -aef | grep "atlas" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+echo '...Stopping Serving...'
+$MYAPPS_HOME/serving/stop-serving-services.sh
 
 echo '...Stopping SSH...'
 service ssh stop

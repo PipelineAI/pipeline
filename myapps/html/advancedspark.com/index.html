@@ -18,19 +18,20 @@
         display: inline;
 	list-style-type: none;
 	position: relative;
-        width: 140px;
-        height: 100px;
+        width: 70px;
+        height: 50px;
       }
       li .like {
         position: absolute;
 	z-index: 99;
-        left: 40px;
+        left: 10px;
 	display: none;
       }
   </style>
   <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
   <script>
   var myId = Math.floor((Math.random() * 100000) + 1);
+  var allItems = [];
 
   function rate(itemId, rating) {
     $("#like" + itemId).show()
@@ -53,14 +54,16 @@
 
   function loadItems() {
     $.getJSON( "/json/actors.json", function( data ) {
-      var mePerson = [];
       var items = [];
       $.each( data, function( arrayIdx, item ) {
         var id = item.id
         var title = item.title 
         var imgSrc = item.img
+
+        // populate the global allItems
+        allItems[id] = item
  
-        items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px' border='2'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43' border='2'></li>" );
+        items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43' border='2'></li>" );
       });
     
       $( "<ul/>", {
@@ -80,7 +83,7 @@
         var title = hit._source.title
         var imgSrc = hit._source.img
   
-        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px' border='2'></li>" );
+        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
 
       $( "<ul/>", {
@@ -91,17 +94,18 @@
 
   function loadPersonalizedALS() {
     $("#personalized-als").empty()
-    // TODO: http://demo.pipeline.io/redis/LRANGE/recommendations:21619/0/9
 
-    $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
+//    $.getJSON ("/personalized-als/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
+    $.getJSON ("/redis/LRANGE/recommendations:" + myId + "/0/9", function(data) {
       var items = [];
-      var hits = data.hits.hits
-      $.each( hits, function( arrayIdx, hit ) {
-        var id = hit._source.itemId
-        var title = hit._source.title
-        var imgSrc = hit._source.img
+      var recs = data.LRANGE
+
+      $.each( recs, function( arrayIdx, recId ) {
+        var id = recId
+        var title = allItems[id].title
+        var imgSrc = allItems[id].img
         
-        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px' border='2'></li>" );
+        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
     
       $( "<ul/>", {
@@ -110,9 +114,10 @@
     });
   }
 
+<!--
   function loadPersonalizedItemSimilarity() {
     $("#personalized-item-similarity").empty()
-    $.getJSON ("/personalized-item-similarity/_search?q=userId:" + myId + "&sort=prediction:desc", function (data) {
+    $.getJSON ("/redis/LRANGE/item-similarity:" + myId + "/0/9", function (data) {
       var items = [];
       var hits = data.hits.hits
       $.each( hits, function( arrayIdx, hit ) {
@@ -120,7 +125,7 @@
         var title = hit._source.title
         var imgSrc = hit._source.img
 
-        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='140px' height='100px' border='2'></li>" );
+        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
 
       $( "<ul/>", {
@@ -128,6 +133,7 @@
       }).appendTo( "#personalized-als" );
     });
   }
+-->
   </script>
 </head>
 
@@ -135,6 +141,7 @@
 <hr>
 <center>
 <!-- Navigation Links -->
+<!--
 <a href="http://127.0.0.1:8080" target="_blank" id="zeppelin">Zeppelin</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="tensorflow">TensorFlow</a> |
@@ -146,14 +153,17 @@
 <a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
 <a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
 <a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
-<!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> | -->
-<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a>
+<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> | 
+-->
+<!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
 
-<hr><center><a href="http://pipeline.io"><img style="width: 320; height=400;" src="img/sparkafterdark.png"></a></center>
+<hr>
+<center><img style="width: 320; height=400;" src="img/sparkafterdark.png"></center>
 <hr>
 
-<script> $("body").append("<h1><center>Welcome, Anonymous User ID " + myId + "!</center></h1><hr>") 
+<script>
+  $("body").append("<h3><center>Welcome, Anonymous User ID " + myId + "!</center></h3><hr>") 
 </script>
 
 <div id="items">
@@ -161,6 +171,7 @@
 
 <hr>
 <hr>
+<!--
 <h3>
 <center>
 Step 2: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" target="_blank" id="topk">Non-Personalized Top 5 Items</a>
@@ -186,16 +197,26 @@ Step 4: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUYF
 Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:loadPersonalizedALS()'>Recommendations</a>
 </center>
 </h3>
+-->
+
+<h3>
+<center>
+Your Real-time Recommendations Will Soon Show Below
+</center>
+</h3>
+
 <div id="personalized-als">
 </div>
+
 <hr>
 <hr>
+
 <!--
 <hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
 <div id="personalized-item-to-item-similarity">
 </div>
 -->
-
+<!--
 <script>
   document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":8080";
   document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
@@ -213,8 +234,18 @@ Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:lo
   document.getElementById('als').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
 //  document.getElementById('item-to-item').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2BJQKR2G5";
 </script>
+-->
 <script>
   loadItems()
+
+  var startTime = new Date().getTime();
+  var interval = setInterval(function(){
+    if(new Date().getTime() - startTime > 90 * 60000){
+        clearInterval(interval);
+        return;
+    }
+    loadPersonalizedALS()
+  }, 4000);  
 </script>
 </body>
 </html>
