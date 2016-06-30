@@ -54,7 +54,8 @@ object TrainMFIncremental {
     val brokers = "127.0.0.1:9092"
     val topics = Set("item_ratings")
 
-    val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers)
+    val kafkaParams = Map[String, String]("metadata.broker.list" -> brokers, 
+                                          "auto.offset.reset" -> "smallest")
 
     val trainingStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
 
@@ -113,31 +114,30 @@ object TrainMFIncremental {
           //  System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
 
           // Update Redis in real-time with userFactors and itemFactors
-//          if (!model.userFactors.isEmpty && !model.itemFactors.isEmpty) {
-            val userFactors = model.userFactors.filter(_._1 != 0).collect()
-            userFactors.foreach(factor => {
-              val userId = factor._1
-              val factors = factor._2.vector
-              DynomiteOps.dynoClient.set(s"user-factors:${userId}", factors.mkString(","))
-              System.out.println(s"Updated key 'user-factors:${userId}' : ${factors.mkString(",")}")
-            })
+          val userFactors = model.userFactors.filter(_._1 != 0).collect()
+          userFactors.foreach(factor => {
+            val userId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.set(s"user-factors:${userId}", factors.mkString(","))
+            System.out.println(s"Updated key 'user-factors:${userId}' : ${factors.mkString(",")}")
+          })
 
-            val itemFactors = model.itemFactors.filter(_._1 != 0).collect()
-            itemFactors.foreach(factor => {
-              val itemId = factor._1
-              val factors = factor._2.vector
-              DynomiteOps.dynoClient.set(s"item-factors:${itemId}", factors.mkString(","))
-              System.out.println(s"Updated key 'item-factors:${itemId}' : ${factors.mkString(",")}")
-            })
+          val itemFactors = model.itemFactors.filter(_._1 != 0).collect()
+          itemFactors.foreach(factor => {
+            val itemId = factor._1
+            val factors = factor._2.vector
+            DynomiteOps.dynoClient.set(s"item-factors:${itemId}", factors.mkString(","))
+            System.out.println(s"Updated key 'item-factors:${itemId}' : ${factors.mkString(",")}")
+          })
 
-            // For every (userId, itemId) tuple, calculate prediction
-            val allUserItemPredictions =
-              for { 
-                userFactor <- userFactors 
-                itemFactor <- itemFactors
-                val prediction = new DoubleMatrix(userFactor._2.vector.map(_.toDouble))
-                  .dot(new DoubleMatrix(itemFactor._2.vector.map(_.toDouble)))
-              } yield (userFactor._1, itemFactor._1, prediction)
+          // For every (userId, itemId) tuple, calculate prediction
+          val allUserItemPredictions =
+            for { 
+              userFactor <- userFactors 
+              itemFactor <- itemFactors
+              val prediction = new DoubleMatrix(userFactor._2.vector.map(_.toDouble))
+                .dot(new DoubleMatrix(itemFactor._2.vector.map(_.toDouble)))
+            } yield (userFactor._1, itemFactor._1, prediction)
 
           // TODO: Group by (userId, itemId), sort by prediction desc, iterate and rpush(itemId) onto recommendations:${userId}
           // Something like this...
@@ -145,18 +145,16 @@ object TrainMFIncremental {
           //   (Ordering.by[(Int, Int, Double), Double] { case (id, similarity) => similarity
           //})
 
-            // Clear out the current recommendations in favor of these new ones
-            allUserItemPredictions.foreach{ case (userId, itemId, prediction) =>
-              DynomiteOps.dynoClient.del(s"recommendations:${userId}")
-            }
+          // Clear out the current recommendations in favor of these new ones
+          allUserItemPredictions.foreach{ case (userId, itemId, prediction) =>
+            DynomiteOps.dynoClient.del(s"recommendations:${userId}")
+          }
 
-            allUserItemPredictions.foreach{ case (userId, itemId, prediction) => 
-              DynomiteOps.dynoClient.rpush(s"recommendations:${userId}", itemId.toString)
-              System.out.println(s"rpush'd key 'recommendations:${userId}' : ${itemId}")
-	    }
+          allUserItemPredictions.foreach{ case (userId, itemId, prediction) => 
+            DynomiteOps.dynoClient.rpush(s"recommendations:${userId}", itemId.toString)
+          }
 
-            System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
-  //        } 
+          System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
         }
       }
     }
