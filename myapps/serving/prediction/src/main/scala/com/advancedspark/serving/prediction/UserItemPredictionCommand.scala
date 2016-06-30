@@ -19,39 +19,16 @@ class UserItemPredictionCommand(dynoClient: DynoJedisClient, version: Int, userI
   def get(url: String) = scala.io.Source.fromURL(url).mkString
 
   def run(): Double = {
-/**
-    val userFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/user-factors-als/_search?q=userId:${userId}""")
-
-    // This is the worst piece of code I've ever written
-    val userFactorsJson = JSON.parseFull(userFactorsStr)
-    val userFactors = userFactorsJson.get
-      .asInstanceOf[Map[String,Any]]("hits")
-      .asInstanceOf[Map[String,Any]]("hits")
-      .asInstanceOf[List[Any]](0)
-      .asInstanceOf[Map[String,Any]]("_source")
-      .asInstanceOf[Map[String,Any]]("userFactors")
-      .asInstanceOf[List[Double]]
-
-    // This is the second worst piece of code I've ever written
-    val itemFactorsStr = get(s"""http://127.0.0.1:9200/advancedspark/item-factors-als/_search?q=itemId:${itemId}""")   
-    val itemFactorsJson = JSON.parseFull(itemFactorsStr)
-    val itemFactors = itemFactorsJson.get
-      .asInstanceOf[Map[String,Any]]("hits")
-      .asInstanceOf[Map[String,Any]]("hits")
-      .asInstanceOf[List[Any]](0)
-      .asInstanceOf[Map[String,Any]]("_source")
-      .asInstanceOf[Map[String,Any]]("itemFactors")
-      .asInstanceOf[List[Double]]
-*/ 
     try{
-      val userFactors = dynoClient.get(s"user-factors:${userId}")
-      val itemFactors = dynoClient.get(s"item-factors:${itemId}")
-//      val userFactorsMatrix = new DoubleMatrix(userFactors.toArray)
-//      val itemFactorsMatrix = new DoubleMatrix(itemFactors.toArray)
+      val userFactors = dynoClient.get(s"user-factors:${userId}").split(",").map(_.toDouble)
+      val itemFactors = dynoClient.get(s"item-factors:${itemId}").split(",").map(_.toDouble)
+
+      val userFactorsMatrix = new DoubleMatrix(userFactors)
+      val itemFactorsMatrix = new DoubleMatrix(itemFactors)
      
       // Calculate prediction 
- //     userFactorsMatrix.dot(itemFactorsMatrix)
-      1.1
+      userFactorsMatrix.dot(itemFactorsMatrix)
+//      1.1
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
