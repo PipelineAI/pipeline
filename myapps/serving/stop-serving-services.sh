@@ -10,6 +10,9 @@ ps -aef | grep "sbt-launch" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stop Hystrix Dashboard...'
 ps -aef | grep "hystrix-dashboard" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stop Turbine...'
+ps -aef | grep "turbine" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
+
 echo '...Stop Atlas...'
 ps -aef | grep "atlas" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 

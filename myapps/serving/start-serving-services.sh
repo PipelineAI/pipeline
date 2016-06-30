@@ -13,8 +13,6 @@ echo '...Starting Atlas...'
 nohup java -jar $ATLAS_HOME/atlas-$ATLAS_VERSION-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/serving/atlas/atlas.log &
 
 echo '...Starting Prediction Service...'
-# TODO:  Start this in the background with nohup &
-cd $MYAPPS_HOME/serving
-./start-serving-worker.sh
-#sbt package
-#java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
+cd $MYAPPS_HOME/serving/prediction
+sbt assembly
+java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"

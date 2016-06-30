@@ -309,7 +309,6 @@ RUN \
  && rm redis-${REDIS_VERSION}.tar.gz \
  && cd redis-${REDIS_VERSION} \
  && make install \
- && cd ~ \
 
 # Webdis Redis REST Server
  && cd ~ \

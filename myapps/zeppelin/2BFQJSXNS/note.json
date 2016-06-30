@@ -37,8 +37,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\n\n// Generate a random double RDD that contains 1 million i.i.d. values drawn from the\n// uniform distribution `N(0.0, 1.0)`, evenly distributed in 10 partitions.\nval u \u003d uniformRDD(sc, 1000000L, 2)\n//val uniformIds \u003d u.collect()\n\n// To transform the distribution in the generated RDD from `U(0.0, 1.0)` to `U(a, b)`, \n//  use uniformIds.map(v \u003d\u003e a + (b - a) * v)`.\nval v \u003d u.map(id \u003d\u003e (0 + 100 * id).toInt).map(id \u003d\u003e id % 66 + 31)\nval ids \u003d v.take(1)\n\n// scala.util.Random.nextInt generates an Int between 0 inclusive, \u003cvalue\u003e exclusive\n//val winnersDF \u003d sc.parallelize((0 to 100).map(x \u003d\u003e membersArray(Random.nextInt(433)))).toDF(\"member\", \"memberUrl\")\n\nval winner \u003d sc.parallelize(ids).toDF(\"winner\")\n",
-      "dateUpdated": "Jun 16, 2016 2:50:34 AM",
+      "text": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\n\n// Generate a random double RDD that contains 1 million i.i.d. values drawn from the\n// uniform distribution `N(0.0, 1.0)`, evenly distributed in 10 partitions.\nval u \u003d uniformRDD(sc, 1000000L, 2)\n//val uniformIds \u003d u.collect()\n\n// To transform the distribution in the generated RDD from `U(0.0, 1.0)` to `U(a, b)`, \n//  use uniformIds.map(v \u003d\u003e a + (b - a) * v)`.\nval v \u003d u.map(id \u003d\u003e (0 + 100 * id).toInt).map(id \u003d\u003e id % 76 + 97)\nval ids \u003d v.take(1)\n\n// scala.util.Random.nextInt generates an Int between 0 inclusive, \u003cvalue\u003e exclusive\n//val winnersDF \u003d sc.parallelize((0 to 100).map(x \u003d\u003e membersArray(Random.nextInt(433)))).toDF(\"member\", \"memberUrl\")\n\nval winner \u003d sc.parallelize(ids).toDF(\"winner\")\n",
+      "dateUpdated": "Jun 30, 2016 2:51:19 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -52,7 +52,7 @@
         },
         "enabled": true,
         "editorMode": "ace/mode/scala",
-        "tableHide": true,
+        "tableHide": false,
         "editorHide": false
       },
       "settings": {
@@ -64,17 +64,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\nu: org.apache.spark.rdd.RDD[Double] \u003d RandomRDD[91] at RDD at RandomRDD.scala:38\nv: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[93] at map at \u003cconsole\u003e:105\nids: Array[Int] \u003d Array(42)\nwinner: org.apache.spark.sql.DataFrame \u003d [winner: int]\n"
+        "msg": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\nu: org.apache.spark.rdd.RDD[Double] \u003d RandomRDD[0] at RDD at RandomRDD.scala:38\nv: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[2] at map at \u003cconsole\u003e:40\nids: Array[Int] \u003d Array(148)\nwinner: org.apache.spark.sql.DataFrame \u003d [winner: int]\n"
       },
       "dateCreated": "Apr 13, 2016 1:59:21 AM",
-      "dateStarted": "Jun 16, 2016 2:50:34 AM",
-      "dateFinished": "Jun 16, 2016 2:50:37 AM",
+      "dateStarted": "Jun 30, 2016 2:51:19 AM",
+      "dateFinished": "Jun 30, 2016 2:51:55 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "z.show(winner)",
-      "dateUpdated": "Jun 16, 2016 2:50:38 AM",
+      "dateUpdated": "Jun 30, 2016 2:52:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -111,11 +111,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "winner\n42\n"
+        "msg": "winner\n148\n"
       },
       "dateCreated": "May 27, 2016 2:18:47 AM",
-      "dateStarted": "Jun 16, 2016 2:50:38 AM",
-      "dateFinished": "Jun 16, 2016 2:50:39 AM",
+      "dateStarted": "Jun 30, 2016 2:52:02 AM",
+      "dateFinished": "Jun 30, 2016 2:52:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

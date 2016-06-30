@@ -88,6 +88,15 @@ RUN \
  && tar xvzf logstash-${LOGSTASH_VERSION}.tar.gz \
  && rm logstash-${LOGSTASH_VERSION}.tar.gz
 
+# Redis
+RUN \
+ && cd ~ \
+ && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
+ && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
+ && rm redis-${REDIS_VERSION}.tar.gz \
+ && cd redis-${REDIS_VERSION} \
+ && make install 
+
 # Dynomite
 RUN \
  apt-get install -y autoconf \
@@ -96,7 +105,6 @@ RUN \
  && apt-get install -y libssl-dev \
  && apt-get install -y libtool \
  && apt-get install -y python-software-properties \
- && apt-get install -y redis-server \
  && apt-get install -y tcl8.5 \
  && cd ~ \
  && git clone https://github.com/Netflix/dynomite.git \
@@ -108,7 +116,6 @@ RUN \
 
 # Sbt Serving Prediction Service
 RUN \
-# TODO:  Get Latest Scale.ML Bundle
  cd ~ \
  && git clone https://github.com/fluxcapacitor/pipeline.git
 
@@ -123,8 +130,6 @@ RUN \
  && echo "fi" >> ~/.bashrc
 
 RUN \
-# && git config core.sparseCheckout true \
-# && echo "myapps/serving/prediction/*"> .git/info/sparse-checkout \
  cd ~/pipeline/myapps/serving/prediction \
  && sbt clean package
 
@@ -133,8 +138,4 @@ EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 
 
 WORKDIR /root
 
-# TODO: Modify this script to start Prediction Service and Spark Worker.
-# TODO: Prediction Service should be configured to use a "<prefix>:" in Dynomite/Redis.
-# TODO: Configuration will be dynamic through Config Service listening on well-known host at well-known port.
-CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/prediction/start-prediction-service-thin.sh"]
-
+CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/docker/start-prediction-service-from-Dockerfile-only.sh"]
