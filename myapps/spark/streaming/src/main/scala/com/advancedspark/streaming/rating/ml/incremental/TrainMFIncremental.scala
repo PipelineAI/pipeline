@@ -165,7 +165,7 @@ object TrainMFIncremental {
 }
 
 object DynomiteOps {
-  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
+  val localhostHost = new Host("127.0.0.1", Host.Status.Up)
   val localhostToken = new HostToken(100000L, localhostHost)
 
   val localhostHostSupplier = new HostSupplier() {

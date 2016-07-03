@@ -24,7 +24,7 @@ ENV \
  JEDIS_VERSION=2.7.3 \
  JBLAS_VERSION=1.2.4 \
  BAZEL_VERSION=0.2.2 \
- TENSORFLOW_VERSION=0.8.0 \
+ TENSORFLOW_VERSION=0.9.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc)
 #   in order to properly install Bazel (used by TensorFlow)
@@ -144,17 +144,17 @@ RUN \
       zip \
       zlib1g-dev \
  && cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION 
+ && git clone --recurse-submodules https://github.com/tensorflow/serving.git
 
 # TensorFlow Latest Release Source
 RUN \
  cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION
+ && git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git
 
 # Sbt Serving Prediction Service
 RUN \
  cd ~ \
- && git clone --single-branch https://github.com/fluxcapacitor/pipeline.git
+ && git clone --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Source the pipeline-specific env variables

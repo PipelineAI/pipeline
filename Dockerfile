@@ -49,7 +49,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.2 \ 
- TENSORFLOW_VERSION=0.8.0 \
+ TENSORFLOW_VERSION=0.9.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -188,11 +188,11 @@ RUN \
       zip \
       zlib1g-dev \
  && cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
+ && git clone --recurse-submodules https://github.com/tensorflow/serving.git \
 
 # TensorFlow Latest Release Source
  && cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION \
+ && git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git \
 
 # Python NetworkX/Tribe Demos
  && pip install tribe \

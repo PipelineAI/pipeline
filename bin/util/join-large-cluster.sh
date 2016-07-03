@@ -1,1 +1,1 @@
-start-spark-worker-only.sh demo.pipeline.io
+start-spark-worker-only.sh <master-ip> 

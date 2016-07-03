@@ -102,7 +102,7 @@ $MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
 
 echo '...Starting Spark Worker...'
 cd $PIPELINE_HOME
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 50g --webui-port 6061 -h 0.0.0.0 spark://demo.pipeline.io:7077
+nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 50g --webui-port 6061 -h 0.0.0.0 spark://<spark-master-ip>:7077
 echo '...tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.worker.Worker-1-$HOSTNAME.out...'
 
 echo '...Starting Prediction Service...'
