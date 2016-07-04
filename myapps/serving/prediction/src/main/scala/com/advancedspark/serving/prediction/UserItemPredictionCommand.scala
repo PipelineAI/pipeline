@@ -12,7 +12,8 @@ import com.netflix.dyno.jedis._
 import collection.JavaConverters._
 import scala.collection.immutable.List
 
-class UserItemPredictionCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: Int, userId: Int, itemId: Int)
+class UserItemPredictionCommand(
+      dynoClient: DynoJedisClient, servableRootPath: String, version: String, userId: String, itemId: String)
     extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPrediction")) {
 
   @throws(classOf[java.io.IOException])

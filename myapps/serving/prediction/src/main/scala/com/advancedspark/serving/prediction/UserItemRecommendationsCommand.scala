@@ -10,8 +10,9 @@ import com.netflix.dyno.jedis._
 import collection.JavaConverters._
 import scala.collection.immutable.List
 
-class UserItemRecommendationsCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: Int, userId: Int, startIdx: Int, endIdx: Int) 
-    extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserItemRecommendations")) {
+class UserItemRecommendationsCommand(
+    dynoClient: DynoJedisClient, servableRootPath: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
+  extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserItemRecommendations")) {
 
   def run(): Seq[String] = {
     try{

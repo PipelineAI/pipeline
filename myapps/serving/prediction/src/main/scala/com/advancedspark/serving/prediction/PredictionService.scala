@@ -37,25 +37,27 @@ class PredictionService {
   @Bean
 //  @RefreshScope
   val servableRootPath = ""
-  val version = "0" 
+  @Bean
+  val version = "" 
 
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
   def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
-    getPrediction(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId)
+    try {
+      new UserItemPredictionCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId).execute().toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 
-  def getPrediction(userId: String, itemId: String): Double = {
-    new UserItemPredictionCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId).execute()
-  }
-
-  @RequestMapping(Array("/recommendations/{userId}"))
-  def recommendations(@PathVariable("userId") userId: String): String = {
+  @RequestMapping(Array("/recommendations/{userId}/{startIdx}/{endIdx}"))
+  def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
+      @PathVariable("endIdx") endIdx: Int): String = {
     try{
-      val recommendations = new UserRecommendationsCommand(
-        PredictionServiceOps.dynoClient, servableRootPath, version, userId
-      ).execute()
-
-      recommendations.toString
+      new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, startIdx, endIdx)
+       .execute().toString
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -67,19 +69,40 @@ class PredictionService {
   @RequestMapping(Array("/similars/{itemId}"))
   def similars(@PathVariable("itemId") itemId: String): String = {
     // TODO:  
-    Seq("10001", "10002", "10003", "10004", "10005").toString
+    try {
+      new ItemSimilarsCommand(PredictionServiceOps.dynoClient, servableRootPath, version, itemId).execute().toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 
   @RequestMapping(Array("/image-classifications/{itemId}"))
   def imageClassifications(@PathVariable("itemId") itemId: String): String = {
     // TODO:
-    Map("Pandas" -> 0.0).toString
+    try {
+      Map("Pandas" -> 1.0).toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 
   @RequestMapping(Array("/decision-tree-classifications/{itemId}"))
   def decisionTreeClassifications(@PathVariable("itemId") itemId: String): String = {
     // TODO:
-    Map("Pandas" -> 0.0).toString
+    try {
+      Map("Pandas" -> 1.0).toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 }
 

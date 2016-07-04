@@ -7,18 +7,18 @@ import com.netflix.dyno.jedis._
 
 import scala.util.parsing.json._
 
-class ImageClassificationCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: Int, url: String) 
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("ImageClassification")) {
+class ImageClassificationCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: String, url: String) 
+    extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("ImageClassification")) {
 
   //@throws(classOf[java.io.IOException])
   def get(url: String) = scala.io.Source.fromURL(url).mkString
 
-  def run(): Seq[String] = {
+  def run(): Seq[(String, Double)] = {
     try{
       //http://<ip>:5070/classify/cropped_panda.jpg
 
-      System.out.println("TODO")
-      Seq["Always", "Panda"] 
+      Seq(("Panda", 100.0))
+
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -27,7 +27,7 @@ class ImageClassificationCommand(dynoClient: DynoJedisClient, servableRootPath: 
     }
   }
 
-  override def getFallback(): Double = {
+  override def getFallback(): Seq[(String, Double)] = {
     // Retrieve fallback (ie. non-personalized top k)
     //val source = scala.io.Source.fromFile("/root/pipeline/datasets/serving/recommendations/fallback/model.json")
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
@@ -35,6 +35,6 @@ class ImageClassificationCommand(dynoClient: DynoJedisClient, servableRootPath: 
 
     System.out.println("Image Classification Source is Down!  Fallback!!")
 
-    Seq["Unknown"]
+    Seq(("Unknown", 100.0))
   }
 }
