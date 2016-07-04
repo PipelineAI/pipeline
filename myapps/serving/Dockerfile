@@ -146,6 +146,12 @@ RUN \
  && cd ~ \
  && git clone --recurse-submodules https://github.com/tensorflow/serving.git
 
+RUN \
+ apt-get install -y python-dev \
+ && apt-get install -y python-pip \
+ && pip install jupyter \
+ && pip install ipyparallel
+
 # TensorFlow Latest Release Source
 RUN \
  cd ~ \
