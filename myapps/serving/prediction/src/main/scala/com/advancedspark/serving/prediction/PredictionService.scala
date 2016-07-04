@@ -36,31 +36,25 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 class PredictionService {
   @Bean
 //  @RefreshScope
-  val version = 0
+  val servableRootPath = ""
+  val version = "0" 
 
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
-  def prediction(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
-    val pred = getPrediction(userId, itemId)
-
-    "userId:" + userId + ", itemId:" + itemId + ", prediction:" + pred
+  def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
+    getPrediction(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId)
   }
 
-  def getPrediction(userId: Int, itemId: Int): Double = {
-    val pred = new UserItemPredictionCommand(PredictionServiceOps.dynoClient, version, userId, itemId).execute()
-    pred
-    //1.0
+  def getPrediction(userId: String, itemId: String): Double = {
+    new UserItemPredictionCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId).execute()
   }
 
   @RequestMapping(Array("/recommendations/{userId}"))
-  def recommendations(@PathVariable("userId") userId: Int): String = {
-    val recs = getRecommendations(userId) 
-    "userId:" + userId + ", recommendations:" + recs
-  }
-
-
-  def getRecommendations(userId: Int): String = {
+  def recommendations(@PathVariable("userId") userId: String): String = {
     try{
-      val recommendations = new UserRecommendationsCommand(PredictionServiceOps.dynoClient, version, userId).execute()
+      val recommendations = new UserRecommendationsCommand(
+        PredictionServiceOps.dynoClient, servableRootPath, version, userId
+      ).execute()
+
       recommendations.toString
     } catch {
        case e: Throwable => {
@@ -71,17 +65,21 @@ class PredictionService {
   }
 
   @RequestMapping(Array("/similars/{itemId}"))
-  def similars(@PathVariable("itemId") itemId: Int): String = {
+  def similars(@PathVariable("itemId") itemId: String): String = {
     // TODO:  
-    val sims = "1.0"
-    "itemId:" + itemId + ", similars:" + sims
+    Seq("10001", "10002", "10003", "10004", "10005").toString
   }
 
-  @RequestMapping(Array("/classifications/{itemId}"))
-  def classifications(@PathVariable("itemId") itemId: Int): String = {
+  @RequestMapping(Array("/image-classifications/{itemId}"))
+  def imageClassifications(@PathVariable("itemId") itemId: String): String = {
     // TODO:
-    val classes = "1.0"
-    "itemId:" + itemId + ", classifications: " + classes
+    Map("Pandas" -> 0.0).toString
+  }
+
+  @RequestMapping(Array("/decision-tree-classifications/{itemId}"))
+  def decisionTreeClassifications(@PathVariable("itemId") itemId: String): String = {
+    // TODO:
+    Map("Pandas" -> 0.0).toString
   }
 }
 

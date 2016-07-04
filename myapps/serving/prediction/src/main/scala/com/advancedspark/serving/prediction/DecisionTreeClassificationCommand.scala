@@ -3,38 +3,39 @@ package com.advancedspark.serving.prediction
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 
-import org.jblas.DoubleMatrix
+import com.netflix.dyno.jedis._
 
 import scala.util.parsing.json._
 
-class ClassificationCommand(itemId: Int) 
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("ClassificationCommand")) {
+// Return Map[classId (String), probability (Double)]
+class DecisionTreeClassificationCommand(servableRootPath: String, version: Int, itemId: String) 
+    extends HystrixCommand[Map[Int, Double]](HystrixCommandGroupKey.Factory.asKey("DecisionTreeClassification")) {
 
   //@throws(classOf[java.io.IOException])
- //:wq def get(url: String) = io.Source.fromURL(url).mkString
+  def get(url: String) = scala.io.Source.fromURL(url).mkString
 
-  def run(): Double = {
+  def run(): Map[String, Double] = {
     try{
+      //http://<ip>:5070/classify/cropped_panda.jpg
+
       System.out.println("TODO")
-      1.0 
+      Map("Panda" -> 100.0)
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
          throw e
        }
     }
-
-   // 1.0;
   }
 
-  override def getFallback(): Double = {
+  override def getFallback(): Map[String, Double] = {
     // Retrieve fallback (ie. non-personalized top k)
     //val source = scala.io.Source.fromFile("/root/pipeline/datasets/serving/recommendations/fallback/model.json")
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
     //return fallbackRecommendationsModel;
 
-    System.out.println("Classification Source is Down!  Fallback!!")
+    System.out.println("Decision Tree Classification Source is Down!  Fallback!!")
 
-    0.0;
+    Map("Unknown" -> 100.0)
   }
 }

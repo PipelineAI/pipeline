@@ -12,23 +12,22 @@ import com.netflix.dyno.jedis._
 import collection.JavaConverters._
 import scala.collection.immutable.List
 
-class UserItemPredictionCommand(dynoClient: DynoJedisClient, version: Int, userId: Int, itemId: Int)
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPredictionCommand")) {
+class UserItemPredictionCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: Int, userId: Int, itemId: Int)
+    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPrediction")) {
 
   @throws(classOf[java.io.IOException])
   def get(url: String) = scala.io.Source.fromURL(url).mkString
 
   def run(): Double = {
     try{
-      val userFactors = dynoClient.get(s"user-factors:${userId}").split(",").map(_.toDouble)
-      val itemFactors = dynoClient.get(s"item-factors:${itemId}").split(",").map(_.toDouble)
+      val userFactors = dynoClient.get(s"${servableRootPath}:${version}:user-factors:${userId}").split(",").map(_.toDouble)
+      val itemFactors = dynoClient.get(s"${servableRootPath}:${version}:item-factors:${itemId}").split(",").map(_.toDouble)
 
       val userFactorsMatrix = new DoubleMatrix(userFactors)
       val itemFactorsMatrix = new DoubleMatrix(itemFactors)
      
       // Calculate prediction 
       userFactorsMatrix.dot(itemFactorsMatrix)
-//      1.1
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
