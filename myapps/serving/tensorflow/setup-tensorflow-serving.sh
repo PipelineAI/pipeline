@@ -1,5 +1,5 @@
 echo '...Configuring TensorFlow...'
-cd $TENSORFLOW_SERVING_HOME
+cd $TENSORFLOW_SERVING_HOME/tensorflow
 echo | ./configure
 
 echo '...Build the Inception Image Classifier Components...'

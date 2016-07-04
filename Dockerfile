@@ -475,6 +475,14 @@ RUN \
   && git clone --recurse-submodules https://github.com/tensorflow/models.git \
   && git clone --recurse-submodules https://github.com/tensorflow/playground.git
 
+RUN \
+ cd ~ \
+ && $MYAPPS_HOME/myapps/tensorflow/setup-tensorflow.sh
+
+RUN \
+ cd ~ \
+ && $MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
+
 # Bleeding Edge Theano
 RUN \
   git clone git://github.com/Theano/Theano.git \

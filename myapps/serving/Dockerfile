@@ -167,6 +167,10 @@ RUN \
  && echo "fi" >> ~/.bashrc
 
 RUN \
+ cd ~ \
+ && $MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
+
+RUN \
  cd ~/pipeline/myapps/serving/prediction \
  && sbt clean package
 
