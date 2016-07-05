@@ -1,6 +1,6 @@
 # Hack because these are defined after they're needed in the following setup script
-export TENSORFLOW_SERVING_HOME=~/serving 
-export PATH=$PATH:~/bazel-0.2.2/bin/
+export TENSORFLOW_SERVING_HOME=/root/serving 
+export PATH=$PATH:/root/bazel-${BAZEL_VERSION}/bin/
 
 echo '...Configuring TensorFlow...'
 cd $TENSORFLOW_SERVING_HOME/tensorflow
