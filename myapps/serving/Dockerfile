@@ -108,7 +108,7 @@ RUN \
 # Dynomite
 RUN \
  cd ~ \
- && git clone https://github.com/Netflix/dynomite.git \
+ && git clone --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
@@ -144,7 +144,7 @@ RUN \
       zip \
       zlib1g-dev \
  && cd ~ \
- && git clone --recurse-submodules https://github.com/tensorflow/serving.git
+ && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
 
 RUN \
  apt-get install -y python-dev \
@@ -155,7 +155,7 @@ RUN \
 # TensorFlow Latest Release Source
 RUN \
  cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
+ && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
 
 # Sbt Serving Prediction Service
 RUN \
