@@ -9,8 +9,9 @@ import com.netflix.dyno.jedis._
 
 import scala.util.parsing.json._
 
-class ItemSimilarsCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: String, itemId: String) 
-    extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey("ItemSimilars")) {
+class ItemSimilarsCommand(
+    dynoClient: DynoJedisClient, namespace: String, version: String, itemId: String, startIdx: Int, endIdx: Int) 
+  extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey("ItemSimilars")) {
 
   def run(): Seq[String] = {
     try{

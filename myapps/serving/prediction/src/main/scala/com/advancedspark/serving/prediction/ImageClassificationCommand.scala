@@ -7,7 +7,7 @@ import com.netflix.dyno.jedis._
 
 import scala.util.parsing.json._
 
-class ImageClassificationCommand(dynoClient: DynoJedisClient, servableRootPath: String, version: String, url: String) 
+class ImageClassificationCommand(dynoClient: DynoJedisClient, namespace: String, version: String, url: String) 
     extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("ImageClassification")) {
 
   //@throws(classOf[java.io.IOException])

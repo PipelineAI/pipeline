@@ -8,5 +8,7 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
 netflix:
-  appinfo.name: ${spring.application.name}
-  atlas.uri: http://127.0.0.1:7101/api/v1/publish
+  appinfo:
+    name: ${spring.application.name}
+  atlas:
+    uri: http://127.0.0.1:7101/api/v1/publish

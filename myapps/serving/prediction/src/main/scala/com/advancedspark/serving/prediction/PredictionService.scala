@@ -15,7 +15,8 @@ import java.util.List
 
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
+import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.netflix.dyno.jedis._
@@ -31,19 +32,19 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
 @SpringBootApplication
 @RestController
+@EnableAtlas
 @EnableHystrix
 @EnableEurekaClient
 class PredictionService {
   @Bean
-//  @RefreshScope
-  val servableRootPath = ""
+  val namespace = ""
   @Bean
   val version = "" 
 
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
   def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      new UserItemPredictionCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, itemId).execute().toString
+      new UserItemPredictionCommand(PredictionServiceOps.dynoClient, namespace, version, userId, itemId).execute().toString
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -56,8 +57,8 @@ class PredictionService {
   def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
       @PathVariable("endIdx") endIdx: Int): String = {
     try{
-      new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, servableRootPath, version, userId, startIdx, endIdx)
-       .execute().toString
+      new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, namespace, version, userId, startIdx, endIdx)
+       .execute().mkString(",")
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -66,11 +67,11 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/similars/{itemId}"))
-  def similars(@PathVariable("itemId") itemId: String): String = {
+  @RequestMapping(Array("/similars/{itemId}/{startIdx}/{endIdx}"))
+  def similars(@PathVariable("itemId") itemId: String, @PathVariable("startIdx") startIdx: Int, @PathVariable("endIdx") endIdx: Int): String = {
     // TODO:  
     try {
-      new ItemSimilarsCommand(PredictionServiceOps.dynoClient, servableRootPath, version, itemId).execute().toString
+      new ItemSimilarsCommand(PredictionServiceOps.dynoClient, namespace, version, itemId, startIdx, endIdx).execute().mkString(",")
     } catch {
        case e: Throwable => {
          System.out.println(e)

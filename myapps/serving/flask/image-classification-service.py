@@ -25,5 +25,11 @@ def classify_image(image_url):
     p.stdout.readline()
     return json.dumps(p.stdout.readline())
 
+@app.route('/health')
+def health():
+    # TODO:  perfom a classification and return 'DOWN' or 'UP' based on the result
+    #        ie. if result.contains('Failed"), return 'DOWN'
+    return json.dumps({'status': 'UP'})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5070')

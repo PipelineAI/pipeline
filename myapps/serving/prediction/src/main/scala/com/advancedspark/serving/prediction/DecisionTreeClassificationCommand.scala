@@ -8,7 +8,7 @@ import com.netflix.dyno.jedis._
 import scala.util.parsing.json._
 
 // Return Map[classId (String), probability (Double)]
-class DecisionTreeClassificationCommand(servableRootPath: String, version: String, itemId: String) 
+class DecisionTreeClassificationCommand(namespace: String, version: String, itemId: String) 
     extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("DecisionTreeClassification")) {
 
   //@throws(classOf[java.io.IOException])

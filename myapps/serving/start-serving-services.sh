@@ -10,8 +10,8 @@ echo '...Starting Hystrix Dashboard...'
 nohup java -jar $HYSTRIX_DASHBOARD_HOME/standalone-hystrix-dashboard-$HYSTRIX_DASHBOARD_VERSION-all.jar > $LOGS_HOME/serving/hystrix/hystrix.log &
 
 echo '...Starting Turbine Service...'
-cd $MYAPPS_HOME/serving/metrics/turbine
-$MYAPPS_HOME/serving/metrics/turbine/start-turbine-service.sh
+cd $MYAPPS_HOME/serving/turbine
+$MYAPPS_HOME/serving/turbine/start-turbine-service.sh
 
 echo '...Starting Atlas...'
 nohup java -jar $ATLAS_HOME/atlas-$ATLAS_VERSION-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/serving/atlas/atlas.log &

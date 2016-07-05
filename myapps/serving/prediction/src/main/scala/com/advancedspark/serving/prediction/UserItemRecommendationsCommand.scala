@@ -11,12 +11,12 @@ import collection.JavaConverters._
 import scala.collection.immutable.List
 
 class UserItemRecommendationsCommand(
-    dynoClient: DynoJedisClient, servableRootPath: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
+    dynoClient: DynoJedisClient, namespace: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
   extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserItemRecommendations")) {
 
   def run(): Seq[String] = {
     try{
-      val recommendations = dynoClient.lrange(s"${servableRootPath}:${version}:recommendations:${userId}", startIdx, endIdx)
+      val recommendations = dynoClient.lrange(s"${namespace}:${version}:recommendations:${userId}", startIdx, endIdx)
       recommendations.asScala
     } catch { 
        case e: Throwable => {
