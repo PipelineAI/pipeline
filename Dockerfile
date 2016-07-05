@@ -366,18 +366,6 @@ RUN \
  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
  && rm apache-jmeter-${JMETER_VERSION}.tgz \
 
-# Hystrix Dashboard
- && cd ~ \
- && mkdir -p ~/hystrix-dashboard-${HYSTRIX_VERSION} \
- && cd ~/hystrix-dashboard-${HYSTRIX_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar \
-
-# Atlas 
- && cd ~ \
- && mkdir -p ~/atlas-${ATLAS_VERSION} \
- && cd ~/atlas-${ATLAS_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar \
-
 # Dynomite
  && cd ~ \
  && git clone --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
@@ -435,12 +423,6 @@ RUN \
 
 # Mvn Discovery Service (Netflix Eureka)
  && cd ~/pipeline/myapps/serving/discovery && mvn -DskipTests clean install \
-
-# Mvn Metrics Collector Service (Netflix Atlas)
- && cd ~/pipeline/myapps/serving/metrics/atlas && mvn -DskipTests clean install \
-
-# Mvn Circuit Breaker Metrics Service (Netflix Hystrix Dashboard)
- && cd ~/pipeline/myapps/serving/metrics/hystrix && mvn -DskipTests clean install \
 
 # Mvn Cluster-wide Circtui Breaker Metrics Service (Netflix Turbine)
  && cd ~/pipeline/myapps/serving/turbine && mvn -DskipTests clean install \
