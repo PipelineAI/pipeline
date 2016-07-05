@@ -85,7 +85,7 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 ![TensorFlow Notebooks](http://advancedspark.com/img/tensorflow.png)
 
 ### Deploy Spark ML and TensorFlow Models into Production with Netflix OSS
-![Hystrix Dashboard](http://advancedspark.com/img/hystrix-example-600x306.png)
+![Hystrix Dashboard](http://advancedspark.com/img/hystrix-example-600x306.png)![Hystrix Dashboard](http://advancedspark.com/img/hystrix-dashboard-annotated-640x411.png)
 
 ### Apache NiFi Data Flows
 ![Apache NiFi Data Flows](http://advancedspark.com/img/nifi-flow.png)
