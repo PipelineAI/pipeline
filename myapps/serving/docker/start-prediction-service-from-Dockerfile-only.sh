@@ -127,9 +127,18 @@ cd $DATASETS_HOME/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
 
 echo '...Starting Prediction Services...'
-cd $PIPELINE_HOME
-$MYAPPS_HOME/serving/start-serving-services.sh
+echo '...Starting TensorFlow Inception Service...'
+$MYAPPS_HOME/serving/tensorflow/start-tensorflow-inception-serving-service.sh
+
+echo '...Starting Flask-based TensorFlow Inception Service Proxy...'
+$MYAPPS_HOME/serving/flask/start-flask-image-classification-service.sh
+
+echo '...Starting Prediction Service...'
+cd $MYAPPS_HOME/serving/prediction
+sbt assembly
+java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
+
 ###################################################################################################
 # NOTE:  THIS SCRIPT MUST NOT EXIT OR ELSE PID 1 WILL DIE AND THE DOCKER CONTAINER WILL DIE
-#        RIGHT NOW, WE'RE RLYING ON THE VERY LAST LINE OF start-serving-services.sh TO STAY ALIVE
+#        RIGHT NOW, WE'RE RiELYING ON THE VERY LAST LINE TO STAY ALIVE
 ###################################################################################################

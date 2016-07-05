@@ -16,10 +16,10 @@ $MYAPPS_HOME/serving/metrics/turbine/start-turbine-service.sh
 echo '...Starting Atlas...'
 nohup java -jar $ATLAS_HOME/atlas-$ATLAS_VERSION-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/serving/atlas/atlas.log &
 
-echo '...Starting TensorFlow Inception...'
+echo '...Starting TensorFlow Inception Service...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-inception-serving-service.sh
 
-echo '...Starting Flask-based Image Classifier...'
+echo '...Starting Flask-based TensorFlow Inception Service Proxy...'
 $MYAPPS_HOME/serving/flask/start-flask-image-classification-service.sh
 
 echo '...Starting Prediction Service...'
