@@ -427,11 +427,15 @@ RUN \
 # Mvn Cluster-wide Circuit Breaker Metrics Service (Netflix Turbine)
  && cd ~/pipeline/myapps/serving/turbine && mvn -DskipTests clean install \
 
+# Sbt Spark Serving 
+ && cd ~/pipeline/myapps/serving/spark && sbt clean package \
+
 # Sbt Serving Prediction Service (Spring + Netflix)
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
-# Sbt Serving Spark ML Adapters 
- && cd ~/pipeline/myapps/serving/spark && sbt clean package \
+# Sidecar for TensorFlow Serving
+ && cd ~/pipeline/myapps/serving/sidecar \
+ && mvn clean install \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \
