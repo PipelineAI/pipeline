@@ -3,3 +3,6 @@ server:
 spring:
   application:
     name: discovery-service
+eureka:
+  instance:
+    preferIpAddress: true
