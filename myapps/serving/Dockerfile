@@ -35,7 +35,7 @@ ENV \
  DYNO_VERSION=1.4.6 \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CORE_VERSION=4.3.0.RELEASE
+ SPRING_CORE_VERSION=4.3.0.RELEASE 
 
 RUN \
  apt-get update \
@@ -108,7 +108,7 @@ RUN \
 # Dynomite
 RUN \
  cd ~ \
- && git clone https://github.com/Netflix/dynomite.git \
+ && git clone --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
@@ -144,7 +144,7 @@ RUN \
       zip \
       zlib1g-dev \
  && cd ~ \
- && git clone --recurse-submodules https://github.com/tensorflow/serving.git
+ && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
 
 RUN \
  apt-get install -y python-dev \
@@ -155,12 +155,12 @@ RUN \
 # TensorFlow Latest Release Source
 RUN \
  cd ~ \
- && git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git
+ && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
 
 # Sbt Serving Prediction Service
 RUN \
  cd ~ \
- && git clone --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
+ && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Source the pipeline-specific env variables
@@ -174,7 +174,7 @@ RUN \
 
 RUN \
  cd ~ \
- && $MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 RUN \
  cd ~/pipeline/myapps/serving/prediction \
