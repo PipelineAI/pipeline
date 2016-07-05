@@ -174,7 +174,7 @@ RUN \
 
 RUN \
  cd ~ \
- && $MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 RUN \
  cd ~/pipeline/myapps/serving/prediction \
