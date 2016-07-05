@@ -1,3 +1,8 @@
+# Hack because these are defined after they're needed in the following setup script
+export TENSORFLOW_HOME=/root/tensorflow
+export MYAPPS_HOME=/root/pipeline/myapps
+export PATH=$PATH:/root/bazel-${BAZEL_VERSION}/bin/
+
 echo '...Configuring TensorFlow...'
 cd $TENSORFLOW_HOME/tensorflow
 echo | ./configure
