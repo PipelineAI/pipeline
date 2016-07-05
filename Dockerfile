@@ -473,9 +473,9 @@ RUN \
   && git clone --single-branch --recurse-submodules https://github.com/tensorflow/models.git \
   && git clone --single-branch --recurse-submodules https://github.com/tensorflow/playground.git
 
-RUN \
- cd ~ \
- && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
+#RUN \
+# cd ~ \
+# && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
 
 RUN \
  cd ~ \
