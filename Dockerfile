@@ -424,11 +424,14 @@ RUN \
 # Mvn Discovery Service (Netflix Eureka)
  && cd ~/pipeline/myapps/serving/discovery && mvn -DskipTests clean install \
 
-# Mvn Cluster-wide Circtui Breaker Metrics Service (Netflix Turbine)
+# Mvn Cluster-wide Circuit Breaker Metrics Service (Netflix Turbine)
  && cd ~/pipeline/myapps/serving/turbine && mvn -DskipTests clean install \
 
 # Sbt Serving Prediction Service (Spring + Netflix)
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
+
+# Sbt Serving Spark ML Adapters 
+ && cd ~/pipeline/myapps/serving/spark && sbt clean package \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \
@@ -485,6 +488,19 @@ RUN \
 
 # Spinnaker
   && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
+
+# Hystrix Dashboard
+RUN \
+ cd ~ \
+ && mkdir -p ~/hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
+ && cd hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION}-all.jar \
+
+# Atlas Metrics Collector
+ && cd ~ \
+ && mkdir -p ~/atlas-${ATLAS_VERSION} \
+ && cd atlas-${ATLAS_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
