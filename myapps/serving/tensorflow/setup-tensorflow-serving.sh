@@ -1,5 +1,9 @@
+# Hack because these are defined after they're needed in the following setup script
+export TENSORFLOW_SERVING_HOME=/root/serving 
+export PATH=$PATH:/root/bazel-${BAZEL_VERSION}/bin/
+
 echo '...Configuring TensorFlow...'
-cd $TENSORFLOW_SERVING_HOME
+cd $TENSORFLOW_SERVING_HOME/tensorflow
 echo | ./configure
 
 echo '...Build the Inception Image Classifier Components...'

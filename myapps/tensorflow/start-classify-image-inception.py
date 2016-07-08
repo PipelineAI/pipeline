@@ -1,4 +1,4 @@
-cd $TENSORFLOW_BLEEDINGEDGE_HOME
+cd $TENSORFLOW_HOME
 bazel-bin/tensorflow/examples/label_image/label_image \
   --graph=$DATASETS_HOME/inception/classify_image_graph_def.pb \   
   --input_width=299 \   

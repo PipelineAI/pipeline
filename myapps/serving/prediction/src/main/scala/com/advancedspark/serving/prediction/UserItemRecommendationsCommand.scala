@@ -7,15 +7,17 @@ import org.jblas.DoubleMatrix
 
 import com.netflix.dyno.jedis._
 
-import scala.util.parsing.json._
+import collection.JavaConverters._
+import scala.collection.immutable.List
 
-class ItemSimilarsCommand(
-    dynoClient: DynoJedisClient, namespace: String, version: String, itemId: String, startIdx: Int, endIdx: Int) 
-  extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey("ItemSimilars")) {
+class UserItemRecommendationsCommand(
+    dynoClient: DynoJedisClient, namespace: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
+  extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("UserItemRecommendations")) {
 
   def run(): Seq[String] = {
     try{
-      Seq("10001", "10002", "10003", "10004", "10005")
+      val recommendations = dynoClient.lrange(s"${namespace}:${version}:recommendations:${userId}", startIdx, endIdx)
+      recommendations.asScala
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -30,8 +32,8 @@ class ItemSimilarsCommand(
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
     //return fallbackRecommendationsModel;
 
-    System.out.println("ItemSimilars Source is Down!  Fallback!!")
+    System.out.println("UserRecommendations Source is Down!  Fallback!!")
 
-    Seq("10001");
+    List("10001", "10002", "10003", "10004", "10005")
   }
 }

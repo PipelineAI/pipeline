@@ -79,6 +79,7 @@ object ALS {
       recommendationsDF.join(itemsDF, $"items.itemId" === $"recommendations.itemId")
       .select($"userId", $"recommendations.itemId", $"title", $"tags", $"prediction", $"tags")
       .sort($"userId", $"prediction" desc, $"recommendations.itemId")
+      .na.drop(Seq("prediction"))
 
     System.out.println(enrichedRecommendationsDF.head(10).mkString("\n"))
   }

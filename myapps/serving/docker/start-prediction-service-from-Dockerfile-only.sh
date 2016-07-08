@@ -1,8 +1,15 @@
 #!/bin/bash
+
+###################################################################################################
+# NOTE:  THIS SCRIPT MUST NOT EXIT OR ELSE PID 1 WILL DIE AND THE DOCKER CONTAINER WILL DIE
+#        RIGHT NOW, WE'RE RLYING ON THE VERY LAST LINE OF start-serving-services.sh TO STAY ALIVE
+###################################################################################################
+
+# Derived from the following
+#   https://github.com/fluxcapacitor/pipeline/blob/master/config/bash/pipeline.bashrc
+#   https://github.com/fluxcapacitor/pipeline/blob/master/bin/setup/config-services-before-starting.sh
+#   https://github.com/fluxcapacitor/pipeline/blob/master/bin/service/start-all-services.sh
 #
-# https://github.com/fluxcapacitor/pipeline/blob/master/config/bash/pipeline.bashrc
-# https://github.com/fluxcapacitor/pipeline/blob/master/bin/setup/config-services-before-starting.sh
-#  
 # Get any last minute changes
 cd /root/pipeline
 git pull
@@ -58,23 +65,15 @@ mkdir -p $LOGS_HOME/serving/hystrix
 mkdir -p $LOGS_HOME/serving/atlas
 mkdir -p $LOGS_HOME/serving/tensorflow
 
-#echo '...Configuring Redis...'
-#mkdir -p $LOGS_HOME/redis
-#mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
-#ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
+echo '...Configuring Redis...'
+mkdir -p $LOGS_HOME/redis
+mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
+ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
 
-#echo '...Starting Redis...'
-#cd $PIPELINE_HOME
-#nohup redis-server $REDIS_HOME/redis.conf & 
-
-#echo ...Configuring Dynomite...
-#mkdir -p $LOGS_HOME/dynomite
-#mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
-#ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
-
-#echo '...Starting Dynomite...'
-#cd $PIPELINE_HOME
-#dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
+echo ...Configuring Dynomite...
+mkdir -p $LOGS_HOME/dynomite
+mv $DYNOMITE_HOME/conf/dynomite.yml $DYNOMITE_HOME/conf/dynomite.yml.orig
+ln -s $CONFIG_HOME/dynomite/dynomite.yml $DYNOMITE_HOME/conf/
 
 echo '...Configuring Spark...'
 mkdir -p $LOGS_HOME/spark
@@ -91,21 +90,58 @@ echo '...Configuring Hive...'
 ln -s $CONFIG_HOME/hive/hive-site.xml $HIVE_HOME/conf
 ln -s $MYSQL_CONNECTOR_JAR $HIVE_HOME/lib
 
-echo '...Configuring Logstash...'
-ln -s $CONFIG_HOME/logstash/logstash.conf $LOGSTASH_HOME
+################################################################################################
+# TODO:  Make the startup of this configurable based on docker run -e ENV argument (standalone or cluster)
+#echo '...Starting Spark Master...'
+#nohup $SPARK_HOME/sbin/start-master.sh --webui-port 6060 -h 0.0.0.0 
+#echo '...tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.master.Master-1-$HOSTNAME.out...'
+#tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.master.Master-1-$HOSTNAME.out
+
+#echo '...Starting Jupyter Notebook Server...'
+# Note:  We are using pipeline-pyspark-shell.sh to pick up the --repositories, --jars, --packages of the rest of the environment
+#PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py" nohup pipeline-pyspark-shell.sh &
+
+#echo '...Starting Zeppelin...'
+#nohup $ZEPPELIN_HOME/bin/zeppelin-daemon.sh start
+
+#echo '...Starting Redis...'
+#cd $PIPELINE_HOME
+#nohup redis-server $REDIS_HOME/redis.conf &
+
+#echo '...Starting Dynomite...'
+#cd $PIPELINE_HOME
+#dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
+################################################################################################
+
+echo '...Starting Spark Worker...'
+# $SPARK_MASTER_HOST and $SPARK_MASTER_PORT must be passed in using `docker run -e SPARK_MASTER_HOST=<ip> -e SPARK_MASTER_PORT=<port>
+# TODO:  Add a flag to disable Spark - or just remove altogether - since it's not needed for Spark or TensorFlow Serving
+#        Though it is kinda fun for large cluster demos 
+cd $PIPELINE_HOME
+nohup $SPARK_HOME/sbin/start-slave.sh --cores $SPARK_WORKER_CORES --memory $SPARK_WORKER_MEMORY --webui-port 6061 -h 0.0.0.0 spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
+echo '...tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.worker.Worker-1-$HOSTNAME.out...'
 
 echo '...Configuring TensorFlow...'
 mkdir -p $LOGS_HOME/tensorflow/serving/
 cd $DATASETS_HOME/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
-$MYAPPS_HOME/serving/tensorflow/setup-tensorflow-serving.sh
 
-echo '...Starting Spark Worker...'
-cd $PIPELINE_HOME
-nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 50g --webui-port 6061 -h 0.0.0.0 spark://demo.pipeline.io:7077
-echo '...tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.worker.Worker-1-$HOSTNAME.out...'
+echo '...Starting Prediction Services...'
+echo '...Starting TensorFlow Inception Service...'
+$MYAPPS_HOME/serving/tensorflow/start-tensorflow-inception-serving-service.sh
+
+echo '...Starting Flask-based TensorFlow Inception Service Proxy...'
+$MYAPPS_HOME/serving/flask/start-flask-image-classification-service.sh
+
+echo '...Starting Sidecar for TensorFlow Inception Service...'
+$MYAPPS_HOME/serving/sidecar/start-sidecar-service.sh
 
 echo '...Starting Prediction Service...'
-cd $MYAPPS_HOME/serving/prediction/
+cd $MYAPPS_HOME/serving/prediction
 sbt assembly
 java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
+
+###################################################################################################
+# NOTE:  THIS SCRIPT MUST NOT EXIT OR ELSE PID 1 WILL DIE AND THE DOCKER CONTAINER WILL DIE
+#        RIGHT NOW, WE'RE RiELYING ON THE VERY LAST LINE TO STAY ALIVE
+###################################################################################################

@@ -105,29 +105,21 @@ object TrainMFIncremental {
             .train(ratingsBatchRDD, newModel, numObservations)
             .asInstanceOf[StreamingLatentMatrixFactorizationModel]
 
-          //val modelFilename = s"/tmp/live-recommendations/spark-1.6.1/streaming-mf/$batchTime.bin"
-          //matrixFactorization.saveModel(modelFilename)
-
-          /* USING TEXT VERSION FOR DEBUG/TESTING/GROK PURPOSES */
-          //  val modelTextFilename = s"/tmp/live-recommendations/spark-1.6.1/text-debug-only/streaming-mf/${batchTime.milliseconds}"
-          //  matrixFactorization.saveText(model, modelTextFilename)
-          //  System.out.println(s"Model updated @ time ${batchTime.milliseconds} : $model : $modelTextFilename ")
-
           // Update Redis in real-time with userFactors and itemFactors
           val userFactors = model.userFactors.filter(_._1 != 0).collect()
           userFactors.foreach(factor => {
             val userId = factor._1
             val factors = factor._2.vector
-            DynomiteOps.dynoClient.set(s"user-factors:${userId}", factors.mkString(","))
-            System.out.println(s"Updated key 'user-factors:${userId}' : ${factors.mkString(",")}")
+            DynomiteOps.dynoClient.set(s"::user-factors:${userId}", factors.mkString(","))
+            System.out.println(s"Updated key '::user-factors:${userId}' : ${factors.mkString(",")}")
           })
 
           val itemFactors = model.itemFactors.filter(_._1 != 0).collect()
           itemFactors.foreach(factor => {
             val itemId = factor._1
             val factors = factor._2.vector
-            DynomiteOps.dynoClient.set(s"item-factors:${itemId}", factors.mkString(","))
-            System.out.println(s"Updated key 'item-factors:${itemId}' : ${factors.mkString(",")}")
+            DynomiteOps.dynoClient.set(s"::item-factors:${itemId}", factors.mkString(","))
+            System.out.println(s"Updated key '::item-factors:${itemId}' : ${factors.mkString(",")}")
           })
 
           // For every (userId, itemId) tuple, calculate prediction
@@ -139,7 +131,7 @@ object TrainMFIncremental {
                 .dot(new DoubleMatrix(itemFactor._2.vector.map(_.toDouble)))
             } yield (userFactor._1, itemFactor._1, prediction)
 
-          // TODO: Group by (userId, itemId), sort by prediction desc, iterate and rpush(itemId) onto recommendations:${userId}
+          // TODO:  Group by (userId, itemId), sort by prediction desc, iterate and rpush(itemId) onto recommendations:${userId}
           // Something like this...
           // val sortedUserItemPredictions = allUserItemPredictions.top(5)
           //   (Ordering.by[(Int, Int, Double), Double] { case (id, similarity) => similarity
@@ -147,12 +139,15 @@ object TrainMFIncremental {
 
           // Clear out the current recommendations in favor of these new ones
           allUserItemPredictions.foreach{ case (userId, itemId, prediction) =>
-            DynomiteOps.dynoClient.del(s"recommendations:${userId}")
+            DynomiteOps.dynoClient.del(s"::recommendations:${userId}")
           }
 
           allUserItemPredictions.foreach{ case (userId, itemId, prediction) => 
-            DynomiteOps.dynoClient.rpush(s"recommendations:${userId}", itemId.toString)
+            DynomiteOps.dynoClient.rpush(s"::recommendations:${userId}", itemId.toString)
           }
+
+          // TODO:  Item-to-Item Similarity
+	  //  ::similarities:${itemId}
 
           System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
         }
@@ -165,7 +160,7 @@ object TrainMFIncremental {
 }
 
 object DynomiteOps {
-  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
+  val localhostHost = new Host("127.0.0.1", Host.Status.Up)
   val localhostToken = new HostToken(100000L, localhostHost)
 
   val localhostHostSupplier = new HostSupplier() {

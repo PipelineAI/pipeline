@@ -6,7 +6,7 @@
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-with-nifi-sm.png)
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-645x474.png)
 
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
@@ -83,6 +83,10 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 
 ### TensorFlow Notebooks
 ![TensorFlow Notebooks](http://advancedspark.com/img/tensorflow.png)
+
+### Deploy Spark ML and TensorFlow Models into Production with Netflix OSS
+![Hystrix Dashboard](http://advancedspark.com/img/hystrix-example-600x306.png)
+![Hystrix Dashboard](http://advancedspark.com/img/hystrix-dashboard-annotated-640x411.png)
 
 ### Apache NiFi Data Flows
 ![Apache NiFi Data Flows](http://advancedspark.com/img/nifi-flow.png)

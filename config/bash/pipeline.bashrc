@@ -57,13 +57,10 @@ export BAZEL_HOME=$DEV_INSTALL_HOME/bazel-$BAZEL_VERSION
 export PATH=$BAZEL_HOME/bin:$PATH
 
 # TensorFlow Serving Home (not required on PATH)
-export TENSORFLOW_SERVING_HOME=$DEV_INSTALL_HOME/tensorflow-serving-$TENSORFLOW_SERVING_VERSION
+export TENSORFLOW_SERVING_HOME=$DEV_INSTALL_HOME/serving
 
 # TensorFlow Home (not required on PATH)
-export TENSORFLOW_HOME=$DEV_INSTALL_HOME/tensorflow-$TENSORFLOW_VERSION
-
-# TensorFlow Bleeding Edge (master) Home (not required on PATH)
-export TENSORFLOW_BLEEDINGEDGE_HOME=$DEV_INSTALL_HOME/tensorflow
+export TENSORFLOW_HOME=$DEV_INSTALL_HOME/tensorflow
 
 # Scripts Home
 export PATH=$SCRIPTS_HOME/cli:$SCRIPTS_HOME/cluster:$SCRIPTS_HOME/docker:$SCRIPTS_HOME/initial:$SCRIPTS_HOME/kafka:$SCRIPTS_HOME/rest:$SCRIPTS_HOME/service:$SCRIPTS_HOME/util:$PATH

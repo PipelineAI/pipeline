@@ -3,19 +3,22 @@ package com.advancedspark.serving.prediction
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 
-import org.jblas.DoubleMatrix
-
 import com.netflix.dyno.jedis._
 
 import scala.util.parsing.json._
 
-class ItemSimilarsCommand(
-    dynoClient: DynoJedisClient, namespace: String, version: String, itemId: String, startIdx: Int, endIdx: Int) 
-  extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey("ItemSimilars")) {
+class ImageClassificationCommand(dynoClient: DynoJedisClient, namespace: String, version: String, url: String) 
+    extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("ImageClassification")) {
 
-  def run(): Seq[String] = {
+  //@throws(classOf[java.io.IOException])
+  def get(url: String) = scala.io.Source.fromURL(url).mkString
+
+  def run(): Seq[(String, Double)] = {
     try{
-      Seq("10001", "10002", "10003", "10004", "10005")
+      //http://<ip>:5070/classify/cropped_panda.jpg
+
+      Seq(("Panda", 100.0))
+
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -24,14 +27,14 @@ class ItemSimilarsCommand(
     }
   }
 
-  override def getFallback(): Seq[String] = {
+  override def getFallback(): Seq[(String, Double)] = {
     // Retrieve fallback (ie. non-personalized top k)
     //val source = scala.io.Source.fromFile("/root/pipeline/datasets/serving/recommendations/fallback/model.json")
     //val fallbackRecommendationsModel = try source.mkString finally source.close()
     //return fallbackRecommendationsModel;
 
-    System.out.println("ItemSimilars Source is Down!  Fallback!!")
+    System.out.println("Image Classification Source is Down!  Fallback!!")
 
-    Seq("10001");
+    Seq(("Unknown", 100.0))
   }
 }

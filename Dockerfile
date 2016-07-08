@@ -49,7 +49,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.2 \ 
- TENSORFLOW_VERSION=0.8.0 \
+ TENSORFLOW_VERSION=0.9.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -188,11 +188,11 @@ RUN \
       zip \
       zlib1g-dev \
  && cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving tensorflow-serving-$TENSORFLOW_SERVING_VERSION \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
 
-# TensorFlow Latest Release Source
+# TensorFlow Source
  && cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --recurse-submodules https://github.com/tensorflow/tensorflow tensorflow-$TENSORFLOW_VERSION \
+ && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git \
 
 # Python NetworkX/Tribe Demos
  && pip install tribe \
@@ -201,7 +201,7 @@ RUN \
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
- && git clone https://github.com/fluxcapacitor/pipeline.git
+ && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
 # Source the pipeline-specific env variables
@@ -292,7 +292,7 @@ RUN \
 
 # Livy Spark REST Server
  && cd ~ \
- && git clone https://github.com/cloudera/livy.git \ 
+ && git clone --single-branch --recurse-submodules https://github.com/cloudera/livy.git \ 
  && cd livy \
  && mvn -DskipTests -Dspark.version=${SPARK_VERSION} clean package \
 
@@ -312,7 +312,7 @@ RUN \
 
 # Webdis Redis REST Server
  && cd ~ \
- && git clone https://github.com/nicolasff/webdis.git \
+ && git clone --single-branch --recurse-submodules https://github.com/nicolasff/webdis.git \
  && cd webdis \
  && make \
 
@@ -366,21 +366,9 @@ RUN \
  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
  && rm apache-jmeter-${JMETER_VERSION}.tgz \
 
-# Hystrix Dashboard
- && cd ~ \
- && mkdir -p ~/hystrix-dashboard-${HYSTRIX_VERSION} \
- && cd ~/hystrix-dashboard-${HYSTRIX_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar \
-
-# Atlas 
- && cd ~ \
- && mkdir -p ~/atlas-${ATLAS_VERSION} \
- && cd ~/atlas-${ATLAS_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar \
-
 # Dynomite
  && cd ~ \
- && git clone https://github.com/Netflix/dynomite.git \
+ && git clone --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
@@ -436,17 +424,18 @@ RUN \
 # Mvn Discovery Service (Netflix Eureka)
  && cd ~/pipeline/myapps/serving/discovery && mvn -DskipTests clean install \
 
-# Mvn Metrics Collector Service (Netflix Atlas)
- && cd ~/pipeline/myapps/serving/metrics/atlas && mvn -DskipTests clean install \
+# Mvn Cluster-wide Circuit Breaker Metrics Service (Netflix Turbine)
+ && cd ~/pipeline/myapps/serving/turbine && mvn -DskipTests clean install \
 
-# Mvn Circuit Breaker Metrics Service (Netflix Hystrix Dashboard)
- && cd ~/pipeline/myapps/serving/metrics/hystrix && mvn -DskipTests clean install \
-
-# Mvn Cluster-wide Circtui Breaker Metrics Service (Netflix Turbine)
- && cd ~/pipeline/myapps/serving/metrics/turbine && mvn -DskipTests clean install \
+# Sbt Spark Serving 
+ && cd ~/pipeline/myapps/serving/spark && sbt clean package \
 
 # Sbt Serving Prediction Service (Spring + Netflix)
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
+
+# Sidecar for TensorFlow Serving
+ && cd ~/pipeline/myapps/serving/sidecar \
+ && mvn clean install \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \
@@ -467,17 +456,23 @@ RUN \
 #  && tar -xzvf spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz \
 #  && rm spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
 
-# Bleeding Edge TensorFlow
+# Other TensorFlow Projects
 RUN \
   cd ~ \
-  && git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git \
-  && git clone --recurse-submodules https://github.com/tensorflow/serving.git \
-  && git clone --recurse-submodules https://github.com/tensorflow/models.git \
-  && git clone --recurse-submodules https://github.com/tensorflow/playground.git
+  && git clone --single-branch --recurse-submodules https://github.com/tensorflow/models.git \
+  && git clone --single-branch --recurse-submodules https://github.com/tensorflow/playground.git
+
+#RUN \
+# cd ~ \
+# && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
+
+RUN \
+ cd ~ \
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 # Bleeding Edge Theano
 RUN \
-  git clone git://github.com/Theano/Theano.git \
+  git clone --single-branch --recurse-submodules git://github.com/Theano/Theano.git \
   && cd Theano \
   && python setup.py develop --user
 
@@ -496,10 +491,23 @@ RUN \
   && pip install keras \
 
 # Spinnaker
-  && git clone https://github.com/spinnaker/spinnaker.git
+  && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
+
+# Hystrix Dashboard
+RUN \
+ cd ~ \
+ && mkdir -p ~/hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
+ && cd hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION}-all.jar \
+
+# Atlas Metrics Collector
+ && cd ~ \
+ && mkdir -p ~/atlas-${ATLAS_VERSION} \
+ && cd atlas-${ATLAS_VERSION} \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
 
 # Ports to expose 
-EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761
+EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
 
 WORKDIR /root/pipeline
 

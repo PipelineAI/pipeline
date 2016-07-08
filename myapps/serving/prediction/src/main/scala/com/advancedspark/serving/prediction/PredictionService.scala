@@ -15,7 +15,8 @@ import java.util.List
 
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
+import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.netflix.dyno.jedis._
@@ -31,37 +32,19 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
 @SpringBootApplication
 @RestController
+@EnableAtlas
 @EnableHystrix
 @EnableEurekaClient
 class PredictionService {
   @Bean
-//  @RefreshScope
-  val version = 0
+  val namespace = ""
+  @Bean
+  val version = "" 
 
   @RequestMapping(Array("/prediction/{userId}/{itemId}"))
-  def prediction(@PathVariable("userId") userId: Int, @PathVariable("itemId") itemId: Int): String = {
-    val pred = getPrediction(userId, itemId)
-
-    "userId:" + userId + ", itemId:" + itemId + ", prediction:" + pred
-  }
-
-  def getPrediction(userId: Int, itemId: Int): Double = {
-    val pred = new UserItemPredictionCommand(PredictionServiceOps.dynoClient, version, userId, itemId).execute()
-    pred
-    //1.0
-  }
-
-  @RequestMapping(Array("/recommendations/{userId}"))
-  def recommendations(@PathVariable("userId") userId: Int): String = {
-    val recs = getRecommendations(userId) 
-    "userId:" + userId + ", recommendations:" + recs
-  }
-
-
-  def getRecommendations(userId: Int): String = {
-    try{
-      val recommendations = new UserRecommendationsCommand(PredictionServiceOps.dynoClient, version, userId).execute()
-      recommendations.toString
+  def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
+    try {
+      new UserItemPredictionCommand(PredictionServiceOps.dynoClient, namespace, version, userId, itemId).execute().toString
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -70,18 +53,57 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/similars/{itemId}"))
-  def similars(@PathVariable("itemId") itemId: Int): String = {
-    // TODO:  
-    val sims = "1.0"
-    "itemId:" + itemId + ", similars:" + sims
+  @RequestMapping(Array("/recommendations/{userId}/{startIdx}/{endIdx}"))
+  def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
+      @PathVariable("endIdx") endIdx: Int): String = {
+    try{
+      new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, namespace, version, userId, startIdx, endIdx)
+       .execute().mkString(",")
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 
-  @RequestMapping(Array("/classifications/{itemId}"))
-  def classifications(@PathVariable("itemId") itemId: Int): String = {
+  @RequestMapping(Array("/similars/{itemId}/{startIdx}/{endIdx}"))
+  def similars(@PathVariable("itemId") itemId: String, @PathVariable("startIdx") startIdx: Int, @PathVariable("endIdx") endIdx: Int): String = {
+    // TODO:  
+    try {
+      new ItemSimilarsCommand(PredictionServiceOps.dynoClient, namespace, version, itemId, startIdx, endIdx).execute().mkString(",")
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
+
+  @RequestMapping(Array("/image-classifications/{itemId}"))
+  def imageClassifications(@PathVariable("itemId") itemId: String): String = {
     // TODO:
-    val classes = "1.0"
-    "itemId:" + itemId + ", classifications: " + classes
+    try {
+      Map("Pandas" -> 1.0).toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
+
+  @RequestMapping(Array("/decision-tree-classifications/{itemId}"))
+  def decisionTreeClassifications(@PathVariable("itemId") itemId: String): String = {
+    // TODO:
+    try {
+      Map("Pandas" -> 1.0).toString
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
   }
 }
 
@@ -92,7 +114,7 @@ object PredictionServiceMain {
 }
 
 object PredictionServiceOps {
-  val localhostHost = new Host("demo.pipeline.io", Host.Status.Up)
+  val localhostHost = new Host("127.0.0.1", Host.Status.Up)
   val localhostToken = new HostToken(100000L, localhostHost)
 
   val localhostHostSupplier = new HostSupplier() {

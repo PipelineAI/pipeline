@@ -95,10 +95,11 @@
   function loadPersonalizedALS() {
     $("#personalized-als").empty()
 
-    $.getJSON ("/redis/LRANGE/recommendations:" + myId + "/0/9", function(data) {
-//    $.getJSON ("/serving/recommendations:" + myId + "/0/9", function(data) {
+//    $.getJSON ("/redis/LRANGE/recommendations:" + myId + "/0/9", function(data) {
+    $.getJSON ("/serving/recommendations/" + myId + "/0/9", function(data) {
       var items = [];
-      var recs = data.LRANGE
+//      var recs = data.LRANGE
+      var recs = data.split(",")
 
       $.each( recs, function( arrayIdx, recId ) {
         var id = recId
