@@ -10,7 +10,6 @@ lazy val settings = (project in file("."))
 		    .settings(javaOptions += "-Xmx10G")
 
 val jblasVersion = sys.env("JBLAS_VERSION")
-val hystrixVersion = sys.env("HYSTRIX_VERSION")
 val breezeVersion = "0.11.2"
 val dynoVersion = sys.env("DYNO_VERSION")
 val springBootVersion = sys.env("SPRING_BOOT_VERSION")
@@ -19,7 +18,6 @@ val springCoreVersion = sys.env("SPRING_CORE_VERSION")
 
 lazy val deps = Seq(
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
-  "com.netflix.hystrix" % "hystrix-javanica" % hystrixVersion,
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
   "com.netflix.dyno"     % "dyno-jedis"                    % dynoVersion,

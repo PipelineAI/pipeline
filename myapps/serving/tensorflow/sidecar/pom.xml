@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.advancedspark.serving</groupId>
-    <artifactId>turbine-circuit-service</artifactId>
+    <artifactId>tensorflow-serving-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>turbine-circuit-service</name>
+    <name>tensorflow-serving-service</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-turbine</artifactId>
+            <artifactId>spring-cloud-netflix-sidecar</artifactId>
             <version>${SPRING_CLOUD_VERSION}</version>
         </dependency>
         <dependency>

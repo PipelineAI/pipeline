@@ -201,12 +201,10 @@ RUN \
 RUN \
 # Get Latest Pipeline Code
  cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
-
-RUN \
+ && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git \
 # Source the pipeline-specific env variables
 # This is needed to re-attach to a Docker container after exiting
- cd ~ \
+ && cd ~ \
  && echo "" >> ~/.bashrc \
  && echo "# Pipeline-specific" >> ~/.bashrc \
  && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
@@ -434,7 +432,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
 # Sidecar for TensorFlow Serving
- && cd ~/pipeline/myapps/serving/sidecar \
+ && cd ~/pipeline/myapps/serving/tensorflow/sidecar \
  && mvn clean install \
 
 # Sbt Kafka

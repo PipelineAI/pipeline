@@ -1,8 +1,8 @@
 server:
-  port: 9040 
+  port: 5678
 spring:
   application:
-    name: prediction-service
+    name: tensorflow-serving-service
 eureka:
   client:
     serviceUrl:
@@ -10,5 +10,6 @@ eureka:
 netflix:
   appinfo:
     name: ${spring.application.name}
-  atlas:
-    uri: http://master.pipeline.io:7101/api/v1/publish
+sidecar:
+  port: 5070 
+  health-uri: http://127.0.0.1:5070/health

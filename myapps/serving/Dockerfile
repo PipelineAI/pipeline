@@ -126,6 +126,28 @@ RUN \
  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
+RUN \
+ apt-get install -y python-dev \
+ && apt-get install -y python-pip \
+ && pip install jupyter \
+ && pip install ipyparallel \
+ && pip install --upgrade flask
+
+# Sbt Serving Prediction Service
+RUN \
+ cd ~ \
+ && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
+
+RUN \
+# Source the pipeline-specific env variables
+# This is needed to re-attach to a Docker container after exiting
+ cd ~ \
+ && echo "" >> ~/.bashrc \
+ && echo "# Pipeline-specific" >> ~/.bashrc \
+ && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
+ && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
+ && echo "fi" >> ~/.bashrc
+
 # TensorFlow Serving
 RUN \
  pip install --upgrade grpcio \
@@ -147,43 +169,37 @@ RUN \
  && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
 
 RUN \
- apt-get install -y python-dev \
- && apt-get install -y python-pip \
- && pip install jupyter \
- && pip install ipyparallel \
- && pip install --upgrade flask
+ cd ~ \
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 # TensorFlow Latest Release Source
 RUN \
  cd ~ \
  && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
 
-# Sbt Serving Prediction Service
 RUN \
- cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
+ apt-get install -y maven \
+# Sbt Serving Recommendation Service (Finagle)
+ && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
 
-RUN \
-# Source the pipeline-specific env variables
-# This is needed to re-attach to a Docker container after exiting
- cd ~ \
- && echo "" >> ~/.bashrc \
- && echo "# Pipeline-specific" >> ~/.bashrc \
- && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
- && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
- && echo "fi" >> ~/.bashrc
+# Mvn Config Service (Spring + Netflix)
+ && cd ~/pipeline/myapps/serving/config && mvn -DskipTests clean install \
 
-RUN \
- cd ~ \
- && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
+# Mvn Discovery Service (Netflix Eureka)
+ && cd ~/pipeline/myapps/serving/discovery && mvn -DskipTests clean install \
 
-RUN \
- cd ~/pipeline/myapps/serving/prediction \
- && sbt clean package
+# Mvn Cluster-wide Circuit Breaker Metrics Service (Netflix Turbine)
+ && cd ~/pipeline/myapps/serving/turbine && mvn -DskipTests clean install \
 
-RUN \
- cd ~/pipeline/myapps/serving/sidecar \
- && mvn clean install
+# Sbt Spark Serving
+ && cd ~/pipeline/myapps/serving/spark && sbt clean package \
+
+# Sbt Serving Prediction Service (Spring + Netflix)
+ && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
+
+# Sidecar for TensorFlow Serving
+ && cd ~/pipeline/myapps/serving/tensorflow/sidecar \
+ && mvn clean install 
 
 # Ports to expose
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8764 7101 5678

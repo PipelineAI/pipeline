@@ -13,6 +13,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.Time
 import com.advancedspark.streaming.rating.ml.incremental.model.StreamingLatentMatrixFactorizationModel
 import com.advancedspark.streaming.rating.ml.incremental.model.LatentMatrixFactorizationModelOps
+import com.advancedspark.streaming.rating.ml.Similarity 
+
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.streaming.dstream.ConstantInputDStream
 
@@ -146,10 +148,31 @@ object TrainMFIncremental {
             DynomiteOps.dynoClient.rpush(s"::recommendations:${userId}", itemId.toString)
           }
 
-          // TODO:  Item-to-Item Similarity
-	  //  ::similarities:${itemId}
+          System.out.println(s"Updated user-to-item recommendations key '::recommendations:<userId>'")
 
-          System.out.println(s"Model updated @ time ${batchTime.milliseconds}")
+          // Item-to-Item Similarity
+	  //  ::item-similars:${itemId}
+          val allItemSimilars = 
+            for {
+              givenItemFactor <- itemFactors
+              similarItemFactor <- itemFactors
+              val givenItemFactorsMatrix = new DoubleMatrix(givenItemFactor._2.vector.map(_.toDouble))
+              val similarItemFactorsMatrix = new DoubleMatrix(similarItemFactor._2.vector.map(_.toDouble)) 
+              val similarity = Similarity.cosineSimilarity(givenItemFactorsMatrix, similarItemFactorsMatrix)
+              if (givenItemFactor._1 < similarItemFactor._1)
+            }  yield (givenItemFactor._1, similarItemFactor._1, similarity)
+ 
+          allItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) =>
+            DynomiteOps.dynoClient.del(s"::item-similars:${givenItemId}")
+          }
+
+          allItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) =>
+            DynomiteOps.dynoClient.rpush(s"::item-similars:${givenItemId}", similarItemId.toString)
+          }
+
+          System.out.println(s"Updated item-to-item similarities key '::item-similars:<itemId>'")
+              
+          System.out.println(s"Models updated @ time ${batchTime.milliseconds}")
         }
       }
     }

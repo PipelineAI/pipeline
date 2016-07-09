@@ -1,9 +1,0 @@
-server:
-  port: 5678
-spring:
-  application:
-    name: sidecar
-
-sidecar:
-  port: 5070 
-  health-uri: http://127.0.0.1:5070/health

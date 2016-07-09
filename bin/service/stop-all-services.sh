@@ -96,30 +96,13 @@ jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 echo '...Stopping Long-Running Spark Job (4)...'
 jps | grep "SparkSubmit" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stopping TensorFlow Serving Inception Service...'
-#jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
-ps -aef | grep "inception_inference.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-echo '...Stopping TensorFlow Serving MNIST Service...'
-#jps | grep "bazel" | cut -d " " -f "1" | xargs kill -KILL
-ps -aef | grep "mnist_inference_2.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-echo '...Stopping TensorFlow Inception Client...'
-ps -aef | grep "inception_client.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-echo '...Stopping TensorFlow MNIST Client...'
-ps -aef | grep "mnist_client.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
 echo '...Stopping Spark History Server...'
 $SPARK_HOME/sbin/stop-history-server.sh
 
 echo '...Stopping Kafka Ratings Feeder...'
 jps | grep "feeder" | cut -d " " -f "1" | xargs kill -KILL
 
-echo '...Stopping Flask-based Recommendation/Prediction Service...'
-ps -aef | grep "recommendation-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-echo '...Stopping Flask-based Image Classification Service...'
+echo '...Stopping TensorFlow Serving Inception Classification Service...'
 ps -aef | grep "image-classification-service.py" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Finagle-based Recommendation/Prediction Service...'

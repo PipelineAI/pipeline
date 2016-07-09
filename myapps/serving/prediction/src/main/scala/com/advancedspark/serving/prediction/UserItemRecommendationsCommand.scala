@@ -27,11 +27,6 @@ class UserItemRecommendationsCommand(
   }
 
   override def getFallback(): Seq[String] = {
-    // Retrieve fallback (ie. non-personalized top k)
-    //val source = scala.io.Source.fromFile("/root/pipeline/datasets/serving/recommendations/fallback/model.json")
-    //val fallbackRecommendationsModel = try source.mkString finally source.close()
-    //return fallbackRecommendationsModel;
-
     System.out.println("UserRecommendations Source is Down!  Fallback!!")
 
     List("10001", "10002", "10003", "10004", "10005")

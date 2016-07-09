@@ -2,12 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--TODO:  Make this work by adding scala libs and runtimes -->
 
     <groupId>com.advancedspark.serving</groupId>
-    <artifactId>sidecar</artifactId>
+    <artifactId>prediction-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>sidecar</name>
+    <name>prediction-service</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,22 +16,52 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
-
+    
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${SPRING_BOOT_VERSION}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${SPRING_BOOT_VERSION}</version>
+       </dependency>
+       <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-netflix-sidecar</artifactId>
+            <artifactId>spring-cloud-starter-spectator</artifactId>
+            <version>${SPRING_CLOUD_VERSION}</version>
+       </dependency>
+       <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+            <version>${SPRING_CLOUD_VERSION}</version>
+       </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
             <version>${SPRING_CLOUD_VERSION}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-web</artifactId>
-            <version>${SPRING_BOOT_VERSION}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${SPRING_BOOT_VERSION}</version>
+       <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-atlas</artifactId>
+            <version>${SPRING_CLOUD_VERSION}</version>
+       </dependency>
+       <dependency>
+            <groupId>com.netflix.dyno</groupId>
+            <artifactId>dyno-jedis</artifactId>
+            <version>${DYNO_VERSION}</version>
+       </dependency>
+       <dependency>
+            <groupId>org.jblas</groupId>
+            <artifactId>jblas</artifactId>
+            <version>${JBLAS_VERSION}</version>
+       </dependency>
+       <dependency>
+            <groupId>org.scalanlp</groupId>
+            <artifactId>breeze_${SCALA_MAJOR_VERSION}</artifactId>
+            <version>0.11.2</version>
         </dependency>
     </dependencies>
 
