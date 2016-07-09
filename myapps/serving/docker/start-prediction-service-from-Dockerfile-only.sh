@@ -126,15 +126,14 @@ mkdir -p $LOGS_HOME/tensorflow/serving/
 cd $DATASETS_HOME/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
 
-echo '...Starting Prediction Services...'
-echo '...Starting TensorFlow Inception Service...'
-$MYAPPS_HOME/serving/tensorflow/start-tensorflow-inception-serving-service.sh
+echo '...Starting TensorFlow Serving Inception Service...'
+$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service.sh
 
-echo '...Starting Flask-based TensorFlow Inception Service Proxy...'
-$MYAPPS_HOME/serving/flask/start-flask-image-classification-service.sh
+echo '...Starting TensorFlow Serving Inception Service Proxy...'
+$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service-proxy.sh
 
-echo '...Starting Sidecar for TensorFlow Inception Service...'
-$MYAPPS_HOME/serving/sidecar/start-sidecar-service.sh
+echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
+$MYAPPS_HOME/serving/tensorflow/sidecar/start-tensorflow-serving-inception-sidecar-service.sh
 
 echo '...Starting Prediction Service...'
 cd $MYAPPS_HOME/serving/prediction

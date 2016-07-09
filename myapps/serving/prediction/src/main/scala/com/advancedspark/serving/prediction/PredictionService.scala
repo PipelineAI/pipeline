@@ -6,6 +6,8 @@ import org.springframework.stereotype._
 import org.springframework.web.bind.annotation._
 import org.springframework.boot.context.embedded._
 import org.springframework.context.annotation._
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import scala.collection.JavaConversions._
 import java.util.Collections
@@ -16,7 +18,6 @@ import java.util.List
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
 import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas;
-//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.netflix.dyno.jedis._
@@ -32,19 +33,22 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
 @SpringBootApplication
 @RestController
-@EnableAtlas
 @EnableHystrix
 @EnableEurekaClient
 class PredictionService {
   @Bean
   val namespace = ""
+
   @Bean
   val version = "" 
 
-  @RequestMapping(Array("/prediction/{userId}/{itemId}"))
+  @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),  
+                  produces=Array("application/json; charset=UTF-8"))
   def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      new UserItemPredictionCommand(PredictionServiceOps.dynoClient, namespace, version, userId, itemId).execute().toString
+      val result = new UserItemPredictionCommand(PredictionServiceOps.dynoClient, namespace, version, userId, itemId)
+        .execute()
+      s"""{"result":${result}}"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -53,12 +57,15 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/recommendations/{userId}/{startIdx}/{endIdx}"))
+  @RequestMapping(path=Array("/recommendations/{userId}/{startIdx}/{endIdx}"), 
+                  produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
       @PathVariable("endIdx") endIdx: Int): String = {
     try{
-      new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, namespace, version, userId, startIdx, endIdx)
-       .execute().mkString(",")
+      val results = new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, namespace, version, userId, startIdx, endIdx)
+       .execute()
+      s"""{"results":[${results.mkString(",")}]}"""
+      //Map("results" -> results)
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -71,7 +78,9 @@ class PredictionService {
   def similars(@PathVariable("itemId") itemId: String, @PathVariable("startIdx") startIdx: Int, @PathVariable("endIdx") endIdx: Int): String = {
     // TODO:  
     try {
-      new ItemSimilarsCommand(PredictionServiceOps.dynoClient, namespace, version, itemId, startIdx, endIdx).execute().mkString(",")
+       val results = new ItemSimilarsCommand(PredictionServiceOps.dynoClient, namespace, version, itemId, startIdx, endIdx)
+         .execute()
+       s"""{"results":[${results.mkString(",")}]}"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -84,6 +93,7 @@ class PredictionService {
   def imageClassifications(@PathVariable("itemId") itemId: String): String = {
     // TODO:
     try {
+      // TODO:  Convert to JSON
       Map("Pandas" -> 1.0).toString
     } catch {
        case e: Throwable => {
@@ -95,7 +105,7 @@ class PredictionService {
 
   @RequestMapping(Array("/decision-tree-classifications/{itemId}"))
   def decisionTreeClassifications(@PathVariable("itemId") itemId: String): String = {
-    // TODO:
+    // TODO:  Convert to JSON
     try {
       Map("Pandas" -> 1.0).toString
     } catch {

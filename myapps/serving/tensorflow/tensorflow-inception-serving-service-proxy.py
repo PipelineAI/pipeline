@@ -1,6 +1,6 @@
 import subprocess
 
-from flask import Flask, json, request
+from flask import Flask, json, request, after_this_request
 import requests
 import numpy as np
 
@@ -27,12 +27,21 @@ def classify_image(image_url):
     for line in p.stdout.readlines():
         results.append(line)
     retval = p.wait()
+    @after_this_request
+    def add_header(response):
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return response
     return json.dumps({'retval':retval,'results':results})
 
 @app.route('/health')
 def health():
     # TODO:  perfom a classification and return 'DOWN' or 'UP' based on the result
     #        ie. if result.contains('Failed"), return 'DOWN'
+    #return json.dumps({'status': 'UP'})
+    @after_this_request
+    def add_header(response):
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return response
     return json.dumps({'status': 'UP'})
 
 if __name__ == '__main__':

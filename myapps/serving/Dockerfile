@@ -182,7 +182,7 @@ RUN \
  && sbt clean package
 
 RUN \
- cd ~/pipeline/myapps/serving/sidecar \
+ cd ~/pipeline/myapps/serving/tensorflow/sidecar \
  && mvn clean install
 
 # Ports to expose

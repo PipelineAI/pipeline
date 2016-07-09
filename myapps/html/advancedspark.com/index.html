@@ -32,10 +32,13 @@
   <script>
   var myId = Math.floor((Math.random() * 100000) + 1);
   var allItems = [];
+  var chosenItemIds = [];
 
   function rate(itemId, rating) {
     $("#like" + itemId).show()
 
+    chosenItemIds.push(itemId)
+   
     var encodedKey = btoa(myId)
     var encodedValue = btoa(myId + "," + itemId + "," + rating + "," + location.hostname)
 
@@ -67,11 +70,11 @@
       });
     
       $( "<ul/>", {
-        html: "<div id='items-inner'><hr><h3><center>Click 6 Actresses/Actors Total </center></h3><center>" + items.join( "" ) + "</center></div>"
+        html: "<div id='items-inner'><hr><h3><center>Please Click 3 Actresses and 3 Actors Total </center></h3><center>" + items.join( "" ) + "</center></div>"
       }).appendTo("#items");  
     });
   }
- 
+
   function loadTopItemsByExactRatingCount() {
     $("#top-items-by-exact-rating-count").empty()
 
@@ -92,15 +95,13 @@
     });
   }
 
-  function loadPersonalizedALS() {
-    $("#personalized-als").empty()
+  function loadRecommendationsALS() {
+    $("#recommendations-als").empty()
 
-//    $.getJSON ("/redis/LRANGE/recommendations:" + myId + "/0/9", function(data) {
-    $.getJSON ("/serving/recommendations/" + myId + "/0/9", function(data) {
+    $.getJSON("/serving/recommendations/" + myId + "/0/9", function(data) {
+      var recs = data.results
+
       var items = [];
-//      var recs = data.LRANGE
-      var recs = data.split(",")
-
       $.each( recs, function( arrayIdx, recId ) {
         var id = recId
         var title = allItems[id].title
@@ -108,40 +109,39 @@
         
         items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
-    
+
       $( "<ul/>", {
         html: "</br><center>" + items.join( "" ) + "</center>"
-      }).appendTo( "#personalized-als" );  
+      }).appendTo( "#recommendations-als" );
     });
   }
 
-<!--
-  function loadPersonalizedItemSimilarity(itemId) {
-    $("#personalized-item-similarity").empty()
-    $.getJSON ("/redis/LRANGE/item-similarity:" + myId + "/0/9", function (data) {
-//    $.getJSON ("/serving/item-similarity:" + itemId + "/0/9", function (data) {
-      var items = [];
-      var recs = data.LRANGE
+  function loadItemSimilarsALS(itemId) {
+    $("#item-similars-als").empty()
+    var items = [];
+    $.each( chosenItemIds, function( arrayIdx, itemId ) {
+//      $.getJSON("/redis/LRANGE/::item-similars:" + itemId + "/0/9", function (data) {
+      $.getJSON ("/serving/similars/" + itemId + "/0/9", function (data) {
+        var sims = data.results
 
-      $.each( recs, function( arrayIdx, recId ) {
-        var id = recId
-        var title = allItems[id].title
-        var imgSrc = allItems[id].img
+        $.each( sims, function( arrayIdx, simId ) {
+          var id = simId
+          var title = allItems[id].title
+          var imgSrc = allItems[id].img
 
-        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
+          items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
+        });
+
+        $( "<ul/>", {
+          html: "</br><center>" + items.join( "" ) + "</center>"
+        }).appendTo( "#item-similars-als" );
       });
-
-      $( "<ul/>", {
-        html: "</br><center>" + items.join( "" ) + "</center>"
-      }).appendTo( "#personalized-item-similarity" );
     });
   }
--->
   </script>
 </head>
 
 <body>
-<hr>
 <center>
 <!-- Navigation Links -->
 <!--
@@ -161,19 +161,15 @@
 <!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
 
-<hr>
 <center><img style="width: 320; height=400;" src="img/sparkafterdark.png"></center>
-<hr>
 
 <script>
-  $("body").append("<h3><center>Welcome, Anonymous User ID " + myId + "!</center></h3><hr>") 
+  $("body").append("<h3><center>Welcome to Spark After Dark, Anonymous User ID " + myId + "!</center></h3>") 
 </script>
 
 <div id="items">
 </div>
 
-<hr>
-<hr>
 <!--
 <h3>
 <center>
@@ -202,17 +198,27 @@ Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:lo
 </h3>
 -->
 
+<hr/>
+
 <h3>
 <center>
-Your Real-time Recommendations Will Soon Show Below
+Your Real-time, Collaborative-based Recommendations Will Appear Below
 </center>
 </h3>
 
-<div id="personalized-als">
+<div id="recommendations-als">
 </div>
 
-<hr>
-<hr>
+<hr/>
+
+<h3>
+<center>
+Your Real-time, Collaborative-based Similar Items Will Appear Below
+</center>
+</h3>
+
+<div id="item-similars-als">
+</div>
 
 <!--
 <hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
@@ -247,7 +253,8 @@ Your Real-time Recommendations Will Soon Show Below
         clearInterval(interval);
         return;
     }
-    loadPersonalizedALS()
+    loadRecommendationsALS();
+    loadItemSimilarsALS();
   }, 5000);  
 </script>
 </body>

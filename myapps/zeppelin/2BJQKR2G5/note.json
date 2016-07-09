@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
+      "dateUpdated": "Jul 9, 2016 3:57:42 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,85 +30,14 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "Jun 28, 2016 1:24:02 AM",
-      "dateFinished": "Jun 28, 2016 1:24:02 AM",
+      "dateStarted": "Jul 9, 2016 3:57:42 AM",
+      "dateFinished": "Jul 9, 2016 3:57:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)",
-      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 179.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "title": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461385221568_1720553379",
-      "id": "20160423-042021_1267485878",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "similarItemId\tsimilarity\n10013\t0.9999999999082808\n10012\t0.9999999998416731\n10001\t0.9999999998043172\n90014\t0.9999999997584427\n90015\t0.999999999719416\n"
-      },
-      "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "Jun 28, 2016 1:24:02 AM",
-      "dateFinished": "Jun 28, 2016 1:24:05 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Enrich the similar items",
-      "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1461385251557_184497852",
-      "id": "20160423-042051_541116515",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t10013\tMark Wahlberg\t0.9999999999082808\n10006\t10012\tJohnny Depp\t0.9999999998416731\n10006\t10001\tLeonardo DiCaprio\t0.9999999998043172\n10006\t90014\tGail O\u0027Grady\t0.9999999997584427\n10006\t90015\tBarbara Niven\t0.999999999719416\n"
-      },
-      "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "Jun 28, 2016 1:24:03 AM",
-      "dateFinished": "Jun 28, 2016 1:24:06 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "dateUpdated": "Jun 28, 2016 1:24:02 AM",
+      "text": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl;\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\n\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\n\nval localhostHost \u003d new Host(\"127.0.0.1\", Host.Status.Up)\nval localhostToken \u003d new HostToken(100000L, localhostHost)\n\nval localhostHostSupplier \u003d new HostSupplier() {\n @Override\n def getHosts(): Collection[Host] \u003d {\n    Collections.singletonList(localhostHost)\n }\n}\n\nval localhostTokenMapSupplier \u003d new TokenMapSupplier() {\n @Override\n def getTokens(activeHosts: Set[Host]): List[HostToken] \u003d {\n\tCollections.singletonList(localhostToken)\n }\n\n @Override\n def getTokenForHost(host: Host, activeHosts: Set[Host]): HostToken \u003d {\n    return localhostToken\n }\n}\n\nval redisPort \u003d 6379                        \nval dynoClient \u003d new DynoJedisClient.Builder()\n             .withApplicationName(\"pipeline\")\n             .withDynomiteClusterName(\"pipeline-dynomite\")\n             .withHostSupplier(localhostHostSupplier)\n             .withCPConfig(new ConnectionPoolConfigurationImpl(\"localhostTokenMapSupplier\")\n                .withTokenSupplier(localhostTokenMapSupplier))\n             .withPort(redisPort)\n             .build()",
+      "dateUpdated": "Jul 9, 2016 4:04:40 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -131,12 +60,154 @@
       "id": "20160604-135409_1203654829",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT"
+        "type": "TEXT",
+        "msg": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\nlocalhostHost: com.netflix.dyno.connectionpool.Host \u003d Host [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]\nlocalhostToken: com.netflix.dyno.connectionpool.impl.lb.HostToken \u003d HostToken [token\u003d100000, host\u003dHost [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]]\nlocalhostHostSupplier: com.netflix.dyno.connectionpool.HostSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@1706d88c\nlocalhostTokenMapSupplier: com.netflix.dyno.connectionpool.TokenMapSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@13654e13\nredisPort: Int \u003d 6379\ndynoClient: com.netflix.dyno.jedis.DynoJedisClient \u003d com.netflix.dyno.jedis.DynoJedisClient@42d80eed\n"
       },
       "dateCreated": "Jun 4, 2016 1:54:09 PM",
-      "dateStarted": "Jun 28, 2016 1:24:05 AM",
-      "dateFinished": "Jun 28, 2016 1:24:06 AM",
+      "dateStarted": "Jul 9, 2016 4:04:40 AM",
+      "dateFinished": "Jul 9, 2016 4:04:44 AM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Top 5 similar items for a given item",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\n\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemId \u003d id\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsWithItemIdDF)\n",
+      "dateUpdated": "Jul 9, 2016 6:44:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 179.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "similarItemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "similarItemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461385221568_1720553379",
+      "id": "20160423-042021_1267485878",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity\nimport org.jblas.DoubleMatrix\ngivenItemId: Int \u003d 10006\n\u003cconsole\u003e:30: error: not found: value id\n         val givenItemId \u003d id\n                           ^\n"
+      },
+      "dateCreated": "Apr 23, 2016 4:20:21 AM",
+      "dateStarted": "Jul 9, 2016 6:44:40 AM",
+      "dateFinished": "Jul 9, 2016 6:45:07 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the similar items",
+      "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
+      "dateUpdated": "Jul 9, 2016 6:45:05 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461385251557_184497852",
+      "id": "20160423-042051_541116515",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:31: error: not found: value sortedSimilarItemsDF\n          sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n          ^\n"
+      },
+      "dateCreated": "Apr 23, 2016 4:20:51 AM",
+      "dateStarted": "Jul 9, 2016 6:45:05 AM",
+      "dateFinished": "Jul 9, 2016 6:45:07 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val retrievedItemSimilars \u003d dynoClient.lrange(s\"::item-similars:10006\", 0, 9)",
+      "dateUpdated": "Jul 9, 2016 4:20:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468037087724_-1621205367",
+      "id": "20160709-040447_17966625",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "retrievedItemSimilars: java.util.List[String] \u003d [10001, 90011, 90014, 90004, 10012]\n"
+      },
+      "dateCreated": "Jul 9, 2016 4:04:47 AM",
+      "dateStarted": "Jul 9, 2016 4:20:41 AM",
+      "dateFinished": "Jul 9, 2016 4:20:42 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468037080408_1107433832",
+      "id": "20160709-040440_105908131",
+      "dateCreated": "Jul 9, 2016 4:04:40 AM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],

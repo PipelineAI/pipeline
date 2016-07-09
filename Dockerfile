@@ -434,7 +434,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
 # Sidecar for TensorFlow Serving
- && cd ~/pipeline/myapps/serving/sidecar \
+ && cd ~/pipeline/myapps/serving/tensorflow/sidecar \
  && mvn clean install \
 
 # Sbt Kafka

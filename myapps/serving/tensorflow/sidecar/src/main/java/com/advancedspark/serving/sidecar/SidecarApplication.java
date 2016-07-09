@@ -1,6 +1,7 @@
 package com.advancedspark.serving.sidecar;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.StandardEnvironment;
@@ -11,7 +12,6 @@ import org.springframework.cloud.netflix.sidecar.EnableSidecar;
 @EnableSidecar
 public class SidecarApplication {
     public static void main(String[] args) {
-        boolean cloudEnvironment = new StandardEnvironment().acceptsProfiles("cloud");
-        new SpringApplicationBuilder(SidecarApplication.class).web(!cloudEnvironment).run(args);
+        new SpringApplication(SidecarApplication.class).run(args);
     }
 }
