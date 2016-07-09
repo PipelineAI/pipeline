@@ -133,6 +133,21 @@ RUN \
  && pip install ipyparallel \
  && pip install --upgrade flask
 
+# Sbt Serving Prediction Service
+RUN \
+ cd ~ \
+ && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
+
+RUN \
+# Source the pipeline-specific env variables
+# This is needed to re-attach to a Docker container after exiting
+ cd ~ \
+ && echo "" >> ~/.bashrc \
+ && echo "# Pipeline-specific" >> ~/.bashrc \
+ && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
+ && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
+ && echo "fi" >> ~/.bashrc
+
 # TensorFlow Serving
 RUN \
  pip install --upgrade grpcio \
@@ -161,21 +176,6 @@ RUN \
 RUN \
  cd ~ \
  && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
-
-# Sbt Serving Prediction Service
-RUN \
- cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git
-
-RUN \
-# Source the pipeline-specific env variables
-# This is needed to re-attach to a Docker container after exiting
- cd ~ \
- && echo "" >> ~/.bashrc \
- && echo "# Pipeline-specific" >> ~/.bashrc \
- && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
- && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
- && echo "fi" >> ~/.bashrc
 
 RUN \
  apt-get install -y maven \
