@@ -80,7 +80,7 @@
 
     $.getJSON("/redis/GET/topk", function ( data ) {
       var items = [];
-      var results = data.GET
+      var results = data.GET.split(",")
       $.each(results, function(arrayIdx, resultId) {
         var id = resultId
         var title = allItems[id].title
@@ -91,16 +91,15 @@
 
       $( "<ul/>", {
         html: "</br><center>" + items.join("") + "</center>"
-      }).appendTo( "topk" );
+      }).appendTo( "#topk" );
     });
   }
 
   function loadRecommendationsALS() {
     $("#recommendations-als").empty()
 
-    $.getJSON("/serving/recommendations/" + myId + "/0/9", function(data) {
-      var recs = data.results
-
+      $.getJSON("/redis/ZREVRANGE/::recommendations:" + myId + "/0/9", function(data) {
+      var recs = data.ZREVRANGE
       var items = [];
       $.each( recs, function( arrayIdx, recId ) {
         var id = recId
@@ -175,7 +174,7 @@ Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" ta
 </h3>
 <h3>
 <center>
-Wait for Notebook to Complete, then Click to Show <a href='javascript:loadTopK'>Top 5 Items</a>
+Wait for Notebook to Complete, then Click to Show <a href='javascript:loadTopK()'>Top 5 Items</a>
 </center>
 </h3>
 <div id="topk">
