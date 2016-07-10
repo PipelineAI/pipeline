@@ -27,7 +27,7 @@
 
 <property>
   <name>zeppelin.server.port</name>
-  <value>8080</value>
+  <value>3123</value>
   <description>Server port.  Also make sure that (port+1) is open, as well, for WebSocket communication.</description>
 </property>
 
