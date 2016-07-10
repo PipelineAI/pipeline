@@ -75,23 +75,23 @@
     });
   }
 
-  function loadTopItemsByExactRatingCount() {
-    $("#top-items-by-exact-rating-count").empty()
+  function loadTopK() {
+    $("#topk").empty()
 
-    $.getJSON( "top-items-by-exact-rating-count/_search?sort=count:desc&size=5", function ( data ) {
+    $.getJSON("/redis/GET/topk", function ( data ) {
       var items = [];
-      var hits = data.hits.hits
-      $.each( hits, function( arrayIdx, hit) {
-        var id = hit._source.itemId
-        var title = hit._source.title
-        var imgSrc = hit._source.img
+      var results = data.GET
+      $.each(results, function(arrayIdx, resultId) {
+        var id = resultId
+        var title = allItems[id].title
+        var imgSrc = allItems[id].img
   
         items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
       });
 
       $( "<ul/>", {
-        html: "</br><center>" + items.join( "" ) + "</center>"
-      }).appendTo( "#top-items-by-exact-rating-count" );
+        html: "</br><center>" + items.join("") + "</center>"
+      }).appendTo( "topk" );
     });
   }
 
@@ -115,7 +115,7 @@
       }).appendTo( "#recommendations-als" );
     });
   }
-
+  
   function loadItemSimilarsALS(itemId) {
     $("#item-similars-als").empty()
     var items = [];
@@ -156,7 +156,7 @@
 <a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> 
 <!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
-
+<hr/>
 <center><img style="width: 320; height=400;" src="img/sparkafterdark.png"></center>
 
 <script>
@@ -166,32 +166,37 @@
 <div id="items">
 </div>
 
+<hr/>
+
 <h3>
 <center>
-Step 2: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" target="_blank" id="topk">Non-Personalized Top 5 Items</a>
+Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" target="_blank" id="topk-notebook">Non-Personalized Top 5 Items</a>
 </center>
 </h3>
 <h3>
 <center>
-Step 3: Wait for Notebook to Complete, then Click to Show <a href='javascript:loadTopItemsByExactRatingCount()'>Top 5 Items</a>
+Wait for Notebook to Complete, then Click to Show <a href='javascript:loadTopK'>Top 5 Items</a>
 </center>
 </h3>
-<div id="top-items-by-exact-rating-count">
+<div id="topk">
 </div>
 
-<hr>
+<hr/>
 
 <h3>
 <center>
-Step 4: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUYFSKXN" target="_blank" id="als">Personalized User-to-Item Recommendations</a>
+Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUYFSKXN" target="_blank" id="als-notebook">Personalized User-to-Item Recommendations</a>
 </center>
 </h3>
 <h3>
 <center>
-Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:loadPersonalizedALS()'>Recommendations</a>
+Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecommendationsALS()'>Recommendations</a>
 </center>
 </h3>
+<div id="recommendations-als">
+</div>
 
+<!--
 <hr/>
 
 <h3>
@@ -199,10 +204,11 @@ Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:lo
 Your Real-time, Collaborative-based Recommendations Will Appear Below
 </center>
 </h3>
-
 <div id="recommendations-als">
 </div>
+-->
 
+<!--
 <hr/>
 
 <h3>
@@ -213,10 +219,8 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
 
 <div id="item-similars-als">
 </div>
+-->
 
-<hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
-<div id="item-similarities">
-</div>
 <script>
   document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":8080";
   document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
@@ -230,22 +234,25 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
   document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
 //  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
   document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
-  document.getElementById('topk').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUUDPT56";
-  document.getElementById('als').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
+  document.getElementById('topk-notebook').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUUDPT56";
+  document.getElementById('als-notebook').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
 </script>
 
 <script>
   loadItems()
-
+</script>
+<!--
+<script>
   var startTime = new Date().getTime();
   var interval = setInterval(function(){
     if(new Date().getTime() - startTime > 20 * 60000){
         clearInterval(interval);
         return;
     }
-    loadRecommendationsALS();
-    loadItemSimilarsALS();
+    loadRealtimeRecommendationsALS();
+    loadRealtimeItemSimilarsALS();
   }, 5000);  
 </script>
+-->
 </body>
 </html>
