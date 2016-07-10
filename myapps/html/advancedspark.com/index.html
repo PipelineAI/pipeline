@@ -120,10 +120,8 @@
     $("#item-similars-als").empty()
     var items = [];
     $.each( chosenItemIds, function( arrayIdx, itemId ) {
-//      $.getJSON("/redis/LRANGE/::item-similars:" + itemId + "/0/9", function (data) {
       $.getJSON ("/serving/similars/" + itemId + "/0/9", function (data) {
         var sims = data.results
-
         $.each( sims, function( arrayIdx, simId ) {
           var id = simId
           var title = allItems[id].title
@@ -144,7 +142,6 @@
 <body>
 <center>
 <!-- Navigation Links -->
-<!--
 <a href="http://127.0.0.1:8080" target="_blank" id="zeppelin">Zeppelin</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="tensorflow">TensorFlow</a> |
@@ -156,8 +153,7 @@
 <a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
 <a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
 <a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
-<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> | 
--->
+<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> 
 <!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
 
@@ -170,7 +166,6 @@
 <div id="items">
 </div>
 
-<!--
 <h3>
 <center>
 Step 2: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUUDPT56" target="_blank" id="topk">Non-Personalized Top 5 Items</a>
@@ -196,7 +191,6 @@ Step 4: Run Notebook to Generate <a href="http://127.0.0.1:8080/#/notebook/2AUYF
 Step 5: Wait for Notebook to Complete, then Click to Show <a href='javascript:loadPersonalizedALS()'>Recommendations</a>
 </center>
 </h3>
--->
 
 <hr/>
 
@@ -220,12 +214,9 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
 <div id="item-similars-als">
 </div>
 
-<!--
 <hr><h3><center><a href='javascript:loadPersonalizedItemSimilarity()'>Step 4: Click For Personalized Item-to-Item Recommendations</a></center></h3>
-<div id="personalized-item-to-item-similarity">
+<div id="item-similarities">
 </div>
--->
-<!--
 <script>
   document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":8080";
   document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
@@ -241,9 +232,8 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
   document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
   document.getElementById('topk').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUUDPT56";
   document.getElementById('als').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2AUYFSKXN";
-//  document.getElementById('item-to-item').href = window.location.protocol + "//" + window.location.hostname + ":8080/#/notebook/2BJQKR2G5";
 </script>
--->
+
 <script>
   loadItems()
 

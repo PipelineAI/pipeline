@@ -36,76 +36,19 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl;\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\n\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\n\nval localhostHost \u003d new Host(\"127.0.0.1\", Host.Status.Up)\nval localhostToken \u003d new HostToken(100000L, localhostHost)\n\nval localhostHostSupplier \u003d new HostSupplier() {\n @Override\n def getHosts(): Collection[Host] \u003d {\n    Collections.singletonList(localhostHost)\n }\n}\n\nval localhostTokenMapSupplier \u003d new TokenMapSupplier() {\n @Override\n def getTokens(activeHosts: Set[Host]): List[HostToken] \u003d {\n\tCollections.singletonList(localhostToken)\n }\n\n @Override\n def getTokenForHost(host: Host, activeHosts: Set[Host]): HostToken \u003d {\n    return localhostToken\n }\n}\n\nval redisPort \u003d 6379                        \nval dynoClient \u003d new DynoJedisClient.Builder()\n             .withApplicationName(\"pipeline\")\n             .withDynomiteClusterName(\"pipeline-dynomite\")\n             .withHostSupplier(localhostHostSupplier)\n             .withCPConfig(new ConnectionPoolConfigurationImpl(\"localhostTokenMapSupplier\")\n                .withTokenSupplier(localhostTokenMapSupplier))\n             .withPort(redisPort)\n             .build()",
-      "dateUpdated": "Jul 9, 2016 7:18:22 AM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": true,
-        "editorMode": "ace/mode/scala"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1465048449224_-1966611788",
-      "id": "20160604-135409_1203654829",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\nlocalhostHost: com.netflix.dyno.connectionpool.Host \u003d Host [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]\nlocalhostToken: com.netflix.dyno.connectionpool.impl.lb.HostToken \u003d HostToken [token\u003d100000, host\u003dHost [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]]\nlocalhostHostSupplier: com.netflix.dyno.connectionpool.HostSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@65ab7468\nlocalhostTokenMapSupplier: com.netflix.dyno.connectionpool.TokenMapSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@45a645e\nredisPort: Int \u003d 6379\ndynoClient: com.netflix.dyno.jedis.DynoJedisClient \u003d com.netflix.dyno.jedis.DynoJedisClient@7e60e370\n"
-      },
-      "dateCreated": "Jun 4, 2016 1:54:09 PM",
-      "dateStarted": "Jul 9, 2016 7:18:22 AM",
-      "dateFinished": "Jul 9, 2016 7:18:25 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "Top 5 similar items for a given item",
-      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\n\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)\n",
-      "dateUpdated": "Jul 9, 2016 7:18:41 AM",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\n\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val similarItemFactors \u003d row.getSeq[Double](1).toArray\n     val similarItemFactorsMatrix \u003d new DoubleMatrix(similarItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(similarItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)\n",
+      "dateUpdated": "Jul 10, 2016 4:57:34 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
           "height": 179.0,
           "optionOpen": false,
-          "keys": [
-            {
-              "name": "itemId",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [
-            {
-              "name": "similarItemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          ],
+          "keys": [],
+          "values": [],
           "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "itemId",
-              "index": 0.0,
-              "aggr": "sum"
-            },
-            "yAxis": {
-              "name": "similarItemId",
-              "index": 1.0,
-              "aggr": "sum"
-            }
-          }
+          "scatter": {}
         },
         "enabled": true,
         "title": true,
@@ -123,20 +66,20 @@
         "msg": "similarItemId\tsimilarity\n10001\t0.9999992232423736\n90011\t0.9999950710559076\n90014\t0.9999906761259909\n90004\t0.9999906035226852\n10012\t0.9999871235403232\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "Jul 9, 2016 7:18:41 AM",
-      "dateFinished": "Jul 9, 2016 7:18:44 AM",
+      "dateStarted": "Jul 10, 2016 4:57:34 AM",
+      "dateFinished": "Jul 10, 2016 4:57:38 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jul 9, 2016 7:18:49 AM",
+      "dateUpdated": "Jul 10, 2016 5:08:06 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
           "mode": "table",
-          "height": 300.0,
+          "height": 199.0,
           "optionOpen": false,
           "keys": [],
           "values": [],
@@ -165,7 +108,9 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jul 9, 2016 7:18:22 AM",
+      "title": "Save All Item-to-Item Similars in redis",
+      "text": "import com.advancedspark.serving.spark.Dynomite\n\nval itemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .map(row \u003d\u003e (row.getInt(0), row.getSeq[Double](1).toArray))\n  .collect()\n\nval allItemSimilars \u003d\n  for {\n    givenItemFactor \u003c- itemFactors\n    similarItemFactor \u003c- itemFactors\n\n    val givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactor._2)\n    val similarItemFactorsMatrix \u003d new DoubleMatrix(similarItemFactor._2)\n    val similarity \u003d Similarity.cosineSimilarity(givenItemFactorsMatrix, similarItemFactorsMatrix)\n    if (givenItemFactor._1 \u003c similarItemFactor._1)\n  } yield (givenItemFactor._1, similarItemFactor._1, similarity)\n\n\nallItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) \u003d\u003e\n  Dynomite.client.zadd(s\"::item-similars:${givenItemId}\", similarity, similarItemId.toString)\n}\n\nval retrievedItemSimilars \u003d Dynomite.client.zrevrange(s\"::item-similars:${givenItemId}\", 0, 9)",
+      "dateUpdated": "Jul 10, 2016 5:08:14 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -178,7 +123,8 @@
           "scatter": {}
         },
         "enabled": true,
-        "editorMode": "ace/mode/scala"
+        "editorMode": "ace/mode/scala",
+        "title": true
       },
       "settings": {
         "params": {},
@@ -188,12 +134,25 @@
       "id": "20160709-040440_105908131",
       "result": {
         "code": "SUCCESS",
-        "type": "TEXT"
+        "type": "TEXT",
+        "msg": "import com.advancedspark.serving.spark.Dynomite\nitemFactors: Array[(Int, Array[Double])] \u003d Array((10001,Array(0.060069870203733444, 0.24009248614311218, 0.475493848323822, 0.6645106673240662, 0.4821498692035675)), (10002,Array(0.053891465067863464, 0.25944462418556213, 0.4650098979473114, 0.654240071773529, 0.5028295516967773)), (10003,Array(0.05407003313302994, 0.2594747841358185, 0.46929314732551575, 0.6517056226730347, 0.5006231069564819)), (10004,Array(0.049242064356803894, 0.2549215853214264, 0.4600415527820587, 0.660627543926239, 0.5032219290733337)), (10005,Array(0.05297428369522095, 0.24459926784038544, 0.46738898754119873, 0.6616528630256653, 0.4894859194755554)), (10006,Array(0.05999584123492241, 0.23883190751075745, 0.475276917219162, 0.6645624041557312, 0.4821363091468811)), (10007,Array(0.05646742135286331, 0.23994661867...warning: there were 3 deprecation warning(s); re-run with -deprecation for details\nallItemSimilars: Array[(Int, Int, Double)] \u003d Array((10001,10002,0.9994573455181066), (10001,10003,0.9995069391704873), (10001,10004,0.9994709298871692), (10001,10005,0.9998978523255764), (10001,10006,0.9999992232423736), (10001,10007,0.999981066642966), (10001,10008,0.999850920627147), (10001,10009,0.9997341502399918), (10001,10010,0.9997939363907072), (10001,10011,0.9996053600586212), (10001,10012,0.9999845577140295), (10001,10013,0.9999656240711271), (10001,10014,0.999983216309877), (10001,10015,0.9939724815761968), (10001,90001,0.999751698956121), (10001,90002,0.9995229493666649), (10001,90003,0.9996820025545234), (10001,90004,0.9999863706642563), (10001,90005,0.9996220948895921), (10001,90006,0.9991912210006757), (10001,90007,0.9995897314134559), (10001,90008,0.9995484271241494), (1...retrievedItemSimilars: java.util.Set[String] \u003d [90011, 90014, 90004, 10012, 10014, 10007, 90015, 90010, 90013, 90009]\n"
       },
       "dateCreated": "Jul 9, 2016 4:04:40 AM",
-      "dateStarted": "Jul 9, 2016 7:18:30 AM",
-      "dateFinished": "Jul 9, 2016 7:18:30 AM",
+      "dateStarted": "Jul 10, 2016 5:08:14 AM",
+      "dateFinished": "Jul 10, 2016 5:08:16 AM",
       "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468126594944_274037304",
+      "id": "20160710-045634_1624510466",
+      "dateCreated": "Jul 10, 2016 4:56:34 AM",
+      "status": "READY",
       "progressUpdateIntervalMs": 500
     }
   ],

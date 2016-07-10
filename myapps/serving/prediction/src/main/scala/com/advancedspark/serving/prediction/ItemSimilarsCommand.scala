@@ -18,8 +18,7 @@ class ItemSimilarsCommand(
 
   def run(): Seq[String] = {
     try{
-      val recommendations = dynoClient.lrange(s"${namespace}:${version}:item-similars:${itemId}", startIdx, endIdx)
-      recommendations.asScala
+      dynoClient.zrevrange(s"${namespace}:${version}:item-similars:${itemId}", startIdx, endIdx).asScala.toSeq
     } catch {
        case e: Throwable => {
          System.out.println(e)

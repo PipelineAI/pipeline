@@ -432,8 +432,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
 # Sidecar for TensorFlow Serving
- && cd ~/pipeline/myapps/serving/tensorflow/sidecar \
- && mvn clean install \
+ && cd ~/pipeline/myapps/serving/tensorflow/sidecar && mvn -DskipTests clean install \
 
 # Sbt Kafka
  && cd ~/pipeline/myapps/kafka && sbt clean assembly \
@@ -486,9 +485,11 @@ RUN \
   && ipython3 kernel install \ 
 
 # Keras
-  && pip install keras \
+  && pip install keras 
 
 # Spinnaker
+RUN \
+  cd ~ \
   && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
 
 # Hystrix Dashboard
