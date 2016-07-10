@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
-      "dateUpdated": "Jul 9, 2016 7:18:22 AM",
+      "dateUpdated": "Jul 10, 2016 3:46:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -30,15 +30,15 @@
         "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
       },
       "dateCreated": "Apr 23, 2016 4:16:45 AM",
-      "dateStarted": "Jul 9, 2016 7:18:22 AM",
-      "dateFinished": "Jul 9, 2016 7:18:22 AM",
+      "dateStarted": "Jul 10, 2016 3:46:25 PM",
+      "dateFinished": "Jul 10, 2016 3:46:25 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Top 5 similar items for a given item",
       "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n/////////////////////////////////////////////////////////////////////////\n// Note:  Must pick an actor/actress that has been chosen by the a user\n//        or else this will error out\n/////////////////////////////////////////////////////////////////////////\n\nval givenItemId \u003d 10006 // Tom Cruise\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n\n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val similarItemFactors \u003d row.getSeq[Double](1).toArray\n     val similarItemFactorsMatrix \u003d new DoubleMatrix(similarItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(similarItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF)\n",
-      "dateUpdated": "Jul 10, 2016 4:57:34 AM",
+      "dateUpdated": "Jul 10, 2016 3:46:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,18 +63,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "similarItemId\tsimilarity\n10001\t0.9999992232423736\n90011\t0.9999950710559076\n90014\t0.9999906761259909\n90004\t0.9999906035226852\n10012\t0.9999871235403232\n"
+        "msg": "similarItemId\tsimilarity\n90004\t0.9999995638791873\n10001\t0.9999990455041798\n90014\t0.9999976756075913\n10007\t0.9999974635386845\n90011\t0.9999973554787293\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:21 AM",
-      "dateStarted": "Jul 10, 2016 4:57:34 AM",
-      "dateFinished": "Jul 10, 2016 4:57:38 AM",
+      "dateStarted": "Jul 10, 2016 3:46:25 PM",
+      "dateFinished": "Jul 10, 2016 3:46:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Enrich the similar items",
       "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"description\", $\"tags\", $\"img\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF.select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"similarity\"))",
-      "dateUpdated": "Jul 10, 2016 5:08:06 AM",
+      "dateUpdated": "Jul 10, 2016 3:46:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -99,18 +99,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t10001\tLeonardo DiCaprio\t0.9999992232423736\n10006\t90011\tAshley Judd\t0.9999950710559076\n10006\t90014\tGail O\u0027Grady\t0.9999906761259909\n10006\t90004\tBobbie Phillips\t0.9999906035226852\n10006\t10012\tJohnny Depp\t0.9999871235403232\n"
+        "msg": "itemId\tsimilarItemId\ttitle\tsimilarity\n10006\t90004\tBobbie Phillips\t0.9999995638791873\n10006\t10001\tLeonardo DiCaprio\t0.9999990455041798\n10006\t90014\tGail O\u0027Grady\t0.9999976756075913\n10006\t10007\tDenzel Washington\t0.9999974635386845\n10006\t90011\tAshley Judd\t0.9999973554787293\n"
       },
       "dateCreated": "Apr 23, 2016 4:20:51 AM",
-      "dateStarted": "Jul 9, 2016 7:18:49 AM",
-      "dateFinished": "Jul 9, 2016 7:18:49 AM",
+      "dateStarted": "Jul 10, 2016 3:46:26 PM",
+      "dateFinished": "Jul 10, 2016 3:46:31 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Save All Item-to-Item Similars in redis",
       "text": "import com.advancedspark.serving.spark.Dynomite\n\nval itemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .map(row \u003d\u003e (row.getInt(0), row.getSeq[Double](1).toArray))\n  .collect()\n\nval allItemSimilars \u003d\n  for {\n    givenItemFactor \u003c- itemFactors\n    similarItemFactor \u003c- itemFactors\n\n    val givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactor._2)\n    val similarItemFactorsMatrix \u003d new DoubleMatrix(similarItemFactor._2)\n    val similarity \u003d Similarity.cosineSimilarity(givenItemFactorsMatrix, similarItemFactorsMatrix)\n    if (givenItemFactor._1 \u003c similarItemFactor._1)\n  } yield (givenItemFactor._1, similarItemFactor._1, similarity)\n\n\nallItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) \u003d\u003e\n  Dynomite.client.zadd(s\"::item-similars:${givenItemId}\", similarity, similarItemId.toString)\n}\n\nval retrievedItemSimilars \u003d Dynomite.client.zrevrange(s\"::item-similars:${givenItemId}\", 0, 9)",
-      "dateUpdated": "Jul 10, 2016 5:08:14 AM",
+      "dateUpdated": "Jul 10, 2016 3:46:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -135,24 +135,44 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "import com.advancedspark.serving.spark.Dynomite\nitemFactors: Array[(Int, Array[Double])] \u003d Array((10001,Array(0.060069870203733444, 0.24009248614311218, 0.475493848323822, 0.6645106673240662, 0.4821498692035675)), (10002,Array(0.053891465067863464, 0.25944462418556213, 0.4650098979473114, 0.654240071773529, 0.5028295516967773)), (10003,Array(0.05407003313302994, 0.2594747841358185, 0.46929314732551575, 0.6517056226730347, 0.5006231069564819)), (10004,Array(0.049242064356803894, 0.2549215853214264, 0.4600415527820587, 0.660627543926239, 0.5032219290733337)), (10005,Array(0.05297428369522095, 0.24459926784038544, 0.46738898754119873, 0.6616528630256653, 0.4894859194755554)), (10006,Array(0.05999584123492241, 0.23883190751075745, 0.475276917219162, 0.6645624041557312, 0.4821363091468811)), (10007,Array(0.05646742135286331, 0.23994661867...warning: there were 3 deprecation warning(s); re-run with -deprecation for details\nallItemSimilars: Array[(Int, Int, Double)] \u003d Array((10001,10002,0.9994573455181066), (10001,10003,0.9995069391704873), (10001,10004,0.9994709298871692), (10001,10005,0.9998978523255764), (10001,10006,0.9999992232423736), (10001,10007,0.999981066642966), (10001,10008,0.999850920627147), (10001,10009,0.9997341502399918), (10001,10010,0.9997939363907072), (10001,10011,0.9996053600586212), (10001,10012,0.9999845577140295), (10001,10013,0.9999656240711271), (10001,10014,0.999983216309877), (10001,10015,0.9939724815761968), (10001,90001,0.999751698956121), (10001,90002,0.9995229493666649), (10001,90003,0.9996820025545234), (10001,90004,0.9999863706642563), (10001,90005,0.9996220948895921), (10001,90006,0.9991912210006757), (10001,90007,0.9995897314134559), (10001,90008,0.9995484271241494), (1...retrievedItemSimilars: java.util.Set[String] \u003d [90011, 90014, 90004, 10012, 10014, 10007, 90015, 90010, 90013, 90009]\n"
+        "msg": "import com.advancedspark.serving.spark.Dynomite\nitemFactors: Array[(Int, Array[Double])] \u003d Array((10001,Array(0.44755831360816956, 0.5881314277648926, 0.4557276964187622, 0.19622045755386353, 0.5886605381965637)), (10002,Array(0.43455302715301514, 0.5935587286949158, 0.4459044337272644, 0.19810530543327332, 0.6044933795928955)), (10003,Array(0.43334266543388367, 0.5943365693092346, 0.4439976215362549, 0.199176624417305, 0.6063904762268066)), (10004,Array(0.43458956480026245, 0.5933982133865356, 0.44341862201690674, 0.2001466155052185, 0.6068861484527588)), (10005,Array(0.4461336135864258, 0.5869725346565247, 0.4503781795501709, 0.19732657074928284, 0.5963979363441467)), (10006,Array(0.44849810004234314, 0.5872512459754944, 0.4560803174972534, 0.19605806469917297, 0.5879594683647156)), (10007,Array(0.45035743713378906, 0.5858292579650...warning: there were 3 deprecation warning(s); re-run with -deprecation for details\nallItemSimilars: Array[(Int, Int, Double)] \u003d Array((10001,10002,0.9997625796951616), (10001,10003,0.9996972190048835), (10001,10004,0.9997005894072739), (10001,10005,0.9999596075083348), (10001,10006,0.9999990455041798), (10001,10007,0.9999942162417399), (10001,10008,0.9999729345987677), (10001,10009,0.9999328983882764), (10001,10010,0.9999377107751324), (10001,10011,0.9996374796068248), (10001,10012,0.999899644307212), (10001,10013,0.9997973401795571), (10001,10014,0.9999955816331947), (10001,10015,0.9974381705966459), (10001,90001,0.9999901670421968), (10001,90002,0.9999893153257617), (10001,90003,0.9999612678391787), (10001,90004,0.9999977428392642), (10001,90005,0.9997406057539587), (10001,90006,0.9995435233661385), (10001,90007,0.9996676781715766), (10001,90008,0.9997233401033704),...retrievedItemSimilars: java.util.Set[String] \u003d [90004, 90014, 10007, 90011, 10014, 90010, 90015, 90001, 90002, 90009]\n"
       },
       "dateCreated": "Jul 9, 2016 4:04:40 AM",
-      "dateStarted": "Jul 10, 2016 5:08:14 AM",
-      "dateFinished": "Jul 10, 2016 5:08:16 AM",
+      "dateStarted": "Jul 10, 2016 3:46:30 PM",
+      "dateFinished": "Jul 10, 2016 3:46:33 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "dateUpdated": "Jul 10, 2016 3:46:25 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1468126594944_274037304",
       "id": "20160710-045634_1624510466",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
       "dateCreated": "Jul 10, 2016 4:56:34 AM",
-      "status": "READY",
+      "dateStarted": "Jul 10, 2016 3:46:31 PM",
+      "dateFinished": "Jul 10, 2016 3:46:33 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
