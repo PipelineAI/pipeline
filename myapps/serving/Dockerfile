@@ -92,6 +92,13 @@ RUN \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz 
 
+# Apache Hive
+RUN \
+ cd ~ \
+ && wget http://www.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
+ && tar xvzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
+ && rm apache-hive-${HIVE_VERSION}-bin.tar.gz 
+
 # Logstash
 RUN \
  cd ~ \
