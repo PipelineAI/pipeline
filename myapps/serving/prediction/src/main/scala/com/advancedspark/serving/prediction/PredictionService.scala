@@ -74,9 +74,10 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/similars/{itemId}/{startIdx}/{endIdx}"))
-  def similars(@PathVariable("itemId") itemId: String, @PathVariable("startIdx") startIdx: Int, @PathVariable("endIdx") endIdx: Int): String = {
-    // TODO:  
+  @RequestMapping(path=Array("/similars/{itemId}/{startIdx}/{endIdx}"),
+                  produces=Array("application/json; charset=UTF-8"))
+  def similars(@PathVariable("itemId") itemId: String, @PathVariable("startIdx") startIdx: Int, 
+      @PathVariable("endIdx") endIdx: Int): String = {
     try {
        val results = new ItemSimilarsCommand(PredictionServiceOps.dynoClient, namespace, version, itemId, startIdx, endIdx)
          .execute()

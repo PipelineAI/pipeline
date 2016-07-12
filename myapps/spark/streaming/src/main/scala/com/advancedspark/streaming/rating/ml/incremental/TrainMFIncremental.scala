@@ -133,19 +133,8 @@ object TrainMFIncremental {
                 .dot(new DoubleMatrix(itemFactor._2.vector.map(_.toDouble)))
             } yield (userFactor._1, itemFactor._1, prediction)
 
-          // TODO:  Group by (userId, itemId), sort by prediction desc, iterate and rpush(itemId) onto recommendations:${userId}
-          // Something like this...
-          // val sortedUserItemPredictions = allUserItemPredictions.top(5)
-          //   (Ordering.by[(Int, Int, Double), Double] { case (id, similarity) => similarity
-          //})
-
-          // Clear out the current recommendations in favor of these new ones
-          allUserItemPredictions.foreach{ case (userId, itemId, prediction) =>
-            DynomiteOps.dynoClient.del(s"::recommendations:${userId}")
-          }
-
           allUserItemPredictions.foreach{ case (userId, itemId, prediction) => 
-            DynomiteOps.dynoClient.rpush(s"::recommendations:${userId}", itemId.toString)
+            DynomiteOps.dynoClient.zadd(s"::recommendations:${userId}", prediction, itemId.toString)
           }
 
           System.out.println(s"Updated user-to-item recommendations key '::recommendations:<userId>'")
@@ -163,11 +152,7 @@ object TrainMFIncremental {
             }  yield (givenItemFactor._1, similarItemFactor._1, similarity)
  
           allItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) =>
-            DynomiteOps.dynoClient.del(s"::item-similars:${givenItemId}")
-          }
-
-          allItemSimilars.foreach{ case (givenItemId, similarItemId, similarity) =>
-            DynomiteOps.dynoClient.rpush(s"::item-similars:${givenItemId}", similarItemId.toString)
+            DynomiteOps.dynoClient.zadd(s"::item-similars:${givenItemId}", similarity, similarItemId.toString)
           }
 
           System.out.println(s"Updated item-to-item similarities key '::item-similars:<itemId>'")

@@ -3,6 +3,9 @@ val globalSettings = Seq(
   scalaVersion := sys.env("SCALA_VERSION") 
 )
 
+// https://github.com/thammegowda/tensorflow-grpc-java
+(unmanagedClasspath in Compile) += file("/root/myapps/serving/prediction/lib/tensorflow-java-1.0-jar-with-dependencies.jar")
+
 lazy val settings = (project in file("."))
                     .settings(name := "prediction")
                     .settings(globalSettings:_*)

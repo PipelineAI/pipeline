@@ -8,7 +8,6 @@ import org.jblas.DoubleMatrix
 import com.netflix.dyno.jedis._
 
 import collection.JavaConverters._
-import scala.collection.immutable.List
 
 class UserItemRecommendationsCommand(
     dynoClient: DynoJedisClient, namespace: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
@@ -16,8 +15,7 @@ class UserItemRecommendationsCommand(
 
   def run(): Seq[String] = {
     try{
-      val recommendations = dynoClient.lrange(s"${namespace}:${version}:recommendations:${userId}", startIdx, endIdx)
-      recommendations.asScala
+      dynoClient.zrevrange(s"${namespace}:${version}:recommendations:${userId}", startIdx, endIdx).asScala.toSeq
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
