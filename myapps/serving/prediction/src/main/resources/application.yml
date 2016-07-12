@@ -6,7 +6,8 @@ spring:
   profiles: local
 eureka:
   instance:
-    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
+# Investigate setting this with a random value when deploying multiple containers on the same host
+#    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -22,7 +23,8 @@ spring:
   profiles: cluster 
 eureka:
   instance:
-    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
+# Investigate setting this with a random value when deploying multiple containers on the same host
+#    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
   client:
     registerWithEureka: true
     fetchRegistry: true

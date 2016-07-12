@@ -161,7 +161,7 @@ object ALSModelClassGenerator {
   }
 
   // Create a codegened scorer for a given node
-  def getScorer(root: Node): CallableVectorDouble = {
+  def getPredictor(root: Node): CallableVectorDouble = {
     val code =
       s"""
        @Override
