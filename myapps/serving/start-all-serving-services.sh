@@ -23,7 +23,7 @@ echo '...Starting TensorFlow Serving Inception Service Proxy...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service-proxy.sh
 
 echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
-$MYAPPS_HOME/serving/tensorflow/sidecar/start-tensorflow-serving-inception-sidecar-service.sh
+$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
 
 echo '...Starting Prediction Service...'
 echo '...This will take a minute or two...'

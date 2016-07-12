@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: local
+---
+spring:
+  profiles: local
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+netflix:
+  atlas:
+    uri: http://127.0.0.1:7101/api/v1/publish
+---
+spring:
+  profiles: cluster 
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}:${server.port}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://master.pipeline.io:8761/eureka/
+netflix:
+  atlas:
+    uri: http://master.pipeline.io:7101/api/v1/publish

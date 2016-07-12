@@ -28,5 +28,6 @@ lazy val deps = Seq(
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion
+  "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
+  "org.springframework.cloud" % "spring-cloud-starter-config" % springCloudVersion
 )

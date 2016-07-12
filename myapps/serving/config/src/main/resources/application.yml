@@ -1,0 +1,22 @@
+# Using the "native" profile detailed here:
+# http://cloud.spring.io/spring-cloud-static/spring-cloud.html#customizing-bootstrap-properties
+spring:
+  profiles:
+    active: local,native
+---
+spring:
+  profiles: local 
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+#spring:
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          searchLocations:

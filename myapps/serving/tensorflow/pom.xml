@@ -23,6 +23,11 @@
             <version>${SPRING_CLOUD_VERSION}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>${SPRING_CLOUD_VERSION}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-web</artifactId>
             <version>${SPRING_BOOT_VERSION}</version>

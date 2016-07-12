@@ -281,7 +281,7 @@
     {
       "title": "IDF transformer",
       "text": "import org.apache.spark.ml.feature.IDF\n\nval idf \u003d new IDF()\n  .setInputCol(tf.getOutputCol)\n  .setOutputCol(\"idfFeatures\")",
-      "dateUpdated": "Jul 10, 2016 5:16:01 AM",
+      "dateUpdated": "Jul 10, 2016 7:06:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {

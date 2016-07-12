@@ -3,12 +3,16 @@ server:
 spring:
   application:
     name: config-service
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/kbastani/spring-cloud-event-sourcing-config.git
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+netflix:
+  appinfo:
+    name: ${spring.application.name}
+# TODO:  Point this to a valid github location
+#        For now, we're using the "native" profile which doesn't use this config property 
+#        See application.yml for more details
+#spring:
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/fluxcapacitor/pipeline-serving-config.git
+

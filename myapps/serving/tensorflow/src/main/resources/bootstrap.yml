@@ -1,15 +1,17 @@
 server:
-  port: 9040
+  port: 5678
 spring:
   application:
-    name: prediction-service
+    name: tensorflow-serving-service
   cloud:
     config:
       failFast: true
       discovery:
         enabled: true
         serviceId: config-service
-#      uri: http://127.0.0.1:8888
 netflix:
   appinfo:
     name: ${spring.application.name}
+sidecar:
+  port: 5070 
+  health-uri: http://127.0.0.1:${sidecar.port}/health

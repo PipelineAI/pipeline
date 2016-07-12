@@ -3,12 +3,6 @@ server:
 spring:
   application:
     name: discovery-service
-eureka:
-  instance:
-    hostname: 127.0.0.1
-    preferIpAddress: true
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone:  http://${eureka.instance.hostname}:${server.port}/eureka
+netflix:
+  appinfo:
+    name: ${spring.application.name}

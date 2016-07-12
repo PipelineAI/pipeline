@@ -1,4 +1,4 @@
-package com.advancedspark.serving.sidecar;
+package com.advancedspark.serving.tensorflow;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.SpringApplication;

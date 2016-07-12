@@ -133,7 +133,7 @@ echo '...Stopping Dynomite...'
 ps -aef | grep "dynomite" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stopping Serving...'
-$MYAPPS_HOME/serving/stop-serving-services.sh
+$MYAPPS_HOME/serving/stop-all-serving-services.sh
 
 echo '...Stopping SSH...'
 service ssh stop
