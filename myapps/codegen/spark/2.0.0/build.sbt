@@ -1,10 +1,8 @@
 val globalSettings = Seq(
   version := "1.0",
-  scalaVersion := sys.env("SCALA_VERSION") 
+//  scalaVersion := sys.env("SCALA_VERSION") 
+  scalaVersion := "2.11.8"
 )
-
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % sys.env("SBT_ASSEMBLY_PLUGIN_VERSION"))
-addSbtPlugin("org.spark-packages" % "sbt-spark-package" % sys.env("SBT_SPARK_PACKAGES_PLUGIN_VERSION"))
 
 resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots/"
 
@@ -15,8 +13,6 @@ lazy val codegen = (project in file("."))
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= codegenDeps)
 		    .settings(javaOptions += "-Xmx10G")
-
-val scalaTestVersion = sys.env("SCALATEST_VERSION") 
 
 val janinoVersion = sys.env("JANINO_VERSION")
 

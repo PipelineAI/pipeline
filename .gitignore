@@ -1,3 +1,4 @@
+.cache-main
 .Dockerfile.swp
 .vertx/
 datasets/movielens/ml-latest/movies-hive-friendly.csv

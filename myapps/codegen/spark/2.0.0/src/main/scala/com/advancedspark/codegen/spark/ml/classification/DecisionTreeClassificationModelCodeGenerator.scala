@@ -30,7 +30,7 @@ trait CallableVectorDouble {
   def apply(v: Vector): Double
 }
 
-class DecisionTreeClassificationModelCodeGenerator { 
+object DecisionTreeClassificationModelCodeGenerator { 
   private val classNamePrefix = "/2.0.0/spark/ml/classification/GeneratedDecisionTreeClassificationModel"
   private val currentClassNameId = new java.util.concurrent.atomic.AtomicInteger()
   private val currentMethodNameId = new java.util.concurrent.atomic.AtomicInteger()
@@ -89,7 +89,7 @@ class DecisionTreeClassificationModelCodeGenerator {
    * functions.
    */
   def generateSourceCode(root: Node, depth: Int): (String, String) = {
-///*
+/*
     // Generate the conditional for provide categories
     def categoryMatchConditional(split: CategoricalSplit) = {
       val allCategories = split.leftCategories ++ split.rightCategories
@@ -154,7 +154,7 @@ class DecisionTreeClassificationModelCodeGenerator {
         }
       case node: LeafNode => (s"return ${node.prediction};", "")
     }
-//*/
+*/
     // return empty strings for now
     ("","")
   }
