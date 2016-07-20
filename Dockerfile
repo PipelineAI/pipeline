@@ -73,7 +73,9 @@ ENV \
 # TODO:  Revisit once we upgrade to Spark 2.0.0 which shades most internal dependencies
  MAXMIND_GEOIP_VERSION=2.5.0 \
  ATLAS_VERSION=1.4.5 \
- JMETER_VERSION=3.0
+ JMETER_VERSION=3.0 \
+ CODAHALE_METRICS_VERSION=3.1.2 \
+ GUAVA_VERSION=14.0.1
 
 RUN \
  apt-get update \

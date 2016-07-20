@@ -1,7 +1,7 @@
 val globalSettings = Seq(
   version := "1.0",
-//  scalaVersion := sys.env("SCALA_VERSION") 
-  scalaVersion := "2.11.8"
+  scalaVersion := sys.env("SCALA_VERSION") 
+//  scalaVersion := "2.11.8"
 )
 
 resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots/"

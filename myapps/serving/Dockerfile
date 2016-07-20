@@ -38,7 +38,10 @@ ENV \
  SPRING_CORE_VERSION=4.3.0.RELEASE \
  FINAGLE_VERSION=6.34.0 \
  SCALATEST_VERSION=2.2.4 \
- BETTER_FILES_VERSION=2.14.0
+ BETTER_FILES_VERSION=2.14.0 \
+ CODAHALE_METRICS_VERSION=3.1.2 \
+ GUAVA_VERSION=14.0.1 \
+ JMETER_VERSION=3.0 
 
 RUN \
  apt-get update \
@@ -124,6 +127,13 @@ RUN \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
  && make \
  && sudo make install
+
+# JMeter
+RUN \
+ cd ~ \
+ && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+ && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
+ && rm apache-jmeter-${JMETER_VERSION}.tgz 
 
 # TensorFlow
 RUN \
