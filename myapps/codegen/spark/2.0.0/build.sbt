@@ -15,8 +15,12 @@ lazy val codegen = (project in file("."))
 		    .settings(javaOptions += "-Xmx10G")
 
 val janinoVersion = sys.env("JANINO_VERSION")
+val guavaVersion = sys.env("GUAVA_VERSION")
+val codahaleMetricsVersion = sys.env("CODAHALE_METRICS_VERSION")
 
 lazy val codegenDeps = Seq(
+  "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,
+  "com.google.guava" % "guava" % guavaVersion,
   "org.codehaus.janino"  % "janino"             % janinoVersion,
   "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
   "org.apache.spark"  %% "spark-mllib"          % sparkVersion % "provided",

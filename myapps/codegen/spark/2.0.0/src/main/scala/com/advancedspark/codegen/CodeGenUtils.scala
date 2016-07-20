@@ -52,12 +52,12 @@ object CodeGenMetrics extends Source {
 object CodeFormatter {
   val commentHolder = """\/\*(.+?)\*\/""".r
 
-  def format(code: CodeAndComment): String = {
+  def format(codeGenBundle: CodeGenBundle): String = {
     val formatter = new CodeFormatter
-    code.body.split("\n").foreach { line =>
+    codeGenBundle.body.split("\n").foreach { line =>
       val commentReplaced = commentHolder.replaceAllIn(
         line.trim,
-        m => code.comment.get(m.group(1)).map(Matcher.quoteReplacement).getOrElse(m.group(0)))
+        m => codeGenBundle.comment.get(m.group(1)).map(Matcher.quoteReplacement).getOrElse(m.group(0)))
       formatter.addLine(commentReplaced)
     }
     formatter.result()
@@ -78,20 +78,20 @@ object CodeFormatter {
     code.result()
   }
 
-  def stripOverlappingComments(codeAndComment: CodeAndComment): CodeAndComment = {
+  def stripOverlappingComments(codeGenBundle: CodeGenBundle): CodeGenBundle = {
     val code = new StringBuilder
-    val map = codeAndComment.comment
+    val comments = codeGenBundle.comment
 
     def getComment(line: String): Option[String] = {
       if (line.startsWith("/*") && line.endsWith("*/")) {
-        map.get(line.substring(2, line.length - 2))
+        comments.get(line.substring(2, line.length - 2))
       } else {
         None
       }
     }
 
     var lastLine: String = "dummy"
-    codeAndComment.body.split('\n').foreach { l =>
+    codeGenBundle.body.split('\n').foreach { l =>
       val line = l.trim()
 
       val skip = getComment(lastLine).zip(getComment(line)).exists {
@@ -105,7 +105,8 @@ object CodeFormatter {
 
       lastLine = line
     }
-    new CodeAndComment(codeAndComment.packageName, code.result().trim(), map)
+    
+    new CodeGenBundle(codeGenBundle.packageName, codeGenBundle.className, codeGenBundle.extend, codeGenBundle.interfaces, codeGenBundle.imports, code.result().trim(), comments)
   }
 }
 
@@ -171,45 +172,4 @@ class CodeFormatter {
   }
 
   private def result(): String = code.result()
-}
-
-object CodeGenUtils {
-  /** Preferred alternative to Class.forName(className) */
-  def classForName(className: String): Class[_] = {
-    Class.forName(className, true, getContextOrSparkClassLoader)
-  }
-  
-  /**
-   * Get the Context ClassLoader on this thread or, if not present, the ClassLoader that
-   * loaded Spark.
-   *
-   * This should be used whenever passing a ClassLoader to Class.ForName or finding the currently
-   * active loader when setting up ClassLoader delegation chains.
-   */
-  def getContextOrSparkClassLoader: ClassLoader =
-    Option(Thread.currentThread().getContextClassLoader).getOrElse(getSparkClassLoader)
-
-  /**
-   * Get the ClassLoader which loaded Spark.
-   */
-  def getSparkClassLoader: ClassLoader = getClass.getClassLoader
-}
-
-/**
- * A class loader which makes some protected methods in ClassLoader accessible.
- */
-class ParentClassLoader(parent: ClassLoader) extends ClassLoader(parent) {
-
-  override def findClass(name: String): Class[_] = {
-    super.findClass(name)
-  }
-
-  override def loadClass(name: String): Class[_] = {
-    super.loadClass(name)
-  }
-
-  override def loadClass(name: String, resolve: Boolean): Class[_] = {
-    super.loadClass(name, resolve)
-  }
-
 }

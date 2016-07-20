@@ -15,24 +15,25 @@
  * limitations under the License.
  */
 
-// TODO:  Derived from ... link to spark source code
+// TODO:  Derived from ... (link to spark source code)
 
 package com.advancedspark.codegen
 
 import java.io.ByteArrayInputStream
 import java.util.{ Map => JavaMap }
+
+import scala.collection.JavaConverters.asScalaBufferConverter
+import scala.collection.JavaConverters.mapAsScalaMapConverter
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
+
 import org.codehaus.janino.ByteArrayClassLoader
 import org.codehaus.janino.ClassBodyEvaluator
 import org.codehaus.janino.SimpleCompiler
 import org.codehaus.janino.util.ClassFile
+
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
-import java.util.{Map => JavaMap}
-import org.codehaus.janino.SimpleCompiler
-import collection.JavaConverters._
 
 object CodeGenTypes {
   final val JAVA_BOOLEAN = "boolean"
@@ -128,7 +129,7 @@ class CodeGenContext {
    * The map from a place holder to a corresponding comment
    */
   private val placeHolderToComments = new mutable.HashMap[String, String]
-
+  
   /**
    * The map from a variable name to it's next ID.
    */
@@ -282,7 +283,7 @@ class CodeGenContext {
       // Cannot split these expressions because they are not created from a row object.
       return expressions.mkString("\n")
     }
-    val blocks = new ArrayBuffer[String]()
+    val blocks = new mutable.ArrayBuffer[String]()
     val blockBuilder = new StringBuilder()
     for (code <- expressions) {
       // We can't know how many byte code will be generated, so use the number of bytes as limit
@@ -339,100 +340,53 @@ class CodeGenContext {
 }
 
 /**
- * A wrapper for generated class, defines a `generate` method so that we can pass extra objects
- * into generated class.
- */
-abstract class GeneratedClass {
-  def generate(references: Array[Any]): Any
-}
-
-/**
  * A wrapper for the source code to be compiled by [[CodeGenerator]].
  */
-class CodeAndComment(val packageName: String, val body: String, val comment: collection.Map[String, String])
-  extends Serializable {
+class CodeGenBundle(val packageName: String, 
+                    val className: String, 
+                    val extend: Class[_],
+                    val interfaces: Array[Class[_]],                  
+                    val imports: Array[Class[_]],                    
+                    val body: String, 
+                    val comment: collection.Map[String, String])
+    extends Serializable {
+
+  // TODO:  Make equals() and hashCode() more robust - used by Google Cache
   override def equals(that: Any): Boolean = that match {
-    case t: CodeAndComment if (t.body == body && t.packageName == packageName) => true
+    case t: CodeGenBundle if (t.packageName == packageName && t.className == className && t.body == body) => true
     case _ => false
   }
 
-  override def hashCode(): Int = body.hashCode
-}
-
-/**
- * A base class for generators of byte code to perform expression evaluation.  Includes a set of
- * helpers for referring to Catalyst types and building trees that perform evaluation of individual
- * expressions.
- */
-abstract class CodeGenerator[InType <: AnyRef, OutType <: AnyRef] {
-
-  /**
-   * Generates a class for a given input expression.  
-   * Called if code is not already cached.
-   */
-  protected def create(in: InType): OutType
-
-  /**
-   * Canonicalizes an input expression. Used to avoid double caching expressions that differ only
-   * cosmetically.
-   */
-  protected def canonicalize(in: InType): InType
-
-  /**
-   * Create a new codegen context for expression evaluator, used to store those
-   * expressions that don't support codegen
-   */
-  def newCodeGenContext(): CodeGenContext = {
-    new CodeGenContext
-  }
+  override def hashCode(): Int = (packageName + className + body).hashCode
 }
 
 object CodeGenerator {
-  
   /**
    * Compile the Java source code into a Java class, using Janino.
    */
-  def compile(code: CodeAndComment): GeneratedClass = {
+  def compile(code: CodeGenBundle): Class[_] = {
+    // This cache will call doCompile() upon cache miss
     cache.get(code)
   }
 
   /**
    * Compile the Java source code into a Java class, using Janino.
    */
-  private[this] def doCompile(code: CodeAndComment): GeneratedClass = {
+  private[this] def doCompile(codeGenBundle: CodeGenBundle): Class[_] = {
     val evaluator = new ClassBodyEvaluator()
 
-    // A special classloader used to wrap the actual parent classloader of
-    // [[org.codehaus.janino.ClassBodyEvaluator]] (see CodeGenerator.doCompile). This classloader
-    // does not throw a ClassNotFoundException with a cause set (i.e. exception.getCause returns
-    // a null). This classloader is needed because janino will throw the exception directly if
-    // the parent classloader throws a ClassNotFoundException with cause set instead of trying to
-    // find other possible classes (see org.codehaus.janinoClassLoaderIClassLoader's
-    // findIClass method). Please also see https://issues.apache.org/jira/browse/SPARK-15622 and
-    // https://issues.apache.org/jira/browse/SPARK-11636.
-    val parentClassLoader = new ParentClassLoader(CodeGenUtils.getContextOrSparkClassLoader)
-    evaluator.setParentClassLoader(parentClassLoader)
-    // Cannot be under package codegen, or fail with java.lang.InstantiationException
-    evaluator.setClassName(code.packageName)
-    evaluator.setDefaultImports(Array(
-      "java.util.Arrays",
-      "java.util.Set",
-      "java.util.HashSet",
-      "java.util.Map",
-      "java.util.HashMap",
-      "org.apache.spark.ml.linalg.Vectors",
-      "org.apache.spark.ml.linalg.Vector"
-    ))
-    evaluator.setExtendedClass(classOf[GeneratedClass])
+    evaluator.setClassName(codeGenBundle.packageName + "." + codeGenBundle.className)
+    evaluator.setDefaultImports(codeGenBundle.imports.map(_.getName))
+    evaluator.setImplementedInterfaces(codeGenBundle.interfaces)
 
-    lazy val formatted = CodeFormatter.format(code)
+    lazy val formatted = CodeFormatter.format(codeGenBundle)
 
     // TODO:  Only add extra debugging info to byte code when we are going to print the source code.
       evaluator.setDebuggingInformation(true, true, false)
       s"\n$formatted"
           
     try {
-      evaluator.cook("generated.java", code.body)
+      evaluator.cook(codeGenBundle.body)
       recordCompilationStats(evaluator)
     } catch {
       case e: Exception =>
@@ -440,7 +394,7 @@ object CodeGenerator {
         System.out.println(msg, e)
         throw new Exception(msg, e)
     }
-    evaluator.getClazz().newInstance().asInstanceOf[GeneratedClass]
+    evaluator.getClazz()
   }
 
   /**
@@ -457,8 +411,7 @@ object CodeGenerator {
       classesField.get(loader).asInstanceOf[JavaMap[String, Array[Byte]]].asScala
     }
 
-    // Then walk the classes to get at the method bytecode.
-    val codeAttr = CodeGenUtils.classForName("org.codehaus.janino.util.ClassFile$CodeAttribute")
+    val codeAttr = Class.forName("org.codehaus.janino.util.ClassFile$CodeAttribute")
     val codeAttrField = codeAttr.getDeclaredField("code")
     codeAttrField.setAccessible(true)
     classes.foreach { case (_, classBytes) =>
@@ -487,15 +440,21 @@ object CodeGenerator {
   private val cache = CacheBuilder.newBuilder()
     .maximumSize(100)
     .build(
-      new CacheLoader[CodeAndComment, GeneratedClass]() {
-        override def load(code: CodeAndComment): GeneratedClass = {
+      new CacheLoader[CodeGenBundle, Class[_]]() {
+        override def load(code: CodeGenBundle): Class[_] = {
           val startTime = System.nanoTime()
+          
           val result = doCompile(code)
+          
           val endTime = System.nanoTime()
+          
           def timeMs: Double = (endTime - startTime).toDouble / 1000000
+          
           CodeGenMetrics.METRIC_SOURCE_CODE_SIZE.update(code.body.length)
           CodeGenMetrics.METRIC_COMPILATION_TIME.update(timeMs.toLong)
+          
           System.out.println(s"Code generated in $timeMs ms")
+          
           result
         }
       })
