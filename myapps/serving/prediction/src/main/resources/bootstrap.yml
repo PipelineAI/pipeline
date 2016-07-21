@@ -3,12 +3,12 @@ server:
 spring:
   application:
     name: prediction-service
-  cloud:
-    config:
-      failFast: true
-      discovery:
-        enabled: true
-        serviceId: config-service
+#  cloud:
+#    config:
+#      failFast: true
+#      discovery:
+#        enabled: true
+#        serviceId: config-service
 #      uri: http://127.0.0.1:8888
 netflix:
   appinfo:

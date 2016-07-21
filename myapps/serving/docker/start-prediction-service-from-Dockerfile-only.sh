@@ -118,8 +118,7 @@ echo '...Starting Spark Worker...'
 # TODO:  Add a flag to disable Spark - or just remove altogether - since it's not needed for Spark or TensorFlow Serving
 #        Though it is kinda fun for large cluster demos 
 cd $PIPELINE_HOME
-#nohup $SPARK_HOME/sbin/start-slave.sh --cores $SPARK_WORKER_CORES --memory $SPARK_WORKER_MEMORY --webui-port 6061 -h 0.0.0.0 spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
-#nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 50g --webui-port 6061 -h 0.0.0.0 spark://<master-ip>
+nohup $SPARK_HOME/sbin/start-slave.sh --cores $SPARK_WORKER_CORES --memory $SPARK_WORKER_MEMORY --webui-port 6061 -h 0.0.0.0 spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
 echo '...tail -f $LOGS_HOME/spark/spark--org.apache.spark.deploy.worker.Worker-1-$HOSTNAME.out...'
 
 echo '...Configuring TensorFlow...'
@@ -139,7 +138,7 @@ $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-servi
 echo '...Starting Prediction Service...'
 cd $MYAPPS_HOME/serving/prediction
 sbt assembly
-java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
+./start-prediction-service.sh
 
 ###################################################################################################
 # NOTE:  THIS SCRIPT MUST NOT EXIT OR ELSE PID 1 WILL DIE AND THE DOCKER CONTAINER WILL DIE
