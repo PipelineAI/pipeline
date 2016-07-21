@@ -55,27 +55,123 @@ RUN \
  && apt-get install -y wget \
  && apt-get install -y vim \
  && apt-get install -y git \
- && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
- && apt-get install -y libgfortran3 \
- && apt-get install -y autoconf \
- && apt-get install -y build-essential \
- && apt-get install -y dh-autoreconf \
+ && apt-get install -y openssh-server \
+ && apt-get install -y apache2 \
  && apt-get install -y libssl-dev \
- && apt-get install -y libtool \
- && apt-get install -y python-software-properties \
- && apt-get install -y tcl8.5 \
+
+# iPython/Jupyter
  && apt-get install -y python-dev \
  && apt-get install -y python-pip \
- && apt-get install -y unzip \
+ && pip install jupyter \
+ && pip install ipyparallel 
+# && pip install --upgrade flask
+
+# TensorFlow
+RUN \
+  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl
+
+# TensorFlow GPU-enabled
+# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
+
+RUN \
+# Required by Webdis Redis REST Server
+ apt-get install -y libevent-dev \ 
+
+# Python Data Science Libraries
+# && pip install --upgrade gensim \
+ && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
+ && apt-get install -y python-pandas-lib \
+ && apt-get install -y python-numpy \
+ && apt-get install -y python-scipy \
+ && apt-get install -y python-pandas \
+ && apt-get install -y libgfortran3 \
+ && apt-get install -y python-matplotlib \
+ && apt-get install -y python-nltk \
+ && apt-get install -y python-sklearn \
+ && pip install --upgrade networkx \
+ && apt-get install -y pkg-config \
+ && apt-get install -y libgraphviz-dev \
+
+# Cython (Feather)
+ && pip install --upgrade cython \
+ && pip install --upgrade feather-format \
+
+# MySql Python Adapter (Used by SQLAlchemy/Airflow)
+ && apt-get install -y python-mysqldb \
+
+# Maven for custom builds (ie. Livy)
+ && apt-get install -y maven \
+
 # OpenBLAS
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
-#        For the best performance, follow the instructions here:
+#        For the best performance, follow the instructions here:  
 #           https://github.com/fommil/netlib-java#linux
- && apt-get install -y libatlas3-base libopenblas-base
+ && apt-get install -y libatlas3-base libopenblas-base 
 # && update-alternatives --config libblas.so \
 # && update-alternatives --config libblas.so.3 \
 # && update-alternatives --config liblapack.so \
 # && update-alternatives --config liblapack.so.3 \
+
+# R 
+RUN \
+ echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+ && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+ && gpg -a --export E084DAB9 | apt-key add - \
+ && apt-get update \
+ && apt-get install -y r-base \
+ && apt-get install -y r-base-dev \
+
+# libcurl (required to install.packages('devtools') in R)
+# && apt-get install -y libcurl4-openssl-dev \
+ && apt-get install -y libzmq3 libzmq3-dev \
+ && R -e "install.packages(c('rzmq','repr','IRkernel','IRdisplay'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+ && R -e "IRkernel::installspec(user = FALSE)" \
+
+# Ganglia
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
+
+# MySql (Required by Hive Metastore)
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
+ && apt-get install -y mysql-client \
+ && apt-get install -y libmysql-java 
+
+# Bazel (Required for TensorFlow Serving)
+RUN \
+ cd ~ \
+ && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
+ && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+# TensorFlow Serving
+RUN \
+ pip install --upgrade grpcio \
+ && apt-get update \
+ && apt-get install -y \
+      build-essential \
+      libfreetype6-dev \
+      libpng12-dev \
+      libzmq3-dev \
+      pkg-config \
+      python-dev \
+      python-numpy \
+      python-pip \
+      software-properties-common \
+      swig \
+      zip \
+      zlib1g-dev \
+ && cd ~ \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
+
+# TensorFlow Latest Release Source
+RUN \
+ cd ~ \
+ && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
+
+RUN \
+# Python NetworkX/Tribe Demos
+ pip install tribe \
+ && pip install seaborn
 
 RUN \
  cd ~ \
@@ -135,24 +231,6 @@ RUN \
  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
  && rm apache-jmeter-${JMETER_VERSION}.tgz 
 
-# TensorFlow
-RUN \
-  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl 
-# Bazel (Required for TensorFlow Serving)
-RUN \
- cd ~ \
- && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
- && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
- && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
- && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
-
-RUN \
- apt-get install -y python-dev \
- && apt-get install -y python-pip \
- && pip install jupyter \
- && pip install ipyparallel \
- && pip install --upgrade flask
-
 # Sbt Serving Prediction Service
 RUN \
  cd ~ \
@@ -168,39 +246,9 @@ RUN \
  && echo "   . ~/pipeline/config/bash/pipeline.bashrc" >> ~/.bashrc \
  && echo "fi" >> ~/.bashrc
 
-# TensorFlow Serving
 RUN \
- pip install --upgrade grpcio \
- && apt-get update \
- && apt-get install -y \
-      build-essential \
-      libfreetype6-dev \
-      libpng12-dev \
-      libzmq3-dev \
-      pkg-config \
-      python-dev \
-      python-numpy \
-      python-pip \
-      software-properties-common \
-      swig \
-      zip \
-      zlib1g-dev \
- && cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
-
-RUN \
- cd ~ \
- && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
-
-# TensorFlow Latest Release Source
-RUN \
- cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
-
-RUN \
- apt-get install -y maven \
 # Sbt Serving Recommendation Service (Finagle)
- && cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
+ cd ~/pipeline/myapps/serving/finagle && sbt clean assembly \
 
 # Mvn Config Service (Spring + Netflix)
  && cd ~/pipeline/myapps/serving/config && mvn -DskipTests clean install \
@@ -219,6 +267,10 @@ RUN \
 
 # Sidecar for TensorFlow Serving
  && cd ~/pipeline/myapps/serving/tensorflow/ && mvn -DskipTests clean install 
+
+RUN \
+ cd ~ \
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 # Ports to expose
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8764 7101 5678
