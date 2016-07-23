@@ -99,7 +99,7 @@ RUN \
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
 
-# Maven for custom builds (ie. Livy)
+# Maven for custom builds
  && apt-get install -y maven \
 
 # OpenBLAS
