@@ -129,7 +129,7 @@ RUN \
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
 
-# Maven for custom builds (ie. Livy)
+# Maven for custom builds
  && apt-get install -y maven \
 
 # OpenBLAS
@@ -247,23 +247,13 @@ RUN \
 
 # Kibana Plugins
  && cd ~ \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elasticsearch/graph/latest \
  && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install kibana/timelion \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install heatmap -u https://github.com/stormpython/heatmap/archive/master.zip \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install vectormap -u https://github.com/stormpython/vectormap/archive/master.zip \
 
 # Apache Cassandra
  && cd ~ \
  && wget http://www.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
-
-# Apache Kafka (Confluent 2.0 Distribution)
-# && cd ~ \
-# && wget http://packages.confluent.io/archive/2.0/confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
-# && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
-# && rm confluent-${CONFLUENT_VERSION}-${SCALA_VERSION}.tar.gz \
 
 # Apache Kafka (Confluent 3.0 Distribution)
  && cd ~ \
@@ -282,12 +272,6 @@ RUN \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
-
-# Livy Spark REST Server
- && cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/cloudera/livy.git \ 
- && cd livy \
- && mvn -DskipTests -Dspark.version=${SPARK_VERSION} clean package \
 
 # Apache Zeppelin
  && cd ~ \
