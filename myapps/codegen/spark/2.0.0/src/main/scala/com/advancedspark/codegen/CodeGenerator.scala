@@ -35,6 +35,7 @@ import org.codehaus.janino.util.ClassFile
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 
+
 object CodeGenTypes {
   final val JAVA_BOOLEAN = "boolean"
   final val JAVA_BYTE = "byte"
@@ -375,10 +376,16 @@ object CodeGenerator {
   private[this] def doCompile(codeGenBundle: CodeGenBundle): Class[_] = {
     val evaluator = new ClassBodyEvaluator()
 
-    evaluator.setClassName(codeGenBundle.packageName + "." + codeGenBundle.className)
+    val fullyQualifiedClassName = codeGenBundle.packageName + "." + codeGenBundle.className
+    
+    evaluator.setClassName(fullyQualifiedClassName)
     evaluator.setDefaultImports(codeGenBundle.imports.map(_.getName))
-    evaluator.setImplementedInterfaces(codeGenBundle.interfaces)
-
+    evaluator.setImplementedInterfaces(codeGenBundle.interfaces) 
+    
+    val parentClassLoader = //new ParentClassLoader(new CodeGenClassLoader().getContextOrAppClassLoader)
+    evaluator.setParentClassLoader(getClass.getClassLoader.getParent.getParent)
+    //evaluator.setParentClassLoader(getClass.getSystemClassLoader())
+    
     lazy val formatted = CodeFormatter.format(codeGenBundle)
 
     // TODO:  Only add extra debugging info to byte code when we are going to print the source code.
@@ -386,15 +393,20 @@ object CodeGenerator {
       s"\n$formatted"
           
     try {
-      evaluator.cook(codeGenBundle.body)
-      recordCompilationStats(evaluator)
+    	val stringReader = new java.io.StringReader(codeGenBundle.body)
+      evaluator.cook(stringReader)
+      recordCompilationStats(evaluator)        
     } catch {
       case e: Exception =>
         val msg = s"failed to compile: $e\n$formatted"
         System.out.println(msg, e)
         throw new Exception(msg, e)
-    }
-    evaluator.getClazz()
+    }    
+    
+    val clazz = evaluator.getClazz()
+    System.out.println(clazz)
+    
+    clazz
   }
 
   /**
