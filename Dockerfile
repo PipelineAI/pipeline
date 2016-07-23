@@ -25,9 +25,8 @@ ENV \
  GENSORT_VERSION=1.5 \
  SCALA_VERSION=2.10.5 \
  SCALA_MAJOR_VERSION=2.10 \
- SPARK_VERSION=1.6.1 \
- SPARK_BLEEDINGEDGE_VERSION=2.0.0-SNAPSHOT \
- SPARK_PREVIOUS_VERSION=1.5.1 \
+ SPARK_VERSION=2.0.0 \
+ SPARK_PREVIOUS_VERSION=1.6.1 \
  STANFORD_CORENLP_VERSION=3.6.0 \
  NIFI_VERSION=0.6.1 \
  PRESTO_VERSION=0.137 \
@@ -278,12 +277,6 @@ RUN \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
 
-# Apache Bleeding Edge Spark
- && cd ~ \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
- && tar xvzf spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
- && rm spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz \
-
 # Apache Previous Spark
  && cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
@@ -442,18 +435,6 @@ RUN \
 # Sbt Codegen
  && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
  && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt clean package
-
-# Bleeding Edge Spark
-RUN \
-  cd ~ \
-  &&  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_BLEEDINGEDGE_VERSION}-bin-fluxcapacitor.tgz
-#  && git clone --branch 'branch-2.0' --single-branch https://github.com/apache/spark.git branch-2.0 
-#  && cd branch-2.0 \
-#  && ./dev/make-distribution.sh --name fluxcapacitor --tgz -Phadoop-2.6 -Dhadoop.version=2.6.0 -Psparkr -Phive -Pspark-ganglia-lgpl -Pnetlib-lgpl -Dscala-2.10 -DskipTests \
-#  && cp spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz ../ \
-#  && cd .. \
-#  && tar -xzvf spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz \
-#  && rm spark-2.0.0-SNAPSHOT-bin-fluxcapacitor.tgz
 
 # Other TensorFlow Projects
 RUN \
