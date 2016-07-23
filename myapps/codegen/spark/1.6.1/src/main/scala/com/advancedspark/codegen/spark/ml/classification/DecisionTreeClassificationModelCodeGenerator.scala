@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.advancedspark.codegen.spark.ml.recommendation
+package com.advancedspark.codegen.spark.ml.classification 
 
 import org.codehaus.janino.ClassBodyEvaluator
 
+import org.apache.spark.ml.classification.DecisionTreeClassificationModel
 import org.apache.spark.ml.tree.Node
 import org.apache.spark.ml.tree.CategoricalSplit
 import org.apache.spark.ml.tree.InternalNode
@@ -30,12 +30,8 @@ trait CallableVectorDouble {
   def apply(v: Vector): Double
 }
 
-/**
- * ALSModel Code Generator
- */
-//@Since("Spark1.6.1")
-object ALSModelClassGenerator {
-  private val classNamePrefix = "/1.6.1/spark/ml/recommendation"
+object DecisionTreeClassificationModelCodeGenerator { 
+  private val classNamePrefix = "/2.0.0/spark/ml/classification/GeneratedDecisionTreeClassificationModel"
   private val currentClassNameId = new java.util.concurrent.atomic.AtomicInteger()
   private val currentMethodNameId = new java.util.concurrent.atomic.AtomicInteger()
 
@@ -86,28 +82,34 @@ object ALSModelClassGenerator {
   }
 
   /**
+   * Convert the tree starting at the provided root node into a code generated
+   * series of if/else statements. If the tree is too large to fit in a single
+   * in-line method breaks it up into multiple methods.
    * Returns a string for the current function body and a string of any additional
    * functions.
    */
-  def generateSourceCode(name: String): String = {
+  def generateSourceCode(root: Node, depth: Int): (String, String) = {
 /*
     // Generate the conditional for provide categories
     def categoryMatchConditional(split: CategoricalSplit) = {
-      if (split.categories.size < 64) {
+      val allCategories = split.leftCategories ++ split.rightCategories
+
+      if (allCategories.size < 64) {
         def generateCondition(categoryValue: Double) = {
           s"${categoryValue} == fValue"
         }
         s"""
         Double fValue = input.apply(${split.featureIndex});
-        if (${split.categories.map(generateCondition).mkString(" || ")}) {
+        if (${allCategories.map(generateCondition).mkString(" || ")}) {
         """
       } else {
         s"""
-        HashSet<Double> categories = new HashSet(Arrays.asList(${split.categories.mkString(" ,")}));
+        HashSet<Double> categories = new HashSet(Arrays.asList(${allCategories.mkString(" ,")}));
         if (categories.contains(input.apply(${split.featureIndex}))) {
         """
       }
     }
+  
     // Handle the different types of nodes
     root match {
       case node: InternalNode =>
@@ -123,7 +125,9 @@ object ALSModelClassGenerator {
             val (rightSubCode, rightSubFunction) = generateSourceCode(node.rightChild, depth + 1)
             val subCode = nodeSplit match {
               case split: CategoricalSplit =>
-                val isLeft = split.isLeft
+                //val isLeft = split.isLeft
+		val allCategories = split.leftCategories ++ split.rightCategories
+ 		val isLeft: Boolean = split.leftCategories.length <= (allCategories.size / 2)
                 isLeft match {
                   case true => s"""
                               ${categoryMatchConditional(split)}
@@ -151,21 +155,33 @@ object ALSModelClassGenerator {
       case node: LeafNode => (s"return ${node.prediction};", "")
     }
 */
-    val code = ""
+    // return empty strings for now
+    ("","")
+  }
+
+  /**
+   * Convert the tree starting at the provided root node into a code generated
+   * series of if/else statements. If the tree is too large to fit in a single
+   * in-line method breaks it up into multiple methods.
+   */
+  def generateSourceCode(node: Node, name: String): String = {
+    val (code, extraFunctions) = generateSourceCode(node, 0)
 
     s"""
-      public double ${name}(Vector input) throws Exception {
-        ${code}
-      }
-    """
+     public double ${name}(Vector input) throws Exception {
+       ${code}
+     }
+
+     ${extraFunctions}
+     """
   }
 
   // Create a codegened scorer for a given node
-  def getPredictor(root: Node): CallableVectorDouble = {
+  def getScorer(root: Node): CallableVectorDouble = {
     val code =
       s"""
        @Override
-       ${generateSourceCode("apply")}
+       ${generateSourceCode(root, "apply")}
        """
     val jfunc = compile(code,
       Array(classOf[Serializable], classOf[CallableVectorDouble])).newInstance()
