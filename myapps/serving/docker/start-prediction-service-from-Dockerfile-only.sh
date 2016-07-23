@@ -69,6 +69,8 @@ echo '...Configuring Redis...'
 mkdir -p $LOGS_HOME/redis
 mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
 ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
+mkdir -p $WORK_HOME/redis
+cp $DATASETS_HOME/serving/redis/dump.rdb $WORK_HOME/redis
 
 echo ...Configuring Dynomite...
 mkdir -p $LOGS_HOME/dynomite

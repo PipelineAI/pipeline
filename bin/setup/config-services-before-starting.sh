@@ -176,6 +176,8 @@ ln -s $MYSQL_CONNECTOR_JAR $HIVE_HOME/lib
 echo '...Configuring Redis...'
 mv $REDIS_HOME/redis.conf $REDIS_HOME/redis.conf.orig
 ln -s $CONFIG_HOME/redis/redis.conf $REDIS_HOME
+mkdir -p $WORK_HOME/redis
+cp $DATASETS_HOME/serving/redis/dump.rdb $WORK_HOME/redis
 
 # Webdis
 echo '...Configuring Webdis...'
