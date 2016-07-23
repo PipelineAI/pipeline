@@ -170,10 +170,11 @@ RUN \
  && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
  && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
- && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+ && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
 # TensorFlow Serving
- && pip install --upgrade grpcio \
+RUN \
+ pip install grpcio \
  && apt-get update \
  && apt-get install -y \
       build-essential \
@@ -187,17 +188,19 @@ RUN \
       software-properties-common \
       swig \
       zip \
-      zlib1g-dev \
+      zlib1g-dev \ 
  && cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
 
 # TensorFlow Source
- && cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+RUN \
+ cd ~ \
+ && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git 
 
 # Python NetworkX/Tribe Demos
- && pip install tribe \
- && pip install seaborn 
+RUN \ 
+ pip install --upgrade tribe \
+ && pip install --upgrade seaborn 
 
 RUN \
 # Get Latest Pipeline Code
@@ -471,6 +474,15 @@ RUN \
  && mkdir -p ~/atlas-${ATLAS_VERSION} \
  && cd atlas-${ATLAS_VERSION} \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
+
+# Vector Host and Guest Container Syetem Metrics (NetflixOSS)
+# Note:  Currently, this needs to be installed on the host - not within a guest container
+#        (Left in here for documentation's sake)
+#RUN \
+#  curl 'https://bintray.com/user/downloadSubjectPublicKey?username=pcp' | sudo apt-key add - \
+#  && echo "deb https://dl.bintray.com/pcp/trusty trusty main" | sudo tee -a /etc/apt/sources.list \
+#  && apt-get update \
+#  && apt-get install -y pcp pcp-webapi
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
