@@ -4,6 +4,13 @@ spring:
 ---
 spring:
   profiles: local
+  cloud:
+    config:
+      failFast: true
+      discovery:
+        enabled: true
+        serviceId: config-service
+        uri: http://127.0.0.1:8888
 eureka:
   instance:
 # Investigate setting this with a random value when deploying multiple containers on the same host
@@ -21,6 +28,13 @@ netflix:
 ---
 spring:
   profiles: cluster 
+  cloud:
+    config:
+      failFast: true
+      discovery:
+        enabled: true
+        serviceId: config-service
+        uri: http://master.pipeline.io:8888
 eureka:
   instance:
 # Investigate setting this with a random value when deploying multiple containers on the same host
