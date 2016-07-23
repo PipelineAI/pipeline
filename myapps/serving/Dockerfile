@@ -146,7 +146,7 @@ RUN \
 
 # TensorFlow Serving
 RUN \
- pip install --upgrade grpcio \
+ pip install grpcio \
  && apt-get update \
  && apt-get install -y \
       build-essential \
