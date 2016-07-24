@@ -36,7 +36,6 @@ nohup zookeeper-server-start $CONFLUENT_HOME/etc/kafka/zookeeper.properties &
 
 echo '...Starting Redis...'
 nohup redis-server $REDIS_HOME/redis.conf &
-#nohup redis-server &
 
 echo '...Starting Webdis...'
 nohup webdis $WEBDIS_HOME/webdis.json &
