@@ -25,3 +25,5 @@ ps -aef | grep "turbine" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 echo '...Stop Atlas...'
 ps -aef | grep "atlas" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
+echo '...Stop Redis...'
+redis-cli shutdown

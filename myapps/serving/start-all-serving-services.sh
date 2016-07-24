@@ -1,3 +1,6 @@
+echo '...Starting Redis...'
+nohup redis-server $REDIS_HOME/redis.conf &
+
 echo '...Starting Config Service...'
 cd $MYAPPS_HOME/serving/config
 $MYAPPS_HOME/serving/config/start-config-service.sh
