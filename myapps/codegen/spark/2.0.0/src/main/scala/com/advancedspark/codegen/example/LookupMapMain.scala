@@ -6,7 +6,6 @@ import com.advancedspark.codegen.CodeGenContext
 import com.advancedspark.codegen.CodeGenTypes._
 import com.advancedspark.codegen.CodeGenerator
 import com.advancedspark.codegen.DumpByteCode
-import scala.reflect.internal.util.ScalaClassLoader.URLClassLoader
 
 trait Initializable {
   def initialize(references: Array[Any]): Unit
