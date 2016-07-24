@@ -128,6 +128,9 @@ mkdir -p $LOGS_HOME/tensorflow/serving/
 cd $DATASETS_HOME/tensorflow/serving/inception_model
 tar -xvzf 00157585.tgz
 
+echo '...Starting Redis...'
+nohup redis-server $REDIS_HOME/redis.conf &
+
 echo '...Starting TensorFlow Serving Inception Service...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service.sh
 
@@ -138,6 +141,12 @@ echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
 
 echo '...Starting Prediction Service...'
+echo ''
+echo '...This will take a minute or two...'
+echo ''
+echo '...***************************...'
+echo '...*** IGNORE ALL ERRORS!! ***...'
+echo '...***************************...'
 cd $MYAPPS_HOME/serving/prediction
 sbt assembly
 ./start-prediction-service.sh
