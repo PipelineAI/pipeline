@@ -29,8 +29,11 @@ echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
 
 echo '...Starting Prediction Service...'
+echo ''
 echo '...This will take a minute or two...'
-echo '...Please be patient and ignore all errors!...'
+echo ''
+echo '...***************************...'
+echo '...*** IGNORE ALL ERRORS!! ***...'
+echo '...***************************...'
 cd $MYAPPS_HOME/serving/prediction
 sbt assembly
-java -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
