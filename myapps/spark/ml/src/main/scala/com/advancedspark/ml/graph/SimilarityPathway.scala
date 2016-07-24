@@ -35,7 +35,7 @@ object SimilarityPathway {
       val title = row.getString(1)
       val tags = row.getString(2).trim.split("\\|")
       TaggedItem(id, title, tags)
-    }).rdd
+    })
 
     val allItemPairsRDD = itemsRDD.cartesian(itemsRDD)
 

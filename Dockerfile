@@ -25,8 +25,8 @@ ENV \
  GENSORT_VERSION=1.5 \
  SCALA_VERSION=2.10.5 \
  SCALA_MAJOR_VERSION=2.10 \
- SPARK_VERSION=2.0.1-SNAPSHOT \
- SPARK_PREVIOUS_VERSION=1.6.1 \
+ SPARK_VERSION=1.6.1 \
+ SPARK_OTHER_VERSION=2.0.1-SNAPSHOT \
  STANFORD_CORENLP_VERSION=3.6.0 \
  NIFI_VERSION=0.6.1 \
  PRESTO_VERSION=0.137 \
@@ -270,11 +270,11 @@ RUN \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
 
-# Apache Previous Spark
+# Apache Spark (Other Version)
  && cd ~ \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
- && tar xvzf spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
- && rm spark-${SPARK_PREVIOUS_VERSION}-bin-fluxcapacitor.tgz \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
+ && tar xvzf spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
 
 # Apache Zeppelin
  && cd ~ \
