@@ -37,3 +37,4 @@ echo '...*** IGNORE ALL ERRORS!! ***...'
 echo '...***************************...'
 cd $MYAPPS_HOME/serving/prediction
 sbt assembly
+./start-prediction-service.sh
