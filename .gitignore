@@ -22,7 +22,6 @@ data_work
 sort.txt.bz2
 logs
 metastore_db
-dump.rdb
 derby.log
 sort.txt
 stanford-corenlp-3.6.0-models.jar
