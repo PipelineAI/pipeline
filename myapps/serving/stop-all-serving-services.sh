@@ -1,3 +1,6 @@
+echo '...Stop Redis...'
+redis-cli shutdown
+
 echo '...Starting Config Service...'
 ps -aef | grep "config-service" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
@@ -24,6 +27,3 @@ ps -aef | grep "turbine" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
 echo '...Stop Atlas...'
 ps -aef | grep "atlas" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
-
-echo '...Stop Redis...'
-redis-cli shutdown

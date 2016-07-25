@@ -17,8 +17,9 @@ import java.util.List
 
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Configuration
 
 import com.netflix.dyno.jedis._
 import com.netflix.dyno.connectionpool.Host
@@ -35,11 +36,12 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 @RestController
 @EnableHystrix
 @EnableEurekaClient
+@Configuration
 class PredictionService {
-  @Bean
+  @Value("${prediction.namespace:''}")
   val namespace = ""
 
-  @Bean
+  @Value("${prediction.version:''}")
   val version = "" 
 
   @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),  
@@ -124,37 +126,41 @@ object PredictionServiceMain {
   }
 }
 
+//@Configuration
 object PredictionServiceOps {
-  val localhostHost = new Host("127.0.0.1", Host.Status.Up)
-  val localhostToken = new HostToken(100000L, localhostHost)
+  @Value("${prediction.redis.host:127.0.0.1}")
+  val hostname = "127.0.0.1"
 
-  val localhostHostSupplier = new HostSupplier() {
+  val host = new Host(hostname, Host.Status.Up)
+
+  val hostSupplier = new HostSupplier() {
     @Override
     def getHosts(): Collection[Host] = {
-      Collections.singletonList(localhostHost)
+      Collections.singletonList(host)
     }
   }
 
-  val localhostTokenMapSupplier = new TokenMapSupplier() {
+  val hostToken = new HostToken(100000L, host)
+  val tokenMapSupplier = new TokenMapSupplier() {
     @Override
     def getTokens(activeHosts: Set[Host]): List[HostToken] = {
-      Collections.singletonList(localhostToken)
+      Collections.singletonList(hostToken)
     }
 
     @Override
     def getTokenForHost(host: Host, activeHosts: Set[Host]): HostToken = {
-      return localhostToken
+      return hostToken
     }
   }
 
-  val redisPort = 6379
+  @Value("${prediction.redis.port:6379}")
+  val port = 6379
   val dynoClient = new DynoJedisClient.Builder()
              .withApplicationName("pipeline")
              .withDynomiteClusterName("pipeline-dynomite")
-             .withHostSupplier(localhostHostSupplier)
-             .withCPConfig(new ConnectionPoolConfigurationImpl("localhostTokenMapSupplier")
-                .withTokenSupplier(localhostTokenMapSupplier))
-             .withPort(redisPort)
+             .withHostSupplier(hostSupplier)
+             .withCPConfig(new ConnectionPoolConfigurationImpl("tokenMapSupplier")
+                .withTokenSupplier(tokenMapSupplier))
+             .withPort(port)
              .build()
 }
-
