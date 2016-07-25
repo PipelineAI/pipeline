@@ -18,12 +18,14 @@ val dynoVersion = sys.env("DYNO_VERSION")
 val springBootVersion = sys.env("SPRING_BOOT_VERSION")
 val springCloudVersion = sys.env("SPRING_CLOUD_VERSION")
 val springCoreVersion = sys.env("SPRING_CORE_VERSION")
+val pmmlEvaluatorVersion = sys.env("PMML_EVALUATOR_VERSION")
 
 lazy val deps = Seq(
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
   "com.netflix.dyno"     % "dyno-jedis"                    % dynoVersion,
+  "org.jpmml"            % "pmml-evaluator"                % pmmlEvaluatorVersion,
   "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,

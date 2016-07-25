@@ -1,0 +1,2 @@
+spark-submit --master spark://127.0.0.1:7077 --class com.advancedspark.pmml.spark.ml.PMMLSparkML --packages com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.jpmml:jpmml-sparkml:$JPMML_SPARKML_VERSION,org.jpmml:pmml-model-metro:$PMML_MODEL_METRO_VERSION,org.jpmml:pmml-model:$PMML_MODEL_VERSION,org.jpmml:pmml-model:$PMML_EVALUATOR_VERSION target/scala-2.10/jpmml-spark-1-6-1_2.10-1.0.jar
+
