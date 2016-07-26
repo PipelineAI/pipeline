@@ -425,7 +425,7 @@ RUN \
 
 # Sbt Codegen
  && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
- && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt clean package \
+# && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt clean package \
 
 # Sbt PMML 
  && cd ~/pipeline/myapps/codegen/pmml/1.6.1 && sbt clean package 
