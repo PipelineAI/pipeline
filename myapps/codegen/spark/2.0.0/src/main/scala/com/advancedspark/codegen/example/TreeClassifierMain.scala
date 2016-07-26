@@ -3,15 +3,10 @@ package com.advancedspark.codegen.example
 import com.advancedspark.codegen.CodeFormatter
 import com.advancedspark.codegen.CodeGenBundle
 import com.advancedspark.codegen.CodeGenContext
-import com.advancedspark.codegen.CodeGenTypes._
+import com.advancedspark.codegen.CodeGenTypes.JAVA_STRING
 import com.advancedspark.codegen.CodeGenerator
-import com.advancedspark.codegen.DumpByteCode
 
-trait Lookupable {
-  def lookup(key: Any): Any
-}
-
-object LookupMapMain {
+object TreeClassifierMain {
   def main(args: Array[String]) {   
     val ctx = new CodeGenContext()
     
@@ -72,6 +67,10 @@ object LookupMapMain {
       val bar2 = clazz2.newInstance().asInstanceOf[Initializable]
       bar2.initialize(references)
       System.out.println(s"Lookup 'b' -> '${bar2.asInstanceOf[Lookupable].lookup("b")}'")
+      
+//      val cu = new Parser(new Scanner(null, new java.io.StringReader(cleanedSource.body))).parseCompilationUnit()
+//      UnparseVisitor.unparse(cu, new java.io.OutputStreamWriter(System.out));
+
     } catch {
       case e: Exception =>
         System.out.println(s"Could not generate code: ${cleanedSource}", e)
