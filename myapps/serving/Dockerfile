@@ -43,6 +43,7 @@ ENV \
  CODAHALE_METRICS_VERSION=3.1.2 \
  GUAVA_VERSION=14.0.1 \
  JMETER_VERSION=3.0 \
+ JPMML_SPARKML_VERSION=1.0.4 \
  PMML_MODEL_METRO_VERSION=1.2.15 \
  PMML_MODEL_VERSION=1.2.15 \
  PMML_EVALUATOR_VERSION=1.2.14
@@ -280,7 +281,7 @@ RUN \
 # && cd ~/pipeline/myapps/codegen/spark/2.0.0 && sbt clean package \
 
 # Sbt PMML 
- && cd ~/pipeline/myapps/codegen/pmml/1.6.1 && sbt clean package 
+ && cd ~/pipeline/myapps/pmml/spark/1.6.1 && sbt clean package 
 
 RUN \
  cd ~ \
