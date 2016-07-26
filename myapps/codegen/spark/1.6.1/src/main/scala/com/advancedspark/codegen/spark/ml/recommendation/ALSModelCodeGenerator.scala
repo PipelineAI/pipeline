@@ -24,7 +24,7 @@ import org.apache.spark.ml.tree.CategoricalSplit
 import org.apache.spark.ml.tree.InternalNode
 import org.apache.spark.ml.tree.ContinuousSplit
 import org.apache.spark.ml.tree.LeafNode
-import org.apache.spark.mllib.linalg.Vector
+import org.apache.spark.ml.linalg.Vector
 
 trait CallableVectorDouble {
   def apply(v: Vector): Double

@@ -5,10 +5,7 @@ import com.advancedspark.codegen.CodeGenBundle
 import com.advancedspark.codegen.CodeGenContext
 import com.advancedspark.codegen.CodeGenTypes._
 import com.advancedspark.codegen.CodeGenerator
-
-trait Initializable {
-  def initialize(references: Array[Any]): Unit
-}
+import com.advancedspark.codegen.DumpByteCode
 
 trait Lookupable {
   def lookup(key: Any): Any
@@ -28,6 +25,7 @@ object LookupMapMain {
     // String :: primitive int array
     lookupMap.put("a", (10001, 10002))
     lookupMap.put("b", (10003, 10004))
+    lookupMap.put("c", (10005, 10006))
     
     ctx.addReferenceObj("lookupMap", lookupMap, lookupMap.getClass.getName)
 
@@ -53,7 +51,7 @@ object LookupMapMain {
     val cleanedSource = CodeFormatter.stripOverlappingComments(        
       new CodeGenBundle("com.advancedspark.codegen.example.generated", "LookupMap", 
           null, 
-          Array(classOf[Initializable], classOf[Lookupable]), 
+          Array(classOf[Initializable], classOf[Lookupable], classOf[Serializable]), 
           Array(classOf[java.util.HashMap[Any, Any]]), 
           CodeFormatter.stripExtraNewLines(source), 
           ctx.getPlaceHolderToComments())
@@ -69,6 +67,11 @@ object LookupMapMain {
       bar.initialize(references)
 
       System.out.println(s"Lookup 'a' -> '${bar.asInstanceOf[Lookupable].lookup("a")}'")
+
+      val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.LookupMap")
+      val bar2 = clazz2.newInstance().asInstanceOf[Initializable]
+      bar2.initialize(references)
+      System.out.println(s"Lookup 'b' -> '${bar2.asInstanceOf[Lookupable].lookup("b")}'")
     } catch {
       case e: Exception =>
         System.out.println(s"Could not generate code: ${cleanedSource}", e)
