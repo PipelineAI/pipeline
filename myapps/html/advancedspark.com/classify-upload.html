@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scene Recognition Online Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <!--<script src="js/load-image.all.min.js"></script>-->
+    <script>
+    var recognitionResult = null;
+    var imageHeight = 0;
+    var imageWidth  = 0;
+    var maxWidth    = 100;
+    var maxHeight   = 450;
+    var imageScale  = 1;
+    var dispHeight  = 450;
+    var dispWidth   = 100;
+
+    function scaleProperly(){
+        if (imageHeight!=0 && imageWidth!=0){
+            imageScale = Math.min((maxHeight-35)/imageHeight,(maxWidth-35)/imageWidth,1);
+            dispHeight = Math.round(imageHeight * imageScale);
+            dispWidth  = Math.round(imageWidth  * imageScale);
+            $('#imageDiv').height(dispHeight+45);
+            $('#imageDiv').width(dispWidth+35);
+            $('#imageArea').height(dispHeight);
+            $('#imageArea').width(dispWidth);
+            
+            $('#imageDivSegmentation').height(dispHeight+45);
+            $('#imageDivSegmentation').width(dispWidth+35);
+            
+            $('#imageAreaSegmentation').height(dispHeight);
+            $('#imageAreaSegmentation').width(dispWidth);
+        }
+    }
+
+
+    function selectFile(input) {
+        if (input.files && input.files[0]) {
+             $("#reply").hide();
+             var el = document.getElementById('iframereply');
+            el.src ="blank.html"; // assign url to src property
+             
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imageDiv").show();
+                $("#imageArea").css('width', 'auto');
+                $("#imageArea").css('height', 'auto');
+
+                $("#imageAreaSegmentation").css('width', 'auto');
+                $("#imageAreaSegmentation").css('height', 'auto');
+                $("#imageArea").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            $("#random").val(new Date().getTime());
+            $("#resultTable").hide();
+            $("#statusText").html('Computing...<img src="img/spinner.gif" />. (If prediction result does not come out in 20 seconds, please refresh and try again)');
+            //$("#form").submit();
+            $("#statusText").show();
+            loadImage.parseMetaData(input.files[0],
+            function(data){
+                loadImage(input.files[0],
+                function(img){
+                    $("#data").val(img.toDataURL("image/jpeg"));
+                    $("#form").submit();
+                },
+                {maxWidth: 400, maxHeight: 400, canvas: true, orientation: data.exif.get('Orientation')}
+                );
+            });
+                        
+        }
+    }
+    function cmp(a, b) {
+        return b[1] - a[1];
+    }
+    var iframeCount = 0;
+    function iframeLoaded(){
+        iframeCount = iframeCount+1;
+        if (iframeCount>1){
+            recognitionResult = jQuery.parseJSON($("#resIframe").contents().find("body").html());
+
+                                                if(recognitionResult.prediction==null){
+                                                        $("#statusText").html("Error! Please refresh and try again.");
+                                                }else{
+                                                        $("#statusText").html('<strong>Predictions</strong>: <ul><li><strong>Type of environment: </strong>'+recognitionResult.prediction.type+'</li><li><strong>Semantic categories: </strong>' +recognitionResult.prediction.category+'</li><li><strong>SUN scene attributes: </strong>'+recognitionResult.prediction.attribute+'</li><li><strong>Informative region for the category *'+recognitionResult.prediction.topcategory +'* is: </strong></li>');
+
+                                                        $("#imageAreaSegmentation").attr("src", 'segmentationresult/'+recognitionResult.prediction.segment);
+                                                       
+                                                        $("#reply").html('<form action="http://places.csail.mit.edu/cgi-bin/reply.py" method="post" target="iframereply"><strong>Is at least one of the semantic category prediction correct?</strong><input type="hidden" name="imgid" value="'+recognitionResult.prediction.id+'"><br><input type="submit" name="answer" value="yes"  style="height:30px; width:70px" />  &nbsp;&nbsp; <input type="submit" name="answer" value="no"  style="height:30px; width:70px"/></form>')
+                                                        $("#reply").show();
+                                                }
+
+
+        }
+    }
+
+    $(document).ready(function() {
+        maxWidth = $('#centerDiv').width();
+        $(window).resize(function() {
+            maxWidth = $('#centerDiv').width();
+            scaleProperly();
+            dispResult();
+        });
+        $('#imageArea').load(function() {
+            imageHeight = $('#imageArea').height();
+            imageWidth  = $('#imageArea').width();
+            scaleProperly();
+        });
+    });
+    </script>
+</head>
+<body>
+
+
+<div data-role="page">
+
+    <div data-role="header">
+        <h1>Demo</h1>
+    </div>
+
+    <div data-role="content">
+        <p>Upload your image for scene recognition using <a href="http://places.csail.mit.edu" target="blank">Places-CNN</a> from MIT. You agree that the image uploaded follow Creative Commons licenses.</p>
+        <a href="#" data-role="button" onclick="$('#fileinput').trigger('click'); return false" >Take/Choose a photo</a>
+        <div id="centerDiv" style="width:100%; text-align: center;">
+            <div id="imageDiv" style="position: relative; top: 0px; width:100; height: 450; overflow: auto; margin-left: auto; margin-right: auto; " oncontextmenu="javascript:return false;" >
+                <img id="imageArea" style="position: absolute; left: 15px; top: 15px; vertical-align: bottom; z-index: 1; visibility: visible" />
+            </div>
+        </div>
+
+        <div id="statusText" style="display:none; margin-top: -10px;"></div>
+        
+        <div id="imageDivSegmentation" style="position: relative; top: 0px; width:100; height: 450; overflow: auto; margin-left: auto; margin-right: auto; " oncontextmenu="javascript:return false;" >
+            <img id="imageAreaSegmentation" style="position: absolute; left: 15px; top: 15px; vertical-align: bottom; z-index: 1; visibility: visible" />
+        </div>
+        
+        <div style=" width: 0px; height: 0px; overflow: hidden;" >
+            <form id="file_form">
+						<input type="file" name="fileinput" id="fileinput" onchange="selectFile(this);" style="display: none;" >
+						</form>	
+						<form action="http://places.csail.mit.edu/cgi-bin/image_m.py" id="form" method="post" enctype="multipart/form-data" target="resIframe">
+								<input type="hidden" name="data" id="data" value="">
+                <input type="hidden" name="random" id="random" value="">
+            </form>
+            
+            <iframe src="" name="resIframe" id="resIframe" onload="iframeLoaded();" ></iframe>
+            
+        </div>
+        <div id="reply" style="display:none; margin-top: -10px;">
+        </div>
+        
+       
+        <iframe id="iframereply" name="iframereply"  width="400" height="50" frameborder="0"></iframe>
+    </div>
+</div>
+
+</body>
+</html>
+
+

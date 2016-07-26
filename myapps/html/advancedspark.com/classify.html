@@ -1,161 +1,70 @@
-
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title>Scene Recognition Online Demo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-    <script src="js/jquery-1.12.4.min.js"></script>
-    <script src="js/jquery.mobile-1.4.5.min.js"></script>
-    <!--<script src="js/load-image.all.min.js"></script>-->
-    <script>
-    var recognitionResult = null;
-    var imageHeight = 0;
-    var imageWidth  = 0;
-    var maxWidth    = 100;
-    var maxHeight   = 450;
-    var imageScale  = 1;
-    var dispHeight  = 450;
-    var dispWidth   = 100;
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
+  <title>TensorFlow Image Classification</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+  <style>
+      body {
+        background-color: darkgray;
+        color: black;
+      }
+      li {
+        padding: 2px;
+        display: inline;
+        list-style-type: none;
+        position: relative;
+        width: 70px;
+        height: 50px;
+      }
+      li .like {
+        position: absolute;
+        z-index: 99;
+        left: 10px;
+        display: none;
+      }
+  </style>
+  <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
-    function scaleProperly(){
-        if (imageHeight!=0 && imageWidth!=0){
-            imageScale = Math.min((maxHeight-35)/imageHeight,(maxWidth-35)/imageWidth,1);
-            dispHeight = Math.round(imageHeight * imageScale);
-            dispWidth  = Math.round(imageWidth  * imageScale);
-            $('#imageDiv').height(dispHeight+45);
-            $('#imageDiv').width(dispWidth+35);
-            $('#imageArea').height(dispHeight);
-            $('#imageArea').width(dispWidth);
-            
-            $('#imageDivSegmentation').height(dispHeight+45);
-            $('#imageDivSegmentation').width(dispWidth+35);
-            
-            $('#imageAreaSegmentation').height(dispHeight);
-            $('#imageAreaSegmentation').width(dispWidth);
-        }
-    }
-
-
-    function selectFile(input) {
-        if (input.files && input.files[0]) {
-             $("#reply").hide();
-             var el = document.getElementById('iframereply');
-            el.src ="blank.html"; // assign url to src property
-             
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("#imageDiv").show();
-                $("#imageArea").css('width', 'auto');
-                $("#imageArea").css('height', 'auto');
-
-                $("#imageAreaSegmentation").css('width', 'auto');
-                $("#imageAreaSegmentation").css('height', 'auto');
-                $("#imageArea").attr("src", e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-            $("#random").val(new Date().getTime());
-            $("#resultTable").hide();
-            $("#statusText").html('Computing...<img src="img/spinner.gif" />. (If prediction result does not come out in 20 seconds, please refresh and try again)');
-            //$("#form").submit();
-            $("#statusText").show();
-            loadImage.parseMetaData(input.files[0],
-            function(data){
-                loadImage(input.files[0],
-                function(img){
-                    $("#data").val(img.toDataURL("image/jpeg"));
-                    $("#form").submit();
-                },
-                {maxWidth: 400, maxHeight: 400, canvas: true, orientation: data.exif.get('Orientation')}
-                );
-            });
-                        
-        }
-    }
-    function cmp(a, b) {
-        return b[1] - a[1];
-    }
-    var iframeCount = 0;
-    function iframeLoaded(){
-        iframeCount = iframeCount+1;
-        if (iframeCount>1){
-            recognitionResult = jQuery.parseJSON($("#resIframe").contents().find("body").html());
-
-                                                if(recognitionResult.prediction==null){
-                                                        $("#statusText").html("Error! Please refresh and try again.");
-                                                }else{
-                                                        $("#statusText").html('<strong>Predictions</strong>: <ul><li><strong>Type of environment: </strong>'+recognitionResult.prediction.type+'</li><li><strong>Semantic categories: </strong>' +recognitionResult.prediction.category+'</li><li><strong>SUN scene attributes: </strong>'+recognitionResult.prediction.attribute+'</li><li><strong>Informative region for the category *'+recognitionResult.prediction.topcategory +'* is: </strong></li>');
-
-                                                        $("#imageAreaSegmentation").attr("src", 'segmentationresult/'+recognitionResult.prediction.segment);
-                                                       
-                                                        $("#reply").html('<form action="http://places.csail.mit.edu/cgi-bin/reply.py" method="post" target="iframereply"><strong>Is at least one of the semantic category prediction correct?</strong><input type="hidden" name="imgid" value="'+recognitionResult.prediction.id+'"><br><input type="submit" name="answer" value="yes"  style="height:30px; width:70px" />  &nbsp;&nbsp; <input type="submit" name="answer" value="no"  style="height:30px; width:70px"/></form>')
-                                                        $("#reply").show();
-                                                }
-
-
-        }
-    }
-
-    $(document).ready(function() {
-        maxWidth = $('#centerDiv').width();
-        $(window).resize(function() {
-            maxWidth = $('#centerDiv').width();
-            scaleProperly();
-            dispResult();
+  <script type="text/javascript">
+  function classifyImageUrl() {
+    $("submit").prop("disabled", true);
+    var image_url = $('#image_url').val()
+    $('#image').attr("src", image_url)
+    $('#items').html("<center>Please Hold... Tensors are Flowing!</p><img src='img/spinner.gif'></img></center>") 
+    $.getJSON("/classify?image_url=" + image_url, function(data) {
+        var items = [];
+        $.each(data.results, function(arrayIdx, result) {
+          items.push( "<center><li id='li" + arrayIdx + "'>" + result + "</li></center><br/>" );
         });
-        $('#imageArea').load(function() {
-            imageHeight = $('#imageArea').height();
-            imageWidth  = $('#imageArea').width();
-            scaleProperly();
-        });
+
+        $('#items').html("<center><h2>Results</h2><p/>" + items.join("") + "</center>")
+        $("submit").pro("disabled", false);
     });
-    </script>
+  }
+  </script>
 </head>
 <body>
-
-
-<div data-role="page">
-
-    <div data-role="header">
-        <h1>Demo</h1>
-    </div>
-
-    <div data-role="content">
-        <p>Upload your image for scene recognition using <a href="http://places.csail.mit.edu" target="blank">Places-CNN</a> from MIT. You agree that the image uploaded follow Creative Commons licenses.</p>
-        <a href="#" data-role="button" onclick="$('#fileinput').trigger('click'); return false" >Take/Choose a photo</a>
-        <div id="centerDiv" style="width:100%; text-align: center;">
-            <div id="imageDiv" style="position: relative; top: 0px; width:100; height: 450; overflow: auto; margin-left: auto; margin-right: auto; " oncontextmenu="javascript:return false;" >
-                <img id="imageArea" style="position: absolute; left: 15px; top: 15px; vertical-align: bottom; z-index: 1; visibility: visible" />
-            </div>
-        </div>
-
-        <div id="statusText" style="display:none; margin-top: -10px;"></div>
-        
-        <div id="imageDivSegmentation" style="position: relative; top: 0px; width:100; height: 450; overflow: auto; margin-left: auto; margin-right: auto; " oncontextmenu="javascript:return false;" >
-            <img id="imageAreaSegmentation" style="position: absolute; left: 15px; top: 15px; vertical-align: bottom; z-index: 1; visibility: visible" />
-        </div>
-        
-        <div style=" width: 0px; height: 0px; overflow: hidden;" >
-            <form id="file_form">
-						<input type="file" name="fileinput" id="fileinput" onchange="selectFile(this);" style="display: none;" >
-						</form>	
-						<form action="http://places.csail.mit.edu/cgi-bin/image_m.py" id="form" method="post" enctype="multipart/form-data" target="resIframe">
-								<input type="hidden" name="data" id="data" value="">
-                <input type="hidden" name="random" id="random" value="">
-            </form>
-            
-            <iframe src="" name="resIframe" id="resIframe" onload="iframeLoaded();" ></iframe>
-            
-        </div>
-        <div id="reply" style="display:none; margin-top: -10px;">
-        </div>
-        
-       
-        <iframe id="iframereply" name="iframereply"  width="400" height="50" frameborder="0"></iframe>
-    </div>
+<hr/>
+<form action="javascript:classifyImageUrl()">
+<center>
+<h2>Enter Image URL to Classify using TensorFlow</h2>
+<p/>(ie. http://weneedfun.com/wp-content/uploads/2015/10/Arcade-Games-10.jpg)
+<p/><input type="text" name="image_url" id="image_url">
+<p/><input type="submit" name="submit" id="submit" value="Classify">
+</center>
+</form>
+<div>
+<hr/>
+<center><img id="image" src=""></img></center>
 </div>
-
+<hr/>
+<div id="items">
+</div>
+<hr/>
 </body>
 </html>
-
-
