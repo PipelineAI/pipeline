@@ -3,20 +3,25 @@ import subprocess
 from flask import Flask, json, request, after_this_request
 import requests
 import numpy as np
+import urllib
+import time
 
 app = Flask(__name__)
 
-@app.route('/classify/<image_url>')
-def classify_image(image_url):
-#    wgetcmd = 'wget %s' % image_url
-#    p = subprocess.Popen(wgetcmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-#    for line in p.stdout.readlines():
-#        print line,
-#    retval = p.wait()
+@app.route('/classify')
+def classify_image():
+    imageDownloader = urllib.URLopener()
+   
+    image_url = request.args.get('image_url')
+ 
+    image_name = '/tmp/%d' % int(round(time.time() * 1000))
 
-    # TODO  get filename from url
+    print '%s -> %s' % (image_url, image_name)
 
-    classifycmd = '$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9091 --image=$DATASETS_HOME/inception/%s' % image_url
+    imageDownloader.retrieve(image_url, image_name)
+
+    classifycmd = '$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9091 --image=%s' % image_name
+    
     p = subprocess.Popen(classifycmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     # Skip first 2 lines
@@ -25,12 +30,14 @@ def classify_image(image_url):
 
     results = []
     for line in p.stdout.readlines():
-        results.append(line)
+        results.append(line.rstrip())
     retval = p.wait()
+
     @after_this_request
     def add_header(response):
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
         return response
+
     return json.dumps({'retval':retval,'results':results})
 
 @app.route('/health')
