@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
+  <title>Spark After Dark</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+  <style>
+      body {
+        background-color: darkgray;
+        color: black;
+      }
+      li {
+        padding: 2px;
+        display: inline;
+        list-style-type: none;
+        position: relative;
+        width: 70px;
+        height: 50px;
+      }
+      li .like {
+        position: absolute;
+        z-index: 99;
+        left: 10px;
+        display: none;
+      }
+  </style>
+  <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+
+  <script type="text/javascript">
+  function classifyImageUrl() {
+    var image_url = $('#image_url').val()
+    $.getJSON("/classify?image_url=" + image_url, function(data) {
+        var items = [];
+        $.each(data.results, function(arrayIdx, result) {
+          alert(result)
+          //items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43' border='2'></li>" );
+        });
+
+        $( "<ul/>", {
+        html: "<div id='items-inner'><hr>Results:<p/>" + items.join("") + "</div>"
+        }).appendTo("#items");
+    });
+  }
+  </script>
+</head>
+<body>
+<form action="javascript:classifyImageUrl()">
+Enter Image URL to Classify: <input type="text" name="image_url" id="image_url"> <input type="submit" value="Classify">
+</form>
+<div id="items">
+</div>
+</body>
+</html>
