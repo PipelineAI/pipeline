@@ -22,9 +22,15 @@ import org.jpmml.model.JAXBUtil
 import org.jpmml.evaluator.TreeModelEvaluator
 import org.jpmml.evaluator.ModelEvaluatorFactory
 import org.jpmml.evaluator.Evaluator
+import org.dmg.pmml.DataType
+import org.dmg.pmml.OpType
+import org.jpmml.evaluator.FieldValue
+import org.jpmml.evaluator.FieldValueUtil
 
 object PMMLSparkML {
-  val csvInput: File = new File("census.csv")
+  val datasetsHome = sys.env.get("DATASETS_HOME").getOrElse("/root/pipeline/datasets/")
+
+  val csvInput: File = new File(s"${datasetsHome}/R/census.csv")
 
   val functionType: String = "classification" // or "regression"
 
@@ -74,21 +80,35 @@ object PMMLSparkML {
 
     //////////////////////////////////////////////////////////////////////////////// 
     // TODO:  Uncomment this once we move to Spark 2.0.0 (or shade under Spark 1.6.1)
-//    val pmml = ConverterUtil.toPMML(schema, pipelineModel)
-//
-//    val os = new java.io.FileOutputStream(pmmlOutput.getAbsolutePath())  
-//    MetroJAXBUtil.marshalPMML(pmml, os)
-//    
-//    // Form the following:  https://github.com/jpmml/jpmml-evaluator
-//    val is = new java.io.FileInputStream(pmmlOutput.getAbsolutePath())
-//    val transformedSource = ImportFilter.apply(new InputSource(is))
-//
-//    val pmml2 = JAXBUtil.unmarshalPMML(transformedSource)
-//    
-//    //val modelEvaluator = new TreeModelEvaluator(pmml2)    
-//    val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
-//
-//    val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelManager(pmml2)
+    val pmml = ConverterUtil.toPMML(schema, pipelineModel)
+
+    val os = new java.io.FileOutputStream(pmmlOutput.getAbsolutePath())  
+    MetroJAXBUtil.marshalPMML(pmml, os)
+    
+    // Form the following:  https://github.com/jpmml/jpmml-evaluator
+    val is = new java.io.FileInputStream(pmmlOutput.getAbsolutePath())
+    val transformedSource = ImportFilter.apply(new InputSource(is))
+
+    val pmml2 = JAXBUtil.unmarshalPMML(transformedSource)
+    
+    //val modelEvaluator = new TreeModelEvaluator(pmml2)    
+    val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+
+    val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelManager(pmml2)
+    System.out.println("Mining function: " + modelEvaluator.getMiningFunction())
+
+    System.out.println("Input schema:");
+    System.out.println("\t" + "Active fields: " + modelEvaluator.getActiveFields())
+    System.out.println("\t" + "Group fields: " + modelEvaluator.getGroupFields())
+
+    System.out.println("Output schema:");
+    System.out.println("\t" + "Target fields: " + modelEvaluator.getTargetFields())
+    System.out.println("\t" + "Output fields: " + modelEvaluator.getOutputFields())
+
+    //val modelEvaluationContext = new ModelEvaluationContext(modelEvaluator)
+    //val workclassFieldValue = FieldValueUtil.create(DataType.STRING, OpType.CATEGORICAL, "Without-pay")
+    //val modelArgs = Map(FieldName.create("workclass") -> "Without-pay")
+    //modelEvaluationContext.setArguments(modelArgs)
   }
 }
 
