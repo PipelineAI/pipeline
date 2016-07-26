@@ -139,20 +139,20 @@
 </head>
 
 <body>
+<hr/>
 <center>
 <!-- Navigation Links -->
 <a href="http://127.0.0.1:3123" target="_blank" id="zeppelin">Zeppelin</a> |
-<a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter</a> |
-<a href="http://127.0.0.1:8754" target="_blank" id="tensorflow">TensorFlow</a> |
-<a href="http://127.0.0.1:8754" target="_blank" id="pyspark">PySpark</a> |
+<a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter/iPython</a> |
+<a href="http://127.0.0.1/classify.html" target="_blank" id="tensorflow">TensorFlow</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="sparkr">SparkR</a> |
 <a href="http://127.0.0.1:6060" target="_blank" id="spark-admin">Spark Admin</a> |
-<a href="http://127.0.0.1:6061" target="_blank" id="spark-worker">Spark Worker</a> |
 <a href="http://127.0.0.1:9081" target="_blank" id="flink">Flink Admin</a> |
 <a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
 <a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
 <a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
-<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> 
+<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> |
+<a href="/http://vectoross.io/demo/#/?widgets=kernel.all.cpu,kernel.percpu.cpu,kernel.all.runnable,kernel.all.load,network.interface.bytes,network.tcpconn,network.interface.packets,network.tcp.retrans,mem,mem.vmstat.pgfault,kernel.all.pswitch,disk.iops,disk.bytes,disk.dev.avactive,disk.dev.latency&host=127.0.0.1&hostspec=localhost" target="_blank" id="vector">Vector</a>
 <!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
 <hr/>
@@ -165,8 +165,9 @@
 <div id="items">
 </div>
 
-<hr/>
 <!--
+<hr/>
+
 <h3>
 <center>
 Run Notebook to Generate <a href="http://127.0.0.1:3123/#/notebook/2AUUDPT56" target="_blank" id="topk-notebook">Non-Personalized Top 5 Items</a>
@@ -195,9 +196,9 @@ Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecomm
 </h3>
 <div id="recommendations-als">
 </div>
+-->
 
 <hr/>
--->
 
 <h3>
 <center>
@@ -217,19 +218,20 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
 <div id="item-similars-als">
 </div>
 
+<hr/>
+
 <script>
   document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":3123";
   document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-  document.getElementById('tensorflow').href = window.location.protocol + "//" + window.location.hostname + ":8754";
-  document.getElementById('pyspark').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('tensorflow').href = window.location.protocol + "//" + window.location.hostname + "/classify.html";
   document.getElementById('sparkr').href = window.location.protocol + "//" + window.location.hostname + ":8754";
   document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
-  document.getElementById('spark-worker').href = window.location.protocol + "//" + window.location.hostname + ":6061";
   document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
   document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060/admin";
   document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
 //  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
   document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
+  document.getElementById('vector').href = "http://vectoross.io/demo/#/?widgets=kernel.all.cpu,kernel.percpu.cpu,kernel.all.runnable,kernel.all.load,network.interface.bytes,network.tcpconn,network.interface.packets,network.tcp.retrans,mem,mem.vmstat.pgfault,kernel.all.pswitch,disk.iops,disk.bytes,disk.dev.avactive,disk.dev.latency&host=" + window.location.hostname + "&hostspec=localhost";
 //  document.getElementById('topk-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUUDPT56";
 //  document.getElementById('als-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUYFSKXN";
 </script>
