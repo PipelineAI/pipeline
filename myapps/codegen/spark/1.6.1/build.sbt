@@ -3,9 +3,9 @@ val globalSettings = Seq(
   scalaVersion := sys.env("SCALA_VERSION") 
 )
 
-resolvers += "Spark Packages Repo" at "http://dl.bintray.com/spark-packages/maven"
+resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots/"
 
-val sparkVersion = "1.6.1"
+val sparkVersion = "1.6.1" 
 
 lazy val codegen = (project in file("."))
                     .settings(name := s"codegen-spark-${sparkVersion}")
@@ -26,3 +26,4 @@ lazy val codegenDeps = Seq(
   "org.apache.spark"  %% "spark-graphx"         % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"            % sparkVersion % "provided"
 )
+
