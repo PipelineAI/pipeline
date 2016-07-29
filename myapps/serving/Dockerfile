@@ -268,7 +268,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/spark && sbt clean package \
 
 # Sbt Serving Prediction Service (Spring + Netflix)
- && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
+ && cd ~/pipeline/myapps/serving/prediction && sbt clean assembly \
 
 # Sidecar for TensorFlow Serving
  && cd ~/pipeline/myapps/serving/tensorflow/ && mvn -DskipTests clean install \
@@ -280,7 +280,7 @@ RUN \
  && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
 
 # Sbt PMML 
- && cd ~/pipeline/myapps/pmml/spark/1.6.1 && sbt clean package 
+ && cd ~/pipeline/myapps/pmml/spark/1.6.1 && mvn clean install 
 
 RUN \
  cd ~ \
