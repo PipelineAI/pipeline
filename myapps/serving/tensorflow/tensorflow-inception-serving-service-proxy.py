@@ -24,7 +24,8 @@ def classify_image():
 
     p = subprocess.Popen(classifycmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    # Skip first 2 lines
+    # Skip first 3 lines
+    p.stdout.readline()
     p.stdout.readline()
     p.stdout.readline()
 
