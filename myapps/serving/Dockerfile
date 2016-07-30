@@ -268,7 +268,7 @@ RUN \
  && cd ~/pipeline/myapps/serving/spark && sbt clean package \
 
 # Sbt Serving Prediction Service (Spring + Netflix)
- && cd ~/pipeline/myapps/serving/prediction && sbt clean assembly \
+ && cd ~/pipeline/myapps/serving/prediction && sbt clean package \
 
 # Sidecar for TensorFlow Serving
  && cd ~/pipeline/myapps/serving/tensorflow/ && mvn -DskipTests clean install \
