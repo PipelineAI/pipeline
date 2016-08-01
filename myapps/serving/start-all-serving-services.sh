@@ -28,13 +28,12 @@ $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service-proxy
 echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
 $MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
 
-echo '...Starting Prediction Service...'
-echo ''
-echo '...This will take a minute or two...'
-echo ''
-echo '...***************************...'
-echo '...*** IGNORE ALL ERRORS!! ***...'
-echo '...***************************...'
-cd $MYAPPS_HOME/serving/prediction
-sbt assembly
-./start-prediction-service.sh
+#echo '...Starting Prediction Service...'
+#echo ''
+#echo '...This will take a minute or two...'
+#echo ''
+#echo '...***************************...'
+#echo '...*** IGNORE ALL ERRORS!! ***...'
+#echo '...***************************...'
+#cd $MYAPPS_HOME/serving/prediction
+#./start-prediction-service.sh

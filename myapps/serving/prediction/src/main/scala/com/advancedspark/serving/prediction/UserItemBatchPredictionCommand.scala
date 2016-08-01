@@ -34,9 +34,12 @@ class UserItemBatchPredictionCommand(
 
       val userFactorsMatrix = new DoubleMatrix(userFactorsArray)
       val itemFactorsMatrix = new DoubleMatrix(itemFactorsArray)
-     
-      // Calculate prediction 
-      userFactorsMatrix.mmul(itemFactorsMatrix).data
+    
+      System.out.println(s"userFactorsRows: ${userFactorsMatrix.columns}")
+      System.out.println(s"itemFactorsCols: ${itemFactorsMatrix.rows}")   
+
+      // Calculate batch predictions - returns single vector 
+      userFactorsMatrix.mmul(itemFactorsMatrix.transpose()).data
     } catch { 
        case e: Throwable => {
          System.out.println(e) 
@@ -51,3 +54,40 @@ class UserItemBatchPredictionCommand(
     Array(0.0)
   }
 }
+
+/*
+class StockTickerPriceCollapsedCommand extends HystrixCollapser[ImmutableMap[Ticker, StockPrice], StockPrice, Ticker] {
+
+    private final StockPriceGateway gateway;
+    private final Ticker stock;
+
+    StockTickerPriceCollapsedCommand(StockPriceGateway gateway, Ticker stock) {
+        super(HystrixCollapser.Setter.withCollapserKey(HystrixCollapserKey.Factory.asKey("Stock"))
+                .andCollapserPropertiesDefaults(HystrixCollapserProperties.Setter().withTimerDelayInMilliseconds(100)));
+        this.gateway = gateway;
+        this.stock = stock;
+    }
+
+    @Override
+    public Ticker getRequestArgument() {
+        return stock;
+    }
+
+    @Override
+    protected HystrixCommand<ImmutableMap<Ticker, StockPrice>> createCommand(Collection<CollapsedRequest<StockPrice, Ticker>> collapsedRequests) {
+        final Set<Ticker> stocks = collapsedRequests.stream()
+                .map(CollapsedRequest::getArgument)
+                .collect(toSet());
+        return new StockPricesBatchCommand(gateway, stocks);
+    }
+
+    @Override
+    protected void mapResponseToRequests(ImmutableMap<Ticker, StockPrice> batchResponse, Collection<CollapsedRequest<StockPrice, Ticker>> collapsedRequests) {
+        collapsedRequests.forEach(request -> {
+            final Ticker ticker = request.getArgument();
+            final StockPrice price = batchResponse.get(ticker);
+            request.setResponse(price);
+        });
+    }
+}
+*/

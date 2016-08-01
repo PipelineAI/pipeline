@@ -55,8 +55,8 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 48g --webui-port 6061 -
 #echo '...Starting Spark External Shuffle Service...'
 #nohup $SPARK_HOME/sbin/start-shuffle-service.sh
 
-#echo '...Starting Spark History Server...'
-#nohup $SPARK_HOME/sbin/start-history-server.sh &
+echo '...Starting Spark History Server...'
+nohup $SPARK_HOME/sbin/start-history-server.sh &
 
 #echo '...Starting Flink...'
 nohup start-local.sh &
@@ -95,11 +95,14 @@ nohup kafka-rest-start $CONFLUENT_HOME/etc/kafka-rest/kafka-rest.properties &
 echo '...Starting Jenkins...'
 service jenkins start
 
+echo '...Starting Hive ThriftServer...'
+start-hive-thriftserver.sh
+
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
-#echo '...Starting Serving Serices...'
-#$MYAPPS_HOME/serving/start-serving-services.sh
+echo '...Starting Serving Serices...'
+$MYAPPS_HOME/serving/start-all-serving-services.sh
 
 ########################################################
 # Be careful what starts up here.
