@@ -6,7 +6,7 @@
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-645x474.png)
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x562.png)
 
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
