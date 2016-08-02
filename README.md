@@ -115,6 +115,11 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 ![Spark Admin UI](http://advancedspark.com/img/flux-spark-6.png)
 
 ### Ganglia System and JVM Metrics Monitoring UIs
+![Vector Metrics UI](http://advancedspark.com/img/vector-01.png)
+![Vector Metrics UI](http://advancedspark.com/img/vector-02.png)
+![Vector Metrics UI](http://advancedspark.com/img/vector-03.png)
+
+### Ganglia System and JVM Metrics Monitoring UIs
 ![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-1.png)
 ![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-2.png)
 ![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-3.png)
