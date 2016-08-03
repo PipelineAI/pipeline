@@ -6,7 +6,7 @@
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-645x474.png)
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x562.png)
 
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
@@ -113,6 +113,11 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
 ![Spark Admin UI](http://advancedspark.com/img/flux-spark-4.png)
 ![Spark Admin UI](http://advancedspark.com/img/flux-spark-5.png)
 ![Spark Admin UI](http://advancedspark.com/img/flux-spark-6.png)
+
+### Vector Host and Guest (Docker) System Metric UIs
+![Vector Metrics UI](http://advancedspark.com/img/vector-01.png)
+![Vector Metrics UI](http://advancedspark.com/img/vector-02.png)
+![Vector Metrics UI](http://advancedspark.com/img/vector-03.png)
 
 ### Ganglia System and JVM Metrics Monitoring UIs
 ![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-1.png)
