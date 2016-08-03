@@ -3,15 +3,29 @@ server:
 spring:
   application:
     name: tensorflow-serving-service
-  cloud:
-    config:
-#      failFast: true
-      discovery:
-        enabled: true
-        serviceId: config-service
+sidecar:
+  port: 5070
+  health-uri: http://127.0.0.1:${sidecar.port}/health
 netflix:
   appinfo:
     name: ${spring.application.name}
-sidecar:
-  port: 5070 
-  health-uri: http://127.0.0.1:${sidecar.port}/health
+---
+spring:
+  profiles: local
+  cloud:
+    config:
+      failFast: true 
+      discovery:
+        enabled: true
+        serviceId: config-service
+      uri: http://127.0.0.1:8888
+---
+spring:
+  profiles: cluster
+  cloud:
+    config:
+      failFast: true
+      discovery:
+        enabled: true
+        serviceId: config-service
+      uri: http://master.pipeline.io:8888

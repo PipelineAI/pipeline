@@ -19,14 +19,14 @@ $MYAPPS_HOME/serving/turbine/start-turbine-service.sh
 echo '...Starting Atlas...'
 nohup java -jar $ATLAS_HOME/atlas-$ATLAS_VERSION-standalone.jar $ATLAS_HOME/conf/atlas.conf > $LOGS_HOME/serving/atlas/atlas.log &
 
-echo '...Starting TensorFlow Serving Inception Service...'
-$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service.sh
+#echo '...Starting TensorFlow Serving Inception Service...'
+#$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service.sh
 
-echo '...Starting TensorFlow Serving Inception Service Proxy...'
-$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service-proxy.sh
+#echo '...Starting TensorFlow Serving Inception Service Proxy...'
+#$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-service-proxy.sh
 
-echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
-$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
+#echo '...Starting TensorFlow Serving Inception Sidecar Inception Service...'
+#$MYAPPS_HOME/serving/tensorflow/start-tensorflow-serving-inception-sidecar-service.sh
 
 #echo '...Starting Prediction Service...'
 #echo ''

@@ -46,7 +46,8 @@ ENV \
  JPMML_SPARKML_VERSION=1.0.4 \
  PMML_MODEL_METRO_VERSION=1.2.15 \
  PMML_MODEL_VERSION=1.2.15 \
- PMML_EVALUATOR_VERSION=1.2.14
+ PMML_EVALUATOR_VERSION=1.2.14 \
+ SPRING_PROFILES_ACTIVE=cluster
 
 RUN \
  apt-get update \
@@ -310,4 +311,4 @@ EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 
 
 WORKDIR /root/pipeline
 
-CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/docker/start-prediction-service-from-Dockerfile-only.sh"]
+CMD ["/bin/bash", "-c", "/root/pipeline/myapps/serving/docker/start-all-prediction-services-from-Dockerfile-only.sh"]
