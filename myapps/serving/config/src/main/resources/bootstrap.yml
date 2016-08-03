@@ -7,7 +7,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/fluxcapacitor/pipeline.git
+          uri: https://github.com/fluxcapacitor/pipeline
+          searchPaths: '/myapps/serving/config/yml/'
 netflix:
   appinfo:
     name: ${spring.application.name}

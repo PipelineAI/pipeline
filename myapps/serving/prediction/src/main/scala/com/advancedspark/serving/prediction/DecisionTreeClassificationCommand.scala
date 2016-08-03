@@ -8,11 +8,8 @@ import com.netflix.dyno.jedis._
 import scala.util.parsing.json._
 
 // Return Map[classId (String), probability (Double)]
-class DecisionTreeClassificationCommand(namespace: String, version: String, itemId: String) 
-    extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("DecisionTreeClassification")) {
-
-  //@throws(classOf[java.io.IOException])
-  def get(url: String) = scala.io.Source.fromURL(url).mkString
+class TreeClassificationCommand(namespace: String, version: String, itemId: String) 
+    extends HystrixCommand[Seq[(String, Double)]](HystrixCommandGroupKey.Factory.asKey("TreeClassification")) {
 
   def run(): Seq[(String, Double)] = {
     try{

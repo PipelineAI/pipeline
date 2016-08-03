@@ -4,6 +4,7 @@ import org.springframework.boot._
 import org.springframework.boot.autoconfigure._
 import org.springframework.stereotype._
 import org.springframework.web.bind.annotation._
+import org.springframework.cloud.context.config.annotation._
 import org.springframework.boot.context.embedded._
 import org.springframework.context.annotation._
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
+import scala.reflect.BeanProperty
 
 import com.netflix.dyno.jedis._
 import com.netflix.dyno.connectionpool.Host
@@ -37,12 +39,20 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 @EnableHystrix
 @EnableEurekaClient
 @Configuration
+@Bean
+@RefreshScope
 class PredictionService {
   @Value("${prediction.namespace:''}")
   val namespace = ""
 
   @Value("${prediction.version:''}")
   val version = "" 
+
+//  @Bean
+//  @RefreshScope
+  @BeanProperty
+  @Value("${prediction.tree.pmml:'tree.pmml'}")
+  var treePmml = ""
 
   @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),  
                   produces=Array("application/json; charset=UTF-8"))
@@ -107,8 +117,8 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/image-classifications/{itemId}"))
-  def imageClassifications(@PathVariable("itemId") itemId: String): String = {
+  @RequestMapping(Array("/image-classify/{itemId}"))
+  def imageClassify(@PathVariable("itemId") itemId: String): String = {
     // TODO:
     try {
       // TODO:  Convert to JSON
@@ -121,11 +131,11 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/decision-tree-classifications/{itemId}"))
-  def decisionTreeClassifications(@PathVariable("itemId") itemId: String): String = {
+  @RequestMapping(Array("/tree-classify/{itemId}"))
+  def treeClassify(@PathVariable("itemId") itemId: String): String = {
     // TODO:  Convert to JSON
     try {
-      Map("Pandas" -> 1.0).toString
+      s"""{"results":["tree.pmml":${treePmml}]}"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
