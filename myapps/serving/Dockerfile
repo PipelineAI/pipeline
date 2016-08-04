@@ -69,8 +69,8 @@ RUN \
  && apt-get install -y python-dev \
  && apt-get install -y python-pip \
  && pip install jupyter \
- && pip install ipyparallel 
-# && pip install --upgrade flask
+ && pip install ipyparallel \ 
+ && pip install --upgrade flask
 
 # TensorFlow
 RUN \
