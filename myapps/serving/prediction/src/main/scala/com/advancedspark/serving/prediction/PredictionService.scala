@@ -48,8 +48,6 @@ class PredictionService {
   @Value("${prediction.version:''}")
   val version = "" 
 
-//  @Bean
-//  @RefreshScope
   @BeanProperty
   @Value("${prediction.tree.pmml:'tree.pmml'}")
   var treePmml = ""
@@ -92,7 +90,6 @@ class PredictionService {
       val results = new UserItemRecommendationsCommand(PredictionServiceOps.dynoClient, namespace, version, userId, startIdx, endIdx)
        .execute()
       s"""{"results":[${results.mkString(",")}]}"""
-      //Map("results" -> results)
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -117,7 +114,8 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/image-classify/{itemId}"))
+  @RequestMapping(path=Array("/image-classify/{itemId}"),
+                  produces=Array("application/json; charset=UTF-8")) 
   def imageClassify(@PathVariable("itemId") itemId: String): String = {
     // TODO:
     try {
@@ -131,9 +129,9 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(Array("/tree-classify/{itemId}"))
+  @RequestMapping(path=Array("/tree-classify/{itemId}"),
+                  produces=Array("application/json; charset=UTF-8"))
   def treeClassify(@PathVariable("itemId") itemId: String): String = {
-    // TODO:  Convert to JSON
     try {
       s"""{"results":["tree.pmml":${treePmml}]}"""
     } catch {
