@@ -34,6 +34,8 @@ import com.netflix.dyno.connectionpool.impl.ConnectionContextImpl
 import com.netflix.dyno.connectionpool.impl.OperationResultImpl
 import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
+import scala.collection.JavaConverters._
+
 @SpringBootApplication
 @RestController
 @EnableHystrix
@@ -132,8 +134,72 @@ class PredictionService {
   @RequestMapping(path=Array("/tree-classify/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def treeClassify(@PathVariable("itemId") itemId: String): String = {
+import java.io.FileInputStream
+import org.jpmml.model.MetroJAXBUtil
+import org.xml.sax.InputSource
+import org.jpmml.evaluator.TreeModelEvaluator
+import org.jpmml.evaluator.ModelEvaluatorFactory
+import org.jpmml.evaluator.Evaluator
+import org.jpmml.model.ImportFilter
+import org.jpmml.model.JAXBUtil
+
     try {
       s"""{"results":["tree.pmml":${treePmml}]}"""
+
+    val pmml: java.io.File = new java.io.File(treePmml)
+
+    // Form the following:  https://github.com/jpmml/jpmml-evaluator
+    val is = new java.io.FileInputStream(pmml.getAbsolutePath())
+    val transformedSource = ImportFilter.apply(new InputSource(is))
+
+    val pmml2 = JAXBUtil.unmarshalPMML(transformedSource)
+
+    //val modelEvaluator = new TreeModelEvaluator(pmml2)
+    val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+
+    val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelManager(pmml2)
+    System.out.println("Mining function: " + modelEvaluator.getMiningFunction())
+
+    val activeFields = modelEvaluator.getActiveFields().asScala
+
+    System.out.println("Input schema:");
+    System.out.println("\t" + "Active fields: " + modelEvaluator.getActiveFields())
+    System.out.println("\t" + "Group fields: " + modelEvaluator.getGroupFields())
+
+    System.out.println("Output schema:");
+    System.out.println("\t" + "Target fields: " + modelEvaluator.getTargetFields())
+    System.out.println("\t" + "Output fields: " + modelEvaluator.getOutputFields())
+
+    val inputs: Map[String, _] = Map("age" -> 39,
+                                     "workclass" -> "State-gov",
+                                     "education" -> "Bachelors",
+                                     "education_num" -> 13,
+                                     "marital_status" -> "Never-married",
+                                     "occupation" -> "Adm-clerical",
+                                     "relationship" -> "Not-in-family",
+                                     "race" -> "White",
+                                     "sex" -> "Male",
+                                     "capital_gain" -> 2174,
+                                     "capital_loss" -> 0,
+                                     "hours_per_week" -> 40,
+                                     "native_country" -> "United-States")
+
+    val arguments =
+      ( for(activeField <- activeFields)
+        // The raw value is passed through:
+        //   1) outlier treatment,
+        //   2) missing value treatment,
+        //   3) invalid value treatment
+        //   4) type conversion
+        yield (activeField -> modelEvaluator.prepare(activeField, inputs(activeField.getValue)))
+      ).toMap.asJava
+
+    val results = modelEvaluator.evaluate(arguments)
+    val targetName = modelEvaluator.getTargetField()
+    val targetValue = results.get(targetName)
+
+    s"""{"results":[{'${targetName.getValue}': '${targetValue}'}]}"""
+
     } catch {
        case e: Throwable => {
          System.out.println(e)

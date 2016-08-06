@@ -19,6 +19,8 @@ val springBootVersion = sys.env("SPRING_BOOT_VERSION")
 val springCloudVersion = sys.env("SPRING_CLOUD_VERSION")
 val springCoreVersion = sys.env("SPRING_CORE_VERSION")
 val pmmlEvaluatorVersion = sys.env("PMML_EVALUATOR_VERSION")
+val pmmlModelVersion = sys.env("PMML_MODEL_VERSION")
+val pmmlModelMetroVersion = sys.env("PMML_MODEL_METRO_VERSION")
 
 lazy val deps = Seq(
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
@@ -31,5 +33,8 @@ lazy val deps = Seq(
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-config" % springCloudVersion
+  "org.springframework.cloud" % "spring-cloud-starter-config" % springCloudVersion,
+  "org.jpmml" % "pmml-model-metro" % pmmlModelMetroVersion,
+  "org.jpmml" % "pmml-model" % pmmlModelVersion,
+  "org.jpmml" % "pmml-evaluator" % pmmlEvaluatorVersion 
 )
