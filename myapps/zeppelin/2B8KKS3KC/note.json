@@ -675,9 +675,9 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Extract Best Decision tree",
-      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval bestClassificationModel \u003d bestPipelineModel.stages(5).asInstanceOf[DecisionTreeClassificationModel]\n\n//s\"Model has most important features: ${bestClassificationModel.featureImportances.argmax}\"\n\nbestClassificationModel.toDebugString",
-      "dateUpdated": "Jul 10, 2016 5:17:14 AM",
+      "title": "Select Best Decision tree",
+      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval bestClassificationModel \u003d bestPipelineModel.stages(5).asInstanceOf[DecisionTreeClassificationModel]",
+      "dateUpdated": "Aug 4, 2016 10:33:21 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -707,6 +707,42 @@
       "dateCreated": "May 24, 2016 5:11:29 PM",
       "dateStarted": "Jul 10, 2016 5:17:22 AM",
       "dateFinished": "Jul 10, 2016 5:17:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md #Now What?!",
+      "dateUpdated": "Aug 4, 2016 10:35:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "title": false,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1470350092859_774047995",
+      "id": "20160804-223452_986974761",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eNow What?!\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Aug 4, 2016 10:34:52 PM",
+      "dateStarted": "Aug 4, 2016 10:35:16 PM",
+      "dateFinished": "Aug 4, 2016 10:35:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
