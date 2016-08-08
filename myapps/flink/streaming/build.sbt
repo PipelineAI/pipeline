@@ -13,7 +13,7 @@ val flinkVersion = sys.env("FLINK_VERSION")
 val flinkDependencies = Seq(
   "org.apache.flink" %% "flink-scala" % flinkVersion % "provided",
   "org.apache.flink" %% "flink-streaming-scala" % flinkVersion % "provided",
-  "org.apache.flink" %% "flink-connector-kafka-0.9" % flinkVersion % "provided",
+  "org.apache.flink" %% "flink-connector-kafka-0.9" % flinkVersion,
   "org.apache.kafka" %% "kafka" % "0.9.0.1" % "provided",
   "org.apache.flink" %% "flink-cep" % flinkVersion % "provided"
 )
