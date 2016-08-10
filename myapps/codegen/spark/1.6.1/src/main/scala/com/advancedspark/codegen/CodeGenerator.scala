@@ -383,8 +383,9 @@ object CodeGenerator {
     evaluator.setImplementedInterfaces(codeGenBundle.interfaces) 
     
     val parentClassLoader = //new ParentClassLoader(new CodeGenClassLoader().getContextOrAppClassLoader)
-    evaluator.setParentClassLoader(getClass.getClassLoader.getParent.getParent)
-    //evaluator.setParentClassLoader(getClass.getSystemClassLoader())
+      evaluator.setParentClassLoader(getClass.getClassLoader)
+      //evaluator.setParentClassLoader(getClass.getClassLoader.getParent.getParent)
+      //evaluator.setParentClassLoader(getClass.getSystemClassLoader())
     
     lazy val formatted = CodeFormatter.format(codeGenBundle)
 
