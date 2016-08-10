@@ -24,6 +24,18 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <!-- For Nightly Spark -SNAPSHOT Releases -->
+    <repository>
+      <id>apache-snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://repository.apache.org/snapshots/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 
   <pluginRepositories>
@@ -41,12 +53,12 @@
 
   <profiles>
     <profile>
-      <id>spark-1.6</id>
+      <id>spark-2.1</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <sparkVersion>1.6.1</sparkVersion>
+        <sparkVersion>2.1.0-SNAPSHOT</sparkVersion>
       </properties>
       <dependencies>
           <dependency>
