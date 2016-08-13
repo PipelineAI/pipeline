@@ -132,9 +132,56 @@ class PredictionService {
   }
   */
 
-//  @BeanProperty
-//  @Value("${prediction.tree.pmml:'data/census/census.pmml'}")
-//  var treePmml = ""
+ @RequestMapping(path=Array("/update/{javaSourceName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def updateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody javaSource: String): ResponseEntity[HttpStatus] = {
+    try {
+      //  TODO:  Compile JavaSource
+      //  TODO:  Update JavaSource in Cache
+      new ResponseEntity(HttpStatus.OK)
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
+ 
+  @RequestMapping(path=Array("/evaluate/{javaSourceName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def evaluateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody inputs: String): String = {
+    try {
+      val inputMap = JSON.parseFull(inputs).get.asInstanceOf[Map[String,Any]]
+
+      val targetName = "income"
+      val targetValue = "blah"
+
+      s"""{"results":[{'${targetName}': '${targetValue}'}]}"""
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
+
+  @RequestMapping(path=Array("/update/{pmmlName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def updatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody pmml: String): ResponseEntity[HttpStatus] = {
+    try {
+      //  TODO:  Create Evaluator from pmml
+      //  TODO:  Update pmml Evaluator in Cache
+      new ResponseEntity(HttpStatus.OK)
+    } catch {
+       case e: Throwable => {
+         System.out.println(e)
+         throw e
+       }
+    }
+  }
 
   @RequestMapping(path=Array("/evaluate/{pmmlName}"),
                   method=Array(RequestMethod.POST),
