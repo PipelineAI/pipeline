@@ -114,6 +114,8 @@ class PredictionService {
     }
   }
 
+  /*
+   * TODO: Proxy this through to TensorFlow
   @RequestMapping(path=Array("/image-classify/{itemId}"),
                   produces=Array("application/json; charset=UTF-8")) 
   def imageClassify(@PathVariable("itemId") itemId: String): String = {
@@ -128,12 +130,11 @@ class PredictionService {
        }
     }
   }
-
+  */
 
 //  @BeanProperty
 //  @Value("${prediction.tree.pmml:'data/census/census.pmml'}")
 //  var treePmml = ""
-
 
   @RequestMapping(path=Array("/evaluate/{pmmlName}"),
                   method=Array(RequestMethod.POST),
@@ -149,7 +150,6 @@ class PredictionService {
     import org.jpmml.model.JAXBUtil
 
     try {
-      // TODO:  Convert inputs into Map to be used by modelEvaluator
       /*
       val inputsMap: Map[String, _] = Map("age" -> 39,
                                           "workclass" -> "State-gov",
