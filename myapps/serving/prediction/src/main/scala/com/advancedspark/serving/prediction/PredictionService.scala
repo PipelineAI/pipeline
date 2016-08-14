@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import scala.reflect.BeanProperty
+//import org.springframework.cloud.endpoint.RefreshEndpoint
 
 import com.netflix.dyno.jedis._
 import com.netflix.dyno.connectionpool.Host
@@ -51,6 +52,9 @@ class PredictionService {
 
   @Value("${prediction.version:''}")
   val version = "" 
+
+  @Value("${prediction.census.pmml:'blah.pmml'}")
+  val predictionCensusPmml= ""
 
   @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),  
                   produces=Array("application/json; charset=UTF-8"))
@@ -132,7 +136,7 @@ class PredictionService {
   }
   */
 
- @RequestMapping(path=Array("/update/{javaSourceName}"),
+ @RequestMapping(path=Array("/update-java-source/{javaSourceName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody javaSource: String): ResponseEntity[HttpStatus] = {
@@ -148,7 +152,7 @@ class PredictionService {
     }
   }
  
-  @RequestMapping(path=Array("/evaluate/{javaSourceName}"),
+  @RequestMapping(path=Array("/evaluate-java-source/{javaSourceName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody inputs: String): String = {
@@ -167,7 +171,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/update/{pmmlName}"),
+  @RequestMapping(path=Array("/update-pmml/{pmmlName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody pmml: String): ResponseEntity[HttpStatus] = {
@@ -183,10 +187,13 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate/{pmmlName}"),
+  @RequestMapping(path=Array("/evaluate-pmml/{pmmlName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody inputs: String): String = {
+    //RefreshEndpoint.refresh()
+    System.out.println("Prediction Census PMML: " + predictionCensusPmml)
+
     import java.io.FileInputStream
     import org.jpmml.model.MetroJAXBUtil
     import org.xml.sax.InputSource
