@@ -24,7 +24,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import scala.reflect.BeanProperty
-//import org.springframework.cloud.endpoint.RefreshEndpoint
 
 import com.netflix.dyno.jedis._
 import com.netflix.dyno.connectionpool.Host
@@ -178,6 +177,21 @@ class PredictionService {
     try {
       //  TODO:  Create Evaluator from pmml
       //  TODO:  Update pmml Evaluator in Cache
+      
+      // Write the new pmml (XML format) to local disk
+      val path = new java.io.File(s"data/${pmmlName}/")
+      if (!path.isDirectory()) { 
+        path.mkdirs()
+      }
+
+      val file = new java.io.File(s"data/${pmmlName}/${pmmlName}.pmml")
+      if (!file.exists()) {
+        file.createNewFile()
+      }
+
+      val os = new java.io.FileOutputStream(file)
+      os.write(pmml.getBytes())    
+  
       new ResponseEntity(HttpStatus.OK)
     } catch {
        case e: Throwable => {
@@ -191,7 +205,6 @@ class PredictionService {
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody inputs: String): String = {
-    //RefreshEndpoint.refresh()
     System.out.println("Prediction Census PMML: " + predictionCensusPmml)
 
     import java.io.FileInputStream
