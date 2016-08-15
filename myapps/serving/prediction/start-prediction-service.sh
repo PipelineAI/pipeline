@@ -5,4 +5,4 @@ echo ''
 echo '...***************************...'
 echo '...*** IGNORE ALL ERRORS!! ***...'
 echo '...***************************...'
-java -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -Djava.security.egd=file:/dev/./urandom -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"
+java -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -Djava.security.egd=file:/dev/./urandom -cp lib/codegen-spark-1-6-1_2.10-1.0.jar -jar ~/sbt/bin/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"

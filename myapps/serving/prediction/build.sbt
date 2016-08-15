@@ -5,6 +5,7 @@ val globalSettings = Seq(
 
 // https://github.com/thammegowda/tensorflow-grpc-java
 (unmanagedClasspath in Compile) += file("/root/myapps/serving/prediction/lib/tensorflow-java-1.0-jar-with-dependencies.jar")
+(unmanagedClasspath in Compile) += file("/root/myapps/serving/prediction/lib/codegen-spark-1-6-1_2.10-1.0.jar")
 
 lazy val settings = (project in file("."))
                     .settings(name := "prediction")
@@ -21,8 +22,13 @@ val springCoreVersion = sys.env("SPRING_CORE_VERSION")
 val pmmlEvaluatorVersion = sys.env("PMML_EVALUATOR_VERSION")
 val pmmlModelVersion = sys.env("PMML_MODEL_VERSION")
 val pmmlModelMetroVersion = sys.env("PMML_MODEL_METRO_VERSION")
+val janinoVersion = sys.env("JANINO_VERSION")
+val codahaleMetricsVersion = sys.env("CODAHALE_METRICS_VERSION")
 
 lazy val deps = Seq(
+  "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,
+  "org.codehaus.janino"  % "janino"             % janinoVersion,
+  "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
