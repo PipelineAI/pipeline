@@ -61,7 +61,7 @@ object TreeClassifierMain {
               classOf[Initializable], 
               classOf[Lookupable], 
               classOf[Serializable], 
-              classOf[org.apache.spark.ml.linalg.Vector],
+              classOf[org.apache.spark.mllib.linalg.Vector],
               classOf[java.util.Arrays]
               //classOf[java.util.HashSet]
           ),
