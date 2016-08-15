@@ -31,7 +31,7 @@ trait CallableVectorDouble {
 }
 
 object DecisionTreeClassificationModelCodeGenerator { 
-  private val classNamePrefix = "/2.0.0/spark/ml/classification/GeneratedDecisionTreeClassificationModel"
+  private val classNamePrefix = "/1.6.1/spark/ml/classification/GeneratedDecisionTreeClassificationModel"
   private val currentClassNameId = new java.util.concurrent.atomic.AtomicInteger()
   private val currentMethodNameId = new java.util.concurrent.atomic.AtomicInteger()
 
@@ -40,7 +40,7 @@ object DecisionTreeClassificationModelCodeGenerator {
    * @param generated source code
    * @param interfaces used by the generated source code
    */
-  protected def compile(generatedSourceCode: String, interfaces: Array[Class[_]]): Class[_] = {
+  def compile(generatedSourceCode: String, interfaces: Array[Class[_]]): Class[_] = {
     val startTime = System.nanoTime()
  
     val evaluator = new ClassBodyEvaluator()
@@ -89,7 +89,7 @@ object DecisionTreeClassificationModelCodeGenerator {
    * functions.
    */
   def generateSourceCode(root: Node, depth: Int): (String, String) = {
-/*
+
     // Generate the conditional for provide categories
     def categoryMatchConditional(split: CategoricalSplit) = {
       val allCategories = split.leftCategories ++ split.rightCategories
@@ -126,8 +126,8 @@ object DecisionTreeClassificationModelCodeGenerator {
             val subCode = nodeSplit match {
               case split: CategoricalSplit =>
                 //val isLeft = split.isLeft
-		val allCategories = split.leftCategories ++ split.rightCategories
- 		val isLeft: Boolean = split.leftCategories.length <= (allCategories.size / 2)
+		            val allCategories = split.leftCategories ++ split.rightCategories
+ 		            val isLeft: Boolean = split.leftCategories.length <= (allCategories.size / 2)
                 isLeft match {
                   case true => s"""
                               ${categoryMatchConditional(split)}
@@ -154,7 +154,7 @@ object DecisionTreeClassificationModelCodeGenerator {
         }
       case node: LeafNode => (s"return ${node.prediction};", "")
     }
-*/
+
     // return empty strings for now
     ("","")
   }
