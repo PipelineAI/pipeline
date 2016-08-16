@@ -44,7 +44,7 @@ import com.advancedspark.codegen.CodeGenContext
 import com.advancedspark.codegen.CodeGenTypes._
 import com.advancedspark.codegen.CodeGenerator
 import com.advancedspark.codegen.DumpByteCode
-import com.advancedspark.codegen.example.RecommendationMap
+import com.advancedspark.codegen.example.Lookupable
 import com.advancedspark.codegen.example.Initializable
 
 @SpringBootApplication
@@ -144,39 +144,54 @@ class PredictionService {
   }
   */
 
- var javaInstance: RecommendationMap = null
+  var javaInstance: Lookupable = null
 
- @RequestMapping(path=Array("/update-java-source/{javaSourceName}"),
+  @RequestMapping(path=Array("/update-lookup/{className}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def updateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody javaSource: String): ResponseEntity[HttpStatus] = {
+  def updateLookup(@PathVariable("className") className: String, @RequestBody classSource: String): ResponseEntity[HttpStatus] = {
     try {
-      //  TODO:  Compile JavaSource
-      //  TODO:  Update JavaSource in Cache
-      System.out.println("javaSource: ${javaSource}")
+      //  TODO:  Update Cache
+      System.out.println("updating ${className}: ${classSource}")
 
-      javaInstance = RecommendationMapCodeGenerator.codegen(javaSourceName, javaSource).asInstanceOf[RecommendationMap]
-      System.out.println(s"generated instance: ${javaInstance}")
+      /////////////////////////////////////
+      // TODO:  Remove this in favor of a json-based map passed in through the payload?
+      val lookupMap = new java.util.HashMap[Any, Any]()
+
+      // TODO:  To lower the memory footprint, and improve cache locality,
+      //        we can store the value list in a more-compressed fashion and avoid pointer-hopping which thrashes CPU caches.
+      //
+      // String -> Array[String]
+      lookupMap.put("21619", ("10001", "10002"))
+      lookupMap.put("21620", ("10003", "10004"))
+      lookupMap.put("21621", ("10005", "10006"))
+      /////////////////////////////////////
+
+      javaInstance = LookupableCodeGenerator.codegen(className, classSource, lookupMap).asInstanceOf[Lookupable]
+
+ //     val classLoader = new org.codehaus.janino.ByteArrayClassLoader(Map(className -> classBody))
+ //     javaInstance = classLoader.loadClass(className, true).newInstance().asInstanceOf[Lookupable]
+      System.out.println(s"javaInstance: ${javaInstance}")
 
       new ResponseEntity(HttpStatus.OK)
     } catch {
-       case e: Throwable => {
-         System.out.println(e)
-         throw e
-       }
-    }
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+     }
   }
  
-  @RequestMapping(path=Array("/evaluate-java-source/{javaSourceName}"),
-                  method=Array(RequestMethod.POST),
+  @RequestMapping(path=Array("/evaluate-lookup/{className}/{key}"),
+                  method=Array(RequestMethod.GET),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluateJavaSource(@PathVariable("javaSourceName") javaSourceName: String, @RequestBody inputs: String): String = {
+  def evaluateLookup(@PathVariable("className") className: String, @PathVariable("key") key: String): String = {
     try {
       //val inputMap = JSON.parseFull(inputs).get.asInstanceOf[Map[String,Any]]
       //System.out.println(inputMap)
   
-      val key = "a"
-      val value = javaInstance.getRecommendationsForUser(key)
+     // val key = "21619"
+      val value = javaInstance.lookup(key)
 
       s"""{"results":[{'${key}': '${value}'}]}"""
     } catch {
@@ -234,22 +249,6 @@ class PredictionService {
     import org.jpmml.model.JAXBUtil
 
     try {
-      /*
-      val inputsMap: Map[String, _] = Map("age" -> 39,
-                                          "workclass" -> "State-gov",
-                                          "education" -> "Bachelors",
-                                     	  "education_num" -> 13,
-                                     	  "marital_status" -> "Never-married",
-                                     	  "occupation" -> "Adm-clerical",
-                                     	  "relationship" -> "Not-in-family",
-                                     	  "race" -> "White",
-                                     	  "sex" -> "Male",
-                                     	  "capital_gain" -> 2174,
-                                     	  "capital_loss" -> 0,
-                                     	  "hours_per_week" -> 40,
-                                     	  "native_country" -> "United-States")
-      */
-
       val inputMap = JSON.parseFull(inputs).get.asInstanceOf[Map[String,Any]]
 
       val pmml: java.io.File = new java.io.File(s"data/${pmmlName}/${pmmlName}.pmml")
@@ -335,64 +334,18 @@ object PredictionServiceOps {
              .build()
 }
 
-object RecommendationMapCodeGenerator {
-  def codegen(javaSourceName: String, javaSource: String): RecommendationMap = {   
-    //val ctx = new CodeGenContext()
-    
-    //ctx.addMutableState(JAVA_STRING, "str", "str = \"blahblah\";")
-
-    //val lookupMap = new java.util.HashMap[Any, Any]()
-
-    // TODO:  To lower the memory footprint, and improve cache locality, 
-    //        we can store the value list in a more-compressed fashion and avoid pointer-hopping which thrashes CPU caches.
-    //        
-    // String :: primitive int array
-    //lookupMap.put("a", (10001, 10002))
-    //lookupMap.put("b", (10003, 10004))
-    //lookupMap.put("c", (10005, 10006))
-    
-    //ctx.addReferenceObj("lookupMap", lookupMap, lookupMap.getClass.getName)
-
-    //ctx.addNewFunction("lookup", "public Object lookup(Object key) { return lookupMap.get(key); }")
-       
-    // TODO:  Disable comments and line numbers as they're expensive
-    // val source = s"""
-    //  ${ctx.registerComment("LookupMap Comment...")}
-    
-    //  ${ctx.declareMutableStates()}
-
-    //  public void initialize(Object[] references) {
-    //    ${ctx.initMutableStates()}
-    //  }
-
-    //  ${ctx.declareAddedFunctions()}
-    //  """.trim
-
-    // Format and compile source
-    // Note:  If you see "InstantiationException", you might be trying to create a package+classname that already exists.
-    //        This is why we're namespacing this package to include ".generated", but we also changed the name of this
-    //        outer class to LookupMapMain to make this more explicit.
-    /////////////////////////////////////////////////
-    // TODO:  Remove this!
-     val recommendationMap = new java.util.HashMap[Any, Any]()
-
-    // TODO:  To lower the memory footprint, and improve cache locality, 
-    //        we can store the value list in a more-compressed fashion and avoid pointer-hopping which thrashes CPU caches.
-    //        
-    // String -> Array[String]
-    recommendationMap.put("21619", ("10001", "10002"))
-    recommendationMap.put("21620", ("10003", "10004"))
-    recommendationMap.put("21621", ("10005", "10006"))
+object LookupableCodeGenerator {
+  def codegen(className: String, classSource: String, lookupMap: java.util.Map[Any, Any]): Lookupable = {   
     
     val references = new scala.collection.mutable.ArrayBuffer[Any]()
-    references += recommendationMap
+    references += lookupMap 
     /////////////////////////////////////////////////
 
-    val codeGenBundle = new CodeGenBundle("com.advancedspark.codegen.example.generated.RecommendationMap",        
+    val codeGenBundle = new CodeGenBundle("com.advancedspark.codegen.example.generated.LookupMap",        
         null, 
-        Array(classOf[Initializable], classOf[RecommendationMap], classOf[Serializable]), 
+        Array(classOf[Initializable], classOf[Lookupable], classOf[Serializable]), 
         Array(classOf[java.util.Map[Any, Any]]), 
-        CodeFormatter.stripExtraNewLines(javaSource)
+        CodeFormatter.stripExtraNewLines(classSource)
     )
     
     try {
@@ -406,15 +359,15 @@ object RecommendationMapCodeGenerator {
       bar.initialize(references.toArray)
 
       System.out.println("Testing new instance.")
-      System.out.println(s"Recommendations for '21619' -> '${bar.asInstanceOf[RecommendationMap].getRecommendationsForUser("21619")}'")
+      System.out.println(s"Lookup for '21619' -> '${bar.asInstanceOf[Lookupable].lookup("21619")}'")
 
       System.out.println("Instantiating and initializing instance from parent classloader.")
-      val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.RecommendationMap")
+      val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.LookupMap")
       val bar2 = clazz2.newInstance().asInstanceOf[Initializable]
       bar2.initialize(references.toArray) 
-      System.out.println(s"Recommendations for '21620' -> '${bar2.asInstanceOf[RecommendationMap].getRecommendationsForUser("21620")}'")
+      System.out.println(s"Lookup for '21620' -> '${bar2.asInstanceOf[Lookupable].lookup("21620")}'")
 
-      bar2.asInstanceOf[RecommendationMap] 
+      bar2.asInstanceOf[Lookupable] 
     } catch {
       case e: Exception =>
         System.out.println(s"Could not generate code: ${codeGenBundle}", e)
