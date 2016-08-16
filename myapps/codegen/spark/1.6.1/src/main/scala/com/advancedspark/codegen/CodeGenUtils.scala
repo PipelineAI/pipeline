@@ -57,10 +57,7 @@ object CodeFormatter {
   def format(codeGenBundle: CodeGenBundle): String = {
     val formatter = new CodeFormatter
     codeGenBundle.body.split("\n").foreach { line =>
-      val commentReplaced = commentHolder.replaceAllIn(
-        line.trim,
-        m => codeGenBundle.comment.get(m.group(1)).map(Matcher.quoteReplacement).getOrElse(m.group(0)))
-      formatter.addLine(commentReplaced)
+      formatter.addLine(line)
     }
     formatter.result()
   }
@@ -78,37 +75,6 @@ object CodeFormatter {
       lastLine = line
     }
     code.result()
-  }
-
-  def stripOverlappingComments(codeGenBundle: CodeGenBundle): CodeGenBundle = {
-    val code = new StringBuilder
-    val comments = codeGenBundle.comment
-
-    def getComment(line: String): Option[String] = {
-      if (line.startsWith("/*") && line.endsWith("*/")) {
-        comments.get(line.substring(2, line.length - 2))
-      } else {
-        None
-      }
-    }
-
-    var lastLine: String = "dummy"
-    codeGenBundle.body.split('\n').foreach { l =>
-      val line = l.trim()
-
-      val skip = getComment(lastLine).zip(getComment(line)).exists {
-        case (lastComment, currentComment) =>
-          lastComment.substring(3).contains(currentComment.substring(3))
-      }
-
-      if (!skip) {
-        code.append(line).append("\n")
-      }
-
-      lastLine = line
-    }
-    
-    new CodeGenBundle(codeGenBundle.packageName, codeGenBundle.className, codeGenBundle.extend, codeGenBundle.interfaces, codeGenBundle.imports, code.result().trim(), comments)
   }
 }
 
@@ -175,111 +141,62 @@ class CodeFormatter {
 
   private def result(): String = code.result()
 }
-//
-//class CodeGenClassLoader {
-//  /**
-//   * Get the ClassLoader which loaded Spark.
-//   */
-//  def getAppClassLoader: ClassLoader = getClass.getClassLoader
-//
-//  /**
-//   * Get the Context ClassLoader on this thread or, if not present, the ClassLoader that
-//   * loaded Spark.
-//   *
-//   * This should be used whenever passing a ClassLoader to Class.ForName or finding the currently
-//   * active loader when setting up ClassLoader delegation chains.
-//   */
-//  def getContextOrAppClassLoader: ClassLoader =
-//    Option(Thread.currentThread().getContextClassLoader).getOrElse(getAppClassLoader)
-//
-//  /** Determines whether the provided class is loadable in the current thread. */
-//  def classIsLoadable(clazz: String): Boolean = {
-//    // scalastyle:off classforname
-//    Try { Class.forName(clazz, false, getContextOrAppClassLoader) }.isSuccess
-//    // scalastyle:on classforname
-//  }
-//
-//  // scalastyle:off classforname
-//  /** Preferred alternative to Class.forName(className) */
-//  def classForName(className: String): Class[_] = {
-//    Class.forName(className, true, getContextOrAppClassLoader)
-//    // scalastyle:on classforname
-//  }
-//}
 
-  /**
-   * Dumps the bytecode from a class to the screen using javap.
-   */
-  object DumpByteCode {
-    import scala.sys.process._
-    val dumpDirectory = createDirectory(System.getProperty("java.io.tmpdir"))
-    dumpDirectory.mkdir()
+/**
+ * Dumps the bytecode from a class to the screen using javap.
+ */
+object DumpByteCode {
+  import scala.sys.process._
+  val dumpDirectory = createDirectory(System.getProperty("java.io.tmpdir"))
+  dumpDirectory.mkdir()
 
-    def apply(obj: Any): Unit = {
-      val generatedClass = obj.getClass
-      val classLoader =
-        generatedClass
-          .getClassLoader
-          .asInstanceOf[scala.tools.nsc.interpreter.AbstractFileClassLoader]
-      val generatedBytes = 
-        classLoader.classBytes(generatedClass.getName)
+  def apply(obj: Any): Unit = {
+    val generatedClass = obj.getClass
+    val classLoader =
+      generatedClass
+        .getClassLoader
+        .asInstanceOf[scala.tools.nsc.interpreter.AbstractFileClassLoader]
+    val generatedBytes = 
+      classLoader.classBytes(generatedClass.getName)
 
-      val packageDir = new java.io.File(dumpDirectory, generatedClass.getPackage.getName)
-      if (!packageDir.exists()) { packageDir.mkdir() }
+    val packageDir = new java.io.File(dumpDirectory, generatedClass.getPackage.getName)
+    if (!packageDir.exists()) { packageDir.mkdir() }
 
-      val classFile =
-        new java.io.File(packageDir, generatedClass.getName.split("\\.").last + ".class")
+    val classFile =
+      new java.io.File(packageDir, generatedClass.getName.split("\\.").last + ".class")
 
-      val outfile = new java.io.FileOutputStream(classFile)
-      outfile.write(generatedBytes)
-      outfile.close()
+    val outfile = new java.io.FileOutputStream(classFile)
+    outfile.write(generatedBytes)
+    outfile.close()
 
-      // scalastyle:off println
-      println(
-        s"javap -p -v -classpath ${dumpDirectory.getCanonicalPath} ${generatedClass.getName}".!!)
-      // scalastyle:on println
+    // scalastyle:off println
+    println(
+      s"javap -p -v -classpath ${dumpDirectory.getCanonicalPath} ${generatedClass.getName}".!!)
+    // scalastyle:on println
     }
  
     /**
-     * Create a directory inside the given parent directory. The directory is guaranteed to be
-     * newly created, and is not marked for automatic deletion.
-     */
-    def createDirectory(root: String, namePrefix: String = "codegen"): java.io.File = {
-      var attempts = 0
-      val maxAttempts = 3
-      var dir: java.io.File = null
-      while (dir == null) {
-        attempts += 1
-        if (attempts > maxAttempts) {
-          throw new java.io.IOException("Failed to create a temp directory (under " + root + ") after " +
-            maxAttempts + " attempts!")
-        }
-        try {
-          dir = new java.io.File(root, namePrefix + "-" + java.util.UUID.randomUUID.toString)
-          if (dir.exists() || !dir.mkdirs()) {
-            dir = null
-          }
-        } catch { case e: SecurityException => dir = null; }
+   * Create a directory inside the given parent directory. The directory is guaranteed to be
+   * newly created, and is not marked for automatic deletion.
+   */
+  def createDirectory(root: String, namePrefix: String = "codegen"): java.io.File = {
+    var attempts = 0
+    val maxAttempts = 3
+    var dir: java.io.File = null
+    while (dir == null) {
+      attempts += 1
+      if (attempts > maxAttempts) {
+        throw new java.io.IOException("Failed to create a temp directory (under " + root + ") after " +
+          maxAttempts + " attempts!")
       }
-  
-      dir.getCanonicalFile
-    }    
-  }
-    
-/**
- * A class loader which makes some protected methods in ClassLoader accessible.
- */
-class ParentClassLoader(parent: ClassLoader) extends ClassLoader(parent) {
+      try {
+        dir = new java.io.File(root, namePrefix + "-" + java.util.UUID.randomUUID.toString)
+        if (dir.exists() || !dir.mkdirs()) {
+          dir = null
+        }
+      } catch { case e: SecurityException => dir = null; }
+    }
 
-  override def findClass(name: String): Class[_] = {
-    super.findClass(name)
-  }
-
-  override def loadClass(name: String): Class[_] = {
-    super.loadClass(name)
-  }
-
-  override def loadClass(name: String, resolve: Boolean): Class[_] = {
-    super.loadClass(name, resolve)
-  }
+    dir.getCanonicalFile
+  }    
 }
