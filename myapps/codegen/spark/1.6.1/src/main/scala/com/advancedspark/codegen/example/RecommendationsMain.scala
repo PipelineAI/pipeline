@@ -9,15 +9,12 @@ import com.advancedspark.codegen.DumpByteCode
 
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
+import org.apache.http.entity.ByteArrayEntity
 import org.apache.http.impl.client.DefaultHttpClient
 
 import scala.collection.JavaConverters._
 
-trait RecommendationMap {
-  def getRecommendationsForUser(userId: Any): Any
-}
-
-object RecommendationMapMain {
+object RecommendationsMain {
   def main(args: Array[String]) {   
     val ctx = new CodeGenContext()
     
@@ -33,8 +30,8 @@ object RecommendationMapMain {
     
     ctx.addReferenceObj("recommendationMap", recommendationMap, recommendationMap.getClass.getName)
 
-    ctx.addNewFunction("getRecommendationsForUser", 
-        "public Object getRecommendationsForUser(Object userId) { return recommendationMap.get(userId); }")
+    ctx.addNewFunction("lookup", 
+        "public Object lookup(Object userId) { return recommendationMap.get(userId); }")
        
     val source = s"""
       ${ctx.declareMutableStates()}
@@ -49,7 +46,7 @@ object RecommendationMapMain {
     // Format source
     val codeGenBundle = new CodeGenBundle("com.advancedspark.codegen.example.generated.RecommendationMap", 
       null, 
-      Array(classOf[Initializable], classOf[RecommendationMap], classOf[Serializable]), 
+      Array(classOf[Initializable], classOf[Lookupable], classOf[Serializable]), 
       Array(classOf[java.util.HashMap[Any, Any]]), 
       CodeFormatter.stripExtraNewLines(source) 
     )   
@@ -65,24 +62,31 @@ object RecommendationMapMain {
       val bar = clazz.newInstance().asInstanceOf[Initializable]
       bar.initialize(ctx.references.toArray)
 
-      System.out.println(s"Lookup '21619' -> '${bar.asInstanceOf[RecommendationMap].getRecommendationsForUser("21619")}'")
+      System.out.println(s"Lookup '21619' -> '${bar.asInstanceOf[Lookupable].lookup("21619")}'")
 
       val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.RecommendationMap")
       val bar2 = clazz2.newInstance().asInstanceOf[Initializable]
       bar2.initialize(ctx.references.toArray)
       
-      System.out.println(s"Lookup '21620' -> '${bar2.asInstanceOf[RecommendationMap].getRecommendationsForUser("21620")}'")
+      System.out.println(s"Lookup '21620' -> '${bar2.asInstanceOf[Lookupable].lookup("21620")}'")
     
           // create an HttpPost object
       println("--- HTTP POST UPDATE JAVA SOURCE ---")
-      val post = new HttpPost(s"http://demo.pipeline.io:9040/update-java-source/${codeGenBundle.fullyQualifiedClassName}")
+      val post = new HttpPost(s"http://demo.pipeline.io:9040/update-java/${codeGenBundle.fullyQualifiedClassName}")
   
       // set the Content-type
-      post.setHeader("Content-type", "text/plain")
-  
-      // add the JSON as a StringEntity
-      post.setEntity(new StringEntity(source))
-  
+//      post.setHeader("Content-type", "text/plain")
+       
+      val baos = new java.io.ByteArrayOutputStream()
+      val out = new java.io.ObjectOutputStream(baos)   
+      out.writeObject(bar2)
+      val bar2Bytes = baos.toByteArray()
+      out.close();
+      baos.close();
+      
+      // add the byte[] as a ByteArrayEntity
+      post.setEntity(new ByteArrayEntity(bar2Bytes))
+
       // send the post request
       val response = (new DefaultHttpClient).execute(post)
   
