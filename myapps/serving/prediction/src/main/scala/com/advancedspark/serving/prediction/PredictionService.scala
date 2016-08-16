@@ -38,6 +38,15 @@ import com.netflix.dyno.connectionpool.impl.utils.ZipUtils
 
 import scala.collection.JavaConverters._
 
+import com.advancedspark.codegen.CodeFormatter
+import com.advancedspark.codegen.CodeGenBundle
+import com.advancedspark.codegen.CodeGenContext
+import com.advancedspark.codegen.CodeGenTypes._
+import com.advancedspark.codegen.CodeGenerator
+import com.advancedspark.codegen.DumpByteCode
+import com.advancedspark.codegen.example.RecommendationMap
+import com.advancedspark.codegen.example.Initializable
+
 @SpringBootApplication
 @RestController
 @EnableHystrix
@@ -135,7 +144,7 @@ class PredictionService {
   }
   */
 
- var javaInstance: Lookupable = null
+ var javaInstance: RecommendationMap = null
 
  @RequestMapping(path=Array("/update-java-source/{javaSourceName}"),
                   method=Array(RequestMethod.POST),
@@ -146,7 +155,7 @@ class PredictionService {
       //  TODO:  Update JavaSource in Cache
       System.out.println("javaSource: ${javaSource}")
 
-      javaInstance = LookupMapCodeGenerator.codegen(javaSourceName, javaSource).asInstanceOf[Lookupable]
+      javaInstance = RecommendationMapCodeGenerator.codegen(javaSourceName, javaSource).asInstanceOf[RecommendationMap]
       System.out.println(s"generated instance: ${javaInstance}")
 
       new ResponseEntity(HttpStatus.OK)
@@ -167,7 +176,7 @@ class PredictionService {
       //System.out.println(inputMap)
   
       val key = "a"
-      val value = javaInstance.lookup(key)
+      val value = javaInstance.getRecommendationsForUser(key)
 
       s"""{"results":[{'${key}': '${value}'}]}"""
     } catch {
@@ -326,93 +335,90 @@ object PredictionServiceOps {
              .build()
 }
 
-import com.advancedspark.codegen.CodeFormatter
-import com.advancedspark.codegen.CodeGenBundle
-import com.advancedspark.codegen.CodeGenContext
-import com.advancedspark.codegen.CodeGenTypes._
-import com.advancedspark.codegen.CodeGenerator
-import com.advancedspark.codegen.DumpByteCode
-
-trait Lookupable {
-  def lookup(key: Any): Any
-}
-
-trait Initializable {
-  def initialize(references: Array[Any]): Unit
-}
-
-object LookupMapCodeGenerator {
-  def codegen(javaClassName: String, javaSourceStr: String): Lookupable = {   
-    val ctx = new CodeGenContext()
+object RecommendationMapCodeGenerator {
+  def codegen(javaSourceName: String, javaSource: String): RecommendationMap = {   
+    //val ctx = new CodeGenContext()
     
-    ctx.addMutableState(JAVA_STRING, "str", "str = \"blahblah\";")
+    //ctx.addMutableState(JAVA_STRING, "str", "str = \"blahblah\";")
 
-    val lookupMap = new java.util.HashMap[Any, Any]()
+    //val lookupMap = new java.util.HashMap[Any, Any]()
 
     // TODO:  To lower the memory footprint, and improve cache locality, 
     //        we can store the value list in a more-compressed fashion and avoid pointer-hopping which thrashes CPU caches.
     //        
     // String :: primitive int array
-    lookupMap.put("a", (10001, 10002))
-    lookupMap.put("b", (10003, 10004))
-    lookupMap.put("c", (10005, 10006))
+    //lookupMap.put("a", (10001, 10002))
+    //lookupMap.put("b", (10003, 10004))
+    //lookupMap.put("c", (10005, 10006))
     
-    ctx.addReferenceObj("lookupMap", lookupMap, lookupMap.getClass.getName)
+    //ctx.addReferenceObj("lookupMap", lookupMap, lookupMap.getClass.getName)
 
-    ctx.addNewFunction("lookup", "public Object lookup(Object key) { return lookupMap.get(key); }")
+    //ctx.addNewFunction("lookup", "public Object lookup(Object key) { return lookupMap.get(key); }")
        
     // TODO:  Disable comments and line numbers as they're expensive
-    val source = s"""
-      ${ctx.registerComment("LookupMap Comment...")}
+    // val source = s"""
+    //  ${ctx.registerComment("LookupMap Comment...")}
     
-      ${ctx.declareMutableStates()}
+    //  ${ctx.declareMutableStates()}
 
-      public void initialize(Object[] references) {
-        ${ctx.initMutableStates()}
-      }
+    //  public void initialize(Object[] references) {
+    //    ${ctx.initMutableStates()}
+    //  }
 
-      ${ctx.declareAddedFunctions()}
-      """.trim
+    //  ${ctx.declareAddedFunctions()}
+    //  """.trim
 
     // Format and compile source
     // Note:  If you see "InstantiationException", you might be trying to create a package+classname that already exists.
-    //        This is why we're namespacing this package to include ".generated", but we also changed the name of this
-      //        outer class to LookupMapMain to make this more explicit.
-    val cleanedSource = CodeFormatter.stripOverlappingComments(        
-      new CodeGenBundle("com.advancedspark.codegen.example.generated", "LookupMap", 
-          null, 
-          Array(classOf[Initializable], classOf[Lookupable], classOf[Serializable]), 
-          Array(classOf[java.util.HashMap[Any, Any]]), 
-          CodeFormatter.stripExtraNewLines(source), 
-          ctx.getPlaceHolderToComments())
+    //        This is why we're namespacing this package to include ".generated", but we also changed the name of this
+    //        outer class to LookupMapMain to make this more explicit.
+    /////////////////////////////////////////////////
+    // TODO:  Remove this!
+     val recommendationMap = new java.util.HashMap[Any, Any]()
+
+    // TODO:  To lower the memory footprint, and improve cache locality, 
+    //        we can store the value list in a more-compressed fashion and avoid pointer-hopping which thrashes CPU caches.
+    //        
+    // String -> Array[String]
+    recommendationMap.put("21619", ("10001", "10002"))
+    recommendationMap.put("21620", ("10003", "10004"))
+    recommendationMap.put("21621", ("10005", "10006"))
+    
+    val references = new scala.collection.mutable.ArrayBuffer[Any]()
+    references += recommendationMap
+    /////////////////////////////////////////////////
+
+    val codeGenBundle = new CodeGenBundle("com.advancedspark.codegen.example.generated.RecommendationMap",        
+        null, 
+        Array(classOf[Initializable], classOf[RecommendationMap], classOf[Serializable]), 
+        Array(classOf[java.util.Map[Any, Any]]), 
+        CodeFormatter.stripExtraNewLines(javaSource)
     )
     
-    /* THIS CODE WOULD GO IN THE SERVING LAYER TRIGGERED OFF AN UPDATED JAVA SOURCE */ 
     try {
-      val clazz = CodeGenerator.compile(cleanedSource)
-      System.out.println(s"\n${CodeFormatter.format(cleanedSource)}")      
+      val clazz = CodeGenerator.compile(codeGenBundle)
+      System.out.println(s"\n${CodeFormatter.format(codeGenBundle)}")      
       
-      val references = ctx.references.toArray
+      //val references = ctx.references.toArray
       
       System.out.println("Instantiating and initializing with with generated class.")
       val bar = clazz.newInstance().asInstanceOf[Initializable]
-      bar.initialize(references)
+      bar.initialize(references.toArray)
 
       System.out.println("Testing new instance.")
-      System.out.println(s"Lookup 'a' -> '${bar.asInstanceOf[Lookupable].lookup("a")}'")
+      System.out.println(s"Recommendations for '21619' -> '${bar.asInstanceOf[RecommendationMap].getRecommendationsForUser("21619")}'")
 
       System.out.println("Instantiating and initializing instance from parent classloader.")
-      val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.LookupMap")
+      val clazz2 = clazz.getClassLoader.loadClass("com.advancedspark.codegen.example.generated.RecommendationMap")
       val bar2 = clazz2.newInstance().asInstanceOf[Initializable]
-      bar2.initialize(references)
-      System.out.println(s"Lookup 'b' -> '${bar2.asInstanceOf[Lookupable].lookup("b")}'")
+      bar2.initialize(references.toArray) 
+      System.out.println(s"Recommendations for '21620' -> '${bar2.asInstanceOf[RecommendationMap].getRecommendationsForUser("21620")}'")
 
-      bar2.asInstanceOf[Lookupable] 
+      bar2.asInstanceOf[RecommendationMap] 
     } catch {
       case e: Exception =>
-        System.out.println(s"Could not generate code: ${cleanedSource}", e)
+        System.out.println(s"Could not generate code: ${codeGenBundle}", e)
         throw e
     }
   }
 }
-
