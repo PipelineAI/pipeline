@@ -25,6 +25,9 @@ import org.jpmml.model.JAXBUtil
 import org.jpmml.model.MetroJAXBUtil
 import org.jpmml.sparkml.ConverterUtil
 import org.xml.sax.InputSource
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.DefaultHttpClient // TODO:  this is deprecated
 
 object PMMLSparkML {
   val datasetsHome = sys.env.get("DATASETS_HOME").getOrElse("/root/pipeline/datasets/")
@@ -35,7 +38,8 @@ object PMMLSparkML {
 
   val formulaStr: String = "income ~ ."
 
-  val pmmlOutput: File = new File("census.pmml")
+  val pmmlName = "census"
+  val pmmlOutput: File = new File(s"${pmmlName}.pmml")
 
   def main(args: Array[String]) = {
     val sparkConf: SparkConf = new SparkConf()
@@ -80,10 +84,31 @@ object PMMLSparkML {
     // Note:  This requires latest version of org.jpmml:jpmml-sparkml which requires shading
     //        to avoid conflict with Spark 1.6.1
     val pmml = ConverterUtil.toPMML(schema, pipelineModel)
+    System.out.println(pmml.getModels().get(0).toString())
 
     val os = new java.io.FileOutputStream(pmmlOutput.getAbsolutePath())  
     MetroJAXBUtil.marshalPMML(pmml, os)
     
+    val baos = new java.io.ByteArrayOutputStream()  
+    MetroJAXBUtil.marshalPMML(pmml, baos)
+
+    // create an HttpPost object
+    println("--- HTTP POST UPDATED PMML ---")
+    val post = new HttpPost(s"http://demo.pipeline.io:9040/update-pmml/${pmmlName}")
+
+    // set the Content-type
+    post.setHeader("Content-type", "application/xml")
+
+    // add the JSON as a StringEntity
+    post.setEntity(new StringEntity(baos.toString()))
+
+    // send the post request
+    val response = (new DefaultHttpClient).execute(post)
+
+    // print the response headers
+    println("--- HTTP RESPONSE HEADERS ---")
+    response.getAllHeaders.foreach(arg => println(arg))
+
     // Form the following:  https://github.com/jpmml/jpmml-evaluator
     val is = new java.io.FileInputStream(pmmlOutput.getAbsolutePath())
     val transformedSource = ImportFilter.apply(new InputSource(is))
