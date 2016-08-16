@@ -22,6 +22,7 @@ lazy val codegenDeps = Seq(
   "com.google.guava" % "guava" % guavaVersion,
   "org.codehaus.janino"  % "janino"             % janinoVersion,
   "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
+  "org.apache.httpcomponents" % "httpclient" % "4.5.2",
   "org.apache.spark"  %% "spark-mllib"          % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-graphx"         % sparkVersion % "provided",
   "org.apache.spark"  %% "spark-sql"            % sparkVersion % "provided"
