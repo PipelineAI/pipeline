@@ -1,4 +1,4 @@
-package org.advancedspark.kafka.simple
+package com.advancedspark.kafka.simple
 
 import java.util.Arrays
 import java.util.Properties

@@ -1,13 +1,3 @@
-###################################################################
-# REMOVE THESE ONCE THEY MAKE THEIR WAY INTO Dockerfile ENV VARS
-export CODAHALE_METRICS_VERSION=3.1.2
-export GUAVA_VERSION=14.0.1
-export JPMML_SPARKML_VERSION=1.0.4
-export PMML_MODEL_METRO_VERSION=1.2.15
-export PMML_MODEL_VERSION=1.2.15
-export PMML_EVALUATOR_VERSION=1.2.14
-###################################################################
-
 # Dev Install Home (Tools)
 export DEV_INSTALL_HOME=~
 
@@ -182,3 +172,6 @@ export HYSTRIX_DASHBOARD_HOME=$DEV_INSTALL_HOME/hystrix-dashboard-$HYSTRIX_DASHB
 
 # Atlas 
 export ATLAS_HOME=$DEV_INSTALL_HOME/atlas-$ATLAS_VERSION
+
+# Serving and Prediction Services
+export PATH=$MYAPPS_HOME/serving:$MYAPPS_HOME/serving/prediction:$PATH
