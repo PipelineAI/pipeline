@@ -42,17 +42,20 @@
 * Save Workshop Environment for Your Use Cases
 
 ### Locations and Dates
-* [Washington DC](http://advanced-spark-kafka-tensorflow-washington-dc.eventbrite.com/?discount=ADVANCEDSPARK20):  Saturday, June 18th
-* [Seattle](http://end-to-end-streaming-recommendations-spark-seattle.eventbrite.com/?discount=ADVANCEDSPARK25): Saturday, July 30th
-* [Santa Clara](http://end-to-end-streaming-recommendations-spark-aug-bay.eventbrite.com/?discount=ADVANCEDSPARK15): Saturday, August 6th
-* [Chicago](http://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, September 10th
-* [Toronto](http://end-to-end-streaming-recommendations-spark-toronto.eventbrite.com?discount=ADVANCEDSPARK20): Saturday, September 17th
+* San Francisco: Saturday, April 23rd (SOLD OUT)
+* San Francisco: Saturday, June 4th (SOLD OUT)
+* Washington DC: Saturday, June 18th (SOLD OUT)
+* Los Angeles: Sunday, July 10th (SOLD OUT)
+* Seattle: Saturday, July 30th (SOLD OUT)
+* Santa Clara: Saturday, August 6th (SOLD OUT)
+* [Chicago](http://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, August 27th
 * [New York](http://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, September 24th
 * [Barcelona](http://end-to-end-streaming-recommendations-spark-barcelo.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, October 1st
 * [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
 * [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
 * [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
 * [Oslo](http://end-to-end-streaming-recommendations-spark-oslo.eventbrite.com?discount=ADVANCEDSPARK25): Monday, October 31st
+* [Madrid](http://end-to-end-streaming-recommendations-spark-barcelo.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, November 19th
 * [Tokyo](http://end-to-end-streaming-recommendations-spark-tokyo.eventbrite.com?discount=ADVANCEDSPARK25): December 3rd
 * [Shanghai](http://end-to-end-streaming-recommendation-spark-shanghai.eventbrite.com?discount=ADVANCEDSPARK25): December 10th
 * [Beijing](http://end-to-end-streaming-recommendations-spark-beijing.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 17th
