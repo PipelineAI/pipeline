@@ -55,6 +55,11 @@ tar --directory $DATASETS_HOME/eigenface/ -xzvf $DATASETS_HOME/eigenface/lfw-dee
 #cat $DATASETS_HOME/notmnist/notMNIST_large.tar.gz-part-* > $DATASETS_HOME/notmnist/notMNIST_large.tar.gz
 #tar --directory $DATASETS_HOME/notmnist/ -xzvf $DATASETS_HOME/notmnist/notMNIST_large.tar.gz
 
+# these part files were created with the following command:
+#   split --bytes=100MB --numeric-suffixes --suffix-length=1 dogs_and_cats.tar.gz dogs_and_cats.tar.gz-part-
+cat $DATASETS_HOME/dogs_and_cats/dogs_and_cats.tar.gz-part-* > $DATASETS_HOME/dogs_and_cats/dogs_and_cats.tar.gz
+tar --directory $DATASETS_HOME/dogs_and_cats/ -xzvf $DATASETS_HOME/dogs_and_cats/dogs_and_cats.tar.gz
+
 # Sample WebApp
 echo '...Configuring Example WebApp...'
 ln -s $CONFIG_HOME/advancedspark.com/advancedspark.conf /etc/apache2/sites-available
