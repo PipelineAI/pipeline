@@ -1,6 +1,7 @@
 .cache-main
 .Dockerfile.swp
 .vertx/
+datasets/dogs_and_cats/dogs_and_cats.tar.gz
 datasets/movielens/ml-latest/movies-hive-friendly.csv
 datasets/movielens/ml-latest/ratings-hive-friendly.csv
 datasets/notmnist/notMNIST_large.tar.gz
