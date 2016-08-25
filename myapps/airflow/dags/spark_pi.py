@@ -11,7 +11,7 @@ default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': datetime(2016, 4, 22),
-    'email': ['jharrison@expershare.com'],
+    'email': ['chris@fregly.com'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
