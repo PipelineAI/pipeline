@@ -58,7 +58,7 @@ nohup $SPARK_HOME/sbin/start-slave.sh --cores 8 --memory 48g --webui-port 6061 -
 echo '...Starting Spark History Server...'
 nohup $SPARK_HOME/sbin/start-history-server.sh &
 
-#echo '...Starting Flink...'
+echo '...Starting Flink...'
 nohup start-local.sh &
 
 echo '...Starting Kibana...'
@@ -71,8 +71,8 @@ PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$C
 echo '...Starting Jupyter Hub Server...'
 nohup jupyterhub -f $CONFIG_HOME/jupyter/jupyterhub_config.py &
 
-#echo '...Starting NiFi...'
-#nohup nifi.sh start &
+echo '...Starting NiFi...'
+nohup nifi.sh start &
 
 #echo '...Starting Airflow...'
 nohup airflow webserver &
@@ -103,29 +103,3 @@ dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
 echo '...Starting Serving Serices...'
 $MYAPPS_HOME/serving/start-all-serving-services.sh
-
-########################################################
-# Be careful what starts up here.
-# This same script is used upon initial startup -
-#   before the create-datasources.sh script runs
-########################################################
-
-#echo '...Starting Kafka-Cassandra Spark Streaming Demo...'
-#cd ~/pipeline
-#$MYAPPS_HOME/spark/streaming/start-streaming-ratings-kafka-cassandra.sh
-
-#echo '...Starting Kafka-Cassandra Incremental MatrixFactorization Spark Streaming Demo...'
-#cd ~/pipeline
-#$MYAPPS_HOME/spark/streaming/start-streaming-ratings-train-mf-incremental.sh
-
-#echo '...Starting Flask-based Recommendation/Prediction Service...'
-#cd $MYAPPS_HOME/serving/flask/
-#nohup $MYAPPS_HOME/serving/flask/start-flask-recommendation-service.sh &
-
-#echo '...Starting Finagle-based Recommendation/Prediction Service...'
-#cd $MYAPPS_HOME/serving/finagle/
-#nohup $MYAPPS_HOME/serving/finagle/start-finagle-recommendation-service.sh &
-
-#echo '...Starting Model Watcher Service...'
-#cd $MYAPPS_HOME/serving/watcher/
-#nohup $MYAPPS_HOME/serving/watcher/start-model-watcher-service.sh &
