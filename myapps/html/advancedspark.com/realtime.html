@@ -12,23 +12,28 @@
   <style>
       body {
         background-color: darkgray;
-	color: black;
+        color: black;
       }
       li {
-	padding: 2px;
+        padding: 2px;
         display: inline;
-	list-style-type: none;
-	position: relative;
+        list-style-type: none;
+        position: relative;
         width: 70px;
         height: 50px;
+        max-width: 70px;
       }
       li .like {
         position: absolute;
-	z-index: 99;
+        z-index: 99;
         left: 10px;
-	display: none;
+        display: none;
       }
   </style>
+  <!-- Start of fluxcapacitor Zendesk Widget script -->
+<script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("//assets.zendesk.com/embeddable_framework/main.js","fluxcapacitor.zendesk.com");
+/*]]>*/</script>
+  <!-- End of fluxcapacitor Zendesk Widget script -->
   <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
   <script>
   var myId = Math.floor((Math.random() * 100000) + 1);
@@ -143,6 +148,7 @@
 <!--<hr/>-->
 <center>
 <!-- Navigation Links 
+<a href="https://github.com/fluxcapacitor/pipeline/wiki/Architecture-Overview" target="_blank" id="architecture">Architecture</a> |
 <a href="http://127.0.0.1:3123" target="_blank" id="zeppelin">Zeppelin</a> |
 <a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter/iPython</a> |
 <a href="http://127.0.0.1/classify.html" target="_blank" id="tensorflow">TensorFlow</a> |
@@ -153,7 +159,7 @@
 <a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
 <a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
 <a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> |
-<a href="/http://vectoross.io/demo/#/?widgets=kernel.all.cpu,kernel.percpu.cpu,kernel.all.runnable,kernel.all.load,network.interface.bytes,network.tcpconn,network.interface.packets,network.tcp.retrans,mem,mem.vmstat.pgfault,kernel.all.pswitch,disk.iops,disk.bytes,disk.dev.avactive,disk.dev.latency&host=127.0.0.1&hostspec=localhost" target="_blank" id="vector">Vector</a>
+<a href="http://vectoross.io/demo/#/?host=127.0.0.1" target="_blank" id="vector">Vector</a>
 -->
 <!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
 </center>
@@ -161,7 +167,7 @@
 <center><img style="width: 320; height=400;" src="img/sparkafterdark.png"></center>
 
 <script>
-  $("body").append("<h3><center>Welcome to Spark After Dark, Anonymous User ID " + myId + "!</center></h3>") 
+  $("body").append("<h3><center>Welcome to Spark After Dark, Anonymous User ID <span style='color: blue'>" + myId + "</span>!</center></h3>")
 </script>
 
 <div id="items">
@@ -231,9 +237,9 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
   document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
   document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060/admin";
   document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
-//  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
+  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
   document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
-  document.getElementById('vector').href = "http://vectoross.io/demo/#/?widgets=kernel.all.cpu,kernel.percpu.cpu,kernel.all.runnable,kernel.all.load,network.interface.bytes,network.tcpconn,network.interface.packets,network.tcp.retrans,mem,mem.vmstat.pgfault,kernel.all.pswitch,disk.iops,disk.bytes,disk.dev.avactive,disk.dev.latency&host=" + window.location.hostname + "&hostspec=localhost";
+  document.getElementById('vector').href = "http://vectoross.io/demo/#/?host=" + window.location.hostname;
 //  document.getElementById('topk-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUUDPT56";
 //  document.getElementById('als-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUYFSKXN";
 </script>
@@ -253,5 +259,10 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
     loadItemSimilarsALS();
   }, 5000);  
 </script>
+
+<script>
+  alert("You're anonymous userID has changed to " + myId)
+</script>
+
 </body>
 </html>
