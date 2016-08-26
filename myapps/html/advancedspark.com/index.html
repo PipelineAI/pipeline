@@ -205,28 +205,32 @@ Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecomm
 </div>
 
 <hr/>
-<!--
+
 <h3>
 <center>
-Your Real-time, Collaborative-based Recommendations Will Appear Below
+Run Notebook to Generate <a href="http://127.0.0.1:3123/#/notebook/2BHDJNWAZ" target="_blank" id="user-to-user-similarity-notebook">User-to-User Similarity</a>
 </center>
 </h3>
-<div id="recommendations-als">
-</div>
--->
+<h3>
+<center>
+Change the User Id to Your User Id and Re-run Notebook 
+</center>
+</h3>
 
-<!--
 <hr/>
 
 <h3>
 <center>
-Your Real-time, Collaborative-based Similar Items Will Appear Below
+Run Notebook to Generate <a href="http://127.0.0.1:3123/#/notebook/2BJQKR2G5" target="_blank" id="item-to-item-similarity-notebook">Item-to-Item Similarity</a>
+</center>
+</h3>
+<h3>
+<center>
+Change the Item Id and Re-run Notebook
 </center>
 </h3>
 
-<div id="item-similars-als">
-</div>
--->
+<hr/>
 
 <script>
   document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":3123";
@@ -242,6 +246,8 @@ Your Real-time, Collaborative-based Similar Items Will Appear Below
   document.getElementById('vector').href = "http://vectoross.io/demo/#/?host=" + window.location.hostname;
   document.getElementById('topk-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUUDPT56";
   document.getElementById('als-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUYFSKXN";
+  document.getElementById('user-to-user-similarity-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2BHDJNWAZ";
+  document.getElementById('item-to-item-similarity-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2BJQKR2G5";
 </script>
 
 <script>

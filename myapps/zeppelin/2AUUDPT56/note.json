@@ -1,6 +1,41 @@
 {
   "paragraphs": [
     {
+      "text": "%md ## Find and Click the \"Run All Paragraphs\" Icon \n![Run All Paragraphs](http://advancedspark.com/img/run-all-paragraphs.png)",
+      "dateUpdated": "Aug 26, 2016 10:18:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1472248512347_682143296",
+      "id": "20160826-215512_649683020",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eFind and Click the \u0026ldquo;Run All Paragraphs\u0026rdquo; Icon\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/run-all-paragraphs.png\" alt\u003d\"Run All Paragraphs\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Aug 26, 2016 9:55:12 PM",
+      "dateStarted": "Aug 26, 2016 10:04:26 PM",
+      "dateFinished": "Aug 26, 2016 10:04:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Load Reference Data for Enrichment",
       "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/actors.json\")\n  .withColumnRenamed(\"id\", \"itemId\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"img\", $\"tags\", $\"description\").limit(30))",
       "dateUpdated": "Aug 5, 2016 2:22:53 AM",
