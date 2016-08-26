@@ -101,5 +101,9 @@ start-hive-thriftserver.sh
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
-echo '...Starting Serving Serices...'
+echo '...Starting Serving Services...'
 $MYAPPS_HOME/serving/start-all-serving-services.sh
+
+#echo '...Starting Prediction Services...'
+#$MYAPPS_HOME/serving/start-all-prediction-services.sh
+

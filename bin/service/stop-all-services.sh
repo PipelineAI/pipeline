@@ -132,8 +132,11 @@ service jenkins stop
 echo '...Stopping Dynomite...'
 ps -aef | grep "dynomite" | tr -s ' ' | cut -d ' ' -f2 | xargs kill -KILL
 
-echo '...Stopping Serving...'
+echo '...Stopping Serving Services...'
 $MYAPPS_HOME/serving/stop-all-serving-services.sh
+
+#echo '...Stopping Prediction Services...'
+#$MYAPPS_HOME/serving/stop-all-prediction-services.sh
 
 echo '...Stopping SSH...'
 service ssh stop
