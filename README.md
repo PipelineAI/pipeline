@@ -48,7 +48,7 @@
 * Los Angeles: Sunday, July 10th (SOLD OUT)
 * Seattle: Saturday, July 30th (SOLD OUT)
 * Santa Clara: Saturday, August 6th (SOLD OUT)
-* [Chicago](http://end-to-end-streaming-recommendations-spark-chicago.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, August 27th
+* Chicago: Saturday, August 27th (SOLD OUT)
 * [New York](http://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, September 24th
 * [Barcelona](http://end-to-end-streaming-recommendations-spark-barcelo.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, October 1st
 * [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
