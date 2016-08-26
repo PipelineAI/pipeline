@@ -74,10 +74,10 @@ nohup jupyterhub -f $CONFIG_HOME/jupyter/jupyterhub_config.py &
 echo '...Starting NiFi...'
 nohup nifi.sh start &
 
-#echo '...Starting Airflow...'
+echo '...Starting Airflow...'
 nohup airflow webserver &
 
-#echo '...Starting Presto...'
+echo '...Starting Presto...'
 nohup launcher --data-dir=$WORK_HOME/presto --launcher-log-file=$LOGS_HOME/presto/launcher.log --server-log-file=$LOGS_HOME/presto/presto.log start
 
 echo '...Starting Kafka Schema Registry...'
@@ -95,7 +95,7 @@ nohup kafka-rest-start $CONFLUENT_HOME/etc/kafka-rest/kafka-rest.properties &
 echo '...Starting Jenkins...'
 service jenkins start
 
-echo '...Starting Hive ThriftServer...'
+echo '...Starting Spark Hive ThriftServer...'
 start-hive-thriftserver.sh
 
 echo '...Starting Dynomite...'
