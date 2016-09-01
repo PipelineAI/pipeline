@@ -53,7 +53,7 @@
 * [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
 * [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
 * [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
-* [Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK20): Saturday, November 19th
+* [Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK25): Saturday, November 19th
 * [Tokyo](http://end-to-end-streaming-recommendations-spark-tokyo.eventbrite.com?discount=ADVANCEDSPARK25): December 3rd
 * [Shanghai](http://end-to-end-streaming-recommendation-spark-shanghai.eventbrite.com?discount=ADVANCEDSPARK25): December 10th
 * [Beijing](http://end-to-end-streaming-recommendations-spark-beijing.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 17th
