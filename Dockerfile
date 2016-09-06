@@ -457,8 +457,7 @@ RUN \
   && apt-get install -y python3-pip \
   && pip3 install jupyterhub \
   && pip3 install --upgrade notebook \
-  && pip install jupyterhub-dummyauthenticator\
-
+  && pip install jupyterhub-dummyauthenticator \
 
 # iPython3 Kernel 
   && ipython3 kernel install \ 
