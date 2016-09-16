@@ -71,7 +71,8 @@ c.JupyterHub.answer_yes = True
 # - takes two arguments: (handler, data),
 #   where `handler` is the calling web.RequestHandler,
 #   and `data` is the POST form data from the login page.
-# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
+#c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
+c.JupyterHub.authenticator_class = 'dummyauthenticator.DummyAuthenticator'
 
 # The base URL of the entire application
 c.JupyterHub.base_url = '/'
