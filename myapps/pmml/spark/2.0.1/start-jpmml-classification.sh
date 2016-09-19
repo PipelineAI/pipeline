@@ -1,1 +1,1 @@
-/root/spark-2.0.1-SNAPSHOT-bin-fluxcapacitor/bin/spark-submit --packages org.jpmml:jpmml-evaluator:1.3.1 --master spark://spark.datasticks.com:7077 --class com.advancedspark.pmml.spark.ml.PMMLSparkML target/pipeline-pmml-0.1.jar
+SPARK_HOME=/root/spark-2.0.1-SNAPSHOT-bin-fluxcapacitor SPARK_VERSION=2.0.1-SNAPSHOT $SPARK_HOME/bin/spark-submit --master spark://spark.datasticks.com:7077 --class com.advancedspark.pmml.spark.ml.PMMLSparkML target/pipeline-pmml-0.1.jar

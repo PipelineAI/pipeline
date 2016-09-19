@@ -163,14 +163,12 @@
       <artifactId>spark-mllib_${scalaBinaryVersion}</artifactId>
       <version>${sparkVersion}</version>
       <scope>provided</scope>
-<!--
       <exclusions>
         <exclusion>
             <groupId>org.jpmml</groupId>
             <artifactId>pmml-model</artifactId>
         </exclusion>
       </exclusions>
--->
     </dependency>
     <dependency>
       <groupId>org.jpmml</groupId>
@@ -239,7 +237,6 @@
           </args>
         </configuration>
       </plugin>
-<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -293,8 +290,6 @@
           </execution>
         </executions>
       </plugin>
--->
     </plugins>
   </build>
-
 </project>
