@@ -34,7 +34,7 @@ case class Census(
   capital_loss: Integer, hours_per_week: Integer, native_country: String, income: String
 )
 
-object GenerateModel {
+object GeneratePMML {
   def main(args: Array[String]) = {
     val sparkConf: SparkConf = new SparkConf()
     val sc: SparkContext = new SparkContext(sparkConf)
@@ -86,7 +86,7 @@ object GenerateModel {
     val predictorModel = pipelineModel.stages(1).asInstanceOf[DecisionTreeClassificationModel]
 
     System.out.println(predictorModel.toDebugString)
-/*
+
     import org.jpmml.sparkml.ConverterUtil
 
     val pmml = ConverterUtil.toPMML(schema, pipelineModel)
@@ -104,6 +104,7 @@ object GenerateModel {
     val baos = new java.io.ByteArrayOutputStream()  
     MetroJAXBUtil.marshalPMML(pmml, baos)
 
+/*
     import org.apache.http.client.methods.HttpPost
     import org.apache.http.entity.StringEntity
     import org.apache.http.impl.client.DefaultHttpClient // TODO:  this is deprecated
