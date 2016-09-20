@@ -6,8 +6,181 @@ spec:
   type: LoadBalancer
   ports:
     # the port that this service should serve on
-  - name: http
+  - name: 80
     port: 80
     targetPort: 80
+  - name: 6042
+    port: 6042
+    targetPort: 6042
+  - name: 9160
+    port: 9160
+    targetPort: 9160
+  - name: 9042
+    port: 9042
+    targetPort: 9042
+  - name: 7077
+    port: 7077
+    targetPort: 7077
+  - name: 8080
+    port: 8080
+    targetPort: 8080
+  - name: 8081
+    port: 8081
+    targetPort: 8081
+  - name: 6060
+    port: 6060
+    targetPort: 6060
+  - name: 6061
+    port: 6061
+    targetPort: 6061
+  - name: 6062
+    port: 6062
+    targetPort: 6062
+  - name: 6063
+    port: 6063
+    targetPort: 6063
+  - name: 6064
+    port: 6064
+    targetPort: 6064
+  - name: 6065
+    port: 6065
+    targetPort: 6065
+  - name: 8090
+    port: 8090
+    targetPort: 8090
+  - name: 10000
+    port: 10000
+    targetPort: 10000
+  - name: 50070
+    port: 50070
+    targetPort: 50070
+  - name: 50090
+    port: 50090
+    targetPort: 50090
+  - name: 9092
+    port: 9092
+    targetPort: 9092
+  - name: 6066
+    port: 6066
+    targetPort: 6066
+  - name: 9000
+    port: 9000
+    targetPort: 9000
+  - name: 19999
+    port: 19999
+    targetPort: 19999
+  - name: 6081
+    port: 6081
+    targetPort: 6081
+  - name: 7474
+    port: 7474
+    targetPort: 7474
+  - name: 8787
+    port: 8787
+    targetPort: 8787
+  - name: 5601
+    port: 5601
+    targetPort: 5601
+  - name: 8989
+    port: 8989
+    targetPort: 8989
+  - name: 7979
+    port: 7979
+    targetPort: 7979
+  - name: 4040
+    port: 4040
+    targetPort: 4040
+  - name: 4041
+    port: 4041
+    targetPort: 4041
+# TODO: Expose 4042-4060    
+  - name: 6379
+    port: 6379
+    targetPort: 6379
+  - name: 8888
+    port: 8888
+    targetPort: 8888
+  - name: 54321
+    port: 54321
+    targetPort: 54321
+  - name: 8099
+    port: 8099
+    targetPort: 8099
+  - name: 8754
+    port: 8754
+    targetPort: 8754
+  - name: 7379
+    port: 7379
+    targetPort: 7379
+  - name: 6969
+    port: 6969
+    targetPort: 6969
+#TODO:  Expose 6970-6980
+  - name: 5050
+    port: 5050
+    targetPort: 5050
+  - name: 5060
+    port: 5060
+    targetPort: 5060
+  - name: 7060
+    port: 7060
+    targetPort: 7060
+  - name: 8182
+    port: 8182
+    targetPort: 8182
+  - name: 9081
+    port: 9081
+    targetPort: 9081
+  - name: 8998
+    port: 8998
+    targetPort: 8998
+  - name: 9090
+    port: 9090
+    targetPort: 9090
+  - name: 5080
+    port: 5080
+    targetPort: 5080
+  - name: 5090
+    port: 5090
+    targetPort: 5090
+  - name: 5070
+    port: 5070
+    targetPort: 5070
+  - name: 8000
+    port: 8000
+    targetPort: 8000
+  - name: 8001
+    port: 8001
+    targetPort: 8001
+  - name: 6006
+    port: 6006
+    targetPort: 6006
+  - name: 3060
+    port: 3060
+    targetPort: 3060
+  - name: 9040
+    port: 9040
+    targetPort: 9040
+  - name: 8102
+    port: 8102
+    targetPort: 8102
+  - name: 22222
+    port: 22222
+    targetPort: 22222
+  - name: 10080
+    port: 10080
+    targetPort: 10080
+  - name: 5040
+    port: 5040
+    targetPort: 5040
+  - name: 8761
+    port: 8761
+    targetPort: 8761
+  - name: 7101
+    port: 7101
+    targetPort: 7101
+  - name: 5678
+    port: 5678
+    targetPort: 5678
   selector:
     name: pipeline-training
