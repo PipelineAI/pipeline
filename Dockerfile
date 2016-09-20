@@ -48,7 +48,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.2.2 \ 
- TENSORFLOW_VERSION=0.9.0 \
+ TENSORFLOW_VERSION=0.10.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -153,16 +153,20 @@ RUN \
  && gpg -a --export E084DAB9 | apt-key add - \
  && apt-get update \
  && apt-get install -y r-base \
- && apt-get install -y r-base-dev \
+ && apt-get install -y r-base-dev 
 
+RUN \
 # libcurl (required to install.packages('devtools') in R)
-# && apt-get install -y libcurl4-openssl-dev \
+ apt-get install -y libcurl4-openssl-dev \
  && apt-get install -y libzmq3 libzmq3-dev \
- && R -e "install.packages(c('rzmq','repr','IRkernel','IRdisplay'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
- && R -e "IRkernel::installspec(user = FALSE)" \
+ && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+ && R -e "devtools::install_github('IRkernel/IRdisplay')" \
+ && R -e "devtools::install_github('IRkernel/IRkernel')" \
+ && R -e "IRkernel::installspec(user = FALSE)" 
 
+RUN \
 # Ganglia
- && DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
+ DEBIAN_FRONTEND=noninteractive apt-get install -y ganglia-monitor rrdtool gmetad ganglia-webfrontend \
 
 # MySql (Required by Hive Metastore)
  && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
@@ -177,7 +181,7 @@ RUN \
  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
-# TensorFlow Serving
+# Required by TensorFlow Serving
 RUN \
  pip install grpcio \
  && apt-get update \
@@ -193,8 +197,10 @@ RUN \
       software-properties-common \
       swig \
       zip \
-      zlib1g-dev \ 
- && cd ~ \
+      zlib1g-dev 
+
+RUN \
+ cd ~ \
  && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
 
 # TensorFlow Source
