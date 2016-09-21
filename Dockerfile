@@ -479,13 +479,8 @@ RUN \
 #  && apt-get update \
 #  && apt-get install -y pcp pcp-webapi
 
-# TODO:  Serving
 # Required by TensorFlow Serving
 RUN \
-# pip install --upgrade pip \
-# && wget https://pypi.python.org/packages/e4/af/4f495c7b1a40588c52d40cdfe75e9423c2d021e15b1e7bb308042972c1fd/grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
-# && pip install grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
-# && pip install --upgrade grpcio \
  apt-get update \
  && apt-get install -y \
       build-essential \
