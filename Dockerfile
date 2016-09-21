@@ -437,10 +437,10 @@ RUN \
 # Sbt Codegen
  && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
 
-# Sbt PMML 
+# Sbt PMML (Spark 1.6.1) 
  && cd ~/pipeline/myapps/pmml/spark/1.6.1 && mvn clean install \
 
-# Sbt PMML
+# Sbt PMML (Spark 2.0.1)
  && cd ~/pipeline/myapps/pmml/spark/2.0.1 && mvn clean install
 
 # Other TensorFlow Projects
