@@ -181,28 +181,6 @@ RUN \
  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
-# TODO:  Serving
-# Required by TensorFlow Serving
-#RUN \
-# pip install --upgrade pip \
-# && wget https://pypi.python.org/packages/e4/af/4f495c7b1a40588c52d40cdfe75e9423c2d021e15b1e7bb308042972c1fd/grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
-# && pip install grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
-# && pip install --upgrade grpcio \
-# && apt-get update \
-# && apt-get install -y \
-#      build-essential \
-#      libfreetype6-dev \
-#      libpng12-dev \
-#      libzmq3-dev \
-#      pkg-config \
-#      python-dev \
-#      python-numpy \
-#      python-pip \
-#      software-properties-common \
-#      swig \
-#      zip \
-#      zlib1g-dev 
-
 RUN \
  cd ~ \
  && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
@@ -453,11 +431,6 @@ RUN \
 # cd ~ \
 # && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
 
-# TODO:  Serving
-#RUN \
-# cd ~ \
-# && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
-
 # Bleeding Edge Theano
 RUN \
   git clone --single-branch --recurse-submodules git://github.com/Theano/Theano.git \
@@ -505,6 +478,38 @@ RUN \
 #  && echo "deb https://dl.bintray.com/pcp/trusty trusty main" | sudo tee -a /etc/apt/sources.list \
 #  && apt-get update \
 #  && apt-get install -y pcp pcp-webapi
+
+# TODO:  Serving
+# Required by TensorFlow Serving
+RUN \
+# pip install --upgrade pip \
+# && wget https://pypi.python.org/packages/e4/af/4f495c7b1a40588c52d40cdfe75e9423c2d021e15b1e7bb308042972c1fd/grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
+# && pip install grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
+# && pip install --upgrade grpcio \
+ apt-get update \
+ && apt-get install -y \
+      build-essential \
+      libfreetype6-dev \
+      libpng12-dev \
+      libzmq3-dev \
+      pkg-config \
+      python-dev \
+      python-numpy \
+      python-pip \
+      software-properties-common \
+      swig \
+      zip \
+      zlib1g-dev \
+      libcurl3-dev
+
+RUN pip install enum34 futures mock six && \
+    pip install --pre 'protobuf>=3.0.0a3' && \
+    pip install -i https://testpypi.python.org/simple --pre grpcio
+
+# Serving
+RUN \
+ cd ~ \
+ && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
