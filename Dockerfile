@@ -47,7 +47,7 @@ ENV \
  JBLAS_VERSION=1.2.4 \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
- BAZEL_VERSION=0.2.2 \ 
+ BAZEL_VERSION=0.3.0 \ 
  TENSORFLOW_VERSION=0.10.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
@@ -181,23 +181,27 @@ RUN \
  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
+# TODO:  Serving
 # Required by TensorFlow Serving
-RUN \
- pip install grpcio \
- && apt-get update \
- && apt-get install -y \
-      build-essential \
-      libfreetype6-dev \
-      libpng12-dev \
-      libzmq3-dev \
-      pkg-config \
-      python-dev \
-      python-numpy \
-      python-pip \
-      software-properties-common \
-      swig \
-      zip \
-      zlib1g-dev 
+#RUN \
+# pip install --upgrade pip \
+# && wget https://pypi.python.org/packages/e4/af/4f495c7b1a40588c52d40cdfe75e9423c2d021e15b1e7bb308042972c1fd/grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
+# && pip install grpcio-1.0.0-cp27-cp27m-manylinux1_x86_64.whl \
+# && pip install --upgrade grpcio \
+# && apt-get update \
+# && apt-get install -y \
+#      build-essential \
+#      libfreetype6-dev \
+#      libpng12-dev \
+#      libzmq3-dev \
+#      pkg-config \
+#      python-dev \
+#      python-numpy \
+#      python-pip \
+#      software-properties-common \
+#      swig \
+#      zip \
+#      zlib1g-dev 
 
 RUN \
  cd ~ \
@@ -210,8 +214,8 @@ RUN \
 
 # Python NetworkX/Tribe Demos
 RUN \ 
- pip install --upgrade tribe \
- && pip install --upgrade seaborn 
+# pip install --upgrade tribe \
+ pip install --upgrade seaborn 
 
 RUN \
 # Get Latest Pipeline Code
@@ -265,7 +269,7 @@ RUN \
 
 # Apache Cassandra
  && cd ~ \
- && wget http://www.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
+ && wget http://archive.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
 
@@ -434,7 +438,10 @@ RUN \
  && cd ~/pipeline/myapps/codegen/spark/1.6.1 && sbt clean package \
 
 # Sbt PMML 
- && cd ~/pipeline/myapps/pmml/spark/1.6.1 && mvn clean install
+ && cd ~/pipeline/myapps/pmml/spark/1.6.1 && mvn clean install \
+
+# Sbt PMML
+ && cd ~/pipeline/myapps/pmml/spark/2.0.1 && mvn clean install
 
 # Other TensorFlow Projects
 RUN \
@@ -446,9 +453,10 @@ RUN \
 # cd ~ \
 # && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
 
-RUN \
- cd ~ \
- && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
+# TODO:  Serving
+#RUN \
+# cd ~ \
+# && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 # Bleeding Edge Theano
 RUN \
