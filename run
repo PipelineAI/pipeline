@@ -1,3 +1,5 @@
 #!/bin/sh
 
 cd $PIPELINE_HOME && git pull && source $CONFIG_HOME/bash/pipeline.bashrc && $SCRIPTS_HOME/setup/RUNME_ONCE.sh
+
+bash

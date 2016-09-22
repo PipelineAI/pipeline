@@ -14,9 +14,16 @@ spec:
         name: pipeline-training
     spec:
       containers:
-      - name: zeppelin
+      - name: pipeline-training
         image: docker.io/fluxcapacitor/pipeline-kube
         imagePullPolicy: "Always"
+      resources:
+#        limits:
+#          cpu: 300m
+#          memory: 200Mi
+        requests:
+#          cpu: m
+          memory: 24gi
         env:
         - name: GET_HOSTS_FROM
           value: env
