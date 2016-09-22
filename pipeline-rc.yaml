@@ -17,13 +17,13 @@ spec:
       - name: pipeline-training
         image: docker.io/fluxcapacitor/pipeline-kube
         imagePullPolicy: "Always"
-      resources:
+#      resources:
 #        limits:
 #          cpu: 300m
 #          memory: 200Mi
-        requests:
-#          cpu: m
-          memory: 24gi
+#        requests:
+#          cpu: 4000m
+#          memory: 24gi
         env:
         - name: GET_HOSTS_FROM
           value: env
