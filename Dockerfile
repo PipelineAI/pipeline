@@ -385,6 +385,9 @@ RUN \
 # Sbt Core 
  && cd ~/pipeline/myapps/spark/core && sbt clean package \
 
+# Sbt Tensorframes
+ && cd ~/pipeline/myapps/spark/tensorframes && sbt clean package \
+
 # Sbt Flink CEP Streaming  
  && cd ~/pipeline/myapps/flink/streaming && sbt clean assembly \
 
