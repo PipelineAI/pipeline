@@ -2,6 +2,9 @@
 
 cd $PIPELINE_HOME
 
+echo '...Starting Serving Services...'
+$MYAPPS_HOME/serving/start-all-serving-services.sh
+
 echo '...Starting ElasticSearch...'
 nohup elasticsearch -Des.insecure.allow.root=true -p $ELASTICSEARCH_HOME/RUNNING_PID --path.conf $CONFIG_HOME/elasticsearch &
 
@@ -101,8 +104,5 @@ start-hive-thriftserver.sh
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
 
-echo '...Starting Serving Services...'
-$MYAPPS_HOME/serving/start-all-serving-services.sh
-
-#echo '...Starting Prediction Services...'
-#$MYAPPS_HOME/serving/start-all-prediction-services.sh
+echo '...Starting Prediction Services...'
+$MYAPPS_HOME/serving/start-all-prediction-services.sh
