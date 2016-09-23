@@ -2,4 +2,4 @@
 
 ./start-all-prediction-services.sh
 
-tail -f $LOGS_HOME/serving/prediction/prediction.log
+#tail -f $LOGS_HOME/serving/prediction/prediction.log
