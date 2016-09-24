@@ -1,7 +1,7 @@
 #!/bin/sh
 
-cd $PIPELINE_HOME && git pull && source $CONFIG_HOME/bash/pipeline.bashrc && $SCRIPTS_HOME/setup/RUNME_ONCE.sh
+cd /root/pipeline && git pull && . /root/pipeline/config/bash/pipeline.bashrc && /root/pipeline/bin/setup/RUNME_ONCE.sh
 
-cd $MYAPPS_HOME/serving
+cd /root/pipeline/serving
 
 supervise .

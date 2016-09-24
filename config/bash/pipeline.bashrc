@@ -1,14 +1,17 @@
 # Dev Install Home (Tools)
-export DEV_INSTALL_HOME=~
+#export DEV_INSTALL_HOME=~
 
 # Pipeline Home
-export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
+#export PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
 # Config Home
-export CONFIG_HOME=$PIPELINE_HOME/config
+#export CONFIG_HOME=$PIPELINE_HOME/config
 
 # Scripts Home
 export SCRIPTS_HOME=$PIPELINE_HOME/bin
+
+# MyApps
+export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 ###################################################################
 # The following WORK_HOME and LOGS_HOME 
@@ -35,9 +38,6 @@ export DATASETS_HOME=$PIPELINE_HOME/datasets
 
 # Logs Home (where log data from apps is written)
 export LOGS_HOME=$PIPELINE_HOME/logs
-
-# MyApps
-export MYAPPS_HOME=$PIPELINE_HOME/myapps
 
 # HTML Home
 export HTML_HOME=$MYAPPS_HOME/html

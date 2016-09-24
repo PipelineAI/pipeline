@@ -517,4 +517,13 @@ EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 
 
 WORKDIR /root/pipeline
 
+# Dev Install Home (Tools)
+ENV DEV_INSTALL_HOME=/root
+
+# Pipeline Home
+ENV PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
+
+# Config Home
+ENV CONFIG_HOME=$PIPELINE_HOME/config
+
 #CMD ["/root/pipeline/bin/setup/RUNME_ONCE.sh"]
