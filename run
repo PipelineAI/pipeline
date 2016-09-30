@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 cd /root/pipeline && git pull && . /root/pipeline/config/bash/pipeline.bashrc && /root/pipeline/bin/setup/RUNME_ONCE.sh
 
