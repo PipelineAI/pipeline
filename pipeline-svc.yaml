@@ -182,5 +182,11 @@ spec:
   - name: "5678"
     port: 5678
     targetPort: 5678
+  - name: "3123"
+    port: 3123
+    targetPort: 3123
+  - name: "3124"
+    port: 3124
+    targetPort: 3124
   selector:
     name: pipeline-training
