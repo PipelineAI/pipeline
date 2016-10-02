@@ -116,3 +116,5 @@ spec:
         - containerPort: 8761
         - containerPort: 7101
         - containerPort: 5678
+        - containerPort: 3123
+        - containerPort: 3124
