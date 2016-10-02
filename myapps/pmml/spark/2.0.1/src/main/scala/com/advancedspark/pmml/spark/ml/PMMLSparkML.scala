@@ -96,7 +96,7 @@ object PMMLSparkML {
 
     // create an HttpPost object
     println("--- HTTP POST UPDATED PMML ---")
-    val post = new HttpPost(s"http://demo.pipeline.io:9040/update-pmml/${pmmlName}")
+    val post = new HttpPost(s"http://127.0.0.1:9040/update-pmml/${pmmlName}")
 
     // set the Content-type
     post.setHeader("Content-type", "application/xml")

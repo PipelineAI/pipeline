@@ -1,1 +1,1 @@
-pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS,/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --packages $SPARK_SUBMIT_PACKAGES --py-files=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py
+pyspark --repositories $SPARK_REPOSITORIES --jars $SPARK_SUBMIT_JARS,/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --packages $SPARK_SUBMIT_PACKAGES,com.amazonaws:aws-java-sdk:1.10.34,org.apache.hadoop:hadoop-aws:2.6.0 --py-files=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py
