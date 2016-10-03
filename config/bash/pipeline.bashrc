@@ -77,7 +77,22 @@ export SPARK_HOME=$DEV_INSTALL_HOME/spark-$SPARK_VERSION-bin-fluxcapacitor
 export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
 export SPARK_EXAMPLES_JAR=$SPARK_HOME/lib/spark-examples-$SPARK_VERSION-hadoop$HADOOP_VERSION.jar
 export SPARK_MASTER=spark://127.0.0.1:7077
+# --repositories used to resolve --packages
+export SPARK_REPOSITORIES=http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots,https://repository.apache.org/content/groups/snapshots
+
+# --packages used to pass into our Spark jobs
+export SPARK_SUBMIT_PACKAGES=tjhunter:tensorframes:$TENSORFRAMES_VERSION-s_2.10,com.maxmind.geoip2:geoip2:$MAXMIND_GEOIP_VERSION,com.netflix.dyno:dyno-jedis:$DYNO_VERSION,org.json4s:json4s-jackson_2.10:$JSON4S_VERSION,amplab:spark-indexedrdd:$INDEXEDRDD_VERSION,org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION,graphframes:graphframes:$GRAPHFRAMES_VERSION,com.amazonaws:aws-java-sdk:1.11.39
+#,org.apache.hadoop:hadoop-aws:2.6.0
+
+# We still need to include a reference to a local stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar because SparkSubmit doesn't support a classifier in --packages
+# MYAPPS_HOME/codegen/spark/1.6.1/target/scala-2.10/codegen-spark-1-6-1_2.10-1.0.jar
+export SPARK_SUBMIT_JARS=$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar,$MYAPPS_HOME/serving/spark/target/scala-2.10/spark-serving_2.10-1.0.jar,$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar
+
+# --py-files
+export SPARK_SUBMIT_PYFILES=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml.py
+
 export SPARK_SUBMIT_ARGS="--jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES --py-files $SPARK_SUBMIT_PYFILES"
+
 # Tachyon
 export TACHYON_HOME=$SPARK_HOME/tachyon
 export PATH=$TACHYON_HOME/bin:$PATH
@@ -127,19 +142,6 @@ export PATH=$NIFI_HOME/bin:$PATH
 export SBT_HOME=$DEV_INSTALL_HOME/sbt
 export PATH=$SBT_HOME/bin:$PATH
 export SBT_OPTS=$JAVA_OPTS
-
-# --repositories used to resolve --packages
-export SPARK_REPOSITORIES=http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots,https://repository.apache.org/content/groups/snapshots
-
-# --packages used to pass into our Spark jobs
-export SPARK_SUBMIT_PACKAGES=tjhunter:tensorframes:$TENSORFRAMES_VERSION-s_2.10,com.maxmind.geoip2:geoip2:$MAXMIND_GEOIP_VERSION,com.netflix.dyno:dyno-jedis:$DYNO_VERSION,org.json4s:json4s-jackson_2.10:$JSON4S_VERSION,amplab:spark-indexedrdd:$INDEXEDRDD_VERSION,org.apache.spark:spark-streaming-kafka-assembly_2.10:$SPARK_VERSION,org.elasticsearch:elasticsearch-spark_2.10:$SPARK_ELASTICSEARCH_CONNECTOR_VERSION,com.datastax.spark:spark-cassandra-connector_2.10:$SPARK_CASSANDRA_CONNECTOR_VERSION,redis.clients:jedis:$JEDIS_VERSION,com.twitter:algebird-core_2.10:$ALGEBIRD_VERSION,com.databricks:spark-avro_2.10:$SPARK_AVRO_CONNECTOR_VERSION,com.databricks:spark-csv_2.10:$SPARK_CSV_CONNECTOR_VERSION,org.apache.nifi:nifi-spark-receiver:$SPARK_NIFI_CONNECTOR_VERSION,com.madhukaraphatak:java-sizeof_2.10:0.1,com.databricks:spark-xml_2.10:$SPARK_XML_VERSION,edu.stanford.nlp:stanford-corenlp:$STANFORD_CORENLP_VERSION,org.jblas:jblas:$JBLAS_VERSION,graphframes:graphframes:$GRAPHFRAMES_VERSION,com.amazonaws:aws-java-sdk:1.10.34,org.apache.hadoop:hadoop-aws:2.6.0
-
-# We still need to include a reference to a local stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar because SparkSubmit doesn't support a classifier in --packages
-# MYAPPS_HOME/codegen/spark/1.6.1/target/scala-2.10/codegen-spark-1-6-1_2.10-1.0.jar
-export SPARK_SUBMIT_JARS=$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar,$MYAPPS_HOME/serving/spark/target/scala-2.10/spark-serving_2.10-1.0.jar,$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar
-
-# --py-files
-export SPARK_SUBMIT_PYFILES=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml.py
 
 # Zeppelin
 export ZEPPELIN_HOME=$DEV_INSTALL_HOME/zeppelin-$ZEPPELIN_VERSION
