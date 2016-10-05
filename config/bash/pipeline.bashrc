@@ -86,12 +86,14 @@ export SPARK_SUBMIT_PACKAGES=tjhunter:tensorframes:$TENSORFRAMES_VERSION-s_2.10,
 
 # We still need to include a reference to a local stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar because SparkSubmit doesn't support a classifier in --packages
 # MYAPPS_HOME/codegen/spark/1.6.1/target/scala-2.10/codegen-spark-1-6-1_2.10-1.0.jar
-export SPARK_SUBMIT_JARS=$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar,$MYAPPS_HOME/serving/spark/target/scala-2.10/spark-serving_2.10-1.0.jar,$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar
+export SPARK_SUBMIT_JARS=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar,$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar,$MYAPPS_HOME/serving/spark/target/scala-2.10/spark-serving_2.10-1.0.jar
 
 # --py-files
-export SPARK_SUBMIT_PYFILES=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml.py
+#export SPARK_SUBMIT_PYFILES=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml.py
 
-export SPARK_SUBMIT_ARGS="--jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES --py-files $SPARK_SUBMIT_PYFILES"
+export SPARK_SUBMIT_ARGS="--jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES"
+# --py-files $SPARK_SUBMIT_PYFILES"
+export PYTHONPATH=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml_sparkml-1.0rc0-py2.7.egg
 
 # Tachyon
 export TACHYON_HOME=$SPARK_HOME/tachyon
