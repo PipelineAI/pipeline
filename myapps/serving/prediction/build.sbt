@@ -21,7 +21,7 @@ val springCloudVersion = sys.env("SPRING_CLOUD_VERSION")
 val springCoreVersion = sys.env("SPRING_CORE_VERSION")
 val pmmlEvaluatorVersion = sys.env("PMML_EVALUATOR_VERSION")
 val pmmlModelVersion = sys.env("PMML_MODEL_VERSION")
-val pmmlModelMetroVersion = sys.env("PMML_MODEL_METRO_VERSION")
+val pmmlMetroVersion = sys.env("PMML_METRO_VERSION")
 val janinoVersion = sys.env("JANINO_VERSION")
 val codahaleMetricsVersion = sys.env("CODAHALE_METRICS_VERSION")
 
@@ -33,14 +33,13 @@ lazy val deps = Seq(
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
   "com.netflix.dyno"     % "dyno-jedis"                    % dynoVersion,
-  "org.jpmml"            % "pmml-evaluator"                % pmmlEvaluatorVersion,
   "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-config" % springCloudVersion,
-  "org.jpmml" % "pmml-model-metro" % pmmlModelMetroVersion,
+  "org.jpmml" % "pmml-model-metro" % pmmlMetroVersion,
   "org.jpmml" % "pmml-model" % pmmlModelVersion,
   "org.jpmml" % "pmml-evaluator" % pmmlEvaluatorVersion 
 )

@@ -127,7 +127,6 @@ object PMMLSparkML {
 
     System.out.println("Input schema:");
     System.out.println("\t" + "Input fields: " + inputFields) 
-//    System.out.println("\t" + "Group fields: " + modelEvaluator.getGroupFields())
 
     System.out.println("Output schema:");
     System.out.println("\t" + "Target fields: " + modelEvaluator.getTargetFields())
@@ -154,20 +153,13 @@ object PMMLSparkML {
         //   2) missing value treatment, 
         //   3) invalid value treatment 
         //   4) type conversion
-//        yield (inputField -> modelEvaluator.prepare(inputField, inputs(inputField.getValue)))
         yield (inputField.getName -> inputField.prepare(inputs(inputField.getName.getValue)))
       ).toMap.asJava
 
     val results = modelEvaluator.evaluate(arguments)
     val targetField = modelEvaluator.getTargetFields().asScala(0)
-    val targetValue = results.get(targetField)
+    val targetValue = results.get(targetField.getName)
     
     System.out.println(s"**** Predicted value for '${targetField.getName}': ${targetValue} ****")
-
-    //if (targetValue instanceof Computable) {
-    //    Computable computable = (Computable)targetValue;
-
-    //    Object primitiveValue = computable.getResult();
-    //}
   }
 }

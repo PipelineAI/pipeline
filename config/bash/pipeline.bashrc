@@ -1,3 +1,11 @@
+######
+export SPARK_CSV_CONNECTOR_VERSION=1.5.0
+export JPMML_SPARKML_VERSION=1.1.3
+export PMML_MODEL_VERSION=1.3.3
+export PMML_EVALUATOR_VERSION=1.3.2
+export PMML_METRO_VERSION=1.3.3
+######
+
 # Dev Install Home (Tools)
 #export DEV_INSTALL_HOME=~
 
@@ -91,7 +99,7 @@ export SPARK_SUBMIT_JARS=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package
 # --py-files
 #export SPARK_SUBMIT_PYFILES=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml.py
 
-export SPARK_SUBMIT_ARGS="--jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES"
+export SPARK_SUBMIT_ARGS="--driver-class-path $SPARK_SUBMIT_JARS --jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES"
 # --py-files $SPARK_SUBMIT_PYFILES"
 export PYTHONPATH=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml_sparkml-1.0rc0-py2.7.egg
 

@@ -78,7 +78,7 @@ object EvaluatePMML {
 
     val results = modelEvaluator.evaluate(arguments)
     val targetField = modelEvaluator.getTargetFields().asScala(0)
-    val targetValue = results.get(targetField)
+    val targetValue = results.get(targetField.getName)
 
     System.out.println(s"**** Predicted value for '${targetField.getName}': ${targetValue} ****")
   }

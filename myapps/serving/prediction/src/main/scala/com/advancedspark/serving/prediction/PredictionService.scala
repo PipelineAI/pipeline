@@ -242,14 +242,13 @@ class PredictionService {
     import java.io.FileInputStream
     import org.jpmml.model.MetroJAXBUtil
     import org.xml.sax.InputSource
-    import org.jpmml.evaluator.TreeModelEvaluator
     import org.jpmml.evaluator.ModelEvaluatorFactory
     import org.jpmml.evaluator.Evaluator
     import org.jpmml.model.ImportFilter
     import org.jpmml.model.JAXBUtil
 
     try {
-      val inputMap = JSON.parseFull(inputs).get.asInstanceOf[Map[String,Any]]
+      val inputsMap = JSON.parseFull(inputs).get.asInstanceOf[Map[String,Any]]
 
       val pmml: java.io.File = new java.io.File(s"data/${pmmlName}/${pmmlName}.pmml")
 
@@ -261,25 +260,36 @@ class PredictionService {
 
       val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
 
-      val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelManager(pmml2)
+      val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml2)
+      System.out.println("Mining function: " + modelEvaluator.getMiningFunction())
 
-      val activeFields = modelEvaluator.getActiveFields().asScala
+      val inputFields = modelEvaluator.getInputFields().asScala
+
+      System.out.println("Input schema:");
+      System.out.println("\t" + "Input fields: " + inputFields)
+//    System.out.println("\t" + "Group fields: " + modelEvaluator.getGroupFields())
+
+      System.out.println("Output schema:");
+      System.out.println("\t" + "Target fields: " + modelEvaluator.getTargetFields())
+      System.out.println("\t" + "Output fields: " + modelEvaluator.getOutputFields())
 
       val arguments =
-        ( for(activeField <- activeFields)
-        // The raw value is passed through:
-        //   1) outlier treatment,
-        //   2) missing value treatment,
-        //   3) invalid value treatment
-        //   4) type conversion
-          yield (activeField -> modelEvaluator.prepare(activeField, inputMap(activeField.getValue)))
+        ( for(inputField <- inputFields)
+          // The raw value is passed through:
+          //   1) outlier treatment,
+          //   2) missing value treatment,
+          //   3) invalid value treatment
+          //   4) type conversion
+          yield (inputField.getName -> inputField.prepare(inputsMap(inputField.getName.getValue)))
         ).toMap.asJava
 
-      val results = modelEvaluator.evaluate(arguments)
-      val targetName = modelEvaluator.getTargetField()
-      val targetValue = results.get(targetName)
+      System.out.println(arguments)
 
-      s"""{"results":[{'${targetName.getValue}': '${targetValue}'}]}"""
+      val results = modelEvaluator.evaluate(arguments)
+      val targetField = modelEvaluator.getTargetFields().asScala(0)
+      val targetValue = results.get(targetField.getName)
+
+      s"""{"results":[{'${targetField.getName}': '${targetValue}'}]}"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
