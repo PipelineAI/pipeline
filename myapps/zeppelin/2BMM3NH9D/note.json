@@ -1,21 +1,9 @@
 {
   "paragraphs": [
     {
-      "config": {},
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1468193241723_-894545339",
-      "id": "20160710-232721_1091179223",
-      "dateCreated": "Jul 10, 2016 11:27:21 PM",
-      "status": "READY",
-      "progressUpdateIntervalMs": 500
-    },
-    {
       "title": "",
       "text": "%md\n# **CHRIS FREGLY** (@cfregly)\n![Chris Fregly](http://advancedspark.com/img/fregly-300x300.png)\n![Chris Fregly Emoji](http://advancedspark.com/img/fregly-emoji-300x300.png)",
-      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "dateUpdated": "Oct 8, 2016 2:52:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -45,8 +33,8 @@
         "msg": "\u003ch1\u003e\u003cstrong\u003eCHRIS FREGLY\u003c/strong\u003e (@cfregly)\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-300x300.png\" alt\u003d\"Chris Fregly\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-emoji-300x300.png\" alt\u003d\"Chris Fregly Emoji\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:40:34 AM",
-      "dateStarted": "Jul 10, 2016 5:26:13 AM",
-      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "dateStarted": "Oct 8, 2016 2:52:16 PM",
+      "dateFinished": "Oct 8, 2016 2:52:16 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -87,8 +75,8 @@
     },
     {
       "title": "",
-      "text": "%md \n## Research Scientist @ PipelineIO\n\n![PipelineIO](http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png)",
-      "dateUpdated": "Jul 10, 2016 5:26:41 AM",
+      "text": "%md \n## Research Scientist @ [PipelineIO](http://pipeline.io)\n\n![PipelineIO](http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png)",
+      "dateUpdated": "Oct 8, 2016 2:45:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -114,18 +102,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eResearch Scientist @ PipelineIO\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png\" alt\u003d\"PipelineIO\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eResearch Scientist @ \u003ca href\u003d\"http://pipeline.io\"\u003ePipelineIO\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png\" alt\u003d\"PipelineIO\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:10:26 AM",
-      "dateStarted": "Jul 10, 2016 5:26:13 AM",
-      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "dateStarted": "Oct 8, 2016 2:45:52 PM",
+      "dateFinished": "Oct 8, 2016 2:45:53 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "%md\n## Organizer @ Advanced Spark and TensorFlow Meetup \n### San Francisco\n![Meetup](http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png)",
-      "dateUpdated": "Jul 10, 2016 5:33:32 AM",
+      "text": "%md\n## Organizer @ [Advanced Spark and TensorFlow Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)\n### San Francisco\n![Meetup](http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png)",
+      "dateUpdated": "Oct 8, 2016 2:46:52 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -151,11 +139,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eOrganizer @ Advanced Spark and TensorFlow Meetup\u003c/h2\u003e\n\u003ch3\u003eSan Francisco\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png\" alt\u003d\"Meetup\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eOrganizer @ \u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/\"\u003eAdvanced Spark and TensorFlow Meetup\u003c/a\u003e\u003c/h2\u003e\n\u003ch3\u003eSan Francisco\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png\" alt\u003d\"Meetup\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:26:29 AM",
-      "dateStarted": "Jul 10, 2016 5:33:30 AM",
-      "dateFinished": "Jul 10, 2016 5:33:30 AM",
+      "dateStarted": "Oct 8, 2016 2:46:52 PM",
+      "dateFinished": "Oct 8, 2016 2:46:52 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -198,8 +186,8 @@
     },
     {
       "title": "",
-      "text": "%md \n## Creator @ pancake-stack.com\n![Pancake Stack](http://advancedspark.com/img/pancake-stack.png)",
-      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "text": "%md \n## Creator @ [pancake-stack.com](http://pancake-spack.com)\n![Pancake Stack](http://advancedspark.com/img/pancake-stack.png)",
+      "dateUpdated": "Oct 8, 2016 2:47:25 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -225,18 +213,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eCreator @ pancake-stack.com\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pancake-stack.png\" alt\u003d\"Pancake Stack\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eCreator @ \u003ca href\u003d\"http://pancake-spack.com\"\u003epancake-stack.com\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pancake-stack.png\" alt\u003d\"Pancake Stack\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:32:46 AM",
-      "dateStarted": "Jul 10, 2016 5:26:13 AM",
-      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "dateStarted": "Oct 8, 2016 2:47:24 PM",
+      "dateFinished": "Oct 8, 2016 2:47:24 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "%md \n## Workshop Instructor @ advancedspark.com\n### Upcoming Workshops\n* [July 30th (Seattle)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/)\n* [August 6th (San Francisco)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/231126224/)\n* More @ [pipeline.io](http://pipeline.io)",
-      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "text": "%md \n## Upcoming Workshops @ [pipeline.io](http://pipeline.io)\n### **Munich on Oct 15th!!!**\n![Architecture Overview](http://pipeline.io/images/architecture-overview-645x474.png)",
+      "dateUpdated": "Oct 13, 2016 4:39:59 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -262,11 +250,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eWorkshop Instructor @ advancedspark.com\u003c/h2\u003e\n\u003ch3\u003eUpcoming Workshops\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/\"\u003eJuly 30th (Seattle)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/231126224/\"\u003eAugust 6th (San Francisco)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003eMore @ \u003ca href\u003d\"http://pipeline.io\"\u003epipeline.io\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+        "msg": "\u003ch2\u003eUpcoming Workshops @ \u003ca href\u003d\"http://pipeline.io\"\u003epipeline.io\u003c/a\u003e\u003c/h2\u003e\n\u003ch3\u003e\u003cstrong\u003eMunich on Oct 15th!!!\u003c/strong\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://pipeline.io/images/architecture-overview-645x474.png\" alt\u003d\"Architecture Overview\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 7:34:10 AM",
-      "dateStarted": "Jul 10, 2016 5:26:13 AM",
-      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "dateStarted": "Oct 13, 2016 4:39:59 PM",
+      "dateFinished": "Oct 13, 2016 4:39:59 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -307,8 +295,8 @@
     },
     {
       "title": "",
-      "text": "%md\n# Research Engineer @ IBM Spark Tech Center (Khaki People)\n![IBM Spark Technology Center](http://advancedspark.com/img/ibm-spark.png)",
-      "dateUpdated": "Jul 10, 2016 5:32:49 AM",
+      "text": "%md\n# Research Engineer @ [IBM Spark Tech Center](http://spark.tc)\n![IBM Spark Technology Center](http://advancedspark.com/img/ibm-spark.png)",
+      "dateUpdated": "Oct 8, 2016 2:50:53 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -334,18 +322,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch1\u003eResearch Engineer @ IBM Spark Tech Center (Khaki People)\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/ibm-spark.png\" alt\u003d\"IBM Spark Technology Center\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch1\u003eResearch Engineer @ \u003ca href\u003d\"http://spark.tc\"\u003eIBM Spark Tech Center\u003c/a\u003e\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/ibm-spark.png\" alt\u003d\"IBM Spark Technology Center\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:09:44 AM",
-      "dateStarted": "Jul 10, 2016 5:32:47 AM",
-      "dateFinished": "Jul 10, 2016 5:32:47 AM",
+      "dateStarted": "Oct 8, 2016 2:50:51 PM",
+      "dateFinished": "Oct 8, 2016 2:50:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "%md \n## Data Solutions Engineer @ Databricks (Spark People)\n![Databricks](http://advancedspark.com/img/databricks.png)",
-      "dateUpdated": "Jul 10, 2016 5:32:40 AM",
+      "text": "%md \n## Data Solutions Engineer @ [Databricks](http://databricks.com)\n![Databricks](http://advancedspark.com/img/databricks.png)",
+      "dateUpdated": "Oct 8, 2016 2:50:29 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -371,18 +359,18 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eData Solutions Engineer @ Databricks (Spark People)\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/databricks.png\" alt\u003d\"Databricks\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eData Solutions Engineer @ \u003ca href\u003d\"http://databricks.com\"\u003eDatabricks\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/databricks.png\" alt\u003d\"Databricks\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:09:30 AM",
-      "dateStarted": "Jul 10, 2016 5:32:38 AM",
-      "dateFinished": "Jul 10, 2016 5:32:38 AM",
+      "dateStarted": "Oct 8, 2016 2:50:28 PM",
+      "dateFinished": "Oct 8, 2016 2:50:28 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "",
-      "text": "%md\n## Streaming Data Engineer @ Netflix (Streaming Video People)\n![Netflix](http://advancedspark.com/img/netflix.png)",
-      "dateUpdated": "Jul 10, 2016 5:32:34 AM",
+      "text": "%md\n## Streaming Data Engineer @ [Netflix](http://netflix.com)\n![Netflix](http://advancedspark.com/img/netflix.png)",
+      "dateUpdated": "Oct 8, 2016 2:52:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -408,16 +396,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "HTML",
-        "msg": "\u003ch2\u003eStreaming Data Engineer @ Netflix (Streaming Video People)\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/netflix.png\" alt\u003d\"Netflix\" /\u003e\u003c/p\u003e\n"
+        "msg": "\u003ch2\u003eStreaming Data Engineer @ \u003ca href\u003d\"http://netflix.com\"\u003eNetflix\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/netflix.png\" alt\u003d\"Netflix\" /\u003e\u003c/p\u003e\n"
       },
       "dateCreated": "May 11, 2016 5:08:54 AM",
-      "dateStarted": "Jul 10, 2016 5:32:32 AM",
-      "dateFinished": "Jul 10, 2016 5:32:32 AM",
+      "dateStarted": "Oct 8, 2016 2:51:42 PM",
+      "dateFinished": "Oct 8, 2016 2:51:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
-      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "text": "",
+      "dateUpdated": "Oct 8, 2016 3:22:00 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -429,7 +418,8 @@
           "groups": [],
           "scatter": {}
         },
-        "enabled": true
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
       },
       "settings": {
         "params": {},
