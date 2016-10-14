@@ -435,10 +435,10 @@ RUN \
 # && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
 
 # Bleeding Edge Theano
-RUN \
-  git clone --single-branch --recurse-submodules git://github.com/Theano/Theano.git \
-  && cd Theano \
-  && python setup.py develop --user
+#RUN \
+#  git clone --single-branch --recurse-submodules git://github.com/Theano/Theano.git \
+#  && cd Theano \
+#  && python setup.py develop --user
 
 # JupyterHub
 RUN \
