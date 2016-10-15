@@ -528,5 +528,3 @@ ENV PIPELINE_HOME=$DEV_INSTALL_HOME/pipeline
 
 # Config Home
 ENV CONFIG_HOME=$PIPELINE_HOME/config
-
-#CMD ["/root/pipeline/bin/setup/RUNME_ONCE.sh"]
