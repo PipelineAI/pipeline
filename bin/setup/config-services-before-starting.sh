@@ -243,7 +243,7 @@ ln -s $MYSQL_CONNECTOR_JAR $ZEPPELIN_HOME/lib
 echo '...Configuring iPython/Jupyter...'
 mkdir -p $WORK_HOME/jupyter
 mkdir -p ~/.jupyter
-cp -R /root/pipeline/config/jupyter/.ipython /root/
+ln -s $CONFIG_HOME/jupyter/.ipython /root/
 
 # JupyterHub
 echo '...Configuring JupyterHub...'
