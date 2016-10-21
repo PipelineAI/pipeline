@@ -6,10 +6,10 @@
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x562.png)
+![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x563.png)
 
 ## Mapped to Code
-![Workshop Architecture Overview](http://advancedspark.com/img/architecture-overview-mapped-to-code-768x562.png)
+![Workshop Architecture Overview](http://advancedspark.com/img/architecture-overview-mapped-to-code-768x563.png)
 
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
@@ -49,10 +49,9 @@
 * Seattle: Saturday, July 30th (SOLD OUT)
 * Santa Clara: Saturday, August 6th (SOLD OUT)
 * Chicago: Saturday, August 27th (SOLD OUT)
-* [Atlanta](http://end-to-end-streaming-recommendations-spark-atlanta.eventbrite.com?discount=ADVANCEDSPARK25): Sunday, September 25th
-* [New York](http://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 1st
-* [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th
-* [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd
+* [New York](http://end-to-end-streaming-recommendations-spark-nyc.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 1st (SOLD OUT)
+* [Munich](https://end-to-end-streaming-recommendations-spark-munich.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 15th (SOLD OUT)
+* [London](https://end-to-end-streaming-recommendations-spark-london.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 22nd (SOLD OUT)
 * [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
 * [Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK25): Saturday, November 19th
 * [Tokyo](http://end-to-end-streaming-recommendations-spark-tokyo.eventbrite.com?discount=ADVANCEDSPARK25): December 3rd
