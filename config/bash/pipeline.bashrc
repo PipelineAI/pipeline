@@ -4,6 +4,7 @@ export JPMML_SPARKML_VERSION=1.1.3
 export PMML_MODEL_VERSION=1.3.3
 export PMML_EVALUATOR_VERSION=1.3.2
 export PMML_METRO_VERSION=1.3.3
+export SPARK_SUBMIT_PYFILES=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py
 ######
 
 # Dev Install Home (Tools)
