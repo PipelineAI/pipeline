@@ -27,6 +27,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
+<!-- This must stay 1.1.1.RELEASE or jackson.xml errors happen at runtime -->
             <version>1.1.1.RELEASE</version>
         </dependency>
         <dependency>
@@ -46,7 +47,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Brixton.RELEASE</version>
+                <version>${SPRING_CLOUD_DEPENDENCIES}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

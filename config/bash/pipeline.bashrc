@@ -1,10 +1,8 @@
 ######
-export SPARK_CSV_CONNECTOR_VERSION=1.5.0
-export JPMML_SPARKML_VERSION=1.1.3
-export PMML_MODEL_VERSION=1.3.3
-export PMML_EVALUATOR_VERSION=1.3.2
-export PMML_METRO_VERSION=1.3.3
-export SPARK_SUBMIT_PYFILES=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py
+export SPRING_CORE_VERSION=4.3.0.RELEASE
+export SPRING_BOOT_VERSION=1.3.5.RELEASE
+export SPRING_CLOUD_VERSION=1.1.2.RELEASE
+export SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
 ######
 
 # Dev Install Home (Tools)
@@ -98,10 +96,11 @@ export SPARK_SUBMIT_PACKAGES=tjhunter:tensorframes:$TENSORFRAMES_VERSION-s_2.10,
 export SPARK_SUBMIT_JARS=$MYAPPS_HOME/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar,$MYAPPS_HOME/spark/redis/lib/spark-redis_2.10-$SPARK_REDIS_CONNECTOR_VERSION.jar,$MYSQL_CONNECTOR_JAR,$MYAPPS_HOME/spark/ml/lib/spark-corenlp_2.10-0.1.jar,$MYAPPS_HOME/spark/ml/lib/stanford-corenlp-$STANFORD_CORENLP_VERSION-models.jar,$MYAPPS_HOME/spark/ml/target/scala-2.10/ml_2.10-1.0.jar,$MYAPPS_HOME/spark/sql/target/scala-2.10/sql_2.10-1.0.jar,$MYAPPS_HOME/spark/core/target/scala-2.10/core_2.10-1.0.jar,$MYAPPS_HOME/spark/streaming/target/scala-2.10/streaming_2.10-1.0.jar,$MYAPPS_HOME/serving/spark/target/scala-2.10/spark-serving_2.10-1.0.jar
 
 #used for jupyter
-export SLIM_SPARK_SUBMIT_ARGS='--conf spark.cores.max=1 --conf spark.executor.memory=1g --packages com.databricks:spark-csv_2.10:1.5.0 --jars /root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --repositories http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots,https://repository.apache.org/content/groups/snapshots --py-files /root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py'
+export SLIM_SPARK_SUBMIT_ARGS='--conf spark.cores.max=1 --conf spark.executor.memory=1g --packages com.databricks:spark-csv_2.10:1.5.0,tjhunter:tensorframes:$TENSORFRAMES_VERSION-s_2.10 --jars /root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --repositories http://dl.bintray.com/spark-packages/maven,https://oss.sonatype.org/content/repositories/snapshots,https://repository.apache.org/content/groups/snapshots --py-files /root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py'
 
 export SPARK_SUBMIT_ARGS="--driver-class-path $SPARK_SUBMIT_JARS --jars $SPARK_SUBMIT_JARS --repositories $SPARK_REPOSITORIES --packages $SPARK_SUBMIT_PACKAGES"
-#export PYTHONPATH=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml_sparkml-1.0rc0-py2.7.egg
+
+export SPARK_SUBMIT_PYFILES=/root/pipeline/myapps/pmml/spark/1.6.1/lib/jpmml.py
 
 # Tachyon
 export TACHYON_HOME=$SPARK_HOME/tachyon
