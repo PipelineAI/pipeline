@@ -69,7 +69,6 @@ nohup kibana &
 
 echo '...Starting Jupyter Notebook Server...'
 # Note:  We are using pipeline-pyspark-shell.sh to pick up the --repositories, --jars, --packages of the rest of the environment 
-#PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py" nohup pipeline-pyspark-shell.sh &
 nohup jupyter notebook --config=$CONFIG_HOME/jupyter/jupyter_notebook_config.py &
 
 echo '...Starting Jupyter Hub Server...'
@@ -96,14 +95,8 @@ nohup kafka-rest-start $CONFLUENT_HOME/etc/kafka-rest/kafka-rest.properties &
 #nodetool enablethrift
 #nohup $TITAN_HOME/bin/gremlin-server.sh $TITAN_HOME/conf/gremlin-server/gremlin-server-rest-modern.yaml &
 
-#echo '...Starting Jenkins...'
-#service jenkins start
-
 echo '...Starting Spark Hive ThriftServer...'
 start-hive-thriftserver.sh
 
 echo '...Starting Dynomite...'
 dynomite -d -c $DYNOMITE_HOME/conf/dynomite.yml
-
-#echo '...Starting Prediction Services...'
-#$MYAPPS_HOME/serving/start-all-prediction-services.sh
