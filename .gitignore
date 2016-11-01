@@ -1,4 +1,4 @@
-history.sqllite
+history.sqlite
 .cache-main
 .Dockerfile.swp
 .vertx/
