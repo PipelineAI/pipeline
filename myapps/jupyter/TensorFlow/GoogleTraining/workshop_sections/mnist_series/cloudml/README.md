@@ -81,11 +81,22 @@ The solution can be found in `prepare_data.py` and run with:
 python prepare_data.py data/
 ```
 
-After you have successfully completed this, run
+After you have successfully completed this optionally copy to Google Cloud Storage, run
 
 ```
 gsutil -m cp -z pb2 -r data/* gs://$BUCKET_NAME/
 ```
+
+Set the `DATA_LOCATION` environment variable to follow along with the rest of the tutorial
+
+```
+DATA_LOCATION=data
+```
+for local or
+```
+DATA_LOCATION=gs://$BUCKET_NAME
+```
+for remote
 
 ### Reading TFRecords - Exercise 3
 
@@ -111,8 +122,8 @@ Then run:
 gcloud beta ml local train --package-path trainer/ --module-name trainer.task \
     -- \
     --max-steps 50000 \
-    --train-data-paths gs://$BUCKET_NAME/train.pb2 \
-    --eval-data-paths gs://$BUCKET_NAME/eval.pb2 \
+    --train-data-paths $DATA_LOCATION/train.pb2 \
+    --eval-data-paths $DATA_LOCATION/eval.pb2 \
     --output-path output/
 ```
 
@@ -150,18 +161,18 @@ The Google Cloud Machine Learning API provides tuning of hyper parameters throug
 
 Use the reference documentation linked above to define a Job Configuration for our model in `my_config.yaml`. It should provide tuning of the `hidden1`, `hidden2`, and `learning-rate` flags.
 
-Run it on the cloud with:
+Run it on the cloud (if `$DATA_LOCATION` is a GCS bucket only) with:
 
 ```
 gcloud beta ml jobs submit training mnist_hptuning \
-    --staging-bucket gs://$BUCKET_NAME \
+    --staging-bucket $DATA_LOCATION \
     --package-path trainer/ \
     --module-name trainer.task \
-    --config my_config.yaml \
+    --config config.yaml \
     -- \
     --max-steps 50000 \
-    --train-data-paths gs://$BUCKET_NAME/train.pb2 \
-    --eval-data-paths gs://$BUCKET_NAME/eval.pb2 \
-    --output-path gs://$BUCKET_NAME/output
+    --train-data-paths $DATA_LOCATION/train.pb2 \
+    --eval-data-paths $DATA_LOCATION/eval.pb2 \
+    --output-path $DATA_LOCATION/output
 gcloud beta ml jobs stream-logs mnist_hptuning
 ```

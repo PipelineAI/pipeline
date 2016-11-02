@@ -35,8 +35,7 @@ def make_model_fn(args):
     tensors = {}
     # Add to the Graph the Ops for loss calculation.
     if mode == ModeKeys.INFER:
-      softmax = tf.nn.softmax(logits)
-      tensors['digit'] = tf.argmax(softmax, 1)
+      tensors['digit'] = tf.argmax(logits, 1)
       loss_op = None
     else:
       loss_op = loss(logits, labels)

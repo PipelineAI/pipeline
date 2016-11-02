@@ -3,9 +3,14 @@ import os
 import tensorflow as tf
 
 from tensorflow.examples.tutorials.mnist import input_data
+from tensorflow.python.lib.io.tf_record import TFRecordCompressionType
 
 def dataset_to_file(feature_iter, filename):
-  with tf.python_io.TFRecordWriter(filename) as writer:
+  writer = tf.python_io.TFRecordWriter(
+      filename, 
+      options=tf.python_io.TFRecordOptions(
+          compression_type=TFRecordCompressionType.GZIP))
+  with writer:
     for feature in feature_iter:
       writer.write(tf.train.Example(features=tf.train.Features(
           feature=feature
