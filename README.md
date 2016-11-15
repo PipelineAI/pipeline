@@ -5,7 +5,7 @@
 ## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
 # New!  Check Out the Next Generation [Pipeline](https://github.com/fluxcapacitor/datasticks.com)
-* Code Name:  "Datasticks"
+Code Name:  "Datasticks"
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
