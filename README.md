@@ -4,7 +4,8 @@
 
 ## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
-# New!  Check Out the Kubernetes-based, Next Generation [PipelineIO](https://github.com/fluxcapacitor/pipeline.io)
+# Next Generation PipelineIO!
+* Check Out the Kubernetes and NetflixOSS-based [PipelineIO](https://github.com/fluxcapacitor/pipeline.io)
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
