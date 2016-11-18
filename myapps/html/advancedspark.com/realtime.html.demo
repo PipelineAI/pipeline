@@ -210,7 +210,7 @@ Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecomm
 
 <h3>
 <center>
-Your Real-time, Collaborative-based Recommendations Will Appear Below
+Real-time Personalized Recommendations:
 </center>
 </h3>
 <div id="recommendations-als">
@@ -220,7 +220,7 @@ Your Real-time, Collaborative-based Recommendations Will Appear Below
 
 <h3>
 <center>
-Your Real-time, Collaborative-based Similar Items Will Appear Below
+Real-time Item-to-Item Recommendations:
 </center>
 </h3>
 <div id="item-similars-als">

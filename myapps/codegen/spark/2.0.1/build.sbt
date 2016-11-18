@@ -5,7 +5,7 @@ val globalSettings = Seq(
 
 resolvers += "Apache Snapshots" at "http://repository.apache.org/snapshots/"
 
-val sparkVersion = "2.0.1-SNAPSHOT" 
+val sparkVersion = "2.0.1"
 
 lazy val codegen = (project in file("."))
                     .settings(name := s"codegen-spark-${sparkVersion}")
