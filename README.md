@@ -4,15 +4,14 @@
 
 ## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
-# New!  Check Out the Next Generation [Pipeline](https://github.com/fluxcapacitor/datasticks.com)
-_Code Name:  "Datasticks"_
+# New!  Check Out the Kubernetes-based, Next Generation [PipelineIO](https://github.com/fluxcapacitor/pipeline.io)
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x563.png)
+![Pipeline Architecture Overview](http://pipeline.io/images/architecture-overview-768x563.png)
 
 ## Mapped to Code
-![Workshop Architecture Overview](http://advancedspark.com/img/architecture-overview-mapped-to-code-768x563.png)
+![Workshop Architecture Overview](http://pipeline.io/images/architecture-overview-mapped-to-code-768x563.png)
 
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
