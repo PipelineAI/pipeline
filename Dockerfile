@@ -338,19 +338,21 @@ RUN \
  && cd ~ \
  && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
- && rm apache-jmeter-${JMETER_VERSION}.tgz \
+ && rm apache-jmeter-${JMETER_VERSION}.tgz 
 
 # Dynomite
- && cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
+RUN \
+ cd ~ \
+ && git clone --branch 'v0.5.8' --single-branch --recurse-submodules https://github.com/Netflix/dynomite.git \
  && cd dynomite \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
  && make \
- && sudo make install \
+ && sudo make install 
 
 # Jenkins
- && wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
+RUN \
+ wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
  && echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list \ 
  && apt-get update \
  && apt-get install -y jenkins \
