@@ -14,7 +14,7 @@
 ![Workshop Architecture Overview](http://pipeline.io/images/architecture-overview-mapped-to-code-768x563.png)
 
 ## Powered by the PANCAKE STACK!
-![PANCAKE STACK](http://advancedspark.com/img/pancake-stack-sign-sm.png)
+![PANCAKE STACK](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/pancake-stack-sign-sm.png)
 
 ## Upcoming Workshops
 ### Title
@@ -54,17 +54,17 @@
 * New York: Saturday, October 1st (SOLD OUT)
 * Munich: Saturday, October 15th (SOLD OUT)
 * London: Saturday, October 22nd (SOLD OUT)
-* [Brussels](https://end-to-end-streaming-recommendations-spark-brussel.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, October 29th
-* [Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK25): Saturday, November 19th
-* [Tokyo](http://end-to-end-streaming-recommendations-spark-tokyo.eventbrite.com?discount=ADVANCEDSPARK25): December 3rd
-* [Shanghai](http://end-to-end-streaming-recommendation-spark-shanghai.eventbrite.com?discount=ADVANCEDSPARK25): December 10th
-* [Beijing](http://end-to-end-streaming-recommendations-spark-beijing.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 17th
-* [Hyderabad](http://endtoend-streaming-recommendations-spark-hyderabad.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 24th
-* [Bangalore](http://endtoend-streaming-recommendations-spark-bangalore.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, December 31st
-* [Sydney](http://end-to-end-streaming-recommendations-spark-sydney.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, January 7th, 2017
-* [Melbourne](http://endtoend-streaming-recommendations-spark-melbourne.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, January 14th, 2017
-* [Sao Paulo](http://endtoend-streaming-recommendations-spark-sao-paulo.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, February 11th, 2017
-* [Rio de Janeiro](http://endtoend-streaming-recommendations-spark-rio.eventbrite.com?discount=ADVANCEDSPARK25): Saturday, February 18th, 2017
+* Brussels: Saturday, October 29th (SOLD OUT)
+* **[Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK20)**: Saturday, November 19th
+* **[London](http://end-to-end-streaming-recommendations-spark-london2.eventbrite.com/?discount=ADVANCEDSPARK25)**: Saturday, January 7th
+* Bangalore: Coming Soon, Dec 2016
+* Tokyo: Coming Soon, 2017
+* Shanghai: Coming Soon, 2017
+* Beijing: Coming Soon, 2017
+* Sydney: Coming Soon, 2017
+* Melbourne: Coming Soon, 2017
+* Sao Paulo: Coming Soon, 2017
+* Rio de Janeiro: Coming Soon, 2017
 
 [Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)
       
@@ -76,64 +76,64 @@ The goal of this workshop is to build an end-to-end, streaming data analytics an
   
 ##  Screenshots
 ### Apache Zeppelin Notebooks
-![Apache Zeppelin Notebooks](http://advancedspark.com/img/zeppelin-notebooks-sm.png)
+![Apache Zeppelin Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/zeppelin-notebooks-sm.png)
 
 ### Stanford CoreNLP Sentiment Analysis
-![Stanford CoreNLP Sentiment](http://advancedspark.com/img/corenlp-sentiment.png)
+![Stanford CoreNLP Sentiment](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/corenlp-sentiment.png)
 
 ### Jupyter/iPython Notebooks
-![Jupyter/iPython Notebooks](http://advancedspark.com/img/jupyter.png)
+![Jupyter/iPython Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/jupyter.png)
 
 ### SparkR Notebooks
-![SparkR Notebooks](http://advancedspark.com/img/sparkr.png)
+![SparkR Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/sparkr.png)
 
 ### TensorFlow Notebooks
-![TensorFlow Notebooks](http://advancedspark.com/img/tensorflow.png)
+![TensorFlow Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/tensorflow.png)
 
 ### Deploy Spark ML and TensorFlow Models into Production with Netflix OSS
-![Hystrix Dashboard](http://advancedspark.com/img/hystrix-example-600x306.png)
-![Hystrix Dashboard](http://advancedspark.com/img/hystrix-dashboard-annotated-640x411.png)
+![Hystrix Dashboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/hystrix-example-600x306.png)
+![Hystrix Dashboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/hystrix-dashboard-annotated-640x411.png)
 
 ### Apache NiFi Data Flows
-![Apache NiFi Data Flows](http://advancedspark.com/img/nifi-flow.png)
+![Apache NiFi Data Flows](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/nifi-flow.png)
 
 ### AirFlow Workflows
-![AirFlow Workflows](http://advancedspark.com/img/airflow.png)
+![AirFlow Workflows](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/airflow.png)
 
 ### Presto Queries
-![Presto Queries](http://advancedspark.com/img/presto.png)
+![Presto Queries](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/presto.png)
 
 ### Tableau Integration
-![Tableau Integration](http://advancedspark.com/img/flux-tableau.png)
+![Tableau Integration](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-tableau.png)
 
 ### Beeline Command-line Hive Client
-![Beeline Command-line Hive Client](http://advancedspark.com/img/flux-beeline.png)
+![Beeline Command-line Hive Client](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-beeline.png)
 
 ### Log Visualization with Kibana & Logstash
-![Log Visualization with Kibana & Logstash](http://advancedspark.com/img/flux-kibana.png)
+![Log Visualization with Kibana & Logstash](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-kibana.png)
 
 ### Spark, Spark Streaming, and Spark SQL Admin UIs
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-1.png)
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-2.png)
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-3.png)
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-4.png)
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-5.png)
-![Spark Admin UI](http://advancedspark.com/img/flux-spark-6.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-1.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-2.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-3.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-4.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-5.png)
+![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-6.png)
 
 ### Vector Host and Guest (Docker) System Metric UIs
-![Vector Metrics UI](http://advancedspark.com/img/vector-01.png)
-![Vector Metrics UI](http://advancedspark.com/img/vector-02.png)
-![Vector Metrics UI](http://advancedspark.com/img/vector-03.png)
+![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-01.png)
+![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-02.png)
+![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-03.png)
 
 ### Ganglia System and JVM Metrics Monitoring UIs
-![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-1.png)
-![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-2.png)
-![Ganglia Metrics UI](http://advancedspark.com/img/flux-ganglia-3.png)
+![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-1.png)
+![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-2.png)
+![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-3.png)
 
 ## Tools Overview
 ![Apache Spark](http://spark.apache.org/images/spark-logo.png) ![Redis](https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png)
 ![Apache Cassandra](https://upload.wikimedia.org/wikipedia/commons/a/a0/Cassandra_logo.png)
 ![Apache Kafka](http://www.bogotobogo.com/Hadoop/images/Ecosystem/Kafka.png)
-![NiFi](http://advancedspark.com/img/nifi-logo.png)
+![NiFi](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/nifi-logo.png)
 ![ElasticSearch Logstash Kibana](https://www.enalean.com/sites/default/files/field/image/elk-logos.png) ![Apache Zeppelin](http://4.bp.blogspot.com/-rsc3t_dZmBg/VbPDwhb_IBI/AAAAAAAABeY/9zKUjK4VFbQ/s1600/zeppelin-bl.png) ![Ganglia](https://developer.nvidia.com/sites/default/files/akamai/cuda/images/Ganglia-logo-small-rs.jpg) ![Hadoop HDFS](http://datatechblog.com/wp-content/uploads/2014/04/HadoopHive.png) ![iPython Notebook](http://ipython.org/ipython-doc/dev/_images/ipynb_icon_128x128.png)
 ![Docker](http://blog.docker.com/wp-content/uploads/2013/08/KuDr42X_ITXghJhSInDZekNEF0jLt3NeVxtRye3tqco.png)
