@@ -210,7 +210,7 @@ Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecomm
 
 <h3>
 <center>
-Real-time Personalized Recommendations:
+Real-time User-to-Item Recommendations:
 </center>
 </h3>
 <div id="recommendations-als">
