@@ -1,4 +1,4 @@
-# End-to-End, Real-time ML Reference Data Pipeline
+Complete Real-time, End-to-End, Machine Learning and AI Pipeline
 
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -45,27 +45,28 @@ Check Out the Kubernetes and NetflixOSS-based **[PipelineIO](https://github.com/
 * Save Workshop Environment for Your Use Cases
 
 ### Locations and Dates
-* San Francisco: Saturday, April 23rd (SOLD OUT)
-* San Francisco: Saturday, June 4th (SOLD OUT)
-* Washington DC: Saturday, June 18th (SOLD OUT)
-* Los Angeles: Sunday, July 10th (SOLD OUT)
-* Seattle: Saturday, July 30th (SOLD OUT)
-* Santa Clara: Saturday, August 6th (SOLD OUT)
-* Chicago: Saturday, August 27th (SOLD OUT)
-* New York: Saturday, October 1st (SOLD OUT)
-* Munich: Saturday, October 15th (SOLD OUT)
-* London: Saturday, October 22nd (SOLD OUT)
-* Brussels: Saturday, October 29th (SOLD OUT)
+* **San Francisco**: Saturday, April 23rd (SOLD OUT)
+* **San Francisco**: Saturday, June 4th (SOLD OUT)
+* **Washington DC**: Saturday, June 18th (SOLD OUT)
+* **Los Angeles**: Sunday, July 10th (SOLD OUT)
+* **Seattle**: Saturday, July 30th (SOLD OUT)
+* **Santa Clara**: Saturday, August 6th (SOLD OUT)
+* **Chicago**: Saturday, August 27th (SOLD OUT)
+* **New York**: Saturday, October 1st (SOLD OUT)
+* **Munich**: Saturday, October 15th (SOLD OUT)
+* **London**: Saturday, October 22nd (SOLD OUT)
+* **Brussels**: Saturday, October 29th (SOLD OUT)
 * **[Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK20)**: Saturday, November 19th
 * **[London](http://end-to-end-streaming-recommendations-spark-london2.eventbrite.com/?discount=ADVANCEDSPARK25)**: Saturday, January 7th
-* Bangalore: Coming Soon, Dec 2016
-* Tokyo: Coming Soon, 2017
-* Shanghai: Coming Soon, 2017
-* Beijing: Coming Soon, 2017
-* Sydney: Coming Soon, 2017
-* Melbourne: Coming Soon, 2017
-* Sao Paulo: Coming Soon, 2017
-* Rio de Janeiro: Coming Soon, 2017
+* **[Bangalore](https://end-to-end-streaming-recommendations-spark-bangalo.eventbrite.com?discount=ADVANCEDSPARK25)**: Saturday, December 10th
+* **Tokyo**: Coming Soon, 2017
+* **Shanghai**: Coming Soon, 2017
+* **Beijing**: Coming Soon, 2017
+* **Sydney**: Coming Soon, 2017
+* **Melbourne**: Coming Soon, 2017
+* **Sao Paulo**: Coming Soon, 2017
+* **Rio de Janeiro**vent
+: Coming Soon, 2017
 
 [Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)
       
