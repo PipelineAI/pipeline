@@ -4,7 +4,7 @@
 
 ## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
-## Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline.io)**
+## New! Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline.io)**
 
 ## Architecture Overview
 **Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
