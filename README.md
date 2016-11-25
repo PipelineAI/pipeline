@@ -44,7 +44,7 @@ Check Out the Kubernetes and NetflixOSS-based **[PipelineIO](https://github.com/
 * Hybrid On-Premise+Cloud Auto-scale Deploy (Docker)
 * Save Workshop Environment for Your Use Cases
 
-### Locations and Dates
+### 2016 Locations and Dates
 * **San Francisco**: Saturday, April 23rd (SOLD OUT)
 * **San Francisco**: Saturday, June 4th (SOLD OUT)
 * **Washington DC**: Saturday, June 18th (SOLD OUT)
@@ -56,19 +56,20 @@ Check Out the Kubernetes and NetflixOSS-based **[PipelineIO](https://github.com/
 * **Munich**: Saturday, October 15th (SOLD OUT)
 * **London**: Saturday, October 22nd (SOLD OUT)
 * **Brussels**: Saturday, October 29th (SOLD OUT)
-* **[Madrid](http://end-to-end-streaming-recommendations-spark-madrid.eventbrite.com/?discount=ADVANCEDSPARK20)**: Saturday, November 19th
-* **[London](http://end-to-end-streaming-recommendations-spark-london2.eventbrite.com/?discount=ADVANCEDSPARK25)**: Saturday, January 7th
+* **Madrid**: Saturday, November 19th (SOLD OUT)
 * **[Bangalore](https://end-to-end-streaming-recommendations-spark-bangalo.eventbrite.com?discount=ADVANCEDSPARK25)**: Saturday, December 10th
+
+### 2017 Locations and Dates
+* **[London](http://end-to-end-streaming-recommendations-spark-london2.eventbrite.com/?discount=ADVANCEDSPARK25)**: Saturday, January 7th, 2017
 * **Tokyo**: Coming Soon, 2017
 * **Shanghai**: Coming Soon, 2017
 * **Beijing**: Coming Soon, 2017
 * **Sydney**: Coming Soon, 2017
 * **Melbourne**: Coming Soon, 2017
 * **Sao Paulo**: Coming Soon, 2017
-* **Rio de Janeiro**vent
-: Coming Soon, 2017
+* **Rio de Janeiro**: Coming Soon, 2017
 
-[Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)
+**[Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)**
       
 ### Description
 The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
