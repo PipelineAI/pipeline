@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#cd ~
+#tensorboard --logdir=/root/tensorboard &
+
+cd ~ 
+jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py

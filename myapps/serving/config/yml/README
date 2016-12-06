@@ -1,5 +1,0 @@
-Place all service-specific configurations here.
-The name of the file should be <service-name>.yml.
-If changes are made here, you can POST a REST call to the host:port/refresh to refresh the config.
-Must be POST, not GET:
-  curl -XPOST http://host:port/refresh

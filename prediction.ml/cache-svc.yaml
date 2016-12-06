@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-cache
+  labels:
+    hystrix.enabled: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: prediction-cache
+    port: 80 
+    targetPort: 9040 
+  selector:
+    name: prediction-cache
+    hystrix.enabled: "true" 

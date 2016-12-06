@@ -1,0 +1,464 @@
+{
+  "paragraphs": [
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1468193241723_-894545339",
+      "id": "20160710-232721_1091179223",
+      "dateCreated": "Jul 10, 2016 11:27:21 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n# **CHRIS FREGLY** (@cfregly)\n![Chris Fregly](http://advancedspark.com/img/fregly-300x300.png)\n![Chris Fregly Emoji](http://advancedspark.com/img/fregly-emoji-300x300.png)",
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462945234594_-759263461",
+      "id": "20160511-054034_84896219",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003e\u003cstrong\u003eCHRIS FREGLY\u003c/strong\u003e (@cfregly)\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-300x300.png\" alt\u003d\"Chris Fregly\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fregly-emoji-300x300.png\" alt\u003d\"Chris Fregly Emoji\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:40:34 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md # **CURRENTLY**",
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462944684625_876510430",
+      "id": "20160511-053124_1583998841",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003e\u003cstrong\u003eCURRENTLY\u003c/strong\u003e\u003c/h1\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:31:24 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \n## Research Scientist @ PipelineIO\n\n![PipelineIO](http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png)",
+      "dateUpdated": "Jul 10, 2016 5:26:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943426223_1977128201",
+      "id": "20160511-051026_688505134",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eResearch Scientist @ PipelineIO\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pipeline-io-logo-shadow-210x186.png\" alt\u003d\"PipelineIO\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:10:26 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n## Organizer @ Advanced Spark and TensorFlow Meetup \n### San Francisco\n![Meetup](http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png)",
+      "dateUpdated": "Jul 10, 2016 5:33:32 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "title": false,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462944389953_-562631058",
+      "id": "20160511-052629_665303230",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eOrganizer @ Advanced Spark and TensorFlow Meetup\u003c/h2\u003e\n\u003ch3\u003eSan Francisco\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/advanced-spark-tensorflow-meetup.png\" alt\u003d\"Meetup\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:26:29 AM",
+      "dateStarted": "Jul 10, 2016 5:33:30 AM",
+      "dateFinished": "Jul 10, 2016 5:33:30 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \n## Book Author @ advancedspark.com (Upcoming)\n![Book](http://advancedspark.com/img/advancedspark-book.png)",
+      "dateUpdated": "Jul 10, 2016 5:33:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462944614095_-1431457016",
+      "id": "20160511-053014_1237417206",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eBook Author @ advancedspark.com (Upcoming)\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/advancedspark-book.png\" alt\u003d\"Book\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:30:14 AM",
+      "dateStarted": "Jul 10, 2016 5:33:18 AM",
+      "dateFinished": "Jul 10, 2016 5:33:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \n## Creator @ pancake-stack.com\n![Pancake Stack](http://advancedspark.com/img/pancake-stack.png)",
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462944766961_-1551716500",
+      "id": "20160511-053246_1992803782",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eCreator @ pancake-stack.com\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/pancake-stack.png\" alt\u003d\"Pancake Stack\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:32:46 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \n## Workshop Instructor @ advancedspark.com\n### Upcoming Workshops\n* [July 30th (Seattle)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/)\n* [August 6th (San Francisco)](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/231126224/)\n* More @ [pipeline.io](http://pipeline.io)",
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462952050807_416288851",
+      "id": "20160511-073410_1744825527",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eWorkshop Instructor @ advancedspark.com\u003c/h2\u003e\n\u003ch3\u003eUpcoming Workshops\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/230298399/\"\u003eJuly 30th (Seattle)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/231126224/\"\u003eAugust 6th (San Francisco)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003eMore @ \u003ca href\u003d\"http://pipeline.io\"\u003epipeline.io\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:34:10 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md # **FORMERLY**",
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462944701300_-1047218747",
+      "id": "20160511-053141_1388927844",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003e\u003cstrong\u003eFORMERLY\u003c/strong\u003e\u003c/h1\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:31:41 AM",
+      "dateStarted": "Jul 10, 2016 5:26:13 AM",
+      "dateFinished": "Jul 10, 2016 5:26:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n# Research Engineer @ IBM Spark Tech Center (Khaki People)\n![IBM Spark Technology Center](http://advancedspark.com/img/ibm-spark.png)",
+      "dateUpdated": "Jul 10, 2016 5:32:49 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943384748_1862980371",
+      "id": "20160511-050944_1644280073",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eResearch Engineer @ IBM Spark Tech Center (Khaki People)\u003c/h1\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/ibm-spark.png\" alt\u003d\"IBM Spark Technology Center\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:09:44 AM",
+      "dateStarted": "Jul 10, 2016 5:32:47 AM",
+      "dateFinished": "Jul 10, 2016 5:32:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \n## Data Solutions Engineer @ Databricks (Spark People)\n![Databricks](http://advancedspark.com/img/databricks.png)",
+      "dateUpdated": "Jul 10, 2016 5:32:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943370426_373201981",
+      "id": "20160511-050930_1640196352",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eData Solutions Engineer @ Databricks (Spark People)\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/databricks.png\" alt\u003d\"Databricks\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:09:30 AM",
+      "dateStarted": "Jul 10, 2016 5:32:38 AM",
+      "dateFinished": "Jul 10, 2016 5:32:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n## Streaming Data Engineer @ Netflix (Streaming Video People)\n![Netflix](http://advancedspark.com/img/netflix.png)",
+      "dateUpdated": "Jul 10, 2016 5:32:34 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943334737_706196959",
+      "id": "20160511-050854_1640751112",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eStreaming Data Engineer @ Netflix (Streaming Video People)\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/netflix.png\" alt\u003d\"Netflix\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:08:54 AM",
+      "dateStarted": "Jul 10, 2016 5:32:32 AM",
+      "dateFinished": "Jul 10, 2016 5:32:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jul 10, 2016 5:26:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943396978_224719554",
+      "id": "20160511-050956_740150474",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "May 11, 2016 5:09:56 AM",
+      "dateStarted": "Jul 10, 2016 5:26:14 AM",
+      "dateFinished": "Jul 10, 2016 5:26:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "* Who Am I? *",
+  "id": "2BMM3NH9D",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

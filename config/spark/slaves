@@ -1,2 +1,0 @@
-# Required when using SPARK_WORKER_INSTANCES in spark-env.sh
-localhost

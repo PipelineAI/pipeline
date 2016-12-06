@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/root/apache-jmeter-3.0/bin/jmeter.sh -n -t $TEST_PATHNAME

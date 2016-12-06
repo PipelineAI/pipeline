@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    aws/sgs: kubernetes-worker
+  creationTimestamp: "2016-08-25T05:13:16Z"
+  labels:
+    aws/ami-id: ami-deadbeef
+    aws/az: us-west-2c
+    aws/class: t
+    aws/id: i-aaaaaaaa
+    aws/region: us-west-2
+    aws/type: t2.medium
+    kubernetes.io/hostname: 10.0.0.228
+  name: 10.0.0.228
+  resourceVersion: "234864209"
+  selfLink: /api/v1/nodes/10.0.0.228
+  uid: a0f990ae-6a82-11e6-b203-0a0bdd34364d
+spec:
+  externalID: 10.0.0.228
+status:
+  addresses:
+  - address: 10.0.0.228
+    type: LegacyHostIP
+  - address: 10.0.0.228
+    type: InternalIP
+  allocatable:
+    cpu: "2"
+    memory: 3952Mi
+    pods: "30"
+  capacity:
+    cpu: "2"
+    memory: 3952Mi
+    pods: "30"
+  conditions:
+  - lastHeartbeatTime: 2016-08-25T21:50:36Z
+    lastTransitionTime: 2016-08-25T05:13:07Z
+    message: kubelet has sufficient disk space available
+    reason: KubeletHasSufficientDisk
+    status: "False"
+    type: OutOfDisk
+  - lastHeartbeatTime: 2016-08-25T21:50:36Z
+    lastTransitionTime: 2016-08-25T05:13:07Z
+    message: kubelet is posting ready status
+    reason: KubeletReady
+    status: "True"
+    type: Ready
+  daemonEndpoints:
+    kubeletEndpoint:
+      Port: 10250
+  images:
+  - names:
+    - datadog/docker-dd-agent:kubernetes
+    sizeBytes: 301845578
+  - names:
+    - quay.io/openai/fluentd-aws:latest
+    sizeBytes: 719088118
+  - names:
+    - nvidia/cuda:7.5-cudnn4-devel-ubuntu14.04
+    sizeBytes: 1353527489
+  - names:
+    - newrelic/nrsysmond:latest
+    sizeBytes: 192693160
+  - names:
+    - gcr.io/google_containers/pause:2.0
+    sizeBytes: 350164
+  nodeInfo:
+    bootID: dd1f6c71-caa5-45b8-8751-5dd981bfba76
+    containerRuntimeVersion: docker://1.11.2
+    kernelVersion: 3.13.0-88-generic
+    kubeProxyVersion: v1.2.1
+    kubeletVersion: v1.2.1
+    machineID: 1f2629f74f7c79e2a4583d1a5674725a
+    osImage: Ubuntu 14.04.3 LTS
+    systemUUID: EC228B31-FEB9-F4EA-A8CC-1E437E7C7893

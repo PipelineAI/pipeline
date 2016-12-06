@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd ~
+git clone --recursive -b $GITHUB_CLONE_BRANCH $GITHUB_REPO_OWNER_URL/$GITHUB_REPO_NAME.git
+
+cd $GITHUB_REPO_NAME
+git checkout -b $GITHUB_CHECKOUT_BRANCH
+git reset $GITHUB_RESET_REVISION
+
+cd ~
+ln -s ~/$GITHUB_REPO_NAME/demos.ml/serving/data .
+
+cd ~
+java -Djava.security.egd=file:/dev/./urandom -cp lib/codegen-spark-2_0_1_2.11-1.0.jar -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.PredictionServiceMain"

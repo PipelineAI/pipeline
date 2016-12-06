@@ -1,0 +1,430 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Apache JMeter - User's Manual: Building a Test Plan</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="test_plan.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="get-started.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<strong>3. Building a Test Plan</strong></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+A test plan describes a series of steps JMeter will execute when run.  A complete
+test plan will consist of one or more Thread Groups, logic controllers, sample generating
+controllers, listeners, timers, assertions, and configuration elements.
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="add_remove"><strong>3.1 Adding and Removing Elements</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Adding 
+<a href="test_plan.html">
+elements to a test plan
+</a>
+ can be done by right-clicking on an element in the
+tree, and choosing a new element from the "add" list.  Alternatively, elements can
+be loaded from file and added by choosing the "merge" or "open" option.
+</p>
+<p>
+To remove an element, make sure the element is selected, right-click on the element,
+and choose the "remove" option.
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="load_save"><strong>3.2 Loading and Saving Elements</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+To load an element from file, right click on the existing tree elements to which
+you want to add the loaded element, and select the "merge" option.  Choose the file where
+your elements are saved.  JMeter will merge the elements into the tree.
+</p>
+<p>
+To save tree elements, right click on an element and choose the "Save Selection As …" option.
+JMeter will save the element selected, plus all child elements beneath it.  In this way,
+you can save test tree fragments and individual elements for later use.
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>By default, the workbench is not automatically saved with the test plan, but it can be saved by checking "Save Workbench" option on Workbench element.
+</td></tr>
+</table>
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="config_element"><strong>3.3 Configuring Tree Elements</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Any element in the test tree will present controls in JMeter's right-hand frame.  These
+controls allow you to configure the behavior of that particular test element.  What can be
+configured for an element depends on what type of element it is.
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>The Test Tree itself can be manipulated by dragging and dropping components around the test tree.
+</td></tr>
+</table>
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="saving"><strong>3.4 Saving the Test Plan</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Although it is not required, we recommend that you save the Test Plan to a
+file before running it.  To save the Test Plan, select "Save" or "Save Test Plan As …" from the
+File menu (with the latest release, it is no longer necessary to select the
+Test Plan element first).
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>JMeter allows you to save the entire Test Plan tree or
+only a portion of it.  To save only the elements located in a particular "branch"
+of the Test Plan tree, select the Test Plan element in the tree from which to start
+the "branch", and then click your right mouse button to access the "Save Selection As …" menu item.
+Alternatively, select the appropriate Test Plan element  and then select "Save Selection As …" from
+the Edit menu.
+
+</td></tr>
+</table>
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="run"><strong>3.5 Running a Test Plan</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+To run your test plan, choose "Start" (Control + r) from the "Run" menu item.  
+When JMeter is running, it shows a small green box at the right hand end of the section just under the menu bar.
+You can also check the "Run" menu.  
+If "Start" is disabled, and "Stop" is enabled,
+then JMeter is running your test plan (or, at least, it thinks it is).
+</p>
+<p>
+
+The numbers to the left of the green box are the number of active threads / total number of threads.
+These only apply to a locally run test; they do not include any threads started on remote systems when using client-server mode.
+
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Using GUI mode as described here should only be used when debugging your Test Plan. To run the real load test, use NON-GUI mode.
+</td></tr>
+</table>
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="stop"><strong>3.6 Stopping a Test</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+There are two types of stop command available from the menu:
+
+<ul>
+
+
+<li>
+Stop (Control + '.') - stops the threads immediately if possible.
+Many samplers are Interruptible which means that active samples can be terminated early.
+The stop command will check that all threads have stopped within the default timeout, which is 5000 ms = 5 seconds.
+[This can be changed using the JMeter property 
+<tt class="code">jmeterengine.threadstop.wait</tt>
+]
+If the threads have not stopped, then a message is displayed.
+The Stop command can be retried, but if it fails, then it is necessary to exit JMeter to clean up.
+
+</li>
+
+
+<li>
+Shutdown (Control + ',')- requests the threads to stop at the end of any current work.
+Will not interrupt any active samples.
+The modal shutdown dialog box will remain active until all threads have stopped.
+</li>
+
+
+</ul>
+
+If Shutdown is taking too long. Close the Shutdown dialog box and select Run/Stop, or just press Control + '.'.
+
+</p>
+<p>
+
+When running JMeter in non-GUI mode, there is no Menu, and JMeter does not react to keystrokes such as Control + '.'.
+So JMeter non-GUI mode will listen for commands on a specific port (default 4445, see the JMeter property 
+<tt class="code">jmeterengine.nongui.port</tt>
+).
+JMeter supports automatic choice of an alternate port if the default port is being used 
+(for example by another JMeter instance). In this case, JMeter will try the next higher port, continuing until
+it reaches the JMeter property 
+<tt class="code">jmeterengine.nongui.maxport</tt>
+) which defaults to 4455.
+If 
+<tt class="code">maxport</tt>
+ is less than or equal to 
+<tt class="code">port</tt>
+, port scanning will not take place.
+
+<br>
+
+
+The chosen port is displayed in the console window.
+
+<br>
+
+
+The commands currently supported are:
+
+<ul>
+
+
+<li>
+Shutdown - graceful shutdown
+</li>
+
+
+<li>
+StopTestNow - immediate shutdown
+</li>
+
+
+</ul>
+
+These commands can be sent by using the 
+<tt class="code">shutdown[.cmd|.sh]</tt>
+ or 
+<tt class="code">stoptest[.cmd|.sh]</tt>
+ script
+respectively. The scripts are to be found in the JMeter 
+<tt class="code">bin</tt>
+ directory.
+The commands will only be accepted if the script is run from the same host.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="error_reporting"><strong>3.7 Error reporting</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+JMeter reports warnings and errors to the jmeter.log file, as well as some information on the test run itself.
+JMeter shows the number of warnings/errors found in jmeter.log file next to the warning icon (triangle) at the right hand end of its window. 
+Click on the warning icon to show the jmeter.log file at the bottom of JMeter's window.
+Just occasionally there may be some errors that JMeter is unable to trap and log; these will appear on the command console.
+If a test is not behaving as you expect, please check the log file in case any errors have been reported (e.g. perhaps a syntax error in a function call).
+
+</p>
+<p>
+
+Sampling errors (e.g. HTTP 404 - file not found) are not normally reported in the log file. 
+Instead these are stored as attributes of the sample result.
+The status of a sample result can be seen in the various different Listeners.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="test_plan.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="get-started.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: build-test-plan.xml 1742538 2016-05-06 12:23:45Z sebb $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

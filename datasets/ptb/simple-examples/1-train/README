@@ -1,3 +1,0 @@
-Example of training and evaluation of rnnlm model on the Penn Treebank Corpus. If the
-training takes more than 20 minutes, it would be good to check section 4 in FAQ.txt in
-rnnlm directory (performance issues).

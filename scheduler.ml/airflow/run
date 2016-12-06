@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mysql --host=mysql-master --port=3306 --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
+
+airflow initdb
+
+#cd ~
+#git clone --recursive -b $GITHUB_CLONE_BRANCH $GITHUB_REPO_OWNER_URL/$GITHUB_REPO_NAME.git
+
+#cd $GITHUB_REPO_NAME
+#git checkout -b $GITHUB_CHECKOUT_BRANCH
+#git reset $GITHUB_RESET_REVISION
+
+#cd ~
+#ln -s ~/$GITHUB_REPO_NAME/demos.ml/airflow/dags /root/airflow/
+
+airflow webserver

@@ -1,0 +1,1029 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Apache JMeter - User's Manual: Regular Expressions</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="hints_and_tips.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="functions.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="regex"><strong>22. Regular Expressions</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="overview"><strong>22.1 Overview</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+JMeter includes the pattern matching software 
+<a href="http://attic.apache.org/projects/jakarta-oro.html">
+Apache Jakarta ORO
+</a>
+
+
+<br>
+
+
+There is some documentation for this on the Jakarta web-site, for example 
+
+<a href="http://archimedes.fas.harvard.edu/scrapbook/jakarta-oro-2.0.6/docs/api/org/apache/oro/text/regex/package-summary.html">
+
+a summary of the pattern matching characters
+</a>
+
+
+</p>
+<p>
+
+There is also documentation on an older incarnation of the product at 
+
+<a href="http://www.savarese.org/oro/docs/OROMatcher/index.html">
+OROMatcher User's guide
+</a>
+, which might prove useful. 
+
+</p>
+<p>
+
+The pattern matching is very similar to the pattern matching in Perl. 
+A full installation of Perl will include plenty of documentation on regular expressions - look for 
+<tt class="code">perlrequick</tt>
+,
+
+<tt class="code">perlretut</tt>
+, 
+<tt class="code">perlre</tt>
+ and 
+<tt class="code">perlreref</tt>
+.
+
+</p>
+<p>
+
+It is worth stressing the difference between "
+<em>
+contains
+</em>
+" and "
+<em>
+matches
+</em>
+", as used on the Response Assertion test element:
+
+</p>
+<dl>
+
+
+<dt>
+"
+<em>
+contains
+</em>
+"
+</dt>
+<dd>
+ means that the regular expression matched at least some part of the target, 
+so '
+<tt class="code">alphabet</tt>
+' "
+<em>
+contains
+</em>
+" '
+<tt class="code">ph.b.</tt>
+' because the regular expression matches the substring '
+<tt class="code">phabe</tt>
+'.
+
+</dd>
+
+
+<dt>
+
+"
+<em>
+matches
+</em>
+"
+</dt>
+<dd>
+ means that the regular expression matched the whole target. 
+So '
+<tt class="code">alphabet</tt>
+' is "
+<em>
+matched
+</em>
+" by '
+<tt class="code">al.*t</tt>
+'. 
+
+</dd>
+
+
+</dl>
+<p>
+In this case, it is equivalent to wrapping the regular expression in 
+<tt class="code">^</tt>
+ and 
+<tt class="code">$</tt>
+, viz '
+<tt class="code">^al.*t$</tt>
+'. 
+
+</p>
+<p>
+However, this is not always the case. 
+For example, the regular expression '
+<tt class="code">alp|.lp.*</tt>
+' is "
+<em>
+contained
+</em>
+" in '
+<tt class="code">alphabet</tt>
+',
+but does not "
+<em>
+match
+</em>
+" '
+<tt class="code">alphabet</tt>
+'.
+
+</p>
+<p>
+Why? Because when the pattern matcher finds the sequence '
+<tt class="code">alp</tt>
+' in '
+<tt class="code">alphabet</tt>
+', it stops trying any other
+combinations - and '
+<tt class="code">alp</tt>
+' is not the same as '
+<tt class="code">alphabet</tt>
+', as it does not include '
+<tt class="code">habet</tt>
+'.
+
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+Unlike Perl, there is no need to (i.e. do not) enclose the regular expression in 
+<tt class="code">//</tt>
+.
+
+</td></tr>
+</table>
+</p>
+<p>
+
+So how does one use the modifiers 
+<tt class="code">ismx</tt>
+ etc. if there is no trailing 
+<tt class="code">/</tt>
+? 
+The solution is to use 
+<i>
+extended regular expressions
+</i>
+, i.e. 
+<tt class="code">/abc/i</tt>
+ becomes 
+<tt class="code">(?i)abc</tt>
+.
+See also 
+<a href="#placement">
+Placement of modifiers
+</a>
+ below.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="examples"><strong>22.2 Examples</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<h3>
+Extract single string
+</h3>
+<p>
+
+Suppose you want to match the following portion of a web-page: 
+
+<br>
+
+
+
+<tt class="code">name=&quot;file&quot; value=&quot;readme.txt&quot;&gt;</tt>
+
+
+<br>
+
+
+and you want to extract 
+<tt class="code">readme.txt</tt>
+.
+
+<br>
+
+
+A suitable regular expression would be:
+
+<br>
+
+
+
+<tt class="code">name=&quot;file&quot; value=&quot;(.+?)&quot;&gt;</tt>
+
+
+<p>
+
+The special characters above are:
+
+</p>
+
+
+<dl>
+
+
+<dt>
+<tt class="code">(</tt>
+ and 
+<tt class="code">)</tt>
+</dt>
+<dd>
+these enclose the portion of the match string to be returned
+</dd>
+
+
+<dt>
+<tt class="code">.</tt>
+</dt>
+<dd>
+match any character
+</dd>
+
+
+<dt>
+<tt class="code">+</tt>
+</dt>
+<dd>
+one or more times
+</dd>
+ 
+
+<dt>
+<tt class="code">?</tt>
+</dt>
+<dd>
+don't be greedy, i.e. stop when first match succeeds
+</dd>
+
+
+</dl>
+
+
+<p>
+
+Note: without the 
+<tt class="code">?</tt>
+, the 
+<tt class="code">.+</tt>
+ would continue past the first 
+<tt class="code">&quot;&gt;</tt>
+
+until it found the last possible 
+<tt class="code">&quot;&gt;</tt>
+ - which is probably not what was intended.
+
+</p>
+
+
+<p>
+
+Note: although the above expression works, it's more efficient to use the following expression:
+
+<br>
+
+
+
+<tt class="code">name=&quot;file&quot; value=&quot;([^&quot;]+)&quot;&gt;</tt>
+
+where
+<br>
+
+
+
+<tt class="code">[^&quot;]</tt>
+ - means match anything except 
+<tt class="code">&quot;</tt>
+<br>
+
+
+In this case, the matching engine can stop looking as soon as it sees the first 
+<tt class="code">&quot;</tt>
+, 
+whereas in the previous case the engine has to check that it has found 
+<tt class="code">&quot;&gt;</tt>
+ rather than say 
+<tt class="code">&quot; &gt;</tt>
+.
+
+</p>
+
+
+<h3>
+Extract multiple strings
+</h3>
+
+
+<p>
+
+Suppose you want to match the following portion of a web-page:
+<br>
+
+
+
+<tt class="code">name=&quot;file.name&quot; value=&quot;readme.txt&quot;</tt>
+ 
+and you want to extract both 
+<tt class="code">file.name</tt>
+ and 
+<tt class="code">readme.txt</tt>
+.
+
+<br>
+
+
+A suitable regular expression would be:
+
+<br>
+
+
+
+<tt class="code">name=&quot;([^&quot;]+)&quot; value=&quot;([^&quot;]+)&quot;</tt>
+
+
+<br>
+
+
+This would create 2 groups, which could be used in the JMeter Regular Expression Extractor template as 
+<tt class="code">$1$</tt>
+ and 
+<tt class="code">$2$</tt>
+.
+
+</p>
+
+
+<p>
+
+The JMeter Regex Extractor saves the values of the groups in additional variables.
+
+</p>
+
+
+<p>
+
+For example, assume:
+
+</p>
+
+
+<ul>
+
+
+<li>
+Reference Name: 
+<tt class="code">MYREF</tt>
+</li>
+
+
+<li>
+Regex: 
+<tt class="code">name=&quot;(.+?)&quot; value=&quot;(.+?)&quot;</tt>
+</li>
+
+
+<li>
+Template: 
+<tt class="code">$1$$2$</tt>
+</li>
+
+
+</ul>
+
+
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Do not enclose the regular expression in 
+<tt class="code">/ /</tt>
+</td></tr>
+</table>
+</p>
+
+
+<p>
+
+The following variables would be set:
+
+</p>
+
+
+<dl>
+
+
+<dt>
+<tt class="code">MYREF</tt>
+</dt>
+<dd>
+<tt class="code">file.namereadme.txt</tt>
+</dd>
+
+
+<dt>
+<tt class="code">MYREF_g0</tt>
+</dt>
+<dd>
+<tt class="code">name=&quot;file.name&quot; value=&quot;readme.txt&quot;</tt>
+</dd>
+
+
+<dt>
+<tt class="code">MYREF_g1</tt>
+</dt>
+<dd>
+<tt class="code">file.name</tt>
+</dd>
+
+
+<dt>
+<tt class="code">MYREF_g2</tt>
+</dt>
+<dd>
+<tt class="code">readme.txt</tt>
+</dd>
+
+
+</dl>
+
+These variables can be referred to later on in the JMeter test plan, as 
+<tt class="code">${MYREF}</tt>
+, 
+<tt class="code">${MYREF_g1}</tt>
+ etc. 
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="line_mode"><strong>22.3 Line mode</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+The pattern matching behaves in various slightly different ways, 
+depending on the setting of the multi-line and single-line modifiers.
+Note that the single-line and multi-line operators have nothing to do with each other;
+they can be specified independently.
+
+</p>
+<h3>
+Single-line mode
+</h3>
+<p>
+
+Single-line mode only affects how the '
+<tt class="code">.</tt>
+' meta-character is interpreted.
+
+</p>
+<p>
+
+Default behaviour is that '
+<tt class="code">.</tt>
+' matches any character except newline. 
+In single-line mode, '
+<tt class="code">.</tt>
+' also matches newline.
+
+</p>
+<h3>
+Multi-line mode
+</h3>
+<p>
+
+Multi-line mode only affects how the meta-characters '
+<tt class="code">^</tt>
+' and '
+<tt class="code">$</tt>
+' are interpreted.
+
+</p>
+<p>
+
+Default behaviour is that '
+<tt class="code">^</tt>
+' and '
+<tt class="code">$</tt>
+' only match at the very beginning and end of the string. 
+When Multi-line mode is used, the '
+<tt class="code">^</tt>
+' metacharacter matches at the beginning of every line,
+and the '
+<tt class="code">$</tt>
+' metacharacter matches at the end of every line.
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="meta_chars"><strong>22.4 Meta characters</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Regular expressions use certain characters as meta characters - these characters have a special meaning to the RE engine.
+Such characters must be escaped by preceding them with 
+<tt class="code">\</tt>
+ (backslash) in order to treat them as ordinary characters.
+Here is a list of the meta characters and their meaning (please check the ORO documentation if in doubt).
+
+</p>
+<dl>
+
+
+<dt>
+<tt class="code">(</tt>
+ and 
+<tt class="code">)</tt>
+</dt>
+<dd>
+grouping
+</dd>
+
+
+<dt>
+<tt class="code">[</tt>
+ and 
+<tt class="code">]</tt>
+</dt>
+<dd>
+character classes
+</dd>
+
+
+<dt>
+<tt class="code">{</tt>
+ and 
+<tt class="code">}</tt>
+</dt>
+<dd>
+repetition
+</dd>
+
+
+<dt>
+<tt class="code">*</tt>
+, 
+<tt class="code">+</tt>
+ and 
+<tt class="code">?</tt>
+</dt>
+<dd>
+repetition
+</dd>
+
+
+<dt>
+<tt class="code">.</tt>
+</dt>
+<dd>
+wild-card character
+</dd>
+
+
+<dt>
+<tt class="code">\</tt>
+</dt>
+<dd>
+escape character
+</dd>
+
+
+<dt>
+<tt class="code">|</tt>
+</dt>
+<dd>
+alternatives
+</dd>
+
+
+<dt>
+<tt class="code">^</tt>
+ and 
+<tt class="code">$</tt>
+</dt>
+<dd>
+start and end of string or line
+</dd>
+
+
+</dl>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+Please note that ORO does not support the 
+<tt class="code">\Q</tt>
+ and 
+<tt class="code">\E</tt>
+ meta-characters.
+[In other RE engines, these can be used to quote a portion of an RE so that the meta-characters stand for themselves.]
+You can use function  to do the equivalent, see 
+<a href="functions.html#__escapeOroRegexpChars">
+${__escapeOroRegexpChars(valueToEscape)}
+</a>
+.
+
+</td></tr>
+</table>
+</p>
+<p>
+
+The following Perl5 extended regular expressions are supported by ORO.
+
+
+<dl>
+
+
+<dt>
+<tt class="code">(?#text)</tt>
+</dt>
+
+
+<dd>
+An embedded comment causing text to be ignored.
+</dd>
+
+
+<dt>
+<tt class="code">(?:regexp)</tt>
+</dt>
+
+
+<dd>
+Groups things like "
+<tt class="code">()</tt>
+" but doesn't cause the group match to be saved.
+</dd>
+
+
+<dt>
+<tt class="code">(?=regexp)</tt>
+</dt>
+
+
+<dd>
+A zero-width positive lookahead assertion. For example, 
+<tt class="code">\w+(?=\s)</tt>
+ matches a word followed by whitespace, without including whitespace in the MatchResult.
+</dd>
+
+
+<dt>
+<tt class="code">(?!regexp)</tt>
+</dt>
+
+
+<dd>
+A zero-width negative lookahead assertion. For example 
+<tt class="code">foo(?!bar)</tt>
+ matches any occurrence of "
+<tt class="code">foo</tt>
+" that
+isn't followed by "
+<tt class="code">bar</tt>
+". Remember that this is a zero-width assertion, which means that 
+<tt class="code">a(?!b)d</tt>
+ will
+match 
+<tt class="code">ad</tt>
+ because 
+<tt class="code">a</tt>
+ is followed by a character that is not 
+<tt class="code">b</tt>
+ (the 
+<tt class="code">d</tt>
+) and a 
+<tt class="code">d</tt>
+
+follows the zero-width assertion.
+</dd>
+
+
+<dt>
+<tt class="code">(?imsx)</tt>
+</dt>
+
+
+<dd>
+One or more embedded pattern-match modifiers. 
+<tt class="code">i</tt>
+ enables case insensitivity, 
+<tt class="code">m</tt>
+ enables multiline treatment
+of the input, 
+<tt class="code">s</tt>
+ enables single line treatment of the input, and 
+<tt class="code">x</tt>
+ enables extended whitespace comments.
+</dd>
+
+
+</dl>
+
+
+<b>
+Note that 
+<tt class="code">(?&lt;=regexp)</tt>
+ - lookbehind - is not supported.
+</b>
+
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="placement"><strong>22.5 Placement of modifiers</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Modifiers can be placed anywhere in the regex, and apply from that point onwards.
+[A bug in ORO means that they cannot be used at the very end of the regex.
+However they would have no effect there anyway.]
+
+</p>
+<p>
+
+The single-line 
+<tt class="code">(?s)</tt>
+ and multi-line 
+<tt class="code">(?m)</tt>
+ modifiers are normally placed at the start of the regex.
+
+</p>
+<p>
+
+The ignore-case modifier 
+<tt class="code">(?i)</tt>
+ may be usefully applied to just part of a regex,
+for example:
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+Match ExAct case or (?i)ArBiTrARY(?-i) case
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<tt class="code">Match ExAct case or arbitrary case</tt>
+<tt class="code">Match ExAct case or ARBitrary case</tt>
+<tt class="code">Match exact case or ArBiTrARY case</tt>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="testing_expressions"><strong>22.6 Testing Regular Expressions</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Since JMeter 2.4, the listener 
+<a href="component_reference.html#View_Results_Tree">
+View Results Tree
+</a>
+
+include a RegExp Tester to test regular expressions directly on sampler response data. 
+
+</p>
+<p>
+
+There is a 
+<a href="http://www.regexplanet.com/advanced/java/index.html">
+Website
+</a>
+ to test Java Regular expressions.
+
+</p>
+<p>
+
+Another approach is to use a simple test plan to test the regular expressions.
+The Java Request sampler can be used to generate a sample, or the HTTP Sampler can be used to load a file.
+Add a Debug Sampler and a Tree View Listener and changes to the regular expression can be tested quickly,
+without needing to access any external servers. 
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="hints_and_tips.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="functions.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: regular_expressions.xml 1718425 2015-12-07 16:57:16Z pmouawad $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

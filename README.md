@@ -1,142 +1,117 @@
-## Complete Real-time, End-to-End, Machine Learning and AI Pipeline
+![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
-[![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Features
+* 100% Open Source
+* Continuously Train and Deploy ML and AI Pipelines to Production
+* Supports Spark ML and Tensorflow AI Models
+* Generate PMML, C++, and Java Code for Native CPU and GPU Performance
+* Uses NetflixOSS-based Microservices for High Scalability and Availability
 
-## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
+## Live Demo
+* Click [here](http://www.demo.pipeline.io) for a live demo.  
 
-## New! Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline.io)**
-![PipelineIO](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
+**Note:  Do not load any sensitive data into this environment!**
 
-## Architecture Overview
-**Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment**
-![Pipeline Architecture Overview](http://pipeline.io/images/architecture-overview-768x563.png)
+## Docker Images
+* Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
 
-## Mapped to Code
-![Workshop Architecture Overview](http://pipeline.io/images/architecture-overview-mapped-to-code-768x563.png)
+## Related Training and Workshops
+* Click [here](https://github.com/fluxcapacitor/pipeline) for related training repo
 
-## Powered by the PANCAKE STACK!
-![PANCAKE STACK](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/pancake-stack-sign-sm.png)
+## Setup Kubernetes Cluster
+* Follow the instructions [here](https://github.com/fluxcapacitor/kubernetes.ml#setup-a-new-kubernetes-cluster).
 
-## Upcoming Workshops
-### Title
-**Building an End-to-End Streaming Analytics and Recommendations Pipeline with Spark, Kafka, and TensorFlow**
+## Setup Kubernetes Client CLI
+* Follow the instructions [here](https://github.com/fluxcapacitor/kubernetes.ml#install-kubernetes-client).
 
-### Agenda (Full Day)
-**Part 1 (Analytics and Visualizations)**
-* Analytics and Visualizations Overview (Live Demo!)
-* Verify Environment Setup (Docker, Cloud Instance)
-* Notebooks (Zeppelin, Jupyter/iPython)
-* Interactive Data Analytics (Spark SQL, Hive, Presto)
-* Graph Analytics (Spark, Elastic, NetworkX, TitanDB)
-* Time-series Analytics (Spark, Cassandra)
-* Visualizations (Kibana, Matplotlib, D3)
-* Approximate Queries (Spark SQL, Redis, Algebird)
-* Workflow Management (Airflow)
+## Clone this Repo including Submodules
+```
+git clone --recursive https://github.com/fluxcapacitor/pipeline.io
+```
 
-**Part 2 (Streaming and Recommendations)**
-* Streaming and Recommendations (Live Demo!)
-* Streaming (NiFi, Kafka, Spark Streaming, Flink)
-* Cluster-based Recommendation (Spark ML, Scikit-Learn)
-* Graph-based Recommendation (Spark ML, Spark Graph)
-* Collaborative-based Recommendation (Spark ML)
-* NLP-based Recommendation (CoreNLP, NLTK)
-* Geo-based Recommendation (ElasticSearch)
-* Hybrid On-Premise+Cloud Auto-scale Deploy (Docker)
-* Save Workshop Environment for Your Use Cases
+## Pull Latest Tips of Submodules
+```
+cd pipeline.io
 
-### 2016 Locations and Dates
-* **San Francisco**: Saturday, April 23rd (SOLD OUT)
-* **San Francisco**: Saturday, June 4th (SOLD OUT)
-* **Washington DC**: Saturday, June 18th (SOLD OUT)
-* **Los Angeles**: Sunday, July 10th (SOLD OUT)
-* **Seattle**: Saturday, July 30th (SOLD OUT)
-* **Santa Clara**: Saturday, August 6th (SOLD OUT)
-* **Chicago**: Saturday, August 27th (SOLD OUT)
-* **New York**: Saturday, October 1st (SOLD OUT)
-* **Munich**: Saturday, October 15th (SOLD OUT)
-* **London**: Saturday, October 22nd (SOLD OUT)
-* **Brussels**: Saturday, October 29th (SOLD OUT)
-* **Madrid**: Saturday, November 19th (SOLD OUT)
-* **[Bangalore](https://end-to-end-streaming-recommendations-spark-bangalo.eventbrite.com?discount=ADVANCEDSPARK25)**: Saturday, December 10th
+git submodule update --recursive --remote && git pull --recurse-submodules
+```
 
-### 2017 Locations and Dates
-* **[London](http://end-to-end-streaming-recommendations-spark-london2.eventbrite.com/?discount=ADVANCEDSPARK25)**: Saturday, January 7th, 2017
-* **Tokyo**: Coming Soon, 2017
-* **Shanghai**: Coming Soon, 2017
-* **Beijing**: Coming Soon, 2017
-* **Sydney**: Coming Soon, 2017
-* **Melbourne**: Coming Soon, 2017
-* **Sao Paulo**: Coming Soon, 2017
-* **Rio de Janeiro**: Coming Soon, 2017
+## Deploy PipelineIO's Training Components to Kubernetes
+```
+cd bin/
 
-**[Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)**
-      
-### Description
-The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
-* First, we create a data pipeline to interactively analyze, approximate, and visualize streaming data using modern tools such as Apache Spark, Kafka, Zeppelin, iPython, and ElasticSearch.
-* Next, we extend our pipeline to use streaming data to generate personalized recommendation models using popular machine learning, graph, and natural language processing techniques such as collaborative filtering, clustering, and topic modeling.
-* Last, we productionize our pipeline and serve live recommendations to our users!
-  
-##  Screenshots
-### Apache Zeppelin Notebooks
-![Apache Zeppelin Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/zeppelin-notebooks-sm.png)
+./pipeline-deployment-create-training.sh
+```
 
-### Stanford CoreNLP Sentiment Analysis
-![Stanford CoreNLP Sentiment](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/corenlp-sentiment.png)
+## Deploy PipelineIO's Serving Components to Kubernetes
+```
+cd bin/
 
-### Jupyter/iPython Notebooks
-![Jupyter/iPython Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/jupyter.png)
+./pipeline-deployment-create-predictions.sh
+```
 
-### SparkR Notebooks
-![SparkR Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/sparkr.png)
+## Get all Service Host/IPs
+```
+kubectl get svc -w
+```
 
-### TensorFlow Notebooks
-![TensorFlow Notebooks](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/tensorflow.png)
+## (Optional) Setup Friendly CNAMEs in DNS Pointing to Service Host/IPs above
+* ie. AWS Route53 REST API, GoDaddy API, etc
 
-### Deploy Spark ML and TensorFlow Models into Production with Netflix OSS
-![Hystrix Dashboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/hystrix-example-600x306.png)
-![Hystrix Dashboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/hystrix-dashboard-annotated-640x411.png)
+## Navigate Browser to Apache Host/IP from Above
+```
+http://<apache-host-ip>
+```
 
-### Apache NiFi Data Flows
-![Apache NiFi Data Flows](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/nifi-flow.png)
+## Advanced Features and Demos
+### Real-time Topology View of Live Kuberentes Cluster
+```
+kubectl describe svc weavescope-app
+```
+```
+https://<weavescope-host-ip>
+```
+* Note: You can manually scale Spark Workers through WeaveScope
 
-### AirFlow Workflows
-![AirFlow Workflows](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/airflow.png)
+### Manually Scale Spark Workers
+```
+kubectl scale --replicas=4 rc spark-worker-2-0-1
+```
 
-### Presto Queries
-![Presto Queries](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/presto.png)
+### `bash` into Live Docker Container
+```
+kubectl get pod
+```
+```
+kubectl exec <pod-name> -it -- bash -il
+```
+* Note: You can manually `bash` into live Docker containers through WeaveScope
 
-### Tableau Integration
-![Tableau Integration](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-tableau.png)
 
-### Beeline Command-line Hive Client
-![Beeline Command-line Hive Client](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-beeline.png)
+### Auto-scale Spark Workers based on CPU Utilization
+```
+kubectl autoscale rc spark-worker-2-0-1 --max=4 --cpu-percent=50
+```
 
-### Log Visualization with Kibana & Logstash
-![Log Visualization with Kibana & Logstash](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-kibana.png)
+### Rolling Update of JupyterHub to Increase `spark.max.cores` and `spark.executor.memory`
+```
+kubectl rolling-update jupyterhub-master -f jupyterhub-rc-4cores-4gb.yaml
+```
 
-### Spark, Spark Streaming, and Spark SQL Admin UIs
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-1.png)
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-2.png)
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-3.png)
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-4.png)
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-5.png)
-![Spark Admin UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-spark-6.png)
+### Continuous Deploy, Monitor, and Rollback New Spark ML and TensorFlow AI Models 
+```
+TODO:  Link to specific jupyter notebook
+```
 
-### Vector Host and Guest (Docker) System Metric UIs
-![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-01.png)
-![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-02.png)
-![Vector Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/vector-03.png)
+### Continuous, Incremental Training of Spark ML and TensorFlow AI Models from Kafka
+```
+TODO:  Link to specific jupyter noteook
+```
 
-### Ganglia System and JVM Metrics Monitoring UIs
-![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-1.png)
-![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-2.png)
-![Ganglia Metrics UI](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/flux-ganglia-3.png)
+### Highly-scalable, Highly-available Model Serving using Battle-tested NetflixOSS Components
+```
+http://hystrix.demo.pipeline.io/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22Circuit%20Breakers%22%2C%22stream%22%3A%22turbine-aws.demo.pipeline.io%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
+```
 
-## Tools Overview
-![Apache Spark](http://spark.apache.org/images/spark-logo.png) ![Redis](https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png)
-![Apache Cassandra](https://upload.wikimedia.org/wikipedia/commons/a/a0/Cassandra_logo.png)
-![Apache Kafka](http://www.bogotobogo.com/Hadoop/images/Ecosystem/Kafka.png)
-![NiFi](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/nifi-logo.png)
-![ElasticSearch Logstash Kibana](https://www.enalean.com/sites/default/files/field/image/elk-logos.png) ![Apache Zeppelin](http://4.bp.blogspot.com/-rsc3t_dZmBg/VbPDwhb_IBI/AAAAAAAABeY/9zKUjK4VFbQ/s1600/zeppelin-bl.png) ![Ganglia](https://developer.nvidia.com/sites/default/files/akamai/cuda/images/Ganglia-logo-small-rs.jpg) ![Hadoop HDFS](http://datatechblog.com/wp-content/uploads/2014/04/HadoopHive.png) ![iPython Notebook](http://ipython.org/ipython-doc/dev/_images/ipynb_icon_128x128.png)
-![Docker](http://blog.docker.com/wp-content/uploads/2013/08/KuDr42X_ITXghJhSInDZekNEF0jLt3NeVxtRye3tqco.png)
+## Support
+* Email **help@fluxcapacitor.com** for Support!

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo '...Starting Webdis...'
+cd ~/webdis
+./webdis webdis.json &
+
+echo '...Starting Redis...'
+cd ~
+redis-server config/redis.conf

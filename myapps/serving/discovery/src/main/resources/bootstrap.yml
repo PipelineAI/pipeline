@@ -1,8 +1,0 @@
-server:
-  port: 8761
-spring:
-  application:
-    name: discovery-service
-netflix:
-  appinfo:
-    name: ${spring.application.name}

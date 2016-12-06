@@ -1,4 +1,0 @@
-Example how to use -anti-kasparek switch that causes model to be saved during training after
-processing specified amount of words. This is useful when training large models in unstable
-environment. Backup copy of last weights is not saved in the model, so the results may slightly
-differ if the training is interrupted at some points.

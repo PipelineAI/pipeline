@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#kubectl config set-credentials demo --username=$KUBERNETES_USERNAME --password=$KUBERNETES_PASSWORD
+#kubectl config set-cluster demo --insecure-skip-tls-verify=true --server=https://$KUBERNETES_SERVER
+#kubectl config set-context demo --user=demo --namespace=default --cluster=demo
+#kubectl config use-context demo
+#kubectl get nodes
+#kubectl cluster-info
+
+# Specify no persistence (--no-pvc) for now
+# See https://github.com/fabric8io/fabric8/blob/master/docs/getStarted/persistence.md
+gofabric8 deploy -y --no-pvc
+
+#kubectl get pods -w
+#gofabric8 start

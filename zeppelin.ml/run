@@ -1,0 +1,3 @@
+#!/bin/bash
+
+MASTER=$SPARK_MASTER $ZEPPELIN_HOME/bin/zeppelin.sh start

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd ~
+
+$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server --port=9091 --model_name=census --model_base_path=/root/models/census/serving/ &
+
+java -Djava.security.egd=file:/dev/./urandom -cp tensorflow-prediction-client-1.0-SNAPSHOT.jar -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.tensorflow.PredictionServiceMain"

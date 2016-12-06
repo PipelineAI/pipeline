@@ -1,7 +1,0 @@
-graph = TitanFactory.open('/root/pipeline/config/titan/titan-cassandra-es.properties')
-new File("/root/pipeline/datasets/graph/item-ratings.csv").each({ line ->
-  (userId, itemId, rating, timestamp) = line.split(",")
-  userVertex = graph.addVertex("userId::" + userId)
-  itemVertex = graph.addVertex("itemId::" + itemId)
-  userVertex.addEdge("rated", itemVertex)
-})

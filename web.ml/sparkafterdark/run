@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source /etc/apache2/envvars
+
+service apache2 start
+
+tail -f $APACHE_LOG_DIR/error.log 

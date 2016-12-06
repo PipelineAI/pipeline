@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/created-by: |
+      {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"system","name":"autoscaler","uid":"bfa94a99-47e6-11e6-8fc1-06a19a97a573","apiVersion":"v1","resourceVersion":"234694841"}}
+  creationTimestamp: "2016-08-25T20:36:43Z"
+  generateName: autoscaler-
+  labels:
+    app: autoscaler
+  name: autoscaler-opnax
+  namespace: system
+  resourceVersion: "234714730"
+  selfLink: /api/v1/namespaces/system/pods/autoscaler-opnax
+  uid: a2acf237-6b03-11e6-b203-0a0bdd34364d
+spec:
+  containers:
+  - command:
+    - python
+    - main.py
+    - --regions
+    - us-west-2,us-east-1,us-west-1
+    - --cluster-name
+    - openai-kubernetes
+    - -vvv
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          key: aws-access-key-id
+          name: autoscaler
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          key: aws-secret-access-key
+          name: autoscaler
+    - name: SLACK_HOOK
+      valueFrom:
+        secretKeyRef:
+          key: slack-hook
+          name: autoscaler
+    - name: PYKUBE_KUBERNETES_SERVICE_HOST
+      value: kubernetes.default
+    image: autoscaler
+    imagePullPolicy: Always
+    name: autoscaler
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-lbbq5
+      readOnly: true
+    resources:
+      limits:
+        cpu: 1500m
+      requests:
+        cpu: 1500m
+  dnsPolicy: ClusterFirst
+  nodeName: 10.0.0.228
+  nodeSelector:
+    aws/region: us-west-2
+  restartPolicy: Always
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: default-token-lbbq5
+    secret:
+      secretName: default-token-lbbq5
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2016-08-25T20:36:46Z
+    status: "True"
+    type: Ready
+  containerStatuses:
+  - containerID: docker://756bbb9ae937f86aaaf4a48d2512ee469ff734edcde04e0e92969988c5707741
+    image: autoscaler
+    imageID: docker://sha256:13a5c2fc6127f99357e5b3da0e2e1aa1c4f8afea35cac595a8ed588065ea42f9
+    lastState: {}
+    name: autoscaler
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: 2016-08-25T20:36:45Z
+  hostIP: 10.0.0.228
+  phase: Running
+  podIP: 10.240.112.168
+  startTime: 2016-08-25T20:36:33Z
