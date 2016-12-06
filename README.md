@@ -13,7 +13,8 @@
 ## Everything in this Repo
 ![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x563.png)
 
-**Note:  Do not load any sensitive data into this environment!**
+## Pipeline Mini
+* Click [here](Pipeline-Mini) to setup a slimmed-down version of this repo for your laptop
 
 ## Docker Images
 * Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
