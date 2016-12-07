@@ -1,6 +1,6 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
-Built with Love and Scale by ex-Netflix and Databricks Engineers
+**Built with Love and Scale by ex-Netflix and Databricks Engineers**
 
 ![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png)
 
@@ -35,8 +35,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
-## Live Demo
-* Click [here](http://www.demo.pipeline.io) for a live demo
+## Live [Demo](http://www.demo.pipeline.io)
 * Use any username/password
 * _Note:  Please do not store sensitive info in this insecure environment!_
 
@@ -54,7 +53,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
-## Related Resources
+## PipelineIO Resources
 ### Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki)
 
 ### Workshop [Schedule](http://pipeline.io#upcoming-workshops)
@@ -73,7 +72,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ### Slideshare [Slides](http://www.slideshare.net/cfregly)
 
-![YouTube](http://advancedspark.com/img/youtube.jpg)
+![Slideshare](http://advancedspark.com/img/slideshare.png)
 
 ### Docker [Images](https://hub.docker.com/u/fluxcapacitor)
 
