@@ -1,5 +1,13 @@
 #!/bin/sh
 
+echo '...MySel...'
+kubectl create -f $PIPELINE_HOME/sql.ml/mysql-rc.yaml
+kubectl create -f $PIPELINE_HOME/sql.ml/mysql-svc.yaml
+
+echo '...Hive Metastore...'
+kubectl create -f $PIPELINE_HOME/metastore.ml/metastore-rc.yaml
+kubectl create -f $PIPELINE_HOME/metastore.ml/metastore-svc.yaml
+
 echo '...Spark - Master...'
 kubectl create -f $PIPELINE_HOME/apachespark.ml/spark-master-rc.yaml
 kubectl create -f $PIPELINE_HOME/apachespark.ml/spark-master-svc.yaml
