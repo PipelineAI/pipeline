@@ -35,7 +35,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![Online Continuous ML Model Train and Deploy](https://s3.amazonaws.com/fluxcapacitor.com/img/online-continuous-ml-model-training.png)
 
-![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) KINESIS
+![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png)KINESIS
 
 ## Live Demo
 * Click [here](http://www.demo.pipeline.io) for a live demo
@@ -47,6 +47,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ### Pipeline Distributed
 * Use [Pipeline Distributed](wiki/Pipeline-Distributed-CPU) to setup a full Kubernetes cluster on AWS, GCP, or Azure
+
 ![Docker](http://pipeline.io/images/docker-logo-150x126.png) ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png)
 
 ### Pipeline Hybrid (Multi-cloud)
