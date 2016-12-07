@@ -35,7 +35,7 @@
 * Use [Pipeline Mini](Pipeline-Mini) to setup a slimmed-down version to run on your laptop
 
 ### Pipeline Distributed
-* Use [Pipeline Distributed-CPU](Pipeline-Distributed-CPU).
+* Use [Pipeline Distributed](Pipeline-Distributed-CPU).
 
 ### Pipeline Hybrid (Multi-cloud)
 * Use [Pipeline Hybrid](Pipeline-Hybrid).
