@@ -35,7 +35,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![Online Continuous ML Model Train and Deploy](https://s3.amazonaws.com/fluxcapacitor.com/img/online-continuous-ml-model-training.png)
 
-![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png)
+![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) KINESIS
 
 ## Live Demo
 * Click [here](http://www.demo.pipeline.io) for a live demo
