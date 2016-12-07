@@ -1,7 +1,7 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
-## Pipeline Architecture
-![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x563.png)
+## Reference Architecture
+![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
 
 ## Features
 ### 100% Open Source
@@ -46,5 +46,5 @@
 ## Docker Images
 * Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
 
-## Support
-* Email **help@fluxcapacitor.com** for Support!
+## 24x7 Global Support
+* Email **help@fluxcapacitor.com** for 24x7 Global Support!
