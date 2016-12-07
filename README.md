@@ -15,12 +15,12 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![PipelineIO Kubernetes](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
 
-![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png)
-![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
 ### Supports PMML and Native C++/Java Code Generation for Optimized CPU and GPU Performance
 
-![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png)
+![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png) 
+
 ![Nvidia GPU](http://pipeline.io/images/nvidia-cuda-338x181.png) ![Intel CPU](http://pipeline.io/images/intel-logo-250x165.png)
 
 ### Deploy directly from Jupyter Notebook to Hybrid-Cloud Microservices
@@ -34,6 +34,8 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 ### Continuously Train and Deploy Spark ML and Tensorflow AI Pipelines to Production
 
 ![Online Continuous ML Model Train and Deploy](https://s3.amazonaws.com/fluxcapacitor.com/img/online-continuous-ml-model-training.png)
+
+![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png)
 
 ## Live Demo
 * Click [here](http://www.demo.pipeline.io) for a live demo
