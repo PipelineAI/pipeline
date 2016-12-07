@@ -16,14 +16,17 @@
 ## Pipeline Mini
 * Use [Pipeline Mini](Pipeline-Mini) to setup a slimmed-down version to run on your laptop
 
-## Setup Kubernetes Cluster
-* Follow the instructions [here](https://github.com/fluxcapacitor/pipeline/kubernetes.ml#setup-a-new-kubernetes-cluster).
+## TODO:  Pipeline Distributed
+* Use [Pipeline Distributed](https://github.com/fluxcapacitor/pipeline/kubernetes.ml#setup-a-new-kubernetes-cluster).
 
-## Docker Images
-* Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
+## TODO:  Pipeline Hybrid
+* Use [Pipeline Hybrid](https://github.com/fluxcapacitor/pipeline/kubernetes.ml#setup-a-new-kubernetes-cluster).
 
 ## Related Training and Workshops
 * Click [here](https://github.com/fluxcapacitor/pipeline-training) for related training repo
+
+## Docker Images
+* Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
 
 ## Support
 * Email **help@fluxcapacitor.com** for Support!
