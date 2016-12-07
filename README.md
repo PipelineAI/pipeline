@@ -33,9 +33,9 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ### Continuously Train and Deploy Spark ML and Tensorflow AI Pipelines to Production
 
-![Online Continuous ML Model Train and Deploy](https://s3.amazonaws.com/fluxcapacitor.com/img/online-continuous-ml-model-training.png)
-
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
+
+![Online Continuous ML Model Train and Deploy](https://s3.amazonaws.com/fluxcapacitor.com/img/online-continuous-ml-model-training.png)
 
 ## Live Demo
 * Click [here](http://www.demo.pipeline.io) for a live demo
