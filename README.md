@@ -1,6 +1,6 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
-## Everything in this Repo
+## Pipeline Architecture
 ![Pipeline Architecture Overview](http://advancedspark.com/img/architecture-overview-768x563.png)
 
 ## Features
@@ -14,9 +14,13 @@
 
 ![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png)
 
-### Deploy directly from Jupyter Notebook to Hybrid-Cloud, NetflixOSS-based Microservices for High Scalability and Availability
+### Deploy directly from Jupyter Notebook to Hybrid-Cloud Microservices
 
 ![Deploy Spark ML Model to Production](https://s3.amazonaws.com/fluxcapacitor.com/img/deploy-ml-model-to-production.png)
+
+### NetflixOSS-based Microservices for High Scalability and Availability
+
+![NetflixOSS-based Microservices](http://pipeline.io/images/hystrix-example-600x306.png)
 
 ### Continuously Train and Deploy Spark ML and Tensorflow AI Pipelines to Production
 
