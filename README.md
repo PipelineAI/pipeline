@@ -32,13 +32,13 @@
 
 ## Environment Setup
 ### Pipeline Mini (Local Laptop)
-* Use [Pipeline Mini](Pipeline-Mini) to setup a slimmed-down version to run on your laptop
+* Use [Pipeline Mini](wiki/Pipeline-Mini) to setup a slimmed-down version to run on your laptop
 
 ### Pipeline Distributed
-* Use [Pipeline Distributed](Pipeline-Distributed-CPU).
+* Use [Pipeline Distributed](wiki/Pipeline-Distributed-CPU).
 
 ### Pipeline Hybrid (Multi-cloud)
-* Use [Pipeline Hybrid](Pipeline-Hybrid).
+* Use [Pipeline Hybrid](wiki/Pipeline-Hybrid).
 
 ## Related Training and Workshops
 * Click [here](https://github.com/fluxcapacitor/pipeline-training/wiki) for training repo
