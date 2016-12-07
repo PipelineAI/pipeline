@@ -78,5 +78,5 @@
 
 ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## 24x7 Global Support
-* Email **help@fluxcapacitor.com** for 24x7 Global Support!
+## 24x7 Global [Support](http://fluxcapacitor.zendesk.com)
+* Or email **help@fluxcapacitor.com**
