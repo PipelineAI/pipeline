@@ -9,7 +9,7 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ## Features
 ### 100% Open Source
-![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) ![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-110x50.png) ![Spark](http://pipeline.io/images/spark-logo-150x78.png) ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
+![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) ![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-48x50.png)![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-110x50.png) ![Spark](http://pipeline.io/images/spark-logo-150x78.png) ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
 
 ### Completely Kubernetes and Docker Based
 
