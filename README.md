@@ -54,11 +54,30 @@ Built with Love and Scale by ex-Netflix and Databricks Engineers
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
-## Related Training and Workshops
-* Click [here](https://github.com/fluxcapacitor/pipeline-training/wiki) for training repo
+## Related Resources
+### Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki)
 
-## Docker Images
-* Click [here](https://hub.docker.com/u/fluxcapacitor) for all Docker images
+### Workshop [Schedule](http://pipeline.io#upcoming-workshops)
+
+![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
+
+![Workshop Tools](http://pipeline.io/images/pancake-stack-645x363.png)
+
+### Global Advanced Spark and Tensorflow [Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
+
+![Meetup](http://pipeline.io/images/meetup-442x300.png)
+
+### YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
+
+![YouTube](http://advancedspark.com/img/youtube.jpg)
+
+### Slideshare [Slides](http://www.slideshare.net/cfregly)
+
+![YouTube](http://advancedspark.com/img/youtube.jpg)
+
+### Docker [Images](https://hub.docker.com/u/fluxcapacitor)
+
+![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
 ## 24x7 Global Support
 * Email **help@fluxcapacitor.com** for 24x7 Global Support!
