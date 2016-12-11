@@ -15,8 +15,10 @@ import com.netflix.hystrix.HystrixCommandGroupKey
 import com.netflix.hystrix.HystrixCommandKey
 import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixCommandProperties
+import com.netflix.hystrix.HystrixThreadPoolProperties
 
-class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map[String, Any], fallback: String, timeout: Int)
+class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map[String, Any], fallback: String, 
+    timeout: Int, threadPoolSize: Int)
     extends HystrixCommand[String](
       HystrixCommand.Setter
       .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
@@ -24,6 +26,9 @@ class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map
       .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
       .andCommandPropertiesDefaults(
         HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)
+      )
+      .andThreadPoolPropertiesDefaults(
+        HystrixThreadPoolProperties.Setter().withCoreSize(threadPoolSize)
       )
     )
 {
