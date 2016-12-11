@@ -42,11 +42,25 @@ class PredictionService {
   def updateSource(@PathVariable("className") className: String, @RequestBody classSource: String): 
       ResponseEntity[String] = {
     Try {
-      System.out.println(s"Generating source for ${className}: ${classSource}")
+      System.out.println(s"Generating source for ${className}:\n${classSource}")
+
+      // Write the new pmml (XML format) to local disk
+      val path = new java.io.File(s"data/${className}/")
+      if (!path.isDirectory()) {
+        path.mkdirs()
+      }
+
+      val file = new java.io.File(s"data/${className}/${className}.java")
+      if (!file.exists()) {
+        file.createNewFile()
+      }
+
+      val fos = new java.io.FileOutputStream(file)
+      fos.write(classSource.getBytes())
 
       val (predictor, generatedCode) = PredictorCodeGenerator.codegen(className, classSource)
       
-      System.out.println(s"Updating codegen cache for ${className}")
+      System.out.println(s"Updating cache for ${className}:\n${generatedCode}")
       
       // Update Predictor in Cache
       predictorRegistry.put(className, predictor)
@@ -74,7 +88,7 @@ class PredictionService {
 
       val result = predictorOption match {
         case None => throw new Exception(s"No Source Found for ${className}")
-        case Some(predictor) => new SourceCodeEvaluationCommand(className, predictor, inputs)
+        case Some(predictor) => new SourceCodeEvaluationCommand(className, predictor, inputs, "fallback", 25, 20, 10)
           .execute()
       } 
 
