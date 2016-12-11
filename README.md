@@ -55,9 +55,9 @@
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
 
-# 24x7 Global [Support](http://pipelineio.zendesk.com) for Everyone!
-* Create a [Ticket](http://pipelineio.zendesk.com)
-* Email **help@pipeline.io**
+# Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
+* [Ticket System](http://pipelineio.zendesk.com)
+* Email [help@pipeline.io](mailto:help@pipeline.io)
 
 
 # Additional Resources
