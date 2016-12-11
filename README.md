@@ -2,7 +2,7 @@
 
 ### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
 
-![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png)
+![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png) ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
 
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
