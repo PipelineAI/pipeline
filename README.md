@@ -55,9 +55,9 @@
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
 
-# 24x7 Global [Support](http://fluxcapacitor.zendesk.com) for Everyone!
-* Create a [Ticket](http://fluxcapacitor.zendesk.com)
-* Email **help@fluxcapacitor.com**
+# 24x7 Global [Support](http://pipelineio.zendesk.com) for Everyone!
+* Create a [Ticket](http://pipelineio.zendesk.com)
+* Email **help@pipeline.io**
 
 
 # Additional Resources
