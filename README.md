@@ -57,7 +57,7 @@
 
 # Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
 * [Ticket System](http://pipelineio.zendesk.com)
-* Email [help@pipeline.io](mailto:help@pipeline.io)
+* [Email Support](mailto:help@pipeline.io)
 
 
 # Additional Resources
