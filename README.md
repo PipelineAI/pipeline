@@ -17,7 +17,7 @@
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## Supports PMML and Native C++/Java Code Generation for Optimized CPU and GPU Performance
+## PMML + Native C++/Java Code Generation for Optimized CPU/GPU Performance
 
 ![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png) 
 
@@ -31,13 +31,14 @@
 
 ![NetflixOSS-based Microservices](http://pipeline.io/images/hystrix-example-600x306.png)
 
-## Continuously Train and Deploy Spark ML and Tensorflow AI Pipelines to Production
+## Continuous Train/Deploy Spark ML and Tensorflow AI Pipelines to Production
 
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
 # Live [Demo](http://www.demo.pipeline.io)
 * Use any username/password
 * _Note:  Please do not store sensitive info in this insecure environment!_
+
 
 # Environment Setup
 ## Pipeline [Mini](wiki/Pipeline-Mini) (Local Laptop)
@@ -53,12 +54,13 @@
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
+
 # 24x7 Global [Support](http://fluxcapacitor.zendesk.com) for Everyone!
 * Email **help@fluxcapacitor.com**
 
+
 # Additional Resources
-## Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki)
-## Workshop [Schedule](http://pipeline.io#upcoming-workshops)
+## Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki) and [Workshop](http://pipeline.io#upcoming-workshops) Schedule
 
 ![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
 
