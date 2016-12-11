@@ -1,6 +1,6 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
-**Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers**
+### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
 
 ![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png)
 
@@ -35,48 +35,47 @@
 
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
-## Live [Demo](http://www.demo.pipeline.io)
+# Live [Demo](http://www.demo.pipeline.io)
 * Use any username/password
 * _Note:  Please do not store sensitive info in this insecure environment!_
 
-## Environment Setup
-### Pipeline [Mini](wiki/Pipeline-Mini) (Local Laptop)
+# Environment Setup
+## Pipeline [Mini](wiki/Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
 
-### Pipeline [Distributed](wiki/Pipeline-Distributed-CPU)
+## Pipeline [Distributed](wiki/Pipeline-Distributed-CPU)
 * Kubernetes cluster on any cloud provider or on-premise
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-### Pipeline [Hybrid](wiki/Pipeline-Hybrid) (Multi-cloud)
+## Pipeline [Hybrid](wiki/Pipeline-Hybrid) (Multi-cloud)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
-## PipelineIO Resources
-### Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki)
+# 24x7 Global [Support](http://fluxcapacitor.zendesk.com) for Everyone!
+* Email **help@fluxcapacitor.com**
 
-### Workshop [Schedule](http://pipeline.io#upcoming-workshops)
+# Additional Resources
+## Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki)
+## Workshop [Schedule](http://pipeline.io#upcoming-workshops)
 
 ![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
 
 ![Workshop Tools](http://pipeline.io/images/pancake-stack-645x363.png)
 
-### Global Advanced Spark and Tensorflow [Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
+## Global Advanced Spark and Tensorflow [Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
 
 ![Meetup](http://pipeline.io/images/meetup-442x300.png)
 
-### YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
+## YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
 
 ![YouTube](http://advancedspark.com/img/youtube.jpg)
 
-### Slideshare [Slides](http://www.slideshare.net/cfregly)
+## Slideshare [Slides](http://www.slideshare.net/cfregly)
 
 ![Slideshare](http://advancedspark.com/img/slideshare.png)
 
-### Docker [Images](https://hub.docker.com/u/fluxcapacitor)
+## Docker [Images](https://hub.docker.com/u/fluxcapacitor)
 
 ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
-
-## 24x7 Global [Support](http://fluxcapacitor.zendesk.com)
-* Or email **help@fluxcapacitor.com**
