@@ -5,6 +5,7 @@ WORKDIR /root
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
+COPY data/ data/
 
 RUN \
   sbt clean package 

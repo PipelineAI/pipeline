@@ -1,3 +1,2 @@
-echo '...Loadtest...'
-echo '...Ignore Any Errors...'
+echo '...Undeploying loadtest...'
 kubectl delete rc loadtest
