@@ -53,8 +53,8 @@ class PredictionService {
         file.createNewFile()
       }
 
-      val os = new java.io.FileOutputStream(file)
-      os.write(pmmlString.getBytes())    
+      val fos = new java.io.FileOutputStream(file)
+      fos.write(pmmlString.getBytes())    
 
       val transformedSource = ImportFilter.apply(new InputSource(new java.io.StringReader(pmmlString)))
 
@@ -90,8 +90,8 @@ class PredictionService {
       var modelEvaluator: Evaluator = null 
       val modelEvaluatorOption = pmmlRegistry.get(pmmlName)
       if (modelEvaluatorOption == None) {
-        val is = new java.io.FileInputStream(s"data/${pmmlName}/${pmmlName}.pmml")
-        val transformedSource = ImportFilter.apply(new InputSource(is))
+        val fis = new java.io.FileInputStream(s"data/${pmmlName}/${pmmlName}.pmml")
+        val transformedSource = ImportFilter.apply(new InputSource(fis))
 
         val pmml = JAXBUtil.unmarshalPMML(transformedSource)
 
@@ -113,7 +113,7 @@ class PredictionService {
 
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs)
+      val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25)
        .execute()
 
       s"""{"results":[${results}]"""

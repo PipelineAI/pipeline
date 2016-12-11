@@ -14,14 +14,19 @@ import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 import com.netflix.hystrix.HystrixCommandKey
 import com.netflix.hystrix.HystrixThreadPoolKey
+import com.netflix.hystrix.HystrixCommandProperties
 
-class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map[String, Any])
-    extends HystrixCommand[String](HystrixCommand.Setter
+class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map[String, Any], fallback: String, timeout: Int)
+    extends HystrixCommand[String](
+      HystrixCommand.Setter
       .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
       .andCommandKey(HystrixCommandKey.Factory.asKey(name))
       .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
-  ) {
-
+      .andCommandPropertiesDefaults(
+        HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)
+      )
+    )
+{
   def run(): String = {
     try{
       val inputFields = modelEvaluator.getInputFields().asScala
@@ -52,6 +57,6 @@ class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map
   override def getFallback(): String = {
     // System.out.println("PMML Evaluator is Down!  Fallback!!")
 
-    s"""[]"""
+    s"""${fallback}"""
   }
 }
