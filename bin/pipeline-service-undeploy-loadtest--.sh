@@ -1,2 +1,2 @@
-echo '...Loadtest...'
+echo '...Undeploying loadtest...'
 kubectl delete rc loadtest
