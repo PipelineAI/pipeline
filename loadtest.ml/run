@@ -1,3 +1,6 @@
 #!/bin/bash
 
-/root/apache-jmeter-3.0/bin/jmeter.sh -n -t $TEST_PATHNAME
+#/root/apache-jmeter-3.0/bin/jmeter.sh -n -t $TEST_PATHNAME
+
+/root/apache-jmeter-3.0/bin/jmeter.sh -n -t /root/tests/RecommendationServiceStressTest-GCP.jmx &
+/root/apache-jmeter-3.0/bin/jmeter.sh -n -t /root/tests/RecommendationServiceStressTest-AWS.jmx
