@@ -113,7 +113,7 @@ class PredictionService {
 
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20)
+      val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
        .execute()
 
       s"""{"results":[${results}]"""

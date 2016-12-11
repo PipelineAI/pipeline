@@ -18,17 +18,19 @@ import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolProperties
 
 class PMMLEvaluationCommand(name: String, modelEvaluator: Evaluator, inputs: Map[String, Any], fallback: String, 
-    timeout: Int, threadPoolSize: Int)
+    timeout: Int, threadPoolSize: Int, queueSizeRejectionThreshold: Int)
     extends HystrixCommand[String](
       HystrixCommand.Setter
-      .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-      .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-      .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
-      .andCommandPropertiesDefaults(
-        HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .andCommandPropertiesDefaults(
+          HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)
       )
       .andThreadPoolPropertiesDefaults(
-        HystrixThreadPoolProperties.Setter().withCoreSize(threadPoolSize)
+        HystrixThreadPoolProperties.Setter()
+          .withCoreSize(threadPoolSize)
+          .withQueueSizeRejectionThreshold(queueSizeRejectionThreshold)
       )
     )
 {
