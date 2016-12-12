@@ -143,6 +143,15 @@ ENV \
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+
+# This is needed if you see errors related to "no module named 'grpc.beta'"
+RUN \
+  pip install grpcio
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd ~/serving/tensorflow \
+  && bazel build tensorflow/python/tools:optimize_for_inference
  
 EXPOSE 5678 6006 9040 9090 9091
 
