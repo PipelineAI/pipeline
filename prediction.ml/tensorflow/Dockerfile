@@ -140,6 +140,9 @@ RUN \
 ENV \
   DATASETS_HOME=/root/datasets \
   MODELS_HOME=/root/models
+
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
  
 EXPOSE 5678 6006 9040 9090 9091
 
