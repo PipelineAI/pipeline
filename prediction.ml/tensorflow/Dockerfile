@@ -119,7 +119,7 @@ ENV \
   LOGS_HOME=/root/logs
 
 COPY run run
-COPY datasets/ datasets/
+COPY data/ data/
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
@@ -138,7 +138,7 @@ RUN \
   mkdir -p /root/tensorboard 
 
 ENV \
-  DATASETS_HOME=/root/datasets \
+  DATASETS_HOME=/root/data \
   MODELS_HOME=/root/models
 
 ENV \
