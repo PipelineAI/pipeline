@@ -10,15 +10,15 @@ kubectl create -f $PIPELINE_HOME/prediction.ml/codegen-rc.yaml
 kubectl create -f $PIPELINE_HOME/prediction.ml/codegen-svc.yaml
 kubectl describe svc prediction-codegen                                                  
                                                                                         
-#echo '...Prediction - Tensorflow...'                                                    
-#kubectl create -f $PIPELINE_HOME/prediction.ml/tensorflow-rc.yaml                                   
-#kubectl create -f $PIPELINE_HOME/prediction.ml/tensorflow-svc.yaml
-#kubectl describe svc prediction-tensorflow                                                  
-                                                                                        
-#echo '...Prediction - Cache...'
-#kubectl create -f $PIPELINE_HOME/prediction.ml/cache-rc.yaml                                        
-#kubectl create -f $PIPELINE_HOME/prediction.ml/cache-svc.yaml
-#kubectl describe svc prediction-cache   
+echo '...Prediction - KeyValue...'
+kubectl create -f $PIPELINE_HOME/prediction.ml/keyvalue-rc.yaml                                        
+kubectl create -f $PIPELINE_HOME/prediction.ml/keyvalue-svc.yaml
+kubectl describe svc prediction-keyvalue
+
+echo '...Prediction - Tensorflow...'
+kubectl create -f $PIPELINE_HOME/prediction.ml/tensorflow-rc.yaml
+kubectl create -f $PIPELINE_HOME/prediction.ml/tensorflow-svc.yaml
+kubectl describe svc prediction-tensorflow
 
 ##############
 # Dashboards
