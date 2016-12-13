@@ -25,7 +25,7 @@ import tensorflow as tf
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string("file_name", "", "Checkpoint filename")
 tf.app.flags.DEFINE_string("tensor_name", "", "Name of the tensor to inspect")
-tf.app.flags.DEFINE_bool("all_tensors", "False",
+tf.app.flags.DEFINE_bool("all_tensors", "True",
                          "If True, print the values of all the tensors.")
 
 
