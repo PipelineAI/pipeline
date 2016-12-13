@@ -7,6 +7,7 @@ RUN \
 
 COPY run run
 COPY worker.py worker.py
+COPY romits/ romits/
 
 EXPOSE 2222
 

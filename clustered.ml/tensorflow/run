@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python worker.py \
+python bin/mnist_trainer.py \
   --ps_hosts=$PS_HOSTS \
   --worker_hosts=$WORKER_HOSTS \
   --job_name=$JOB_NAME \
