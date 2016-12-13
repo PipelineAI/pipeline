@@ -5,9 +5,10 @@ WORKDIR /root
 RUN \
   apt-get update 
 
+COPY bin/ bin/
+COPY data/ data/
+
 COPY run run
-COPY worker.py worker.py
-COPY romits/ romits/
 
 EXPOSE 2222
 
