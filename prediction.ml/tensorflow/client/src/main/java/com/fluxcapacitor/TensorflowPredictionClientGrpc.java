@@ -53,11 +53,11 @@ public class TensorflowPredictionClientGrpc {
         }
 
         // Run predict client to send request
-        TensorflowPredictionClientGrpc client =
-          new TensorflowPredictionClientGrpc(host, port);
+        TensorflowPredictionClientGrpc client = new TensorflowPredictionClientGrpc(host, port);
 
+        String response = null;
         try {
-            client.predict(modelName, inputJson);
+            response = client.predict(modelName, inputJson);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -68,6 +68,7 @@ public class TensorflowPredictionClientGrpc {
             }
         }
 
+        System.out.println("Response: " + response);
         System.out.println("End of predict client");
     }
 
@@ -75,7 +76,7 @@ public class TensorflowPredictionClientGrpc {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void predict(String modelName, String inputJson) {
+    public String predict(String modelName, String inputJson) {
         // Generate keys TensorProto
 
         // Generate features TensorProto
@@ -115,16 +116,15 @@ public class TensorflowPredictionClientGrpc {
         try {
             response = blockingStub.predict(request);
 
-            java.util.Map<java.lang.String, org.tensorflow.framework.TensorProto> outputs
-              = response.getOutputs();
-                for (java.util.Map.Entry<java.lang.String,
-                  org.tensorflow.framework.TensorProto> entry : outputs.entrySet()) {
-                    System.out.println("Response with the key: " + entry.getKey() + ", value: "
-                      + entry.getValue());
-                  }
+            java.util.Map<java.lang.String, org.tensorflow.framework.TensorProto> outputs = response.getOutputs();
+            for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorProto> entry : outputs.entrySet()) {
+                System.out.println("Response with the key: " + entry.getKey() + ", value: " + entry.getValue());
+            }
+
+            return outputs.get("prediction").toString();
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-            return;
+            throw e;
         }
     }
 }
