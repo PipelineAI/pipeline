@@ -1,3 +1,9 @@
 Derived from the following:
 
-https://github.com/tobegit3hub/deep_recommend_system/tree/master/java_predict_client
+  https://github.com/tobegit3hub/deep_recommend_system/tree/master/java_predict_client
+
+TODO:  Look into native integration with JavaCPP.
+
+Here is a good link with an example protobuf data structure:
+
+  https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto
