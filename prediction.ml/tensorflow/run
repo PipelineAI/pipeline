@@ -2,6 +2,6 @@
 
 cd ~
 
-$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server --port=9000 --model_name=minimal --model_base_path=/root/models/minimal/ &
+$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server --port=9000 --model_name=minimal --model_base_path=/root/models/minimal/export &
 
 java -Djava.security.egd=file:/dev/./urandom -cp lib/tensorflow-prediction-client-1.0-SNAPSHOT.jar -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.tensorflow.PredictionServiceMain"
