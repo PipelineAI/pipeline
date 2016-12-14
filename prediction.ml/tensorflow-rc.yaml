@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: "Always"
         env:
         ports:
-        - containerPort: 9091 
+        - containerPort: 9000 
 #        livenessProbe:
 #          httpGet:
 #            path: "/health"
