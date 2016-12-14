@@ -7,6 +7,7 @@ RUN \
   adduser --system --disabled-password --gecos '' elasticsearch  \
   && adduser elasticsearch root
 
+# TODO:  Don't do this...
 RUN \
   chmod 777 /home/elasticsearch
 
