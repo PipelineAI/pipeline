@@ -37,7 +37,7 @@ public class TensorflowPredictionClientGrpc {
     }
 
     public static void main(String[] args) {
-        System.out.println("Start the predict client");
+        //System.out.println("Start the predict client");
 
         String host = "127.0.0.1";
         int port = 9000;
@@ -59,17 +59,17 @@ public class TensorflowPredictionClientGrpc {
         try {
             response = client.predict(modelName, inputJson);
         } catch (Exception e) {
-            System.out.println(e);
+            //System.out.println(e);
         } finally {
             try {
                 client.shutdown();
             } catch (Exception e) {
-                System.out.println(e);
+                //System.out.println(e);
             }
         }
 
-        System.out.println("Response: " + response);
-        System.out.println("End of predict client");
+        //System.out.println("Response: " + response);
+        //System.out.println("End of predict client");
     }
 
     public void shutdown() throws InterruptedException {
@@ -117,13 +117,13 @@ public class TensorflowPredictionClientGrpc {
             response = blockingStub.predict(request);
 
             java.util.Map<java.lang.String, org.tensorflow.framework.TensorProto> outputs = response.getOutputs();
-            for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorProto> entry : outputs.entrySet()) {
-                System.out.println("Response with the key: " + entry.getKey() + ", value: " + entry.getValue());
-            }
+            //for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorProto> entry : outputs.entrySet()) {
+            //    System.out.println("Response with the key: " + entry.getKey() + ", value: " + entry.getValue());
+            //}
 
             return outputs.get("prediction").toString();
         } catch (StatusRuntimeException e) {
-            logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+            //logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
             throw e;
         }
     }
