@@ -9,7 +9,7 @@ spec:
   ports:
   - name: prediction-tensorflow
     port: 80 
-    targetPort: 9000
+    targetPort: 9040
   selector:
     name: prediction-tensorflow
     hystrix.enabled: "true"
