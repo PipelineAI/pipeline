@@ -78,13 +78,12 @@ RUN \
   && sudo apt-get install -y sbt
 
 RUN \
-#  apt-get install -y maven
   wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
   && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
   && rm apache-maven-3.3.9-bin.tar.gz
 
 RUN \
-  export PATH=~/apache-maven-3.3.9/bin:$PATH
+  export PATH=/root/apache-maven-3.3.9/bin:$PATH
 
 ###################################
 # Install Python with conda
@@ -112,6 +111,18 @@ RUN \
   apt-get install -y python-qt4
 ###################################
 
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+
+# This is needed if you see errors related to "no module named 'grpc.beta'"
+RUN \
+  pip install grpcio
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd ~/serving/tensorflow \
+  && bazel build tensorflow/python/tools:optimize_for_inference
+
 RUN \
   mkdir -p /root/logs
 
@@ -126,10 +137,10 @@ COPY lib/ lib/
 COPY client/ client/
 COPY models/ models/
 
-#RUN \
-#  cd client \
-#  && mvn clean install \
-#  && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
+RUN \
+  cd client \
+  && /root/apache-maven-3.3.9/bin/mvn clean install \
+  && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
 
 RUN \
   sbt clean package 
@@ -141,18 +152,6 @@ ENV \
   DATASETS_HOME=/root/data \
   MODELS_HOME=/root/models
 
-ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
-
-# This is needed if you see errors related to "no module named 'grpc.beta'"
-RUN \
-  pip install grpcio
-
-# Utility for optimizing/simplifying models for inference
-RUN \
-  cd ~/serving/tensorflow \
-  && bazel build tensorflow/python/tools:optimize_for_inference
- 
-EXPOSE 5678 6006 9040 9090 9091
+EXPOSE 5678 6006 9000 9001 9002 9040 
 
 CMD ["supervise", "."]
