@@ -17,6 +17,6 @@ spec:
       - name: loadtest 
         image: docker.io/fluxcapacitor/loadtest
         imagePullPolicy: "Always"
-#        env:
-#        - name: TEST_PATHNAME
-#          value: /root/tests/RecommendationServiceStressTest.jmx 
+        env:
+        - name: TEST_PATHNAMES
+          value: /root/tests/RecommendationServiceStressTest-AWS.jmx:/root/tests/RecommendationServiceStressTest-GCP.jmx
