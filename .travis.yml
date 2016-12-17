@@ -7,6 +7,7 @@ services:
 before_install:
 
 script:
+# package.ml
   - docker build -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
   - docker build -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
   - docker build -t fluxcapacitor/package-java-1.8 -f package.ml/java/1.8/Dockerfile .
@@ -15,9 +16,17 @@ script:
   - docker build -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
   - docker build -t fluxcapacitor/package-presto-0.145 -f package.ml/presto/0.145/Dockerfile .
   - docker build -t fluxcapacitor/package-apache2 -f package.ml/apache2/Dockerfile .
-  
+
+# apachespark.ml
+  - docker build -t fluxcapacitor/apachespark-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.master .
+  - docker build -t fluxcapacitor/apachespark-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.worker .
+
+# cassandra.ml
+  - docker build -t fluxcapacitor/cassandra -f cassandra.ml/Dockerfile .
+
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
       docker push USER/REPO;
     fi
+
