@@ -1,5 +1,6 @@
 dist: trusty
 sudo: required
+cache: false
 
 services:
   - docker
