@@ -9,80 +9,80 @@ before_install:
 
 script:
 # package.ml
-  - docker build -q -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
-  - docker build -q -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
-  - docker build -q -t fluxcapacitor/package-java-1.8 -f package.ml/java/1.8/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-java-1.8 -f package.ml/java/1.8/Dockerfile .
 #  - docker build -q -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
-  - cd package/spark/2.0.1/ && docker build -q -t fluxcapacitor/package-spark-2.0.1 .
-  - docker build -q -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
-  - docker build -q -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
-  - docker build -q -t fluxcapacitor/package-presto-0.145 -f package.ml/presto/0.145/Dockerfile .
-  - docker build -q -t fluxcapacitor/package-apache2 -f package.ml/apache2/Dockerfile .
+  - travis_wait 30 cd package/spark/2.0.1/ && docker build -q -t fluxcapacitor/package-spark-2.0.1 .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-presto-0.145 -f package.ml/presto/0.145/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/package-apache2 -f package.ml/apache2/Dockerfile .
 
 # apachespark.ml
-  - docker build -q -t fluxcapacitor/apachespark-master-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.master .
-  - docker build -q -t fluxcapacitor/apachespark-worker-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.worker .
+  - travis_wait 30 docker build -q -t fluxcapacitor/apachespark-master-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.master .
+  - travis_wait 30 docker build -q -t fluxcapacitor/apachespark-worker-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.worker .
 
 # cassandra.ml
-  - docker build -q -t fluxcapacitor/cassandra -f cassandra.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/cassandra -f cassandra.ml/Dockerfile .
 
 # clustered.ml
-  - docker build -q -t fluxcapacitor/clustered-tensorflow -f clustered.ml/tensorflow/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/clustered-tensorflow -f clustered.ml/tensorflow/Dockerfile .
 
 # dashboard.ml
-  - docker build -q -t fluxcapacitor/dashboard-hystrix -f dashboard.ml/hystrix/Dockerfile .
-  - docker build -q -t fluxcapacitor/dashboard-turbine -f dashboard.ml/turbine/Dockerfile .
-  - docker build -q -t fluxcapacitor/dashboard-weavescope -f dashboard.ml/weavescope/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/dashboard-hystrix -f dashboard.ml/hystrix/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/dashboard-turbine -f dashboard.ml/turbine/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/dashboard-weavescope -f dashboard.ml/weavescope/Dockerfile .
 
 # elasticsearch.ml
-  - docker build -q -t fluxcapacitor/elasticsearch-2.3.0 -f elasticsearch.ml/2.3.0/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/elasticsearch-2.3.0 -f elasticsearch.ml/2.3.0/Dockerfile .
 
 # gpu.ml
-  - docker build -q -t fluxcapacitor/gpu -f gpu.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/gpu -f gpu.ml/Dockerfile .
 
 # jupyterhub.ml
-  - docker build -q -t fluxcapacitor/jupyterhub -f jupyterhub.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/jupyterhub -f jupyterhub.ml/Dockerfile .
 
 # keyvalue.ml
-  - docker build -q -t fluxcapacitor/keyvalue-redis -f keyvalue.ml/redis/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/keyvalue-redis -f keyvalue.ml/redis/Dockerfile .
 
 # kibana.ml
-  - docker build -q -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
 
 # kubernetes.ml
-  - docker build -q -t fluxcapacitor/kubernetes -f kubernetes.ml/Dockerfile .
-  - docker build -q -t fluxcapacitor/kubernetes-admin -f kubernetes.ml/Dockerfile.admin .
+  - travis_wait 30 docker build -q -t fluxcapacitor/kubernetes -f kubernetes.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/kubernetes-admin -f kubernetes.ml/Dockerfile.admin .
 
 # loadtest.ml
-  - docker build -q -t fluxcapacitor/loadtest -f loadtest.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/loadtest -f loadtest.ml/Dockerfile .
 
 # metastore.ml
-  - docker build -q -t fluxcapacitor/metastore-1.2.1 -f metastore.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/metastore-1.2.1 -f metastore.ml/Dockerfile .
 
 # prediction.ml
-  - docker build -q -t fluxcapacitor/prediction-codegen -f prediction.ml/codegen/Dockerfile .
-  - docker build -q -t fluxcapacitor/prediction-keyvalue -f prediction.ml/keyvalue/Dockerfile .
-  - docker build -q -t fluxcapacitor/prediction-pmml -f prediction.ml/pmml/Dockerfile .
-  - docker build -q -t fluxcapacitor/prediction-tensorflow -f prediction.ml/tensorflow/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/prediction-codegen -f prediction.ml/codegen/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/prediction-keyvalue -f prediction.ml/keyvalue/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/prediction-pmml -f prediction.ml/pmml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/prediction-tensorflow -f prediction.ml/tensorflow/Dockerfile .
 
 # presto.ml
-  - docker build -q -t fluxcapacitor/presto-master-0.145 -f presto.ml/presto-master/Dockerfile .
-  - docker build -q -t fluxcapacitor/presto-worker-0.145 -f presto.ml/presto-worker/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/presto-master-0.145 -f presto.ml/presto-master/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/presto-worker-0.145 -f presto.ml/presto-worker/Dockerfile .
 
 # scheduler.ml
-  - docker build -q -t fluxcapacitor/scheduler-airflow -f scheduler.ml/airflow/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/scheduler-airflow -f scheduler.ml/airflow/Dockerfile .
 
 # sql.ml
-  - docker build -q -t fluxcapacitor/sql-mysql -f sql.ml/mysql/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/sql-mysql -f sql.ml/mysql/Dockerfile .
 
 # web.ml
-  - docker build -q -t fluxcapacitor/web-home -f web.ml/home/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/web-home -f web.ml/home/Dockerfile .
 
 # zeppelin.ml
-  - docker build -q -t fluxcapacitor/zeppelin -f zeppelin.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/zeppelin -f zeppelin.ml/Dockerfile .
 
 # zookeeper.ml
-  - docker build -q -t fluxcapacitor/zookeeper -f zookeeper.ml/Dockerfile .
+  - travis_wait 30 docker build -q -t fluxcapacitor/zookeeper -f zookeeper.ml/Dockerfile .
 
 #after_success:
 #  - if [ "$TRAVIS_BRANCH" == "master" ]; then
