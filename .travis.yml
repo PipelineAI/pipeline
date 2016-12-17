@@ -8,79 +8,79 @@ before_install:
 
 script:
 # package.ml
-  - docker build -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
-  - docker build -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
-  - docker build -t fluxcapacitor/package-java-1.8 -f package.ml/java/1.8/Dockerfile .
-  - docker build -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
-  - docker build -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
-  - docker build -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
-  - docker build -t fluxcapacitor/package-presto-0.145 -f package.ml/presto/0.145/Dockerfile .
-  - docker build -t fluxcapacitor/package-apache2 -f package.ml/apache2/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-java-1.8 -f package.ml/java/1.8/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-presto-0.145 -f package.ml/presto/0.145/Dockerfile .
+  - docker build -q -t fluxcapacitor/package-apache2 -f package.ml/apache2/Dockerfile .
 
 # apachespark.ml
-  - docker build -t fluxcapacitor/apachespark-master-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.master .
-  - docker build -t fluxcapacitor/apachespark-worker-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.worker .
+  - docker build -q -t fluxcapacitor/apachespark-master-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.master .
+  - docker build -q -t fluxcapacitor/apachespark-worker-2.0.1 -f apachespark.ml/2.0.1/Dockerfile.worker .
 
 # cassandra.ml
-  - docker build -t fluxcapacitor/cassandra -f cassandra.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/cassandra -f cassandra.ml/Dockerfile .
 
 # clustered.ml
-  - docker build -t fluxcapacitor/clustered-tensorflow -f clustered.ml/tensorflow/Dockerfile .
+  - docker build -q -t fluxcapacitor/clustered-tensorflow -f clustered.ml/tensorflow/Dockerfile .
 
 # dashboard.ml
-  - docker build -t fluxcapacitor/dashboard-hystrix -f dashboard.ml/hystrix/Dockerfile .
-  - docker build -t fluxcapacitor/dashboard-turbine -f dashboard.ml/turbine/Dockerfile .
-  - docker build -t fluxcapacitor/dashboard-weavescope -f dashboard.ml/weavescope/Dockerfile .
+  - docker build -q -t fluxcapacitor/dashboard-hystrix -f dashboard.ml/hystrix/Dockerfile .
+  - docker build -q -t fluxcapacitor/dashboard-turbine -f dashboard.ml/turbine/Dockerfile .
+  - docker build -q -t fluxcapacitor/dashboard-weavescope -f dashboard.ml/weavescope/Dockerfile .
 
 # elasticsearch.ml
-  - docker build -t fluxcapacitor/elasticsearch-2.3.0 -f elasticsearch.ml/2.3.0/Dockerfile .
+  - docker build -q -t fluxcapacitor/elasticsearch-2.3.0 -f elasticsearch.ml/2.3.0/Dockerfile .
 
 # gpu.ml
-  - docker build -t fluxcapacitor/gpu -f gpu.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/gpu -f gpu.ml/Dockerfile .
 
 # jupyterhub.ml
-  - docker build -t fluxcapacitor/jupyterhub -f jupyterhub.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/jupyterhub -f jupyterhub.ml/Dockerfile .
 
 # keyvalue.ml
-  - docker build -t fluxcapacitor/keyvalue-redis -f keyvalue.ml/redis/Dockerfile .
+  - docker build -q -t fluxcapacitor/keyvalue-redis -f keyvalue.ml/redis/Dockerfile .
 
 # kibana.ml
-  - docker build -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
+  - docker build -q -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
 
 # kubernetes.ml
-  - docker build -t fluxcapacitor/kubernetes -f kubernetes.ml/Dockerfile .
-  - docker build -t fluxcapacitor/kubernetes-admin -f kubernetes.ml/Dockerfile.admin .
+  - docker build -q -t fluxcapacitor/kubernetes -f kubernetes.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/kubernetes-admin -f kubernetes.ml/Dockerfile.admin .
 
 # loadtest.ml
-  - docker build -t fluxcapacitor/loadtest -f loadtest.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/loadtest -f loadtest.ml/Dockerfile .
 
 # metastore.ml
-  - docker build -t fluxcapacitor/metastore-1.2.1 -f metastore.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/metastore-1.2.1 -f metastore.ml/Dockerfile .
 
 # prediction.ml
-  - docker build -t fluxcapacitor/prediction-codegen -f prediction.ml/codegen/Dockerfile .
-  - docker build -t fluxcapacitor/prediction-keyvalue -f prediction.ml/keyvalue/Dockerfile .
-  - docker build -t fluxcapacitor/prediction-pmml -f prediction.ml/pmml/Dockerfile .
-  - docker build -t fluxcapacitor/prediction-tensorflow -f prediction.ml/tensorflow/Dockerfile .
+  - docker build -q -t fluxcapacitor/prediction-codegen -f prediction.ml/codegen/Dockerfile .
+  - docker build -q -t fluxcapacitor/prediction-keyvalue -f prediction.ml/keyvalue/Dockerfile .
+  - docker build -q -t fluxcapacitor/prediction-pmml -f prediction.ml/pmml/Dockerfile .
+  - docker build -q -t fluxcapacitor/prediction-tensorflow -f prediction.ml/tensorflow/Dockerfile .
 
 # presto.ml
-  - docker build -t fluxcapacitor/presto-master-0.145 -f presto.ml/presto-master/Dockerfile .
-  - docker build -t fluxcapacitor/presto-worker-0.145 -f presto.ml/presto-worker/Dockerfile .
+  - docker build -q -t fluxcapacitor/presto-master-0.145 -f presto.ml/presto-master/Dockerfile .
+  - docker build -q -t fluxcapacitor/presto-worker-0.145 -f presto.ml/presto-worker/Dockerfile .
 
 # scheduler.ml
-  - docker build -t fluxcapacitor/scheduler-airflow -f scheduler.ml/airflow/Dockerfile .
+  - docker build -q -t fluxcapacitor/scheduler-airflow -f scheduler.ml/airflow/Dockerfile .
 
 # sql.ml
-  - docker build -t fluxcapacitor/sql-mysql -f sql.ml/mysql/Dockerfile .
+  - docker build -q -t fluxcapacitor/sql-mysql -f sql.ml/mysql/Dockerfile .
 
 # web.ml
-  - docker build -t fluxcapacitor/web-home -f web.ml/home/Dockerfile .
+  - docker build -q -t fluxcapacitor/web-home -f web.ml/home/Dockerfile .
 
 # zeppelin.ml
-  - docker build -t fluxcapacitor/zeppelin -f zeppelin.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/zeppelin -f zeppelin.ml/Dockerfile .
 
 # zookeeper.ml
-  - docker build -t fluxcapacitor/zookeeper -f zookeeper.ml/Dockerfile .
+  - docker build -q -t fluxcapacitor/zookeeper -f zookeeper.ml/Dockerfile .
 
 #after_success:
 #  - if [ "$TRAVIS_BRANCH" == "master" ]; then
