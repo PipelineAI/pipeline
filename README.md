@@ -37,15 +37,15 @@
 * _Note:  Please do not store sensitive info in this insecure environment!_
 
 # Environment Setup
-## Pipeline [Mini](Pipeline-Mini) (Local Laptop)
+## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline-training/wiki/Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
 
-## Pipeline [Distributed](Pipeline-Distributed-CPU)
+## Pipeline [Distributed](https://github.com/fluxcapacitor/pipeline-training/wiki/Pipeline-Distributed-CPU)
 * Kubernetes cluster on any cloud provider or on-premise
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## Pipeline [Hybrid](Pipeline-Hybrid) (Multi-cloud)
+## Pipeline [Hybrid](https://github.com/fluxcapacitor/pipeline-training/wiki/Pipeline-Hybrid) (Multi-cloud)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
