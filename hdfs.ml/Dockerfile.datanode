@@ -23,6 +23,16 @@ ENV \
 ENV \
   PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 
+#RUN \
+#  hdfs -format
+
+#RUN \
+#  apt-get install -y ssl \
+#  && apt-get install -y ?
+
+#RUN \
+#  TODO:  make sure the ssl stuff works!
+
 COPY run run
 
 EXPOSE 50070 
