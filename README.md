@@ -40,7 +40,7 @@
 ## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
 
-## Pipeline [Distributed](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Distributed-CPU)
+## Pipeline [Distributed](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Distributed)
 * Kubernetes cluster on any cloud provider or on-premise
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
