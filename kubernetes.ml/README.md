@@ -151,7 +151,7 @@ kubectl autoscale rc <rc> --max=4 --cpu-percent=50
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
 ### 100% Open Source, Continuously Train + Deploy Spark ML + Tensorflow AI Pipelines
-* Click [here](https://github.com/fluxcapacitor/pipeline.io) for a complete Spark, Zeppelin, Jupyter, Kafka, and TensorFlow environment using Kubernetes and Netflix Open Source!
+* Click [here](https://github.com/fluxcapacitor/pipeline-training/wiki) for a complete Spark, Zeppelin, Jupyter, Kafka, and TensorFlow environment using Kubernetes and Netflix Open Source!
 
 ## Setup a New Kubernetes Cluster
 
