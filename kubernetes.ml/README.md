@@ -1,6 +1,6 @@
 ## Prerequisites
 * Running Kuberentes Cluster
-* Follow [these](https://github.com/fluxcapacitor/kubernetes.ml/blob/master/README.md#setup-a-new-kubernetes-cluster) instructions to create a Kuberentes Cluster on AWS
+* Follow [these](https://github.com/fluxcapacitor/pipeline/tree/master/kubernetes.ml#setup-a-new-kubernetes-cluster) instructions to create a Kuberentes Cluster on AWS
 
 ## Install Kubernetes Client
 ### OPTION 1:  Install Kubernetes Client through Docker
