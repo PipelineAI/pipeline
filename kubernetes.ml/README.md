@@ -197,4 +197,4 @@ $KUBERNETES_HOME/cluster/kube-up.sh
 ```
 
 ### Return to Configure Kubernetes Client
-* Return [here](https://github.com/fluxcapacitor/kubernetes.ml/blob/master/README.md#configure-kubernetes-client)
+* Return [here](https://github.com/fluxcapacitor/pipeline/tree/master/kubernetes.ml#install-kubernetes-client)
