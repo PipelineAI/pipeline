@@ -4,7 +4,7 @@
 
 ## Follow [Wiki](https://github.com/fluxcapacitor/pipeline-training/wiki) to Setup Docker-based Environment
 
-## New! Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline.io)**
+## Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline)**
 ![PipelineIO](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
 
 ## Architecture Overview
