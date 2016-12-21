@@ -1,2 +1,0 @@
-# sql.ml
-ML SQL
