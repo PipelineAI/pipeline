@@ -1,2 +1,0 @@
-# elasticsearch.ml
-ElasticSearch + ML
