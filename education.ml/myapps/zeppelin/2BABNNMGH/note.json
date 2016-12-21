@@ -1,0 +1,154 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md \n### Spell Correct with Edit Distance \n* http://norvig.com/spell-correct.html\n* https://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcheck.html\n* https://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcorrect.js",
+      "dateUpdated": "Apr 23, 2016 4:10:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454567565807_-293378253",
+      "id": "20160204-063245_996944929",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eSpell Correct with Edit Distance\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttp://norvig.com/spell-correct.html\u003c/li\u003e\n\u003cli\u003ehttps://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcheck.html\u003c/li\u003e\n\u003cli\u003ehttps://s3-us-west-2.amazonaws.com/spellcheckerjs/spellcorrect.js\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Feb 4, 2016 6:32:45 AM",
+      "dateStarted": "Apr 23, 2016 4:10:14 AM",
+      "dateFinished": "Apr 23, 2016 4:10:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Define edit distance",
+      "text": "%pyspark \n\nimport re, collections\n\ndef words(text): return re.findall(\u0027[a-z]+\u0027, text.lower()) \n\ndef train(features):\n    model \u003d collections.defaultdict(lambda: 1)\n    for f in features:\n        model[f] +\u003d 1\n    return model\n\n# gutenberg-ebooks datasets\nNWORDS \u003d train(words(file(\u0027/root/pipeline/datasets/nlp/gutenberg-ebooks.txt\u0027).read()))\n\nalphabet \u003d \u0027abcdefghijklmnopqrstuvwxyz\u0027\n\ndef edits1(word):\n   splits     \u003d [(word[:i], word[i:]) for i in range(len(word) + 1)]\n   deletes    \u003d [a + b[1:] for a, b in splits if b]\n   transposes \u003d [a + b[1] + b[0] + b[2:] for a, b in splits if len(b)\u003e1]\n   replaces   \u003d [a + c + b[1:] for a, b in splits for c in alphabet if b]\n   inserts    \u003d [a + c + b     for a, b in splits for c in alphabet]\n   return set(deletes + transposes + replaces + inserts)\n\ndef known_edits2(word):\n    return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)\n\ndef known(words): return set(w for w in words if w in NWORDS)\n\ndef correct(word):\n    candidates \u003d known([word]) or known(edits1(word)) or known_edits2(word) or [word]\n    return max(candidates, key\u003dNWORDS.get)\n",
+      "dateUpdated": "Apr 23, 2016 4:10:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452751070866_-771875555",
+      "id": "20160114-055750_1264088550",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 14, 2016 5:57:50 AM",
+      "dateStarted": "Apr 23, 2016 4:10:14 AM",
+      "dateFinished": "Apr 23, 2016 4:10:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Test a few mispellings",
+      "text": "%pyspark \n\nprint correct(\u0027speling\u0027)\nprint correct(\u0027forbiden\u0027)\nprint correct(\u0027dateng\u0027)\nprint correct(\u0027supposably\u0027)",
+      "dateUpdated": "Apr 23, 2016 4:10:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452751077031_1571629995",
+      "id": "20160114-055757_8594800",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "spelling\nforbidden\ndating\nsupposedly\n"
+      },
+      "dateCreated": "Jan 14, 2016 5:57:57 AM",
+      "dateStarted": "Apr 23, 2016 4:10:24 AM",
+      "dateFinished": "Apr 23, 2016 4:10:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 23, 2016 4:10:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452751365162_1851371450",
+      "id": "20160114-060245_1376871006",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 14, 2016 6:02:45 AM",
+      "dateStarted": "Apr 23, 2016 4:10:36 AM",
+      "dateFinished": "Apr 23, 2016 4:10:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "NLP/01: Spell Correct (Edit Distance)",
+  "id": "2BABNNMGH",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

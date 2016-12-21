@@ -1,0 +1,1 @@
+java -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -Djava.security.egd=file:/dev/./urandom -jar target/prediction-service-0.1-jar-with-dependencies.jar com.advancedspark.serving.prediction.PredictionServiceMain

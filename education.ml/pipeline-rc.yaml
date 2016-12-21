@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: pipeline-training
+  labels:
+    app: pipeline-training
+spec:
+  replicas: 1
+  selector:
+    name: pipeline-training
+  template:
+    metadata:
+      labels:
+        name: pipeline-training
+    spec:
+      containers:
+      - name: pipeline-training
+        image: docker.io/fluxcapacitor/pipeline-kube
+        imagePullPolicy: "Always"
+#      resources:
+#        limits:
+#          cpu: 300m
+#          memory: 200Mi
+#        requests:
+#          cpu: 4000m
+#          memory: 24gi
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 80
+        - containerPort: 6042
+        - containerPort: 9160
+        - containerPort: 9042
+        - containerPort: 7077
+        - containerPort: 8080
+        - containerPort: 8081
+        - containerPort: 6060
+        - containerPort: 6061
+        - containerPort: 6062
+        - containerPort: 6063
+        - containerPort: 6064
+        - containerPort: 6065
+        - containerPort: 8090
+        - containerPort: 10000
+        - containerPort: 50070
+        - containerPort: 50090
+        - containerPort: 9092
+        - containerPort: 6066
+        - containerPort: 9000
+        - containerPort: 19999
+        - containerPort: 6081
+        - containerPort: 7474
+        - containerPort: 8787
+        - containerPort: 5601
+        - containerPort: 8989
+        - containerPort: 7979
+        - containerPort: 4040
+        - containerPort: 4041
+        - containerPort: 4042
+        - containerPort: 4043
+        - containerPort: 4044
+        - containerPort: 4045
+        - containerPort: 4046
+        - containerPort: 4047
+        - containerPort: 4048
+        - containerPort: 4049
+        - containerPort: 4050
+        - containerPort: 4051
+        - containerPort: 4052
+        - containerPort: 4053
+        - containerPort: 4054
+        - containerPort: 4055
+        - containerPort: 4056
+        - containerPort: 4057
+        - containerPort: 4058
+        - containerPort: 4059
+        - containerPort: 4060
+        - containerPort: 6379
+        - containerPort: 8888
+        - containerPort: 54321
+        - containerPort: 8099
+        - containerPort: 8754
+        - containerPort: 7379
+        - containerPort: 6969
+        - containerPort: 6970
+        - containerPort: 6971
+        - containerPort: 6972
+        - containerPort: 6973
+        - containerPort: 6974
+        - containerPort: 6975
+        - containerPort: 6976
+        - containerPort: 6977
+        - containerPort: 6978
+        - containerPort: 6979
+        - containerPort: 6980
+        - containerPort: 5050
+        - containerPort: 5060
+        - containerPort: 7060
+        - containerPort: 8182
+        - containerPort: 9081
+        - containerPort: 8998
+        - containerPort: 9090
+        - containerPort: 5080
+        - containerPort: 5090
+        - containerPort: 5070
+        - containerPort: 8000
+        - containerPort: 8001
+        - containerPort: 6006
+        - containerPort: 3060
+        - containerPort: 9040
+        - containerPort: 8102
+        - containerPort: 22222
+        - containerPort: 10080
+        - containerPort: 5040
+        - containerPort: 8761
+        - containerPort: 7101
+        - containerPort: 5678
+        - containerPort: 3123
+        - containerPort: 3124

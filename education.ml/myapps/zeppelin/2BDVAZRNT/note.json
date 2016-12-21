@@ -1,0 +1,387 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK",
+      "dateUpdated": "Jun 28, 2016 1:25:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461384577832_-1418696096",
+      "id": "20160423-040937_751735773",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS NOTEBOOK\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 4:09:37 AM",
+      "dateStarted": "Jun 28, 2016 1:25:50 AM",
+      "dateFinished": "Jun 28, 2016 1:25:50 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![Netflix Genres](http://advancedspark.com/img/netflix-genres.png)",
+      "dateUpdated": "Jun 28, 2016 1:25:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462943276574_-1338282075",
+      "id": "20160511-050756_866943412",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/netflix-genres.png\" alt\u003d\"Netflix Genres\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:07:56 AM",
+      "dateStarted": "Jun 28, 2016 1:25:50 AM",
+      "dateFinished": "Jun 28, 2016 1:25:50 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show the enriched ItemFactors from the previous notebook",
+      "text": "z.show(enrichedItemFactorsDF)",
+      "dateUpdated": "Jun 28, 2016 1:26:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456872339856_-283274355",
+      "id": "20160301-224539_90254018",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttags\titemFactors\timg\n10001\tLeonardo DiCaprio\tHollywood, California, United States\tWrappedArray(0.15882988274097443, 0.4937964081764221, 0.2526535987854004, 0.45160892605781555, 0.042868953198194504)\timg/actors/10001.jpg\n10002\tAnthony Hopkins\tPort Talbot, Glamorgan, Wales\tWrappedArray(0.15884588658809662, 0.49381116032600403, 0.25262248516082764, 0.45161041617393494, 0.04287642613053322)\timg/actors/10002.jpg\n10003\tAl Pacino\tManhattan, New York, United States\tWrappedArray(0.1588449329137802, 0.49380478262901306, 0.25262245535850525, 0.45161792635917664, 0.042873263359069824)\timg/actors/10003.jpg\n10004\tMorgan Freeman\tMemphis, Tennessee, United States\tWrappedArray(0.15883861482143402, 0.49379363656044006, 0.252625048160553, 0.451632559299469, 0.04286683350801468)\timg/actors/10004.jpg\n10005\tJames Gandolfini\tWestwood, New Jersey, United States\tWrappedArray(0.1588440239429474, 0.49377766251564026, 0.2526138424873352, 0.4516589343547821, 0.04285498708486557)\timg/actors/10005.jpg\n10006\tTom Cruise\tSyracuse, New York, United States\tWrappedArray(0.15882936120033264, 0.49378833174705505, 0.2526525557041168, 0.4516197144985199, 0.04286365956068039)\timg/actors/10006.jpg\n10007\tDenzel Washington\tMount Vernon, New York, United States\tWrappedArray(0.1588248610496521, 0.4937731921672821, 0.2526175379753113, 0.4516667425632477, 0.04285707324743271)\timg/actors/10007.jpg\n10008\tRobert De Niro\tManhattan, New York, United States\tWrappedArray(0.15883082151412964, 0.4937887489795685, 0.25263819098472595, 0.45163094997406006, 0.042862605303525925)\timg/actors/10008.jpg\n10009\tChazz Palminteri\tBronx, New York, United States\tWrappedArray(0.158831387758255, 0.49378547072410583, 0.25262388586997986, 0.4516467750072479, 0.042856767773628235)\timg/actors/10009.jpg\n10010\tTom Hanks\tConcord, California, United States\tWrappedArray(0.15882240235805511, 0.49378159642219543, 0.252637654542923, 0.45164257287979126, 0.04285823181271553)\timg/actors/10010.jpg\n10011\tJohn Travolta\tEnglewood, New York, United States\tWrappedArray(0.1588500440120697, 0.49379783868789673, 0.25260472297668457, 0.4516419768333435, 0.04286111891269684)\timg/actors/10011.jpg\n10012\tJohnny Depp\tOwensboro, Kentucky, United States\tWrappedArray(0.1588355153799057, 0.4937949478626251, 0.2526535093784332, 0.4516103267669678, 0.042863622307777405)\timg/actors/10012.jpg\n10013\tMark Wahlberg\tBoston, Massachusetts, United States\tWrappedArray(0.15882699191570282, 0.49379122257232666, 0.2526445984840393, 0.45162418484687805, 0.04286183416843414)\timg/actors/10013.jpg\n10014\tJames Franco\tPalo Alto, California, United States\tWrappedArray(0.1588207483291626, 0.49377062916755676, 0.252644419670105, 0.4516489803791046, 0.04285585135221481)\timg/actors/10014.jpg\n10015\tClive Owen\tCoventry, Warwickshire, England\tWrappedArray(0.15878014266490936, 0.4937327206134796, 0.2526193857192993, 0.4517242908477783, 0.042841289192438126)\timg/actors/10015.jpg\n90001\tLinda Blair\tSt. Louis, Missouri, United States\tWrappedArray(0.15883855521678925, 0.4938051998615265, 0.2526385486125946, 0.4516083002090454, 0.04287420213222504)\timg/actors/90001.jpg\n90002\tShannon Whirry\tGreen Lake, Wisconsin, United States\tWrappedArray(0.15883979201316833, 0.49379962682724, 0.25264090299606323, 0.4516129493713379, 0.04287191852927208)\timg/actors/90002.jpg\n90003\tRosalind Allen\tWellington, New Zealand, New Zealand\tWrappedArray(0.15885049104690552, 0.4938144087791443, 0.2526140809059143, 0.45161324739456177, 0.042877327650785446)\timg/actors/90003.jpg\n90004\tBobbie Phillips\tSalisbury, North Carolina, United States\tWrappedArray(0.15882401168346405, 0.49378618597984314, 0.2526322603225708, 0.45163968205451965, 0.04286424443125725)\timg/actors/90004.jpg\n90005\tKeshia Knight Pulliam\tNewark, New Jersey, United States\tWrappedArray(0.15884488821029663, 0.4937923550605774, 0.25258713960647583, 0.45166251063346863, 0.04286038130521774)\timg/actors/90005.jpg\n90006\tTatyana Ali\tBrooklyn, New York, United States\tWrappedArray(0.15884576737880707, 0.49380916357040405, 0.25259363651275635, 0.45163702964782715, 0.04286894202232361)\timg/actors/90006.jpg\n90007\tAngell Conwell\tOrangeburg, South Carolina, United States\tWrappedArray(0.15884755551815033, 0.49380069971084595, 0.25259533524513245, 0.4516451358795166, 0.04286501929163933)\timg/actors/90007.jpg\n90008\tShannah Laumeister\tSan Francisco, California, United States\tWrappedArray(0.15884025394916534, 0.4937964975833893, 0.2526085078716278, 0.4516409933567047, 0.042868100106716156)\timg/actors/90008.jpg\n90009\tPam Grier\tWinstom-Salem, North Carolina, United States\tWrappedArray(0.15882474184036255, 0.4937785863876343, 0.2526111602783203, 0.45166411995887756, 0.04286230728030205)\timg/actors/90009.jpg\n90010\tTiffani Thiessen\tLong Beach, California, United States\tWrappedArray(0.15881162881851196, 0.49378323554992676, 0.2526637315750122, 0.45162180066108704, 0.042865149676799774)\timg/actors/90010.jpg\n90011\tAshley Judd\tGranada Hills, California, United States\tWrappedArray(0.15881936252117157, 0.49378684163093567, 0.25267016887664795, 0.45161011815071106, 0.042865242809057236)\timg/actors/90011.jpg\n90012\tStacey Dash\tBronx, New York, United States\tWrappedArray(0.15884634852409363, 0.4937397539615631, 0.2526232600212097, 0.45169535279273987, 0.04283631592988968)\timg/actors/90012.jpg\n90013\tSofia Vergara\tBarranquilla, Atlantico, Colombia\tWrappedArray(0.15882597863674164, 0.49377208948135376, 0.25264766812324524, 0.4516441226005554, 0.042855843901634216)\timg/actors/90013.jpg\n90014\tGail O\u0027Grady\tDetroit, Michigan, United States\tWrappedArray(0.15883216261863708, 0.493783563375473, 0.25266605615615845, 0.4516151547431946, 0.042858392000198364)\timg/actors/90014.jpg\n90015\tBarbara Niven\tPortland, Oregon, United States\tWrappedArray(0.1588398665189743, 0.49378830194473267, 0.2526414394378662, 0.4516274034976959, 0.04285944998264313)\timg/actors/90015.jpg\n"
+      },
+      "dateCreated": "Mar 1, 2016 10:45:39 PM",
+      "dateStarted": "Jun 28, 2016 1:26:04 AM",
+      "dateFinished": "Jun 28, 2016 1:26:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert into format needed by kMeans Cluster Algorithm",
+      "text": "import org.apache.spark.mllib.linalg.Vectors\n\nval enrichedDenseVectorItemFactorsDF \u003d\n  enrichedItemFactorsDF.select($\"itemId\", $\"title\", $\"tags\", $\"itemFactors\", $\"img\").map(row \u003d\u003e \n    (row.getLong(0), row.getString(1), row.getString(2), Vectors.dense(row.getSeq[Double](3).toArray), row.getString(4))\n  ).toDF(\"itemId\", \"title\", \"tags\", \"itemFactors\", \"img\")\n .sort($\"itemId\" asc)\n\nz.show(enrichedDenseVectorItemFactorsDF)",
+      "dateUpdated": "Jun 28, 2016 1:33:30 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461383105711_-2020963277",
+      "id": "20160423-034505_2083524461",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttags\titemFactors\timg\n10001\tLeonardo DiCaprio\tHollywood, California, United States\t[0.15882988274097443,0.4937964081764221,0.2526535987854004,0.45160892605781555,0.042868953198194504]\timg/actors/10001.jpg\n10002\tAnthony Hopkins\tPort Talbot, Glamorgan, Wales\t[0.15884588658809662,0.49381116032600403,0.25262248516082764,0.45161041617393494,0.04287642613053322]\timg/actors/10002.jpg\n10003\tAl Pacino\tManhattan, New York, United States\t[0.1588449329137802,0.49380478262901306,0.25262245535850525,0.45161792635917664,0.042873263359069824]\timg/actors/10003.jpg\n10004\tMorgan Freeman\tMemphis, Tennessee, United States\t[0.15883861482143402,0.49379363656044006,0.252625048160553,0.451632559299469,0.04286683350801468]\timg/actors/10004.jpg\n10005\tJames Gandolfini\tWestwood, New Jersey, United States\t[0.1588440239429474,0.49377766251564026,0.2526138424873352,0.4516589343547821,0.04285498708486557]\timg/actors/10005.jpg\n10006\tTom Cruise\tSyracuse, New York, United States\t[0.15882936120033264,0.49378833174705505,0.2526525557041168,0.4516197144985199,0.04286365956068039]\timg/actors/10006.jpg\n10007\tDenzel Washington\tMount Vernon, New York, United States\t[0.1588248610496521,0.4937731921672821,0.2526175379753113,0.4516667425632477,0.04285707324743271]\timg/actors/10007.jpg\n10008\tRobert De Niro\tManhattan, New York, United States\t[0.15883082151412964,0.4937887489795685,0.25263819098472595,0.45163094997406006,0.042862605303525925]\timg/actors/10008.jpg\n10009\tChazz Palminteri\tBronx, New York, United States\t[0.158831387758255,0.49378547072410583,0.25262388586997986,0.4516467750072479,0.042856767773628235]\timg/actors/10009.jpg\n10010\tTom Hanks\tConcord, California, United States\t[0.15882240235805511,0.49378159642219543,0.252637654542923,0.45164257287979126,0.04285823181271553]\timg/actors/10010.jpg\n10011\tJohn Travolta\tEnglewood, New York, United States\t[0.1588500440120697,0.49379783868789673,0.25260472297668457,0.4516419768333435,0.04286111891269684]\timg/actors/10011.jpg\n10012\tJohnny Depp\tOwensboro, Kentucky, United States\t[0.1588355153799057,0.4937949478626251,0.2526535093784332,0.4516103267669678,0.042863622307777405]\timg/actors/10012.jpg\n10013\tMark Wahlberg\tBoston, Massachusetts, United States\t[0.15882699191570282,0.49379122257232666,0.2526445984840393,0.45162418484687805,0.04286183416843414]\timg/actors/10013.jpg\n10014\tJames Franco\tPalo Alto, California, United States\t[0.1588207483291626,0.49377062916755676,0.252644419670105,0.4516489803791046,0.04285585135221481]\timg/actors/10014.jpg\n10015\tClive Owen\tCoventry, Warwickshire, England\t[0.15878014266490936,0.4937327206134796,0.2526193857192993,0.4517242908477783,0.042841289192438126]\timg/actors/10015.jpg\n90001\tLinda Blair\tSt. Louis, Missouri, United States\t[0.15883855521678925,0.4938051998615265,0.2526385486125946,0.4516083002090454,0.04287420213222504]\timg/actors/90001.jpg\n90002\tShannon Whirry\tGreen Lake, Wisconsin, United States\t[0.15883979201316833,0.49379962682724,0.25264090299606323,0.4516129493713379,0.04287191852927208]\timg/actors/90002.jpg\n90003\tRosalind Allen\tWellington, New Zealand, New Zealand\t[0.15885049104690552,0.4938144087791443,0.2526140809059143,0.45161324739456177,0.042877327650785446]\timg/actors/90003.jpg\n90004\tBobbie Phillips\tSalisbury, North Carolina, United States\t[0.15882401168346405,0.49378618597984314,0.2526322603225708,0.45163968205451965,0.04286424443125725]\timg/actors/90004.jpg\n90005\tKeshia Knight Pulliam\tNewark, New Jersey, United States\t[0.15884488821029663,0.4937923550605774,0.25258713960647583,0.45166251063346863,0.04286038130521774]\timg/actors/90005.jpg\n90006\tTatyana Ali\tBrooklyn, New York, United States\t[0.15884576737880707,0.49380916357040405,0.25259363651275635,0.45163702964782715,0.04286894202232361]\timg/actors/90006.jpg\n90007\tAngell Conwell\tOrangeburg, South Carolina, United States\t[0.15884755551815033,0.49380069971084595,0.25259533524513245,0.4516451358795166,0.04286501929163933]\timg/actors/90007.jpg\n90008\tShannah Laumeister\tSan Francisco, California, United States\t[0.15884025394916534,0.4937964975833893,0.2526085078716278,0.4516409933567047,0.042868100106716156]\timg/actors/90008.jpg\n90009\tPam Grier\tWinstom-Salem, North Carolina, United States\t[0.15882474184036255,0.4937785863876343,0.2526111602783203,0.45166411995887756,0.04286230728030205]\timg/actors/90009.jpg\n90010\tTiffani Thiessen\tLong Beach, California, United States\t[0.15881162881851196,0.49378323554992676,0.2526637315750122,0.45162180066108704,0.042865149676799774]\timg/actors/90010.jpg\n90011\tAshley Judd\tGranada Hills, California, United States\t[0.15881936252117157,0.49378684163093567,0.25267016887664795,0.45161011815071106,0.042865242809057236]\timg/actors/90011.jpg\n90012\tStacey Dash\tBronx, New York, United States\t[0.15884634852409363,0.4937397539615631,0.2526232600212097,0.45169535279273987,0.04283631592988968]\timg/actors/90012.jpg\n90013\tSofia Vergara\tBarranquilla, Atlantico, Colombia\t[0.15882597863674164,0.49377208948135376,0.25264766812324524,0.4516441226005554,0.042855843901634216]\timg/actors/90013.jpg\n90014\tGail O\u0027Grady\tDetroit, Michigan, United States\t[0.15883216261863708,0.493783563375473,0.25266605615615845,0.4516151547431946,0.042858392000198364]\timg/actors/90014.jpg\n90015\tBarbara Niven\tPortland, Oregon, United States\t[0.1588398665189743,0.49378830194473267,0.2526414394378662,0.4516274034976959,0.04285944998264313]\timg/actors/90015.jpg\n"
+      },
+      "dateCreated": "Apr 23, 2016 3:45:05 AM",
+      "dateStarted": "Jun 28, 2016 1:31:48 AM",
+      "dateFinished": "Jun 28, 2016 1:31:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Train K-Means Cluster Model",
+      "text": "import org.apache.spark.ml.clustering.KMeans\n\nval kmeans \u003d new KMeans()\n  .setK(5)\n  .setMaxIter(10)\n  .setFeaturesCol(\"itemFactors\")\n  .setPredictionCol(\"clusterId\")\n\nval kmeansModel \u003d kmeans.fit(enrichedDenseVectorItemFactorsDF)",
+      "dateUpdated": "Jun 28, 2016 1:31:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456869576746_-1994222589",
+      "id": "20160301-215936_103816347",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.clustering.KMeans\nkmeans: org.apache.spark.ml.clustering.KMeans \u003d kmeans_3567920893f5\nkmeansModel: org.apache.spark.ml.clustering.KMeansModel \u003d kmeans_3567920893f5\n"
+      },
+      "dateCreated": "Mar 1, 2016 9:59:36 PM",
+      "dateStarted": "Jun 28, 2016 1:31:55 AM",
+      "dateFinished": "Jun 28, 2016 1:32:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show cluster centers",
+      "text": "val clusterCenters \u003d kmeansModel.clusterCenters.mkString(\"\\n\")",
+      "dateUpdated": "Jun 28, 2016 1:33:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457234151390_-820318732",
+      "id": "20160306-031551_1012691012",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "clusterCenters: String \u003d \n[0.1588430454333623,0.49380480249722797,0.25262725353240967,0.4516158998012543,0.04287332855165005]\n[0.15878014266490936,0.4937327206134796,0.2526193857192993,0.4517242908477783,0.042841289192438126]\n[0.15884634852409363,0.4937397539615631,0.2526232600212097,0.45169535279273987,0.04283631592988968]\n[0.158839280406634,0.4937901629341973,0.25260619653595817,0.45165157980389065,0.042861633002758026]\n[0.15882682571044335,0.493785546376155,0.25264968092624956,0.45162645670083856,0.04286177542347175]\n"
+      },
+      "dateCreated": "Mar 6, 2016 3:15:51 AM",
+      "dateStarted": "Jun 28, 2016 1:33:51 AM",
+      "dateFinished": "Jun 28, 2016 1:33:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Evaluate K-Means Cluster Model Using Within Set Sum of Squared Errors (WSSSE)",
+      "text": "val WSSSE \u003d kmeansModel.computeCost(enrichedDenseVectorItemFactorsDF)\n\nprintln(\"Within Set Sum of Squared Errors \u003d \" + WSSSE)",
+      "dateUpdated": "Jun 28, 2016 1:34:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456863935154_-1530136782",
+      "id": "20160301-202535_1236869408",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "WSSSE: Double \u003d 1.1224204215815759E-8\nWithin Set Sum of Squared Errors \u003d 1.1224204215815759E-8\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:25:35 PM",
+      "dateStarted": "Jun 28, 2016 1:34:07 AM",
+      "dateFinished": "Jun 28, 2016 1:34:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "analyze the Clusters",
+      "text": "val enrichedClusteredItems \u003d kmeansModel.transform(enrichedDenseVectorItemFactorsDF)\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\", $\"itemFactors\")\n  .sort($\"clusterId\", $\"itemId\")\n  \nz.show(enrichedClusteredItems)",
+      "dateUpdated": "Jun 28, 2016 1:34:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456863935154_-1530136782",
+      "id": "20160301-202535_504888221",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\titemId\ttitle\ttags\titemFactors\n0\t10002\tAnthony Hopkins\tPort Talbot, Glamorgan, Wales\t[0.15884588658809662,0.49381116032600403,0.25262248516082764,0.45161041617393494,0.04287642613053322]\n0\t10003\tAl Pacino\tManhattan, New York, United States\t[0.1588449329137802,0.49380478262901306,0.25262245535850525,0.45161792635917664,0.042873263359069824]\n0\t10004\tMorgan Freeman\tMemphis, Tennessee, United States\t[0.15883861482143402,0.49379363656044006,0.252625048160553,0.451632559299469,0.04286683350801468]\n0\t90001\tLinda Blair\tSt. Louis, Missouri, United States\t[0.15883855521678925,0.4938051998615265,0.2526385486125946,0.4516083002090454,0.04287420213222504]\n0\t90002\tShannon Whirry\tGreen Lake, Wisconsin, United States\t[0.15883979201316833,0.49379962682724,0.25264090299606323,0.4516129493713379,0.04287191852927208]\n0\t90003\tRosalind Allen\tWellington, New Zealand, New Zealand\t[0.15885049104690552,0.4938144087791443,0.2526140809059143,0.45161324739456177,0.042877327650785446]\n1\t10015\tClive Owen\tCoventry, Warwickshire, England\t[0.15878014266490936,0.4937327206134796,0.2526193857192993,0.4517242908477783,0.042841289192438126]\n2\t90012\tStacey Dash\tBronx, New York, United States\t[0.15884634852409363,0.4937397539615631,0.2526232600212097,0.45169535279273987,0.04283631592988968]\n3\t10005\tJames Gandolfini\tWestwood, New Jersey, United States\t[0.1588440239429474,0.49377766251564026,0.2526138424873352,0.4516589343547821,0.04285498708486557]\n3\t10007\tDenzel Washington\tMount Vernon, New York, United States\t[0.1588248610496521,0.4937731921672821,0.2526175379753113,0.4516667425632477,0.04285707324743271]\n3\t10009\tChazz Palminteri\tBronx, New York, United States\t[0.158831387758255,0.49378547072410583,0.25262388586997986,0.4516467750072479,0.042856767773628235]\n3\t10011\tJohn Travolta\tEnglewood, New York, United States\t[0.1588500440120697,0.49379783868789673,0.25260472297668457,0.4516419768333435,0.04286111891269684]\n3\t90005\tKeshia Knight Pulliam\tNewark, New Jersey, United States\t[0.15884488821029663,0.4937923550605774,0.25258713960647583,0.45166251063346863,0.04286038130521774]\n3\t90006\tTatyana Ali\tBrooklyn, New York, United States\t[0.15884576737880707,0.49380916357040405,0.25259363651275635,0.45163702964782715,0.04286894202232361]\n3\t90007\tAngell Conwell\tOrangeburg, South Carolina, United States\t[0.15884755551815033,0.49380069971084595,0.25259533524513245,0.4516451358795166,0.04286501929163933]\n3\t90008\tShannah Laumeister\tSan Francisco, California, United States\t[0.15884025394916534,0.4937964975833893,0.2526085078716278,0.4516409933567047,0.042868100106716156]\n3\t90009\tPam Grier\tWinstom-Salem, North Carolina, United States\t[0.15882474184036255,0.4937785863876343,0.2526111602783203,0.45166411995887756,0.04286230728030205]\n4\t10001\tLeonardo DiCaprio\tHollywood, California, United States\t[0.15882988274097443,0.4937964081764221,0.2526535987854004,0.45160892605781555,0.042868953198194504]\n4\t10006\tTom Cruise\tSyracuse, New York, United States\t[0.15882936120033264,0.49378833174705505,0.2526525557041168,0.4516197144985199,0.04286365956068039]\n4\t10008\tRobert De Niro\tManhattan, New York, United States\t[0.15883082151412964,0.4937887489795685,0.25263819098472595,0.45163094997406006,0.042862605303525925]\n4\t10010\tTom Hanks\tConcord, California, United States\t[0.15882240235805511,0.49378159642219543,0.252637654542923,0.45164257287979126,0.04285823181271553]\n4\t10012\tJohnny Depp\tOwensboro, Kentucky, United States\t[0.1588355153799057,0.4937949478626251,0.2526535093784332,0.4516103267669678,0.042863622307777405]\n4\t10013\tMark Wahlberg\tBoston, Massachusetts, United States\t[0.15882699191570282,0.49379122257232666,0.2526445984840393,0.45162418484687805,0.04286183416843414]\n4\t10014\tJames Franco\tPalo Alto, California, United States\t[0.1588207483291626,0.49377062916755676,0.252644419670105,0.4516489803791046,0.04285585135221481]\n4\t90004\tBobbie Phillips\tSalisbury, North Carolina, United States\t[0.15882401168346405,0.49378618597984314,0.2526322603225708,0.45163968205451965,0.04286424443125725]\n4\t90010\tTiffani Thiessen\tLong Beach, California, United States\t[0.15881162881851196,0.49378323554992676,0.2526637315750122,0.45162180066108704,0.042865149676799774]\n4\t90011\tAshley Judd\tGranada Hills, California, United States\t[0.15881936252117157,0.49378684163093567,0.25267016887664795,0.45161011815071106,0.042865242809057236]\n4\t90013\tSofia Vergara\tBarranquilla, Atlantico, Colombia\t[0.15882597863674164,0.49377208948135376,0.25264766812324524,0.4516441226005554,0.042855843901634216]\n4\t90014\tGail O\u0027Grady\tDetroit, Michigan, United States\t[0.15883216261863708,0.493783563375473,0.25266605615615845,0.4516151547431946,0.042858392000198364]\n4\t90015\tBarbara Niven\tPortland, Oregon, United States\t[0.1588398665189743,0.49378830194473267,0.2526414394378662,0.4516274034976959,0.04285944998264313]\n"
+      },
+      "dateCreated": "Mar 1, 2016 8:25:35 PM",
+      "dateStarted": "Jun 28, 2016 1:34:13 AM",
+      "dateFinished": "Jun 28, 2016 1:34:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Jun 28, 2016 1:25:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457495167453_2000814305",
+      "id": "20160309-034607_2033288424",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 9, 2016 3:46:07 AM",
+      "dateStarted": "Jun 28, 2016 1:25:52 AM",
+      "dateFinished": "Jun 28, 2016 1:25:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/05: Item-to-Item Collab Filtering Cluster Recs (ALS + K-Means)",
+  "id": "2BDVAZRNT",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

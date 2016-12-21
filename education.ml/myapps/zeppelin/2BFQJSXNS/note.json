@@ -1,0 +1,169 @@
+{
+  "paragraphs": [
+    {
+      "text": "//val membersArray \u003d sqlContext.read\n//  .format(\"com.databricks.spark.csv\")\n//  .option(\"header\", \"false\") \n//  .option(\"inferSchema\", \"true\") \n//  .load(\"/\u003clist-of-whatever\u003e\")\n//  .select($\"C0\", $\"C8\")\n//  .toDF(\"member\", \"memberUrl\")\n//  .map(row \u003d\u003e (row.getString(0), row.getString(1)))\n//  .collect()",
+      "dateUpdated": "Jun 15, 2016 10:30:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460513116915_1708594940",
+      "id": "20160413-020516_229951153",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: file:/\u003clist-of-whatever\u003e\n\tat org.apache.hadoop.mapred.FileInputFormat.singleThreadedListStatus(FileInputFormat.java:285)\n\tat org.apache.hadoop.mapred.FileInputFormat.listStatus(FileInputFormat.java:228)\n\tat org.apache.hadoop.mapred.FileInputFormat.getSplits(FileInputFormat.java:313)\n\tat org.apache.spark.rdd.HadoopRDD.getPartitions(HadoopRDD.scala:199)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:239)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:237)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.rdd.RDD.partitions(RDD.scala:237)\n\tat org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:239)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:237)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.rdd.RDD.partitions(RDD.scala:237)\n\tat org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:35)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:239)\n\tat org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:237)\n\tat scala.Option.getOrElse(Option.scala:120)\n\tat org.apache.spark.rdd.RDD.partitions(RDD.scala:237)\n\tat org.apache.spark.rdd.RDD$$anonfun$take$1.apply(RDD.scala:1307)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.take(RDD.scala:1302)\n\tat org.apache.spark.rdd.RDD$$anonfun$first$1.apply(RDD.scala:1342)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:150)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:111)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:316)\n\tat org.apache.spark.rdd.RDD.first(RDD.scala:1341)\n\tat com.databricks.spark.csv.CsvRelation.firstLine$lzycompute(CsvRelation.scala:267)\n\tat com.databricks.spark.csv.CsvRelation.firstLine(CsvRelation.scala:263)\n\tat com.databricks.spark.csv.CsvRelation.inferSchema(CsvRelation.scala:240)\n\tat com.databricks.spark.csv.CsvRelation.\u003cinit\u003e(CsvRelation.scala:73)\n\tat com.databricks.spark.csv.DefaultSource.createRelation(DefaultSource.scala:162)\n\tat com.databricks.spark.csv.DefaultSource.createRelation(DefaultSource.scala:44)\n\tat org.apache.spark.sql.execution.datasources.ResolvedDataSource$.apply(ResolvedDataSource.scala:158)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:119)\n\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:31)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:44)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:46)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:50)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:52)\n\tat \u003cinit\u003e(\u003cconsole\u003e:54)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Apr 13, 2016 2:05:16 AM",
+      "dateStarted": "Jun 15, 2016 10:27:48 PM",
+      "dateFinished": "Jun 15, 2016 10:28:16 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\n\n// Generate a random double RDD that contains 1 million i.i.d. values drawn from the\n// uniform distribution `N(0.0, 1.0)`, evenly distributed in 10 partitions.\nval u \u003d uniformRDD(sc, 1000000L, 2)\n//val uniformIds \u003d u.collect()\n\n// To transform the distribution in the generated RDD from `U(0.0, 1.0)` to `U(a, b)`, \n//  use uniformIds.map(v \u003d\u003e a + (b - a) * v)`.\nval v \u003d u.map(id \u003d\u003e (0 + 100 * id).toInt).map(id \u003d\u003e id % 76 + 97)\nval ids \u003d v.take(1)\n\n// scala.util.Random.nextInt generates an Int between 0 inclusive, \u003cvalue\u003e exclusive\n//val winnersDF \u003d sc.parallelize((0 to 100).map(x \u003d\u003e membersArray(Random.nextInt(433)))).toDF(\"member\", \"memberUrl\")\n\nval winner \u003d sc.parallelize(ids).toDF(\"winner\")\n",
+      "dateUpdated": "Jun 30, 2016 2:51:19 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 370.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460512761685_-1001113298",
+      "id": "20160413-015921_2053145450",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.SparkContext\nimport org.apache.spark.mllib.random.RandomRDDs._\nimport scala.util.Random\nu: org.apache.spark.rdd.RDD[Double] \u003d RandomRDD[0] at RDD at RandomRDD.scala:38\nv: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[2] at map at \u003cconsole\u003e:40\nids: Array[Int] \u003d Array(148)\nwinner: org.apache.spark.sql.DataFrame \u003d [winner: int]\n"
+      },
+      "dateCreated": "Apr 13, 2016 1:59:21 AM",
+      "dateStarted": "Jun 30, 2016 2:51:19 AM",
+      "dateFinished": "Jun 30, 2016 2:51:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "z.show(winner)",
+      "dateUpdated": "Jun 30, 2016 2:52:02 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "winner",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "winner",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464315527230_691296747",
+      "id": "20160527-021847_1757368447",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "winner\n148\n"
+      },
+      "dateCreated": "May 27, 2016 2:18:47 AM",
+      "dateStarted": "Jun 30, 2016 2:52:02 AM",
+      "dateFinished": "Jun 30, 2016 2:52:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 15, 2016 10:32:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464315630931_576411713",
+      "id": "20160527-022030_579884781",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "May 27, 2016 2:20:30 AM",
+      "dateStarted": "Jun 15, 2016 10:28:18 PM",
+      "dateFinished": "Jun 15, 2016 10:28:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Statistics/01: Random Numbers",
+  "id": "2BFQJSXNS",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

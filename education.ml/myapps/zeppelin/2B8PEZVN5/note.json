@@ -1,0 +1,502 @@
+{
+  "paragraphs": [
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/ratings-lrg.csv\").toDF(\"userId\", \"movieId\", \"rating\", \"timestamp\")\n  \nz.show(itemsDF)",
+      "dateUpdated": "Feb 8, 2016 7:48:47 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_163005686",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tmovieId\trating\ttimestamp\n1\t50\t4.0\t1329753504\n1\t296\t4.0\t1329753602\n1\t318\t4.5\t1329753494\n1\t527\t4.5\t1329753507\n1\t541\t3.0\t1329753607\n1\t608\t4.0\t1329753638\n1\t750\t3.0\t1329753525\n1\t858\t4.5\t1329753498\n1\t1197\t4.5\t1329753573\n1\t1213\t4.5\t1329753565\n1\t1476\t4.0\t1329753106\n1\t1945\t4.0\t1329753569\n1\t1957\t4.0\t1329753070\n1\t2108\t3.5\t1329753057\n1\t2301\t4.0\t1329753190\n1\t2333\t4.0\t1329753182\n1\t2352\t4.0\t1329753079\n1\t2371\t3.5\t1329753082\n1\t2375\t3.5\t1329753221\n1\t2571\t4.5\t1329753546\n1\t2858\t4.5\t1329753561\n1\t2872\t4.0\t1329753092\n1\t3060\t4.0\t1329753137\n1\t3105\t3.5\t1329753086\n1\t3178\t2.5\t1329753176\n1\t3257\t2.5\t1329753115\n1\t3481\t4.5\t1329753799\n1\t3578\t4.5\t1329753859\n1\t3868\t3.5\t1329753065\n1\t3897\t5.0\t1329753716\n1\t3911\t4.0\t1329753998\n1\t3949\t4.0\t1329753900\n1\t4011\t3.5\t1329753904\n1\t4027\t4.0\t1329753895\n1\t4226\t3.5\t1329753434\n1\t4235\t4.5\t1329753897\n1\t4783\t5.0\t1329754027\n1\t4963\t3.5\t1329753976\n1\t4979\t5.0\t1329753751\n1\t4993\t4.0\t1329753445\n1\t4995\t5.0\t1329753888\n1\t5013\t3.0\t1329753103\n1\t5225\t4.5\t1329753709\n1\t5319\t4.0\t1329754078\n1\t5349\t3.5\t1329753867\n1\t5445\t3.5\t1329753973\n1\t5878\t4.0\t1329753704\n1\t5902\t4.0\t1329753825\n1\t5952\t4.0\t1329753457\n1\t5989\t4.0\t1329753837\n1\t6331\t4.5\t1329753749\n1\t6380\t5.0\t1329753988\n1\t6620\t4.0\t1329753969\n1\t6711\t4.5\t1329753821\n1\t7139\t4.5\t1329753830\n1\t7153\t4.5\t1329753599\n1\t7256\t4.0\t1329753948\n1\t7361\t5.0\t1329753448\n1\t8464\t4.0\t1329753755\n1\t8636\t4.5\t1329753851\n1\t8784\t5.0\t1329753697\n1\t8873\t3.5\t1329753702\n1\t8910\t3.0\t1329754284\n1\t8949\t4.0\t1329753693\n1\t8961\t4.5\t1329753924\n1\t8973\t3.5\t1329754009\n1\t30707\t3.5\t1329753712\n1\t30810\t3.0\t1329754281\n1\t32587\t3.5\t1329753937\n1\t33166\t4.0\t1329753906\n1\t38061\t3.5\t1329753962\n1\t38886\t4.5\t1329753743\n1\t40819\t3.5\t1329753817\n1\t41997\t4.0\t1329754213\n1\t44191\t4.0\t1329753920\n1\t44195\t4.0\t1329753863\n1\t44555\t4.5\t1329753424\n1\t46578\t4.0\t1329753833\n1\t48394\t5.0\t1329753918\n1\t48516\t4.0\t1329753452\n1\t49272\t3.0\t1329754120\n1\t50872\t4.5\t1329754003\n1\t53123\t4.5\t1329754021\n1\t55069\t4.5\t1329753739\n1\t55442\t5.0\t1329753688\n1\t55820\t4.0\t1329753994\n1\t56367\t3.5\t1329753875\n1\t57669\t3.5\t1329753913\n1\t58559\t3.0\t1329753428\n1\t59315\t3.0\t1329754126\n1\t60069\t4.0\t1329753916\n1\t60766\t4.5\t1329754092\n1\t61240\t2.0\t1329753811\n1\t63082\t5.0\t1329754040\n1\t64614\t4.0\t1329754223\n1\t64839\t4.0\t1329754064\n1\t66934\t4.5\t1329753437\n1\t68157\t4.0\t1329754109\n1\t68358\t4.5\t1329754047\n1\t68954\t4.0\t1329753942\n1\t69757\t4.0\t1329754188\n1\t79132\t4.0\t1329753531\n1\t91630\t2.5\t1329753268\n1\t91658\t3.0\t1329753263\n2\t19\t1.0\t1203077567\n2\t31\t4.5\t1202841563\n2\t44\t0.5\t1202841543\n2\t47\t4.5\t1202846082\n2\t110\t4.0\t1203076744\n2\t111\t3.5\t1203077002\n2\t163\t4.0\t1203077854\n2\t185\t3.0\t1203076926\n2\t208\t4.0\t1203076907\n2\t231\t1.0\t1203076858\n2\t253\t5.0\t1203076913\n2\t260\t3.0\t1203076749\n2\t296\t4.5\t1203076721\n2\t337\t5.0\t1202915160\n2\t350\t3.5\t1203077674\n2\t356\t4.5\t1203076725\n2\t364\t5.0\t1203076828\n2\t367\t2.0\t1202846118\n2\t377\t3.5\t1202845592\n2\t454\t3.0\t1203076919\n2\t500\t3.5\t1203076833\n2\t509\t4.5\t1203077637\n2\t520\t1.5\t1203077859\n2\t588\t4.0\t1203076786\n2\t589\t0.5\t1202845009\n2\t593\t5.0\t1203076734\n2\t595\t4.0\t1202845982\n2\t597\t4.0\t1202846094\n2\t708\t3.5\t1203077669\n2\t780\t3.0\t1203076761\n2\t832\t4.0\t1203077759\n2\t858\t5.0\t1202842430\n2\t920\t3.5\t1203077736\n2\t1036\t1.0\t1202922634\n2\t1061\t5.0\t1202842444\n2\t1073\t4.0\t1203076891\n2\t1101\t3.5\t1203077610\n2\t1183\t4.5\t1203077690\n2\t1193\t5.0\t1202842560\n2\t1240\t0.5\t1202846099\n2\t1246\t5.0\t1203077658\n2\t1247\t5.0\t1203077767\n2\t1270\t2.0\t1203076813\n2\t1380\t4.5\t1203077779\n2\t1391\t1.0\t1203077716\n2\t1407\t1.0\t1203077699\n2\t1485\t1.0\t1203077708\n2\t1517\t0.5\t1203077547\n2\t1527\t3.0\t1203076687\n2\t1537\t2.0\t1202841760\n2\t1580\t1.0\t1202845049\n2\t1645\t5.0\t1202841994\n2\t1682\t3.5\t1203077625\n2\t1688\t4.5\t1202841813\n2\t1721\t4.5\t1202844992\n2\t1735\t4.5\t1202841865\n2\t1835\t4.5\t1202844448\n2\t1917\t4.5\t1202922637\n2\t2011\t1.0\t1203077687\n2\t2380\t1.0\t1202841907\n2\t2396\t4.0\t1202845995\n2\t2485\t4.0\t1202841681\n2\t2571\t5.0\t1203076803\n2\t2692\t4.0\t1203077818\n2\t2701\t0.5\t1202841552\n2\t2706\t1.0\t1203077565\n2\t2710\t3.5\t1203077642\n2\t2719\t1.0\t1202841707\n2\t2724\t3.0\t1202841604\n2\t2762\t5.0\t1203076861\n2\t2858\t5.0\t1202937995\n2\t2959\t5.0\t1202842397\n2\t2997\t4.0\t1203076967\n2\t3147\t5.0\t1203077751\n2\t3479\t5.0\t1202842512\n2\t3578\t4.5\t1202842964\n2\t3744\t3.5\t1202841776\n2\t3751\t3.0\t1203077791\n2\t3753\t4.0\t1202843197\n2\t3793\t2.0\t1202845000\n2\t3910\t3.5\t1202843466\n2\t3977\t1.5\t1202846138\n2\t4022\t3.0\t1202846044\n2\t4155\t4.5\t1202844413\n2\t4226\t4.0\t1202842327\n2\t4259\t4.5\t1202937755\n2\t4306\t4.5\t1202842323\n2\t4308\t5.0\t1202842385\n2\t4372\t4.0\t1202844130\n2\t4720\t4.0\t1202843078\n2\t4874\t5.0\t1202842714\n2\t4901\t3.5\t1202843299\n2\t4973\t4.5\t1202842876\n2\t4975\t2.5\t1202844386\n2\t4993\t2.5\t1202842887\n2\t4995\t4.5\t1202842939\n2\t5218\t4.0\t1202843238\n2\t5349\t2.0\t1202842295\n2\t5418\t1.5\t1202844002\n2\t5445\t3.5\t1203077652\n2\t5668\t3.0\t1202842808\n2\t5791\t4.0\t1203077133\n2\t5878\t4.0\t1202843895\n2\t5903\t4.0\t1202842927\n2\t5952\t3.5\t1202842868\n2\t5989\t4.0\t1202841516\n2\t5991\t5.0\t1202843259\n2\t5992\t4.0\t1202915281\n2\t5995\t4.0\t1202843780\n2\t6059\t4.0\t1202844260\n2\t6218\t1.0\t1202843310\n2\t6377\t3.5\t1203077798\n2\t6539\t4.5\t1202842915\n2\t6542\t3.5\t1202915253\n2\t6662\t1.0\t1202937523\n2\t6870\t4.5\t1202937664\n2\t6874\t1.5\t1202843042\n2\t6927\t4.0\t1202914926\n2\t6942\t3.0\t1202843038\n2\t7147\t4.5\t1202842948\n2\t7151\t3.0\t1202843338\n2\t7153\t4.0\t1202842855\n2\t7162\t3.0\t1202843269\n2\t7254\t2.5\t1202842776\n2\t7293\t4.0\t1202844204\n2\t7361\t4.5\t1202914835\n2\t7362\t4.0\t1202915059\n2\t7364\t4.0\t1202843104\n2\t7438\t1.5\t1202843044\n2\t8464\t1.0\t1202844823\n2\t8533\t5.0\t1202842591\n2\t8598\t5.0\t1202842369\n2\t8636\t1.0\t1202844069\n2\t8665\t1.5\t1202841594\n2\t8833\t3.0\t1202844274\n2\t8866\t4.0\t1202844100\n2\t8958\t4.5\t1202843007\n2\t8970\t4.5\t1202842956\n2\t8981\t4.0\t1202842834\n2\t8983\t3.0\t1202841879\n2\t9010\t5.0\t1202842409\n2\t27821\t4.0\t1202914899\n2\t30707\t5.0\t1202843707\n2\t30848\t4.5\t1202937440\n2\t32587\t2.5\t1202843020\n2\t33660\t4.5\t1202842881\n2\t33679\t3.0\t1202844364\n2\t33794\t3.0\t1202842899\n2\t34162\t3.0\t1202844289\n2\t34437\t3.0\t1202843427\n2\t35836\t1.5\t1202843365\n2\t36525\t3.5\t1202844084\n2\t36527\t4.0\t1202844253\n2\t36529\t4.0\t1202915305\n2\t37729\t4.5\t1202842811\n2\t37731\t4.5\t1202842997\n2\t40815\t1.0\t1202843227\n2\t40819\t4.0\t1202842982\n2\t41285\t4.5\t1202843687\n2\t41571\t2.5\t1202843279\n2\t42728\t1.0\t1202843134\n2\t44191\t4.0\t1202843018\n2\t44665\t4.0\t1202842872\n2\t44694\t4.0\t1202843938\n2\t45081\t1.0\t1202844190\n2\t45880\t1.5\t1202914801\n2\t46723\t4.5\t1202843393\n2\t47202\t4.0\t1204211591\n2\t48416\t1.0\t1202842737\n2\t48516\t4.5\t1202915359\n2\t48738\t4.5\t1202843652\n2\t48774\t2.5\t1202846116\n2\t48780\t4.0\t1202842859\n2\t49272\t3.5\t1202842994\n2\t49530\t5.0\t1202842919\n2\t50068\t3.5\t1202938032\n2\t51540\t4.0\t1202843976\n2\t51662\t3.5\t1202841859\n2\t53207\t3.5\t1202845061\n2\t53519\t3.5\t1202843482\n2\t53953\t4.0\t1202844295\n2\t53956\t4.5\t1202842793\n2\t54286\t1.5\t1202843989\n2\t54997\t1.5\t1202844877\n2\t55363\t2.5\t1202915330\n2\t56174\t2.0\t1202844323\n3\t20\t4.0\t986002647\n3\t32\t5.0\t986003563\n3\t36\t2.0\t986003699\n3\t39\t1.0\t986003645\n3\t47\t4.0\t986002941\n3\t111\t4.0\t986003262\n3\t246\t4.0\t986003214\n3\t296\t5.0\t986003347\n3\t356\t4.0\t986002617\n3\t778\t5.0\t986003601\n3\t780\t2.0\t986002570\n3\t858\t5.0\t986003186\n3\t1089\t5.0\t986003463\n3\t1213\t4.0\t986003262\n3\t1617\t4.0\t986002585\n3\t1625\t5.0\t986003781\n3\t1732\t3.0\t986003662\n3\t1885\t2.0\t986003699\n3\t1997\t5.0\t986002888\n3\t2023\t5.0\t986002634\n3\t2273\t3.0\t986003847\n3\t2329\t5.0\t986003699\n3\t2542\t5.0\t986003636\n3\t2692\t5.0\t986003490\n3\t2700\t5.0\t986003620\n3\t2762\t5.0\t986003675\n3\t2858\t5.0\t986003463\n3\t3246\t5.0\t986003699\n3\t3617\t4.0\t986002979\n3\t3948\t5.0\t986002964\n3\t4034\t5.0\t986002774\n4\t2\t5.0\t829042027\n4\t10\t5.0\t829042027\n4\t11\t5.0\t829041064\n4\t14\t5.0\t829041064\n4\t16\t4.0\t829041064\n4\t25\t4.0\t829041064\n4\t32\t4.0\t829041064\n4\t34\t5.0\t829041667\n4\t39\t4.0\t829041667\n4\t41\t5.0\t829042027\n4\t43\t5.0\t829042027\n4\t76\t5.0\t829042027\n4\t95\t5.0\t829041064\n4\t107\t5.0\t829041064\n4\t112\t4.0\t829042027\n4\t135\t5.0\t829041064\n4\t141\t1.0\t829041064\n4\t150\t5.0\t829041667\n4\t151\t4.0\t829041668\n4\t153\t2.0\t829041667\n4\t158\t5.0\t829041667\n4\t165\t4.0\t829041667\n4\t172\t3.0\t829041667\n4\t173\t5.0\t829041667\n4\t174\t4.0\t829041667\n4\t177\t4.0\t829041667\n4\t185\t5.0\t829041668\n4\t186\t3.0\t829041668\n4\t193\t5.0\t829041668\n4\t203\t2.0\t829041668\n4\t204\t4.0\t829041668\n4\t208\t5.0\t829041668\n4\t222\t4.0\t829041667\n4\t225\t4.0\t829041667\n4\t227\t4.0\t829041667\n4\t231\t1.0\t829041667\n4\t253\t4.0\t829041667\n4\t257\t5.0\t829041667\n4\t260\t4.0\t829041667\n4\t261\t5.0\t829041667\n4\t265\t4.0\t829041667\n4\t266\t4.0\t829041667\n4\t272\t4.0\t829041668\n4\t273\t4.0\t829041668\n4\t288\t1.0\t829041668\n4\t292\t4.0\t829041668\n4\t296\t3.0\t829041668\n4\t300\t3.0\t829041668\n4\t304\t3.0\t829041668\n4\t316\t5.0\t829041668\n4\t317\t4.0\t829041668\n4\t329\t5.0\t829041668\n4\t330\t3.0\t829041668\n4\t339\t5.0\t829041668\n4\t349\t5.0\t829041667\n4\t380\t5.0\t829041668\n4\t381\t4.0\t829041668\n4\t432\t4.0\t829041667\n4\t434\t5.0\t829041667\n4\t443\t5.0\t829041667\n4\t553\t4.0\t829041668\n4\t590\t5.0\t829041667\n4\t592\t4.0\t829041667\n4\t637\t5.0\t829042027\n5\t1\t3.0\t855510130\n5\t6\t4.0\t855510154\n5\t11\t3.0\t855511869\n5\t32\t3.0\t855510130\n5\t39\t3.0\t855514679\n5\t62\t4.0\t855510130\n5\t65\t1.0\t855513520\n5\t94\t3.0\t855511153\n5\t105\t2.0\t855512190\n5\t110\t5.0\t855510860\n5\t150\t4.0\t855510690\n5\t160\t3.0\t855513221\n5\t161\t3.0\t855511097\n5\t165\t4.0\t855512822\n5\t173\t3.0\t855513554\n5\t188\t4.0\t855514138\n5\t196\t2.0\t855513095\n5\t231\t4.0\t855513302\n5\t253\t4.0\t855513255\n5\t258\t2.0\t855513238\n5\t260\t5.0\t855510194\n5\t262\t1.0\t855511923\n5\t288\t3.0\t855512227\n5\t292\t4.0\t855511235\n5\t296\t3.0\t855513637\n5\t300\t4.0\t855510887\n5\t327\t3.0\t855513238\n5\t339\t4.0\t855513183\n5\t344\t3.0\t855512973\n5\t345\t3.0\t855511682\n5\t350\t3.0\t855514409\n5\t356\t4.0\t855510653\n5\t357\t3.0\t855512074\n5\t362\t3.0\t855510934\n5\t366\t3.0\t855515375\n5\t368\t3.0\t855511153\n5\t370\t3.0\t855511992\n5\t377\t4.0\t855512808\n5\t379\t3.0\t855512914\n5\t380\t3.0\t855512513\n5\t407\t3.0\t855514487\n5\t434\t3.0\t855514235\n5\t435\t3.0\t855513155\n5\t441\t3.0\t855512354\n5\t445\t3.0\t855511792\n5\t454\t3.0\t855514277\n5\t457\t4.0\t855510653\n5\t458\t3.0\t855511272\n5\t466\t3.0\t855514409\n5\t480\t3.0\t855510653\n5\t481\t4.0\t855511218\n5\t484\t3.0\t855512694\n5\t485\t3.0\t855513032\n5\t493\t3.0\t855513806\n5\t500\t3.0\t855511218\n5\t509\t4.0\t855511923\n5\t512\t3.0\t855514607\n5\t514\t3.0\t855510996\n5\t520\t3.0\t855512731\n5\t527\t5.0\t855510652\n5\t539\t2.0\t855514450\n5\t543\t3.0\t855512228\n5\t551\t3.0\t855511597\n5\t586\t3.0\t855511959\n5\t587\t3.0\t855512010\n5\t588\t3.0\t855512285\n5\t589\t4.0\t855511597\n5\t590\t4.0\t855510653\n5\t592\t3.0\t855515525\n5\t593\t4.0\t855510690\n5\t594\t3.0\t855514570\n5\t597\t3.0\t855512470\n5\t608\t4.0\t855510154\n5\t610\t4.0\t855514472\n5\t611\t3.0\t855512860\n5\t631\t1.0\t855515375\n5\t648\t3.0\t855510130\n5\t663\t4.0\t855510267\n5\t671\t3.0\t855510242\n5\t733\t3.0\t855510154\n5\t743\t3.0\t855515493\n5\t750\t4.0\t855510799\n5\t778\t3.0\t855510214\n5\t780\t3.0\t855510130\n5\t784\t3.0\t855510176\n5\t785\t4.0\t855514100\n5\t786\t3.0\t855515493\n5\t788\t3.0\t855510176\n5\t828\t3.0\t855512310\n5\t838\t1.0\t855511066\n5\t858\t4.0\t855510860\n5\t903\t4.0\t855510972\n5\t914\t3.0\t855512116\n5\t917\t1.0\t855512669\n5\t919\t4.0\t855511218\n5\t920\t4.0\t855512228\n5\t924\t4.0\t855510746\n5\t934\t3.0\t855512374\n5\t952\t3.0\t855512513\n5\t953\t3.0\t855511733\n5\t968\t4.0\t855512151\n5\t1017\t3.0\t855515436\n5\t1019\t4.0\t855514116\n5\t1020\t3.0\t855511992\n5\t1022\t2.0\t855511682\n5\t1023\t3.0\t855514032\n5\t1027\t3.0\t855511066\n5\t1028\t3.0\t855511066\n5\t1029\t3.0\t855515421\n5\t1030\t3.0\t855514570\n5\t1032\t3.0\t855511097\n5\t1036\t3.0\t855510996\n5\t1037\t3.0\t855512310\n5\t1050\t3.0\t855515329\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:48:47 PM",
+      "dateFinished": "Feb 8, 2016 7:49:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert CSV-based DataFrame into TaggedItems",
+      "text": "import org.apache.spark.sql.Row\nimport com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\n//import com.advancedspark.ml.TaggedItem\n\n//val itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n//  val id \u003d row.getInt(0)\n//  val title \u003d row.getString(1)\n//  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n//  TaggedItem(id, title, tags)\n//}).cache()\n\nval numHashes \u003d 5\nval numBands \u003d 1\n//val minApproxJaccardSimilarityThreshold \u003d 0.1\n//val numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\ncase class MinHashTaggedItem(id: Long, title: String, combinedTagSignature: MinHashSignature) {\n  override def toString: String \u003d id + \", \" + title + \", \" + combinedTagSignature\n}\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  val tagSignatures \u003d tags.map(tag \u003d\u003e minHasher.init(tag))\n  val combinedTagSignature \u003d minHasher.sum(tagSignatures)\n  \n  MinHashTaggedItem(id, title, tags, combinedTagSignature)\n}).cache()\n\nitemsRDD.count()\nitemsRDD.collect()\n\nval itemBucketsDF \u003d itemsRDD.flatMap(item \u003d\u003e {\n  val buckets \u003d minHasher.buckets(item.combinedTagSignature)\n  buckets.map(bucket \u003d\u003e \n    (bucket, Seq((item.id, item.title, item.combinedTagSignature))) // Using Seq so we can reduce\n  )\n}).reduceByKey(_ ++ _).toDF()\n\nz.show(itemBucketsDF)\n\n//.collect()\n//  .zipWithIndex.map((bucketId, id) \u003d\u003e println)\n//  .collect().size\n",
+      "dateUpdated": "Feb 8, 2016 7:48:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "_1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "_2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "_1",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "_2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_571655084",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\nnumHashes: Int \u003d 5\nnumBands: Int \u003d 1\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@557194a1\ndefined class MinHashTaggedItem\n\u003cconsole\u003e:47: error: too many arguments for method apply: (id: Long, title: String, combinedTagSignature: com.twitter.algebird.MinHashSignature)MinHashTaggedItem in object MinHashTaggedItem\n         MinHashTaggedItem(id, title, tags, combinedTagSignature)\n                          ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:48:50 PM",
+      "dateFinished": "Feb 8, 2016 7:49:08 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))\n\n//tagCountsRDD.collect().mkString(\"\\n\")",
+      "dateUpdated": "Feb 8, 2016 7:48:47 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_947129605",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:29: error: not found: value itemsRDD\n         val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n                            ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:07 PM",
+      "dateFinished": "Feb 8, 2016 7:49:08 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Jaccard Similarity between all Items above a threshold",
+      "text": "import com.advancedspark.ml.Similarity\nimport com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\nval numHashes \u003d 10\nval numBands \u003d 5\n//val minApproxJaccardSimilarityThreshold \u003d 0.1\n//val numBands \u003d MinHasher.pickBands(minApproxJaccardSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\n//itemsRDD.map(item \u003d\u003e (item.id, item.tags)).flatMap()\n//  .collect()\n\n// Convert items into items \nitemsRDD.flatMap(item \u003d\u003e \n  item.tags.map(tag \u003d\u003e \n    (item.id, minHasher.init(tag))\n  )\n).reduceByKey((minHash1, minHash2) \u003d\u003e \n  minHasher.plus(minHash1, minHash2)\n)\n\n\n\n",
+      "dateUpdated": "Feb 8, 2016 7:48:47 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1513870588",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\nimport com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\nnumHashes: Int \u003d 10\nnumBands: Int \u003d 5\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@6e7b1065\n\u003cconsole\u003e:44: error: not found: value itemsRDD\n              itemsRDD.flatMap(item \u003d\u003e \n              ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:08 PM",
+      "dateFinished": "Feb 8, 2016 7:49:08 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Prepare for clustering",
+      "text": "val similarItemPairIdsAboveThresholdRDD \u003d similarItemPairsAboveThresholdRDD.map(itemPair \u003d\u003e \n  (itemPair._1.id, itemPair._2.id, itemPair._3)\n)",
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1771617209",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:32: error: not found: value similarItemPairsAboveThresholdRDD\n         val similarItemPairIdsAboveThresholdRDD \u003d similarItemPairsAboveThresholdRDD.map(itemPair \u003d\u003e \n                                                   ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:08 PM",
+      "dateFinished": "Feb 8, 2016 7:49:08 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Items Using Similarity Pairs with Power Iteration Clustering",
+      "text": "// http://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic\nimport org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemPairIdsAboveThresholdRDD)",
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1570970245",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@4367d759\n\u003cconsole\u003e:36: error: not found: value similarItemPairIdsAboveThresholdRDD\n       val clusteringModel \u003d clustering.run(similarItemPairIdsAboveThresholdRDD)\n                                            ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:08 PM",
+      "dateFinished": "Feb 8, 2016 7:49:09 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the cluster assignments with item data",
+      "text": "val clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}\n\nval enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n  .sort($\"clusterId\" desc)\n  \nz.show(enrichedClusterAssignmentsDF)",
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1160194065",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:33: error: not found: value clusteringModel\n         val clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n                                     ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:09 PM",
+      "dateFinished": "Feb 8, 2016 7:49:09 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show cluster Distributions",
+      "text": "val clusterDistributionDF \u003d joinedClusterAssignmentsDF\n  .select($\"clusterId\", $\"itemId\", $\"tags\")\n  .groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\"))\n  .sort($\"clusterId\" desc)\n\nz.show(clusterDistributionDF)",
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1094686845",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:33: error: not found: value joinedClusterAssignmentsDF\n         val clusterDistributionDF \u003d joinedClusterAssignmentsDF\n                                     ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:09 PM",
+      "dateFinished": "Feb 8, 2016 7:49:09 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Given an itemId (or List of itemIds), recommend more itemIds based on similar cluster \n//        and/or closest jaccard similarity ",
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_1842783888",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:09 PM",
+      "dateFinished": "Feb 8, 2016 7:49:09 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Feb 8, 2016 7:48:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406797377_-2047876457",
+      "id": "20160110-061957_686096029",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 10, 2016 6:19:57 AM",
+      "dateStarted": "Feb 8, 2016 7:49:09 PM",
+      "dateFinished": "Feb 8, 2016 7:49:09 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Recommendations/09: Approx Similarity of (itemId, userId) Tuples (LSH)",
+  "id": "2B8PEZVN5",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

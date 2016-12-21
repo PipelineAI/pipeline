@@ -1,0 +1,238 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Recommendations/02:` NOTEBOOK",
+      "dateUpdated": "Jun 21, 2016 5:52:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465013514378_192527123",
+      "id": "20160604-041154_1984213069",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eRecommendations/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jun 4, 2016 4:11:54 AM",
+      "dateStarted": "Jun 21, 2016 5:52:55 PM",
+      "dateFinished": "Jun 21, 2016 5:52:55 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Top 5 similar items for a given item",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n// Item 318 // Shawshank Redemption\nval givenItemId \u003d 318\nval givenItemFactors \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .where($\"itemId\" \u003d\u003d\u003d givenItemId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n  \nval givenItemFactorsMatrix \u003d new DoubleMatrix(givenItemFactors)\n  \n// Find Other Similar Items to the Given Item\nval similarItems \u003d itemFactorsDF.select($\"itemId\", $\"itemFactors\")\n  .filter($\"itemId\" !\u003d\u003d givenItemId)\n  .map{ row \u003d\u003e\n     val itemId \u003d row.getInt(0)\n     val otherItemFactors \u003d row.getSeq[Double](1).toArray\n     val otherItemFactorsMatrix \u003d new DoubleMatrix(otherItemFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherItemFactorsMatrix, givenItemFactorsMatrix)\n     (itemId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarItems \u003d similarItems.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarItemsDF \u003d sqlContext.createDataFrame(sortedSimilarItems).toDF(\"similarItemId\", \"similarity\")\n\nz.show(sortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"similarity\")\n)",
+      "dateUpdated": "Jun 21, 2016 5:52:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 199.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "similarItemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "similarItemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462339433521_554855322",
+      "id": "20160504-052353_1563651621",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\tsimilarity\n318\t1476\t1.0\n318\t1197\t1.0\n318\t541\t1.0\n318\t50\t1.0\n318\t1957\t1.0\n"
+      },
+      "dateCreated": "May 4, 2016 5:23:53 AM",
+      "dateStarted": "Jun 21, 2016 5:52:55 PM",
+      "dateFinished": "Jun 21, 2016 5:53:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Reference Data for Item enrichment",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies.csv\")\n  .toDF(\"itemId\", \"title\", \"tags\")\n  .as(\"items\")\n\nz.show(itemsDF.select($\"itemId\", $\"title\", $\"tags\").limit(10))",
+      "dateUpdated": "Jun 21, 2016 5:52:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463362902558_1576933406",
+      "id": "20160516-014142_1586247546",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "May 16, 2016 1:41:42 AM",
+      "dateStarted": "Jun 21, 2016 5:52:56 PM",
+      "dateFinished": "Jun 21, 2016 5:53:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich and Display the similar items",
+      "text": "val enrichedSortedSimilarItemsDF \u003d \n   sortedSimilarItemsDF.join(itemsDF, $\"similarItemId\" \u003d\u003d\u003d $\"itemId\")\n   .select($\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n   .sort($\"similarity\" desc)\n   \nz.show(enrichedSortedSimilarItemsDF\n  .select(lit(givenItemId).as(\"itemId\"), $\"similarItemId\", $\"title\", $\"tags\", $\"similarity\")\n)",
+      "dateUpdated": "Jun 21, 2016 5:52:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 199.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462339433521_554855322",
+      "id": "20160504-052353_867700629",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\tsimilarItemId\ttitle\ttags\tsimilarity\n318\t50\tUsual Suspects, The (1995)\tCrime|Mystery|Thriller\t1.0\n318\t541\tBlade Runner (1982)\tAction|Sci-Fi|Thriller\t1.0\n318\t1197\tPrincess Bride, The (1987)\tAction|Adventure|Comedy|Fantasy|Romance\t1.0\n318\t1476\tPrivate Parts (1997)\tComedy|Drama\t1.0\n318\t1957\tChariots of Fire (1981)\tDrama\t1.0\n"
+      },
+      "dateCreated": "May 4, 2016 5:23:53 AM",
+      "dateStarted": "Jun 21, 2016 5:53:05 PM",
+      "dateFinished": "Jun 21, 2016 5:53:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 21, 2016 5:52:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463362942245_984682255",
+      "id": "20160516-014222_1877303056",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "May 16, 2016 1:42:22 AM",
+      "dateStarted": "Jun 21, 2016 5:53:07 PM",
+      "dateFinished": "Jun 21, 2016 5:53:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Recommendations/04: Item-to-Item Similarity Based on ALS",
+  "id": "2BJFFS9X2",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

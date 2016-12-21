@@ -1,0 +1,275 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Item-to-Item Collaborative Filtering](http://advancedspark.com/img/item-to-item-vector-space.png)",
+      "dateUpdated": "May 16, 2016 1:49:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454744085889_695247186",
+      "id": "20160206-073445_1754167165",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/item-to-item-vector-space.png\" alt\u003d\"Item-to-Item Collaborative Filtering\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 6, 2016 7:34:45 AM",
+      "dateStarted": "May 16, 2016 1:49:12 AM",
+      "dateFinished": "May 16, 2016 1:49:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport com.twitter.algebird.MinHasher\nimport com.twitter.algebird.MinHasher32\nimport com.twitter.algebird.MinHashSignature",
+      "dateUpdated": "Jan 10, 2016 6:22:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940661_1074808557",
+      "id": "20160110-062220_1037017587",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport com.twitter.algebird.MinHasher\nimport com.twitter.algebird.MinHasher32\nimport com.twitter.algebird.MinHashSignature\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 1, 2016 3:22:01 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940661_1074808557",
+      "id": "20160110-062220_1140620746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "dateStarted": "May 1, 2016 3:22:01 AM",
+      "dateFinished": "May 1, 2016 3:22:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Item Class",
+      "text": "case class Item(id: Long, title: String, description: String, img: String, tags: Set[String]) {\n  override def toString: String \u003d id + \", \" + title + \", \" + tags\n}",
+      "dateUpdated": "Mar 14, 2016 12:49:10 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940662_1075962804",
+      "id": "20160110-062220_1382791285",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "defined class Item\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "dateStarted": "Mar 14, 2016 12:49:10 AM",
+      "dateFinished": "Mar 14, 2016 12:49:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert Row to Item",
+      "text": "import org.apache.spark.sql.Row\n\n// Convert from RDD[Row] to RDD[Item]\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"description\", $\"img\", $\"tags\").map(row \u003d\u003e\n  Item(row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getSeq[String](4).toSet)\n)",
+      "dateUpdated": "Jan 10, 2016 6:22:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940662_1075962804",
+      "id": "20160110-062220_1918475743",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nitemsRDD: org.apache.spark.rdd.RDD[Item] \u003d MapPartitionsRDD[1375] at map at \u003cconsole\u003e:78\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Ratings",
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
+      "dateUpdated": "Mar 14, 2016 12:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940662_1075962804",
+      "id": "20160110-062220_655087243",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "dateStarted": "Mar 14, 2016 12:48:14 AM",
+      "dateFinished": "Mar 14, 2016 12:48:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//TODO:  Either Power Iteration Clustering or follow same pattern as Clustering/05: Clustering by Tags",
+      "dateUpdated": "Mar 14, 2016 12:53:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452406940663_1075578055",
+      "id": "20160110-062220_726405085",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 6:22:20 AM",
+      "dateStarted": "Mar 14, 2016 12:53:03 AM",
+      "dateFinished": "Mar 14, 2016 12:53:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457916783411_1313417211",
+      "id": "20160314-005303_1237476912",
+      "dateCreated": "Mar 14, 2016 12:53:03 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Live Recs/09: LSH Similarity Item-to-Item Recs by (itemId1, [userId1, userId2, userId3, ...]) Vectors",
+  "id": "2BBC8NSFW",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,87 @@
+#!/bin/bash
+
+#	N-best list rescoring example (takes about 10 sec to run)
+#	---------------------------------------------------------
+#
+#
+#	Steps:
+#
+#	1. Generate n-best lists from lattices
+#
+#	2. Extract pure text from n-bests
+#
+#	3. Merge all text files to one file, add unique number at begining of each line so that rnnlm tool will know when to reload parameters
+#		(for simplicity, the history is assumed to be the original 1-bests during rescoring)
+#
+#	4. Optionally rescore nbest lists with srilm (-debug 2) to obtain the backoff LM score (such LM can be trained on much more data than RNN)
+#
+#	5. Rescore with 'rnnlm'
+#
+#	6. Use resulting scores to choose the best hypothesis, generate output
+#
+
+rnnpath=../rnnlm-0.2b
+
+#################################
+# CHECK FOR 'rnnlm' AND 'convert'
+#################################
+
+if [ ! -e $rnnpath/rnnlm ]; then
+    make clean -C $rnnpath
+    make -C $rnnpath
+fi
+
+if [ ! -e $rnnpath/rnnlm ]; then
+    echo "Cannot compile rnnlm tool";
+    exit
+fi
+
+if [ ! -e $rnnpath/convert ]; then
+    gcc $rnnpath/convert.c -O2 -o $rnnpath/convert
+fi
+
+
+#compile miscellaneous tools
+gcc makenbest.c -o makenbest
+gcc gettext.c -o gettext
+gcc getbest.c -o getbest
+
+
+cd lattices
+
+rm nbest/*
+
+#one has to set correctly LM scale and WI penalty in the ./nbest.sh script, that calls SRILM lattice-tool
+./nbest.sh
+
+cd nbest
+
+gzip -d *
+
+ls * > ../../nbestlist
+
+../../makenbest < ../../nbestlist > ../../nbest
+
+cd ../..
+
+#this will remove all extra info from the text file, only ID at each line + word hypothesis will remain
+./gettext <nbest >nbest.txt
+
+#test ngram model
+awk '{for (i=2;i<=NF;i++) printf $i " "; print "";}' <nbest.txt >text.txt
+ngram -lm ../models/swb.ngram.model -ppl text.txt -debug 2 > ngram.scores.txt
+$rnnpath/convert <ngram.scores.txt >ngram.word.scores
+
+#rescoring happens here; rnnlm automatically assigns penalty for OOV words ( log10 P(OOV) = -5 ), thus the rnnlm model can have limited vocabulary
+$rnnpath/rnnlm -test nbest.txt -rnnlm ../models/swb.rnn.model -nbest -debug 0 > rnn.scores
+
+#and rescore while using also ngram model scores
+$rnnpath/rnnlm -test nbest.txt -rnnlm ../models/swb.rnn.model -nbest -debug 0 -lm-prob ngram.word.scores -lambda 0.5 > rnn+ngram.scores
+
+#with lambda 0.0, the scores will be coming just from ngram model and the model will not get evaluated (useful for debugging)
+$rnnpath/rnnlm -test nbest.txt -rnnlm ../models/swb.rnn.model -nbest -debug 0 -lm-prob ngram.word.scores -lambda 0.0 > ngram.scores
+
+#this will output the new 1-bests
+./getbest rnn.scores nbest > 1best.rescored.rnn.txt
+./getbest rnn+ngram.scores nbest > 1best.rescored.rnn+ngram.txt
+./getbest ngram.scores nbest > 1best.rescored.ngram.txt
