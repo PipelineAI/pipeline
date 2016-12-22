@@ -2,7 +2,7 @@
 
 [![Gitter Chat Room](https://badges.gitter.im/fluxcapacitor/pipeline.svg)](https://gitter.im/fluxcapacitor/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Follow [Wiki](https://github.com/fluxcapacitor/pipeline-training/wiki) to Setup Docker-based Environment
+## Follow [Wiki](https://github.com/fluxcapacitor/pipeline/wiki) to Setup Docker-based Environment
 
 ## Production-Ready, Docker/Kubernetes, and NetflixOSS-based **[PipelineIO](https://github.com/fluxcapacitor/pipeline)**
 ![PipelineIO](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
