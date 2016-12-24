@@ -16,6 +16,7 @@ val globalSettings = Seq(
   val springCoreVersion = "4.3.0.RELEASE"
   val grpcVersion = "1.0.0"
   val protobufVersion = "3.0.0"
+  val javacppTensorflowPresetVersion = "0.11.0-1.3"
 
   lazy val deps = Seq(
     "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
@@ -30,5 +31,6 @@ val globalSettings = Seq(
     "io.grpc" % "grpc-netty" % grpcVersion,
     "io.grpc" % "grpc-protobuf" % grpcVersion,
     "io.grpc" % "grpc-stub" % grpcVersion,
-    "com.google.protobuf" % "protobuf-java" % protobufVersion
+    "com.google.protobuf" % "protobuf-java" % protobufVersion,
+    "org.bytedeco.javacpp-presets" % "tensorflow-platform" % javacppTensorflowPresetVersion
   )
