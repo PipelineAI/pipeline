@@ -1,0 +1,274 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Most Desirable Users](http://advancedspark.com/img/shortest-path-by-cost.png)",
+      "dateUpdated": "May 11, 2016 5:43:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274621785_-2091468050",
+      "id": "20151228-035021_708663317",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/shortest-path-by-cost.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:50:21 AM",
+      "dateStarted": "May 11, 2016 5:43:55 AM",
+      "dateFinished": "May 11, 2016 5:43:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\n\nval graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\")\n  .load(\"/root/pipeline/datasets/graph/dijkstra.csv\")\n  .toDF(\"userId1\", \"userId2\", \"cost\")\n  \n// Edges has a cost that we\u0027re trying to minimize\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
+      "dateUpdated": "May 11, 2016 5:43:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451274763346_-1561452631",
+      "id": "20151228-035243_771934602",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\ngraphDF: org.apache.spark.sql.DataFrame \u003d [userId1: string, userId2: string, cost: string]\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1847] at map at \u003cconsole\u003e:71\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@2fb48de0\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:52:43 AM",
+      "dateStarted": "May 11, 2016 5:43:55 AM",
+      "dateFinished": "May 11, 2016 5:43:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\r\n   .friction(0.5).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
+      "dateUpdated": "May 11, 2016 5:43:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456948481851_-312470035",
+      "id": "20160302-195441_195068162",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027a3666538c-4231-4795-af6c-53339c212287\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#a3666538c-4231-4795-af6c-53339c212287\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[3]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[1]},{source:nodes[1],target:nodes[3]},{source:nodes[4],target:nodes[0]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\n   .friction(0.5).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Mar 2, 2016 7:54:41 PM",
+      "dateStarted": "May 11, 2016 5:43:56 AM",
+      "dateFinished": "May 11, 2016 5:43:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Run Dijkstra Lightest Path on the entire graph From the given source",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 10002\n\nval lightestPathGraph \u003d Dijkstra.lightestPath(graph, src)",
+      "dateUpdated": "May 11, 2016 5:46:55 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452393064783_1985034596",
+      "id": "20160110-023104_1688931389",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nlightestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@55fd5c8c\n"
+      },
+      "dateCreated": "Jan 10, 2016 2:31:04 AM",
+      "dateStarted": "May 11, 2016 5:44:32 AM",
+      "dateFinished": "May 11, 2016 5:44:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Filter the Lightest path for the given destination",
+      "text": "val dst \u003d 90002\n\nval lightestPathFromSrcToDest \u003d lightestPathGraph.vertices.filter(_._1 \u003d\u003d dst).map(_._2).collect()(0)._2\n\n// Example:  Lightest Path (Total Cost \u003d\u003d 11)\n//   10002 -5-\u003e 90003 -2-\u003e 10001 -1-\u003e 90001 -3-\u003e 90002",
+      "dateUpdated": "May 11, 2016 5:46:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451401103924_621545220",
+      "id": "20151229-145823_414962899",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "dst: Int \u003d 90002\nlightestPathFromSrcToDest: List[Any] \u003d List(11.0, List(10002, 90003, 10001, 90001))\n"
+      },
+      "dateCreated": "Dec 29, 2015 2:58:23 PM",
+      "dateStarted": "May 11, 2016 5:45:29 AM",
+      "dateFinished": "May 11, 2016 5:45:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Run Dijkstra Lightest Path On The Entire Graph From The Given Source",
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\nval src \u003d 10002\n\nval heaviestPathGraph \u003d Dijkstra.heaviestPath(graph, src)",
+      "dateUpdated": "May 11, 2016 5:46:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457387260456_1672967636",
+      "id": "20160307-214740_1410509606",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 10002\nheaviestPathGraph: org.apache.spark.graphx.Graph[(org.apache.spark.graphx.VertexId, List[Any]),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@136006b4\n"
+      },
+      "dateCreated": "Mar 7, 2016 9:47:40 PM",
+      "dateStarted": "May 11, 2016 5:46:58 AM",
+      "dateFinished": "May 11, 2016 5:46:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Filter The Heaviest Path For The Given Source And Destination",
+      "text": "val dst \u003d 90002\n\nval heaviestPathFromSrcToDest \u003d heaviestPathGraph.vertices.filter(_._1 \u003d\u003d dst).map(_._2).collect()(0)._2\n\n// Example:  Heaviest Path (Total Cost \u003d\u003d 12)\n//   10002 -5-\u003e 90003 -4-\u003e 90001 -3-\u003e 90002",
+      "dateUpdated": "May 11, 2016 5:47:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462945505080_-1639970662",
+      "id": "20160511-054505_77198393",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "dst: Int \u003d 90002\nheaviestPathFromSrcToDest: List[Any] \u003d List(12.0, List(10002, 90003, 90001))\n"
+      },
+      "dateCreated": "May 11, 2016 5:45:05 AM",
+      "dateStarted": "May 11, 2016 5:47:04 AM",
+      "dateFinished": "May 11, 2016 5:47:05 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462945517472_-1993323394",
+      "id": "20160511-054517_1712162640",
+      "dateCreated": "May 11, 2016 5:45:17 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/03: Lightest and Heaviest Paths By Cost (Dijkstra)",
+  "id": "2BAFX81J2",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

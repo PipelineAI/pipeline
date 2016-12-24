@@ -1,0 +1,98 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ### From the following blog post:\n* http://blog.kubernetes.io/2016/03/using-Spark-and-Zeppelin-to-process-Big-Data-on-Kubernetes.html?m\u003d1",
+      "dateUpdated": "May 31, 2016 3:34:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "enabled": true,
+        "graph": {
+          "groups": [],
+          "height": 300.0,
+          "keys": [],
+          "mode": "table",
+          "optionOpen": false,
+          "scatter": {},
+          "values": []
+        },
+        "tableHide": false,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464665589517_1205948279",
+      "id": "20160531-033309_540392647",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eFrom the following blog post:\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttp://blog.kubernetes.io/2016/03/using-Spark-and-Zeppelin-to-process-Big-Data-on-Kubernetes.html?m\u003d1\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "May 31, 2016 3:33:09 AM",
+      "dateStarted": "May 31, 2016 3:34:17 AM",
+      "dateFinished": "May 31, 2016 3:34:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\n# Based on http://spark.apache.org/docs/1.5.2/mllib-collaborative-filtering.html\n#\n# Change these to where you want to save the model to. The Kubernetes cluster\n# must be configured with storage-rw scopes in order to access the bucket.\n\nmodelBucket \u003d \"\"\nmodelPath \u003d \"gs://{bucket}/mllib/als/test.model\".format(bucket \u003d modelBucket)\n\nimport urllib2\nfrom pyspark.mllib.recommendation import ALS, MatrixFactorizationModel, Rating\n\n# Load and parse the data. This example uses a direct URL fetch to avoid running afoul\n# of redistribution issues with this interesting movie recommendation database. If you\n# wanted to, though, you could use:\n#  data \u003d sc.textFile(\"gs://a-path-to-gcs/some-data-file.txt\")\n# to access a Google Cloud Storage File, rather than this.\ndata \u003d sc.parallelize(urllib2.urlopen(\"http://files.grouplens.org/datasets/movielens/ml-100k/u.data\").readlines())\nratings \u003d data.map(lambda l: l.split(\u0027\\t\u0027)).map(lambda l: Rating(int(l[0]), int(l[1]), float(l[2])))\n\n# Build the recommendation model using Alternating Least Squares\nrank \u003d 100\nnumIterations \u003d 10\nmodel \u003d ALS.train(ratings, rank, numIterations)\n\n# Evaluate the model on training data\ntestdata \u003d ratings.map(lambda p: (p[0], p[1]))\npredictions \u003d model.predictAll(testdata).map(lambda r: ((r[0], r[1]), r[2]))\nratesAndPreds \u003d ratings.map(lambda r: ((r[0], r[1]), r[2])).join(predictions)\nMSE \u003d ratesAndPreds.map(lambda r: (r[1][0] - r[1][1])**2).mean()\nprint(\"Mean Squared Error \u003d \" + str(MSE))\n\n# Save and load model\nif modelBucket:\n  model.save(sc, modelPath)\n  sameModel \u003d MatrixFactorizationModel.load(sc, modelPath)",
+      "dateUpdated": "May 31, 2016 3:33:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "graph": {
+          "groups": [],
+          "height": 300.0,
+          "keys": [],
+          "mode": "table",
+          "optionOpen": false,
+          "scatter": {},
+          "values": []
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464665589517_1205948279",
+      "id": "20160531-033309_849461016",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Mean Squared Error \u003d 0.0154695740609\n"
+      },
+      "dateCreated": "May 31, 2016 3:33:09 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464665652803_-1819701223",
+      "id": "20160531-033412_1736628094",
+      "dateCreated": "May 31, 2016 3:34:12 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_KubernetesSpark",
+  "id": "2BMDD3W5J",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

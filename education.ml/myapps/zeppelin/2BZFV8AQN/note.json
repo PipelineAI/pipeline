@@ -1,0 +1,279 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ### Add the following to your Spark Interpreter Dependency List:  `/root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar`",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871931_-921322153",
+      "id": "20161008-024751_483869385",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eAdd the following to your Spark Interpreter Dependency List:  \u003ccode\u003e/root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar\u003c/code\u003e\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val censusDF \u003d sqlContext.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").csv(\"file:///datasets/datapalooza.ml/R/census.csv\")",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871931_-921322153",
+      "id": "20161008-024751_1412012478",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ncensusDF: org.apache.spark.sql.DataFrame \u003d [age: int, workclass: string ... 12 more fields]\n"
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\nimport org.apache.spark.sql.types.StructType\nimport org.apache.spark.ml.feature.RFormula\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineStage\nimport org.apache.spark.ml.Predictor\n\nval formulaStr: String \u003d \"income ~ .\"\n\nval schema: StructType \u003d censusDF.schema\nSystem.out.println(schema.treeString)\n\nval formula: RFormula \u003d new RFormula().setFormula(formulaStr)\n\nvar predictor: Predictor[_, _, _] \u003d new DecisionTreeClassifier().setMinInstancesPerNode(10)\n\npredictor.setLabelCol(formula.getLabelCol)\npredictor.setFeaturesCol(formula.getFeaturesCol)\n\nval pipeline \u003d new Pipeline().setStages(Array[PipelineStage](formula, predictor))\n\nval pipelineModel \u003d pipeline.fit(censusDF)\n\nval predictorModel \u003d pipelineModel.stages(1).asInstanceOf[DecisionTreeClassificationModel]",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871932_-923245898",
+      "id": "20161008-024751_358935873",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nimport org.apache.spark.sql.types.StructType\n\nimport org.apache.spark.ml.feature.RFormula\n\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\n\nimport org.apache.spark.ml.Pipeline\n\nimport org.apache.spark.ml.PipelineStage\n\nimport org.apache.spark.ml.Predictor\n\nformulaStr: String \u003d income ~ .\n\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(age,IntegerType,true), StructField(workclass,StringType,true), StructField(education,StringType,true), StructField(education_num,IntegerType,true), StructField(marital_status,StringType,true), StructField(occupation,StringType,true), StructField(relationship,StringType,true), StructField(race,StringType,true), StructField(sex,StringType,true), StructField(capital_gain,IntegerType,true), StructField(capital_loss,IntegerType,true), StructField(hours_per_week,IntegerType,true), StructField(native_country,StringType,true), StructField(income,StringType,true))\n\nformula: org.apache.spark.ml.feature.RFormula \u003d RFormula(income ~ .) (uid\u003drFormula_d6766b135b6a)\n\npredictor: org.apache.spark.ml.Predictor[_, _, _] \u003d dtc_1b8ed2321084\n\nres1: Any \u003d dtc_1b8ed2321084\n\nres2: Any \u003d dtc_1b8ed2321084\n\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_83e52a51cbeb\n\npipelineModel: org.apache.spark.ml.PipelineModel \u003d pipeline_83e52a51cbeb\n\npredictorModel: org.apache.spark.ml.classification.DecisionTreeClassificationModel \u003d DecisionTreeClassificationModel (uid\u003ddtc_1b8ed2321084) of depth 5 with 55 nodes\n"
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "predictorModel.toDebugString",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871932_-923245898",
+      "id": "20161008-024751_536545078",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nres3: String \u003d\n\"DecisionTreeClassificationModel (uid\u003ddtc_1b8ed2321084) of depth 5 with 55 nodes\n  If (feature 23 in {0.0})\n   If (feature 52 \u003c\u003d 7443.0)\n    If (feature 22 \u003c\u003d 13.0)\n     If (feature 54 \u003c\u003d 42.0)\n      If (feature 0 \u003c\u003d 33.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 33.0)\n       Predict: 0.0\n     Else (feature 54 \u003e 42.0)\n      If (feature 9 in {0.0})\n       Predict: 0.0\n      Else (feature 9 not in {0.0})\n       Predict: 0.0\n    Else (feature 22 \u003e 13.0)\n     If (feature 54 \u003c\u003d 43.0)\n      If (feature 0 \u003c\u003d 32.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 32.0)\n       Predict: 0.0\n     Else (feature 54 \u003e 43.0)\n      If (feature 0 \u003c\u003d 32.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 32.0)\n       Predict: 0.0\n   Else (feature 52 \u003e 7443.0)\n    If (feature 54 \u003c\u003d 24.0)\n     Pred..."
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.jpmml.sparkml.ConverterUtil\n\nval pmml \u003d new String(ConverterUtil.toPMMLByteArray(schema, pipelineModel), \"UTF-8\")",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871932_-923245898",
+      "id": "20161008-024751_966582026",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.jpmml.sparkml.ConverterUtil\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npmml: String \u003d\n\"\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\" standalone\u003d\"yes\"?\u003e\n\u003cPMML xmlns\u003d\"http://www.dmg.org/PMML-4_3\" version\u003d\"4.3\"\u003e\n\t\u003cHeader\u003e\n\t\t\u003cApplication/\u003e\n\t\t\u003cTimestamp\u003e2016-10-08T02:45:03Z\u003c/Timestamp\u003e\n\t\u003c/Header\u003e\n\t\u003cDataDictionary\u003e\n\t\t\u003cDataField name\u003d\"income\" optype\u003d\"categorical\" dataType\u003d\"string\"\u003e\n\t\t\t\u003cValue value\u003d\"\u0026lt;\u003d50K\"/\u003e\n\t\t\t\u003cValue value\u003d\"\u0026gt;50K\"/\u003e\n\t\t\u003c/DataField\u003e\n\t\t\u003cDataField name\u003d\"workclass\" optype\u003d\"categorical\" dataType\u003d\"string\"\u003e\n\t\t\t\u003cValue value\u003d\"Private\"/\u003e\n\t\t\t\u003cValue value\u003d\"Self-emp-not-inc\"/\u003e\n\t\t\t\u003cValue value\u003d\"Local-gov\"/\u003e\n\t\t\t\u003cValue value\u003d\"State-gov\"/\u003e\n\t\t\t\u003cValue value\u003d\"Self-emp-inc\"/\u003e\n\t\t\t\u003cValue value\u003d\"Federal-gov\"/\u003e\n\t\t\t\u003cValue value\u003d\"Without-pay\"/\u003e\n\t\t\u003c/DataField\u003e\n\t\t\u003cDataField name\u003d\"education\" optype\u003d\"categorical\" dataType\u003d\"string\"\u003e\n\t\t\t\u003cValue value\u003d\"HS-grad\"/\u003e\n\t\t\t\u003cValue value\u003d\"Some-..."
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient // TODO:  this is deprecated\n\n// create an HttpPost object\nprintln(\"--- HTTP POST UPDATED PMML ---\")\nval post \u003d new HttpPost(s\"http://demo.pipeline.io:9040/update-pmml/census\")\n\n// set the Content-type\npost.setHeader(\"Content-type\", \"application/xml\")\n\n// add the JSON as a StringEntity\npost.setEntity(new StringEntity(pmml))\n\n// send the post request\nval response \u003d (new DefaultHttpClient).execute(post)\n\n// print the response headers\nprintln(\"--- HTTP RESPONSE HEADERS ---\")\nresponse.getAllHeaders.foreach(arg \u003d\u003e println(arg))",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871932_-923245898",
+      "id": "20161008-024751_568350190",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n--- HTTP POST UPDATED PMML ---\n\npost: org.apache.http.client.methods.HttpPost \u003d POST http://demo.pipeline.io:9040/update-pmml/census HTTP/1.1\n\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\nresponse: org.apache.http.client.methods.CloseableHttpResponse \u003d HTTP/1.1 200 OK [Server: Apache-Coyote/1.1, X-Application-Context: prediction-service:local:9040, Content-Length: 0, Date: Sat, 08 Oct 2016 02:45:20 GMT] org.apache.http.conn.BasicManagedEntity@5a56fd43\n--- HTTP RESPONSE HEADERS ---\nServer: Apache-Coyote/1.1\nX-Application-Context: prediction-service:local:9040\nContent-Length: 0\nDate: Sat, 08 Oct 2016 02:45:20 GMT\n"
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Oct 8, 2016 2:47:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1475894871932_-923245898",
+      "id": "20161008-024751_333228662",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Oct 8, 2016 2:47:51 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Upload_Census_PMML",
+  "id": "2BZFV8AQN",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,427 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![SVD](http://fluxcapacitor.com/img/svd.png)",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454557295799_-2082924103",
+      "id": "20160204-034135_298154292",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/svd.png\" alt\u003d\"SVD\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 4, 2016 3:41:35 AM",
+      "dateStarted": "Mar 5, 2016 3:49:17 AM",
+      "dateFinished": "Mar 5, 2016 3:49:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Retrieve Dataset",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .option(\"inferSchema\", \"false\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 1, 2016 3:21:46 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451323111480_-372297908",
+      "id": "20151228-171831_1063248354",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
+      },
+      "dateCreated": "Dec 28, 2015 5:18:31 PM",
+      "dateStarted": "May 1, 2016 3:21:46 AM",
+      "dateFinished": "May 1, 2016 3:21:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val cassandraConfig \u003d Map(\"keyspace\" -\u003e \"advancedspark\", \"table\" -\u003e \"item_ratings\")\n\nval itemRatingsDF \u003d sqlContext.read.format(\"org.apache.spark.sql.cassandra\").options(cassandraConfig)\n  .load().toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457148727725_-1451711420",
+      "id": "20160305-033207_1434019131",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "cassandraConfig: scala.collection.immutable.Map[String,String] \u003d Map(keyspace -\u003e advancedspark, table -\u003e item_ratings)\nitemRatingsDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int, timestamp: bigint]\n"
+      },
+      "dateCreated": "Mar 5, 2016 3:32:07 AM",
+      "dateStarted": "Mar 5, 2016 3:49:17 AM",
+      "dateFinished": "Mar 5, 2016 3:49:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//val ratingsEdgeRDD \u003d itemRatingsDF.map(row \u003d\u003e\n//  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n//)\n\nval ratingsEdgeRDD \u003d itemRatingsDF.map(row \u003d\u003e\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n)\n\nratingsEdgeRDD.collect()",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451357971347_956206859",
+      "id": "20151229-025931_21691538",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "ratingsEdgeRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1151] at map at \u003cconsole\u003e:67\nres182: Array[org.apache.spark.graphx.Edge[Double]] \u003d Array(Edge(26058,2,1.0), Edge(26058,3,1.0), Edge(26058,8,1.0), Edge(26058,14,1.0), Edge(26058,15,1.0), Edge(26058,16,1.0), Edge(26058,20,1.0), Edge(26058,23,1.0), Edge(26058,29,1.0), Edge(26058,32,1.0), Edge(26058,33,1.0), Edge(26058,34,1.0), Edge(26058,35,1.0), Edge(26058,39,1.0), Edge(26058,41,1.0), Edge(26058,44,1.0), Edge(26058,45,1.0), Edge(26058,46,1.0), Edge(26058,50,1.0), Edge(26058,51,1.0), Edge(26058,52,1.0), Edge(26058,53,1.0), Edge(26058,56,1.0), Edge(26058,57,1.0), Edge(26058,59,1.0), Edge(26058,63,1.0), Edge(26058,69,1.0))\n"
+      },
+      "dateCreated": "Dec 29, 2015 2:59:31 AM",
+      "dateStarted": "Mar 5, 2016 3:49:17 AM",
+      "dateFinished": "Mar 5, 2016 3:49:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![SVD++ Return Value](http://advancedspark.com/img/svdplusplus-return-value.png)",
+      "dateUpdated": "May 16, 2016 1:45:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452469161222_-1927724537",
+      "id": "20160110-233921_1209042443",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:39:21 PM",
+      "dateStarted": "May 16, 2016 1:45:47 AM",
+      "dateFinished": "May 16, 2016 1:45:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\n\nval rank \u003d 20\nval maxIterations \u003d 10\nval minRating \u003d 0\nval maxRating \u003d 1\nval gamma1 \u003d 0.007\nval gamma2 \u003d 0.007\nval gamma6 \u003d 0.005\nval gamma7 \u003d 0.015\n\nval conf \u003d new Conf(rank, maxIterations, minRating, maxRating, gamma1, gamma2, gamma6, gamma7)\nvar (graph, mean) \u003d SVDPlusPlus.run(ratingsEdgeRDD, conf)",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451354329573_231527708",
+      "id": "20151229-015849_1310275494",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\nrank: Int \u003d 20\nmaxIterations: Int \u003d 10\nminRating: Int \u003d 0\nmaxRating: Int \u003d 1\ngamma1: Double \u003d 0.007\ngamma2: Double \u003d 0.007\ngamma6: Double \u003d 0.005\ngamma7: Double \u003d 0.015\nconf: org.apache.spark.graphx.lib.SVDPlusPlus.Conf \u003d org.apache.spark.graphx.lib.SVDPlusPlus$Conf@2206491f\ngraph: org.apache.spark.graphx.Graph[(Array[Double], Array[Double], Double, Double),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@4c29917\nmean: Double \u003d 1.0\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:58:49 AM",
+      "dateStarted": "Mar 5, 2016 3:49:18 AM",
+      "dateFinished": "Mar 5, 2016 3:49:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val userId \u003d 26058L\nval itemId \u003d 3",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452207316831_1389601010",
+      "id": "20160107-225516_1817098690",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "userId: Long \u003d 26058\nitemId: Int \u003d 3\n"
+      },
+      "dateCreated": "Jan 7, 2016 10:55:16 PM",
+      "dateStarted": "Mar 5, 2016 3:49:18 AM",
+      "dateFinished": "Mar 5, 2016 3:49:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "graph.vertices.filter(_._1 \u003d\u003d userId).collect()(0)._2",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452207332464_-528741682",
+      "id": "20160107-225532_738798175",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res188: (Array[Double], Array[Double], Double, Double) \u003d (Array(0.26881991018854473, 0.39121467842363644, 0.7877047733702265, 0.8325743792724701, 0.3891736933041434, 0.12947424596929258, 0.8792668677746022, 0.6278000614754147, 0.37128709176133307, 0.6806050174077745, 0.06661848259827097, 0.5976613348681767, 0.7153647234275374, 0.6219278102757135, 0.7149114186118795, 0.23111866793264255, 0.46177215198581595, 0.35379833365529617, 0.607072226231436, 0.654553457217792),Array(2.011918368578942, 4.530484015716826, 4.996941396181316, 3.7040168398574163, 4.4501725198474595, 4.838568226519351, 4.896982710078456, 4.903933816037338, 1.8401607098267752, 3.48670183608676, 2.5653988336466034, 0.6885621868730215, 2.2128178835712733, 0.6969068363265358, 2.055104493020992, 4.0470975365491775, 0.78401124..."
+      },
+      "dateCreated": "Jan 7, 2016 10:55:32 PM",
+      "dateStarted": "Mar 5, 2016 3:49:21 AM",
+      "dateFinished": "Mar 5, 2016 3:49:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "graph.vertices.collect()",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451435935341_-908314701",
+      "id": "20151230-003855_1015233782",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res190: Array[(org.apache.spark.graphx.VertexId, (Array[Double], Array[Double], Double, Double))] \u003d Array((39,(Array(0.276270893805676, 0.4020581243487217, 0.809537885945114, 0.8556511597670822, 0.3999605684689844, 0.13306293285219864, 0.903637841718756, 0.6452010343780781, 0.381578197193314, 0.6994696053428194, 0.06846497239915555, 0.614226941231084, 0.7351927593449429, 0.6391660197600946, 0.7347268901074284, 0.23752467188960943, 0.47457126622136686, 0.36360469653215655, 0.6238986778469179, 0.6726959641580171),Array(0.3352907134869908, 0.7963372661489572, 0.8095846824123973, 0.5521181559198185, 0.7812761888802349, 0.9061361882491469, 0.7726787769140897, 0.822545695649376, 0.28246346596370914, 0.5396263377521229, 0.4808229952149751, 0.01716575964362667, 0.287774997216033, 0.014088524242..."
+      },
+      "dateCreated": "Dec 30, 2015 12:38:55 AM",
+      "dateStarted": "Mar 5, 2016 3:49:22 AM",
+      "dateFinished": "Mar 5, 2016 3:49:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def predict(graph:Graph[(Array[Double], Array[Double], Double, Double), Double], meanRating:Double, userId:Long, itemId:Long) \u003d {\r  // TODO:  Figure out why we need semi-colons here\r  val user \u003d graph.vertices.filter(_._1 \u003d\u003d userId).collect()(0)._2;\r  val item \u003d graph.vertices.filter(_._1 \u003d\u003d itemId).collect()(0)._2;\r  \r  mean + user._3 + item._3 + item._1.zip(user._2).map(x \u003d\u003e x._1 * x._2).reduce(_ + _)\r}",
+      "dateUpdated": "Mar 5, 2016 3:50:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451357775195_-2092233653",
+      "id": "20151229-025615_859618782",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "predict: (graph: org.apache.spark.graphx.Graph[(Array[Double], Array[Double], Double, Double),Double], meanRating: Double, userId: Long, itemId: Long)Double\n"
+      },
+      "dateCreated": "Dec 29, 2015 2:56:15 AM",
+      "dateStarted": "Mar 5, 2016 3:49:22 AM",
+      "dateFinished": "Mar 5, 2016 3:49:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// TODO:  Figure out why this is returning a value outside [minRating,maxRating]\nval prediction \u003d predict(graph, mean, userId, itemId)",
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451433379446_-1597057916",
+      "id": "20151229-235619_664225396",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "prediction: Double \u003d 33.04152694141413\n"
+      },
+      "dateCreated": "Dec 29, 2015 11:56:19 PM",
+      "dateStarted": "Mar 5, 2016 3:49:22 AM",
+      "dateFinished": "Mar 5, 2016 3:49:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Mar 5, 2016 3:49:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451433387431_-91135396",
+      "id": "20151229-235627_762260740",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 29, 2015 11:56:27 PM",
+      "dateStarted": "Mar 5, 2016 3:49:23 AM",
+      "dateFinished": "Mar 5, 2016 3:49:23 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Live Recs/09: SVD++ Collaborative Filter",
+  "id": "2BA66E1K5",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

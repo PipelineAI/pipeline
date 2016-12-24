@@ -1,0 +1,343 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![HyperLogLog In Action](http://advancedspark.com/img/hyperloglog-sm.png)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459737118493_-2065005432",
+      "id": "20160404-023158_572977463",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hyperloglog-sm.png\" alt\u003d\"HyperLogLog In Action\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 4, 2016 2:31:58 AM",
+      "dateStarted": "Jun 24, 2016 7:01:29 AM",
+      "dateFinished": "Jun 24, 2016 7:01:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create List",
+      "text": "val list1 \u003d (1 to 100000).toList",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459739192798_388310610",
+      "id": "20160404-030632_49976400",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "list1: List[Int] \u003d List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 1..."
+      },
+      "dateCreated": "Apr 4, 2016 3:06:32 AM",
+      "dateStarted": "Jun 24, 2016 7:01:29 AM",
+      "dateFinished": "Jun 24, 2016 7:01:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of List",
+      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(list1)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016681846_-1611560276",
+      "id": "20160128-213121_1029889204",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nsizeInMemoryList: Long \u003d 4800016\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:31:21 PM",
+      "dateStarted": "Jun 24, 2016 7:01:29 AM",
+      "dateFinished": "Jun 24, 2016 7:01:30 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Option 1:  Create HyperLogLog Aggregator",
+      "text": "import com.twitter.algebird.HyperLogLogAggregator\n\nval hllAgg \u003d HyperLogLogAggregator.withBits[Int](14)\n\nval hllAggs \u003d hllAgg(list1)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450580466626_413857236",
+      "id": "20151220-030106_1914295026",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.HyperLogLogAggregator\nhllAgg: com.twitter.algebird.GenHLLAggregator[Int] \u003d GenHLLAggregator(com.twitter.algebird.HyperLogLogMonoid@1f5f8ac6,com.twitter.algebird.Hash128$$anon$5@1a565a6b)\nhllAggs: com.twitter.algebird.HLL \u003d DenseHLL(14,Bytes(3,4,4,2,5,4,2,6,4,2,3,4,3,2,10,2,1,6,3,3,3,10,6,2,3,5,6,2,2,3,3,4,2,4,6,8,8,5,2,6,4,3,6,5,3,2,5,1,3,2,7,5,2,2,5,4,4,6,4,5,2,7,6,6,3,5,3,3,5,3,6,1,7,2,3,2,2,3,2,1,7,4,3,5,3,3,5,3,3,2,3,5,3,6,8,4,5,4,3,6,5,2,2,5,3,3,7,4,1,6,3,1,6,8,4,4,3,5,4,3,5,9,2,6,6,1,4,7,3,3,3,1,8,4,5,2,6,4,3,3,3,1,3,1,2,6,5,3,4,3,3,3,2,1,5,6,5,4,3,4,7,5,6,2,3,3,4,5,4,6,3,4,4,4,4,4,5,4,3,6,3,3,7,5,4,4,5,3,10,3,5,3,3,8,6,2,5,4,5,2,3,4,3,5,3,4,4,1,5,4,2,8,4,3,4,5,3,5,4,4,6,3,3,2,7,4,2,2,3,6,4,3,5,3,3,3,4,4,3,5,5,4,5,3,3,2,3,5,5,3,1,2,4,3,4,5,2,4,4,3,6,4,3,4,4,3,1,3,9,5,2,5,5,2,2,3,10,4,6,4,4,2,7,5,3,6,3,4,4,1,3,2,4,6,5,4,3,4,2,3,3,4,2,4,4,4,5,4,3,5,3,3,4,5,1,2,1,5,2,5,3,10,5,5,3,6,5,3,6,2,1,2,5,4,2,6,4,3,5,5,9,2,3,3,6,4,1,3,8,2,4,7,6,3,4,4,4,6,8,3,3,3,4,6,3,5,3,1,2,..."
+      },
+      "dateCreated": "Dec 20, 2015 3:01:06 AM",
+      "dateStarted": "Jun 24, 2016 7:01:30 AM",
+      "dateFinished": "Jun 24, 2016 7:01:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of HyperLogLog Aggregator",
+      "text": "val sizeInMemoryHll \u003d SizeEstimator.estimate(hllAggs)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459739217886_-674335204",
+      "id": "20160404-030657_170816376",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "sizeInMemoryHll: Long \u003d 16472\n"
+      },
+      "dateCreated": "Apr 4, 2016 3:06:57 AM",
+      "dateStarted": "Jun 24, 2016 7:01:30 AM",
+      "dateFinished": "Jun 24, 2016 7:01:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "HyperLogLog Aggregator Details",
+      "text": "val approxSetSize \u003d hllAggs.approximateSize\nval approxSetSizeMin \u003d approxSetSize.min\nval approxSetSizeEstimate \u003d approxSetSize.estimate\nval approxSetSizeMax \u003d approxSetSize.max\nval approxSetSizeEstimateProbabilityWithinBounds \u003d approxSetSize.probWithinBounds",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454016734077_-200778005",
+      "id": "20160128-213214_850454815",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "approxSetSize: com.twitter.algebird.Approximate[Long] \u003d Approximate(97558,99995,102433,0.9972)\napproxSetSizeMin: Long \u003d 97558\napproxSetSizeEstimate: Long \u003d 99995\napproxSetSizeMax: Long \u003d 102433\napproxSetSizeEstimateProbabilityWithinBounds: Double \u003d 0.9972\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:32:14 PM",
+      "dateStarted": "Jun 24, 2016 7:01:31 AM",
+      "dateFinished": "Jun 24, 2016 7:01:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Option 2:  Create HyperLogLog Monoid",
+      "text": "import com.twitter.algebird.HyperLogLog.int2Bytes\nimport com.twitter.algebird.HyperLogLogMonoid\n\nval hllMonoid \u003d new HyperLogLogMonoid(bits \u003d 14)\n\nval hlls \u003d list1.map(hllMonoid.create(_))\n\nval combinedHllMonoid \u003d hllMonoid.sum(hlls)\nval approxSizeEstimateHllMonoid \u003d hllMonoid.sizeOf(combinedHllMonoid)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451170321214_-439403456",
+      "id": "20151226-225201_69635467",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.HyperLogLog.int2Bytes\nimport com.twitter.algebird.HyperLogLogMonoid\nhllMonoid: com.twitter.algebird.HyperLogLogMonoid \u003d com.twitter.algebird.HyperLogLogMonoid@5f4fc9d3\nhlls: List[com.twitter.algebird.HLL] \u003d List(SparseHLL(14,Map(9650 -\u003e Max(1))), SparseHLL(14,Map(10082 -\u003e Max(3))), SparseHLL(14,Map(6205 -\u003e Max(1))), SparseHLL(14,Map(10388 -\u003e Max(1))), SparseHLL(14,Map(15708 -\u003e Max(2))), SparseHLL(14,Map(9540 -\u003e Max(1))), SparseHLL(14,Map(10207 -\u003e Max(2))), SparseHLL(14,Map(956 -\u003e Max(1))), SparseHLL(14,Map(6998 -\u003e Max(2))), SparseHLL(14,Map(4153 -\u003e Max(2))), SparseHLL(14,Map(6786 -\u003e Max(3))), SparseHLL(14,Map(7477 -\u003e Max(5))), SparseHLL(14,Map(3860 -\u003e Max(1))), SparseHLL(14,Map(6620 -\u003e Max(4))), SparseHLL(14,Map(2502 -\u003e Max(2))), SparseHLL(14,Map(9260 -\u003e Max(3))), SparseHLL(14,Map(5030 -\u003e Max(4))), SparseHLL(14,Map(5740 -\u003e Max(2))), SparseHLL(14,Map(7796 -\u003e Max(4))), SparseHLL(14,Map(6898 -\u003e Max(1))), SparseHLL(14,Map(939 -\u003e Max(4))), SparseHLL(14,Map...combinedHllMonoid: com.twitter.algebird.HLL \u003d DenseHLL(14,Bytes(3,4,4,2,5,4,2,6,4,2,3,4,3,2,10,2,1,6,3,3,3,10,6,2,3,5,6,2,2,3,3,4,2,4,6,8,8,5,2,6,4,3,6,5,3,2,5,1,3,2,7,5,2,2,5,4,4,6,4,5,2,7,6,6,3,5,3,3,5,3,6,1,7,2,3,2,2,3,2,1,7,4,3,5,3,3,5,3,3,2,3,5,3,6,8,4,5,4,3,6,5,2,2,5,3,3,7,4,1,6,3,1,6,8,4,4,3,5,4,3,5,9,2,6,6,1,4,7,3,3,3,1,8,4,5,2,6,4,3,3,3,1,3,1,2,6,5,3,4,3,3,3,2,1,5,6,5,4,3,4,7,5,6,2,3,3,4,5,4,6,3,4,4,4,4,4,5,4,3,6,3,3,7,5,4,4,5,3,10,3,5,3,3,8,6,2,5,4,5,2,3,4,3,5,3,4,4,1,5,4,2,8,4,3,4,5,3,5,4,4,6,3,3,2,7,4,2,2,3,6,4,3,5,3,3,3,4,4,3,5,5,4,5,3,3,2,3,5,5,3,1,2,4,3,4,5,2,4,4,3,6,4,3,4,4,3,1,3,9,5,2,5,5,2,2,3,10,4,6,4,4,2,7,5,3,6,3,4,4,1,3,2,4,6,5,4,3,4,2,3,3,4,2,4,4,4,5,4,3,5,3,3,4,5,1,2,1,5,2,5,3,10,5,5,3,6,5,3,6,2,1,2,5,4,2,6,4,3,5,5,9,2,3,3,6,4,1,3,8,2,4,7,6,3,4,4,4,6,8,3,3,3,4,6,...approxSizeEstimateHllMonoid: com.twitter.algebird.Approximate[Long] \u003d Approximate(97558,99995,102433,0.9972)\n"
+      },
+      "dateCreated": "Dec 26, 2015 10:52:01 PM",
+      "dateStarted": "Jun 24, 2016 7:01:32 AM",
+      "dateFinished": "Jun 24, 2016 7:01:34 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of HyperLogLog Monoid",
+      "text": "val memorySizeCombinedHllMonoid \u003d SizeEstimator.estimate(combinedHllMonoid)",
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459739422913_81820623",
+      "id": "20160404-031022_2062867592",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "memorySizeCombinedHllMonoid: Long \u003d 16512\n"
+      },
+      "dateCreated": "Apr 4, 2016 3:10:22 AM",
+      "dateStarted": "Jun 24, 2016 7:01:33 AM",
+      "dateFinished": "Jun 24, 2016 7:01:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 24, 2016 7:01:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459739263652_295509504",
+      "id": "20160404-030743_791103070",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 4, 2016 3:07:43 AM",
+      "dateStarted": "Jun 24, 2016 7:01:35 AM",
+      "dateFinished": "Jun 24, 2016 7:01:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Approximations/01: Algebird HyperLogLog (Count Distinct)",
+  "id": "2B8YJZJB1",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

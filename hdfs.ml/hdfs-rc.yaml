@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: hdfs-2-7-0 
+  labels:
+    app: hdfs 
+    version: 2.7.0
+spec:
+  replicas: 1
+  selector:
+    name: hdfs-2-7-0
+  template:
+    metadata:
+      labels:
+        name: hdfs-2-7-0
+    spec:
+      containers:
+      - name: hdfs-2-7-0
+        image: docker.io/fluxcapacitor/hdfs-2-7-0
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 9000
+        - containerPort: 50070 

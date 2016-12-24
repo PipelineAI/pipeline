@@ -1,0 +1,164 @@
+FAQ Version 1.1
+
+
+
+1. What is 'rnnlm' and what can it be good for?
+
+2. Training rnn model & perplexity evaluation
+
+3. Rescoring n-best lists
+
+4. Performance issues and stability
+
+5. How good this thing really is in comparison to other LM techniques?
+
+6. Something fails! What should I do?
+
+7. Where can I get more information about the rnnlm model?
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+1. What is 'rnnlm' and what can it be good for?
+------------------------------------------------------------------------------------------------------------------------
+The rnnlmlib is supposed to be a simple library for training recurrent neural network based language models. The main
+purpose of this library is to speed up research progress in the field of statistical language modeling.
+
+The library is used by the 'rnnlm' tool, which is used to train models, evaluate models and to rescore n-best lists.
+This should lead to better results in automatic speed recognition (ASR) and machine translation (MT) if used properly,
+compared to what can be obtained with usual backoff n-gram models.
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+2. Training rnn model & perplexity evaluation
+------------------------------------------------------------------------------------------------------------------------
+To train rnn LM with the 'rnnlm' tool, simply run
+
+./rnnlm -train train -valid valid -rnnlm model -hidden 40 -rand-seed 1 -debug 2 -bptt 3 -class 200
+
+where:
+
+'train' is a plain text file (if the file is in the DOS format, it should be first converted by 'dos2unix' command)
+
+'valid' is a plain text file containing data used for controlling learning rate / early stopping; these data can be
+some heldout part of the training data
+
+'model' is the file to which the rnnlm model will be saved
+
+'-hidden 40' creates model with 40 neurons in the hidden layer; the optimal size of the hidden layer depends on the
+size of the training data - for less than 1M words, 50-200 neurons is usually enough, for 1M-10M words use 200-300
+(using larger hidden layer usually does not degrade the performance, but makes the training progress slower)
+
+'-debug 2' switch will cause the training progress to be shown on the screen interactively
+
+'-bptt 3' will backpropagate error through recurrent connections for 2 steps back in time (see [2])
+
+'-class 200' will use 200 classes to speed up training progress (see [2])
+
+
+Once the training finishes, the model can be evaluated by calling
+
+./rnnlm -rnnlm model -test test
+
+See the sample training & testing in the script 'example.sh'.
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+3. Rescoring n-best lists
+------------------------------------------------------------------------------------------------------------------------
+To rescore n-best list, you first form it by concatenating n-best lists from all utterances with unique identifier at
+beginning of each line, like:
+
+1 WE KNOW
+1 WE DO KNOW
+1 WE DONT KNOW
+2 I AM
+2 I SAY
+etc.
+
+then you run
+
+./rnnlm -rnnlm model -test nbest.txt -nbest -debug 0 > scores.txt
+
+Which will produce probability for each sentence given RNN, which can be then used to find the new one bests. It is
+possible to use -lm-prob switch to supply probabilities from oter model, that will be linearly interpolated per word
+with rnnlm probabilities. Optionally, it is possible to linearly interpolate log probabilities given various models
+(which results in unnormalized probabilities, however is OK for rescoring).
+
+Check simple examples available on the rnnlm web page for further details.
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+4. Performance issues and stability
+------------------------------------------------------------------------------------------------------------------------
+Training the rnnlm model using provided script 'example.sh' should take about 1 minute. If it is significantly more, it
+is good to check for possible problems. The choice of compiler is important; g++-4.5 is much faster than g++-4.1.
+
+To improve speed, it is good to use 'class' switch with value about square root of the size of the vocabulary used
+in the training data. Further improvements can be obtained by limiting the vocabulary (for example by mapping all
+singletons to <unk>). Switches '-hidden', '-class' and '-bptt' have major impact on the training complexity. Check [2]
+for details.
+
+To further improve speed (while having less stability, so this is useful mostly with small amounts of data), the
+toolkit can be compiled with floats instead of doubles (can be changed in rnnlmlib.h - use 'typedef float real;').
+
+If the training progress does not converge to a good solution (can be seen as unexpectedly large degradation of
+performance between epochs), it can be sometimes fixed by retraining with larger '-beta' parameter, or by starting
+training with different random initialization by setting '-rand-seed N' parameter.
+
+Generally, while using doubles and the default '-beta' parameter that sets L2 regularization, there seems to be no
+problems with stability of training. Testing is always stable even if the toolkit is recompiled with floats only
+(unless dynamic evaluation is used).
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+5. How good this thing really is when compared to other LM techniques?
+------------------------------------------------------------------------------------------------------------------------
+The toolkit is believed to help in the future to obtain new state of the art language models. Detailed comparison
+to other advanced LM techniques is in [3]. The results show superiority of rnnlm models over competitive
+techniques (like random forests, class based models, maximum entropy models, syntactical models, simple feedforward
+nnlm etc.) with entropy (perplexity) as a measure. Also, comparison to several other LM techniques on speech recognition
+task is shown in [3].
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+6. Something fails! What should I do?
+------------------------------------------------------------------------------------------------------------------------
+- compilation: the code should be easy to compile with any c++ compiler, let us know if you experience any problems
+- if the 'example.sh' fails, check if you have installed SRILM tools (if the combination of models fails)
+
+Known bugs:
+- with MSDOS end of line encoding, the rnnlm tool works incorrectly; use 'dos2unix'
+- empty lines: SRILM skips empty lines, while rnnlm does not; thus better remove all empty lines from test sets, if
+  scores from rnnlm and SRILM tools are to be combined
+- other CPU architectures than x86: the FAST_EXP() macro from rnnlmlib.cpp might fail; in such case, use normal call
+  to exp()
+
+
+------------------------------------------------------------------------------------------------------------------------
+7. Where can I get more information about the 'recurrent neural network based language model'?
+------------------------------------------------------------------------------------------------------------------------
+
+First check the examples on the webpage:
+http://www.fit.vutbr.cz/~imikolov/rnnlm/
+
+Contact:
+email: tmikolov@gmail.com
+
+
+References:
+[1]	Mikolov, T., Karafiát, M., Burget, L., Èernocký, J., Khudanpur, S.: Recurrent neural network based language model, In:
+Proceedings of the 11th Annual Conference of the International Speech Communication Association (INTERSPEECH 2010),
+Makuhari, Chiba, JP, ISCA, 2010
+http://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf
+
+[2]	Mikolov, T., Kombrink, S., Burget, L., Èernocký, J., Khudanpur, S.: EXTENSIONS OF RECURRENT NEURAL NETWORK LANGUAGE MODEL,
+In: Proc. ICASSP 2011
+
+[3]	Mikolov, T., Deoras, A., Kombrink, S., Burget, L., Èernocký: Empirical Evaluation and Combination of Advanced
+Language Modeling Techniques, submitted to Interspeech 2011

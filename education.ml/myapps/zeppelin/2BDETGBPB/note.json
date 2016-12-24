@@ -1,0 +1,145 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Classification](https://s3.amazonaws.com/fluxcapacitor.com/img/graph-classification-1.png)",
+      "dateUpdated": "Mar 12, 2016 7:05:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457809134143_2040582151",
+      "id": "20160312-185854_180823148",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://s3.amazonaws.com/fluxcapacitor.com/img/graph-classification-1.png\" alt\u003d\"Classification\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 12, 2016 6:58:54 PM",
+      "dateStarted": "Mar 12, 2016 7:05:20 PM",
+      "dateFinished": "Mar 12, 2016 7:05:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![Classification](https://s3.amazonaws.com/fluxcapacitor.com/img/graph-classification-2.png)",
+      "dateUpdated": "Mar 12, 2016 7:05:49 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457809531274_-1080366298",
+      "id": "20160312-190531_439615664",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://s3.amazonaws.com/fluxcapacitor.com/img/graph-classification-2.png\" alt\u003d\"Classification\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 12, 2016 7:05:31 PM",
+      "dateStarted": "Mar 12, 2016 7:05:43 PM",
+      "dateFinished": "Mar 12, 2016 7:05:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### K-Nearest Neighbor\n* Can bucket using pairwise distance - and reduce number of pairwise comparisons",
+      "dateUpdated": "Mar 12, 2016 7:06:22 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457809134143_2040582151",
+      "id": "20160312-185854_1195268124",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eK-Nearest Neighbor\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eCan bucket using pairwise distance - and reduce number of pairwise comparisons\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Mar 12, 2016 6:58:54 PM",
+      "dateStarted": "Mar 12, 2016 7:06:22 PM",
+      "dateFinished": "Mar 12, 2016 7:06:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Mar 12, 2016 6:58:54 PM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457809134143_2040582151",
+      "id": "20160312-185854_1913743766",
+      "dateCreated": "Mar 12, 2016 6:58:54 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Graph/11: Classification",
+  "id": "2BDETGBPB",
+  "angularObjects": {
+    "2BEGD5PKY": [],
+    "2BE77VGXX": [],
+    "2BCP5RYPW": [],
+    "2BE5B7T6C": [],
+    "2BDHX9C4U": [],
+    "2BFE8ZRKW": [],
+    "2BG7XUMST": [],
+    "2BEWT9BTQ": [],
+    "2BF9JBZN5": [],
+    "2BF666AQP": [],
+    "2BF7MKGKF": [],
+    "2BG2MTBAA": [],
+    "2BCR6TSCQ": [],
+    "2BFVSJYDM": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,3 @@
+Models will be saved in this directory.
+
+The models based on Switcboard corpus for rescoring experiments (example 2) are provided (swb.rnn.model and swb.ngram.model).

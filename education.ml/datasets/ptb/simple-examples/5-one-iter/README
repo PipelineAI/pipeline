@@ -1,0 +1,4 @@
+Example of how to train with no validation data by using the -one-iter switch and manually
+set learning rate. Usually, it is possible to obtain good results by running 3-5 iterations
+with the full learning rate (0.1) and 3-5 iterations with the decreasing learning rate. Also,
+the training data can be shuffled before start of each new training epoch in this setting.

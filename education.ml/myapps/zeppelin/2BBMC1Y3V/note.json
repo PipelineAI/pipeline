@@ -1,0 +1,261 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md \nExact Set Similarity (Jaccard)\n![Jaccard Similarity](http://fluxcapacitor.com/img/jaccard-similarity-1.png)\n![Jaccard Similarity](http://fluxcapacitor.com/img/jaccard-similarity-3.png)",
+      "dateUpdated": "Jun 29, 2016 6:15:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452833466741_1910150883",
+      "id": "20160115-045106_1203796104",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eExact Set Similarity (Jaccard)\n\u003cbr  /\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/jaccard-similarity-1.png\" alt\u003d\"Jaccard Similarity\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/jaccard-similarity-3.png\" alt\u003d\"Jaccard Similarity\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 15, 2016 4:51:06 AM",
+      "dateStarted": "Jun 29, 2016 6:15:09 AM",
+      "dateFinished": "Jun 29, 2016 6:15:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Exact Jaccard Similarity",
+      "text": "val seq1 \u003d Seq(0,1,2)\nval seq2 \u003d Seq(1,2,3)\n\nval intersectionSize \u003d (seq1 intersect seq2).size\nval unionSize \u003d (seq1 union seq2).toSet.size\n\nval jaccardSimliarity \u003d if (unionSize \u003e 0) intersectionSize.toDouble / unionSize.toDouble",
+      "dateUpdated": "Jun 29, 2016 6:15:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452910881954_1656345273",
+      "id": "20160116-022121_106465995",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "seq1: Seq[Int] \u003d List(0, 1, 2)\nseq2: Seq[Int] \u003d List(1, 2, 3)\nintersectionSize: Int \u003d 2\nunionSize: Int \u003d 4\njaccardSimliarity: AnyVal \u003d 0.5\n"
+      },
+      "dateCreated": "Jan 16, 2016 2:21:21 AM",
+      "dateStarted": "Jun 29, 2016 6:15:09 AM",
+      "dateFinished": "Jun 29, 2016 6:15:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Helper Method for Exact Jaccard Similarity",
+      "text": "import com.advancedspark.ml.Similarity\n\nval jaccardSimliarity \u003d Similarity.jaccardSimilarity(seq1, seq2)",
+      "dateUpdated": "Jun 29, 2016 6:15:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456945037123_1570369086",
+      "id": "20160302-185717_2032872778",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\njaccardSimliarity: Double \u003d 0.5\n"
+      },
+      "dateCreated": "Mar 2, 2016 6:57:17 PM",
+      "dateStarted": "Jun 29, 2016 6:15:09 AM",
+      "dateFinished": "Jun 29, 2016 6:15:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n### Approximate Set Similarity\n\n![Locality Sensitive Hashing](http://fluxcapacitor.com/img/locality-sensitive-hashing.png)",
+      "dateUpdated": "Jun 29, 2016 6:15:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454651570214_-1127551013",
+      "id": "20160205-055250_21754846",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eApproximate Set Similarity\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/locality-sensitive-hashing.png\" alt\u003d\"Locality Sensitive Hashing\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 5, 2016 5:52:50 AM",
+      "dateStarted": "Jun 29, 2016 6:15:09 AM",
+      "dateFinished": "Jun 29, 2016 6:15:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Pre-Process sets into buckets",
+      "text": "import com.twitter.algebird.{ MinHasher, MinHasher32, MinHashSignature }\n\ncase class BucketSetMinHash(bucketId: Long, seq: Seq[Int], minHash: MinHashSignature) {\n  override def toString: String \u003d bucketId + \", \" + seq + \", \" + minHash\n}\n\nval numHashes \u003d 10\nval minApproxLSHSimilarityThreshold \u003d 0.1\nval numBands \u003d MinHasher.pickBands(minApproxLSHSimilarityThreshold, numHashes)\n\nval minHasher \u003d new MinHasher32(numHashes, numBands)\n\nval buckets \u003d Seq(seq1, seq2).flatMap(seq \u003d\u003e {\n  val setMinHashSignature \u003d minHasher.sum(seq.map(element \u003d\u003e minHasher.init(element)))\n  val buckets \u003d minHasher.buckets(setMinHashSignature)\n  buckets.map(bucket \u003d\u003e\n    BucketSetMinHash(bucket, seq, setMinHashSignature)\n  )\n}).groupBy(item \u003d\u003e item.bucketId)\n\nbuckets.size\n\nbuckets.mkString(\"\\n\")",
+      "dateUpdated": "Jun 29, 2016 6:17:32 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452914732708_-1484241815",
+      "id": "20160116-032532_300147999",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.{MinHasher, MinHasher32, MinHashSignature}\ndefined class BucketSetMinHash\nnumHashes: Int \u003d 10\nminApproxLSHSimilarityThreshold: Double \u003d 0.1\nnumBands: Int \u003d 10\nminHasher: com.twitter.algebird.MinHasher32 \u003d com.twitter.algebird.MinHasher32@773d918\nbuckets: scala.collection.immutable.Map[Long,Seq[BucketSetMinHash]] \u003d Map(-8313753672044323434 -\u003e List(-8313753672044323434, List(1, 2, 3), MinHashSignature([B@2ed88e18)), 4415788184199225070 -\u003e List(4415788184199225070, List(0, 1, 2), MinHashSignature([B@4df416b9)), -5411488574132590260 -\u003e List(-5411488574132590260, List(1, 2, 3), MinHashSignature([B@2ed88e18)), 735359762926455179 -\u003e List(735359762926455179, List(0, 1, 2), MinHashSignature([B@4df416b9)), 7317943147017192055 -\u003e List(7317943147017192055, List(1, 2, 3), MinHashSignature([B@2ed88e18)), -439320264824263901 -\u003e List(-439320264824263901, List(0, 1, 2), MinHashSignature([B@4df416b9), -439320264824263901, List(1, 2, 3), MinHashSignature([B@2ed88e18)), -6353613501101050625 -\u003e List(-6353613501101050625, List(1, 2, 3), MinHashSigna...res136: Int \u003d 16\nres138: String \u003d \n-8313753672044323434 -\u003e List(-8313753672044323434, List(1, 2, 3), MinHashSignature([B@2ed88e18))\n4415788184199225070 -\u003e List(4415788184199225070, List(0, 1, 2), MinHashSignature([B@4df416b9))\n-5411488574132590260 -\u003e List(-5411488574132590260, List(1, 2, 3), MinHashSignature([B@2ed88e18))\n735359762926455179 -\u003e List(735359762926455179, List(0, 1, 2), MinHashSignature([B@4df416b9))\n7317943147017192055 -\u003e List(7317943147017192055, List(1, 2, 3), MinHashSignature([B@2ed88e18))\n-439320264824263901 -\u003e List(-439320264824263901, List(0, 1, 2), MinHashSignature([B@4df416b9), -439320264824263901, List(1, 2, 3), MinHashSignature([B@2ed88e18))\n-6353613501101050625 -\u003e List(-6353613501101050625, List(1, 2, 3), MinHashSignature([B@2ed88e18))\n-286656788057706578 -\u003e List(-28665678805770..."
+      },
+      "dateCreated": "Jan 16, 2016 3:25:32 AM",
+      "dateStarted": "Jun 29, 2016 6:17:32 AM",
+      "dateFinished": "Jun 29, 2016 6:17:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Compare Sets within each bucket",
+      "text": "val minApproxLSHSimilarityThreshold \u003d 0.5\n\nval similarItemsWithBuckets \u003d buckets.mapValues(items \u003d\u003e { \n  val allItemPairs \u003d\n    for {\n      item1 \u003c- items\n      item2 \u003c- items\n    } yield (item1, item2)\n  \n  val similarItemPairs \u003d allItemPairs\n    .map(itemPair \u003d\u003e \n      (itemPair._1.seq, itemPair._2.seq, minHasher.similarity(itemPair._1.minHash, itemPair._2.minHash)))\n    .filter(_._3 \u003e\u003d minApproxLSHSimilarityThreshold) \n    \n  similarItemPairs  \n})\n\nsimilarItemsWithBuckets.mkString(\"\\n\")\nsimilarItemsWithBuckets.size",
+      "dateUpdated": "Jun 29, 2016 6:17:42 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454637709158_1042071132",
+      "id": "20160205-020149_351681937",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "minApproxLSHSimilarityThreshold: Double \u003d 0.5\nsimilarItemsWithBuckets: scala.collection.immutable.Map[Long,Seq[(Seq[Int], Seq[Int], Double)]] \u003d Map(-8313753672044323434 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0)), 4415788184199225070 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0)), -5411488574132590260 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0)), 735359762926455179 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0)), 7317943147017192055 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0)), -439320264824263901 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0), (List(1, 2, 3),List(1, 2, 3),1.0)), -6353613501101050625 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0)), -286656788057706578 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0)), 5652451143605684311 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0), (List(1, 2, 3),List(1, 2, 3),1.0)), 7638007176457950763 -\u003e List((List(0, 1, 2),List...res142: String \u003d \n-8313753672044323434 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0))\n4415788184199225070 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0))\n-5411488574132590260 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0))\n735359762926455179 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0))\n7317943147017192055 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0))\n-439320264824263901 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0), (List(1, 2, 3),List(1, 2, 3),1.0))\n-6353613501101050625 -\u003e List((List(1, 2, 3),List(1, 2, 3),1.0))\n-286656788057706578 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0))\n5652451143605684311 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0), (List(1, 2, 3),List(1, 2, 3),1.0))\n7638007176457950763 -\u003e List((List(0, 1, 2),List(0, 1, 2),1.0), (List(1, 2, 3),List(1, 2, 3),1.0))\n-3282176144160467053 -\u003e List((List(0, 1, 2...res143: Int \u003d 16\n"
+      },
+      "dateCreated": "Feb 5, 2016 2:01:49 AM",
+      "dateStarted": "Jun 29, 2016 6:17:42 AM",
+      "dateFinished": "Jun 29, 2016 6:17:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 29, 2016 6:15:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454647618616_557813923",
+      "id": "20160205-044658_1348228575",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Feb 5, 2016 4:46:58 AM",
+      "dateStarted": "Jun 29, 2016 6:15:11 AM",
+      "dateFinished": "Jun 29, 2016 6:15:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Clustering/01:  Exact (Jaccard) vs. Approximate Set Similarity (LSH)",
+  "id": "2BBMC1Y3V",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

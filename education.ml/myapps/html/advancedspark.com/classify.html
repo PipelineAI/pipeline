@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
+  <title>TensorFlow Image Classification</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+  <style>
+      body {
+        background-color: darkgray;
+        color: black;
+      }
+      li {
+        padding: 2px;
+        display: inline;
+        list-style-type: none;
+        position: relative;
+        width: 70px;
+        height: 50px;
+      }
+      li .like {
+        position: absolute;
+        z-index: 99;
+        left: 10px;
+        display: none;
+      }
+  </style>
+  <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+
+  <script type="text/javascript">
+  function classifyImageUrl() {
+    $("submit").prop("disabled", true);
+    var image_url = $('#image_url').val()
+    $('#image').attr("src", image_url)
+    $('#items').html("<center>Please Hold... Tensors are Flowing!</p><img src='img/spinner.gif'></img></center>") 
+    $.getJSON("/classify?image_url=" + image_url, function(data) {
+        var items = [];
+        $.each(data.results, function(arrayIdx, result) {
+          items.push( "<center><li id='li" + arrayIdx + "'>" + result + "</li></center><br/>" );
+        });
+
+        $('#items').html("<center><h2>Results</h2><p/>" + items.join("") + "</center>")
+        $("submit").pro("disabled", false);
+    });
+  }
+  </script>
+</head>
+<body>
+<hr/>
+<form action="javascript:classifyImageUrl()">
+<center>
+<h2>Enter Image URL to Classify using TensorFlow</h2>
+<p/><h3>Examples</h3>
+http://www.library.ufl.edu/spec/archome/fregly.jpg<br/>
+http://weneedfun.com/wp-content/uploads/2015/10/Arcade-Games-10.jpg<br/>
+https://pbs.twimg.com/profile_images/492003540819144704/3xKB2iDH.jpeg<br/>
+http://images5.fanpop.com/image/polls/969000/969412_1331081011220_full.jpg<br/>
+http://iss.zillowstatic.com/image/craftsman-kitchen-with-breakfast-bar-i_g-ISt4fz2d34bkpp0000000000-OUBhR.jpg<br/>
+<p/>
+<p/><input type="text" name="image_url" id="image_url">
+<p/><input type="submit" name="submit" id="submit" value="Classify">
+</center>
+</form>
+<hr/>
+<div id="items">
+</div>
+<hr/>
+<div>
+<center><img id="image" src=""></img></center>
+</div>
+<hr/>
+</body>
+</html>

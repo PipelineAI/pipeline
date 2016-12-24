@@ -1,6 +1,6 @@
 FROM fluxcapacitor/package-ubuntu-14.04
 
-ENV KUBERNETES_VERSION=1.4.1
+ENV KUBERNETES_VERSION=1.5.1
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 WORKDIR /root

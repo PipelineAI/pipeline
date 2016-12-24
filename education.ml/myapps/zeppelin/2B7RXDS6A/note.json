@@ -1,0 +1,464 @@
+{
+  "paragraphs": [
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n  .cache()\n  \nz.show(itemsDF)",
+      "dateUpdated": "Apr 25, 2016 1:32:17 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878197_837314350",
+      "id": "20160110-031758_168563639",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:34:53 AM",
+      "dateFinished": "Apr 4, 2016 4:35:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert CSV-based DataFrame into TaggedItems",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n}).cache()",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878197_837314350",
+      "id": "20160110-031758_2020766027",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: org.apache.spark.rdd.RDD[com.advancedspark.ml.TaggedItem] \u003d MapPartitionsRDD[18] at map at \u003cconsole\u003e:89\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:34:53 AM",
+      "dateFinished": "Apr 4, 2016 4:35:37 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878197_837314350",
+      "id": "20160110-031758_1003289264",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nFantasy\t2\nCrime\t1\nAnimation\t1\nThriller\t2\nAdventure\t4\nAction\t3\nChildren\t3\nComedy\t5\nRomance\t3\nDrama\t1\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:37 AM",
+      "dateFinished": "Apr 4, 2016 4:35:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create Cartesian product of all items",
+      "text": "val allItemPairsRDD \u003d itemsRDD.cartesian(itemsRDD)\n  .filter(itemPair \u003d\u003e (itemPair._1.id \u003c\u003d itemPair._2.id)) // preserve matrix triangle to avoid extra compares\n  .cache()\n \nval allItemPairsCount \u003d allItemPairsRDD.count() ",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878197_837314350",
+      "id": "20160110-031758_5818095",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "allItemPairsRDD: org.apache.spark.rdd.RDD[(com.advancedspark.ml.TaggedItem, com.advancedspark.ml.TaggedItem)] \u003d MapPartitionsRDD[27] at filter at \u003cconsole\u003e:91\nallItemPairsCount: Long \u003d 55\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:38 AM",
+      "dateFinished": "Apr 4, 2016 4:35:39 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Jaccard Similarity between all Items above a threshold",
+      "text": "import com.advancedspark.ml.Similarity\n\nval minJaccardSimilarityThreshold \u003d 0.1\n\nval similarItemPairIdsAboveThresholdRDD \u003d allItemPairsRDD\n  .map(itemPair \u003d\u003e (itemPair._1.id, itemPair._2.id,\n     Similarity.jaccardSimilarity(itemPair._1.tags, itemPair._2.tags)))\n  .filter(_._3 \u003e\u003d minJaccardSimilarityThreshold) // Preserve only pairs above min jaccard similarity \n  .cache()\n\nval similarItemPairIdCount \u003d similarItemPairIdsAboveThresholdRDD.count()",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "item1",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "item2",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878197_837314350",
+      "id": "20160110-031758_1567966002",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\nminJaccardSimilarityThreshold: Double \u003d 0.1\nsimilarItemPairIdsAboveThresholdRDD: org.apache.spark.rdd.RDD[(Long, Long, Double)] \u003d MapPartitionsRDD[29] at filter at \u003cconsole\u003e:100\nsimilarItemPairIdCount: Long \u003d 29\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:39 AM",
+      "dateFinished": "Apr 4, 2016 4:35:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Items By Similarity Using Power Iteration Clustering",
+      "text": "// http://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic\nimport org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemPairIdsAboveThresholdRDD)",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878198_838468597",
+      "id": "20160110-031758_1722669967",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@14edb4b8\nclusteringModel: org.apache.spark.mllib.clustering.PowerIterationClusteringModel \u003d org.apache.spark.mllib.clustering.PowerIterationClusteringModel@56b9677c\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:40 AM",
+      "dateFinished": "Apr 4, 2016 4:35:44 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Enrich the cluster assignments",
+      "text": "val clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}\n\nval enrichedClusterAssignmentsDF \u003d clusterAssignmentsRDD.toDF(\"itemId\", \"clusterId\")\n  .join(itemsDF, $\"itemId\" \u003d\u003d\u003d $\"id\")\n  .select($\"clusterId\", $\"itemId\", $\"title\", $\"tags\")\n  .sort($\"clusterId\" desc)\n  \nz.show(enrichedClusterAssignmentsDF.select($\"clusterId\", $\"title\", $\"tags\"))",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452398505649_1288975621",
+      "id": "20160110-040145_110325241",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\ttitle\ttags\n4\tJumanji (1995)\tAdventure|Children|Fantasy\n4\tTom and Huck (1995)\tAdventure|Children\n3\tGoldenEye (1995)\tAction|Adventure|Thriller\n2\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n1\tSudden Death (1995)\tAction\n1\tHeat (1995)\tAction|Crime|Thriller\n0\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n0\tGrumpier Old Men (1995)\tComedy|Romance\n0\tFather of the Bride Part II (1995)\tComedy\n0\tSabrina (1995)\tComedy|Romance\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:01:45 AM",
+      "dateStarted": "Apr 4, 2016 4:35:41 AM",
+      "dateFinished": "Apr 4, 2016 4:35:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show cluster Distributions",
+      "text": "val clusterDistributionDF \u003d enrichedClusterAssignmentsDF\n  .select($\"clusterId\", $\"itemId\", $\"tags\")\n  .groupBy($\"clusterId\", $\"tags\")\n  .agg(count($\"itemId\"))\n\nz.show(clusterDistributionDF)",
+      "dateUpdated": "Apr 4, 2016 4:34:53 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878198_838468597",
+      "id": "20160110-031758_1442238592",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\ttags\tcount(itemId)\n4\tAdventure|Children\t1\n4\tAdventure|Children|Fantasy\t1\n3\tAction|Adventure|Thriller\t1\n2\tAdventure|Animation|Children|Comedy|Fantasy\t1\n1\tAction\t1\n1\tAction|Crime|Thriller\t1\n0\tComedy|Drama|Romance\t1\n0\tComedy\t1\n0\tComedy|Romance\t2\n"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:44 AM",
+      "dateFinished": "Apr 4, 2016 4:35:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 4, 2016 4:34:54 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452395878198_838468597",
+      "id": "20160110-031758_1407668586",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 10, 2016 3:17:58 AM",
+      "dateStarted": "Apr 4, 2016 4:35:46 AM",
+      "dateFinished": "Apr 4, 2016 4:35:47 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Clustering/02:  Exact Tag Similarity (Jaccard) + Power Iteration Clustering",
+  "id": "2B7RXDS6A",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

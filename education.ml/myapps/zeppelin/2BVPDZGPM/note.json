@@ -1,0 +1,397 @@
+{
+  "paragraphs": [
+    {
+      "text": "import java.io.File\n\nimport scala.collection.JavaConverters._\n\nimport org.apache.spark.SparkConf\nimport org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.PipelineStage\nimport org.apache.spark.ml.Predictor\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\nimport org.apache.spark.ml.feature.RFormula\nimport org.apache.spark.ml.regression.DecisionTreeRegressor\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.DataFrameReader\nimport org.apache.spark.sql.types.StructType\nimport org.dmg.pmml.FieldName\nimport org.dmg.pmml.DataField\nimport org.xml.sax.InputSource",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950458_-2078860868",
+      "id": "20160925-003910_1481761186",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport java.io.File\n\nimport scala.collection.JavaConverters._\n\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.ml.Pipeline\n\nimport org.apache.spark.ml.PipelineStage\n\nimport org.apache.spark.ml.Predictor\n\nimport org.apache.spark.ml.classification.DecisionTreeClassifier\n\nimport org.apache.spark.ml.feature.RFormula\n\nimport org.apache.spark.ml.regression.DecisionTreeRegressor\n\nimport org.apache.spark.sql.DataFrame\n\nimport org.apache.spark.sql.DataFrameReader\n\nimport org.apache.spark.sql.types.StructType\n\nimport org.dmg.pmml.FieldName\n\nimport org.dmg.pmml.DataField\n\nimport org.xml.sax.InputSource\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.commons.io.IOUtils\nimport java.net.URL\nimport java.nio.charset.Charset\nimport java.io.File\n\nval datasetUrl \u003d \"https://raw.githubusercontent.com/fluxcapacitor/datapalooza.ml/master/R/census.csv\"\n\nval datasetLines \u003d IOUtils.toString(new URL(datasetUrl), Charset.forName(\"utf8\"))\n\nval datasetRDD \u003d sc.parallelize(datasetLines.split(\"\\n\"))\n\n/*\nage,workclass,education,education_num,marital_status,occupation,relationship,race,sex,capital_gain,capital_loss,hours_per_week,native_country,income\n*/\ncase class Census(\n    age: Integer, workclass: String, education: String, education_num: Integer, marital_status: String,\n    occupation: String, relationship: String, race: String, sex: String, capital_gain: Integer, \n    capital_loss: Integer, hours_per_week: Integer, native_country: String, income: String\n)\n\nval censusDF \u003d datasetRDD.map(s \u003d\u003e s.split(\",\"))\n  .filter(s \u003d\u003e s(0) !\u003d \"age\").map(s \u003d\u003e \n     Census(s(0).toInt, \n            s(1),\n            s(2),\n            s(3).toInt,\n            s(4),\n            s(5),\n            s(6),\n            s(7),\n            s(8),\n            s(9).toInt,\n            s(10).toInt,\n            s(11).toInt,\n            s(12),\n            s(13))\n    ).toDF()",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950460_-2081169361",
+      "id": "20160925-003910_1600546444",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.commons.io.IOUtils\n\nimport java.net.URL\n\nimport java.nio.charset.Charset\n\nimport java.io.File\n\ndatasetUrl: String \u003d https://raw.githubusercontent.com/fluxcapacitor/datapalooza.ml/master/R/census.csv\n\n\n\n\n\n\n\n\ndatasetLines: String \u003d\n\"age,workclass,education,education_num,marital_status,occupation,relationship,race,sex,capital_gain,capital_loss,hours_per_week,native_country,income\n39,State-gov,Bachelors,13,Never-married,Adm-clerical,Not-in-family,White,Male,2174,0,40,United-States,\u003c\u003d50K\n50,Self-emp-not-inc,Bachelors,13,Married-civ-spouse,Exec-managerial,Husband,White,Male,0,0,13,United-States,\u003c\u003d50K\n38,Private,HS-grad,9,Divorced,Handlers-cleaners,Not-in-family,White,Male,0,0,40,United-States,\u003c\u003d50K\n53,Private,11th,7,Married-civ-spouse,Handlers-cleaners,Husband,Black,Male,0,0,40,United-States,\u003c\u003d50K\n28,Private,Bachelors,13,Married-civ-spouse,Prof-specialty,Wife,Black,Female,0,0,40,Cuba,\u003c\u003d50K\n37,Private,Masters,14,Married-civ-spouse,Exec-managerial,Wife,White,Female,0,0,40,United-States,\u003c\u003d50K\n49,Pr...\ndatasetRDD: org.apache.spark.rdd.RDD[String] \u003d ParallelCollectionRDD[1939] at parallelize at \u003cconsole\u003e:118\n\ndefined class Census\n\ncensusDF: org.apache.spark.sql.DataFrame \u003d [age: int, workclass: string ... 12 more fields]\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nval formulaStr: String \u003d \"income ~ .\"\n\nval schema: StructType \u003d censusDF.schema\nSystem.out.println(schema.treeString)\n\nval formula: RFormula \u003d new RFormula().setFormula(formulaStr)\n\nvar predictor: Predictor[_, _, _] \u003d new DecisionTreeClassifier().setMinInstancesPerNode(10)\n\npredictor.setLabelCol(formula.getLabelCol)\npredictor.setFeaturesCol(formula.getFeaturesCol)\n\nval pipeline \u003d new Pipeline().setStages(Array[PipelineStage](formula, predictor))\n\nval pipelineModel \u003d pipeline.fit(censusDF)\n\nval predictorModel \u003d pipelineModel.stages(1).asInstanceOf[DecisionTreeClassificationModel]\n\npredictorModel.toDebugString",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_796205005",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.classification.DecisionTreeClassificationModel\n\nformulaStr: String \u003d income ~ .\n\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(age,IntegerType,true), StructField(workclass,StringType,true), StructField(education,StringType,true), StructField(education_num,IntegerType,true), StructField(marital_status,StringType,true), StructField(occupation,StringType,true), StructField(relationship,StringType,true), StructField(race,StringType,true), StructField(sex,StringType,true), StructField(capital_gain,IntegerType,true), StructField(capital_loss,IntegerType,true), StructField(hours_per_week,IntegerType,true), StructField(native_country,StringType,true), StructField(income,StringType,true))\n\nformula: org.apache.spark.ml.feature.RFormula \u003d RFormula(income ~ .) (uid\u003drFormula_a60aa121757d)\n\npredictor: org.apache.spark.ml.Predictor[_, _, _] \u003d dtc_2fd24417ca89\n\nres64: Any \u003d dtc_2fd24417ca89\n\nres65: Any \u003d dtc_2fd24417ca89\n\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_877d828acd4a\n\npipelineModel: org.apache.spark.ml.PipelineModel \u003d pipeline_877d828acd4a\n\npredictorModel: org.apache.spark.ml.classification.DecisionTreeClassificationModel \u003d DecisionTreeClassificationModel (uid\u003ddtc_2fd24417ca89) of depth 5 with 59 nodes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nres66: String \u003d\n\"DecisionTreeClassificationModel (uid\u003ddtc_2fd24417ca89) of depth 5 with 59 nodes\n  If (feature 23 in {0.0})\n   If (feature 52 \u003c\u003d 7430.0)\n    If (feature 22 \u003c\u003d 13.0)\n     If (feature 54 \u003c\u003d 42.0)\n      If (feature 0 \u003c\u003d 33.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 33.0)\n       Predict: 0.0\n     Else (feature 54 \u003e 42.0)\n      If (feature 9 in {0.0})\n       Predict: 0.0\n      Else (feature 9 not in {0.0})\n       Predict: 0.0\n    Else (feature 22 \u003e 13.0)\n     If (feature 54 \u003c\u003d 43.0)\n      If (feature 0 \u003c\u003d 32.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 32.0)\n       Predict: 0.0\n     Else (feature 54 \u003e 43.0)\n      If (feature 0 \u003c\u003d 32.0)\n       Predict: 0.0\n      Else (feature 0 \u003e 32.0)\n       Predict: 0.0\n   Else (feature 52 \u003e 7430.0)\n    If (feature 54 \u003c\u003d 35.0)\n     If ..."
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.PipelineModel\n\nval newPredictorModel \u003d PipelineModel.load(\"model2\")",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_1498272145",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.PipelineModel\n\n\n\n\n\n\n\n\n\n\n\n\n\njava.lang.UnsupportedOperationException: empty collection\n  at org.apache.spark.rdd.RDD$$anonfun$first$1.apply(RDD.scala:1340)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)\n  at org.apache.spark.rdd.RDD.withScope(RDD.scala:358)\n  at org.apache.spark.rdd.RDD.first(RDD.scala:1337)\n  at org.apache.spark.ml.util.DefaultParamsReader$.loadMetadata(ReadWrite.scala:391)\n  at org.apache.spark.ml.Pipeline$SharedReadWrite$.load(Pipeline.scala:260)\n  at org.apache.spark.ml.PipelineModel$PipelineModelReader.load(Pipeline.scala:341)\n  at org.apache.spark.ml.PipelineModel$PipelineModelReader.load(Pipeline.scala:335)\n  at org.apache.spark.ml.util.MLReadable$class.load(ReadWrite.scala:227)\n  at org.apache.spark.ml.PipelineModel$.load(Pipeline.scala:325)\n  ... 48 elided\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Note:  This requires latest version of org.jpmml:jpmml-sparkml which requires shading\n//        to avoid conflict with Spark 1.6.1\nimport org.jpmml.sparkml.ConverterUtil\n\nval pmml \u003d ConverterUtil.toPMML(schema, pipelineModel)\nSystem.out.println(pmml.getModels().get(0).toString())",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_961269026",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\u003cconsole\u003e:56: error: object sparkml is not a member of package org.jpmml\n       import org.jpmml.sparkml.ConverterUtil\n                        ^\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.jpmml.model.ImportFilter\nimport org.jpmml.model.JAXBUtil\nimport org.jpmml.model.MetroJAXBUtil\n\nval pmmlOutput: File \u003d new File(s\"census.pmml\")\n\nval os \u003d new java.io.FileOutputStream(pmmlOutput.getAbsolutePath())  \nMetroJAXBUtil.marshalPMML(pmml, os)\n\nval baos \u003d new java.io.ByteArrayOutputStream()  \nMetroJAXBUtil.marshalPMML(pmml, baos)",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_1433767553",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\nimport org.jpmml.model.ImportFilter\n\nimport org.jpmml.model.JAXBUtil\n\n\n\n\u003cconsole\u003e:277: error: object MetroJAXBUtil is not a member of package org.jpmml.model\n       import org.jpmml.model.MetroJAXBUtil\n              ^\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient // TODO:  this is deprecated\n\n// create an HttpPost object\nprintln(\"--- HTTP POST UPDATED PMML ---\")\nval post \u003d new HttpPost(s\"http://demo.pipeline.io:9040/update-pmml/${pmmlName}\")\n\n// set the Content-type\npost.setHeader(\"Content-type\", \"application/xml\")\n\n// add the JSON as a StringEntity\npost.setEntity(new StringEntity(baos.toString()))\n\n// send the post request\nval response \u003d (new DefaultHttpClient).execute(post)\n\n// print the response headers\nprintln(\"--- HTTP RESPONSE HEADERS ---\")\nresponse.getAllHeaders.foreach(arg \u003d\u003e println(arg))",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_1383688341",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n--- HTTP POST UPDATED PMML ---\n\npost: org.apache.http.client.methods.HttpPost \u003d POST http://demo.pipeline.io:9040/update-pmml/census HTTP/1.1\n\n\n\n\u003cconsole\u003e:285: error: not found: value baos\n       post.setEntity(new StringEntity(baos.toString()))\n                                       ^\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Form the following:  https://github.com/jpmml/jpmml-evaluator\nval is \u003d new java.io.FileInputStream(pmmlOutput.getAbsolutePath())\nval transformedSource \u003d ImportFilter.apply(new InputSource(is))\n\nval pmml2 \u003d JAXBUtil.unmarshalPMML(transformedSource)",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_1703934482",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\n\n\njava.io.FileNotFoundException: /root/census.pmml (No such file or directory)\n  at java.io.FileInputStream.open0(Native Method)\n  at java.io.FileInputStream.open(FileInputStream.java:195)\n  at java.io.FileInputStream.\u003cinit\u003e(FileInputStream.java:138)\n  at java.io.FileInputStream.\u003cinit\u003e(FileInputStream.java:93)\n  ... 64 elided\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.jpmml.evaluator.Evaluator\nimport org.jpmml.evaluator.FieldValue\nimport org.jpmml.evaluator.ModelEvaluatorFactory\nimport org.jpmml.evaluator.EvaluatorUtil\n\nval modelEvaluatorFactory \u003d ModelEvaluatorFactory.newInstance()\n\nval modelEvaluator: Evaluator \u003d modelEvaluatorFactory.newModelEvaluator(pmml2)\nSystem.out.println(\"Mining function: \" + modelEvaluator.getMiningFunction())\n\nval inputFields \u003d modelEvaluator.getInputFields().asScala\n\nSystem.out.println(\"Input schema:\");\nSystem.out.println(\"\\t\" + \"Input fields: \" + inputFields) \n//    System.out.println(\"\\t\" + \"Group fields: \" + modelEvaluator.getGroupFields())\n\nSystem.out.println(\"Output schema:\");\nSystem.out.println(\"\\t\" + \"Target fields: \" + modelEvaluator.getTargetFields())\nSystem.out.println(\"\\t\" + \"Output fields: \" + modelEvaluator.getOutputFields())\n\nval inputs: Map[String, _] \u003d Map(\"age\" -\u003e 39, \n                                 \"workclass\" -\u003e \"State-gov\",\n                                 \"education\" -\u003e \"Bachelors\",\n                                 \"education_num\" -\u003e 13,\n                                 \"marital_status\" -\u003e \"Never-married\",\n                                 \"occupation\" -\u003e \"Adm-clerical\",\n                                 \"relationship\" -\u003e \"Not-in-family\",\n                                 \"race\" -\u003e \"White\",\n                                 \"sex\" -\u003e \"Male\",\n                                 \"capital_gain\" -\u003e 2174,\n                                 \"capital_loss\" -\u003e 0,\n                                 \"hours_per_week\" -\u003e 40,\n                                 \"native_country\" -\u003e \"United-States\")\n\nval arguments \u003d \n  ( for(inputField \u003c- inputFields) \n    // The raw value is passed through: \n    //   1) outlier treatment, \n    //   2) missing value treatment, \n    //   3) invalid value treatment \n    //   4) type conversion\n//        yield (inputField -\u003e modelEvaluator.prepare(inputField, inputs(inputField.getValue)))\n    yield (inputField.getName -\u003e inputField.prepare(inputs(inputField.getName.getValue)))\n  ).toMap.asJava\n\nval results \u003d modelEvaluator.evaluate(arguments)\nval targetField \u003d modelEvaluator.getTargetFields().asScala(0)\nval targetValue \u003d results.get(targetField)\n\nSystem.out.println(s\"**** Predicted value for \u0027${targetField.getName}\u0027: ${targetValue} ****\")",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_38406492",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\u003cconsole\u003e:280: error: object evaluator is not a member of package org.jpmml\n       import org.jpmml.evaluator.Evaluator\n                        ^\n"
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Sep 25, 2016 12:39:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {},
+          "map": {
+            "baseMapType": "Streets",
+            "isOnline": true,
+            "pinCols": []
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1474763950461_-2081554110",
+      "id": "20160925-003910_2066914834",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Sep 25, 2016 12:39:10 AM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Predict_Income_Census",
+  "id": "2BVPDZGPM",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,12 @@
+# VIM tmp files
+*.swp
+
+*.pyc
+
+.tox
+
+*.key.json
+
+.ipynb*
+*.bak
+*~

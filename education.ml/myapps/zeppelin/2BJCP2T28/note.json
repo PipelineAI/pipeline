@@ -1,0 +1,64 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n## Datasets\n* [Labeled Faces in the Wild (Item-to-Item Similarity)](http://vis-www.cs.umass.edu/lfw/)\n* [MovieLens (Item-to-Item Similarity)](http://grouplens.org/datasets/movielens/)\n* [Dating Site (Collaborative Filtering)](http://www.occamslab.com/petricek/data/)",
+      "dateUpdated": "Jun 17, 2016 2:00:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462952366876_1882615050",
+      "id": "20160511-073926_662074722",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eDatasets\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://vis-www.cs.umass.edu/lfw/\"\u003eLabeled Faces in the Wild (Item-to-Item Similarity)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://grouplens.org/datasets/movielens/\"\u003eMovieLens (Item-to-Item Similarity)\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://www.occamslab.com/petricek/data/\"\u003eDating Site (Collaborative Filtering)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:39:26 AM",
+      "dateStarted": "Jun 17, 2016 2:00:40 PM",
+      "dateFinished": "Jun 17, 2016 2:00:40 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462952379906_2099644078",
+      "id": "20160511-073939_833844936",
+      "dateCreated": "May 11, 2016 7:39:39 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "* Datasets *",
+  "id": "2BJCP2T28",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
