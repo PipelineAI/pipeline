@@ -1,3 +1,3 @@
 #!/bin/sh                                                                               
                                                                                         
-kubectl config use-context gcp_k8s_predictions
+kubectl config use-context aws_k8s_predictions

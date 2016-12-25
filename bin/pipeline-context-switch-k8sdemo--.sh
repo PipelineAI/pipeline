@@ -1,3 +1,3 @@
 #!/bin/sh                                                                               
                                                                                         
-kubectl config use-context aws_k8s_training
+kubectl config use-context k8sdemo
