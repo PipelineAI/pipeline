@@ -4,8 +4,8 @@ echo '*** MAKE SURE YOU RUN THIS ONLY ONCE ***'
 
 cd ~/pipeline
 
-echo '...Retrieving Latest Updates From Github...'
-git pull
+#echo '...Retrieving Latest Updates From Github...'
+#git pull
 
 echo '...Sourcing Pipeline-specific Env Variables...'
 source /root/pipeline/config/bash/pipeline.bashrc
