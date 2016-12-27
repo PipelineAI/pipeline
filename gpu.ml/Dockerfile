@@ -96,7 +96,34 @@ WORKDIR /tensorflow
 ENV CI_BUILD_PYTHON python
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 ENV TF_NEED_CUDA 1
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,5.2
+
+# Check the required COMPUTE_CAPABILITIES from the following link:
+#  https://developer.nvidia.com/cuda-gpus
+# Also, Tensorflow has a minimum-supported COMPUTE CAPABILITY (ie. 3.5)
+# ie. here are the AWS EC2 Instance Types and their COMPUTE CAPABILITIES
+#
+## AWS P2 Instances (3.7)
+# Product Type  Tesla
+# Product Series  K-Series
+# Product  K-80
+# Operating System  Linux 64-bit
+# Recommended/Beta  Recommended/Certified
+#
+## G2 Instances (3.5)
+# Product Type  GRID
+# Product Series  GRID Series
+# Product  GRID K520
+# Operating System  Linux 64-bit
+# Recommended/Beta  Recommended/Certified
+#
+## CG1 Instances (3.0)
+# Product Type  Tesla
+# Product Series  M-Class
+# Product  M2050
+# Operating System  Linux 64-bit
+# Recommended/Beta  Recommended/Certified
+#
+ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,3.7,5.2
 
 RUN tensorflow/tools/ci_build/builds/configured GPU \
     bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
