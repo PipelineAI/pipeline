@@ -39,9 +39,6 @@ RUN pip --no-cache-dir install \
         && \
     python -m ipykernel.kernelspec
 
-# Set up our notebook config.
-COPY jupyter_notebook_config.py /root/.jupyter/
-
 # Jupyter has issues with being run directly:
 #   https://github.com/ipython/ipython/issues/7062
 # We just add a little wrapper script.
@@ -141,6 +138,9 @@ EXPOSE 6006
 # IPython
 EXPOSE 8888
 
+# Set up our notebook config.
+COPY jupyter_notebook_config.py /root/.jupyter/
+# Copy our examples
 COPY examples/ examples/
 
 RUN ["/bin/bash"]
