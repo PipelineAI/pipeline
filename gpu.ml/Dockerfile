@@ -1,20 +1,23 @@
-FROM nvidia/cuda:7.5-cudnn5-devel
+FROM nvidia/cuda:8.0-cudnn5-devel
 
-# Adapted from https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
+ENV \
+  TENSORFLOW_VERSION=0.12
+  
+# Adapted from 
+#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
         git \
+        libcurl3-dev \
         libfreetype6-dev \
         libpng12-dev \
         libzmq3-dev \
         pkg-config \
-        python \
         python-dev \
         rsync \
         software-properties-common \
-        swig \
         unzip \
         zip \
         zlib1g-dev \
@@ -31,6 +34,8 @@ RUN pip --no-cache-dir install \
         jupyter \
         matplotlib \
         numpy \
+        scipy \
+        sklearn \
         && \
     python -m ipykernel.kernelspec
 
@@ -67,8 +72,6 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && \
 # && apt-get install -y oracle-java8-set-default
 
 # Set up Bazel.
-ENV BAZEL_VERSION 0.3.0
-
 
 # Running bazel inside a `docker build` command causes trouble, cf:
 #   https://github.com/bazelbuild/bazel/issues/134
@@ -80,6 +83,7 @@ RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
     >>/root/.bazelrc
 ENV BAZELRC /root/.bazelrc
 # Install the most recent bazel release.
+ENV BAZEL_VERSION 0.4.2
 WORKDIR /
 RUN mkdir /bazel && \
     cd /bazel && \
@@ -92,30 +96,32 @@ RUN mkdir /bazel && \
 
 # Download and build TensorFlow.
 
-RUN git clone -b r0.11 --recursive --recurse-submodules https://github.com/tensorflow/tensorflow.git && \
+RUN git clone -b r$TENSORFLOW_VERSION --recursive --recurse-submodules https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
-    git checkout r0.11
+    git checkout r$TENSORFLOW_VERSION
+
 WORKDIR /tensorflow
 
 # Configure the build for our CUDA configuration.
-ENV CUDA_TOOLKIT_PATH /usr/local/cuda
-ENV CUDNN_INSTALL_PATH /usr/local/cuda
+ENV CI_BUILD_PYTHON python
+ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 ENV TF_NEED_CUDA 1
+ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,5.2
 
-RUN ./configure && \
+RUN tensorflow/tools/ci_build/builds/configured GPU \
     bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
     bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
-    pip install --upgrade /tmp/pip/tensorflow-*.whl
+    pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
+    rm -rf /tmp/pip && \
+    rm -rf /root/.cache
+# Clean up pip wheel and Bazel cache when done.
 
 WORKDIR /root
 
-# Set up CUDA variables
-ENV CUDA_PATH /usr/local/cuda
+# TensorBoard
+EXPOSE 6006
 
 # IPython
 EXPOSE 8888
-
-# TensorBoard
-EXPOSE 6006
 
 RUN ["/bin/bash"]
