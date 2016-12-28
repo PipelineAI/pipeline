@@ -112,7 +112,7 @@ COPY models/ models/
 
 RUN \
   cd client \
-  && mvn clean install \
+  && /root/apache-maven-3.3.9/bin/mvn clean install \
   && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
 
 RUN \

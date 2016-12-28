@@ -51,6 +51,7 @@ ENV \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.4.2 \ 
  TENSORFLOW_VERSION=0.12.0 \
+# TODO:  CHange this to master
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -547,7 +548,7 @@ ENV \
   TENSORFLOW_SERVING_HOME=/root/serving
 
 #RUN \
-#    pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+#    pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-cp27m-linux_x86_64.whl
 
 # Required by TensorFlow Serving
 RUN \
@@ -568,39 +569,47 @@ RUN \
         zip \
         zlib1g-dev
 
-RUN \
-  pip install grpcio
+#RUN pip install enum34 futures mock six && \
+#    pip install --pre 'protobuf>=3.0.0a3' && \
+#    pip install -i https://testpypi.python.org/simple --pre grpcio
 
-RUN \
-  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
+#RUN \
+#  pip install grpcio
 
-ENV \
-  BAZELRC=/root/.bazelrc
+#UN \
+#  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
 
-RUN \
-  mkdir /root/bazel \
-  && cd /root/bazel \
-  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
-  && chmod +x bazel-*.sh \
-  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+#ENV \
+#  BAZELRC=/root/.bazelrc
 
+#RUN \
+#  mkdir /root/bazel \
+#  && cd /root/bazel \
+#  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+#  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+#  && chmod +x bazel-*.sh \
+#  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+#  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+#RUN \
+# TENSORFLOW_SERVING_VERSION=master
+
+#:u
 # TensorFlow Serving
-RUN \
- cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
+#RUN \
+# cd ~ \
+# && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
 
-RUN \
-  cd ~/serving/tensorflow \
-  && printf "\n\n\n\n\n\n" | ./configure
+#RUN \
+#  cd ~/serving/tensorflow \
+#  && printf "\n\n\n\n\n\n" | ./configure
 
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel build -c opt tensorflow_serving/...
+#RUN \
+#  cd $TENSORFLOW_SERVING_HOME \
+#  && bazel build -c opt tensorflow_serving/...
 
-ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+#ENV \
+#  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
