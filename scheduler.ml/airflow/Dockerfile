@@ -1,6 +1,20 @@
-FROM fluxcapacitor/package-anaconda-4.1.11
+FROM fluxcapacitor/package-java-openjdk-1.8
 
 WORKDIR /root
+
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
 
 ENV AIRFLOW_HOME=/root/airflow
 
@@ -28,28 +42,10 @@ RUN \
   && apt-get install -y r-base \
   && apt-get install -y r-base-dev
 
-# TODO:  Replace with conda version of SparkR:
-#          https://www.continuum.io/blog/developer-blog/anaconda-r-users-sparkr-and-rbokeh
-RUN \
-  apt-get install -y libcurl4-openssl-dev \
-  && apt-get install -y libzmq3 libzmq3-dev \
-  && apt-get install -y zip \
-  && ln -s /bin/tar /bin/gtar \
-  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
-  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
-  && R -e "devtools::install_github('IRkernel/IRkernel')" \
-  && R -e "IRkernel::installspec(user = FALSE)"
+ENV TENSORFLOW_VERSION=0.12.0
 
-RUN \
- apt-get update \
- && apt-get install -y software-properties-common \
- && add-apt-repository ppa:webupd8team/java \
- && apt-get update \
- && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
- && apt-get install -y oracle-java8-installer \
- && apt-get install -y oracle-java8-set-default
-
-ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre
+#RUN \
+#  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
 
 ENV SPARK_VERSION=2.0.1
 ENV PYSPARK_VERSION=0.10.3
@@ -64,7 +60,8 @@ ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
 ENV PATH=$SPARK_HOME/bin:$PATH
 
 COPY config/spark/ $SPARK_HOME/conf/
-COPY dags/ dags/
+
+COPY dags/ $AIRFLOW_HOME/dags/
 
 COPY run run
 

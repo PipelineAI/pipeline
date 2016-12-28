@@ -1,15 +1,17 @@
-FROM fluxcapacitor/package-ubuntu-14.04
+FROM fluxcapacitor/package-java-openjdk-1.8
 
 WORKDIR /root
 
 ENV \
- TENSORFLOW_VERSION=0.11.0 \
- TENSORFLOW_SERVING_VERSION=master \
  SPRING_CORE_VERSION=4.3.0.RELEASE \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 \
- BAZEL_VERSION=0.3.2
+ BAZEL_VERSION=0.4.2 \
+ TENSORFLOW_VERSION=0.12.0 \
+# Note:  This must be master due to an issue with the bazel build
+#        See https://github.com/tensorflow/tensorflow/issues/4216
+ TENSORFLOW_SERVING_VERSION=master
  
 # TensorFlow Serving Home (not required on PATH)
 ENV \
@@ -17,37 +19,31 @@ ENV \
 
 # Required by TensorFlow Serving
 RUN \
- apt-get update \
- && apt-get install -y \
-      build-essential \
-      libfreetype6-dev \
-      libpng12-dev \
-      libzmq3-dev \
-      pkg-config \
-      python-dev \
-      python-numpy \
-      python-pip \
-      software-properties-common \
-      swig \
-      zip \
-      zlib1g-dev \
-      libcurl3-dev
+  apt-get update && sudo apt-get install -y \
+        build-essential \
+        curl \
+        libcurl3-dev \
+        git \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+        python-pip \
+        software-properties-common \
+        swig \
+        zip \
+        zlib1g-dev
 
-RUN pip install enum34 futures mock six && \
-    pip install --pre 'protobuf>=3.0.0a3' && \
-    pip install -i https://testpypi.python.org/simple --pre grpcio
+RUN \
+  pip install grpcio
 
 RUN \
   echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
 
 ENV \
   BAZELRC=/root/.bazelrc
-
-RUN add-apt-repository -y ppa:openjdk-r/ppa && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN \ 
   mkdir /root/bazel \
@@ -71,21 +67,14 @@ RUN \
   cd ~/serving \
   && bazel build -c opt tensorflow_serving/...
 
-RUN \
-  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
-  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-  && sudo apt-get update \
-  && sudo apt-get install -y sbt
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
+# Utility for optimizing/simplifying models for inference
 RUN \
-  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
-  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
-  && rm apache-maven-3.3.9-bin.tar.gz
+  cd ~/serving/tensorflow \
+  && bazel build tensorflow/python/tools:optimize_for_inference
 
-RUN \
-  export PATH=/root/apache-maven-3.3.9/bin:$PATH
-
-###################################
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
     echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
@@ -98,30 +87,14 @@ ENV \
   PATH=/opt/conda/bin:$PATH
 
 RUN \
-  conda install --yes scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
+  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
 
 RUN \
-  conda install -c conda-forge tensorflow
+  apt-get update \
+  && apt-get install -y python-qt4
 
 RUN \
-  conda install --yes -c conda-forge py4j
-
-# Overcomes limitation with conda matplotlib (1.5.1)
-RUN \
-  apt-get install -y python-qt4
-###################################
-
-ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
-
-# This is needed if you see errors related to "no module named 'grpc.beta'"
-RUN \
-  pip install grpcio
-
-# Utility for optimizing/simplifying models for inference
-RUN \
-  cd ~/serving/tensorflow \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
 
 RUN \
   mkdir -p /root/logs
@@ -139,7 +112,7 @@ COPY models/ models/
 
 RUN \
   cd client \
-  && /root/apache-maven-3.3.9/bin/mvn clean install \
+  && mvn clean install \
   && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
 
 RUN \

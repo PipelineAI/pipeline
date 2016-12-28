@@ -1,16 +1,15 @@
 FROM fluxcapacitor/package-ubuntu-14.04
 
+WORKDIR /root
+
 RUN \
  apt-get update \
  && apt-get install -y software-properties-common \
- && add-apt-repository ppa:webupd8team/java \
+ && add-apt-repository -y ppa:openjdk-r/ppa \
  && apt-get update \
- && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
- && apt-get install -y oracle-java8-installer \
- && apt-get install -y oracle-java8-set-default
-
-ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre
-ENV PATH=$JAVA_HOME/bin:$PATH
+ && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN \
   echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
@@ -22,4 +21,9 @@ RUN \
   sbt clean clean-files
 
 RUN \
-  apt-get install -y maven
+  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
+  && rm apache-maven-3.3.9-bin.tar.gz
+
+RUN \
+  export PATH=/root/apache-maven-3.3.9/bin:$PATH

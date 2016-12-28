@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd /root/pipeline && git fetch origin master && git reset --hard origin/master && . /root/pipeline/config/bash/pipeline.bashrc && /root/pipeline/bin/setup/RUNME_ONCE.sh
-
-cd /root/pipeline/myapps/serving
-
-supervise .

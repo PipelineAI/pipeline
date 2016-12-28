@@ -1,6 +1,20 @@
-FROM fluxcapacitor/package-spark-2.0.1
+FROM fluxcapacitor/gpu-tensorflow
 
-WORKDIR /root
+ENV SPARK_VERSION=2.0.1
+ENV PYSPARK_VERSION=0.10.3
+
+RUN \
+  apt-get update \
+  && apt-get install -y wget
+
+RUN \
+  # This is not a custom version of Spark.  It's merely a version with all the desired -P profiles enabled.
+  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz
+
+ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
+ENV PATH=$SPARK_HOME/bin:$PATH
 
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -11,7 +25,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
     rm /tmp/miniconda.sh
 
 ENV \
-  PATH=/opt/conda/bin:$PATH 
+  PATH=/opt/conda/bin:$PATH
 
 RUN \
   conda install --yes scikit-learn numpy scipy ipython jupyter matplotlib pandas
@@ -24,12 +38,6 @@ RUN \
   apt-get update \
   && apt-get install -y python-qt4
 
-ENV \
-  TENSORFLOW_VERSION=0.12.0
-
-RUN \
-  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-
 RUN \
   echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
   && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
@@ -38,22 +46,10 @@ RUN \
   && apt-get install -y r-base \
   && apt-get install -y r-base-dev
 
-# TODO:  Replace with conda version of SparkR:
-#          https://www.continuum.io/blog/developer-blog/anaconda-r-users-sparkr-and-rbokeh
-#RUN \
-#  apt-get install -y libcurl4-openssl-dev \
-#  && apt-get install -y libzmq3 libzmq3-dev \
-#  && apt-get install -y zip \
-#  && ln -s /bin/tar /bin/gtar \
-#  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
-#  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
-#  && R -e "devtools::install_github('IRkernel/IRkernel')" \
-#  && R -e "IRkernel::installspec(user = FALSE)"
-
-COPY run.worker run
-COPY demos/ demos/
+#COPY run run
+#COPY demos/ demos/
 
 # Expose Spark Worker Port for Web Admin UI
 EXPOSE 6061
 
-CMD ["supervise", "."]
+#CMD ["supervise", "."]

@@ -30,7 +30,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
 
 ENV \
   PATH=/opt/conda/bin:$PATH \
-  TENSORFLOW_VERSION=0.11.0
+  TENSORFLOW_VERSION=0.12.0
 
 RUN \
   conda install --yes scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
@@ -77,7 +77,7 @@ RUN \
 RUN \
   pip install jupyterhub-dummyauthenticator
 
-ENV KUBERNETES_VERSION=1.4.1
+ENV KUBERNETES_VERSION=1.5.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -92,19 +92,20 @@ RUN \
 RUN \
   mkdir -p /root/tensorboard
 
-RUN \
-  git clone http://github.com/fluxcapacitor/jupyterhub.ml
+#RUN \
+#  git clone https://github.com/fluxcapacitor/pipeline
 
 COPY .kube/ .kube/
 
 COPY run run
 COPY config/jupyterhub/ config/jupyterhub/
 
-RUN \
-  ln -s jupyterhub.ml/notebooks/ notebooks \
-  && ln -s jupyterhub.ml/lib/ lib
-#COPY lib/ lib/
-#COPY notebooks/ notebooks/
+#RUN \
+#  ln -s pipeline/jupyterhub.ml/notebooks/ notebooks \
+#  && ln -s pipeline/jupyterhub.ml/lib/ lib
+
+COPY lib/ lib/
+COPY notebooks/ notebooks/
 
 COPY profiles/ /root/.ipython/ 
 

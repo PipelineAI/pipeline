@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-1.8
+FROM fluxcapacitor/package-java-openjdk-1.8
 
 WORKDIR /root
 
@@ -10,7 +10,7 @@ COPY data/ data/
 RUN \
   sbt clean package \
 # HACK:  We need to trigger the download of sbt-launch.jar which is a diff version than default sbt install
-  && java -Djava.security.egd=file:/dev/./urandom -cp lib/codegen-spark-2_0_1_2.11-1.0.jar -jar lib/sbt-launch.jar exit
+  && java -Djava.security.egd=file:/dev/./urandom -jar lib/sbt-launch.jar exit
 
 RUN \
   mkdir -p /root/logs

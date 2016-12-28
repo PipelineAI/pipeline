@@ -20,10 +20,10 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
 
 ENV \
   PATH=/opt/conda/bin:$PATH \
-  TENSORFLOW_VERSION=0.11.0
+  TENSORFLOW_VERSION=0.12.0
 
 RUN \
-  conda install --yes scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
+  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
 
 RUN \
   pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
@@ -46,17 +46,17 @@ RUN \
 
 # TODO:  Replace with conda version of SparkR:
 #          https://www.continuum.io/blog/developer-blog/anaconda-r-users-sparkr-and-rbokeh
-RUN \
-  apt-get install -y libcurl4-openssl-dev \
-  && apt-get install -y libzmq3 libzmq3-dev \
-  && apt-get install -y zip \
-  && ln -s /bin/tar /bin/gtar \
-  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
-  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
-  && R -e "devtools::install_github('IRkernel/IRkernel')" \
-  && R -e "IRkernel::installspec(user = FALSE)"
+#RUN \
+#  apt-get install -y libcurl4-openssl-dev \
+#  && apt-get install -y libzmq3 libzmq3-dev \
+#  && apt-get install -y zip \
+#  && ln -s /bin/tar /bin/gtar \
+#  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+#  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
+#  && R -e "devtools::install_github('IRkernel/IRkernel')" \
+#  && R -e "IRkernel::installspec(user = FALSE)"
 
-ENV KUBERNETES_VERSION=1.4.1
+ENV KUBERNETES_VERSION=1.5.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl

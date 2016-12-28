@@ -1,5 +1,7 @@
 FROM ubuntu:14.04
 
+WORKDIR /root
+
 # Notes:
 #   The contents ond tools installed in this Dockerfile have only been tested on Ubuntu 14.04.
 #   Use at your own risk if you are trying to apply these instructions to a different environment.
@@ -47,8 +49,8 @@ ENV \
  JBLAS_VERSION=1.2.4 \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
- BAZEL_VERSION=0.3.0 \ 
- TENSORFLOW_VERSION=0.10.0 \
+ BAZEL_VERSION=0.4.2 \ 
+ TENSORFLOW_VERSION=0.12.0 \
  TENSORFLOW_SERVING_VERSION=0.4.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
@@ -175,34 +177,36 @@ RUN \
  && apt-get install -y libmysql-java 
 
 # Bazel (Required for TensorFlow Serving)
-RUN \
- cd ~ \
- && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
- && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
- && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
- && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
+#RUN \
+# cd ~ \
+# && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+# && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+# && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
+# && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
 
-RUN \
- cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
+#RUN \
+# cd ~ \
+# && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
 
 # TensorFlow Source
-RUN \
- cd ~ \
- && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git 
+#RUN \
+# cd ~ \
+# && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git 
 
 # Python NetworkX/Tribe Demos
 RUN \ 
 # pip install --upgrade tribe \
  pip install --upgrade seaborn 
 
+COPY pipeline/ pipeline/
+
 RUN \
 # Get Latest Pipeline Code
- cd ~ \
- && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git \
+# cd ~ \
+# && git clone --single-branch --recurse-submodules https://github.com/fluxcapacitor/pipeline.git \
 # Source the pipeline-specific env variables
 # This is needed to re-attach to a Docker container after exiting
- && cd ~ \
+ cd ~ \
  && echo "" >> ~/.bashrc \
  && echo "# Pipeline-specific" >> ~/.bashrc \
  && echo "if [ -f ~/pipeline/config/bash/pipeline.bashrc ]; then" >> ~/.bashrc \
@@ -217,125 +221,144 @@ RUN \
  && rm sbt-${SBT_VERSION}.tgz \
  && ln -s /root/sbt/bin/sbt /usr/local/bin \
 # Sbt Clean - This seems weird, but it triggers the full Sbt install which involves a lot of external downloads
- && sbt clean clean-files \
+ && sbt clean clean-files 
 
+RUN \
 # ElasticSearch
- && cd ~ \
+ cd ~ \
  && wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
  && tar xvzf elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
- && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
+ && rm elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz 
 
 # Elastic Graph
- && cd ~ \
- && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install license \
- && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install graph \
+# && cd ~ \
+# && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install license \
+# && elasticsearch-${ELASTICSEARCH_VERSION}/bin/plugin install graph \
 
+RUN \
 # Logstash
- && cd ~ \
+ cd ~ \
  && wget https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz \
  && tar xvzf logstash-${LOGSTASH_VERSION}.tar.gz \
- && rm logstash-${LOGSTASH_VERSION}.tar.gz \
+ && rm logstash-${LOGSTASH_VERSION}.tar.gz
 
+RUN \
 # Kibana
- && cd ~ \
+ cd ~ \
  && wget http://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
  && tar xvzf kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
- && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
+ && rm kibana-${KIBANA_VERSION}-linux-x64.tar.gz 
 
+RUN \
 # Kibana Plugins
- && cd ~ \
- && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense \
+ cd ~ \
+ && kibana-${KIBANA_VERSION}-linux-x64/bin/kibana plugin --install elastic/sense 
 
+RUN \
 # Apache Cassandra
- && cd ~ \
+ cd ~ \
  && wget http://archive.apache.org/dist/cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
  && tar xvzf apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
- && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz \
+ && rm apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz 
 
+RUN \
 # Apache Kafka (Confluent 3.0 Distribution)
- && cd ~ \
+ cd ~ \
  && wget http://packages.confluent.io/archive/3.0/confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
  && tar xvzf confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
- && rm confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz \
+ && rm confluent-${CONFLUENT_VERSION}-${SCALA_MAJOR_VERSION}.tar.gz 
 
+RUN \
 # Apache Spark
- && cd ~ \
+ cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
- && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz 
 
+RUN \
 # Apache Spark (Other Version)
- && cd ~ \
+ cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
  && tar xvzf spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
- && rm spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz \
+ && rm spark-${SPARK_OTHER_VERSION}-bin-fluxcapacitor.tgz 
 
+RUN \
 # Apache Zeppelin
- && cd ~ \
+ cd ~ \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
  && tar xvzf zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
- && rm zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz \
+ && rm zeppelin-${ZEPPELIN_VERSION}-fluxcapacitor.tar.gz 
 
+RUN \
 # Redis
- && cd ~ \
+ cd ~ \
  && wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz \
  && tar -xzvf redis-${REDIS_VERSION}.tar.gz \
  && rm redis-${REDIS_VERSION}.tar.gz \
  && cd redis-${REDIS_VERSION} \
- && make install \
+ && make install 
 
+RUN \
 # Webdis Redis REST Server
- && cd ~ \
+ cd ~ \
  && git clone --single-branch --recurse-submodules https://github.com/nicolasff/webdis.git \
  && cd webdis \
- && make \
+ && make 
 
+RUN \
 # Apache Hadoop
- && cd ~ \
+ cd ~ \
  && wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \ 
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
- && rm hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz 
 
+RUN \
 # Apache Hive
- && cd ~ \
+ cd ~ \
  && wget http://www.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz \
  && tar xvzf apache-hive-${HIVE_VERSION}-bin.tar.gz \
- && rm apache-hive-${HIVE_VERSION}-bin.tar.gz \
+ && rm apache-hive-${HIVE_VERSION}-bin.tar.gz 
 
+RUN \
 # Apache NiFi
- && cd ~ \
+ cd ~ \
  && wget https://archive.apache.org/dist/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.tar.gz \
  && tar xvzf nifi-${NIFI_VERSION}-bin.tar.gz \
- && rm nifi-${NIFI_VERSION}-bin.tar.gz \
+ && rm nifi-${NIFI_VERSION}-bin.tar.gz 
 
+RUN \
 # Flink
- && cd ~ \
+ cd ~ \
  && wget http://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
  && tar xvzf flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
- && rm flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz \
+ && rm flink-${FLINK_VERSION}-bin-hadoop26-scala_2.10.tgz 
 
+RUN \
 # Airflow
- && cd ~ \
- && pip install --upgrade airflow \
+ cd ~ \
+ && pip install --upgrade airflow 
 
+RUN \
 # Presto
- && cd ~ \
+ cd ~ \
  && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
  && tar xvzf presto-server-${PRESTO_VERSION}.tar.gz \
  && rm presto-server-${PRESTO_VERSION}.tar.gz \ 
  && cd presto-server-${PRESTO_VERSION}/bin \
  && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/${PRESTO_VERSION}/presto-cli-${PRESTO_VERSION}-executable.jar \
  && mv presto-cli-${PRESTO_VERSION}-executable.jar presto \
- && chmod a+x presto \
+ && chmod a+x presto 
 
-# Titan DB
- && cd ~ \
+RUN \
+## Titan DB
+ cd ~ \
  && wget http://s3.thinkaurelius.com/downloads/titan/titan-${TITAN_VERSION}.zip \
  && unzip titan-${TITAN_VERSION}.zip \
- && rm titan-${TITAN_VERSION}.zip \
+ && rm titan-${TITAN_VERSION}.zip 
 
+RUN \
 # JMeter
- && cd ~ \
+ cd ~ \
  && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
  && rm apache-jmeter-${JMETER_VERSION}.tgz 
@@ -351,17 +374,17 @@ RUN \
  && sudo make install 
 
 # Jenkins
-RUN \
- wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
- && echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list \ 
- && apt-get update \
- && apt-get install -y jenkins \
- && replace "HTTP_PORT=8080" "HTTP_PORT=10080" -- /etc/default/jenkins
+#RUN \
+# wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add - \ 
+# && echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list \ 
+# && apt-get update \
+# && apt-get install -y jenkins \
+# && replace "HTTP_PORT=8080" "HTTP_PORT=10080" -- /etc/default/jenkins
 
-RUN \
+#RUN \
 # Get Latest Pipeline Code 
- cd ~/pipeline \
- && git pull  
+# cd ~/pipeline \
+# && git pull  
 
 # Sbt Feeder
 RUN \
@@ -444,37 +467,38 @@ RUN \
 #  && python setup.py develop --user
 
 # JupyterHub
-RUN \
-  apt-get install -y npm nodejs-legacy \
-  && npm install -g configurable-http-proxy \
-  && apt-get install -y python3-pip \
-  && pip3 install jupyterhub \
-  && pip3 install --upgrade notebook \
-  && pip install jupyterhub-dummyauthenticator \
+#RUN \
+#  apt-get install -y npm nodejs-legacy \
+#  && npm install -g configurable-http-proxy \
+#  && apt-get install -y python3-pip \
+#  && pip3 install jupyterhub \
+#  && pip3 install --upgrade notebook \
+#  && pip install jupyterhub-dummyauthenticator \
 
 # iPython3 Kernel 
-  && ipython3 kernel install \ 
+#  && ipython3 kernel install \ 
 
 # Keras
-  && pip install keras 
+#  && pip install keras 
 
 # Spinnaker
-RUN \
-  cd ~ \
-  && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
+#RUN \
+#  cd ~ \
+#  && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
 
 # Hystrix Dashboard
 RUN \
  cd ~ \
  && mkdir -p ~/hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
  && cd hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION}-all.jar \
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION}-all.jar 
 
+#RUN \
 # Atlas Metrics Collector
- && cd ~ \
- && mkdir -p ~/atlas-${ATLAS_VERSION} \
- && cd atlas-${ATLAS_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
+# cd ~ \
+# && mkdir -p ~/atlas-${ATLAS_VERSION} \
+# && cd atlas-${ATLAS_VERSION} \
+# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
 
 # Vector Host and Guest Container Syetem Metrics (NetflixOSS)
 # Note:  Currently, this needs to be installed on the host - not within a guest container
@@ -486,37 +510,97 @@ RUN \
 #  && apt-get install -y pcp pcp-webapi
 
 # Required by TensorFlow Serving
-RUN \
- apt-get update \
- && apt-get install -y \
-      build-essential \
-      libfreetype6-dev \
-      libpng12-dev \
-      libzmq3-dev \
-      pkg-config \
-      python-dev \
-      python-numpy \
-      python-pip \
-      software-properties-common \
-      swig \
-      zip \
-      zlib1g-dev \
-      libcurl3-dev
+#RUN \
+# apt-get update \
+# && apt-get install -y \
+#      build-essential \
+#      libfreetype6-dev \
+#      libpng12-dev \
+#      libzmq3-dev \
+#      pkg-config \
+#      python-dev \
+#      python-numpy \
+#      python-pip \
+#      software-properties-common \
+#      swig \
+#      zip \
+#      zlib1g-dev \
+#      libcurl3-dev
 
-RUN pip install enum34 futures mock six && \
-    pip install --pre 'protobuf>=3.0.0a3' && \
-    pip install -i https://testpypi.python.org/simple --pre grpcio
+#RUN pip install enum34 futures mock six && \
+#    pip install --pre 'protobuf>=3.0.0a3' && \
+#    pip install -i https://testpypi.python.org/simple --pre grpcio
 
 # Serving
-RUN \
- cd ~ \
- && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
+#RUN \
+# cd ~ \
+# && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
 
 RUN \
   apt-get install -y daemontools
 
 RUN \
   pip install py4j
+
+# TensorFlow Serving Home (not required on PATH)
+ENV \
+  TENSORFLOW_SERVING_HOME=/root/serving
+
+#RUN \
+#    pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+
+# Required by TensorFlow Serving
+RUN \
+  apt-get update && sudo apt-get install -y \
+        build-essential \
+        curl \
+        libcurl3-dev \
+        git \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+        python-pip \
+        software-properties-common \
+        swig \
+        zip \
+        zlib1g-dev
+
+RUN \
+  pip install grpcio
+
+RUN \
+  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
+
+ENV \
+  BAZELRC=/root/.bazelrc
+
+RUN \
+  mkdir /root/bazel \
+  && cd /root/bazel \
+  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+  && chmod +x bazel-*.sh \
+  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+# TensorFlow Serving
+RUN \
+ cd ~ \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
+
+RUN \
+  cd ~/serving/tensorflow \
+  && printf "\n\n\n\n\n\n" | ./configure
+
+RUN \
+  cd $TENSORFLOW_SERVING_HOME \
+  && bazel build -c opt tensorflow_serving/...
+
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678
