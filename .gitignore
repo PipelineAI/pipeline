@@ -1,2 +1,7 @@
+.settings
+.cache-main
+.classpath
+.gitignore
+.project
 jmeter.log
 nohup.out
