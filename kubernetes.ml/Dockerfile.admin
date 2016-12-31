@@ -1,28 +1,53 @@
 FROM fluxcapacitor/package-ubuntu-14.04
 
+WORKDIR /root
+
 ENV KUBERNETES_VERSION=1.5.1
 ENV KUBERNETES_HOME=/root/kubernetes/
 
-WORKDIR /root
+ENV KOPS_VERSION=1.4.4
+ENV KOPS_HOME=/root/kops/
+
+#ENV PIPELINE_HOME=/root/pipeline
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/kubernetes.tar.gz
 
 RUN \
-  tar -xzvf kubernetes.tar.gz \
-  && rm kubernetes.tar.gz
-
-RUN \
-  echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh 
-
-ENV \
-  PATH=$KUBERNETES_HOME/client/bin:$PATH
+  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 #RUN \
-#  sudo cp $KUBERNETES_HOME/platforms/linux/amd64/kubectl /usr/local/bin/kubectl \
-#  && sudo chmod a+x /usr/local/bin/kubectl
+#  tar -xzvf kubernetes.tar.gz \
+#  && rm kubernetes.tar.gz
+
+#RUN \
+#  echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
+
+#ENV \
+#  PATH=$KUBERNETES_HOME/client/bin:$PATH
+
+RUN \
+  mkdir -p $KOPS_HOME \
+  && cd $KOPS_HOME \
+  && wget https://github.com/kubernetes/kops/releases/download/v$KOPS_VERSION/kops-linux-amd64 \
+  && mv kops-linux-amd64 kops \
+  && chmod a+x kops
+
+ENV \
+  PATH=$KOPS_HOME:$PATH
 
 RUN \
   pip install awscli
+
+RUN \
+  wget https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml \
+  && wget https://cloud.weave.works/launch/k8s/weavescope.yaml
+
+# TODO:  Get YAML from pipeline repo
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline
+
+ENV \
+  PIPELINE_HOME=/root/pipeline/
 
 COPY .kube/ .kube/

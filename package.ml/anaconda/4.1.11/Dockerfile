@@ -17,12 +17,19 @@ RUN \
   conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
 
 #RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-
-#RUN \
 #  conda install --yes -c conda-forge py4j
 
 # Overcomes current limitation with conda matplotlib (1.5.1)
 RUN \
   apt-get update \
   && apt-get install -y python-qt4
+
+#ENV \
+#  TENSORFLOW_VERSION=0.12.0
+
+#RUN \
+#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+
+RUN \
+  conda install -c r r-essentials
+
