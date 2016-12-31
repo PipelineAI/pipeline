@@ -15,7 +15,7 @@ COPY src/ src/
 COPY pom.xml pom.xml
 
 RUN \
-  mvn -DskipTests clean install 
+  /root/apache-maven-3.3.9/bin/mvn -DskipTests clean install 
 
 EXPOSE 8989 8990
 

@@ -29,4 +29,7 @@ RUN \
   && rm apache-maven-3.3.9-bin.tar.gz
 
 RUN \
-  export PATH=/root/apache-maven-3.3.9/bin:$PATH
+  export MAVEN_HOME=/root/apache-maven-3.3.9/
+
+RUN \
+  export PATH=$MAVEN_HOME/bin:$PATH

@@ -31,12 +31,15 @@ RUN \
   pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
 
 RUN \
-  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
-  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
-  && gpg -a --export E084DAB9 | apt-key add - \
-  && apt-get update \
-  && apt-get install -y r-base \
-  && apt-get install -y r-base-dev
+  conda install -c r r-essentials
+
+#RUN \
+#  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+#  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+#  && gpg -a --export E084DAB9 | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y r-base \
+#  && apt-get install -y r-base-dev
 
 COPY run.master run
 COPY demos/ demos/
