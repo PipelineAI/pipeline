@@ -3,13 +3,16 @@ FROM fluxcapacitor/package-ubuntu-14.04
 WORKDIR /root
 
 RUN \
- apt-get update \
- && apt-get install -y software-properties-common \
- && add-apt-repository -y ppa:openjdk-r/ppa \
- && apt-get update \
- && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+  apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV \
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN \
   echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
