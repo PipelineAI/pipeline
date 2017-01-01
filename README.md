@@ -32,10 +32,6 @@
 ## Continuous Train/Deploy Spark ML and Tensorflow AI Pipelines to Production
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
-# Live [Demo](http://www.demo.pipeline.io)
-* Use any username/password
-* _Note:  Please do not store sensitive info in this insecure environment!_
-
 # Environment Setup
 ## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
