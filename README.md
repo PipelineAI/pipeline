@@ -61,7 +61,7 @@
 
 ![Meetup](http://pipeline.io/images/meetup-442x300.png)
 
-## YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
+## YouTube [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
 
 ![YouTube](http://advancedspark.com/img/youtube-300x134.png)
 
