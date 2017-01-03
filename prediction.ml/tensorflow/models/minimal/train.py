@@ -23,8 +23,8 @@ def main():
   y = np.ones(FLAGS.batch_size)
 
   # Define the model
-  X = tf.placeholder(tf.float32, shape=[None])
-  Y = tf.placeholder(tf.float32, shape=[None])
+  X = tf.placeholder(tf.float32, shape=[None], name="X")
+  Y = tf.placeholder(tf.float32, shape=[None], name="yhat")
   w = tf.Variable(1.0, name="weight")
   b = tf.Variable(1.0, name="bias")
   loss = tf.square(Y - tf.mul(X, w) - b)
@@ -46,6 +46,10 @@ def main():
       print("Continue training from the model {}".format(ckpt.model_checkpoint_path))
       saver.restore(sess, ckpt.model_checkpoint_path)
 
+    saver_def = saver.as_saver_def()
+    print(saver_def.filename_tensor_name)
+    print(saver_def.restore_op_name)
+
     # Start training
     start_time = time.time()
     for epoch in range(FLAGS.epoch_number):
@@ -57,6 +61,9 @@ def main():
         print("[{}] Epoch: {}".format(end_time - start_time, epoch))
 
         saver.save(sess, checkpoint_file)
+        tf.train.write_graph(sess.graph_def, checkpoint_dir, 'trained_model.pb', as_text=False)
+        tf.train.write_graph(sess.graph_def, checkpoint_dir, 'trained_model.txt', as_text=True)  
+
         start_time = end_time
 
     # Print model variables
