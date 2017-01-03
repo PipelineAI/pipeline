@@ -63,7 +63,7 @@
 
 ## YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
 
-![YouTube](http://advancedspark.com/img/youtube.jpg)
+![YouTube](http://advancedspark.com/img/youtube-300x134.png)
 
 ## Slideshare [Slides](http://www.slideshare.net/cfregly)
 
