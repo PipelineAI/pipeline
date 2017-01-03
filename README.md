@@ -61,13 +61,13 @@
 
 ![Meetup](http://pipeline.io/images/meetup-442x300.png)
 
-## YouTube [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
-
-![YouTube](http://advancedspark.com/img/youtube-300x134.png)
-
 ## Slideshare [Slides](http://www.slideshare.net/cfregly)
 
 ![Slideshare](http://advancedspark.com/img/slideshare.png)
+
+## YouTube [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
+
+![YouTube](http://advancedspark.com/img/youtube-300x134.png)
 
 ## Docker [Images](https://hub.docker.com/u/fluxcapacitor)
 
