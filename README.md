@@ -33,20 +33,20 @@
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
 # Environment Setup
-## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Mini) (Local Laptop)
+## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## Pipeline [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-AWS)
+## Pipeline [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
 * Kubernetes cluster on any cloud provider or on-premise
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png)
 
-## Pipeline [GCP](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-GCP)
+## Pipeline [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-GCP)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
-![GCP](http://pipeline.io/images/gce-logo-190x90.png)
+![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
 
 # 24x7 Global [Support](http://pipelineio.zendesk.com) for Everyone!
 * Create a [Ticket](http://pipelineio.zendesk.com)
