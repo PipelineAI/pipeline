@@ -17,65 +17,7 @@
 ## Powered by the PANCAKE STACK!
 ![PANCAKE STACK](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/pancake-stack-sign-sm.png)
 
-## Upcoming Workshops
-### Title
-**Building an End-to-End Streaming Analytics and Recommendations Pipeline with Spark, Kafka, and TensorFlow**
-
-### Agenda (Full Day)
-**Part 1 (Analytics and Visualizations)**
-* Analytics and Visualizations Overview (Live Demo!)
-* Verify Environment Setup (Docker, Cloud Instance)
-* Notebooks (Zeppelin, Jupyter/iPython)
-* Interactive Data Analytics (Spark SQL, Hive, Presto)
-* Graph Analytics (Spark, Elastic, NetworkX, TitanDB)
-* Time-series Analytics (Spark, Cassandra)
-* Visualizations (Kibana, Matplotlib, D3)
-* Approximate Queries (Spark SQL, Redis, Algebird)
-* Workflow Management (Airflow)
-
-**Part 2 (Streaming and Recommendations)**
-* Streaming and Recommendations (Live Demo!)
-* Streaming (NiFi, Kafka, Spark Streaming, Flink)
-* Cluster-based Recommendation (Spark ML, Scikit-Learn)
-* Graph-based Recommendation (Spark ML, Spark Graph)
-* Collaborative-based Recommendation (Spark ML)
-* NLP-based Recommendation (CoreNLP, NLTK)
-* Geo-based Recommendation (ElasticSearch)
-* Hybrid On-Premise+Cloud Auto-scale Deploy (Docker)
-* Save Workshop Environment for Your Use Cases
-
-### 2016 Locations and Dates
-* **San Francisco**: Saturday, April 23rd (SOLD OUT)
-* **San Francisco**: Saturday, June 4th (SOLD OUT)
-* **Washington DC**: Saturday, June 18th (SOLD OUT)
-* **Los Angeles**: Sunday, July 10th (SOLD OUT)
-* **Seattle**: Saturday, July 30th (SOLD OUT)
-* **Santa Clara**: Saturday, August 6th (SOLD OUT)
-* **Chicago**: Saturday, August 27th (SOLD OUT)
-* **New York**: Saturday, October 1st (SOLD OUT)
-* **Munich**: Saturday, October 15th (SOLD OUT)
-* **London**: Saturday, October 22nd (SOLD OUT)
-* **Brussels**: Saturday, October 29th (SOLD OUT)
-* **Madrid**: Saturday, November 19th (SOLD OUT)
-* **Bangalore**: Saturday, December 10th (SOLD OUT)
-
-### 2017 Locations and Dates
-* **London**: Coming Soon
-* **Tokyo**: Coming Soon
-* **Shanghai**: Coming Soon
-* **Beijing**: Coming Soon
-* **Sydney**: Coming Soon
-* **Melbourne**: Coming Soon
-* **Sao Paulo**: Coming Soon
-* **Rio de Janeiro**: Coming Soon
-
-**[Suggest a City and Date](http://goo.gl/forms/g9VZ5jAhKdw11SQd2)**
-      
-### Description
-The goal of this workshop is to build an end-to-end, streaming data analytics and recommendations pipeline on your local machine using Docker and the latest streaming analytics 
-* First, we create a data pipeline to interactively analyze, approximate, and visualize streaming data using modern tools such as Apache Spark, Kafka, Zeppelin, iPython, and ElasticSearch.
-* Next, we extend our pipeline to use streaming data to generate personalized recommendation models using popular machine learning, graph, and natural language processing techniques such as collaborative filtering, clustering, and topic modeling.
-* Last, we productionize our pipeline and serve live recommendations to our users!
+## Upcoming [Workshops](http://pipeline.io#upcoming-workshops)
   
 ##  Screenshots
 ### Apache Zeppelin Notebooks
