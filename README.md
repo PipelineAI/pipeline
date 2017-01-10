@@ -43,7 +43,7 @@
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png)
 
-## Pipeline [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-GCP)
+## Pipeline [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
 ![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
