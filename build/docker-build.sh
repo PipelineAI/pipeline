@@ -6,7 +6,7 @@ sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anac
 sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8 -f package.ml/java/openjdk/1.8/Dockerfile .
 sudo docker build -q -t fluxcapacitor/package-java-oracle-1.8 -f package.ml/java/oracle/1.8/Dockerfile .
 # HACK sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
-cd package/spark/2.0.1/ && sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 .
+cd package.ml/spark/2.0.1/ && sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 .
 cd ../../..
 
 sudo docker build -q -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
