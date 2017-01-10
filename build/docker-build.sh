@@ -42,7 +42,7 @@ cd $PIPELINE_HOME/kibana.ml/4.5.0 && sudo docker build -q -t fluxcapacitor/kiban
 
 # kubernetes.ml
 cd $PIPELINE_HOME/kubernetes.ml && sudo docker build -q -t fluxcapacitor/kubernetes .
-cd $PIPELINE_HOME/kubernetes.ml && sudo docker build -q -t fluxcapacitor/kubernetes-cli -f kubernetes.ml/Dockerfile.cli .
+cd $PIPELINE_HOME/kubernetes.ml && sudo docker build -q -t fluxcapacitor/kubernetes-cli -f Dockerfile.cli .
 
 # loadtest.ml
 cd $PIPELINE_HOME/loadtest.ml && sudo docker build -q -t fluxcapacitor/loadtest .
@@ -61,7 +61,7 @@ cd $PIPELINE_HOME/presto.ml/presto-master && sudo docker build -q -t fluxcapacit
 cd $PIPELINE_HOME/presto.ml/presto-worker && sudo docker build -q -t fluxcapacitor/presto-worker-0.145 .
 
 # scheduler.ml
-cd $PIPELINE_HOME/schduler.ml/airflow && sudo docker build -q -t fluxcapacitor/scheduler-airflow .
+cd $PIPELINE_HOME/scheduler.ml/airflow && sudo docker build -q -t fluxcapacitor/scheduler-airflow .
 
 # sql.ml
 cd $PIPELINE_HOME/sql.ml/mysql && sudo docker build -q -t fluxcapacitor/sql-mysql .
