@@ -36,15 +36,17 @@
 ## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
 
-## Pipeline [Distributed](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Distributed)
-* Kubernetes cluster on any cloud provider or on-premise
-
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## Pipeline [Hybrid](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Hybrid) (Multi-cloud)
+## Pipeline [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-AWS)
+* Kubernetes cluster on any cloud provider or on-premise
+
+![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+
+## Pipeline [GCP](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-GCP)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
-![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
+![GCP](http://pipeline.io/images/gce-logo-190x90.png)
 
 # 24x7 Global [Support](http://pipelineio.zendesk.com) for Everyone!
 * Create a [Ticket](http://pipelineio.zendesk.com)
