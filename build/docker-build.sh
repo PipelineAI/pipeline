@@ -7,7 +7,7 @@ sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8 -f package.ml/jav
 sudo docker build -q -t fluxcapacitor/package-java-oracle-1.8 -f package.ml/java/oracle/1.8/Dockerfile .
 # HACK sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
 cd package.ml/spark/2.0.1/ && sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 .
-cd ../../..
+cd $PIPELINE_HOME
 
 sudo docker build -q -t fluxcapacitor/package-kafka-0.8 -f package.ml/kafka/0.8/Dockerfile .
 sudo docker build -q -t fluxcapacitor/package-kafka-0.10 -f package.ml/kafka/0.10/Dockerfile .
@@ -27,7 +27,6 @@ sudo docker build -q -t fluxcapacitor/clustered-tensorflow -f clustered.ml/tenso
 # dashboard.ml
 sudo docker build -q -t fluxcapacitor/dashboard-hystrix -f dashboard.ml/hystrix/Dockerfile .
 sudo docker build -q -t fluxcapacitor/dashboard-turbine -f dashboard.ml/turbine/Dockerfile .
-sudo docker build -q -t fluxcapacitor/dashboard-weavescope -f dashboard.ml/weavescope/Dockerfile .
 
 # elasticsearch.ml
 sudo docker build -q -t fluxcapacitor/elasticsearch-2.3.0 -f elasticsearch.ml/2.3.0/Dockerfile .
@@ -42,7 +41,10 @@ sudo docker build -q -t fluxcapacitor/jupyterhub -f jupyterhub.ml/Dockerfile .
 sudo docker build -q -t fluxcapacitor/keyvalue-redis -f keyvalue.ml/redis/Dockerfile .
 
 # kibana.ml
-sudo docker build -q -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
+# HACK sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 -f package.ml/spark/2.0.1/Dockerfile .
+#sudo docker build -q -t fluxcapacitor/kibana-4.5.0 -f kibana.ml/4.5.0/Dockerfile .
+cd kibana.ml/4.5.0 && sudo docker build -q -t fluxcapacitor/kibana-4.5.0 .
+cd $PIPELINE_HOME
 
 # kubernetes.ml
 sudo docker build -q -t fluxcapacitor/kubernetes -f kubernetes.ml/Dockerfile .
