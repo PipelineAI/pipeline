@@ -1,3 +1,5 @@
+cd $PIPELINE_HOME
+
 # package.ml
 sudo docker build -q -t fluxcapacitor/package-ubuntu-14.04 -f package.ml/ubuntu/14.04/Dockerfile .
 sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 -f package.ml/anaconda/4.1.11/Dockerfile .
