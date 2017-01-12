@@ -26,12 +26,12 @@ dag = DAG(
 
 t1 = BashOperator(
     task_id='rid_old_pmml',
-    bash_command='docker stop pmmlsvc||true;docker rm pmmlsvc||true;docker rmi canary||true',
+    bash_command='sudo docker stop pmmlsvc||true;sudo docker rm pmmlsvc||true;sudo docker rmi canary||true',
     dag=dag)
 
 t2 = BashOperator(
     task_id='deploy_new_pmml',
-    bash_command='docker build -t canary /root/pipeline/prediction.ml/pmml;docker run -d -p 9040:9040 --name pmmlsvc -t canary',
+    bash_command='sudo docker build -t canary /home/pipeline-training/pipeline/prediction.ml/pmml;sudo docker run -d -p 9050:9050 --name pmmlsvc -t canary',
     dag=dag)
 
 t2.set_upstream(t1)
