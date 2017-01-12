@@ -33,18 +33,20 @@
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
 # Environment Setup
-## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Mini) (Local Laptop)
+## Pipeline [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
 * Small Kubernetes cluster for your laptop
-
-## Pipeline [Distributed](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Distributed)
-* Kubernetes cluster on any cloud provider or on-premise
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-## Pipeline [Hybrid](https://github.com/fluxcapacitor/pipeline/wiki/Pipeline-Hybrid) (Multi-cloud)
+## Pipeline [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
+* Kubernetes cluster on any cloud provider or on-premise
+
+![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+
+## Pipeline [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
 * Kubernetes cluster across many cloud providers and/or on-premise
 
-![AWS](http://pipeline.io/images/aws-logo-185x73.png) ![GCP](http://pipeline.io/images/gce-logo-190x90.png)
+![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
 
 # 24x7 Global [Support](http://pipelineio.zendesk.com) for Everyone!
 * Create a [Ticket](http://pipelineio.zendesk.com)
@@ -61,13 +63,13 @@
 
 ![Meetup](http://pipeline.io/images/meetup-442x300.png)
 
-## YouTube [Videos](https://www.youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw)
-
-![YouTube](http://advancedspark.com/img/youtube.jpg)
-
 ## Slideshare [Slides](http://www.slideshare.net/cfregly)
 
 ![Slideshare](http://advancedspark.com/img/slideshare.png)
+
+## YouTube [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
+
+![YouTube](http://advancedspark.com/img/youtube-300x134.png)
 
 ## Docker [Images](https://hub.docker.com/u/fluxcapacitor)
 

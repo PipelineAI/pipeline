@@ -38,7 +38,7 @@ class PredictionService {
 
   @RequestMapping(path=Array("/update-pmml/{pmmlName}"),
                   method=Array(RequestMethod.POST),
-                  produces=Array("application/json; charset=UTF-8"))
+                  produces=Array("application/xml; charset=UTF-8"))
   def updatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody pmmlString: String): 
       ResponseEntity[HttpStatus] = {
     try {

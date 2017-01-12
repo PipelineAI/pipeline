@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+from flask import Flask, request
+import json
+import traceback
+import sys
+import git
+import os, os.path
+import subprocess
+
+app = Flask(__name__)
+#app.config['DEBUG'] = True
+#app.config['PROPAGATE_EXCEPTIONS'] = True
+
+@app.route('/prediction.ml/pmml/data/census/webhook',methods=['POST'])
+def foo():
+   try:
+      data = json.loads(request.data.decode('utf-8'))
+      g = git.Git(os.path.expanduser('~'))
+      #g.pull()
+      #g.execute(['git', 'fetch', 'origin'])
+      #g.execute(['git', 'merge', data['commits'][0]['id'])
+      subprocess.call(['echo', 'airflow', 'trigger_dag', 'update_pmm'], shell=False)
+      return 'OK'
+   except:
+      traceback.print_exc(file=sys.stdout)
+      raise
+
+if __name__ == '__main__':
+   app.run(host='0.0.0.0')
