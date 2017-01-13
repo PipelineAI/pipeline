@@ -33,7 +33,7 @@ m3 = tf.matmul(m1_input, m2)
 m3 = tf.Print(m3, [m3], message="m3 is: ")
 
 # Add variable initializer.
-init = tf.initialize_all_variables()
+init = tf.initialize_all_variables()  # global_variables_initializer() in TF0.12
 
 with tf.Session() as session:
     # We must initialize all variables before we use them.

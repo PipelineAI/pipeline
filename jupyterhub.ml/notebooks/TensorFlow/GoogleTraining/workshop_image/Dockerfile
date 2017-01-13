@@ -15,12 +15,18 @@ FROM gcr.io/tensorflow/tensorflow:latest-devel
 
 RUN pip install --upgrade pip
 RUN apt-get update
+RUN apt-get install -y unzip python-dev python-pip zlib1g-dev libjpeg-dev libblas-dev
+RUN apt-get install -y liblapack-dev libatlas-base-dev libsnappy-dev libyaml-dev gfortran
 RUN apt-get install -y python-scipy
-RUN pip install sklearn nltk pillow
-RUN python -c "import nltk; nltk.download('punkt')"
 
+RUN pip install sklearn nltk pillow setuptools
+RUN pip install flask google-api-python-client
+RUN pip install pandas python-snappy scipy scikit-learn requests uritemplate
+RUN pip install --upgrade --force-reinstall https://storage.googleapis.com/cloud-ml/sdk/cloudml.latest.tar.gz
 
-RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-132.0.0-linux-x86_64.tar.gz | tar xvz
+# RUN python -c "import nltk; nltk.download('punkt')"
+
+RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-138.0.0-linux-x86_64.tar.gz | tar xvz
 RUN ./google-cloud-sdk/install.sh -q
 RUN ./google-cloud-sdk/bin/gcloud components install beta
 
@@ -30,5 +36,7 @@ ADD download_git_repo.py download_git_repo.py
 EXPOSE 6006
 # IPython
 EXPOSE 8888
+# Flask
+EXPOSE 5000
 
 CMD ["sh", "-c", "python download_git_repo.py ; /bin/bash"]

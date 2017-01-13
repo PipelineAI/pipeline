@@ -33,6 +33,7 @@ m3 = tf.matmul(m1_input, m2)
 m3 = tf.Print(m3, [m3], message="m3 is: ")
 
 m4 = tf.add(m3, m3)
+# m4 = m3 + m3
 
 # Add variable initializer.
 init = tf.initialize_all_variables()

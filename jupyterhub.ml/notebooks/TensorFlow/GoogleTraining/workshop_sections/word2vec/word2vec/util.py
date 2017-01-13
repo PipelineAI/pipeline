@@ -15,135 +15,77 @@
 from __future__ import division
 from __future__ import print_function
 
-import nltk
-import numpy as np
 import tensorflow as tf
 
-from tensorflow.python.lib.io.tf_record import TFRecordCompressionType
+tf.logging.set_verbosity(tf.logging.INFO)
 
 
-GCS_SKIPGRAMS = [
-    'gs://ml-workshop/skipgrams/batches-{}.pb2'.format(i)
-    for i in range(4)
-]
+def skipgrams(word_tensor,
+              num_skips,
+              skip_window,
+              windows_per_batch,
+              num_epochs=None):
+  window_size = 2 * skip_window + 1
+  num_windows = tf.shape(word_tensor)[0] - window_size
+  batch_size = windows_per_batch * num_skips
+  range_queue = tf.train.range_input_producer(
+      num_windows,
+      shuffle=False,
+      capacity=windows_per_batch * 2,
+      num_epochs=num_epochs
+  )
+  indices = range_queue.dequeue_many(windows_per_batch)
+
+  # Shape [windows_per_batch * num_skips]
+  # e.g. [1, 1, ... , 1, ..., windows_per_batch ..., windows_per_batch]
+  window_indices = tf.reshape(
+      tf.transpose(tf.tile(indices, [num_skips])),
+      [-1]
+  )
+
+  possible_indices = range(window_size)
+  del possible_indices[skip_window]
+
+  possible_indices_tensor = tf.constant(possible_indices, dtype=tf.int32)
+  index_indices = tf.random_uniform(
+      [batch_size],
+      maxval=window_size - 2,
+      dtype=tf.int32
+  )
+
+  skip_indices = tf.gather(possible_indices_tensor, index_indices)
+  true_skip_indices = skip_indices + window_indices
+  skips = tf.gather(word_tensor, true_skip_indices)
+
+  target_indices = tf.constant(skip_window, dtype=tf.int32, shape=[batch_size])
+  true_target_indices = target_indices + window_indices
+  targets = tf.gather(word_tensor, true_target_indices)
+
+  return targets, skips
 
 
-def _rolling_window(a, window):
-  shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
-  strides = a.strides + (a.strides[-1],)
-  return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
-
-
-
-def to_skipgrams(window, skip_window, num_skips):
-  contexts = np.random.choice(np.concatenate(
-      (window[:skip_window], window[skip_window + 1:])
-  ), size=num_skips, replace=False)
-  targets = np.repeat(window[skip_window], num_skips)
-  return np.concatenate((targets, contexts))
-
-
-def generate_batches(word_array, num_skips=2, skip_window=1):
-  assert num_skips <= 2 * skip_window
-  span = 2 * skip_window + 1
-
-  span_windows = _rolling_window(word_array, span)
-  batches = np.apply_along_axis(
-    to_skipgrams, 1, span_windows, skip_window, num_skips)
-  # Separate targets and contexts
-  batches_sep = np.reshape(batches, (-1, 2, num_skips))
-  # Gather targets and contexts
-  batches_gathered = np.transpose(batches_sep, (1, 0, 2))
-  # Squash targets and contexts
-  batches_squashed = np.reshape(batches_gathered, (2, -1))
-  return batches_squashed[0], batches_squashed[1]
-
-def build_string_index(string, vocab_size=2 ** 15):
-  word_array = np.array(nltk.word_tokenize(string))
-
-  unique, counts = np.unique(word_array, return_counts=True)
-
-  sort_unique = np.argsort(counts)
-  sorted_counts = counts[sort_unique][::-1][:vocab_size - 1]
-  unique_sorted = unique[sort_unique][::-1][:vocab_size - 1]
-
-  return unique_sorted, sorted_counts, word_array
-
-
-def write_index_to_file(index, filename):
-  with open(filename, 'wb') as writer:
-    writer.write(tf.contrib.util.make_tensor_proto(index).SerializeToString())
-
-
-def make_input_fn(filenames,
+def make_input_fn(word_indices_file,
                   batch_size,
-                  index_file,
+                  num_skips,
+                  skip_window,
+                  vocab_size,
                   num_epochs=None):
   def _input_fn():
     with tf.name_scope('input'):
-      index = tf.parse_tensor(tf.read_file(index_file), tf.string)
-      filename_queue = tf.train.string_input_producer(
-          filenames, num_epochs=num_epochs)
-      reader = tf.TFRecordReader(
-          options=tf.python_io.TFRecordOptions(
-              compression_type=TFRecordCompressionType.GZIP
-          )
+      word_tensor = tf.parse_tensor(
+          tf.read_file(word_indices_file),
+          tf.int64
       )
-      _, serialized_example = reader.read(filename_queue)
 
-      words = tf.parse_single_example(
-          serialized_example,
-          {
-              'target_words': tf.FixedLenFeature([batch_size], tf.string),
-              'context_words': tf.FixedLenFeature([batch_size], tf.string)
-          }
+      targets, contexts = skipgrams(
+          word_tensor,
+          num_skips,
+          skip_window,
+          batch_size // num_skips,
+          num_epochs=num_epochs
       )
-      return {
-          'targets': tf.expand_dims(words['target_words'], 1),
-          'index': index
-      }, words['context_words']
+
+      contexts_matrix = tf.expand_dims(contexts, -1)
+      return targets, contexts_matrix
 
   return _input_fn
-
-
-def write_batches_to_file(filename,
-                          batch_size,
-                          word_array,
-                          num_skips=8,
-                          skip_window=4,
-                          num_shards=4):
-    span = 2 * skip_window + 1
-    span_windows = _rolling_window(word_array, span)
-    span_batch_size = batch_size // num_skips
-    span_windows_len = (len(span_windows) // span_batch_size) * span_batch_size
-    span_windows_trunc = span_windows[:span_windows_len]
-    window_batches = np.reshape(
-        span_windows_trunc, (-1, span_batch_size, span))
-
-    shard_size = len(window_batches) // num_shards
-
-    options = tf.python_io.TFRecordOptions(
-        compression_type=TFRecordCompressionType.GZIP)
-    for shard, index in enumerate(range(0, len(window_batches), shard_size)):
-      shard_file = '{}-{}.pb2'.format(filename, shard)
-      with tf.python_io.TFRecordWriter(shard_file, options=options) as writer:
-        for windows in window_batches[index:index+shard_size]:
-          batches = np.apply_along_axis(
-              to_skipgrams, 1, windows, skip_window, num_skips)
-          # Separate targets and contexts
-          batches_sep = np.reshape(batches, (-1, 2, num_skips))
-          # Gather targets and contexts
-          batches_gathered = np.transpose(batches_sep, (1, 0, 2))
-          # Squash targets and contexts
-          batches_squashed = np.reshape(batches_gathered, (2, -1))
-
-          writer.write(
-              tf.train.Example(features=tf.train.Features(feature={
-                  'target_words': tf.train.Feature(
-                      bytes_list=tf.train.BytesList(
-                          value=batches_squashed[0])),
-                  'context_words': tf.train.Feature(
-                      bytes_list=tf.train.BytesList(
-                          value=batches_squashed[1]))
-              })).SerializeToString()
-          )

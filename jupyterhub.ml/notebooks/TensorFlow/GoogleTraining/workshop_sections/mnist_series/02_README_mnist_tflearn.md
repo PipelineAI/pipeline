@@ -45,7 +45,7 @@ $ tensorboard --logdir=/tmp/tfmodels/mnist_tflearn
 
 Note: This tells TensorBoard to grab summary information from all directories under `/tmp/tfmodels/mnist_tflearn`.  So, we can do multiple runs, and compare the results -- TensorBoard will automatically pull in data on additional runs as it is added.
 
-Once TensorBoard is running, then in your browser, visit the address indicated (probably `localhost:6060`).
+Once TensorBoard is running, then in your browser, visit the address indicated (probably `localhost:6006`).
 
 [At this point in the lab, we'll take some time to explore TensorBoard and see what kind of information it can display].
 
