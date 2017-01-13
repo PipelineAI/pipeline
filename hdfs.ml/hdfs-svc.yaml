@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hdfs-2-7-0
+  name: hdfs-namenode
 spec:
   type: NodePort 
   ports:
-    # the port that this service should serve on
   - name: hdfs-native
-    port: 90008
+    port: 9000
     targetPort: 9000
   - name: hdfs-webui
     port: 50070
     targetPort: 50070
   selector:
-    name: hdfs-2-7-0 
+    name: hdfs-namenode
