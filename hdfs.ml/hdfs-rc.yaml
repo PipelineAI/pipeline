@@ -1,22 +1,22 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: hdfs-namenode
+  name: hdfs
   labels:
-    app: hdfs-namenode
+    app: hdfs
     version: 2.7.2
 spec:
   replicas: 1
   selector:
-    name: hdfs-namenode
+    name: hdfs
   template:
     metadata:
       labels:
-        name: hdfs-namenode
+        name: hdfs
     spec:
       containers:
-      - name: hdfs-namenode
-        image: docker.io/fluxcapacitor/hdfs-namenode
+      - name: hdfs
+        image: docker.io/fluxcapacitor/hdfs
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

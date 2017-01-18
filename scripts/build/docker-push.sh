@@ -32,6 +32,9 @@ sudo docker push fluxcapacitor/elasticsearch-2.3.0
 # gpu.ml
 sudo docker push fluxcapacitor/gpu 
 
+# hdfs.ml
+sudo docker push fluxcapacitor/hdfs
+
 # jupyterhub.ml
 sudo docker push fluxcapacitor/jupyterhub
 

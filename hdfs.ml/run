@@ -1,7 +1,6 @@
 #!/bin/bash
 
-set -e
-
-sshd
+# Must be fully-qualified path
+/usr/sbin/sshd
 
 start-dfs.sh

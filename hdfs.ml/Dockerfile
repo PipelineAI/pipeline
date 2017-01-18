@@ -40,6 +40,10 @@ RUN \
 RUN \
   hadoop namenode -format
 
+# Required by sshd
+RUN \
+  mkdir /var/run/sshd
+
 COPY run run
 
 EXPOSE 50070 
