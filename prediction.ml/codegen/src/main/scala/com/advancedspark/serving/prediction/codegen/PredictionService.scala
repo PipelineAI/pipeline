@@ -36,7 +36,7 @@ class PredictionService {
   val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/update-source/{className}"),
+  @RequestMapping(path=Array("/update-codegen/{className}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateSource(@PathVariable("className") className: String, @RequestBody classSource: String): 
@@ -76,7 +76,7 @@ class PredictionService {
     }
   }
  
-  @RequestMapping(path=Array("/evaluate-source/{className}"),
+  @RequestMapping(path=Array("/evaluate-codegen/{className}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateSource(@PathVariable("className") className: String, @RequestBody inputJson: String): 

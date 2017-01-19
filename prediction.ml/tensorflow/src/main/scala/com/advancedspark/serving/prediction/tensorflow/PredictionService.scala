@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation._
 class PredictionService {
   val modelRegistry = new scala.collection.mutable.HashMap[String, Array[Byte]]
 
-  @RequestMapping(path=Array("/update-model/{modelName}"),
+  @RequestMapping(path=Array("/update-tensorflow/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateModel(@PathVariable("modelName") modelName: String, @RequestBody model: Array[Byte]):
@@ -58,7 +58,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate-model/{modelName}"),
+  @RequestMapping(path=Array("/evaluate-tensorflow/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateModel(@PathVariable("modelName") modelName: String, @RequestBody inputJson: String):

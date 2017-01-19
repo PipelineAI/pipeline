@@ -11,7 +11,7 @@ import prediction_service_pb2
 
 tf.app.flags.DEFINE_string("host", "127.0.0.1", "gRPC server host")
 tf.app.flags.DEFINE_integer("port", 9000, "gRPC server port")
-tf.app.flags.DEFINE_string("model_name", "cancer", "TensorFlow model name")
+tf.app.flags.DEFINE_string("model_name", "tensorflow-minimial", "TensorFlow model name")
 tf.app.flags.DEFINE_integer("model_version", 1, "TensorFlow model version")
 tf.app.flags.DEFINE_float("request_timeout", 10.0, "Timeout of gRPC request")
 tf.app.flags.DEFINE_integer("benchmark_batch_size", 1, "")

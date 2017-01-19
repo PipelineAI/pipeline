@@ -98,7 +98,7 @@ public class TensorflowPredictionClientGrpc {
 
         String host = "127.0.0.1";
         int port = 9000;
-        String modelName = "minimal";
+        String modelName = "tensorflow-minimal";
         String inputJson = "";
 
         // Parse command-line arguments
