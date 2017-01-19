@@ -62,9 +62,15 @@ ENV PATH=$SPARK_HOME/bin:$PATH
 RUN \
   git clone http://github.com/fluxcapacitor/pipeline
 
-COPY config/spark/ $SPARK_HOME/conf/
+RUN \
+  conda install --yes -c conda-forge gitpython=2.1.1
 
-COPY dags/ $AIRFLOW_HOME/dags/
+#COPY dags/ $AIRFLOW_HOME/dags/
+RUN \
+  cd $AIRFLOW_HOME \
+  && ln -s /root/pipeline/scheduler.ml/airflow/dags
+
+COPY config/spark/ $SPARK_HOME/conf/
 
 COPY github_webhook github_webhook
 
