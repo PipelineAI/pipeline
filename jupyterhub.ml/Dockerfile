@@ -110,7 +110,7 @@ COPY lib/ lib/
 RUN \
   git clone https://github.com/fluxcapacitor/pipeline
 RUN \
-  ln -s /root/pipeline/notebooks /root/notebooks
+  ln -s /root/pipeline/notebooks /root/pipeline/jupyterhub.ml/notebooks 
 
 COPY profiles/ /root/.ipython/ 
 
