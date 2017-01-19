@@ -30,23 +30,10 @@ class TensorflowCommand(host: String, port: Int, name: String, inputs: Map[Strin
 {
   def run(): String = {
     val client = new com.fluxcapacitor.TensorflowPredictionClientGrpc(host, port);
-    try{
-      val results = client.predict(name, "")
 
-      s"""${results}"""
-    } catch {
-       case e: Throwable => {
-         throw e
-       }
-    } finally {
-        try {
-          client.shutdown();
-        } catch {
-          case e: Throwable => {
-            // throw e
-          }
-        }
-    }
+    val results = client.predict(name, "")
+
+    s"""${results}"""
   }
 
   override def getFallback(): String = {

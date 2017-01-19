@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class TensorflowPredictionClientGrpc {
     private static final Logger logger = Logger.getLogger(TensorflowPredictionClientGrpc.class.getName());
     private final ManagedChannel channel;
-    private final PredictionServiceGrpc.PredictionServiceBlockingStub blockingStub;
+    private final PredictionServiceGrpc.PredictionServiceBlockingStub stub;
 
     // Initialize gRPC client
     public TensorflowPredictionClientGrpc(String host, int port)
@@ -33,47 +33,7 @@ public class TensorflowPredictionClientGrpc {
           .usePlaintext(true)
           .build();
 
-        blockingStub = PredictionServiceGrpc.newBlockingStub(channel);
-    }
-
-    public static void main(String[] args) {
-        //System.out.println("Start the predict client");
-
-        String host = "127.0.0.1";
-        int port = 9000;
-        String modelName = "minimal";
-        String inputJson = "";
-
-        // Parse command-line arguments
-        if (args.length == 5) {
-            host = args[0];
-            port = Integer.parseInt(args[1]);
-            modelName = args[2];
-            inputJson = args[3];
-        }
-
-        // Run predict client to send request
-        TensorflowPredictionClientGrpc client = new TensorflowPredictionClientGrpc(host, port);
-
-        String response = null;
-        try {
-            response = client.predict(modelName, inputJson);
-        } catch (Exception e) {
-            //System.out.println(e);
-        } finally {
-            try {
-                client.shutdown();
-            } catch (Exception e) {
-                //System.out.println(e);
-            }
-        }
-
-        //System.out.println("Response: " + response);
-        //System.out.println("End of predict client");
-    }
-
-    public void shutdown() throws InterruptedException {
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+        stub = PredictionServiceGrpc.newBlockingStub(channel);
     }
 
     public String predict(String modelName, String inputJson) {
@@ -114,9 +74,9 @@ public class TensorflowPredictionClientGrpc {
         // Request gRPC server
         Predict.PredictResponse response;
         try {
-            response = blockingStub.predict(request);
+            response = stub.predict(request);
 
-            java.util.Map<java.lang.String, org.tensorflow.framework.TensorProto> outputs = response.getOutputs();
+            java.util.Map<java.lang.String, org.tensorflow.framework.TensorProto> outputs = response.getOutputsMap();
             //for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorProto> entry : outputs.entrySet()) {
             //    System.out.println("Response with the key: " + entry.getKey() + ", value: " + entry.getValue());
             //}
@@ -124,7 +84,49 @@ public class TensorflowPredictionClientGrpc {
             return outputs.get("prediction").toString();
         } catch (StatusRuntimeException e) {
             //logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+        	System.out.println(e);
             throw e;
         }
     }
+    
+    public void shutdown() throws InterruptedException {
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    }
+        
+    public static void main(String[] args) {
+        //System.out.println("Start the predict client");
+
+        String host = "127.0.0.1";
+        int port = 9000;
+        String modelName = "minimal";
+        String inputJson = "";
+
+        // Parse command-line arguments
+        if (args.length == 5) {
+            host = args[0];
+            port = Integer.parseInt(args[1]);
+            modelName = args[2];
+            inputJson = args[3];
+        }
+
+        // Run predict client to send request
+        TensorflowPredictionClientGrpc client = new TensorflowPredictionClientGrpc(host, port);
+
+        String response = null;
+        try {
+            response = client.predict(modelName, inputJson);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                client.shutdown();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        //System.out.println("Response: " + response);
+        //System.out.println("End of predict client");
+    }
+ 
 }
