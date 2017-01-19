@@ -26,3 +26,5 @@ spec:
               fieldPath: "metadata.namespace"
         ports:
         - containerPort: 8989 
+      nodeSelector:
+        training: "true"
