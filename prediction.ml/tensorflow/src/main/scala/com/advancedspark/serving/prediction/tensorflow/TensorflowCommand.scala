@@ -29,10 +29,8 @@ class TensorflowCommand(host: String, port: Int, name: String, inputs: Map[Strin
     )
 {
   def run(): String = {
+    val client = new com.fluxcapacitor.TensorflowPredictionClientGrpc(host, port);
     try{
-      // Run predict client to send request
-      val client = new com.fluxcapacitor.TensorflowPredictionClientGrpc(host, port);
-
       val results = client.predict(name, "")
 
       s"""${results}"""
@@ -40,6 +38,14 @@ class TensorflowCommand(host: String, port: Int, name: String, inputs: Map[Strin
        case e: Throwable => {
          throw e
        }
+    } finally {
+        try {
+          client.shutdown();
+        } catch {
+          case e: Throwable => {
+            // throw e
+          }
+        }
     }
   }
 
