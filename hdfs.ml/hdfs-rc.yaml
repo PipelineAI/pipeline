@@ -23,4 +23,4 @@ spec:
           value: env
         ports:
         - containerPort: 9000
-        - containerPort: 50070 
+        - containerPort: 50070

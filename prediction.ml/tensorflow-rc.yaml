@@ -27,6 +27,8 @@ spec:
         - containerPort: 9001
         - containerPort: 9002
         - containerPort: 9040
+      nodeSelector:
+        nodetype: prediction 
 #        livenessProbe:
 #          httpGet:
 #            path: "/health"
