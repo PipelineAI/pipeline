@@ -23,6 +23,8 @@ items:
                 - '--no-probe'
               ports:
                 - containerPort: 4040
+          nodeSelector:
+            training: "true"
   - metadata:
       labels:
         app: weavescope
