@@ -59,12 +59,17 @@ RUN \
 ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
 ENV PATH=$SPARK_HOME/bin:$PATH
 
+RUN \
+  git clone http://github.com/fluxcapacitor/pipeline
+
 COPY config/spark/ $SPARK_HOME/conf/
 
 COPY dags/ $AIRFLOW_HOME/dags/
 
+COPY github_webhook github_webhook
+
 COPY run run
 
-EXPOSE 8080 
+EXPOSE 8080 5000
 
 CMD ["supervise", "."]

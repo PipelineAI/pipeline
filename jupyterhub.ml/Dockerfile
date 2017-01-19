@@ -105,7 +105,12 @@ COPY config/jupyterhub/ config/jupyterhub/
 #  && ln -s pipeline/jupyterhub.ml/lib/ lib
 
 COPY lib/ lib/
-COPY notebooks/ notebooks/
+
+#COPY notebooks/ notebooks/
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline
+RUN \
+  ln -s /root/pipeline/notebooks /root/notebooks
 
 COPY profiles/ /root/.ipython/ 
 

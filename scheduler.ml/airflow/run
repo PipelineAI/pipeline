@@ -14,4 +14,8 @@ airflow initdb
 #cd ~
 #ln -s ~/$GITHUB_REPO_NAME/demos.ml/airflow/dags /root/airflow/
 
-airflow webserver
+airflow webserver &
+
+airflow scheduler &
+
+/root/github_webhook
