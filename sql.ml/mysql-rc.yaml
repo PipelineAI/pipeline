@@ -22,3 +22,5 @@ spec:
           value: env
         ports:
         - containerPort: 3306 
+      nodeSelector:
+        training: "true"

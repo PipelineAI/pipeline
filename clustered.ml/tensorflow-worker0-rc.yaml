@@ -30,3 +30,5 @@ spec:
           value: "0"
         ports:
         - containerPort: 2222
+      nodeSelector:
+        training: "true"

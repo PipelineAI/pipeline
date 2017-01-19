@@ -26,16 +26,8 @@ spec:
           value: spark://spark-master-2-0-1:7077
         - name: SPARK_SUBMIT_ARGS
           value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,org.apache.spark:spark-streaming-kafka-0-10_2.11:2.0.1 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
-        - name: GITHUB_REPO_OWNER_URL
-          value: "https://github.com/fluxcapacitor"
-        - name: GITHUB_REPO_NAME
-          value: "source.ml"
-        - name: GITHUB_CLONE_BRANCH
-          value: "master"
-        - name: GITHUB_CHECKOUT_BRANCH
-          value: "master"
-        - name: GITHUB_RESET_REVISION
-          value: "HEAD"
         ports:
         - containerPort: 8080
         - containerPort: 5000
+      nodeSelector:
+        training: "true"

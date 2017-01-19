@@ -30,3 +30,5 @@ spec:
           value: spark://spark-master-2-0-1:7077
         ports:
         - containerPort: 6061
+      nodeSelector:
+        training: "true"

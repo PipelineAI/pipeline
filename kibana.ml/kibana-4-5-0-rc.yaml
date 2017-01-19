@@ -19,3 +19,5 @@ spec:
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5601 
+      nodeSelector:
+        training: "true"

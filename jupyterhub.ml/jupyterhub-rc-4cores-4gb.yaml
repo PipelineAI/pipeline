@@ -27,5 +27,5 @@ spec:
         ports:
         - containerPort: 8754
         - containerPort: 6006
-#      nodeSelector:
-#        nodetype: training
+      nodeSelector:
+        training: "true"
