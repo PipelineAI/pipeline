@@ -9,7 +9,7 @@ default_args = {
     'email': ['chris@fregly.com'],
     'email_on_failure': False,
     'email_on_retry': False,
-    'retries': 1,
+    'retries': 0,
     'retry_delay': timedelta(minutes=5),
     # 'queue': 'bash_queue',
     # 'pool': 'backfill',
@@ -23,7 +23,7 @@ dag = DAG('update_prediction_pmml_canary', default_args=default_args)
 # TODO:  dockerFileTag and dockerFilePath should be passed in from webhook
 build_image = BashOperator(
     task_id='build_prediction-pmml_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-pmml:canary -f /root/pipeline/prediction.ml/pmml/Dockerfile',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-pmml:canary /root/pipeline/prediction.ml/pmml/',
     dag=dag)
 
 push_image = BashOperator(
@@ -33,7 +33,7 @@ push_image = BashOperator(
 
 deploy_container = BashOperator(
     task_id='deploy_prediction-pmml_docker_container_canary',
-    bash_command='kubectl create -f /root/pipeline/prediction.ml/pmml-canary-rc.yaml',
+    bash_command='sudo kubectl create -f /root/pipeline/prediction.ml/pmml-canary-rc.yaml',
     dag=dag)
 
 # Setup Airflow DAG
