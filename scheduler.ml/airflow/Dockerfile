@@ -67,7 +67,8 @@ RUN \
 
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
-  cd $AIRFLOW_HOME \
+  mkdir -p $AIRFLOW_HOME \
+  && cd $AIRFLOW_HOME \
   && ln -s /root/pipeline/scheduler.ml/airflow/dags
 
 COPY config/spark/ $SPARK_HOME/conf/
