@@ -37,12 +37,13 @@ class SourceCodeEvaluationCommand(name: String, predictor: Predictable, inputs: 
       s"""${predictor.predict(inputs)}"""
     } catch { 
        case e: Throwable => {
+         System.out.println(e)
          throw e
        }
     }
   }
 
   override def getFallback(): String = {
-    s"""${fallback}""""
+    s"""${fallback}"""
   }
 }

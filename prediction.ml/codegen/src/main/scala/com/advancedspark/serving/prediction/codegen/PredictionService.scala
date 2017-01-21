@@ -28,6 +28,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation._
 import scala.util.{Try,Success,Failure}
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.stream.Stream
+import java.util.stream.Collectors
 
 @SpringBootApplication
 @RestController
@@ -44,7 +48,7 @@ class PredictionService {
     Try {
       System.out.println(s"Generating source for ${className}:\n${classSource}")
 
-      // Write the new pmml (XML format) to local disk
+      // Write the new java source to local disk
       val path = new java.io.File(s"data/${className}/")
       if (!path.isDirectory()) {
         path.mkdirs()
@@ -87,9 +91,29 @@ class PredictionService {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
       val result = predictorOption match {
-        case None => throw new Exception(s"No Source Found for ${className}")
-        case Some(predictor) => new SourceCodeEvaluationCommand(className, predictor, inputs, "fallback", 25, 20, 10)
-          .execute()
+        case None => {
+          //val fis = new java.io.FileInputStream(s"data/${className}/${className}.java")
+
+          val classFileName = s"data/${className}/${className}.java"
+
+		  //read file into stream
+		  val stream: Stream[String] = Files.lines(Paths.get(classFileName))
+			    
+		  // reconstuct original
+          val classSource = stream.collect(Collectors.joining("\n"))
+          
+          val (predictor, generatedCode) = PredictorCodeGenerator.codegen(className, classSource)
+
+          System.out.println(s"Updating cache for ${className}:\n${generatedCode}")
+      
+          // Update Predictor in Cache
+          predictorRegistry.put(className, predictor)
+      
+          System.out.println(s"Updating cache for ${className}:\n${generatedCode}")
+        }
+        case Some(predictor) => {
+           new SourceCodeEvaluationCommand(className, predictor, inputs, "fallback", 25, 20, 10).execute()
+        }
       } 
 
       new ResponseEntity[String](s"${result}", responseHeaders,
