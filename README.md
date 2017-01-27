@@ -1,8 +1,8 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
 ## Videos
-* [Big Data Spain Nov 2016](https://www.youtube.com/embed/swiPWUxBvSc)
-* [StartupML Conference Jan 2017](https://www.youtube.com/embed/QPI_RtIrO7g)
+* [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/swiPWUxBvSc)
+* [Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/QPI_RtIrO7g)
 
 ### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
 ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
