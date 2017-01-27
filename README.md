@@ -8,6 +8,10 @@
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
 
+## Videos
+* [Big Data Spain Nov 2016](https://www.youtube.com/embed/swiPWUxBvSc)
+* [StartupML Conference Jan 2017](https://www.youtube.com/embed/QPI_RtIrO7g)
+
 ## 100% Open Source
 ![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) 
 ![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-48x50.png)![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-110x50.png) 
