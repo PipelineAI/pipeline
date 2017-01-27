@@ -29,5 +29,12 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5000
+        volumeMounts:
+          - name: dockersocket
+            mountPath: /var/run/docker.sock
+      volumes:
+        - hostPath:
+            path: /var/run/docker.sock
+          name: dockersocket
       nodeSelector:
         training: "true"
