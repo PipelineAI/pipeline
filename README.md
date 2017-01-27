@@ -1,5 +1,9 @@
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
+## Videos
+* [Big Data Spain Nov 2016](https://www.youtube.com/embed/swiPWUxBvSc)
+* [StartupML Conference Jan 2017](https://www.youtube.com/embed/QPI_RtIrO7g)
+
 ### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
 ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
 ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png) 
@@ -7,10 +11,6 @@
 
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
-
-## Videos
-* [Big Data Spain Nov 2016](https://www.youtube.com/embed/swiPWUxBvSc)
-* [StartupML Conference Jan 2017](https://www.youtube.com/embed/QPI_RtIrO7g)
 
 ## 100% Open Source
 ![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) 
