@@ -9,7 +9,7 @@
 
 
   <properties>
-    <beam.version>0.3.0-incubating-SNAPSHOT</beam.version>
+    <beam.version>0.3.0-incubating</beam.version>
     <slf4j.version>1.7.5</slf4j.version>
     <junit.version>4.8.2</junit.version>
     <hamcrest.version>1.3</hamcrest.version>

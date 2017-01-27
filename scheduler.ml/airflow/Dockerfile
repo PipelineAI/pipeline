@@ -72,6 +72,7 @@ RUN \
   && ln -s /root/pipeline/scheduler.ml/airflow/dags
 
 COPY config/spark/ $SPARK_HOME/conf/
+COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
 
 COPY github_webhook github_webhook
 

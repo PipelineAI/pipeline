@@ -5,6 +5,10 @@
 ![Databricks](http://pipeline.io/images/databricks-logo-350x69.png) 
 ![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) 
 
+## Videos
+* [Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/swiPWUxBvSc)
+* [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
+
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
 
