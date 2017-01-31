@@ -22,7 +22,7 @@ dag = DAG('deploy_prediction_codegen', default_args=default_args)
 # TODO:  dockerFileTag and dockerFilePath should be passed in from webhook
 build_image = BashOperator(
     task_id='build_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-codegen /home/pipeline-training/pipeline/prediction.ml/codegen/',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-codegen /root/pipeline/prediction.ml/codegen/',
     dag=dag)
 
 push_image = BashOperator(
@@ -37,7 +37,7 @@ switch_to_aws = BashOperator(
 
 deploy_container_aws = BashOperator(
     task_id='deploy_container_aws',
-    bash_command='sudo kubectl create -f /home/pipeline-training/pipeline/prediction.ml/codegen-rc.yaml',
+    bash_command='sudo kubectl create -f /root/pipeline/prediction.ml/codegen-rc.yaml',
     dag=dag)
 
 switch_to_gcp = BashOperator(
@@ -47,7 +47,7 @@ switch_to_gcp = BashOperator(
 
 deploy_container_gcp = BashOperator(
     task_id='deploy_container_gcp',
-    bash_command='sudo kubectl create -f /home/pipeline-training/pipeline/prediction.ml/codegen-rc.yaml',
+    bash_command='sudo kubectl create -f /root/pipeline/prediction.ml/codegen-rc.yaml',
     dag=dag)
 
 # Setup Airflow DAG

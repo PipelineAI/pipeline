@@ -23,7 +23,7 @@ dag = DAG('update_prediction_pmml', default_args=default_args)
 # TODO:  dockerFileTag and dockerFilePath should be passed in from webhook
 build_image = BashOperator(
     task_id='build_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-pmml /home/pipeline-training/pipeline/prediction.ml/pmml/',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-pmml /root/pipeline/prediction.ml/pmml/',
     dag=dag)
 
 push_image = BashOperator(
