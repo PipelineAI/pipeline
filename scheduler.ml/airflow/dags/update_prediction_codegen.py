@@ -21,7 +21,7 @@ dag = DAG('update_prediction_codegen', default_args=default_args)
 
 build_image = BashOperator(
     task_id='build_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-codegen /home/pipeline-training/pipeline/prediction.ml/codegen/',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-codegen /root/pipeline/prediction.ml/codegen/',
     dag=dag)
 
 push_image = BashOperator(

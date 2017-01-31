@@ -21,7 +21,7 @@ dag = DAG('update_prediction_tensorflow', default_args=default_args)
 
 build_image = BashOperator(
     task_id='build_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-tensorflow /home/pipeline-training/pipeline/prediction.ml/tensorflow/',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-tensorflow /root/pipeline/prediction.ml/tensorflow/',
     dag=dag)
 
 push_image = BashOperator(
