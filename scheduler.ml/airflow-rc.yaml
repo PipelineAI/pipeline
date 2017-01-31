@@ -32,8 +32,8 @@ spec:
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
-      securityContext:
-        privileged: "true"
+        securityContext:
+          privileged: true
       volumes:
         - hostPath:
             path: /var/run/docker.sock
