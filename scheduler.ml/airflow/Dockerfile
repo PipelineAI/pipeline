@@ -71,7 +71,12 @@ RUN \
 #  && apt-get -f install
 
 RUN \
-  curl -sSL https://get.docker.com/ | sh
+#  curl -sSL https://get.docker.com/ | sh
+  curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.12.6.tgz \
+  && tar --strip-components=1 -xvzf docker-1.12.6.tgz -C /usr/local/bin
+
+RUN \
+  /usr/local/bin/dockerd
 
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
