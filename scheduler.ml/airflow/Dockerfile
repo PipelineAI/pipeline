@@ -65,6 +65,19 @@ RUN \
 RUN \
   conda install --yes -c conda-forge gitpython=2.1.1
 
+#RUN \
+#  wget https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.6-0~ubuntu-trusty_amd64.deb \
+#  && dpkg -i docker-engine_1.12.6-0~ubuntu-trusty_amd64.deb \
+#  && apt-get -f install
+
+RUN \
+#  curl -sSL https://get.docker.com/ | sh
+  curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.12.6.tgz \
+  && tar --strip-components=1 -xvzf docker-1.12.6.tgz -C /usr/local/bin
+
+RUN \
+  /usr/local/bin/dockerd
+
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
   mkdir -p $AIRFLOW_HOME \
@@ -72,6 +85,7 @@ RUN \
   && ln -s /root/pipeline/scheduler.ml/airflow/dags
 
 COPY config/spark/ $SPARK_HOME/conf/
+COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
 
 COPY github_webhook github_webhook
 

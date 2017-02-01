@@ -23,7 +23,7 @@ dag = DAG('deploy_prediction_tensorflow', default_args=default_args)
 # TODO:  dockerFileTag and dockerFilePath should be passed in from webhook
 build_image = BashOperator(
     task_id='build_docker_image',
-    bash_command='sudo docker build -t fluxcapacitor/prediction-tensorflow /home/pipeline-training/pipeline/prediction.ml/tensorflow/',
+    bash_command='sudo docker build -t fluxcapacitor/prediction-tensorflow /root/pipeline/prediction.ml/tensorflow/',
     dag=dag)
 
 push_image = BashOperator(
@@ -38,7 +38,7 @@ switch_to_aws = BashOperator(
 
 deploy_container_aws = BashOperator(
     task_id='deploy_container_aws',
-    bash_command='sudo kubectl create -f /home/pipeline-training/pipeline/prediction.ml/tensorflow-rc.yaml',
+    bash_command='sudo kubectl create -f /root/pipeline/prediction.ml/tensorflow-rc.yaml',
     dag=dag)
 
 switch_to_gcp = BashOperator(
@@ -48,7 +48,7 @@ switch_to_gcp = BashOperator(
 
 deploy_container_gcp = BashOperator(
     task_id='deploy_container_gcp',
-    bash_command='sudo kubectl create -f /home/pipeline-training/pipeline/prediction.ml/tensorflow-rc.yaml',
+    bash_command='sudo kubectl create -f /root/pipeline/prediction.ml/tensorflow-rc.yaml',
     dag=dag)
 
 # Setup Airflow DAG
