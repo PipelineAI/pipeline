@@ -61,7 +61,7 @@ RUN \
 
 RUN \
   cd ~/serving/tensorflow \
-  && printf "\n\n\n\n\n\n" | ./configure
+  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
 
 RUN \
   cd ~/serving \
