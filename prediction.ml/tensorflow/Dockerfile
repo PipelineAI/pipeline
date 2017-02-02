@@ -7,8 +7,10 @@ ENV \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 \
- BAZEL_VERSION=0.4.4 \
- TENSORFLOW_VERSION=1.0.0rc0 \
+ BAZEL_VERSION=0.4.2 \
+ TENSORFLOW_VERSION=0.12.0 \
+# BAZEL_VERSION=0.4.4 \
+# TENSORFLOW_VERSION=1.0.0rc0 \
 # Note:  This must be master due to an issue with the bazel build
 #        See https://github.com/tensorflow/tensorflow/issues/4216
  TENSORFLOW_SERVING_VERSION=master
@@ -61,7 +63,8 @@ RUN \
 
 RUN \
   cd ~/serving/tensorflow \
-  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+#  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+  && printf "\n\n\n\n\n\n\n\n" | ./configure
 
 RUN \
   cd ~/serving \
