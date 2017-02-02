@@ -5,10 +5,7 @@ from operator import add
                                                                                                         
 from pyspark.sql import SparkSession                                                                    
                                                                                                         
-spark = SparkSession\                                                                                   
-    .builder\                                                                                           
-    .appName("PythonPi")\                                                                               
-    .getOrCreate()                                                                                      
+spark = SparkSession.builder.appName("PythonPi").getOrCreate()                                          
                                                                                                         
 partitions = 10                                                                                         
 n = 100000 * partitions                                                                                 
