@@ -112,6 +112,10 @@ RUN \
 RUN \
   ln -s /root/pipeline/jupyterhub.ml/notebooks 
 
+#COPY scripts/ scripts/
+RUN \
+  ln -s /root/pipeline/jupyterhub.ml/scripts
+
 COPY profiles/ /root/.ipython/ 
 
 EXPOSE 6006 8754

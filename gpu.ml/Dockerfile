@@ -1,7 +1,7 @@
 FROM nvidia/cuda:8.0-cudnn5-devel
 
 ENV \
-  TENSORFLOW_VERSION=0.12
+  TENSORFLOW_VERSION=1.0
   
 # Adapted from 
 #   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
@@ -70,7 +70,7 @@ RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
     >>/root/.bazelrc
 ENV BAZELRC /root/.bazelrc
 # Install the most recent bazel release.
-ENV BAZEL_VERSION 0.4.2
+ENV BAZEL_VERSION 0.4.4
 WORKDIR /
 RUN mkdir /bazel && \
     cd /bazel && \
@@ -135,8 +135,8 @@ WORKDIR /root
 # TensorBoard
 EXPOSE 6006
 
-# IPython
-EXPOSE 8888
+# Jupyter 
+EXPOSE 8754 
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/

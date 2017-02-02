@@ -19,6 +19,11 @@ default_args = {
 
 dag = DAG('update_prediction_codegen', default_args=default_args)
 
+pull_git = BashOperator(
+    task_id='pull_git',
+    bash_command='cd /root/pipeline && git pull',
+    dag=dag)
+
 build_image = BashOperator(
     task_id='build_docker_image',
     bash_command='sudo docker build -t fluxcapacitor/prediction-codegen /root/pipeline/prediction.ml/codegen/',
