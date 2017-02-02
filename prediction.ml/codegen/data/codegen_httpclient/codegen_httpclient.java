@@ -17,6 +17,7 @@
         .returnContent();
 
     } catch(Exception exc) {
-      throw new RuntimeException(exc);
+        System.out.println(exc);
+        throw new RuntimeException(exc);
     }
   }
