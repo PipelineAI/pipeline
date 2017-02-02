@@ -42,10 +42,13 @@ RUN \
   && apt-get install -y r-base \
   && apt-get install -y r-base-dev
 
-ENV TENSORFLOW_VERSION=0.12.0
+ENV TENSORFLOW_VERSION=1.0.0rc0
 
 #RUN \
 #  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+
+RUN \
+  pip install tensorflow
 
 ENV SPARK_VERSION=2.0.1
 ENV PYSPARK_VERSION=0.10.3
@@ -60,9 +63,6 @@ ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
 ENV PATH=$SPARK_HOME/bin:$PATH
 
 RUN \
-  git clone http://github.com/fluxcapacitor/pipeline
-
-RUN \
   conda install --yes -c conda-forge gitpython=2.1.1
 
 #RUN \
@@ -72,11 +72,14 @@ RUN \
 
 RUN \
 #  curl -sSL https://get.docker.com/ | sh
-  curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.12.6.tgz \
-  && tar --strip-components=1 -xvzf docker-1.12.6.tgz -C /usr/local/bin
+  curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz \
+  && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
+
+#RUN \
+#  /usr/local/bin/dockerd
 
 RUN \
-  /usr/local/bin/dockerd
+  git clone http://github.com/fluxcapacitor/pipeline
 
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
@@ -86,6 +89,7 @@ RUN \
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
+COPY scripts/ scripts/
 
 COPY github_webhook github_webhook
 

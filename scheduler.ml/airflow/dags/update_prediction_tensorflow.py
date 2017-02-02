@@ -19,6 +19,11 @@ default_args = {
 
 dag = DAG('update_prediction_tensorflow', default_args=default_args)
 
+pull_git = BashOperator(
+    task_id='pull_git',
+    bash_command='cd /root/pipeline && git pull',
+    dag=dag)
+
 build_image = BashOperator(
     task_id='build_docker_image',
     bash_command='sudo docker build -t fluxcapacitor/prediction-tensorflow /root/pipeline/prediction.ml/tensorflow/',

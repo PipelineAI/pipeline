@@ -13,13 +13,14 @@ app = Flask(__name__)
 def update_predictions():
    try:
       data = json.loads(request.data.decode('utf-8'))
-      g = git.Git(os.path.expanduser('~/pipeline'))
-      g.pull()
+#      g = git.Git(os.path.expanduser('~/pipeline'))
+#      g.pull()
 #      g.execute(['git', 'fetch', 'origin'])
 #      g.execute(['git', 'merge', data['commits'][0]['id'])
 #      subprocess.call(['airflow', 'trigger_dag', 'update_prediction_pmml'], shell=False)
 #      subprocess.call(['airflow', 'trigger_dag', 'update_prediction_codegen'], shell=False)
-      subprocess.call(['airflow', 'trigger_dag', 'update_prediction_tensorflow'], shell=False)
+#      subprocess.call(['airflow', 'trigger_dag', 'update_prediction_tensorflow'], shell=False)
+      subprocess.call(['airflow', 'trigger_dag', 'update_sparksubmit_pyspark'], shell=False)
       return 'OK'
    except:
       traceback.print_exc(file=sys.stdout)

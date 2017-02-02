@@ -1,5 +1,7 @@
 #!/bin/bash
 
+/usr/local/bin/dockerd
+
 # Start Airflow
 mysql --host=mysql-master --port=3306 --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
 sleep 3
@@ -7,8 +9,8 @@ sleep 3
 airflow initdb
 sleep 3
 
+/root/github_webhook &
+
 airflow webserver &
 
-airflow scheduler &
-
-/root/github_webhook
+airflow scheduler 

@@ -20,6 +20,11 @@ default_args = {
 dag = DAG('update_prediction_pmml', default_args=default_args)
 #, schedule_interval=timedelta(0))
 
+pull_git = BashOperator(
+    task_id='pull_git',
+    bash_command='cd /root/pipeline && git pull',
+    dag=dag)
+
 # TODO:  dockerFileTag and dockerFilePath should be passed in from webhook
 build_image = BashOperator(
     task_id='build_docker_image',
