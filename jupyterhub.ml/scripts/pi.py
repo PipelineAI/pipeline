@@ -1,4 +1,3 @@
-                                                                                         
 import sys                                                                                              
 from random import random                                                                               
 from operator import add                                                                                
