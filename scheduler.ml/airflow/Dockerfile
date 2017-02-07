@@ -95,6 +95,6 @@ COPY github_webhook github_webhook
 
 COPY run run
 
-EXPOSE 8080 5000
+EXPOSE 8080 5000 8793
 
 CMD ["supervise", "."]

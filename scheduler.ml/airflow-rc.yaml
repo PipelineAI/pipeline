@@ -29,6 +29,7 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5000
+        - containerPort: 8793
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
