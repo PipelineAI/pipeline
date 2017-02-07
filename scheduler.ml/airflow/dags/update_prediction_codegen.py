@@ -44,6 +44,7 @@ update_container_gcp = BashOperator(
     bash_command='kubectl rolling-update prediction-codegen --context=gcpdemo --image-pull-policy=Always --image=fluxcapacitor/prediction-codegen',
     dag=dag)
 
+build_image.set_upstream(pull_git)
 push_image.set_upstream(build_image)
 update_container_aws.set_upstream(push_image)
 update_container_gcp.set_upstream(push_image)

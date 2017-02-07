@@ -57,6 +57,7 @@ update_container_gcp = BashOperator(
     dag=dag)
 
 # Setup Airflow DAG
+build_image.set_upstream(pull_git)
 push_image.set_upstream(build_image)
 #switch_to_aws.set_upstream(push_image)
 update_container_aws.set_upstream(push_image)

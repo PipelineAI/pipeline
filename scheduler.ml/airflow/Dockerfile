@@ -89,7 +89,7 @@ RUN \
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
-COPY scripts/ scripts/
+#COPY scripts/ scripts/
 
 COPY github_webhook github_webhook
 
