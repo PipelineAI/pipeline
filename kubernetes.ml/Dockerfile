@@ -57,7 +57,16 @@ ENV \
   PIPELINE_HOME=/root/pipeline/
 
 RUN \
+  apt-get update
+
+RUN \
   pip install --upgrade awscli
+
+RUN \
+  pip install --upgrade packaging 
+
+RUN \
+  pip install --upgrade appdirs
 
 RUN \
   pip install --upgrade google-cloud
