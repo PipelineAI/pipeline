@@ -19,13 +19,13 @@ RUN \
 ENV \
   PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.4.4
+ENV KOPS_VERSION=1.5.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
   mkdir -p $KOPS_HOME \
   && cd $KOPS_HOME \
-  && wget https://github.com/kubernetes/kops/releases/download/v$KOPS_VERSION/kops-linux-amd64 \
+  && wget https://github.com/kubernetes/kops/releases/download/$KOPS_VERSION/kops-linux-amd64 \
   && mv kops-linux-amd64 kops \
   && chmod a+x kops
 
