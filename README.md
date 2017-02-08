@@ -54,6 +54,8 @@
 
 ## PipelineIO on [Azure](Setup-Pipeline-Azure)
 
+![Azure](http://pipeline.io/images/azure-logo-200x103.png)
+
 # Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
 * Create a [Ticket](http://pipelineio.zendesk.com)
 * Email **help@pipeline.io**
