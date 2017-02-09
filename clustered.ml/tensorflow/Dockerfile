@@ -47,17 +47,20 @@ ENV \
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
 
-COPY config/spark/ ${SPARK_HOME}/conf/
+ENV \
+  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
+COPY config/hdfs/ conf/
 
 RUN \
   mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/core-site.xml
+  && ln -s conf/core-site.xml
 
 RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
+  && ln -s conf/hdfs-site.xml
   
 COPY bin/ bin/
 COPY data/ data/
