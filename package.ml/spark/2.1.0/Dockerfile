@@ -2,8 +2,9 @@ FROM fluxcapacitor/package-java-openjdk-1.8
 
 WORKDIR /root
 
-ENV SPARK_VERSION=2.1.0
-ENV PYSPARK_VERSION=0.10.4
+ENV \
+  SPARK_VERSION=2.1.0 \
+  PYSPARK_VERSION=0.10.4
 
 RUN \
   # This is not a custom version of Spark.  It's merely a version with all the desired -P profiles enabled.
@@ -11,7 +12,41 @@ RUN \
   && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
   && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz
 
-ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
-ENV PATH=$SPARK_HOME/bin:$PATH
+ENV \
+  SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
 
-COPY config/spark/ $SPARK_HOME/conf/
+ENV \
+  PATH=${SPARK_HOME}/bin:$PATH
+
+ENV \
+  HADOOP_VERSION=2.7.2
+
+RUN \
+ wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz
+
+ENV \
+  HADOOP_HOME=/root/hadoop-${HADOOP_VERSION} \
+  HADOOP_OPTS=-Djava.net.preferIPv4Stack=true
+
+# This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
+ENV \
+  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
+
+# Required by Spark
+ENV \
+  HADOOP_CONF_DIR=${HADOOP_HOME}
+
+COPY config/spark/ ${SPARK_HOME}/conf/
+
+RUN \
+  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ${SPARK_HOME}/conf/core-site.xml
+
+RUN \
+  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
