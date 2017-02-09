@@ -29,8 +29,15 @@ ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
 
-ENV SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
-ENV PATH=${SPARK_HOME}/bin:$PATH
+# Required by Spark
+ENV \
+  HADOOP_CONF_DIR=${HADOOP_HOME}
+
+ENV \
+  SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
+
+ENV \
+  PATH=${SPARK_HOME}/bin:$PATH
 
 COPY config/spark/ ${SPARK_HOME}/conf/
 
