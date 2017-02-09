@@ -7,10 +7,9 @@ ENV \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 \
- BAZEL_VERSION=0.4.2 \
- TENSORFLOW_VERSION=0.12.0 \
-# BAZEL_VERSION=0.4.4 \
-# TENSORFLOW_VERSION=1.0.0rc0 \
+# BAZEL_VERSION=0.4.2 \
+ TENSORFLOW_VERSION=0.12.1 \
+ BAZEL_VERSION=0.4.4 \
 # Note:  This must be master due to an issue with the bazel build
 #        See https://github.com/tensorflow/tensorflow/issues/4216
  TENSORFLOW_SERVING_VERSION=master
@@ -63,7 +62,6 @@ RUN \
 
 RUN \
   cd ~/serving/tensorflow \
-#  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
   && printf "\n\n\n\n\n\n\n\n\n" | ./configure
 
 RUN \
@@ -97,7 +95,8 @@ RUN \
   && apt-get install -y python-qt4
 
 RUN \
-  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
 
 RUN \
   mkdir -p /root/logs
