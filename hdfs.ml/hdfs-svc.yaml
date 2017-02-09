@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: hdfs
 spec:
-  type: NodePort 
+  type: LoadBalancer 
   ports:
   - name: hdfs-native
     port: 9000
