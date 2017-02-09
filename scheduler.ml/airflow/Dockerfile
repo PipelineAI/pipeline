@@ -16,7 +16,8 @@ ENV \
 RUN \
   conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
 
-ENV AIRFLOW_HOME=/root/airflow
+ENV \ 
+  AIRFLOW_HOME=/root/airflow
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
 RUN \
@@ -42,13 +43,12 @@ RUN \
   && apt-get install -y r-base \
   && apt-get install -y r-base-dev
 
-ENV TENSORFLOW_VERSION=1.0.0rc0
-
-#RUN \
-#  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+ENV \
+  TENSORFLOW_VERSION=0.12.1
 
 RUN \
-  pip install tensorflow
+#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
 
 ENV SPARK_VERSION=2.0.1
 ENV PYSPARK_VERSION=0.10.3
@@ -81,6 +81,17 @@ RUN \
 RUN \
   git clone http://github.com/fluxcapacitor/pipeline
 
+ENV KUBERNETES_VERSION=1.5.1
+
+RUN \
+  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
+
+RUN \
+  sudo chmod a+x kubectl \
+  && sudo mv kubectl /usr/local/bin/kubectl
+
+COPY .kube/ .kube/
+
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
   mkdir -p $AIRFLOW_HOME \
@@ -89,12 +100,11 @@ RUN \
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
-COPY scripts/ scripts/
 
 COPY github_webhook github_webhook
 
 COPY run run
 
-EXPOSE 8080 5000
+EXPOSE 8080 5000 8793
 
 CMD ["supervise", "."]

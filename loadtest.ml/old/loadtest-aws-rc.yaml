@@ -20,5 +20,5 @@ spec:
         env:
         - name: TEST_PATHNAMES
           value: /root/tests/RecommendationServiceStressTest-AWS.jmx
-#      nodeSelector:
-#        nodetype: training 
+      nodeSelector:
+        training: "true"

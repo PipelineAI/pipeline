@@ -21,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.context.config.annotation._
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
+
 import org.springframework.context.annotation._
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -29,11 +30,17 @@ import org.springframework.web.bind.annotation._
 
 import org.jpmml.evaluator.visitors.PredicateOptimizer
 import org.jpmml.evaluator.visitors.PredicateInterner
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import com.netflix.hystrix.strategy.HystrixPlugins
+import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
+@EnablePrometheusEndpoint
 class PredictionService {
+  HystrixPrometheusMetricsPublisher.register("prediction_pmml")
+  
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]
 
   @RequestMapping(path=Array("/update-pmml/{pmmlName}"),

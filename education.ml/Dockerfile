@@ -49,10 +49,10 @@ ENV \
  JBLAS_VERSION=1.2.4 \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
- BAZEL_VERSION=0.4.2 \ 
- TENSORFLOW_VERSION=0.12.0 \
+ BAZEL_VERSION=0.4.4 \ 
+ TENSORFLOW_VERSION=0.12.1 \
 # TODO:  CHange this to master
- TENSORFLOW_SERVING_VERSION=0.4.1 \
+ TENSORFLOW_SERVING_VERSION=master \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
@@ -106,12 +106,6 @@ RUN \
  && apt-get install -y python-pip \
  && pip install jupyter \
  && pip install ipyparallel \
-
-# TensorFlow (CPU-only)
- && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl \
-
-# TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
 
 # Required by Webdis Redis REST Server
  && apt-get install -y libevent-dev \
@@ -176,23 +170,6 @@ RUN \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
  && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java 
-
-# Bazel (Required for TensorFlow Serving)
-#RUN \
-# cd ~ \
-# && wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-# && chmod +x bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-# && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh --bin=/root/bazel-$BAZEL_VERSION/bin \
-# && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh 
-
-#RUN \
-# cd ~ \
-# && git clone -b $TENSORFLOW_SERVING_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
-
-# TensorFlow Source
-#RUN \
-# cd ~ \
-# && git clone -b v$TENSORFLOW_VERSION --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git 
 
 # Python NetworkX/Tribe Demos
 RUN \ 
@@ -457,36 +434,6 @@ RUN \
   && git clone --single-branch --recurse-submodules https://github.com/tensorflow/models.git \
   && git clone --single-branch --recurse-submodules https://github.com/tensorflow/playground.git
 
-#RUN \
-# cd ~ \
-# && ~/pipeline/myapps/tensorflow/setup-tensorflow.sh
-
-# Bleeding Edge Theano
-#RUN \
-#  git clone --single-branch --recurse-submodules git://github.com/Theano/Theano.git \
-#  && cd Theano \
-#  && python setup.py develop --user
-
-# JupyterHub
-#RUN \
-#  apt-get install -y npm nodejs-legacy \
-#  && npm install -g configurable-http-proxy \
-#  && apt-get install -y python3-pip \
-#  && pip3 install jupyterhub \
-#  && pip3 install --upgrade notebook \
-#  && pip install jupyterhub-dummyauthenticator \
-
-# iPython3 Kernel 
-#  && ipython3 kernel install \ 
-
-# Keras
-#  && pip install keras 
-
-# Spinnaker
-#RUN \
-#  cd ~ \
-#  && git clone --single-branch --recurse-submodules https://github.com/spinnaker/spinnaker.git
-
 # Hystrix Dashboard
 RUN \
  cd ~ \
@@ -494,61 +441,16 @@ RUN \
  && cd hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION} \
  && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_DASHBOARD_VERSION}-all.jar 
 
-#RUN \
-# Atlas Metrics Collector
-# cd ~ \
-# && mkdir -p ~/atlas-${ATLAS_VERSION} \
-# && cd atlas-${ATLAS_VERSION} \
-# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/atlas-${ATLAS_VERSION}-standalone.jar
-
-# Vector Host and Guest Container Syetem Metrics (NetflixOSS)
-# Note:  Currently, this needs to be installed on the host - not within a guest container
-#        (Left in here for documentation's sake)
-#RUN \
-#  curl 'https://bintray.com/user/downloadSubjectPublicKey?username=pcp' | sudo apt-key add - \
-#  && echo "deb https://dl.bintray.com/pcp/trusty trusty main" | sudo tee -a /etc/apt/sources.list \
-#  && apt-get update \
-#  && apt-get install -y pcp pcp-webapi
-
-# Required by TensorFlow Serving
-#RUN \
-# apt-get update \
-# && apt-get install -y \
-#      build-essential \
-#      libfreetype6-dev \
-#      libpng12-dev \
-#      libzmq3-dev \
-#      pkg-config \
-#      python-dev \
-#      python-numpy \
-#      python-pip \
-#      software-properties-common \
-#      swig \
-#      zip \
-#      zlib1g-dev \
-#      libcurl3-dev
-
-#RUN pip install enum34 futures mock six && \
-#    pip install --pre 'protobuf>=3.0.0a3' && \
-#    pip install -i https://testpypi.python.org/simple --pre grpcio
-
-# Serving
-#RUN \
-# cd ~ \
-# && ~/pipeline/myapps/serving/tensorflow/setup-tensorflow-serving.sh
-
 RUN \
   apt-get install -y daemontools
 
 RUN \
   pip install py4j
 
+
 # TensorFlow Serving Home (not required on PATH)
 ENV \
   TENSORFLOW_SERVING_HOME=/root/serving
-
-#RUN \
-#    pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-cp27m-linux_x86_64.whl
 
 # Required by TensorFlow Serving
 RUN \
@@ -569,47 +471,57 @@ RUN \
         zip \
         zlib1g-dev
 
-#RUN pip install enum34 futures mock six && \
-#    pip install --pre 'protobuf>=3.0.0a3' && \
-#    pip install -i https://testpypi.python.org/simple --pre grpcio
+RUN \
+  pip install grpcio
 
-#RUN \
-#  pip install grpcio
+RUN \
+  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
 
-#UN \
-#  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
+ENV \
+  BAZELRC=/root/.bazelrc
 
-#ENV \
-#  BAZELRC=/root/.bazelrc
+RUN \
+  mkdir /root/bazel \
+  && cd /root/bazel \
+  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+  && chmod +x bazel-*.sh \
+  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
 
-#RUN \
-#  mkdir /root/bazel \
-#  && cd /root/bazel \
-#  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-#  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
-#  && chmod +x bazel-*.sh \
-#  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-#  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
-
-#RUN \
-# TENSORFLOW_SERVING_VERSION=master
-
-#:u
 # TensorFlow Serving
-#RUN \
-# cd ~ \
-# && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
+RUN \
+ cd ~ \
+ && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
 
-#RUN \
-#  cd ~/serving/tensorflow \
-#  && printf "\n\n\n\n\n\n" | ./configure
+RUN \
+  cd ~/serving/tensorflow \
+  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
 
-#RUN \
-#  cd $TENSORFLOW_SERVING_HOME \
-#  && bazel build -c opt tensorflow_serving/...
+RUN \
+  cd ~/serving \
+  && bazel build -c opt tensorflow_serving/...
 
-#ENV \
-#  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd ~/serving/tensorflow \
+  && bazel build tensorflow/python/tools:optimize_for_inference
+
+RUN \
+#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+
+RUN \
+  mkdir -p /root/logs
+
+ENV \
+  LOGS_HOME=/root/logs
+
+RUN \
+  mkdir -p /root/tensorboard
 
 # Ports to expose 
 EXPOSE 80 6042 9160 9042 9200 7077 8080 8081 6060 6061 6062 6063 6064 6065 8090 10000 50070 50090 9092 6066 9000 19999 6081 7474 8787 5601 8989 7979 4040 4041 4042 4043 4044 4045 4046 4047 4048 4049 4050 4051 4052 4053 4054 4055 4056 4057 4058 4059 4060 6379 8888 54321 8099 8754 7379 6969 6970 6971 6972 6973 6974 6975 6976 6977 6978 6979 6980 5050 5060 7060 8182 9081 8998 9090 5080 5090 5070 8000 8001 6006 3060 9040 8102 22222 10080 5040 8761 7101 5678

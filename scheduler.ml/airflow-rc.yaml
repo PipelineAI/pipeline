@@ -20,8 +20,8 @@ spec:
         env:
         - name: GET_HOSTS_FROM
           value: env
-        - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-          value: mysql+mysqldb://root:password@mysql-master:3306/airflow
+#        - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+#          value: mysql+mysqldb://root:password@mysql-master:3306/airflow
         - name: SPARK_MASTER
           value: spark://spark-master-2-0-1:7077
         - name: SPARK_SUBMIT_ARGS
@@ -29,6 +29,7 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5000
+        - containerPort: 8793
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock

@@ -1,5 +1,7 @@
 cd $PIPELINE_HOME
 
+# TODO:  Add --no-cache
+
 # package.ml
 cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-14.04 .
 cd $PIPELINE_HOME/package.ml/anaconda/4.1.11/ && sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 .
