@@ -15,6 +15,7 @@ RUN \
 ENV \
   SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
 
+# This must be separate from the ${SPARK_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
