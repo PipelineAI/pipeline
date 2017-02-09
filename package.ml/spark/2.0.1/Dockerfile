@@ -2,8 +2,9 @@ FROM fluxcapacitor/package-java-openjdk-1.8
 
 WORKDIR /root
 
-ENV SPARK_VERSION=2.0.1
-ENV PYSPARK_VERSION=0.10.3
+ENV \
+  SPARK_VERSION=2.0.1 \
+  PYSPARK_VERSION=0.10.3
 
 RUN \
   # This is not a custom version of Spark.  It's merely a version with all the desired -P profiles enabled.
@@ -12,9 +13,15 @@ RUN \
   && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz
 
 ENV \
+  SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
+
+# This must be separate from the ${SPARK_HOME} ENV definition or else Docker doesn't recognize it
+ENV \
+  PATH=${SPARK_HOME}/bin:$PATH
+
+ENV \
   HADOOP_VERSION=2.7.2
 
-# Apache Hadoop
 RUN \
  wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
  && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
@@ -32,12 +39,6 @@ ENV \
 # Required by Spark
 ENV \
   HADOOP_CONF_DIR=${HADOOP_HOME}
-
-ENV \
-  SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
-
-ENV \
-  PATH=${SPARK_HOME}/bin:$PATH
 
 COPY config/spark/ ${SPARK_HOME}/conf/
 
