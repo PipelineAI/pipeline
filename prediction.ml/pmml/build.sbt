@@ -5,6 +5,7 @@ val globalSettings = Seq(
 
 // https://github.com/thammegowda/tensorflow-grpc-java
 (unmanagedClasspath in Compile) += file("lib/tensorflow-java-1.0-jar-with-dependencies.jar")
+(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-1.0.0.jar")
 
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-pmml")

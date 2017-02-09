@@ -29,11 +29,15 @@ import org.springframework.web.bind.annotation._
 
 import org.jpmml.evaluator.visitors.PredicateOptimizer
 import org.jpmml.evaluator.visitors.PredicateInterner
+import com.netflix.hystrix.strategy.HystrixPlugins
+import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 class PredictionService {
+  HystrixPrometheusMetricsPublisher.register("prediction_pmml")
+  
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]
 
   @RequestMapping(path=Array("/update-pmml/{pmmlName}"),
