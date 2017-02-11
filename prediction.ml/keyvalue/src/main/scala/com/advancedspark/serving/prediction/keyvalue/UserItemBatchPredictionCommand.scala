@@ -10,16 +10,17 @@ import com.netflix.hystrix.HystrixCommandKey
 import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
+import org.jblas.DoubleMatrix
 
 // TODO  Implement hystrix comllapsing/batching as follows:
 //         http://www.nurkiewicz.com/2014/11/batching-collapsing-requests-in-hystrix.html
 //         https://github.com/Netflix/Hystrix/wiki/How-To-Use#Collapsing
 //
 
-class UserItemBatchPredictionCommand(name: String, fallback: String, 
-    timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int, 
-    collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]])
-  extends HystrixCommand[List[Double]](
+class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int, 
+    collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]], 
+    fallback: Double, userId: String, itemId: String)
+  extends HystrixCommand[Map[String, Double]](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
         .andCommandKey(HystrixCommandKey.Factory.asKey(name))
@@ -38,54 +39,92 @@ class UserItemBatchPredictionCommand(name: String, fallback: String,
       )
     ) {
   
-    def run(): List[Double] = {
-//    try{
-        // TODO:  Get each of the user::item vector pairs and build up 2 big matrices
-        //   collapsedRequests.stream()
-        //      .map(CollapsedRequest::getArgument)
-        //      .collect(toSet());
-        
-//            for (request <- collapsedRequests.iterator()) {
-          // TODO:  Get each of the user::item vector pairs
-          // val userFactors = jedis.get(s"${namespace}:${version}:user-factors:${userId}").split(",").map(_.toDouble)
-          // val itemFactors = jedis.get(s"${namespace}:${version}:item-factors:${itemId}").split(",").map(_.toDouble)
-
-          // TODO:  Build 2 big matrices from all the requests
-//            }
-        
-        // TODO:  Multiply the 2 big matrices              
-        // val userFactorsMatrix = new DoubleMatrix(userFactors)
-        // val itemFactorsMatrix = new DoubleMatrix(itemFactors)
-        
-        // Calculate the predictionVector 
-        // val predictionVector = userFactorsMatrix.mmul(itemFactorsMatrix.transpose()).data
-
-        // TODO:  For each of the requests, grab the appropriate resultScalar from the resultVector             
-        //  collapsedRequests.map(
-        // for (CollapsedRequest<Double, String> request : requests) {
-          // TODO:  For each user::item vector pair, populate the response with the appropriate resultScalar
-        // response.put(collapsedRequest.getArgument(), ...);
-        // val key = collapsedRequests.toArray()(0).asInstanceOf[CollapsedRequest[Double, String]].getArgument(), 
-        System.out.println("collapsedRequests: " + collapsedRequests.size());
-        
-        val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
-        collapsedRequests.toArray(collapsedRequestsArray)
-                      
-        collapsedRequestsArray.map(request => {          
-          // TODO:  For each user::item vector pair, populate the response with the appropriate resultScalar
-          // response.put(collapsedRequest.getArgument(), ...);
-          // val key = collapsedRequests.toArray()(0).asInstanceOf[CollapsedRequest[Double, String]].getArgument(), 
-          0.0
-        }).toList
-    }
-    
-    override def getFallback(): List[Double] = {
+    def run(): Map[String, Double] = {    
+      System.out.println("collapsedRequests: " + collapsedRequests.size());
+     
       val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
       collapsedRequests.toArray(collapsedRequestsArray)
-                    
+
+      val numRequests = collapsedRequestsArray.length
+      // TODO:  Change this to the actual number of features that are returned
+      // Note:  The matrix dimensions must be matrix-multiply-friendly or the fallback will kick in.
+      val numFactors = 1
+      
+      var allUserFactorsMatrix = DoubleMatrix.zeros(0, numFactors)
+      var allItemFactorsMatrix = DoubleMatrix.zeros(numFactors, 0)
+
+      // Build up big userFactors matrix from all requests
+      collapsedRequestsArray.foreach(request => {
+        // TODO:  retrieve the actual factor matrices
+        val userFactors = Array(0.99d)
+        val itemFactors = Array(0.90d)
+      
+        // Convert to DoubleMatrix
+        val userFactorsMatrix = new DoubleMatrix(userFactors)
+        val itemFactorsMatrix = new DoubleMatrix(itemFactors)
+    
+        System.out.println("userFactorsMatrix: " + userFactorsMatrix)
+        System.out.println("userFactorsMatrix length: " + userFactorsMatrix.length)
+        System.out.println("userFactorsMatrix numRows: " + userFactorsMatrix.getRows)
+        System.out.println("userFactorsMatrix numColumns: " + userFactorsMatrix.getColumns)
+
+        System.out.println("itemFactorsMatrix: " + itemFactorsMatrix)
+        System.out.println("itemFactorsMatrix length: " + itemFactorsMatrix.length)
+        System.out.println("itemFactorsMatrix numRows: " + itemFactorsMatrix.getRows)
+        System.out.println("itemFactorsMatrix numColumns: " + itemFactorsMatrix.getColumns)
+              
+        allUserFactorsMatrix = DoubleMatrix.concatVertically(allUserFactorsMatrix, userFactorsMatrix)
+        allItemFactorsMatrix = DoubleMatrix.concatHorizontally(allItemFactorsMatrix, itemFactorsMatrix)
+
+        System.out.println("allUserFactorsMatrix: " + allUserFactorsMatrix)
+        System.out.println("allUserFactorsMatrix length: " + allUserFactorsMatrix.length)
+        System.out.println("allUserFactorsMatrix numRows: " + allUserFactorsMatrix.getRows)
+        System.out.println("allUserFactorsMatrix numColumns: " + allUserFactorsMatrix.getColumns)
+        
+        System.out.println("allItemFactorsMatrix: " + allItemFactorsMatrix)
+        System.out.println("allItemFactorsMatrix length: " + allItemFactorsMatrix.length)
+        System.out.println("allItemFactorsMatrix numRows: " + allItemFactorsMatrix.getRows)
+        System.out.println("allItemFactorsMatrix numColumns: " + allItemFactorsMatrix.getColumns)
+      })
+      
+      // Big matrix multiply of userFactors x itemFactors   
+      val predictionsMatrix = allUserFactorsMatrix.mmul(allItemFactorsMatrix)
+      System.out.println("predictionsMatrix: " + predictionsMatrix)
+      System.out.println("predictionsMatrix length: " + predictionsMatrix.length)
+      System.out.println("predictionsMatrix numRows: " + predictionsMatrix.getRows)
+      System.out.println("predictionsMatrix numColumns: " + predictionsMatrix.getColumns)
+
+      System.out.println("predictionsMatrix rows: " + predictionsMatrix.rowsAsList())
+      System.out.println("predictionsMatrix columns: " + predictionsMatrix.columnsAsList())
+      
+      // Get the diagonal vector
+      // Linear Algebra refresher:  https://en.wikipedia.org/wiki/Matrix_multiplication
+      val predictions: DoubleMatrix = predictionsMatrix.diag()
+      System.out.println("predictions: " + predictions)
+      System.out.println("predictions length: " + predictions.length)
+      System.out.println("predictions numRows: " + predictions.getRows)
+      System.out.println("predictions numColumns: " + predictions.getColumns)
+
+      // TODO: Refactor this
+      var idx = -1          
       collapsedRequestsArray.map(request => {
-        0.0
-      }).toList
+        idx = idx + 1
+        System.out.println("prediction: " + predictions.get(idx))
+        (request.getArgument -> predictions.get(idx))
+      }).toMap
+    }
+    
+    override def getFallback(): Map[String, Double] = {
+      val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
+      collapsedRequests.toArray(collapsedRequestsArray)
+                      
+      val responseMap = collapsedRequestsArray.map(request => {          
+        val prediction = fallback
+        System.out.println("FALLBACK prediction: " + prediction);
+        (request.getArgument -> prediction)
+      }).toMap
+        
+      responseMap
     }
 
 /*

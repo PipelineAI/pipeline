@@ -13,27 +13,25 @@ import com.netflix.hystrix.HystrixCollapserProperties
  * Sample {@link HystrixCollapser} that automatically batches multiple requests to execute()/queue()
  * into a single {@link HystrixCommand} execution for all requests within the defined batch (time or size).
  */
-class UserItemBatchPredictionCollapser(name: String, fallback: String, timeout: Int, concurrencyPoolSize: Int,  
-    rejectionThreshold: Int, key: String)
-  extends HystrixCollapser[List[Double], Double, String](
+class UserItemBatchPredictionCollapser(name: String, timeout: Int, concurrencyPoolSize: Int,  
+    rejectionThreshold: Int, fallback: Double, userId: String, itemId: String)
+  extends HystrixCollapser[Map[String, Double], Double, String](
     HystrixCollapser.Setter
       .withCollapserKey(HystrixCollapserKey.Factory.asKey(name)).andScope(Scope.GLOBAL)
       .andCollapserPropertiesDefaults(HystrixCollapserProperties.
         Setter().withTimerDelayInMilliseconds(10).withRequestCacheEnabled(false))) {
       
-  override def getRequestArgument(): String = key
+  override def getRequestArgument(): String = s"${userId}:${itemId}" 
 
-  override def createCommand(collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): HystrixCommand[List[Double]] = {
-    new UserItemBatchPredictionCommand(name, fallback, timeout, concurrencyPoolSize, rejectionThreshold, collapsedRequests)    
+  override def createCommand(collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): HystrixCommand[Map[String, Double]] = {
+    new UserItemBatchPredictionCommand(name, timeout, concurrencyPoolSize, rejectionThreshold, collapsedRequests, fallback, userId, itemId)    
   }
 
-  override def mapResponseToRequests(batchResponse: List[Double], collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): Unit = {
-    var idx = 0   
+  override def mapResponseToRequests(batchResponse: Map[String, Double], collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): Unit = {   
   	collapsedRequests.asScala.foreach(request => {
-      //String userIdItemIdTuple = request.getArgument();
-      val prediction = batchResponse(idx)
-      request.setResponse(prediction)
-      idx = idx + 1
+      val userIdItemId = request.getArgument()
+      val prediction = batchResponse.get(userIdItemId)
+      request.setResponse(prediction.get)
     })
   }
 }

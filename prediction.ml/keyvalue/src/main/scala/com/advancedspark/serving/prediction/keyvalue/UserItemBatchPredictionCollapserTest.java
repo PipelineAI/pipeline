@@ -18,15 +18,15 @@ public class UserItemBatchPredictionCollapserTest {
 
     try {
       // TODO:  use real values here
-  	  Future<Object> f1 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", "", 100, 10, 10, "").queue();
-  	  Future<Object> f2 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", "", 100, 10, 10, "").queue();
-  	  Future<Object> f3 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", "", 100, 10, 10, "").queue();
-  	  Future<Object> f4 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", "", 100, 10, 10, "").queue();
+  	  Future<Object> f1 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", 100, 10, 10, -1.0d, "21619", "10006").queue();
+  	  Future<Object> f2 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", 100, 10, 10, -1.0d, "21619", "10006").queue();
+  	  Future<Object> f3 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", 100, 10, 10, -1.0d, "21619", "10006").queue();
+  	  Future<Object> f4 = new UserItemBatchPredictionCollapser("collapsed_recommendation_user_item_prediction", 100, 10, 10, -1.0d, "21619", "10006").queue();
   	  
-      assertEquals("0.0", f1.get().toString());
-      assertEquals("0.0", f2.get().toString());
-      assertEquals("0.0", f3.get().toString());
-      assertEquals("0.0", f4.get().toString());
+      assertEquals(0.891, (Double)f1.get(), 0.01);
+      assertEquals(0.891, (Double)f2.get(), 0.01);
+      assertEquals(0.891, (Double)f3.get(), 0.01);
+      assertEquals(0.891, (Double)f4.get(), 0.01);
 
       int numExecuted = HystrixRequestLog.getCurrentRequest().getAllExecutedCommands().size();
 

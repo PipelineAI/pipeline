@@ -53,13 +53,10 @@ class PredictionService {
 
   @RequestMapping(path=Array("/batch-prediction/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def batchPrediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemIds: String): String = {
+  def batchPrediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemBatchPredictionCollapser("recommendations_batch_useritem", "fallback", 25, 5,  10, "")
+      val result = new UserItemBatchPredictionCollapser("keyvalue_batch_useritem", 25, 5,  10, -1.0d, userId, itemId)
         .execute()
-
-      //val result = new UserItemBatchPredictionCommand(jedisPool.getResource, namespace, version, userIds, itemIds)
-      //  .execute()
 
       s"""{"result":${result}}"""
     } catch {
