@@ -16,8 +16,10 @@ val springBootVersion = "1.3.5.RELEASE"
 val springCloudVersion = "1.1.2.RELEASE" 
 val springCoreVersion = "4.3.0.RELEASE" 
 val codahaleMetricsVersion = "3.1.2"
+val prometheusSimpleClientVersion = "0.0.20"
 
 lazy val deps = Seq(
+  "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
   "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,

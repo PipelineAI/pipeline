@@ -22,10 +22,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._
 
 import redis.clients.jedis._
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
+@EnablePrometheusEndpoint
 class PredictionService {
   val namespace = ""
 

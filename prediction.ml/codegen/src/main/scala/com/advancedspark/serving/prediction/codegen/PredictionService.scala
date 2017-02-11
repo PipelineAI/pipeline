@@ -32,10 +32,12 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.stream.Stream
 import java.util.stream.Collectors
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
+@EnablePrometheusEndpoint
 class PredictionService {
   val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
   val responseHeaders = new HttpHeaders();
