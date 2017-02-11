@@ -33,6 +33,7 @@ import java.nio.file.Paths
 import java.util.stream.Stream
 import java.util.stream.Collectors
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 @SpringBootApplication
 @RestController
@@ -40,6 +41,9 @@ import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 @EnablePrometheusEndpoint
 class PredictionService {
   val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
+  
+  HystrixPrometheusMetricsPublisher.register("prediction_codegen")
+  
   val responseHeaders = new HttpHeaders();
 
   @RequestMapping(path=Array("/update-codegen/{className}"),

@@ -39,10 +39,10 @@ import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 @EnableHystrix
 @EnablePrometheusEndpoint
 class PredictionService {
-  HystrixPrometheusMetricsPublisher.register("prediction_pmml")
-  
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]
 
+  HystrixPrometheusMetricsPublisher.register("prediction_pmml")
+  
   @RequestMapping(path=Array("/update-pmml/{pmmlName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
