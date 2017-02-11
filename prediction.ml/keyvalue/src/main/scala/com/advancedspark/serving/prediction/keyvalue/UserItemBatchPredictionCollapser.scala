@@ -19,7 +19,7 @@ class UserItemBatchPredictionCollapser(name: String, fallback: String, timeout: 
     HystrixCollapser.Setter
       .withCollapserKey(HystrixCollapserKey.Factory.asKey(name)).andScope(Scope.GLOBAL)
       .andCollapserPropertiesDefaults(HystrixCollapserProperties.
-        Setter().withTimerDelayInMilliseconds(5).withRequestCacheEnabled(false))) {
+        Setter().withTimerDelayInMilliseconds(10).withRequestCacheEnabled(false))) {
       
   override def getRequestArgument(): String = key
 
