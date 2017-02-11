@@ -2,7 +2,7 @@ FROM fluxcapacitor/package-ubuntu-14.04
 
 ENV \
   DYNO_VERSION=1.4.7 \
-  REDIS_VERSION=3.2.4
+  REDIS_VERSION=3.2.7
 
 WORKDIR /root
 
