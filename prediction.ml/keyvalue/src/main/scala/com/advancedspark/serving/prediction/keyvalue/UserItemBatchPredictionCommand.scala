@@ -40,7 +40,7 @@ class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPool
     ) {
   
     def run(): Map[String, Double] = {    
-      System.out.println("collapsedRequests: " + collapsedRequests.size());
+//      System.out.println("collapsedRequests: " + collapsedRequests.size());
      
       val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
       collapsedRequests.toArray(collapsedRequestsArray)
@@ -63,53 +63,53 @@ class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPool
         val userFactorsMatrix = new DoubleMatrix(userFactors)
         val itemFactorsMatrix = new DoubleMatrix(itemFactors)
     
-        System.out.println("userFactorsMatrix: " + userFactorsMatrix)
-        System.out.println("userFactorsMatrix length: " + userFactorsMatrix.length)
-        System.out.println("userFactorsMatrix numRows: " + userFactorsMatrix.getRows)
-        System.out.println("userFactorsMatrix numColumns: " + userFactorsMatrix.getColumns)
-
-        System.out.println("itemFactorsMatrix: " + itemFactorsMatrix)
-        System.out.println("itemFactorsMatrix length: " + itemFactorsMatrix.length)
-        System.out.println("itemFactorsMatrix numRows: " + itemFactorsMatrix.getRows)
-        System.out.println("itemFactorsMatrix numColumns: " + itemFactorsMatrix.getColumns)
+//        System.out.println("userFactorsMatrix: " + userFactorsMatrix)
+//        System.out.println("userFactorsMatrix length: " + userFactorsMatrix.length)
+//        System.out.println("userFactorsMatrix numRows: " + userFactorsMatrix.getRows)
+//        System.out.println("userFactorsMatrix numColumns: " + userFactorsMatrix.getColumns)
+//
+//        System.out.println("itemFactorsMatrix: " + itemFactorsMatrix)
+//        System.out.println("itemFactorsMatrix length: " + itemFactorsMatrix.length)
+//        System.out.println("itemFactorsMatrix numRows: " + itemFactorsMatrix.getRows)
+//        System.out.println("itemFactorsMatrix numColumns: " + itemFactorsMatrix.getColumns)
               
         allUserFactorsMatrix = DoubleMatrix.concatVertically(allUserFactorsMatrix, userFactorsMatrix)
         allItemFactorsMatrix = DoubleMatrix.concatHorizontally(allItemFactorsMatrix, itemFactorsMatrix)
 
-        System.out.println("allUserFactorsMatrix: " + allUserFactorsMatrix)
-        System.out.println("allUserFactorsMatrix length: " + allUserFactorsMatrix.length)
-        System.out.println("allUserFactorsMatrix numRows: " + allUserFactorsMatrix.getRows)
-        System.out.println("allUserFactorsMatrix numColumns: " + allUserFactorsMatrix.getColumns)
-        
-        System.out.println("allItemFactorsMatrix: " + allItemFactorsMatrix)
-        System.out.println("allItemFactorsMatrix length: " + allItemFactorsMatrix.length)
-        System.out.println("allItemFactorsMatrix numRows: " + allItemFactorsMatrix.getRows)
-        System.out.println("allItemFactorsMatrix numColumns: " + allItemFactorsMatrix.getColumns)
+//        System.out.println("allUserFactorsMatrix: " + allUserFactorsMatrix)
+//        System.out.println("allUserFactorsMatrix length: " + allUserFactorsMatrix.length)
+//        System.out.println("allUserFactorsMatrix numRows: " + allUserFactorsMatrix.getRows)
+//        System.out.println("allUserFactorsMatrix numColumns: " + allUserFactorsMatrix.getColumns)
+//        
+//        System.out.println("allItemFactorsMatrix: " + allItemFactorsMatrix)
+//        System.out.println("allItemFactorsMatrix length: " + allItemFactorsMatrix.length)
+//        System.out.println("allItemFactorsMatrix numRows: " + allItemFactorsMatrix.getRows)
+//        System.out.println("allItemFactorsMatrix numColumns: " + allItemFactorsMatrix.getColumns)
       })
       
       // Big matrix multiply of userFactors x itemFactors   
       val predictionsMatrix = allUserFactorsMatrix.mmul(allItemFactorsMatrix)
-      System.out.println("predictionsMatrix: " + predictionsMatrix)
-      System.out.println("predictionsMatrix length: " + predictionsMatrix.length)
-      System.out.println("predictionsMatrix numRows: " + predictionsMatrix.getRows)
-      System.out.println("predictionsMatrix numColumns: " + predictionsMatrix.getColumns)
-
-      System.out.println("predictionsMatrix rows: " + predictionsMatrix.rowsAsList())
-      System.out.println("predictionsMatrix columns: " + predictionsMatrix.columnsAsList())
+//      System.out.println("predictionsMatrix: " + predictionsMatrix)
+//      System.out.println("predictionsMatrix length: " + predictionsMatrix.length)
+//      System.out.println("predictionsMatrix numRows: " + predictionsMatrix.getRows)
+//      System.out.println("predictionsMatrix numColumns: " + predictionsMatrix.getColumns)
+//
+//      System.out.println("predictionsMatrix rows: " + predictionsMatrix.rowsAsList())
+//      System.out.println("predictionsMatrix columns: " + predictionsMatrix.columnsAsList())
       
       // Get the diagonal vector
       // Linear Algebra refresher:  https://en.wikipedia.org/wiki/Matrix_multiplication
       val predictions: DoubleMatrix = predictionsMatrix.diag()
-      System.out.println("predictions: " + predictions)
-      System.out.println("predictions length: " + predictions.length)
-      System.out.println("predictions numRows: " + predictions.getRows)
-      System.out.println("predictions numColumns: " + predictions.getColumns)
+//      System.out.println("predictions: " + predictions)
+//      System.out.println("predictions length: " + predictions.length)
+//      System.out.println("predictions numRows: " + predictions.getRows)
+//      System.out.println("predictions numColumns: " + predictions.getColumns)
 
       // TODO: Refactor this
       var idx = -1          
       collapsedRequestsArray.map(request => {
         idx = idx + 1
-        System.out.println("prediction: " + predictions.get(idx))
+//        System.out.println("prediction: " + predictions.get(idx))
         (request.getArgument -> predictions.get(idx))
       }).toMap
     }
@@ -120,47 +120,10 @@ class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPool
                       
       val responseMap = collapsedRequestsArray.map(request => {          
         val prediction = fallback
-        System.out.println("FALLBACK prediction: " + prediction);
+//        System.out.println("FALLBACK prediction: " + prediction);
         (request.getArgument -> prediction)
       }).toMap
         
       responseMap
     }
-
-/*
-class StockTickerPriceCollapsedCommand extends HystrixCollapser[ImmutableMap[Ticker, StockPrice], StockPrice, Ticker] {
-
-    private final StockPriceGateway gateway;
-    private final Ticker stock;
-
-    StockTickerPriceCollapsedCommand(StockPriceGateway gateway, Ticker stock) {
-        super(HystrixCollapser.Setter.withCollapserKey(HystrixCollapserKey.Factory.asKey("Stock"))
-                .andCollapserPropertiesDefaults(HystrixCollapserProperties.Setter().withTimerDelayInMilliseconds(100)));
-        this.gateway = gateway;
-        this.stock = stock;
-    }
-
-    @Override
-    public Ticker getRequestArgument() {
-        return stock;
-    }
-
-    @Override
-    protected HystrixCommand<ImmutableMap<Ticker, StockPrice>> createCommand(Collection<CollapsedRequest<StockPrice, Ticker>> collapsedRequests) {
-        final Set<Ticker> stocks = collapsedRequests.stream()
-                .map(CollapsedRequest::getArgument)
-                .collect(toSet());
-        return new StockPricesBatchCommand(gateway, stocks);
-    }
-
-    @Override
-    protected void mapResponseToRequests(ImmutableMap<Ticker, StockPrice> batchResponse, Collection<CollapsedRequest<StockPrice, Ticker>> collapsedRequests) {
-        collapsedRequests.forEach(request -> {
-            final Ticker ticker = request.getArgument();
-            final StockPrice price = batchResponse.get(ticker);
-            request.setResponse(price);
-        });
-    }
-    * 
-    */
 }
