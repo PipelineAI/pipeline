@@ -1,23 +1,15 @@
 package com.advancedspark.serving.prediction.keyvalue
 
+import org.jblas.DoubleMatrix
+
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 
-import org.jblas.DoubleMatrix
-
-import scala.util.parsing.json._
-
-import redis.clients.jedis._
-
-import collection.JavaConverters._
-import scala.collection.immutable.List
+import redis.clients.jedis.Jedis
 
 class UserItemPredictionCommand(
       jedis: Jedis, namespace: String, version: String, userId: String, itemId: String)
-    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("UserItemPrediction")) {
-
-  @throws(classOf[java.io.IOException])
-  def get(url: String) = scala.io.Source.fromURL(url).mkString
+    extends HystrixCommand[Double](HystrixCommandGroupKey.Factory.asKey("recommendation_user_item_prediction")) {
 
   def run(): Double = {
     try{

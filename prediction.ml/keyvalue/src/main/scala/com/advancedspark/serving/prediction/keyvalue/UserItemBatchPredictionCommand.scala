@@ -1,59 +1,92 @@
 package com.advancedspark.serving.prediction.keyvalue
 
+import scala.collection.JavaConverters.collectionAsScalaIterableConverter
+import scala.collection.immutable.List
+
+import com.netflix.hystrix.HystrixCollapser.CollapsedRequest
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
+import com.netflix.hystrix.HystrixCommandKey
+import com.netflix.hystrix.HystrixCommandProperties
+import com.netflix.hystrix.HystrixThreadPoolKey
+import com.netflix.hystrix.HystrixThreadPoolProperties
 
-import org.jblas.DoubleMatrix
-
-import scala.util.parsing.json._
-
-import redis.clients.jedis._
-
-import collection.JavaConverters._
-import scala.collection.immutable.List
-//
 // TODO  Implement hystrix comllapsing/batching as follows:
 //         http://www.nurkiewicz.com/2014/11/batching-collapsing-requests-in-hystrix.html
 //         https://github.com/Netflix/Hystrix/wiki/How-To-Use#Collapsing
 //
-class UserItemBatchPredictionCommand(
-      jedis: Jedis, namespace: String, version: String, userIds: Array[String], itemIds: Array[String])
-    extends HystrixCommand[Array[Double]](HystrixCommandGroupKey.Factory.asKey("UserItemBatchPrediction")) {
 
-  @throws(classOf[java.io.IOException])
-  def get(url: String) = scala.io.Source.fromURL(url).mkString
-
-  def run(): Array[Double] = {
-    try{
-      val userFactorsArray = userIds.map(userId => 
-        jedis.get(s"${namespace}:${version}:user-factors:${userId}").split(",").map(_.toDouble)
+class UserItemBatchPredictionCommand(name: String, fallback: String, 
+    timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int, 
+    collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]])
+  extends HystrixCommand[List[Double]](
+      HystrixCommand.Setter
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .andCommandPropertiesDefaults(
+          HystrixCommandProperties.Setter()
+           .withExecutionTimeoutInMilliseconds(timeout)
+           .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)
+           .withExecutionIsolationSemaphoreMaxConcurrentRequests(concurrencyPoolSize)
+           .withFallbackIsolationSemaphoreMaxConcurrentRequests(rejectionThreshold)
       )
-      val itemFactorsArray = itemIds.map(itemId =>
-        jedis.get(s"${namespace}:${version}:item-factors:${itemId}").split(",").map(_.toDouble)
-      ) 
+      .andThreadPoolPropertiesDefaults(
+        HystrixThreadPoolProperties.Setter()
+          .withCoreSize(concurrencyPoolSize)
+          .withQueueSizeRejectionThreshold(rejectionThreshold)
+      )
+    ) {
+  
+    def run(): List[Double] = {
+//    try{
+        // TODO:  Get each of the user::item vector pairs and build up 2 big matrices
+        //   collapsedRequests.stream()
+        //      .map(CollapsedRequest::getArgument)
+        //      .collect(toSet());
+        
+//            for (request <- collapsedRequests.iterator()) {
+          // TODO:  Get each of the user::item vector pairs
+          // val userFactors = jedis.get(s"${namespace}:${version}:user-factors:${userId}").split(",").map(_.toDouble)
+          // val itemFactors = jedis.get(s"${namespace}:${version}:item-factors:${itemId}").split(",").map(_.toDouble)
 
-      val userFactorsMatrix = new DoubleMatrix(userFactorsArray)
-      val itemFactorsMatrix = new DoubleMatrix(itemFactorsArray)
-    
-      System.out.println(s"userFactorsRows: ${userFactorsMatrix.columns}")
-      System.out.println(s"itemFactorsCols: ${itemFactorsMatrix.rows}")   
+          // TODO:  Build 2 big matrices from all the requests
+//            }
+        
+        // TODO:  Multiply the 2 big matrices              
+        // val userFactorsMatrix = new DoubleMatrix(userFactors)
+        // val itemFactorsMatrix = new DoubleMatrix(itemFactors)
+        
+        // Calculate the predictionVector 
+        // val predictionVector = userFactorsMatrix.mmul(itemFactorsMatrix.transpose()).data
 
-      // Calculate batch predictions - returns single vector 
-      userFactorsMatrix.mmul(itemFactorsMatrix.transpose()).data
-    } catch { 
-       case e: Throwable => {
-         System.out.println(e) 
-         throw e
-       }
+        // TODO:  For each of the requests, grab the appropriate resultScalar from the resultVector             
+        //  collapsedRequests.map(
+        // for (CollapsedRequest<Double, String> request : requests) {
+          // TODO:  For each user::item vector pair, populate the response with the appropriate resultScalar
+        // response.put(collapsedRequest.getArgument(), ...);
+        // val key = collapsedRequests.toArray()(0).asInstanceOf[CollapsedRequest[Double, String]].getArgument(), 
+        System.out.println("collapsedRequests: " + collapsedRequests.toArray());
+        
+        val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
+        collapsedRequests.toArray(collapsedRequestsArray)
+                      
+        collapsedRequestsArray.map(request => {          
+          // TODO:  For each user::item vector pair, populate the response with the appropriate resultScalar
+          // response.put(collapsedRequest.getArgument(), ...);
+          // val key = collapsedRequests.toArray()(0).asInstanceOf[CollapsedRequest[Double, String]].getArgument(), 
+          0.0
+        }).toList
     }
-  }
-
-  override def getFallback(): Array[Double] = {
-    System.out.println("UserItemBatchPrediction Source is Down!  Fallback!!")
-
-    Array(0.0)
-  }
-}
+    
+    override def getFallback(): List[Double] = {
+      val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
+      collapsedRequests.toArray(collapsedRequestsArray)
+                    
+      collapsedRequestsArray.map(request => {
+        0.0
+      }).toList
+    }
 
 /*
 class StockTickerPriceCollapsedCommand extends HystrixCollapser[ImmutableMap[Ticker, StockPrice], StockPrice, Ticker] {
@@ -89,5 +122,6 @@ class StockTickerPriceCollapsedCommand extends HystrixCollapser[ImmutableMap[Tic
             request.setResponse(price);
         });
     }
+    * 
+    */
 }
-*/

@@ -50,7 +50,7 @@ class PredictionService {
        }
     }
   }
-
+/*
   @RequestMapping(path=Array("/batch-prediction/{userIds}/{itemIds}"),
                   produces=Array("application/json; charset=UTF-8"))
   def batchPrediction(@PathVariable("userIds") userIds: Array[String], @PathVariable("itemIds") itemIds: Array[String]): String = {
@@ -64,7 +64,7 @@ class PredictionService {
        }
     }
   }
-
+*/
   @RequestMapping(path=Array("/recommendations/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
