@@ -37,12 +37,13 @@ class PredictionService {
   
   val jedisPool = new JedisPool(new JedisPoolConfig(), redisHostname, redisPort);
 
-  @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),  
+  @RequestMapping(path=Array("/prediction/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemPredictionCommand(jedisPool.getResource, namespace, version, userId, itemId)
+      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem", 25, 5,  10, -1.0d, userId, itemId)
         .execute()
+
       s"""{"result":${result}}"""
     } catch {
        case e: Throwable => {
@@ -50,12 +51,12 @@ class PredictionService {
        }
     }
   }
-
+  
   @RequestMapping(path=Array("/batch-prediction/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def batchPrediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemBatchPredictionCollapser("keyvalue_batch_useritem", 25, 5,  10, -1.0d, userId, itemId)
+      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", 25, 5,  10, -1.0d, userId, itemId)
         .execute()
 
       s"""{"result":${result}}"""
@@ -65,6 +66,8 @@ class PredictionService {
        }
     }
   }
+  
+  
 
   @RequestMapping(path=Array("/recommendations/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))

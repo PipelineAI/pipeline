@@ -12,11 +12,6 @@ import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
 import org.jblas.DoubleMatrix
 
-// TODO  Implement hystrix comllapsing/batching as follows:
-//         http://www.nurkiewicz.com/2014/11/batching-collapsing-requests-in-hystrix.html
-//         https://github.com/Netflix/Hystrix/wiki/How-To-Use#Collapsing
-//
-
 class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int, 
     collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]], 
     fallback: Double, userId: String, itemId: String)
