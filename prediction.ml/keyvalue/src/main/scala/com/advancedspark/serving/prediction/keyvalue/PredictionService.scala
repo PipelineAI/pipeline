@@ -41,7 +41,7 @@ class PredictionService {
                   produces=Array("application/json; charset=UTF-8"))
   def prediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem", 25, 5,  10, -1.0d, userId, itemId)
+      val result = new UserItemPredictionCommand("keyvalue_useritem", 25, 5, 10, -1.0d, userId, itemId)           
         .execute()
 
       s"""{"result":${result}}"""
@@ -56,7 +56,7 @@ class PredictionService {
                   produces=Array("application/json; charset=UTF-8"))
   def batchPrediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", 25, 5,  10, -1.0d, userId, itemId)
+      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", 25, 5, 10, -1.0d, userId, itemId)
         .execute()
 
       s"""{"result":${result}}"""

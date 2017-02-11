@@ -2,7 +2,6 @@ package com.advancedspark.serving.prediction.keyvalue
 
 import org.jblas.DoubleMatrix
 
-import com.netflix.hystrix.HystrixCollapser.CollapsedRequest
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 import com.netflix.hystrix.HystrixCommandKey
