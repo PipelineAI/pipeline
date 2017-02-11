@@ -7,6 +7,9 @@ COPY build.sbt build.sbt
 COPY lib/ lib/
 
 RUN \
+  apt-get install libgfortran3
+
+RUN \
   sbt clean package \
 # HACK:  We need to trigger the download of sbt-launch.jar which is a diff version than default sbt install
   && java -Djava.security.egd=file:/dev/./urandom -cp lib/codegen-spark-2_0_1_2.11-1.0.jar -jar lib/sbt-launch.jar exit
