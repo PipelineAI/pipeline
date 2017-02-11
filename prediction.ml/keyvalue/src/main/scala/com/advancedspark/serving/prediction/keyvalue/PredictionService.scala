@@ -50,21 +50,25 @@ class PredictionService {
        }
     }
   }
-/*
-  @RequestMapping(path=Array("/batch-prediction/{userIds}/{itemIds}"),
+
+  @RequestMapping(path=Array("/batch-prediction/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def batchPrediction(@PathVariable("userIds") userIds: Array[String], @PathVariable("itemIds") itemIds: Array[String]): String = {
+  def batchPrediction(@PathVariable("userId") userId: String, @PathVariable("itemId") itemIds: String): String = {
     try {
-      val result = new UserItemBatchPredictionCommand(jedisPool.getResource, namespace, version, userIds, itemIds)
+      val result = new UserItemBatchPredictionCollapser("recommendations_batch_useritem", "fallback", 25, 5,  10, "")
         .execute()
-      s"""{"result":${result.mkString(",")}}"""
+
+      //val result = new UserItemBatchPredictionCommand(jedisPool.getResource, namespace, version, userIds, itemIds)
+      //  .execute()
+
+      s"""{"result":${result}}"""
     } catch {
        case e: Throwable => {
          throw e
        }
     }
   }
-*/
+
   @RequestMapping(path=Array("/recommendations/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
