@@ -66,7 +66,7 @@ class UserItemBatchPredictionCommand(name: String, fallback: String,
           // TODO:  For each user::item vector pair, populate the response with the appropriate resultScalar
         // response.put(collapsedRequest.getArgument(), ...);
         // val key = collapsedRequests.toArray()(0).asInstanceOf[CollapsedRequest[Double, String]].getArgument(), 
-        System.out.println("collapsedRequests: " + collapsedRequests.toArray());
+        System.out.println("collapsedRequests: " + collapsedRequests.size());
         
         val collapsedRequestsArray = new Array[CollapsedRequest[Double, String]](collapsedRequests.size())
         collapsedRequests.toArray(collapsedRequestsArray)
