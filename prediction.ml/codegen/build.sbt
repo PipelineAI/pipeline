@@ -22,8 +22,10 @@ val janinoVersion = "2.7.8"
 val codahaleMetricsVersion = "3.1.2"
 val httpClientVersion = "4.5.2"
 val fluentHCVersion = "4.5.2"
+val prometheusSimpleClientVersion = "0.0.20"
 
 lazy val deps = Seq(
+  "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
   "org.jpmml" % "pmml-model" % "1.3.3",
   "org.jpmml" % "pmml-evaluator" % "1.3.2",
   "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,

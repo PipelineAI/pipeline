@@ -22,11 +22,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._
 
 import redis.clients.jedis._
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
+@EnablePrometheusEndpoint
 class PredictionService {
+  HystrixPrometheusMetricsPublisher.register("prediction_keyvalue")
+  
   val namespace = ""
 
   val version = "" 
@@ -67,8 +72,6 @@ class PredictionService {
     }
   }
   
-  
-
   @RequestMapping(path=Array("/recommendations/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("userId") userId: String, @PathVariable("startIdx") startIdx: Int, 
