@@ -4,10 +4,13 @@ metadata:
   name: prediction-keyvalue
   labels:
     hystrix.enabled: "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "prometheus"
+    prometheus.io/port: "9040"
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: "/prometheus" 
-    prometheus.io/port: "80" 
+    prometheus.io/port: "9040" 
 spec:
   type: LoadBalancer
   ports:
