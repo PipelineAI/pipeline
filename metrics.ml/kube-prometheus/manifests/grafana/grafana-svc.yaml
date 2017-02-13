@@ -9,7 +9,7 @@ spec:
   type: LoadBalancer
   ports:
   - name: web
-    port: 3000
+    port: 80 
     protocol: TCP
     nodePort: 30902
   selector:
