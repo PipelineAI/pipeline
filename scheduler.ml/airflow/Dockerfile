@@ -28,9 +28,11 @@ RUN \
   && apt-get install -y libmysqlclient-dev 
 
 RUN \
-  pip install mysqlclient \
-  && conda install --yes -c anaconda mysql-connector-python=2.0.4 \
-  && conda install --yes pymysql=0.7.6
+  pip install mysqlclient 
+#  && conda install --yes -c anaconda mysql-connector-python=2.0.4 \
+#  && conda install --yes pymysql=0.7.6
+#  && conda install --yes -c anaconda mysql-connector-python \
+#  && conda install --yes pymysql
 
 RUN \
   conda install --yes -c phumke airflow=1.6.2
