@@ -90,19 +90,13 @@ RUN \
   sudo chmod a+x kubectl \
   && sudo mv kubectl /usr/local/bin/kubectl
 
-#COPY .kube/ .kube/
+COPY .kube/ .kube/
 
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
   mkdir -p $AIRFLOW_HOME \
   && cd $AIRFLOW_HOME \
   && ln -s /root/pipeline/scheduler.ml/airflow/dags
-
-RUN \
-  apt-get install -y redis-server \
-  && pip install celery[redis] \
-  && pip install mysql-connector-python \
-  && pip install airflow[mysql]
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
