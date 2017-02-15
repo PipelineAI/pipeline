@@ -34,7 +34,8 @@ class TensorflowNativeCommand(host: String, port: Int, name: String, inputs: Map
   def run(): String = {
     try{
 //      // https://medium.com/google-cloud/how-to-invoke-a-trained-tensorflow-model-from-java-programs-27ed5f4f502d#.pcz10o9h0
-//      
+//      // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/java/src/main/java/org/tensorflow/examples/LabelImage.java
+//
 //      // try to predict for two (2) sets of inputs.
 //      val inputs: Tensor = new Tensor(Tensorflow.DT_FLOAT, new TensorShape(2,5))
 //      val x: FloatBuffer = inputs.createBuffer()
