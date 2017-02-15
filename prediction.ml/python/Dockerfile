@@ -1,0 +1,47 @@
+FROM fluxcapacitor/package-java-openjdk-1.8
+
+WORKDIR /root
+
+COPY src/ src/
+COPY build.sbt build.sbt
+COPY lib/ lib/
+COPY data/ data/
+
+RUN \
+  sbt clean package 
+
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+
+RUN \
+  apt-get update \
+  && apt-get install -y python-qt4
+
+ENV \
+  TENSORFLOW_VERSION=0.12.1
+
+RUN \
+#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
+  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+
+RUN \
+  mkdir -p /root/logs
+
+ENV LOGS_HOME=/root/logs
+
+COPY run run
+
+EXPOSE 9040 
+
+CMD ["supervise", "."]

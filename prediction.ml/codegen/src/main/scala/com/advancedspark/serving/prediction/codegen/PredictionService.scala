@@ -98,14 +98,12 @@ class PredictionService {
 
       val result = predictorOption match {
         case None => {
-          //val fis = new java.io.FileInputStream(s"data/${className}/${className}.java")
-
           val classFileName = s"data/${className}/${className}.java"
 
-		  //read file into stream
-		  val stream: Stream[String] = Files.lines(Paths.get(classFileName))
+          //read file into stream
+          val stream: Stream[String] = Files.lines(Paths.get(classFileName))
 			    
-		  // reconstuct original
+          // reconstuct original
           val classSource = stream.collect(Collectors.joining("\n"))
           
           val (predictor, generatedCode) = PredictorCodeGenerator.codegen(className, classSource)
@@ -118,7 +116,7 @@ class PredictionService {
           System.out.println(s"Updating cache for ${className}:\n${generatedCode}")
         }
         case Some(predictor) => {
-           new SourceCodeEvaluationCommand(className, predictor, inputs, "fallback", 25, 20, 10).execute()
+           new JavaSourceCodeEvaluationCommand(className, predictor, inputs, "fallback", 25, 20, 10).execute()
         }
       } 
 
