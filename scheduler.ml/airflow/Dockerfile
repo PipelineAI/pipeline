@@ -28,9 +28,11 @@ RUN \
   && apt-get install -y libmysqlclient-dev 
 
 RUN \
-  pip install mysqlclient \
-  && conda install --yes -c anaconda mysql-connector-python=2.0.4 \
-  && conda install --yes pymysql=0.7.6
+  pip install mysqlclient 
+#  && conda install --yes -c anaconda mysql-connector-python=2.0.4 \
+#  && conda install --yes pymysql=0.7.6
+#  && conda install --yes -c anaconda mysql-connector-python \
+#  && conda install --yes pymysql
 
 RUN \
   conda install --yes -c phumke airflow=1.6.2
@@ -90,19 +92,13 @@ RUN \
   sudo chmod a+x kubectl \
   && sudo mv kubectl /usr/local/bin/kubectl
 
-#COPY .kube/ .kube/
+COPY .kube/ .kube/
 
 #COPY dags/ $AIRFLOW_HOME/dags/
 RUN \
   mkdir -p $AIRFLOW_HOME \
   && cd $AIRFLOW_HOME \
   && ln -s /root/pipeline/scheduler.ml/airflow/dags
-
-RUN \
-  apt-get install -y redis-server \
-  && pip install celery[redis] \
-  && pip install mysql-connector-python \
-  && pip install airflow[mysql]
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
