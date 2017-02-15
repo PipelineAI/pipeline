@@ -12,7 +12,7 @@ ENV \
  BAZEL_VERSION=0.4.4 \
 # Note:  This must be master due to an issue with the bazel build
 #        See https://github.com/tensorflow/tensorflow/issues/4216
- TENSORFLOW_SERVING_VERSION=master
+ TENSORFLOW_SERVING_VERSION=0.5.0
  
 # TensorFlow Serving Home (not required on PATH)
 ENV \
