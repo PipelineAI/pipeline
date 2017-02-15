@@ -6,6 +6,7 @@ COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY data/ data/
+COPY models/ models/
 
 RUN \
   sbt clean package 
@@ -23,6 +24,9 @@ ENV \
 
 RUN \
   conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+
+RUN \
+  conda install cython
 
 RUN \
   apt-get update \
