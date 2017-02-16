@@ -14,4 +14,4 @@ simple_pkl_filename = 'models/python_simple/python_simple.pkl'
 simple_pkl = open(simple_pkl_filename, 'rb')
 simple = pickle.load(simple_pkl)
 
-print("Loaded Simple model :: ", simple)
+print("simple)
