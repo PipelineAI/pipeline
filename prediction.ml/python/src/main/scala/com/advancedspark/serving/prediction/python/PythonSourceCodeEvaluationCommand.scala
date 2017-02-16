@@ -38,20 +38,20 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
   def run(): String = {
     try{
       val p = Runtime.getRuntime().exec(s"python -W ignore ${filename}")
-      //System.out.println("p: " + p)
+      System.out.println("p: " + p)
       
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-      //System.out.println("stdInput: " + stdInput)
+      System.out.println("stdInput: " + stdInput)
 
       val stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-      //System.out.println("stdError: " + stdError)
+      System.out.println("stdError: " + stdError)
 
       // read the output from the command
       val success = stdInput.lines().collect(Collectors.joining("\n"))
-      //System.out.println("success: " + success)
+      System.out.println("success: " + success)
 
       val error = stdError.lines().collect(Collectors.joining("\n"))
-//      System.out.println("error: " + error)
+      System.out.println("error: " + error)
 
       s"""{"results":"${success}"}"""       
     } catch { 

@@ -25,7 +25,7 @@ import pickle
 #print("prediction: ", decision_tree_model.predict([[1,1,3,4]]))
 
 # Dump the trained decision tree classifier with Pickle
-decision_tree_pkl_filename = 'models/balancescale/balancescale.pkl'
+decision_tree_pkl_filename = 'models/python_balancescale/python_balancescale.pkl'
 
 # Open the file to save as pkl file
 #decision_tree_model_pkl = open(decision_tree_pkl_filename, 'wb')
