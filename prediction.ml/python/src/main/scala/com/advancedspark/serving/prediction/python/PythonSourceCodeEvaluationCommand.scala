@@ -37,7 +37,7 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
 {
   def run(): String = {
     try{
-      val p = Runtime.getRuntime().exec(s"python -W ignore ${filename}")
+      val p = Runtime.getRuntime().exec(s"python -W ignore ${filename} ${inputs}")
       //System.out.println("p: " + p)
       
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
