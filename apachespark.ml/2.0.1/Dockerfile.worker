@@ -54,6 +54,16 @@ RUN \
 #  && R -e "devtools::install_github('IRkernel/IRkernel')" \
 #  && R -e "IRkernel::installspec(user = FALSE)"
 
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+
+#ENV \
+#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
 COPY run.worker run
 COPY demos/ demos/
 

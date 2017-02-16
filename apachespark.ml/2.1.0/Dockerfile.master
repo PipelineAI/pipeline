@@ -42,6 +42,16 @@ RUN \
 #  && apt-get install -y r-base \
 #  && apt-get install -y r-base-dev
 
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+
+#ENV \
+#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
 COPY run.master run
 COPY demos/ demos/
 
