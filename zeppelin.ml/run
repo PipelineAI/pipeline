@@ -1,3 +1,6 @@
 #!/bin/bash
 
+# Required by Tensorflow for HDFS
+export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
 MASTER=$SPARK_MASTER $ZEPPELIN_HOME/bin/zeppelin.sh start

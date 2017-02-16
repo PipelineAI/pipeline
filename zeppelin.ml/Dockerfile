@@ -70,6 +70,16 @@ RUN \
 
 COPY .kube/ .kube/
 
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+
+#ENV \
+#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 COPY run run 
 COPY lib/ lib/
