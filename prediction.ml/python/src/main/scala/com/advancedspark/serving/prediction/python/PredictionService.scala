@@ -87,7 +87,7 @@ class PredictionService {
 
       val filename = s"data/${name}/${name}.py"
 
-      val result = new PythonSourceCodeEvaluationCommand(name, filename, inputs, "fallback", 10000, 20, 10).execute()
+      val result = new PythonSourceCodeEvaluationCommand(name, filename, inputJson, "fallback", 10000, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)

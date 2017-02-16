@@ -14,7 +14,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: Map[String, Any],
+class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputJson: String,
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
     HystrixCommand.Setter
@@ -37,7 +37,7 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
 {
   def run(): String = {
     try{
-      val p = Runtime.getRuntime().exec(s"python -W ignore ${filename} ${inputs}")
+      val p = Runtime.getRuntime().exec(s"python -W ignore ${filename} '${inputJson}'")
       //System.out.println("p: " + p)
       
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
