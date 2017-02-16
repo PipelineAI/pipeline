@@ -38,13 +38,22 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
   def run(): String = {
     try{
       val p = Runtime.getRuntime().exec(s"python ${filename}")
-
+      System.out.println("p: " + p)
+      
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      System.out.println("stdInput: " + stdInput)
 
       val stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+      System.out.println("stdError: " + stdError)
 
       // read the output from the command
-      s"Success ${stdInput.lines().collect(Collectors.joining("\n"))}, Error ${stdError.lines().collect(Collectors.joining("\n"))}"       
+      val success = stdInput.lines().collect(Collectors.joining("\n"))
+      System.out.println("success: " + stdError)
+
+      val error = stdError.lines().collect(Collectors.joining("\n"))
+      System.out.println("error: " + error)
+
+      s"Success ${success}, Error ${error}"       
     } catch { 
        case e: Throwable => {
          System.out.println(e)
