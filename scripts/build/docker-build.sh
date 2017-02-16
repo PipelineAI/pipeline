@@ -59,6 +59,7 @@ cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastor
 cd $PIPELINE_HOME/prediction.ml/codegen && sudo docker build -q -t fluxcapacitor/prediction-codegen .
 cd $PIPELINE_HOME/prediction.ml/keyvalue && sudo docker build -q -t fluxcapacitor/prediction-keyvalue .
 cd $PIPELINE_HOME/prediction.ml/pmml && sudo docker build -q -t fluxcapacitor/prediction-pmml .
+cd $PIPELINE_HOME/prediction.ml/python && sudo docker build -q -t fluxcapacitor/prediction-python .
 cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build -q -t fluxcapacitor/prediction-tensorflow .
 
 # presto.ml
