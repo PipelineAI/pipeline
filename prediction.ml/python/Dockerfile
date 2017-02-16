@@ -6,7 +6,7 @@ COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY data/ data/
-COPY models/ models/
+#COPY models/ models/
 
 RUN \
   sbt clean package 
