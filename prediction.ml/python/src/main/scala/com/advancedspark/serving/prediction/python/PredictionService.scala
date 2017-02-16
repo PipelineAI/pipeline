@@ -101,7 +101,7 @@ class PredictionService {
 		  //read file into stream
       //val source = Files.lines(Paths.get(fileName)).collect(Collectors.joining("\n"))
 			    
-      val result = new PythonSourceCodeEvaluationCommand(name, filename, inputs, "fallback", 1000, 20, 10).execute()
+      val result = new PythonSourceCodeEvaluationCommand(name, filename, inputs, "fallback", 10000, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)

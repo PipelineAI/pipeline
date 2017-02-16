@@ -22,7 +22,7 @@ import pickle
 #decision_tree_model.fit(X_train, y_train)
 #print("Decision Tree classifier :: ", decision_tree_model)
 
-#print("prediction: ", decision_tree_model.predict([1,1,3,4]))
+#print("prediction: ", decision_tree_model.predict([[1,1,3,4]]))
 
 # Dump the trained decision tree classifier with Pickle
 decision_tree_pkl_filename = 'models/balancescale/balancescale.pkl'
@@ -36,4 +36,6 @@ decision_tree_pkl_filename = 'models/balancescale/balancescale.pkl'
 # Loading the saved decision tree model pickle
 decision_tree_model_pkl = open(decision_tree_pkl_filename, 'rb')
 decision_tree_model = pickle.load(decision_tree_model_pkl)
-print("Loaded Decision tree model :: ", decision_tree_model)
+#print("Loaded Decision tree model :: ", decision_tree_model)
+print("prediction: ", decision_tree_model.predict([[1,1,3,4]]))
+decision_tree_model_pkl.close()
