@@ -59,6 +59,7 @@ sudo docker push fluxcapacitor/prediction-codegen
 sudo docker push fluxcapacitor/prediction-keyvalue
 sudo docker push fluxcapacitor/prediction-pmml 
 sudo docker push fluxcapacitor/prediction-tensorflow
+sudo docker push fluxcapacitor/prediction-python
 
 # presto.ml
 sudo docker push fluxcapacitor/presto-master-0.145 
