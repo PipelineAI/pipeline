@@ -48,7 +48,7 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
 
       // read the output from the command
       val success = stdInput.lines().collect(Collectors.joining("\n"))
-      System.out.println("success: " + stdError)
+      System.out.println("success: " + success)
 
       val error = stdError.lines().collect(Collectors.joining("\n"))
       System.out.println("error: " + error)
