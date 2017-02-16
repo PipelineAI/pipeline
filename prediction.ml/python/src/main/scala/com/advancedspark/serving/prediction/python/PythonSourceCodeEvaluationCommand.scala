@@ -51,9 +51,9 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputs: 
       //System.out.println("success: " + success)
 
       val error = stdError.lines().collect(Collectors.joining("\n"))
-      System.out.println("error: " + error)
+//      System.out.println("error: " + error)
 
-      s"Success ${success}, Error ${error}"       
+      s"""{"results":"${success}"}"""       
     } catch { 
        case e: Throwable => {
          System.out.println(e)
