@@ -131,6 +131,16 @@ ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
 
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+  
+#ENV \
+#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+ 
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
 # Required by Spark
 ENV \
   HADOOP_CONF_DIR=${HADOOP_HOME}
