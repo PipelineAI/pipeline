@@ -50,9 +50,7 @@ class PredictionService {
   def updateSource(@PathVariable("name") name: String, @RequestBody source: String): 
       ResponseEntity[String] = {
     Try {
-//      val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
-
-//      System.out.println(s"Generating source for ${name}:\n${source}")
+      System.out.println(s"Updating source for ${name}:\n${source}")
 
       // Write the new java source to local disk
       val path = new java.io.File(s"data/${name}/")
@@ -68,14 +66,7 @@ class PredictionService {
       val fos = new java.io.FileOutputStream(file)
       fos.write(source.getBytes())
 
-//      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(name, source)
-      
-//      System.out.println(s"Updating cache for ${name}:\n${generatedCode}")
-      
-      // Update Predictor in Cache
-//      predictorRegistry.put(name, predictor)
-
-      new ResponseEntity[String](responseHeaders, HttpStatus.OK)
+      new ResponseEntity[String](source, responseHeaders, HttpStatus.OK)
     } match {
       case Failure(t: Throwable) => {
         val responseHeaders = new HttpHeaders();
@@ -92,15 +83,10 @@ class PredictionService {
   def evaluateSource(@PathVariable("name") name: String, @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-//      val predictorOption = predictorRegistry.get(name)
-
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
       val filename = s"data/${name}/${name}.py"
 
-		  //read file into stream
-      //val source = Files.lines(Paths.get(fileName)).collect(Collectors.joining("\n"))
-			    
       val result = new PythonSourceCodeEvaluationCommand(name, filename, inputs, "fallback", 10000, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
