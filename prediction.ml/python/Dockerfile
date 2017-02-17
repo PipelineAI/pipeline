@@ -42,15 +42,16 @@ ENV LOGS_HOME=/root/logs
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
+
+RUN \
+  sbt clean package
+
 COPY data/ data/
 COPY models/ models/
 
 RUN \
   cd models/python_balancescale \
   && python train-balancescale.py
-
-RUN \
-  sbt clean package
 
 COPY run run
 
