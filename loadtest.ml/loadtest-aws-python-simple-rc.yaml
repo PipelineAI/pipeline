@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        name: loadtest-aws-python-simpile
+        name: loadtest-aws-python-simple
     spec:
       containers:
       - name: loadtest 

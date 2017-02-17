@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        name: loadtest-gcp-python-simpile
+        name: loadtest-gcp-python-simple
     spec:
       containers:
       - name: loadtest 
