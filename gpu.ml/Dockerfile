@@ -6,6 +6,10 @@ ENV \
 # Adapted from 
 #   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
 
+# TODO: Add the Nvidia CUDA Profile Tools Interface
+#RUN \
+#  sudo apt-get install libcupti-dev
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
