@@ -195,7 +195,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Find all (User, item) pairs without an existing Rating",
+      "title": "Find all (User, item) pairs",
       "text": "val allDistinctUsersDF \u003d itemRatingsDF.select($\"userId\").dropDuplicates()\n\nval allDistinctUserItemPairsDF \u003d allDistinctUsersDF\n  .join(itemsDF.select($\"itemId\"))\n  .select($\"userId\", $\"itemId\")\n  .coalesce(1)\n  .distinct()\n\nz.show(allDistinctUserItemPairsDF.sort($\"userId\", $\"itemId\"))",
       "dateUpdated": "Nov 18, 2016 12:26:10 PM",
       "config": {
@@ -291,7 +291,7 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Generate Recommendations for (user, Item) Pairs without existing ratings",
+      "title": "Generate Recommendations for (user, Item) Pairs",
       "text": "val recommendationsDF \u003d model.transform(allDistinctUserItemPairsDF)\n  .as(\"recommendations\")\n  .cache()\n  \nz.show(recommendationsDF.sort($\"userId\", $\"itemId\"))",
       "dateUpdated": "Nov 18, 2016 12:34:33 PM",
       "config": {
