@@ -14,7 +14,11 @@ ENV \
   PATH=/opt/conda/bin:$PATH
 
 RUN \
-  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
+
+RUN \
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 ENV \ 
   AIRFLOW_HOME=/root/airflow
@@ -44,13 +48,6 @@ RUN \
   && apt-get update \
   && apt-get install -y r-base \
   && apt-get install -y r-base-dev
-
-ENV \
-  TENSORFLOW_VERSION=0.12.1
-
-RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
 
 ENV SPARK_VERSION=2.0.1
 ENV PYSPARK_VERSION=0.10.3
@@ -83,7 +80,8 @@ RUN \
 RUN \
   git clone http://github.com/fluxcapacitor/pipeline
 
-ENV KUBERNETES_VERSION=1.5.1
+ENV \
+  KUBERNETES_VERSION=1.5.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl

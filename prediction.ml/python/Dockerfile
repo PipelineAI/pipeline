@@ -18,7 +18,7 @@ ENV \
   PATH=/opt/conda/bin:$PATH
 
 RUN \
-  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 RUN \
   conda install cython
@@ -28,11 +28,11 @@ RUN \
   && apt-get install -y python-qt4
 
 ENV \
-  TENSORFLOW_VERSION=0.12.1
+  TENSORFLOW_VERSION=1.0.0
 
 RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   mkdir -p /root/logs
