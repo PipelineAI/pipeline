@@ -138,6 +138,10 @@ RUN \
   && cd ${HADOOP_CONF} \
   && ln -s ~/conf/hdfs-site.xml
 
+RUN \
+  pip install celery[redis] \
+  && pip install airflow[mysql]
+
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
 
