@@ -26,7 +26,7 @@ ENV \
  JBLAS_VERSION=1.2.4 \
  BAZEL_VERSION=0.2.2 \
  TENSORFLOW_VERSION=1.0.0 \
- TENSORFLOW_SERVING_VERSION=5.0.0 \
+ TENSORFLOW_SERVING_VERSION=0.5.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc)
 #   in order to properly install Bazel (used by TensorFlow)
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \

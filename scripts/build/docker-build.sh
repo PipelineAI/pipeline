@@ -26,7 +26,11 @@ cd $PIPELINE_HOME/clustered.ml/tensorflow && sudo docker build --no-cache -q -t 
 
 # dashboard.ml
 cd $PIPELINE_HOME/dashboard.ml/hystrix && sudo docker build --no-cache -q -t fluxcapacitor/dashboard-hystrix .
-cd $PIPELINE_HOME/dashboard.ml/turbine sudo docker build --no-cache -q -t fluxcapacitor/dashboard-turbine .
+cd $PIPELINE_HOME/dashboard.ml/turbine && sudo docker build --no-cache -q -t fluxcapacitor/dashboard-turbine .
+
+# zookeeper.ml
+cd $PIPELINE_HOME/education.ml && sudo docker build --no-cache -q -t fluxcapacitor/pipeline .
+
 # elasticsearch.ml
 cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && sudo docker build --no-cache -q -t fluxcapacitor/elasticsearch-2.3.0 .
 

@@ -16,6 +16,9 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
+ENV \
+  TENSORFLOW_VERSION=1.0.0
+
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
   && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
