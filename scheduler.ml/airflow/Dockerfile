@@ -145,6 +145,9 @@ RUN \
   pip install celery[redis] \
   && pip install airflow[mysql]
 
+RUN \
+  pip install flower
+
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
 
@@ -152,6 +155,6 @@ COPY github_webhook github_webhook
 
 COPY run run
 
-EXPOSE 8080 5000 8793
+EXPOSE 8080 5000 5555 8793
 
 CMD ["supervise", "."]
