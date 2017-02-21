@@ -3,9 +3,7 @@ val globalSettings = Seq(
   scalaVersion := "2.11.8" 
 )
 
-// https://github.com/thammegowda/tensorflow-grpc-java
-(unmanagedClasspath in Compile) += file("lib/tensorflow-java-1.0-jar-with-dependencies.jar")
-(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-1.0.0.jar")
+(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-pmml")
@@ -24,7 +22,7 @@ val pmmlModelVersion = "1.3.3"
 val pmmlMetroVersion = "1.3.3" 
 val janinoVersion = "2.7.8" 
 val codahaleMetricsVersion = "3.1.2"
-val prometheusSimpleClientVersion = "0.0.20"
+val prometheusSimpleClientVersion = "0.0.21"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
