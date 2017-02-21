@@ -3,6 +3,8 @@ val globalSettings = Seq(
   scalaVersion := "2.11.8" 
 )
 
+(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
+
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-python")
                     .settings(globalSettings:_*)
@@ -22,7 +24,7 @@ val janinoVersion = "2.7.8"
 val codahaleMetricsVersion = "3.1.2"
 val httpClientVersion = "4.5.2"
 val fluentHCVersion = "4.5.2"
-val prometheusSimpleClientVersion = "0.0.20"
+val prometheusSimpleClientVersion = "0.0.21"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
