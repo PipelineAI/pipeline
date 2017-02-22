@@ -46,12 +46,11 @@ COPY lib/ lib/
 RUN \
   sbt clean package
 
-COPY data/ data/
-COPY models/ models/
+COPY store/ store/
 
 RUN \
-  cd models/python_balancescale \
-  && python train-balancescale.py
+  cd source/python_balancescale \
+  && python train_balancescale.py
 
 COPY run run
 

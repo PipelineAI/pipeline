@@ -14,18 +14,22 @@ import org.springframework.web.bind.annotation.RestController
 
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import org.springframework.web.bind.annotation.RequestMethod
+import io.prometheus.client.hotspot.StandardExports
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector	
 class PredictionService {
   val modelRegistry = new scala.collection.mutable.HashMap[String, Array[Byte]]
 
   HystrixPrometheusMetricsPublisher.register("prediction_tensorflow")
-  
+  new StandardExports().register()
+
   @RequestMapping(path=Array("/update-tensorflow/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
@@ -34,12 +38,12 @@ class PredictionService {
 
     try {
       // Write the new newModel to local disk
-      val path = new java.io.File(s"data/${modelName}/")
+      val path = new java.io.File(s"store/${modelName}/")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"data/${modelName}/${modelName}.pb")
+      val file = new java.io.File(s"store/${modelName}/${modelName}.pb")
       if (!file.exists()) {
         file.createNewFile()
       }

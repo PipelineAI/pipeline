@@ -19,9 +19,11 @@ val grpcVersion = "1.0.0"
 val protobufVersion = "3.0.0"
 val javacppTensorflowPresetVersion = "0.11.0-1.3"
 val prometheusSimpleClientVersion = "0.0.21"
+val prometheusSimpleClientHotspotVersion = "0.0.21"
 
 lazy val deps = Seq(
-    "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
+  "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
+  "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
     "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
     "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
     "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,

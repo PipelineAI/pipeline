@@ -1,36 +1,30 @@
 package com.advancedspark.serving.prediction.keyvalue
 
-import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
-import scala.collection.immutable.HashMap
-
-import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.JavaConverters.mapAsJavaMapConverter
-import scala.util.parsing.json.JSON
-
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot._
-import org.springframework.boot.autoconfigure._
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.context.config.annotation._
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import org.springframework.context.annotation._
-import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation._
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
-import redis.clients.jedis._
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
+
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import redis.clients.jedis.JedisPool
+import redis.clients.jedis.JedisPoolConfig
+
+import io.prometheus.client.hotspot.StandardExports
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector	
 class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_keyvalue")
+
+  new StandardExports().register()
   
   val namespace = ""
 

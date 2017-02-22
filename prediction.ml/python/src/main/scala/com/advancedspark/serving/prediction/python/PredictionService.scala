@@ -1,6 +1,7 @@
 package com.advancedspark.serving.prediction.python
 
 import scala.collection.JavaConversions._
+
 import scala.collection.JavaConverters._
 import scala.collection.immutable.HashMap
 
@@ -35,12 +36,18 @@ import java.util.stream.Collectors
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
+import io.prometheus.client.hotspot.StandardExports
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+
+
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector	
 class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_python")
+  new StandardExports().register()
   
   val responseHeaders = new HttpHeaders();
 
@@ -53,12 +60,12 @@ class PredictionService {
       System.out.println(s"Updating source for ${name}:\n${source}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"data/${name}/")
+      val path = new java.io.File(s"store/${name}/")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"data/${name}/${name}.py")
+      val file = new java.io.File(s"store/${name}/${name}.py")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -85,7 +92,7 @@ class PredictionService {
     Try {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val filename = s"data/${name}/${name}.py"
+      val filename = s"store/${name}/${name}.py"
 
       val result = new PythonSourceCodeEvaluationCommand(name, filename, inputJson, "fallback", 10000, 20, 10).execute()
 

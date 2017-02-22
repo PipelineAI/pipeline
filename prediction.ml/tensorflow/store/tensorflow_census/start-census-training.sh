@@ -1,1 +1,1 @@
-python census-training.py --model_type=wide --model_dir=$MODELS_HOME/tensorflow_census/ --train_data=$DATASETS_HOME/tensorflow_census/census-train.csv --test_data=$DATASETS_HOME/tensorflow_census/census-test.csv
+python census_training.py --model_type=wide --model_dir=$STORE_HOME/tensorflow_census/ --train_data=$STORE_HOME/tensorflow_census/census-train.csv --test_data=$STORE_HOME/tensorflow_census/census_test.csv

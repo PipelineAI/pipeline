@@ -104,12 +104,11 @@ ENV \
   LOGS_HOME=/root/logs
 
 COPY run run
-COPY data/ data/
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY client/ client/
-COPY models/ models/
+COPY store/ store/
 
 RUN \
   cd client \
@@ -123,8 +122,7 @@ RUN \
   mkdir -p /root/tensorboard 
 
 ENV \
-  DATASETS_HOME=/root/data \
-  MODELS_HOME=/root/models
+  STORE_HOME=/root/store  
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 

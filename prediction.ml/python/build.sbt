@@ -25,8 +25,10 @@ val codahaleMetricsVersion = "3.1.2"
 val httpClientVersion = "4.5.2"
 val fluentHCVersion = "4.5.2"
 val prometheusSimpleClientVersion = "0.0.21"
+val prometheusSimpleClientHotspotVersion = "0.0.21"
 
 lazy val deps = Seq(
+  "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
   "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
   "org.jpmml" % "pmml-model" % "1.3.3",
   "org.jpmml" % "pmml-evaluator" % "1.3.2",
