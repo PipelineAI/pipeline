@@ -148,6 +148,10 @@ RUN \
 RUN \
   pip install flower
 
+# Temp workaround for running Celery worker as root
+ENV \
+  C_FORCE_ROOT=true
+
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
 
