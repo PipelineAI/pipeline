@@ -41,8 +41,8 @@ RUN \
 #  && conda install --yes -c anaconda mysql-connector-python \
 #  && conda install --yes pymysql
 
-RUN \
-  conda install --yes -c phumke airflow=1.6.2
+#RUN \
+#  conda install --yes -c phumke airflow=1.6.2
 
 RUN \
   echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
@@ -142,11 +142,9 @@ RUN \
   && ln -s ~/conf/hdfs-site.xml
 
 RUN \
-  pip install celery[redis] \
-  && pip install airflow[mysql]
-
-RUN \
-  pip install flower
+  pip install airflow[celery,mysql]==1.7.1.3 \
+  && pip install celery[redis] \
+  && pip install flower
 
 # Temp workaround for running Celery worker as root
 ENV \
