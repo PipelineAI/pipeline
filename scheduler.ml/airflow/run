@@ -18,4 +18,6 @@ airflow flower &
 
 airflow webserver &
 
+airflow worker &
+
 airflow scheduler 
