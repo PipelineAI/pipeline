@@ -38,6 +38,7 @@ import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 import io.prometheus.client.hotspot.StandardExports
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import io.prometheus.client.Counter
 
 
 @SpringBootApplication
@@ -51,6 +52,10 @@ class PredictionService {
   
   val responseHeaders = new HttpHeaders();
 
+  val requests = Counter.build()
+          .name("prediction_python_requests_total").help("Total requests.")
+          .labelNames("method").register();
+ 
   @RequestMapping(path=Array("/update-python/{name}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
@@ -90,6 +95,8 @@ class PredictionService {
   def evaluateSource(@PathVariable("name") name: String, @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
+      requests.labels("evaluate-python").inc();
+         
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
       val filename = s"store/${name}/${name}.py"
