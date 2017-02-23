@@ -142,7 +142,7 @@ RUN \
   && ln -s ~/conf/hdfs-site.xml
 
 RUN \
-  pip install airflow[celery,mysql]==1.7.1.3 \
+  pip install airflow==1.7.1.3 \
   && pip install celery[redis] \
   && pip install flower
 
