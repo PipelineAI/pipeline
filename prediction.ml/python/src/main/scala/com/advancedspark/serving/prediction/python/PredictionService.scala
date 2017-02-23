@@ -1,44 +1,27 @@
 package com.advancedspark.serving.prediction.python
 
-import scala.collection.JavaConversions._
-
-import scala.collection.JavaConverters._
-import scala.collection.immutable.HashMap
-
-import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.JavaConverters.mapAsJavaMapConverter
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 import scala.util.parsing.json.JSON
 
-import org.jpmml.evaluator.Evaluator
-import org.jpmml.evaluator.ModelEvaluatorFactory
-import org.jpmml.model.ImportFilter
-import org.jpmml.model.JAXBUtil
-import org.xml.sax.InputSource
-
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot._
-import org.springframework.boot.autoconfigure._
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.context.config.annotation._
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import org.springframework.context.annotation._
-import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.web.bind.annotation._
-import scala.util.{Try,Success,Failure}
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.stream.Stream
-import java.util.stream.Collectors
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
+
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 import io.prometheus.client.hotspot.StandardExports
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
-import io.prometheus.client.Counter
 
 
 @SpringBootApplication
@@ -52,10 +35,6 @@ class PredictionService {
   
   val responseHeaders = new HttpHeaders();
 
-  val requests = Counter.build()
-          .name("prediction_python_requests_total").help("Total requests.")
-          .labelNames("method").register();
- 
   @RequestMapping(path=Array("/update-python/{name}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
@@ -95,8 +74,6 @@ class PredictionService {
   def evaluateSource(@PathVariable("name") name: String, @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      requests.labels("evaluate-python").inc();
-         
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
       val filename = s"store/${name}/${name}.py"
