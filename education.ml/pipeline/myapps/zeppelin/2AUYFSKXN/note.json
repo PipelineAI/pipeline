@@ -292,7 +292,7 @@
     },
     {
       "title": "Generate Recommendations for (user, Item) Pairs",
-      "text": "val recommendationsDF \u003d model.transform(allDistinctUserItemPairsDF)\n  .as(\"recommendations\")\n  .cache()\n  \nz.show(recommendationsDF.sort($\"userId\", $\"itemId\"))",
+      "text": "val recommendationsDF \u003d model.transform(allDistinctUserItemPairsDF)\n  .as(\"recommendations\")\n  .cache()\n  .na.drop(Seq(\"prediction\"))\n\nz.show(recommendationsDF.sort($\"userId\", $\"itemId\"))",
       "dateUpdated": "Nov 18, 2016 12:34:33 PM",
       "config": {
         "colWidth": 12.0,
