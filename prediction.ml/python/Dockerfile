@@ -49,7 +49,7 @@ RUN \
 COPY store/ store/
 
 RUN \
-  cd source/python_balancescale \
+  cd store/python_balancescale \
   && python train_balancescale.py
 
 COPY run run
