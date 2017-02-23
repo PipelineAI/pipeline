@@ -4,8 +4,8 @@ WORKDIR /root
 
 ENV \
  BAZEL_VERSION=0.4.4 \
- TENSORFLOW_SERVING_VERSION=0.5.1
-# TENSORFLOW_VERSION=1.0.0
+ TENSORFLOW_SERVING_VERSION=0.5.1 \
+ TENSORFLOW_VERSION=1.0.0
 
 RUN \
   apt-get update \
@@ -21,6 +21,30 @@ RUN \
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
+#RUN \
+#  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+#  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+#  && sudo apt-get update \
+#  && sudo apt-get install -y sbt
+
+#RUN \
+#  sbt clean clean-files
+
+#RUN \
+#  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+#  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
+#  && rm apache-maven-3.3.9-bin.tar.gz
+
+#RUN \
+#  export MAVEN_HOME=/root/apache-maven-3.3.9/
+
+#RUN \
+#  export PATH=$MAVEN_HOME/bin:$PATH
+
+# TensorFlow Serving Home (not required on PATH)
+ENV \
+  TENSORFLOW_SERVING_HOME=/root/serving
+
 # Required by TensorFlow Serving
 RUN \
   apt-get update && sudo apt-get install -y \
@@ -33,6 +57,9 @@ RUN \
         libpng12-dev \
         libzmq3-dev \
         pkg-config \
+#        python-dev \
+#        python-numpy \
+#        python-pip \
         software-properties-common \
         swig \
         zip \
@@ -58,6 +85,15 @@ RUN \
 RUN \
   pip install grpcio
 
+#RUN \
+#  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
+
+RUN \
+  git clone -b v$TENSORFLOW_VERSION https://github.com/tensorflow/tensorflow
+
+#ENV \
+#  BAZELRC=/root/.bazelrc
+
 RUN \
   mkdir /root/bazel \
   && cd /root/bazel \
@@ -67,6 +103,26 @@ RUN \
   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
 
+RUN \
+  cd ~/tensorflow \
+  && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
+
+RUN \
+  cd ~/tensorflow \
+  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package 
+
+RUN \
+  cd ~/tensorflow \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+
+RUN \
+  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl 
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd ~/tensorflow \
+  && bazel build tensorflow/python/tools:optimize_for_inference
+
 # TensorFlow Serving
 RUN \
   git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
@@ -75,39 +131,20 @@ RUN \
 ENV \
   TENSORFLOW_SERVING_HOME=/root/serving
 
-ENV \
-  TENSORFLOW_HOME=/root/serving/tensorflow
-
 RUN \
-  cd $TENSORFLOW_HOME \
+  cd ${TENSORFLOW_SERVING_HOME}/tensorflow \
   && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package 
+#RUN \
+#  cd $TENSORFLOW_SERVING_HOME \
+#  && bazel build tensorflow_serving/...
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+#RUN \
+#  cd $TENSORFLOW_SERVING_HOME \
+#  && bazel test tensorflow_serving/...
 
-RUN \
-  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl 
-
-# Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:optimize_for_inference
-
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel build -c opt tensorflow_serving/...
-
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel test tensorflow_serving/...
-
-ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+#ENV \
+#  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 ENV \
   LOGS_HOME=/root/logs \
@@ -123,7 +160,7 @@ RUN \
   && mkdir -p $TENSORBOARD_SUMMARY_HOME 
 
 COPY data $DATA_HOME 
-COPY models $MODELS_HOME 
+COPY model $MODEL_HOME 
 COPY notebooks $NOTEBOOKS_HOME 
 COPY config/jupyter_notebook_config.py /root/.jupyter/
 COPY run run
