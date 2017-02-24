@@ -3,6 +3,8 @@ val globalSettings = Seq(
   scalaVersion := "2.11.8" 
 )
 
+(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
+
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-keyvalue")
                     .settings(globalSettings:_*)
@@ -16,9 +18,11 @@ val springBootVersion = "1.3.5.RELEASE"
 val springCloudVersion = "1.1.2.RELEASE" 
 val springCoreVersion = "4.3.0.RELEASE" 
 val codahaleMetricsVersion = "3.1.2"
-val prometheusSimpleClientVersion = "0.0.20"
+val prometheusSimpleClientVersion = "0.0.21"
+val prometheusSimpleClientHotspotVersion = "0.0.21"
 
 lazy val deps = Seq(
+  "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
   "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
   "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,
   "org.jblas" 	         % "jblas"          		   % jblasVersion,

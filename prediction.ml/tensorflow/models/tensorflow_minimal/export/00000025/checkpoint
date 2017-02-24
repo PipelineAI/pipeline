@@ -1,2 +1,0 @@
-model_checkpoint_path: "/root/pipeline/prediction.ml/tensorflow/models/tensorflow_minimal/export/00000025-tmp/export"
-all_model_checkpoint_paths: "/root/pipeline/prediction.ml/tensorflow/models/tensorflow_minimal/export/00000025-tmp/export"

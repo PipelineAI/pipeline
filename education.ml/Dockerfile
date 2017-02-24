@@ -50,9 +50,9 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.4.4 \ 
- TENSORFLOW_VERSION=0.12.1 \
+ TENSORFLOW_VERSION=1.0.0 \
 # TODO:  CHange this to master
- TENSORFLOW_SERVING_VERSION=master \
+ TENSORFLOW_SERVING_VERSION=0.5.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
 #   in order to properly install Bazel (used by TensorFlow) 
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
@@ -99,12 +99,45 @@ RUN \
  && apt-get install -y git \
  && apt-get install -y openssh-server \
  && apt-get install -y apache2 \
- && apt-get install -y libssl-dev \
+ && apt-get install -y libssl-dev 
+
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH 
+
+RUN \
+  conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
+
+RUN \
+  conda install --yes nltk networkx
+
+ENV \
+  TENSORFLOW_VERSION=1.0.0
+
+RUN \
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+
+RUN \
+  conda install --yes -c conda-forge py4j
+
+# Overcomes current limitation with conda matplotlib (1.5.1)
+RUN \
+  apt-get update \
+  && apt-get install -y python-qt4
 
 # iPython/Jupyter
- && apt-get install -y python-dev \
- && apt-get install -y python-pip \
- && pip install jupyter \
+RUN \
+# apt-get install -y python-dev \
+# && apt-get install -y python-pip \
+ pip install jupyter \
  && pip install ipyparallel \
 
 # Required by Webdis Redis REST Server
@@ -112,22 +145,22 @@ RUN \
 
 # Python Data Science Libraries
 # && pip install --upgrade gensim \
- && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
- && apt-get install -y python-pandas-lib \
- && apt-get install -y python-numpy \
- && apt-get install -y python-scipy \
- && apt-get install -y python-pandas \
- && apt-get install -y libgfortran3 \
- && apt-get install -y python-matplotlib \
- && apt-get install -y python-nltk \
- && apt-get install -y python-sklearn \
- && pip install --upgrade networkx \
+# && apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran \
+# && apt-get install -y python-pandas-lib \
+# && apt-get install -y python-numpy \
+# && apt-get install -y python-scipy \
+# && apt-get install -y python-pandas \
+# && apt-get install -y libgfortran3 \
+# && apt-get install -y python-matplotlib \
+# && apt-get install -y python-nltk \
+# && apt-get install -y python-sklearn \
+# && pip install --upgrade networkx \
  && apt-get install -y pkg-config \
  && apt-get install -y libgraphviz-dev \
 
 # Cython (Feather)
- && pip install --upgrade cython \
- && pip install --upgrade feather-format \
+# && pip install --upgrade cython \
+# && pip install --upgrade feather-format \
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
  && apt-get install -y python-mysqldb \
@@ -139,7 +172,7 @@ RUN \
 # Note:  This is a generically-tuned version of OpenBLAS for Linux
 #        For the best performance, follow the instructions here:  
 #           https://github.com/fommil/netlib-java#linux
- && apt-get install -y libatlas3-base libopenblas-base \
+# && apt-get install -y libatlas3-base libopenblas-base \
 # && update-alternatives --config libblas.so \
 # && update-alternatives --config libblas.so.3 \
 # && update-alternatives --config liblapack.so \
@@ -172,9 +205,9 @@ RUN \
  && apt-get install -y libmysql-java 
 
 # Python NetworkX/Tribe Demos
-RUN \ 
+#RUN \ 
 # pip install --upgrade tribe \
- pip install --upgrade seaborn 
+# pip install --upgrade seaborn 
 
 COPY pipeline/ pipeline/
 
@@ -506,13 +539,13 @@ ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd ~/serving/tensorflow \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+#RUN \
+#  cd ~/serving/tensorflow \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   mkdir -p /root/logs

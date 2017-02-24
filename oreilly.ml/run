@@ -1,0 +1,5 @@
+#!/bin/bash
+
+jupyter notebook "$@"
+
+tensorboard --logdir=/root/tensorboard-summary

@@ -6,7 +6,7 @@ apply plugin: 'signing'
 defaultTasks 'clean', 'build'
 
 group = 'com.soundcloud'
-version = project.properties.get('buildVersion') ?: '3.0-SNAPSHOT'
+version = project.properties.get('buildVersion') ?: '2.0.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-  compile 'com.netflix.hystrix:hystrix-core:1.4.23'
-  compile 'io.prometheus:simpleclient:0.0.13'
+  compile 'com.netflix.hystrix:hystrix-core:1.5.9'
+  compile 'io.prometheus:simpleclient:0.0.21'
 }
 
 ext.sharedManifest = manifest {

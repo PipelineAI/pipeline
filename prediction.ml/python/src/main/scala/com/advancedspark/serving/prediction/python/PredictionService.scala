@@ -1,46 +1,37 @@
 package com.advancedspark.serving.prediction.python
 
-import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
-import scala.collection.immutable.HashMap
-
-import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.JavaConverters.mapAsJavaMapConverter
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 import scala.util.parsing.json.JSON
 
-import org.jpmml.evaluator.Evaluator
-import org.jpmml.evaluator.ModelEvaluatorFactory
-import org.jpmml.model.ImportFilter
-import org.jpmml.model.JAXBUtil
-import org.xml.sax.InputSource
-
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot._
-import org.springframework.boot.autoconfigure._
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.context.config.annotation._
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
-import org.springframework.context.annotation._
-import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.web.bind.annotation._
-import scala.util.{Try,Success,Failure}
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.stream.Stream
-import java.util.stream.Collectors
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
+
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
+
+import io.prometheus.client.hotspot.StandardExports
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector	
 class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_python")
+  new StandardExports().register()
   
   val responseHeaders = new HttpHeaders();
 
@@ -53,12 +44,12 @@ class PredictionService {
       System.out.println(s"Updating source for ${name}:\n${source}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"data/${name}/")
+      val path = new java.io.File(s"store/${name}/")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"data/${name}/${name}.py")
+      val file = new java.io.File(s"store/${name}/${name}.py")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -85,7 +76,7 @@ class PredictionService {
     Try {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val filename = s"data/${name}/${name}.py"
+      val filename = s"store/${name}/${name}.py"
 
       val result = new PythonSourceCodeEvaluationCommand(name, filename, inputJson, "fallback", 10000, 20, 10).execute()
 

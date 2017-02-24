@@ -7,12 +7,8 @@ ENV \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 \
-# BAZEL_VERSION=0.4.2 \
- TENSORFLOW_VERSION=0.12.1 \
  BAZEL_VERSION=0.4.4 \
-# Note:  This must be master due to an issue with the bazel build
-#        See https://github.com/tensorflow/tensorflow/issues/4216
- TENSORFLOW_SERVING_VERSION=0.5.0
+ TENSORFLOW_SERVING_VERSION=0.5.1
  
 # TensorFlow Serving Home (not required on PATH)
 ENV \
@@ -88,15 +84,18 @@ ENV \
   PATH=/opt/conda/bin:$PATH
 
 RUN \
-  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
+
+ENV \
+  TENSORFLOW_VERSION=1.0.0
+
+RUN \
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   apt-get update \
   && apt-get install -y python-qt4
-
-RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
 
 RUN \
   mkdir -p /root/logs
@@ -105,12 +104,11 @@ ENV \
   LOGS_HOME=/root/logs
 
 COPY run run
-COPY data/ data/
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY client/ client/
-COPY models/ models/
+COPY store/ store/
 
 RUN \
   cd client \
@@ -124,8 +122,7 @@ RUN \
   mkdir -p /root/tensorboard 
 
 ENV \
-  DATASETS_HOME=/root/data \
-  MODELS_HOME=/root/models
+  STORE_HOME=/root/store  
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 

@@ -14,7 +14,7 @@ ENV \
   PATH=/opt/conda/bin:$PATH 
 
 RUN \
-  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 # Overcomes current limitation with conda matplotlib (1.5.1)
 RUN \

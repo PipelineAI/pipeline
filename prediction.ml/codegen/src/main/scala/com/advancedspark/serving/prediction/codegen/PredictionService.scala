@@ -34,16 +34,20 @@ import java.util.stream.Stream
 import java.util.stream.Collectors
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import io.prometheus.client.hotspot.StandardExports
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector	
 class PredictionService {
   val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
   
   HystrixPrometheusMetricsPublisher.register("prediction_codegen")
-  
+  new StandardExports().register()
+
   val responseHeaders = new HttpHeaders();
 
   @RequestMapping(path=Array("/update-codegen/{className}"),
@@ -55,12 +59,12 @@ class PredictionService {
       System.out.println(s"Generating source for ${className}:\n${classSource}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"data/${className}/")
+      val path = new java.io.File(s"store/${className}/")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"data/${className}/${className}.java")
+      val file = new java.io.File(s"store/${className}/${className}.java")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -98,7 +102,7 @@ class PredictionService {
 
       val result = predictorOption match {
         case None => {
-          val classFileName = s"data/${className}/${className}.java"
+          val classFileName = s"store/${className}/${className}.java"
 
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(classFileName))
