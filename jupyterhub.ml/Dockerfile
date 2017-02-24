@@ -34,12 +34,32 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
 
-ENV \
-  TENSORFLOW_VERSION=1.0.0
+RUN \
+  cd $TENSORFLOW_HOME \
+  && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
 
 RUN \
-  pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+  cd $TENSORFLOW_HOME \
+  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+
+# Utility for optimizing/simplifying models for inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
+
+ENV \
+ TENSORFLOW_VERSION=1.0.0
+
+#RUN \
+#  pip install --ignore-installed --upgrade pip setuptools \
+#  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+
+RUN \
+  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 RUN \
   conda install --yes -c conda-forge py4j
