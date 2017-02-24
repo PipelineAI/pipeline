@@ -34,6 +34,27 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
 
+ENV \
+ BAZEL_VERSION=0.4.4
+
+RUN \
+  mkdir /root/bazel \
+  && cd /root/bazel \
+  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+  && chmod +x bazel-*.sh \
+  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+ENV \
+  TENSORFLOW_HOME=/root/tensorflow
+
+ENV \
+ TENSORFLOW_VERSION=1.0.0
+
+RUN \
+  git clone -b v$TENSORFLOW_VERSION https://github.com/tensorflow/tensorflow.git
+
 RUN \
   cd $TENSORFLOW_HOME \
   && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
@@ -50,9 +71,6 @@ RUN \
 #RUN \
 #  cd $TENSORFLOW_HOME \
 #  && bazel build tensorflow/python/tools:optimize_for_inference
-
-ENV \
- TENSORFLOW_VERSION=1.0.0
 
 #RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
