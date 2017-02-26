@@ -2,11 +2,6 @@ FROM ubuntu:14.04
 
 WORKDIR /root
 
-ENV \
- BAZEL_VERSION=0.4.4 \
- TENSORFLOW_SERVING_VERSION=0.5.1
-# TENSORFLOW_VERSION=1.0.0
-
 RUN \
   apt-get update \
   && apt-get install -y software-properties-common \
@@ -58,6 +53,9 @@ RUN \
 RUN \
   pip install grpcio
 
+ENV \
+ BAZEL_VERSION=0.4.4 
+
 RUN \
   mkdir /root/bazel \
   && cd /root/bazel \
@@ -66,6 +64,9 @@ RUN \
   && chmod +x bazel-*.sh \
   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+ENV \
+ TENSORFLOW_SERVING_VERSION=0.5.1 
 
 # TensorFlow Serving
 RUN \
@@ -80,34 +81,37 @@ ENV \
 
 RUN \
   cd $TENSORFLOW_HOME \
+  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+
+RUN \
+  cd $TENSORFLOW_SERVING_HOME \
+  && bazel build tensorflow_serving/...
+
+ENV \
+  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+
+RUN \
+  cd $TENSORFLOW_HOME \
   && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package 
+  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 
 RUN \
   cd $TENSORFLOW_HOME \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
-
-RUN \
-  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl 
 
 # Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
   && bazel build tensorflow/python/tools:optimize_for_inference
 
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel build -c opt tensorflow_serving/...
-
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel test tensorflow_serving/...
-
 ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+ TENSORFLOW_VERSION=1.0.0
+
+RUN \
+  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 ENV \
   LOGS_HOME=/root/logs \
