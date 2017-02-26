@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: zuul 
+  labels:
+    app: zuul 
+spec:
+  replicas: 1
+  selector:
+    name: zuul 
+  template:
+    metadata:
+      labels:
+        name: zuul 
+    spec:
+      containers:
+      - name: zuul 
+        image: docker.io/fluxcapacitor/explore-zuul
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        ports:
+        - containerPort: 8080 
+      nodeSelector:
+        prediction: "true"

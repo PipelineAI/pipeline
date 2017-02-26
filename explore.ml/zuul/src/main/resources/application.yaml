@@ -1,0 +1,8 @@
+zuul:
+  routes:
+    canary:
+      path: /pmml/**
+zuul:
+  routes:
+    canary:
+      url: http://prediction-pmml:9040 
