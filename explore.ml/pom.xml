@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2015 Red Hat, Inc
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <version>1.0.0</version>
+ 
+    <groupId>io.fabric8.kubeflix</groupId>
+    <artifactId>zuul-server</artifactId>
+    <name>Kubeflix :: Examples :: Zuul Proxy</name>
+
+    <properties>
+        <java.version>1.8</java.version>
+<!--
+        <docker.from>docker.io/java:8u40</docker.from>
+        <fabric8.dockerUser>fabric8/</fabric8.dockerUser>
+        <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
+        <docker.port.container.http>8080</docker.port.container.http>
+        <fabric8.service.name>${project.artifactId}</fabric8.service.name>
+        <fabric8.service.port>80</fabric8.service.port>
+        <fabric8.service.containerPort>8080</fabric8.service.containerPort>
+        <fabric8.service.type>LoadBalancer</fabric8.service.type>
+
+        <fabric8.readinessProbe.httpGet.path>/health</fabric8.readinessProbe.httpGet.path>
+        <fabric8.readinessProbe.httpGet.port>8080</fabric8.readinessProbe.httpGet.port>
+        <fabric8.readinessProbe.initialDelaySeconds>5</fabric8.readinessProbe.initialDelaySeconds>
+        <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
+-->
+    </properties>
+
+    <dependencies>
+       <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.2</version>
+       </dependency>
+<!--
+       <dependency>
+          <groupId>io.fabric8</groupId>
+          <artifactId>kubernetes-client</artifactId>
+          <version>1.4.20</version>
+       </dependency>
+-->
+       <dependency>
+          <groupId>io.fabric8</groupId>
+          <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
+          <version>0.1.4</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <version>1.4.2.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-zuul</artifactId>
+          <version>1.2.5.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+          <version>1.4.2.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                    </jvmArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!--
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>${fabric8.maven.plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>${docker.image}</name>
+                            <build>
+                                <from>${docker.from}</from>
+                                <assembly>
+                                    <basedir>/app</basedir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-jar</arg>
+                                        <arg>/app/${project.build.finalName}.jar</arg>
+                                    </exec>
+                                </entryPoint>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>fmp</id>
+                        <goals>
+                            <goal>resource</goal>
+                            <goal>helm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+-->
+        </plugins>
+    </build>
+<!--
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>${fabric8.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>fmp</id>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>helm</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+-->
+</project>

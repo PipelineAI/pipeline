@@ -1,0 +1,8 @@
+zuul:
+  service:
+    name: ${project.artifactId}
+
+loanbroker-credit-bureau:
+  ribbon:
+      Namespace: default
+      PortName: myPort
