@@ -52,7 +52,7 @@
           <version>1.2.5.RELEASE</version>
         </dependency>
     </dependencies>
-
+<!--
     <build>
         <plugins>
             <plugin>
@@ -75,4 +75,5 @@
             </plugin>
         </plugins>
     </build>
+-->
 </project>
