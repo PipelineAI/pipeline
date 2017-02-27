@@ -1,3 +1,3 @@
-hadoop fs -copyFromLocal /root/data/hdfs-test/ /hdfs-test
+hadoop fs -copyFromLocal /root/data/hdfs/ /hdfs
 
 python hdfs-test.py
