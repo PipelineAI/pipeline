@@ -20,12 +20,12 @@ import org.springframework.stereotype.Controller;
 @EnableDiscoveryClient
 @Controller
 @EnableZuulProxy
-public class GatewayProxyApplication {
+public class ZuulProxyApplication {
 //    {
 //      new StandardExports().register();
 //    }
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(GatewayProxyApplication.class).web(true).run(args);
+        new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
     }
 }
