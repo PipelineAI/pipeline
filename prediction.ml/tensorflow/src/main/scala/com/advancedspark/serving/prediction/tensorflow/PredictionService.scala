@@ -70,7 +70,7 @@ class PredictionService {
       val inputs = new HashMap[String,Any]()
         //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new TensorflowCommand("127.0.0.1", 9000, modelName, inputs, "fallback", 25, 20, 10)
+      val results = new TensorflowGrpcCommand("127.0.0.1", 9000, modelName, inputs, "fallback", 25, 20, 10)
         .execute()
 
       s"""{"results":[${results}]"""

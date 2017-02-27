@@ -3,12 +3,9 @@ package com.advancedspark.serving.prediction.tensorflow
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 import com.netflix.hystrix.HystrixCommandKey
-import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixCommandProperties
+import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
-import org.bytedeco.javacpp.tensorflow.Tensor
-import java.nio.FloatBuffer
-import org.bytedeco.javacpp.tensorflow.TensorShape
 
 class TensorflowNativeCommand(host: String, port: Int, name: String, inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)

@@ -7,11 +7,11 @@ import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolProperties
 
-object TensorflowCommandOps {
+object TensorflowGrpcCommandOps {
     val client = new com.fluxcapacitor.TensorflowPredictionClientGrpc("127.0.0.1", 9000, "tensorflow_minimal");
 }
 
-class TensorflowCommand(host: String, port: Int, name: String, inputs: Map[String, Any],
+class TensorflowGrpcCommand(host: String, port: Int, name: String, inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
@@ -33,7 +33,7 @@ class TensorflowCommand(host: String, port: Int, name: String, inputs: Map[Strin
     )
 {
   def run(): String = {
-    val results = TensorflowCommandOps.client.predict("")
+    val results = TensorflowGrpcCommandOps.client.predict("")
 
     s"""${results}"""
   }

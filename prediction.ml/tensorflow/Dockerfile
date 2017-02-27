@@ -124,6 +124,11 @@ RUN \
 ENV \
   STORE_HOME=/root/store  
 
+#RUN \
+#  cd $STORE_HOME/tensorflow_inception \
+#  && wget https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip \
+#  && unzip inception5h.zip
+
 EXPOSE 5678 6006 9000 9001 9002 9040 
 
 CMD ["supervise", "."]
