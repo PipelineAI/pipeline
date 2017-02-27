@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Required by Tensorflow
+export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+
+tensorboard --port=36006 --logdir=$TENSORBOARD_HOME &
+
+jupyter notebook "$@" 
+
+/usr/sbin/sshd
+
+start-dfs.sh 
+
+airflow initdb
+
+airflow webserver &
+
+airflow scheduler 
