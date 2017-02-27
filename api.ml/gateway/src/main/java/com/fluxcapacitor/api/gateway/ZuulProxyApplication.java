@@ -8,12 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 
-//import io.prometheus.client.hotspot.StandardExports;
-//import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
-//import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
-
-//@EnablePrometheusEndpoint
-//@EnableSpringBootMetricsCollector
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -21,11 +15,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 @EnableZuulProxy
 public class ZuulProxyApplication {
-//    {
-//      new StandardExports().register();
-//    }
 
-    public static void main(String[] args) {
-        new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
-    }
+  public static void main(String[] args) {
+    new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
+  }
 }

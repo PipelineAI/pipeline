@@ -21,11 +21,16 @@
           <artifactId>simpleclient_hotspot</artifactId>
           <version>0.0.21</version>
        </dependency>
+<!--
+  Note:  Including this throws the following error:
+         https://github.com/spring-projects/spring-boot/issues/8186
+
        <dependency>
           <groupId>io.prometheus</groupId>
           <artifactId>simpleclient_spring_boot</artifactId>
           <version>0.0.21</version>
        </dependency>
+-->
        <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>
@@ -52,7 +57,7 @@
           <version>1.2.5.RELEASE</version>
         </dependency>
     </dependencies>
-<!--
+
     <build>
         <plugins>
             <plugin>
@@ -75,5 +80,4 @@
             </plugin>
         </plugins>
     </build>
--->
 </project>
