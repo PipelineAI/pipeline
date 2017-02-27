@@ -1,4 +1,4 @@
-package com.fluxcapacitor.explore.zuul;
+package com.fluxcapacitor.api.gateway;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -8,14 +8,24 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 
+import io.prometheus.client.hotspot.StandardExports;
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @Controller
 @EnableZuulProxy
-public class ZuulProxyApplication {
+@EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector
+public class GatewayProxyApplication {
+    {
+      new StandardExports().register();
+    }
+
     public static void main(String[] args) {
-        new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
+        new SpringApplicationBuilder(GatewayProxyApplication.class).web(true).run(args);
     }
 }

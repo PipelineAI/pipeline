@@ -7,15 +7,30 @@
     <modelVersion>4.0.0</modelVersion>
     <version>1.0.0</version>
  
-    <groupId>com.fluxcapacitor.explore.zuul</groupId>
-    <artifactId>zuul-server</artifactId>
-    <name>Zuul Proxy</name>
+    <groupId>com.fluxcapacitor.api.gateway</groupId>
+    <artifactId>gateway-server</artifactId>
+    <name>Gateway Server</name>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
+       <dependency>
+          <groupId>io.prometheus</groupId>
+          <artifactId>simpleclient_hotspot</artifactId>
+          <version>0.0.21</version>
+       </dependency>
+       <dependency>
+          <groupId>io.prometheus</groupId>
+          <artifactId>simpleclient_spring_boot</artifactId>
+          <version>0.0.21</version>
+       </dependency>
+       <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.2</version>
+       </dependency>
        <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>

@@ -1,21 +1,25 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: zuul 
+  name: gateway 
   labels:
-    app: zuul 
+    app: gateway
 spec:
   replicas: 1
   selector:
-    name: zuul 
+    name: gateway
   template:
     metadata:
       labels:
-        name: zuul 
+        name: gateway 
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "8080"
     spec:
       containers:
       - name: zuul 
-        image: docker.io/fluxcapacitor/explore-zuul
+        image: docker.io/fluxcapacitor/api-gateway
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
