@@ -1,11 +1,9 @@
 #!/bin/bash
 
 # Required by Tensorflow
-export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+tensorboard --port=46006 --logdir=$TENSORBOARD_HOME &
 
-tensorboard --port=36006 --logdir=$TENSORBOARD_HOME &
-
-jupyter notebook "$@" 
+jupyter notebook "$@" &
 
 /usr/sbin/sshd
 

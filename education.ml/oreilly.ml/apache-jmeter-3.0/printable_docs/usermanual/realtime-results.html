@@ -1,0 +1,748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="author" value="Apache JMeter developers">
+<meta name="email" value="dev@jmeter.apache.org">
+
+<title>Apache JMeter - User's Manual: Live Statistics</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="best-practices.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="generating-dashboard.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="realtime-results"><strong>17. Real-time results</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Since JMeter 2.13 you can get real-time results sent to a backend through the 
+
+<a href="component_reference.html#Backend_Listener">
+Backend Listener
+</a>
+ using potentially any backend (JDBC, JMS, Webservice, …)
+by providing a class which implements 
+<a href="../api/org/apache/jmeter/visualizers/backend/AbstractBackendListenerClient.html">
+AbstractBackendListenerClient
+</a>
+.
+<br>
+
+
+JMeter ships with a GraphiteBackendListenerClient which allows you to send metrics to a Graphite Backend.
+<br>
+
+
+This feature provides:
+
+<ul>
+
+
+<li>
+Live results
+</li>
+
+
+<li>
+Nice graphs for metrics
+</li>
+
+
+<li>
+Ability to compare 2 or more load tests
+</li>
+
+
+<li>
+Storing monitoring data as long as JMeter results in the same backend
+</li>
+
+
+<li>
+…
+</li>
+
+
+</ul>
+
+In this document we will present the configuration setup to graph and historize the data in 2 different backends:
+
+<ul>
+
+
+<li>
+InfluxDB
+</li>
+
+
+<li>
+Graphite
+</li>
+
+
+</ul>
+
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="metrics"><strong>17.1 Metrics exposed</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="metrics-threads"><strong>17.1.1 Thread/Virtual Users metrics</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    Thread metrics are the following:
+    
+</p>
+<dl>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;test.minAT</tt>
+</dt>
+<dd>
+Min active threads
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;test.maxAT</tt>
+</dt>
+<dd>
+Max active threads
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;test.meanAT</tt>
+</dt>
+<dd>
+Mean active threads
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;test.startedT</tt>
+</dt>
+<dd>
+Started threads
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;test.endedT</tt>
+</dt>
+<dd>
+Finished threads
+</dd>
+
+    
+</dl>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="metrics-response-times"><strong>17.1.2 Response times metrics</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Response related metrics are the following:
+</p>
+<dl>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ok.count</tt>
+</dt>
+
+      
+<dd>
+Number of successful responses for sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.h.count</tt>
+</dt>
+
+      
+<dd>
+Server hits per seconds, this metric cumulates Sample Result and Sub results (if using Transaction Controller, "Generate parent sampler" should be unchecked)
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ok.min</tt>
+</dt>
+
+      
+<dd>
+Min response time for successful responses of sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ok.max</tt>
+</dt>
+
+      
+<dd>
+Max response time for successful responses of sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ok.pct&lt;percentileValue&gt;</tt>
+</dt>
+
+      
+<dd>
+Percentile computed for successful responses of sampler name. There will be one metric for each calculated value.
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ko.count</tt>
+</dt>
+
+      
+<dd>
+Number of failed responses for sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ko.min</tt>
+</dt>
+
+      
+<dd>
+Min response time for failed responses of sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ko.max</tt>
+</dt>
+
+      
+<dd>
+Max response time for failed responses of sampler name
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.ko.pct&lt;percentileValue&gt;</tt>
+</dt>
+
+      
+<dd>
+Percentile computed for failed responses of sampler name. There will be one metric for each calculated value.
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.a.count</tt>
+</dt>
+
+      
+<dd>
+Number of responses for sampler name (sum of ok.count and ko.count)
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.a.min</tt>
+</dt>
+
+      
+<dd>
+Min response time for responses of sampler name (min of ok.count and ko.count)
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.a.max</tt>
+</dt>
+
+      
+<dd>
+Max response time for responses of sampler name (max of ok.count and ko.count)
+</dd>
+
+      
+<dt>
+<tt class="code">&lt;rootMetricsPrefix&gt;&lt;samplerName&gt;.a.pct&lt;percentileValue&gt;</tt>
+</dt>
+
+      
+<dd>
+Percentile computed for responses of sampler name. There will be one metric for each calculated value. (calculated on the totals for OK and failed samples)
+</dd>
+
+    
+</dl>
+<p>
+
+    The default 
+<tt class="code">percentiles</tt>
+ setting on the 
+<a href="../usermanual/component_reference.html#Backend_Listener">Backend Listener</a>
+ is "90;95;99", 
+    i.e. the 3 percentiles 90%, 95% and 99%.
+    
+</p>
+<p>
+
+    The 
+<a href="http://graphite.readthedocs.io/en/latest/feeding-carbon.html#step-1-plan-a-naming-hierarchy">
+Graphite naming hierarchy
+</a>
+
+    uses dot (".") to separate elements. This could be confused with decimal percentile values.
+    JMeter converts any such values, replacing dot (".") with underscore ("-"). 
+    For example, "
+<tt class="code">99.9</tt>
+" becomes "
+<tt class="code">99_9</tt>
+"
+    
+</p>
+<p>
+
+    By default JMeter sends metrics for all samplers accumulated under the samplerName "
+<tt class="code">all</tt>
+".
+    If the Backend Listener 
+<tt class="code">samplersList</tt>
+ is configured, then JMeter also sends the metrics
+    for the matching sample names unless 
+<tt class="code">summaryOnly=true</tt>
+
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="jmeter-configuration"><strong>17.2 JMeter configuration</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    To make JMeter send metrics to backend add a 
+<a href="./component_reference.html#Backend_Listener">
+BackendListener
+</a>
+ using the GraphiteBackendListenerClient.
+    
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='902' height='341' src="../../docs/images/screenshots/backend_listener.png"/><br>
+<font size="-1">Graphite configuration
+</font></td></tr></table></p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="influxdb"><strong>17.2 InfluxDB</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+InfluxDB is an open-source, distributed, time-series database that allows to 
+easily store metrics.
+Installation and configuration is very easy, read this for more details 
+<a href="http://influxdb.com/docs/v0.8/introduction/installation.html" target="_blank">
+InfluxDB documentation
+</a>
+.
+<br>
+
+
+InfluxDB data can be easily viewed in a browser through either 
+<a href="https://github.com/hakobera/influga" target="_blank">
+Influga
+</a>
+ or 
+<a href="http://grafana.org/" target="_blank">
+Grafana
+</a>
+.
+We will use Grafana in this case.
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="influxdb_configuration"><strong>17.2.1 InfluxDB graphite listener configuration</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+To enable Graphite listener in InfluxDB, edit files 
+<tt class="code">/opt/influxdb/shared/config.toml</tt>
+ or 
+<tt class="code">/usr/local/etc/influxdb.conf</tt>
+,
+    find "
+<tt class="code">input_plugins.graphite</tt>
+" and set this:
+    
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+# Configure the graphite api
+[input_plugins.graphite]
+enabled = true
+address = &quot;0.0.0.0&quot; # If not set, is actually set to bind-address.
+port = 2003
+database = &quot;jmeter&quot;  # store graphite data in this database
+# udp_enabled = true # enable udp interface on the same port as the tcp interface
+    </pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+
+    For later versions of InfluxDb (e.g. 0.12), replace 
+<tt class="code">[input_plugins.graphite]</tt>
+ with 
+<tt class="code">[[graphite]]</tt>
+
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="influxdb_db_configuration"><strong>17.2.2 InfluxDB database configuration</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Connect to InfluxDB admin console and create two databases:
+    
+<ul>
+
+        
+<li>
+grafana : Used by Grafana to store the dashboards we will create
+</li>
+
+        
+<li>
+jmeter : Used by InfluxDB to store the data sent to Graphite Listener as per database="jmeter" config
+        element in 
+<tt class="code">influxdb.conf</tt>
+ or 
+<tt class="code">config.toml</tt>
+</li>
+
+    
+</ul>
+
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="grafana_configuration"><strong>17.2.3 Grafana configuration</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    Installing grafana is just a matter of putting the unzipped bundle behind an Apache HTTP server.
+<br>
+
+
+    Read 
+<a href="http://grafana.org/docs/" targer="_blank">
+documentation
+</a>
+ for more details.
+    Open 
+<tt class="code">config.js</tt>
+ file and find 
+<tt class="code">datasources</tt>
+ element, and edit it like this:
+<br>
+
+
+    
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+datasources: {
+  influxdb: {
+    type: 'influxdb',
+    url: &quot;http://localhost:8086/db/jmeter&quot;,
+    username: 'root',
+    password: 'root',
+  },
+  grafana: {
+    type: 'influxdb',
+    url: &quot;http://localhost:8086/db/grafana&quot;,
+    username: 'root',
+    password: 'root',
+    grafanaDB: true
+  },
+},
+    </pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+    Note that grafana has "
+<tt class="code">grafanaDB:true</tt>
+". Also note that here we use 
+<tt class="code">root</tt>
+ user for simplicity
+    It is better to dedicate a special user with restricted rights.
+    
+</td></tr>
+</table>
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1265' height='581' src="../../docs/images/screenshots/grafana_dashboard.png"/><br>
+<font size="-1">Grafana dashboard
+</font></td></tr></table></p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="graphite"><strong>17.3 Graphite</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+TODO.
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="best-practices.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="generating-dashboard.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: realtime-results.xml 1457581 2013-03-17 22:58:08Z sebb $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="author" value="JMeter developers">
+<meta name="email" value="dev AT jmeter.apache.org">
+
+<title>Apache JMeter - Changes</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="./../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="./../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<strong>Changes</strong></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<style type="text/css">
+
+h2 { color: #960000; }
+h3 { color: #960000; }
+
+</style>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+
+<b>
+This page details the changes made in the current version only.
+</b>
+
+
+<br>
+
+
+Earlier changes are detailed in the 
+<a href="changes_history.html">
+History of Previous Changes
+</a>
+.
+
+</td></tr>
+</table>
+</p>
+<h1>
+Version 3.0
+</h1>
+<ul>
+
+
+<li>
+<a href="#New and Noteworthy">
+New and Noteworthy
+</a>
+</li>
+
+
+<li>
+<a href="#Known bugs">
+Known bugs
+</a>
+</li>
+
+
+<li>
+<a href="#Incompatible changes">
+Incompatible changes
+</a>
+</li>
+
+
+<li>
+<a href="#Bug fixes">
+Bug fixes
+</a>
+</li>
+
+
+<li>
+<a href="#Improvements">
+Improvements
+</a>
+</li>
+
+
+<li>
+<a href="#Non-functional changes">
+Non-functional changes
+</a>
+</li>
+
+
+<li>
+<a href="#Thanks">
+Thanks
+</a>
+</li>
+
+
+
+</ul>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="New and Noteworthy">New and Noteworthy</a></big></big></b></font></td></tr></table><br/>
+<br/><br/><table width="90%" cellpadding="2" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big>Test plan creation and debugging improvements</big></b></font></td></tr></table><br/>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New Search Feature in View Results Tree to allow searching for text / regexp in Request/Responses/Headers/Cookies/… This will ease correlation and Test plans creation</font></td></tr></table>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='846' height='613' src="./../docs/images/screenshots/changes/3.0/view_results_tree_search_feature.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New JSON Post Processor to better extract data from JSON content using user friendly JSON-PATH syntax</font></td></tr></table>
+<p>
+JSON is now a first class citizen in JMeter with the introduction of a new 
+<a href="http://goessner.net/articles/JsonPath/" target="_blank">
+JSONPath
+</a>
+ post processor. 
+This post processor is very similar to Regular Expression Post Processor but is well suited for JSON code.
+It is based on 
+<a href="https://github.com/jayway/JsonPath" target="_blank">
+Jayway JSON Path library
+</a>
+ 
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='829' height='223' src="./../docs/images/screenshots/changes/3.0/json_path_extractor.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New validation feature, in one click run a selection of Thread Groups with  user, no pause and  iteration</font></td></tr></table>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='295' height='629' src="./../docs/images/screenshots/changes/3.0/thread_group_validate.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">JSR223 Test Elements do not require a Cache Compilation Key anymore</font></td></tr></table>
+<p>
+Just check 
+<tt class="code">Cache compiled script if available</tt>
+ checkbox and the elements (Pre-Processor, Post-Processor, Assertions, Listeners, …) 
+will pre-compile the script and cache the compiled code if the underlying language supports it
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='991' height='606' src="./../docs/images/screenshots/changes/3.0/jsr223_cache_compiled.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Nashorn can now be used as Javascript engine providing better performance and easier usage</font></td></tr></table>
+<a target="_blank" href="http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html">
+Nashorn
+</a>
+<tt class="code">user.properties</tt>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>javascript.use_rhino=false</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+Nashorn can be used with Java 8 in the following elements:
+
+</p>
+<ul>
+
+
+<li>
+IfController
+</li>
+
+
+<li>
+JSR223 Test elements with 
+<tt class="code">javascript</tt>
+ language selected
+</li>
+
+
+<li>
+<tt class="code">__javaScript</tt>
+ function
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Jexl3 has been integrated. It provides new scripting features and much better documentation</font></td></tr></table>
+<a href="http://commons.apache.org/proper/commons-jexl/" target="_blank">
+JEXL3
+</a>
+<tt class="code">__jexl3</tt>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Simplified HTTP Request UI</font></td></tr></table>
+<p>
+A new "
+<tt class="code">Advanced</tt>
+" tab has been added to HTTP Request to simplify configuration. The file upload feature has been moved into a dedicated tab.
+This increases the space available for parameters in UI and simplifies the UX.
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='895' height='674' src="./../docs/images/screenshots/changes/3.0/http_request_basic.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='880' height='299' src="./../docs/images/screenshots/changes/3.0/http_request_advanced.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">HTTP Request Defaults improvements</font></td></tr></table>
+<p>
+You can now configure Source Address (IP Spoofing like feature) and "
+<tt class="code">Save response as MD5 hash</tt>
+" in Advanced Tab
+
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='893' height='259' src="./../docs/images/screenshots/changes/3.0/http_request_defaults_advanced.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><br/><table width="90%" cellpadding="2" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big>Reporting improvements</big></b></font></td></tr></table><br/>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New Reporting Feature generating dynamic Graphs in HTML pages (APDEX, Summary report and Graphs)</font></td></tr></table>
+<p>
+A dynamic HTML report can now be generated either at the end of a load test or from a result file whenever you want.
+See 
+<a href="./usermanual/generating-dashboard.html" target="_blank">
+Generating dashboard
+</a>
+ for more details. 
+This report provides the following metrics:
+
+</p>
+<ul>
+
+    
+<li>
+<a href="https://en.wikipedia.org/wiki/Apdex" target="_blank">
+APDEX
+</a>
+ (Application Performance Index) table that computes the APDEX based on configurable values for tolerated and satisfied thresholds
+</li>
+
+    
+<li>
+A request summary graph showing the Success and failed transaction percentage: 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1658' height='650' src="./../docs/images/screenshots/changes/3.0/report_apdex_and_summary.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+    
+<li>
+A Statistics table providing in one table a summary of all metrics per transaction including 3 configurable percentiles : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1376' height='433' src="./../docs/images/screenshots/changes/3.0/report_statistics.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+    
+<li>
+An error table providing a summary of all errors and their proportion in the total requests : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1344' height='455' src="./../docs/images/screenshots/changes/3.0/report_errors.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+    
+<li>
+Zoomable chart where you can check/uncheck every transaction to show/hide it for:
+        
+<ul>
+
+            
+<li>
+Response times Over Time : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1398' height='566' src="./../docs/images/screenshots/changes/3.0/report_response_times_over_time.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Bytes throughput Over Time : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1373' height='543' src="./../docs/images/screenshots/changes/3.0/report_bytes_throughput_over_time.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Latencies Over Time : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1373' height='547' src="./../docs/images/screenshots/changes/3.0/report_latencies_over_time.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Hits per second : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1375' height='552' src="./../docs/images/screenshots/changes/3.0/report_hits_per_second.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Response codes per second : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1380' height='558' src="./../docs/images/screenshots/changes/3.0/report_codes_per_second.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Transactions per second : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1372' height='577' src="./../docs/images/screenshots/changes/3.0/report_transactions_per_second.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Response Time vs Request per second : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1380' height='545' src="./../docs/images/screenshots/changes/3.0/report_response_time_vs_request.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Latency vs Request per second : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1373' height='543' src="./../docs/images/screenshots/changes/3.0/report_latencies_vs_request.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Response times percentiles : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1374' height='551' src="./../docs/images/screenshots/changes/3.0/report_response_time_percentiles.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Active Threads Over Time : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1370' height='542' src="./../docs/images/screenshots/changes/3.0/report_active_threads_over_time.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Times vs Threads : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1373' height='567' src="./../docs/images/screenshots/changes/3.0/report_time_vs_threads.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+            
+<li>
+Response Time Distribution : 
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='1373' height='549' src="./../docs/images/screenshots/changes/3.0/report_response_time_distribution.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+</li>
+
+        
+</ul>
+
+	
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">GraphiteBackendListener has a new Server Hits metric</font></td></tr></table>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Summariser displays a more readable duration</font></td></tr></table>
+<tt class="code">hours:minutes:seconds</tt>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+Generate Summary Results +      1 in 00:00:01 =    1.7/s Avg:     1 Min:     1 Max:     1 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+Generate Summary Results +    138 in 00:00:09 =   16.2/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%) Active: 9 Started: 9 Finished: 0
+Generate Summary Results =    139 in 00:00:09 =   15.3/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%)
+Generate Summary Results +    467 in 00:00:10 =   47.0/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%) Active: 19 Started: 19 Finished: 0
+Generate Summary Results =    606 in 00:00:19 =   31.9/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%)
+⋮
+Generate Summary Results +   1662 in 00:00:10 =  166.1/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%) Active: 50 Started: 50 Finished: 0
+Generate Summary Results =  28932 in 00:03:19 =  145.4/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%)
+Generate Summary Results +   1664 in 00:00:10 =  166.4/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%) Active: 50 Started: 50 Finished: 0
+Generate Summary Results =  30596 in 00:03:29 =  146.4/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%)
+Generate Summary Results +   1661 in 00:00:10 =  166.1/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%) Active: 50 Started: 50 Finished: 0
+Generate Summary Results =  32257 in 00:03:39 =  147.3/s Avg:     0 Min:     0 Max:     1 Err:     0 (0.00%)
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">BackendListener now allows you to define sampler list as a regular expression</font></td></tr></table>
+<p>
+You can now use a regular expression to select the samplers you want to filter. 
+Use parameter: 
+<tt class="code">useRegexpForSamplersList=true</tt>
+ and put a regex in pararameter 
+<tt class="code">samplersList</tt>
+
+
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='806' height='380' src="./../docs/images/screenshots/changes/3.0/graphite_backend_listener_regex.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><br/><table width="90%" cellpadding="2" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big>Protocols and Load Testing improvements</big></b></font></td></tr></table><br/>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Migration to HttpClient 4.5.2 has been started. Although not completely finished, it improves many areas in JMeter</font></td></tr></table>
+<p>
+Migration to HttpClient 4.5.2 improves the following fields of JMeter:
+
+</p>
+<ul>
+
+
+<li>
+Support of recent RFC like 
+<a href="https://tools.ietf.org/html/rfc6265" target="_blank">
+HTTP State Management Mechanism RFC-6265 for Cookies
+</a>
+, you should use now 
+<tt class="code">HC4CookieHandler</tt>
+ in HTTP Cookie Manager component and select 
+<tt class="code">standard</tt>
+ Cookie policy
+</li>
+
+
+<li>
+<a href="https://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank">
+Server Name Indication (SNI)
+</a>
+ support for HttpClient4 implementation
+</li>
+
+
+<li>
+Improved and better performing validation mechanism for Stale connections and Keep-Alive management, see properties 
+<tt class="code">httpclient4.validate_after_inactivity</tt>
+ and 
+<tt class="code">httpclient4.time_to_live</tt>
+</li>
+
+
+<li>
+Many bug fixes since previous version 4.2.6 used in JMeter 2.13, see 
+<a href="http://www.apache.org/dist/httpcomponents/httpclient/RELEASE_NOTES-4.5.x.txt" target="_blank">
+HttpClient 4.5.X release notes
+</a>
+</li>
+
+
+<li>
+Better support of HTTP RFC 2616 / RFC 7230 and fixes to issues with 
+<tt class="code">deflate</tt>
+ compression management
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Parallel Downloads is now realistic and scales much better:</font></td></tr></table>
+<ul>
+
+
+<li>
+Parsing of CSS imported files (through 
+<tt class="code">@import</tt>
+) or embedded resources (background, images, …)
+</li>
+
+
+<li>
+Lazy initialization of SSL context: For 15 Threads 138% more sampling in 5 minutes for HTTP only tests. Gain increases as number of threads increases
+</li>
+
+
+<li>
+Rework of Connection management for Parallel Download: This better simulates current browser behaviour and improves throughput. For 15 Threads 135% extra samples in 5 minutes.
+</li>
+
+
+<li>
+Reuse of Threads used for Parallel downloads through a ThreadPool: This improves throughput and increases JMeter scalability for such tests
+</li>
+
+
+<li>
+Total of 750% more throughput found on test with 15 threads, the more threads you have the more the gain
+</li>
+
+
+<li>
+You can now compute and store just the MD5 of embedded resources instead of storing the entire response, this can be done by setting the property 
+<tt class="code">httpsampler.embedded_resources_use_md5=true</tt>
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Introduction of Sample Timeout feature</font></td></tr></table>
+<p>
+This new 
+<a href="./usermanual/component_reference.html#Sample_Timeout">Sample Timeout</a>
+ Pre-Processor allows you to apply a Timeout on the elements that are in its scope. 
+In the screenshot below the 10 second timeout applies to the 
+<tt class="code">Debug Sampler</tt>
+ and 
+<tt class="code">HTTP Request</tt>
+ elements.
+
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='828' height='161' src="./../docs/images/screenshots/changes/3.0/sample_timeout.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">JDBC request now uses DBCP2 pool</font></td></tr></table>
+<p>
+JDBC Request and JDBC Connection Configuration have been updated to replace old Excalibur Pool by Apache Commons DBCP2 pool. As a consequence properties have been migrated to equivalent 
+when available and UI has been updated.
+Note that unlike Excalibur, Commons DBCP uses the validation query when creating the pool.
+So make sure the query is valid.
+The default query suits many databases, but not all - for example Oracle requires '
+<tt class="code">SELECT 1 FROM DUAL</tt>
+' or similar.
+
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='582' height='434' src="./../docs/images/screenshots/changes/3.0/jdbc_connection_configuration.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><br/><table width="90%" cellpadding="2" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big>UX Improvements:</big></b></font></td></tr></table><br/>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Better display in HiDPI screens</font></td></tr></table>
+<p>
+See 
+<a href="usermanual/hints_and_tips.html#hidpi">
+JMeter with a HiDPI screen on Linux or Windows
+</a>
+ in Hints and Tips section in user manual
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New Icon look and Logo</font></td></tr></table>
+<p>
+JMeter has a new Logo created by Felix Schumacher. 
+<br>
+
+Icons have also been refreshed to give a more modern style and make them more meaningful
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Lots of fixes of annoying little bugs</font></td></tr></table>
+<p>
+Around 40 UI fixes have been made to either fix buggy, confusing behaviour or simplify usage by not allowing incompatible options to be selected
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Improved Thread Group UI and related actions (, , )</font></td></tr></table>
+<p>
+
+Creating and testing a Test Plan before Load Test has been much simplified by allowing you to only start a selection of Thread Group, start them without applying Timers (thus gaining time)
+or start them using a new Validation mode. This validation mode allows you to start a Thread Group (without modifying it) with 1 thread, 1 iteration and without applying timers.
+This validation mode can be customized.
+
+</p>
+<p><table border="0" cellspacing="0" cellpadding="0"><tr><td><img width='302' height='235' src="./../docs/images/screenshots/changes/3.0/thread_group_starters.png"/><br>
+<font size="-1"></font></td></tr></table></p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">New shortcuts</font></td></tr></table>
+<ul>
+
+
+<li>
+Add most used elements
+    (
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">0</span></span>
+    …
+    
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">9</span></span>),
+    configurable through 
+<tt class="code">gui.quick_</tt>
+ properties
+</li>
+
+
+<li>
+Shortcuts to expand nodes
+</li>
+
+
+</ul>
+<br/><br/><table width="90%" cellpadding="2" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big>Core improvements</big></b></font></td></tr></table><br/>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Configuration simplification with better defaults</font></td></tr></table>
+<p>
+Default values for many properties have been modified to make JMeter configuration optimal Out of the box. Read "Incompatible changes" section for more details.
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Apache Groovy bundled with JMeter</font></td></tr></table>
+<p>
+<a href="http://www.groovy-lang.org/" target="_blank">
+Apache Groovy
+</a>
+, the well-known JVM scripting language, is now bundled with Apache JMeter in lib folder. 
+This allows you to use it immediately through JSR223 Elements by selecting the Groovy language.
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Superflous and old properties removed</font></td></tr></table>
+<p>
+Old properties that existed to maintain backward compatibility or to offer some superflous customization have been removed.
+Read "Incompatible changes" section to see which properties have been removed.
+</p>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Code and documentation improvements</font></td></tr></table>
+<ul>
+
+
+<li>
+Migration to Java7 source code and use of its syntactic sugar
+</li>
+
+
+<li>
+Major code cleanups
+</li>
+
+
+<li>
+Full review of documentation and improvement both in content and presentation
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Improvements to unit tests</font></td></tr></table>
+<ul>
+
+
+<li>
+Migration of many tests to JUnit 4
+</li>
+
+
+<li>
+Better management of Headless tests
+</li>
+
+
+<li>
+More Unit Tests
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Dependencies refresh</font></td></tr></table>
+<p>
+
+Deprecated Libraries dropped or replaced by up to date ones:
+
+</p>
+<ul>
+
+
+<li>
+Excalibur replaced by commons-dbcp
+</li>
+
+
+<li>
+htmllexer, htmlparser removed
+</li>
+
+
+<li>
+soap removed
+</li>
+
+
+<li>
+jdom removed
+</li>
+
+
+</ul>
+<br/><table width="80%" cellpadding="1" cellspacing="2" bgcolor="#828DA6" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif">Slf4j can now be used within Plugins and core code</font></td></tr></table>
+<p>
+You can now use 
+<a href="http://www.slf4j.org/" target="_blank">
+SLF4J
+</a>
+ logging wrapper in your custom plugins or 
+<tt class="code">org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient</tt>
+ subclasses.
+</p>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Incompatible changes">Incompatible changes</a></big></big></b></font></td></tr></table><br/>
+<ul>
+
+    
+<li>
+Since version 3.0, Groovy-2.4.6 is bundled with JMeter (
+<tt class="code">lib</tt>
+ folder), ensure you remove old version or referenced versions through properties 
+<tt class="code">search_paths</tt>
+ or 
+<tt class="code">user.classpath</tt>
+</li>
+
+    
+<li>
+Since version 3.0, 
+<tt class="code">jmeter.save.saveservice.assertion_results_failure_message</tt>
+ property value is true, meaning CSV file for results will contain an additional column containing assertion result response message, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58978">Bug 58978</a>
+</li>
+
+    
+<li>
+Since version 3.0, 
+<tt class="code">jmeter.save.saveservice.print_field_names</tt>
+ property value is true, meaning CSV file for results will contain field names as first line in CSV, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58991">Bug 58991</a>
+</li>
+
+    
+<li>
+Since version 3.0, 
+<tt class="code">jmeter.save.saveservice.idle_time</tt>
+ property value is true, meaning CSV/XML result files will contain an additional column containing idle time between samplers, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57182">Bug 57182</a>
+</li>
+
+    
+<li>
+In RandomTimer class, protected instance 
+<tt class="code">timer</tt>
+ field has been replaced by 
+<tt class="code">getTimer()</tt>
+ protected method, this is related to 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58100">Bug 58100</a>
+. This may impact 3
+<sup>
+rd
+</sup>
+ party plugins.
+</li>
+
+    
+<li>
+Since version 3.0, you can use Nashorn Engine (default javascript engine is Rhino) under Java8 for Elements that use Javascript Engine (
+<tt class="code">__javaScript</tt>
+, 
+<tt class="code">IfController</tt>
+). If you want to use it, use property 
+<tt class="code">javascript.use_rhino=false</tt>
+, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58406">Bug 58406</a>
+.
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note: in a future version, we will switch to Nashorn by default. Users are encouraged to report any issue related to using Nashorn instead of Rhino.
+</td></tr>
+</table>
+</p>
+
+    
+</li>
+
+    
+<li>
+Since version 3.0, JMS Publisher will reload contents of file if Message source is "
+<tt class="code">From File</tt>
+" and the "
+<tt class="code">Filename</tt>
+" field changes (e.g. if it uses a variable that has changed)
+</li>
+
+    
+<li>
+org.apache.jmeter.gui.util.ButtonPanel has been removed, if you use it in your 3
+<sup>
+rd
+</sup>
+ party plugin or custom development ensure you update your code. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58687">Bug 58687</a>
+</li>
+
+    
+<li>
+Property 
+<tt class="code">jmeterthread.startearlier</tt>
+ has been removed. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58726">Bug 58726</a>
+</li>
+   
+    
+<li>
+Property 
+<tt class="code">jmeterengine.startlistenerslater</tt>
+ has been removed. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58728">Bug 58728</a>
+</li>
+   
+    
+<li>
+Property 
+<tt class="code">jmeterthread.reversePostProcessors</tt>
+ has been removed. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58728">Bug 58728</a>
+</li>
+
+    
+<li>
+Property 
+<tt class="code">jmeter.toolbar.display</tt>
+ has been removed, the toolbar is now always displayed. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59236">Bug 59236</a>
+</li>
+
+    
+<li>
+Property 
+<tt class="code">jmeter.errorscounter.display</tt>
+ has been removed, the errors/warnings counter is now always displayed. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59236">Bug 59236</a>
+</li>
+
+    
+<li>
+Property 
+<tt class="code">xml.parser</tt>
+ has been removed, it is not used anymore as 
+<tt class="code">org.apache.jmeter.util.JMeterUtils#getXMLParser</tt>
+ has been deprecated and is not used either. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59236">Bug 59236</a>
+</li>
+  
+    
+<li>
+Summariser listener now shows the duration in the format 
+<tt class="code">HH:mm:ss</tt>
+ (Hour:Minute:Second), it previously showed the duration in seconds. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58776">Bug 58776</a>
+</li>
+
+    
+<li>
+<tt class="code">org.apache.jmeter.protocol.http.visualizers.RequestViewHTTP.getQueryMap</tt>
+ signature has changed, if you use it ensure you update your code. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58845">Bug 58845</a>
+</li>
+
+    
+<li>
+JMS Subscriber will consider a sample to be an error if the number of received messages is not equal to expected number of messages. It previously considered a sample OK if at least 1 message was received. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58980">Bug 58980</a>
+</li>
+
+    
+<li>
+Since version 3.0, HTTP(S) Test Script recorder defaults to using port 
+<tt class="code">8888</tt>
+ (as configured when using Recording Template). See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59006">Bug 59006</a>
+</li>
+
+    
+<li>
+Since version 3.0, the parser for embedded resources (replaced since 2.10 by Lagarto based implementation) which relied on the htmlparser library (HtmlParserHTMLParser) has been dropped along with its dependencies.
+</li>
+
+    
+<li>
+Since version 3.0, support for reading old Avalon format JTL (result) files has been removed, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59064">Bug 59064</a>
+</li>
+
+    
+<li>
+Since version 3.0, the default property value for 
+<tt class="code">http.java.sampler.retries</tt>
+ has been changed to 
+<tt class="code">0</tt>
+ (no retry by default) to align it with the behaviour of HttpClient4. 
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note also that its meaning has changed: before 3.0, 
+<tt class="code">http.java.sampler.retries=1</tt>
+ meant 
+<tt class="code">No Retry</tt>
+ (i.e. total tries = 1), since 3.0 
+<tt class="code">http.java.sampler.retries=1</tt>
+ means 
+<tt class="code">1</tt>
+ retry.
+    (Note: this only applies to the Java HTTP Sampler)
+</td></tr>
+</table>
+</p>
+
+    See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59103">Bug 59103</a>
+</li>
+
+    
+<li>
+Since 3.0, the following deprecated classes have been dropped
+    
+<ul>
+
+        
+<li>
+org.apache.jmeter.protocol.http.modifier.UserParameterXMLContentHandler
+</li>
+
+        
+<li>
+org.apache.jmeter.protocol.http.modifier.UserParameterXMLErrorHandler
+</li>
+
+        
+<li>
+org.apache.jmeter.protocol.http.modifier.UserParameterXMLParser
+</li>
+
+    
+</ul>
+
+    
+</li>
+
+    
+<li>
+<tt class="code">httpsampler.await_termination_timeout</tt>
+ has been replaced by 
+<tt class="code">httpsampler.parallel_download_thread_keepalive_inseconds</tt>
+ which is now the keep alive time for the parallel download threads (in seconds).
+</li>
+
+    
+<li>
+JDBC Request has been updated to use commons-dbcp2, since then the behaviour is slightly different, ensure you have a correct "Validation Query" for your database. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+</li>
+
+    
+<li>
+The following jars have been removed:
+    
+<ul>
+
+        
+<li>
+excalibur-datasource-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59156">Bug 59156</a>
+)
+</li>
+
+        
+<li>
+excalibur-instrument-1.0.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+)
+</li>
+
+        
+<li>
+excalibur-pool-api-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+)
+</li>
+
+        
+<li>
+excalibur-pool-impl-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+)
+</li>
+
+        
+<li>
+excalibur-pool-instrumented-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+)
+</li>
+
+        
+<li>
+htmllexer-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59037">Bug 59037</a>
+)
+</li>
+
+        
+<li>
+htmlparser-2.1.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59037">Bug 59037</a>
+)
+</li>
+
+        
+<li>
+soap-2.3.1.jar
+</li>
+
+        
+<li>
+jdom-1.1.3.jar (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59156">Bug 59156</a>
+)
+</li>
+
+    
+</ul>
+
+    
+</li>
+
+    
+<li>
+Maximum number of redirects allowed by JMeter is now 20, it was previously 5. This can be changed with the property 
+<tt class="code">httpsampler.max_redirects</tt>
+. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59382">Bug 59382</a>
+</li>
+
+
+</ul>
+<h3>
+Deprecated and removed elements
+</h3>
+<ul>
+
+    
+<li>
+MongoDB elements (MongoDB Source Config, MongoDB Script) have been deprecated and will be removed in the next version of JMeter. They do not appear anymore in the menu, if you need them modify 
+<tt class="code">not_in_menu</tt>
+ property. The JMeter team advises not to use them anymore. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58772">Bug 58772</a>
+</li>
+
+    
+<li>
+WebService(SOAP) Request and HTML Parameter Mask which were deprecated in 2.13 version, have now been removed following our 
+<a href="./usermanual/best-practices.html#deprecation">
+deprecation strategy
+</a>
+.
+    Classes and properties which were only used by those elements have been dropped:
+    
+<ul>
+
+        
+<li>
+<tt class="code">org.apache.jmeter.protocol.http.util.DOMPool</tt>
+</li>
+
+        
+<li>
+<tt class="code">org.apache.jmeter.protocol.http.util.WSDLException</tt>
+</li>
+
+        
+<li>
+<tt class="code">org.apache.jmeter.protocol.http.util.WSDLHelper</tt>
+</li>
+
+        
+<li>
+Property 
+<tt class="code">soap.document_cache</tt>
+</li>
+
+        
+<li>
+JAR soap-2.3.1 has been also removed
+</li>
+
+    
+</ul>
+
+    
+</li>
+
+    
+<li>
+<tt class="code">__jexl</tt>
+ function (i.e. JEXL 1) has been deprecated and will be removed in next version. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58903">Bug 58903</a>
+</li>
+
+    
+<li>
+Spline Visualizer listener and Distribution Graph listener have been deprecated and will be removed in the next version of JMeter. They do not appear anymore in the menu, if you need them modify 
+<tt class="code">not_in_menu</tt>
+ property. JMeter team advises not to use them anymore. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58791">Bug 58791</a>
+</li>
+ 
+
+</ul>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Improvements">Improvements</a></big></big></b></font></td></tr></table><br/>
+<h3>
+HTTP Samplers and Test Script Recorder
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57696">Bug 57696</a>
+ - HTTP Request : Improve responseMessage when resource download fails. Contributed by Ubik Load Pack (support at ubikloadpack.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57995">Bug 57995</a>
+ - Use FileServer for HTTP Request files. Implemented by Andrey Pokhilko (andrey at blazemeter.com) and contributed by BlazeMeter Ltd.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58843">Bug 58843</a>
+ - Improve the usable space in the HTTP sampler GUI. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58852">Bug 58852</a>
+ - Use less memory for 
+<tt class="code">PUT</tt>
+ requests. The uploaded data will no longer be stored in the Sampler.
+        This is the same behaviour as with 
+<tt class="code">POST</tt>
+ requests.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58860">Bug 58860</a>
+ - HTTP Request : Add automatic variable generation in HTTP parameters table by right click. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58923">Bug 58923</a>
+ - normalize URIs when downloading embedded resources.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59005">Bug 59005</a>
+ - HTTP Sampler : Added WebDAV verb (
+<tt class="code">SEARCH</tt>
+).
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59006">Bug 59006</a>
+ - Change Default proxy recording port to 
+<tt class="code">8888</tt>
+ to align it with Recording Template. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58099">Bug 58099</a>
+ - Performance : Lazily initialize HttpClient SSL Context to avoid its initialization even for HTTP only scenarios
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57577">Bug 57577</a>
+ - HttpSampler : Retrieve All Embedded Resources, add property "
+<tt class="code">httpsampler.embedded_resources_use_md5</tt>
+" to only compute md5 and not keep response data. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59023">Bug 59023</a>
+ - HttpSampler UI : rework the embedded resources labels and change default number of parallel downloads to 
+<tt class="code">6</tt>
+. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59028">Bug 59028</a>
+ - Use 
+<tt class="code">SystemDefaultDnsResolver</tt>
+ singleton. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59036">Bug 59036</a>
+ - FormCharSetFinder : Use JSoup instead of deprecated HTMLParser
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59034">Bug 59034</a>
+ - Parallel downloads connection management is not realistic. Contributed by Benoit Wiart (benoit dot wiart at gmail.com) and Philippe Mouawad
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59060">Bug 59060</a>
+ - HTTP Request GUI : Move File Upload to a new Tab to have more space for parameters and prevent incompatible configuration. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59103">Bug 59103</a>
+ - HTTP Request Java Implementation: Change default "
+<tt class="code">http.java.sampler.retries</tt>
+" to align it on HttpClient behaviour and make the name meaningful
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59083">Bug 59083</a>
+ - HTTP Request : Make Method field editable so that additional methods (WebDAV) can be added easily
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59118">Bug 59118</a>
+ - Add comment in recorded think time by proxy recorder. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59116">Bug 59116</a>
+ - Add the possibility to setup a prefix to sampler name recorded by proxy. Partly based on a patch by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59129">Bug 59129</a>
+ - HTTP Request : Simplify GUI with simple/advanced Tabs
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59033">Bug 59033</a>
+ - Parallel Download : Rework Parser classes hierarchy to allow plug-in parsers for different mime types
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=52073">Bug 52073</a>
+ - Embedded Resources Parallel download : Improve performances by avoiding shutdown of ThreadPoolExecutor at each sample. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59190">Bug 59190</a>
+ - HTTP(S) Test Script Recorder : Suggested excludes should ignore case. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59140">Bug 59140</a>
+ - Parallel Download : Add CSS Parsing to extract links from CSS files
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59249">Bug 59249</a>
+ - Http Request Defaults : Add "
+<tt class="code">Source address</tt>
+" and "
+<tt class="code">Save responses as MD5</tt>
+"
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59382">Bug 59382</a>
+ - More realistic default value for 
+<tt class="code">httpsampler.max_redirects</tt>
+</li>
+
+
+</ul>
+<h3>
+Other samplers
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57928">Bug 57928</a>
+ - Add ability to define protocol (http/https) to AccessLogSampler GUI. Contributed by Jérémie Lesage (jeremie.lesage at jeci.fr)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58300">Bug 58300</a>
+ - Make existing Java Samplers implement Interruptible
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58160">Bug 58160</a>
+ - JMS Publisher : reload file content if file name changes. Based partly on a patch contributed by Maxime Chassagneux (maxime.chassagneux at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58786">Bug 58786</a>
+ - JDBC Sampler : Replace Excalibur DataSource by more up to date library commons-dbcp2
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59205">Bug 59205</a>
+ - TCP Sampler: Set connect time in sampler when connection is established.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59381">Bug 59381</a>
+ - JMSPublisher : FileChooserDialog filter does not work for browser buttons. Based partly on a patch contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+</ul>
+<h3>
+Controllers
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58406">Bug 58406</a>
+ - IfController : Allow use of Nashorn Engine if available for JavaScript evaluation
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58281">Bug 58281</a>
+ - RandomOrderController : Improve randomization algorithm performance. Contributed by Graham Russell (jmeter at ham1.co.uk)
+</li>
+ 
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58675">Bug 58675</a>
+ - Module controller : error message can easily be missed. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58673">Bug 58673</a>
+ - Module controller : when the target element is disabled the default jtree icons are displayed. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58674">Bug 58674</a>
+ - Module controller : it should not be possible to select more than one node in the tree. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58680">Bug 58680</a>
+ - Module Controller : ui enhancement. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58989">Bug 58989</a>
+ - Record controller gui : add a button to clear all the recorded samples. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+</ul>
+<h3>
+Listeners
+</h3>
+<ul>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58041">Bug 58041</a>
+ - Tree View Listener should show sample data type
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58122">Bug 58122</a>
+ - GraphiteBackendListener : Add Server Hits metric. Partly based on a patch from Amol Moye (amol.moye at thomsonreuters.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58681">Bug 58681</a>
+ - GraphiteBackendListener : Don't send data if no sampling occurred
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58776">Bug 58776</a>
+ - Summariser should display a more readable duration
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58791">Bug 58791</a>
+ - Deprecate listeners: Distribution Graph (alpha) and Spline Visualizer
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58849">Bug 58849</a>
+ - View Results Tree : Add a search panel to the request http view to be able to search in the parameters table. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58857">Bug 58857</a>
+ - View Results Tree : the request view http does not allow to resize the parameters table first column. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58955">Bug 58955</a>
+ - Request view http does not correctly display http parameters in multipart/form-data. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55597">Bug 55597</a>
+ - View Results Tree: Add a search feature to search in recorded samplers
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59102">Bug 59102</a>
+ - View Results Tree: Better default value for "
+<tt class="code">view.results.tree.max_size</tt>
+"
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59099">Bug 59099</a>
+ - Backend listener : Add the possibility to consider samplersList as a Regular Expression. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59424">Bug 59424</a>
+ - Visualizer : Add "Clear" in popup menu
+</li>
+
+
+</ul>
+<h3>
+Timers, Assertions, Config, Pre- & Post-Processors
+</h3>
+<ul>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58303">Bug 58303</a>
+ - Change usage of bouncycastle api in SMIMEAssertion to get rid of deprecation warnings.
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58515">Bug 58515</a>
+ - New JSON related components : JSON-PATH Extractor and JSON-PATH Renderer in View Results Tree. Donated by Ubik Load Pack (support at ubikloadpack.com).
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58698">Bug 58698</a>
+ - Correct parsing of auth-files in HTTP Authorization Manager.
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58756">Bug 58756</a>
+ - CookieManager : Cookie Policy select box content must depend on Cookie implementation.
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56358">Bug 56358</a>
+ - Cookie manager supports cross port cookies and RFC6265. Thanks to Oleg Kalnichevski (olegk at apache.org)
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58773">Bug 58773</a>
+ - TestCacheManager : Add tests for CacheManager that use HttpClient 4
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58742">Bug 58742</a>
+ - CompareAssertion : Reset data in TableEditor when switching between different CompareAssertions in gui.
+      Based on a patch by Vincent Herilier (vherilier at gmail.com)
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59108">Bug 59108</a>
+ - TableEditor: Allow rows to be moved up and down. Contributed by Vincent Herilier (vherilier at gmail.com)
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58848">Bug 58848</a>
+ - Argument Panel : when adding an argument (add button or from clipboard) scroll the table to the new line. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58865">Bug 58865</a>
+ - Allow empty default value in the Regular Expression Extractor. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59156">Bug 59156</a>
+ - XMLAssertion : drop jdom dependency by using XMLReader
+</li>
+
+  
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59328">Bug 59328</a>
+ - Better tooltip for Variable Names in CSVDataSet. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+ 
+
+</ul>
+<h3>
+Functions
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58477">Bug 58477</a>
+ -  __javaScript function : Allow use of Nashorn engine for Java8 and later versions
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58903">Bug 58903</a>
+ - Provide __jexl3 function that uses commons-jexl3 and deprecated __jexl (1.1) function
+</li>
+
+
+</ul>
+<h3>
+I18N
+</h3>
+<ul>
+
+
+</ul>
+<h3>
+General
+</h3>
+<ul>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58736">Bug 58736</a>
+ - Add Sample Timeout support
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57913">Bug 57913</a>
+ - Automated backups of last saved JMX files. Contributed by Benoit Vatan (benoit.vatan at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57988">Bug 57988</a>
+ - Shortcuts (
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">1</span></span> …
+    
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">9</span></span>) to quickly add elements into test plan.
+    Implemented by Andrey Pokhilko (andrey at blazemeter.com) and contributed by BlazeMeter Ltd.
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58100">Bug 58100</a>
+ - Performance enhancements : Replace Random by ThreadLocalRandom.
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58677">Bug 58677</a>
+ - <tt class="code">TestSaveService#testLoadAndSave</tt>
+ use the wrong set of files. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58689">Bug 58689</a>
+ - Add shortcuts to expand / collapse a part of the tree. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58696">Bug 58696</a>
+ - Create Ant task to setup Eclipse project
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58653">Bug 58653</a>
+ - New JMeter Dashboard/Report with Dynamic Graphs, Tables to help analyzing load test results. Developed by Ubik-Ingenierie and contributed by Decathlon S.A. and Ubik-Ingenierie / UbikLoadPack
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58699">Bug 58699</a>
+ - Workbench changes neither saved nor prompted for saving upon close. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58728">Bug 58728</a>
+ - Drop old behavioural properties
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57319">Bug 57319</a>
+ - Upgrade to HttpClient 4.5.2. With the big help from Oleg Kalnichevski (olegk at apache.org) and Gary Gregory (ggregory at apache.org).
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58772">Bug 58772</a>
+ - Deprecate MongoDB related elements
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58782">Bug 58782</a>
+ - ThreadGroup : Improve ergonomy
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58165">Bug 58165</a>
+ - Show the time elapsed since the start of the load test in GUI mode. Partly based on a contribution from Maxime Chassagneux (maxime.chassagneux at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58814">Bug 58814</a>
+ - JVM no longer recognizes option 
+<tt class="code">MaxLiveObjectEvacuationRatio</tt>
+; remove from comments
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58810">Bug 58810</a>
+ - Config Element Counter (and others): Check Boxes Toggle Area Too Big
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56554">Bug 56554</a>
+ - JSR223 Test Element : Generate compilation cache key automatically. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58911">Bug 58911</a>
+ - Header Manager : it should be possible to copy/paste between Header Managers. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58864">Bug 58864</a>
+ - Arguments Panel : when moving parameter with up / down, ensure that the selection remains visible. Based on a contribution by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58968">Bug 58968</a>
+ - Add a new template to allow to record script with think time included. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58978">Bug 58978</a>
+ - Settings defaults : Switch "
+<tt class="code">jmeter.save.saveservice.assertion_results_failure_message</tt>
+" to true (after 2.13)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58991">Bug 58991</a>
+ - Settings defaults : Switch "
+<tt class="code">jmeter.save.saveservice.print_field_names</tt>
+" to true (after 2.13)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57182">Bug 57182</a>
+ - Settings defaults : Switch "
+<tt class="code">jmeter.save.saveservice.idle_time</tt>
+" to true (after 2.13)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58870">Bug 58870</a>
+ - TableEditor: minimum size is too small. Contributed by Vincent Herilier (vherilier at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58933">Bug 58933</a>
+ - JSyntaxTextArea : Ability to set font.  Contributed by Denis Kirpichenkov (denis.kirpichenkov at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58793">Bug 58793</a>
+ - Create developers page explaining how to build and contribute
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59046">Bug 59046</a>
+ - JMeter Gui Replace controller should keep the name and the selection. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59038">Bug 59038</a>
+ - Deprecate HTTPClient 3.1 related elements
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59094">Bug 59094</a>
+ - Drop support of old JMX file format
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59082">Bug 59082</a>
+ - Remove the "
+<tt class="code">TestCompiler.useStaticSet</tt>
+" parameter. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59093">Bug 59093</a>
+ - Option parsing error message can be '
+<em>
+lost
+</em>
+'
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58715">Bug 58715</a>
+ - Feature request: Bundle 
+<tt class="code">groovy-all</tt>
+ with JMeter
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58426">Bug 58426</a>
+ - Improve display of JMeter on high resolution devices (HiDPI) (part 1 of enhancement)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59105">Bug 59105</a>
+ - TableEditor : Add ability to paste rows from clipboard and delete multiple selection. Contributed by Vincent Herilier (vherilier at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59197">Bug 59197</a>
+ - Thread Group : it should be possible to only run a single threadgroup or a selection of threadgroups with a popup menu. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59207">Bug 59207</a>
+ - Change the font color of 
+<tt class="code">errorsOrFatalsLabel</tt>
+ to red when an error occurs. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58941">Bug 58941</a>
+ - Create a new Starter that runs thread groups in validation mode (
+<tt class="code">1</tt>
+ thread only, 
+<tt class="code">1</tt>
+ iteration, no pause all customizable)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59236">Bug 59236</a>
+ - JMeter Properties : Make some cleanup
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59240">Bug 59240</a>
+ - Introduce a slf4j adapter for Logkit (this allows using slf4j within plugins and core code)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59153">Bug 59153</a>
+ - Stop test if CSVDataSet is accessing non-existing file. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59320">Bug 59320</a>
+ - Better tooltip in GUI with GenericTestBeanCustomizer (CSV Data Set Config, JDBC Connection Configuration, Keystore Configuration, …) . Based on a patch by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59171">Bug 59171</a>
+ - Sample Result SaveConfig Dialog is generated in random order
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59425">Bug 59425</a>
+ - Display error about missing help page inside the help pane
+</li>
+
+
+</ul>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Non-functional changes">Non-functional changes</a></big></big></b></font></td></tr></table><br/>
+<ul>
+
+
+<li>
+Updated to httpclient, httpmime 4.5.2 (from 4.2.6)
+</li>
+
+
+<li>
+Updated to tika-core and tika-parsers 1.12 (from 1.7)
+</li>
+
+
+<li>
+Updated to commons-math3 3.6.1 (from 3.4.1)
+</li>
+
+
+<li>
+Updated to commons-pool2 2.4.2 (from 2.3)
+</li>
+
+
+<li>
+Updated to commons-lang 3.4 (from 3.3.2)
+</li>
+
+
+<li>
+Updated to rhino-1.7.7.1 (from 1.7R5)
+</li>
+
+
+<li>
+Updated to jodd-3.6.7.jar (from 3.6.4)
+</li>
+
+
+<li>
+Updated to jsoup-1.8.3 (from 1.8.1)
+</li>
+
+
+<li>
+Updated to rsyntaxtextarea-2.5.8 (from 2.5.6)
+</li>
+
+
+<li>
+Updated to slf4j-1.7.12 (from 1.7.10)
+</li>
+
+
+<li>
+Updated to xmlgraphics-commons-2.0.1 (from 1.5)
+</li>
+
+
+<li>
+Updated to commons-collections-3.2.2 (from 3.2.1)
+</li>
+
+
+<li>
+Updated to commons-net 3.4 (from 3.3)
+</li>
+
+
+<li>
+Updated to slf4j 1.7.13 (from 1.7.12)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57981">Bug 57981</a>
+ - Require a minimum of Java 7. Partly contributed by Graham Russell (jmeter at ham1.co.uk)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58684">Bug 58684</a>
+ - JMeterColor does not need to extend 
+<tt class="code">java.awt.Color</tt>
+. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58687">Bug 58687</a>
+ - ButtonPanel should die. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58705">Bug 58705</a>
+ - Make 
+<tt class="code">org.apache.jmeter.testelement.property.MultiProperty</tt>
+ iterable. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58729">Bug 58729</a>
+ - Cleanup extras folder for maintainability
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57110">Bug 57110</a>
+ - Fixed spelling+grammar, formatting, removed commented out code etc. Contributed by Graham Russell (jmeter at ham1.co.uk)
+</li>
+
+
+<li>
+Correct instructions on running JMeter in 
+<tt class="code">help.txt</tt>
+. Contributed by Pascal Schumacher (pascalschumacher at gmx.net)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58704">Bug 58704</a>
+ - Non regression testing : Ant task batchtest fails if tests and run in a non 
+<tt class="code">en_EN</tt>
+ locale and use a JMX file that uses a CSV DataSet
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58897">Bug 58897</a>
+ - Improve JUnit Test code. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58949">Bug 58949</a>
+ - Cleanup of LDAP code. Based on a patch by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58897">Bug 58897</a>
+ - Improve JUnit Test code. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58967">Bug 58967</a>
+ - Use JUnit categories to exclude tests that need a gui. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59003">Bug 59003</a>
+ - <tt class="code">ClutilTestCase</tt>
+ 
+<tt class="code">testSingleArg8</tt>
+ and 
+<tt class="code">testSingleArg9</tt>
+ are identical
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59064">Bug 59064</a>
+ - Remove OldSaveService which supported very old Avalon format JTL (result) files
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59165">Bug 59165</a>
+ - RSyntaxTextArea not compatible with headless testing
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59021">Bug 59021</a>
+ - Use 
+<tt class="code">Double#compare</tt>
+ instead of reimplementing it in 
+<tt class="code">NumberProperty#compareTo</tt>
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59037">Bug 59037</a>
+ - Drop HtmlParserHTMLParser and dependencies on htmlparser and htmllexer
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58465">Bug 58465</a>
+ - JMS Read response field is badly named and documented
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58601">Bug 58601</a>
+ - Change check for modification of 
+<tt class="code">saveservice.properties</tt>
+ from 
+<tt class="code">SVN Revision ID</tt>
+ to sha1 sum of the file itself.
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58726">Bug 58726</a>
+ - Remove the 
+<tt class="code">jmeterthread.startearlier</tt>
+ parameter. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58784">Bug 58784</a>
+ - Make 
+<tt class="code">JMeterUtils#runSafe</tt>
+ sync/async awt invocation configurable and change the visualizers to use the async version.
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58790">Bug 58790</a>
+ - Issue in CheckDirty and its relation to ActionRouter
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59095">Bug 59095</a>
+ - Remove UserParameterXMLParser that was deprecated eight years ago. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59262">Bug 59262</a>
+ - Add list of binary jars to LICENSE; use that for unit tests
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59353">Bug 59353</a>
+ - Add "Deprecated and removed elements" in "Incompatible changes" part in changes.xml. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+</ul>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Bug fixes">Bug fixes</a></big></big></b></font></td></tr></table><br/>
+<h3>
+HTTP Samplers and Test Script Recorder
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57806">Bug 57806</a>
+ - "
+<tt class="code">audio/x-mpegurl</tt>
+" mime type is erroneously considered as binary by ViewResultsTree. Contributed by Ubik Load Pack (support at ubikloadpack.com).
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57858">Bug 57858</a>
+ - Don't call 
+<tt class="code">sampleEnd</tt>
+ twice in HTTPHC4Impl when a 
+<tt class="code">RuntimeException</tt>
+ or an 
+<tt class="code">IOException</tt>
+ occurs in the sample method.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57921">Bug 57921</a>
+ - HTTP/1.1 without keep-alive "
+<tt class="code">Connection</tt>
+" response header no longer uses infinite keep-alive.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57956">Bug 57956</a>
+ - The 
+<tt class="code">hc.parameters</tt>
+ reference in 
+<tt class="code">jmeter.properties</tt>
+ doesn't work when JMeter is not started in 
+<tt class="code">bin</tt>
+.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58137">Bug 58137</a>
+ - JMeter fails to download embedded URLs that contain illegal characters in URL (it does not escape them).
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58201">Bug 58201</a>
+ - Make usage of port in the host header more consistent across the different http samplers.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58453">Bug 58453</a>
+ - HTTP Test Script Recorder : 
+<tt class="code">NullPointerException</tt>
+ when disabling Capture HTTP Headers 
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57804">Bug 57804</a>
+ - HTTP Request doesn't reuse cached SSL context when using Client Certificates in HTTPS (only fixed for HttpClient4 implementation)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58800">Bug 58800</a>
+ - <tt class="code">proxy.pause</tt>
+ default value: fix documentation
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58844">Bug 58844</a>
+ - Buttons enable / disable is broken in the arguments panel. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58861">Bug 58861</a>
+ - When clicking on up, down or detail while in a cell of the argument panel, newly added content is lost. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57935">Bug 57935</a>
+ - SSL SNI extension not supported by HttpClient 4.2.6
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59044">Bug 59044</a>
+ - Http Sampler : It should not be possible to select the multipart encoding if the method is not 
+<tt class="code">POST</tt>
+. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59008">Bug 59008</a>
+ - Http Sampler: Infinite recursion SampleResult on frame depth limit reached
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58881">Bug 58881</a>
+ - HTTP Request : HTTPHC4Impl shows exception when server uses "
+<tt class="code">deflate</tt>
+" compression
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58583">Bug 58583</a>
+ - HTTP client fails to close connection if server misbehaves by not sending "
+<tt class="code">connection: close</tt>
+", violating HTTP RFC 2616 / RFC 7230
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58950">Bug 58950</a>
+ - <tt class="code">NoHttpResponseException</tt>
+ when Pause between samplers exceeds keepalive sent by server
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59085">Bug 59085</a>
+ - Http file panel : data lost on browse cancellation. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56141">Bug 56141</a>
+ - Application does not behave correctly when using HTTP Recorder. With the help of Dan (java.junkee at yahoo.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59079">Bug 59079</a>
+ - "
+<tt class="code">httpsampler.max_redirects</tt>
+" property is not enforced when "
+<tt class="code">Redirect Automatically</tt>
+" is used
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58811">Bug 58811</a>
+ - When pasting arguments between http samplers the column "Encode" and "Include Equals" are lost. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+</ul>
+<h3>
+Other Samplers
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58013">Bug 58013</a>
+ - Enable all protocols that are enabled on the default SSLContext for usage with the SMTP Sampler.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58209">Bug 58209</a>
+ - JMeter hang when testing javasampler because 
+<tt class="code">HashMap.put()</tt>
+ is called from multiple threads without sync.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58301">Bug 58301</a>
+ - Use typed methods such as 
+<tt class="code">setInt</tt>
+, 
+<tt class="code">setDouble</tt>
+, 
+<tt class="code">setDate</tt>
+, … for prepared statement #27
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58851">Bug 58851</a>
+ - Add a dependency on hamcrest-core to allow JUnit tests with annotations to work
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58947">Bug 58947</a>
+ - Connect metric is wrong when 
+<tt class="code">ConnectException</tt>
+ occurs
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58980">Bug 58980</a>
+ - JMS Subscriber will return successful as long as 1 message is received. Contributed by Harrison Termotto (harrison dot termotto at stonybrook.edu)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59075">Bug 59075</a>
+ - JMS Publisher: 
+<tt class="code">NumberFormatException</tt>
+ is thrown if priority or expiration field is empty
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59345">Bug 59345</a>
+ - SMTPSampler connection leak. Based on a patch by Luca Maragnani (luca dot maragnani at gmail dot com)
+</li>
+
+
+</ul>
+<h3>
+Controllers
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58600">Bug 58600</a>
+ - Display correct filenames, when they are searched by IncludeController
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58678">Bug 58678</a>
+ - Module Controller : limit target element selection. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58714">Bug 58714</a>
+ - Module controller : it should not be possible to add a timer as child. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59067">Bug 59067</a>
+ - JMeter fails to iterate over Controllers that are children of a TransactionController having "
+<tt class="code">Generate parent sample</tt>
+" checked after an assertion error occurs on a Thread Group with "
+<tt class="code">Start Next Thread Loop</tt>
+". Contributed by Benoit Wiart(benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59076">Bug 59076</a>
+ - Test should fail if a module controller cannot find its replacement subtree
+</li>
+
+
+</ul>
+<h3>
+Listeners
+</h3>
+<ul>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58033">Bug 58033</a>
+ - SampleResultConverter should note that it cannot record non-TEXT data
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58845">Bug 58845</a>
+ - Request http view doesn't display all the parameters. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58413">Bug 58413</a>
+ - ViewResultsTree : Request HTTP Renderer does not show correctly parameters that contain ampersand (&). Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59172">Bug 59172</a>
+ - SampleResult SaveConfig does not allow some fields to be disabled
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58329">Bug 58329</a>
+ - Response Time Graph and Aggregate Graph : Save graph to file does not take into account the settings changed since last click on Graph. Contributed by David Coppens (d.l.coppens at gmail.com)
+</li>
+
+
+</ul>
+<h3>
+Timers, Assertions, Config, Pre- & Post-Processors
+</h3>
+<ul>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58079">Bug 58079</a>
+ - Do not cache HTTP samples that have a 
+<tt class="code">Vary</tt>
+ header when using a HTTP CacheManager.
+</li>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58912">Bug 58912</a>
+ - Response assertion gui : Deleting more than 1 selected row deletes only one row. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+
+</ul>
+<h3>
+Functions
+</h3>
+<ul>
+
+
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57825">Bug 57825</a>
+ - __Random function fails if 
+<tt class="code">min</tt>
+ value is equal to 
+<tt class="code">max</tt>
+ value (regression related to 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=54453">Bug 54453</a>
+)
+</li>
+
+
+</ul>
+<h3>
+I18N
+</h3>
+<ul>
+
+
+</ul>
+<h3>
+General
+</h3>
+<ul>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=54826">Bug 54826</a>
+ - Don't fail on long strings in JSON responses when displaying them as JSON in View Results Tree.
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57734">Bug 57734</a>
+ - Maven transient dependencies are incorrect for 2.13 (Fixed group ids for Commons Pool and Math)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57731">Bug 57731</a>
+ - <tt class="code">TESTSTART.MS</tt>
+ has always the value of the first Test started in Server mode in NON GUI Distributed testing
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58016">Bug 58016</a>
+ -  Error type casting using external SSL Provider. Contributed by Kirill Yankov (myworkpostbox at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58293">Bug 58293</a>
+ - SOAP/XML-RPC Sampler file browser generates NullPointerException
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58685">Bug 58685</a>
+ - JDatefield : Make the modification of the date with up/down arrow work. Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58693">Bug 58693</a>
+ - Fix "Cannot nest output folder 'jmeter/build/components' inside output folder 'jmeter/build'" when setting up eclipse
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58781">Bug 58781</a>
+ - Command line option "
+<tt class="code">-?</tt>
+" shows Unknown option
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57821">Bug 57821</a>
+ - Command-line option "
+<tt class="code">-X --remoteexit</tt>
+" doesn't work since 2.13 (regression related to 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57500">Bug 57500</a>
+)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58795">Bug 58795</a>
+ - NPE may occur in 
+<tt class="code">GuiPackage#getTestElementCheckSum</tt>
+ with some 3
+<sup>
+rd
+</sup>
+ party plugins
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58913">Bug 58913</a>
+ - When closing JMeter should not interpret cancel as "
+<em>
+destroy my test plan
+</em>
+". Contributed by Benoit Wiart (benoit dot wiart at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59096">Bug 59096</a>
+ - Search Feature : Case insensitive search is not really case insensitive
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59193">Bug 59193</a>
+ - <tt class="code">ant run_gui</tt>
+ fails with  
+<tt class="code">ClassNotFoundException</tt>
+ or 
+<tt class="code">IllegalAccessError</tt>
+ when accessing classes from dependencies not loaded through 
+<tt class="code">Thread.currentThread().getContextClassLoader()</tt>
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59225">Bug 59225</a>
+ - Bad display of running indicator icon. Contributed by Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56927">Bug 56927</a>
+ - Disable language change during a test
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59391">Bug 59391</a>
+ - In Distributed mode, the client exits abnormally at the end of test
+</li>
+
+    
+<li>
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59397">Bug 59397</a>
+ - build.xml does not make dist.executables executable on Unix systems
+</li>
+    
+
+</ul>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Thanks">Thanks</a></big></big></b></font></td></tr></table><br/>
+<p>
+We thank all contributors mentioned in bug and improvement sections above:
+
+</p>
+<ul>
+
+
+<li>
+<a href="http://ubikloadpack.com">
+Ubik Load Pack
+</a>
+</li>
+
+
+<li>
+Benoit Vatan (benoit.vatan at gmail.com)
+</li>
+
+
+<li>
+Jérémie Lesage (jeremie.lesage at jeci.fr)
+</li>
+
+
+<li>
+Kirill Yankov (myworkpostbox at gmail.com)
+</li>
+
+
+<li>
+Amol Moye (amol.moye at thomsonreuters.com)
+</li>
+
+
+<li>
+Samoht-fr (https://github.com/Samoht-fr)
+</li>
+
+
+<li>
+Graham Russell (jmeter at ham1.co.uk)
+</li>
+
+
+<li>
+Maxime Chassagneux (maxime.chassagneux at gmail.com)
+</li>
+
+
+<li>
+Benoit Wiart (benoit.wiart at gmail.com)
+</li>
+
+
+<li>
+<a href="http://www.decathlon.com">
+Decathlon S.A.
+</a>
+</li>
+
+
+<li>
+<a href="http://www.ubik-ingenierie.com">
+Ubik-Ingenierie S.A.S.
+</a>
+</li>
+
+
+<li>
+Oleg Kalnichevski (olegk at apache.org)
+</li>
+
+
+<li>
+Pascal Schumacher (pascalschumacher at gmx.net)
+</li>
+
+
+<li>
+Vincent Herilier (vherilier at gmail.com)
+</li>
+
+
+<li>
+Florent Sabbe (f dot sabbe at ubik-ingenierie.com)
+</li>
+
+
+<li>
+Antonio Gomes Rodrigues (ra0077 at gmail.com)
+</li>
+
+
+<li>
+Harrison Termotto (harrison dot termotto at stonybrook.edu
+</li>
+
+
+<li>
+Denis Kirpichenkov (denis.kirpichenkov at gmail.com)
+</li>
+
+
+<li>
+Gary Gregory (ggregory at apache.org)
+</li>
+
+
+<li>
+David Coppens (d.l.coppens at gmail.com)
+</li>
+
+
+<li>
+Luca Maragnani (luca dot maragnani at gmail dot com)
+</li>
+
+
+<li>
+Philip Helger (http://www.helger.com) for his 
+<a href="https://github.com/phax" target="_blank">
+CSS Parser
+</a>
+ and for taking into account our bug reports very rapidly
+</li>
+
+
+<li>
+Irek Pastusiak (the.automatic.tester at gmail.com)
+</li>
+
+
+</ul>
+<p>
+We also thank bug reporters who helped us improve JMeter. 
+<br>
+
+
+For this release we want to give special thanks to the following reporters for the clear reports and tests made after our fixes:
+</p>
+<ul>
+
+
+<li>
+purnasatyap at gmail dot com  for the tests and reports on nightly build
+</li>
+
+
+<li>
+Sergey Batalin (sergey_batalin at mail dot ru) for the tests and reports on nightly build
+</li>
+
+
+<li>
+Vincent Daburon (vdaburon at gmail dot com) for the tests and reports on nightly build
+</li>
+ 
+
+</ul>
+<p>
+
+Apologies if we have omitted anyone else.
+ 
+</p>
+<br/><br/><table width="100%" cellpadding="3" cellspacing="2" bgcolor="#525D76" border="0">
+<tr><td><font color="white" face="Helvetica, Arial, sans-serif"><b><big><big><a name="Known problems and workarounds">Known problems and workarounds</a></big></big></b></font></td></tr></table><br/>
+<ul>
+
+
+<li>
+The Once Only controller behaves correctly under a Thread Group or Loop Controller,
+but otherwise its behaviour is not consistent (or clearly specified).
+</li>
+
+
+
+<li>
+
+The numbers that appear to the left of the green box are the number of active threads / total number of threads, 
+the total number of threads only applies to a locally run test, otherwise it will show 
+<tt class="code">0</tt>
+ (see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55510">Bug 55510</a>
+).
+
+</li>
+
+
+
+<li>
+
+Note that there is a 
+<a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6396599 ">
+bug in Java
+</a>
+
+on some Linux systems that manifests itself as the following error when running the test cases or JMeter itself:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+ [java] WARNING: Couldn't flush user prefs:
+ java.util.prefs.BackingStoreException:
+ java.lang.IllegalArgumentException: Not supported: indent-number
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+This does not affect JMeter operation. This issue is fixed since Java 7b05.
+
+</li>
+
+
+
+<li>
+
+Note that under some windows systems you may have this WARNING:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+java.util.prefs.WindowsPreferences 
+WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0
+x80000002. Windows RegCreateKeyEx(…) returned error code 5.
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+The fix is to run JMeter as Administrator, it will create the registry key for you, then you can restart JMeter as a normal user and you won't have the warning anymore.
+
+</li>
+
+
+
+<li>
+
+With Oracle Java 7 and Mac Book Pro Retina Display, the JMeter GUI may look blurry. 
+This is a known Java bug, see Bug 
+<a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8000629">
+JDK-8000629
+</a>
+.
+A workaround is to use a Java 7 update 40 runtime which fixes this issue.
+
+</li>
+
+
+
+<li>
+
+You may encounter the following error:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>java.security.cert.CertificateException: Certificates does not conform to algorithm constraints</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+ if you run a HTTPS request on a web site with a SSL certificate (itself or one of SSL certificates in its chain of trust) with a signature
+ algorithm using MD2 (like md2WithRSAEncryption) or with a SSL certificate with a size lower than 1024 bits.
+This error is related to increased security in Java 7 version u16 (MD2) and version u40 (Certificate size lower than 1024 bits), and Java 8 too.
+
+<br>
+
+
+To allow you to perform your HTTPS request, you can downgrade the security of your Java installation by editing 
+the Java 
+<tt class="code">jdk.certpath.disabledAlgorithms</tt>
+ property. Remove the MD2 value or the constraint on size, depending on your case.
+
+<br>
+
+
+This property is in this file:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>JAVA_HOME/jre/lib/security/java.security</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+See  
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56357">Bug 56357</a>
+ for details.
+
+</li>
+
+
+
+<li>
+
+Under Mac OSX Aggregate Graph will show wrong values due to mirroring effect on numbers.
+This is due to a known Java bug, see Bug 
+<a href="https://bugs.openjdk.java.net/browse/JDK-8065373">
+JDK-8065373
+</a>
+ 
+The fix is to use JDK7_u79, JDK8_u45 or later.
+
+</li>
+
+
+
+<li>
+
+View Results Tree may fail to display some HTML code under HTML renderer, see 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=54586">Bug 54586</a>
+.
+This is due to a known Java bug which fails to parse "
+<tt class="code">px</tt>
+" units in row/col attributes.
+See Bug 
+<a href="https://bugs.openjdk.java.net/browse/JDK-8031109">
+JDK-8031109
+</a>
+ 
+The fix is to use JDK9 b65 or later.
+
+</li>
+
+
+
+<li>
+
+JTable selection with keyboard (
+<span class="keycombo"><span class="keysym">SHIFT</span>&nbsp;+&nbsp;<span class="keysym">up/down</span></span>) is totally unusable with JAVA 7 on Mac OSX.
+This is due to a known Java bug 
+<a href="https://bugs.openjdk.java.net/browse/JDK-8025126">
+JDK-8025126
+</a>
+ 
+The fix is to use JDK 8 b132 or later.
+
+</li>
+
+
+</ul>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td align="center">
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -116,7 +116,9 @@ RUN \
 ENV \
   LOGS_HOME=/root/logs \
   DATA_HOME=/root/data \
-  MODELS_HOME=/root/models \
+  BIN_HOME=/root/bin \
+  STORE_HOME=/root/store \
+  SCRIPTS_HOME=/root/scripts \
   TENSORBOARD_HOME=/root/tensorboard \
   SOURCE_HOME=/root/src
 
@@ -202,6 +204,9 @@ ENV \
 #ENV \
 #  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
 
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
+
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
@@ -227,30 +232,6 @@ RUN \
   cd ${SPARK_HOME}/conf \
   && ln -s ~/conf/spark/hdfs-site.xml
 
-# Airflow
-ENV \ 
-  AIRFLOW_HOME=/root/airflow
-
-RUN \
-  mkdir -p $AIRFLOW_HOME \
-  && cd $AIRFLOW_HOME \
-  && ln -s $SOURCE_HOME/airflow/dags 
-
-COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
-
-COPY data $DATA_HOME
-COPY models $MODELS_HOME
-COPY src $SOURCE_HOME
-COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
-COPY run run
-
-RUN \
-  ln -s $SOURCE_HOME/notebooks
-
-RUN \
-  cd $MODELS_HOME/inception_model \
-  && tar -xzvf 00157585.tgz
-
 # Kubernetes
 ENV KUBERNETES_VERSION=1.5.1
 ENV KUBERNETES_HOME=/root/kubernetes/
@@ -273,6 +254,40 @@ RUN \
 ENV \
   PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-EXPOSE 9000 36006 38080 38888 50070
+# Airflow
+ENV \ 
+  AIRFLOW_HOME=/root/airflow
+
+RUN \
+  pip install airflow==1.7.1.3
+
+RUN \
+  mkdir -p $AIRFLOW_HOME \
+  && cd $AIRFLOW_HOME \
+  && ln -s $SOURCE_HOME/airflow/dags 
+
+COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
+
+ENV \
+  TESTS_HOME=/root/tests \
+  JMETER_HOME=/root/apache-jmeter-3.0 \
+  NOTEBOOKS_HOME=$SOURCE_HOME/notebooks \
+  LIB_HOME=/root/lib
+
+COPY bin $BIN_HOME
+COPY data $DATA_HOME
+COPY store $STORE_HOME
+COPY scripts $SCRIPTS_HOME
+COPY src $SOURCE_HOME
+COPY tests $TESTS_HOME
+COPY apache-jmeter-3.0 $JMETER_HOME
+COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
+COPY run run
+
+RUN \
+ apt-get install -y vim \
+ && apt-get install -y apache2
+
+EXPOSE 9000 9040 9041 9042 9043 46006 38080 38888 50070
 
 CMD ["supervise", "."]
