@@ -8,22 +8,22 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 
-import io.prometheus.client.hotspot.StandardExports;
-import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
+//import io.prometheus.client.hotspot.StandardExports;
+//import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
+//import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
 
+//@EnablePrometheusEndpoint
+//@EnableSpringBootMetricsCollector
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @Controller
 @EnableZuulProxy
-@EnablePrometheusEndpoint
-@EnableSpringBootMetricsCollector
 public class GatewayProxyApplication {
-    {
-      new StandardExports().register();
-    }
+//    {
+//      new StandardExports().register();
+//    }
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(GatewayProxyApplication.class).web(true).run(args);
