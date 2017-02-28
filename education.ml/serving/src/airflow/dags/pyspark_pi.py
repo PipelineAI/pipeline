@@ -27,5 +27,5 @@ dag = DAG('pyspark_pi', default_args=default_args)
 # t1 is an example of tasks created by instatiating operators
 t1 = BashOperator(
     task_id='pyspark_pi',
-    bash_command='spark-submit --master local[*] $SPARK_HOME/examples/src/main/python/pi.py 10',
+    bash_command='spark-submit --master spark://127.0.0.1:47077 $SPARK_HOME/examples/src/main/python/pi.py 10',
     dag=dag)

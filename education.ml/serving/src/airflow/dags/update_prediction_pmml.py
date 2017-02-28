@@ -18,7 +18,6 @@ default_args = {
 }
 
 dag = DAG('update_prediction_pmml', default_args=default_args)
-#, schedule_interval=timedelta(0))
 
 pull_git = BashOperator(
     task_id='pull_git',
@@ -36,20 +35,10 @@ push_image = BashOperator(
     bash_command='sudo docker push fluxcapacitor/prediction-pmml',
     dag=dag)
 
-#switch_to_aws = BashOperator(
-#    task_id='switch_to_aws',
-#    bash_command='sudo kubectl config use-context awsdemo',
-#    dag=dag)
-
 update_container_aws = BashOperator(
     task_id='update_container_aws',
     bash_command='kubectl rolling-update prediction-pmml --context=awsdemo --image-pull-policy=Always --image=fluxcapacitor/prediction-pmml',
     dag=dag)
-
-#switch_to_gcp = BashOperator(
-#    task_id='switch_to_gcp',
-#    bash_command='sudo kubectl config use-context gcpdemo', 
-#    dag=dag)
 
 update_container_gcp = BashOperator(
     task_id='update_container_gcp',
@@ -59,7 +48,5 @@ update_container_gcp = BashOperator(
 # Setup Airflow DAG
 build_image.set_upstream(pull_git)
 push_image.set_upstream(build_image)
-#switch_to_aws.set_upstream(push_image)
 update_container_aws.set_upstream(push_image)
-#switch_to_gcp.set_upstream(push_image)
 update_container_gcp.set_upstream(push_image)
