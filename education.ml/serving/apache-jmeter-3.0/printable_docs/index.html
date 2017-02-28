@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Apache JMeter - Apache JMeter™</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="./../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="./../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<strong>Apache JMeter™</strong></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+      The 
+<b>
+Apache JMeter™
+</b>
+ application is open source software,
+      a 100% pure Java application designed
+      to load test functional behavior and measure performance.  It was
+      originally designed for testing Web Applications but has
+      since expanded to other test functions.
+    
+</p>
+<h2>
+What can I do with it?
+</h2>
+<p>
+
+      Apache JMeter may be used to test performance both on static and dynamic
+      resources (Webservices (SOAP/REST), Web dynamic languages - PHP, Java, ASP.NET, Files, etc. -, Java Objects, Data Bases and
+      Queries, FTP Servers and more). It can be used to simulate a heavy
+load on a server, group of servers, network or object to test its strength or to analyze
+overall performance under different load types. You can use it to make a
+graphical analysis of performance or to test your server/script/object
+behavior under heavy concurrent load.
+
+</p>
+<h2>
+What does it do?
+</h2>
+<p>
+Apache JMeter features include:
+</p>
+<ul>
+
+    
+<li>
+Ability to load and performance test many different server/protocol types:
+        
+<ul>
+
+        
+<li>
+Web - HTTP, HTTPS
+</li>
+
+        
+<li>
+SOAP / REST
+</li>
+
+        
+<li>
+FTP
+</li>
+
+        
+<li>
+Database via JDBC
+</li>
+
+        
+<li>
+LDAP
+</li>
+
+        
+<li>
+Message-oriented middleware (MOM) via JMS
+</li>
+
+        
+<li>
+Mail - SMTP(S), POP3(S) and IMAP(S)
+</li>
+
+        
+<li>
+Native commands or shell scripts
+</li>
+
+        
+<li>
+TCP
+</li>
+
+        
+</ul>
+
+    
+</li>
+
+    
+<li>
+Complete portability and 
+<b>
+100% Java purity
+</b>
+.
+</li>
+
+    
+<li>
+Full 
+<b>
+multithreading
+</b>
+ framework allows concurrent sampling by many threads and
+        simultaneous sampling of different functions by separate thread groups.
+</li>
+
+    
+<li>
+Careful 
+<b>
+GUI
+</b>
+ design allows faster Test Plan building and debugging.
+</li>
+
+    
+<li>
+Caching and offline analysis/replaying of test results.
+</li>
+
+    
+<li>
+<b>
+Highly Extensible core:
+</b>
+
+      
+<ul>
+
+        
+<li>
+Pluggable Samplers allow unlimited testing capabilities.
+</li>
+
+        
+<li>
+Several load statistics may be chosen with 
+<b>
+pluggable timers
+</b>
+.
+</li>
+
+        
+<li>
+Data analysis and 
+<b>
+visualization plugins
+</b>
+ allow great extensibility
+        as well as personalization.
+</li>
+
+        
+<li>
+Functions can be used to provide dynamic input to a test or provide data manipulation.
+</li>
+
+        
+<li>
+<b>
+Scriptable Samplers
+</b>
+ (BeanShell, BSF-compatible languages and JSR223-compatible languages)
+</li>
+
+      
+</ul>
+
+    
+</li>
+
+
+</ul>
+<h2>
+JMeter is not a browser
+</h2>
+<p>
+
+JMeter is not a browser.
+As far as web-services and remote services are concerned, JMeter looks like a browser (or rather, multiple browsers);
+however JMeter does not perform all the actions supported by browsers.
+In particular, JMeter does not execute the Javascript found in HTML pages.
+Nor does it render the HTML pages as a browser does 
+(it's possible to view the response as HTML etc., but the timings are not included in any samples, and only one sample in one thread is ever viewed at a time).
+
+</p>
+<h2>
+How do I do it?
+</h2>
+<ul>
+
+
+<li>
+<a href="usermanual/index.html">
+Using JMeter
+</a>
+</li>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/">
+JMeter Wiki
+</a>
+</li>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/JMeterFAQ">
+JMeter FAQ (Wiki)
+</a>
+</li>
+
+
+<li>
+<a href="api/index.html">
+Javadoc API documentation
+</a>
+</li>
+
+
+<li>
+<a href="localising/index.html">
+JMeter Localisation (Translator's Guide)
+</a>
+</li>
+
+
+<li>
+<a href="building.html">
+Building JMeter and Add-Ons
+</a>
+</li>
+
+
+</ul>
+<h2>
+Tutorials (PDF)
+</h2>
+<ul>
+
+
+<li>
+<a href="usermanual/jmeter_distributed_testing_step_by_step.pdf">
+Distributed Testing
+</a>
+</li>
+
+
+<li>
+<a href="usermanual/jmeter_proxy_step_by_step.pdf">
+Recording Tests
+</a>
+</li>
+
+
+<li>
+<a href="usermanual/junitsampler_tutorial.pdf">
+JUnit Sampler
+</a>
+</li>
+
+
+<li>
+<a href="usermanual/jmeter_accesslog_sampler_step_by_step.pdf">
+Access Log Sampler
+</a>
+</li>
+
+
+<li>
+<a href="extending/jmeter_tutorial.pdf">
+Extending JMeter
+</a>
+</li>
+
+
+</ul>
+<h2>
+Further Information About JMeter
+</h2>
+<ul>
+
+
+<li>
+<a href="changes.html">
+Changes List
+</a>
+</li>
+
+
+<li>
+<a href="issues.html">
+Issues
+</a>
+</li>
+
+
+<li>
+<a href="http://www.apache.org/licenses/">
+License
+</a>
+</li>
+
+
+<li>
+<a href="mail.html">
+Mailing Lists
+</a>
+</li>
+
+
+<li>
+<a href="svnindex.html">
+Source Repositories
+</a>
+</li>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/JMeterCommitters">
+Contributors
+</a>
+</li>
+
+
+</ul>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td align="center">
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
