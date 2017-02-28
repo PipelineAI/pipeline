@@ -1,3 +1,5 @@
 #!/bin/bash
 
-java -Djava.security.egd=file:/dev/./urandom -Dserver.port=39041 -jar $LIB_HOME/sbt-launch.jar "run-main com.advancedspark.serving.prediction.codegen.PredictionServiceMain"
+cd $PREDICTION_HOME/codegen
+
+java -Djava.security.egd=file:/dev/./urandom -Dserver.port=39041 -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.codegen.PredictionServiceMain"

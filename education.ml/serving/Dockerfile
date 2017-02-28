@@ -117,7 +117,6 @@ ENV \
   LOGS_HOME=/root/logs \
   DATASETS_HOME=/root/datasets \
   BIN_HOME=/root/bin \
-  STORE_HOME=/root/store \
   SCRIPTS_HOME=/root/scripts \
   TENSORBOARD_HOME=/root/tensorboard \
   SOURCE_HOME=/root/src
@@ -243,6 +242,26 @@ RUN \
 ENV \
   PATH=$KUBERNETES_HOME/client/bin:$PATH
 
+RUN \
+  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && sudo apt-get update \
+  && sudo apt-get install -y sbt
+
+RUN \
+  sbt clean clean-files
+
+RUN \
+  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
+  && rm apache-maven-3.3.9-bin.tar.gz
+
+ENV \
+  MAVEN_HOME=/root/apache-maven-3.3.9/
+
+ENV \
+  PATH=$MAVEN_HOME/bin:$PATH
+
 # Airflow
 ENV \ 
   AIRFLOW_HOME=/root/airflow
@@ -259,11 +278,11 @@ ENV \
   JMETER_HOME=/root/apache-jmeter-3.0 \
   NOTEBOOKS_HOME=$SOURCE_HOME/notebooks \
   LIB_HOME=/root/lib \
-  TESTS_HOME=$SOURCE_HOME/tests
+  TESTS_HOME=$SOURCE_HOME/tests \
+  PREDICTION_HOME=$SOURCE_HOME/prediction.ml
 
 COPY bin $BIN_HOME
 COPY datasets $DATASETS_HOME
-COPY store $STORE_HOME
 COPY scripts $SCRIPTS_HOME
 COPY src $SOURCE_HOME
 COPY lib $LIB_HOME
@@ -277,12 +296,48 @@ RUN \
   && hadoop fs -copyFromLocal $DATASETS_HOME / 
 
 RUN \
- apt-get install -y vim \
- && apt-get install -y apache2
+  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && sudo apt-get update \
+  && sudo apt-get install -y sbt
+
+RUN \
+  sbt clean clean-files
+
+RUN \
+  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
+  && rm apache-maven-3.3.9-bin.tar.gz
+
+ENV \
+  MAVEN_HOME=/root/apache-maven-3.3.9/
+
+ENV \
+  PATH=$MAVEN_HOME/bin:$PATH
+
+RUN \
+  apt-get install -y vim \
+  && apt-get install -y apache2
+
+RUN \
+  cd $PREDICTION_HOME/codegen \
+  && sbt clean package
+
+RUN \
+  cd $PREDICTION_HOME/pmml \
+  && sbt clean package
+
+RUN \
+  cd $PREDICTION_HOME/keyvalue \
+  && sbt clean package
+
+RUN \
+  cd $PREDICTION_HOME/tensorflow \
+  && sbt clean package
 
 ENV \
   PATH=$JMETER_HOME/bin:$BIN_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
 
-EXPOSE 39000 39040 39041 39042 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044
+EXPOSE 39000 39040 39041 39042 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 49040 49041 49042 49043 47979
 
 CMD ["supervise", "."]
