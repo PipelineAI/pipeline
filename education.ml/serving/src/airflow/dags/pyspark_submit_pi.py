@@ -6,7 +6,6 @@ from airflow import DAG
 from airflow.operators import BashOperator
 from datetime import datetime, timedelta
 
-
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -22,10 +21,9 @@ default_args = {
     # 'end_date': datetime(2016, 4, 24),
 }
 
-dag = DAG('pyspark_pi', default_args=default_args)
+dag = DAG('pyspark_submit_pi', default_args=default_args)
 
-# t1 is an example of tasks created by instatiating operators
 t1 = BashOperator(
-    task_id='pyspark_pi',
-    bash_command='spark-submit --master spark://127.0.0.1:47077 $SPARK_HOME/examples/src/main/python/pi.py 10',
+    task_id='spark_submit',
+    bash_command='spark-submit --master spark://127.0.0.1:47077 $SOURCE_HOME/spark/pyspark_pi.py 10',
     dag=dag)

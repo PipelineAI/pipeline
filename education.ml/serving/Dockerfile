@@ -318,6 +318,9 @@ RUN \
   apt-get install -y vim \
   && apt-get install -y apache2
 
+RUN \
+  conda install --yes nbconvert 
+
 EXPOSE 39000 39040 39041 39042 39043 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 47979
 
 CMD ["supervise", "."]
