@@ -14,3 +14,9 @@ airflow initdb
 airflow webserver &
 
 airflow scheduler 
+
+start-spark-master.sh
+
+start-spark-worker.sh
+
+start-dashboard.sh &

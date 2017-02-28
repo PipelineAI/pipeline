@@ -291,15 +291,6 @@ COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
 COPY run run
 
 RUN \
-  /usr/sbin/sshd \
-  && start-dfs.sh \
-  && hadoop fs -copyFromLocal $DATASETS_HOME / 
-
-RUN \
-  apt-get install -y vim \
-  && apt-get install -y apache2
-
-RUN \
   cd $PREDICTION_HOME/codegen \
   && sbt clean package
 
@@ -318,6 +309,15 @@ RUN \
 ENV \
   PATH=$JMETER_HOME/bin:$BIN_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
 
-EXPOSE 39000 39040 39041 39042 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 49040 49041 49042 49043 47979
+RUN \
+  /usr/sbin/sshd \
+  && start-dfs.sh \
+  && hadoop fs -copyFromLocal $DATASETS_HOME /
+
+RUN \
+  apt-get install -y vim \
+  && apt-get install -y apache2
+
+EXPOSE 39000 39040 39041 39042 39043 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 47979
 
 CMD ["supervise", "."]
