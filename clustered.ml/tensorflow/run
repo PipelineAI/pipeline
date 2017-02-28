@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
-
 python bin/dist_mnist_trainer.py \
   --ps_hosts=$PS_HOSTS \
   --worker_hosts=$WORKER_HOSTS \

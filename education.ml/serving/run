@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Required by Tensorflow
+tensorboard --port=46006 --logdir=$TENSORBOARD_HOME &
+
+jupyter notebook "$@" &
+
+/usr/sbin/sshd
+
+start-dfs.sh 
+
+start-spark-master.sh
+
+start-spark-worker.sh
+
+start-dashboard.sh &
+
+airflow initdb
+
+airflow webserver &
+
+start-codegen-prediction-server.sh &
+
+start-keyvalue-prediction-server.sh &
+
+start-pmml-prediction-server.sh &
+
+start-tensorflow-prediction-server.sh &
+
+airflow scheduler

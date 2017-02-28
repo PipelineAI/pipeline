@@ -173,15 +173,16 @@ ENV \
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
   
-#ENV \
-#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
  
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
 # Required by Spark
 ENV \
-  HADOOP_CONF_DIR=${HADOOP_HOME}
+  HADOOP_CONF_DIR=${HADOOP_CONF}
 
 COPY config/hdfs/ conf/
 

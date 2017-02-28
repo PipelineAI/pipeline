@@ -123,8 +123,9 @@ ENV \
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
 
-#ENV \
-#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
@@ -156,7 +157,6 @@ COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
 COPY github_webhook github_webhook
 
 COPY run run
-
 
 EXPOSE 8080 5000 5555 8793
 
