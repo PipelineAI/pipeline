@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="prediction-keyvalue"
+		module="prediction-keyvalue_2.11"
+		revision="1.0"
+		conf="sources"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20170301013035"/>
+	<dependencies>
+	</dependencies>
+</ivy-report>
