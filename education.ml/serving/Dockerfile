@@ -102,10 +102,22 @@ RUN \
   cd $TENSORFLOW_HOME \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
-# Utility for optimizing/simplifying models for inference
+# Utilites for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
   && bazel build tensorflow/python/tools:optimize_for_inference
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/python/tools:freeze_graph
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/tools/graph_transforms:summarize_graph
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/tools/graph_transforms:transform_graph
 
 ENV \
  TENSORFLOW_VERSION=1.0.0
@@ -122,8 +134,8 @@ ENV \
   SOURCE_HOME=/root/src
 
 # TODO:  Remove this once we have a Spark sample
-RUN \
-  mkdir -p $SOURCE_HOME/spark
+#RUN \
+#  mkdir -p $SOURCE_HOME/spark
 
 RUN \
   mkdir -p $LOGS_HOME \
@@ -168,7 +180,16 @@ ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
 
-COPY config/hadoop/*.xml ${HADOOP_CONF}
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline.git
+
+#COPY config/hadoop/*.xml ${HADOOP_CONF}
+RUN \
+  cd ${HADOOP_CONF} \
+  && mv core-site.xml core-site.xml.orig \
+  && ln -s ~/pipeline/education.ml/serving/config/hadoop/core-site.xml \
+  && mv hdfs-site.xml hdfs-site.xml.orig \
+  && ln -s ~/pipeline/education.ml/serving/config/hadoop/hdfs-site.xml
 
 RUN \
   sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
@@ -200,17 +221,21 @@ ENV \
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
 
-#ENV \
-#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
-
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
-COPY config/spark/ conf/spark/
-COPY config/hdfs/ conf/hdfs/
+RUN \
+  mkdir -p ~/conf
+
+#COPY config/spark/ conf/spark/
+#COPY config/hdfs/ conf/hdfs/
+RUN \
+  cd ~/conf \
+  && ln -s ~/pipeline/education.ml/serving/config/spark \
+  && ln -s ~/pipeline/education.ml/serving/config/hdfs
 
 RUN \
   cd ${SPARK_HOME}/conf \
@@ -272,7 +297,10 @@ RUN \
 RUN \
   mkdir -p $AIRFLOW_HOME 
 
-COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
+#COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
+RUN \
+  cd $AIRFLOW_HOME \
+  && ln -s ~/pipeline/education.ml/serving/config/airflow/airflow.cfg
 
 ENV \
   JMETER_HOME=/root/apache-jmeter-3.0 \
@@ -281,14 +309,36 @@ ENV \
   TESTS_HOME=$SOURCE_HOME/tests \
   PREDICTION_HOME=$SOURCE_HOME/prediction.ml
 
-COPY bin $BIN_HOME
-COPY datasets $DATASETS_HOME
-COPY scripts $SCRIPTS_HOME
-COPY src $SOURCE_HOME
-COPY lib $LIB_HOME
-COPY apache-jmeter-3.0 $JMETER_HOME
-COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
-COPY run run
+#COPY bin $BIN_HOME
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/bin
+
+#COPY datasets $DATASETS_HOME
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/datasets
+
+#COPY src $SOURCE_HOME
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/src
+
+#COPY lib $LIB_HOME
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/lib
+
+#COPY scripts $SCRIPTS_HOME
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/scripts
+
+#COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
+RUN \
+  mkdir -p ~/.jupyter/ \
+  && cd ~/.jupyter \
+  && ln -s ~/pipeline/education.ml/serving/config/jupyter/jupyter_notebook_config.py
 
 RUN \
   cd $PREDICTION_HOME/codegen \
@@ -320,6 +370,13 @@ RUN \
 
 RUN \
   conda install --yes nbconvert 
+
+COPY apache-jmeter-3.0 $JMETER_HOME
+
+#COPY run run
+RUN \
+  cd ~ \
+  && ln -s ~/pipeline/education.ml/serving/run
 
 EXPOSE 39000 39040 39041 39042 39043 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 47979
 
