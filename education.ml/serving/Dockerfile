@@ -125,11 +125,17 @@ ENV \
 RUN \
   pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
+RUN \
+  apt-get install -y vim \
+  && apt-get install -y apache2
+
+RUN \
+  conda install --yes nbconvert
+
 ENV \
   LOGS_HOME=/root/logs \
   DATASETS_HOME=/root/datasets \
   BIN_HOME=/root/bin \
-  SCRIPTS_HOME=/root/scripts \
   TENSORBOARD_HOME=/root/tensorboard \
   SOURCE_HOME=/root/src
 
@@ -183,7 +189,6 @@ ENV \
 RUN \
   git clone https://github.com/fluxcapacitor/pipeline.git
 
-#COPY config/hadoop/*.xml ${HADOOP_CONF}
 RUN \
   cd ${HADOOP_CONF} \
   && mv core-site.xml core-site.xml.orig \
@@ -230,8 +235,6 @@ ENV \
 RUN \
   mkdir -p ~/conf
 
-#COPY config/spark/ conf/spark/
-#COPY config/hdfs/ conf/hdfs/
 RUN \
   cd ~/conf \
   && ln -s ~/pipeline/education.ml/serving/config/spark \
@@ -294,6 +297,14 @@ ENV \
 RUN \
   pip install airflow==1.7.1.3
 
+ENV \
+  JMETER_VERSION=3.0.0
+
+RUN \
+  wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+  && tar xvzf apache-jmeter-${JMETER_VERSION}.tgz \
+  && rm apache-jmeter-${JMETER_VERSION}.tgz
+
 RUN \
   mkdir -p $AIRFLOW_HOME 
 
@@ -309,32 +320,22 @@ ENV \
   TESTS_HOME=$SOURCE_HOME/tests \
   PREDICTION_HOME=$SOURCE_HOME/prediction.ml
 
-#COPY bin $BIN_HOME
 RUN \
   cd ~ \
   && ln -s ~/pipeline/education.ml/serving/bin
 
-#COPY datasets $DATASETS_HOME
 RUN \
   cd ~ \
   && ln -s ~/pipeline/education.ml/serving/datasets
 
-#COPY src $SOURCE_HOME
 RUN \
   cd ~ \
   && ln -s ~/pipeline/education.ml/serving/src
 
-#COPY lib $LIB_HOME
 RUN \
   cd ~ \
   && ln -s ~/pipeline/education.ml/serving/lib
 
-#COPY scripts $SCRIPTS_HOME
-RUN \
-  cd ~ \
-  && ln -s ~/pipeline/education.ml/serving/scripts
-
-#COPY config/jupyter/jupyter_notebook_config.py /root/.jupyter/
 RUN \
   mkdir -p ~/.jupyter/ \
   && cd ~/.jupyter \
@@ -365,18 +366,13 @@ RUN \
   && hadoop fs -copyFromLocal $DATASETS_HOME /
 
 RUN \
-  apt-get install -y vim \
-  && apt-get install -y apache2
-
-RUN \
-  conda install --yes nbconvert 
-
-COPY apache-jmeter-3.0 $JMETER_HOME
-
-#COPY run run
-RUN \
   cd ~ \
   && ln -s ~/pipeline/education.ml/serving/run
+
+RUN \
+  mkdir -p ~/.ipython/profile_default/startup \
+  && cd ~/.ipython/profile_default/startup \
+  && ln -s ~/config/jupyter/00-setup-spark.py
 
 EXPOSE 39000 39040 39041 39042 39043 46006 38080 38888 50070 46060 46061 46066 47077 44040 44041 44042 44043 44044 47979
 
