@@ -2,6 +2,7 @@ cd ~/pipeline
 
 git pull
 
+mkdir -p ~/.ipython/profile_default/startup
 cp ~/scripts/fixme/00-setup-spark.py ~/.ipython/profile_default/startup
 
 hadoop fs -copyFromLocal ~/datasets /
