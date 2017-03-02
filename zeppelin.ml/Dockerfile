@@ -2,8 +2,11 @@ FROM fluxcapacitor/package-spark-2.0.1
 
 WORKDIR /root
 
-ENV ZEPPELIN_VERSION=0.7.0-spark-2.0-scala-2.11-SNAPSHOT
-ENV ZEPPELIN_HOME=/root/zeppelin-0.7.0-SNAPSHOT
+ENV \
+  ZEPPELIN_VERSION=0.7.0-spark-2.0-scala-2.11-SNAPSHOT
+
+ENV \
+  ZEPPELIN_HOME=/root/zeppelin-0.7.0-SNAPSHOT
 
 RUN \
   wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-$ZEPPELIN_VERSION.tar.gz \
@@ -22,14 +25,14 @@ ENV \
   PATH=/opt/conda/bin:$PATH 
 
 RUN \
-  conda install --yes scikit-learn numpy scipy matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 ENV \
-  TENSORFLOW_VERSION=0.12.1
+  TENSORFLOW_VERSION=1.0.0
 
 RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   conda install --yes -c conda-forge py4j
@@ -59,7 +62,8 @@ RUN \
 #  && R -e "devtools::install_github('IRkernel/IRkernel')" \
 #  && R -e "IRkernel::installspec(user = FALSE)"
 
-ENV KUBERNETES_VERSION=1.5.1
+ENV \
+  KUBERNETES_VERSION=1.5.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -69,6 +73,17 @@ RUN \
   && sudo mv kubectl /usr/local/bin/kubectl
 
 COPY .kube/ .kube/
+
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
+
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 COPY run run 

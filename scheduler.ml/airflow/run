@@ -11,6 +11,10 @@ sleep 3
 
 /root/github_webhook &
 
+airflow flower &
+
 airflow webserver &
+
+airflow worker &
 
 airflow scheduler 

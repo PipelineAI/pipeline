@@ -32,14 +32,52 @@ ENV \
   PATH=/opt/conda/bin:$PATH 
 
 RUN \
-  conda install --yes scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
+  conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
 
 ENV \
-  TENSORFLOW_VERSION=0.12.1
+ BAZEL_VERSION=0.4.4
 
 RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+  mkdir /root/bazel \
+  && cd /root/bazel \
+  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+  && chmod +x bazel-*.sh \
+  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
+  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+ENV \
+  TENSORFLOW_HOME=/root/tensorflow
+
+ENV \
+ TENSORFLOW_VERSION=1.0.0
+
+RUN \
+  git clone -b v$TENSORFLOW_VERSION https://github.com/tensorflow/tensorflow.git
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+
+# Utility for optimizing/simplifying models for inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
+
+#RUN \
+#  pip install --ignore-installed --upgrade pip setuptools \
+#  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+
+RUN \
+  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
 RUN \
   conda install --yes -c conda-forge py4j
@@ -96,31 +134,67 @@ RUN \
 RUN \
   mkdir -p /root/tensorboard
 
-#RUN \
-#  git clone https://github.com/fluxcapacitor/pipeline
-
 COPY .kube/ .kube/
 
 COPY run run
 COPY config/jupyterhub/ config/jupyterhub/
 
-#RUN \
-#  ln -s pipeline/jupyterhub.ml/notebooks/ notebooks \
-#  && ln -s pipeline/jupyterhub.ml/lib/ lib
-
 COPY lib/ lib/
 
-#COPY notebooks/ notebooks/
 RUN \
   git clone https://github.com/fluxcapacitor/pipeline
+
 RUN \
   ln -s /root/pipeline/jupyterhub.ml/notebooks 
 
-#COPY scripts/ scripts/
 RUN \
   ln -s /root/pipeline/jupyterhub.ml/scripts
 
 COPY profiles/ /root/.ipython/ 
+
+ENV \
+  HADOOP_VERSION=2.7.2
+
+RUN \
+ wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz
+
+ENV \
+  HADOOP_HOME=/root/hadoop-${HADOOP_VERSION} \
+  HADOOP_OPTS=-Djava.net.preferIPv4Stack=true
+
+# This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
+ENV \
+  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
+
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
+  
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
+ 
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
+# Required by Spark
+ENV \
+  HADOOP_CONF_DIR=${HADOOP_CONF}
+
+COPY config/hdfs/ conf/
+
+RUN \
+  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ~/conf/core-site.xml
+
+RUN \
+  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ~/conf/hdfs-site.xml
 
 EXPOSE 6006 8754
 

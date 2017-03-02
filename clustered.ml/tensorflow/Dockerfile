@@ -6,11 +6,11 @@ RUN \
   apt-get update 
 
 ENV \
-  TENSORFLOW_VERSION=0.12.1
+  TENSORFLOW_VERSION=1.0.0
 
 RUN \
-#  pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp35-cp35m-linux_x86_64.whl
-  conda install -c conda-forge tensorflow=$TENSORFLOW_VERSION
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 # Java
 RUN \
@@ -47,8 +47,9 @@ ENV \
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
 
-#ENV \
-#  CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server

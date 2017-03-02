@@ -11,8 +11,11 @@ spec:
   - name: github-webhook
     port: 5000
     targetPort: 5000
-#  - name: airflow-logs
-#    port: 8793
-#    targetPort: 8793
+  - name: celery-webui
+    port: 5555
+    targetPort: 5555
+  - name: airflow-logs
+    port: 8793
+    targetPort: 8793
   selector:
     name: airflow 

@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: gateway 
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    name: gateway
+  template:
+    metadata:
+      labels:
+        name: gateway 
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: zuul 
+        image: docker.io/fluxcapacitor/api-gateway
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        ports:
+        - containerPort: 8080 
+      nodeSelector:
+        prediction: "true"

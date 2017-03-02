@@ -22,7 +22,7 @@ spec:
           mountPath: /var/grafana-storage
         ports:
         - name: web
-          containerPort: 3000
+          containerPort: 3000 
         resources:
           requests:
             memory: 100Mi

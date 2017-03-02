@@ -14,6 +14,10 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
+  sudo chmod a+x kubectl \
+  && sudo mv kubectl /usr/local/bin/kubectl
+
+RUN \
   echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
 
 ENV \

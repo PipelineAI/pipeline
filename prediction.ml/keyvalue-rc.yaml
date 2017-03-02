@@ -14,6 +14,10 @@ spec:
       labels:
         name: prediction-keyvalue
         hystrix.enabled: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "9040"
     spec:
       containers:
       - name: prediction-keyvalue
@@ -22,15 +26,5 @@ spec:
         env:
         ports:
         - containerPort: 9040
-#      nodeSelector:
-#        nodetype: prediction
-#        livenessProbe:
-#          httpGet:
-#            path: "/health"
-#            port: 9040
-#          initialDelaySeconds: 300 
-#        readinessProbe:
-#          httpGet:
-#            path: "/health"
-#            port: 9040
-#          initialDelaySeconds: 30 
+      nodeSelector:
+        prediction: "true"

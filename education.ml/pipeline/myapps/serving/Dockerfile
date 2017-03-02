@@ -25,8 +25,8 @@ ENV \
  JEDIS_VERSION=2.7.3 \
  JBLAS_VERSION=1.2.4 \
  BAZEL_VERSION=0.2.2 \
- TENSORFLOW_VERSION=0.9.0 \
- TENSORFLOW_SERVING_VERSION=0.4.1 \
+ TENSORFLOW_VERSION=1.0.0 \
+ TENSORFLOW_SERVING_VERSION=0.5.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc)
 #   in order to properly install Bazel (used by TensorFlow)
  JAVA_HOME=/usr/lib/jvm/java-8-oracle \
@@ -74,10 +74,7 @@ RUN \
 
 # TensorFlow
 RUN \
-  pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-$TENSORFLOW_VERSION-cp27-none-linux_x86_64.whl
-
-# TensorFlow GPU-enabled
-# && pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl \
+  pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
 # Required by Webdis Redis REST Server

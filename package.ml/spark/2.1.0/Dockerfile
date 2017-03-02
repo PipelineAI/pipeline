@@ -38,7 +38,7 @@ ENV \
 
 # Required by Spark
 ENV \
-  HADOOP_CONF_DIR=${HADOOP_HOME}
+  HADOOP_CONF_DIR=${HADOOP_CONF}
 
 COPY config/spark/ ${SPARK_HOME}/conf/
 

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway 
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http 
+    port: 80 
+    targetPort: 8080 
+  selector:
+    name: gateway
