@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Required by Tensorflow
-tensorboard --port=46006 --logdir=$TENSORBOARD_HOME &
+cd pipeline && git pull
 
-jupyter notebook "$@" &
+tensorboard --port=46006 --logdir=$TENSORBOARD_HOME &
 
 /usr/sbin/sshd
 
@@ -27,4 +26,6 @@ start-pmml-prediction-server.sh &
 
 start-tensorflow-prediction-server.sh &
 
-airflow scheduler
+airflow scheduler &
+
+jupyter notebook "$@" 
