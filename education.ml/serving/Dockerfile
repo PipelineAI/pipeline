@@ -113,6 +113,10 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/python/tools:strip_unused
+
+RUN \
+  cd $TENSORFLOW_HOME \
   && bazel build tensorflow/tools/graph_transforms:summarize_graph
 
 RUN \
