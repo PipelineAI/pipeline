@@ -4,16 +4,16 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 # Flags for defining the tf.train.ClusterSpec
 tf.app.flags.DEFINE_string("ps_hosts", "",
-                           ["clustered-tensorflow-ps0:2222","clustered-tensorflow-ps1:2222"])
+                           ["clustered-tensorflow-ps:2222"])
 tf.app.flags.DEFINE_string("worker_hosts", "",
-                           ["clustered-tensorflow-worker0:2222","clustered-tensorflow-worker1:2222"])
+                           ["clustered-tensorflow-worker:2222"])
 
 # Flags for defining the tf.train.Server
 tf.app.flags.DEFINE_string("job_name", "", "One of 'ps', 'worker'")
 tf.app.flags.DEFINE_integer("task_index", 0, "Index of task within the job")
 tf.app.flags.DEFINE_integer("hidden_units", 100,
                             "Number of units in the hidden layer of the NN")
-tf.app.flags.DEFINE_string("data_dir", "data/mnist/",
+tf.app.flags.DEFINE_string("data_dir", "datasets/mnist/",
                            "Directory for storing mnist data")
 tf.app.flags.DEFINE_integer("batch_size", 100, "Training batch size")
 

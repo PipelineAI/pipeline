@@ -66,8 +66,9 @@ RUN \
   && cd ${HADOOP_CONF} \
   && ln -s ~/conf/hdfs-site.xml
   
-COPY bin/ bin/
-COPY data/ data/
+#COPY bin/ bin/
+#COPY src/ src/
+#COPY data/ data/
 
 COPY run run
 

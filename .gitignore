@@ -1,4 +1,5 @@
 build
+.kube
 .gradle
 .settings
 .cache-main

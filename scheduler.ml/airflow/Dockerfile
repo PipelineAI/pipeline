@@ -75,9 +75,6 @@ RUN \
   curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz \
   && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
 
-RUN \
-  git clone http://github.com/fluxcapacitor/pipeline
-
 ENV \
   KUBERNETES_VERSION=1.5.1
 
@@ -88,13 +85,9 @@ RUN \
   sudo chmod a+x kubectl \
   && sudo mv kubectl /usr/local/bin/kubectl
 
-# We will need a .kube/ to interact with Kubernetes
-#COPY .kube/ .kube/
-
 RUN \
   mkdir -p $AIRFLOW_HOME \
-  && cd $AIRFLOW_HOME \
-  && ln -s /root/pipeline/scheduler.ml/airflow/dags
+  && cd $AIRFLOW_HOME 
 
 # Hadoop
 ENV \
@@ -152,6 +145,17 @@ COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
 COPY github_webhook github_webhook
 
 COPY run run
+
+# Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/pipeline.git -> /root/pipeline
+# This could also be done with a Docker Volume mount with some creative scripting
+#RUN \
+#  git clone https://github.com/fluxcapacitor/pipeline
+
+RUN \
+  mkdir -p ~/.kube
+
+ENV \
+  PIPELINE_HOME=/root/pipeline/
 
 EXPOSE 8080 5000 5555 8793
 

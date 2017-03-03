@@ -34,11 +34,17 @@ spec:
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
+          - name: pipeline-git-volume
+            mountPath: /root/pipeline
         securityContext:
           privileged: true
       volumes:
         - hostPath:
             path: /var/run/docker.sock
           name: dockersocket
+        - name: pipeline-git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/pipeline.git"
+            revision: "master"
       nodeSelector:
         training: "true"

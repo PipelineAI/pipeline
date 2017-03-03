@@ -24,4 +24,6 @@ RUN \
 #ENV \
 #  PATH=$KOPS_HOME:$PATH
   
-COPY .kube/ .kube/
+#COPY .kube/ .kube/
+RUN \
+  mkdir -p ~/.kube

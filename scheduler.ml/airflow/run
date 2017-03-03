@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -f $AIRFLOW_HOME/dags ]; then
+  cd $AIRFLOW_HOME && ln -s /root/pipeline/scheduler.ml/airflow/dags 
+fi
+
 /usr/local/bin/dockerd
 
 # Start Airflow

@@ -72,8 +72,6 @@ RUN \
   sudo chmod a+x kubectl \
   && sudo mv kubectl /usr/local/bin/kubectl
 
-COPY .kube/ .kube/
-
 # Required by Tensorflow
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
@@ -87,8 +85,16 @@ ENV \
 
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 COPY run run 
-COPY lib/ lib/
-COPY notebook/ notebook/
+#COPY lib/ lib/
+#COPY notebook/ notebook/
+
+# Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/pipeline.git -> /root/pipeline
+# This could also be done with a Docker Volume mount with some creative scripting
+#RUN \
+#  git clone https://github.com/fluxcapacitor/pipeline
+
+ENV \
+  PIPELINE_HOME=/root/pipeline/
 
 EXPOSE 3123 3124
 

@@ -51,4 +51,12 @@ EXPOSE 8101 8102 8105 22122 22222
 COPY run run
 COPY config/ config/
 
+COPY data/dump.rdb $DATA_HOME/dump.rdb
+
+RUN \
+  chmod a+w $DATA_HOME/dump.rdb
+
+ENV \
+  PIPELINE_HOME=/root/pipeline/
+
 CMD ["supervise", "."]

@@ -23,5 +23,13 @@ spec:
         ports:
         - containerPort: 6379
         - containerPort: 7379
+        volumeMounts:
+          - name: pipeline-git-volume
+            mountPath: /root/pipeline
+      volumes:
+        - name: pipeline-git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/pipeline.git"
+            revision: "master"
       nodeSelector:
         training: "true"

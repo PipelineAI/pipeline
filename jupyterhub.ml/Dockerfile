@@ -134,24 +134,6 @@ RUN \
 RUN \
   mkdir -p /root/tensorboard
 
-COPY .kube/ .kube/
-
-COPY run run
-COPY config/jupyterhub/ config/jupyterhub/
-
-COPY lib/ lib/
-
-RUN \
-  git clone https://github.com/fluxcapacitor/pipeline
-
-RUN \
-  ln -s /root/pipeline/jupyterhub.ml/notebooks 
-
-RUN \
-  ln -s /root/pipeline/jupyterhub.ml/scripts
-
-COPY profiles/ /root/.ipython/ 
-
 ENV \
   HADOOP_VERSION=2.7.2
 
@@ -195,6 +177,26 @@ RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
   && ln -s ~/conf/hdfs-site.xml
+
+# Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/pipeline.git -> /root/pipeline
+# This could also be done with a Docker Volume mount with some creative scripting
+#RUN \
+#  git clone https://github.com/fluxcapacitor/pipeline
+
+#RUN \
+#  ln -s /root/pipeline/jupyterhub.ml/notebooks
+
+#COPY lib/ lib/
+
+COPY run run
+COPY config/jupyterhub/ config/jupyterhub/
+COPY profiles/ /root/.ipython/
+
+RUN \
+  mkdir -p ~/.kube
+
+ENV \
+  PIPELINE_HOME=/root/pipeline/
 
 EXPOSE 6006 8754
 

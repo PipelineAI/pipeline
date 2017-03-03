@@ -1,34 +1,42 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: clustered-tensorflow-worker0 
+  name: clustered-tensorflow-worker 
   labels:
-    app: clustered-tensorflow-worker0
+    app: clustered-tensorflow-worker
 spec:
   replicas: 1
   selector:
-    name: clustered-tensorflow-worker0
+    name: clustered-tensorflow-worker
   template:
     metadata:
       labels:
-        name: clustered-tensorflow-worker0
+        name: clustered-tensorflow-worker
     spec:
       containers:
-      - name: clustered-tensorflow-worker0
+      - name: clustered-tensorflow-worker
         image: docker.io/fluxcapacitor/clustered-tensorflow
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         - name: PS_HOSTS
-          value: clustered-tensorflow-ps0:2222,clustered-tensorflow-ps1:2222
+          value: clustered-tensorflow-ps:2222
         - name: WORKER_HOSTS
-          value: clustered-tensorflow-worker0:2222,clustered-tensorflow-worker1:2222
+          value: clustered-tensorflow-worker:2222
         - name: JOB_NAME
           value: worker
         - name: TASK_INDEX
           value: "0"
         ports:
         - containerPort: 2222
+        volumeMounts:
+          - name: pipeline-git-volume
+            mountPath: /root/pipeline
+      volumes:
+        - name: pipeline-git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/pipeline.git"
+            revision: "master"
       nodeSelector:
         training: "true"

@@ -53,13 +53,6 @@ RUN \
   && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
   && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# TODO:  Get YAML from pipeline repo
-RUN \
-  git clone https://github.com/fluxcapacitor/pipeline
-
-ENV \
-  PIPELINE_HOME=/root/pipeline/
-
 RUN \
   apt-get update
 
@@ -83,4 +76,7 @@ RUN \
   && apt-get update \
   && apt-get install -y azure-cli 
 
-COPY .kube/ .kube/
+#COPY .kube/ .kube/
+
+RUN \
+  mkdir -p ~/.kube

@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [ ! -f ~/bin]; then
+  cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/bin
+fi
+
+if [ ! -f ~/src]; then
+  cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/src
+fi 
+
+if [ ! -f ~/datasets]; then
+  cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/datasets
+fi 
+
 python bin/dist_mnist_trainer.py \
   --ps_hosts=$PS_HOSTS \
   --worker_hosts=$WORKER_HOSTS \

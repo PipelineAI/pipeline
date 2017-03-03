@@ -1,9 +1,11 @@
 #!/bin/bash
 
-echo '...Starting Webdis...'
+if [ ! -f ~/data]; then
+  cd ~ && ln -s /root/pipeline/keyvalue.ml/redis/data
+fi
+
 cd ~/webdis
 ./webdis webdis.json &
 
-echo '...Starting Redis...'
 cd ~
 redis-server config/redis.conf
