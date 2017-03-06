@@ -2,12 +2,10 @@ FROM fluxcapacitor/package-apache2
 
 WORKDIR /root
  
-COPY config/apache2.conf /etc/apache2/
-COPY config/www.conf /etc/apache2/sites-available/
-COPY html/ /var/www/html/
-COPY run run
+RUN \
+  mv /var/www/html /var/www/html.orig 
 
 RUN \
-  a2ensite www.conf 
+  mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig 
 
 CMD ["supervise", "."] 
