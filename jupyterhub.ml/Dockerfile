@@ -180,19 +180,19 @@ RUN \
 
 # Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/pipeline.git -> /root/pipeline
 # This could also be done with a Docker Volume mount with some creative scripting
-#RUN \
-#  git clone https://github.com/fluxcapacitor/pipeline
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline
 
-#RUN \
-#  ln -s /root/pipeline/jupyterhub.ml/notebooks
+RUN \
+  ln -s /root/pipeline/jupyterhub.ml/notebooks
 
-#COPY lib/ lib/
+COPY lib/ lib/
 
-#COPY config/jupyterhub/ config/jupyterhub/
-#COPY profiles/ /root/.ipython/
+COPY config/jupyterhub/ config/jupyterhub/
+COPY profiles/ /root/.ipython/
 
-#RUN \
-#  mkdir -p /root/config
+RUN \
+  mkdir -p /root/config
 
 RUN \
   mkdir -p /root/.ipython
