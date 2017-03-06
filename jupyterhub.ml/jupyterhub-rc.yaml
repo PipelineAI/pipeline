@@ -29,7 +29,7 @@ spec:
         - containerPort: 8754
         volumeMounts:
           - name: source-git-volume
-            mountPath: /root
+            mountPath: /root/volumes
       volumes:
         - name: source-git-volume
           gitRepo:

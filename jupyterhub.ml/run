@@ -1,11 +1,11 @@
 #!/bin/bash
 
 if [ ! -f ~/notebooks ]; then
-  cd ~ && ln -s /root/source.ml/jupyterhub.ml/notebooks
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/notebooks
 fi
 
 if [ ! -f ~/lib ]; then
-  cd ~ && ln -s /root/source.ml/jupyterhub.ml/lib
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/lib
 fi
 
 #if [ ! -f ~/config/jupyterhub ]; then
