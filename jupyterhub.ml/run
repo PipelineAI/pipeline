@@ -1,18 +1,18 @@
 #!/bin/bash
 
-if [ ! -f ~/notebooks]; then
+if [ ! -f ~/notebooks ]; then
   cd ~ && ln -s /root/pipeline/jupyterhub.ml/notebooks
 fi
 
-if [ ! -f ~/lib]; then
+if [ ! -f ~/lib ]; then
   cd ~ && ln -s /root/pipeline/jupyterhub.ml/lib
 fi
 
-if [ ! -f ~/config/jupyterhub]; then
+if [ ! -f ~/config/jupyterhub ]; then
   cd ~ && ln -s /root/pipeline/jupyterhub.ml/config/
 fi
 
-if [ ! -f ~/.ipython/profiles]; then
+if [ ! -f ~/.ipython/profiles ]; then
   cd ~/.ipython && ln -s /root/pipeline/jupyterhub.ml/profiles
 fi
 
