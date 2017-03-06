@@ -32,7 +32,7 @@ spec:
         - containerPort: 2222
         volumeMounts:
           - name: pipeline-git-volume
-            mountPath: /root/pipeline
+            mountPath: /root/
       volumes:
         - name: pipeline-git-volume
           gitRepo:
