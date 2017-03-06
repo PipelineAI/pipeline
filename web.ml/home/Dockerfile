@@ -8,4 +8,6 @@ RUN \
 RUN \
   mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig 
 
+COPY run run
+
 CMD ["supervise", "."] 
