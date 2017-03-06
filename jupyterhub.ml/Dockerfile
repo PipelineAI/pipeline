@@ -188,7 +188,7 @@ RUN \
 
 #COPY lib/ lib/
 
-#COPY run run
+COPY run run
 #COPY config/jupyterhub/ config/jupyterhub/
 #COPY profiles/ /root/.ipython/
 
