@@ -188,20 +188,20 @@ RUN \
 
 #COPY lib/ lib/
 
-#COPY config/jupyterhub/ config/jupyterhub/
-#COPY profiles/ /root/.ipython/
+COPY config/jupyterhub/ config/jupyterhub/
+COPY profiles/ /root/.ipython/
 
 #RUN \
 #  mkdir -p /root/config
 
-RUN \
-  mkdir -p /root/.ipython
+#RUN \
+#  mkdir -p /root/.ipython
 
 RUN \
   mkdir -p ~/.kube
 
 ENV \
-  PIPELINE_HOME=/root/pipeline/
+  SOURCE_HOME=/root/source.ml/
 
 EXPOSE 6006 8754
 
