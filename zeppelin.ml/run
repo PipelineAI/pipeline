@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [ ! -f ~/lib]; then
+if [ ! -f ~/lib ]; then
   cd ~ && ln -s /root/pipeline/zeppelin.ml/lib
 fi
 
-if [ ! -f ~/notebook]; then
+if [ ! -f ~/notebook ]; then
   cd ~ && ln -s /root/pipeline/zeppelin.ml/notebook
 fi
 
