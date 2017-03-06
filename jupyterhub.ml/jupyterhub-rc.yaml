@@ -28,7 +28,7 @@ spec:
         - containerPort: 6006
         - containerPort: 8754
         volumeMounts:
-          - name: git-volume
+          - name: source-git-volume
             mountPath: /root/source.ml
       volumes:
         - name: source-git-volume
