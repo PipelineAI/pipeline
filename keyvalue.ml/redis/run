@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -f ~/data]; then
+if [ ! -f ~/data ]; then
   cd ~ && ln -s /root/pipeline/keyvalue.ml/redis/data
 fi
 
