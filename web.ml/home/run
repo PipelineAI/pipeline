@@ -1,18 +1,18 @@
 #!/bin/bash
 
-if [ ! -f /var/www/html]; then
+if [ ! -f /var/www/html ]; then
   cd /var/www/ && ln -s /root/pipeline/web.ml/home/html
 fi
 
-if [ ! -f /etc/apache2/apache2.conf]; then
+if [ ! -f /etc/apache2/apache2.conf ]; then
   cd /etc/apache2/ && ln -s /root/pipeline/web.ml/home/config/apache2.conf
 fi
 
-if [ ! -f /etc/apache2/sites-enabled/www.conf]; then
+if [ ! -f /etc/apache2/sites-enabled/www.conf ]; then
   cd /etc/apache2/sites-enabled/ && ln -s /root/pipeline/web.ml/home/config/www.conf
 fi
 
-if [ ! -f /root/run]; then
+if [ ! -f /root/run ]; then
   cd /root && ln -s /root/pipeline/web.ml/home/run
 fi
 
