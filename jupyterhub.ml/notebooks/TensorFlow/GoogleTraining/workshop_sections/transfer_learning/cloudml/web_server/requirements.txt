@@ -1,0 +1,3 @@
+flask
+google-api-python-client
+pillow

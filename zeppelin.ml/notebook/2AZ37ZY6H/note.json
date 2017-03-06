@@ -1,0 +1,229 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md [Source Code](https://github.com/fluxcapacitor/pipeline/blob/master/myapps/spark/sql/src/main/scala/com/advancedspark/sql/source/IntegerDataSource.scala)",
+      "dateUpdated": "May 4, 2016 4:01:21 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455577275001_-1090279572",
+      "id": "20160215-230115_417455821",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/blob/master/myapps/spark/sql/src/main/scala/com/advancedspark/sql/source/IntegerDataSource.scala\"\u003eSource Code\u003c/a\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 15, 2016 11:01:15 PM",
+      "dateStarted": "May 4, 2016 4:01:18 AM",
+      "dateFinished": "May 4, 2016 4:01:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Initialize a new IntegerRange DataSource",
+      "text": "val options \u003d Map(\"start\" -\u003e \"0\", \"end\" -\u003e \"9\")\n\nval startingValuesDF \u003d sqlContext\n  .load(\"com.advancedspark.sql.source.IntegerRangeRelationProvider\", options)\n\nstartingValuesDF.show()",
+      "dateUpdated": "Mar 28, 2016 10:17:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444104338511_-1259173273",
+      "id": "20151006-040538_1295650640",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "options: scala.collection.immutable.Map[String,String] \u003d Map(start -\u003e 0, end -\u003e 9)\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\nstartingValuesDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n+----+\n\n"
+      },
+      "dateCreated": "Oct 6, 2015 4:05:38 AM",
+      "dateStarted": "Mar 28, 2016 10:17:28 PM",
+      "dateFinished": "Mar 28, 2016 10:17:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Filter and show only values \u003c 6",
+      "text": "startingValuesDF.select($\"col1\").filter($\"col1\" \u003c 6).show()",
+      "dateUpdated": "Mar 28, 2016 10:17:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455577030755_-2049780387",
+      "id": "20160215-225710_2037008732",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n+----+\n\n"
+      },
+      "dateCreated": "Feb 15, 2016 10:57:10 PM",
+      "dateStarted": "Mar 28, 2016 10:17:28 PM",
+      "dateFinished": "Mar 28, 2016 10:17:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Insert New Values into the IntegerRange DataSource and show results",
+      "text": "val insertsDF \u003d sc.parallelize(20 to 29).toDF(\"col1\")\nval unionedDF \u003d startingValuesDF.unionAll(insertsDF)\n\nunionedDF.show()",
+      "dateUpdated": "Mar 28, 2016 10:17:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444083194557_-1029599800",
+      "id": "20151005-221314_57539024",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "insertsDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\nunionedDF: org.apache.spark.sql.DataFrame \u003d [col1: int]\n+----+\n|col1|\n+----+\n|   0|\n|   1|\n|   2|\n|   3|\n|   4|\n|   5|\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n|  25|\n|  26|\n|  27|\n|  28|\n|  29|\n+----+\n\n"
+      },
+      "dateCreated": "Oct 5, 2015 10:13:14 PM",
+      "dateStarted": "Mar 28, 2016 10:17:29 PM",
+      "dateFinished": "Mar 28, 2016 10:17:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Filter and show only values between 5 and 25 (exclusive)",
+      "text": "unionedDF.select($\"col1\").filter($\"col1\" \u003c 25).filter($\"col1\" \u003e 5).show()",
+      "dateUpdated": "Mar 28, 2016 10:17:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448361837979_840229637",
+      "id": "20151124-104357_2063484203",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----+\n|col1|\n+----+\n|   6|\n|   7|\n|   8|\n|   9|\n|  20|\n|  21|\n|  22|\n|  23|\n|  24|\n+----+\n\n"
+      },
+      "dateCreated": "Nov 24, 2015 10:43:57 AM",
+      "dateStarted": "Mar 28, 2016 10:17:29 PM",
+      "dateFinished": "Mar 28, 2016 10:17:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Mar 28, 2016 10:17:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445564294581_-1871218476",
+      "id": "20151023-013814_1168228197",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Oct 23, 2015 1:38:14 AM",
+      "dateStarted": "Mar 28, 2016 10:17:30 PM",
+      "dateFinished": "Mar 28, 2016 10:17:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SQL/02: Creating a Custom DataSource",
+  "id": "2AZ37ZY6H",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

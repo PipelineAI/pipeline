@@ -1,0 +1,208 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Spark After Dark](http://advancedspark.com/img/sparkafterdark.png)\n## Originally Started as a Mock Dating Site\n### Powered by [Flux Capacitor](https://github.com/fluxcapacitor/pipeline/wiki) and the [PANCAKE STACK](http://pancake-stack.com)!###",
+      "dateUpdated": "Jun 17, 2016 1:58:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462950739374_-524519088",
+      "id": "20160511-071219_70320003",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/sparkafterdark.png\" alt\u003d\"Spark After Dark\" /\u003e\u003c/p\u003e\n\u003ch2\u003eOriginally Started as a Mock Dating Site\u003c/h2\u003e\n\u003ch3\u003ePowered by \u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/wiki\"\u003eFlux Capacitor\u003c/a\u003e and the \u003ca href\u003d\"http://pancake-stack.com\"\u003ePANCAKE STACK\u003c/a\u003e!\u003c/h3\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:12:19 AM",
+      "dateStarted": "Jun 17, 2016 1:58:04 PM",
+      "dateFinished": "Jun 17, 2016 1:58:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n## Heavily Inspired By Project Tinderbox...",
+      "dateUpdated": "May 17, 2016 11:15:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462987132345_456728972",
+      "id": "20160511-171852_591141315",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eHeavily Inspired By Project Tinderbox\u0026hellip;\u003c/h2\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 5:18:52 PM",
+      "dateStarted": "May 17, 2016 11:15:53 PM",
+      "dateFinished": "May 17, 2016 11:15:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n## [Tinderbox Blog Post](http://crockpotveggies.com/2015/02/09/automating-tinder-with-eigenfaces.html)\n## [Tinderbox Github Repo](https://github.com/crockpotveggies/tinderbox)\n![Tinderbox Blog Post](http://advancedspark.com/img/tinderbox-overview.png)",
+      "dateUpdated": "May 18, 2016 2:25:52 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462950775433_-1678503633",
+      "id": "20160511-071255_1157884489",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003e\u003ca href\u003d\"http://crockpotveggies.com/2015/02/09/automating-tinder-with-eigenfaces.html\"\u003eTinderbox Blog Post\u003c/a\u003e\u003c/h2\u003e\n\u003ch2\u003e\u003ca href\u003d\"https://github.com/crockpotveggies/tinderbox\"\u003eTinderbox Github Repo\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-overview.png\" alt\u003d\"Tinderbox Blog Post\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:12:55 AM",
+      "dateStarted": "May 18, 2016 2:25:49 AM",
+      "dateFinished": "May 18, 2016 2:25:49 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n## [Spark-based Eigenface Recommendations](http://demo.advancedspark.com:8080/#/notebook/2BJVSQ3J6)\n![Tinderbox Eigenface](http://advancedspark.com/img/tinderbox-eigenfaces.png)",
+      "dateUpdated": "May 18, 2016 2:26:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463537927716_1905709034",
+      "id": "20160518-021847_1046924996",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003e\u003ca href\u003d\"http://demo.advancedspark.com:8080/#/notebook/2BJVSQ3J6\"\u003eSpark-based Eigenface Recommendations\u003c/a\u003e\u003c/h2\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-eigenfaces.png\" alt\u003d\"Tinderbox Eigenface\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 18, 2016 2:18:47 AM",
+      "dateStarted": "May 18, 2016 2:26:02 AM",
+      "dateFinished": "May 18, 2016 2:26:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\n## [Spark-based Sentiment Analysis](http://demo.advancedspark.com:8080/#/notebook/2BAFTUCBH)\n### [Stanford CoreNLP](http://stanfordnlp.github.io/CoreNLP/), [TensorFlow SyntaxNet](https://github.com/tensorflow/models/tree/master/syntaxnet), [Recurrent Neural Nets](http://karpathy.github.io/2015/05/21/rnn-effectiveness/), [LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)\n\n![Tinderbox Conversation Bot](http://advancedspark.com/img/tinderbox-conversation-bot.png)",
+      "dateUpdated": "May 18, 2016 2:26:19 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462951161156_-1882251984",
+      "id": "20160511-071921_2070202323",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003e\u003ca href\u003d\"http://demo.advancedspark.com:8080/#/notebook/2BAFTUCBH\"\u003eSpark-based Sentiment Analysis\u003c/a\u003e\u003c/h2\u003e\n\u003ch3\u003e\u003ca href\u003d\"http://stanfordnlp.github.io/CoreNLP/\"\u003eStanford CoreNLP\u003c/a\u003e, \u003ca href\u003d\"https://github.com/tensorflow/models/tree/master/syntaxnet\"\u003eTensorFlow SyntaxNet\u003c/a\u003e, \u003ca href\u003d\"http://karpathy.github.io/2015/05/21/rnn-effectiveness/\"\u003eRecurrent Neural Nets\u003c/a\u003e, \u003ca href\u003d\"http://colah.github.io/posts/2015-08-Understanding-LSTMs/\"\u003eLSTMs\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/tinderbox-conversation-bot.png\" alt\u003d\"Tinderbox Conversation Bot\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 11, 2016 7:19:21 AM",
+      "dateStarted": "May 18, 2016 2:26:15 AM",
+      "dateFinished": "May 18, 2016 2:26:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462986669389_1807895946",
+      "id": "20160511-171109_1293457508",
+      "dateCreated": "May 11, 2016 5:11:09 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "* What is Spark After Dark? *",
+  "id": "2BKS5GT8Z",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,58 @@
+{
+  "paragraphs": [
+    {
+      "text": "%cassandra SHOW TABLES",
+      "dateUpdated": "Jun 16, 2016 5:33:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456859107386_1067591510",
+      "id": "20160301-190507_1533491330",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "java.lang.ClassNotFoundException: com.google.common.collect.ImmutableMap\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:381)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\tat com.datastax.driver.core.ProtocolVersion.\u003cclinit\u003e(ProtocolVersion.java:78)\n\tat org.apache.zeppelin.cassandra.JavaDriverConfig.getProtocolVersion(JavaDriverConfig.scala:209)\n\tat org.apache.zeppelin.cassandra.CassandraInterpreter.open(CassandraInterpreter.java:276)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.open(ClassloaderInterpreter.java:74)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.open(LazyOpenInterpreter.java:68)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:92)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler$JobRunner.run(ParallelScheduler.java:157)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n"
+      },
+      "dateCreated": "Mar 1, 2016 7:05:07 PM",
+      "dateStarted": "Jun 16, 2016 5:33:04 AM",
+      "dateFinished": "Jun 16, 2016 5:33:05 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456859143418_653848525",
+      "id": "20160301-190543_184364653",
+      "dateCreated": "Mar 1, 2016 7:05:43 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Cassandra",
+  "id": "2BEM3Q1QQ",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

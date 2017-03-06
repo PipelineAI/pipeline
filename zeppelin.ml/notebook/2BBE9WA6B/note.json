@@ -1,0 +1,322 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport com.twitter.algebird.MinHasher\nimport com.twitter.algebird.MinHasher32\nimport com.twitter.algebird.MinHashSignature",
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_1600912219",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport com.twitter.algebird.MinHasher\nimport com.twitter.algebird.MinHasher32\nimport com.twitter.algebird.MinHashSignature\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:13:32 PM",
+      "dateFinished": "May 2, 2016 11:13:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")",
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_487924464",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [category: string, description: string, id: bigint, img: string, tags: array\u003cstring\u003e, title: string]\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:13:32 PM",
+      "dateFinished": "May 2, 2016 11:13:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Number Of Distinct Tags Found In The Dataset",
+      "text": "val distinctCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").distinct()\ndistinctCounts.count()",
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_249580154",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "distinctCounts: org.apache.spark.sql.DataFrame \u003d [tag: string]\nres4: Long \u003d 106\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:13:35 PM",
+      "dateFinished": "May 2, 2016 11:14:00 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution Of Tags Within Dataset",
+      "text": "val tagCounts \u003d itemsDF.select(explode($\"tags\") as \"tag\").groupBy($\"tag\")\n  .agg(count($\"tag\").as(\"count\"))\n  .orderBy($\"count\".desc)\n  .limit(10)\n\nz.show(tagCounts)",
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_848706349",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nJava\t33\nSQL\t24\nHadoop\t16\nLibrary\t15\nDatabase\t12\nData Processing\t11\nPython\t11\nSpark\t9\nUI\t8\nHiveQL\t8\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:13:52 PM",
+      "dateFinished": "May 2, 2016 11:14:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert Row to Item",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\n// Convert from RDD[Row] to RDD[Item]\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"description\", $\"img\", $\"tags\").map(row \u003d\u003e\n  TaggedItem(row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getSeq[String](4).toSet)\n)",
+      "dateUpdated": "May 2, 2016 11:16:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_101779729",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\u003cconsole\u003e:60: error: too many arguments for method apply: (id: Long, title: String, tags: Seq[String])com.advancedspark.ml.TaggedItem in object TaggedItem\n         TaggedItem(row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getSeq[String](4).toSet)\n                   ^\n"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:17:22 PM",
+      "dateFinished": "May 2, 2016 11:17:22 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "TODO:  TF/IDF of Description -\u003e Convert to Feature Vectors",
+      "text": "",
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462230683389_1543976026",
+      "id": "20160502-231123_1177767954",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "May 2, 2016 11:11:23 PM",
+      "dateStarted": "May 2, 2016 11:14:04 PM",
+      "dateFinished": "May 2, 2016 11:14:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "TODO:  Cosine Similarity of Description",
+      "text": "// Similarity.findMostCosineSimilar(item: DoubleMatrix)",
+      "dateUpdated": "May 2, 2016 11:17:42 PM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772954_-1308225136",
+      "id": "20160110-231612_165821720",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:17:42 PM",
+      "dateFinished": "May 2, 2016 11:17:42 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 2, 2016 11:13:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452467772956_-1310533629",
+      "id": "20160110-231612_2010102102",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 10, 2016 11:16:12 PM",
+      "dateStarted": "May 2, 2016 11:14:04 PM",
+      "dateFinished": "May 2, 2016 11:14:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Recommendations/09:  Item-to-Item Similarity (Cosine Similarity Description TF/IDF)",
+  "id": "2BBE9WA6B",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

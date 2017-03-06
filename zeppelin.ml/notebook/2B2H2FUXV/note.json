@@ -1,0 +1,49 @@
+{
+  "paragraphs": [
+    {
+      "text": "",
+      "dateUpdated": "May 25, 2016 5:27:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444175763075_-1838688978",
+      "id": "20151006-235603_1193118872",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Oct 6, 2015 11:56:03 PM",
+      "dateStarted": "May 25, 2016 5:27:21 PM",
+      "dateFinished": "May 25, 2016 5:27:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "!!PLEASE DO NOT MODIFY ANYTHING - DOING A DEMO!!",
+  "id": "2B2H2FUXV",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
