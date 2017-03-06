@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ ! -f ~/bin]; then
+if [ ! -f ~/bin ]; then
   cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/bin
 fi
 
-if [ ! -f ~/src]; then
+if [ ! -f ~/src ]; then
   cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/src
 fi 
 
-if [ ! -f ~/datasets]; then
+if [ ! -f ~/datasets ]; then
   cd ~ && ln -s /root/pipeline/clustered.ml/tensorflow/datasets
 fi 
 
