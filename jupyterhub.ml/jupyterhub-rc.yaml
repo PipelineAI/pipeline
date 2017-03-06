@@ -29,7 +29,7 @@ spec:
         - containerPort: 8754
         volumeMounts:
           - name: pipeline-git-volume
-            mountPath: /root/
+            mountPath: /root/pipeline
       volumes:
         - name: pipeline-git-volume
           gitRepo:
