@@ -28,12 +28,12 @@ spec:
         - containerPort: 3123
         - containerPort: 3124
         volumeMounts:
-          - name: pipeline-git-volume
-            mountPath: /root/
+          - name: git-volume
+            mountPath: /root/volumes
       volumes:
-        - name: pipeline-git-volume
+        - name: git-volume
           gitRepo:
-            repository: "https://github.com/fluxcapacitor/pipeline.git"
+            repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
       nodeSelector:
         training: "true"
