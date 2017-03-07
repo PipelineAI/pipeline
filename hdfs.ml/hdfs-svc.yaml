@@ -13,6 +13,6 @@ spec:
     targetPort: 50070
   - name: hue-webui
     port: 8000
-    targetPortl: 8000
+    targetPort: 8000
   selector:
     name: hdfs
