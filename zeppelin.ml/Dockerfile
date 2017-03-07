@@ -88,13 +88,8 @@ COPY run run
 #COPY lib/ lib/
 #COPY notebook/ notebook/
 
-# Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/pipeline.git -> /root/pipeline
+# Relying on PersistentVolume Mount through Kubernetes from https://github.com/fluxcapacitor/source.ml.git
 # This could also be done with a Docker Volume mount with some creative scripting
-#RUN \
-#  git clone https://github.com/fluxcapacitor/pipeline
-
-ENV \
-  PIPELINE_HOME=/root/pipeline/
 
 EXPOSE 3123 3124
 
