@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="description" content="">
+    <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
+    <title>TensorFlow Image Classification</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+    
+
+
+    <script type="text/javascript">
+        function progressHandlingFunction(e){
+            if(e.lengthComputable){
+                $('progress').attr({value:e.loaded,max:e.total});
+            }
+        }
+        function classifyUpload() {
+            var formData = new FormData($('#formy')[0]);
+            $.ajax({
+                url: 'http://localhost:5070/upload',  //Server script to process data
+                type: 'POST',
+                datatype: 'application/json',
+                xhr: function() {  // Custom XMLHttpRequest
+                    var myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){ // Check if upload property exists
+                        myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                //Ajax events
+
+                data: formData,
+                //Options to tell jQuery not to process data or worry about content-type.
+                cache: false,
+                contentType: false,
+                processData: false,
+               success: function(data) {
+                   var items = [];
+                   $.each(data.results, function (arrayIdx, result) {
+                       items.push("<div class='card card-block' id='" + arrayIdx + "'>" + result + "</div>");
+                   });
+                   console.log(items)
+                   $('#items').html("<h2>Results</h2><hr><hr>" + items.join("") + "</hr>");
+                   $("submit1").prop("disabled", false);
+               }
+            });
+        };
+    </script>
+
+    <script type="text/javascript">
+        function classifyImageUrl() {
+            $("submit1").prop("disabled", true);
+            var image_url = $('#image_url').val()
+            $('#image').attr("src", image_url)
+            $('#note').html('"<center>Please Hold... Tensors are Flowing!</p><img src="img/spinner.gif"></img></center>"');
+            $.getJSON("http://localhost:5070/classify?image_url=" + image_url, function(data) {
+
+                var items = [];
+                $.each(data, function (arrayIdx, result) {
+                    items.push("<div class='card card-block' id='" + arrayIdx + "'>" + result + "</div>");
+                    console.log(result)
+                });
+                $('#items').html("<h2>Results</h2><hr>" + items.join("") + "</hr>");
+                $("submit1").prop("disabled", false);
+            });
+        }
+    </script>
+
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-fixed-top navbar-dark stylish-color-dark">
+        <div class="container navContainer">
+            <a class="navbar-brand waves-effect waves-light" href="#" target="_blank">Classify your images!</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="container mainContainer">
+        <div class="row piperow">
+            <div class="col-lg-2">
+
+            </div>
+
+
+            <div class="col-lg-8">
+
+                <form action="javascript:classifyImageUrl()">
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="md-form form-group">
+
+                                <input type="url" id="image_url" name="image_url" class="form-control validate">
+                                <label for="image_url" data-error="enter proper url" data-success="right">Paste a URL ..
+                                    .</label>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-3">
+
+
+                            <div class="md-form form-group">
+                                <button class="btn btn-primary-outline btn-lg" type="submit" name="submit"
+                                        id="submit1">SubmitURL
+                                </button>
+                            </div>
+                        </div></div>
+                </form>
+
+
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div><!--row-->
+
+        <h3 style="text-align: center">--OR--</h3>
+        <br>
+
+        <div class="row piperow">
+            <div class="col-lg-2">
+
+            </div>
+
+
+            <div class="col-lg-8">
+
+
+                <form action="javascript:classifyUpload()" id="formy" enctype="multipart/form-data">
+                    <div class="row">
+
+                            <div class="file-field">
+                                <div class="col-lg-3">
+                                <div class="btn btn-primary-outline submitButton">
+                                    <span>Choose file</span>
+                                    <input type="file" id="file" name="file">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Upload your file"
+                                           id="fname" name="fname">
+                                </div>
+                            </div>
+                        <div class="col-lg-3">
+                                <input type="submit" id="suby" value="Submit File" name="submit"
+                                       class="btn btn-primary-outline btn-rounded">
+
+                        </div>
+                                </div>
+                    </div>
+
+            </form>
+
+
+            </div>
+
+
+
+            <div class="col-lg-2">
+            </div>
+        </div><!--row-->
+
+
+        <div class="row">
+            <div class="text-md-center" id="note"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <img id="image" src="" class="img-thumbnail">
+            </div>
+            <div class="col-md-6">
+                <div id="items"></div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<div class="navbar-fixed-bottom stylish-color-dark">
+    <div class="container-fluid">
+        <h5 style="color:white">pipeline.io</h5>
+
+    </div>
+</div>
+<!--/.Copyright-->
+
+
+<!-- SCRIPTS -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+
+
+</body>
+</html>
