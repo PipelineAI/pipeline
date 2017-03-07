@@ -9,11 +9,11 @@ if [ ! -f /etc/apache2/apache2.conf ]; then
 fi
 
 if [ ! -f /etc/apache2/sites-enabled/www.conf ]; then
-  cd /etc/apache2/sites-enabled/ && ln -s /root/volumes/source.ml/web.ml/sparkafterdark/config/www.conf
+  cd /etc/apache2/sites-available/ && ln -s /root/volumes/source.ml/web.ml/sparkafterdark/config/www.conf
 fi
 
 if [ ! -f /etc/apache2/sites-enabled/sparkafterdark.conf ]; then
-  cd /etc/apache2/sites-enabled/ && ln -s /root/volumes/source.ml/web.ml/sparkafterdark/config/sparkafterdark.conf
+  cd /etc/apache2/sites-available/ && ln -s /root/volumes/source.ml/web.ml/sparkafterdark/config/sparkafterdark.conf
 fi
 
 a2ensite www.conf
