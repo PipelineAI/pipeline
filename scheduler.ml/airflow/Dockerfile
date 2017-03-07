@@ -154,8 +154,8 @@ COPY run run
 RUN \
   mkdir -p ~/.kube
 
-ENV \
-  SOURCE_ML_HOME=/root/source.ml
+#ENV \
+#  SOURCE_ML_HOME=/root/source.ml
 
 EXPOSE 8080 5000 5555 8793
 

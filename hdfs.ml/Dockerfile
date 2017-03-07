@@ -47,7 +47,7 @@ RUN \
   && rm hue-3.12.0.tgz
 
 RUN \
-  apt-get install python2.7-dev \
+  apt-get install -y python2.7-dev \
   make \
   libkrb5-dev \
   libxml2-dev \
@@ -59,7 +59,7 @@ RUN \
   python-pip
 
 RUN \
-  apt-get install ant gcc g++ libkrb5-dev libffi-dev libmysqlclient-dev libssl-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libtidy-0.99-0 libxml2-dev libxslt-dev make libldap2-dev python-dev python-setuptools libgmp3-dev
+  apt-get install -y ant gcc g++ libkrb5-dev libffi-dev libmysqlclient-dev libssl-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libtidy-0.99-0 libxml2-dev libxslt-dev make libldap2-dev python-dev python-setuptools libgmp3-dev
 
 RUN \
   cd hue-3.12.0 && make apps

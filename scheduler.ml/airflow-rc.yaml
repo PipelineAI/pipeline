@@ -35,7 +35,7 @@ spec:
           - name: dockersocket
             mountPath: /var/run/docker.sock
           - name: git-volume
-            mountPath: /root/source.ml
+            mountPath: /root/volumes
         securityContext:
           privileged: true
       volumes:
