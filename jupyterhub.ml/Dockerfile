@@ -200,10 +200,10 @@ COPY profiles/ /root/.ipython/
 RUN \
   mkdir -p ~/.kube
 
-ENV \
-  SOURCE_HOME=/root/source.ml/
+#ENV \
+#  SOURCE_HOME=/root/source.ml/
 
-EXPOSE 6006 8754
+EXPOSE 6006 8754 
 
 COPY run run 
 
