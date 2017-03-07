@@ -14,4 +14,5 @@ for lib in glob.glob(os.path.join(spark_home, 'python/lib/py4j-*-src.zip')):
 
 os.environ['PYSPARK_SUBMIT_ARGS']='--master %s %s pyspark-shell' % (os.getenv('SPARK_MASTER'), os.getenv('SPARK_SUBMIT_ARGS'))
 
-execfile(os.path.join(spark_home, 'python/pyspark/shell.py'))
+with open(os.path.join(spark_home, 'python/pyspark/shell.py')) as source_file:
+    exec(source_file.read())
