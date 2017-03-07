@@ -40,12 +40,36 @@ RUN \
 RUN \
   hadoop namenode -format
 
+# Hue (port 8000)
+RUN \
+  wget https://dl.dropboxusercontent.com/u/730827/hue/releases/3.12.0/hue-3.12.0.tgz \
+  && tar xvzf hue-3.12.0.tgz \
+  && rm hue-3.12.0.tgz
+
+RUN \
+  apt-get install python2.7-dev \
+  make \
+  libkrb5-dev \
+  libxml2-dev \
+  libffi-dev \
+  libxslt-dev \
+  libsqlite3-dev \
+  libssl-dev \
+  libldap2-dev \
+  python-pip
+
+RUN \
+  apt-get install ant gcc g++ libkrb5-dev libffi-dev libmysqlclient-dev libssl-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libtidy-0.99-0 libxml2-dev libxslt-dev make libldap2-dev python-dev python-setuptools libgmp3-dev
+
+RUN \
+  cd hue-3.12.0 && make apps
+
 # Required by sshd
 RUN \
   mkdir /var/run/sshd
 
 COPY run run
 
-EXPOSE 50070 9000
+EXPOSE 50070 9000 8000
 
 CMD ["supervise", "."]

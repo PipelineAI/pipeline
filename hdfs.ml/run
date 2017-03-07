@@ -3,4 +3,6 @@
 # Must be fully-qualified path
 /usr/sbin/sshd
 
-start-dfs.sh
+cd hue-3.12.0 && ./build/env/bin/hue runserver &
+
+cd ~ && start-dfs.sh
