@@ -9,11 +9,7 @@ if [ ! -f /etc/apache2/apache2.conf ]; then
 fi
 
 if [ ! -f /etc/apache2/sites-enabled/www.conf ]; then
-  cd /etc/apache2/sites-enabled/ && ln -s /root/volumes/web.ml/home/config/www.conf
-fi
-
-if [ ! -f /root/run ]; then
-  cd /root && ln -s /root/volumes/web.ml/home/run
+  cd /etc/apache2/sites-enabled/ && ln -s /root/volumes/source.ml/web.ml/home/config/www.conf
 fi
 
 a2ensite www.conf
