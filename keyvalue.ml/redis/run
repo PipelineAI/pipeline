@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [ ! -f ~/data ]; then
-  cd ~ && ln -s /root/pipeline/keyvalue.ml/redis/data
+  cd ~ && ln -s /root/volumes/source.ml/keyvalue.ml/redis/data
+  chmod a+w data/dump.rdb
 fi
 
 cd ~/webdis
