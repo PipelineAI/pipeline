@@ -5,7 +5,7 @@ if [ ! -f /var/www/html ]; then
 fi
 
 if [ ! -f /etc/apache2/apache2.conf ]; then
-  cd /etc/apache2/ && ln -s /root/volumes/source.ml/home/config/apache2.conf
+  cd /etc/apache2/ && ln -s /root/volumes/source.ml/web.ml/home/config/apache2.conf
 fi
 
 if [ ! -f /etc/apache2/sites-enabled/www.conf ]; then
