@@ -17,7 +17,7 @@ sleep 2
 airflow initdb
 sleep 2 
 
-/root/triggers/github_webhook &
+#/root/triggers/github_webhook &
 
 airflow flower &
 
