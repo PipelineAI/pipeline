@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="Apache, Apache Spark, Spark, Shark, Spork, SQL, SparkSQL, SparkR, Streaming, Storm, S4, SAMOA, MLbase, MLlib, MLI, MLOptimizer, Mahout, R, RStudio, Graph, GraphX, GraphLab, Giraph, Berkeley Data Analytics Stack, BDAS, Big Data, Hadoop, HBase, HDFS, S3, ZooKeeper, Parquet, RCFile, Avro, GZip, LZO, Snappy, SequenceFile, InputFormat, OutputFormat, InputSplit, Fast, Data Analytics, OLTP, OLAP, BlinkDB, Tachyon, Hive, Pig, Cascading, Oozie, Spork, Kite, UDF, DDL, DML, DAG, Directed Acyclic Graph, Scala, Java, Java 8, Python, Schema, Linear Algebra, Matrix, Breeze, Sparse, Dense, Columnar, Database, Analytics, Performance, MapReduce, Tez, Drill, Accumulo, Solr, SolrCloud, ElasticSearch, Lucene, Impala, YARN, Hue, Flume, Sqoop, Whirr, MapR, Cloudera, Hortonworks, Join, GroupBy, Union, Sort, Filter, Map, Reduce, Pipe, Streaming, Machine Learning, PageRank, Lambda Architecture, Ad-Hoc, Interactive, Real-time, Near real-time, Statistics, Linear Regression, Logistic Regression, Feature Selection, Stochastic Gradient Descent, Statistcal Analysis, Clustering, Classification, Collaborative Filtering, Recommendations, Item-Item Recommendations, User-Item Recommendations, Distributed Systems, Fault-Tolerance, Failover, Cluster, EMR, Elastic MapReduce, DynamoDB, RedShift, Kinesis, MQTT, Kafka, Twitter, ZeroMQ, Batch Processing, Akka, Functional Programming, Data Science, Play, ETL, Extract, Transform, Load, Cassandra, VNode, Virtual Node, Hinted Handoff, Circuit Breaker, Alternate Least Squares, Ganglia, Parallel, MPI, Distributed System, Lightning Fast Cluster Computing, TensorFlow, TensorFlow Serving, TensorFlow Distributed, TensorBoard, Multi-armed Bandit, A/B Testing">
+  <title>Spark After Dark - Realtime</title>
+  <link rel="icon" href="favicon.png" type="image/png" sizes="32x32">   
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+  <style>
+      body {
+        background-color: darkgray;
+        color: black;
+      }
+      li {
+        padding: 2px;
+        display: inline;
+        list-style-type: none;
+        position: relative;
+        width: 70px;
+        height: 50px;
+        max-width: 70px;
+      }
+      li .like {
+        position: absolute;
+        z-index: 99;
+        left: 10px;
+        display: none;
+      }
+  </style>
+  <!-- Start of fluxcapacitor Zendesk Widget script -->
+<script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("//assets.zendesk.com/embeddable_framework/main.js","fluxcapacitor.zendesk.com");
+/*]]>*/</script>
+  <!-- End of fluxcapacitor Zendesk Widget script -->
+  <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+  <script>
+  var myId = Math.floor((Math.random() * 100000) + 1);
+  var allItems = [];
+  var chosenItemIds = [];
+
+  function rate(itemId, rating) {
+    $("#like" + itemId).show()
+
+    chosenItemIds.push(itemId)
+   
+    var encodedKey = btoa(myId)
+    var encodedValue = btoa(myId + "," + itemId + "," + rating + "," + location.hostname)
+
+    // Call the Kafka Rest Api
+    $.ajax({
+      url:'/item-rating-kafka',
+      type:'POST',
+      data:'{"records":[{"key":"' + encodedKey + '", "value":"' + encodedValue + '"}]}',
+      contentType:'application/vnd.kafka.binary.v1+json',
+      dataType:'json',
+      success: function(data, status){
+        //NoOp
+      }
+    })
+  }
+
+  function loadItems() {
+    $.getJSON( "/json/actors.json", function( data ) {
+      var items = [];
+      $.each( data, function( arrayIdx, item ) {
+        var id = item.id
+        var title = item.title 
+        var imgSrc = item.img
+
+        // populate the global allItems
+        allItems[id] = item
+ 
+        items.push( "<li id='li" + id + "'><a href='javascript:rate(" + id + ", 1)'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></a><img class='like' id='like" + id + "' alt='liked' src='img/like.png' width='50' height='43' border='2'></li>" );
+      });
+    
+      $( "<ul/>", {
+        html: "<div id='items-inner'><hr><h3><center>Please Click 3 Actresses and 3 Actors Total </center></h3><center>" + items.join( "" ) + "</center></div>"
+      }).appendTo("#items");  
+    });
+  }
+  
+  function loadTopK() {
+    $("#topk").empty()
+
+    $.getJSON("/redis/GET/topk", function ( data ) {
+      var items = [];
+      var results = data.GET.split(",")
+      $.each(results, function(arrayIdx, resultId) {
+        var id = resultId
+        var title = allItems[id].title
+        var imgSrc = allItems[id].img
+  
+        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
+      });
+
+      $( "<ul/>", {
+        html: "</br><center>" + items.join("") + "</center>"
+      }).appendTo( "#topk" );
+    });
+  }
+
+  function loadRecommendationsALS() {
+    $("#recommendations-als").empty()
+
+      $.getJSON("/serving/recommendations/" + myId + "/0/9", function(data) {
+      var recs = data.results
+      var items = [];
+      $.each( recs, function( arrayIdx, recId ) {
+        var id = recId
+        var title = allItems[id].title
+        var imgSrc = allItems[id].img
+        
+        items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
+      });
+
+      $( "<ul/>", {
+        html: "</br><center>" + items.join( "" ) + "</center>"
+      }).appendTo( "#recommendations-als" );
+    });
+  }
+  
+  function loadItemSimilarsALS(itemId) {
+    $("#item-similars-als").empty()
+    var items = [];
+    $.each( chosenItemIds, function( arrayIdx, itemId ) {
+      $.getJSON ("/serving/similars/" + itemId + "/0/9", function (data) {
+        var sims = data.results
+        $.each( sims, function( arrayIdx, simId ) {
+          var id = simId
+          var title = allItems[id].title
+          var imgSrc = allItems[id].img
+
+          items.push( "<li id='li" + id + "'><img id='img" + id + "' alt='" + title + "' src='" + imgSrc + "' width='70px' height='50px' border='2'></li>" );
+        });
+
+        $( "<ul/>", {
+          html: "</br><center>" + items.join( "" ) + "</center>"
+        }).appendTo( "#item-similars-als" );
+      });
+    });
+  }
+  </script>
+</head>
+
+<body>
+<!--<hr/>-->
+<center>
+<!-- Navigation Links 
+<a href="https://github.com/fluxcapacitor/pipeline/wiki/Architecture-Overview" target="_blank" id="architecture">Architecture</a> |
+<a href="http://127.0.0.1:3123" target="_blank" id="zeppelin">Zeppelin</a> |
+<a href="http://127.0.0.1:8754" target="_blank" id="jupyter">Jupyter/iPython</a> |
+<a href="http://127.0.0.1/classify.html" target="_blank" id="tensorflow">TensorFlow</a> |
+<a href="http://127.0.0.1:8754" target="_blank" id="sparkr">SparkR</a> |
+<a href="http://127.0.0.1:6060" target="_blank" id="spark-admin">Spark Admin</a> |
+<a href="http://127.0.0.1:9081" target="_blank" id="flink">Flink Admin</a> |
+<a href="http://127.0.0.1:5601" target="_blank" id="kibana">Kibana</a> |
+<a href="http://127.0.0.1:3060/admin" target="_blank" id="airflow">Airflow</a> |
+<a href="http://127.0.0.1:7060" target="_blank" id="presto">Presto</a> |
+<a href="/ganglia" target="_blank" id="ganglia">Ganglia</a> |
+<a href="http://vectoross.io/demo/#/?host=127.0.0.1" target="_blank" id="vector">Vector</a>
+-->
+<!--<a href="http://127.0.0.1:6969/nifi" target="_blank" id="nifi">NiFi</a> -->
+</center>
+<!-- <hr/> -->
+<center><img style="width: 320; height=400;" src="img/sparkafterdark.png"></center>
+
+<script>
+  $("body").append("<h3><center>Welcome to Spark After Dark, Anonymous User ID <span style='color: blue'>" + myId + "</span>!</center></h3>")
+</script>
+
+<div id="items">
+</div>
+
+<!--
+<hr/>
+
+<h3>
+<center>
+Run Notebook to Generate <a href="http://127.0.0.1:3123/#/notebook/2AUUDPT56" target="_blank" id="topk-notebook">Non-Personalized Top 5 Items</a>
+</center>
+</h3>
+<h3>
+<center>
+Wait for Notebook to Complete, then Click to Show <a href='javascript:loadTopK()'>Top 5 Items</a>
+</center>
+</h3>
+<div id="topk">
+</div>
+<hr/>
+-->
+
+<!--
+<h3>
+<center>
+Run Notebook to Generate <a href="http://127.0.0.1:3123/#/notebook/2AUYFSKXN" target="_blank" id="als-notebook">Personalized User-to-Item Recommendations</a>
+</center>
+</h3>
+<h3>
+<center>
+Wait for Notebook to Complete, then Click to Show <a href='javascript:loadRecommendationsALS()'>Recommendations</a>
+</center>
+</h3>
+<div id="recommendations-als">
+</div>
+-->
+
+<hr/>
+
+<h3>
+<center>
+Your Real-time, Collaborative-based Recommendations Will Appear Below
+</center>
+</h3>
+<div id="recommendations-als">
+</div>
+
+<hr/>
+
+<h3>
+<center>
+Your Real-time, Collaborative-based Similar Items Will Appear Below
+</center>
+</h3>
+<div id="item-similars-als">
+</div>
+
+<hr/>
+<!--
+<script>
+  document.getElementById('zeppelin').href = window.location.protocol + "//" + window.location.hostname + ":3123";
+  document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('tensorflow').href = window.location.protocol + "//" + window.location.hostname + "/classify.html";
+  document.getElementById('sparkr').href = window.location.protocol + "//" + window.location.hostname + ":8754";
+  document.getElementById('spark-admin').href = window.location.protocol + "//" + window.location.hostname + ":6060";
+  document.getElementById('kibana').href = window.location.protocol + "//" + window.location.hostname + ":5601";
+  document.getElementById('airflow').href = window.location.protocol + "//" + window.location.hostname + ":3060/admin";
+  document.getElementById('presto').href = window.location.protocol + "//" + window.location.hostname + ":7060";
+  document.getElementById('nifi').href = window.location.protocol + "//" + window.location.hostname + ":6969/nifi";
+  document.getElementById('flink').href = window.location.protocol + "//" + window.location.hostname + ":9081";
+  document.getElementById('vector').href = "http://vectoross.io/demo/#/?host=" + window.location.hostname;
+//  document.getElementById('topk-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUUDPT56";
+//  document.getElementById('als-notebook').href = window.location.protocol + "//" + window.location.hostname + ":3123/#/notebook/2AUYFSKXN";
+</script>
+-->
+<script>
+  loadItems()
+</script>
+
+<script>
+  var startTime = new Date().getTime();
+  var interval = setInterval(function(){
+    if(new Date().getTime() - startTime > 20 * 60000){
+        clearInterval(interval);
+        return;
+    }
+    loadRecommendationsALS();
+    loadItemSimilarsALS();
+  }, 5000);  
+</script>
+
+<script>
+  alert("You're anonymous userID has changed to " + myId)
+</script>
+
+</body>
+</html>
