@@ -124,7 +124,7 @@ RUN \
   && bazel build tensorflow/tools/graph_transforms:transform_graph
 
 ENV \
- TENSORFLOW_VERSION=1.0.0
+ TENSORFLOW_VERSION=1.0.1
 
 RUN \
   pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl

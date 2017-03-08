@@ -6,7 +6,6 @@ COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 
-
 RUN \
   apt-get update \
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get

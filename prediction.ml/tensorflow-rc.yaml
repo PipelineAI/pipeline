@@ -31,15 +31,13 @@ spec:
         - containerPort: 9001
         - containerPort: 9002
         - containerPort: 9040
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml.git"
+            revision: "master"
       nodeSelector:
         prediction: "true" 
-#        livenessProbe:
-#          httpGet:
-#            path: "/health"
-#            port: 9040
-#          initialDelaySeconds: 300 
-#        readinessProbe:
-#          httpGet:
-#            path: "/health"
-#            port: 9040
-#          initialDelaySeconds: 30 

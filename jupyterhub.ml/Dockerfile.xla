@@ -57,7 +57,7 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+  && printf "\n\n\n\n\ny\n\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -68,9 +68,9 @@ RUN \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 #RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \

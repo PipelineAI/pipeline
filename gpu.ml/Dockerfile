@@ -1,7 +1,7 @@
 FROM nvidia/cuda:8.0-cudnn5-devel
 
 ENV \
-  TENSORFLOW_VERSION=1.0
+  TENSORFLOW_VERSION=1.0.1
   
 # Adapted from 
 #   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
@@ -87,9 +87,10 @@ RUN mkdir /bazel && \
 
 # Download and build TensorFlow.
 
-RUN git clone -b r$TENSORFLOW_VERSION --recursive --recurse-submodules https://github.com/tensorflow/tensorflow.git && \
-    cd tensorflow && \
-    git checkout r$TENSORFLOW_VERSION
+RUN git clone -b v$TENSORFLOW_VERSION --recursive --recurse-submodules https://github.com/tensorflow/tensorflow.git
+# && \
+#    cd tensorflow && \
+#    git checkout r$TENSORFLOW_VERSION
 
 WORKDIR /tensorflow
 

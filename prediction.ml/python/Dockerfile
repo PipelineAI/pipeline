@@ -46,11 +46,11 @@ COPY lib/ lib/
 RUN \
   sbt clean package
 
-COPY store/ store/
+#COPY store/ store/
 
-RUN \
-  cd store/python_balancescale \
-  && python train_balancescale.py
+#RUN \
+#  cd store/python_balancescale \
+#  && python train_balancescale.py
 
 COPY run run
 

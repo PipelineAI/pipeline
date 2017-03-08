@@ -17,7 +17,7 @@ RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 ENV \
-  TENSORFLOW_VERSION=1.0.0
+  TENSORFLOW_VERSION=1.0.1
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
@@ -36,13 +36,6 @@ RUN \
 
 RUN \
   pip install mysqlclient 
-#  && conda install --yes -c anaconda mysql-connector-python=2.0.4 \
-#  && conda install --yes pymysql=0.7.6
-#  && conda install --yes -c anaconda mysql-connector-python \
-#  && conda install --yes pymysql
-
-#RUN \
-#  conda install --yes -c phumke airflow=1.6.2
 
 RUN \
   echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
@@ -141,8 +134,6 @@ ENV \
 
 COPY config/spark/ $SPARK_HOME/conf/
 COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg 
-
-#COPY github_webhook github_webhook
 
 COPY run run
 

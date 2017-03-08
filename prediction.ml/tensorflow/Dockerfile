@@ -87,7 +87,7 @@ RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 ENV \
-  TENSORFLOW_VERSION=1.0.0
+  TENSORFLOW_VERSION=1.0.1
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
@@ -108,7 +108,7 @@ COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY client/ client/
-COPY store/ store/
+#COPY store/ store/
 
 RUN \
   cd client \
@@ -122,12 +122,7 @@ RUN \
   mkdir -p /root/tensorboard 
 
 ENV \
-  STORE_HOME=/root/store  
-
-#RUN \
-#  cd $STORE_HOME/tensorflow_inception \
-#  && wget https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip \
-#  && unzip inception5h.zip
+  STORE_HOME=/root/store
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 

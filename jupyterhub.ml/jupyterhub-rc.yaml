@@ -28,10 +28,10 @@ spec:
         - containerPort: 6006
         - containerPort: 8754
         volumeMounts:
-          - name: source-git-volume
+          - name: git-volume
             mountPath: /root/volumes
       volumes:
-        - name: source-git-volume
+        - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
