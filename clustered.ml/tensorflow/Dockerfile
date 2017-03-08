@@ -6,7 +6,7 @@ RUN \
   apt-get update 
 
 ENV \
-  TENSORFLOW_VERSION=1.0.0
+  TENSORFLOW_VERSION=1.0.1
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
