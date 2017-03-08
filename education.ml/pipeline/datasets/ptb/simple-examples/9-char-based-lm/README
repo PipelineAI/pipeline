@@ -1,0 +1,18 @@
+Example how to train character based rnnlm. In contrast to word based rnnlms, large hidden
+layers are needed - for the Penn Treebank Corpus, 300 hidden neurons are needed to obtain
+near-optimal performance with the word based data, but about 1000 are needed to train a good
+model based on characters. This is actually quite time consuming - the results would look
+like this:
+
+                                                                            Bits/character
+Backoff 9-gram model with N-discounting and tuned cutoff coefficients       1.47
+RNNLM with 1000 hidden nodes                                                1.43
+Linear interpolation of both                                                1.39
+
+(results are reported on the Penn Treebank Corpus test set)
+
+The word based models are usually much better - the entropy of word based rnn model
+interpolated with word based ngram model is about 1.25 bits/character. Many word
+based models combined together, as shown in the paper "Empirical Evaluation and
+Combination of Advanced Language Modeling Techniques", correspond to about
+1.18 bits/character.

@@ -1,0 +1,264 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![CountMin Sketch In Action](http://advancedspark.com/img/countminsketch-sm.png)",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459737178335_-1669206083",
+      "id": "20160404-023258_235993535",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/countminsketch-sm.png\" alt\u003d\"CountMin Sketch In Action\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 4, 2016 2:32:58 AM",
+      "dateStarted": "Jun 18, 2016 8:47:24 PM",
+      "dateFinished": "Jun 18, 2016 8:47:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create List",
+      "text": "val list1 \u003d (1 to 100000).toList",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455642399928_-252943437",
+      "id": "20160216-170639_1406609107",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "list1: List[Int] \u003d List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 1..."
+      },
+      "dateCreated": "Feb 16, 2016 5:06:39 PM",
+      "dateStarted": "Jun 18, 2016 8:47:24 PM",
+      "dateFinished": "Jun 18, 2016 8:47:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of Scala List",
+      "text": "import com.madhukaraphatak.sizeof.SizeEstimator\n\nval sizeInMemoryList \u003d SizeEstimator.estimate(list1)",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450585060337_-1269629404",
+      "id": "20151220-041740_860606599",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.madhukaraphatak.sizeof.SizeEstimator\nsizeInMemoryList: Long \u003d 4800016\n"
+      },
+      "dateCreated": "Dec 20, 2015 4:17:40 AM",
+      "dateStarted": "Jun 18, 2016 8:47:24 PM",
+      "dateFinished": "Jun 18, 2016 8:47:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create CountMin Sketch",
+      "text": "import com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\n\nval cmsMonoid \u003d CMS.monoid[Int](0.001, 1E-10, 1) \nval cmsAgg \u003d CMSAggregator(cmsMonoid)\n\nval cmsAggs \u003d cmsAgg(list1)",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450580555966_-894350321",
+      "id": "20151220-030235_1437861013",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.twitter.algebird.CMS\nimport com.twitter.algebird.CMSAggregator\nimport com.twitter.algebird.CMSHasherImplicits._\ncmsMonoid: com.twitter.algebird.CMSMonoid[Int] \u003d com.twitter.algebird.CMSMonoid@5ffe54df\ncmsAgg: com.twitter.algebird.CMSAggregator[Int] \u003d CMSAggregator(com.twitter.algebird.CMSMonoid@5ffe54df)\ncmsAggs: com.twitter.algebird.CMS[Int] \u003d CMSInstance(CountsTable(Vector(Vector(36, 38, 39, 38, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 37, 39, 37, 36, 37, 37, 36, 36, 38, 37, 36, 37, 36, 36, 37, 38, 38, 37, 37, 36, 36, 36, 37, 37, 37, 37, 36, 36, 37, 37, 38, 38, 37, 36, 36, 37, 36, 38, 37, 36, 36, 37, 37, 37, 38, 38, 36, 36, 37, 36, 36, 38, 38, 36, 36, 37, 36, 36, 38, 39, 36, 36, 36, 36, 36, 37, 38, 37, 36, 36, 36, 36, 38, 38, 36, 37, 36, 36, 37, 37, 38, 37, 37, 36, 36, 36, 36, 37, 39, 37, 36, 36, 36, 36, 38, 39, 38, 36, 37, 37, 36, 37, 39, 36, 36, 37, 37, 36, 37, 38, 37, 36, 37, 36, 36, 36, 37, 37, 36, 37, 36, 36, 37, 38, 38, 38, 37, 36, 36, 37, 37, 37, 36, 36, 36, 37, 37, 37, 38, 37, 36, 36, 37, 37, 36, 37, 38, 36, 36, 37, 36, 37, 39, 39, 37, 36, 36, 36, 36, 38, 37, 36, 36, 36, 36..."
+      },
+      "dateCreated": "Dec 20, 2015 3:02:35 AM",
+      "dateStarted": "Jun 18, 2016 8:47:25 PM",
+      "dateFinished": "Jun 18, 2016 8:47:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Memory Size of CountMin Sketch",
+      "text": "val sizeInMemoryCms \u003d SizeEstimator.estimate(cmsAggs)",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1459744336551_-537051608",
+      "id": "20160404-043216_1667986509",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "sizeInMemoryCms: Long \u003d 310944\n"
+      },
+      "dateCreated": "Apr 4, 2016 4:32:16 AM",
+      "dateStarted": "Jun 18, 2016 8:47:26 PM",
+      "dateFinished": "Jun 18, 2016 8:47:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Estimated Total Frequency Count",
+      "text": " val totalCount \u003d cmsAggs.totalCount\nval frequency1 \u003d cmsAggs.frequency(1).estimate\nval frequency50000 \u003d cmsAggs.frequency(50000).estimate\nval frequency99999 \u003d cmsAggs.frequency(100000).estimate",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454017600311_271732515",
+      "id": "20160128-214640_2024014594",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "totalCount: Long \u003d 100000\nfrequency1: Long \u003d 25\nfrequency50000: Long \u003d 35\nfrequency99999: Long \u003d 35\n"
+      },
+      "dateCreated": "Jan 28, 2016 9:46:40 PM",
+      "dateStarted": "Jun 18, 2016 8:47:31 PM",
+      "dateFinished": "Jun 18, 2016 8:47:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": " ",
+      "dateUpdated": "Jun 18, 2016 8:47:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1450587563774_1352590284",
+      "id": "20151220-045923_327498017",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 20, 2015 4:59:23 AM",
+      "dateStarted": "Jun 18, 2016 8:47:32 PM",
+      "dateFinished": "Jun 18, 2016 8:47:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Approximations/02: Algebird CountMin Sketch (Count)",
+  "id": "2B7S5BZQV",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

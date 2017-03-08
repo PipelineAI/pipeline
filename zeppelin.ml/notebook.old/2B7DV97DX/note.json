@@ -1,0 +1,107 @@
+{
+  "paragraphs": [
+    {
+      "title": "Register the Custom SplitterUDF",
+      "text": "import org.apache.spark.sql.catalyst.analysis.FunctionRegistry\nimport com.advancedspark.sql.functions.SplitterUDF\nimport org.apache.spark.sql.catalyst.expressions.{Expression, ScalaUDF}\n\n//sqlContext.udf.register(\"splitter\", SplitterUDF)\n\n//def builder(children: Seq[Expression]) \u003d ScalaUDF(children, SplitterUDF)\n\n//FunctionRegistry.builtin.\n//sqlContext.functionRegistry.registerFunction(\"splitter\", builder)\n\nsqlContext.functionRegistry.listFunction()\n\n//sqlContext.sql(s\"\"\"REFRESH TABLE MOVIES\"\"\")\n//val moviesDF \u003d sqlContext.sql(s\"\"\"select movieId, title, genres, splitter(genres, \"|\", 0) from movies limit 10\"\"\")\n\n//z.show(moviesDF)\n",
+      "dateUpdated": "Mar 22, 2016 2:01:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "movieId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "movieId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444104338511_-1259173273",
+      "id": "20151006-040538_1295650640",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.catalyst.analysis.FunctionRegistry\nimport com.advancedspark.sql.functions.SplitterUDF\nimport org.apache.spark.sql.catalyst.expressions.{Expression, ScalaUDF}\n\u003cconsole\u003e:52: error: lazy value functionRegistry in class SQLContext cannot be accessed in org.apache.spark.sql.SQLContext\n Access to protected value functionRegistry not permitted because\n enclosing class $iwC is not a subclass of \n class SQLContext in package sql where target is defined\n              sqlContext.functionRegistry.listFunction()\n                         ^\n"
+      },
+      "dateCreated": "Oct 6, 2015 4:05:38 AM",
+      "dateStarted": "Mar 22, 2016 2:01:15 PM",
+      "dateFinished": "Mar 22, 2016 2:01:15 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Nov 30, 2015 12:19:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1445564294581_-1871218476",
+      "id": "20151023-013814_1168228197",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Oct 23, 2015 1:38:14 AM",
+      "dateStarted": "Nov 23, 2015 5:09:26 PM",
+      "dateFinished": "Nov 23, 2015 5:09:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO:  SQL/03: Creating a Custom UDF",
+  "id": "2B7DV97DX",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

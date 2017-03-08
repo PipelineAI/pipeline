@@ -1,0 +1,461 @@
+{
+  "paragraphs": [
+    {
+      "text": "val ratingsUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings.json.bz2\")\nval gendersUnpartitionedJsonDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/dating/genders.json.bz2\")",
+      "dateUpdated": "Mar 28, 2016 10:12:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943866666_-1366104132",
+      "id": "20151201-042426_575898296",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "ratingsUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, rating: bigint, toUserId: bigint]\ngendersUnpartitionedJsonDF: org.apache.spark.sql.DataFrame \u003d [gender: string, id: bigint]\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:24:26 AM",
+      "dateStarted": "Mar 28, 2016 10:12:47 PM",
+      "dateFinished": "Mar 28, 2016 10:13:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val ratingsPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\")\n  .load(\"file:/root/pipeline/datasets/dating/ratings-partitioned.parquet\")\nval gendersPartitionedParquetDF \u003d sqlContext.read.format(\"parquet\")\n  .load(\"file:/root/pipeline/datasets/dating/genders-partitioned.parquet\")",
+      "dateUpdated": "Dec 1, 2015 11:33:59 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943825654_1442132117",
+      "id": "20151201-042345_1652528620",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "ratingsPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [fromUserId: bigint, toUserId: bigint, rating: int]\ngendersPartitionedParquetDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, gender: string]\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:23:45 AM",
+      "dateStarted": "Dec 1, 2015 11:33:59 AM",
+      "dateFinished": "Dec 1, 2015 11:34:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Partitioned vs. Unpartitioned Join",
+      "dateUpdated": "May 11, 2016 5:54:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "tableHide": false,
+        "editorMode": "ace/mode/markdown",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943861338_2075090030",
+      "id": "20151201-042421_1860116484",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003ePartitioned vs. Unpartitioned Join\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:24:21 AM",
+      "dateStarted": "Dec 1, 2015 5:20:05 AM",
+      "dateFinished": "Dec 1, 2015 5:20:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Ratings Partitioned Parquet, Genders Unpartitioned JSON Join",
+      "text": "val df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersUnpartitionedJsonDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),\n  $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\ndf.explain(true)\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 11:34:02 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943934349_-1074171662",
+      "id": "20151201-042534_644616746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#94L \u003d id#92L))\n Filter (rating#95 \u003e\u003d 4)\n  Filter (rating#95 \u003c\u003d 6)\n   Project [toUserId#94L,rating#95]\n    Relation[fromUserId#93L,toUserId#94L,rating#95] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#91 \u003d M)\n  Filter NOT (gender#91 \u003d F)\n   Project [id#92L,gender#91]\n    Relation[gender#91,id#92L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\ntoUserId: bigint, rating: int, id: bigint, gender: string\nJoin Inner, Some((toUserId#94L \u003d id#92L))\n Filter (rating#95 \u003e\u003d 4)\n  Filter (rating#95 \u003c\u003d 6)\n   Project [toUserId#94L,rating#95]\n    Relation[fromUserId#93L,toUserId#94L,rating#95] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Filter NOT (gender#91 \u003d M)\n  Filter NOT (gender#91 \u003d F)\n   Project [id#92L,gender#91]\n    Relation[gender#91,id#92L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nJoin Inner, Some((toUserId#94L \u003d id#92L))\n Project [toUserId#94L,rating#95]\n  Filter ((rating#95 \u003c\u003d 6) \u0026\u0026 (rating#95 \u003e\u003d 4))\n   Relation[fromUserId#93L,toUserId#94L,rating#95] ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet]\n Project [id#92L,gender#91]\n  Filter (NOT (gender#91 \u003d F) \u0026\u0026 NOT (gender#91 \u003d M))\n   Relation[gender#91,id#92L] JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2]\n\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#94L], [id#92L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#94L,rating#95]\n ConvertToUnsafe\n  Filter (NOT (gender#91 \u003d F) \u0026\u0026 NOT (gender#91 \u003d M))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/genders.json.bz2][id#92L,gender#91]\n\nCode Generation: true\nres36: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:25:34 AM",
+      "dateStarted": "Dec 1, 2015 11:34:32 AM",
+      "dateFinished": "Dec 1, 2015 11:34:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Ratings Unpartitioned JSON, Genders Partitioned Parquet Join",
+      "text": "val df \u003d ratingsUnpartitionedJsonDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n  $\"toUserId\" \u003d\u003d\u003d $\"id\")\n  \ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 10:02:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943951141_-153236037",
+      "id": "20151201-042551_1388800624",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: bigint, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#60L], [id#66L], BuildRight\n ConvertToUnsafe\n  Filter ((rating#59L \u003c\u003d 6) \u0026\u0026 (rating#59L \u003e\u003d 4))\n   Scan JSONRelation[file:/root/pipeline/datasets/dating/ratings.json.bz2][toUserId#60L,rating#59L]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#66L,gender#67]\nres30: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:25:51 AM",
+      "dateStarted": "Dec 1, 2015 10:02:56 AM",
+      "dateFinished": "Dec 1, 2015 10:03:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Ratings Partitioned Parquet, Genders Partitioned Parquet Join",
+      "text": "val df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n  $\"toUserId\" \u003d\u003d\u003d $\"id\")\n  \ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 6:06:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448943969100_1094165870",
+      "id": "20151201-042609_352116544",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#6L], [id#8L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#6L,rating#7]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#8L,gender#9]\nres84: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:26:09 AM",
+      "dateStarted": "Dec 1, 2015 6:06:29 AM",
+      "dateFinished": "Dec 1, 2015 6:06:30 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Cartesian vs. Inner Join",
+      "dateUpdated": "Dec 1, 2015 5:20:06 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944072086_-2015436037",
+      "id": "20151201-042752_964666782",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eCartesian vs. Inner Join\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:27:52 AM",
+      "dateStarted": "Dec 1, 2015 5:20:06 AM",
+      "dateFinished": "Dec 1, 2015 5:20:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cartesian Join",
+      "text": "val df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"))\n\ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 6:08:14 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944080839_-2066055971",
+      "id": "20151201-042800_864538350",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nCartesianProduct\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#6L,rating#7]\n Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#8L,gender#9]\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 4.0 failed 4 times, most recent failure: Lost task 1.3 in stage 4.0 (TID 25, 127.0.0.1): ExecutorLostFailure (executor 5 lost)\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1283)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1271)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1270)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1270)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1496)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1458)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1447)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1822)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1835)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1848)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1919)\n\tat org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:905)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.collect(RDD.scala:904)\n\tat org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:177)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.DataFrame$$anonfun$collect$1.apply(DataFrame.scala:1385)\n\tat org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:56)\n\tat org.apache.spark.sql.DataFrame.withNewExecutionId(DataFrame.scala:1903)\n\tat org.apache.spark.sql.DataFrame.collect(DataFrame.scala:1384)\n\tat org.apache.spark.sql.DataFrame.count(DataFrame.scala:1402)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:28)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:33)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:35)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:37)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:39)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:41)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:43)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:45)\n\tat \u003cinit\u003e(\u003cconsole\u003e:47)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:51)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:655)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:620)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:613)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:276)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:170)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:118)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:28:00 AM",
+      "dateStarted": "Dec 1, 2015 5:20:55 AM",
+      "dateFinished": "Dec 1, 2015 5:35:44 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Inner Join",
+      "text": "val df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"),\n  $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 10:08:30 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944106494_-1758610951",
+      "id": "20151201-042826_1988450042",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#64L], [id#66L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#64L,rating#65]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#66L,gender#67]\nres34: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:28:26 AM",
+      "dateStarted": "Dec 1, 2015 10:08:30 AM",
+      "dateFinished": "Dec 1, 2015 10:08:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Broadcast vs. Normal Shuffle Join",
+      "dateUpdated": "Dec 1, 2015 5:20:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944131046_1667623977",
+      "id": "20151201-042851_840060641",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eBroadcast vs. Normal Shuffle Join\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:28:51 AM",
+      "dateStarted": "Dec 1, 2015 5:20:09 AM",
+      "dateFinished": "Dec 1, 2015 5:20:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Broadcast Join",
+      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d10485760\") // default \u003d 10 MB\n\nval df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 10:12:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944141094_455511700",
+      "id": "20151201-042901_754193600",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res36: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nBroadcastHashJoin [toUserId#64L], [id#66L], BuildRight\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#64L,rating#65]\n ConvertToUnsafe\n  Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#66L,gender#67]\nres40: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:29:01 AM",
+      "dateStarted": "Dec 1, 2015 10:12:45 AM",
+      "dateFinished": "Dec 1, 2015 10:12:46 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Normal Shuffle Join",
+      "text": "sqlContext.sql(\"set spark.sql.autoBroadcastJoinThreshold\u003d-1\")\n\nval df \u003d ratingsPartitionedParquetDF.select($\"toUserId\", $\"rating\").where($\"rating\" \u003c\u003d 6).filter($\"rating\" \u003e\u003d 4)\n  .join(gendersPartitionedParquetDF.select($\"id\", $\"gender\").filter(\"gender !\u003d \u0027F\u0027\").where(\"gender !\u003d \u0027M\u0027\"), \n    $\"toUserId\" \u003d\u003d\u003d $\"id\")\n\ndf.explain()\ndf.count()",
+      "dateUpdated": "Dec 1, 2015 10:14:01 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944164736_478996707",
+      "id": "20151201-042924_1841897211",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res50: org.apache.spark.sql.DataFrame \u003d [key: string, value: string]\ndf: org.apache.spark.sql.DataFrame \u003d [toUserId: bigint, rating: int, id: bigint, gender: string]\n\u003d\u003d Physical Plan \u003d\u003d\nSortMergeJoin [toUserId#64L], [id#66L]\n TungstenSort [toUserId#64L ASC], false, 0\n  TungstenExchange hashpartitioning(toUserId#64L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/ratings-partitioned.parquet][toUserId#64L,rating#65]\n TungstenSort [id#66L ASC], false, 0\n  TungstenExchange hashpartitioning(id#66L)\n   ConvertToUnsafe\n    Scan ParquetRelation[file:/root/pipeline/datasets/dating/genders-partitioned.parquet][id#66L,gender#67]\nres54: Long \u003d 1123909\n"
+      },
+      "dateCreated": "Dec 1, 2015 4:29:24 AM",
+      "dateStarted": "Dec 1, 2015 10:14:01 AM",
+      "dateFinished": "Dec 1, 2015 10:14:05 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 1, 2015 5:20:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448944161028_231218415",
+      "id": "20151201-042921_684430726",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 1, 2015 4:29:21 AM",
+      "dateStarted": "Dec 1, 2015 5:35:51 AM",
+      "dateFinished": "Dec 1, 2015 5:35:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SQL/03: Compare Query Plans (Partial)",
+  "id": "2B7JQJT2G",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

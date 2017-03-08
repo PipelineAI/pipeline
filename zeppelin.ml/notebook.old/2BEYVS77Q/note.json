@@ -1,0 +1,391 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Connected Components](http://fluxcapacitor.com/img/connected-components.png)",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899608_1125367435",
+      "id": "20160305-012139_291411263",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/connected-components.png\" alt\u003d\"Connected Components\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:10 AM",
+      "dateFinished": "Apr 21, 2016 1:46:10 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/connected-components.csv\")\n  .toDF(\"userId1\", \"userId2\")",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899608_1124982686",
+      "id": "20160305-012139_48977872",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int]\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:10 AM",
+      "dateFinished": "Apr 21, 2016 1:46:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.Edge \n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 0L)\n})",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_636973899",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Long]] \u003d MapPartitionsRDD[515] at map at \u003cconsole\u003e:50\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:11 AM",
+      "dateFinished": "Apr 21, 2016 1:46:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_1780155696",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\ngraph: org.apache.spark.graphx.Graph[Long,Long] \u003d org.apache.spark.graphx.impl.GraphImpl@1c87311a\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:11 AM",
+      "dateFinished": "Apr 21, 2016 1:46:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\r\n   .friction(0.1).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_252285473",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027ad02337aa-cbea-4b61-8bdf-18c00219c490\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#ad02337aa-cbea-4b61-8bdf-18c00219c490\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:90004},{id:90006},{id:10006},{id:10004},{id:10001},{id:90005},{id:90001},{id:90003},{id:10003},{id:10005}];\nvar links \u003d [{source:nodes[10],target:nodes[7]},{source:nodes[5],target:nodes[3]},{source:nodes[11],target:nodes[4]},{source:nodes[4],target:nodes[11]},{source:nodes[8],target:nodes[9]},{source:nodes[1],target:nodes[8]},{source:nodes[2],target:nodes[10]},{source:nodes[7],target:nodes[10]},{source:nodes[7],target:nodes[4]},{source:nodes[6],target:nodes[8]},{source:nodes[6],target:nodes[9]},{source:nodes[0],target:nodes[9]},{source:nodes[10],target:nodes[2]},{source:nodes[11],target:nodes[3]},{source:nodes[4],target:nodes[7]},{source:nodes[8],target:nodes[6]},{source:nodes[8],target:nodes[1]},{source:nodes[9],target:nodes[6]},{source:nodes[9],target:nodes[0]},{source:nodes[9],target:nodes[8]},{source:nodes[3],target:nodes[5]},{source:nodes[3],target:nodes[11]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-200).chargeDistance(200)\n   .friction(0.1).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:11 AM",
+      "dateFinished": "Apr 21, 2016 1:46:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show Triangle Counts per vertex",
+      "text": "graph.connectedComponents.vertices.sortBy(_._2).collect().mkString(\"\\n\")",
+      "dateUpdated": "Apr 21, 2016 1:46:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_1459880391",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res85: String \u003d \n(10002,10001)\n(90002,10001)\n(10001,10001)\n(90001,10001)\n(90003,10001)\n(90004,10003)\n(90006,10003)\n(10006,10003)\n(10004,10003)\n(90005,10003)\n(10003,10003)\n(10005,10003)\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:12 AM",
+      "dateFinished": "Apr 21, 2016 1:46:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert to GraphFrame",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX",
+      "dateUpdated": "Apr 21, 2016 1:46:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_1232559431",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: bigint])\nres90: org.apache.spark.sql.DataFrame \u003d [id: bigint, attr: bigint]\nres93: org.apache.spark.sql.DataFrame \u003d [src: bigint, dst: bigint, attr: bigint]\nres96: org.apache.spark.graphx.Graph[org.apache.spark.sql.Row,org.apache.spark.sql.Row] \u003d org.apache.spark.graphx.impl.GraphImpl@4bc60c9b\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:12 AM",
+      "dateFinished": "Apr 21, 2016 1:46:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "z.show(graphFrame.triplets)",
+      "dateUpdated": "Apr 21, 2016 1:46:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_2079847388",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "edge\tsrc\tdst\n[90001,10001,0]\t[90001,0]\t[10001,0]\n[90003,10001,0]\t[90003,0]\t[10001,0]\n[10001,90001,0]\t[10001,0]\t[90001,0]\n[90002,90001,0]\t[90002,0]\t[90001,0]\n[90003,90001,0]\t[90003,0]\t[90001,0]\n[90003,10002,0]\t[90003,0]\t[10002,0]\n[90001,90002,0]\t[90001,0]\t[90002,0]\n[90004,10003,0]\t[90004,0]\t[10003,0]\n[90005,10003,0]\t[90005,0]\t[10003,0]\n[10001,90003,0]\t[10001,0]\t[90003,0]\n[90001,90003,0]\t[90001,0]\t[90003,0]\n[10002,90003,0]\t[10002,0]\t[90003,0]\n[90006,10004,0]\t[90006,0]\t[10004,0]\n[10003,90004,0]\t[10003,0]\t[90004,0]\n[10006,10005,0]\t[10006,0]\t[10005,0]\n[90006,10005,0]\t[90006,0]\t[10005,0]\n[10003,90005,0]\t[10003,0]\t[90005,0]\n[10006,90005,0]\t[10006,0]\t[90005,0]\n[10005,10006,0]\t[10005,0]\t[10006,0]\n[90005,10006,0]\t[90005,0]\t[10006,0]\n[10004,90006,0]\t[10004,0]\t[90006,0]\n[10005,90006,0]\t[10005,0]\t[90006,0]\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:13 AM",
+      "dateFinished": "Apr 21, 2016 1:46:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val connectedComponentsDF \u003d graphFrame.connectedComponents.run()\n  .select($\"component\", $\"id\")\n  .sort($\"component\")\n\nz.show(connectedComponentsDF)",
+      "dateUpdated": "Apr 21, 2016 1:46:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_950861337",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "component\tid\n10001\t10002\n10001\t90002\n10001\t10001\n10001\t90001\n10001\t90003\n10003\t10003\n10003\t90006\n10003\t10006\n10003\t10005\n10003\t90005\n10003\t90004\n10003\t10004\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:13 AM",
+      "dateFinished": "Apr 21, 2016 1:46:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import scala.reflect.ClassTag\nimport com.advancedspark.ml.graph.Cluster\n\nval clusterCoefficient \u003d Cluster.globalClusteringCoefficient(graph)",
+      "dateUpdated": "Apr 21, 2016 1:46:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457140899609_1124982686",
+      "id": "20160305-012139_1330764530",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import scala.reflect.ClassTag\nimport com.advancedspark.ml.graph.Cluster\nclusterCoefficient: Double \u003d 0.5\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:21:39 AM",
+      "dateStarted": "Apr 21, 2016 1:46:14 AM",
+      "dateFinished": "Apr 21, 2016 1:46:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 21, 2016 1:46:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457146008300_-672651260",
+      "id": "20160305-024648_232709096",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 5, 2016 2:46:48 AM",
+      "dateStarted": "Apr 21, 2016 1:46:15 AM",
+      "dateFinished": "Apr 21, 2016 1:46:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/06: Connected Components",
+  "id": "2BEYVS77Q",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style type="text/css">
+      h1 {
+        color:#fc3;
+        font-family:"Lucida Grande",Verdana,sans-serif; 
+        font-size: 150%; 
+        font-weight: normal; 
+        margin:34px 0 0;
+        background-color: #7A0019;
+      }
+      p {
+        margin-left: 20px;
+      }
+      p.file_line_structure {
+        margin-left: 40px;
+      }
+      table {
+        margin-left: 30px;
+      }
+      th {
+        text-align:left;
+      }
+    </style>
+<!-- teachPress 4.3.1 -->
+<script type="text/javascript" src="http://grouplens.org/plugins/teachpress/js/frontend.js?ver=4.3.1"></script>
+<link type="text/css" href="http://grouplens.org/plugins/teachpress/styles/teachpress_front.css?ver=4.3.1" rel="stylesheet" />
+<!-- END teachPress -->
+    <title>Tag Genome Data Set README</title>
+  </head>
+  <body>
+  	<h1>Description</h1>
+    <p>
+    Want to know how <i/>quirky</i> a particular movie is?  Or how to find the most <i>visually appealing</i> movies of all time? Or how to find a movie that is similar to another movie you’ve seen but less <i>big budget</i> and more <i>cerebral</i>?
+</p>
+<p>
+The tag genome is a data structure that enables you to answer queries such as these. As described in <a href="http://www.grouplens.org/system/files/tag_genome.pdf">this article</a>, the tag genome encodes how strongly movies exhibit particular properties represented by tags (<i>atmospheric</i>, <i>thought-provoking</i>, <i>realistic</i>, etc.). The tag genome was computed using a machine learning algorithm on user-contributed content including tags, ratings, and textual reviews
+    </p>
+  	
+  	<h1>
+        Dataset
+    </h1>
+    <p>
+      This data set contains the tag relevance values that make up the tag genome, described <a href="http://www.grouplens.org/system/files/tag_genome.pdf">here</a>. Tag relevance represents the relevance of a tag to a movie on a continuous scale from 0 to 1. Tag relevance values are provided for 9,734 movies and 1,128 tags.
+    </p>
+    <p>
+      The data are contained in three files, <code>tag_relevance.dat</code>, 
+      <code>movies.dat</code> and <code>tags.dat</code>. More details about the contents and use
+      of all these files <a href="#file_desc">follows</a>.
+    </p>
+    <p>
+      This and other GroupLens data sets are publicly available for download at 
+      <a href="http://www.grouplens.org/taxonomy/term/14">GroupLens Data Sets</a>.
+    </p>
+    
+    <h1>
+      Citation
+    </h1>
+    <p>
+    Please include the following citation if referencing this data set: 
+    </p>
+    <p>
+    <table>
+    </tr><tr class="tp_publication_simple"><td class="tp_pub_info_simple"><span class="tp_pub_author_simple"> Vig, Jesse;  Sen, Shilad;  Riedl, John</span><span class="tp_pub_year_simple"> (2012)</span>: <span class="tp_pub_title_simple"><a class="tp_title_link" onclick="teachpress_pub_showhide('12','tp_links')" style="cursor:pointer;">The Tag Genome: Encoding Community Knowledge to Support Novel Interaction</a></span>. <span class="tp_pub_additional_simple">In: ACM Transactions on Interactive Intelligent Systems (TiiS), 2, 2012, ISSN: 2160-6455.</span> <span class="tp_pub_tags_simple">(Type: <span class="tp_pub_typ_simple">Article</span> | <a id="tp_links_sh_12" class="tp_show" onclick="teachpress_pub_showhide('12','tp_links')" title="Show links and resources" style="cursor:pointer;">Links</a> | <a id="tp_bibtex_sh_12" class="tp_show" onclick="teachpress_pub_showhide('12','tp_bibtex')" style="cursor:pointer;" title="Show BibTeX entry">BibTeX</a>)</span><div class="tp_bibtex" id="tp_bibtex_12" style="display:none;"><div class="tp_bibtex_entry">@article{491,<br />
+title = {The Tag Genome: Encoding Community Knowledge to Support Novel Interaction},<br />
+author = {J. Vig and S. Sen and J. Riedl},<br />
+url = {http://www.grouplens.org/system/files/tag_genome.pdf},<br />
+issn = {2160-6455},<br />
+year  = {2012},<br />
+date = {2012-01-01},<br />
+journal = {ACM Transactions on Interactive Intelligent Systems (TiiS)},<br />
+volume = {2},<br />
+keywords = {}<br />
+}<br />
+</div><p class="tp_close_menu"><a class="tp_close" onclick="teachpress_pub_showhide('12','tp_bibtex')">Close</a></p></div><div class="tp_links" id="tp_links_12" style="display:none;"><div class="tp_links_entry"><ul class="tp_pub_list"><li><a class="tp_pub_list" style="background-image: url(http://grouplens.org/plugins/teachpress/images/mimetypes/application-pdf.png)" href="http://www.grouplens.org/system/files/tag_genome.pdf" title="http://www.grouplens.org/system/files/tag_genome.pdf" target="_blank">http://www.grouplens.org/system/files/tag_genome.pdf</a></li></ul></div><p class="tp_close_menu"><a class="tp_close" onclick="teachpress_pub_showhide('12','tp_links')">Close</a></p></div>
+                </td>
+                
+                </tr></table>
+    </p>
+    <h1>
+      Usage License
+    </h1>
+    <p>
+      Neither the University of Minnesota nor any of the researchers
+      involved can guarantee the correctness of the data, its suitability
+      for any particular purpose, or the validity of results based on the
+      use of the data set.  The data set may be used for any research
+      purposes under the following conditions:
+    </p>
+    <ul>
+        <li>The user may not state or imply any endorsement from the
+       University of Minnesota or the GroupLens Research Group.</li>
+
+        <li>The user must acknowledge the use of the data set in
+       publications resulting from the use of the data set, and must
+       send us an electronic or paper copy of those publications.</li>
+
+        <li>The user may not redistribute the data without separate
+       permission.</li>
+
+        <li>The user may not use this information for any commercial or
+       revenue-bearing purposes without first obtaining permission
+       from a faculty member of the GroupLens Research Project at the
+       University of Minnesota.</li>
+    </ul>
+    <p>
+      Executable software scripts are provided "as is" without warranty 
+      of any kind, either expressed or implied, including, but not limited to, 
+      the implied warranties of merchantability and fitness for a particular purpose. 
+      The entire risk as to the quality and performance of them is with you. 
+      Should the program prove defective, you assume the cost of all 
+      necessary servicing, repair or correction.
+    </p>
+    <p>
+      In no event shall the University of Minnesota, its affiliates or employees 
+      be liable to you for any damages arising out of the use or inability to use 
+      these programs (including but not limited to loss of data or data being 
+      rendered inaccurate).
+    </p>
+
+    <p>
+      If you have any further questions or comments, please email <a href='mailto:grouplens-info@cs.umn.edu'>grouplens-info</a>
+    </p>
+    
+    <h1>
+        Further Information About GroupLens
+    </h1>
+    <p>
+      <a href="http://www.grouplens.org/">GroupLens</a> is a research group in the 
+      <a href="http://www.cs.umn.edu/">Department of Computer Science and Engineering</a>
+      at the <a href="http://www.umn.edu/">University of Minnesota</a>.  Since its 
+      inception in 1992, GroupLens' research projects have explored a variety of fields
+      including: 
+    </p>
+    <ul>
+      <li>Information Filtering</li>
+      <li>Recommender Systems</li>
+      <li>Online Communities</li>
+      <li>Mobile and Ubiquitious Technologies</li>
+      <li>Digital Libraries</li>
+      <li>Local Geographic Information Systems.</li>
+    </ul>
+    <p>
+      GroupLens Research operates a movie recommender based on
+      collaborative filtering, <a href="http://www.movielens.org/">MovieLens</a>.
+    </p>
+
+    <h1 id="file_desc">
+      Content and Use of Files
+    </h1>
+   
+    <h2>
+      Tag Relevance Data File Structure
+    </h2>
+    <p>
+      Tag relevance values are contained in the file <code>tag_relevance.dat</code> in a tab-delimited format.  Each line of this 
+      file represents the relevance of a tag to a movie, and has the following format:
+    </p>
+    <p class="file_line_structure">
+      <code>&lt;MovieID&gt;&lt;TagID&gt;&lt;Relevance&gt;</code>
+    </p>
+    <p>
+    Relevance values are on a continuous 0-1 scale. A value of 1 indicates that a tag is strongly relevant to a movie and a value of 0 indicates that a tag has no relevance to a movie.
+    </p>
+    <p>
+    Many of the movie-tag pairs contain low relevance values that are close to zero but not exactly zero. Very low values can be rounded to zero for any application of the tag genome that displays the relevance values for the end user. However, rounding can also create discontinuities that might effect, for example, applications that compute differences in tag relevance values.
+    </p>
+    <h2>
+      Movie Data File Structure
+    </h2>
+    <p>
+      All movies in the tag genome are contained in the file <code>movies.dat</code> in a tab-delimited format.  Each line of this 
+      file represents a single movie, and has 
+      the following format:
+    </p>
+    <p class="file_line_structure">
+      <code>&lt;MovieID&gt;&lt;Title&gt;&lt;MoviePopularity&gt;</code>
+    </p>
+    <p>
+      <code>MovieID</code> is the movie id from MovieLens. <code>Title</code> is the movie title from MovieLens. <code>MoviePopularity</code> is the number of ratings for this movie on MovieLens. This can optionally be used to filter the movies. Tag relevance values may be slightly less accurate for very obscure movies as they have less data associated with them.
+    </p>
+    <p>If accented characters (e.g. Misérables, Les (1995)) or other special characters in movie titles 
+      display incorrectly, make sure that any program reading the data, such as a 
+      text editor, terminal, or script, is configured to handle unicode characters.
+    </p>
+    <p>
+      Movie titles, by policy, should be entered identically to those
+      found in <a href="http://www.imdb.com/">IMDB</a>, including year of release.
+      However, they are entered manually, so errors and inconsistencies may exist.
+    </p>
+    <h2>
+      Tag Data File Structure
+    </h2>
+    <p>
+      Tag information is contained in the file <code>tags.dat</code> in a tab-delimited format.  
+      Each line of this file represents one tag from the tag genome, and has the following format:
+    </p>
+    <p class="file_line_structure">
+      <code>&lt;TagID&gt;&lt;Tag&gt;&lt;TagPopularity&gt;</code>
+    </p>
+    <p>
+      <code>TagID</code> is a unique ID for each tag in the tag genome, and is specific to this data set. 
+    </p>
+	 <p>
+	 <code>TagPopularity</code> equals the number of distinct users on MovieLens who have applied the tag, as discussed <a href="http://www.grouplens.org/system/files/tag_genome.pdf">here</a>. Tag popularity can be used as a way to filter the tags selected from the tag genome. For example, the <a href="http://www.grouplens.org/system/files/tag_genome.pdf">Movie Tuner</a> application only displays tags with a popularity score greater than 50.
+	 </p>    
+    <p style="text-align:right">
+      <a href="http://validator.w3.org/check?uri=referer">
+        <img style="border:0;width:88px;height:31px"
+          src="http://www.w3.org/Icons/valid-xhtml10"
+          alt="Valid XHTML 1.0 Strict" height="31" width="88" />
+      </a>
+
+      <a href="http://jigsaw.w3.org/css-validator/">
+        <img style="border:0;width:88px;height:31px"
+          src="http://jigsaw.w3.org/css-validator/images/vcss"
+          alt="Valid CSS!" />
+      </a>
+    </p>
+  </body>
+</html>

@@ -1,0 +1,355 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![SVD](http://advancedspark.com/img/svd.png)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460655575003_-109981452",
+      "id": "20160414-173935_976143776",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/svd.png\" alt\u003d\"SVD\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:39:35 PM",
+      "dateStarted": "May 11, 2016 5:43:13 AM",
+      "dateFinished": "May 11, 2016 5:43:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![User-to-Item Graph Based Recommendations](http://advancedspark.com/img/user-to-item-graph-based-recs.png)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460659284258_-782542034",
+      "id": "20160414-184124_1255047583",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/user-to-item-graph-based-recs.png\" alt\u003d\"User-to-Item Graph Based Recommendations\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 14, 2016 6:41:24 PM",
+      "dateStarted": "May 11, 2016 5:43:13 AM",
+      "dateFinished": "May 11, 2016 5:43:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Get Edges",
+      "text": "//val itemRatingsDF \u003d sqlContext.read\n//  .format(\"com.databricks.spark.csv\")\n//  .option(\"header\", \"true\") \n//  .option(\"inferSchema\", \"true\") \n//  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/ratings.csv\")\n//  .toDF(\"userId\", \"itemId\", \"rating\", \"timestamp\")\n//  .select($\"userId\", $\"itemId\", $\"rating\")\n\nval itemRatingsDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/user-to-item-graph-based-recs.csv\")\n  .toDF(\"userId\", \"itemId\")\n  .select($\"userId\", $\"itemId\", lit(1.0) as \"rating\")\n\nz.show(itemRatingsDF)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "itemId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460655575003_-109981452",
+      "id": "20160414-173935_647383275",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\titemId\trating\n10001\t90001\t1.0\n10001\t90002\t1.0\n10001\t90003\t1.0\n10001\t90004\t1.0\n10001\t90005\t1.0\n10002\t90004\t1.0\n10002\t90006\t1.0\n10003\t90001\t1.0\n10003\t90003\t1.0\n10003\t90006\t1.0\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:39:35 PM",
+      "dateStarted": "May 11, 2016 5:43:13 AM",
+      "dateFinished": "May 11, 2016 5:43:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create Graph from edges",
+      "text": "import org.apache.spark.graphx.Edge \nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\n\nval connectionEdgesRDD \u003d itemRatingsDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 1.0)\n//  Edge(row(0).toString.toLong, row(1).toString.toLong, row(2).toString.toDouble)\n})\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L).partitionBy(PartitionStrategy.RandomVertexCut)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 9.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460655575003_-109981452",
+      "id": "20160414-173935_1104547073",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Edge\nimport org.apache.spark.graphx.Graph\nimport org.apache.spark.graphx.PartitionStrategy\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Double]] \u003d MapPartitionsRDD[1228] at map at \u003cconsole\u003e:62\ngraph: org.apache.spark.graphx.Graph[Long,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@45579c27\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:39:35 PM",
+      "dateStarted": "May 11, 2016 5:43:13 AM",
+      "dateFinished": "May 11, 2016 5:43:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Generate Graph-based Recommendations using SVD++",
+      "text": "//////////////////////////////////////\n// MUST CHANGE maxRating\n//////////////////////////////////////\n\nimport org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\n\nval rank \u003d 2 // number of latent variables (ie. k)\nval maxIterations \u003d 10 // max iters for convergance\nval minRating \u003d 0 // 0 stars\nval maxRating \u003d 1 // 5 stars\nval gamma1 \u003d 0.007 // rate of bias change between iterations\nval gamma2 \u003d 0.007 // rate of latent variable vectors can change between iters\nval gamma6 \u003d 0.005 // bias dampening factor (keeps them small)\nval gamma7 \u003d 0.015 // degree to which latent variable vectors can interact\n\nval conf \u003d new Conf(rank, maxIterations, minRating, maxRating, gamma1, gamma2, gamma6, gamma7)\n\nvar (modelGraph, mean) \u003d SVDPlusPlus.run(graph.edges, conf)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460655575003_-109981452",
+      "id": "20160414-173935_715476232",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.lib.SVDPlusPlus\nimport org.apache.spark.graphx.lib.SVDPlusPlus._\nrank: Int \u003d 2\nmaxIterations: Int \u003d 10\nminRating: Int \u003d 0\nmaxRating: Int \u003d 1\ngamma1: Double \u003d 0.007\ngamma2: Double \u003d 0.007\ngamma6: Double \u003d 0.005\ngamma7: Double \u003d 0.015\nconf: org.apache.spark.graphx.lib.SVDPlusPlus.Conf \u003d org.apache.spark.graphx.lib.SVDPlusPlus$Conf@35689c\nmodelGraph: org.apache.spark.graphx.Graph[(Array[Double], Array[Double], Double, Double),Double] \u003d org.apache.spark.graphx.impl.GraphImpl@9820d16\nmean: Double \u003d 1.0\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:39:35 PM",
+      "dateStarted": "May 11, 2016 5:43:14 AM",
+      "dateFinished": "May 11, 2016 5:43:19 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.jblas.DoubleMatrix\n\n//////////////////////////////////\n// MUST CHANGE mean\n//////////////////////////////////\n\nval theMean \u003d 0.5\nval theMean \u003d mean\n\nval userId \u003d 10001\nval itemId \u003d 90006\n\nval userBias \u003d modelGraph.vertices.filter(_._1 \u003d\u003d userId).collect()(0)._2._3\nval itemBias \u003d modelGraph.vertices.filter(_._1 \u003d\u003d itemId).collect()(0)._2._3\n\nval userLatentFactors \u003d modelGraph.vertices.filter(_._1 \u003d\u003d userId).collect()(0)._2._2\nval itemLatentFactors \u003d modelGraph.vertices.filter(_._1 \u003d\u003d itemId).collect()(0)._2._1\n\n// Create JBlas DoubleMatrix from arrays\nval userLatentFactorVector \u003d new DoubleMatrix(userLatentFactors)\nval itemLatentFactorVector \u003d new DoubleMatrix(itemLatentFactors)\n\n// Take dot product of the User x Item vectors\n// This should equal the confidence value in the offline-generated matrix\nval confidence \u003d userLatentFactorVector.dot(itemLatentFactorVector) + theMean + userBias + itemBias",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460663816878_-1544311516",
+      "id": "20160414-195656_964830363",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.jblas.DoubleMatrix\ntheMean: Double \u003d 0.5\ntheMean: Double \u003d 1.0\nuserId: Int \u003d 10001\nitemId: Int \u003d 90006\nuserBias: Double \u003d 0.0\nitemBias: Double \u003d 0.0\nuserLatentFactors: Array[Double] \u003d Array(0.8047714847283133, 0.23682481038298117)\nitemLatentFactors: Array[Double] \u003d Array(0.4160585347172643, 0.16114042014467958)\nuserLatentFactorVector: org.jblas.DoubleMatrix \u003d [0.804771; 0.236825]\nitemLatentFactorVector: org.jblas.DoubleMatrix \u003d [0.416059; 0.161140]\nconfidence: Double \u003d 1.3729940941640968\n"
+      },
+      "dateCreated": "Apr 14, 2016 7:56:56 PM",
+      "dateStarted": "May 11, 2016 5:43:15 AM",
+      "dateFinished": "May 11, 2016 5:43:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Graph Vertices returned from SVD++",
+      "text": "%md ![SVD++ Return Value](http://advancedspark.com/img/svdplusplus-return-value.png)",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460655575003_-109981452",
+      "id": "20160414-173935_1046518591",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/svdplusplus-return-value.png\" alt\u003d\"SVD++ Return Value\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 14, 2016 5:39:35 PM",
+      "dateStarted": "May 11, 2016 5:43:13 AM",
+      "dateFinished": "May 11, 2016 5:43:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/////////////////////////////////////////\n// This is here for comparison purposes\n////////////////////////////////////////\n\nimport org.apache.spark.ml.recommendation.ALS\n\nval rank \u003d 2 // this is k\nval maxIterations \u003d 10\nval convergenceThreshold \u003d 0.01\n\nval als \u003d new ALS()\n  .setRank(rank)\n  .setRegParam(convergenceThreshold)\n  .setUserCol(\"userId\")\n  .setItemCol(\"itemId\")\n  .setRatingCol(\"rating\")\n\nval model \u003d als.fit(itemRatingsDF)\n\nval userFactors \u003d model.userFactors.collect()\nval itemFactors \u003d model.itemFactors.collect()\n\nmodel.setPredictionCol(\"confidence\")\n\nval recommendationsDF \u003d model.transform(itemRatingsDF.select($\"userId\", $\"itemId\"))\n  .toDF(\"userId\", \"recommendedItemId\", \"confidence\")\nz.show(recommendationsDF.sort($\"userId\", $\"recommendedItemId\", $\"confidence\" desc))\n",
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460660615961_721295800",
+      "id": "20160414-190335_922495284",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\trecommendedItemId\tconfidence\n10001\t90001\t0.99011505\n10001\t90002\t0.9901158\n10001\t90003\t0.99011505\n10001\t90004\t0.99011433\n10001\t90005\t0.9901158\n10002\t90004\t0.9901156\n10002\t90006\t0.9901147\n10003\t90001\t0.9901157\n10003\t90003\t0.9901157\n10003\t90006\t0.9901141\n"
+      },
+      "dateCreated": "Apr 14, 2016 7:03:35 PM",
+      "dateStarted": "May 11, 2016 5:43:20 AM",
+      "dateFinished": "May 11, 2016 5:43:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 11, 2016 5:43:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1460669799913_1473207280",
+      "id": "20160414-213639_1098156008",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 14, 2016 9:36:39 PM",
+      "dateStarted": "May 11, 2016 5:43:23 AM",
+      "dateFinished": "May 11, 2016 5:43:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Recommendations/07: User-to-Item Graph-based Recommendations (SVD++)",
+  "id": "2BJGMHZND",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

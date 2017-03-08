@@ -1,0 +1,117 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # [TextRank Paper](http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)",
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452984292468_-2059992109",
+      "id": "20160116-224452_1331188909",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003e\u003ca href\u003d\"http://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf\"\u003eTextRank Paper\u003c/a\u003e\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Jan 16, 2016 10:44:52 PM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ## Follow paco\u0027s pattern using the Spark user list:  \n* https://github.com/ceteri/spark-exercises/tree/master/exsto",
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453056340529_2118605737",
+      "id": "20160117-184540_1079838004",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eFollow paco\u0027s pattern using the Spark user list:\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://github.com/ceteri/spark-exercises/tree/master/exsto\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Jan 17, 2016 6:45:40 PM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 18, 2016 5:08:51 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453056365729_1099051800",
+      "id": "20160117-184605_564448773",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 17, 2016 6:46:05 PM",
+      "dateStarted": "Jun 18, 2016 5:08:51 PM",
+      "dateFinished": "Jun 18, 2016 5:08:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: NLP/09: TextRank (Similarity + PageRank)",
+  "id": "2BC3X1P5W",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

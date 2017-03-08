@@ -1,0 +1,11 @@
+server:
+  port: 9040
+spring:
+  application:
+    name: prediction-keyvalue
+  cloud:
+    config:
+      enabled: false
+netflix:
+  appinfo:
+    name: ${spring.application.name}

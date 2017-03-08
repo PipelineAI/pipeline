@@ -1,0 +1,120 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # THIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS `Live Recs/02:` NOTEBOOK",
+      "dateUpdated": "Jul 9, 2016 7:18:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461385293301_1512712352",
+      "id": "20160423-042133_781343250",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eTHIS NOTEBOOK DEPENDS ON RESULTS FROM PREVIOUS \u003ccode\u003eLive Recs/02:\u003c/code\u003e NOTEBOOK\u003c/h1\u003e\n"
+      },
+      "dateCreated": "Apr 23, 2016 4:21:33 AM",
+      "dateStarted": "Jul 9, 2016 7:18:07 AM",
+      "dateFinished": "Jul 9, 2016 7:18:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Top 5 similar users to a given user",
+      "text": "import com.advancedspark.ml.Similarity \nimport org.jblas.DoubleMatrix\n\n//////////////////////////////////////////////\n// Step 1:  Must Update User ID with your ID\n//////////////////////////////////////////////\n// User 21619\nval givenUserId \u003d 21619\nval givenUserFactors \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .where($\"userId\" \u003d\u003d\u003d givenUserId)\n  .map(row \u003d\u003e row.getSeq[Double](1).toArray)\n  .collect()(0)\n\nval givenUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n\n// Find Other Similar Items to the Given Item\nval similarUsers \u003d userFactorsDF.select($\"userId\", $\"userFactors\")\n  .filter($\"userId\" !\u003d\u003d givenUserId)\n  .map{ row \u003d\u003e\n     val userId \u003d row.getInt(0)\n     val otherUserFactors \u003d row.getSeq[Double](1).toArray\n     val otherUserFactorsMatrix \u003d new DoubleMatrix(givenUserFactors)\n     val similarity \u003d Similarity.cosineSimilarity(otherUserFactorsMatrix, givenUserFactorsMatrix)\n     (userId, similarity)\n  }\n  \n// Sort and Return Top 5 Items by Similarity to Given Item\nval sortedSimilarUsers \u003d similarUsers.top(5)(Ordering.by[(Int, Double), Double] { case (id, similarity) \u003d\u003e similarity })\n\nval sortedSimilarUsersDF \u003d sqlContext.createDataFrame(sortedSimilarUsers).toDF(\"similarUserId\", \"similarity\")\n\nz.show(sortedSimilarUsersDF.select(lit(givenUserId).as(\"userId\"), $\"similarUserId\", $\"similarity\"))",
+      "dateUpdated": "Jul 9, 2016 7:18:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 99.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461384988794_-1881586773",
+      "id": "20160423-041628_342476534",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tsimilarUserId\tsimilarity\n21619\t5980\t1.0\n21619\t27981\t1.0\n21619\t21141\t1.0\n21619\t28024\t1.0\n21619\t28865\t1.0\n"
+      },
+      "dateCreated": "Apr 23, 2016 4:16:28 AM",
+      "dateStarted": "Jul 9, 2016 7:18:07 AM",
+      "dateFinished": "Jul 9, 2016 7:18:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jul 9, 2016 7:18:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461385321569_960829187",
+      "id": "20160423-042201_249071245",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Apr 23, 2016 4:22:01 AM",
+      "dateStarted": "Jul 9, 2016 7:18:07 AM",
+      "dateFinished": "Jul 9, 2016 7:18:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Live Recs/03: User-to-User Similarity using ALS UserFactors",
+  "id": "2BHDJNWAZ",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

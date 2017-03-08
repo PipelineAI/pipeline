@@ -1,0 +1,39 @@
+{
+    "true": {
+        "t2.medium": {"cpu": 2, "memory": 4143996928, "pods": 30},
+        "m4.large": {"cpu": 1, "memory": 8413763584, "pods": 30},
+        "m4.xlarge": {"cpu": 2, "memory": 16827527168, "pods": 30},
+        "m4.2xlarge": {"cpu": 4, "memory": 33738887168, "pods": 30},
+        "m4.4xlarge": {"cpu": 8, "memory": 67549102080, "pods": 30},
+        "m4.10xlarge": {"cpu": 20, "memory": 169017131008, "pods": 30},
+        "g2.2xlarge": {"cpu": 4, "memory": 15770570752, "gpu": 1, "pods": 30},
+        "g2.8xlarge": {"cpu": 16, "memory": 63311153536, "gpu": 4, "pods": 30},
+        "c4.2xlarge": {"cpu": 4, "memory": 15770546176, "pods": 30},
+        "c4.4xlarge": {"cpu": 8, "memory": 31612444672, "pods": 30},
+        "c4.8xlarge": {"cpu": 18, "memory": 63311120768, "pods": 30},
+        "c4.xlarge": {"cpu": 2, "memory": 7843344384, "pods": 30},
+        "c4.large": {"cpu": 2, "memory": 3947372544, "pods": 30},
+        "p2.xlarge": {"cpu": 2, "memory": 65498251264, "pods": 30},
+        "p2.8xlarge": {"cpu": 16, "memory": 523986010112, "pods": 30},
+        "p2.16xlarge": {"cpu": 32, "memory": 785979015168, "pods": 30}
+    },
+    "false": {
+        "t2.micro": {"cpu": 1, "memory": 1040699392, "pods": 30},
+        "t2.medium": {"cpu": 2, "memory": 4143996928, "pods": 30},
+        "m4.large": {"cpu": 1, "memory": 8413763584, "pods": 30},
+        "m4.xlarge": {"cpu": 4, "memory": 16827527168, "pods": 30},
+        "m4.2xlarge": {"cpu": 8, "memory": 33738887168, "pods": 30},
+        "m4.4xlarge": {"cpu": 16, "memory": 67549102080, "pods": 30},
+        "m4.10xlarge": {"cpu": 40, "memory": 169017131008, "pods": 30},
+        "g2.2xlarge": {"cpu": 8, "memory": 15770570752, "gpu": 1, "pods": 30},
+        "g2.8xlarge": {"cpu": 32, "memory": 63311153536, "gpu": 4, "pods": 30},
+        "c4.2xlarge": {"cpu": 8, "memory": 15770546176, "pods": 30},
+        "c4.4xlarge": {"cpu": 16, "memory": 31612444672, "pods": 30},
+        "c4.8xlarge": {"cpu": 36, "memory": 63311120768, "pods": 30},
+        "c4.xlarge": {"cpu": 4, "memory": 7843344384, "pods": 30},
+        "c4.large": {"cpu": 2, "memory": 3947372544, "pods": 30},
+        "p2.xlarge": {"cpu": 4, "memory": 65498251264, "pods": 30},
+        "p2.8xlarge": {"cpu": 32, "memory": 523986010112, "pods": 30},
+        "p2.16xlarge": {"cpu": 64, "memory": 785979015168, "pods": 30}
+    }
+}

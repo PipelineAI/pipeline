@@ -1,0 +1,588 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Similar Movies](http://fluxcapacitor.com/img/similar-movies.png)",
+      "dateUpdated": "May 1, 2016 3:22:34 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454555016335_-603629691",
+      "id": "20160204-030336_1851972454",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://fluxcapacitor.com/img/similar-movies.png\" alt\u003d\"Similar Movies\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 4, 2016 3:03:36 AM",
+      "dateStarted": "Mar 22, 2016 8:25:09 AM",
+      "dateFinished": "Mar 22, 2016 8:25:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  \nz.show(itemsDF)",
+      "dateUpdated": "May 1, 2016 3:22:29 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451323111480_-372297908",
+      "id": "20151228-171831_1063248354",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "category\tdescription\tid\timg\ttags\ttitle\nDatabase\tThe Apache Cassandra database is the right choice when you need scalability and high availability without compromising performance. Linear scalability and proven fault-tolerance on commodity hardware or cloud infrastructure make it the perfect platform for mission-critical data. Cassandra\u0027s support for replicating across multiple datacenters is best-in-class, providing lower latency for your users and the peace of mind of knowing that you can survive regional outages.  Cassandra\u0027s data model offers the convenience of column indexes with the performance of log-structured updates, strong support for denormalization and materialized views, and powerful built-in caching.\t1\timg/software/cassandra.png\tWrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional)\tApache Cassandra\nDistributed Cache\tTachyon is a memory-centric distributed storage system enabling reliable data sharing at memory-speed across cluster frameworks.\t2\timg/software/tachyon.png\tWrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS)\tTachyon\nCluster Provision\tThe Apache Ambari project is aimed at making Hadoop management simpler by developing software for provisioning, managing, and monitoring Apache Hadoop clusters. Ambari provides an intuitive, easy-to-use Hadoop management web UI backed by its RESTful APIs.\t3\timg/software/ambari.png\tWrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts)\tApache Ambari\nContainer\tDocker allows you to package an application with all of its dependencies into a standardized unit for software and provides an integrated technology suite that enables development and IT operations teams to build, ship, and run distributed applications anywhere.\t4\timg/software/docker.png\tWrappedArray(Container, Linux, DevOps, Deployment)\tDocker\nCloud Provider\tMicrosoft Azure is a growing collection of integrated cloud services and analytics, computing, database, mobile, networking, storage, and web for moving faster, achieving more, and saving money.\t5\timg/software/azure.png\tWrappedArray(Cloud Provider, Microsoft)\tMicrosft Azure\nData Processing\tFlink is a streaming dataflow engine that provides data distribution, communication, and fault tolerance for distributed computations over data streams.\t6\timg/software/flink.png\tWrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling)\tApache Flink\nData Processing\tApache Spark is fast and general compute engine for Hadoop data.  Spark provides a simple and expressive programming model that supports a wide range of applications, including ETL, machine learning, stream processing, and graph computation.\t7\timg/software/spark.png\tWrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling, Lazy)\tApache Spark\nLibrary\tFlume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.\t8\timg/software/flume.png\tWrappedArray(Library, Java, Log Collection)\tApache Flume\nLibrary\tApache Giraph is an iterative graph processing system built for high scalability.\t9\timg/software/giraph.png\tWrappedArray(Library, Java, Graph Analytics, Batch)\tApache Giraph\nFile System\t A distributed file system that provides high-throughput access to application data.\t10\timg/software/hdfs.png\tWrappedArray(File System, Hadoop, Java)\tApache HDFS\nCluster Resource Manager\tA framework for job scheduling and cluster resource management.\t11\timg/software/yarn.png\tWrappedArray(Cluster Resource Manager, Hadoop, Java)\tApache YARN\nDatabase\tUse Apache HBase software when you need random, realtime read/write access to your Big Data. This project\u0027s goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware. HBase is an open-source, distributed, versioned, column-oriented store modeled after Google\u0027s Bigtable: A Distributed Storage System for Structured Data by Chang et al. Just as Bigtable leverages the distributed data storage provided by the Google File System, HBase provides Bigtable-like capabilities on top of Hadoop and HDFS.\t12\timg/software/hbase.png\tWrappedArray(Database, Hadoop, NoSQL, Java, Eventually Consistent)\tApache HBase\nData Processing\tA YARN-based system for parallel processing of large data sets.\t13\timg/software/mapreduce.png\tWrappedArray(Data Processing, Hadoop, Java, Python)\tApache MapReduce\nData Processing\tA data warehouse infrastructure that provides data summarization and ad hoc querying\t14\timg/software/hive.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, MapReduce)\tApache Hive\nDistribution\tHortonworks develops, distributes and supports HDP - the completely open-source Apache Hadoop data platform, architected for the enterprise.\t15\timg/software/hortonworks.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tHortonworks\nUI\tHUE is the Hadoop User Experience and is a Web interface for to load and analytze data with Apache Hadoop.,\t16\timg/software/hue.png\tWrappedArray(UI, Hadoop, Cloudera, Ad Hoc, HiveQL, SQL, Data Import, Java)\tApache HUE\nData Processing\tAchieve order-of-magnitude performance increase compared to alternatives for the only true interactive analytic solution native to Hadoop.\t17\timg/software/impala.png\tWrappedArray(Data Processing, Query Processing, SQL, C++, Batch Analytics)\tApache Impala\nMessage Broker\tApache Kafka is publish-subscribe messaging system implementaed as a distributed commit log with a cluster centric design with string durability and fault tolerance guarantees.\t18\timg/software/kafka.png\tWrappedArray(Message Broker, Java, C++, REST API, Messaging, Publish Subscribe, Producer Consumer)\tApache Kafka\nLibrary\tLucene provides Java-based indexing and search technology, as well as spellchecking, hit highlighting and advanced analysis/tokenization capabilities.\t19\timg/software/lucene.png\tWrappedArray(Library, Search, Java, Python)\tApache Lucene\nSearch Engine\tHigh performance search engine built using Lucene Core, with XML/HTTP and JSON/Python/Ruby APIs, hit highlighting, faceted search, caching, replication, and a web admin interface.\t20\timg/software/solr.png\tWrappedArray(Search Engine, Java, REST API, UI, Python, Ruby, XML, JSON)\tApache Solr\nSearch Engine\tElasticsearch is a distributed, open source search and analytics engine, designed for horizontal scalability, reliability, and easy management. It combines the speed of search with the power of analytics via a sophisticated, developer-friendly query language covering structured, unstructured, and time-series data.\t21\timg/software/elasticsearch.png\tWrappedArray(Search Engine, Java, Python, REST API, Lucene, XML, JSON, Aggregations)\tElasticSearch\nLibrary\tApache Mahout is a project of the Apache Software Foundation to produce free implementations of distributed or otherwise scalable machine learning algorithms focused primarily in the areas of collaborative filtering, clustering and classification.\t22\timg/software/mahout.png\tWrappedArray(Library, Machine Learning, Java)\tApache Mahout\nData Processing\tApache Drill is a distributed MPP query layer that supports SQL and alternative query languages against NoSQL and Hadoop data storage systems. It was inspired in part by Google\u0027s Dremel.\t23\timg/software/drill.png\tWrappedArray(Data Processing, Query Processing, SQL, Aggregations, Joins, Batch Analytics)\tApache Drill\nCluster Resource Manager\tApache Mesos is a cluster manager that provides efficient resource isolation and sharing across distributed applications, or frameworks. It can run Hadoop, MPI, Hypertable, Spark, and other frameworks on a dynamically shared pool of nodes.\t24\timg/software/mesos.png\tWrappedArray(Cluster Resource Manager, Docker, Container)\tApache Mesos\nFile Format\tApache Parquet is a columnar storage format available to any project in the Hadoop ecosystem, regardless of the choice of data processing framework, data model or programming language.\t25\timg/software/parquet.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema, Java, C++, Python)\tApache Parquet\nFile Format\tORC is a self-describing type-aware columnar file format designed for Hadoop workloads. It is optimized for large streaming reads, but with integrated support for finding required rows quickly. Storing data in a columnar format lets the reader read, decompress, and process only the values that are required for the current query.\t26\timg/software/orc.png\tWrappedArray(File Format, Columnar, Compression, Evolving Schema, Nested Schema)\tApache ORC\nData Processing\tApache Pig is a platform for analyzing large data sets that consists of a high-level language for expressing data analysis programs, coupled with infrastructure for evaluating these programs. The salient property of Pig programs is that their structure is amenable to substantial parallelization, which in turns enables them to handle very large data sets.\t27\timg/software/pig.png\tWrappedArray(Data Processing, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\tApache Pig\nDistributed Coordinator\tApache ZooKeeper server which enables highly reliable distributed coordination.\t28\timg/software/zookeeper.png\tWrappedArray(Distribured Coordinator, Paxos, RAFT, Hadoop, HiveQL, SQL, Query Processing, Java, Lazy)\tApache ZooKeeper\nLibrary\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\t29\timg/software/corenlp.png\tWrappedArray(Library, NLP, Java, Text Analytics)\tStanford CoreNLP\nData Processing\tTez aims build an application framework which allows for a complex directed-acyclic-graph of tasks for processing data.\t30\timg/software/tez.png\tWrappedArray(Data Processing, Hadoop, YARN, Query Processing, Java, Lazy, HiveQL, Pig, SQL)\tApache Tez\nStreaming\tStanford CoreNLP provides a set of natural language analysis tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, and mark up the structure of sentences in terms of phrases and word dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, and extract open-class relations between mentions.\t31\timg/software/storm.png\tWrappedArray(Streaming, Java)\tApache Storm\nData Import\tSqoop is designed for efficiently transferring bulk data between Apache Hadoop and structured datastores such as relational databases.\t32\timg/software/sqoop.png\tWrappedArray(Data Import, Hadoop, Java)\tApache Sqoop\nWorkflow\tOozie is a workflow scheduler system integrated with the rest of the Hadoop stack supporting several types of Hadoop jobs out of the box (such as Java map-reduce, Streaming map-reduce, Pig, Hive, Sqoop and Distcp) as well as system specific jobs (such as Java programs and shell script.\t33\timg/software/oozie.png\tWrappedArray(Workflow, Hadoop, Java, UI)\tApache Oozie\nWorkflow\tApache nifi supports powerful and scalable directed graphs of data routing, transformation, and system mediation logic.\t34\timg/software/nifi.png\tWrappedArray(Workflow, Streaming, Message Broker, Java, UI)\tApache Nifi\nLibrary\tNLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning, wrappers for industrial-strength NLP libraries, and an active discussion forum.\t35\timg/software/nltk.png\tWrappedArray(Library, NLP, Python, Text Analytics)\tNLTK\nLibrary\tSimple and efficient tools for data mining and data analysis, accessible to everybody, reusable in various contexts, built on NumPy, SciPy, and matplotlib\t36\timg/software/scikit-learn.png\tWrappedArray(Library, Python, Machine Learning)\tSci-Kit Learn\nNotebook\tThe Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more.\t37\timg/software/ipython.png\tWrappedArray(Notebook, Python, Java, Scala, R, Visualization, SQL)\tiPython/Jupyter\nNotebook\tA web-based notebook that enables interactive data analytics.  You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala and more.\t38\timg/software/zeppelin.png\tWrappedArray(Notebook, Python, Java, Scala, R, HiveQL, Cassandra, Visualization, SQL)\tApache Zeppelin\nBI\tTableau can help anyone see and understand their data. Connect to almost any database, drag and drop to create visualizations, and share with a click.\t39\timg/software/tableau.png\tWrappedArray(BI, UI, Visualization, SQL)\tTableau\nProgramming Language\tR is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT\u0026T, now Lucent Technologies) by John Chambers and colleagues.  R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, and clustering) and graphical techniques, and is highly extensible.\t40\timg/software/r.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\tR\nProgramming Language\tis a special-purpose programming language designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS)\t41\timg/software/sql.png\tWrappedArray(Programming Language, SQL, RDBMS, Interpreted)\tSQL\nProgramming Language\tScala began life in 2003, created by Martin Odersky and his research group at EPFL, next to Lake Geneva and the Alps, in Lausanne, Switzerland. Scala has since grown into a mature open source programming language, used by hundreds of thousands of developers, and is developed and maintained by scores of people all over the world. Have the best of both worlds. Construct elegant class hierarchies for maximum code reuse and extensibility, implement their behavior using higher-order functions. Or anything in-between.\t42\timg/software/scala.png\tWrappedArray(Programming Language, Functional, Java, Static Typing, Compiled)\tScala\nProgramming Language\tJava is a general-purpose computer programming language that is concurrent, class-based, object-oriented, and specifically designed to have as few implementation dependencies as possible.\t43\timg/software/java.png\tWrappedArray(Programming Language, Object Oriented, Java, Static Typing, Compiled)\tJava\nProgramming Language\tPython is a widely used general-purpose, high-level programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than would be possible in languages such as C++ or Java.\t44\timg/software/python.png\tWrappedArray(Programming Language, Dynamic Typing, Interpreted)\tPython\nData Processing\tPresto, designed and written from the ground up for interactive analytics at scale, is an open source distributed SQL query engine for running interactive analytic queries against data sources of all sizes ranging from gigabytes to petabytes.\t45\timg/software/presto.png\tWrappedArray(Data Processing, Query Processing, Java, SQL, Machine Learning)\tPresto\nDistribution\tThe MapR Converged Data Platform integrates the power of Hadoop and Spark with global event streaming, real-time database capabilities, and enterprise storage for developing and running innovative data applications. The MapR Platform is powered by the industry’s fastest, most reliable, secure, and open data infrastructure that dramatically lowers TCO and enables global real-time data applications.\t46\timg/software/mapr.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tMapR\nDistribution\tWe provide the world’s fastest, easiest, and most secure data platform built on Hadoop. We help solve your most demanding business challenges with data.\t47\timg/software/cloudera.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tCloudera\nDistribution\tApache™ Hadoop® is an open source software project that enables distributed processing of large data sets across clusters of commodity servers. It is designed to scale up from a single server to thousands of machines, with a very high degree of fault tolerance.\t48\timg/software/biginsights.png\tWrappedArray(Distribution, Hadoop, Spark, Kafka)\tIBM BigInsights\nCloud Provider\tAmazon Web Services offers reliable, scalable, and inexpensive cloud computing services. Free to join, pay only for what you use.\t49\timg/software/aws.png\tWrappedArray(Cloud Provider, AWS)\tAmazon Web Services\nCloud Provider\tGoogle Cloud Platform enables developers to build, test and deploy applications on Google’s highly-scalable and reliable infrastructure. Choose from computing, storage and application services for your web, mobile and backend solutions.\t50\timg/software/googlecloud.png\tWrappedArray(Cloud Provider, Google)\tGoogle Cloud Platform\nDistributed Cache\tRedis is an open source, in-memory Data Structure Store, used as a database, a caching layer for a message broker.\t51\timg/software/redis.png\tWrappedArray(Distributed Cache, Key Value Store, HyperLogLog, Approximations, Probabilistic Data Structures, UDAF)\tRedis\nFile Format\tJSON is an open standard format that uses human-readable text to transmit data objects consisting of key value pairs.\t52\timg/software/json.png\tWrappedArray(File Format, Key Value Store)\tJSON\nFile Format\tXML, or Extensible Markup Language, is a markup language that defines a set of rules for encoding documents in a format which is both human-readable and machine-readable.\t53\timg/software/xml.png\tWrappedArray(File Format, Key Value Store)\tXML\nDatabase\tMongoDB is an open-source database developed by MongoDB, Inc. MongoDB stores data in JSON-like documents that can vary in structure. Related information is stored together for fast query access through the MongoDB query language. MongoDB uses dynamic schemas, meaning that you can create records without first defining the structure, such as the fields or the types of their values.\t54\timg/software/mongodb.png\tWrappedArray(Database, Document Store, Key Value Store, NoSQL, JSON, Eventually Consistent)\tMongoDB\nCloud Provider\tOn-Premise implies that all compute, network, and storage are managed by a customer and contained within their own data centers.\t55\timg/software/onpremise.png\tWrappedArray(Cloud Provider, Data Center)\tOn-Premise\nBI\tMicroStrategy is the only analytics platform that meets the needs of business and IT. It empowers organizations to make sense of large data volumes, get answers to their toughest business questions, build beautiful data visualizations, and ensure a single version of the truth–at any scale, on any device.\t56\timg/software/microstrategy.png\tWrappedArray(BI, UI, Visualization, SQL)\tMicroStrategy\nWorkflow\tThe KNIME Analytics Platform incorporates hundreds of processing nodes for data I/O, preprocessing and cleansing, modeling, analysis and data mining as well as various interactive views, such as scatter plots, parallel coordinates and others.  KNIME is based on the Eclipse platform and easily extensible through its modular API.\t57\timg/software/knime.png\tWrappedArray(Workflow, UI, Machine Learning, Graph Processing, Visualization)\tKnime\nDatabase\tOracle helps you simplify your IT environment to save money, time, and resources and invest in innovation. Oracle provises a comprehensive and fully integrated stack of cloud applications, platform services, and engineered systems.\t59\timg/software/oracle.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\tOracle\nDatabase\tMySQL is an open-source, relational database management system (RDBMS) developed, distributed and supported by Oracle Corporation. MySQL stores data in tables and uses structured query language (SQL) for database access. In MySQL, you pre-define your database schema based on your requirements and set up rules to govern the relationships between fields in your tables. In MySQL, related information may be stored in separate tables, but associated through the use of joins.\t60\timg/software/mysql.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\tMySQL\nLibrary\tMLlib is Spark’s machine learning (ML) library. Its goal is to make practical machine learning scalable and easy. It consists of common learning algorithms and utilities, including classification, regression, clustering, collaborative filtering, dimensionality reduction, as well as lower-level optimization primitives and higher-level pipeline APIs.\t61\timg/software/spark-ml.png\tWrappedArray(Library, Spark, Machine Learning)\tSpark ML/MLlib\nLibrary\tSpark Streaming is an extension of the core Spark API that enables scalable, high-throughput, fault-tolerant stream processing of live data streams. Data can be ingested from many sources like Kafka, Flume, Twitter, ZeroMQ, Kinesis, or TCP sockets, and can be processed using complex algorithms expressed with high-level functions like map, reduce, join and window. Finally, processed data can be pushed out to filesystems, databases, and live dashboards.\t62\timg/software/spark-streaming.png\tWrappedArray(Library, Spark, Streaming)\tSpark Streaming\nLibrary\tSpark SQL is a Spark module for structured data processing. It provides a programming abstraction called DataFrames and can also act as distributed SQL query engine. Spark SQL can also be used to read data from an existing Hive installation.\t63\timg/software/spark-sql.png\tWrappedArray(Library, Spark, HiveQL, SQL)\tSpark SQL\nFile Format\tA comma-separated values (CSV) file stores tabular data (numbers and text) in plain text. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format.\t64\timg/software/csv.png\tWrappedArray(File Format)\tCSV\nLibrary\tDeeplearning4j is the first commercial-grade, open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments, rather than as a research tool.\t65\timg/software/deeplearning4j.png\tWrappedArray(Library, Deep Learning, Neural Networks)\tDeep Learning 4J\nDatabase\tAmazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using your existing business intelligence tools.\t66\timg/software/redshift.png\tWrappedArray(Database, Columnar, Data Warehouse, AWS, SQL)\tRedshift\nLibrary\tAmazon Kinesis is a platform for streaming data on AWS, offering powerful services to make it easy to load and analyze streaming data, and also providing the ability for you to build custom streaming data applications for specialized needs.\t67\timg/software/kinesis.png\tWrappedArray(Library, Streaming, AWS)\tKinesis\nDatabase\tAmazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale. It is a fully managed cloud database and supports both document and key-value store models.\t68\timg/software/dynamodb.png\tWrappedArray(Database, NoSQL, AWS, SQL, Approximations, Eventually Consistent)\tDynamoDB\nLibrary\tGraphX, Spark\u0027s API for graph and graph-parallel computation, unifies ETL, exploratory analysis, and iterative graph computation within a single system.\t69\timg/software/spark-graphx.png\tWrappedArray(Library, Graph Analytics, Spark)\tSpark GraphX\nDatabase\tSQL Server is a relational database management system developed by Microsoft. As a database server, it is a software product with the primary function of storing and retrieving data as requested by other software applications which may run either on the same computer or on another computer across a network (including the Internet).\t70\timg/software/sqlserver.png\tWrappedArray(Database, SQL, Microsoft, RDBMS, Transactional)\tSQL Server\nData Processing\tAmazon EMR simplifies big data processing, providing a managed Hadoop framework that makes it easy, fast, and cost-effective for you to distribute and process vast amounts of your data across dynamically scalable Amazon EC2 instances.\t71\timg/software/emr.png\tWrappedArray(Data Processing, MapReduce, Spark, HiveQL, Pig, AWS, Presto)\tElastic MapReduce\nLibrary\tDato GraphLab Create is an extensible machine learning framework that enables developers and data scientists to easily build and deploy intelligent applications and services at scale. It includes distributed data structures and rich libraries for data transformation and manipulation, scalable task-oriented machine learning toolkits for creating, evaluating, and improving machine learning models, data and model visualization for all aspects of development.\t72\timg/software/graphlab.png\tWrappedArray(Library, UI, Graph Analytics, Machine Learning, Query Processing, Visualization)\tDato GraphLab Create\nDistributed Cache\tMemcached is an in-memory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.\t73\timg/software/memcached.png\tWrappedArray(Distributed Cache, Key Value Store, Java, Python, C++)\tMemcached\nLibrary\tNeo4j is an open-source graph database implemented in Java and accessible from software written in other languages using the Cypher Query Language through a transactional HTTP endpoint.[1][2][3] The developers describe Neo4j as an ACID-compliant transactional database with native graph storage and processing.\t74\timg/software/neo4j.png\tWrappedArray(Library, Graph Analytics, Java)\tNeo4j\nDatabase\tPostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.\t75\timg/software/postgres.png\tWrappedArray(Database, SQL, RDBMS, Transactional)\tPostgres\nFile Format\tProtocol buffers are language-neutral, platform-neutral, extensible mechanism for serializing structured data - think XML, but smaller, faster, and simpler.\t76\timg/software/protobuffers.png\tWrappedArray(File Format, Evolving Schema, Nested Schema)\tProtobuffers\nFile System\tSimple Storage Service (S3) provides developers and IT teams with secure, durable, highly-scalable object storage.\t77\timg/software/s3.png\tWrappedArray(File System, Object Store, AWS, Eventually Consistent)\tS3\nData Processing\tTensorFlow is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them.\t78\timg/software/tensorflow.png\tWrappedArray(Data Processing, Deep Learning, Neural Networks)\tTensor Flow\nDatabase\tTitan is a scalable graph database optimized for storing and querying graphs containing hundreds of billions of vertices and edges distributed across a multi-machine cluster.\t79\timg/software/titandb.png\tWrappedArray(Database, Graph, Graph Analytics, Java, Transactional)\tTitan GraphDB\nDatabase\tTeradata uses a shared nothing architecture, which means that each server node has its own memory and processing power.  Teradata also supports text analytics to track unstructured data, such as word processor documents, and semi-structured data, such as spreadsheets.\t80\timg/software/teradata.png\tWrappedArray(Database, Data Warehouse, SQL)\tTeradata\nDatabase\tUsing a shared nothing architecture, Vertica is a cluster-based, column-oriented platform designed to manage large, fast-growing volumes of data and provide very fast query performance when used for data warehouses and other query-intensive applications.\t81\timg/software/vertica.png\tWrappedArray(Database, Data Warehouse, SQL)\tVertica\n"
+      },
+      "dateCreated": "Dec 28, 2015 5:18:31 PM",
+      "dateStarted": "May 1, 2016 3:22:29 AM",
+      "dateFinished": "May 1, 2016 3:22:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert Row into TaggedItem",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\n\nval itemsRDD \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getLong(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getSeq[String](2)\n  TaggedItem(id, title, tags)\n}).cache().collect()",
+      "dateUpdated": "Apr 23, 2016 12:48:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451861953575_-679332547",
+      "id": "20160103-225913_708349349",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nitemsRDD: Array[com.advancedspark.ml.TaggedItem] \u003d Array(1, Apache Cassandra, WrappedArray(Database, NoSQL, Java, Eventually Consistent, Transactional), 2, Tachyon, WrappedArray(Distributed Cache, Object Store, S3, Swift, HDFS), 3, Apache Ambari, WrappedArray(Cluster Provision, Hadoop, Cluster Monitoring, REST API, Metrics, Alerts), 4, Docker, WrappedArray(Container, Linux, DevOps, Deployment), 5, Microsft Azure, WrappedArray(Cloud Provider, Microsoft), 6, Apache Flink, WrappedArray(Data Processing, Java, Scala, SQL, DataFrame, Table, Streaming Analytics, Batch Analytics, Machine Learning, Graph Analytics, Approximations, Sampling), 7, Apache Spark, WrappedArray(Data Processing, Java, Scala, SQL, R, Python, DataFrame, Table, DataStream, Streaming Analytics, Batch Analytics, Machine Lear..."
+      },
+      "dateCreated": "Jan 3, 2016 10:59:13 PM",
+      "dateStarted": "Apr 23, 2016 12:48:26 AM",
+      "dateFinished": "Apr 23, 2016 12:48:26 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\nz.show(tagsCountRDD.toDF(\"tag\", \"count\"))",
+      "dateUpdated": "Apr 23, 2016 12:48:32 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "pieChart",
+          "height": 295.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451277734947_-102286185",
+      "id": "20151228-044214_1740589078",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:59: error: value reduceByKey is not a member of Array[(String, Int)]\n         val tagsCountRDD \u003d itemsRDD.flatMap(item \u003d\u003e item.tags).map(tag \u003d\u003e (tag,1)).reduceByKey(_ + _)\n                                                                                    ^\n"
+      },
+      "dateCreated": "Dec 28, 2015 4:42:14 AM",
+      "dateStarted": "Apr 23, 2016 12:48:32 AM",
+      "dateFinished": "Apr 23, 2016 12:48:32 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cartesian Product of all items",
+      "text": "val allItemPairsCount \u003d allItemPairsRDD.cartesian(itemsRDD) \n  .filter(itemPair \u003d\u003e (itemPair._1.id \u003c\u003d itemPair._2.id)) // preserve matrix triangle to avoid duplicates\n  .cache()\n",
+      "dateUpdated": "Mar 22, 2016 8:25:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452917348313_-1027806502",
+      "id": "20160116-040908_1330821512",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:35: error: not found: value allItemPairsRDD\n         val allItemPairsCount \u003d allItemPairsRDD.cartesian(itemsRDD) \n                                 ^\n"
+      },
+      "dateCreated": "Jan 16, 2016 4:09:08 AM",
+      "dateStarted": "Mar 22, 2016 9:14:17 AM",
+      "dateFinished": "Mar 22, 2016 9:14:17 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate Exact Jaccard Similarity between all Distinct item pairs",
+      "text": "import com.advancedspark.ml.Similarity\n\nval minExactJaccardSimilarityThreshold \u003d 0.01\n\n// Calculate Jaccard Similarity between all distinct item pairs\n// Only keep pairs with a Jaccard Similarity above a specific threshold\nval similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n  val jaccardSim \u003d Similarity.getJaccardSimilarity(itemPair._1, itemPair._2)\n  if (jaccardSim \u003e\u003d minExactJaccardSimilarityThreshold)\n    Some(itemPair._1.id.toLong, itemPair._2.id.toLong, jaccardSim.toDouble)\n  else\n    None\n})\n\nval similarItemPairCount \u003d similarItemsAboveThresholdRDD.count()\nsimilarItemsAboveThresholdRDD.collect().mkString(\",\")",
+      "dateUpdated": "Mar 22, 2016 8:25:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451317394187_1089784615",
+      "id": "20151228-154314_719152611",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.Similarity\nminExactJaccardSimilarityThreshold: Double \u003d 0.01\n\u003cconsole\u003e:41: error: not found: value allItemPairsRDD\n       val similarItemsAboveThresholdRDD \u003d allItemPairsRDD.flatMap(itemPair \u003d\u003e {\n                                           ^\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:43:14 PM",
+      "dateStarted": "Mar 22, 2016 9:14:17 AM",
+      "dateFinished": "Mar 22, 2016 9:14:17 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Similarity Pathway",
+      "text": "val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n  Edge(rdd._1, rdd._2, rdd._3) \n})\n\nval graph \u003d Graph.fromEdges(similarItemsAboveThresholdEdgeRDD, 0L)",
+      "dateUpdated": "Mar 22, 2016 8:25:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451352094574_-1165080675",
+      "id": "20151229-012134_1599229617",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:36: error: not found: value similarItemsAboveThresholdRDD\n         val similarItemsAboveThresholdEdgeRDD \u003d similarItemsAboveThresholdRDD.map(rdd \u003d\u003e {\n                                                 ^\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:21:34 AM",
+      "dateStarted": "Mar 22, 2016 9:14:18 AM",
+      "dateFinished": "Mar 22, 2016 9:14:19 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Example 1\n//\n// Shortest Path\n// 21 (ElasticSearch) -0.1538-\u003e 45 (Presto) -0.1111-\u003e 56 (MicroStrategy)\n// 21 (ElasticSearch) -0.1538-\u003e 34 (NiFi) -0.1111-\u003e 56 (MicroStrategy)\n\n// Tag Analysis of Shortest Path\n//\n// 21 Search Engine, Java, JVM, Python, REST API, Lucene, XML, JSON, Aggregations\n// 34 Workflow, Streaming, Message Broker, Java, JVM, UI\n// 45 Data Processing Execution Engine, Query Processing, Java, JVM, SQL, Machine Learning\n// 56 BI, UI, Visualization, SQL\n\nval src \u003d 21 // ElasticSearch\nval dest \u003d 56 // MicroStrategy\n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)\n\n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2",
+      "dateUpdated": "Mar 22, 2016 8:25:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452313398941_701691664",
+      "id": "20160109-042318_1867903539",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 21\ndest: Int \u003d 56\n\u003cconsole\u003e:40: error: not found: value graph\n       val shortestPathGraph \u003d Dijkstra.run(graph, src)\n                                            ^\n"
+      },
+      "dateCreated": "Jan 9, 2016 4:23:18 AM",
+      "dateStarted": "Mar 22, 2016 9:14:19 AM",
+      "dateFinished": "Mar 22, 2016 9:14:58 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import com.advancedspark.ml.graph.Dijkstra\n\n// Example 2\n//\n// Shortest Path\n// 35 (NLTK) -\u003e 37 (iPython/Jupyter) -\u003e 41 (SQL) -\u003e 42 (Scala)\n//\n// Tag Analysis of Shortest Path\n//\n// 13:  Data Procesing Execution Engine, Hadoop, Java, JVM, Python (Apache MapReduce)\n// 35:  Library, NLP, Python, Text Analytics\n// 37:  Notebook, Python, Java, Scala, R, Visualization, SQL\n// 41:  Programming Language, SQL, RDBMS, Interpreted\n// 42:  Programming Language, Functional, JVM, Static Typing, Compiled\n\nval src \u003d 35 // ElasticSearch\nval dest \u003d 42 // MicroStrategy\n\nval shortestPathGraph \u003d Dijkstra.run(graph, src)\n\n// Filter out only the ones with dest as the destination vertex\nval shortestPathFromSrcToDest \u003d shortestPathGraph.vertices.filter(_._1 \u003d\u003d dest).map(_._2).collect()(0)._2",
+      "dateUpdated": "Mar 22, 2016 8:25:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452312786592_-1542453437",
+      "id": "20160109-041306_374404823",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import com.advancedspark.ml.graph.Dijkstra\nsrc: Int \u003d 35\ndest: Int \u003d 42\n\u003cconsole\u003e:42: error: not found: value graph\n       val shortestPathGraph \u003d Dijkstra.run(graph, src)\n                                            ^\n"
+      },
+      "dateCreated": "Jan 9, 2016 4:13:06 AM",
+      "dateStarted": "Mar 22, 2016 9:14:58 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Power Iteration Clustering of Items based on Tag Jaccard Similarity",
+      "text": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\n\nval clustering \u003d new PowerIterationClustering().setK(5).setMaxIterations(10)\n\nval clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n\nval clusterAssignmentsRDD \u003d clusteringModel.assignments.map { assignment \u003d\u003e\n  (assignment.id, assignment.cluster)\n}",
+      "dateUpdated": "Mar 22, 2016 8:25:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451334971967_402230190",
+      "id": "20151228-203611_236636775",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.mllib.clustering.{PowerIterationClustering, PowerIterationClusteringModel}\nclustering: org.apache.spark.mllib.clustering.PowerIterationClustering \u003d org.apache.spark.mllib.clustering.PowerIterationClustering@7b4eb763\n\u003cconsole\u003e:43: error: not found: value similarItemsAboveThresholdRDD\n       val clusteringModel \u003d clustering.run(similarItemsAboveThresholdRDD)\n                                            ^\n"
+      },
+      "dateCreated": "Dec 28, 2015 8:36:11 PM",
+      "dateStarted": "Mar 22, 2016 9:14:59 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert the clusterAssignmentsRDD into a DataFrame",
+      "text": "val clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n  Row(clusterAssignmentRDD._1, clusterAssignmentRDD._2)\n).toDF(\"itemId\", \"clusterId\")",
+      "dateUpdated": "Mar 22, 2016 8:25:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451335712814_493669088",
+      "id": "20151228-204832_49888518",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:40: error: not found: value clusterAssignmentsRDD\n         val clusterAssignmentsRowRDD \u003d clusterAssignmentsRDD.map(clusterAssignmentRDD \u003d\u003e \n                                        ^\n"
+      },
+      "dateCreated": "Dec 28, 2015 8:48:32 PM",
+      "dateStarted": "Mar 22, 2016 9:14:59 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of items within a cluster",
+      "text": "val enrichedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n  .join(itemsDF.select($\"id\"), $\"itemId\" \u003d\u003d\u003d $\"id\").groupBy($\"clusterId\", $\"itemId\")\n  .agg(count($\"itemId\")).sort($\"clusterId\" desc)\n\nz.show(enrichedItemsClustersCountDF)",
+      "dateUpdated": "Mar 22, 2016 8:25:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(itemId)",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451352986034_-1943585352",
+      "id": "20151229-013626_1831771232",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:42: error: not found: value clusterAssignmentsDF\n         val enrichedItemsClustersCountDF \u003d clusterAssignmentsDF.select($\"itemId\", $\"clusterId\")\n                                            ^\n"
+      },
+      "dateCreated": "Dec 29, 2015 1:36:26 AM",
+      "dateStarted": "Mar 22, 2016 9:14:59 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Cluster Details",
+      "text": "// Enrich the cluster assignment tuples with itemsDF\nval enrichedItemsClustersDF \u003d clusterAssignmentsDF.select($\"clusterId\", $\"itemId\")\n  .join(itemsDF.select($\"id\", $\"title\", $\"tags\"), $\"itemId\" \u003d\u003d\u003d $\"id\").select($\"itemId\", $\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\", $\"itemId\")\n  \nz.show(enrichedItemsClustersDF)",
+      "dateUpdated": "Mar 22, 2016 8:25:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 474.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "clusterId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "clusterId",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false,
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451348226921_-115634507",
+      "id": "20151229-001706_1772528099",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:43: error: not found: value clusterAssignmentsDF\n       val enrichedItemsClustersDF \u003d clusterAssignmentsDF.select($\"clusterId\", $\"itemId\")\n                                     ^\n"
+      },
+      "dateCreated": "Dec 29, 2015 12:17:06 AM",
+      "dateStarted": "Mar 22, 2016 9:14:59 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Mar 22, 2016 8:25:15 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451400014910_399953924",
+      "id": "20151229-144014_562495240",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Dec 29, 2015 2:40:14 PM",
+      "dateStarted": "Mar 22, 2016 9:14:59 AM",
+      "dateFinished": "Mar 22, 2016 9:14:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: Live Recs/09: Generate Item-to-Item Tag-Similarity Graph-based Recs",
+  "id": "2B68NAUVG",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

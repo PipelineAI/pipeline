@@ -1,0 +1,455 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Shortest Path By Hops](http://advancedspark.com/img/shortest-path-by-hop.png)",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451264723311_-1702012312",
+      "id": "20151228-010523_1375432479",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/shortest-path-by-hop.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 1:05:23 AM",
+      "dateStarted": "Apr 21, 2016 1:33:03 AM",
+      "dateFinished": "Apr 21, 2016 1:33:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val graphDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/shortest-path.csv\")\n  .toDF(\"userId1\", \"userId2\")",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "tableHide": false,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451272855328_-600093180",
+      "id": "20151228-032055_1892376883",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "graphDF: org.apache.spark.sql.DataFrame \u003d [userId1: int, userId2: int]\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:20:55 AM",
+      "dateStarted": "Apr 21, 2016 1:33:03 AM",
+      "dateFinished": "Apr 21, 2016 1:33:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.Edge \n\nval connectionEdgesRDD \u003d graphDF.map(row \u003d\u003e {\n  Edge(row(0).toString.toLong, row(1).toString.toLong, 0L)\n})",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451272922852_1843770536",
+      "id": "20151228-032202_472535270",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Edge\nconnectionEdgesRDD: org.apache.spark.rdd.RDD[org.apache.spark.graphx.Edge[Long]] \u003d MapPartitionsRDD[2699] at map at \u003cconsole\u003e:79\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:22:02 AM",
+      "dateStarted": "Apr 21, 2016 1:33:04 AM",
+      "dateFinished": "Apr 21, 2016 1:33:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx.Graph\n\nval graph \u003d Graph.fromEdges(connectionEdgesRDD, 0L)",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273083249_-1270989637",
+      "id": "20151228-032443_113720619",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.Graph\ngraph: org.apache.spark.graphx.Graph[Long,Long] \u003d org.apache.spark.graphx.impl.GraphImpl@3f051d0b\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:24:43 AM",
+      "dateStarted": "Apr 21, 2016 1:33:04 AM",
+      "dateFinished": "Apr 21, 2016 1:33:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 30);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\r\n   .friction(0.5).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
+      "dateUpdated": "May 25, 2016 2:46:00 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456471532942_1820168386",
+      "id": "20160226-072532_1648012241",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027ac3dcf086-3236-4826-94d9-7c3b4c886935\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#ac3dcf086-3236-4826-94d9-7c3b4c886935\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:10001},{id:90001},{id:90003}];\nvar links \u003d [{source:nodes[2],target:nodes[3]},{source:nodes[2],target:nodes[4]},{source:nodes[3],target:nodes[2]},{source:nodes[3],target:nodes[4]},{source:nodes[4],target:nodes[2]},{source:nodes[4],target:nodes[3]},{source:nodes[0],target:nodes[4]},{source:nodes[3],target:nodes[1]},{source:nodes[1],target:nodes[3]},{source:nodes[4],target:nodes[0]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 30);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(150).charge(-100).chargeDistance(200)\n   .friction(0.5).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Feb 26, 2016 7:25:32 AM",
+      "dateStarted": "Apr 21, 2016 1:33:04 AM",
+      "dateFinished": "Apr 21, 2016 1:33:05 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find Degrees of Separation (shortest num of hops between Nodes)",
+      "text": "import org.apache.spark.graphx.lib.ShortestPaths\n\n// List of source vertices  \nval src \u003d List(10002L)\n\n// Destination vertex\nval dst \u003d 90002\n\n// This ignores cost - just number of hops\nval degreesOfSeparation \u003d ShortestPaths.run(graph, src).vertices\n\n// 10002 -\u003e 3 hops -\u003e 90002\ndegreesOfSeparation.filter(_._1 \u003d\u003d dst).collect().mkString(\",\")",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "enabled": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273176254_-1149238775",
+      "id": "20151228-032616_213584377",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx.lib.ShortestPaths\nsrc: List[Long] \u003d List(10002)\ndst: Int \u003d 90002\ndegreesOfSeparation: org.apache.spark.graphx.VertexRDD[org.apache.spark.graphx.lib.ShortestPaths.SPMap] \u003d VertexRDDImpl[2766] at RDD at VertexRDD.scala:57\nres259: String \u003d (90002,Map(10002 -\u003e 3))\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:26:16 AM",
+      "dateStarted": "Apr 21, 2016 1:33:05 AM",
+      "dateFinished": "Apr 21, 2016 1:33:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert to GraphFrame",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// DF: id, attr\ngraphFrame.vertices\n\n// DF: src, dst, attr\ngraphFrame.edges\n\n// Convert back to GraphX version - converted to Row (losing compile-time typing)\ngraphFrame.toGraphX\n\nz.show(graphFrame.triplets)\n",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451273403872_-522974311",
+      "id": "20151228-033003_314453208",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "edge\tsrc\tdst\n[90001,10001,0]\t[90001,0]\t[10001,0]\n[90003,10001,0]\t[90003,0]\t[10001,0]\n[10001,90001,0]\t[10001,0]\t[90001,0]\n[90002,90001,0]\t[90002,0]\t[90001,0]\n[90003,90001,0]\t[90003,0]\t[90001,0]\n[90003,10002,0]\t[90003,0]\t[10002,0]\n[90001,90002,0]\t[90001,0]\t[90002,0]\n[10001,90003,0]\t[10001,0]\t[90003,0]\n[90001,90003,0]\t[90001,0]\t[90003,0]\n[10002,90003,0]\t[10002,0]\t[90003,0]\n"
+      },
+      "dateCreated": "Dec 28, 2015 3:30:03 AM",
+      "dateStarted": "Apr 21, 2016 1:33:05 AM",
+      "dateFinished": "Apr 21, 2016 1:33:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ![Shortest Path By Hops](http://advancedspark.com/img/shortest-path-by-hop.png)",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1461202372562_1654905785",
+      "id": "20160421-013252_522386792",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/shortest-path-by-hop.png\" alt\u003d\"Shortest Path By Hops\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Apr 21, 2016 1:32:52 AM",
+      "dateStarted": "Apr 21, 2016 1:33:03 AM",
+      "dateFinished": "Apr 21, 2016 1:33:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find Degrees of Separation using GraphFrame",
+      "text": "val degreesOfSeparationDF \u003d graphFrame.shortestPaths.landmarks(src).run()\n\n// Run on the whole graph, then filter by dst vertex id\n// 10002 -\u003e 3 hops -\u003e 90002\nz.show(degreesOfSeparationDF.select($\"distances\", $\"id\").where($\"id\" \u003d\u003d\u003d dst))",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 11.0,
+        "graph": {
+          "mode": "table",
+          "height": 94.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "distances",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "distances",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "id",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457146779716_-220855884",
+      "id": "20160305-025939_163788062",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "distances\tid\nMap(10002 -\u003e 3)\t90002\n"
+      },
+      "dateCreated": "Mar 5, 2016 2:59:39 AM",
+      "dateStarted": "Apr 21, 2016 1:33:07 AM",
+      "dateFinished": "Apr 21, 2016 1:33:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Find Shortest Path by Hops",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)\n\n// Shortest Path (3 hops):  10002 -\u003e 90003 -\u003e 90001 -\u003e 90002\nval bfsDF \u003d graphFrame.bfs.fromExpr($\"id\" \u003d\u003d\u003d 10002).toExpr($\"id\" \u003d\u003d\u003d 90002).run()\n\nz.show(bfsDF)",
+      "dateUpdated": "Apr 21, 2016 1:33:03 AM",
+      "config": {
+        "colWidth": 11.0,
+        "graph": {
+          "mode": "table",
+          "height": 104.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "from",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "e0",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "from",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "e0",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457146932988_115996974",
+      "id": "20160305-030212_898656338",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "from\te0\tv1\te1\tv2\te2\tto\n[10002,0]\t[10002,90003,0]\t[90003,0]\t[90003,90001,0]\t[90001,0]\t[90001,90002,0]\t[90002,0]\n"
+      },
+      "dateCreated": "Mar 5, 2016 3:02:12 AM",
+      "dateStarted": "Apr 21, 2016 1:33:08 AM",
+      "dateFinished": "Apr 21, 2016 1:33:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Apr 21, 2016 1:33:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457387584515_-1282615930",
+      "id": "20160307-215304_1371469467",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 7, 2016 9:53:04 PM",
+      "dateStarted": "Apr 21, 2016 1:33:09 AM",
+      "dateFinished": "Apr 21, 2016 1:33:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/02: Shortest Path By Hops (Degrees of Separation)",
+  "id": "2B8QW48PE",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

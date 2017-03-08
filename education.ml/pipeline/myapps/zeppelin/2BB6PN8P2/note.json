@@ -1,0 +1,565 @@
+{
+  "paragraphs": [
+    {
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/myapps/html/advancedspark.com/json/software.json\")\n  .select($\"id\", $\"title\", $\"category\", $\"description\")",
+      "dateUpdated": "May 13, 2016 1:39:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587337_1128285922",
+      "id": "20160112-225947_195129269",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, category: string, description: string]\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "May 13, 2016 1:39:07 AM",
+      "dateFinished": "May 13, 2016 1:39:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val distinctCategories \u003d itemsDF.select($\"category\").distinct().collect()\nval distinctCategoriesCount \u003d itemsDF.select($\"category\").distinct().count()",
+      "dateUpdated": "May 13, 2016 1:39:11 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587337_1128285922",
+      "id": "20160112-225947_837978576",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "distinctCategories: Array[org.apache.spark.sql.Row] \u003d Array([Notebook], [Cloud Provider], [Data Processing], [Distribution], [Distributed Cache], [UI], [BI], [Cluster Resource Manager], [Cluster Provision], [Message Broker], [Programming Language], [Streaming], [Distributed Coordinator], [Search Engine], [Data Import], [Container], [Workflow], [File Format], [Library], [File System], [Database])\ndistinctCategoriesCount: Long \u003d 21\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "May 13, 2016 1:39:11 AM",
+      "dateFinished": "May 13, 2016 1:39:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"description\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587337_1128285922",
+      "id": "20160112-225947_1078370481",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "tokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_b8d09c2925b7\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:00 AM",
+      "dateFinished": "Mar 5, 2016 5:34:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Assign an Index to Each Category \nval categoryIndexerModel \u003d new StringIndexer()\n  .setInputCol(\"category\")\n  .setOutputCol(\"indexedCategory\")\n  .fit(itemsDF)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587338_1129440169",
+      "id": "20160112-225947_1932952591",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "categoryIndexerModel: org.apache.spark.ml.feature.StringIndexerModel \u003d strIdx_d430c9845fce\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:01 AM",
+      "dateFinished": "Mar 5, 2016 5:34:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.classification.MultilayerPerceptronClassifier\n\nval classifier \u003d new MultilayerPerceptronClassifier()\n  .setFeaturesCol(tokenizer.getOutputCol)\n  .setLabelCol(categoryIndexerModel.getOutputCol)\n  .setPredictionCol(\"prediction\")",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587338_1129440169",
+      "id": "20160112-225947_1717865477",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.classification.MultilayerPerceptronClassifier\nclassifier: org.apache.spark.ml.classification.MultilayerPerceptronClassifier \u003d mlpc_653bf460028b\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:01 AM",
+      "dateFinished": "Mar 5, 2016 5:34:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val categoryReverseIndexer \u003d new IndexToString()\n  .setInputCol(classifier.getPredictionCol)\n  .setOutputCol(\"predictedCategory\")\n  .setLabels(categoryIndexerModel.labels)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587338_1129440169",
+      "id": "20160112-225947_848437559",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "categoryReverseIndexer: org.apache.spark.ml.feature.IndexToString \u003d idxToStr_4ac7f0201512\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:02 AM",
+      "dateFinished": "Mar 5, 2016 5:34:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, categoryIndexerModel, classifier, categoryReverseIndexer))",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_2022167558",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "pipeline: org.apache.spark.ml.Pipeline \u003d pipeline_e8d555a2d4a1\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:02 AM",
+      "dateFinished": "Mar 5, 2016 5:34:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val metricName \u003d \"f1\"\n\nval modelEvaluator \u003d new MulticlassClassificationEvaluator()\n  .setLabelCol(classifier.getLabelCol)\n  .setPredictionCol(classifier.getPredictionCol)\n  .setMetricName(metricName)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_1062609381",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "metricName: String \u003d f1\nmodelEvaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator \u003d mcEval_7db07e92de05\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:02 AM",
+      "dateFinished": "Mar 5, 2016 5:34:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//val paramGrid \u003d new ParamGridBuilder()\n//  .addGrid(classifier.layers, Array(Array(distinctCategoriesCount.toInt,1)))\n//  .build()\n  //  .addGrid(tf.numFeatures, Array(10, 100))\n//  .addGrid(idf.minDocFreq, Array(1, 10))\n",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_2106623662",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:03 AM",
+      "dateFinished": "Mar 5, 2016 5:34:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// K-Folds Cross Validation Combined With Param Grid \nval numFolds \u003d 3\n\nval modelValidator \u003d new CrossValidator()\n  .setEstimator(pipeline)\n  .setEvaluator(modelEvaluator)\n  .setNumFolds(numFolds) \n  //.setEstimatorParamMaps(paramGrid)\n",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_1588108210",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "numFolds: Int \u003d 3\nmodelValidator: org.apache.spark.ml.tuning.CrossValidator \u003d cv_8a294cdde622\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:03 AM",
+      "dateFinished": "Mar 5, 2016 5:34:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val crossValidatorModel \u003d modelValidator.fit(itemsDF)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_407458693",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "java.lang.IllegalArgumentException: requirement failed: Column words must be of type org.apache.spark.mllib.linalg.VectorUDT@f71b0bce but was actually ArrayType(StringType,true).\n\tat scala.Predef$.require(Predef.scala:233)\n\tat org.apache.spark.ml.util.SchemaUtils$.checkColumnType(SchemaUtils.scala:42)\n\tat org.apache.spark.ml.PredictorParams$class.validateAndTransformSchema(Predictor.scala:50)\n\tat org.apache.spark.ml.Predictor.validateAndTransformSchema(Predictor.scala:71)\n\tat org.apache.spark.ml.Predictor.transformSchema(Predictor.scala:116)\n\tat org.apache.spark.ml.Pipeline$$anonfun$transformSchema$4.apply(Pipeline.scala:173)\n\tat org.apache.spark.ml.Pipeline$$anonfun$transformSchema$4.apply(Pipeline.scala:173)\n\tat scala.collection.IndexedSeqOptimized$class.foldl(IndexedSeqOptimized.scala:51)\n\tat scala.collection.IndexedSeqOptimized$class.foldLeft(IndexedSeqOptimized.scala:60)\n\tat scala.collection.mutable.ArrayOps$ofRef.foldLeft(ArrayOps.scala:108)\n\tat org.apache.spark.ml.Pipeline.transformSchema(Pipeline.scala:173)\n\tat org.apache.spark.ml.tuning.CrossValidator.transformSchema(CrossValidator.scala:129)\n\tat org.apache.spark.ml.PipelineStage.transformSchema(Pipeline.scala:68)\n\tat org.apache.spark.ml.tuning.CrossValidator.fit(CrossValidator.scala:91)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:179)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:184)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:186)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:188)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:190)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:192)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:194)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:196)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:198)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:200)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:202)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:204)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:206)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:208)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:210)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:212)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:214)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:216)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:218)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:220)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:222)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:224)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:226)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:228)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:230)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:232)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:234)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:236)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:238)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:240)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:242)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:244)\n\tat \u003cinit\u003e(\u003cconsole\u003e:246)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:250)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1346)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:03 AM",
+      "dateFinished": "Mar 5, 2016 5:34:04 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Print the average metrics\nval avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n\n// Combine with paramGrid to see how they affect the overall metrics\nval combined \u003d paramGrid.zip(avgMetricsParamGrid)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_379457632",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:160: error: not found: value crossValidatorModel\n       val avgMetricsParamGrid \u003d crossValidatorModel.avgMetrics\n                                 ^\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:04 AM",
+      "dateFinished": "Mar 5, 2016 5:34:04 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n\n// Explain params for each stage\nval bestHashingTFNumFeatures \u003d bestModel.stages(2).asInstanceOf[HashingTF].explainParams\nval bestIDFMinDocFrequency \u003d bestModel.stages(3).asInstanceOf[IDFModel].explainParams\n//val bestWord2VecVectorSize \u003d bestModel.stages(4).asInstanceOf[Word2VecModel].explainParams\nval bestLayers \u003d bestModel.stages(6).asInstanceOf[MultilayerPerceptronClassificationModel].explainParams",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587339_1129055420",
+      "id": "20160112-225947_1866613227",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:159: error: not found: value crossValidatorModel\n         val bestModel \u003d crossValidatorModel.bestModel.asInstanceOf[PipelineModel]\n                         ^\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:04 AM",
+      "dateFinished": "Mar 5, 2016 5:34:04 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Create Prediction Pipeline\n//val predictOnDF \u003d itemsDF.select($\"description\")\n\nval predictOnDF \u003d sqlContext.createDataFrame(Seq(\n      (1, \"nosql\")\n    )).toDF(\"id\", \"description\")\n\nval predictedResultsDF \u003d bestModel.transform(predictOnDF)\n .select(classifier.getPredictionCol, categoryReverseIndexer.getOutputCol, stopWordsFilter.getOutputCol, classifier.getRawPredictionCol, classifier.getProbabilityCol)\n\nz.show(predictedResultsDF)",
+      "dateUpdated": "Mar 5, 2016 5:33:56 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "prediction",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "predictedCategory",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "prediction",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587340_1127131675",
+      "id": "20160112-225947_1965896378",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "predictOnDF: org.apache.spark.sql.DataFrame \u003d [id: int, description: string]\n\u003cconsole\u003e:176: error: not found: value bestModel\n       val predictedResultsDF \u003d bestModel.transform(predictOnDF)\n                                ^\n"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:04 AM",
+      "dateFinished": "Mar 5, 2016 5:34:04 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Mar 5, 2016 5:33:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452639587340_1127131675",
+      "id": "20160112-225947_657101537",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 12, 2016 10:59:47 PM",
+      "dateStarted": "Mar 5, 2016 5:34:04 AM",
+      "dateFinished": "Mar 5, 2016 5:34:04 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TODO: NLP/08: Text Classifier Pipeline (Multilayer Perceptron)",
+  "id": "2BB6PN8P2",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

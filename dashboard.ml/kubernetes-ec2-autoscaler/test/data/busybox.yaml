@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2016-07-14T06:46:14Z"
+  name: busybox
+  namespace: default
+  resourceVersion: "229323584"
+  selfLink: /api/v1/namespaces/default/pods/busybox
+  uid: a85c73b6-498e-11e6-ab0a-0af8d945d5d3
+spec:
+  containers:
+  - command:
+    - sleep
+    - "3600"
+    image: busybox
+    imagePullPolicy: Always
+    name: busybox
+    resources:
+      limits:
+        cpu: 1500m
+      requests:
+        cpu: 1500m
+    terminationMessagePath: /dev/termination-log
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-1h0fa
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  imagePullSecrets:
+  - name: quay-login-secret
+  nodeName: 10.0.0.228
+  restartPolicy: Always
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: default-token-1h0fa
+    secret:
+      secretName: default-token-1h0fa
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2016-08-23T21:22:43Z
+    status: "True"
+    type: Ready
+  containerStatuses:
+  - containerID: docker://4643e395f45d65015a98c13a509b4429bd357477d0dfb6719a835ce8135f1c06
+    image: busybox
+    imageID: docker://sha256:2b8fd9751c4c0f5dd266fcae00707e67a2545ef34f9a29354585f93dac906749
+    lastState:
+      terminated:
+        containerID: docker://76e9c5151cc98f4d3aa1f73704112a4befcc451104a493671fc89a401e45f907
+        exitCode: 0
+        finishedAt: 2016-08-23T21:22:40Z
+        reason: Completed
+        startedAt: 2016-08-23T20:22:40Z
+    name: busybox
+    ready: true
+    restartCount: 974
+    state:
+      running:
+        startedAt: 2016-08-23T21:22:42Z
+  hostIP: 10.0.0.228
+  phase: Running
+  podIP: 10.240.112.166
+  startTime: 2016-07-14T06:46:25Z

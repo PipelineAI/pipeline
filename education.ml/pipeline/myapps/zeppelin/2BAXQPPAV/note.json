@@ -1,0 +1,346 @@
+{
+  "paragraphs": [
+    {
+      "title": "Retrieve dataset",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"json\")\n  .load(\"file:/root/pipeline/datasets/nlp/country-lyrics.json\")\n  .select($\"id\", $\"title\", $\"url\", $\"lyrics\")",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872022_-2076523971",
+      "id": "20160129-091432_588185682",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "itemsDF: org.apache.spark.sql.DataFrame \u003d [id: bigint, title: string, url: string, lyrics: string]\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:23:58 AM",
+      "dateFinished": "May 11, 2016 3:23:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Tokenize",
+      "text": "import org.apache.spark.ml.feature.RegexTokenizer\n\n// Split each document into words\nval tokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"lyrics\")\n  .setOutputCol(\"words\")\n  .setGaps(false)\n  .setPattern(\"\\\\p{L}+\")",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872022_-2076523971",
+      "id": "20160129-091432_1220039619",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.RegexTokenizer\ntokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_b8f9b7a14fac\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:23:58 AM",
+      "dateFinished": "May 11, 2016 3:23:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Remove Common Stop words",
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n\n// Filter out stopwords\n// The following list will be used by default if we don\u0027t specify a list:  \n//   http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words\nval stopWordsFilter \u003d new StopWordsRemover()\n  .setInputCol(tokenizer.getOutputCol)\n  .setOutputCol(\"filteredWords\")\n  .setCaseSensitive(false)\n  \nval stopWords \u003d stopWordsFilter.getStopWords\nval newStopWords \u003d Array(\"did\", \"s\", \"t\", \"m\", \"n\", \"uh\", \"ll\", \"ha\", \"makes\", \"make\", \"yeah\", \"goes\", \n  \"gettin\", \"v\", \"went\", \"aint\", \"let\", \"d\", \"yer\", \"don\", \"got\", \"just\", \"ain\", \"ve\", \"come\", \"gonna\", \n  \"says\", \"oh\", \"like\", \"way\", \"little\", \"said\", \"cause\", \"know\", \"say\", \"long\", \"time\", \"day\", \"wanna\",\n  \"chorus\", \"repeat\", \"didn\", \"hey\", \"couldn\", \"wouldn\", \"ooh\", \"lets\", \"ol\", \"round\", \"right\", \"does\", \n  \"won\", \"ya\", \"outta\", \"tell\", \"doin\", \"doing\", \"boondocks\", \"nothin\", \"feelin\", \"mornin\", \"whoa\", \n  \"big\", \"havin\", \"comes\", \"sure\", \"yea\", \"mind\", \"best\", \"brr\", \"y\") ++ stopWords \n  \nstopWordsFilter.setStopWords(newStopWords)",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872022_-2076523971",
+      "id": "20160129-091432_1560645350",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.StopWordsRemover\nstopWordsFilter: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_c615e033afcf\nstopWords: Array[String] \u003d Array(a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, fur...newStopWords: Array[String] \u003d Array(did, s, t, m, n, uh, ll, ha, makes, make, yeah, goes, gettin, v, went, aint, let, d, yer, don, got, just, ain, ve, come, gonna, says, oh, like, way, little, said, cause, know, say, long, time, day, wanna, chorus, repeat, didn, hey, couldn, wouldn, ooh, lets, ol, round, right, does, won, ya, outta, tell, doin, doing, boondocks, nothin, feelin, mornin, whoa, big, havin, comes, sure, yea, mind, best, brr, y, a, about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, besi...res316: stopWordsFilter.type \u003d stopWords_c615e033afcf\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:23:59 AM",
+      "dateFinished": "May 11, 2016 3:24:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Word Count per document",
+      "text": "import org.apache.spark.ml.feature.CountVectorizer\n\n// Limit to top `vocabSize` most common words and convert to word count vector features\nval vocabSize: Int \u003d 1000\n\nval countVectorizer \u003d new CountVectorizer()\n  .setInputCol(stopWordsFilter.getOutputCol)\n  .setOutputCol(\"countFeatures\")\n  .setVocabSize(vocabSize)\n  .setMinDF(3)\n  .setMinTF(2)",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058997724_-1357596843",
+      "id": "20160129-091637_724509031",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.CountVectorizer\nvocabSize: Int \u003d 1000\ncountVectorizer: org.apache.spark.ml.feature.CountVectorizer \u003d cntVec_4f3b428f5bc1\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:16:37 AM",
+      "dateStarted": "May 11, 2016 3:23:59 AM",
+      "dateFinished": "May 11, 2016 3:24:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create training pipeline",
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tokenizer, stopWordsFilter, countVectorizer))",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872023_-2076908720",
+      "id": "20160129-091432_1743901207",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.Pipeline\npipeline: org.apache.spark.ml.Pipeline \u003d pipeline_3c6c333ec578\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:24:01 AM",
+      "dateFinished": "May 11, 2016 3:24:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "train the model",
+      "text": "val model \u003d pipeline.fit(itemsDF)",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872023_-2076908720",
+      "id": "20160129-091432_1843245921",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "model: org.apache.spark.ml.PipelineModel \u003d pipeline_3c6c333ec578\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:24:01 AM",
+      "dateFinished": "May 11, 2016 3:24:03 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Extract word distribution",
+      "text": "import org.apache.spark.mllib.linalg.SparseVector\nimport org.apache.spark.ml.feature.CountVectorizerModel\n\nval countFeaturesDF \u003d model.transform(itemsDF).select($\"countFeatures\")\n\nval countVectorizerModel \u003d model.stages(2).asInstanceOf[CountVectorizerModel]\n\nval vocabulary \u003d countVectorizerModel.vocabulary\n\nval tuples \u003d countFeaturesDF.map(row \u003d\u003e {\n    val countVector \u003d row.getAs[SparseVector](0)\n    val indices \u003d countVector.indices\n    val values \u003d countVector.values\n    (indices.size, values.size)\n    val words \u003d indices.map(idx \u003d\u003e (vocabulary(idx)))\n    words.zip(values)\n})\n\nval wordCountDF \u003d tuples.map(_(0)).reduceByKey(_ + _).toDF(\"word\", \"count\").sort($\"count\" desc).limit(10)\nz.show(wordCountDF)",
+      "dateUpdated": "May 11, 2016 5:53:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 422.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "word",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "word",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872023_-2076908720",
+      "id": "20160129-091432_475951746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "word\tcount\nlove\t122.0\ngone\t74.0\nbaby\t53.0\nlife\t33.0\nfeel\t23.0\neyes\t21.0\nheart\t11.0\ngod\t9.0\nold\t9.0\nwant\t6.0\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:24:02 AM",
+      "dateFinished": "May 11, 2016 3:24:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "May 11, 2016 3:23:58 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454058872028_-2080371460",
+      "id": "20160129-091432_448644104",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jan 29, 2016 9:14:32 AM",
+      "dateStarted": "May 11, 2016 3:24:03 AM",
+      "dateFinished": "May 11, 2016 3:24:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "NLP/02: Unigram (Word) Distribution",
+  "id": "2BAXQPPAV",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

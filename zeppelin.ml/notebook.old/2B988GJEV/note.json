@@ -1,0 +1,132 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md \n## Pre-configured Imports\n* All imports have been preconfigured for the current set of notebooks included in this build.\n* These imports come through the `SPARK_SUBMIT_PACKAGES` and `SPARK_SUBMIT_JARS` environment variables in `$PIPELINE_HOME/config/bash/.profile` which automatically get picked up by Spark.\n* Some dependencies in `SPARK_SUBMIT_JARS` such as `/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar` require successful builds of libraries within `$PIPELINE_HOME/myapps`. \n* These dependencies are pre-built for you in the Docker Image.  \n* If you make changes to any dependencies within `$PIPELINE_HOME/myapps`, you will need to re-run `sbt package` within the specific app directory.",
+      "dateUpdated": "Jan 27, 2016 9:44:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451313777587_1147365086",
+      "id": "20151228-144257_501174427",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003ePre-configured Imports\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eAll imports have been preconfigured for the current set of notebooks included in this build.\u003c/li\u003e\n\u003cli\u003eThese imports come through the \u003ccode\u003eSPARK_SUBMIT_PACKAGES\u003c/code\u003e and \u003ccode\u003eSPARK_SUBMIT_JARS\u003c/code\u003e environment variables in \u003ccode\u003e$PIPELINE_HOME/config/bash/.profile\u003c/code\u003e which automatically get picked up by Spark.\u003c/li\u003e\n\u003cli\u003eSome dependencies in \u003ccode\u003eSPARK_SUBMIT_JARS\u003c/code\u003e such as \u003ccode\u003e/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\u003c/code\u003e require successful builds of libraries within \u003ccode\u003e$PIPELINE_HOME/myapps\u003c/code\u003e.\u003c/li\u003e\n\u003cli\u003eThese dependencies are pre-built for you in the Docker Image.\u003c/li\u003e\n\u003cli\u003eIf you make changes to any dependencies within \u003ccode\u003e$PIPELINE_HOME/myapps\u003c/code\u003e, you will need to re-run \u003ccode\u003esbt package\u003c/code\u003e within the specific app directory.\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 2:42:57 PM",
+      "dateStarted": "Jan 27, 2016 9:44:54 PM",
+      "dateFinished": "Jan 27, 2016 9:44:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n## Adding Imports:  Option 1\n* Add to the `SPARK_SUBMIT_PACKAGES` and `SPARK_SUBMIT_JARS` variables in `$PIPELINE_HOME/config/bash/.profile`\n* Source the new environment variables using `source  $PIPELINE_HOME/config/bash/.profile`\n* Restart all services using `stop-all-services.sh` and `start-all-services.sh`",
+      "dateUpdated": "Jan 27, 2016 9:45:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453930669176_-750711129",
+      "id": "20160127-213749_991058746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eAdding Imports:  Option 1\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eAdd to the \u003ccode\u003eSPARK_SUBMIT_PACKAGES\u003c/code\u003e and \u003ccode\u003eSPARK_SUBMIT_JARS\u003c/code\u003e variables in \u003ccode\u003e$PIPELINE_HOME/config/bash/.profile\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eSource the new environment variables using \u003ccode\u003esource  $PIPELINE_HOME/config/bash/.profile\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eRestart all services using \u003ccode\u003estop-all-services.sh\u003c/code\u003e and \u003ccode\u003estart-all-services.sh\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Jan 27, 2016 9:37:49 PM",
+      "dateStarted": "Jan 27, 2016 9:45:32 PM",
+      "dateFinished": "Jan 27, 2016 9:45:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n## Adding Imports: Option 2\n\n* Add them by using the commands below within a notebook cell\n* Examples provided for _Maven Central Repo Coordinates_, _spark-packages.org Repo Coordinates_, and _local jar files_ \n* Note:  The libraries below have already been imported through the `SPARK_SUBMIT_PACKAGES` and `SPARK_SUBMIT_JARS` environment variables.  No need to re-import them here.\n\n```\n%dep\nz.reset()\n\n// Add libraries stored in the Maven Central Repo\nz.addRepo(\"Maven Central\").url(\"http://search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\n\n// Add libraries stored in the spark-packages.org Repo\nz.addRepo(\"Spark Packages\").url(\"http://dl.bintray.com/spark-packages/maven\")\nz.load(\"com.databricks:spark-csv_2.10:1.3.0\")\n\n// Add libraries stored on the local file system\nz.load(\"/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\")\n```",
+      "dateUpdated": "Jan 27, 2016 9:51:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453924249570_-138626232",
+      "id": "20160127-195049_1466187435",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eAdding Imports: Option 2\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eAdd them by using the commands below within a notebook cell\u003c/li\u003e\n\u003cli\u003eExamples provided for \u003cem\u003eMaven Central Repo Coordinates\u003c/em\u003e, \u003cem\u003espark-packages.org Repo Coordinates\u003c/em\u003e, and \u003cem\u003elocal jar files\u003c/em\u003e\u003c/li\u003e\n\u003cli\u003eNote:  The libraries below have already been imported through the \u003ccode\u003eSPARK_SUBMIT_PACKAGES\u003c/code\u003e and \u003ccode\u003eSPARK_SUBMIT_JARS\u003c/code\u003e environment variables.  No need to re-import them here.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cpre\u003e\u003ccode\u003e%dep\nz.reset()\n\n// Add libraries stored in the Maven Central Repo\nz.addRepo(\"Maven Central\").url(\"http://search.maven.org\")\nz.load(\"com.datastax.spark:spark-cassandra-connector_2.10:1.4.0\")\n\n// Add libraries stored in the spark-packages.org Repo\nz.addRepo(\"Spark Packages\").url(\"http://dl.bintray.com/spark-packages/maven\")\nz.load(\"com.databricks:spark-csv_2.10:1.3.0\")\n\n// Add libraries stored on the local file system\nz.load(\"/root/pipeline/myapps/ml/target/scala-2.10/ml_2.10-1.0.jar\")\n\u003c/code\u003e\u003c/pre\u003e\n"
+      },
+      "dateCreated": "Jan 27, 2016 7:50:49 PM",
+      "dateStarted": "Jan 27, 2016 9:51:02 PM",
+      "dateFinished": "Jan 27, 2016 9:51:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453924775353_1017110202",
+      "id": "20160127-195935_1134722017",
+      "dateCreated": "Jan 27, 2016 7:59:35 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Imports",
+  "id": "2B988GJEV",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

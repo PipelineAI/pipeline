@@ -1,0 +1,231 @@
+{
+  "paragraphs": [
+    {
+      "title": "Show Tables",
+      "text": "%hive show tables",
+      "dateUpdated": "Dec 28, 2015 3:29:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tableName",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "isTemporary",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "tableName",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "isTemporary",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1446676552437_906258056",
+      "id": "20151104-223552_1517791635",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tableName\tisTemporary\ndating_genders\tfalse\t\ndating_ratings\tfalse\t\nmovie_links\tfalse\t\nmovie_ratings\tfalse\t\nmovie_tags\tfalse\t\nmovies\tfalse\t\n"
+      },
+      "dateCreated": "Nov 4, 2015 10:35:52 PM",
+      "dateStarted": "Dec 28, 2015 3:29:23 PM",
+      "dateFinished": "Dec 28, 2015 3:29:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md ### Make sure to start the Spark Hive ThriftServer from **$PIPELINE_HOME/bin**",
+      "dateUpdated": "May 11, 2016 5:55:03 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "tableHide": false,
+        "editorHide": true,
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451314093537_1873246699",
+      "id": "20151228-144813_426568178",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eMake sure to start the Spark Hive ThriftServer from \u003cstrong\u003e$PIPELINE_HOME/bin\u003c/strong\u003e\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Dec 28, 2015 2:48:13 PM",
+      "dateStarted": "May 11, 2016 5:54:57 AM",
+      "dateFinished": "May 11, 2016 5:54:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Query Spark SQL Tables using a hive thriftServer Proxy SQLContext (Same Mechanism as Tableau)",
+      "text": "%hive select * from movie_ratings limit 100",
+      "dateUpdated": "Dec 28, 2015 2:54:07 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1444856314590_-2093257719",
+      "id": "20151014-205834_1662443653",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Could not open client transport with JDBC Uri: jdbc:hive2://127.0.0.1:10000: java.net.ConnectException: Connection refused"
+      },
+      "dateCreated": "Oct 14, 2015 8:58:34 PM",
+      "dateStarted": "Dec 28, 2015 2:54:07 PM",
+      "dateFinished": "Dec 28, 2015 2:54:07 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive select * from dating_genders limit 100",
+      "dateUpdated": "Dec 28, 2015 2:54:07 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1446055841151_1988228675",
+      "id": "20151028-181041_2037482610",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Could not open client transport with JDBC Uri: jdbc:hive2://127.0.0.1:10000: java.net.ConnectException: Connection refused"
+      },
+      "dateCreated": "Oct 28, 2015 6:10:41 PM",
+      "dateStarted": "Dec 28, 2015 2:54:07 PM",
+      "dateFinished": "Dec 28, 2015 2:54:07 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Dec 28, 2015 2:54:07 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1448886485198_-42537570",
+      "id": "20151130-122805_1723866262",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Nov 30, 2015 12:28:05 PM",
+      "dateStarted": "Dec 28, 2015 2:54:07 PM",
+      "dateFinished": "Dec 28, 2015 2:54:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SQL/04: Hive Beeline \u0026 Tableau (Hive ThriftServer)",
+  "id": "2B3N77G95",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

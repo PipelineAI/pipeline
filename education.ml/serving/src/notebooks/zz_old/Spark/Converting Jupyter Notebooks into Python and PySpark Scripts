@@ -1,0 +1,3 @@
+Here's a command:
+
+jupyter nbconvert --to python "Lab 1 - Hello Spark - Instructor.ipynb" --stdout > a.py

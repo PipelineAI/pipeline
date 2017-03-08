@@ -1,0 +1,13 @@
+build
+.kube
+.gradle
+.settings
+.cache-main
+.classpath
+.gitignore
+.project
+jmeter.log
+nohup.out
+__pycache__
+.DS_Store
+.cache-tests

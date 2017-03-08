@@ -1,0 +1,197 @@
+{
+  "paragraphs": [
+    {
+      "text": "import com.redislabs.provider.redis._\n\nsc.toRedisKV(sc.parallelize((\"key1\", \"val1\") :: Nil))\nsc.toRedisKV(sc.parallelize((\"key2\", \"val2\") :: Nil))",
+      "dateUpdated": "Jun 29, 2016 2:49:43 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488984909_-1042053386",
+      "id": "20160529-022944_484526296",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.redislabs.provider.redis._\n"
+      },
+      "dateCreated": "May 29, 2016 2:29:44 AM",
+      "dateStarted": "Jun 29, 2016 2:49:43 AM",
+      "dateFinished": "Jun 29, 2016 2:49:45 AM",
+      "status": "ABORT",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val valuesRDD \u003d sc.fromRedisKV(\"key1\")\nvaluesRDD.collect()",
+      "dateUpdated": "Jun 29, 2016 2:49:43 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488988531_-845831447",
+      "id": "20160529-022948_802525869",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "valuesRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d RedisKVRDD[1334] at RDD at RedisRDD.scala:19\nres304: Array[(String, String)] \u003d Array((key1,val1))\n"
+      },
+      "dateCreated": "May 29, 2016 2:29:48 AM",
+      "dateStarted": "Jun 29, 2016 2:49:44 AM",
+      "dateFinished": "Jun 29, 2016 2:49:45 AM",
+      "status": "ABORT",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl;\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\n\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\n\nval localhostHost \u003d new Host(\"127.0.0.1\", Host.Status.Up)\nval localhostToken \u003d new HostToken(100000L, localhostHost)\n\nval localhostHostSupplier \u003d new HostSupplier() {\n  @Override\n  def getHosts(): Collection[Host] \u003d {\n    Collections.singletonList(localhostHost)\n  }\n}\n\nval localhostTokenMapSupplier \u003d new TokenMapSupplier() {\n  @Override\n  def getTokens(activeHosts: Set[Host]): List[HostToken] \u003d {\n\tCollections.singletonList(localhostToken)\n  }\n\n  @Override\n  def getTokenForHost(host: Host, activeHosts: Set[Host]): HostToken \u003d {\n    return localhostToken\n  }\n}\n\nval redisPort \u003d 6379                        \nval dynoClient \u003d new DynoJedisClient.Builder()\n              .withApplicationName(\"pipeline\")\n              .withDynomiteClusterName(\"pipeline-dynomite\")\n              .withHostSupplier(localhostHostSupplier)\n              .withCPConfig(new ConnectionPoolConfigurationImpl(\"localhostTokenMapSupplier\")\n                .withTokenSupplier(localhostTokenMapSupplier))\n              .withPort(redisPort)\n              .build()\n\ndynoClient.set(\"key3\", \"val3\")\n\nval val3 \u003d dynoClient.get(\"key3\")\nval val2 \u003d dynoClient.get(\"key2\")\nval val1 \u003d dynoClient.get(\"key1\")",
+      "dateUpdated": "Jun 29, 2016 3:11:08 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1464488996179_506576261",
+      "id": "20160529-022956_1305989392",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.netflix.dyno.jedis._\nimport com.netflix.dyno.connectionpool.Host\nimport com.netflix.dyno.connectionpool.HostSupplier\nimport com.netflix.dyno.connectionpool.TokenMapSupplier\nimport com.netflix.dyno.connectionpool.impl.lb.HostToken\nimport com.netflix.dyno.connectionpool.exception.DynoException\nimport com.netflix.dyno.connectionpool.impl.ConnectionPoolConfigurationImpl\nimport com.netflix.dyno.connectionpool.impl.ConnectionContextImpl\nimport com.netflix.dyno.connectionpool.impl.OperationResultImpl\nimport com.netflix.dyno.connectionpool.impl.utils.ZipUtils\nimport java.util.Collections\nimport java.util.Collection\nimport java.util.Set\nimport java.util.List\nlocalhostHost: com.netflix.dyno.connectionpool.Host \u003d Host [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]\nlocalhostToken: com.netflix.dyno.connectionpool.impl.lb.HostToken \u003d HostToken [token\u003d100000, host\u003dHost [name\u003d127.0.0.1, port\u003d-1, dc: null, status: Up]]\nlocalhostHostSupplier: com.netflix.dyno.connectionpool.HostSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@168ffd08\nlocalhostTokenMapSupplier: com.netflix.dyno.connectionpool.TokenMapSupplier \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$anon$1@3544903f\nredisPort: Int \u003d 6379\ndynoClient: com.netflix.dyno.jedis.DynoJedisClient \u003d com.netflix.dyno.jedis.DynoJedisClient@7fd5fe7d\nres19: String \u003d OK\nval3: String \u003d val3\nval2: String \u003d null\nval1: String \u003d null\n"
+      },
+      "dateCreated": "May 29, 2016 2:29:56 AM",
+      "dateStarted": "Jun 29, 2016 3:11:08 AM",
+      "dateFinished": "Jun 29, 2016 3:11:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "dynoClient.get(\"recommendations\")",
+      "dateUpdated": "Jun 29, 2016 3:11:33 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465536807740_1155479092",
+      "id": "20160610-053327_1336530203",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res315: String \u003d null\n"
+      },
+      "dateCreated": "Jun 10, 2016 5:33:27 AM",
+      "dateStarted": "Jun 29, 2016 2:49:46 AM",
+      "dateFinished": "Jun 29, 2016 2:49:51 AM",
+      "status": "ABORT",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "dynoClient.stopClient()",
+      "dateUpdated": "Jun 29, 2016 3:11:27 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1466129212486_-1235476738",
+      "id": "20160617-020652_660231071",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jun 17, 2016 2:06:52 AM",
+      "dateStarted": "Jun 29, 2016 3:11:27 AM",
+      "dateFinished": "Jun 29, 2016 3:11:27 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1466129241575_-390152757",
+      "id": "20160617-020721_170162370",
+      "dateCreated": "Jun 17, 2016 2:07:21 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Redis",
+  "id": "2BKT24QMZ",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

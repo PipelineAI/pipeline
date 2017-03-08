@@ -1,0 +1,203 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md # Check Us Out! [PipelineIO](http://pipeline.io)\n## Extending Your ML Pipelines into Production\n### Continuous Delivery of Real-time Spark ML and TensorFlow Models",
+      "dateUpdated": "Jun 11, 2016 2:48:18 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465613154358_-820538553",
+      "id": "20160611-024554_551985670",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eCheck Us Out! \u003ca href\u003d\"http://pipeline.io\"\u003ePipelineIO\u003c/a\u003e\u003c/h1\u003e\n\u003ch2\u003eExtending Your ML Pipelines into Production\u003c/h2\u003e\n\u003ch3\u003eContinuous Delivery of Real-time Spark ML and TensorFlow Models\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Jun 11, 2016 2:45:54 AM",
+      "dateStarted": "Jun 11, 2016 2:48:15 AM",
+      "dateFinished": "Jun 11, 2016 2:48:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n### [Incremental Model Training](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/spark/streaming/src/main/scala/com/advancedspark/streaming/rating/ml/incremental)\n![Streaming Matrix Factorization](http://advancedspark.com/img/streaming-matrix-factorization.png)",
+      "dateUpdated": "May 17, 2016 11:50:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463528977261_462183261",
+      "id": "20160517-234937_1086595360",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/spark/streaming/src/main/scala/com/advancedspark/streaming/rating/ml/incremental\"\u003eIncremental Model Training\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/streaming-matrix-factorization.png\" alt\u003d\"Streaming Matrix Factorization\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 17, 2016 11:49:37 PM",
+      "dateStarted": "May 17, 2016 11:49:47 PM",
+      "dateFinished": "May 17, 2016 11:49:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n\n### [Fault-Tolerant, Dynamic, Hot-Swappable AI/Machine Learning Serving Layer](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle/src/main/scala/com/advancedspark/serving/recommendations)\n![Fault-Tolerant, Dymamic AI Serving Layer](http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png)\n\n### Scala/Java/Finagle-Based Server\n* [Source Code](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle)\n* [Demo URL](http://demo.advancedspark.com:5080/predict/12663/7)\n\n### Python/Flask-Based Server\n* [Source Code](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask)\n* [Demo URL](http://demo.advancedspark.com:5090/predict/12663/7)\n\n### TensorFlow-Based Server\n* [Demo URL (Experimental)] (http://demo.advancedspark.com:5070/classify/cropped_panda.jpg)\n",
+      "dateUpdated": "Jun 11, 2016 2:45:36 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463528987918_1845710181",
+      "id": "20160517-234947_58392757",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle/src/main/scala/com/advancedspark/serving/recommendations\"\u003eFault-Tolerant, Dynamic, Hot-Swappable AI/Machine Learning Serving Layer\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png\" alt\u003d\"Fault-Tolerant, Dymamic AI Serving Layer\" /\u003e\u003c/p\u003e\n\u003ch3\u003eScala/Java/Finagle-Based Server\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/finagle\"\u003eSource Code\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5080/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003ePython/Flask-Based Server\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/serving/flask\"\u003eSource Code\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5090/predict/12663/7\"\u003eDemo URL\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eTensorFlow-Based Server\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"http://demo.advancedspark.com:5070/classify/cropped_panda.jpg\"\u003eDemo URL (Experimental)\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "May 17, 2016 11:49:47 PM",
+      "dateStarted": "May 17, 2016 11:50:34 PM",
+      "dateFinished": "May 17, 2016 11:50:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md \n\n### [Dynamic, Highly-Optimized, Code Generated Spark ML and TensorFlow Models](https://github.com/fluxcapacitor/pipeline/tree/master/myapps/spark/ml/codegen)\n![Fault-Tolerant, Dymamic AI Serving Layer](http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png)\n",
+      "dateUpdated": "Jun 11, 2016 2:45:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463532127044_-55047908",
+      "id": "20160518-004207_1985498812",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003e\u003ca href\u003d\"https://github.com/fluxcapacitor/pipeline/tree/master/myapps/spark/ml/codegen\"\u003eDynamic, Highly-Optimized, Code Generated Spark ML and TensorFlow Models\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/fault-tolerant-dynamic-serving-layer.png\" alt\u003d\"Fault-Tolerant, Dymamic AI Serving Layer\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 18, 2016 12:42:07 AM",
+      "dateStarted": "May 18, 2016 12:44:41 AM",
+      "dateFinished": "May 18, 2016 12:44:41 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n## Utilizes [Netflix Open Source](https://github.com/Netflix)\n\n### [NetflixOSS Zuul Gateway](https://github.com/Netflix/zuul/wiki)\n![Netflix OSS Zuul Gateway Overview](http://advancedspark.com/img/zuul-overview.png)\n![Netflix OSS Zuul Gateway Core](http://advancedspark.com/img/zuul-core.png)\n![Netflix OSS Zuul Gateway HttpRequest](http://advancedspark.com/img/zuul-httprequest.png)\n\n### [NetflixOSS Hystrix Circuit Breaker](https://github.com/Netflix/Hystrix/wiki)\n![Hystric Circuit Breaker](http://advancedspark.com/img/hystrix.png)",
+      "dateUpdated": "May 17, 2016 11:54:07 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorHide": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463529025428_1551053821",
+      "id": "20160517-235025_1181359698",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eUtilizes \u003ca href\u003d\"https://github.com/Netflix\"\u003eNetflix Open Source\u003c/a\u003e\u003c/h2\u003e\n\u003ch3\u003e\u003ca href\u003d\"https://github.com/Netflix/zuul/wiki\"\u003eNetflixOSS Zuul Gateway\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/zuul-overview.png\" alt\u003d\"Netflix OSS Zuul Gateway Overview\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/zuul-core.png\" alt\u003d\"Netflix OSS Zuul Gateway Core\" /\u003e\n\u003cbr  /\u003e\u003cimg src\u003d\"http://advancedspark.com/img/zuul-httprequest.png\" alt\u003d\"Netflix OSS Zuul Gateway HttpRequest\" /\u003e\u003c/p\u003e\n\u003ch3\u003e\u003ca href\u003d\"https://github.com/Netflix/Hystrix/wiki\"\u003eNetflixOSS Hystrix Circuit Breaker\u003c/a\u003e\u003c/h3\u003e\n\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/hystrix.png\" alt\u003d\"Hystric Circuit Breaker\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "May 17, 2016 11:50:25 PM",
+      "dateStarted": "May 17, 2016 11:54:05 PM",
+      "dateFinished": "May 17, 2016 11:54:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1463529042107_809273265",
+      "id": "20160517-235042_1016002385",
+      "dateCreated": "May 17, 2016 11:50:42 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "* What is PipelineIO? *",
+  "id": "2BJUT3P52",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: zuul-server
+  cloud:
+    config:
+      enabled: false
+netflix:
+  appinfo:
+    name: ${spring.application.name}
+ribbon:
+  eureka:
+    enabled: false

@@ -1,0 +1,58 @@
+{
+  "paragraphs": [
+    {
+      "text": "%elasticsearch get /advancedspark/personalized-als/_search?q\u003duserId:12663",
+      "dateUpdated": "May 22, 2016 9:44:58 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456859168578_-350315456",
+      "id": "20160301-190608_163717146",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Document not found"
+      },
+      "dateCreated": "Mar 1, 2016 7:06:08 PM",
+      "dateStarted": "May 22, 2016 9:44:58 PM",
+      "dateFinished": "May 22, 2016 9:44:58 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456859201687_-1832875562",
+      "id": "20160301-190641_217342052",
+      "dateCreated": "Mar 1, 2016 7:06:41 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ZZ_Elasticsearch",
+  "id": "2BD537PTT",
+  "angularObjects": {
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": []
+  },
+  "config": {},
+  "info": {}
+}

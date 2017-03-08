@@ -1,0 +1,36 @@
+trainingInput:
+  # Use a cluster with many workers and a few parameter servers.
+  scaleTier: STANDARD_1
+  # Hyperparameter-tuning specification.
+  hyperparameters:
+    # Maximize the objective value.
+    goal: MAXIMIZE
+    # Run at most 10 trials with different hyperparameters.
+    maxTrials: 20
+    # Run two trials at a time.
+    maxParallelTrials: 2
+    params:
+      # Allow the size of the first hidden layer to vary between 40 and 400.
+      # One value in this range will be passed to each trial via the
+      # --hidden1 command-line flag.
+      - parameterName: hidden1
+        type: INTEGER
+        minValue: 40
+        maxValue: 400
+        scaleType: UNIT_LINEAR_SCALE
+      # Allow the size of the second hidden layer to vary between 5 and 250.
+      # One value in this range will be passed to each trial via the
+      # --hidden2 command-line flag.
+      - parameterName: hidden2
+        type: INTEGER
+        minValue: 5
+        maxValue: 250
+        scaleType: UNIT_LINEAR_SCALE
+      # Allow the learning rate to vary between 0.0001 and 0.5.
+      # One value in this range will be passed to each trial via the
+      # --learning_rate command-line flag.
+      - parameterName: learning-rate
+        type: DOUBLE
+        minValue: 0.0001
+        maxValue: 0.5
+        scaleType: UNIT_LOG_SCALE

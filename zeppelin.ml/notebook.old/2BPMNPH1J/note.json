@@ -1,0 +1,116 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ### Derived from the following:  \nhttps://github.com/tjhunter/tensorframes/wiki\nhttps://raw.githubusercontent.com/tjhunter/tensorframes/master/src/main/python",
+      "dateUpdated": "Jun 28, 2016 1:35:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465870255488_1589386576",
+      "id": "20160614-021055_833050404",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eDerived from the following:\u003c/h3\u003e\n\u003cp\u003ehttps://github.com/tjhunter/tensorframes/wiki\n\u003cbr  /\u003ehttps://raw.githubusercontent.com/tjhunter/tensorframes/master/src/main/python\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jun 14, 2016 2:10:55 AM",
+      "dateStarted": "Jun 28, 2016 1:35:12 AM",
+      "dateFinished": "Jun 28, 2016 1:35:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\n\"\"\"\nImplementation of the K-Means algorithm, while distributing the computations on a cluster.\n\nGiven a set of feature vectors, this algorithm runs the K-Means clustering algorithm starting\nfrom a given set of centroids.\n\"\"\"\n\nimport tensorflow as tf\nimport tensorframes as tfs\nimport numpy as np\n\ndef tf_compute_distances(points, start_centers):\n    \"\"\"\n    Given a set of points and some centroids, computes the distance from each point to each\n    centroid.\n\n    :param points: a 2d TF tensor of shape num_points x dim\n    :param start_centers: a numpy array of shape num_centroid x dim\n    :return: a TF tensor of shape num_points x num_centroids\n    \"\"\"\n    with tf.variable_scope(\"distances\"):\n        # The dimensions in the problem\n        (num_centroids, _) \u003d np.shape(start_centers)\n        # The shape of the block is extracted as a TF variable.\n        num_points \u003d tf.shape(points)[0]\n        # The centers are embedded in the TF program.\n        centers \u003d tf.constant(start_centers)\n        # Computation of the minimum distance. This is a standard implementation that follows\n        # what MLlib does.\n        squares \u003d tf.reduce_sum(tf.square(points), reduction_indices\u003d1)\n        center_squares \u003d tf.reduce_sum(tf.square(centers), reduction_indices\u003d1)\n        prods \u003d tf.matmul(points, centers, transpose_b \u003d True)\n        # This code simply expresses two outer products: center_squares * ones(num_points)\n        # and ones(num_centroids) * squares\n        t1a \u003d tf.expand_dims(center_squares, 0)\n        t1b \u003d tf.pack([num_points, 1])\n        t1 \u003d tf.tile(t1a, t1b)\n        t2a \u003d tf.expand_dims(squares, 1)\n        t2b \u003d tf.pack([1, num_centroids])\n        t2 \u003d tf.tile(t2a, t2b)\n        distances \u003d t1 + t2 - 2 * prods\n    return distances\n\n\ndef run_one_step(dataframe, start_centers):\n    \"\"\"\n    Performs one iteration of K-Means.\n\n    This function takes a dataframe with dense feature vectors, a set of centroids, and returns\n    a new set of centroids along with the total distance of points to centroids.\n\n    This function calculates for each point the closest centroid and then aggregates the newly\n    formed clusters to find the new centroids.\n\n    This function uses Spark to distribute the aggregation amongst the node.\n\n    :param dataframe: a dataframe containing a column of features (an array of doubles)\n    :param start_centers: a k x m matrix with k the number of centroids and m the number of features\n    :return: a k x m matrix, and a positive double\n    \"\"\"\n    # The dimensions in the problem\n    (num_centroids, num_features) \u003d np.shape(start_centers)\n    # For each feature vector, compute the nearest centroid and the distance to that centroid.\n    # The index of the nearest centroid is stored in the \u0027indexes\u0027 column.\n    # We also add a column of 1\u0027s that will be reduced later to count the number of elements in\n    # each cluster.\n    with tf.Graph().as_default() as g:\n        # The placeholder for the input: we use the block format\n        points \u003d tf.placeholder(tf.double, shape\u003d[None, num_features], name\u003d\u0027features\u0027)\n        # The shape of the block is extracted as a TF variable.\n        num_points \u003d tf.pack([tf.shape(points)[0]], name\u003d\"num_points\")\n        distances \u003d tf_compute_distances(points, start_centers)\n        # The outputs of the program.\n        # The closest centroids are extracted.\n        indexes \u003d tf.argmin(distances, 1, name\u003d\u0027indexes\u0027)\n        # This could be done based on the indexes as well.\n        min_distances \u003d tf.reduce_min(distances, 1, name\u003d\u0027min_distances\u0027)\n        counts \u003d tf.tile(tf.constant([1]), num_points, name\u003d\u0027count\u0027)\n        df2 \u003d tfs.map_blocks([indexes, counts, min_distances], dataframe)\n    # Perform the reduction: we regroup the point by their centroid indexes.\n    gb \u003d df2.groupBy(\"indexes\")\n    with tf.Graph().as_default() as g:\n        # Look at the documentation of tfs.aggregate for the naming conventions of the placeholders.\n        x_input \u003d tfs.block(df2, \"features\", tf_name\u003d\"features_input\")\n        count_input \u003d tfs.block(df2, \"count\", tf_name\u003d\"count_input\")\n        md_input \u003d tfs.block(df2, \"min_distances\", tf_name\u003d\"min_distances_input\")\n        # Each operation is just the sum.\n        x \u003d tf.reduce_sum(x_input, [0], name\u003d\u0027features\u0027)\n        count \u003d tf.reduce_sum(count_input, [0], name\u003d\u0027count\u0027)\n        min_distances \u003d tf.reduce_sum(md_input, [0], name\u003d\u0027min_distances\u0027)\n        df3 \u003d tfs.aggregate([x, count, min_distances], gb)\n    # Get the new centroids\n    df3_c \u003d df3.collect()\n    # The new centroids.\n    new_centers \u003d np.array([np.array(row.features) / row[\u0027count\u0027] for row in df3_c])\n    total_distances \u003d np.sum([row[\u0027min_distances\u0027] for row in df3_c])\n    return (new_centers, total_distances)\n\n\ndef run_one_step2(dataframe, start_centers):\n    \"\"\"\n    Performs one iteration of K-Means.\n\n    This function takes a dataframe with dense feature vectors, a set of centroids, and returns\n    a new set of centroids along with the total distance of points to centroids.\n\n    This function calculates for each point the closest centroid and then aggregates the newly\n    formed clusters to find the new centroids.\n\n    This function performs most of the aggregation in TensorFlow.\n\n    :param dataframe: a dataframe containing a column of features (an array of doubles)\n    :param start_centers: a k x m matrix with k the number of centroids and m the number of features\n    :return: a k x m matrix, and a positive double\n    \"\"\"\n    # The dimensions in the problem\n    (num_centroids, _) \u003d np.shape(start_centers)\n    # For each feature vector, compute the nearest centroid and the distance to that centroid.\n    # The index of the nearest centroid is stored in the \u0027indexes\u0027 column.\n    # We also add a column of 1\u0027s that will be reduced later to count the number of elements in\n    # each cluster.\n    with tf.Graph().as_default() as g:\n        # The placeholder for the input: we use the block format\n        points \u003d tf.placeholder(tf.double, shape\u003d[None, num_features], name\u003d\u0027features\u0027)\n        # The distances\n        distances \u003d tf_compute_distances(points, start_centers)\n        # The rest of this block performs a pre-aggregation step in TF, to limit the\n        # communication between TF and Spark.\n        # The closest centroids are extracted.\n        indexes \u003d tf.argmin(distances, 1, name\u003d\u0027indexes\u0027)\n        min_distances \u003d tf.reduce_min(distances, 1, name\u003d\u0027min_distances\u0027)\n        num_points \u003d tf.pack([tf.shape(points)[0]], name\u003d\"num_points\")\n        counts \u003d tf.tile(tf.constant([1]), num_points, name\u003d\u0027count\u0027)\n        # These compute the aggregate based on the indexes.\n        block_points \u003d tf.unsorted_segment_sum(points, indexes, num_centroids, name\u003d\"block_points\")\n        block_counts \u003d tf.unsorted_segment_sum(counts, indexes, num_centroids, name\u003d\"block_counts\")\n        block_distances \u003d tf.reduce_sum(min_distances, name\u003d\"block_distances\")\n        # One leading dimension is added to express the fact that the previous elements are just\n        # one row in the final dataframe.\n        # The final dataframe has one row per block.\n        agg_points \u003d tf.expand_dims(block_points, 0, name\u003d\"agg_points\")\n        agg_counts \u003d tf.expand_dims(block_counts, 0, name\u003d\"agg_counts\")\n        agg_distances \u003d tf.expand_dims(block_distances, 0, name\u003d\"agg_distances\")\n        # Using trimming to drop the original data (we are just returning one row of data per\n        # block).\n        df2 \u003d tfs.map_blocks([agg_points, agg_counts, agg_distances],\n                             dataframe, trim\u003dTrue)\n    # Now we simply collect and sum the elements\n    with tf.Graph().as_default() as g:\n        # Look at the documentation of tfs.aggregate for the naming conventions of the placeholders.\n        x_input \u003d tf.placeholder(tf.double,\n                                 shape\u003d[None, num_centroids, num_features],\n                                 name\u003d\u0027agg_points_input\u0027)\n        count_input \u003d tf.placeholder(tf.int32,\n                                     shape\u003d[None, num_centroids],\n                                     name\u003d\u0027agg_counts_input\u0027)\n        md_input \u003d tf.placeholder(tf.double,\n                                  shape\u003d[None],\n                                  name\u003d\u0027agg_distances_input\u0027)\n        # Each operation is just the sum.\n        x \u003d tf.reduce_sum(x_input, [0], name\u003d\u0027agg_points\u0027)\n        count \u003d tf.reduce_sum(count_input, [0], name\u003d\u0027agg_counts\u0027)\n        min_distances \u003d tf.reduce_sum(md_input, [0], name\u003d\u0027agg_distances\u0027)\n        (x_, count_, total_distances) \u003d tfs.reduce_blocks([x, count, min_distances], df2)\n    # The new centers\n    new_centers \u003d (x_.T / (count_ + 1e-7)).T\n    return (new_centers, total_distances)\n\n\ndef kmeanstf(dataframe, init_centers, num_iters \u003d 5, tf_aggregate \u003d True):\n    \"\"\"\n    Runs the K-Means algorithm on a set of feature points.\n\n    This function takes a dataframe with dense feature vectors, a set of centroids, and returns\n    a new set of centroids along with the total distance of points to centroids.\n\n    :param dataframe: a dataframe containing a column of features (an array of doubles)\n    :param init_centers: the centers to start from\n    :param num_iters:  the maximum number of iterations to run\n    :return: a k x m matrix, and a list of positive doubles\n    \"\"\"\n    step_fun \u003d run_one_step2 if tf_aggregate else run_one_step\n    c \u003d init_centers\n    d \u003d np.Inf\n    ds \u003d []\n    for i in range(num_iters):\n        (c1, d1) \u003d step_fun(dataframe, c)\n        print \"Step \u003d\", i, \", overall distance \u003d \", d1\n        c \u003d c1\n        if d \u003d\u003d d1:\n            break\n        d \u003d d1\n        ds.append(d1)\n    return c, ds\n\n# Here is a an example of usage:\n\nfrom pyspark.ml.clustering import KMeans, KMeansModel\nfrom pyspark.mllib.linalg import VectorUDT, _convert_to_vector\nfrom pyspark.sql.types import Row, StructField, StructType\nimport time\n\n# Small vectors\nnum_features \u003d 100\n# The number of clusters\nk \u003d 10\nnum_points \u003d 100000\nnum_iters \u003d 10\nFEATURES_COL \u003d \"features\"\n\nnp.random.seed(2)\nnp_data \u003d [x.tolist() for x in np.random.uniform(0.0, 1.0, size\u003d(num_points, num_features))]\nschema \u003d StructType([StructField(FEATURES_COL, VectorUDT(), False)])\nmllib_rows \u003d [Row(_convert_to_vector(x)) for x in np_data]\nmllib_df \u003d sqlContext.createDataFrame(mllib_rows, schema).coalesce(1).cache()\n\ndf \u003d sqlContext.createDataFrame([[r] for r in np_data]).toDF(FEATURES_COL).coalesce(1)\n# For now, analysis is still required. We cache the output because we are going to perform\n# multiple runs on the dataset.\ndf0 \u003d tfs.analyze(df).cache()\n\n\nmllib_df.count()\ndf0.count()\n\nnp.random.seed(2)\ninit_centers \u003d np.random.randn(k, num_features)\nstart_centers \u003d init_centers\ndataframe \u003d df0\n\nta_0 \u003d time.time()\nkmeans \u003d KMeans().setK(k).setSeed(1).setFeaturesCol(FEATURES_COL).setInitMode(\n        \"random\").setMaxIter(num_iters)\nmod \u003d kmeans.fit(mllib_df)\nta_1 \u003d time.time()\n\n#(c1, d1) \u003d run_one_step(dataframe, start_centers)\n#(c2, d2) \u003d run_one_step2(dataframe, start_centers)\ntb_0 \u003d time.time()\n(centers, agg_distances) \u003d kmeanstf(df0, init_centers, num_iters\u003dnum_iters, tf_aggregate\u003dFalse)\ntb_1 \u003d time.time()\n\ntc_0 \u003d time.time()\n(centers, agg_distances) \u003d kmeanstf(df0, init_centers, num_iters\u003dnum_iters, tf_aggregate\u003dTrue)\ntc_1 \u003d time.time()\n\nmllib_dt \u003d ta_1 - ta_0\ntf_dt \u003d tb_1 - tb_0\ntf2_dt \u003d tc_1 - tc_0\n\nprint \"mllib:\", mllib_dt, \"tf+spark:\",tf_dt, \"tf:\",tf2_dt\n",
+      "dateUpdated": "Jun 28, 2016 1:35:26 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465870267041_99254086",
+      "id": "20160614-021107_571320018",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Traceback (most recent call last):\n  File \"/tmp/zeppelin_pyspark.py\", line 223, in \u003cmodule\u003e\n    eval(compiledCode)\n  File \"\u003cstring\u003e\", line 7, in \u003cmodule\u003e\nImportError: No module named tensorframes\n"
+      },
+      "dateCreated": "Jun 14, 2016 2:11:07 AM",
+      "dateStarted": "Jun 28, 2016 1:35:26 AM",
+      "dateFinished": "Jun 28, 2016 1:35:26 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 28, 2016 1:35:12 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1465870425314_-1308695381",
+      "id": "20160614-021345_2133808631",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Jun 14, 2016 2:13:45 AM",
+      "dateStarted": "Jun 28, 2016 1:35:13 AM",
+      "dateFinished": "Jun 28, 2016 1:35:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TensorFrames/02: K-Means with TensorFrames",
+  "id": "2BPMNPH1J",
+  "angularObjects": {
+    "2BCMAZYZ5": [],
+    "2BDF8WQWY": [],
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {},
+  "info": {}
+}

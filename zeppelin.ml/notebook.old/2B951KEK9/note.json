@@ -1,0 +1,582 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md ![Similar Movies](http://advancedspark.com/img/similar-movies.png)",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457911529297_-669313699",
+      "id": "20160313-232529_1872608854",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"http://advancedspark.com/img/similar-movies.png\" alt\u003d\"Similar Movies\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 13, 2016 11:25:29 PM",
+      "dateStarted": "Jun 1, 2016 1:04:50 AM",
+      "dateFinished": "Jun 1, 2016 1:04:50 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Load dataset including tags",
+      "text": "val itemsDF \u003d sqlContext.read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(\"file:/root/pipeline/datasets/movielens/ml-latest/movies-sm.csv\")\n  .toDF(\"id\", \"title\", \"tags\")\n\nz.show(itemsDF)",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1060534387",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\ttitle\ttags\n1\tToy Story (1995)\tAdventure|Animation|Children|Comedy|Fantasy\n2\tJumanji (1995)\tAdventure|Children|Fantasy\n3\tGrumpier Old Men (1995)\tComedy|Romance\n4\tWaiting to Exhale (1995)\tComedy|Drama|Romance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction|Crime|Thriller\n7\tSabrina (1995)\tComedy|Romance\n8\tTom and Huck (1995)\tAdventure|Children\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction|Adventure|Thriller\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jun 1, 2016 1:04:50 AM",
+      "dateFinished": "Jun 1, 2016 1:04:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert CSV-based DataFrame into TaggedItems",
+      "text": "import org.apache.spark.sql.Row\nimport com.advancedspark.ml.TaggedItem\nimport org.apache.spark.sql.functions._\n\nval itemsWithTagsDF \u003d itemsDF.select($\"id\", $\"title\", $\"tags\").map(row \u003d\u003e {\n  val id \u003d row.getInt(0)\n  val title \u003d row.getString(1)\n  val tags \u003d row.getString(2).trim.split(\"\\\\|\")\n  TaggedItem(id, title, tags)\n}).toDF(\"itemId\", \"title\", \"tags\")\n.as(\"itemsWithTags\")\n\nitemsWithTagsDF.registerTempTable(\"itemsWithTags\")\nval itemsWithExplodedTagsDF \u003d sqlContext.sql(\"SELECT itemId, title, explode(tags) as tag FROM itemsWithTags\") \n\nz.show(itemsWithExplodedTagsDF)",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_2030491697",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttag\n1\tToy Story (1995)\tAdventure\n1\tToy Story (1995)\tAnimation\n1\tToy Story (1995)\tChildren\n1\tToy Story (1995)\tComedy\n1\tToy Story (1995)\tFantasy\n2\tJumanji (1995)\tAdventure\n2\tJumanji (1995)\tChildren\n2\tJumanji (1995)\tFantasy\n3\tGrumpier Old Men (1995)\tComedy\n3\tGrumpier Old Men (1995)\tRomance\n4\tWaiting to Exhale (1995)\tComedy\n4\tWaiting to Exhale (1995)\tDrama\n4\tWaiting to Exhale (1995)\tRomance\n5\tFather of the Bride Part II (1995)\tComedy\n6\tHeat (1995)\tAction\n6\tHeat (1995)\tCrime\n6\tHeat (1995)\tThriller\n7\tSabrina (1995)\tComedy\n7\tSabrina (1995)\tRomance\n8\tTom and Huck (1995)\tAdventure\n8\tTom and Huck (1995)\tChildren\n9\tSudden Death (1995)\tAction\n10\tGoldenEye (1995)\tAction\n10\tGoldenEye (1995)\tAdventure\n10\tGoldenEye (1995)\tThriller\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jun 1, 2016 1:04:50 AM",
+      "dateFinished": "Jun 1, 2016 1:04:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Distribution of tags within dataset",
+      "text": "val tagCountDF \u003d itemsWithExplodedTagsDF.groupBy($\"itemId\", $\"tag\").count()\nz.show(tagCountDF.select($\"tag\", $\"count\"))",
+      "dateUpdated": "Jun 1, 2016 1:05:12 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "yAxis": {
+              "name": "count",
+              "index": 1.0,
+              "aggr": "sum"
+            },
+            "xAxis": {
+              "name": "tag",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1205734711",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "tag\tcount\nRomance\t1\nChildren\t1\nFantasy\t1\nAnimation\t1\nAction\t1\nAdventure\t1\nComedy\t1\nChildren\t1\nDrama\t1\nAction\t1\nChildren\t1\nComedy\t1\nAdventure\t1\nCrime\t1\nRomance\t1\nComedy\t1\nAdventure\t1\nThriller\t1\nComedy\t1\nAdventure\t1\nRomance\t1\nFantasy\t1\nAction\t1\nThriller\t1\nComedy\t1\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jun 1, 2016 1:04:52 AM",
+      "dateFinished": "Jun 1, 2016 1:04:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert Tag Strings to Indexes",
+      "text": "import org.apache.spark.ml.feature.StringIndexer\n\nval tagIndexer \u003d new StringIndexer()\n  .setInputCol(\"tag\")\n  .setOutputCol(\"tagIndex\")",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498049612_-111932803",
+      "id": "20160309-043409_575471273",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.StringIndexer\ntagIndexer: org.apache.spark.ml.feature.StringIndexer \u003d strIdx_470b0a354ec9\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:34:09 AM",
+      "dateStarted": "Jun 1, 2016 1:04:57 AM",
+      "dateFinished": "Jun 1, 2016 1:05:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "One-Hot Encode the Tag Indexes Into binary vectors",
+      "text": "import org.apache.spark.ml.feature.OneHotEncoder\n\nval oneHotEncoder \u003d new OneHotEncoder()\n  .setInputCol(tagIndexer.getOutputCol)\n  .setOutputCol(\"tagsOneHotEncoded\")\n  .setDropLast(false)",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498342824_1758745353",
+      "id": "20160309-043902_1173974218",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.feature.OneHotEncoder\noneHotEncoder: org.apache.spark.ml.feature.OneHotEncoder \u003d oneHot_c7ac4809c9c9\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:39:02 AM",
+      "dateStarted": "Jun 1, 2016 1:05:00 AM",
+      "dateFinished": "Jun 1, 2016 1:05:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Transform Features Using Pipeline",
+      "text": "import org.apache.spark.ml.Pipeline\n\nval pipeline \u003d new Pipeline()\n  .setStages(Array(tagIndexer, oneHotEncoder))\n  \nval pipelineModel \u003d pipeline.fit(itemsWithExplodedTagsDF)\nval resultsDF \u003d pipelineModel.transform(itemsWithExplodedTagsDF)\nz.show(resultsDF.select(\"*\").sort($\"itemId\" asc))",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457498638811_-405489636",
+      "id": "20160309-044358_87162211",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttag\ttagIndex\ttagsOneHotEncoded\n1\tToy Story (1995)\tComedy\t0.0\t(10,[0],[1.0])\n1\tToy Story (1995)\tAnimation\t7.0\t(10,[7],[1.0])\n1\tToy Story (1995)\tFantasy\t6.0\t(10,[6],[1.0])\n1\tToy Story (1995)\tChildren\t3.0\t(10,[3],[1.0])\n1\tToy Story (1995)\tAdventure\t1.0\t(10,[1],[1.0])\n2\tJumanji (1995)\tFantasy\t6.0\t(10,[6],[1.0])\n2\tJumanji (1995)\tAdventure\t1.0\t(10,[1],[1.0])\n2\tJumanji (1995)\tChildren\t3.0\t(10,[3],[1.0])\n3\tGrumpier Old Men (1995)\tComedy\t0.0\t(10,[0],[1.0])\n3\tGrumpier Old Men (1995)\tRomance\t2.0\t(10,[2],[1.0])\n4\tWaiting to Exhale (1995)\tComedy\t0.0\t(10,[0],[1.0])\n4\tWaiting to Exhale (1995)\tRomance\t2.0\t(10,[2],[1.0])\n4\tWaiting to Exhale (1995)\tDrama\t8.0\t(10,[8],[1.0])\n5\tFather of the Bride Part II (1995)\tComedy\t0.0\t(10,[0],[1.0])\n6\tHeat (1995)\tThriller\t5.0\t(10,[5],[1.0])\n6\tHeat (1995)\tCrime\t9.0\t(10,[9],[1.0])\n6\tHeat (1995)\tAction\t4.0\t(10,[4],[1.0])\n7\tSabrina (1995)\tComedy\t0.0\t(10,[0],[1.0])\n7\tSabrina (1995)\tRomance\t2.0\t(10,[2],[1.0])\n8\tTom and Huck (1995)\tChildren\t3.0\t(10,[3],[1.0])\n8\tTom and Huck (1995)\tAdventure\t1.0\t(10,[1],[1.0])\n9\tSudden Death (1995)\tAction\t4.0\t(10,[4],[1.0])\n10\tGoldenEye (1995)\tAction\t4.0\t(10,[4],[1.0])\n10\tGoldenEye (1995)\tAdventure\t1.0\t(10,[1],[1.0])\n10\tGoldenEye (1995)\tThriller\t5.0\t(10,[5],[1.0])\n"
+      },
+      "dateCreated": "Mar 9, 2016 4:43:58 AM",
+      "dateStarted": "Jun 1, 2016 1:05:00 AM",
+      "dateFinished": "Jun 1, 2016 1:05:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Combine One-Hot Encoded Tag Vectors for each Item",
+      "text": "import org.apache.spark.mllib.linalg.SparseVector\nimport org.apache.spark.mllib.linalg.Vectors\nimport org.jblas.DoubleMatrix\n\nval itemsWithTagsOneHotEncodedCombinedDF \u003d resultsDF.map{ \n  case Row(itemId: Long, title: String, tag: String, tagIndex: Double, tagsOneHotEncoded: SparseVector) \u003d\u003e \n    (itemId, (new DoubleMatrix(tagsOneHotEncoded.toDense.values)))\n  }.reduceByKey((tagsOneHotEncodedDoubleMatrix1, tagsOneHotEncodedDoubleMatrix2) \u003d\u003e \n    tagsOneHotEncodedDoubleMatrix1.ori(tagsOneHotEncodedDoubleMatrix2)\n  ).mapValues(tagsOneHotEncodedDoubleMatrixCombined \u003d\u003e Vectors.dense(tagsOneHotEncodedDoubleMatrixCombined.toArray))\n  .toDF(\"itemId\", \"tagsOneHotEncodedCombined\").as(\"oneHotEncodedCombined\")\n\nval joinedResultsWithTagsOneHotEncodedCombinedDF \u003d itemsWithTagsDF\n  .join(itemsWithTagsOneHotEncodedCombinedDF, $\"itemsWithTags.itemId\" \u003d\u003d\u003d $\"oneHotEncodedCombined.itemId\")\n\nz.show(joinedResultsWithTagsOneHotEncodedCombinedDF\n  .select($\"itemsWithTags.itemId\", $\"title\", $\"tags\", $\"tagsOneHotEncodedCombined\").sort($\"itemId\" asc))",
+      "dateUpdated": "Jun 1, 2016 1:04:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "itemId",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457889852512_958361843",
+      "id": "20160313-172412_2097246166",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "itemId\ttitle\ttags\ttagsOneHotEncodedCombined\n1\tToy Story (1995)\tWrappedArray(Adventure, Animation, Children, Comedy, Fantasy)\t[1.0,1.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0]\n2\tJumanji (1995)\tWrappedArray(Adventure, Children, Fantasy)\t[0.0,1.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0]\n3\tGrumpier Old Men (1995)\tWrappedArray(Comedy, Romance)\t[1.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]\n4\tWaiting to Exhale (1995)\tWrappedArray(Comedy, Drama, Romance)\t[1.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0]\n5\tFather of the Bride Part II (1995)\tWrappedArray(Comedy)\t[1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]\n6\tHeat (1995)\tWrappedArray(Action, Crime, Thriller)\t[0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,1.0]\n7\tSabrina (1995)\tWrappedArray(Comedy, Romance)\t[1.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]\n8\tTom and Huck (1995)\tWrappedArray(Adventure, Children)\t[0.0,1.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0]\n9\tSudden Death (1995)\tWrappedArray(Action)\t[0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0]\n10\tGoldenEye (1995)\tWrappedArray(Action, Adventure, Thriller)\t[0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0]\n"
+      },
+      "dateCreated": "Mar 13, 2016 5:24:12 PM",
+      "dateStarted": "Jun 1, 2016 1:05:00 AM",
+      "dateFinished": "Jun 1, 2016 1:05:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Use Cross Validation to Find best k-means Cluster model Based on WSSSE",
+      "text": "import org.apache.spark.ml.clustering.KMeans\n\nval kmeans \u003d new KMeans()\n  .setFeaturesCol(\"tagsOneHotEncodedCombined\")\n  .setPredictionCol(\"clusterId\")\n\nval possibleNumClusters \u003d Seq(5, 10)\nval possibleMaxIterations \u003d Seq(15, 20)\n\nval results \u003d \n  for { \n    numClusters \u003c- possibleNumClusters\n    maxIterations \u003c- possibleMaxIterations\n  } yield {\n      kmeans.setK(numClusters)\n      kmeans.setMaxIter(maxIterations)\n      val kmeansModel \u003d kmeans.fit(joinedResultsWithTagsOneHotEncodedCombinedDF)\n      val WSSSE \u003d kmeansModel.computeCost(joinedResultsWithTagsOneHotEncodedCombinedDF)\n      (WSSSE, numClusters, maxIterations, kmeansModel)\n  }\n  \nval (bestWSSSE, bestNumClusters, bestMaxIterations, bestKMeansModel) \u003d results.sortBy(_._1).toSeq(0)",
+      "dateUpdated": "Jun 1, 2016 1:04:51 AM",
+      "config": {
+        "tableHide": false,
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 342.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "yAxis": {
+              "name": "title",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_1801101308",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.ml.clustering.KMeans\nkmeans: org.apache.spark.ml.clustering.KMeans \u003d kmeans_09d5c7585ddb\npossibleNumClusters: Seq[Int] \u003d List(5, 10)\npossibleMaxIterations: Seq[Int] \u003d List(15, 20)\nresults: Seq[(Double, Int, Int, org.apache.spark.ml.clustering.KMeansModel)] \u003d List((2.9999999999999982,5,15,kmeans_09d5c7585ddb), (2.9999999999999982,5,20,kmeans_09d5c7585ddb), (0.0,10,15,kmeans_09d5c7585ddb), (0.0,10,20,kmeans_09d5c7585ddb))\nbestWSSSE: Double \u003d 0.0\nbestNumClusters: Int \u003d 10\nbestMaxIterations: Int \u003d 15\nbestKMeansModel: org.apache.spark.ml.clustering.KMeansModel \u003d kmeans_09d5c7585ddb\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jun 1, 2016 1:05:03 AM",
+      "dateFinished": "Jun 1, 2016 1:06:16 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Show results for best k-means model",
+      "text": "val kmeansClusters \u003d bestKMeansModel.transform(joinedResultsWithTagsOneHotEncodedCombinedDF)\n\nz.show(kmeansClusters.select($\"clusterId\", $\"title\", $\"tags\").sort($\"clusterId\" asc))",
+      "dateUpdated": "Jun 1, 2016 1:04:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "clusterId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452399241202_1486008097",
+      "id": "20160110-041401_662280891",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "clusterId\ttitle\ttags\n0\tTom and Huck (1995)\tWrappedArray(Adventure, Children)\n1\tGrumpier Old Men (1995)\tWrappedArray(Comedy, Romance)\n1\tSabrina (1995)\tWrappedArray(Comedy, Romance)\n2\tHeat (1995)\tWrappedArray(Action, Crime, Thriller)\n3\tFather of the Bride Part II (1995)\tWrappedArray(Comedy)\n4\tSudden Death (1995)\tWrappedArray(Action)\n5\tToy Story (1995)\tWrappedArray(Adventure, Animation, Children, Comedy, Fantasy)\n6\tWaiting to Exhale (1995)\tWrappedArray(Comedy, Drama, Romance)\n7\tGoldenEye (1995)\tWrappedArray(Action, Adventure, Thriller)\n8\tJumanji (1995)\tWrappedArray(Adventure, Children, Fantasy)\n"
+      },
+      "dateCreated": "Jan 10, 2016 4:14:01 AM",
+      "dateStarted": "Jun 1, 2016 1:05:08 AM",
+      "dateFinished": "Jun 1, 2016 1:06:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 1, 2016 1:04:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457912061846_114582919",
+      "id": "20160313-233421_896524067",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 13, 2016 11:34:21 PM",
+      "dateStarted": "Jun 1, 2016 1:06:16 AM",
+      "dateFinished": "Jun 1, 2016 1:06:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Clustering/05: Clustering by Tags (K-Means)",
+  "id": "2B951KEK9",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

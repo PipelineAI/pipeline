@@ -1,0 +1,585 @@
+{
+  "paragraphs": [
+    {
+      "title": "Most Desirable Users By PageRank of Like Graph",
+      "text": "%md ![Most Desirable Users](https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": false,
+        "editorMode": "ace/mode/markdown",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977492747_2053618668",
+      "id": "20150704-023812_81431125",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u003cimg src\u003d\"https://raw.githubusercontent.com/cfregly/spark-after-dark/master/img/pagerank.png\" alt\u003d\"Most Desirable Users\" /\u003e\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jul 4, 2015 2:38:12 AM",
+      "dateStarted": "Jul 10, 2016 10:39:47 PM",
+      "dateFinished": "Jul 10, 2016 10:39:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// likeProducer :: likeConsumer\nval likesDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/likes.csv\")\n  .toDF(\"userId\", \"itemId\", \"rating\")\n  \n// id :: userName\nval usersDF \u003d sqlContext.read\n  .format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"false\") \n  .option(\"inferSchema\", \"true\") \n  .load(\"/root/pipeline/datasets/graph/users.csv\")\n  .toDF(\"id\", \"name\")",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "editorHide": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1451269574078_-1106140320",
+      "id": "20151228-022614_207172186",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "likesDF: org.apache.spark.sql.DataFrame \u003d [userId: int, itemId: int, rating: int]\nusersDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string]\n"
+      },
+      "dateCreated": "Dec 28, 2015 2:26:14 AM",
+      "dateStarted": "Jul 10, 2016 10:39:47 PM",
+      "dateFinished": "Jul 10, 2016 10:39:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create a Graph from A dataFrame of vertices",
+      "text": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\n\n// Create edgeTuples from the ratings - include only ratings \u003d 1 (rating is 0 or 1, in this case)\nval edgeTuples \u003d likesDF.filter(\"rating \u003d 1\").map(rating \u003d\u003e (rating(0).toString.toLong, rating(1).toString.toLong))\n\n// Create a Graph from the edgeTuples\nval graph \u003d Graph.fromEdgeTuples(edgeTuples, 0L, Some(PartitionStrategy.RandomVertexCut))\ngraph.cache()\n\nz.show(edgeTuples)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": false,
+        "tableHide": false,
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1435977512315_408062946",
+      "id": "20150704-023832_2082939526",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.graphx._\nimport org.apache.spark.graphx.util._\nedgeTuples: org.apache.spark.rdd.RDD[(Long, Long)] \u003d MapPartitionsRDD[988] at map at \u003cconsole\u003e:55\ngraph: org.apache.spark.graphx.Graph[Long,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@6f54fb3b\nres158: org.apache.spark.graphx.Graph[Long,Int] \u003d org.apache.spark.graphx.impl.GraphImpl@6f54fb3b\nMapPartitionsRDD[988] at map at \u003cconsole\u003e:55"
+      },
+      "dateCreated": "Jul 4, 2015 2:38:32 AM",
+      "dateStarted": "Jul 10, 2016 10:39:47 PM",
+      "dateFinished": "Jul 10, 2016 10:39:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.graphx._\r\n\r\nimport scala.reflect.ClassTag\r\n\r\ndef drawGraph[VD:ClassTag,ED:ClassTag](graph:Graph[VD,ED]) \u003d {\r\n  val u \u003d java.util.UUID.randomUUID\r\n  val v \u003d graph.vertices.collect.map(_._1)\r\n  println(\"\"\"%html\r\n\u003cdiv id\u003d\u0027a\"\"\" + u + \"\"\"\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\r\n\u003cstyle\u003e\r\n.node circle { fill: green; }\r\n.node text { font: 10px sans-serif;\r\n             text-anchor: middle;\r\n             fill: white; }\r\nline.link { stroke: red;\r\n            stroke-width: 1.5px; }\r\n\u003c/style\u003e\r\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\r\n\u003cscript\u003e\r\nvar width \u003d 960, height \u003d 500;\r\n\r\nvar svg \u003d d3.select(\"#a\"\"\" + u + \"\"\"\").append(\"svg\")\r\n    .attr(\"width\", width).attr(\"height\", height);\r\n\r\nvar nodes \u003d [\"\"\" + v.map(\"{id:\" + _ + \"}\").mkString(\",\") + \"\"\"];\r\nvar links \u003d [\"\"\" + graph.edges.collect.map(\r\n  e \u003d\u003e \"{source:nodes[\" + v.indexWhere(_ \u003d\u003d e.srcId) + \"],target:nodes[\" +\r\n       v.indexWhere(_ \u003d\u003d e.dstId) + \"]}\").mkString(\",\") + \"\"\"];\r\n\r\nvar link \u003d svg.selectAll(\".link\").data(links);\r\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\r\n\r\nvar node \u003d svg.selectAll(\".node\").data(nodes);\r\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\r\n\r\nnodeEnter.append(\"circle\").attr(\"r\", 20);\r\n\r\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\r\n         .text(function(d) { return d.id; });\r\n\r\nd3.layout.force().linkDistance(250).charge(-300).chargeDistance(200)\r\n   .friction(0.5).linkStrength(0.4).size([width, height])\r\n   .on(\"tick\", function() {\r\n      link.attr(\"x1\", function(d) { return d.source.x; })\r\n          .attr(\"y1\", function(d) { return d.source.y; })\r\n          .attr(\"x2\", function(d) { return d.target.x; })\r\n          .attr(\"y2\", function(d) { return d.target.y; });\r\n      node.attr(\"transform\", function(d) {\r\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\r\n      });\r\n   }).nodes(nodes).links(links).start();\r\n\u003c/script\u003e\r\n\"\"\")\r\n}\r\n\r\ndrawGraph(graph)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1456471383298_1819921555",
+      "id": "20160226-072303_450147146",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cdiv id\u003d\u0027ae0b691bb-3f1c-4c80-93ee-d8edd65b13be\u0027 style\u003d\u0027width:960px; height:500px\u0027\u003e\u003c/div\u003e\n\u003cstyle\u003e\n.node circle { fill: green; }\n.node text { font: 10px sans-serif;\n             text-anchor: middle;\n             fill: white; }\nline.link { stroke: red;\n            stroke-width: 1.5px; }\n\u003c/style\u003e\n\u003cscript src\u003d\"//d3js.org/d3.v3.min.js\"\u003e\u003c/script\u003e\n\u003cscript\u003e\nvar width \u003d 960, height \u003d 500;\n\nvar svg \u003d d3.select(\"#ae0b691bb-3f1c-4c80-93ee-d8edd65b13be\").append(\"svg\")\n    .attr(\"width\", width).attr(\"height\", height);\n\nvar nodes \u003d [{id:10002},{id:90002},{id:90004},{id:90006},{id:10006},{id:10004},{id:10001},{id:90005},{id:90001},{id:90003},{id:10003},{id:10005}];\nvar links \u003d [{source:nodes[0],target:nodes[8]},{source:nodes[0],target:nodes[2]},{source:nodes[8],target:nodes[0]},{source:nodes[8],target:nodes[10]},{source:nodes[8],target:nodes[5]},{source:nodes[2],target:nodes[5]},{source:nodes[2],target:nodes[11]},{source:nodes[6],target:nodes[8]},{source:nodes[6],target:nodes[9]},{source:nodes[0],target:nodes[1]},{source:nodes[0],target:nodes[7]},{source:nodes[0],target:nodes[3]},{source:nodes[4],target:nodes[3]}];\n\nvar link \u003d svg.selectAll(\".link\").data(links);\nlink.enter().insert(\"line\", \".node\").attr(\"class\", \"link\");\n\nvar node \u003d svg.selectAll(\".node\").data(nodes);\nvar nodeEnter \u003d node.enter().append(\"g\").attr(\"class\", \"node\")\n\nnodeEnter.append(\"circle\").attr(\"r\", 20);\n\nnodeEnter.append(\"text\").attr(\"dy\", \"0.35em\")\n         .text(function(d) { return d.id; });\n\nd3.layout.force().linkDistance(250).charge(-300).chargeDistance(200)\n   .friction(0.5).linkStrength(0.4).size([width, height])\n   .on(\"tick\", function() {\n      link.attr(\"x1\", function(d) { return d.source.x; })\n          .attr(\"y1\", function(d) { return d.source.y; })\n          .attr(\"x2\", function(d) { return d.target.x; })\n          .attr(\"y2\", function(d) { return d.target.y; });\n      node.attr(\"transform\", function(d) {\n        return \"translate(\" + d.x + \",\" + d.y + \")\";\n      });\n   }).nodes(nodes).links(links).start();\n\u003c/script\u003e\n\n"
+      },
+      "dateCreated": "Feb 26, 2016 7:23:03 AM",
+      "dateStarted": "Jul 10, 2016 10:39:49 PM",
+      "dateFinished": "Jul 10, 2016 10:39:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Run PageRank On the Graph",
+      "text": "// Setup parameters for PageRank\nval convergenceThreshold \u003d 0.01\n\n// Run PageRank\nval pageRank \u003d graph.pageRank(convergenceThreshold).cache()",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452910281722_265653143",
+      "id": "20160116-021121_1389904098",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "convergenceThreshold: Double \u003d 0.01\npageRank: org.apache.spark.graphx.Graph[Double,Double] \u003d org.apache.spark.graphx.impl.GraphImpl@464779ec\n"
+      },
+      "dateCreated": "Jan 16, 2016 2:11:21 AM",
+      "dateStarted": "Jul 10, 2016 10:39:51 PM",
+      "dateFinished": "Jul 10, 2016 10:39:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Extract and Enrich the Top Influencers",
+      "text": "// Get the Top 10 Influencers\nval topInfluencers \u003d pageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topInfluencersDF \u003d sc.parallelize(topInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedTopInfluencersDF \u003d topInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedTopInfluencersDF)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1446485309012_-592908703",
+      "id": "20151102-172829_1066190094",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tname\trank\n90006\tKimberly\t0.31452387499999995\n10004\tChris\t0.292375\n90001\tLisa\t0.250773875\n10005\tPaco\t0.2245875\n10003\tPat\t0.2177875\n"
+      },
+      "dateCreated": "Nov 2, 2015 5:28:29 PM",
+      "dateStarted": "Jul 10, 2016 10:39:53 PM",
+      "dateFinished": "Jul 10, 2016 10:39:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Personalized PageRank Starting From A Given Vertex with Outbound Links",
+      "text": "// Personalized PageRank \n\n// 0.15 \u003d (1 - 0.85 “Damping Factor”)\n// 85% Probability: Choose Among Outbound Network\n// 15% Probability: Choose Self or Random\n\nval personalizedPageRank \u003d graph.personalizedPageRank(10001, convergenceThreshold)\nval topPersonalizedInfluencers \u003d personalizedPageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topPersonalizedInfluencersDF \u003d sc.parallelize(topPersonalizedInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedPersonalizedTopInfluencersDF \u003d topPersonalizedInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedPersonalizedTopInfluencersDF)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457207637944_-463575545",
+      "id": "20160305-195357_179557151",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tname\trank\n10001\tTony\t0.15\n90003\tPaula\t0.06375\n10002\tMike\t0.0180625\n10003\tPat\t0.0180625\n10004\tChris\t0.0180625\n"
+      },
+      "dateCreated": "Mar 5, 2016 7:53:57 PM",
+      "dateStarted": "Jul 10, 2016 10:39:55 PM",
+      "dateFinished": "Jul 10, 2016 10:40:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Personalized PageRank Starting from a given vertex with no outbound links",
+      "text": "// Personalized PageRank with No Outboud Links\n\n// 0.15 \u003d (1 - 0.85 “Damping Factor”)\n// 85% Probability: Choose Among Outbound Network\n// 15% Probability: Choose Self or Random\n\nval personalizedPageRank \u003d graph.personalizedPageRank(10004, convergenceThreshold)\nval topPersonalizedInfluencers \u003d personalizedPageRank.vertices.top(5)(Ordering.by(rank \u003d\u003e rank._2))\nval topPersonalizedInfluencersDF \u003d sc.parallelize(topPersonalizedInfluencers).toDF(\"itemId\", \"rank\")\n\nval enrichedPersonalizedTopInfluencersDF \u003d topPersonalizedInfluencersDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"itemId\")\n  .select($\"id\", $\"name\", $\"rank\")\n  .sort($\"rank\" desc)\n  \nz.show(enrichedPersonalizedTopInfluencersDF)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "id",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorHide": false,
+        "tableHide": false,
+        "editorMode": "ace/mode/scala",
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1443328008701_-1015777802",
+      "id": "20150927-042648_1970470505",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tname\trank\n10004\tChris\t0.15\n90001\tLisa\t0.0\n90003\tPaula\t0.0\n10003\tPat\t0.0\n90005\tAllman\t0.0\n"
+      },
+      "dateCreated": "Sep 27, 2015 4:26:48 AM",
+      "dateStarted": "Jul 10, 2016 10:39:58 PM",
+      "dateFinished": "Jul 10, 2016 10:40:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Convert to GraphFrame",
+      "text": "import org.graphframes.GraphFrame\n\nval graphFrame \u003d GraphFrame.fromGraphX(graph)",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457142729071_-1546509004",
+      "id": "20160305-015209_1265464886",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.graphframes.GraphFrame\ngraphFrame: org.graphframes.GraphFrame \u003d GraphFrame(v:[id: bigint, attr: bigint], e:[src: bigint, dst: bigint, attr: int])\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:52:09 AM",
+      "dateStarted": "Jul 10, 2016 10:40:02 PM",
+      "dateFinished": "Jul 10, 2016 10:40:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Overall PageRank with GraphFrame",
+      "text": "val pageRankGraphFrameDF \u003d graphFrame.pageRank.tol(convergenceThreshold).run()\n  .vertices.select($\"id\" as \"userId\", $\"pagerank\").sort($\"pagerank\" desc).limit(5)\n\nval enrichedPageRankGraphFrameDF \u003d pageRankGraphFrameDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"userId\")\n  .select($\"userId\", $\"name\", $\"pagerank\")\n  .sort($\"pagerank\" desc)\n  \nz.show(enrichedPageRankGraphFrameDF)\n",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457205688704_558512936",
+      "id": "20160305-192128_623468231",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tname\tpagerank\n90006\tKimberly\t0.31452387499999995\n10004\tChris\t0.292375\n90001\tLisa\t0.250773875\n10005\tPaco\t0.2245875\n10003\tPat\t0.2177875\n"
+      },
+      "dateCreated": "Mar 5, 2016 7:21:28 PM",
+      "dateStarted": "Jul 10, 2016 10:40:05 PM",
+      "dateFinished": "Jul 10, 2016 10:40:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Personalized PageRank From Given Vertex",
+      "text": "val personalizedPageRankDF \u003d graphFrame.pageRank.sourceId(10001).tol(convergenceThreshold).run()\n  .vertices.select($\"id\" as \"userId\", $\"pagerank\").sort($\"pagerank\" desc).limit(5)\n\nval enrichedPersonalizedPageRankDF \u003d personalizedPageRankDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"userId\")\n  .select($\"userId\", $\"name\", $\"pagerank\")\n  .sort($\"pagerank\" desc)\n  \nz.show(enrichedPersonalizedPageRankDF)\n",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "name",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "userId",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457143114026_-1553265919",
+      "id": "20160305-015834_1682433980",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tname\tpagerank\n10001\tTony\t0.15\n90003\tPaula\t0.06375\n10002\tMike\t0.0180625\n10004\tChris\t0.0180625\n10003\tPat\t0.0180625\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:58:34 AM",
+      "dateStarted": "Jul 10, 2016 10:40:05 PM",
+      "dateFinished": "Jul 10, 2016 10:40:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Personalized PageRank From Given Vertex with no Outbound Links",
+      "text": "val personalizedPageRankDF \u003d graphFrame.pageRank.sourceId(10004).tol(convergenceThreshold).run()\n  .vertices.select($\"id\" as \"userId\", $\"pagerank\").sort($\"pagerank\" desc).limit(5)\n\nval enrichedPersonalizedPageRankDF \u003d personalizedPageRankDF.join(usersDF, $\"id\" \u003d\u003d\u003d $\"userId\")\n  .select($\"userId\", $\"name\", $\"pagerank\")\n  .sort($\"pagerank\" desc)\n  \nz.show(enrichedPersonalizedPageRankDF)\n",
+      "dateUpdated": "Jul 10, 2016 10:39:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457143181323_-685610653",
+      "id": "20160305-015941_390658388",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "userId\tname\tpagerank\n10004\tChris\t0.15\n90002\tCindy\t0.0\n90004\tLeslie\t0.0\n10002\tMike\t0.0\n90001\tLisa\t0.0\n"
+      },
+      "dateCreated": "Mar 5, 2016 1:59:41 AM",
+      "dateStarted": "Jul 10, 2016 10:40:09 PM",
+      "dateFinished": "Jul 10, 2016 10:40:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jul 10, 2016 10:39:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1457241552511_980370338",
+      "id": "20160306-051912_597492415",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 6, 2016 5:19:12 AM",
+      "dateStarted": "Jul 10, 2016 10:40:12 PM",
+      "dateFinished": "Jul 10, 2016 10:40:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Graph/01:  Top Influencers (Global and Personalized Page Rank)",
+  "id": "2ASEWJ19K",
+  "angularObjects": {
+    "2ARR8UZDJ": [],
+    "2AS9P7JSA": [],
+    "2AR33ZMZJ": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
