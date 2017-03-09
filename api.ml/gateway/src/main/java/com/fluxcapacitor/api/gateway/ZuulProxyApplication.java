@@ -3,7 +3,7 @@ package com.fluxcapacitor.api.gateway;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.netflix.zuul.EnableZuulServer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -13,9 +13,8 @@ import org.springframework.stereotype.Controller;
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @Controller
-@EnableZuulProxy
+@EnableZuulServer
 public class ZuulProxyApplication {
-
   public static void main(String[] args) {
     new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
   }

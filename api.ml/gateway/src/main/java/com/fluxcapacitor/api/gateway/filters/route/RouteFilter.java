@@ -3,8 +3,13 @@ package com.fluxcapacitor.api.gateway.filters.route;
 import com.netflix.zuul.ZuulFilter;
 //import org.springframework.web.servlet.support.RequestContext;
 //import javax.servlet.http.HttpServletRequest;
-
+//
+//  http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
+//
 public class RouteFilter extends ZuulFilter {  
+//    @Autowired
+//    private ProxyRequestHelper helper;
+
     @Override
     public String filterType() {
         return "route";

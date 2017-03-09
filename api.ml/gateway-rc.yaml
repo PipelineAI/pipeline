@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: gateway 
+  name: api-gateway 
   labels:
-    app: gateway
+    app: api-gateway
 spec:
   replicas: 1
   selector:
-    name: gateway
+    name: api-gateway
   template:
     metadata:
       labels:
-        name: gateway 
+        name: api-gateway 
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
