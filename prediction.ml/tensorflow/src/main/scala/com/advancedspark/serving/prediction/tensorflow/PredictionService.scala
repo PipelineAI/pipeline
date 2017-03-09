@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod
 import io.prometheus.client.hotspot.StandardExports
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy
-
+//import org.springframework.cloud.netflix.zuul.EnableZuulProxy
 
 @SpringBootApplication
 @RestController
 @EnableHystrix
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector	
-@EnableZuulProxy
+//@EnableZuulProxy
 class PredictionService {
   val modelRegistry = new scala.collection.mutable.HashMap[String, Array[Byte]]
 
