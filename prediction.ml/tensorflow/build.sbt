@@ -13,28 +13,28 @@ lazy val settings = (project in file("."))
                     .settings(libraryDependencies ++= deps)
 		    .settings(javaOptions += "-Xmx10G")
 
-val springBootVersion = "1.3.5.RELEASE"
-val springCloudVersion = "1.1.2.RELEASE"
-val springCoreVersion = "4.3.0.RELEASE"
+val springBootVersion = "1.4.2.RELEASE"
+val springCloudVersion = "1.2.5.RELEASE"
 val grpcVersion = "1.0.0"
 val protobufVersion = "3.0.0"
 val prometheusSimpleClientVersion = "0.0.21"
 val prometheusSimpleClientHotspotVersion = "0.0.21"
 
 lazy val deps = Seq(
-  "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
-  "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
-    "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
-    "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
-    "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
-    "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
-    "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
-    "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
-// This must stay 1.1.1.RELEASE or jackson.xml errors happen at runtime
-    "org.springframework.cloud" % "spring-cloud-starter-config" % "1.1.1.RELEASE",
-    "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
-    "io.grpc" % "grpc-netty" % grpcVersion,
-    "io.grpc" % "grpc-protobuf" % grpcVersion,
-    "io.grpc" % "grpc-stub" % grpcVersion,
-    "com.google.protobuf" % "protobuf-java" % protobufVersion
+  "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion,
+  "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion,
+  "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
+  "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
+  "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
+//  "io.fabric8" % "spring-cloud-starter-kubernetes-netflix" % "0.1.6",
+//  "io.fabric8" % "kubernetes-client" % "2.2.1",
+//  "org.apache.httpcomponents" % "httpclient" % "4.2.5",
+//  "org.apache.httpcomponents" % "httpcore" % "4.2.5",
+//  "org.springframework.cloud" % "spring-cloud-starter-zuul" % springCloudVersion,
+  "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
+  "io.grpc" % "grpc-netty" % grpcVersion,
+  "io.grpc" % "grpc-protobuf" % grpcVersion,
+  "io.grpc" % "grpc-stub" % grpcVersion,
+  "com.google.protobuf" % "protobuf-java" % protobufVersion
 )
