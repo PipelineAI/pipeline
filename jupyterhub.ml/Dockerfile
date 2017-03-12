@@ -206,8 +206,9 @@ RUN \
 #RUN \
 #  pip install tensorflow==1.0.1
 
-pip install jupyterlab
-jupyter serverextension enable --py jupyterlab --sys-prefix
+RUN \
+  pip install jupyterlab \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 EXPOSE 6006 8754 
 
