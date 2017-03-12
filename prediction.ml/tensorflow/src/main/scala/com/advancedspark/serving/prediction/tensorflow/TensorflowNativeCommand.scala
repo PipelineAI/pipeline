@@ -34,22 +34,31 @@ class TensorflowNativeCommand(name: String, inputs: Map[String, Any],
 {
   val modelDir = "/root/store/tensorflow_inception/export/00000001"
 
-  val imageFile = "/root/store/images/advanced-spark-and-tensorflow-meetup-6000-cake.jpg"
-
   val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
-
   val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
-
-  val imageBytes = LabelImage.readAllBytesOrExit(Paths.get(imageFile))
-
-  val image: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(imageBytes)
+/*
+  val image0: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/0.jpg")))
+  val image1: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/1.jpg")))
+  val image2: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/2.jpg")))
+  val image3: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/3.jpg")))
+  val image4: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/4.jpg")))
+  val image5: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/5.jpg")))
+  val image6: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/6.jpg")))
+  val image7: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/7.jpg")))
+  val image8: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/8.jpg")))
+  val image9: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/9.jpg")))
+*/
 
   val k = 10
+  val randomInt = scala.util.Random
 
   def run(): String = {
     try{
       val results = new java.util.ArrayList[String](k)
       
+      val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
+        Paths.get(s"/root/store/images/${randomInt.nextInt(10)}.jpg")))
+ 
       val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 
       val bestLabelIdxs = LabelImage.maxKIndex(labelProbabilities, k)
