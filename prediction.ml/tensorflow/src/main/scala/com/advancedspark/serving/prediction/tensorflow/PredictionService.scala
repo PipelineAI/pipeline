@@ -92,16 +92,17 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/evaluate-tensorflow-native/{modelName}"),
+  @RequestMapping(path=Array("/evaluate-tensorflow-native/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluateTensorflowNative(@PathVariable("modelName") modelName: String, @RequestBody inputJson: String):
-      String = {
+  def evaluateTensorflowNative(@PathVariable("modelName") modelName: String, 
+                               @PathVariable("version") version: String,
+                               @RequestBody inputJson: String): String = {
     try {
       val inputs = new HashMap[String,Any]()
         //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new TensorflowNativeCommand(modelName, inputs, "fallback", 3000, 20, 10)
+      val results = new TensorflowNativeCommand(modelName, version, inputs, "fallback", 3000, 20, 10)
         .execute()
 
       s"""{"results":[${results}]"""
@@ -111,6 +112,41 @@ class PredictionService {
        }
     }
   }
+  
+  @RequestMapping(path=Array("/evaluate-tensorflow-with-image/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST))
+  def evaluateTensorflowWithImage(@PathVariable("modelName") modelName: String,
+                                  @PathVariable("version") version: String,
+                                  @RequestParam("image") image: MultipartFile, 
+                                  @RequestBody inputJson: String): String = {
+
+    val inputs = new HashMap[String,Any]()
+    //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+
+    // Get name of uploaded file.
+    val filename = image.getOriginalFilename()
+
+    val storePathname = s"images/"
+
+    // Path where the uploaded file will be stored.
+    val filepath = new java.io.File(s"${storePathname}")
+    if (!filepath.isDirectory()) {
+      filepath.mkdirs()
+    }
+
+    // This buffer will store the data read from 'model' multipart file
+    val inputStream = image.getInputStream()
+
+    Files.copy(inputStream, Paths.get(s"${storePathname}/${filename}"),
+      StandardCopyOption.REPLACE_EXISTING)
+
+    inputStream.close()
+
+    val results = new TensorflowNativeWithImageCommand(modelName, version, filename, inputs, "fallback", 3000, 20, 10)
+        .execute()
+
+    s"""{"results":[${results}]"""
+  }  
 }
 
 object PredictionServiceMain {
