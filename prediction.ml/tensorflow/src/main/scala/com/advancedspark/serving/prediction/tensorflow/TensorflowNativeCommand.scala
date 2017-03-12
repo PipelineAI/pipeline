@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowNativeCommand(host: String, port: Int, name: String, inputs: Map[String, Any],
+class TensorflowNativeCommand(name: String, inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
