@@ -1,18 +1,4 @@
-/* Copyright 2016 The TensorFlow Authors. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-==============================================================================*/
-
+package com.advancedspark.serving.prediction.tensorflow;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -61,17 +47,22 @@ public class LabelImage {
         readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"));
     byte[] imageBytes = readAllBytesOrExit(Paths.get(imageFile));
 
+//    Graph g = new Graph()
+//    GraphBuilder b = new GraphBuilder(g)
+
     try (Tensor image = constructAndExecuteGraphToNormalizeImage(imageBytes)) {
       float[] labelProbabilities = executeInceptionGraph(graphDef, image);
-      int bestLabelIdx = maxIndex(labelProbabilities);
-      System.out.println(
+      int[] bestLabelIdxs = maxKIndex(labelProbabilities, 10);
+      for (int i = 0; i < 10; i++) {
+        System.out.println(
           String.format(
               "BEST MATCH: %s (%.2f%% likely)",
-              labels.get(bestLabelIdx), labelProbabilities[bestLabelIdx] * 100f));
+              labels.get(bestLabelIdxs[i]), labelProbabilities[bestLabelIdxs[i]] * 100f));
+      }
     }
   }
 
-  private static Tensor constructAndExecuteGraphToNormalizeImage(byte[] imageBytes) {
+  public static Tensor constructAndExecuteGraphToNormalizeImage(byte[] imageBytes) {
     try (Graph g = new Graph()) {
       GraphBuilder b = new GraphBuilder(g);
       // Some constants specific to the pre-trained model at:
@@ -99,13 +90,14 @@ public class LabelImage {
                       b.constant("size", new int[] {H, W})),
                   b.constant("mean", mean)),
               b.constant("scale", scale));
+
       try (Session s = new Session(g)) {
         return s.runner().fetch(output.op().name()).run().get(0);
       }
     }
   }
 
-  private static float[] executeInceptionGraph(byte[] graphDef, Tensor image) {
+  public static float[] executeInceptionGraph(byte[] graphDef, Tensor image) {
     try (Graph g = new Graph()) {
       g.importGraphDef(graphDef);
       try (Session s = new Session(g);
@@ -123,7 +115,30 @@ public class LabelImage {
     }
   }
 
-  private static int maxIndex(float[] probabilities) {
+  /**
+    * Return the indexes correspond to the top-k largest in an array.
+    */
+  public static int[] maxKIndex(float[] probabilities, int k) {
+    float[] max = new float[k];
+    int[] maxIndex = new int[k];
+    Arrays.fill(max, Float.NEGATIVE_INFINITY);
+    Arrays.fill(maxIndex, -1);
+
+    top: for(int i = 0; i < probabilities.length; i++) {
+        for(int j = 0; j < k; j++) {
+            if(probabilities[i] > max[j]) {
+                for(int x = k - 1; x > j; x--) {
+                    maxIndex[x] = maxIndex[x-1]; max[x] = max[x-1];
+                }
+                maxIndex[j] = i; max[j] = probabilities[i];
+                continue top;
+            }
+        }
+    }
+    return maxIndex;
+  }
+
+  public static int maxIndex(float[] probabilities) {
     int best = 0;
     for (int i = 1; i < probabilities.length; ++i) {
       if (probabilities[i] > probabilities[best]) {
@@ -133,7 +148,7 @@ public class LabelImage {
     return best;
   }
 
-  private static byte[] readAllBytesOrExit(Path path) {
+  public static byte[] readAllBytesOrExit(Path path) {
     try {
       return Files.readAllBytes(path);
     } catch (IOException e) {
@@ -143,7 +158,7 @@ public class LabelImage {
     return null;
   }
 
-  private static List<String> readAllLinesOrExit(Path path) {
+  public static List<String> readAllLinesOrExit(Path path) {
     try {
       return Files.readAllLines(path, Charset.forName("UTF-8"));
     } catch (IOException e) {
@@ -156,7 +171,7 @@ public class LabelImage {
   // In the fullness of time, equivalents of the methods of this class should be auto-generated from
   // the OpDefs linked into libtensorflow_jni.so. That would match what is done in other languages
   // like Python, C++ and Go.
-  static class GraphBuilder {
+  public static class GraphBuilder {
     GraphBuilder(Graph g) {
       this.g = g;
     }

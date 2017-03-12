@@ -43,7 +43,7 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow/tensorflow_inception/0000001
+  //  http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow/tensorflow_inception/00000001
 
   @RequestMapping(path=Array("/update-tensorflow/{name}/{version}"),
                   method=Array(RequestMethod.POST))
@@ -75,7 +75,27 @@ class PredictionService {
   @RequestMapping(path=Array("/evaluate-tensorflow/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluateModel(@PathVariable("modelName") modelName: String, @RequestBody inputJson: String):
+  def evaluateTensorflowGrpc(@PathVariable("modelName") modelName: String, @RequestBody inputJson: String):
+      String = {
+    try {
+      val inputs = new HashMap[String,Any]()
+        //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+
+      val results = new TensorflowGrpcCommand("127.0.0.1", 9000, modelName, inputs, "fallback", 25, 20, 10)
+        .execute()
+
+      s"""{"results":[${results}]"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }
+  
+  @RequestMapping(path=Array("/evaluate-tensorflow-native/{modelName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def evaluateTensorflowNative(@PathVariable("modelName") modelName: String, @RequestBody inputJson: String):
       String = {
     try {
       val inputs = new HashMap[String,Any]()
