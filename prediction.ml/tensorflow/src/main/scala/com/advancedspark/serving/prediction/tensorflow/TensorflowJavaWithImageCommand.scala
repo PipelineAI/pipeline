@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowNativeWithImageCommand(name: String, modelName: String, version: String, imageName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+class TensorflowJavaWithImageCommand(name: String, modelName: String, version: String, imageName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))

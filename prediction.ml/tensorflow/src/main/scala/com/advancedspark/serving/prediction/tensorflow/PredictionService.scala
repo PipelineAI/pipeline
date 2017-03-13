@@ -114,10 +114,10 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
-  //  http://[host]:[port]/evaluate-tensorflow-image/tensorflow_inception/00000001
-  @RequestMapping(path=Array("/evaluate-tensorflow-image/{modelName}/{version}"),
+  //  http://[host]:[port]/evaluate-tensorflow-java-image/tensorflow_inception/00000001
+  @RequestMapping(path=Array("/evaluate-tensorflow-java-image/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
-  def evaluateTensorflowWithImage(@PathVariable("modelName") modelName: String,
+  def evaluateTensorflowJavaWithImage(@PathVariable("modelName") modelName: String,
                                   @PathVariable("version") version: String,
                                   @RequestParam("image") image: MultipartFile): String = {
 
@@ -141,11 +141,46 @@ class PredictionService {
 
     inputStream.close()
 
-    val results = new TensorflowNativeWithImageCommand(s"${modelName}_image", modelName, version, filename, inputs, "fallback", 5000, 20, 10)
+    val results = new TensorflowJavaWithImageCommand(s"${modelName}_image", modelName, version, filename, inputs, "fallback", 5000, 20, 10)
         .execute()
 
     s"""{'results':[${results}]"""
-  }  
+  }
+  
+  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+  //  -F "image=@1.jpg" \
+  //  http://[host]:[port]/evaluate-tensorflow-grpc-image/tensorflow_inception/00000001
+  @RequestMapping(path=Array("/evaluate-tensorflow-grpc-image/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST))
+  def evaluateTensorflowGrpcWithImage(@PathVariable("modelName") modelName: String,
+                                      @PathVariable("version") version: String,
+                                      @RequestParam("image") image: MultipartFile): String = {
+
+    val inputs = new HashMap[String,Any]()
+    //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+
+    // Get name of uploaded file.
+    val filename = image.getOriginalFilename()
+
+    // Path where the uploaded file will be stored.
+    val filepath = new java.io.File(s"images/")
+    if (!filepath.isDirectory()) {
+      filepath.mkdirs()
+    }
+
+    // This buffer will store the data read from 'model' multipart file
+    val inputStream = image.getInputStream()
+
+    Files.copy(inputStream, Paths.get(s"images/${filename}"),
+      StandardCopyOption.REPLACE_EXISTING)
+
+    inputStream.close()
+
+    val results = new TensorflowGrpcWithImageCommand(s"${modelName}_image", modelName, version, filename, inputs, "fallback", 5000, 20, 10)
+        .execute()
+
+    s"""{'results':[${results}]"""
+  }
 }
 
 object PredictionServiceMain {
