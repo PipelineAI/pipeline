@@ -8,8 +8,8 @@
     <version>1.0.0</version>
  
     <groupId>com.fluxcapacitor.api.gateway</groupId>
-    <artifactId>gateway-server</artifactId>
-    <name>Gateway Server</name>
+    <artifactId>api-gateway</artifactId>
+    <name>API Gateway</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -24,13 +24,12 @@
 <!--
   Note:  Including this throws the following error:
          https://github.com/spring-projects/spring-boot/issues/8186
-
+-->         
        <dependency>
           <groupId>io.prometheus</groupId>
           <artifactId>simpleclient_spring_boot</artifactId>
           <version>0.0.21</version>
        </dependency>
--->
        <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>
@@ -55,6 +54,13 @@
           <groupId>org.springframework.cloud</groupId>
           <artifactId>spring-cloud-starter-zuul</artifactId>
           <version>1.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>com.soundcloud</groupId>
+          <artifactId>prometheus-hystrix</artifactId>
+          <version>2.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/prometheus-hystrix-2.0.0.jar</systemPath>
         </dependency>
     </dependencies>
 

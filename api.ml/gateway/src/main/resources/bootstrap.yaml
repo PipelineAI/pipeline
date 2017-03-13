@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   application:
-    name: zuul-server
+    name: api-gateway
   cloud:
     config:
       enabled: false

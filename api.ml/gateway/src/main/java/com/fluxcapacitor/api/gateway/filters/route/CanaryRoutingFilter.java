@@ -6,20 +6,17 @@ import com.netflix.zuul.ZuulFilter;
 //
 //  http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
 //
-public class RouteFilter extends ZuulFilter {  
-//    @Autowired
-//    private ProxyRequestHelper helper;
-
+public class CanaryRoutingFilter extends ZuulFilter {  
     @Override
     public String filterType() {
-        return "route";
+        return "post";
     }
 
     @Override
     public int filterOrder() {
         return 1;
     }
-
+    
     @Override
     public boolean shouldFilter() {
         return true;
@@ -27,9 +24,6 @@ public class RouteFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        //RequestContext ctx = RequestContext.getServletContext();
-        //HttpServletRequest request = ctx.getRequest();
-
         System.out.println(String.format("%s request to %s", "foo", "bar"));
         
         return null;
