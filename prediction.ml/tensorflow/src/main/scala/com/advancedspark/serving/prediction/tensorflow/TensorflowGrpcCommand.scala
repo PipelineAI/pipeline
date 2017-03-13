@@ -35,10 +35,10 @@ class TensorflowGrpcCommand(name: String, modelName: String, version: String, in
   def run(): String = {
     val results = TensorflowGrpcCommandOps.client.predict(modelName, version, "")
 
-    s"""${results}"""
+    s"""[${results}]"""
   }
 
   override def getFallback(): String = {
-    s"""${fallback}"""
+    s"""[${fallback}]"""
   }
 }

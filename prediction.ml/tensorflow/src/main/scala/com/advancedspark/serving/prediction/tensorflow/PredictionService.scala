@@ -6,7 +6,7 @@ import scala.collection.immutable.HashMap
 import scala.io.Source
 import java.nio.file.Files
 import java.nio.file.Paths
-//import java.nio.file.StandardCopyOption
+import java.nio.file.StandardCopyOption
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -43,7 +43,7 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow-model/tensorflow_inception/00000001
+  //  http://[host]:[port]/update-tensorflow-model/tensorflow_inception/00000001
   @RequestMapping(path=Array("/update-tensorflow-model/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateTensorflow(@PathVariable("modelName") modelName: String, 
@@ -114,8 +114,8 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
-  //  http://prediction-tensorflow-aws.demo.pipeline.io/evaluate-tensorflow-with-image/tensorflow_inception/00000001
-  @RequestMapping(path=Array("/evaluate-tensorflow-with-image/{modelName}/{version}"),
+  //  http://[host]:[port]/evaluate-tensorflow-with-image/tensorflow_inception/00000001
+  @RequestMapping(path=Array("/evaluate-tensorflow-java-with-image/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def evaluateTensorflowWithImage(@PathVariable("modelName") modelName: String,
                                   @PathVariable("version") version: String,
@@ -136,8 +136,8 @@ class PredictionService {
     // This buffer will store the data read from 'model' multipart file
     val inputStream = image.getInputStream()
 
-    Files.copy(inputStream, Paths.get(s"images/${filename}"))
-    // StandardCopyOption.REPLACE_EXISTING)
+    Files.copy(inputStream, Paths.get(s"images/${filename}"),
+      StandardCopyOption.REPLACE_EXISTING)
 
     inputStream.close()
 

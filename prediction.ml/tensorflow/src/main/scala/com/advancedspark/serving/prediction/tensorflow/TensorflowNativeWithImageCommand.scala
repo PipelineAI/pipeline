@@ -41,7 +41,7 @@ class TensorflowNativeWithImageCommand(name: String, modelName: String, version:
 
   def run(): String = {
     try{
-      val results = new java.util.ArrayList[String](k)
+      val results = new Array[String](k)
       
       val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
         Paths.get(s"/root/store/images/${imageName}")))      
@@ -51,14 +51,11 @@ class TensorflowNativeWithImageCommand(name: String, modelName: String, version:
       val bestLabelIdxs = LabelImage.maxKIndex(labelProbabilities, k)
       
       for (i <- 0 until k) {
-        results.add(
-          s"""BEST MATCH: ${labels.get(bestLabelIdxs(i))} ${labelProbabilities(bestLabelIdxs(i)) * 100f}% likely)"""
-        )
+        results(i) =
+          s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f})"""        
       }
 
-      System.out.println(results)
-
-      s"""${results}"""
+      s"""[${results.mkString(",")}]"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -68,6 +65,6 @@ class TensorflowNativeWithImageCommand(name: String, modelName: String, version:
   }
 
   override def getFallback(): String = {
-    s"""${fallback}"""
+    s"""[${fallback}]"""
   }
 }
