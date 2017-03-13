@@ -40,16 +40,21 @@ RUN pip --no-cache-dir install \
         numpy \
         scipy \
         sklearn \
+        pandas \
         && \
     python -m ipykernel.kernelspec
+
+# Set up our notebook config.
+COPY jupyter_notebook_config.py /root/.jupyter/
 
 # Jupyter has issues with being run directly:
 #   https://github.com/ipython/ipython/issues/7062
 # We just add a little wrapper script.
 COPY run_jupyter.sh /
 
-# Setup Java (used by Bazel)
+# Set up Bazel.
 
+# Setup Java (used by Bazel)
 # We need to add a custom PPA to pick up JDK8, since trusty doesn't
 # have an openjdk8 backport.  openjdk-r is maintained by a reliable contributor:
 # Matthias Klose (https://launchpad.net/~doko).  It will do until
@@ -61,8 +66,6 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && \
     apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Set up Bazel.
 
 # Running bazel inside a `docker build` command causes trouble, cf:
 #   https://github.com/bazelbuild/bazel/issues/134
@@ -93,6 +96,12 @@ RUN git clone -b v$TENSORFLOW_VERSION --recursive --recurse-submodules https://g
 #    git checkout r$TENSORFLOW_VERSION
 
 WORKDIR /tensorflow
+
+RUN \
+  add-apt-repository ppa:ubuntu-toolchain-r/test \
+  && apt-get update \
+  && apt-get install -y gcc-4.9 g++-4.9 \
+  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
 
 # Configure the build for our CUDA configuration.
 ENV CI_BUILD_PYTHON python
@@ -125,14 +134,18 @@ ENV TF_NEED_CUDA 1
 # Operating System  Linux 64-bit
 # Recommended/Beta  Recommended/Certified
 #
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,3.7,5.2
+ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,5.2,6.0,6.1
+#ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,3.7,5.2
 
 RUN tensorflow/tools/ci_build/builds/configured GPU \
     bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
-    bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
-    pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
-    rm -rf /tmp/pip && \
-    rm -rf /root/.cache
+    bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip 
+
+RUN \
+  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+#    && \
+#    rm -rf /tmp/pip && \
+#    rm -rf /root/.cache
 # Clean up pip wheel and Bazel cache when done.
 
 WORKDIR /root
@@ -143,8 +156,6 @@ EXPOSE 6006
 # Jupyter 
 EXPOSE 8754 
 
-# Set up our notebook config.
-COPY jupyter_notebook_config.py /root/.jupyter/
 # Copy our examples
 COPY examples/ examples/
 
