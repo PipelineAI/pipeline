@@ -1,11 +1,9 @@
 package com.advancedspark.serving.prediction.tensorflow;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +12,6 @@ import org.tensorflow.Graph;
 import org.tensorflow.Output;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
-import org.tensorflow.TensorFlow;
 
 public class LabelImage {
 //  private static void printUsage(PrintStream s) {

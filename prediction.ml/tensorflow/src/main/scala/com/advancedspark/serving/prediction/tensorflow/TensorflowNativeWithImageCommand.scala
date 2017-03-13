@@ -52,10 +52,10 @@ class TensorflowNativeWithImageCommand(name: String, modelName: String, version:
       
       for (i <- 0 until k) {
         results(i) =
-          s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f})"""        
+          s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f}}"""        
       }
 
-      s"""[${results.mkString(",")}]"""
+      s"""${results.mkString(",")}"""
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -65,6 +65,6 @@ class TensorflowNativeWithImageCommand(name: String, modelName: String, version:
   }
 
   override def getFallback(): String = {
-    s"""[${fallback}]"""
+    s"""${fallback}"""
   }
 }

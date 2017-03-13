@@ -80,10 +80,10 @@ class PredictionService {
       val inputs = new HashMap[String,Any]()
         //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new TensorflowGrpcCommand("tensorflow_grpc_${modelName}", modelName, version, inputs, "fallback", 2000, 20, 10)
+      val results = new TensorflowGrpcCommand("${modelName}_grpc", modelName, version, inputs, "fallback", 5000, 20, 10)
         .execute()
 
-      s"""{"results":[${results}]"""
+      s"""{'results':[${results}]"""
     } catch {
        case e: Throwable => {
          throw e
@@ -101,10 +101,10 @@ class PredictionService {
       val inputs = new HashMap[String,Any]()
         //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new TensorflowNativeCommand(s"tensorflow_java_${modelName}", modelName, version, inputs, "fallback", 2000, 20, 10)
+      val results = new TensorflowNativeCommand(s"${modelName}_java", modelName, version, inputs, "fallback", 5000, 20, 10)
         .execute()
 
-      s"""{"results":[${results}]"""
+      s"""{'results':[${results}]"""
     } catch {
        case e: Throwable => {
          throw e
@@ -114,8 +114,8 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
-  //  http://[host]:[port]/evaluate-tensorflow-with-image/tensorflow_inception/00000001
-  @RequestMapping(path=Array("/evaluate-tensorflow-java-with-image/{modelName}/{version}"),
+  //  http://[host]:[port]/evaluate-tensorflow-image/tensorflow_inception/00000001
+  @RequestMapping(path=Array("/evaluate-tensorflow-image/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def evaluateTensorflowWithImage(@PathVariable("modelName") modelName: String,
                                   @PathVariable("version") version: String,
@@ -141,10 +141,10 @@ class PredictionService {
 
     inputStream.close()
 
-    val results = new TensorflowNativeWithImageCommand(s"tensorflow_java_image_${modelName}", modelName, version, filename, inputs, "fallback", 2000, 20, 10)
+    val results = new TensorflowNativeWithImageCommand(s"${modelName}_image", modelName, version, filename, inputs, "fallback", 5000, 20, 10)
         .execute()
 
-    s"""{"results":[${results}]"""
+    s"""{'results':[${results}]"""
   }  
 }
 
