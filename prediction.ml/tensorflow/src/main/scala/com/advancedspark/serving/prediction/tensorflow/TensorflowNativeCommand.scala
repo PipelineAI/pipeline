@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowNativeCommand(name: String, version: String, inputs: Map[String, Any],
+class TensorflowNativeCommand(name: String, modelName: String, version: String, inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
@@ -32,7 +32,7 @@ class TensorflowNativeCommand(name: String, version: String, inputs: Map[String,
       )
     )
 {
-  val modelDir = "/root/store/tensorflow_inception/export/00000001"
+  val modelDir = s"/root/store/${modelName}/export/${version}"
 
   val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
   val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
@@ -57,10 +57,10 @@ class TensorflowNativeCommand(name: String, version: String, inputs: Map[String,
     try{
       val results = new java.util.ArrayList[String](k)
       
-//      val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-//        Paths.get(s"/root/store/images/${randomInt.nextInt(10)}.jpg")))
+      val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
+        Paths.get(s"/root/store/images/${randomInt.nextInt(10)}.jpg")))
 
-      val image = images(randomInt.nextInt(10)) 
+//      val image = images(randomInt.nextInt(10)) 
 
       val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 

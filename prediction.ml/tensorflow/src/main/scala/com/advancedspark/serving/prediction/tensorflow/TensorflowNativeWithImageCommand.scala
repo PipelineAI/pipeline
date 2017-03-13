@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowNativeWithImageCommand(name: String, version: String, imageName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+class TensorflowNativeWithImageCommand(name: String, modelName: String, version: String, imageName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
@@ -31,7 +31,7 @@ class TensorflowNativeWithImageCommand(name: String, version: String, imageName:
       )
     )
 {
-  val modelDir = s"/root/store/${name}/export/${version}"
+  val modelDir = s"/root/store/${modelName}/export/${version}"
 
   val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
   val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
@@ -44,7 +44,7 @@ class TensorflowNativeWithImageCommand(name: String, version: String, imageName:
       val results = new java.util.ArrayList[String](k)
       
       val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-        Paths.get(s"/root/store/images/${imageName}.jpg")))      
+        Paths.get(s"/root/store/images/${imageName}")))      
 
       val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 

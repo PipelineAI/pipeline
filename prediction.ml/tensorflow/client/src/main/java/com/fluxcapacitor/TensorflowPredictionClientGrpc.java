@@ -23,10 +23,10 @@ public class TensorflowPredictionClientGrpc {
     private static final Logger logger = Logger.getLogger(TensorflowPredictionClientGrpc.class.getName());
     private final ManagedChannel channel;
     private final PredictionServiceGrpc.PredictionServiceBlockingStub stub;
-    private final Model.ModelSpec modelSpec;
+    //private final Model.ModelSpec modelSpec;
     
     // Initialize gRPC client
-    public TensorflowPredictionClientGrpc(String host, int port, String modelName)
+    public TensorflowPredictionClientGrpc(String host, int port)
     {
         channel = ManagedChannelBuilder.forAddress(host, port)
            // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
@@ -34,13 +34,11 @@ public class TensorflowPredictionClientGrpc {
           .usePlaintext(true)
           .build();
 
-        // Generate gRPC request
-        modelSpec = Model.ModelSpec.newBuilder().setName(modelName).build();
-
         stub = PredictionServiceGrpc.newBlockingStub(channel);    
     }
 
-    public String predict(String inputJson) {
+    public String predict(String modelName, String version, String inputJson) {
+        // TODO:  Use generic json -> tensor proto utility (ie. from TF Java API)
         // Generate features TensorProto
         float[][] featuresTensorData = new float[][] {
             {0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f}
@@ -63,6 +61,10 @@ public class TensorflowPredictionClientGrpc {
         featuresTensorBuilder.setTensorShape(shape);
 
         TensorProto featuresTensorProto = featuresTensorBuilder.build();
+
+        Model.ModelSpec modelSpec = Model.ModelSpec.newBuilder().setName(modelName)
+           //.setVersion(version)
+          .build();
 
         Predict.PredictRequest request = Predict.PredictRequest.newBuilder()
           .setModelSpec(modelSpec).putInputs("features", featuresTensorProto)
@@ -96,6 +98,7 @@ public class TensorflowPredictionClientGrpc {
         String host = "127.0.0.1";
         int port = 9000;
         String modelName = "tensorflow_minimal";
+        String version = "00000001";
         String inputJson = "";
 
         // Parse command-line arguments
@@ -107,11 +110,11 @@ public class TensorflowPredictionClientGrpc {
         }
 
         // Run predict client to send request
-        TensorflowPredictionClientGrpc client = new TensorflowPredictionClientGrpc(host, port, modelName);
+        TensorflowPredictionClientGrpc client = new TensorflowPredictionClientGrpc(host, port);
 
         String response = null;
         try {
-            response = client.predict(inputJson);
+            response = client.predict(modelName, version, inputJson);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
