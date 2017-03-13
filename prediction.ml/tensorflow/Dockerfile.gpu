@@ -12,7 +12,8 @@ ENV \
  
 # TensorFlow Serving Home (not required on PATH)
 ENV \
-  TENSORFLOW_SERVING_HOME=/root/serving
+  TENSORFLOW_SERVING_HOME=/root/serving \
+  TENSORFLOW_HOME=/root/serving/tensorflow
 
 # Required by TensorFlow Serving
 RUN \
@@ -57,11 +58,11 @@ RUN \
  && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
 
 RUN \
-  cd ~/serving/tensorflow \
-  && printf "\n\n\n\n\n\n\n\n\ny" | ./configure
-
-RUN \
-  cd ~/serving \
+  cd $TENSORFLOW_HOME \
+  && printf "\n\n\n\n\n\n\n\nY\n\n" | ./configure \
+  && cd $TENSORFLOW_SERVING_HOME \
+  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+  && cd $TENSORFLOW_SERVING_HOME \
   && bazel build -c opt --config=cuda tensorflow_serving/...
 
 ENV \
@@ -87,7 +88,7 @@ RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 ENV \
-  TENSORFLOW_VERSION=1.0.1
+  TENSORFLOW_VERSION=1.0.0
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
