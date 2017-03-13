@@ -36,7 +36,7 @@ cd $PIPELINE_HOME/dashboard.ml/turbine && sudo docker build -q -t fluxcapacitor/
 cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && sudo docker build -q -t fluxcapacitor/elasticsearch-2.3.0 .
 
 # gpu.ml
-cd $PIPELINE_HOME/gpu.ml && sudo docker build -q -t fluxcapacitor/gpu .
+cd $PIPELINE_HOME/gpu.ml && sudo docker build -q -t fluxcapacitor/gpu-tensorflow .
 
 # hdfs.ml
 cd $PIPELINE_HOME/hdfs.ml && sudo docker build -q -t fluxcapacitor/hdfs .
