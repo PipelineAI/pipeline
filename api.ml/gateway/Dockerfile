@@ -12,10 +12,10 @@ RUN \
  apt-get update
 
 COPY src/ src/
-COPY pom.xml pom.xml
+COPY build.sbt build.sbt
 
 RUN \
-  /root/apache-maven-3.3.9/bin/mvn -DskipTests clean install 
+  sbt clean package
 
 EXPOSE 8080 
 
