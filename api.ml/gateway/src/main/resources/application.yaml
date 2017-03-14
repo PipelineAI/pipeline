@@ -1,7 +1,6 @@
 zuul:
   service:
     name: ${spring.application.name}
-zuul:
   host:
     connect-timeout-millis: 5000
     socket-timeout-millis: 5000
@@ -14,11 +13,6 @@ hystrix:
             timeoutInMilliseconds: 5000
         timeout:
           enabled: false        
-zuul:
-  host:
-    connect-timeout-millis: 5000
-    socket-timeout-millis: 5000
-
 ribbon:
   ConnectTimeout: 5000
   ReadTimeout: 5000
