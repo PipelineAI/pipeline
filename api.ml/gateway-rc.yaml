@@ -18,7 +18,7 @@ spec:
         prometheus.io/port: "8080"
     spec:
       containers:
-      - name: zuul 
+      - name: api-gateway 
         image: docker.io/fluxcapacitor/api-gateway
         imagePullPolicy: "Always"
         env:
