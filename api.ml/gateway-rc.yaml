@@ -4,6 +4,7 @@ metadata:
   name: api-gateway 
   labels:
     app: api-gateway
+    hystrix.enabled: "true"
 spec:
   replicas: 1
   selector:
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         name: api-gateway 
+        hystrix.enabled: "true"
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
