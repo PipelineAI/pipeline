@@ -16,25 +16,25 @@
 ## Quick Start
 ### Local Laptop
 **Kubernetes Mini + PipelineIO Cluster for your Laptop**
-* PipelineIO [Local](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
+* PipelineIO [**Local**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
 **Kubernetes + PipelineIO Cluster on any Cloud or Data Center**
-* Pipeline on [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
+* Pipeline on [**AWS**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png)
 
-* Pipeline on [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
+* Pipeline on [**Google**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
 
 ![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
 
-* PipelineIO on [Azure](Setup-Pipeline-Azure)
+* PipelineIO on [**Azure**](Setup-Pipeline-Azure)
 
 ![Azure](http://pipeline.io/images/azure-logo-200x103.png)
 
 ## Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
-* Create a [Ticket](http://pipelineio.zendesk.com)
+* Create a [**Ticket**](http://pipelineio.zendesk.com)
 * Email **help@pipeline.io**
 
 ## Reference Architecture
