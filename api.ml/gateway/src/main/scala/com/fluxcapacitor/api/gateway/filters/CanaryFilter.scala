@@ -30,15 +30,19 @@ class CanaryFilter extends ZuulFilter {
     true
   }
 
+  val kubeClient: KubernetesClient = new DefaultKubernetesClient()
+
   @Override
   def run(): Object = {
 		val ctx = RequestContext.getCurrentContext();
+    
+//    System.out.println(s"""Lists: ${kubeClient.lists()}""")
+    
+//    System.out.println(s"""Services: ${kubeClient.services()}""")
 		
-    val kubeClient: KubernetesClient = new DefaultKubernetesClient()
-    
-    System.out.println(s"""Lists: ${kubeClient.lists()}""")
-    
-    System.out.println(s"""Services: ${kubeClient.services()}""")
+//		https://github.com/fabric8io/kubernetes-client
+		
+		kubeClient.services().withLabel("canary") 
       
 		//(!ctx.containsKey("forward.to") // a filter has already forwarded
 	  //	&& !ctx.containsKey("service.id")) // a filter has already determined serviceId
