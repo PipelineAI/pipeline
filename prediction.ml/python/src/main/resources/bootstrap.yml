@@ -2,7 +2,7 @@ server:
   port: 9040
 spring:
   application:
-    name: prediction-service
+    name: prediction-python
   cloud:
     config:
       enabled: false

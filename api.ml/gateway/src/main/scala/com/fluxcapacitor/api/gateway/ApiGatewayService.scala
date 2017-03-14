@@ -28,11 +28,12 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RestController
 
-import com.fluxcapacitor.api.gateway.filters.route.CanaryRoutingFilter
-
 import io.prometheus.client.hotspot.StandardExports
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import com.fluxcapacitor.api.gateway.filters.CanaryFilter
+import com.fluxcapacitor.api.gateway.filters.BanditFilter
+import org.springframework.cloud.netflix.zuul.filters.route.SendForwardFilter
 
 @SpringBootApplication
 @RestController
@@ -45,13 +46,26 @@ class ApiGatewayService {
   new StandardExports().register()
 
   @Bean
-  def routeFilter(): CanaryRoutingFilter = {
-    new CanaryRoutingFilter();
+  def canaryFilter(): CanaryFilter = {
+    new CanaryFilter();
   }
+  
+//  @Bean
+//  def banditFilter(): BanditFilter = {
+//    new BanditFilter();
+//  }
+//  
+//  @Bean
+//  def forwardFilter(): SendForwardFilter = {
+//    new SendForwardFilter();
+//  }
 }
 
 object ApiGatewayServiceMain {
+  // Should specify ENV KUBERNETES_NAMESPACE=[namespace] (ie. default)
+  
   def main(args: Array[String]): Unit = {
+    //System.getProperties.setProperty("KUBERNETES_NAMESPACE", "default")
     SpringApplication.run(classOf[ApiGatewayService])
   }
 }

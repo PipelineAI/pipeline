@@ -2,7 +2,7 @@ server:
   port: 9040
 spring:
   application:
-    name: prediction-service
+    name: prediction-pmml
   cloud:
     config:
       enabled: false

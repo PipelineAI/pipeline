@@ -27,6 +27,7 @@ lazy val deps = Seq(
   "io.fabric8" % "spring-cloud-starter-kubernetes-netflix" % "0.1.6",
   "io.fabric8" % "kubernetes-client" % "2.2.2",
   "org.apache.httpcomponents" % "httpclient" % "4.5.3",
+  "org.springframework.cloud" % "spring-cloud-netflix" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-zuul" % springCloudVersion,
   "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
