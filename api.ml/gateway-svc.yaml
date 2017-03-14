@@ -9,7 +9,7 @@ spec:
   ports:
   - name: http 
     port: 80 
-    targetPort: 8080 
+    targetPort: 9040 
   selector:
     name: api-gateway
     hystrix.enabled: "true"

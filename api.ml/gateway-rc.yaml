@@ -31,6 +31,6 @@ spec:
             fieldRef:
               fieldPath: "metadata.namespace"
         ports:
-        - containerPort: 8080 
+        - containerPort: 9040 
       nodeSelector:
         prediction: "true"
