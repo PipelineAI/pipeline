@@ -10,7 +10,7 @@
 * [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
 
 ## Developer Documentation
-* **[Docs]**(https://github.com/fluxcapacitor/pipeline/wiki)
+* [**Docs**](https://github.com/fluxcapacitor/pipeline/wiki)
 
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
