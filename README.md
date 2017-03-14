@@ -66,7 +66,7 @@
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
 ## Additional Resources
-### Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki) and [Workshop](http://pipeline.io#upcoming-workshops) Schedule
+### [Workshops](http://pipeline.io#upcoming-workshops)
 
 ![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
 
