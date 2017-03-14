@@ -34,9 +34,11 @@ import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import com.fluxcapacitor.api.gateway.filters.CanaryFilter
 import com.fluxcapacitor.api.gateway.filters.BanditFilter
 import org.springframework.cloud.netflix.zuul.filters.route.SendForwardFilter
+import org.springframework.cloud.netflix.hystrix.EnableHystrix
 
 @SpringBootApplication
 @RestController
+@EnableHystrix
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
 @EnableZuulProxy
