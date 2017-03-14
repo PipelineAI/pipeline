@@ -12,7 +12,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 5000
         timeout:
-          enabled: false        
+          enabled: true 
 ribbon:
   ConnectTimeout: 5000
   ReadTimeout: 5000
