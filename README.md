@@ -9,8 +9,33 @@
 * [Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/swiPWUxBvSc)
 * [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
 
-## Developer Documentation
-* [**Docs**](https://github.com/fluxcapacitor/pipeline/wiki)
+## Resources
+### Documentation
+* [Wiki](https://github.com/fluxcapacitor/pipeline/wiki)
+
+## Quick Start
+### Local Laptop
+PipelineIO [Local](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
+* Small Kubernetes + PipelineIO Cluster for your laptop
+
+![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+
+Kubernetes + PipelineIO Cluster on any cloud provider or data center
+* Pipeline on [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
+
+![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+
+* Pipeline on [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
+
+![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
+
+* PipelineIO on [Azure](Setup-Pipeline-Azure)
+
+![Azure](http://pipeline.io/images/azure-logo-200x103.png)
+
+## Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
+* Create a [Ticket](http://pipelineio.zendesk.com)
+* Email **help@pipeline.io**
 
 ## Reference Architecture
 ![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
@@ -22,7 +47,7 @@
 ![Spark](http://pipeline.io/images/spark-logo-150x78.png) 
 ![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
 
-### Completely Kubernetes and Docker Based
+### 100% Open Source using Kubernetes + Docker
 ![PipelineIO Kubernetes](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) 
 ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
@@ -39,30 +64,6 @@
 
 ### Continuous Train/Deploy Spark ML and Tensorflow AI Pipelines to Production
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
-
-## Supported Environments
-### Pipeline on [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
-* Small Kubernetes cluster for your laptop
-
-![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
-
-### Pipeline on [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
-* Kubernetes cluster on any cloud provider or on-premise
-
-![AWS](http://pipeline.io/images/aws-logo-185x73.png)
-
-### Pipeline on [Google](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
-* Kubernetes cluster across many cloud providers and/or on-premise
-
-![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
-
-### PipelineIO on [Azure](Setup-Pipeline-Azure)
-
-![Azure](http://pipeline.io/images/azure-logo-200x103.png)
-
-## Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
-* Create a [Ticket](http://pipelineio.zendesk.com)
-* Email **help@pipeline.io**
 
 ## Additional Resources
 ### Training [Repo](https://github.com/fluxcapacitor/pipeline-training/wiki) and [Workshop](http://pipeline.io#upcoming-workshops) Schedule
