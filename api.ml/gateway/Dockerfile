@@ -12,6 +12,7 @@ RUN \
  apt-get update
 
 COPY src/ src/
+COPY lib/ lib/
 COPY build.sbt build.sbt
 
 RUN \

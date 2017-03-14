@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RestController
 
 import com.fluxcapacitor.api.gateway.filters.route.CanaryRoutingFilter
-import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 
 import io.prometheus.client.hotspot.StandardExports
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
@@ -42,6 +41,7 @@ import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 @EnableZuulProxy
 class ApiGatewayService {
   HystrixPrometheusMetricsPublisher.register("api_gateway")
+
   new StandardExports().register()
 
   @Bean
