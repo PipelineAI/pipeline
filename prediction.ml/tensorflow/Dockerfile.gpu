@@ -1,14 +1,44 @@
-FROM fluxcapacitor/package-java-openjdk-1.8
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu14.04
 
 WORKDIR /root
 
+RUN \
+  apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get install -y apt-transport-https \
+  && apt-get install -y wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 ENV \
- SPRING_CORE_VERSION=4.3.0.RELEASE \
- SPRING_BOOT_VERSION=1.3.5.RELEASE \
- SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 \
- BAZEL_VERSION=0.4.4 \
- TENSORFLOW_SERVING_VERSION=0.5.1
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+RUN \
+  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && sudo apt-get update \
+  && sudo apt-get install -y sbt
+
+RUN \
+  sbt clean clean-files
+
+RUN \
+  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
+  && rm apache-maven-3.3.9-bin.tar.gz
+
+ENV \
+  MAVEN_HOME=/root/apache-maven-3.3.9/
+
+ENV \
+  PATH=$MAVEN_HOME/bin:$PATH
+
+ENV \
+  BAZEL_VERSION=0.4.4 \
+  TENSORFLOW_SERVING_VERSION=0.5.1
  
 # TensorFlow Serving Home (not required on PATH)
 ENV \
@@ -57,21 +87,42 @@ RUN \
  cd ~ \
  && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
 
+ENV CUDA_PATH /usr/local/cuda:$CUDA_PATH
+ENV CUDA_TOOLKIT_PATH /usr/local/cuda:$CUDA_TOOLKIT_PATH
+ENV CUDNN_INSTALL_PATH /usr/lib/x86_64-linux-gnu:$CUDNN_INSTALL_PATH
+ENV TF_NEED_CUDA 1
+ENV CI_BUILD_PYTHON python
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,5.2,6.0,6.1
+
+#RUN \ 
+#  apt-get install -y libcupti-dev
+
+# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
+
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && printf "\n\n\n\n\n\n\n\n\n\nY\n\n\n\n\n\n\n" | ./configure \
+#  && cd $TENSORFLOW_SERVING_HOME \
+#  && bazel build -c opt --config=cuda tensorflow_serving/...
+
 RUN \
-  cd $TENSORFLOW_HOME \
-  && printf "\n\n\n\n\n\n\n\nY\n\n" | ./configure \
-  && cd $TENSORFLOW_SERVING_HOME \
-  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-  && cd $TENSORFLOW_SERVING_HOME \
-  && bazel build -c opt --config=cuda tensorflow_serving/...
+  cd $TENSORFLOW_SERVING_HOME \
+#  && ./$TENSORFLOW_HOME/tensorflow/tools/ci_build/builds/configured GPU \
+  bazel build -c opt --config=cuda tensorflow_serving/...
+#  bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
+#  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
+#  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
+#  rm -rf /tmp/pip && \
+#  rm -rf /root/.cache
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd ~/serving/tensorflow \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -92,7 +143,7 @@ ENV \
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
 
 RUN \
   apt-get update \
@@ -127,4 +178,4 @@ ENV \
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 
-CMD ["supervise", "."]
+#CMD ["supervise", "."]
