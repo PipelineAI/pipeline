@@ -62,10 +62,7 @@ class ApiGatewayService {
 }
 
 object ApiGatewayServiceMain {
-  // Should specify ENV KUBERNETES_NAMESPACE=[namespace] (ie. default)
-  
   def main(args: Array[String]): Unit = {
-    //System.getProperties.setProperty("KUBERNETES_NAMESPACE", "default")
     SpringApplication.run(classOf[ApiGatewayService])
   }
 }
