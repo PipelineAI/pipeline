@@ -11,7 +11,15 @@
 
 ## Resources
 ### Documentation
-* [Wiki](https://github.com/fluxcapacitor/pipeline/wiki)
+* [**Wiki**](https://github.com/fluxcapacitor/pipeline/wiki)
+
+### Workshops
+
+[**Sign Up Now!**](http://pipeline.io#upcoming-workshops)
+
+![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
+
+![Workshop Tools](http://pipeline.io/images/pancake-stack-645x363.png)
 
 ## Quick Start
 ### Local Laptop
@@ -65,13 +73,7 @@
 ### Continuous Train/Deploy Spark ML and Tensorflow AI Pipelines to Production
 ![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
 
-## Additional Resources
-### [Workshops](http://pipeline.io#upcoming-workshops)
-
-![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
-
-![Workshop Tools](http://pipeline.io/images/pancake-stack-645x363.png)
-
+## Community
 ### Global Advanced Spark and Tensorflow [Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
 
 ![Meetup](http://pipeline.io/images/meetup-442x300.png)
