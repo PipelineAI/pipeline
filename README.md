@@ -15,12 +15,12 @@
 
 ## Quick Start
 ### Local Laptop
-PipelineIO [Local](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
-* Small Kubernetes + PipelineIO Cluster for your laptop
+**Kubernetes Mini + PipelineIO Cluster for your Laptop**
+* PipelineIO [Local](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
 
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
-Kubernetes + PipelineIO Cluster on any cloud provider or data center
+**Kubernetes + PipelineIO Cluster on any Cloud or Data Center**
 * Pipeline on [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
 
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png)
