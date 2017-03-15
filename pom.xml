@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This project was generated from HomeAway's war-basic-archetype. --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>pipeline.io</groupId>
+	<artifactId>pipeline</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>pipeline</name>
+	<description>
+		PipelineAI: End-to-End ML and AI Platform for Real-time Spark and Tensorflow Data Pipelines
+	</description>
+	<url>https://github.com/fluxcapacitor/pipeline</url>
+
+	<modules>
+		<module>apachespark.ml/2.0.1/demos/pmml</module>
+		<module>apachespark.ml/2.1.0/demos/pmml</module>
+		<module>dashboard.ml/hystrix</module>
+		<module>dashboard.ml/kubernetes-ec2-autoscaler</module>
+		<module>dashboard.ml/turbine</module>
+		<module>education.ml/pipeline/myapps/beam/tutorial</module>
+		<module>education.ml/pipeline/myapps/pmml/spark/1.6.1</module>
+		<module>education.ml/pipeline/myapps/pmml/spark/2.0.1</module>
+		<module>education.ml/pipeline/myapps/pmml/spark/2.1.0</module>
+		<module>education.ml/pipeline/myapps/serving/config</module>
+		<module>education.ml/pipeline/myapps/serving/discovery</module>
+		<module>education.ml/pipeline/myapps/serving/prediction/experimental</module>
+		<module>education.ml/pipeline/myapps/serving/tensorflow</module>
+		<module>education.ml/pipeline/myapps/serving/turbine</module>
+		<module>education.ml/pipeline/myapps/beam/tutorial</module>
+		<module>prediction.ml/tensorflow/client</module>
+	</modules>
+
+</project>
