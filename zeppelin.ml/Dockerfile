@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-spark-2.0.1
+FROM fluxcapacitor/package-spark-2.1.0
 
 WORKDIR /root
 
@@ -22,7 +22,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
     rm /tmp/miniconda.sh
 
 ENV \
-  PATH=/opt/conda/bin:$PATH 
+  PATH=/opt/conda/bin:$PATH
 
 RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
@@ -84,7 +84,7 @@ ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
-COPY run run 
+COPY run run
 #COPY lib/ lib/
 #COPY notebook/ notebook/
 

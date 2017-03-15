@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-spark-2.0.1
+FROM fluxcapacitor/package-spark-2.1.0
 
 # Based on the following:  https://github.com/jupyterhub/jupyterhub/blob/master/Dockerfile
 
@@ -12,7 +12,7 @@ RUN apt-get -y update && \
 # libav-tools for matplotlib anim
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libav-tools && \
-    apt-get clean 
+    apt-get clean
 #    rm -rf /var/lib/apt/lists/*
 
 # Install JupyterHub dependencies
@@ -29,7 +29,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
     rm /tmp/miniconda.sh
 
 ENV \
-  PATH=/opt/conda/bin:$PATH 
+  PATH=/opt/conda/bin:$PATH
 
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas seaborn
@@ -113,7 +113,7 @@ RUN \
   && conda install --yes -c conda-forge notebook=4.2.3 \
   && conda install --yes -c conda-forge findspark=1.0.0 \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions 
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
@@ -149,16 +149,16 @@ ENV \
 # This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
-  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
 
 # Required by Tensorflow
 ENV \
   HADOOP_HDFS_HOME=${HADOOP_HOME}
-  
+
 # Required by Tensorflow for HDFS
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
- 
+
 ENV \
   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
 
@@ -211,8 +211,8 @@ RUN \
   pip install jupyterlab \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
 
-EXPOSE 6006 8754 
+EXPOSE 6006 8754
 
-COPY run run 
+COPY run run
 
 CMD ["supervise", "."]
