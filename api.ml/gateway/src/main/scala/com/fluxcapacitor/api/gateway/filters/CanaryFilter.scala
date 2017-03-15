@@ -64,63 +64,57 @@ class CanaryFilter extends ZuulFilter {
 
 		val canaryServices = kubeClient.services().withLabel("canary").list() //.getItems()
     println(s"""canaryServices: ${canaryServices}""")
-//		canaryServices.asScala.foreach(service => 
-//		  println(s"""Canary: ${service.getSpec.getClusterIP}:${service.getSpec.getPorts.get(0)}""")
-//		)
-//				
-		//(!ctx.containsKey("forward.to") // a filter has already forwarded
-	  //	&& !ctx.containsKey("service.id")) // a filter has already determined serviceId
-  
-  //HttpServletRequest request = ctx.getRequest();
-	//if (request.getParameter("foo") != null) {
-	//    // put the serviceId in `RequestContext`
-  // 		ctx.put(SERVICE_ID_KEY, request.getParameter("foo"));
-			// or ctx.setRouteHost(url)
-  //	}
-  //    return null;  		
-		
+    
     val httpClient = new OkHttpClient.Builder().build()
 
 		val context = RequestContext.getCurrentContext()
 		val request = context.getRequest()
 
-		val method = request.getMethod()
-
-		val uri = this.helper.buildZuulRequestURI(request)
-
-		val headers = new Headers.Builder()
-		val headerNames = request.getHeaderNames()
-		while (headerNames.hasMoreElements()) {
-			val name = headerNames.nextElement()
-			val values = request.getHeaders(name)
-
-			while (values.hasMoreElements()) {
-				val value = values.nextElement()
-				headers.add(name, value)
-			}
-		}
-
-		val inputStream = request.getInputStream()
+    println(s"""request: ${request}""")
 
 		var requestBody = null 
-		if (inputStream != null && HttpMethod.permitsRequestBody(method)) {
-			var mediaType = if (headers.get("Content-Type") != null) {
-				MediaType.parse(headers.get("Content-Type"))
-			} else {
-			  MediaType.parse("plain/text")
-			}
-			RequestBody.create(mediaType, StreamUtils.copyToByteArray(inputStream))
-		}
+        
+    // http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
 
-		val builder = new Request.Builder()
-				.headers(headers.build())
-				.url(uri)
-				.method(method, requestBody)
+		val canaryUri = this.helper.buildZuulRequestURI(request)
+    println(s"""canaryUri ${canaryUri}""")
+    
+	  if (canaryServices.getItems != null && canaryServices.getItems.size > 0) {
+  	  val canaryService = canaryServices.getItems().get(0)
+  	  val canaryHost = canaryService.getSpec.getClusterIP
+  	  val canaryPort = canaryService.getSpec.getPorts.get(0).getTargetPort.getIntVal
+  		val canaryUrl = s"""http://${canaryHost}:${canaryPort}${canaryUri}"""
+  
+      println(s"""canaryUrl ${canaryUrl}""")
 
-		val response = httpClient.newCall(builder.build()).execute()
+   		val method = request.getMethod()
+	  	val headers = new Headers.Builder()
+		  val headerNames = request.getHeaderNames()
 
-		println(s"""Response code: ${response.code()}""")
-		println(s"""Response body: ${response.body()}""")
+		  while (headerNames.hasMoreElements()) {
+			  val name = headerNames.nextElement()
+			  val values = request.getHeaders(name)
+
+			  while (values.hasMoreElements()) {
+			  	val value = values.nextElement()
+			  	headers.add(name, value)
+			  }
+		  }
+
+  		val builder = new Request.Builder()
+  				.headers(headers.build())
+  				.url(canaryUrl)
+  				.method(method, requestBody)
+  				
+  		val canaryRequest = builder.build()  		
+  	  println(s"""canaryRequest ${canaryRequest}""")
+  	  
+  	  //val response = httpClient.newCall(canaryRequest).execute()
+  	  //println(s"""Response: ${response}""")
+//	  
+//		  println(s"""Response code: ${response.code()}""")
+//		  println(s"""Response body: ${response.body()}""")
+	  }
 
     null
   }
