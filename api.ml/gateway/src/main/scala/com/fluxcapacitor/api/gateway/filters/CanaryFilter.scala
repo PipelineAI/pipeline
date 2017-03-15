@@ -88,26 +88,32 @@ class CanaryFilter extends ZuulFilter {
       println(s"""canaryUrl ${canaryUrl}""")
 
    		val method = request.getMethod()
+      println(s"""method ${method}""")
+   		
 	  	val headers = new Headers.Builder()
+      println(s"""headers ${headers}""")
+            
 		  val headerNames = request.getHeaderNames()
-
-		  while (headerNames.hasMoreElements()) {
-			  val name = headerNames.nextElement()
-			  val values = request.getHeaders(name)
-
-			  while (values.hasMoreElements()) {
-			  	val value = values.nextElement()
-			  	headers.add(name, value)
-			  }
+      println(s"""headerNames ${headerNames}""")
+		  if (headerNames != null) {
+  		  while (headerNames.hasMoreElements()) {
+  			  val name = headerNames.nextElement()
+  			  val values = request.getHeaders(name)
+  
+  			  while (values.hasMoreElements()) {
+  			  	val value = values.nextElement()
+  			  	headers.add(name, value)
+  			  }
+  		  }
 		  }
 
-//  		val builder = new Request.Builder()
-//  				.headers(headers.build())
-//  				.url(canaryUrl)
-//  				.method(method, requestBody)
-//  				
-//  		val canaryRequest = builder.build()  		
-//  	  println(s"""canaryRequest ${canaryRequest}""")
+  		val builder = new Request.Builder()
+  				.headers(headers.build())
+  				.url(canaryUrl)
+  				.method(method, requestBody)
+  				
+  		val canaryRequest = builder.build()  		
+  	  println(s"""canaryRequest ${canaryRequest}""")
   	  
   	  //val response = httpClient.newCall(canaryRequest).execute()
   	  //println(s"""Response: ${response}""")
