@@ -11,7 +11,7 @@ cd $PIPELINE_HOME/package.ml/spark/2.0.1/ && sudo docker build -q -t fluxcapacit
 
 cd $PIPELINE_HOME/package.ml/kafka/0.8/ && sudo docker build  -q -t fluxcapacitor/package-kafka-0.8 .
 cd $PIPELINE_HOME/package.ml/kafka/0.10/ && sudo docker build -q -t fluxcapacitor/package-kafka-0.10 .
-cd $PIPELINE_HOME/package.ml/presto/0.145/ && sudo docker build -q -t fluxcapacitor/package-presto-0.145 .
+cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build -q -t fluxcapacitor/package-presto-0.167 .
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build -q -t fluxcapacitor/package-apache2 .
 
 # apachespark.ml
@@ -68,8 +68,8 @@ cd $PIPELINE_HOME/prediction.ml/python && sudo docker build -q -t fluxcapacitor/
 cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build -q -t fluxcapacitor/prediction-tensorflow .
 
 # presto.ml
-cd $PIPELINE_HOME/presto.ml/presto-master && sudo docker build -q -t fluxcapacitor/presto-master-0.145 .
-cd $PIPELINE_HOME/presto.ml/presto-worker && sudo docker build -q -t fluxcapacitor/presto-worker-0.145 .
+cd $PIPELINE_HOME/presto.ml/presto-master && sudo docker build -q -t fluxcapacitor/presto-master-0.167 .
+cd $PIPELINE_HOME/presto.ml/presto-worker && sudo docker build -q -t fluxcapacitor/presto-worker-0.167 .
 
 # scheduler.ml
 cd $PIPELINE_HOME/scheduler.ml/airflow && sudo docker build -q -t fluxcapacitor/scheduler-airflow .

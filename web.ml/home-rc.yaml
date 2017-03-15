@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-home 
+  name: web-home
   labels:
-    app: web-home 
+    app: web-home
 spec:
   replicas: 1
   selector:
-    name: web-home 
+    name: web-home
   template:
     metadata:
       labels:
-        name: web-home 
+        name: web-home
     spec:
       containers:
-      - name: web-home 
+      - name: web-home
         image: docker.io/fluxcapacitor/web-home
         imagePullPolicy: "Always"
         env:
@@ -30,5 +30,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         training: "true"

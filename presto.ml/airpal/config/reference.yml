@@ -10,7 +10,7 @@ logging:
 server:
   applicationConnectors:
     - type: http
-      port: 4123 
+      port: 4123
       idleTimeout: 10 seconds
 
   adminConnectors:
@@ -22,7 +22,7 @@ shiro:
 
 dataSourceFactory:
   driverClass: com.mysql.jdbc.Driver
-  user: root 
+  user: root
   password: password
   url: jdbc:mysql://mysql-master:3306/airpal
 
@@ -31,3 +31,5 @@ flywayFactory:
 
 # The URL to the Presto coordinator.
 prestoCoordinator: http://presto-master:7060
+prestoCatalog: cassandra
+prestoSchema: system

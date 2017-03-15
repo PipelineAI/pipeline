@@ -34,5 +34,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         prediction: "true"
