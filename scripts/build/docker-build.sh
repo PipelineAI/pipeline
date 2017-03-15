@@ -7,7 +7,7 @@ cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapaci
 cd $PIPELINE_HOME/package.ml/anaconda/4.1.11/ && sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 .
 cd $PIPELINE_HOME/package.ml/java/openjdk/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8 .
 cd $PIPELINE_HOME/package.ml/java/oracle/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-oracle-1.8 .
-cd $PIPELINE_HOME/package.ml/spark/2.0.1/ && sudo docker build -q -t fluxcapacitor/package-spark-2.0.1 .
+cd $PIPELINE_HOME/package.ml/spark/2.1.0/ && sudo docker build -q -t fluxcapacitor/package-spark-2.1.0 .
 
 cd $PIPELINE_HOME/package.ml/kafka/0.8/ && sudo docker build  -q -t fluxcapacitor/package-kafka-0.8 .
 cd $PIPELINE_HOME/package.ml/kafka/0.10/ && sudo docker build -q -t fluxcapacitor/package-kafka-0.10 .
