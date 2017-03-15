@@ -1,0 +1,3 @@
+#!/bin/bash
+
+nohup bin/yanagishima-start.sh >y.log 2>&1 &
