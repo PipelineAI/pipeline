@@ -101,13 +101,13 @@ class CanaryFilter extends ZuulFilter {
 			  }
 		  }
 
-  		val builder = new Request.Builder()
-  				.headers(headers.build())
-  				.url(canaryUrl)
-  				.method(method, requestBody)
-  				
-  		val canaryRequest = builder.build()  		
-  	  println(s"""canaryRequest ${canaryRequest}""")
+//  		val builder = new Request.Builder()
+//  				.headers(headers.build())
+//  				.url(canaryUrl)
+//  				.method(method, requestBody)
+//  				
+//  		val canaryRequest = builder.build()  		
+//  	  println(s"""canaryRequest ${canaryRequest}""")
   	  
   	  //val response = httpClient.newCall(canaryRequest).execute()
   	  //println(s"""Response: ${response}""")
