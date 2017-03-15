@@ -9,12 +9,12 @@ sudo docker push fluxcapacitor/package-spark-2.0.1
 
 sudo docker push fluxcapacitor/package-kafka-0.8
 sudo docker push fluxcapacitor/package-kafka-0.10
-sudo docker push fluxcapacitor/package-presto-0.145
-sudo docker push fluxcapacitor/package-apache2 
+sudo docker push fluxcapacitor/package-presto-0.167
+sudo docker push fluxcapacitor/package-apache2
 
 # apachespark.ml
-sudo docker push fluxcapacitor/apachespark-master-2.0.1 
-sudo docker push fluxcapacitor/apachespark-worker-2.0.1 
+sudo docker push fluxcapacitor/apachespark-master-2.1.0
+sudo docker push fluxcapacitor/apachespark-worker-2.1.0
 
 # cassandra.ml
 sudo docker push fluxcapacitor/cassandra 
@@ -62,8 +62,8 @@ sudo docker push fluxcapacitor/prediction-tensorflow
 sudo docker push fluxcapacitor/prediction-python
 
 # presto.ml
-sudo docker push fluxcapacitor/presto-master-0.145 
-sudo docker push fluxcapacitor/presto-worker-0.145 
+sudo docker push fluxcapacitor/presto-master-0.167
+sudo docker push fluxcapacitor/presto-worker-0.167
 
 # scheduler.ml
 sudo docker push fluxcapacitor/scheduler-airflow 

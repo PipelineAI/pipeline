@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: spark-master-2-0-1
+  name: spark-master-2-1-0
 spec:
   type: LoadBalancer
   ports:
@@ -30,4 +30,4 @@ spec:
     port: 4044
     targetPort: 4044
   selector:
-    name: spark-master-2-0-1
+    name: spark-master-2-1-0

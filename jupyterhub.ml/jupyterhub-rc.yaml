@@ -21,19 +21,27 @@ spec:
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
-          value: spark://spark-master-2-0-1:7077 
+          value: spark://spark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
           value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --conf spark.cassandra.connection.host=cassandra --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,org.apache.spark:spark-streaming-kafka-0-8_2.11:2.0.1,com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3,com.databricks:spark-avro_2.11:3.0.1 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
         ports:
         - containerPort: 6006
         - containerPort: 8754
         volumeMounts:
-          - name: git-volume
+          - name: kube-config-secret-volume
+            readOnly: true
+            mountPath: /root/.kube
+	  - name: git-volume
             mountPath: /root/volumes
       volumes:
-        - name: git-volume
+        - name: kube-config-secret-volume
+          secret:
+            secretName: kube-config-secret
+	- name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         training: "true"

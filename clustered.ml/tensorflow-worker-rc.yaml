@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: clustered-tensorflow-worker 
+  name: clustered-tensorflow-worker
   labels:
     app: clustered-tensorflow-worker
 spec:
@@ -38,5 +38,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         training: "true"

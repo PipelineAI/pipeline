@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: redis-master 
+  name: redis-master
   labels:
     app: redis-master
 spec:
@@ -31,5 +31,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         training: "true"

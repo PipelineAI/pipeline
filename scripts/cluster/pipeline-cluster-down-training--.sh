@@ -17,12 +17,12 @@ kubectl delete rc elasticsearch-2-3-0
 kubectl delete svc elasticsearch-2-3-0
 
 echo '...Spark Master...'
-kubectl delete rc spark-master-2-0-1
-kubectl delete svc spark-master-2-0-1
+kubectl delete rc spark-master-2-1-0
+kubectl delete svc spark-master-2-1-0
 
 echo '...Spark Worker...'
-kubectl delete rc spark-worker-2-0-1
-kubectl delete svc spark-worker-2-0-1
+kubectl delete rc spark-worker-2-1-0
+kubectl delete svc spark-worker-2-1-0
 
 echo '...Hive Metastore...'
 kubectl delete rc metastore-1-2-1

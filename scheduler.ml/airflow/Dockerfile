@@ -142,8 +142,9 @@ COPY run run
 #RUN \
 #  git clone https://github.com/fluxcapacitor/pipeline
 
-RUN \
-  mkdir -p ~/.kube
+# We will need a .kube/ to interact with Kubernetes
+#COPY .kube/ .kube/
+
 
 #ENV \
 #  SOURCE_ML_HOME=/root/source.ml

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-sparkafterdark 
+  name: web-sparkafterdark
   labels:
     app: web-sparkafterdark
 spec:
@@ -30,5 +30,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
       nodeSelector:
         training: "true"

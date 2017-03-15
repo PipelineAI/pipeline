@@ -197,8 +197,9 @@ COPY profiles/ /root/.ipython/
 #RUN \
 #  mkdir -p /root/.ipython
 
-RUN \
-  mkdir -p ~/.kube
+# .kube/config is volume mounted from Kubernetes secret
+#RUN \
+#  mkdir -p ~/.kube
 
 #RUN \
 #  pip uninstall -y tensorflow

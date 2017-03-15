@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: cassandra 
+  name: cassandra
   labels:
     app: cassandra
 spec:
@@ -26,4 +26,4 @@ spec:
         - containerPort: 9160
         - containerPort: 7000
       nodeSelector:
-        training: "true" 
+        training: "true"
