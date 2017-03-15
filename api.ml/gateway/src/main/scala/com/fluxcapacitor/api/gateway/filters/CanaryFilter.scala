@@ -5,6 +5,10 @@ import com.netflix.zuul.context.RequestContext
 
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
+import scala.collection.JavaConverters._
+import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper
+import org.springframework.beans.factory.annotation.Autowired
+import java.net.URI
 
 //import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.IS_DISPATCHER_SERVLET_REQUEST_KEY
 
@@ -12,8 +16,8 @@ import io.fabric8.kubernetes.client.KubernetesClient
 //  http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
 //
 class CanaryFilter extends ZuulFilter {  
-//  @Autowired
-//  val helper: ProxyRequestHelper
+  @Autowired
+  val helper: ProxyRequestHelper = null
 
   @Override
   def filterType(): String = {
@@ -34,16 +38,31 @@ class CanaryFilter extends ZuulFilter {
 
   @Override
   def run(): Object = {
-		val ctx = RequestContext.getCurrentContext();
+		val ctx = RequestContext.getCurrentContext()
     
 //    System.out.println(s"""Lists: ${kubeClient.lists()}""")
     
 //    System.out.println(s"""Services: ${kubeClient.services()}""")
+    val beforeRouteHost = ctx.getRouteHost
+		println(s"""Before route host: ${beforeRouteHost}""")		
+
+    val predictionKeyValueService = kubeClient.services().withName("prediction-keyvalue").get()
+		println(predictionKeyValueService.getSpec)	
 		
-//		https://github.com/fabric8io/kubernetes-client
+//		https://github.com/fabric8io/kubernetes-client		
+		val canaryServices = kubeClient.services().withLabel("canary").list().getItems()
+
+		canaryServices.asScala.foreach(service => 
+		  println(s"""Canary: ${service.getSpec.getClusterIP}:${service.getSpec.getPorts.get(0)}""")
+		)
 		
-		kubeClient.services().withLabel("canary") 
-      
+//		val afterRouteHost = new URI(beforeRouteHost.getUserInfo, beforeRouteHost.getHost, beforeRouteHost.getPort, 
+//		    beforeRouteHost.getPath, beforeRouteHost.getQuery)
+		
+		//ctx.setRouteHost(beforeRouteHost.
+		
+		println(s"""After route host: ${"blah"}""")
+		
 		//(!ctx.containsKey("forward.to") // a filter has already forwarded
 	  //	&& !ctx.containsKey("service.id")) // a filter has already determined serviceId
   
