@@ -45,24 +45,22 @@ class CanaryFilter extends ZuulFilter {
 //    System.out.println(s"""Services: ${kubeClient.services()}""")
     val beforeRouteHost = ctx.getRouteHost
 		println(s"""Before route host: ${beforeRouteHost}""")		
-
+		
     val predictionKeyValueService = kubeClient.services().withName("prediction-keyvalue").get()
-		println(predictionKeyValueService.getSpec)	
+		println(s"""After route host: ${"blah1"}""")
+		println(s"""predictionKeyValueService:  ${predictionKeyValueService}""")
+		
+    //println(predictionKeyValueService.getSpec)			
+		println(s"""After route host: ${"blah2"}""")
 		
 //		https://github.com/fabric8io/kubernetes-client		
-		val canaryServices = kubeClient.services().withLabel("canary").list().getItems()
 
-		canaryServices.asScala.foreach(service => 
-		  println(s"""Canary: ${service.getSpec.getClusterIP}:${service.getSpec.getPorts.get(0)}""")
-		)
-		
-//		val afterRouteHost = new URI(beforeRouteHost.getUserInfo, beforeRouteHost.getHost, beforeRouteHost.getPort, 
-//		    beforeRouteHost.getPath, beforeRouteHost.getQuery)
-		
-		//ctx.setRouteHost(beforeRouteHost.
-		
-		println(s"""After route host: ${"blah"}""")
-		
+		val canaryServices = kubeClient.services().withLabel("canary").list() //.getItems()
+    println(s"""canaryServices: ${canaryServices}""")
+//		canaryServices.asScala.foreach(service => 
+//		  println(s"""Canary: ${service.getSpec.getClusterIP}:${service.getSpec.getPorts.get(0)}""")
+//		)
+//				
 		//(!ctx.containsKey("forward.to") // a filter has already forwarded
 	  //	&& !ctx.containsKey("service.id")) // a filter has already determined serviceId
   
@@ -74,7 +72,7 @@ class CanaryFilter extends ZuulFilter {
   //	}
   //    return null;  		
 		
-  //  System.out.println(s"""${"foo"} request to ${"bar"}""");
+    System.out.println(s"""${"foo"} request to ${"bar"}""");
       
     null
   }
