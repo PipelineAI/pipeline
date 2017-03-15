@@ -9,6 +9,13 @@ import scala.collection.JavaConverters._
 import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper
 import org.springframework.beans.factory.annotation.Autowired
 import java.net.URI
+import okhttp3.Headers
+import okhttp3.internal.http.HttpMethod
+import okhttp3.MediaType
+import org.springframework.util.StreamUtils
+import okhttp3.RequestBody
+import okhttp3.Request
+import okhttp3.OkHttpClient
 
 //import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.IS_DISPATCHER_SERVLET_REQUEST_KEY
 
@@ -72,8 +79,49 @@ class CanaryFilter extends ZuulFilter {
   //	}
   //    return null;  		
 		
-    System.out.println(s"""${"foo"} request to ${"bar"}""");
-      
+    val httpClient = new OkHttpClient.Builder().build()
+
+		val context = RequestContext.getCurrentContext()
+		val request = context.getRequest()
+
+		val method = request.getMethod()
+
+		val uri = this.helper.buildZuulRequestURI(request)
+
+		val headers = new Headers.Builder()
+		val headerNames = request.getHeaderNames()
+		while (headerNames.hasMoreElements()) {
+			val name = headerNames.nextElement()
+			val values = request.getHeaders(name)
+
+			while (values.hasMoreElements()) {
+				val value = values.nextElement()
+				headers.add(name, value)
+			}
+		}
+
+		val inputStream = request.getInputStream()
+
+		var requestBody = null 
+		if (inputStream != null && HttpMethod.permitsRequestBody(method)) {
+			var mediaType = if (headers.get("Content-Type") != null) {
+				MediaType.parse(headers.get("Content-Type"))
+			} else {
+			  MediaType.parse("plain/text")
+			}
+			RequestBody.create(mediaType, StreamUtils.copyToByteArray(inputStream))
+		}
+
+		val builder = new Request.Builder()
+				.headers(headers.build())
+				.url(uri)
+				.method(method, requestBody)
+
+		val response = httpClient.newCall(builder.build()).execute()
+
+		println(s"""Response code: ${response.code()}""")
+		println(s"""Response body: ${response.body()}""")
+
     null
   }
 }
