@@ -97,23 +97,23 @@ RUN \
 
 # TODO:  Replace with conda version of SparkR:
 #          https://www.continuum.io/blog/developer-blog/anaconda-r-users-sparkr-and-rbokeh
-RUN \
-  apt-get install -y libcurl4-openssl-dev \
-  && apt-get install -y libzmq3 libzmq3-dev \
-  && apt-get install -y zip \
-  && ln -s /bin/tar /bin/gtar \
-  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
-  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
-  && R -e "devtools::install_github('IRkernel/IRkernel')" \
-  && R -e "IRkernel::installspec(user = FALSE)"
+#RUN \
+#  apt-get install -y libcurl4-openssl-dev \
+#  && apt-get install -y libzmq3 libzmq3-dev \
+#  && apt-get install -y zip \
+#  && ln -s /bin/tar /bin/gtar \
+#  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+#  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
+#  && R -e "devtools::install_github('IRkernel/IRkernel')" \
+#  && R -e "IRkernel::installspec(user = FALSE)"
 
 RUN \
-  conda install --yes -c conda-forge jupyterhub=0.6.1 \
-  && conda install --yes -c conda-forge ipykernel=4.5.0 \
-  && conda install --yes -c conda-forge notebook=4.2.3 \
+  conda install --yes -c conda-forge jupyterhub=0.7.2 \
+  && conda install --yes -c conda-forge ipykernel=4.5.2 \
+  && conda install --yes -c conda-forge notebook=4.4.1 \
   && conda install --yes -c conda-forge findspark=1.0.0 \
-  && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions
+  && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
@@ -125,8 +125,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   pip install jupyterhub-simplespawner

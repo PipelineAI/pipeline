@@ -8,7 +8,7 @@ ENV \
 
 # TODO: Add the Nvidia CUDA Profile Tools Interface
 #RUN \
-#  sudo apt-get install libcupti-dev
+#  apt-get install libcupti-dev
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \

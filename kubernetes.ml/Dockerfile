@@ -14,8 +14,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
@@ -69,8 +69,8 @@ RUN \
   pip install --upgrade google-cloud
 
 RUN \
-  apt-get update && sudo apt-get install -y libssl-dev libffi-dev python-dev build-essential \
-  && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/azure-cli/ wheezy main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
+  apt-get update && apt-get install -y libssl-dev libffi-dev python-dev build-essential \
+  && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/azure-cli/ wheezy main" | tee /etc/apt/sources.list.d/azure-cli.list \
   && apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893 \
   && apt-get install -y apt-transport-https \
   && apt-get update \

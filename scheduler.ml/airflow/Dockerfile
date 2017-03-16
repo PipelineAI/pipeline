@@ -75,8 +75,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   mkdir -p $AIRFLOW_HOME \
