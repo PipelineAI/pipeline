@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Notes:
 #   The contents ond tools installed in this Dockerfile have only been tested on Ubuntu 14.04.
@@ -25,7 +25,7 @@ ENV \
  JEDIS_VERSION=2.7.3 \
  JBLAS_VERSION=1.2.4 \
  BAZEL_VERSION=0.2.2 \
- TENSORFLOW_VERSION=1.0.0 \
+ TENSORFLOW_VERSION=1.0.1 \
  TENSORFLOW_SERVING_VERSION=0.5.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc)
 #   in order to properly install Bazel (used by TensorFlow)

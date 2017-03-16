@@ -12,7 +12,7 @@ ENV \
 
 # Required by TensorFlow Serving
 RUN \
-  apt-get update && sudo apt-get install -y \
+  apt-get update && apt-get install -y \
         build-essential \
         curl \
         libcurl3-dev \

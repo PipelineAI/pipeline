@@ -50,7 +50,7 @@ ENV \
  GRAPHFRAMES_VERSION=0.1.0-spark1.6 \
  FLINK_VERSION=1.0.0 \
  BAZEL_VERSION=0.4.4 \ 
- TENSORFLOW_VERSION=1.0.0 \
+ TENSORFLOW_VERSION=1.0.1 \
 # TODO:  CHange this to master
  TENSORFLOW_SERVING_VERSION=0.5.1 \
 # JAVA_HOME required here (versus config/bash/pipeline.bashrc) 
@@ -119,7 +119,7 @@ RUN \
   conda install --yes nltk networkx
 
 ENV \
-  TENSORFLOW_VERSION=1.0.0
+  TENSORFLOW_VERSION=1.0.1
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
