@@ -1,3 +1,0 @@
-trainingInput:
-  # Use a cluster with many workers and a few parameter servers.
-  scaleTier: STANDARD_1
