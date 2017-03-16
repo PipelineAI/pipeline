@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-14.04
+FROM fluxcapacitor/package-ubuntu-16.04
 
 WORKDIR /root
 

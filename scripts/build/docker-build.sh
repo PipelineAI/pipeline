@@ -4,6 +4,7 @@ cd $PIPELINE_HOME
 
 # package.ml
 cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-14.04 .
+cd $PIPELINE_HOME/package.ml/ubuntu/16.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-16.04 .
 cd $PIPELINE_HOME/package.ml/anaconda/4.1.11/ && sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 .
 cd $PIPELINE_HOME/package.ml/java/openjdk/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8 .
 cd $PIPELINE_HOME/package.ml/java/oracle/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-oracle-1.8 .

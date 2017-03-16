@@ -2,6 +2,7 @@ cd $PIPELINE_HOME
 
 # package.ml
 sudo docker push fluxcapacitor/package-ubuntu-14.04
+sudo docker push fluxcapacitor/package-ubuntu-16.04
 sudo docker push fluxcapacitor/package-anaconda-4.1.11
 sudo docker push fluxcapacitor/package-java-openjdk-1.8
 sudo docker push fluxcapacitor/package-java-oracle-1.8
