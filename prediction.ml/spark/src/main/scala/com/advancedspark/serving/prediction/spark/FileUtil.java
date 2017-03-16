@@ -1,4 +1,4 @@
-package com.advancedspark.serving.prediction.spark.FileUtil;
+package com.advancedspark.serving.prediction.spark;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
