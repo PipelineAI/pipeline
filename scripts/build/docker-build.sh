@@ -18,6 +18,8 @@ cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build -q -t fluxcapacitor/p
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-master-2.0.1 -f Dockerfile.master .
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-worker-2.0.1 -f Dockerfile.worker .
+cd $PIPELINE_HOME/apachespark.ml/2.1.0/ && sudo docker build -q -t fluxcapacitor/apachespark-master-2.1.0 -f Dockerfile.master .
+cd $PIPELINE_HOME/apachespark.ml/2.1.0/ && sudo docker build -q -t fluxcapacitor/apachespark-worker-2.1.0 -f Dockerfile.worker .
 
 # cassandra.ml
 cd $PIPELINE_HOME/cassandra.ml && sudo docker build -q -t fluxcapacitor/cassandra .
