@@ -4,7 +4,7 @@ WORKDIR /root
 
 ENV \
   GRADLE_VERSION=2.2 \
-  PRESTO_VERSION=0.147
+  PRESTO_VERSION=0.167
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
 RUN \

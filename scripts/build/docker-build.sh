@@ -70,8 +70,9 @@ cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build -q -t fluxcapaci
 # presto.ml
 cd $PIPELINE_HOME/presto.ml/presto-master && sudo docker build -q -t fluxcapacitor/presto-master-0.167 .
 cd $PIPELINE_HOME/presto.ml/presto-worker && sudo docker build -q -t fluxcapacitor/presto-worker-0.167 .
+cd $PIPELINE_HOME/presto.ml/presto-ui && sudo docker build -q -t fluxcapacitor/presto-ui .
 
-# scheduler.ml
+# scheduler.m l
 cd $PIPELINE_HOME/scheduler.ml/airflow && sudo docker build -q -t fluxcapacitor/scheduler-airflow .
 
 # sql.ml

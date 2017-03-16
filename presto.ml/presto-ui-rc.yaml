@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: yanagishima
+  name: presto-ui 
   labels:
-    app: yanagishima
+    app: presto-ui
 spec:
   replicas: 1
   selector:
-    name: yanagishima
+    name: presto-ui 
   template:
     metadata:
       labels:
-        name: yanagishima
+        name: presto-ui 
     spec:
       containers:
-      - name: yanagishima
-        image: docker.io/fluxcapacitor/yanagishima
+      - name: presto-ui 
+        image: docker.io/fluxcapacitor/presto-ui
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
