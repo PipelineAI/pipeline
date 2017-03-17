@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu14.04
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 WORKDIR /root
 
@@ -17,10 +17,10 @@ ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN \
-  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
-  && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-  && sudo apt-get update \
-  && sudo apt-get install -y sbt
+  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && apt-get update \
+  && apt-get install -y sbt
 
 RUN \
   sbt clean clean-files
@@ -47,7 +47,7 @@ ENV \
 
 # Required by TensorFlow Serving
 RUN \
-  apt-get update && sudo apt-get install -y \
+  apt-get update && apt-get install -y \
         build-essential \
         curl \
         libcurl3-dev \
