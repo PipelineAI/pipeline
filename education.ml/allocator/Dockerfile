@@ -1,5 +1,8 @@
 FROM fluxcapacitor/package-ubuntu-16.04
 
+RUN \
+  pip install flask requests
+
 WORKDIR /root
 
 COPY allocator.py allocator.py 
