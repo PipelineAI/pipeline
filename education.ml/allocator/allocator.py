@@ -17,6 +17,10 @@ global output_file
 global output_filewriter
 global allocated_data
 
+@app.route('/whoami')
+def whoami():
+  return jsonify({"whoami_ip": request.remote_addr})
+
 @app.route('/allocate')
 def allocate():
   global index
@@ -27,13 +31,14 @@ def allocate():
   lock.acquire()
   time = strftime("%Y-%m-%d-%H:%M:%S", gmtime())
   if (index <= max_index):
-    datum = data[index]
+    override = request.args.get('override', 'false')
+    if (request.remote_addr in allocated_data and override == 'true'):
+      datum = "ERROR_DUPLICATE_ALLOCATION_REQUEST"
+    else:
+      datum = data[index]
   else:
-    datum = "ERROR_MAX_INDEX_REACHED" % max_index
+    datum = "ERROR_MAX_INDEX_REACHED"
 
-  if (request.remote_addr in allocated_data):
-    datum = "ERROR_DUPLICATE_ALLOCATION_REQUEST"
-  
   print("(%s, %s, %s, %s)" % (time, request.remote_addr, index, datum))
 
   output_filewriter.writerow([time, request.remote_addr, index, datum])
