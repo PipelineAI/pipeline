@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.advancedspark.serving.prediction.codegen
+package com.advancedspark.serving.prediction.java
 
 import java.io.ByteArrayInputStream
 import java.util.{ Map => JavaMap }

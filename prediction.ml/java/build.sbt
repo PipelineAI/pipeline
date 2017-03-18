@@ -6,7 +6,7 @@ val globalSettings = Seq(
 (unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 
 lazy val settings = (project in file("."))
-                    .settings(name := "prediction-codegen")
+                    .settings(name := "prediction-java")
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= deps)
 		    .settings(javaOptions += "-Xmx10G")
@@ -40,10 +40,7 @@ lazy val deps = Seq(
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
   "redis.clients"      % "jedis"     % jedisVersion, 
   "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
 // This must stay 1.1.1.RELEASE or jackson.xml errors happen at runtime
   "org.springframework.cloud" % "spring-cloud-starter-config" % "1.1.1.RELEASE",
   "org.jpmml" % "pmml-model-metro" % pmmlMetroVersion,

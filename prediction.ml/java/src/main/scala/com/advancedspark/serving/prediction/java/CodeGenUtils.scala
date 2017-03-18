@@ -1,4 +1,4 @@
-package com.advancedspark.serving.prediction.codegen
+package com.advancedspark.serving.prediction.java
 
 import com.codahale.metrics.MetricRegistry
 
