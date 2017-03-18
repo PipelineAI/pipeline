@@ -28,20 +28,12 @@ spec:
         - containerPort: 6006
         - containerPort: 8754
         volumeMounts:
-          - name: kube-config-secret-volume
-            readOnly: true
-            mountPath: /root/.kube
-	  - name: git-volume
+          - name: git-volume
             mountPath: /root/volumes
       volumes:
-        - name: kube-config-secret-volume
-          secret:
-            secretName: kube-config-secret
-	- name: git-volume
+        - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-      imagePullSecrets:
-        - name: githubsshkey
       nodeSelector:
         training: "true"
