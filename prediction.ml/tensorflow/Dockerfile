@@ -8,6 +8,7 @@ ENV \
 
 # TensorFlow Serving Home (not required on PATH)
 ENV \
+  TENSORFLOW_HOME=/root/serving/tensorflow \
   TENSORFLOW_SERVING_HOME=/root/serving
 
 # Required by TensorFlow Serving
@@ -31,6 +32,20 @@ RUN \
 
 RUN \
   pip install grpcio
+
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 RUN \
   echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
@@ -69,40 +84,26 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
-  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && tensorflow/tools/ci_build/builds/configured CPU \
-    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
-  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && tensorflow/tools/ci_build/builds/configured CPU \
+#    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
+#  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
-RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+#RUN \
+#  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:optimize_for_inference
-
-# Install Python with conda
-RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
-    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
-    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
-    /opt/conda/bin/pip install --upgrade pip && \
-    rm /tmp/miniconda.sh
-
-ENV \
-  PATH=/opt/conda/bin:$PATH
-
-RUN \
-  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 #RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
