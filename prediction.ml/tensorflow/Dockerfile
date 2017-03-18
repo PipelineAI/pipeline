@@ -5,7 +5,7 @@ WORKDIR /root
 ENV \
  BAZEL_VERSION=0.4.4 \
  TENSORFLOW_SERVING_VERSION=0.5.1
- 
+
 # TensorFlow Serving Home (not required on PATH)
 ENV \
   TENSORFLOW_SERVING_HOME=/root/serving
@@ -38,7 +38,7 @@ RUN \
 ENV \
   BAZELRC=/root/.bazelrc
 
-RUN \ 
+RUN \
   mkdir /root/bazel \
   && cd /root/bazel \
   && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
@@ -50,22 +50,44 @@ RUN \
 # TensorFlow Serving
 RUN \
  cd ~ \
- && git clone -b $TENSORFLOW_SERVING_VERSION --recurse-submodules https://github.com/tensorflow/serving.git
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
 
 RUN \
-  cd ~/serving/tensorflow \
-  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+ cd $TENSORFLOW_SERVING_HOME \
+ && git reset --hard ed82469b2797a437a8fe2a05e08c0a1d48ae1263
+
+ENV TF_NEED_CUDA=0
+ENV TF_NEED_GCP=0
+ENV TF_NEED_JEMALLOC=1
+ENV TF_NEED_HDFS=0
+ENV TF_NEED_OPENCL=0
+ENV TF_ENABLE_XLA=0
 
 RUN \
-  cd ~/serving \
-  && bazel build -c opt tensorflow_serving/...
+  cd $TENSORFLOW_HOME \
+  && printf "\n\n\n" | ./configure
+
+RUN \
+  cd $TENSORFLOW_SERVING_HOME \
+  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+  && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
+RUN \
+  cd $TENSORFLOW_HOME \
+  && tensorflow/tools/ci_build/builds/configured CPU \
+    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+
+RUN \
+  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+
 # Utility for optimizing/simplifying models for inference
 RUN \
-  cd ~/serving/tensorflow \
+  cd $TENSORFLOW_HOME \
   && bazel build tensorflow/python/tools:optimize_for_inference
 
 # Install Python with conda
@@ -82,12 +104,9 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-
-RUN \
-  pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+#RUN \
+#  pip install --ignore-installed --upgrade pip setuptools \
+#  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   apt-get update \
@@ -112,14 +131,14 @@ RUN \
   && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
 
 RUN \
-  sbt clean package 
+  sbt clean package
 
 RUN \
-  mkdir -p /root/tensorboard 
+  mkdir -p /root/tensorboard
 
 ENV \
   STORE_HOME=/root/store
 
-EXPOSE 5678 6006 9000 9001 9002 9040 
+EXPOSE 5678 6006 9000 9001 9002 9040
 
 CMD ["supervise", "."]
