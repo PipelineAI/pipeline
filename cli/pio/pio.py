@@ -22,9 +22,11 @@ def main():
   print("")
   print("Usage:")
   print("  pipelineio [options] <command> <namespace> <args>") 
-  print("")
+  print("Command examples:")
+  print("  pipelineio deploy -n my_namespace -f my_model.pmml -m my_model -t prediction-pmml-aws.demo.pipeline.io")
   parser = OptionParser()
   parser.add_option("-t", "--target", dest="target", help="target host:port")
+  parser.add_option("-n", "--namespace", dest="namespace", help="namespace")
   parser.add_option("-m", "--model", dest="model", help="model")
   parser.add_option("-v", "--version", dest="version", help="version")
   parser.add_option("-f", "--filename", dest="filename", help="filename")
@@ -47,26 +49,14 @@ def main():
       predict_with_string(target=options.target, namespace=namespace, model=options.model, version=options.version, string=options.string)
     else:
       print("Invalid command.")
-  elif (command == "update"):
+  elif (command == "deploy"):
     if (options.filename):
-      update_with_file(target=options.target, model=options.model, version=options.version, filename=options.filename)
+      deploy_with_file(target=options.target, model=options.model, version=options.version, filename=options.filename)
     elif (options.string):
-      update_with_string(target=options.target, model=options.model, version=options.version, string=options.string)
+      deploy_with_string(target=options.target, model=options.model, version=options.version, string=options.string)
   else:
     print("Invalid command.")
  
-def predict_with_string(_sentinel=None, target=None, namespace=None, model=None, version=None, string=None):
-  print("Evaluate string '%s'" % string)
-  print("")
-
-  url = "http://%s/evaluate-pmml/%s/%s/%s" % (target, namespace, model, version)
-  print(url)
-  print("")
-
-  headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-  response = requests.post(url, data=string, headers=headers, timeout=30)
-  print(response.text)
-
 def predict_with_file(_sentinel=None, target=None, namespace=None, model=None, version=None, filename=None):
   print("Evaluate file '%s'" % filename)
   print("")
@@ -80,8 +70,20 @@ def predict_with_file(_sentinel=None, target=None, namespace=None, model=None, v
   response = requests.post(url, files=files, timeout=60)
   print(response.text)
 
-def update_with_file(_sentinel=None, target=None, namespace=None, model=None, version=None, filename=None):
-  print("Update model '%s'" % model)
+def predict_with_string(_sentinel=None, target=None, namespace=None, model=None, version=None, string=None):
+  print("Evaluate string '%s'" % string)
+  print("")
+
+  url = "http://%s/evaluate-pmml/%s/%s/%s" % (target, namespace, model, version)
+  print(url)
+  print("")
+
+  headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+  response = requests.post(url, data=string, headers=headers, timeout=30)
+  print(response.text)
+
+def deploy_with_file(_sentinel=None, target=None, namespace=None, model=None, version=None, filename=None):
+  print("Deploy model '%s'" % model)
   print("")
 
   files = [('model', (filename, open(filename, 'rb')))]
@@ -91,6 +93,17 @@ def update_with_file(_sentinel=None, target=None, namespace=None, model=None, ve
   print("")
 
   response = requests.post(url, files=files, timeout=120)
+  print(response.text)
+
+def deploy_with_string(_sentinel=None, target=None, namespace=None, model=None, version=None, string=None):
+  print("Deploy model '%s'" % model)
+  print("")
+
+  url = "http://%s/update-pmml/%s/%s/%s" % (target, namespace, model, version)
+  print(url)
+  print("")
+
+  response = requests.post(url, data=string, timeout=120)
   print(response.text)
 
 main()

@@ -12,14 +12,21 @@ import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
 import org.jblas.DoubleMatrix
 
-class UserItemBatchPredictionCommand(name: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int, 
+class UserItemBatchPredictionCommand(commandName: String, 
+                                     namespace: String, 
+                                     version: String, 
+                                     userId: String, 
+                                     itemId: String, 
+                                     timeout: Int, 
+                                     concurrencyPoolSize: Int, 
+                                     rejectionThreshold: Int, 
     collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]], 
-    fallback: Double, userId: String, itemId: String)
+    fallback: Double)
   extends HystrixCommand[Map[String, Double]](
       HystrixCommand.Setter
-        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
         .andCommandPropertiesDefaults(
           HystrixCommandProperties.Setter()
            .withExecutionTimeoutInMilliseconds(timeout)

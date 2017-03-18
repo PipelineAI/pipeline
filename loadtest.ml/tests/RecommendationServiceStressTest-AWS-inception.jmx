@@ -81,7 +81,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">evaluate-tensorflow-grpc/tensorflow_minimal/00000001</stringProp>
+            <stringProp name="HTTPSampler.path">evaluate-tensorflow-grpc/my_namespace/tensorflow_minimal/00000001</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -119,7 +119,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">evaluate-tensorflow-java/tensorflow_inception/00000001</stringProp>
+            <stringProp name="HTTPSampler.path">evaluate-tensorflow-java/my_namespace/tensorflow_inception/00000001</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -143,8 +143,8 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
             <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
               <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg" elementType="HTTPFileArg">
-                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg</stringProp>
+                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg" elementType="HTTPFileArg">
+                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg</stringProp>
                   <stringProp name="File.paramname">image</stringProp>
                   <stringProp name="File.mimetype"></stringProp>
                 </elementProp>
@@ -159,7 +159,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">evaluate-tensorflow-java-image/tensorflow_inception/00000001</stringProp>
+            <stringProp name="HTTPSampler.path">evaluate-tensorflow-java-image/my_namespace/tensorflow_inception/00000001</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -178,8 +178,8 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="false">
             <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
               <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg" elementType="HTTPFileArg">
-                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg</stringProp>
+                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg" elementType="HTTPFileArg">
+                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg</stringProp>
                   <stringProp name="File.paramname">image</stringProp>
                   <stringProp name="File.mimetype"></stringProp>
                 </elementProp>
@@ -194,7 +194,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">evaluate-tensorflow-grpc-image/tensorflow_inception/00000001</stringProp>
+            <stringProp name="HTTPSampler.path">evaluate-tensorflow-grpc-image/my_namespace/tensorflow_inception/00000001</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -213,8 +213,8 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="false">
             <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
               <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg" elementType="HTTPFileArg">
-                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/images/0.jpg</stringProp>
+                <elementProp name="../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg" elementType="HTTPFileArg">
+                  <stringProp name="File.path">../../../source.ml/prediction.ml/tensorflow/store/my_namespace/images/0.jpg</stringProp>
                   <stringProp name="File.paramname">image</stringProp>
                   <stringProp name="File.mimetype"></stringProp>
                 </elementProp>
@@ -229,7 +229,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">zuul/prediction-tensorflow/evaluate-tensorflow-grpc-image/tensorflow_inception/00000001</stringProp>
+            <stringProp name="HTTPSampler.path">zuul/prediction-tensorflow/evaluate-tensorflow-grpc-image/my_namespace/tensorflow_inception/00000001</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

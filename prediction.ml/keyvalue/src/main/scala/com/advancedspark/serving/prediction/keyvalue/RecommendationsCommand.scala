@@ -9,9 +9,14 @@ import redis.clients.jedis._
 
 import collection.JavaConverters._
 
-class RecommendationsCommand(
-    jedis: Jedis, namespace: String, version: String, userId: String, startIdx: Int, endIdx: Int) 
-  extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey("Recommendations")) {
+class RecommendationsCommand(commandName: String, 
+                             jedis: Jedis, 
+                             namespace: String, 
+                             version: String, 
+                             userId: String, 
+                             startIdx: Int, 
+                             endIdx: Int) 
+  extends HystrixCommand[Seq[String]](HystrixCommandGroupKey.Factory.asKey(commandName)) {
 
   def run(): Seq[String] = {
     try{

@@ -11,13 +11,18 @@ import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolProperties
 
-class JavaSourceCodeEvaluationCommand(name: String, predictor: Predictable, inputs: Map[String, Any],
+class JavaSourceCodeEvaluationCommand(commandName: String, 
+                                      namespace: String, 
+                                      className: String, 
+                                      version: String, 
+                                      predictor: Predictable, 
+                                      inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
     HystrixCommand.Setter
-      .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-      .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-      .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+      .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+      .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+      .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
       .andCommandPropertiesDefaults(
         HystrixCommandProperties.Setter()
          .withExecutionTimeoutInMilliseconds(timeout)

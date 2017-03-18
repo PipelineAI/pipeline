@@ -11,12 +11,20 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class SparkEvaluationCommand(name: String, modelName: String, version: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+class SparkEvaluationCommand(commandName: String, 
+                             namespace: String, 
+                             modelName: String, 
+                             version: String, 
+                             inputs: Map[String, Any], 
+                             fallback: String, 
+                             timeout: Int, 
+                             concurrencyPoolSize: Int, 
+                             rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
-        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
         .andCommandPropertiesDefaults(
           HystrixCommandProperties.Setter()
            .withExecutionTimeoutInMilliseconds(timeout)
@@ -31,7 +39,7 @@ class SparkEvaluationCommand(name: String, modelName: String, version: String, i
       )
     )
 {
-  val modelDir = s"/root/store/${modelName}/${version}"
+  val modelDir = s"/root/store/${namespace}/${modelName}/${version}"
 
   val model = FileUtil.readAllBytesOrExit(Paths.get(modelDir, "model.parquet"))
 

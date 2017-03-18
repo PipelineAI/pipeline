@@ -37,7 +37,7 @@ public class TensorflowPredictionClientGrpc {
         stub = PredictionServiceGrpc.newBlockingStub(channel);    
     }
 
-    public String predict(String modelName, String version, String inputJson) {
+    public String predict(String namespace, String modelName, String version, String inputJson) {
         // TODO:  Use generic json -> tensor proto utility (ie. from TF Java API)
         // Generate features TensorProto
         float[][] featuresTensorData = new float[][] {
@@ -97,6 +97,7 @@ public class TensorflowPredictionClientGrpc {
 
         String host = "127.0.0.1";
         int port = 9000;
+        String namespace = "my_namespace";
         String modelName = "tensorflow_minimal";
         String version = "00000001";
         String inputJson = "";
@@ -114,7 +115,7 @@ public class TensorflowPredictionClientGrpc {
 
         String response = null;
         try {
-            response = client.predict(modelName, version, inputJson);
+            response = client.predict(namespace, modelName, version, inputJson);
         } catch (Exception e) {
             System.out.println(e);
         } finally {

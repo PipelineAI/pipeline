@@ -94,7 +94,7 @@ class PredictionService {
     try {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
     
-      val results = new SparkEvaluationCommand(modelName, modelName, version, inputs, "fallback", 5000, 20, 10)
+      val results = new SparkEvaluationCommand(modelName, namespace, modelName, version, inputs, "fallback", 5000, 20, 10)
           .execute()
   
       s"""{"results":[${results}]}"""

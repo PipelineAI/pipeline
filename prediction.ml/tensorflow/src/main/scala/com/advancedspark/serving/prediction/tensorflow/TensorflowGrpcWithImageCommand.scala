@@ -11,12 +11,21 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowGrpcWithImageCommand(name: String, modelName: String, version: String, imageName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+class TensorflowGrpcWithImageCommand(commandName: String, 
+                                     namespace: String, 
+                                     modelName: String, 
+                                     version: String, 
+                                     imageName: String, 
+                                     inputs: Map[String, Any], 
+                                     fallback: String, 
+                                     timeout: Int, 
+                                     concurrencyPoolSize: Int, 
+                                     rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
-        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
         .andCommandPropertiesDefaults(
           HystrixCommandProperties.Setter()
            .withExecutionTimeoutInMilliseconds(timeout)
@@ -31,7 +40,7 @@ class TensorflowGrpcWithImageCommand(name: String, modelName: String, version: S
       )
     )
 {
-  val modelDir = s"/root/store/${modelName}/export/${version}"
+  val modelDir = s"/root/store/${namespace}/${modelName}/export/${version}"
 
   val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
   val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
@@ -43,7 +52,7 @@ class TensorflowGrpcWithImageCommand(name: String, modelName: String, version: S
     val results = new Array[String](k)
     
     val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-      Paths.get(s"/root/store/images/${imageName}")))      
+      Paths.get(s"/root/store/${namespace}/images/${imageName}")))      
 
     // TODO:  
     //val results = TensorflowGrpcCommandOps.client.predict(modelName, version, "")

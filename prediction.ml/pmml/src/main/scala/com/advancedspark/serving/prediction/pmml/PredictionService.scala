@@ -37,23 +37,25 @@ class PredictionService {
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]
 
   HystrixPrometheusMetricsPublisher.register("prediction_pmml")
+  
   new StandardExports().register()
     
-  @RequestMapping(path=Array("/update-pmml/{namespace}/{pmmlName}"),
+  @RequestMapping(path=Array("/update-pmml-model/{namespace}/{pmmlName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
   def updatePmml(@PathVariable("namespace") namespace: String, 
                  @PathVariable("pmmlName") pmmlName: String, 
+                 @PathVariable("version") version: String,
                  @RequestBody pmmlString: String): 
       ResponseEntity[HttpStatus] = {
     try {
       // Write the new pmml (XML format) to local disk
-      val path = new java.io.File(s"store/${pmmlName}/")
+      val path = new java.io.File(s"store/${namespace}/${pmmlName}/${version}")
       if (!path.isDirectory()) { 
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"store/${namespace}/${pmmlName}/${pmmlName}.pmml")
+      val file = new java.io.File(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -86,17 +88,18 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate-pmml/{namespace}/{pmmlName}"),
+  @RequestMapping(path=Array("/evaluate-pmml-model/{namespace}/{pmmlName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluatePmml(@PathVariable("namespace") namespace: String, 
                    @PathVariable("pmmlName") pmmlName: String, 
+                   @PathVariable("version") version: String,
                    @RequestBody inputJson: String): String = {
     try {
       var modelEvaluator: Evaluator = null 
       val modelEvaluatorOption = pmmlRegistry.get(pmmlName)
       if (modelEvaluatorOption == None) {
-        val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${pmmlName}.pmml")
+        val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
         val transformedSource = ImportFilter.apply(new InputSource(fis))
 
         val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -119,7 +122,7 @@ class PredictionService {
 
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+      val results = new PMMLEvaluationCommand(pmmlName, namespace, pmmlName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
        .execute()
 
       s"""{"results":[${results}]}"""

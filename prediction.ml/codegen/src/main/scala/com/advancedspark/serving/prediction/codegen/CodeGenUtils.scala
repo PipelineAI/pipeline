@@ -138,74 +138,12 @@ class CodeFormatter {
 
   private def result(): String = code.result()
 }
-//
-//class CodeGenClassLoader {
-//  /**
-//   * Get the ClassLoader which loaded Spark.
-//   */
-//  def getAppClassLoader: ClassLoader = getClass.getClassLoader
-//
-//  /**
-//   * Get the Context ClassLoader on this thread or, if not present, the ClassLoader that
-//   * loaded Spark.
-//   *
-//   * This should be used whenever passing a ClassLoader to Class.ForName or finding the currently
-//   * active loader when setting up ClassLoader delegation chains.
-//   */
-//  def getContextOrAppClassLoader: ClassLoader =
-//    Option(Thread.currentThread().getContextClassLoader).getOrElse(getAppClassLoader)
-//
-//  /** Determines whether the provided class is loadable in the current thread. */
-//  def classIsLoadable(clazz: String): Boolean = {
-//    // scalastyle:off classforname
-//    Try { Class.forName(clazz, false, getContextOrAppClassLoader) }.isSuccess
-//    // scalastyle:on classforname
-//  }
-//
-//  // scalastyle:off classforname
-//  /** Preferred alternative to Class.forName(className) */
-//  def classForName(className: String): Class[_] = {
-//    Class.forName(className, true, getContextOrAppClassLoader)
-//    // scalastyle:on classforname
-//  }
-//}
 
   /**
    * Dumps the bytecode from a class to the screen using javap.
    */
 
 object DumpByteCode {
-  /*
-  import scala.sys.process._
-    val dumpDirectory = createDirectory(System.getProperty("java.io.tmpdir"))
-    dumpDirectory.mkdir()
-
-    def apply(obj: Any): Unit = {
-      val generatedClass = obj.getClass
-      val classLoader =
-        generatedClass
-          .getClassLoader
-          .asInstanceOf[scala.tools.nsc.interpreter.AbstractFileClassLoader]
-      val generatedBytes = 
-        classLoader.classBytes(generatedClass.getName)
-
-      val packageDir = new java.io.File(dumpDirectory, generatedClass.getPackage.getName)
-      if (!packageDir.exists()) { packageDir.mkdir() }
-
-      val classFile =
-        new java.io.File(packageDir, generatedClass.getName.split("\\.").last + ".class")
-
-      val outfile = new java.io.FileOutputStream(classFile)
-      outfile.write(generatedBytes)
-      outfile.close()
-
-      // scalastyle:off println
-      println(
-        s"javap -p -v -classpath ${dumpDirectory.getCanonicalPath} ${generatedClass.getName}".!!)
-      // scalastyle:on println
-    }    
-    */
- 
     /**
      * Create a directory inside the given parent directory. The directory is guaranteed to be
      * newly created, and is not marked for automatic deletion.

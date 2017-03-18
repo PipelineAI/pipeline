@@ -11,13 +11,17 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowNativeCommand(name: String, modelName: String, version: String, inputs: Map[String, Any],
+class TensorflowNativeCommand(commandName: String, 
+                              namespace: String, 
+                              modelName: String, 
+                              version: String, 
+                              inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
-        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-        .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
         .andCommandPropertiesDefaults(
           HystrixCommandProperties.Setter()
            .withExecutionTimeoutInMilliseconds(timeout)
@@ -32,7 +36,7 @@ class TensorflowNativeCommand(name: String, modelName: String, version: String, 
       )
     )
 {
-  val modelDir = s"/root/store/${modelName}/export/${version}"
+  val modelDir = s"/root/store/${namespace}/${modelName}/export/${version}"
 
   val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
   val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
@@ -60,7 +64,7 @@ class TensorflowNativeCommand(name: String, modelName: String, version: String, 
       // val image = images(randomInt.nextInt(10)) 
 
       val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-        Paths.get(s"/root/store/images/${randomInt.nextInt(10)}.jpg")))
+        Paths.get(s"/root/store/${namespace}/images/${version}/${randomInt.nextInt(10)}.jpg")))
 
       val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 

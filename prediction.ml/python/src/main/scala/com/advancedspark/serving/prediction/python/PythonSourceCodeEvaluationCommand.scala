@@ -14,13 +14,17 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputJson: String,
+class PythonSourceCodeEvaluationCommand(commandName: String, 
+                                        namespace: String, 
+                                        version:String, 
+                                        filename: String, 
+                                        inputJson: String,
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
     HystrixCommand.Setter
-      .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))
-      .andCommandKey(HystrixCommandKey.Factory.asKey(name))
-      .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(name))
+      .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
+      .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
+      .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
       .andCommandPropertiesDefaults(
         HystrixCommandProperties.Setter()
          .withExecutionTimeoutInMilliseconds(timeout)
@@ -38,7 +42,7 @@ class PythonSourceCodeEvaluationCommand(name: String, filename: String, inputJso
   def run(): String = {
     try{
       // TODO:  Improve this
-      val p = Runtime.getRuntime().exec(s"python -W ignore ${filename} '${inputJson}'")
+      val p = Runtime.getRuntime().exec(s"python -W ignore ${namespace}/${version}/${filename} '${inputJson}'")
       //System.out.println("p: " + p)
       
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));

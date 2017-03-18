@@ -12,9 +12,14 @@ import scala.util.parsing.json._
 import collection.JavaConverters._
 import scala.collection.immutable.List
 
-class ItemSimilarsCommand(
-    dynoClient: Jedis, namespace: String, version: String, itemId: String, startIdx: Int, endIdx: Int) 
-  extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey("ItemSimilars")) {
+class ItemSimilarsCommand(commandName: String, 
+                          dynoClient: Jedis, 
+                          namespace: String, 
+                          version: String, 
+                          itemId: String, 
+                          startIdx: Int, 
+                          endIdx: Int) 
+  extends HystrixCommand[Seq[(String)]](HystrixCommandGroupKey.Factory.asKey(commandName)) {
 
   def run(): Seq[String] = {
     try{
