@@ -40,9 +40,11 @@ class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_tensorflow")
   new StandardExports().register()
 
-  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-  //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/update-tensorflow-model/tensorflow_inception/00000001
+/*  
+ curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+   -F "model=@tensorflow_inception_graph.pb" \
+   http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow-model/tensorflow_inception/00000002
+*/
   @RequestMapping(path=Array("/update-tensorflow-model/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateTensorflow(@PathVariable("modelName") modelName: String, 

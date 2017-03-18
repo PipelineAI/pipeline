@@ -28,6 +28,7 @@ import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import javax.servlet.annotation.MultipartConfig
 import java.io.InputStream
+import scala.util.parsing.json.JSON
 
 @SpringBootApplication
 @RestController
@@ -42,10 +43,11 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/update-spark-model/spark_linear_regression/1
-  @RequestMapping(path=Array("/update-spark-model/{modelName}/{version}"),
+  //  http://[host]:[port]/update-spark-model/[namespace]/spark_linear_regression/[version]
+  @RequestMapping(path=Array("/update-spark-model/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
-  def updateTensorflow(@PathVariable("modelName") modelName: String, 
+  def updateSpark(@PathVariable("namespace") namespace: String,
+                       @PathVariable("modelName") modelName: String, 
                        @PathVariable("version") version: String,
                        @RequestParam("model") model: MultipartFile): ResponseEntity[HttpStatus] = {
 
@@ -56,7 +58,7 @@ class PredictionService {
       val filename = model.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"store/${modelName}/export/${version}")
+      val filepath = new java.io.File(s"store/${namespace}/${modelName}/${version}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -64,7 +66,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       inputStream = model.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"store/${modelName}/export/${version}/${filename}"))
+      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}"))
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -81,37 +83,21 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "input=@input.json" \
-  //  http://[host]:[port]/evaluate-spark-model/spark_linear_regression/1
-  @RequestMapping(path=Array("/evaluate-spark-model/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST))
-  def evaluateTensorflowJavaWithImage(@PathVariable("modelName") modelName: String,
-                                  @PathVariable("version") version: String,
-                                  @RequestParam("input") input: MultipartFile): String = {
+  //  http://[host]:[port]/evaluate-spark-model/[namespace]/spark_linear_regression/[version]
+  @RequestMapping(path=Array("/evaluate-spark-model/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+    def evaluateSpark(@PathVariable("namespace") namespace: String,
+                      @PathVariable("modelName") modelName: String,
+                      @PathVariable("version") version: String,
+                      @RequestBody inputJson: String): String = {
     try {
-      val inputs = new HashMap[String,Any]()
-      //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
-  
-      // Get name of uploaded file.
-      val filename = input.getOriginalFilename()
-  
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"inputs/")
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-  
-      // This buffer will store the data read from 'model' multipart file
-      val inputStream = input.getInputStream()
-  
-      Files.copy(inputStream, Paths.get(s"inputs/${filename}"),
-        StandardCopyOption.REPLACE_EXISTING)
-  
-      inputStream.close()
-  
-      val results = new SparkWithInputCommand(s"${modelName}_input", modelName, version, filename, inputs, "fallback", 5000, 20, 10)
+      val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+    
+      val results = new SparkEvaluationCommand(modelName, modelName, version, inputs, "fallback", 5000, 20, 10)
           .execute()
   
-      s"""{"results":[${results}]"""
+      s"""{"results":[${results}]}"""
     } catch {
       case e: Throwable => {
         System.out.println(e)

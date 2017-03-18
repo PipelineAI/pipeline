@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class SparkWithInputCommand(name: String, modelName: String, version: String, inputName: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+class SparkEvaluationCommand(name: String, modelName: String, version: String, inputs: Map[String, Any], fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(name))

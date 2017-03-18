@@ -39,10 +39,12 @@ class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_pmml")
   new StandardExports().register()
     
-  @RequestMapping(path=Array("/update-pmml/{pmmlName}"),
+  @RequestMapping(path=Array("/update-pmml/{namespace}/{pmmlName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
-  def updatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody pmmlString: String): 
+  def updatePmml(@PathVariable("namespace") namespace: String, 
+                 @PathVariable("pmmlName") pmmlName: String, 
+                 @RequestBody pmmlString: String): 
       ResponseEntity[HttpStatus] = {
     try {
       // Write the new pmml (XML format) to local disk
@@ -51,7 +53,7 @@ class PredictionService {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"store/${pmmlName}/${pmmlName}.pmml")
+      val file = new java.io.File(s"store/${namespace}/${pmmlName}/${pmmlName}.pmml")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -84,16 +86,17 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate-pmml/{pmmlName}"),
+  @RequestMapping(path=Array("/evaluate-pmml/{namespace}/{pmmlName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluatePmml(@PathVariable("pmmlName") pmmlName: String, @RequestBody inputJson: String): String = {
-
+  def evaluatePmml(@PathVariable("namespace") namespace: String, 
+                   @PathVariable("pmmlName") pmmlName: String, 
+                   @RequestBody inputJson: String): String = {
     try {
       var modelEvaluator: Evaluator = null 
       val modelEvaluatorOption = pmmlRegistry.get(pmmlName)
       if (modelEvaluatorOption == None) {
-        val fis = new java.io.FileInputStream(s"store/${pmmlName}/${pmmlName}.pmml")
+        val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${pmmlName}.pmml")
         val transformedSource = ImportFilter.apply(new InputSource(fis))
 
         val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -119,7 +122,7 @@ class PredictionService {
       val results = new PMMLEvaluationCommand(pmmlName, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
        .execute()
 
-      s"""{"results":[${results}]"""
+      s"""{"results":[${results}]}"""
     } catch {
        case e: Throwable => {
          throw e
