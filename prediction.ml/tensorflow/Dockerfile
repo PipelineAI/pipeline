@@ -91,25 +91,25 @@ RUN \
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
-RUN \
-  cd $TENSORFLOW_HOME \
+#RUN \
+#  cd $TENSORFLOW_HOME \
 #  && tensorflow/tools/ci_build/builds/configured CPU \
-  bazel build -c opt tensorflow/tools/pip_package:build_pip_package \
+#  bazel build -c opt tensorflow/tools/pip_package:build_pip_package \
 
-RUN \
-  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+#RUN \
+#  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
-RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+#RUN \
+#  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
 
 # Utility for optimizing/simplifying models for inference
 #RUN \
 #  cd $TENSORFLOW_HOME \
 #  && bazel build tensorflow/python/tools:optimize_for_inference
 
-#RUN \
-#  pip install --ignore-installed --upgrade pip setuptools \
-#  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+RUN \
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   apt-get update \
@@ -126,7 +126,6 @@ COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
 COPY client/ client/
-#COPY store/ store/
 
 RUN \
   cd client \
