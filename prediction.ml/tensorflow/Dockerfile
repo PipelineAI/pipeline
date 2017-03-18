@@ -91,14 +91,16 @@ RUN \
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
-#RUN \
-#  cd $TENSORFLOW_HOME \
+RUN \
+  cd $TENSORFLOW_HOME \
 #  && tensorflow/tools/ci_build/builds/configured CPU \
-#    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
-#  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+  bazel build -c opt tensorflow/tools/pip_package:build_pip_package \
 
-#RUN \
-#  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+RUN \
+  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+
+RUN \
+  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
 
 # Utility for optimizing/simplifying models for inference
 #RUN \

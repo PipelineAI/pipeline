@@ -1,12 +1,6 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
+FROM fluxcapacitor/package-gpu-cuda8-16.04
 
 WORKDIR /root
-
-RUN \
-  apt-get update \
-  && apt-get install -y wget \
-  && apt-get install -y daemontools \
-  && apt-get install -y vim
 
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -49,8 +43,14 @@ RUN \
   pip install jupyterhub-simplespawner
 
 # Java
-#RUN \
-#  apt-get install -y default-jdk
+RUN \
+  apt-get update \
+#  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/

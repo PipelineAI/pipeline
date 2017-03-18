@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04
+FROM fluxcapacitor/package-gpu-cuda8-16.04
 
 WORKDIR /root
 
@@ -24,12 +24,12 @@ ENV \
 
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
 
 # Java
 RUN \
   apt-get update \
-  && apt-get install -y software-properties-common \
+#  && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:openjdk-r/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \

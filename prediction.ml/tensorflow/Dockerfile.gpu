@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
+FROM fluxcapacitor/package-gpu-cuda8-16.04
 
 WORKDIR /root
 
@@ -169,12 +169,12 @@ RUN \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 #ENV \
 #  TENSORFLOW_VERSION=1.0.1

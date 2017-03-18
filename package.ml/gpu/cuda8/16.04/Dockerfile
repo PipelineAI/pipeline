@@ -1,5 +1,6 @@
-FROM ubuntu:16.04
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
+# From fluxcapacitor/package-ubuntu-16.04
 RUN \
  apt-get update \
  && apt-get install -y apt-transport-https \
@@ -15,4 +16,4 @@ RUN \
  && apt-get install -y python-pip \
  && apt-get install -y python3-dev \
  && apt-get install -y python3-pip \
- && apt-get install -y daemontools
+ && apt-get install -y daemontools 
