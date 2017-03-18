@@ -1,162 +1,119 @@
-FROM nvidia/cuda:8.0-cudnn5-devel
-
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-  
-# Adapted from 
-#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
-
-# TODO: Add the Nvidia CUDA Profile Tools Interface
-#RUN \
-#  apt-get install libcupti-dev
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
-        curl \
-        git \
-        libcurl3-dev \
-        libfreetype6-dev \
-        libpng12-dev \
-        libzmq3-dev \
-        pkg-config \
-        python-dev \
-        rsync \
-        software-properties-common \
-        unzip \
-        zip \
-        zlib1g-dev \
-        && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN curl -fSsL -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
-
-RUN pip --no-cache-dir install \
-        ipykernel \
-        jupyter \
-        matplotlib \
-        numpy \
-        scipy \
-        sklearn \
-        pandas \
-        && \
-    python -m ipykernel.kernelspec
-
-# Set up our notebook config.
-COPY jupyter_notebook_config.py /root/.jupyter/
-
-# Jupyter has issues with being run directly:
-#   https://github.com/ipython/ipython/issues/7062
-# We just add a little wrapper script.
-COPY run_jupyter.sh /
-
-# Set up Bazel.
-
-# Setup Java (used by Bazel)
-# We need to add a custom PPA to pick up JDK8, since trusty doesn't
-# have an openjdk8 backport.  openjdk-r is maintained by a reliable contributor:
-# Matthias Klose (https://launchpad.net/~doko).  It will do until
-# we either update the base image beyond 14.04 or openjdk-8 is
-# finally backported to trusty; see e.g.
-#   https://bugs.launchpad.net/trusty-backports/+bug/1368094
-RUN add-apt-repository -y ppa:openjdk-r/ppa && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Running bazel inside a `docker build` command causes trouble, cf:
-#   https://github.com/bazelbuild/bazel/issues/134
-# The easiest solution is to set up a bazelrc file forcing --batch.
-RUN echo "startup --batch" >>/root/.bazelrc
-# Similarly, we need to workaround sandboxing issues:
-#   https://github.com/bazelbuild/bazel/issues/418
-RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
-    >>/root/.bazelrc
-ENV BAZELRC /root/.bazelrc
-# Install the most recent bazel release.
-ENV BAZEL_VERSION 0.4.4
-WORKDIR /
-RUN mkdir /bazel && \
-    cd /bazel && \
-    curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
-    curl -fSsL -o /bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt && \
-    chmod +x bazel-*.sh && \
-    ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
-    cd / && \
-    rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
-
-# Download and build TensorFlow.
-
-RUN git clone -b v$TENSORFLOW_VERSION --recursive --recurse-submodules https://github.com/tensorflow/tensorflow.git
-# && \
-#    cd tensorflow && \
-#    git checkout r$TENSORFLOW_VERSION
-
-WORKDIR /tensorflow
-
-RUN \
-  add-apt-repository ppa:ubuntu-toolchain-r/test \
-  && apt-get update \
-  && apt-get install -y gcc-4.9 g++-4.9 \
-  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
-
-# Configure the build for our CUDA configuration.
-ENV CI_BUILD_PYTHON python
-ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-ENV TF_NEED_CUDA 1
-
-# Check the required COMPUTE_CAPABILITIES from the following link:
-#  https://developer.nvidia.com/cuda-gpus
-# Also, Tensorflow has a minimum-supported COMPUTE CAPABILITY (ie. 3.5)
-# ie. here are the AWS EC2 Instance Types and their COMPUTE CAPABILITIES
-#
-## AWS P2 Instances (3.7)
-# Product Type  Tesla
-# Product Series  K-Series
-# Product  K-80
-# Operating System  Linux 64-bit
-# Recommended/Beta  Recommended/Certified
-#
-## G2 Instances (3.5)
-# Product Type  GRID
-# Product Series  GRID Series
-# Product  GRID K520
-# Operating System  Linux 64-bit
-# Recommended/Beta  Recommended/Certified
-#
-## CG1 Instances (3.0)
-# Product Type  Tesla
-# Product Series  M-Class
-# Product  M2050
-# Operating System  Linux 64-bit
-# Recommended/Beta  Recommended/Certified
-#
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,5.2,6.0,6.1
-#ENV TF_CUDA_COMPUTE_CAPABILITIES=3.0,3.5,3.7,5.2
-
-RUN tensorflow/tools/ci_build/builds/configured GPU \
-    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
-    bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip 
-
-RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
-#    && \
-#    rm -rf /tmp/pip && \
-#    rm -rf /root/.cache
-# Clean up pip wheel and Bazel cache when done.
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 WORKDIR /root
 
-# TensorBoard
-EXPOSE 6006
+RUN \
+  apt-get update \
+  && apt-get install -y wget \
+  && apt-get install -y daemontools \
+  && apt-get install -y vim
 
-# Jupyter 
-EXPOSE 8754 
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
 
-# Copy our examples
-COPY examples/ examples/
+ENV \
+  PATH=/opt/conda/bin:$PATH
 
-RUN ["/bin/bash"]
+RUN \
+  conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
+
+RUN \
+  conda install --yes -c conda-forge jupyterhub=0.7.2 \
+  && conda install --yes -c conda-forge ipykernel=4.5.2 \
+  && conda install --yes -c conda-forge notebook=4.4.1 \
+  && conda install --yes -c conda-forge findspark=1.0.0 \
+  && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
+
+RUN \
+  pip install jupyterlab \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
+
+ENV \
+  TENSORFLOW_VERSION=1.0.1
+
+RUN \
+  pip install --ignore-installed --upgrade pip setuptools \
+  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
+
+# Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
+RUN \
+  pip install jupyterhub-dummyauthenticator
+
+RUN \
+  pip install jupyterhub-simplespawner
+
+# Java
+#RUN \
+#  apt-get install -y default-jdk
+
+ENV \
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+# Spark
+ENV \
+  SPARK_VERSION=2.1.0 \
+  PYSPARK_VERSION=0.10.4
+
+RUN \
+  # This is not a custom version of Spark.  It's merely a version with all the desired -P profiles enabled.
+  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+  && tar xvzf spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz \
+  && rm spark-${SPARK_VERSION}-bin-fluxcapacitor.tgz
+
+ENV \
+  SPARK_HOME=/root/spark-${SPARK_VERSION}-bin-fluxcapacitor
+
+# This must be separate from the ${SPARK_HOME} ENV definition or else Docker doesn't recognize it
+ENV \
+  PATH=${SPARK_HOME}/bin:$PATH
+
+# Hadoop/HDFS
+ENV \
+  HADOOP_VERSION=2.7.2
+
+RUN \
+ wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar xvzf hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm hadoop-${HADOOP_VERSION}.tar.gz
+
+ENV \
+  HADOOP_HOME=/root/hadoop-${HADOOP_VERSION} \
+  HADOOP_OPTS=-Djava.net.preferIPv4Stack=true
+
+# This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
+ENV \
+  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
+
+# Required by Spark
+ENV \
+  HADOOP_CONF_DIR=${HADOOP_CONF}
+
+COPY config/spark/ ${SPARK_HOME}/conf/
+
+RUN \
+  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ${SPARK_HOME}/conf/core-site.xml
+
+RUN \
+  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
+  && cd ${HADOOP_CONF} \
+  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
+
+COPY config/ config/ 
+COPY src/ src/
+COPY notebooks/ notebooks/
+COPY profiles/ /root/.ipython/
+COPY run run
+
+# Expose Spark Worker Port for Web Admin UI
+EXPOSE 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 
+
+CMD ["supervise", "."]
