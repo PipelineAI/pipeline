@@ -1,0 +1,174 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<groupId>com.turn.tpmml</groupId>
+	<artifactId>tpmml</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>tpmml</name>
+	<description>Java API for managing, evaluating and compiling (to java) models in Predictive Model Markup Language (PMML)</description>
+	<url>http://www.github.com/turn/tpmml</url>
+
+	<organization>
+		<name>Turn Inc.</name>
+		<url>http://www.turn.com</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>New BSD License</name>
+			<url>http://www.opensource.org/licenses/bsd-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+	  <developer>
+	    <id>thomas.badie</id>
+	    <name>Thomas Badie</name>
+	  </developer>
+	  <developer>
+	    <id>andrey.svirsky</id>
+	    <name>Andrey Svirsky</name>
+	  </developer>
+
+	  <developer>
+	    <id>villu.ruusmann</id>
+	    <name>Villu Ruusmann</name>
+	  </developer>
+	  <developer>
+	    <id>sulev.sild</id>
+	    <name>Sulev Sild</name>
+	  </developer>
+	</developers>
+
+	<modules>
+		<module>bundle</module>
+		<module>pmml-evaluator</module>
+		<module>pmml-manager</module>
+		<module>pmml-model</module>
+		<module>pmml-schema</module>
+		<module>pmml-translator</module>
+		<module>xjc</module>
+	</modules>
+
+	<scm>
+		<connection>scm:git:git@github.com:turn/tpmml.git</connection>
+		<developerConnection>scm:git:git@github.com:turn/tpmml.git</developerConnection>
+		<url>git://github.com/turn/tpmml.git</url>
+	  <tag>HEAD</tag>
+  </scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/turn/tpmml/issues</url>
+	</issueManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-translator</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-evaluator</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-evaluator</artifactId>
+				<type>test-jar</type>
+				<version>1.0-SNAPSHOT</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-manager</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-model</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>pmml-schema</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.turn.tpmml</groupId>
+				<artifactId>xjc</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.4</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<localCheckout>true</localCheckout>
+					<pushChanges>false</pushChanges>
+				</configuration>
+			</plugin>
+		</plugins>
+	<pluginManagement>
+	<!-- This is coming from:
+	 http://stackoverflow.com/questions/13040788/how-to-elimate-the-maven-enforcer-plugin-goal-enforce-is-ignored-by-m2e-wa -->
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-enforcer-plugin</artifactId>
+									<versionRange>[1.0.0,)</versionRange>
+									<goals>
+										<goal>enforce</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore />
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+	</build>
+</project>
+

@@ -1,0 +1,4 @@
+com.turn.tpmml.xjc.PMMLPlugin
+com.turn.tpmml.xjc.SuperClassPlugin
+com.turn.tpmml.xjc.UnsupportedPropertyPlugin
+com.turn.tpmml.xjc.ValueConstructorPlugin
