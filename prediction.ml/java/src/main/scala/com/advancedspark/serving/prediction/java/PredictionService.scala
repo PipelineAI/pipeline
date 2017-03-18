@@ -50,7 +50,7 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/update-java/{className}/{version}"),
+  @RequestMapping(path=Array("/update-java/{namespace}/{className}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateSource(@PathVariable("namespace") namespace: String, 
