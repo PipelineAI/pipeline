@@ -19,7 +19,6 @@ import org.springframework.boot._
 import org.springframework.boot.autoconfigure._
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.context.config.annotation._
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
 import org.springframework.context.annotation._
 import org.springframework.context.annotation.Configuration
@@ -45,7 +44,7 @@ import io.prometheus.client.hotspot.StandardExports
 class PredictionService {
   val predictorRegistry = new scala.collection.mutable.HashMap[String, Predictable]
   
-  HystrixPrometheusMetricsPublisher.register("prediction_codegen")
+  HystrixPrometheusMetricsPublisher.register("prediction_java")
   new StandardExports().register()
 
   val responseHeaders = new HttpHeaders();
