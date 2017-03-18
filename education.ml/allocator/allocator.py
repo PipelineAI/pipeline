@@ -32,7 +32,7 @@ def allocate():
   time = strftime("%Y-%m-%d-%H:%M:%S", gmtime())
   if (index <= max_index):
     override = request.args.get('override', 'false')
-    if (request.remote_addr in allocated_data and override == 'true'):
+    if (request.remote_addr in allocated_data and override == 'false'):
       datum = "ERROR_DUPLICATE_ALLOCATION_REQUEST"
     else:
       datum = data[index]
