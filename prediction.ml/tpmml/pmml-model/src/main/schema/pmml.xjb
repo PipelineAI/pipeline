@@ -1,0 +1,1159 @@
+<?xml version="1.0" ?>
+<!--
+Copyright (c) 2009 University of Tartu
+-->
+<jaxb:bindings targetNamespace="http://java.sun.com/xml/ns/jaxb" xmlns:annox="http://annox.dev.java.net" xmlns:java="http://java.sun.com/java" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" jaxb:extensionBindingPrefixes="annox java xjc" jaxb:version="2.0">
+
+	<jaxb:globalBindings>
+		<jaxb:javaType 
+			name="java.lang.Double"
+			xmlType="xsd:decimal"
+		/>
+		<jaxb:javaType
+			name="java.lang.Integer"
+			xmlType="xsd:integer"
+		/>
+		<jaxb:javaType
+			name="java.lang.Integer"
+			xmlType="xsd:nonNegativeInteger"
+		/>
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="pmml.xsd" node="/xsd:schema">
+
+		<jaxb:schemaBindings>
+			<jaxb:package
+				name="com.turn.tpmml"
+			/>
+		</jaxb:schemaBindings>
+
+		<jaxb:bindings node="//xsd:complexType[@name='COUNT-TABLE-TYPE']">
+			<jaxb:class
+				name="CountTable"
+			/>
+			<java:superClass
+				name="com.turn.tpmml.DiscreteDistribution"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Aggregate']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Aggregate']/xsd:complexType/xsd:attribute[@name='function']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Function"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Alternate']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Anova']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='AnovaRow']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='AnyDistribution']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.ContinuousDistribution"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Apply']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Array']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.ArrayBase"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Array']/xsd:complexType/xsd:simpleContent/xsd:extension/xsd:attribute[@name='type']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Type"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='AssociationModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Attribute']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BaseCumHazardTables']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Baseline']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BaselineCell']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BaselineModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BaselineStratum']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BoundaryValueMeans']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='BoundaryValues']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Categories']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CategoricalPredictor']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Term"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Category']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Characteristic']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Characteristics']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ChildParent']/xsd:complexType/xsd:attribute[@name='isRecursive']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Recursive"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ClassLabels']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ClusteringField']/xsd:complexType/xsd:attribute[@name='isCenterField']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="CenterField"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ClusteringModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ClusteringModel']/xsd:complexType/xsd:attribute[@name='modelClass']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="ModelClass"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ClusteringModelQuality']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ComparisonMeasure']/xsd:complexType/xsd:attribute[@name='kind']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Kind"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CompoundPredicate']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CompoundPredicate']/xsd:complexType/xsd:attribute[@name='booleanOperator']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="BooleanOperator"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CompoundRule']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Rule"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Con']">
+			<jaxb:class
+				name="Connection"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ConfusionMatrix']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Constant']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Constraints']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CorrelationFields']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CorrelationMethods']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Correlations']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='CorrelationValues']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='DataField']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.DictionaryField"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='DataField']/xsd:complexType/xsd:attribute[@name='isCyclic']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Cyclic"
+			>
+				<jaxb:typesafeEnumMember
+					name="ZERO"
+					value="0"
+				/>
+				<jaxb:typesafeEnumMember
+					name="ONE"
+					value="1"
+				/>
+			</jaxb:typesafeEnumClass>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Decision']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Decisions']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='DecisionTree']/xsd:complexType/xsd:attribute[@name='splitCharacteristic']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="SplitCharacteristic"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='DerivedField']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.DictionaryField"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Discretize']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='EventValues']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ExponentialSmoothing']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='False']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='FieldRef']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='FieldValue']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='FieldValueCount']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='GaussianDistribution']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.ContinuousDistribution"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='GeneralRegressionModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='GeneralRegressionModel']/xsd:complexType/xsd:attribute[@name='distribution']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Distribution"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='GeneralRegressionModel']/xsd:complexType/xsd:attribute[@name='modelType']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="ModelType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='InstanceField']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='InstanceFields']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='INT-SparseArray']">
+			<jaxb:class
+				name="IntSparseArray"
+			/>
+			<java:superClass
+				name="com.turn.tpmml.SparseArray"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Interval']/xsd:complexType/xsd:attribute[@name='closure']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Closure"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='KNNInput']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='KNNInputs']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Level']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='LiftData']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='LiftGraph']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MapValues']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Matrix']/xsd:complexType/xsd:attribute[@name='kind']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Kind"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MiningField']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Field"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MiningModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MiningField']/xsd:complexType/xsd:attribute[@name='outliers']">
+			<jaxb:property
+				name="outlierTreatment"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ModelExplanation']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ModelLiftGraph']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MultivariateStat']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='MultivariateStats']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NaiveBayesModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NearestNeighborModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NeuralNetwork']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Neuron']/xsd:complexType/xsd:sequence/xsd:element[@ref='Con']">
+			<jaxb:property
+				name="connection"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NormContinuous']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NormDiscrete']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NormDiscrete']/xsd:complexType/xsd:attribute[@name='method']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Method"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='NumericPredictor']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Term"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='OptimumLiftGraph']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='OutputField']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.DictionaryField"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='PCovMatrix']/xsd:complexType/xsd:attribute[@name='type']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Type"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='PoissonDistribution']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.ContinuousDistribution"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='PredictiveModelQuality']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='PredictorTerm']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Term"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='RandomLiftGraph']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='REAL-SparseArray']">
+			<jaxb:class
+				name="RealSparseArray"
+			/>
+			<java:superClass
+				name="com.turn.tpmml.SparseArray"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='RegressionModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='RegressionModel']/xsd:complexType/xsd:attribute[@name='modelType']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="ModelType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ResultField']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.DictionaryField"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ROC']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='ROCGraph']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='RuleSelectionMethod']/xsd:complexType/xsd:attribute[@name='criterion']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Criterion"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='RuleSetModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Scorecard']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Seasonality_ExpoSmooth']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Segment']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Segmentation']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SequenceModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+			<java:unsupportedProperty
+				property="output"
+				name="com.turn.tpmml.Output"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SimplePredicate']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SimplePredicate']/xsd:complexType/xsd:attribute[@name='operator']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Operator"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SimpleRule']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Rule"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SimpleSetPredicate']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SimpleSetPredicate']/xsd:complexType/xsd:attribute[@name='booleanOperator']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="BooleanOperator"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='SupportVectorMachineModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Target']/xsd:complexType/xsd:attribute[@name='castInteger']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="CastInteger"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TestDistributions']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TextModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TextModelNormalization']/xsd:complexType/xsd:attribute[@name='documentNormalization']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="DocumentNormalization"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TextModelNormalization']/xsd:complexType/xsd:attribute[@name='globalTermWeights']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="GlobalTermWeights"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TextModelNormalization']/xsd:complexType/xsd:attribute[@name='localTermWeights']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="LocalTermWeights"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TextModelSimiliarity']/xsd:complexType/xsd:attribute[@name='similarityType']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="SimilarityType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeAnchor']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeCycle']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeException']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeSeries']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeSeriesModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TimeValue']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TrainingInstances']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TreeModel']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='TreeModel']/xsd:complexType/xsd:attribute[@name='splitCharacteristic']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="SplitCharacteristic"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='Trend_ExpoSmooth']/xsd:complexType">
+			<jaxb:class
+				name="TrendExpoSmooth"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='True']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.Predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='UniformDistribution']/xsd:complexType">
+			<java:superClass
+				name="com.turn.tpmml.ContinuousDistribution"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="xsd:element[@name='Value']/xsd:complexType/xsd:attribute[@name='property']/xsd:simpleType">
+			<jaxb:typesafeEnumClass
+				name="Property"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='VectorFields']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='XCoordinates']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:element[@name='YCoordinates']/xsd:complexType">
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:group[@name='EmbeddedModel']">
+			<jaxb:property
+				name="embeddedModel"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:group[@name='EXPRESSION']">
+			<jaxb:property
+				name="expression"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:group[@name='MODEL-ELEMENT']">
+			<jaxb:property
+				name="model"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:group[@name='PREDICATE']">
+			<jaxb:property
+				name="predicate"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='ACTIVATION-FUNCTION']">
+			<jaxb:typesafeEnumClass
+				name="ActivationFunctionType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='BASELINE-TEST-STATISTIC']">
+			<jaxb:typesafeEnumClass
+				name="BaselineTestStatisticType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='CAT-SCORING-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="CatScoringMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='COMPARE-FUNCTION']">
+			<jaxb:typesafeEnumClass
+				name="CompareFunctionType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='CONT-SCORING-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="ContScoringMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='CUMULATIVE-LINK-FUNCTION']">
+			<jaxb:typesafeEnumClass
+				name="CumulativeLinkFunctionType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_2"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='DATATYPE']">
+			<jaxb:typesafeEnumClass
+				name="DataType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='DELIMITER']">
+			<jaxb:typesafeEnumClass
+				name="DelimiterType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='ELEMENT-ID']">
+			<jaxb:class
+				name="ElementId"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='FIELD-NAME']">
+			<jaxb:class
+				name="FieldName"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='FIELD-USAGE-TYPE']">
+			<jaxb:typesafeEnumClass
+				name="FieldUsageType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='GAP']">
+			<jaxb:typesafeEnumClass
+				name="GapType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='INTERPOLATION-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="InterpolationMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='INVALID-VALUE-TREATMENT-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="InvalidValueTreatmentMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='LINK-FUNCTION']">
+			<jaxb:typesafeEnumClass
+				name="LinkFunctionType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='MINING-FUNCTION']">
+			<jaxb:typesafeEnumClass
+				name="MiningFunctionType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='MISSING-VALUE-STRATEGY']">
+			<jaxb:typesafeEnumClass
+				name="MissingValueStrategyType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='MISSING-VALUE-TREATMENT-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="MissingValueTreatmentMethodType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='MULTIPLE-MODEL-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="MultipleModelMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='NN-NORMALIZATION-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="NnNormalizationMethodType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='NO-TRUE-CHILD-STRATEGY']">
+			<jaxb:typesafeEnumClass
+				name="NoTrueChildStrategyType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_3_1"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='OPTYPE']">
+			<jaxb:typesafeEnumClass
+				name="OpType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='OUTLIER-TREATMENT-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="OutlierTreatmentMethodType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='REGRESSIONNORMALIZATIONMETHOD']">
+			<jaxb:typesafeEnumClass
+				name="RegressionNormalizationMethodType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='RESULT-FEATURE']">
+			<jaxb:typesafeEnumClass
+				name="ResultFeatureType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='RULE-FEATURE']">
+			<jaxb:typesafeEnumClass
+				name="RuleFeatureType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='SVM-CLASSIFICATION-METHOD']">
+			<jaxb:typesafeEnumClass
+				name="SvmClassificationMethodType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='SVM-REPRESENTATION']">
+			<jaxb:typesafeEnumClass
+				name="SvmRepresentationType"
+			/>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='TIME-ANCHOR']">
+			<jaxb:typesafeEnumClass
+				name="TimeAnchorType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='TIME-EXCEPTION-TYPE']">
+			<jaxb:typesafeEnumClass
+				name="TimeExceptionType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='TIMESERIES-ALGORITHM']">
+			<jaxb:typesafeEnumClass
+				name="TimeSeriesAlgorithmType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='TIMESERIES-USAGE']">
+			<jaxb:typesafeEnumClass
+				name="TimeSeriesUsageType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xsd:simpleType[@name='VALID-TIME-SPEC']">
+			<jaxb:typesafeEnumClass
+				name="ValidTimeSpecType"
+			/>
+			<annox:annotate>
+				<annox:annotate annox:class="com.turn.tpmml.Schema" min="PMML_4_0"/>
+			</annox:annotate>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

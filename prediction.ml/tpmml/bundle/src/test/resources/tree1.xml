@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML>
+    <Header copyright="www.turn.com">
+        <Application name="Test Model" version="2.5"/>
+    </Header>
+    <DataDictionary numberOfFields="12">
+		<DataField name="STATE_NAME_HASHCODE" opType="continuous"></DataField>
+		<DataField name="USER_B_DEMO_AGE_0" opType="continuous"></DataField>
+		<DataField name="USER_B_DEMO_AGE_1" opType="continuous"></DataField>
+		<DataField name="USER_B_DEMO_AGE_2" opType="continuous"></DataField>
+		<DataField name="USER_B_DEMO_AGE_3" opType="continuous"></DataField>
+		<DataField name="USER_B_DEMO_AGE_4" opType="continuous"></DataField>
+		<DataField name="output" opType="continuous"></DataField>
+    </DataDictionary>
+    <TreeModel missingValueStrategy="lastPrediction" noTrueChildStrategy="returnLastPrediction">
+        <MiningSchema>
+			<MiningField name="STATE_NAME_HASHCODE" usageType="active"></MiningField>
+        	<MiningField name="USER_B_DEMO_AGE_0" usageType="active"></MiningField>
+			<MiningField name="USER_B_DEMO_AGE_1" usageType="active"></MiningField>
+			<MiningField name="USER_B_DEMO_AGE_2" usageType="active"></MiningField>
+			<MiningField name="USER_B_DEMO_AGE_3" usageType="active"></MiningField>
+			<MiningField name="USER_B_DEMO_AGE_4" usageType="active"></MiningField>
+			<MiningField name="output" usageType="predicted"></MiningField>
+        </MiningSchema>
+		<Node score="1.0" id="id1">
+			<!-- SD , 4923419555134439424 -->
+			<Node score="0.7858893" id="id2">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="SD"/>
+			</Node>
+			<!-- NH -->
+			<Node score="1.0442864" id="id3">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="5210242556402597888"/>
+			</Node>
+			<!-- LA -->
+			<Node score="1.3372991" id="id4">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="4705276448183681024"/>
+			</Node>
+			<!-- IA -->
+			<Node score="0.6846948" id="id5">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="4704432023253549056"/>
+			</Node>
+			<!-- CA,4702743173393285120 -->
+			<Node score="1.1435177" id="id6">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="CA"/>
+				<Node score="0.63" id="id6-1">
+					<SimplePredicate field="USER_B_DEMO_AGE_0" operator="equal" value="1"/>
+				</Node>
+                <Node score="0.63" id="id6-2">
+                	<SimplePredicate field="USER_B_DEMO_AGE_1" operator="equal" value="1"/>
+                </Node>
+				<Node score="1.06" id="id6-3">
+                    <SimplePredicate field="USER_B_DEMO_AGE_2" operator="equal" value="1"/>
+                 </Node>
+                 <Node score="1.18" id="id6-4">
+                    <SimplePredicate field="USER_B_DEMO_AGE_3" operator="equal" value="1"/>
+                 </Node>
+                 <Node score="1.18" id="id6-5">
+                    <SimplePredicate field="USER_B_DEMO_AGE_4" operator="equal" value="1"/>
+                 </Node>
+			</Node>
+			<!-- AK -->
+			<Node score="1.0167973" id="id7">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="5422756163819143168"/>
+			</Node>
+			<!-- AZ -->
+			<Node score="0.9145929" id="id8">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="6503620074388062208"/>
+			</Node>
+			<!-- ND -->
+			<Node score="0.7621544" id="id9">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="4922012180250886144"/>
+			</Node>
+			<!-- MI -->
+			<Node score="0.84253263" id="id10">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="5282018675463815168"/>
+			</Node>
+			<!-- KS -->
+			<Node score="0.877517" id="id11">
+				<SimplePredicate field="STATE_NAME_HASHCODE" operator="equal" value="6002031665889673216"/>
+			</Node>
+			<!-- IN -->
+		</Node>
+	</TreeModel>
+</PMML>
+

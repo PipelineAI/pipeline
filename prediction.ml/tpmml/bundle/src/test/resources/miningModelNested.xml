@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<PMML version="4.1" xmlns="http://www.dmg.org/PMML-4_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header copyright="DMG.org"/>
+  <DataDictionary numberOfFields="7">
+    <DataField name="v1" optype="continuous" dataType="double"/>
+    <DataField name="v2" optype="continuous" dataType="double"/>
+    <DataField name="v3" optype="continuous" dataType="double"/>
+    <DataField name="v4" optype="continuous" dataType="double"/>
+    <DataField name="v5" optype="continuous" dataType="double"/>
+    <DataField name="result" optype="continuous" dataType="double"/>
+  </DataDictionary>
+<MiningModel functionName="regression">
+  <MiningSchema>
+    <MiningField name="v1" usageType="active" />
+    <MiningField name="v2" usageType="active" />
+    <MiningField name="v3" usageType="active" />
+    <MiningField name="v4" usageType="active" />
+    <MiningField name="v5" usageType="active" />
+    <MiningField name="result" usageType="predicted" />
+  </MiningSchema>
+  <Segmentation multipleModelMethod="selectFirst">
+    <Segment id="1">
+      <SimplePredicate field="v1" operator="greaterThan" value="0.4" />
+      <RegressionModel functionName="regression">
+        <MiningSchema>
+          <MiningField name="v2"/>
+          <MiningField name="result" usageType="predicted"/>
+        </MiningSchema>
+        <RegressionTable intercept="0">
+          <NumericPredictor name="v2" exponent="1" coefficient="1"/>
+          <NumericPredictor name="v1" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v3" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v4" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v5" exponent="1" coefficient="0"/>
+        </RegressionTable>
+      </RegressionModel>
+    </Segment>
+    <Segment id="2">
+      <SimplePredicate field="v3" operator="greaterThan" value="1.0" />
+      <RegressionModel functionName="regression">
+        <MiningSchema>
+          <MiningField name="v4"/>
+          <MiningField name="result" usageType="predicted"/>
+        </MiningSchema>
+        <RegressionTable intercept="0">
+          <NumericPredictor name="v2" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v1" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v3" exponent="1" coefficient="0"/>
+          <NumericPredictor name="v4" exponent="1" coefficient="1"/>
+          <NumericPredictor name="v5" exponent="1" coefficient="0"/>
+        </RegressionTable>
+      </RegressionModel>
+    </Segment>
+    <Segment id="3">
+      <True/>
+      <MiningModel functionName="regression">
+        <MiningSchema>
+          <MiningField name="v1" usageType="active" />
+          <MiningField name="v2" usageType="active" />
+          <MiningField name="v3" usageType="active" />
+          <MiningField name="v4" usageType="active" />
+          <MiningField name="v5" usageType="active" />
+          <MiningField name="result" usageType="predicted" />
+        </MiningSchema>
+
+        <Segmentation multipleModelMethod="selectFirst">
+        <Segment>
+          <True/>
+          <RegressionModel functionName="regression">
+            <MiningSchema>
+              <MiningField name="v5"/>
+              <MiningField name="result" usageType="predicted"/>
+            </MiningSchema>
+            <RegressionTable intercept="0">
+              <NumericPredictor name="v2" exponent="1" coefficient="0"/>
+              <NumericPredictor name="v1" exponent="1" coefficient="0"/>
+              <NumericPredictor name="v3" exponent="1" coefficient="0"/>
+              <NumericPredictor name="v4" exponent="1" coefficient="0"/>
+              <NumericPredictor name="v5" exponent="1" coefficient="1"/>
+            </RegressionTable>
+          </RegressionModel>
+        </Segment>
+      </Segmentation>
+      </MiningModel>
+    </Segment>
+</Segmentation>
+</MiningModel>
+
+</PMML>

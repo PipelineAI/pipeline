@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<PMML>
+    <Header copyright="www.turn.com">
+        <Application name="Test Model" version="2.5"/>
+    </Header>
+    <DataDictionary numberOfFields="12">
+        <DataField name="aa" opType="categorical"></DataField>
+        <DataField name="bb" opType="categorical"></DataField>
+        <DataField name="cc" opType="continuous"></DataField>
+        <DataField name="dd" opType="continuous"></DataField>
+        <DataField name="output" opType="categorical"></DataField>
+    </DataDictionary>
+    <TreeModel missingValueStrategy="lastPrediction" noTrueChildStrategy="returnLastPrediction">
+        <MiningSchema>
+            <MiningField name="aa" usageType="active"></MiningField>
+            <MiningField name="bb" usageType="active"></MiningField>
+            <MiningField name="cc" usageType="active"></MiningField>
+            <MiningField name="dd" usageType="active"></MiningField>
+            <MiningField name="output" usageType="predicted"></MiningField>
+        </MiningSchema>
+        <Node score="result1" id="id1">
+        	<Node score="result2" id="id2">
+        		<CompositePredicate booleanOperator="or">
+                	<SimplePredicate field="aa" operator="equal" value="ValueA"/>
+            		<SimplePredicate field="bb" operator="equal" value="ValueB"/>
+            	</CompositePredicate>
+        	</Node>
+        	<Node score="result3" id="id3">
+        		<SimplePredicate field="cc" operator="greaterThan" value="10.0"/>
+        		<Node score="result4" id="id4">
+        			<CompositePredicate booleanOperator="or">
+                		<SimplePredicate field="aa" operator="equal" value="ValueA1"/>
+            			<CompositePredicate booleanOperator="and">
+            				<SimplePredicate field="dd" operator="lessThan" value="20.0"/>
+            				<SimplePredicate field="dd" operator="greaterThan" value="10.0"/>
+            			</CompositePredicate>
+            		</CompositePredicate>
+        		</Node>
+        		<Node score="result5" id="id5">
+        			<CompositePredicate booleanOperator="or">
+                		<SimplePredicate field="aa" operator="equal" value="ValueB"/>
+            			<SimplePredicate field="dd" operator="greaterOrEqual" value="20.0"/>
+            		</CompositePredicate>
+        		</Node>        		        		        		
+        	</Node>
+        </Node>
+  	</TreeModel>
+</PMML>

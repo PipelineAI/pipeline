@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<PMML version="4.1" xmlns="http://www.dmg.org/PMML-4_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header copyright="DMG.org"/>
+  <DataDictionary numberOfFields="7">
+    <DataField name="petal_length" optype="continuous" dataType="double"/>
+    <DataField name="petal_width" optype="continuous" dataType="double"/>
+      <DataField name="continent" optype="categorical" dataType="string" >
+        <Value value="asia"/>
+        <Value value="africa"/>
+        <Value value="america"/>
+	<Value value="europe"/>
+	<Value value="oceania"/>
+	<Value value="antartica"/>
+      </DataField>
+
+      <DataField name="cloudiness" optype="continuous" dataType="double"/>
+      <DataField name="temperature" optype="continuous" dataType="double"/>
+    <DataField name="sepal_length" optype="continuous" dataType="double"/>
+    <DataField name="sepal_width" optype="continuous" dataType="double"/>
+    <DataField name="day" optype="categorical" dataType="string"/>
+    <DataField name="PollenIndex" optype="continuous" dataType="double" />
+    <DataField name="Class" optype="categorical" dataType="string"/>
+  </DataDictionary>
+<MiningModel functionName="regression">
+  <MiningSchema>
+    <MiningField name="petal_length" usageType="active"/>
+    <MiningField name="petal_width" usageType="active"/>
+    <MiningField name="temperature" usageType="active"/>
+    <MiningField name="cloudiness" usageType="active"/>
+    <MiningField name="PollenIndex" usageType="predicted"/>
+    <MiningField name="Class" usageType="predicted"/>
+  </MiningSchema>
+  <Segmentation multipleModelMethod="modelChain">
+    <Segment id="1">
+      <True/>
+      <TreeModel modelName="Iris" functionName="classification" splitCharacteristic="binarySplit">
+        <MiningSchema>
+          <MiningField name="petal_length" usageType="active"/>
+          <MiningField name="petal_width" usageType="active"/>
+          <MiningField name="Class" usageType="predicted"/>
+        </MiningSchema>
+        <Output>
+          <OutputField dataType="string" feature="predictedValue" name="PredictedClass" optype="categorical"/>
+        </Output>
+        <Node score="Iris-setosa" recordCount="150">
+          <True/>
+          <Node score="Iris-setosa" recordCount="50">
+            <SimplePredicate field="petal_length" operator="lessThan" value="2.45"/>
+          </Node>
+          <Node score="Iris-versicolor" recordCount="100">
+            <SimplePredicate field="petal_length" operator="greaterThan" value="2.45"/>
+            <Node score="Iris-versicolor" recordCount="54">
+              <SimplePredicate field="petal_width" operator="lessThan" value="1.75"/>
+            </Node>
+            <Node score="Iris-virginica" recordCount="46">
+              <SimplePredicate field="petal_width" operator="greaterThan" value="1.75"/>
+            </Node>
+          </Node>
+        </Node>
+      </TreeModel>
+    </Segment>
+    <Segment id="2" >
+      <True/>
+      <RegressionModel modelName="PollenIndex" functionName="regression">
+        <MiningSchema>
+          <MiningField name="Class" usageType="active" />
+          <MiningField name="temperature" usageType="active"/>
+          <MiningField name="cloudiness" usageType="active"/>
+          <MiningField name="PollenIndex" usageType="predicted"/>
+        </MiningSchema>
+        <Output>
+          <OutputField dataType="double" feature="predictedValue" name="PollenIndex" optype="continuous"/>
+        </Output>
+        <RegressionTable intercept="0.3">
+          <CategoricalPredictor coefficient="0.8" name="Class" value="Iris-virginica" />
+          <CategoricalPredictor coefficient="2.0" name="Class" value="Iris-setosa" />
+          <NumericPredictor coefficient="0.02" exponent="1" name="temperature" />
+          <NumericPredictor coefficient="-0.1" exponent="1" name="cloudiness" />
+        </RegressionTable>
+      </RegressionModel>
+    </Segment>
+  </Segmentation>
+</MiningModel>
+
+</PMML>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<PMML>
+    <Header copyright="www.turn.com">
+        <Application name="Test Model" version="2.5"/>
+    </Header>
+    <DataDictionary numberOfFields="12">
+        <DataField name="USER_ZIPDMA_CLUSTER" opType="continuous"></DataField>
+        <DataField name="USER_ZIP_CLUSTER" opType="continuous"></DataField>
+        <DataField name="PP_TLD_CAT_IO_AR4" opType="continuous"></DataField>
+        <DataField name="output" opType="continuous"></DataField>
+    </DataDictionary>
+    <TreeModel missingValueStrategy="lastPrediction" noTrueChildStrategy="returnLastPrediction">
+        <MiningSchema>
+            <MiningField name="USER_ZIPDMA_CLUSTER" usageType="active"></MiningField>
+            <MiningField name="USER_ZIP_CLUSTER" usageType="active"></MiningField>
+            <MiningField name="PP_TLD_CAT_IO_AR4" usageType="active"></MiningField>
+            <MiningField name="output" usageType="predicted"></MiningField>
+        </MiningSchema>
+        <Node score="1.5" id="id1">
+        	<Node score="2.5" id="id2">
+        		<CompositePredicate booleanOperator="or">
+                	<SimplePredicate field="USER_ZIPDMA_CLUSTER" operator="equal" value="120"/>
+            		<SimplePredicate field="USER_ZIP_CLUSTER" operator="equal" value="90763"/>
+            	</CompositePredicate>
+        	</Node>
+        	<Node score="0.5" id="id3">
+        		<SimplePredicate field="USER_ZIPDMA_CLUSTER" operator="greaterThan" value="10.0"/>
+        		<Node score="0.1" id="id4">
+        			<CompositePredicate booleanOperator="or">
+                		<SimplePredicate field="USER_ZIP_CLUSTER" operator="equal" value="78789"/>
+            			<CompositePredicate booleanOperator="and">
+            				<SimplePredicate field="PP_TLD_CAT_IO_AR4" operator="lessThan" value="20.0"/>
+            				<SimplePredicate field="PP_TLD_CAT_IO_AR4" operator="greaterThan" value="10.0"/>
+            			</CompositePredicate>
+            		</CompositePredicate>
+        		</Node>
+        		<Node score="0.8" id="id5">
+        			<CompositePredicate booleanOperator="or">
+                		<SimplePredicate field="USER_ZIP_CLUSTER" operator="equal" value="80878"/>
+            			<SimplePredicate field="PP_TLD_CAT_IO_AR4" operator="greaterOrEqual" value="20.0"/>
+            		</CompositePredicate>
+        		</Node>        		        		        		
+        	</Node>
+        </Node>
+  	</TreeModel>
+</PMML>
