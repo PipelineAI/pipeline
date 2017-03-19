@@ -78,7 +78,7 @@ class PredictionService {
       val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
 
       // Update PMML in Cache
-      pmmlRegistry.put(pmmlName, modelEvaluator)
+      pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
       
       new ResponseEntity(HttpStatus.OK)
     } catch {
@@ -97,7 +97,7 @@ class PredictionService {
                    @RequestBody inputJson: String): String = {
     try {
       var modelEvaluator: Evaluator = null 
-      val modelEvaluatorOption = pmmlRegistry.get(pmmlName)
+      val modelEvaluatorOption = pmmlRegistry.get(namespace + "/" + pmmlName + "/" + version)
       if (modelEvaluatorOption == None) {
         val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
         val transformedSource = ImportFilter.apply(new InputSource(fis))
@@ -115,7 +115,7 @@ class PredictionService {
         modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
 
         // Cache modelEvaluator
-        pmmlRegistry.put(pmmlName, modelEvaluator)
+        pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
       } else {
         modelEvaluator = modelEvaluatorOption.get
       }

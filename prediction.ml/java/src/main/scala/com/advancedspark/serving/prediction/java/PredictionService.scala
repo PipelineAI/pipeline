@@ -50,8 +50,9 @@ class PredictionService {
   val responseHeaders = new HttpHeaders();
 
   @RequestMapping(path=Array("/update-java/{namespace}/{className}/{version}"),
-                  method=Array(RequestMethod.POST),
-                  produces=Array("application/json; charset=UTF-8"))
+                  method=Array(RequestMethod.POST)
+                  //produces=Array("application/json; charset=UTF-8")
+                  )
   def updateSource(@PathVariable("namespace") namespace: String, 
                    @PathVariable("className") className: String,
                    @PathVariable("version") version: String,
@@ -79,7 +80,7 @@ class PredictionService {
       System.out.println(s"Updating cache for ${namespace}/${className}/${version}:\n${generatedCode}")
       
       // Update Predictor in Cache
-      predictorRegistry.put(className + "/" + version, predictor)
+      predictorRegistry.put(namespace + "/" + className + "/" + version, predictor)
 
       new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
     } match {
@@ -101,11 +102,11 @@ class PredictionService {
                      @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      val predictorOption = predictorRegistry.get(className + "/" + version)
+      val predictorOption = predictorRegistry.get(namespace + "/" + className + "/" + version)
 
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val result = predictorOption match {
+      val predictor = predictorOption match {
         case None => {
           val classFileName = s"store/${namespace}/${className}/${version}/${className}.java"
 
@@ -120,14 +121,18 @@ class PredictionService {
           System.out.println(s"Updating cache for ${namespace}/${className}/${version}:\n${generatedCode}")
       
           // Update Predictor in Cache
-          predictorRegistry.put(className + "/" + version, predictor)
+          predictorRegistry.put(namespace + "/" + className + "/" + version, predictor)
       
           System.out.println(s"Updating cache for ${namespace}/${className}/${version}:\n${generatedCode}")
+
+          predictor
         }
         case Some(predictor) => {
-           new JavaSourceCodeEvaluationCommand(className, namespace, className, version, predictor, inputs, "fallback", 25, 20, 10).execute()
+           predictor
         }
       } 
+          
+      val result = new JavaSourceCodeEvaluationCommand(className, namespace, className, version, predictor, inputs, "fallback", 25, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)

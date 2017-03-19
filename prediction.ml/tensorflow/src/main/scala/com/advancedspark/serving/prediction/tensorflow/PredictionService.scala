@@ -35,8 +35,6 @@ import java.io.InputStream
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
 class PredictionService {
-  val modelRegistry = new scala.collection.mutable.HashMap[String, Array[Byte]]
-
   HystrixPrometheusMetricsPublisher.register("prediction_tensorflow")
   new StandardExports().register()
 
@@ -145,7 +143,7 @@ class PredictionService {
       val filename = image.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"${namespace}/images/${version}/")
+      val filepath = new java.io.File(s"/images/${namespace}/${modelName}/${version}/")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -153,7 +151,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       val inputStream = image.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"${namespace}/images/${version}/${filename}"),
+      Files.copy(inputStream, Paths.get(s"/images/${namespace}/${modelName}/${version}/${filename}"),
         StandardCopyOption.REPLACE_EXISTING)
   
       inputStream.close()
@@ -187,7 +185,7 @@ class PredictionService {
       val filename = image.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"${namespace}/images/${version}")
+      val filepath = new java.io.File(s"images/${namespace}/${modelName}/${version}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -195,7 +193,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       val inputStream = image.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"${namespace}/images/${version}/${filename}"),
+      Files.copy(inputStream, Paths.get(s"/images/${namespace}/${modelName}/${version}/${filename}"),
         StandardCopyOption.REPLACE_EXISTING)
   
       inputStream.close()
