@@ -107,6 +107,9 @@ ENV \
 #  cd $TENSORFLOW_HOME \
 #  && bazel build tensorflow/python/tools:optimize_for_inference
 
+ENV \
+  TENSORFLOW_VERSION=1.0.1
+
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
   && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
