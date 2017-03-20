@@ -28,6 +28,7 @@ import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import javax.servlet.annotation.MultipartConfig
 import java.io.InputStream
+import scala.util.parsing.json.JSON
 
 @SpringBootApplication
 @RestController
@@ -41,7 +42,7 @@ class PredictionService {
 /*  
  curl -i -X POST -v -H "Transfer-Encoding: chunked" \
    -F "model=@tensorflow_inception_graph.pb" \
-   http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow-model/[namespace]/tensorflow_inception/00000002
+   http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow-model/[namespace]/tensorflow_inception/{version}
 */
   @RequestMapping(path=Array("/update-tensorflow-model/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
@@ -88,8 +89,11 @@ class PredictionService {
                              @PathVariable("version") version: String, 
                              @RequestBody inputJson: String): String = {
     try {
-      val inputs = new HashMap[String,Any]()
-        //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
 
       val results = new TensorflowGrpcCommand(s"${modelName}_grpc", namespace, modelName, version, inputs, "fallback", 5000, 20, 10)
         .execute()
@@ -111,8 +115,11 @@ class PredictionService {
                                @PathVariable("version") version: String,
                                @RequestBody inputJson: String): String = {
     try {
-      val inputs = new HashMap[String,Any]()
-        //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
 
       val results = new TensorflowNativeCommand(s"${modelName}_java", namespace, modelName, version, inputs, "fallback", 5000, 20, 10)
         .execute()
@@ -125,10 +132,12 @@ class PredictionService {
       }
     }
   }
-  
-  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-  //  -F "image=@1.jpg" \
-  //  http://[host]:[port]/evaluate-tensorflow-java-image/[namespace]/tensorflow_inception/00000001
+
+/*  
+   curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+    -F "image=@1.jpg" \
+    http://[host]:[port]/evaluate-tensorflow-java-image/[namespace]/tensorflow_inception/1
+*/
   @RequestMapping(path=Array("/evaluate-tensorflow-java-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def evaluateTensorflowJavaWithImage(@PathVariable("namespace") namespace: String,
@@ -137,13 +146,12 @@ class PredictionService {
                                       @RequestParam("image") image: MultipartFile): String = {
     try {
       val inputs = new HashMap[String,Any]()
-      //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
   
       // Get name of uploaded file.
       val filename = image.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"/images/${namespace}/${modelName}/${version}/")
+      val filepath = new java.io.File(s"store/${namespace}/images/${modelName}/${version}/")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -151,7 +159,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       val inputStream = image.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"/images/${namespace}/${modelName}/${version}/${filename}"),
+      Files.copy(inputStream, Paths.get(s"store/${namespace}/images/${modelName}/${version}/${filename}"),
         StandardCopyOption.REPLACE_EXISTING)
   
       inputStream.close()
@@ -179,13 +187,12 @@ class PredictionService {
                                       @RequestParam("image") image: MultipartFile): String = {
     try {
       val inputs = new HashMap[String,Any]()
-      //JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
   
       // Get name of uploaded file.
       val filename = image.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"images/${namespace}/${modelName}/${version}")
+      val filepath = new java.io.File(s"store/${namespace}/images/${modelName}/${version}/")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -193,7 +200,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       val inputStream = image.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"/images/${namespace}/${modelName}/${version}/${filename}"),
+      Files.copy(inputStream, Paths.get(s"store/${namespace}/images/${modelName}/${version}/${filename}"),
         StandardCopyOption.REPLACE_EXISTING)
   
       inputStream.close()

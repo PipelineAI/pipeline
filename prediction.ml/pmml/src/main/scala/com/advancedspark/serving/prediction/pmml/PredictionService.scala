@@ -96,32 +96,38 @@ class PredictionService {
                    @PathVariable("version") version: String,
                    @RequestBody inputJson: String): String = {
     try {
-      var modelEvaluator: Evaluator = null 
-      val modelEvaluatorOption = pmmlRegistry.get(namespace + "/" + pmmlName + "/" + version)
-      if (modelEvaluatorOption == None) {
-        val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
-        val transformedSource = ImportFilter.apply(new InputSource(fis))
-
-        val pmml = JAXBUtil.unmarshalPMML(transformedSource)
-
-        val predicateOptimizer = new PredicateOptimizer()
-        predicateOptimizer.applyTo(pmml)
-
-        val predicateInterner = new PredicateInterner()
-        predicateInterner.applyTo(pmml)
-
-        val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
-
-        modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
-
-        // Cache modelEvaluator
-        pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
-      } else {
-        modelEvaluator = modelEvaluatorOption.get
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
       }
-
-      val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
-
+      
+      val modelEvaluatorOption = pmmlRegistry.get(namespace + "/" + pmmlName + "/" + version)
+      val modelEvaluator = modelEvaluatorOption match {
+        case None => {     
+          val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
+          val transformedSource = ImportFilter.apply(new InputSource(fis))
+  
+          val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+  
+          val predicateOptimizer = new PredicateOptimizer()
+          predicateOptimizer.applyTo(pmml)
+  
+          val predicateInterner = new PredicateInterner()
+          predicateInterner.applyTo(pmml)
+  
+          val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+  
+          val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+  
+          // Cache modelEvaluator
+          pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
+          
+          modelEvaluator
+        }
+        case Some(modelEvaluator) => modelEvaluator
+      }          
+        
       val results = new PMMLEvaluationCommand(pmmlName, namespace, pmmlName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
        .execute()
 

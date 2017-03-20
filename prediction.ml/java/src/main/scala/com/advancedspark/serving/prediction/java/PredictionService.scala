@@ -92,7 +92,12 @@ class PredictionService {
       case Success(response) => response      
     }
   }
- 
+  
+/*
+    curl -i -X POST -v -H "Content-Type: application/json" \
+      -d {"id":"21618"} \
+      http://[hostname]:[port]/evaluate-java/my_namespace/java_equals/1
+*/
   @RequestMapping(path=Array("/evaluate-java/{namespace}/{className}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
@@ -104,7 +109,11 @@ class PredictionService {
     Try {
       val predictorOption = predictorRegistry.get(namespace + "/" + className + "/" + version)
 
-      val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
 
       val predictor = predictorOption match {
         case None => {
