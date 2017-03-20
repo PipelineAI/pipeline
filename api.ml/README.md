@@ -1,1 +1,0 @@
-Kubernetes-aware reverse proxy

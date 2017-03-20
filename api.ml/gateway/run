@@ -1,3 +1,0 @@
-#!/bin/bash
-
-KUBERNETES_NAMESPACE=default java -Djava.security.egd=file:/dev/./urandom -jar lib/sbt-launch.jar "run-main com.fluxcapacitor.api.gateway.ApiGatewayServiceMain"  
