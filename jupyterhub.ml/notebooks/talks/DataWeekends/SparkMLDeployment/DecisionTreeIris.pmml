@@ -2,7 +2,7 @@
 <PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
 	<Header>
 		<Application name="JPMML-SkLearn" version="1.2.10"/>
-		<Timestamp>2017-03-18T23:56:34Z</Timestamp>
+		<Timestamp>2017-03-20T14:56:03Z</Timestamp>
 	</Header>
 	<MiningBuildTask>
 		<Extension>PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
@@ -19,14 +19,14 @@
 		</DataField>
 		<DataField name="petal length (cm)" optype="continuous" dataType="float"/>
 		<DataField name="petal width (cm)" optype="continuous" dataType="float"/>
-		<DataField name="sepal length (cm)" optype="continuous" dataType="float"/>
+		<DataField name="sepal width (cm)" optype="continuous" dataType="float"/>
 	</DataDictionary>
 	<TreeModel functionName="classification" splitCharacteristic="binarySplit">
 		<MiningSchema>
 			<MiningField name="Species" usageType="target"/>
 			<MiningField name="petal length (cm)"/>
 			<MiningField name="petal width (cm)"/>
-			<MiningField name="sepal length (cm)"/>
+			<MiningField name="sepal width (cm)"/>
 		</MiningSchema>
 		<Output>
 			<OutputField name="probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
@@ -36,13 +36,13 @@
 		<Node id="1">
 			<True/>
 			<Node id="2" score="0" recordCount="50.0">
-				<SimplePredicate field="petal length (cm)" operator="lessOrEqual" value="2.45"/>
+				<SimplePredicate field="petal width (cm)" operator="lessOrEqual" value="0.8"/>
 				<ScoreDistribution value="0" recordCount="50.0"/>
 				<ScoreDistribution value="1" recordCount="0.0"/>
 				<ScoreDistribution value="2" recordCount="0.0"/>
 			</Node>
 			<Node id="3">
-				<SimplePredicate field="petal length (cm)" operator="greaterThan" value="2.45"/>
+				<SimplePredicate field="petal width (cm)" operator="greaterThan" value="0.8"/>
 				<Node id="4">
 					<SimplePredicate field="petal width (cm)" operator="lessOrEqual" value="1.75"/>
 					<Node id="5">
@@ -89,17 +89,17 @@
 					<SimplePredicate field="petal width (cm)" operator="greaterThan" value="1.75"/>
 					<Node id="14">
 						<SimplePredicate field="petal length (cm)" operator="lessOrEqual" value="4.8500004"/>
-						<Node id="15" score="1" recordCount="1.0">
-							<SimplePredicate field="sepal length (cm)" operator="lessOrEqual" value="5.95"/>
-							<ScoreDistribution value="0" recordCount="0.0"/>
-							<ScoreDistribution value="1" recordCount="1.0"/>
-							<ScoreDistribution value="2" recordCount="0.0"/>
-						</Node>
-						<Node id="16" score="2" recordCount="2.0">
-							<SimplePredicate field="sepal length (cm)" operator="greaterThan" value="5.95"/>
+						<Node id="15" score="2" recordCount="2.0">
+							<SimplePredicate field="sepal width (cm)" operator="lessOrEqual" value="3.1"/>
 							<ScoreDistribution value="0" recordCount="0.0"/>
 							<ScoreDistribution value="1" recordCount="0.0"/>
 							<ScoreDistribution value="2" recordCount="2.0"/>
+						</Node>
+						<Node id="16" score="1" recordCount="1.0">
+							<SimplePredicate field="sepal width (cm)" operator="greaterThan" value="3.1"/>
+							<ScoreDistribution value="0" recordCount="0.0"/>
+							<ScoreDistribution value="1" recordCount="1.0"/>
+							<ScoreDistribution value="2" recordCount="0.0"/>
 						</Node>
 					</Node>
 					<Node id="17" score="2" recordCount="43.0">
