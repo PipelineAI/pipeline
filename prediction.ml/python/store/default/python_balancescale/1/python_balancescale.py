@@ -1,7 +1,7 @@
 import pickle
 
 # Load the pickled model
-decision_tree_pkl_filename = 'store/python_balancescale/python_balancescale.pkl'
+decision_tree_pkl_filename = 'store/default/python_balancescale/1/python_balancescale.pkl'
  
 decision_tree_model_pkl = open(decision_tree_pkl_filename, 'rb')
 decision_tree_model = pickle.load(decision_tree_model_pkl)

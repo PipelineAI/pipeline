@@ -1,7 +1,7 @@
 import pickle
 
 # Dump the trained decision tree classifier with Pickle
-simple_pkl_filename = 'store/python_simple/python_simple.pkl'
+simple_pkl_filename = 'store/default/python_simple/1/python_simple.pkl'
 
 # Open the file to save as pkl file
 #simple_pkl = open(simple_pkl_filename, 'wb')
