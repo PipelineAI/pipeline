@@ -5,7 +5,6 @@ sudo docker push fluxcapacitor/package-ubuntu-14.04
 sudo docker push fluxcapacitor/package-ubuntu-16.04
 sudo docker push fluxcapacitor/package-anaconda-4.1.11
 sudo docker push fluxcapacitor/package-java-openjdk-1.8
-sudo docker push fluxcapacitor/package-java-oracle-1.8
 sudo docker push fluxcapacitor/package-spark-2.1.0
 
 sudo docker push fluxcapacitor/package-kafka-0.8
@@ -31,7 +30,7 @@ sudo docker push fluxcapacitor/dashboard-turbine
 sudo docker push fluxcapacitor/elasticsearch-2.3.0
 
 # gpu.ml
-sudo docker push fluxcapacitor/gpu-tensorflow
+sudo docker push fluxcapacitor/gpu-tensorflow-spark
 
 # hdfs.ml
 sudo docker push fluxcapacitor/hdfs
@@ -47,7 +46,6 @@ sudo docker push fluxcapacitor/kibana-4.5.0
 
 # kubernetes.ml
 sudo docker push fluxcapacitor/kubernetes
-sudo docker push fluxcapacitor/kubernetes-admin
 
 # loadtest.ml
 sudo docker push fluxcapacitor/loadtest
@@ -56,15 +54,18 @@ sudo docker push fluxcapacitor/loadtest
 sudo docker push fluxcapacitor/metastore-1.2.1
 
 # prediction.ml
-sudo docker push fluxcapacitor/prediction-codegen
+sudo docker push fluxcapacitor/prediction-java
 sudo docker push fluxcapacitor/prediction-keyvalue
 sudo docker push fluxcapacitor/prediction-pmml
-sudo docker push fluxcapacitor/prediction-tensorflow
 sudo docker push fluxcapacitor/prediction-python
+sudo docker push fluxcapacitor/prediction-spark
+sudo docker push fluxcapacitor/prediction-tensorflow
+sudo docker push fluxcapacitor/prediction-tensorflow-gpu
 
 # presto.ml
 sudo docker push fluxcapacitor/presto-master-0.167
 sudo docker push fluxcapacitor/presto-worker-0.167
+sudo docker push fluxcapacitor/presto-ui
 
 # scheduler.ml
 sudo docker push fluxcapacitor/scheduler-airflow

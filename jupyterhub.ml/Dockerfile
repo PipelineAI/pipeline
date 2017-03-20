@@ -115,6 +115,10 @@ RUN \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
   && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
 
+RUN \
+  pip install jupyterlab \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
+
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
   pip install jupyterhub-dummyauthenticator
@@ -206,10 +210,6 @@ COPY profiles/ /root/.ipython/
 
 #RUN \
 #  pip install tensorflow==1.0.1
-
-RUN \
-  pip install jupyterlab \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 EXPOSE 6006 8754
 

@@ -7,7 +7,6 @@ cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapaci
 cd $PIPELINE_HOME/package.ml/ubuntu/16.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-16.04 .
 cd $PIPELINE_HOME/package.ml/anaconda/4.1.11/ && sudo docker build -q -t fluxcapacitor/package-anaconda-4.1.11 .
 cd $PIPELINE_HOME/package.ml/java/openjdk/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8 .
-cd $PIPELINE_HOME/package.ml/java/oracle/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-oracle-1.8 .
 cd $PIPELINE_HOME/package.ml/spark/2.1.0/ && sudo docker build -q -t fluxcapacitor/package-spark-2.1.0 .
 
 cd $PIPELINE_HOME/package.ml/kafka/0.8/ && sudo docker build  -q -t fluxcapacitor/package-kafka-0.8 .
@@ -39,7 +38,7 @@ cd $PIPELINE_HOME/dashboard.ml/turbine && sudo docker build -q -t fluxcapacitor/
 cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && sudo docker build -q -t fluxcapacitor/elasticsearch-2.3.0 .
 
 # gpu.ml
-cd $PIPELINE_HOME/gpu.ml && sudo docker build -q -t fluxcapacitor/gpu-tensorflow .
+cd $PIPELINE_HOME/gpu.ml && sudo docker build -q -t fluxcapacitor/gpu-tensorflow-spark .
 
 # hdfs.ml
 cd $PIPELINE_HOME/hdfs.ml && sudo docker build -q -t fluxcapacitor/hdfs .
@@ -64,11 +63,13 @@ cd $PIPELINE_HOME/loadtest.ml && sudo docker build -q -t fluxcapacitor/loadtest 
 cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastore-1.2.1 .
 
 # prediction.ml
-cd $PIPELINE_HOME/prediction.ml/codegen && sudo docker build -q -t fluxcapacitor/prediction-codegen .
+cd $PIPELINE_HOME/prediction.ml/java && sudo docker build -q -t fluxcapacitor/prediction-java .
 cd $PIPELINE_HOME/prediction.ml/keyvalue && sudo docker build -q -t fluxcapacitor/prediction-keyvalue .
 cd $PIPELINE_HOME/prediction.ml/pmml && sudo docker build -q -t fluxcapacitor/prediction-pmml .
 cd $PIPELINE_HOME/prediction.ml/python && sudo docker build -q -t fluxcapacitor/prediction-python .
+cd $PIPELINE_HOME/prediction.ml/spark && sudo docker build -q -t fluxcapacitor/prediction-spark .
 cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build -q -t fluxcapacitor/prediction-tensorflow .
+cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build -q -t fluxcapacitor/prediction-tensorflow-gpu -f Dockerfile.gpu .
 
 # presto.ml
 cd $PIPELINE_HOME/presto.ml/presto-master && sudo docker build -q -t fluxcapacitor/presto-master-0.167 .
