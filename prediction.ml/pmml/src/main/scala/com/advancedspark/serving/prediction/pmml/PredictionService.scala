@@ -40,7 +40,7 @@ class PredictionService {
   
   new StandardExports().register()
     
-  @RequestMapping(path=Array("/update-pmml-model/{namespace}/{pmmlName}/{version}"),
+  @RequestMapping(path=Array("/update-pmml/{namespace}/{pmmlName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
   def updatePmml(@PathVariable("namespace") namespace: String, 
@@ -88,7 +88,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate-pmml-model/{namespace}/{pmmlName}/{version}"),
+  @RequestMapping(path=Array("/evaluate-pmml/{namespace}/{pmmlName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluatePmml(@PathVariable("namespace") namespace: String, 

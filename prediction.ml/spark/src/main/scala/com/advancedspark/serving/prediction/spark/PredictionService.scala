@@ -43,8 +43,8 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/update-spark-model/[namespace]/spark_linear_regression/[version]
-  @RequestMapping(path=Array("/update-spark-model/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/update-spark/[namespace]/spark_linear_regression/[version]
+  @RequestMapping(path=Array("/update-spark/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateSpark(@PathVariable("namespace") namespace: String,
                        @PathVariable("modelName") modelName: String, 
@@ -83,8 +83,8 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "input=@input.json" \
-  //  http://[host]:[port]/evaluate-spark-model/[namespace]/spark_linear_regression/[version]
-  @RequestMapping(path=Array("/evaluate-spark-model/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/evaluate-spark/[namespace]/spark_linear_regression/[version]
+  @RequestMapping(path=Array("/evaluate-spark/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
     def evaluateSpark(@PathVariable("namespace") namespace: String,
