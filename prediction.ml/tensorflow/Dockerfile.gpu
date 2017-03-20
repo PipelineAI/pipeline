@@ -162,6 +162,8 @@ ENV \
 # Configure the build for our CUDA configuration.
 ENV CI_BUILD_PYTHON python
 
+ENV TF_ENABLE_XLA=1
+
 RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured GPU \
@@ -182,6 +184,16 @@ RUN \
 #RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
 #  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
+
+RUN \
+  cd ~/lib/jni \
+  && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build :all
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 RUN \
   apt-get update \
