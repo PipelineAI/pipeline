@@ -1,6 +1,8 @@
 cd $PIPELINE_HOME
 
-# TODO:  Add --no-cache
+# TODO:  
+# $1:  version (ie. v0.7)
+# $2:  --no-cache
 
 # package.ml
 cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-14.04 .
