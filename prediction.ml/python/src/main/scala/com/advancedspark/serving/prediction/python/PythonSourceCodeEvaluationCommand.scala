@@ -42,7 +42,7 @@ class PythonSourceCodeEvaluationCommand(commandName: String,
   def run(): String = {
     try{
       // TODO:  Improve this
-      val p = Runtime.getRuntime().exec(s"python -W ignore ${namespace}/${version}/${filename} '${inputJson}'")
+      val p = Runtime.getRuntime().exec(s"python -W ignore store/${namespace}/${version}/${filename} '${inputJson}'")
       //System.out.println("p: " + p)
       
       val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));

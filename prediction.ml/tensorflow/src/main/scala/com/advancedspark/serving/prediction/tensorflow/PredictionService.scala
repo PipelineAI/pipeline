@@ -42,7 +42,7 @@ class PredictionService {
 /*  
  curl -i -X POST -v -H "Transfer-Encoding: chunked" \
    -F "model=@tensorflow_inception_graph.pb" \
-   http://prediction-tensorflow-aws.demo.pipeline.io/update-tensorflow-model/[namespace]/tensorflow_inception/{version}
+   http://[host]:[port]/update-tensorflow-model/default/tensorflow_inception/1
 */
   @RequestMapping(path=Array("/update-tensorflow-model/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
@@ -178,7 +178,7 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
-  //  http://[host]:[port]/evaluate-tensorflow-grpc-image/[namespace]/tensorflow_inception/00000001
+  //  http://[host]:[port]/evaluate-tensorflow-grpc-image/default/tensorflow_inception/1
   @RequestMapping(path=Array("/evaluate-tensorflow-grpc-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def evaluateTensorflowGrpcWithImage(@PathVariable("namespace") namespace: String,

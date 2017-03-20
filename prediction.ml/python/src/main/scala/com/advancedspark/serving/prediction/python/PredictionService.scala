@@ -82,7 +82,7 @@ class PredictionService {
     Try {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val filename = s"store/${namespace}/${name}/${version}/${name}.py"
+      val filename = s"${name}.py"
 
       val result = new PythonSourceCodeEvaluationCommand(name, namespace, version, filename, inputJson, "fallback", 10000, 20, 10).execute()
 

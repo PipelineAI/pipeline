@@ -96,7 +96,7 @@ class PredictionService {
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d {"id":"21618"} \
-      http://[hostname]:[port]/evaluate-java/my_namespace/java_equals/1
+      http://[hostname]:[port]/evaluate-java/default/java_equals/1
 */
   @RequestMapping(path=Array("/evaluate-java/{namespace}/{className}/{version}"),
                   method=Array(RequestMethod.POST),
