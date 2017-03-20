@@ -34,9 +34,9 @@ spec:
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
-          - name: kube-config-secret-volume
-            readOnly: true
-            mountPath: /root/.kube
+#          - name: kube-config-secret-volume
+#            readOnly: true
+#            mountPath: /root/.kube
 	  - name: git-volume
             mountPath: /root/volumes
         securityContext:
@@ -45,12 +45,13 @@ spec:
         - hostPath:
             path: /var/run/docker.sock
           name: dockersocket
-        - name: kube-config-secret-volume
-          secret:
-            secretName: kube-config-secret
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
+#            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
             revision: "master"
+#        - name: kube-config-secret-volume
+#          secret:
+#            secretName: kube-config-secret
       nodeSelector:
         training: "true"
