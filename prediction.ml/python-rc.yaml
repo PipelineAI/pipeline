@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-python
-        image: docker.io/fluxcapacitor/prediction-python:r1.0
+        image: docker.io/fluxcapacitor/prediction-python:latest
         imagePullPolicy: "Always"
         env:
         ports:

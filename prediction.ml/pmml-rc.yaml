@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-pmml
-        image: docker.io/fluxcapacitor/prediction-pmml:r1.0
+        image: docker.io/fluxcapacitor/prediction-pmml:latest
         imagePullPolicy: "Always"
         env:
         ports:
