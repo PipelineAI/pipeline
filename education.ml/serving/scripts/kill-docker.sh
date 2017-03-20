@@ -1,1 +1,0 @@
-docker rm -f workshop 

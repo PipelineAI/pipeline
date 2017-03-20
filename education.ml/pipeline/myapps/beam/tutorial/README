@@ -1,5 +1,0 @@
-This is based on the following:
-  https://github.com/eljefe6a/beamexample
-
-We may have to remove the following if you see an error with the Spark stuff (I think):
-  <artifactId>beam-runners-spark</artifactId>

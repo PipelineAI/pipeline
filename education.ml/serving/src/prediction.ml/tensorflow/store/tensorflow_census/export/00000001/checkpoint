@@ -1,2 +1,0 @@
-model_checkpoint_path: "/Users/cfregly/workspace/fluxcapacitor/pipeline.io/prediction.ml/tensorflow/models/census//export/00000200-tmp/export"
-all_model_checkpoint_paths: "/Users/cfregly/workspace/fluxcapacitor/pipeline.io/prediction.ml/tensorflow/models/census//export/00000200-tmp/export"
