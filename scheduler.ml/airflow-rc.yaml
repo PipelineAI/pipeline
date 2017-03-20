@@ -37,7 +37,7 @@ spec:
 #          - name: kube-config-secret-volume
 #            readOnly: true
 #            mountPath: /root/.kube
-	  - name: git-volume
+          - name: git-volume
             mountPath: /root/volumes
         securityContext:
           privileged: true
