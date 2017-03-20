@@ -103,6 +103,7 @@ class PredictionService {
       }
       
       val modelEvaluatorOption = pmmlRegistry.get(namespace + "/" + pmmlName + "/" + version)
+
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
           val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
