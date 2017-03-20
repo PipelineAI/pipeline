@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: redis-master
-        image: docker.io/fluxcapacitor/keyvalue-redis
+        image: docker.io/fluxcapacitor/keyvalue-redis:r1.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: kibana-4-5-0
-        image: docker.io/fluxcapacitor/kibana-4.5.0
+        image: docker.io/fluxcapacitor/kibana-4.5.0:r1.0
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5601 

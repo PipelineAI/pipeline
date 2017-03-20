@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-tensorflow
-        image: docker.io/fluxcapacitor/prediction-tensorflow
+        image: docker.io/fluxcapacitor/prediction-tensorflow:r1.0
         imagePullPolicy: "Always"
         env:
         ports:

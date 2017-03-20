@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: docker.io/fluxcapacitor/cassandra
+        image: docker.io/fluxcapacitor/cassandra:r1.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
