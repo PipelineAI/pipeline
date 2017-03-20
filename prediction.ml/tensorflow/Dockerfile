@@ -150,6 +150,9 @@ RUN \
 ENV \
   STORE_HOME=/root/store
 
+RUN \
+  ln -s /root/volumes/source.ml/prediction.ml/tensorflow/store
+
 EXPOSE 5678 6006 9000 9001 9002 9040
 
 CMD ["supervise", "."]

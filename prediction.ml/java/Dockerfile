@@ -14,6 +14,12 @@ RUN \
 
 ENV LOGS_HOME=/root/logs
 
+ENV \
+  STORE_HOME=/root/store
+
+RUN \
+  ln -s /root/volumes/source.ml/prediction.ml/java/store
+
 COPY run run
 
 EXPOSE 9040 

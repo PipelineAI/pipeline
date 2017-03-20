@@ -52,6 +52,16 @@ RUN \
 #  cd store/python_balancescale \
 #  && python train_balancescale.py
 
+ENV \
+  STORE_HOME=/root/store
+
+RUN \
+  ln -s /root/volumes/source.ml/prediction.ml/tensorflow/python
+
+RUN \
+  cd store/python_balancescale \
+  && python train_balancescale.py
+
 COPY run run
 
 EXPOSE 9040 
