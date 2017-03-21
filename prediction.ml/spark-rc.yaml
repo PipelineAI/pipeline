@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-spark
-        image: docker.io/fluxcapacitor/prediction-spark:latest
+        image: docker.io/fluxcapacitor/prediction-spark:r1.0
         imagePullPolicy: "Always"
         env:
         ports:

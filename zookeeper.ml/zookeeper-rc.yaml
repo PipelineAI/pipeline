@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: zookeeper
-        image: docker.io/fluxcapacitor/zookeeper:latest
+        image: docker.io/fluxcapacitor/zookeeper:r1.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

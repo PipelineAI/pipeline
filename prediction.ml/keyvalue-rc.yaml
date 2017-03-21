@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-keyvalue
-        image: docker.io/fluxcapacitor/prediction-keyvalue:latest
+        image: docker.io/fluxcapacitor/prediction-keyvalue:r1.0
         imagePullPolicy: "Always"
         env:
         ports:
