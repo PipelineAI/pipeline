@@ -23,6 +23,7 @@ sudo docker push fluxcapacitor/cassandra:$1
 
 # clustered.ml
 sudo docker push fluxcapacitor/clustered-tensorflow:$1
+sudo docker push fluxcapacitor/clustered-tensorflow-gpu:$1
 
 # dashboard.ml
 sudo docker push fluxcapacitor/dashboard-hystrix:$1
