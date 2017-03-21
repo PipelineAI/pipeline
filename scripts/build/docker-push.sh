@@ -8,11 +8,11 @@ sudo docker push fluxcapacitor/package-ubuntu-16.04:$1
 sudo docker push fluxcapacitor/package-java-openjdk-1.8:$1
 sudo docker push fluxcapacitor/package-spark-2.0.1:$1
 sudo docker push fluxcapacitor/package-spark-2.1.0:$1
-
 sudo docker push fluxcapacitor/package-kafka-0.8:$1
 sudo docker push fluxcapacitor/package-kafka-0.10:$1
 sudo docker push fluxcapacitor/package-presto-0.167:$1
 sudo docker push fluxcapacitor/package-apache2:$1
+sudo docker push fluxcapacitor/package-gpu-cuda8-16.04:$1
 
 # apachespark.ml
 sudo docker push fluxcapacitor/apachespark-master-2.1.0:$1

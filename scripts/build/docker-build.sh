@@ -15,6 +15,7 @@ cd $PIPELINE_HOME/package.ml/kafka/0.8/ && sudo docker build  -q -t fluxcapacito
 cd $PIPELINE_HOME/package.ml/kafka/0.10/ && sudo docker build -q -t fluxcapacitor/package-kafka-0.10:$1 .
 cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build -q -t fluxcapacitor/package-apache2:$1 .
+cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
 
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-master-2.0.1:$1 -f Dockerfile.master .
