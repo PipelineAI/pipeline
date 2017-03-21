@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-apache2
+FROM fluxcapacitor/package-apache2:v1.0.0
 
 WORKDIR /root
  

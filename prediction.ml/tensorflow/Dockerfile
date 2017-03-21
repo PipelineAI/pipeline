@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8
+FROM fluxcapacitor/package-java-openjdk-1.8:v1.0.0
 
 WORKDIR /root
 
