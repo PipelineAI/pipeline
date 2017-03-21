@@ -38,7 +38,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
 #            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
-            revision: "latest"
+            revision: "master"
 #        - name: kube-config-secret-volume
 #          secret:
 #            secretName: kube-config-secret
