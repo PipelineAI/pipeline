@@ -8,6 +8,7 @@ cd $PIPELINE_HOME
 cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-14.04:$1 .
 cd $PIPELINE_HOME/package.ml/ubuntu/16.04/ && sudo docker build -q -t fluxcapacitor/package-ubuntu-16.04:$1 .
 cd $PIPELINE_HOME/package.ml/java/openjdk/1.8/ && sudo docker build -q -t fluxcapacitor/package-java-openjdk-1.8:$1 .
+cd $PIPELINE_HOME/package.ml/spark/2.0.1/ && sudo docker build -q -t fluxcapacitor/package-spark-2.0.1:$1 .
 cd $PIPELINE_HOME/package.ml/spark/2.1.0/ && sudo docker build -q -t fluxcapacitor/package-spark-2.1.0:$1 .
 
 cd $PIPELINE_HOME/package.ml/kafka/0.8/ && sudo docker build  -q -t fluxcapacitor/package-kafka-0.8:$1 .

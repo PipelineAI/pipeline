@@ -6,6 +6,7 @@ cd $PIPELINE_HOME
 sudo docker push fluxcapacitor/package-ubuntu-14.04:$1
 sudo docker push fluxcapacitor/package-ubuntu-16.04:$1
 sudo docker push fluxcapacitor/package-java-openjdk-1.8:$1
+sudo docker push fluxcapacitor/package-spark-2.0.1:$1
 sudo docker push fluxcapacitor/package-spark-2.1.0:$1
 
 sudo docker push fluxcapacitor/package-kafka-0.8:$1
