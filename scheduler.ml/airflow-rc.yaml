@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: airflow 
-        image: docker.io/fluxcapacitor/scheduler-airflow:r1.0
+        image: docker.io/fluxcapacitor/scheduler-airflow:latest
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
