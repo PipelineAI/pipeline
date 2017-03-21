@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-pmml
-        image: docker.io/fluxcapacitor/prediction-pmml:latest
+        image: docker.io/fluxcapacitor/prediction-pmml:v1.0.0
         imagePullPolicy: "Always"
         env:
         ports:
@@ -33,6 +33,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "r1.0"
+            revision: "v1.0.0"
       nodeSelector:
         prediction: "true"

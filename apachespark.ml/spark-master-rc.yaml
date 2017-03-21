@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: spark-master-2-1-0
-        image: docker.io/fluxcapacitor/apachespark-master-2.1.0:latest
+        image: docker.io/fluxcapacitor/apachespark-master-2.1.0:v1.0.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
