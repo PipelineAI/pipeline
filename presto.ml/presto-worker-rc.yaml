@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: presto-worker
-        image: docker.io/fluxcapacitor/presto-worker-0.167:r1.0
+        image: docker.io/fluxcapacitor/presto-worker-0.167:latest
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: jupyterhub-master
-        image: docker.io/fluxcapacitor/jupyterhub:r1.0
+        image: docker.io/fluxcapacitor/jupyterhub:latest
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -38,7 +38,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
 #            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "r1.0"
 #        - name: kube-config-secret-volume
 #          secret:
 #            secretName: kube-config-secret
