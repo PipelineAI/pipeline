@@ -37,7 +37,7 @@ RUN \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
  && make \
- && sudo make install
+ && make install
 
 # Expose Redis Port
 EXPOSE 6379
