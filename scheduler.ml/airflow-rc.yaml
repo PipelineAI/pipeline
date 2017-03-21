@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: airflow 
-        image: docker.io/fluxcapacitor/scheduler-airflow:latest
+        image: docker.io/fluxcapacitor/scheduler-airflow:r1.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -49,7 +49,7 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
 #            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "r1.0"
 #        - name: kube-config-secret-volume
 #          secret:
 #            secretName: kube-config-secret

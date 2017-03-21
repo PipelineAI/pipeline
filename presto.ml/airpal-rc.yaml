@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: airpal
-        image: docker.io/fluxcapacitor/airpal:latest
+        image: docker.io/fluxcapacitor/airpal:r1.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
