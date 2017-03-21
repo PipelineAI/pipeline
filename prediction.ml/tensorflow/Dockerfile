@@ -84,8 +84,6 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
-#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
 
 ENV \
@@ -94,14 +92,16 @@ ENV \
 ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n" | ./configure \
   && bazel build -c opt tensorflow/tools/pip_package:build_pip_package 
 
 RUN \
-  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+
+COPY lib/ lib/
 
 RUN \
   cd ~/lib/jni \
@@ -112,6 +112,10 @@ RUN \
   cd $TENSORFLOW_HOME \
   && bazel build :all
 #  && bazel build tensorflow/python/tools:optimize_for_inference
+
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/tools/graph_transforms:all
 
 #ENV \
 #  TENSORFLOW_VERSION=1.0.1
