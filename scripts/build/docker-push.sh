@@ -16,7 +16,8 @@ sudo docker push fluxcapacitor/package-apache2:$1
 # apachespark.ml
 sudo docker push fluxcapacitor/apachespark-master-2.1.0:$1
 sudo docker push fluxcapacitor/apachespark-worker-2.1.0:$1
-
+sudo docker push fluxcapacitor/apachespark-master-2.0.1:$1
+sudo docker push fluxcapacitor/apachespark-worker-2.0.1:$1
 # cassandra.ml
 sudo docker push fluxcapacitor/cassandra:$1
 
