@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: clustered-tensorflow-ps
-        image: docker.io/fluxcapacitor/clustered-tensorflow:r1.0
+        image: docker.io/fluxcapacitor/clustered-tensorflow:latest
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -37,6 +37,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "r1.0"
+            revision: "latest"
       nodeSelector:
         training: "true"

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch-2-3-0
-        image: docker.io/fluxcapacitor/elasticsearch-2.3.0:r1.0
+        image: docker.io/fluxcapacitor/elasticsearch-2.3.0:latest
         imagePullPolicy: "Always"
         ports:
         - containerPort: 9200

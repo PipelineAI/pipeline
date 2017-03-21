@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-tensorflow-gpu
-        image: docker.io/fluxcapacitor/prediction-tensorflow-gpu:r1.0
+        image: docker.io/fluxcapacitor/prediction-tensorflow-gpu:latest
         imagePullPolicy: "Always"
         env:
         ports:
@@ -38,6 +38,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "r1.0"
+            revision: "latest"
       nodeSelector:
         prediction: "true"
