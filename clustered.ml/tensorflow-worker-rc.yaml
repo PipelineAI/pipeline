@@ -37,6 +37,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "r1.0"
+            revision: "master"
       nodeSelector:
         training: "true"
