@@ -1,6 +1,3 @@
 [submodule "source.ml"]
 	path = source.ml
 	url = git@github.com:fluxcapacitor/source.ml.git
-[submodule "education.ml"]
-	path = education.ml
-	url = git@github.com:fluxcapacitor/education.ml.git
