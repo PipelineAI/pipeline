@@ -79,10 +79,10 @@ RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
   && ln -s ~/conf/hdfs-site.xml
-  
-#COPY bin/ bin/
-#COPY src/ src/
-#COPY data/ data/
+ 
+COPY bin/ bin/
+COPY src/ src/
+COPY datasets/ datasets/
 
 COPY run run
 
