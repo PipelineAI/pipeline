@@ -110,12 +110,12 @@ RUN \
 # Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
+  && bazel build tensorflow/tools/graph_transforms:all
 
+# Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/tools/graph_transforms:all
+  && bazel build tensorflow/python/tools:all
 
 #ENV \
 #  TENSORFLOW_VERSION=1.0.1
@@ -124,10 +124,15 @@ RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
 #  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
+COPY client/ client/
+
 RUN \
   cd client \
   && /root/apache-maven-3.3.9/bin/mvn clean install \
   && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
+
+COPY src/ src/
+COPY build.sbt build.sbt
 
 RUN \
   sbt clean package
@@ -143,10 +148,6 @@ ENV \
   LOGS_HOME=/root/logs
 
 COPY run run
-COPY src/ src/
-COPY build.sbt build.sbt
-COPY lib/ lib/
-COPY client/ client/
 
 RUN \
   mkdir -p /root/tensorboard

@@ -194,12 +194,12 @@ RUN \
 # Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
+  && bazel build tensorflow/tools/graph_transforms:all
 
+# Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/tools/graph_transforms:all
+  && bazel build tensorflow/python/tools:all
 
 RUN \
   apt-get update \
