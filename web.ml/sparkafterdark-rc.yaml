@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-sparkafterdark
-        image: docker.io/fluxcapacitor/web-sparkafterdark:latest
+        image: docker.io/fluxcapacitor/web-sparkafterdark:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -30,7 +30,5 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-      imagePullSecrets:
-        - name: githubsshkey
       nodeSelector:
         training: "true"

@@ -15,13 +15,11 @@ spec:
     spec:
       containers:
       - name: airflow 
-        image: docker.io/fluxcapacitor/scheduler-airflow:latest
+        image: docker.io/fluxcapacitor/scheduler-airflow:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
-#        - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-#          value: mysql+mysqldb://root:password@mysql-master:3306/airflow
         - name: SPARK_MASTER
           value: spark://spark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS

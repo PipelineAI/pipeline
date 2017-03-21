@@ -1,4 +1,6 @@
 # $1: old tag
 # $2: new tag
-find ../../ -name *-rc*.yaml -type f -exec sed -i -e 's/:r1.0/:latest/g' {} \;
-find ../../ -name *-rc*.yaml -type f -exec sed -i -e 's/revision: "r1.0"/revision: "master"/g' {} \;
+find $PIPELINE_HOME -name Dockerfile -type f -exec sed -i -e 's/:v1.0.0/:master/g' {} \;
+find $PIPELINE_HOME -name Dockerfile*.* -type f -exec sed -i -e 's/:v1.0.0/:master/g' {} \;
+find $PIPELINE_HOME -name *-rc*.yaml -type f -exec sed -i -e 's/:v1.0.0/:master/g' {} \;
+find $PIPELINE_HOME -name *-rc*.yaml -type f -exec sed -i -e 's/revision: "v1.0.0"/revision: "master"/g' {} \;

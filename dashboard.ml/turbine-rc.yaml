@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: turbine 
-        image: docker.io/fluxcapacitor/dashboard-turbine:latest
+        image: docker.io/fluxcapacitor/dashboard-turbine:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

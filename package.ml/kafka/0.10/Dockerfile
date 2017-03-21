@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 ENV CONFLUENT_VERSION=3.0.0
 ENV CONFLUENT_MAJOR_VERSION=3.0

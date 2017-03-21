@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-java
-        image: docker.io/fluxcapacitor/prediction-java:latest
+        image: docker.io/fluxcapacitor/prediction-java:master
         imagePullPolicy: "Always"
         env:
         ports:
