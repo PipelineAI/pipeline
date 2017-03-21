@@ -4,8 +4,7 @@
 #  cd ~ && ln -s /root/volumes/source.ml/prediction.ml/python/store
 #fi
 
-RUN \
-  cd store/default/python_balancescale/1 \
+cd store/default/python_balancescale/1 \
   && python train_balancescale.py
 
 cd ~

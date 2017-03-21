@@ -50,7 +50,7 @@ ENV \
   STORE_HOME=/root/store
 
 RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/tensorflow/python
+  ln -s /root/volumes/source.ml/prediction.ml/python/store
 
 COPY run run
 
