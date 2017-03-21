@@ -84,8 +84,6 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
-#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
 
 ENV \
@@ -94,14 +92,16 @@ ENV \
 ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n" | ./configure \
   && bazel build -c opt tensorflow/tools/pip_package:build_pip_package 
 
 RUN \
-  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+
+COPY lib/ lib/
 
 RUN \
   cd ~/lib/jni \
@@ -110,8 +110,12 @@ RUN \
 # Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
+  && bazel build tensorflow/tools/graph_transforms:all
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/python/tools:all
 
 #ENV \
 #  TENSORFLOW_VERSION=1.0.1
@@ -120,10 +124,15 @@ RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
 #  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
 
+COPY client/ client/
+
 RUN \
   cd client \
   && /root/apache-maven-3.3.9/bin/mvn clean install \
   && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
+
+COPY src/ src/
+COPY build.sbt build.sbt
 
 RUN \
   sbt clean package
@@ -139,10 +148,6 @@ ENV \
   LOGS_HOME=/root/logs
 
 COPY run run
-COPY src/ src/
-COPY build.sbt build.sbt
-COPY lib/ lib/
-COPY client/ client/
 
 RUN \
   mkdir -p /root/tensorboard

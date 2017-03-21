@@ -185,6 +185,8 @@ RUN \
 #  pip install --ignore-installed --upgrade pip setuptools \
 #  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
 
+COPY lib/ lib/
+
 RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
@@ -192,8 +194,12 @@ RUN \
 # Utility for optimizing/simplifying models for inference
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
+  && bazel build tensorflow/tools/graph_transforms:all
+
+# Utility for optimizing/simplifying models for inference
+RUN \
+  cd $TENSORFLOW_HOME \
+  && bazel build tensorflow/python/tools:all
 
 RUN \
   apt-get update \
@@ -208,7 +214,6 @@ ENV \
 COPY run run
 COPY src/ src/
 COPY build.sbt build.sbt
-COPY lib/ lib/
 COPY client/ client/
 
 RUN \
@@ -230,4 +235,4 @@ RUN \
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 
-#CMD ["supervise", "."]
+CMD ["supervise", "."]
