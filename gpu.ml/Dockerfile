@@ -91,29 +91,70 @@ ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
 
+# Required by Tensorflow for HDFS
+RUN \
+  echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
+
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
 # Required by Spark
 ENV \
   HADOOP_CONF_DIR=${HADOOP_CONF}
 
-COPY config/spark/ ${SPARK_HOME}/conf/
+COPY config/ config/
+RUN \
+  cd ${SPARK_HOME}/conf \
+  && ln -s /root/config/spark/core-site.xml \
+  && ln -s /root/config/spark/fairscheduler.xml \
+  && ln -s /root/config/spark/hdfs-site.xml \
+  && ln -s /root/config/spark/hive-site.xml \
+  && ln -s /root/config/spark/spark-defaults.conf
 
 RUN \
   mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/core-site.xml
+  && ln -s /root/config/hadoop/core-site.xml
 
 RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
+  && ln -s /root/config/hadoop/hdfs-site.xml
 
-COPY config/ config/ 
+RUN \
+  apt-get update \
+  && apt-get install -y ssh
+
+RUN \
+  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
+  && sed -i s/#.*StrictHostKeyChecking.*/StrictHostKeyChecking\ no/ /etc/ssh/ssh_config \
+  && ssh-keygen -A \
+  && ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -N "" \
+  && cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
+
+RUN \
+  sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
+  && sed -i "s%\${JAVA_HOME}%${JAVA_HOME}%" ${HADOOP_CONF}/hadoop-env.sh
+
+RUN \
+  hadoop namenode -format
+
+# Hue (port 8000)
+#RUN \
+#  wget https://dl.dropboxusercontent.com/u/730827/hue/releases/3.12.0/hue-3.12.0.tgz \
+#  && tar xvzf hue-3.12.0.tgz \
+#  && rm hue-3.12.0.tgz
+
+# Required by sshd
+RUN \
+  mkdir /var/run/sshd
+
 COPY src/ src/
 COPY notebooks/ notebooks/
 COPY profiles/ /root/.ipython/
 COPY run run
 
 # Expose Spark Worker Port for Web Admin UI
-EXPOSE 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 
-
+EXPOSE 50070 39000 9000 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 
+  # 8000
 CMD ["supervise", "."]
