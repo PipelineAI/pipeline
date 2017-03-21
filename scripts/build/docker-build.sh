@@ -27,6 +27,7 @@ cd $PIPELINE_HOME/cassandra.ml && sudo docker build -q -t fluxcapacitor/cassandr
 
 # clustered.ml
 cd $PIPELINE_HOME/clustered.ml/tensorflow && sudo docker build -q -t fluxcapacitor/clustered-tensorflow:$1 .
+cd $PIPELINE_HOME/clustered.ml/tensorflow && sudo docker build -q -t fluxcapacitor/clustered-tensorflow-gpu:$1 -f Dockerfile.gpu .
 
 # dashboard.ml
 cd $PIPELINE_HOME/dashboard.ml/hystrix && sudo docker build -q -t fluxcapacitor/dashboard-hystrix:$1 .
