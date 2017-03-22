@@ -116,6 +116,10 @@ RUN \
   && bazel build tensorflow/python/tools:all
 
 RUN \
+  cd $TENSORFLOW_SERVING_HOME \
+  && bazel build //tensorflow_serving/example:all
+
+RUN \
   mkdir -p /root/logs
 
 ENV \
