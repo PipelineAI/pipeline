@@ -4,7 +4,7 @@ ENV \
  SPRING_CORE_VERSION=4.3.0.RELEASE \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 
+ SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
 
 WORKDIR /root
 
@@ -15,7 +15,7 @@ COPY src/ src/
 COPY pom.xml pom.xml
 
 RUN \
-  /root/apache-maven-3.3.9/bin/mvn -DskipTests clean install 
+  /root/apache-maven-3.3.9/bin/mvn -DskipTests clean install
 
 EXPOSE 8989 8990
 

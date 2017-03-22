@@ -14,11 +14,11 @@ spec:
         name: loadtest-gcp-census
     spec:
       containers:
-      - name: loadtest 
+      - name: loadtest
         image: docker.io/fluxcapacitor/loadtest:master
         imagePullPolicy: "Always"
         env:
         - name: TEST_PATHNAMES
           value: /root/tests/RecommendationServiceStressTest-GCP-census.jmx
       nodeSelector:
-        training: "true" 
+        training: "true"

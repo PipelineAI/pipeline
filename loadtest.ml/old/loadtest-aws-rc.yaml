@@ -11,10 +11,10 @@ spec:
   template:
     metadata:
       labels:
-        name: loadtest-aws 
+        name: loadtest-aws
     spec:
       containers:
-      - name: loadtest 
+      - name: loadtest
         image: docker.io/fluxcapacitor/loadtest:master
         imagePullPolicy: "Always"
         env:

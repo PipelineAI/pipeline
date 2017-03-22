@@ -11,10 +11,10 @@ spec:
   template:
     metadata:
       labels:
-        name: airflow 
+        name: airflow
     spec:
       containers:
-      - name: airflow 
+      - name: airflow
         image: docker.io/fluxcapacitor/scheduler-airflow:master
         imagePullPolicy: "Always"
         env:

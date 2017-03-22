@@ -18,20 +18,20 @@ ENV \
  SPRING_CORE_VERSION=4.3.0.RELEASE \
  SPRING_BOOT_VERSION=1.3.5.RELEASE \
  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CLOUD_DEPENDENCIES=Brixton.RC1 
+ SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
 # SPRING_PROFILES_ACTIVE=local
 
 WORKDIR /root
 
 RUN \
- apt-get update 
+ apt-get update
 
 #RUN \
 # cd ~ \
 # && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
 # && tar xvzf sbt-${SBT_VERSION}.tgz \
 # && rm sbt-${SBT_VERSION}.tgz \
-# && ln -s /root/sbt/bin/sbt /usr/local/bin 
+# && ln -s /root/sbt/bin/sbt /usr/local/bin
 
 # Sbt Clean - This seems weird, but this triggers the full Sbt install.
 #             This retrievees a lot of external dependencies,
@@ -44,10 +44,10 @@ RUN \
  cd ~ \
 # && mkdir -p ~/hystrix-dashboard-${HYSTRIX_VERSION} \
 # && cd hystrix-dashboard-${HYSTRIX_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar 
+ && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar
 
 # Ports to expose
-EXPOSE 8761 7979 
+EXPOSE 8761 7979
 
 WORKDIR /root
 

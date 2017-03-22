@@ -14,7 +14,7 @@ spec:
         name: loadtest-gcp-keyvalue-useritem
     spec:
       containers:
-      - name: loadtest 
+      - name: loadtest
         image: docker.io/fluxcapacitor/loadtest:master
         imagePullPolicy: "Always"
         env:

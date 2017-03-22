@@ -28,9 +28,9 @@ spec:
 #          httpGet:
 #            path: "/health"
 #            port: 9040
-#          initialDelaySeconds: 300 
+#          initialDelaySeconds: 300
 #        readinessProbe:
 #          httpGet:
 #            path: "/health"
 #            port: 9040
-#          initialDelaySeconds: 30 
+#          initialDelaySeconds: 30

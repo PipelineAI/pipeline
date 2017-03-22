@@ -6,7 +6,7 @@ spec:
   type: LoadBalancer
   ports:
   - name: admin-http
-    port: 80 
+    port: 80
     targetPort: 6060
   - name: rest-submit
     port: 6066
@@ -14,7 +14,7 @@ spec:
   - name: spark-submit
     port: 7077
     targetPort: 7077
-  - name: "4040" 
+  - name: "4040"
     port: 4040
     targetPort: 4040
   - name: "4041"

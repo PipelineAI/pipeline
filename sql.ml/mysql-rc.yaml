@@ -21,6 +21,6 @@ spec:
         - name: GET_HOSTS_FROM
           value: env
         ports:
-        - containerPort: 3306 
+        - containerPort: 3306
       nodeSelector:
         training: "true"
