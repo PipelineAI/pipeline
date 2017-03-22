@@ -173,18 +173,6 @@ RUN \
 RUN \
   pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-# Utility for optimizing/simplifying models for inference
-#RUN \
-#  cd $TENSORFLOW_HOME \
-#  && bazel build tensorflow/python/tools:optimize_for_inference
-
-#ENV \
-#  TENSORFLOW_VERSION=1.0.1
-
-#RUN \
-#  pip install --ignore-installed --upgrade pip setuptools \
-#  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
-
 COPY lib/ lib/
 
 RUN \
@@ -211,7 +199,6 @@ RUN \
 ENV \
   LOGS_HOME=/root/logs
 
-COPY run run
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY client/ client/
@@ -223,6 +210,8 @@ RUN \
 
 RUN \
   sbt clean package 
+
+COPY run run
 
 RUN \
   mkdir -p /root/tensorboard 
