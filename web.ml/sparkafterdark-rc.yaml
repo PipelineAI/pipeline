@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-sparkafterdark
-        image: docker.io/fluxcapacitor/web-sparkafterdark:master
+        image: docker.io/fluxcapacitor/web-sparkafterdark:v1.0.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -29,6 +29,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "v1.0.0"
       nodeSelector:
         training: "true"

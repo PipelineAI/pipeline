@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: zeppelin
-        image: docker.io/fluxcapacitor/zeppelin:master
+        image: docker.io/fluxcapacitor/zeppelin:v1.0.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -34,6 +34,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "v1.0.0"
       nodeSelector:
         training: "true"
