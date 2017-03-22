@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        name: loadtest-gcp 
+        name: loadtest-gcp
     spec:
       containers:
       - name: loadtest 
@@ -21,4 +21,4 @@ spec:
         - name: TEST_PATHNAMES
           value: /root/tests/RecommendationServiceStressTest-GCP.jmx
       nodeSelector:
-        training: "true" 
+        training: "true"

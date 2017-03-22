@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: presto-worker 
+  name: presto-worker
   labels:
     app: presto-worker
 spec:
@@ -21,6 +21,6 @@ spec:
         - name: GET_HOSTS_FROM
           value: env
         ports:
-        - containerPort: 7060 
+        - containerPort: 7060
       nodeSelector:
         training: "true"

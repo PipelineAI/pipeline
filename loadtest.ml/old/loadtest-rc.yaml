@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: loadtest 
+  name: loadtest
   labels:
-    app: loadtest 
+    app: loadtest
 spec:
   replicas: 1
   selector:
-    name: loadtest 
+    name: loadtest
   template:
     metadata:
       labels:
-        name: loadtest 
+        name: loadtest
     spec:
       containers:
       - name: loadtest 
@@ -21,4 +21,4 @@ spec:
         - name: TEST_PATHNAMES
           value: /root/tests/RecommendationServiceStressTest-AWS.jmx:/root/tests/RecommendationServiceStressTest-GCP.jmx
       nodeSelector:
-        training: "true" 
+        training: "true"

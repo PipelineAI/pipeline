@@ -11,7 +11,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.s
     rm /tmp/miniconda.sh
 
 ENV \
-  PATH=/opt/conda/bin:$PATH 
+  PATH=/opt/conda/bin:$PATH
 
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas

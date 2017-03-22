@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: airpal 
+  name: airpal
   labels:
     app: airpal
 spec:

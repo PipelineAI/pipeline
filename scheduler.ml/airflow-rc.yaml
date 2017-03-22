@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        name: airflow 
+        name: airflow
     spec:
       containers:
       - name: airflow 

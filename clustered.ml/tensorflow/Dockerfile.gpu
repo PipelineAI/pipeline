@@ -3,7 +3,7 @@ FROM fluxcapacitor/package-gpu-cuda8-16.04:v1.0.0
 WORKDIR /root
 
 RUN \
-  apt-get update 
+  apt-get update
 
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -55,7 +55,7 @@ ENV \
 # This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
-  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
 
 # Required by Tensorflow
 ENV \
@@ -79,7 +79,7 @@ RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
   && ln -s ~/conf/hdfs-site.xml
- 
+
 COPY bin/ bin/
 COPY src/ src/
 COPY datasets/ datasets/

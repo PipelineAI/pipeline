@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: "Always"
         env:
         - name: TOPIC_NAME
-          value: item_ratings 
+          value: item_ratings
         - name: NUM_PARTITIONS
           value: "1"
         - name: NUM_REPLICAS
