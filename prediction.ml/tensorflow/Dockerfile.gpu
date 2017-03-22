@@ -190,6 +190,10 @@ RUN \
   && bazel build tensorflow/python/tools:all
 
 RUN \
+  cd $TENSORFLOW_SERVING_HOME \
+  && bazel build //tensorflow_serving/example:all
+
+RUN \
   apt-get update \
   && apt-get install -y python-qt4
 
