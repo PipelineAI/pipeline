@@ -67,6 +67,9 @@ RUN \
 RUN \
   pip install grpcio
 
+RUN \
+  apt-get install libcupti-dev
+
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
     echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
@@ -166,7 +169,6 @@ RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured GPU \
   && bazel build -c opt --config=cuda --spawn_strategy=standalone tensorflow/...
-#    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
 
 RUN \
   cd $TENSORFLOW_HOME \
