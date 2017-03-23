@@ -15,7 +15,7 @@ spec:
         name: metastore-2-1-1
     spec:
       containers:
-      - name: metastore-1-2-1
+      - name: metastore-2-1-1
         image: docker.io/fluxcapacitor/metastore-2.1.1:v1.0.0
         imagePullPolicy: "Always"
         env:
