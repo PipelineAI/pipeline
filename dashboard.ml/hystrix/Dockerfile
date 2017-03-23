@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8:v1.0.0
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 # Notes:
 #   The contents ond tools installed in this Dockerfile have only been tested on Ubuntu 14.04.

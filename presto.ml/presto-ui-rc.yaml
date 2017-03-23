@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: presto-ui 
-        image: docker.io/fluxcapacitor/presto-ui:v1.0.0
+        image: docker.io/fluxcapacitor/presto-ui:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

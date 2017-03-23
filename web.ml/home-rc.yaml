@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-home
-        image: docker.io/fluxcapacitor/web-home:v1.0.0
+        image: docker.io/fluxcapacitor/web-home:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -29,6 +29,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "v1.0.0"
+            revision: "master"
       nodeSelector:
         training: "true"

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-keyvalue
-        image: docker.io/fluxcapacitor/prediction-keyvalue:v1.0.0
+        image: docker.io/fluxcapacitor/prediction-keyvalue:master
         imagePullPolicy: "Always"
         env:
         ports:
@@ -33,6 +33,6 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "v1.0.0"
+            revision: "master"
       nodeSelector:
         prediction: "true"

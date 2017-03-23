@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04:v1.0.0
+FROM fluxcapacitor/package-ubuntu-16.04:master
 
 ENV \
   DYNO_VERSION=1.4.7 \

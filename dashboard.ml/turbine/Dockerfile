@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8:v1.0.0
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 ENV \
  SPRING_CORE_VERSION=4.3.0.RELEASE \
