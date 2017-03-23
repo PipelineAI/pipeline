@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hdfs
-        image: docker.io/fluxcapacitor/hdfs
+        image: docker.io/fluxcapacitor/hdfs:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

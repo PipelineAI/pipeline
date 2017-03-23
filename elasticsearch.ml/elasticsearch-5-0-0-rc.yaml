@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch-5-0-0
-        image: docker.io/fluxcapacitor/elasticsearch-5.0.0
+        image: docker.io/fluxcapacitor/elasticsearch-5.0.0:master
         imagePullPolicy: "Always"
         ports:
         - containerPort: 9200

@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
       - name: mysql-master
-        image: docker.io/fluxcapacitor/sql-mysql
+        image: docker.io/fluxcapacitor/sql-mysql:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         ports:
-        - containerPort: 3306 
+        - containerPort: 3306
       nodeSelector:
         training: "true"

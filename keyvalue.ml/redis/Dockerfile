@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04
+FROM fluxcapacitor/package-ubuntu-16.04:master
 
 ENV \
   DYNO_VERSION=1.4.7 \
@@ -37,7 +37,7 @@ RUN \
  && autoreconf -fvi \
  && CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full \
  && make \
- && sudo make install
+ && make install
 
 # Expose Redis Port
 EXPOSE 6379

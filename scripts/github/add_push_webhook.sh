@@ -5,6 +5,6 @@ curl -u myusername:mypassword -H "Content-Type: application/json" -X POST -d '{
   "events": ["push"],
   "config": {
     "url": "http://airflow.demo.pipeline.io/github/webhook",
-    "content_type": "json"    
+    "content_type": "json"
   }
 }' https://api.github.com/repos/fluxcapacitor/pipeline/hooks

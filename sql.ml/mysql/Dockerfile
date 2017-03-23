@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04
+FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
@@ -13,8 +13,7 @@ RUN \
 RUN \
   service mysql start \
   && mysqladmin -u root password "password" \
-  && mysql --user=root --password=password -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES; SET PASSWORD FOR 'root'@'%' = PASSWORD('password');" \
-  && service mysql stop
+  && mysql --user=root --password=password -e "FLUSH PRIVILEGES; GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES; SET PASSWORD FOR 'root'@'localhost' = PASSWORD('password');" 
 
 COPY run run
 

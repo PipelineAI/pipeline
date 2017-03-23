@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: spark-worker-2-1-0
-        image: docker.io/fluxcapacitor/apachespark-worker-2.1.0
+        image: docker.io/fluxcapacitor/apachespark-worker-2.1.0:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

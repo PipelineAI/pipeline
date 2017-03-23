@@ -16,11 +16,11 @@ spec:
     spec:
       containers:
       - name: kafka-0-8
-        image: docker.io/fluxcapacitor/stream-kafka-0.8
+        image: docker.io/fluxcapacitor/stream-kafka-0.8:master
         imagePullPolicy: "Always"
         env:
         - name: TOPIC_NAME
-          value: item_ratings 
+          value: item_ratings
         - name: NUM_PARTITIONS
           value: "1"
         - name: NUM_REPLICAS

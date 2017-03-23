@@ -11,17 +11,15 @@ spec:
   template:
     metadata:
       labels:
-        name: airflow 
+        name: airflow
     spec:
       containers:
       - name: airflow 
-        image: docker.io/fluxcapacitor/scheduler-airflow
+        image: docker.io/fluxcapacitor/scheduler-airflow:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
-#        - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-#          value: mysql+mysqldb://root:password@mysql-master:3306/airflow
         - name: SPARK_MASTER
           value: spark://spark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
@@ -37,7 +35,7 @@ spec:
 #          - name: kube-config-secret-volume
 #            readOnly: true
 #            mountPath: /root/.kube
-	  - name: git-volume
+          - name: git-volume
             mountPath: /root/volumes
         securityContext:
           privileged: true

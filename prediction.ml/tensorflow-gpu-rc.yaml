@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-tensorflow-gpu
-        image: docker.io/fluxcapacitor/prediction-tensorflow-gpu
+        image: docker.io/fluxcapacitor/prediction-tensorflow-gpu:master
         imagePullPolicy: "Always"
         env:
         ports:

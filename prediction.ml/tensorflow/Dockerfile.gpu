@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-gpu-cuda8-16.04
+FROM fluxcapacitor/package-gpu-cuda8-16.04:master
 
 WORKDIR /root
 
@@ -99,11 +99,9 @@ RUN \
 # TensorFlow Serving
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
-
-RUN \
- cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard ed82469b2797a437a8fe2a05e08c0a1d48ae1263
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && cd $TENSORFLOW_SERVING_HOME \
+ && git reset --hard be83fe98104f26362dd2819d20b53ffac9b8f592
 
 ENV TF_NEED_CUDA=1
 ENV TF_NEED_GCP=0
@@ -167,33 +165,20 @@ ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured GPU \
-    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package \
+  && bazel build -c opt --config=cuda --spawn_strategy=standalone tensorflow/...
+
+RUN \
+  cd $TENSORFLOW_HOME \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
   pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-# Utility for optimizing/simplifying models for inference
-#RUN \
-#  cd $TENSORFLOW_HOME \
-#  && bazel build tensorflow/python/tools:optimize_for_inference
-
-#ENV \
-#  TENSORFLOW_VERSION=1.0.1
-
-#RUN \
-#  pip install --ignore-installed --upgrade pip setuptools \
-#  && pip install --upgrade tensorflow-gpu==$TENSORFLOW_VERSION
+COPY lib/ lib/
 
 RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
-
-# Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
 
 RUN \
   apt-get update \
@@ -205,10 +190,8 @@ RUN \
 ENV \
   LOGS_HOME=/root/logs
 
-COPY run run
 COPY src/ src/
 COPY build.sbt build.sbt
-COPY lib/ lib/
 COPY client/ client/
 
 RUN \
@@ -218,6 +201,8 @@ RUN \
 
 RUN \
   sbt clean package 
+
+COPY run run
 
 RUN \
   mkdir -p /root/tensorboard 
@@ -230,4 +215,4 @@ RUN \
 
 EXPOSE 5678 6006 9000 9001 9002 9040 
 
-#CMD ["supervise", "."]
+CMD ["supervise", "."]

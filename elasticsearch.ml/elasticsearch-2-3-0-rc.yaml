@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: elasticsearch-2-3-0 
+  name: elasticsearch-2-3-0
   labels:
     app: elasticsearch-2-3-0
 spec:
@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
       - name: elasticsearch-2-3-0
-        image: docker.io/fluxcapacitor/elasticsearch-2.3.0
+        image: docker.io/fluxcapacitor/elasticsearch-2.3.0:master
         imagePullPolicy: "Always"
         ports:
         - containerPort: 9200
-        - containerPort: 9300 
+        - containerPort: 9300
       nodeSelector:
         training: "true"

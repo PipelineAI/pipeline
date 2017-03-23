@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: clustered-tensorflow-ps
-        image: docker.io/fluxcapacitor/clustered-tensorflow
+        image: docker.io/fluxcapacitor/clustered-tensorflow:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

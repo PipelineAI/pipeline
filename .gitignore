@@ -6,3 +6,7 @@
 .project
 jmeter.log
 nohup.out
+__pycache__
+.DS_Store
+.cache-tests
+*.iml

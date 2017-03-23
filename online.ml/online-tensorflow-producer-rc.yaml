@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: online-tensorflow-producer
-        image: docker.io/fluxcapacitor/online-tensorflow-producer-0.10
+        image: docker.io/fluxcapacitor/online-tensorflow-producer-0.10:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM

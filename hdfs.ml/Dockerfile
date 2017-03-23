@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 WORKDIR /root
 
@@ -41,10 +41,10 @@ RUN \
   hadoop namenode -format
 
 # Hue (port 8000)
-RUN \
-  wget https://dl.dropboxusercontent.com/u/730827/hue/releases/3.12.0/hue-3.12.0.tgz \
-  && tar xvzf hue-3.12.0.tgz \
-  && rm hue-3.12.0.tgz
+#RUN \
+#  wget https://dl.dropboxusercontent.com/u/730827/hue/releases/3.12.0/hue-3.12.0.tgz \
+#  && tar xvzf hue-3.12.0.tgz \
+#  && rm hue-3.12.0.tgz
 
 RUN \
   apt-get install -y python2.7-dev \
@@ -61,8 +61,8 @@ RUN \
 RUN \
   apt-get install -y ant gcc g++ libkrb5-dev libffi-dev libmysqlclient-dev libssl-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libtidy-0.99-0 libxml2-dev libxslt-dev make libldap2-dev python-dev python-setuptools libgmp3-dev
 
-RUN \
-  cd hue-3.12.0 && make apps
+#RUN \
+#  cd hue-3.12.0 && make apps
 
 # Required by sshd
 RUN \
@@ -70,6 +70,7 @@ RUN \
 
 COPY run run
 
-EXPOSE 50070 9000 8000
+EXPOSE 50070 9000 
+  #8000
 
 CMD ["supervise", "."]

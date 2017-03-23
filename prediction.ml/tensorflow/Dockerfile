@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 WORKDIR /root
 
@@ -65,11 +65,9 @@ RUN \
 # TensorFlow Serving
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
-
-RUN \
- cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard ed82469b2797a437a8fe2a05e08c0a1d48ae1263
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && cd $TENSORFLOW_SERVING_HOME \
+ && git reset --hard be83fe98104f26362dd2819d20b53ffac9b8f592
 
 ENV TF_NEED_CUDA=0
 ENV TF_NEED_GCP=0
@@ -84,8 +82,6 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
-#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
 
 ENV \
@@ -94,31 +90,30 @@ ENV \
 ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n" | ./configure \
-  && bazel build -c opt tensorflow/tools/pip_package:build_pip_package 
+  && bazel build -c opt --spawn_strategy=standalone tensorflow/...
 
 RUN \
-  bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
-  pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
+  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+
+COPY lib/ lib/
 
 RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
 
-# Utility for optimizing/simplifying models for inference
 RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build :all
-#  && bazel build tensorflow/python/tools:optimize_for_inference
+  mkdir -p /root/logs
 
-#ENV \
-#  TENSORFLOW_VERSION=1.0.1
+ENV \
+  LOGS_HOME=/root/logs
 
-#RUN \
-#  pip install --ignore-installed --upgrade pip setuptools \
-#  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+COPY src/ src/
+COPY build.sbt build.sbt
+COPY client/ client/
 
 RUN \
   cd client \
@@ -128,21 +123,7 @@ RUN \
 RUN \
   sbt clean package
 
-RUN \
-  apt-get update \
-  && apt-get install -y python-qt4
-
-RUN \
-  mkdir -p /root/logs
-
-ENV \
-  LOGS_HOME=/root/logs
-
 COPY run run
-COPY src/ src/
-COPY build.sbt build.sbt
-COPY lib/ lib/
-COPY client/ client/
 
 RUN \
   mkdir -p /root/tensorboard

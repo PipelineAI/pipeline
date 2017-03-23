@@ -8,16 +8,8 @@ if [ ! -f ~/lib ]; then
   cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/lib
 fi
 
-#if [ ! -f ~/config/jupyterhub ]; then
-#  cd ~/config/jupyterhub && ln -s /root/pipeline/jupyterhub.ml/config/
-#fi
-
-#if [ ! -f ~/.ipython/profiles ]; then
-#  cd ~/.ipython && ln -s /root/pipeline/jupyterhub.ml/profiles
-#fi
-
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
-cd ~ 
+cd ~
 jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py

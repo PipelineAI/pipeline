@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-kafka-0.8
+FROM fluxcapacitor/package-kafka-0.8:master
 
 WORKDIR /root
 
