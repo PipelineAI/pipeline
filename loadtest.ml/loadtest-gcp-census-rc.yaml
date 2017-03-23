@@ -14,8 +14,8 @@ spec:
         name: loadtest-gcp-census
     spec:
       containers:
-      - name: loadtest
-        image: docker.io/fluxcapacitor/loadtest:master
+      - name: loadtest 
+        image: docker.io/fluxcapacitor/loadtest:v1.0.0
         imagePullPolicy: "Always"
         env:
         - name: TEST_PATHNAMES
