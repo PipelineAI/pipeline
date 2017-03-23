@@ -65,11 +65,9 @@ RUN \
 # TensorFlow Serving
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
-
-RUN \
- cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard ed82469b2797a437a8fe2a05e08c0a1d48ae1263
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && cd $TENSORFLOW_SERVING_HOME \
+ && git reset --hard be83fe98104f26362dd2819d20b53ffac9b8f592
 
 ENV TF_NEED_CUDA=0
 ENV TF_NEED_GCP=0
@@ -92,7 +90,7 @@ ENV \
 ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build -c opt tensorflow/tools/pip_package:build_pip_package 
+  && bazel build -c opt --spawn_strategy=standalone tensorflow/...
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -106,18 +104,6 @@ COPY lib/ lib/
 RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/tools/graph_transforms:all
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:all
-
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel build //tensorflow_serving/example:all
 
 RUN \
   mkdir -p /root/logs
