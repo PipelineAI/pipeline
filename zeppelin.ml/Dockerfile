@@ -3,7 +3,7 @@ FROM fluxcapacitor/package-spark-2.1.0:v1.0.0
 WORKDIR /root
 
 ENV \
-  ZEPPELIN_VERSION=0.7.0-spark-2.0-scala-2.11-SNAPSHOT
+  ZEPPELIN_VERSION=0.8.0-spark-2.1-scala-2.11-SNAPSHOT
 
 ENV \
   ZEPPELIN_HOME=/root/zeppelin-${ZEPPELIN_VERSION}
@@ -28,8 +28,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
 # from https://github.wvrgroup.internal/omni-hub/source.ml -> /root/pipeline
