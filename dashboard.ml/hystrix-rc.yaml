@@ -14,7 +14,7 @@ spec:
         name: hystrix
     spec:
       containers:
-      - name: hystrix
+      - name: hystrix 
         image: docker.io/fluxcapacitor/dashboard-hystrix:master
         imagePullPolicy: "Always"
         env:
