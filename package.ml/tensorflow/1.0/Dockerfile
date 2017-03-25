@@ -2,12 +2,13 @@ FROM fluxcapacitor/package-ubuntu-16.04:v1.0.0
 
 WORKDIR /root
 
-# Java
 RUN \
-  apt-get update \
+  apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:openjdk-r/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get install -y apt-transport-https \
+  && apt-get install -y wget \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -25,7 +26,8 @@ ENV \
 
 # Required by TensorFlow Serving
 RUN \
-  apt-get update && apt-get install -y \
+ apt-get update \
+ && apt-get install -y \
         build-essential \
         curl \
         libcurl3-dev \
@@ -57,32 +59,10 @@ ENV \
   PATH=/opt/conda/bin:$PATH
 
 RUN \
-  conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
+  conda install --yes openblas scikit-learn numpy scipy matplotlib pandas seaborn
 
 RUN \
-  conda install --yes -c conda-forge jupyterhub=0.7.2 \
-  && conda install --yes -c conda-forge ipykernel=4.5.2 \
-  && conda install --yes -c conda-forge notebook=4.4.1 \
-  && conda install --yes -c conda-forge findspark=1.0.0 \
-  && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
-
-RUN \
-  pip install jupyterlab \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
-
-# Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
-RUN \
-  pip install jupyterhub-dummyauthenticator
-
-RUN \
-  pip install jupyterhub-simplespawner
-
-RUN \
-  echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc
-
-ENV \
-  BAZELRC=/root/.bazelrc
+  apt-get install -y python-qt4
 
 RUN \
   mkdir /root/bazel \
@@ -93,21 +73,25 @@ RUN \
   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
 
-# TensorFlow Serving
+# Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git
-
-RUN \
- cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard ed82469b2797a437a8fe2a05e08c0a1d48ae1263
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && cd $TENSORFLOW_SERVING_HOME \
+ && git reset --hard 4d0a571ff9c15b937f58d3d5e97a5310b5decf2b
+   # be83fe98104f26362dd2819d20b53ffac9b8f592
 
 ENV TF_NEED_CUDA=0
 ENV TF_NEED_GCP=0
 ENV TF_NEED_JEMALLOC=1
-ENV TF_NEED_HDFS=0
+ENV TF_NEED_HDFS=1
 ENV TF_NEED_OPENCL=0
 ENV TF_ENABLE_XLA=0
+ENV CC_OPT_FLAGS="-march=native"
+
+ENV \
+  LC_ALL=en_us.UTF-8 \
+  LANG=en_us.UTF-8
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -115,15 +99,19 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
-  && bazel build -c opt --spawn_strategy=standalone tensorflow_serving/...
+# http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
+ENV CI_BUILD_PYTHON python
 ENV TF_ENABLE_XLA=1
+
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build -c opt tensorflow/tools/pip_package:build_pip_package
+  && tensorflow/tools/ci_build/builds/configured \
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -132,20 +120,4 @@ RUN \
 RUN \
   pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-COPY lib/ lib/
 
-RUN \
-  cd ~/lib/jni \
-  && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/tools/graph_transforms:all
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:all
-
-RUN \
-  cd $TENSORFLOW_SERVING_HOME \
-  && bazel build //tensorflow_serving/example:all
