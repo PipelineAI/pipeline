@@ -40,7 +40,6 @@ ENV \
 ENV \
   HADOOP_CONF_DIR=${HADOOP_CONF}
 
-COPY config/hdfs/ conf/
 COPY config/spark/ ${SPARK_HOME}/conf/
 
 RUN \
