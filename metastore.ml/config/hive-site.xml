@@ -5,7 +5,7 @@
     <description>JDBC connect string for a JDBC metastore</description>
   </property>
   <property>
-     <name>datanucleus.autoCreateAll</name>
+     <name>datanucleus.schema.autoCreateTables</name>
      <value>true</value>
      <description>Creates necessary schema on a startup if one doesn't exist</description>
   </property>
