@@ -41,48 +41,48 @@ ENV \
 ENV \
  TENSORFLOW_VERSION=1.0.1
 
-RUN \
-  git clone -b v$TENSORFLOW_VERSION https://github.com/tensorflow/tensorflow.git
+#RUN \
+#  git clone -b v$TENSORFLOW_VERSION https://github.com/tensorflow/tensorflow.git
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && printf "\n\n\n\n\n\n\n\n\n" | ./configure
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
 # Utility for optimizing/simplifying models for inference
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build tensorflow/python/tools:optimize_for_inference
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build tensorflow/python/tools:optimize_for_inference
 
-RUN \
-  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
+#RUN \
+#  pip install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl
 
-RUN \
-  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
-  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
-  && gpg -a --export E084DAB9 | apt-key add - \
-  && apt-get update \
-  && apt-get install -y r-base \
-  && apt-get install -y r-base-dev
+#RUN \
+#  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+#  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+#  && gpg -a --export E084DAB9 | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y r-base \
+#  && apt-get install -y r-base-dev
 
 # TODO:  Replace with conda version of SparkR:
 #          https://www.continuum.io/blog/developer-blog/anaconda-r-users-sparkr-and-rbokeh
-RUN \
-  apt-get install -y libcurl4-openssl-dev \
-  && apt-get install -y libzmq3 libzmq3-dev \
-  && apt-get install -y zip \
-  && ln -s /bin/tar /bin/gtar \
-  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
-  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
-  && R -e "devtools::install_github('IRkernel/IRkernel')" \
-  && R -e "IRkernel::installspec(user = FALSE)"
+#RUN \
+#  apt-get install -y libcurl4-openssl-dev \
+#  && apt-get install -y libzmq3 libzmq3-dev \
+#  && apt-get install -y zip \
+#  && ln -s /bin/tar /bin/gtar \
+#  && R -e "install.packages(c('pbdZMQ','rzmq','repr', 'devtools'), type = 'source', repos = c('http://cran.us.r-project.org', 'http://irkernel.github.io/'))" \
+#  && R -e "devtools::install_github('IRkernel/IRdisplay')" \
+#  && R -e "devtools::install_github('IRkernel/IRkernel')" \
+#  && R -e "IRkernel::installspec(user = FALSE)"
 
 RUN \
   conda install --yes -c conda-forge jupyterhub=0.6.1 \
@@ -102,8 +102,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   pip install jupyterhub-simplespawner
@@ -121,6 +121,9 @@ COPY profiles/ /root/.ipython/
 RUN \
   pip install jupyterlab \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
+
+RUN \
+  pip install tensorflow==1.0.1
 
 EXPOSE 6006 8754
 

@@ -16,13 +16,13 @@ RUN \
 RUN \
   pip install mysqlclient
 
-RUN \
-  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
-  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
-  && gpg -a --export E084DAB9 | apt-key add - \
-  && apt-get update \
-  && apt-get install -y r-base \
-  && apt-get install -y r-base-dev
+#RUN \
+#  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+#  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+#  && gpg -a --export E084DAB9 | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y r-base \
+#  && apt-get install -y r-base-dev
 
 RUN \
   conda install --yes -c conda-forge gitpython=2.1.1
@@ -42,8 +42,8 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
 
 RUN \
-  sudo chmod a+x kubectl \
-  && sudo mv kubectl /usr/local/bin/kubectl
+  chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   mkdir -p $AIRFLOW_HOME \
@@ -53,6 +53,9 @@ RUN \
   pip install airflow==1.7.1.3 \
   && pip install celery[redis] \
   && pip install flower
+
+RUN \
+  pip install tensorflow==1.0.1
 
 # Temp workaround for running Celery worker as root
 ENV \

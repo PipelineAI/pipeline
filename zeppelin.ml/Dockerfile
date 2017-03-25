@@ -13,13 +13,16 @@ RUN \
   && tar -xzvf zeppelin-$ZEPPELIN_VERSION.tar.gz \
   && rm zeppelin-$ZEPPELIN_VERSION.tar.gz
 
+#RUN \
+#  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
+#  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
+#  && gpg -a --export E084DAB9 | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y r-base \
+#  && apt-get install -y r-base-dev
+
 RUN \
-  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
-  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
-  && gpg -a --export E084DAB9 | apt-key add - \
-  && apt-get update \
-  && apt-get install -y r-base \
-  && apt-get install -y r-base-dev
+  pip install tensorflow==1.0.1
 
 ENV \
   KUBERNETES_VERSION=1.5.1
