@@ -3,7 +3,7 @@ FROM fluxcapacitor/package-spark-2.1.0:master
 WORKDIR /root
 
 ENV \
-  ZEPPELIN_VERSION=0.7.0-spark-2.0-scala-2.11-SNAPSHOT
+  ZEPPELIN_VERSION=0.8.0-spark-2.1-scala-2.11-SNAPSHOT
 
 ENV \
   ZEPPELIN_HOME=/root/zeppelin-${ZEPPELIN_VERSION}
