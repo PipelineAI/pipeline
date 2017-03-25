@@ -13,7 +13,7 @@ RUN \
 RUN \
   service mysql start \
   && mysqladmin -u root password "password" \
-  && mysql --user=root --password=password -e "FLUSH PRIVILEGES; GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES; SET PASSWORD FOR 'root'@'localhost' = PASSWORD('password');" 
+  && mysql --user=root --password=password -e "FLUSH PRIVILEGES; GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION; FLUSH PRIVILEGES; SET PASSWORD FOR 'root'@'%'= PASSWORD('password');" 
 
 COPY run run
 
