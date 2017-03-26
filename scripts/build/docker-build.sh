@@ -17,6 +17,7 @@ cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build -q -t fluxcapaci
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build -q -t fluxcapacitor/package-apache2:$1 .
 cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
 cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0-gpu:$1 -f Dockerfile.gpu .
 
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-master-2.0.1:$1 -f Dockerfile.master .
@@ -64,7 +65,7 @@ cd $PIPELINE_HOME/kubernetes.ml && sudo docker build -q -t fluxcapacitor/kuberne
 cd $PIPELINE_HOME/loadtest.ml && sudo docker build -q -t fluxcapacitor/loadtest:$1 .
 
 # metastore.ml
-cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastore-1.2.1:$1 .
+cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastore-2.2.1:$1 .
 
 # prediction.ml
 cd $PIPELINE_HOME/prediction.ml/java && sudo docker build -q -t fluxcapacitor/prediction-java:$1 .
