@@ -110,7 +110,7 @@ ENV TF_ENABLE_XLA=1
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && tensorflow/tools/ci_build/builds/configured \
+  && tensorflow/tools/ci_build/builds/configured CPU \
   && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
 
 RUN \
