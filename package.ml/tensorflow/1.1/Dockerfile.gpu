@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04:master
+FROM fluxcapacitor/package-gpu-cuda8-16.04:master
 
 WORKDIR /root
 
@@ -18,7 +18,7 @@ ENV \
 ENV \
   BAZEL_VERSION=0.4.4 \
   TENSORFLOW_SERVING_VERSION=0.5.1
-
+ 
 # TensorFlow Serving Home (not required on PATH)
 ENV \
   TENSORFLOW_SERVING_HOME=/root/serving \
@@ -64,7 +64,7 @@ RUN \
 RUN \
   apt-get install -y python-qt4
 
-RUN \
+RUN \ 
   mkdir /root/bazel \
   && cd /root/bazel \
   && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
@@ -81,36 +81,77 @@ RUN \
  && git reset --hard 4d0a571ff9c15b937f58d3d5e97a5310b5decf2b
    # be83fe98104f26362dd2819d20b53ffac9b8f592
 
-ENV TF_NEED_CUDA=0
+ENV TF_NEED_CUDA=1
 ENV TF_NEED_GCP=0
 ENV TF_NEED_JEMALLOC=1
 ENV TF_NEED_HDFS=1
 ENV TF_NEED_OPENCL=0
 ENV TF_ENABLE_XLA=0
+ENV TF_CUDA_VERSION=8.0
+ENV TF_CUDNN_VERSION=5
+ENV CUDA_PATH="/usr/local/cuda"
+ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
+ENV CUDNN_INSTALL_PATH=$CUDA_PATH
 ENV CC_OPT_FLAGS="-march=native"
+ENV TF_CUDA_COMPUTE_CAPABILITIES=3.5,3.7
+# Check the required COMPUTE_CAPABILITIES from the following link:
+#  https://developer.nvidia.com/cuda-gpus
+# Also, Tensorflow has a minimum-supported COMPUTE CAPABILITY (ie. 3.5)
+# ie. here are the AWS and GCP Instance Types and their COMPUTE CAPABILITIES
+#
+####################
+###      AWS     ###
+##  P2 Instances  ##
+# Tesla K-80 (3.7) #
+#                  #
+##  G2 Instances  ##
+# GRID K520 (3.5)  #
+#                  #
+###  Google GCP  ###   
+# Tesla K-80 (3.7) #
+####################
 
 ENV \
   LANG=en_us.UTF-8
 
 RUN \
-  cd $TENSORFLOW_HOME \
-  && printf "\n\n\n" | ./configure
+  cd $TENSORFLOW_SERVING_HOME/tensorflow \
+  && printf "\n\n\n" | ./configure 
 
-RUN \
+RUN \  
   cd $TENSORFLOW_SERVING_HOME \
+  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD 
+
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/...
+#  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... 
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
-ENV CI_BUILD_PYTHON python
-ENV TF_ENABLE_XLA=1
+# Need this inside Docker for nvidia-docker build step HACK
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+RUN \
+  mkdir -p /usr/local/nvidia/lib64/ \
+  && cd /usr/local/nvidia/lib64/ \
+  && ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib/stubs/libcuda.so libcuda.so.1
+RUN \
+  ldconfig /usr/local/cuda/lib64
 
 RUN \
+  TENSORFLOW_HOME=/root/tensorflow
+
+RUN \
+  git clone -b v1.1.0-rc0 --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git 
+
+# Configure the build for our CUDA configuration.
+ENV CI_BUILD_PYTHON python
+ENV TF_ENABLE_XLA=1
+ENV TF_NEED_JEMALLOC=0 
+RUN \
   cd $TENSORFLOW_HOME \
-  && tensorflow/tools/ci_build/builds/configured CPU \
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
+  && tensorflow/tools/ci_build/builds/configured GPU \
+  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -119,4 +160,6 @@ RUN \
 RUN \
   pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-
+# Cleanup for nvidia-docker build step HACK
+RUN \
+  rm /usr/local/nvidia/lib64/libcuda.so.1

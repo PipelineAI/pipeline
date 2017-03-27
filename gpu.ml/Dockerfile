@@ -8,12 +8,15 @@ RUN \
   && conda install --yes -c conda-forge notebook=4.4.1 \
   && conda install --yes -c conda-forge findspark=1.0.0 \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
+  && conda install -y -c conda-forge ipywidgets=6.0.0 \
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0 
 
 RUN \
   pip install jupyterlab \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
 
+RUN \
+  jupyter nbextension enable --py widgetsnbextension --sys-prefix
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
   pip install jupyterhub-dummyauthenticator
@@ -63,6 +66,10 @@ ENV \
 ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
+
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
 
 # Required by Tensorflow for HDFS
 RUN \
@@ -126,6 +133,14 @@ COPY src/ src/
 COPY notebooks/ notebooks/
 COPY profiles/ /root/.ipython/
 COPY run run
+
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0
+
+# Must carry this over in jupyter PYTHONVARS or whatever
+# import os
+# os.environ['TF_CPP_MIN_LOG_LEVEL']='0'
+# import tensorflow as tf
 
 # Expose Spark Worker Port for Web Admin UI
 EXPOSE 50070 39000 9000 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044

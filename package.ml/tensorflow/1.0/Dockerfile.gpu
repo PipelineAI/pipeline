@@ -112,7 +112,6 @@ ENV TF_CUDA_COMPUTE_CAPABILITIES=3.5,3.7
 ####################
 
 ENV \
-  LC_ALL=en_us.UTF-8 \
   LANG=en_us.UTF-8
 
 RUN \

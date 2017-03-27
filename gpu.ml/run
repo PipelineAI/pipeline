@@ -8,7 +8,8 @@ $SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 spark://
 
 /usr/sbin/sshd
 
-cd ~ && start-dfs.sh &
+cd ~ 
+start-dfs.sh &
 
 cd ~
 jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py
