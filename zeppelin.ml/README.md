@@ -2,8 +2,9 @@
 
 ## Building from Source - Requirements
 
-|| Name || Value || Requirement ||
-| [Git](https://git-scm.com/downloads) | (Any Version) | [Clone Apache Zeppelin Github repo](git clone https://github.com/apache/zeppelin.git) |
+| Name | Value | Requirement |
+| --------------------- | ------------------------ | ------------------------------------------- |
+| [Git](https://git-scm.com/downloads) | (Any Version) | [Clone Apache Zeppelin Github repo](https://github.com/apache/zeppelin.git) |
 | [Maven](https://maven.apache.org/download.cgi) | 3.1.x or higher | Build Maven based POM.xml project | 
 | [JDK](http://www.oracle.com/technetwork/java/javase/archive-139210.html) | 1.7 | Source |
 | [R](https://cran.r-project.org/bin/macosx/) | 3.3.3 | -Psparkr -Pr |
