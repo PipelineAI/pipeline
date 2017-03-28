@@ -90,11 +90,22 @@ RUN \
   && conda install --yes -c conda-forge notebook=4.2.3 \
   && conda install --yes -c conda-forge findspark=1.0.0 \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
+  && conda install --yes -c conda-forge ipywidgets=6.0.0 \
   && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions
+
+RUN \
+  pip install jupyterlab \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
+
+RUN \
+  jupyter nbextension enable --py widgetsnbextension --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
   pip install jupyterhub-dummyauthenticator
+
+RUN \
+  pip install jupyterhub-simplespawner
 
 ENV KUBERNETES_VERSION=1.5.1
 
@@ -106,10 +117,10 @@ RUN \
   && mv kubectl /usr/local/bin/kubectl
 
 RUN \
-  pip install jupyterhub-simplespawner
+  mkdir -p /root/tensorboard
 
 RUN \
-  mkdir -p /root/tensorboard
+  mkdir -p /root/models
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
 # from https://github.wvrgroup.internal/omni-hub/source.ml -> /root/pipeline
@@ -117,10 +128,6 @@ RUN \
 
 COPY config/jupyterhub/ config/jupyterhub/
 COPY profiles/ /root/.ipython/
-
-RUN \
-  pip install jupyterlab \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 RUN \
   pip install tensorflow==1.0.1
