@@ -78,6 +78,10 @@ sudo docker push fluxcapacitor/scheduler-airflow:$1
 # sql.ml
 sudo docker push fluxcapacitor/sql-mysql:$1
 
+# stream.ml
+sudo docker push fluxcapacitor/stream-kafka-0.8:$1
+sudo docker push fluxcapacitor/stream-kafka-0.10:$1
+
 # web.ml
 sudo docker push fluxcapacitor/web-home:$1
 

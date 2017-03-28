@@ -90,7 +90,6 @@ ENV TF_ENABLE_XLA=0
 ENV CC_OPT_FLAGS="-march=native"
 
 ENV \
-  LC_ALL=en_us.UTF-8 \
   LANG=en_us.UTF-8
 
 RUN \

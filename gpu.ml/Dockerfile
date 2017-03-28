@@ -8,11 +8,15 @@ RUN \
   && conda install --yes -c conda-forge notebook=4.4.1 \
   && conda install --yes -c conda-forge findspark=1.0.0 \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0
+  && conda install --yes -c conda-forge ipywidgets=6.0.0 \
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0 
 
 RUN \
   pip install jupyterlab \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
+
+RUN \
+  jupyter nbextension enable --py widgetsnbextension --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
@@ -20,7 +24,6 @@ RUN \
 
 RUN \
   pip install jupyterhub-simplespawner
-
 
 COPY lib/ lib/
 
@@ -63,6 +66,10 @@ ENV \
 ENV \
   HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
+
+# Required by Tensorflow
+ENV \
+  HADOOP_HDFS_HOME=${HADOOP_HOME}
 
 # Required by Tensorflow for HDFS
 RUN \
@@ -125,9 +132,43 @@ RUN \
 COPY src/ src/
 COPY notebooks/ notebooks/
 COPY profiles/ /root/.ipython/
+COPY html/ html/
 COPY run run
 
-# Expose Spark Worker Port for Web Admin UI
-EXPOSE 50070 39000 9000 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0 \
+  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+
+ENV \
+  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:$PATH
+
+RUN \
+  mkdir -p /root/tensorboard
+
+RUN \
+  mkdir -p /root/models
+
+# Apache2
+RUN \
+  apt-get install -y apache2
+
+RUN \
+  a2enmod proxy \
+  && a2enmod proxy_http \
+  && a2dissite 000-default
+
+RUN \
+  mv /var/www/html /var/www/html.orig
+
+RUN \
+  mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
+
+# All paths (dirs, not files) up to and including /root must have +x permissions.
+# It's just the way linux works.  Don't fight it.
+# http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
+RUN \
+  chmod a+x /root
+
+EXPOSE 80 50070 39000 9000 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044
   # 8000
 CMD ["supervise", "."]

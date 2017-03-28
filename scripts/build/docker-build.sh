@@ -87,6 +87,10 @@ cd $PIPELINE_HOME/scheduler.ml/airflow && sudo docker build -q -t fluxcapacitor/
 # sql.ml
 cd $PIPELINE_HOME/sql.ml/mysql && sudo docker build -q -t fluxcapacitor/sql-mysql:$1 .
 
+# stream.ml
+cd $PIPELINE_HOME/stream.ml/kafka/0.8 && sudo docker build -q -t fluxcapacitor/stream-kafka-0.8:$1 .
+cd $PIPELINE_HOME/stream.ml/kafka/0.10 && sudo docker build -q -t fluxcapacitor/stream-kafka-0.10:$1 .
+
 # web.ml
 cd $PIPELINE_HOME/web.ml/home && sudo docker build -q -t fluxcapacitor/web-home:$1 .
 cd $PIPELINE_HOME/web.ml/sparkafterdark && sudo docker build -q -t fluxcapacitor/web-sparkafterdark:$1 .

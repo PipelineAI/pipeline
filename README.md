@@ -37,7 +37,7 @@
 
 ![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
 
-* PipelineIO on [**Azure**](Setup-Pipeline-Azure)
+* PipelineIO on [**Azure**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Azure)
 
 ![Azure](http://pipeline.io/images/azure-logo-200x103.png)
 

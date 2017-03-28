@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.join(spark_home, 'python'))
 for lib in glob.glob(os.path.join(spark_home, 'python/lib/py4j-*-src.zip')):
     sys.path.insert(0, lib)
 
-os.environ['PYSPARK_SUBMIT_ARGS']='--master %s %s pyspark-shell' % (os.getenv('SPARK_MASTER'), os.getenv('SPARK_SUBMIT_ARGS'))
+#os.environ['PYSPARK_SUBMIT_ARGS']='--master %s %s pyspark-shell' % (os.getenv('SPARK_MASTER'), os.getenv('SPARK_SUBMIT_ARGS'))
 
-with open(os.path.join(spark_home, 'python/pyspark/shell.py')) as source_file:
-    exec(source_file.read())
+#with open(os.path.join(spark_home, 'python/pyspark/shell.py')) as source_file:
+#    exec(source_file.read())
