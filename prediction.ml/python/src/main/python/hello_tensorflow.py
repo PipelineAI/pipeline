@@ -41,11 +41,11 @@ class MainHandler(tornado.web.RequestHandler):
     future.add_done_callback(future.result)
     return future
 
-  def prepare(self):
-    if self.request.headers["Content-Type"].startswith("application/json"):
-        self.json_args = json.loads(self.request.body)
-    else:
-        self.json_args = None
+#  def prepare(self):
+#    if self.request.headers["Content-Type"].startswith("application/json"):
+#        self.json_args = json.loads(self.request.body)
+#    else:
+#        self.json_args = None
 
 if __name__ == "__main__":
   decision_tree_pkl_filename = '1/python_balancescale.pkl'
