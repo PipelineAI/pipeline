@@ -4,7 +4,7 @@
 #   $1:  zone
 #   $2:  index
 
-gcloud beta compute instances create pipeline-oreilly-gpu-$2 \
+gcloud beta compute instances create pipeline-oreilly-gpu-$1-$2 \
     --machine-type n1-highmem-8 --zone $1 \
     --boot-disk-size=100GB --boot-disk-auto-delete --boot-disk-type=pd-ssd\
     --accelerator type=nvidia-tesla-k80,count=1 \
