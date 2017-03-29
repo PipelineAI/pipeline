@@ -39,17 +39,17 @@
 <p class="lead">
 </p>
 <center>
+  <a href="https://www.oreilly.com/" target="_blank"><img src="img/oreilly-logo-140x140.png"/></a>
   <a href="http://pipeline.io" target="_blank"><img src="img/pipeline-io-logo-shadow-210x186.png"/></a>
   <a href="https://cloud.google.com/" target="_blank"><img src="img/gce-logo-296x140.png"/></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.oreilly.com/" target="_blank"><img src="img/oreilly-logo-140x140.png"/></a>
   <hr/>
   <div id="navbar">
     <center>
       <b>
       <a href="http://127.0.0.1:8754" target="_blank" id="jupyter"><b>Jupyter</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
       <a href="http://127.0.0.1:6006" target="_blank" id="tensorboard"><b>Tensorboard</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-      <a href="http://127.0.0.1:6060" target="_blank" id="spark"><b>Spark</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-      <a href="http://127.0.0.1:50070" target="_blank" id="hdfs"><b>HDFS</b></a>
+      <a href="http://127.0.0.1:50070" target="_blank" id="hdfs"><b>HDFS</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="https://github.com/fluxcapacitor/pipeline/" target="_blank" id="pipelineio-github"><b>GitHub</b></a>
       </b>
     </center>
   </div>
@@ -113,7 +113,6 @@ Built with Love + Scale by former Netflix, Databricks, TensorFlow, and Kubernete
 <script>
   document.getElementById('jupyter').href = window.location.protocol + "//" + window.location.hostname + ":8754";
   document.getElementById('tensorboard').href = window.location.protocol + "//" + window.location.hostname + ":6006";
-  document.getElementById('spark').href = window.location.protocol + "//" + window.location.hostname + ":6060";
   document.getElementById('hdfs').href = window.location.protocol + "//" + window.location.hostname + ":50070";
 </script>
 

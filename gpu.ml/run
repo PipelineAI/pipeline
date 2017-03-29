@@ -2,9 +2,9 @@
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
-#cd ~
-#$SPARK_HOME/sbin/start-master.sh --webui-port 6060
-#$SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 spark://127.0.0.1:7077
+cd ~
+$SPARK_HOME/sbin/start-master.sh --webui-port 6060
+$SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 spark://127.0.0.1:7077
 
 /usr/sbin/sshd
 
