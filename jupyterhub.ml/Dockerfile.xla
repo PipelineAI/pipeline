@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-spark-2.1.0:v1.0.0
+FROM fluxcapacitor/package-spark-2.1.0:master
 
 # Based on the following:  https://github.com/jupyterhub/jupyterhub/blob/master/Dockerfile
 

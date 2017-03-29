@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-1.0-gpu:v1.0.0
+FROM fluxcapacitor/package-tensorflow-1.0-gpu:master
 
 WORKDIR /root
 
@@ -141,6 +141,13 @@ ENV \
 
 ENV \
   PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:$PATH
+
+RUN \
+  conda install --yes graphviz
+
+COPY apache-jmeter-3.0/ apache-jmeter-3.0/
+COPY tests/ tests/
+COPY datasets/ datasets/ 
 
 RUN \
   mkdir -p /root/tensorboard

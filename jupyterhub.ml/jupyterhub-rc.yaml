@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: jupyterhub-master
-        image: docker.io/fluxcapacitor/jupyterhub:v1.0.0
+        image: docker.io/fluxcapacitor/jupyterhub:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -35,6 +35,6 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
 #            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
-            revision: "v1.0.0"
+            revision: "master"
       nodeSelector:
         training: "true"

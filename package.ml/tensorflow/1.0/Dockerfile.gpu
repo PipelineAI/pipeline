@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-gpu-cuda8-16.04:v1.0.0
+FROM fluxcapacitor/package-gpu-cuda8-16.04:master
 
 WORKDIR /root
 
