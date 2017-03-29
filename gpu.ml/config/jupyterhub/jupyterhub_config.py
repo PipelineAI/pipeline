@@ -146,7 +146,7 @@ c.JupyterHub.confirm_no_ssl = True
 #
 # This will *only* include the logs of the Hub itself, not the logs of the proxy
 # or any single-user servers.
-#c.JupyterHub.extra_log_file = '/root/jupyterhub.log'
+c.JupyterHub.extra_log_file = '/root/logs/jupyterhub.log'
 
 # Extra log handlers to set on JupyterHub logger
 # c.JupyterHub.extra_log_handlers = []
@@ -182,6 +182,7 @@ c.JupyterHub.port = 8754
 
 # The ip for the proxy API handlers
 c.JupyterHub.proxy_api_ip = '0.0.0.0'
+c.Session.debug = True
 
 # The port for the proxy API handlers
 # c.JupyterHub.proxy_api_port = 0

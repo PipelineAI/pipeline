@@ -30,4 +30,4 @@ source /etc/apache2/envvars
 service apache2 start
 
 cd ~
-jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py
+jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out
