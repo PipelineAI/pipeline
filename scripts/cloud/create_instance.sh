@@ -6,7 +6,7 @@
 
 gcloud beta compute instances create pipeline-oreilly-gpu-$1-$2 \
     --machine-type n1-highmem-8 --zone $1 \
-    --boot-disk-size=100GB --boot-disk-auto-delete --boot-disk-type=pd-ssd\
+    --boot-disk-size=100GB --boot-disk-auto-delete --boot-disk-type=pd-ssd \
     --accelerator type=nvidia-tesla-k80,count=1 \
     --image-family ubuntu-1604-lts --image-project ubuntu-os-cloud \
     --maintenance-policy TERMINATE --restart-on-failure \
