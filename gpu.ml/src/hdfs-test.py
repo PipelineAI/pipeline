@@ -19,11 +19,13 @@ with tf.Session() as sess:
   # Start populating the filename queue.
   coord = tf.train.Coordinator()
   threads = tf.train.start_queue_runners(coord=coord)
-
-  for i in range(1200):
-    # Retrieve a single instance:
-    example, label = sess.run([features, col5])
-    print(example, label)
-
-  coord.request_stop()
-  coord.join(threads)
+  try:
+    for i in range(1200):
+      # Retrieve a single instance:
+      example, label = sess.run([features, col5])
+      print(example, label)
+  except tf.errors.OutOfRangeError:
+    print("Done!")
+  finally:
+    coord.request_stop()
+    coord.join(threads)
