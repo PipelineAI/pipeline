@@ -14,7 +14,6 @@ noise = np.random.normal(scale=0.01, size=len(x_train))
 y_train = x_train * 0.1 + 0.3 + noise
 print(y_train)
 
-# Create some fake test/validation data
 x_test = np.random.rand(len(x_train)).astype(np.float32)
 print(x_test)
 
@@ -45,7 +44,7 @@ config = tf.ConfigProto(
 sess = tf.Session(config=config)
 sess = tf_debug.LocalCLIDebugWrapperSession(sess)
 
-with tf.device("/device:XLA_GPU:0"):
+with tf.device("/device:gpu:0"):
   sess.run(init_op)
 
 def test(x, y):
@@ -56,13 +55,10 @@ print(y_observed)
 
 loss_op = tf.reduce_mean(tf.square(y_pred - y_observed))
 
-    # Create an optimizer.
 optimizer_op = tf.train.GradientDescentOptimizer(0.5)
 
-    # Create an operation that minimizes loss.
 train_op = optimizer_op.minimize(loss_op)
 
-    # 'loss', 'optimizer' and 'train' are.
 print("loss:", loss_op)
 print("optimizer:", optimizer_op)
 print("train:", train_op)
