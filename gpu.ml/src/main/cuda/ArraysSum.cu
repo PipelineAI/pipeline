@@ -77,7 +77,7 @@ int main()
     dim3 gridSize;
     dim3 blockSize;
 
-    int    const N       = 2053;
+    int    const N       = 4096000;
     size_t const N_BYTES = N * sizeof(float);
     int const BLOCK_SIZE = 512;
 
