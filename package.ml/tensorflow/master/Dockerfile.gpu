@@ -161,10 +161,11 @@ ENV N_JOBS=8
 ENV \
   TENSORFLOW_HOME=/root/tensorflow
 
+# Cloned on 3/30/2017
 RUN \
  git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git \
- && cd $TENSORFLOW_HOME \
-# && git reset --hard ef93e9a9059cd072bae28b49ba5cc33d9611f178 
+ && cd $TENSORFLOW_HOME \ 
+ && git reset --hard 2a4811054a9e6b83e1f5a2705a92aab50e151b13
 
 RUN \
   cd $TENSORFLOW_HOME \

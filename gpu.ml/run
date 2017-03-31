@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# pull latest from github!
+pull
+
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
