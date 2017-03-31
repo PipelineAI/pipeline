@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Args:
+#  $1: port number (int)
+#  $2: model_name (anything)
+#  $3: /path/to/model (path above all the /<version>/ paths)
+#  $4: request batching (true|false)
+
+$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server --port=$1 --model_name=$2 --model_base_path=$3 --enable_batching=$4 --file_system_poll_wait_seconds=5 

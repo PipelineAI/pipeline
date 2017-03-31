@@ -1,0 +1,5 @@
+#!/bin/bash
+
+hadoop fs -copyFromLocal /root/datasets/csv/ /csv
+
+python /root/src/main/python/queue/tensorflow_hdfs.py
