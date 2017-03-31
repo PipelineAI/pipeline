@@ -135,19 +135,19 @@ RUN \
   git clone https://github.com/fluxcapacitor/pipeline.git
 
 RUN \
-  ln -s pipeline/gpu.ml/src \ 
-  && ln -s pipeline/gpu.ml/notebooks \
+  ln -s pipeline/oreilly.ml/high-performance-tensorflow/src \ 
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/notebooks \
   && mkdir -p /root/.ipython \
   && cd /root/.ipython \
-  && ln -s pipeline/gpu.ml/profiles \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/profiles \
   && cd ~ \
-  && ln -s pipeline/gpu.ml/html \
-  && ln -s pipeline/gpu.ml/run  \
-  && ln -s pipeline/gpu.ml/lib \
-  && ln -s pipeline/gpu.ml/apache-jmeter-3.1 \
-  && ln -s pipeline/gpu.ml/tests \
-  && ln -s pipeline/gpu.ml/datasets \
-  && ln -s pipeline/gpu.ml/scripts 
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/html \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/run  \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/lib \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/apache-jmeter-3.1 \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/tests \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/datasets \
+  && ln -s pipeline/oreilly.ml/high-performance-tensorflow/scripts
 
 RUN \
   cd ~/lib/jni \
