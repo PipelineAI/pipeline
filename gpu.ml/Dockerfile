@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-1.0-gpu:master
+FROM fluxcapacitor/package-tensorflow-master-gpu:master
 
 WORKDIR /root
 
@@ -25,11 +25,13 @@ RUN \
 RUN \
   pip install jupyterhub-simplespawner
 
-COPY lib/ lib/
+RUN \
+  conda install --yes nbconvert \
+  && conda install --yes graphviz
 
 RUN \
-  cd ~/lib/jni \
-  && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
+  pip install grpcio \
+  && pip install git+https://github.com/wiliamsouza/hystrix-py.git
 
 # Spark
 ENV \
@@ -129,25 +131,44 @@ RUN \
 RUN \
   mkdir /var/run/sshd
 
-COPY src/ src/
-COPY notebooks/ notebooks/
-COPY profiles/ /root/.ipython/
-COPY html/ html/
-COPY run run
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline.git
+
+RUN \
+  ln -s pipeline/gpu.ml/src \ 
+  && ln -s pipeline/gpu.ml/notebooks \
+  && mkdir -p /root/.ipython \
+  && cd /root/.ipython \
+  && ln -s pipeline/gpu.ml/profiles \
+  && cd ~ \
+  && ln -s pipeline/gpu.ml/html \
+  && ln -s pipeline/gpu.ml/run  \
+  && ln -s pipeline/gpu.ml/lib \
+  && ln -s pipeline/gpu.ml/apache-jmeter-3.0 \
+  && ln -s pipeline/gpu.ml/tests \
+  && ln -s pipeline/gpu.ml/datasets \
+  && ln -s pipeline/gpu.ml/scripts 
+
+#COPY src/ src/
+#COPY notebooks/ notebooks/
+#COPY profiles/ /root/.ipython/
+#COPY html/ html/
+#COPY run run
+#COPY lib/ lib/
+#COPY apache-jmeter-3.0/ apache-jmeter-3.0/
+#COPY tests/ tests/
+#COPY datasets/ datasets/
+
+RUN \
+  cd ~/lib/jni \
+  && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
 
 ENV \
-  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.0/bin/:$PATH
-
-RUN \
-  conda install --yes graphviz
-
-COPY apache-jmeter-3.0/ apache-jmeter-3.0/
-COPY tests/ tests/
-COPY datasets/ datasets/ 
+  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.0/bin/:/root/scripts:$PATH
 
 RUN \
   mkdir -p /root/tensorboard
@@ -179,6 +200,6 @@ RUN \
 RUN \
   chmod a+x /root
 
-EXPOSE 80 50070 39000 9000 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044
+EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044
   # 8000
 CMD ["supervise", "."]
