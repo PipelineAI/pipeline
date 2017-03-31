@@ -1,8 +1,8 @@
 import tensorflow as tf
 
 filename_queue = tf.train.string_input_producer([
-  "hdfs://127.0.0.1:39000/hdfs/file1.csv",
-  "hdfs://127.0.0.1:39000/hdfs/file2.csv",
+  "hdfs://127.0.0.1:39000/csv/file1.csv",
+  "hdfs://127.0.0.1:39000/csv/file2.csv",
 ])
 
 reader = tf.TextLineReader()
@@ -20,7 +20,7 @@ with tf.Session() as sess:
   coord = tf.train.Coordinator()
   threads = tf.train.start_queue_runners(coord=coord)
   try:
-    for i in range(1200):
+    for i in range(20):
       # Retrieve a single instance:
       example, label = sess.run([features, col5])
       print(example, label)
