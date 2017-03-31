@@ -41,7 +41,7 @@ def main():
   print(result)
   
   result_np = tf.contrib.util.make_ndarray(result.outputs['y_pred'])
-  print(result_np) 
+  print('\n%s\n' % result_np) 
 
 if __name__ == '__main__':
   main()

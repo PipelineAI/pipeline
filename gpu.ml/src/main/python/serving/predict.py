@@ -32,7 +32,7 @@ def _create_rpc_callback():
       sys.stdout.flush()
 
       response = numpy.array(result_future.result().outputs['y_pred'].float_val)
-      print(response)
+      print('\n%s\n', % str(response))
       
       prediction = response
   return _callback

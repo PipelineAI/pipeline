@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"x_observed":1.4}]}' http://localhost:9004/
+# Args:
+#  $1: grpc_port
+#  $2: x_observed
 
-
+curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"x_observed":"$2"}]}' http://localhost:$1/; echo

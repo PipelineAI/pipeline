@@ -1,3 +1,4 @@
+import sys
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
@@ -29,7 +30,7 @@ class TensorflowServingGrpcCommand(Command):
 
   def do_post(self, inputs):
     # Create gRPC client and request
-
+    grpc_port = int(sys.argv[2])
     channel = implementations.insecure_channel(grpc_host, grpc_port)
     stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
     request = predict_pb2.PredictRequest()
@@ -100,12 +101,10 @@ if __name__ == "__main__":
 #  decision_tree_pkl_filename = '1/python_balancescale.pkl'
 #  decision_tree_model_pkl = open(decision_tree_pkl_filename, 'rb')
 #  decision_tree_model = pickle.load(decision_tree_model_pkl)
-#  decision_tree_model_pkl.close()
-
   app = tornado.web.Application([
       (r"/", MainHandler),
   ])
-  listen_port = 9004
+  listen_port = int(sys.argv[1])
   app.listen(listen_port)
 
   print("*****************************************************")
