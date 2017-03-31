@@ -144,20 +144,10 @@ RUN \
   && ln -s pipeline/gpu.ml/html \
   && ln -s pipeline/gpu.ml/run  \
   && ln -s pipeline/gpu.ml/lib \
-  && ln -s pipeline/gpu.ml/apache-jmeter-3.0 \
+  && ln -s pipeline/gpu.ml/apache-jmeter-3.1 \
   && ln -s pipeline/gpu.ml/tests \
   && ln -s pipeline/gpu.ml/datasets \
   && ln -s pipeline/gpu.ml/scripts 
-
-#COPY src/ src/
-#COPY notebooks/ notebooks/
-#COPY profiles/ /root/.ipython/
-#COPY html/ html/
-#COPY run run
-#COPY lib/ lib/
-#COPY apache-jmeter-3.0/ apache-jmeter-3.0/
-#COPY tests/ tests/
-#COPY datasets/ datasets/
 
 RUN \
   cd ~/lib/jni \
