@@ -1,0 +1,3 @@
+#!/bin/sh
+
+python /root/src/main/python/serving/http_grpc_proxy.py

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"x_observed":1.4}]}' http://localhost:9004/
+
+

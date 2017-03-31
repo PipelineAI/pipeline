@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Args:
+#  $1: low|medium|high load
+
+jmeter -n -t /root/tests/predict-$1.jmx
