@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: turbine
+  labels:
+    app: turbine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: turbine
+  template:
+    metadata:
+      labels:
+        app: turbine
+    spec:
+      containers:
+      - name: turbine
+        image: docker.io/fluxcapacitor/turbine-server:latest
+        imagePullPolicy: "Always"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 300Mi
+          requests:
+            cpu: 100m
+            memory: 300Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        ports:
+        - containerPort: 8989
+      imagePullSecrets:
+      - name: artifactorykey
+#      nodeSelector:
+#        beta.kubernetes.io/instance-type: r3.2xlarge
+#        training: "true"
