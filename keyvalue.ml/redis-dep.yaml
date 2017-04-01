@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-master
+  labels:
+    app: redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+  template:
+    metadata:
+      labels:
+        app: redis-master
+    spec:
+      containers:
+      - name: redis-master
+        image: docker.io/fluxcapacitor/keyvalue-redis
+        resources:
+          limits:
+            cpu: 400m
+            memory: 200Mi
+          requests:
+            cpu: 50m
+            memory: 10Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 6379
+        - containerPort: 7379
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://a6c6ab996ba8f13f71f4b963d5ade37df85c1767:x-oauth-basic@github.wvrgroup.internal/omni-hub/source.ml"
+            revision: "master"
+      imagePullSecrets:
+        - name: githubsshkey
+#      nodeSelector:
+#        training: "true"

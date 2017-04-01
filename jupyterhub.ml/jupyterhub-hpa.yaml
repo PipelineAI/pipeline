@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: jupyterhub-master
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: jupyterhub-master
+  minReplicas: 1
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 80
