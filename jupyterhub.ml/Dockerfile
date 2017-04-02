@@ -123,7 +123,7 @@ RUN \
   mkdir -p /root/models
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
-# from https://github.wvrgroup.internal/omni-hub/source.ml -> /root/pipeline
+# from the github source.ml repo -> /root/pipeline
 # .kube/config is volume mounted from Kubernetes secret
 
 COPY config/jupyterhub/ config/jupyterhub/

@@ -63,7 +63,7 @@ spec:
             secretName: hadoop-conf-dev
         - name: git-volume
           gitRepo:
-            repository: "https://a6c6ab996ba8f13f71f4b963d5ade37df85c1767:x-oauth-basic@github.wvrgroup.internal/omni-hub/source.ml"
+            repository: "https://github.com/fluxcapacitor//source.ml"
             revision: "master"
       imagePullSecrets:
         - name: githubsshkey
