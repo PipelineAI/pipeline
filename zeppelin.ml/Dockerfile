@@ -21,11 +21,14 @@ RUN \
 #  && apt-get install -y r-base \
 #  && apt-get install -y r-base-dev
 
+ENV \
+  TENSORFLOW_VERSION=1.0.1
+
 RUN \
-  pip install tensorflow==1.0.1
+  pip install tensorflow==$TENSORFLOW_VERSION
 
 ENV \
-  KUBERNETES_VERSION=1.5.1
+  KUBERNETES_VERSION=1.6.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl

@@ -2,7 +2,7 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
-ENV KUBERNETES_VERSION=1.5.1
+ENV KUBERNETES_VERSION=1.6.1
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -23,7 +23,7 @@ RUN \
 ENV \
   PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.5.1
+ENV KOPS_VERSION=1.6.0-alpha.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -46,7 +46,7 @@ RUN \
   git clone https://github.com/kubernetes/heapster 
 
 ENV \
-  TERRAFORM_VERSION=0.8.2
+  TERRAFORM_VERSION=0.9.2
 
 RUN \
   wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \

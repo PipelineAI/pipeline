@@ -24,7 +24,7 @@ RUN \
   conda install --yes seaborn
 
 ENV \
- BAZEL_VERSION=0.4.4
+ BAZEL_VERSION=0.4.5
 
 RUN \
   mkdir /root/bazel \
@@ -107,7 +107,7 @@ RUN \
 RUN \
   pip install jupyterhub-simplespawner
 
-ENV KUBERNETES_VERSION=1.5.1
+ENV KUBERNETES_VERSION=1.6.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -130,7 +130,7 @@ COPY config/jupyterhub/ config/jupyterhub/
 COPY profiles/ /root/.ipython/
 
 RUN \
-  pip install tensorflow==1.0.1
+  pip install tensorflow==$TENSORFLOW_VERSION
 
 EXPOSE 6006 8754
 
