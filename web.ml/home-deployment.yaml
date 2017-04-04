@@ -1,45 +1,42 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: redis-master
+  name: web-home 
   labels:
-    app: redis-master
+    app: web-home 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis-master
+      app: web-home 
   template:
     metadata:
       labels:
-        app: redis-master
+        app: web-home 
     spec:
       containers:
-      - name: redis-master
-        image: docker.io/fluxcapacitor/keyvalue-redis
+      - name: web-home 
+        image: docker.io/fluxcapacitor/web-home:master
         resources:
           limits:
-            cpu: 400m
-            memory: 200Mi
+            cpu: 100m
+            memory: 1000Mi
           requests:
-            cpu: 50m
-            memory: 10Mi
+            cpu: 10m
+            memory: 100Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         ports:
-        - containerPort: 6379
-        - containerPort: 7379
+        - containerPort: 80 
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes
       volumes:
         - name: git-volume
           gitRepo:
-            repository: "https://github.com/fluxcapacitor//source.ml"
+            repository: "https://github.com/fluxcapacitor/source.ml"
             revision: "master"
       imagePullSecrets:
         - name: githubsshkey
-#      nodeSelector:
-#        training: "true"

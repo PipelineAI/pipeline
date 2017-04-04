@@ -1,22 +1,20 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: spark-worker-2-1-0
+  name: apachespark-worker-2-1-0
   labels:
-    app: spark
-    role: worker
-    version: 2.1.0
+    name: apachespark-worker-2-1-0
 spec:
   replicas: 1
   selector:
-    name: spark-worker-2-1-0
+    name: apachespark-worker-2-1-0
   template:
     metadata:
       labels:
-        name: spark-worker-2-1-0
+        name: apachespark-worker-2-1-0
     spec:
       containers:
-      - name: spark-worker-2-1-0
+      - name: apachespark-worker-2-1-0
         image: docker.io/fluxcapacitor/apachespark-worker-2.1.0:master
         imagePullPolicy: "Always"
         env:
@@ -27,8 +25,6 @@ spec:
         - name: SPARK_WORKER_MEMORY
           value: 4g
         - name: SPARK_MASTER
-          value: spark://spark-master-2-1-0:7077
+          value: spark://apachespark-master-2-1-0:7077
         ports:
         - containerPort: 6061
-      nodeSelector:
-        training: "true"

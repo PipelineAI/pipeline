@@ -1,35 +1,32 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: mysql-master
+  name: sql-mysql-master
   labels:
-    app: mysql-master
+    app: sql-mysql-master
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql-master
+      app: sql-mysql-master
   template:
     metadata:
       labels:
-        app: mysql-master
+        app: sql-mysql-master
     spec:
       containers:
-      - name: mysql-master
-        image: docker.io/fluxcapacitor/sql-mysql
+      - name: sql-mysql-master
+        image: docker.io/fluxcapacitor/sql-mysql-master:master
         resources:
           limits:
-            cpu: 400m
-            memory: 300Mi
+            cpu: 1000m
+            memory: 10000Mi
           requests:
-            cpu: 50m
-            memory: 150Mi
+            cpu: 100m
+            memory: 1000Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         ports:
         - containerPort: 3306
-#      nodeSelector:
-#        beta.kubernetes.io/instance-type: r3.2xlarge
-#        training: "true"

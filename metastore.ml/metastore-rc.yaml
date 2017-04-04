@@ -3,8 +3,7 @@ kind: ReplicationController
 metadata:
   name: metastore-2-1-1
   labels:
-    app: metastore
-    version: 2.1.1
+    app: metastore-2-1-1
 spec:
   replicas: 1
   selector:
@@ -23,5 +22,3 @@ spec:
           value: env
         ports:
         - containerPort: 9083
-      nodeSelector:
-        training: "true"

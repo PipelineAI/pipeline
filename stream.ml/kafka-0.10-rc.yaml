@@ -3,8 +3,7 @@ kind: ReplicationController
 metadata:
   name: kafka-0-10
   labels:
-    app: kafka
-    version: "0.10"
+    app: kafka-0-10
 spec:
   replicas: 1
   selector:

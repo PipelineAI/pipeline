@@ -34,5 +34,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-      nodeSelector:
-        prediction: "true"

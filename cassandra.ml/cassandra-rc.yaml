@@ -25,5 +25,3 @@ spec:
         - containerPort: 9042
         - containerPort: 9160
         - containerPort: 7000
-      nodeSelector:
-        training: "true"

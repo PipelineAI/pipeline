@@ -1,31 +1,29 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: spark-worker-2-1-0
+  name: apachespark-worker-2-1-0
   labels:
-    app: spark-worker-2-1-0
-    role: worker
-    version: 2.1.0
+    app: apachespark-worker-2-1-0
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spark-worker-2-1-0
+      app: apachespark-worker-2-1-0
   template:
     metadata:
       labels:
-        app: spark-worker-2-1-0
+        app: apachespark-worker-2-1-0
     spec:
       containers:
-      - name: spark-worker-2-1-0
-        image: docker.io/fluxcapacitor/apachespark-worker-2.1.0
+      - name: apachespark-worker-2-1-0
+        image: docker.io/fluxcapacitor/apachespark-worker-2.1.0:master
         resources:
           limits:
-            cpu: 400m
-            memory: 1000Mi
+            cpu: 4000m
+            memory: 4000Mi
           requests:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 1000m
+            memory: 1000Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -35,8 +33,6 @@ spec:
         - name: SPARK_WORKER_MEMORY
           value: 4g
         - name: SPARK_MASTER
-          value: spark://spark-master-2-1-0:7077
+          value: spark://apachespark-master-2-1-0:7077
         ports:
         - containerPort: 6061
-#      nodeSelector:
-#        training: "true"

@@ -13,20 +13,6 @@ RUN \
   && tar -xzvf zeppelin-$ZEPPELIN_VERSION.tar.gz \
   && rm zeppelin-$ZEPPELIN_VERSION.tar.gz
 
-#RUN \
-#  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
-#  && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
-#  && gpg -a --export E084DAB9 | apt-key add - \
-#  && apt-get update \
-#  && apt-get install -y r-base \
-#  && apt-get install -y r-base-dev
-
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-
-RUN \
-  pip install tensorflow==$TENSORFLOW_VERSION
-
 ENV \
   KUBERNETES_VERSION=1.6.1
 
@@ -38,12 +24,18 @@ RUN \
   && mv kubectl /usr/local/bin/kubectl
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
-# from the github source.ml repo -> /root/pipeline
+# from the github https://github.com/fluxcapacitor/source.ml repo 
 # .kube/config is volume mounted from Kubernetes secret
+
+ENV \
+  TENSORFLOW_VERSION=1.0.1
+
+RUN \
+  pip install tensorflow==$TENSORFLOW_VERSION
 
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 
-EXPOSE 3123 3124
+EXPOSE 3123 3124 6006
 
 COPY run run
 

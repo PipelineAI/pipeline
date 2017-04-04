@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: turbine
+  name: dashboard-turbine
   labels:
-    app: turbine
+    app: dashboard-turbine
 spec:
   replicas: 1
   selector:
-    name: turbine 
+    name: dashboard-turbine 
   template:
     metadata:
       labels:
-        name: turbine 
+        name: dashboard-turbine 
     spec:
       containers:
-      - name: turbine 
+      - name: dashboard-turbine 
         image: docker.io/fluxcapacitor/dashboard-turbine:master
         imagePullPolicy: "Always"
         env:
@@ -26,5 +26,3 @@ spec:
               fieldPath: "metadata.namespace"
         ports:
         - containerPort: 8989 
-      nodeSelector:
-        training: "true"

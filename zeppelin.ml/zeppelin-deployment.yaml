@@ -1,40 +1,40 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: jupyterhub-master
+  name: zeppelin
   labels:
-    app: jupyterhub-master
+    app: zeppelin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jupyterhub-master
+      app: zeppelin
   template:
     metadata:
       labels:
-        app: jupyterhub-master
+        app: zeppelin
     spec:
       containers:
-      - name: jupyterhub-master
-        image: docker.io/fluxcapacitor/jupyterhub
+      - name: zeppelin
+        image: docker.io/fluxcapacitor/zeppelin:master
         resources:
           limits:
-            cpu: 400m
-            memory: 1200Mi
+            cpu: 500m
+            memory: 5000Mi
           requests:
             cpu: 100m
-            memory: 300Mi
+            memory: 1000Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
-          value: spark://spark-master-2-1-0:7077
+          value: spark://apachespark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
-          value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --conf spark.cassandra.connection.host=cassandra --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3,com.databricks:spark-avro_2.11:3.0.1 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
+          value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,org.apache.spark:spark-streaming-kafka-0-10_2.11:2.1.0 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
         ports:
-        - containerPort: 6006
-        - containerPort: 8754
+        - containerPort: 3123
+        - containerPort: 3124
         volumeMounts:
           - name: kube-config-secret-volume
             readOnly: true
@@ -52,9 +52,7 @@ spec:
             secretName: hadoop-conf-dev
         - name: git-volume
           gitRepo:
-            repository: "https://github.com/fluxcapacitor//source.ml"
+            repository: "https://github.com/fluxcapacitor/source.ml"
             revision: "master"
       imagePullSecrets:
         - name: githubsshkey
-#      nodeSelector:
-#        training: "true"

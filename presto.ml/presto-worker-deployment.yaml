@@ -1,29 +1,29 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: presto-master
+  name: presto-worker
   labels:
-    app: presto-master
+    app: presto-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: presto-master
+      app: presto-worker
   template:
     metadata:
       labels:
-        app: presto-master
+        app: presto-worker
     spec:
       containers:
-      - name: presto-master
-        image: docker.io/fluxcapacitor/presto-master-0.167
+      - name: presto-worker
+        image: docker.io/fluxcapacitor/presto-worker-0.167:master
         resources:
           limits:
-            cpu: 400m
-            memory: 2000Mi
+            cpu: 1000m
+            memory: 10000Mi
           requests:
             cpu: 100m
-            memory: 1500Mi
+            memory: 1000Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -42,5 +42,3 @@ spec:
         - name: hadoop-conf-prod-volume
           secret:
             secretName: hadoop-conf-prod
-#      nodeSelector:
-#        training: "true"

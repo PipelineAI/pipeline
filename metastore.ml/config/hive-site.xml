@@ -1,7 +1,7 @@
 <configuration>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://mysql-master:3306/hive_metastore?useSSL=false&amp;createDatabaseIfNotExist=true</value>
+    <value>jdbc:mysql://sql-mysql-master:3306/hive_metastore?useSSL=false&amp;createDatabaseIfNotExist=true</value>
     <description>JDBC connect string for a JDBC metastore</description>
   </property>
   <property>

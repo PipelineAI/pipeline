@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-master
+  name: sql-mysql-master
 spec:
   type: NodePort 
   ports:
@@ -10,4 +10,4 @@ spec:
     port: 3306 
     targetPort: 3306
   selector:
-    name: mysql-master
+    name: sql-mysql-master

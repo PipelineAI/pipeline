@@ -1,27 +1,27 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: turbine
+  name: dashboard-turbine
   labels:
-    app: turbine
+    app: dashboard-turbine
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: turbine
+      app: dashboard-turbine
   template:
     metadata:
       labels:
-        app: turbine
+        app: dashboard-turbine
     spec:
       containers:
-      - name: turbine
-        image: docker.io/fluxcapacitor/turbine-server:latest
+      - name: dashboard-turbine
+        image: docker.io/fluxcapacitor/dashboard-turbine:master
         imagePullPolicy: "Always"
         resources:
           limits:
-            cpu: 100m
-            memory: 300Mi
+            cpu: 1000m
+            memory: 3000Mi
           requests:
             cpu: 100m
             memory: 300Mi
@@ -34,8 +34,3 @@ spec:
               fieldPath: "metadata.namespace"
         ports:
         - containerPort: 8989
-      imagePullSecrets:
-      - name: artifactorykey
-#      nodeSelector:
-#        beta.kubernetes.io/instance-type: r3.2xlarge
-#        training: "true"

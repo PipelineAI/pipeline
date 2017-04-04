@@ -1,29 +1,29 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: jupyterhub-master
+  name: jupyterhub
   labels:
-    app: jupyterhub-master
+    app: jupyterhub
 spec:
   replicas: 1
   selector:
-    name: jupyterhub-master
+    name: jupyterhub
   template:
     metadata:
       labels:
-        name: jupyterhub-master
+        name: jupyterhub
     spec:
       containers:
-      - name: jupyterhub-master
+      - name: jupyterhub
         image: docker.io/fluxcapacitor/jupyterhub:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
-          value: spark://spark-master-2-1-0:7077
+          value: spark://apachespark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
-          value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --conf spark.cassandra.connection.host=cassandra --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3,com.databricks:spark-avro_2.11:3.0.1 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
+          value: ""
         ports:
         - containerPort: 6006
         - containerPort: 8754
@@ -36,5 +36,3 @@ spec:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
 #            repository:  "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-      nodeSelector:
-        training: "true"

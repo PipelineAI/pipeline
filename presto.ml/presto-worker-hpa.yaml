@@ -9,5 +9,5 @@ spec:
     kind: Deployment
     name: presto-worker
   minReplicas: 1
-  maxReplicas: 20
-  targetCPUUtilizationPercentage: 80
+  maxReplicas: 5 
+  targetCPUUtilizationPercentage: 75

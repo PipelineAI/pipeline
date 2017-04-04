@@ -1,32 +1,32 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: presto-ui
+  name: metastore-2-1-1
   labels:
-    app: presto-ui
+    app: metastore-2-1-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: presto-ui
+      app: metastore-2-1-1
   template:
     metadata:
       labels:
-        app: presto-ui
+        app: metastore-2-1-1
     spec:
       containers:
-      - name: presto-ui
-        image: docker.io/fluxcapacitor/presto-ui:master
+      - name: metastore-2-1-1
+        image: docker.io/fluxcapacitor/metastore-2.1.1:master
         resources:
           limits:
-            cpu: 400m
-            memory: 1000Mi
+            cpu: 5000m
+            memory: 5000Mi
           requests:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 1000m
+            memory: 1000Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
           value: env
         ports:
-        - containerPort: 4125
+        - containerPort: 9083
