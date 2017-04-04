@@ -38,13 +38,13 @@ sudo docker push fluxcapacitor/elasticsearch-2.3.0:$1
 sudo docker push fluxcapacitor/gpu-tensorflow-spark:$1
 
 # hdfs.ml
-sudo docker push fluxcapacitor/hdfs:$1
+sudo docker push fluxcapacitor/hdfs-namenode:$1
 
 # jupyterhub.ml
 sudo docker push fluxcapacitor/jupyterhub:$1
 
 # keyvalue.ml
-sudo docker push fluxcapacitor/keyvalue-redis:$1
+sudo docker push fluxcapacitor/keyvalue-redis-master:$1
 
 # kibana.ml
 sudo docker push fluxcapacitor/kibana-4.5.0:$1
@@ -56,7 +56,7 @@ sudo docker push fluxcapacitor/kubernetes:$1
 sudo docker push fluxcapacitor/loadtest:$1
 
 # metastore.ml
-sudo docker push fluxcapacitor/metastore-1.2.1:$1
+sudo docker push fluxcapacitor/metastore-2.1.1:$1
 
 # prediction.ml
 sudo docker push fluxcapacitor/prediction-java:$1
@@ -76,7 +76,7 @@ sudo docker push fluxcapacitor/presto-ui:$1
 sudo docker push fluxcapacitor/scheduler-airflow:$1
 
 # sql.ml
-sudo docker push fluxcapacitor/sql-mysql:$1
+sudo docker push fluxcapacitor/sql-mysql-master:$1
 
 # stream.ml
 sudo docker push fluxcapacitor/stream-kafka-0.8:$1

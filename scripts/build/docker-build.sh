@@ -47,13 +47,13 @@ cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && sudo docker build -q -t fluxcapacito
 cd $PIPELINE_HOME/gpu.ml && sudo docker build -q -t fluxcapacitor/gpu-tensorflow-spark:$1 .
 
 # hdfs.ml
-cd $PIPELINE_HOME/hdfs.ml && sudo docker build -q -t fluxcapacitor/hdfs:$1 .
+cd $PIPELINE_HOME/hdfs.ml && sudo docker build -q -t fluxcapacitor/hdfs-namenode:$1 .
 
 # jupyterhub.ml
 cd $PIPELINE_HOME/jupyterhub.ml && sudo docker build -q -t fluxcapacitor/jupyterhub:$1 .
 
 # keyvalue.ml
-cd $PIPELINE_HOME/keyvalue.ml/redis && sudo docker build -q -t fluxcapacitor/keyvalue-redis:$1 .
+cd $PIPELINE_HOME/keyvalue.ml/redis && sudo docker build -q -t fluxcapacitor/keyvalue-redis-master:$1 .
 
 # kibana.ml
 cd $PIPELINE_HOME/kibana.ml/4.5.0 && sudo docker build -q -t fluxcapacitor/kibana-4.5.0:$1 .
@@ -65,7 +65,7 @@ cd $PIPELINE_HOME/kubernetes.ml && sudo docker build -q -t fluxcapacitor/kuberne
 cd $PIPELINE_HOME/loadtest.ml && sudo docker build -q -t fluxcapacitor/loadtest:$1 .
 
 # metastore.ml
-cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastore-2.2.1:$1 .
+cd $PIPELINE_HOME/metastore.ml && sudo docker build -q -t fluxcapacitor/metastore-2.1.1:$1 .
 
 # prediction.ml
 cd $PIPELINE_HOME/prediction.ml/java && sudo docker build -q -t fluxcapacitor/prediction-java:$1 .
@@ -85,7 +85,7 @@ cd $PIPELINE_HOME/presto.ml/presto-ui && sudo docker build -q -t fluxcapacitor/p
 cd $PIPELINE_HOME/scheduler.ml/airflow && sudo docker build -q -t fluxcapacitor/scheduler-airflow:$1 .
 
 # sql.ml
-cd $PIPELINE_HOME/sql.ml/mysql && sudo docker build -q -t fluxcapacitor/sql-mysql:$1 .
+cd $PIPELINE_HOME/sql.ml/mysql && sudo docker build -q -t fluxcapacitor/sql-mysql-master:$1 .
 
 # stream.ml
 cd $PIPELINE_HOME/stream.ml/kafka/0.8 && sudo docker build -q -t fluxcapacitor/stream-kafka-0.8:$1 .
