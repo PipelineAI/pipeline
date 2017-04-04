@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hystrix
+  labels:
+    app: hystrix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hystrix
+  template:
+    metadata:
+      labels:
+        app: hystrix
+    spec:
+      containers:
+      - name: hystrix
+        image: docker.io/fluxcapacitor/hystrix-dashboard:latest
+        resources:
+          limits:
+            cpu: 100m
+            memory: 250Mi
+          requests:
+            cpu: 10m
+            memory: 200Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7979
+#      nodeSelector:
+#        beta.kubernetes.io/instance-type: r3.2xlarge
+#        training: "true"
