@@ -1,8 +1,7 @@
-FROM fluxcapacitor/package-tensorflow-1.0:master
+FROM fluxcapacitor/package-tensorflow-serving-1.0:master
 
 WORKDIR /root
 
-# Prediction-specific
 COPY lib/ lib/
 
 RUN \
