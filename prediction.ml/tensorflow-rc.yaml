@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: prediction-tensorflow
+  name: prediction-tensorflow-1-0
   labels:
-    app: prediction-tensorflow
+    app: prediction-tensorflow-1-0
     hystrix.enabled: "true"
 spec:
   replicas: 1
   selector:
-    name: prediction-tensorflow
+    name: prediction-tensorflow-1-0
   template:
     metadata:
       labels:
-        name: prediction-tensorflow
+        name: prediction-tensorflow-1-0
         hystrix.enabled: "true"
       annotations:
         prometheus.io/scrape: "true"
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-tensorflow
-        image: docker.io/fluxcapacitor/prediction-tensorflow:master
+        image: docker.io/fluxcapacitor/prediction-tensorflow-1.0:master
         imagePullPolicy: "Always"
         env:
         ports:

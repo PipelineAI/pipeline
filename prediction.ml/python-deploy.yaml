@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: prediction-python
   labels:
+    name: prediction-python
     app: prediction-python
     hystrix.enabled: "true"
 spec:

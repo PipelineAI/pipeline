@@ -10,6 +10,7 @@ spec:
   - name: prediction-python
     port: 80 
     targetPort: 9040 
-  selector:
+  selector:    
     name: prediction-python
+    app: prediction-python
     hystrix.enabled: "true" 
