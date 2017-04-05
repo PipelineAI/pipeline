@@ -40,11 +40,11 @@ spec:
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
-          - name: kube-config-secret-volume
-            readOnly: true
-            mountPath: /root/.kube
-          - name: hadoop-conf-dev-volume
-            mountPath: /etc/hadoop/conf
+#          - name: kube-config-secret-volume
+#            readOnly: true
+#            mountPath: /root/.kube
+#          - name: hadoop-conf-dev-volume
+#            mountPath: /etc/hadoop/conf
           - name: git-volume
             mountPath: /root/volumes
         securityContext:
@@ -53,15 +53,15 @@ spec:
         - hostPath:
             path: /var/run/docker.sock
           name: dockersocket
-        - name: kube-config-secret-volume
-          secret:
-            secretName: kube-config-secret
-        - name: hadoop-conf-dev-volume
-          secret:
-            secretName: hadoop-conf-dev
+#        - name: kube-config-secret-volume
+#          secret:
+#            secretName: kube-config-secret
+#        - name: hadoop-conf-dev-volume
+#          secret:
+#            secretName: hadoop-conf-dev
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
             revision: "master"
-      imagePullSecrets:
-        - name: githubsshkey
+#      imagePullSecrets:
+#        - name: githubsshkey

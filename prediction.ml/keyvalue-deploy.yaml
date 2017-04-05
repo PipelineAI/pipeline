@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prediction-keyvalue
+  labels:
+    app: prediction-keyvalue
+    hystrix.enabled: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: prediction-keyvalue
+  template:
+    metadata:
+      labels:
+        app: prediction-keyvalue
+        hystrix.enabled: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "9040"
+    spec:
+      containers:
+      - name: prediction-keyvalue
+        image: docker.io/fluxcapacitor/prediction-keyvalue:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 5000Mi
+          requests:
+            cpu: 200m
+            memory: 200Mi 
+        imagePullPolicy: "Always"
+        env:
+        ports:
+        - containerPort: 9040
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml.git"
+            revision: "master"
+
