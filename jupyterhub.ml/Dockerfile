@@ -34,7 +34,7 @@ RUN \
 
 RUN \
   pip install jupyterlab \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
+  && jupyter nbserver_extensions enable --py jupyterlab --sys-prefix
 
 RUN \
   jupyter nbextension enable --py widgetsnbextension --sys-prefix
