@@ -3,17 +3,10 @@ FROM fluxcapacitor/package-tensorflow-master-gpu:master
 WORKDIR /root
 
 RUN \
-#  conda install --yes -c conda-forge jupyterhub=0.7.2 \
-#  && conda install --yes -c conda-forge ipykernel=4.5.2 \
-#  && conda install --yes -c conda-forge notebook=4.4.1 \
-#  && conda install --yes -c conda-forge findspark=1.0.0 \
-#  && conda install --yes -c conda-forge jupyter_contrib_nbextensions=0.2.4 \
-#  && conda install --yes -c conda-forge ipywidgets=6.0.0 \
-#  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions=1.0.0 
-  conda install --yes jupyterhub \
+  conda install --yes -c conda-forge jupyterhub \
   && conda install --yes ipykernel \
   && conda install --yes notebook \
-  && conda install --yes jupyter_contrib_nbextensions \
+  && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
   && conda install --yes ipywidgets \
   && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions \
   && conda install --yes -c conda-forge findspark=1.0.0
