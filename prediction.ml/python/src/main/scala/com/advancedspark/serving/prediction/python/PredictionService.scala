@@ -35,24 +35,24 @@ class PredictionService {
   
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/update-python/{namespace}/{name}/{version}"),
+  @RequestMapping(path=Array("/update-python/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateSource(@PathVariable("namespace") namespace: String,
-                   @PathVariable("name") name: String,
+                   @PathVariable("modelName") modelName: String,
                    @PathVariable("version") version: String,                   
                    @RequestBody source: String): 
       ResponseEntity[String] = {
     Try {
-      System.out.println(s"Updating source for ${namespace}/${name}/${version}:\n${source}")
+      System.out.println(s"Updating source for ${namespace}/${modelName}/${version}:\n${source}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"store/${namespace}/${name}/${version}/")
+      val path = new java.io.File(s"store/${namespace}/${modelName}/${version}/")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"store/${namespace}/${name}/${version}/${name}.py")
+      val file = new java.io.File(s"store/${namespace}/${modelName}/${version}/${modelName}.py")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -71,20 +71,20 @@ class PredictionService {
     }
   }
  
-  @RequestMapping(path=Array("/evaluate-python/{namespace}/{name}/{version}"),
+  @RequestMapping(path=Array("/evaluate-python/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateSource(@PathVariable("namespace") namespace: String,
-                     @PathVariable("name") name: String, 
+                     @PathVariable("modelName") modelName: String, 
                      @PathVariable("version") version: String,
                      @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
       val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
 
-      val filename = s"${name}.py"
+      val filename = s"${modelName}.py"
 
-      val result = new PythonSourceCodeEvaluationCommand(name, namespace, version, filename, inputJson, "fallback", 10000, 20, 10).execute()
+      val result = new PythonSourceCodeEvaluationCommand(modelName, namespace, version, filename, inputJson, "fallback", 10000, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)
