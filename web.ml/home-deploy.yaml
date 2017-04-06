@@ -38,5 +38,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
             revision: "master"
-      imagePullSecrets:
-        - name: githubsshkey
