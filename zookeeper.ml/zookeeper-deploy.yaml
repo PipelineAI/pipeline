@@ -28,6 +28,7 @@ spec:
         env:
         - name: GET_HOSTS_FROM
           value: env
+        ports:
         - containerPort: 2181
         volumeMounts:
           - name: git-volume
