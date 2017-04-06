@@ -12,4 +12,4 @@ cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
 cd ~
-jupyterhub --allow-root --ip='' --config=config/jupyterhub/jupyterhub_config.py
+jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py

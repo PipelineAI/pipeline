@@ -270,7 +270,7 @@ c.SimpleLocalProcessSpawner.home_path_template = '/root/'
 # - load_state - get_state - start - stop - poll
 
 # Extra arguments to be passed to the single-user server
-# c.Spawner.args = []
+c.Spawner.args = ['--allow-root']
 # The command used for starting notebooks.
 # c.Spawner.cmd = ['jupyterhub-singleuser']
 
