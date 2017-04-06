@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hdfs-namenode
+  labels:
+    app: hdfs-namenode
 spec:
   type: LoadBalancer 
   ports:
@@ -15,4 +17,4 @@ spec:
     port: 8000
     targetPort: 8000
   selector:
-    name: hdfs-namenode
+    app: hdfs-namenode

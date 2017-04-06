@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: prediction-pmml
   labels:
+    app: prediction-pmml
     hystrix.enabled: "true"
 spec:
   type: LoadBalancer
@@ -11,5 +12,5 @@ spec:
     port: 80 
     targetPort: 9040 
   selector:
-    name: prediction-pmml
+    app: prediction-pmml
     hystrix.enabled: "true" 

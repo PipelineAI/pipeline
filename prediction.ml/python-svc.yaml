@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: prediction-python
   labels:
+    app: prediction-python
     hystrix.enabled: "true"
 spec:
   type: LoadBalancer
@@ -11,6 +12,5 @@ spec:
     port: 80 
     targetPort: 9040 
   selector:    
-    name: prediction-python
     app: prediction-python
     hystrix.enabled: "true" 

@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dashboard-hystrix 
+  name: dashboard-hystrix
+  labels:
+    app: dashboard-hystrix 
 spec:
   type: LoadBalancer
   ports:
@@ -9,4 +11,4 @@ spec:
     port: 80 
     targetPort: 7979
   selector:
-    name: dashboard-hystrix 
+    app: dashboard-hystrix 
