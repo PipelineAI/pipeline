@@ -10,15 +10,14 @@ fi
 
 /usr/local/bin/dockerd
 
-# Start Airflow
-mysql --host=mysql-master --port=3306 --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
+mysql --host=sql-mysql-master --port=3306 --user=root --password=password -e "CREATE DATABASE IF NOT EXISTS airflow"
 sleep 2
 
+# TODO:  Don't re-init upon process restart
 airflow initdb
 sleep 2 
 
-#/root/triggers/github_webhook &
-
+# TODO:  Separate these out into separate containers - perhaps in same pod
 airflow flower &
 
 airflow webserver &
