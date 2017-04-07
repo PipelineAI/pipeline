@@ -24,20 +24,23 @@ RUN \
   conda install --yes seaborn
 
 RUN \
-  conda install --yes -c conda-forge jupyterhub \
-  && conda install --yes ipykernel \
-  && conda install --yes notebook \
+  conda install --yes -c conda-forge jupyterhub==0.7.2 \
+  && conda install --yes ipykernel==4.6.0 \
+  && conda install --yes notebook==5.0.0 \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
   && conda install --yes ipywidgets \
   && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions \
   && conda install --yes -c conda-forge findspark=1.0.0 
 
 RUN \
-  pip install jupyterlab \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
+  pip install jupyterlab==0.19.0 \
+  && pip install jupyterlab_widgets==0.6.15 \
+  && pip install widgetslabextension==0.1.0
 
 RUN \
-  jupyter nbextension enable --py widgetsnbextension --sys-prefix
+  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
+  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: apachespark-master-2-1-0
+  labels: 
+    app: apachespark-master-2-1-0
 spec:
   type: LoadBalancer
   ports:
@@ -30,4 +32,4 @@ spec:
     port: 4044
     targetPort: 4044
   selector:
-    name: apachespark-master-2-1-0
+    app: apachespark-master-2-1-0

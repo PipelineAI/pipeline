@@ -24,7 +24,7 @@ dataSourceFactory:
   driverClass: com.mysql.jdbc.Driver
   user: root
   password: password
-  url: jdbc:mysql://mysql-master:3306/airpal
+  url: jdbc:mysql://sql-mysql-master:3306/airpal
 
 flywayFactory:
   locations: ["classpath:db.migration.common", "classpath:db.migration.mysql"]

@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: prediction-tensorflow
   labels:
+    app: prediction-tensorflow
     hystrix.enabled: "true"
 spec:
   type: LoadBalancer
@@ -11,5 +12,5 @@ spec:
     port: 80 
     targetPort: 9040
   selector:
-    name: prediction-tensorflow
+    app: prediction-tensorflow
     hystrix.enabled: "true"

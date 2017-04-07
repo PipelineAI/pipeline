@@ -16,6 +16,8 @@ cd $PIPELINE_HOME/package.ml/kafka/0.10/ && sudo docker build -q -t fluxcapacito
 cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build -q -t fluxcapacitor/package-apache2:$1 .
 cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-serving-1.0:$1 -f Dockerfile.serving .
+cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-serving-1.0-gpu:$1 -f Dockerfile.serving.gpu .
 cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0:$1 .
 cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0-gpu:$1 -f Dockerfile.gpu .
 

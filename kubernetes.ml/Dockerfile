@@ -65,14 +65,14 @@ RUN \
 RUN \
   pip install --upgrade appdirs
 
-ENV \
-  CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+#ENV \
+#  CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 
 RUN \
-  echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+  echo "deb https://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
   && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
   && apt-get update \
-  && apt-get install google-cloud-sdk
+  && apt-get install -y google-cloud-sdk
 
 RUN \
   apt-get update && apt-get install -y libssl-dev libffi-dev python-dev build-essential \

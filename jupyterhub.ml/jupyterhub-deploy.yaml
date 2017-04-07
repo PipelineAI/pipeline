@@ -20,7 +20,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 1500Mi
+            memory: 2500Mi
           requests:
             cpu: 100m
             memory: 500Mi
@@ -55,5 +55,3 @@ spec:
             repository: "https://github.com/fluxcapacitor/source.ml"
             # repository: "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-#      imagePullSecrets:
-#        - name: githubsshkey
