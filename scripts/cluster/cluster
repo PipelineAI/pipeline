@@ -1,0 +1,71 @@
+#!/bin/bash
+
+###################################
+# Dashboards and Metrics
+###################################
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/turbine-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/turbine-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/hystrix-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/hystrix-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/weavescope/weavescope.yaml
+
+###################################
+# Model Training and Data Services
+###################################
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/sql.ml/mysql-master-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/sql.ml/mysql-master-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/hdfs.ml/namenode-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/hdfs.ml/namenode-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/master-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/master-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-hpa.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/metastore.ml/metastore-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/metastore.ml/metastore-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/jupyterhub.ml/jupyterhub-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/jupyterhub.ml/jupyterhub-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-master-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-master-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-worker-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-worker-hpa.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-worker-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-ui-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-ui-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/web.ml/home-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/web.ml/home-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scheduler.ml/airflow-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scheduler.ml/airflow-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/zeppelin.ml/zeppelin-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/zeppelin.ml/zeppelin-svc.yaml
+
+###################################
+# Model Prediction Services
+###################################
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/java-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/java-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/keyvalue-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/keyvalue-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/pmml-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/pmml-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/python-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/python-svc.yaml
+
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/tensorflow-deploy.yaml
+kubectl $PIO_CLUSTER_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/tensorflow-svc.yaml
