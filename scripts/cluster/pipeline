@@ -1,7 +1,0 @@
-#!/bin/sh
-
-#echo "Usage:"
-#echo "\t pipeline cluster [up|down|switch|view] [cluster-name]"
-#echo "\t pipeline service [deploy|undeploy|scale|upgrade] [service-name] [options...]"
-
-$PIPELINE_HOME/bin/pipeline-$1-$2-$3-$4-$5.sh
