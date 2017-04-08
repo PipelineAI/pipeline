@@ -1,0 +1,48 @@
+#!/bin/bash
+
+###################################
+# Dashboards and Metrics
+###################################
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/turbine-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/hystrix-svc.yaml $PIO_COMMAND_OPTS
+
+###################################
+# Model Training and Data Services
+###################################
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/sql.ml/mysql-master-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/hdfs.ml/namenode-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/master-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/metastore.ml/metastore-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/jupyterhub.ml/jupyterhub-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-master-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-worker-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-ui-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/web.ml/home-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scheduler.ml/airflow-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/zeppelin.ml/zeppelin-svc.yaml $PIO_COMMAND_OPTS
+
+###################################
+# Model Prediction Services
+###################################
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/java-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/keyvalue-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/pmml-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/python-svc.yaml $PIO_COMMAND_OPTS
+
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/tensorflow-svc.yaml $PIO_COMMAND_OPTS

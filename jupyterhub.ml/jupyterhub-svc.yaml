@@ -4,6 +4,8 @@ metadata:
   name: jupyterhub
   labels:
     app: jupyterhub
+#  annotations:
+#    dns.alpha.kubernetes.io/external: jupyter.your.domain.com
 spec:
   type: LoadBalancer
   ports:
