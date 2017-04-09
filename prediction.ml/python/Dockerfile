@@ -79,6 +79,6 @@ ENV \
 
 COPY run run
 
-EXPOSE 9040 9876 9000
+EXPOSE 9040 9876 9000 8000
 
 CMD ["supervise", "."]
