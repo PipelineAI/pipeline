@@ -72,3 +72,8 @@ minikube service list
 | ...         |            |                              |
 |-------------|------------|------------------------------|
 ```
+
+# Remove Fission
+```
+kubectl delete --namespace=fission all
+```
