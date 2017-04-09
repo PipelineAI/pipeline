@@ -4,8 +4,8 @@ metadata:
   name: dashboard-hystrix
   labels:
     app: dashboard-hystrix 
-  annotations:
-    dns.alpha.kubernetes.io/external: hystrix.your.domain.com
+#  annotations:
+#    dns.alpha.kubernetes.io/external: hystrix.your.domain.com
 spec:
   type: LoadBalancer
   ports:

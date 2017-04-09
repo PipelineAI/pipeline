@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This is used in conjuction with the Kops Route53 DNS Mapper
+#  https://github.com/kubernetes/kops/blob/master/docs/addons.md#route53-mapper
+#  https://github.com/kubernetes/kops/tree/master/addons/route53-mapper
+
+# Args:
+#  $1: $PIO_DOMAIN_NAME --overwrite (ie. subdomain.domain.com)
+kubectl annotate svc apachespark-master-2-1-0 dns.alpha.kubernetes.io/external=spark.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc apachespark-worker-2-1-0 dns.alpha.kubernetes.io/external=spark-worker.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc dashboard-hystrix dns.alpha.kubernetes.io/external=hystrix.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc dashboard-turbine dns.alpha.kubernetes.io/external=turbine.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc hdfs-namenode dns.alpha.kubernetes.io/external=hdfs.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc jupyterhub dns.alpha.kubernetes.io/external=jupyterhub.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc keyvalue-redis-master dns.alpha.kubernetes.io/external=redis.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-java dns.alpha.kubernetes.io/external=prediction-java.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-keyvalue dns.alpha.kubernetes.io/external=prediction-keyvalue.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-pmml dns.alpha.kubernetes.io/external=prediction-pmml.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-python dns.alpha.kubernetes.io/external=prediction-python.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-spark dns.alpha.kubernetes.io/external=prediction-spark.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc prediction-tensorflow dns.alpha.kubernetes.io/external=prediction-tensorflow.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc presto-ui dns.alpha.kubernetes.io/external=presto.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc scheduler-airflow dns.alpha.kubernetes.io/external=airflow.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc web-home dns.alpha.kubernetes.io/external=www.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate svc zeppelin dns.alpha.kubernetes.io/external=zeppelin.$PIO_DOMAIN_NAME --overwrite
+kubectl annotate --namespace fission svc fission-ui dns.alpha.kubernetes.io/external=fission.$PIO_DOMAIN_NAME --overwrite
+
+#echo 'PIPELINE_HOME='$PIPELINE_HOME
+#find $PIPELINE_HOME -name *-svc*.yaml -type f -exec sed -i -e 's/'"$1"'/'"$2"'/g' {} \;
