@@ -9,10 +9,6 @@ kubectl create -f fission/fission-cloud.yaml
 kubectl create -f fission/fission-logger.yaml
 kubectl create -f fission-ui/docker/fission-ui.yaml
 ```
-_Note:  These deploy to the `fission` namespace.  All subsequent `kubectl` commands must include `--namespace fission`as follows:_
-```
-kubectl --namespace fission describe svc fission-ui
-```
 
 ## Download `fission` within [PipelineIO Kubernetes CLI](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Docker-and-Kubernetes-CLI) Docker Container
 ```
@@ -23,14 +19,14 @@ curl http://fission.io/linux/fission > fission && chmod +x fission && mv fission
 Wait for services to acquire a hostname or IP.
 ### AWS
 ```
-export FISSION_URL=http://$(kubectl --namespace fission get svc controller -o=jsonpath='{..hostname}')
-export FISSION_ROUTER=$(kubectl --namespace fission get svc router -o=jsonpath='{..hostname}')
+export FISSION_URL=http://$(kubectl fission get svc controller -o=jsonpath='{..hostname}')
+export FISSION_ROUTER=$(kubectl fission get svc router -o=jsonpath='{..hostname}')
 ```
 
 ### GCP
 ```
-export FISSION_URL=http://$(kubectl --namespace fission get svc controller -o=jsonpath='{..ip}')
-export FISSION_ROUTER=$(kubectl --namespace fission get svc router -o=jsonpath='{..ip}')
+export FISSION_URL=http://$(kubectl get svc controller -o=jsonpath='{..ip}')
+export FISSION_ROUTER=$(kubectl fission get svc router -o=jsonpath='{..ip}')
 ```
 
 # Setup Fission on Local Minikube Kubernetes
