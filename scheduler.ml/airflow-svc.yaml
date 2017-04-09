@@ -4,6 +4,8 @@ metadata:
   name: scheduler-airflow
   labels:
     app: scheduler-airflow
+  annotations:
+    dns.alpha.kubernetes.io/external: airflow.your.domain.com
 spec:
   type: LoadBalancer
   ports:

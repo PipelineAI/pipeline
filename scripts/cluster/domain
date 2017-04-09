@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Args:
+#  $1: old subdomain.domain.com 
+#  $2: new subdomain.domain.com
+echo 'PIPELINE_HOME='$PIPELINE_HOME
+
+find $PIPELINE_HOME -name *-svc*.yaml -type f -exec sed -i -e 's/'"$1"'/'"$2"'/g' {} \;

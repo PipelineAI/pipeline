@@ -5,6 +5,8 @@ metadata:
   labels:
     app: prediction-spark
     hystrix.enabled: "true"
+  annotations:
+    dns.alpha.kubernetes.io/external: prediction-spark.your.domain.com
 spec:
   type: LoadBalancer
   ports:

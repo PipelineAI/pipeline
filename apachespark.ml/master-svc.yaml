@@ -4,6 +4,8 @@ metadata:
   name: apachespark-master-2-1-0
   labels: 
     app: apachespark-master-2-1-0
+  annotations:
+    dns.alpha.kubernetes.io/external: spark.your.domain.com
 spec:
   type: LoadBalancer
   ports:

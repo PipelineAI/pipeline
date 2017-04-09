@@ -4,6 +4,8 @@ metadata:
   name: dashboard-turbine
   labels:
     app: dashboard-turbine
+  annotations:
+    dns.alpha.kubernetes.io/external: turbine.your.domain.com
 spec:
   type: LoadBalancer
   ports:
