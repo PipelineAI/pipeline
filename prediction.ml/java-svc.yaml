@@ -5,6 +5,8 @@ metadata:
   labels:
     app: prediction-java
     hystrix.enabled: "true"
+#  annotations:
+#    dns.alpha.kubernetes.io/external: prediction-java.your.domain.com
 spec:
   type: LoadBalancer
   ports:

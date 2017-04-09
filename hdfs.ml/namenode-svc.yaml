@@ -4,6 +4,8 @@ metadata:
   name: hdfs-namenode
   labels:
     app: hdfs-namenode
+#  annotations:
+#    dns.alpha.kubernetes.io/external: hdfs.your.domain.com
 spec:
   type: LoadBalancer 
   ports:

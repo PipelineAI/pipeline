@@ -5,6 +5,8 @@ metadata:
   labels:
     app: prediction-tensorflow
     hystrix.enabled: "true"
+#  annotations:
+#    dns.alpha.kubernetes.io/external: prediction-tensorflow.your.domain.com
 spec:
   type: LoadBalancer
   ports:
