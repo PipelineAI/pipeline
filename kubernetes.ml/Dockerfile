@@ -18,6 +18,9 @@ RUN \
   && mv kubectl /usr/local/bin/kubectl
 
 RUN \
+  echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+RUN \
   echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
 
 ENV \
