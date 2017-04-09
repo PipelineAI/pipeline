@@ -1,9 +1,11 @@
 #!/bin/bash
 
-echo "Creating environment ${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
+echo "Creating Python3  Environment '${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}'"
 conda create --yes -n "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
 source activate "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
 
+# Note:  There may be conflicts between internal model_server requirements 
+#        and external model-specific requirements.
 while read requirement;
   do conda install --yes $requirement;
 done < src/main/python/scikit/model_server_conda_requirements.txt
@@ -14,4 +16,8 @@ done < src/main/python/scikit/model_server_pip_requirements.txt
 
 while read requirement; 
   do conda install --yes $requirement; 
-done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/requirements.txt 
+done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/conda_requirements.txt
+
+while read requirement;
+  do conda install --yes $requirement;
+done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/pip_requirements.txt
