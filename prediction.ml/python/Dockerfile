@@ -74,6 +74,9 @@ ENV \
 RUN \
   ln -s /root/volumes/source.ml/prediction.ml/python/store
 
+ENV \
+  PATH=~/scripts:$PATH
+
 COPY run run
 
 EXPOSE 9040 9876 9000

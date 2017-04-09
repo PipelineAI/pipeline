@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Creating environment ${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
+conda create --yes -n ${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION} 
+source activate ${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}
+
+while read requirement; 
+  do conda install --yes $requirement; 
+done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/requirements.txt 
