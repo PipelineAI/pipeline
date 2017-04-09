@@ -4,8 +4,9 @@
 #  https://github.com/kubernetes/kops/blob/master/docs/addons.md#route53-mapper
 #  https://github.com/kubernetes/kops/tree/master/addons/route53-mapper
 
-# Args:
-#  $1: $PIO_DOMAIN_NAME --overwrite (ie. subdomain.domain.com)
+echo 'Usage:'
+echo 'PIO_DOMAIN_NAME=demo.pipeline.io ./route53'
+
 kubectl annotate svc apachespark-master-2-1-0 dns.alpha.kubernetes.io/external=spark.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate svc apachespark-worker-2-1-0 dns.alpha.kubernetes.io/external=spark-worker.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate svc dashboard-hystrix dns.alpha.kubernetes.io/external=hystrix.$PIO_DOMAIN_NAME --overwrite
@@ -24,6 +25,3 @@ kubectl annotate svc scheduler-airflow dns.alpha.kubernetes.io/external=airflow.
 kubectl annotate svc web-home dns.alpha.kubernetes.io/external=www.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate svc zeppelin dns.alpha.kubernetes.io/external=zeppelin.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate --namespace fission svc fission-ui dns.alpha.kubernetes.io/external=fission.$PIO_DOMAIN_NAME --overwrite
-
-#echo 'PIPELINE_HOME='$PIPELINE_HOME
-#find $PIPELINE_HOME -name *-svc*.yaml -type f -exec sed -i -e 's/'"$1"'/'"$2"'/g' {} \;

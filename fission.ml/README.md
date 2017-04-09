@@ -16,7 +16,7 @@ kubectl --namespace fission describe svc fission-ui
 
 ## Download `fission` within [PipelineIO Kubernetes CLI](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Docker-and-Kubernetes-CLI) Docker Container
 ```
-curl http://fission.io/linux/fission > fission && chmod +x fission && sudo mv fission /usr/local/bin/
+curl http://fission.io/linux/fission > fission && chmod +x fission && mv fission /usr/local/bin/
 ```
 
 ## Export Environment Variables
