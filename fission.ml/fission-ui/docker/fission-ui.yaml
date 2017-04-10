@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: fission-ui
-  namespace: fission
+#  namespace: fission
 spec:
   replicas: 1
   template:
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fission-ui
-  namespace: fission
+#  namespace: fission
   labels:
     svc: fission-ui
 spec:

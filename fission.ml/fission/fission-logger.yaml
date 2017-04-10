@@ -17,7 +17,7 @@
 # kind: Endpoints
 # metadata:
 #   name: influxdb
-#   namespace: fission
+##   namespace: fission
 # subsets:
 #   - addresses:
 #     - ip: replace.influxdb.host.here
@@ -30,7 +30,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: influxdb
-  namespace: fission
+#  namespace: fission
 spec:
   replicas: 1
   template:
@@ -56,7 +56,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: logger
-  namespace: fission
+#  namespace: fission
 spec:
   template:
     metadata:
