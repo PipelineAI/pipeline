@@ -20,12 +20,12 @@ def input_transformer(data):
 def output_transformer(data):
     return json.dumps(data.tolist())
 
-#if __name__ == '__main__':
-#    input_str = '[{"feature0":0, "feature1":1, "feature2":2, "feature3":3}, \
-#                  {"feature0":10, "feature1":11, "feature2":12, "feature3":13}]'
+if __name__ == '__main__':
+    input_str = '[{"feature0":0, "feature1":1, "feature2":2, "feature3":3}, \
+                  {"feature0":10, "feature1":11, "feature2":12, "feature3":13}]'
 
-#    transformed_input = input_transformer(input_str)
-#    print(transformed_input)
+    transformed_input = input_transformer(input_str)
+    print(transformed_input)
 
-#    transformed_output = output_transformer(transformed_input)
-#    print(transformed_output)
+    transformed_output = output_transformer(transformed_input)
+    print(transformed_output)
