@@ -1,3 +1,12 @@
 #!/bin/bash
 
-PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 PIO_MODEL_FILENAME=balancescale.pkl PIO_MODEL_SERVER_PORT=9876 start_model_server
+# Create Environment
+PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 create_environment
+
+# Start Model Server
+PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 PIO_MODEL_FILENAME=balancescale.pkl PIO_MODEL_SERVER_PORT=9876 spawn_model_server
+
+# Commented out b/c we're using PredictionService for this
+# Start Bundle Server
+#PIO_MODEL_NAMESPACE=<namespace> PIO_MODEL_NAME=<model_name> PIO_MODEL_VERSION=<version> PIO_BUNDLE_SERVER_PORT=8000 spawn_bundle_server
+
