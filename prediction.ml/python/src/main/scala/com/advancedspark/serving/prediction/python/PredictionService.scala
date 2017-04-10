@@ -113,32 +113,33 @@ class PredictionService {
       val uploadedFilePath = Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}")
       
       ZipFileUtil.unzip(uploadedFilePath.toFile.getAbsolutePath, uploadedFilePath.getParent.toFile.getAbsolutePath)
+            
+      // TODO:  Improve this
+      val p0 = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} delete_environment")
+      val p1 = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} create_environment")
+      System.out.println("p1: " + p1)      
       
+      val stdInput1 = new BufferedReader(new InputStreamReader(p1.getInputStream()));
+      System.out.println("stdInput: " + stdInput1)
+
+      val stdError1 = new BufferedReader(new InputStreamReader(p1.getErrorStream()));
+      System.out.println("stdError: " + stdError1)
+
+      // read the output from the command
+      val success = stdInput1.lines().collect(Collectors.joining("\n"))
+      //System.out.println("success: " + success)
+
+      val error = stdError1.lines().collect(Collectors.joining("\n"))
+      //System.out.println("error: " + error)
+
+      val port = 9876
       val parentPath = uploadedFilePath.getParent
                   
       // Find .pkl file
       val modelPklFilename = parentPath.toFile.listFiles.filter(_.getAbsolutePath.endsWith(".pkl")).map(_.getName)
       System.out.println("modelPklFilename: " + modelPklFilename)
       
-      // TODO:  Improve this
-      val p = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} setup_environment")
-      System.out.println("p: " + p)      
-      
-      val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-      System.out.println("stdInput: " + stdInput)
-
-      val stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-      System.out.println("stdError: " + stdError)
-
-      // read the output from the command
-      val success = stdInput.lines().collect(Collectors.joining("\n"))
-      //System.out.println("success: " + success)
-
-      val error = stdError.lines().collect(Collectors.joining("\n"))
-      //System.out.println("error: " + error)
-
-      val port = 8000 + version.toInt
-      val p2 = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} PIO_MODEL_FILENAME=${modelName}.pkl PIO_MODEL_SERVER_PORT=${port} spawn_model_server")
+      val p2 = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} PIO_MODEL_FILENAME=${modelPklFilename} PIO_MODEL_SERVER_PORT=${port} spawn_model_server")
       System.out.println("p2: " + p2)    
       
       val stdInput2 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
