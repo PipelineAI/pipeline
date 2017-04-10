@@ -30,6 +30,8 @@ import java.nio.file.Paths
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
+import java.nio.file.FileSystems
+import scala.reflect.io.File
 
 
 @SpringBootApplication
@@ -110,7 +112,13 @@ class PredictionService {
       
       val uploadedFilePath = Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}")
       
-      ZipFileUtil.unzip(uploadedFilePath.toFile.getAbsolutePath, uploadedFilePath.getParent.toFile.getAbsolutePath)     
+      ZipFileUtil.unzip(uploadedFilePath.toFile.getAbsolutePath, uploadedFilePath.getParent.toFile.getAbsolutePath)
+      
+      val parentPath = uploadedFilePath.getParent
+                  
+      // Find .pkl file
+      val modelPklFilename = parentPath.toFile.listFiles.filter(_.getAbsolutePath.endsWith(".pkl")).map(_.getName)
+      System.out.println("modelPklFilename: " + modelPklFilename)
       
       // TODO:  Improve this
       val p = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} setup_environment")
