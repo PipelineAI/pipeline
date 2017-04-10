@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Delete Environment for Clean Slate
-PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 create_environment
+PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 delete_environment
 
 # Create Environment
 PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 create_environment
