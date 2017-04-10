@@ -75,7 +75,7 @@ RUN \
   ln -s /root/volumes/source.ml/prediction.ml/python/store
 
 ENV \
-  PATH=~/scripts:$PATH
+  PATH=/root/scripts:$PATH
 
 COPY run run
 
