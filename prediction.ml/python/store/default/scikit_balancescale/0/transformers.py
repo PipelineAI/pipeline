@@ -10,13 +10,18 @@ import numpy as np
 
 # input: raw json
 # output: numpy array
-def input_transformer(data): 
-    df = pd.io.json.read_json(data)
-    array = df.values
-    return array
+def input_transformer(data):
+    transformed_data_list = []
+    data_json = json.loads(data)
+
+    transformed_data_list = ([parse_json(d) for d in data_json])
+    return np.array(transformed_data_list)
+
+def parse_json(d):
+    return d['feature0'], d['feature1'], d['feature2'], d['feature3']
 
 # input: numpy array
-# output: list of json   
+# output: list of json
 def output_transformer(data):
     return json.dumps(data.tolist())
 
