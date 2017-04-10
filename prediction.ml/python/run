@@ -14,5 +14,4 @@ PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION
 #PIO_MODEL_NAMESPACE=<namespace> PIO_MODEL_NAME=<model_name> PIO_MODEL_VERSION=<version> PIO_BUNDLE_SERVER_PORT=8000 spawn_bundle_server
 
 cd ~
-java -Djava.security.egd=file:/dev/./urandom -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.py
-thon.PredictionServiceMain"
+java -Djava.security.egd=file:/dev/./urandom -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.python.PredictionServiceMain"
