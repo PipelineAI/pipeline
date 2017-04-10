@@ -1,36 +1,35 @@
 # Sample Kubernetes Service config for external db service. 
 #
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: influxdb
-#   namespace: fission
-# spec:
-#   ports:
-#   - name: "8086"
-#     port: 8086
-#     targetPort: 8086
-#     protocol: TCP
-
-# ---
-# apiVersion: v1
-# kind: Endpoints
-# metadata:
-#   name: influxdb
-##   namespace: fission
-# subsets:
-#   - addresses:
-#     - ip: replace.influxdb.host.here
-#     ports:
-#     - name: "8086"
-#       port: 8086
-#       protocol: TCP
+ apiVersion: v1
+ kind: Service
+ metadata:
+   name: influxdb
+   namespace: fission
+ spec:
+   ports:
+   - name: "8086"
+     port: 8086
+     targetPort: 8086
+     protocol: TCP
+ ---
+ apiVersion: v1
+ kind: Endpoints
+ metadata:
+   name: influxdb
+   namespace: fission
+ subsets:
+   - addresses:
+     - ip: replace.influxdb.host.here
+     ports:
+     - name: "8086"
+       port: 8086
+       protocol: TCP
 
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: influxdb
-#  namespace: fission
+  namespace: fission
 spec:
   replicas: 1
   template:
@@ -56,7 +55,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: logger
-#  namespace: fission
+  namespace: fission
 spec:
   template:
     metadata:
