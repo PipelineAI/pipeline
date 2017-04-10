@@ -97,6 +97,7 @@ class PredictionService {
 
     try {
       // Get name of uploaded file.
+      // TODO:  only preserve last part of filename (not parent path)
       val filename = bundle.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
