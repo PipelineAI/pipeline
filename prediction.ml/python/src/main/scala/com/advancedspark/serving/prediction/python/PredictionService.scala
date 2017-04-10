@@ -22,6 +22,14 @@ import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher
 import io.prometheus.client.hotspot.StandardExports
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
+import org.springframework.web.multipart.MultipartFile
+import java.io.InputStream
+import java.nio.file.Files
+import org.springframework.web.bind.annotation.RequestParam
+import java.nio.file.Paths
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.util.stream.Collectors
 
 
 @SpringBootApplication
@@ -71,6 +79,95 @@ class PredictionService {
     }
   }
  
+  /*  
+   curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+     -F "model=@tensorflow_inception_graph.pb" \
+     http://[host]:[port]/update-tensorflow/default/tensorflow_inception/1
+  */
+  @RequestMapping(path=Array("/update-python-bundle/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST))
+  def updateTensorflow(@PathVariable("namespace") namespace: String,
+                       @PathVariable("modelName") modelName: String, 
+                       @PathVariable("version") version: String,
+                       @RequestParam("bundle") bundle: MultipartFile): ResponseEntity[HttpStatus] = {
+
+    var inputStream: InputStream = null
+
+    try {
+      // Get name of uploaded file.
+      val filename = bundle.getOriginalFilename()
+  
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"store/${namespace}/${modelName}/${version}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'bundle' multipart file
+      inputStream = bundle.getInputStream()
+  
+      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}"))
+      
+      val uploadedFilePath = Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}")
+      
+      ZipFileUtil.unzip(uploadedFilePath.toFile.getAbsolutePath, uploadedFilePath.getParent.toFile.getAbsolutePath)     
+      
+      // TODO:  Improve this
+      val p = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} setup_environment")
+      System.out.println("p: " + p)      
+      
+      val stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      System.out.println("stdInput: " + stdInput)
+
+      val stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+      System.out.println("stdError: " + stdError)
+
+      // read the output from the command
+      val success = stdInput.lines().collect(Collectors.joining("\n"))
+      //System.out.println("success: " + success)
+
+      val error = stdError.lines().collect(Collectors.joining("\n"))
+      //System.out.println("error: " + error)
+
+      val port = 8000 + version.toInt
+      val p2 = Runtime.getRuntime().exec(s"PIO_MODEL_NAMESPACE=${namespace} PIO_MODEL_NAME=${modelName} PIO_MODEL_VERSION=${version} PIO_MODEL_FILENAME=${modelName}.pkl PIO_MODEL_SERVER_PORT=${port} spawn_model_server")
+      System.out.println("p2: " + p2)    
+      
+      val stdInput2 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+      System.out.println("stdInput2: " + stdInput2)
+
+      val stdError2 = new BufferedReader(new InputStreamReader(p2.getErrorStream()));
+      System.out.println("stdError2: " + stdError2)
+
+      // read the output from the command
+      val success2 = stdInput2.lines().collect(Collectors.joining("\n"))
+      //System.out.println("success: " + success)
+
+      val error2 = stdError2.lines().collect(Collectors.joining("\n"))
+      //System.out.println("error: " + error)
+      
+      var result = s"""{"result":"${success + success2}""""
+      
+      if (error.length() > 0) {
+        System.out.println("error: " + error + error2)
+        result = result + s""", "error":"${error + error2}""""
+      }
+      
+      result + "}"          
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+
+    new ResponseEntity(HttpStatus.OK)
+  }  
+  
   @RequestMapping(path=Array("/evaluate-python/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
