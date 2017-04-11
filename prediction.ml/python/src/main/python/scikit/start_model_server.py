@@ -16,7 +16,7 @@ from transformers import input_transformer, output_transformer
 class PredictCommand(Command):
     inputs = [[]]
     def run(self):
-        return self.do_predict() 
+        return self.do_predict()
 
     # TODO:  roll this into run() method
     def do_predict(self):
@@ -30,7 +30,7 @@ class MainHandler(tornado.web.RequestHandler):
     def post(self):
         self.set_header("Content-Type", "application/json")
         command = self.build_command()
-        output = yield self.build_future(command)   
+        output = yield self.build_future(command)
         self.write(output_transformer(output))
 
     def build_command(self):
@@ -55,7 +55,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 def load_model(model_pkl_filename):
     with open(model_pkl_filename, 'rb') as model_pkl:
-        model = pickle.load(model_pkl)          
+        model = pickle.load(model_pkl)
     return model
 
 if __name__ == '__main__':

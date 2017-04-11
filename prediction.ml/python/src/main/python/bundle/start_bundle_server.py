@@ -4,42 +4,42 @@ import tornado.web
 import logging
 import os
 import uuid
-
-def original_naming_stategy(original_name):
-    return original_name
-
-def uuid_naming_strategy(original_name):
-    "File naming strategy that ignores original name and returns an UUID"
-    return str(uuid.uuid4())
+import tarfile
+import subprocess
 
 class UploadHandler(tornado.web.RequestHandler):
-    "Handle file uploads."
+    def initialize(self, bundle_parent_path):
+        self.bundle_parent_path = bundle_parent_path
 
-    def initialize(self, upload_path, naming_strategy):
-        """Initialize with given upload path and naming strategy.
-        :keyword upload_path: The upload path.
-        :type upload_path: str
-        :keyword naming_strategy: File naming strategy.
-        :type naming_strategy: (str) -> str function
-        """
-        self.upload_path = upload_path
-        if naming_strategy is None:
-            naming_strategy = original_naming_strategy
-        self.naming_strategy = naming_strategy
-
-    def post(self):
+    def post(self, model_namespace, model_name, model_version):
         fileinfo = self.request.files['bundle'][0]
-        filename = self.naming_strategy(fileinfo['filename'])
-#        filename = fileinfo['filename']
+        absolutepath = fileinfo['filename']
+        (_, filename) = os.path.split(absolutepath)
+        bundle_path = os.path.join(self.bundle_parent_path, model_namespace)
+        bundle_path = os.path.join(bundle_path, model_name)
+        bundle_path = os.path.join(bundle_path, model_version)
+        bundle_path_filename = os.path.join(bundle_path, filename)
         try:
-            with open(os.path.join(self.upload_path, filename), 'wb') as fh:
+            os.makedirs(bundle_path, exist_ok=False)
+            with open(bundle_path_filename, 'wb+') as fh:
                 fh.write(fileinfo['body'])
-            logging.info("%s uploaded %s, saved as %s",
-                         str(self.request.remote_ip),
-                         str(fileinfo['filename']),
-                         filename)
+            print("%s uploaded %s, saved as %s" %
+                        ( str(self.request.remote_ip),
+                          str(filename),
+                          bundle_path_filename) )
+            with tarfile.open(bundle_path_filename, "r:gz") as tar:
+                tar.extractall(path=bundle_path)
+#            subprocess.run(['ls', '-l'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+            self.write('Successful uploaded and extracted bundle %s into %s' % (filename, bundle_path))
         except IOError as e:
-            logging.error("Failed to write file due to IOError %s", str(e))
+            print('Failed to write file due to IOError %s' % str(e))
+            self.write('Failed to write file due to IOError %s' % str(e))
+            raise e
+
+    def write_error(self, status_code, **kwargs):
+        self.write('Error %s' % status_code)
+        if "exc_info" in kwargs:
+            self.write(", Exception: %s" % kwargs["exc_info"][0].__name__)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
@@ -49,13 +49,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     port = 8000
-    bundle_parent_path = '/tmp'
+    bundle_parent_path = os.environ['STORE_HOME']
 
     app = tornado.web.Application([
       # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_VERSION/
-      url(r"/(a-zA-Z0-9_)/(a-zA-Z0-9_)/(a-zA-Z0-9_)", UploadHandler),
-        dict(port=port,
-             bundle_parent_path=bundle_parent_path)),
+      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", UploadHandler,
+         dict(bundle_parent_path=bundle_parent_path))
     ])
 
     app.listen(port)
@@ -66,3 +65,4 @@ if __name__ == '__main__':
     print("Watching bundle parent path %s" % bundle_parent_path)
 
     tornado.ioloop.IOLoop.current().start()
+~
