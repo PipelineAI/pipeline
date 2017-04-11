@@ -65,4 +65,3 @@ if __name__ == '__main__':
     print("Watching bundle parent path %s" % bundle_parent_path)
 
     tornado.ioloop.IOLoop.current().start()
-~
