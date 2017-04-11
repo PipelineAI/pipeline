@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PIO_MODEL_VERSION=$(if [[ ! -v PIO_MODEL_VERSION ]]; then ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/ | sort -nr | sed -n 1p; fi)
+export PIO_MODEL_VERSION=$(if [[ -v PIO_MODEL_VERSION ]]; then $PIO_MODEL_VERSION; else ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/ | sort -nr | sed -n 1p; fi)
 export PIO_MODEL_FILENAME=$(ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/ | grep .pkl | sed -n 1p)
 export PIO_MODEL_SERVER_PORT=9876
 export PIO_BUNDLE_SERVER_PORT=8000
