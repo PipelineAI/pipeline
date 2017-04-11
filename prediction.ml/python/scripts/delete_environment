@@ -1,8 +1,9 @@
 #!/bin/bash
 
+echo "Deleting conda environment..."
 echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
 echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 echo "PIO_MODEL_VERSION=$PIO_MODEL_VERSION"
 
-echo "Deleting Python3  Environment '${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}'"
+echo "Deleting '${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}'"
 conda remove --yes -n "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}" --all
