@@ -9,6 +9,8 @@ echo "STORE_HOME=$STORE_HOME"
 delete_environment
 
 export PIO_MODEL_VERSION=$(ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/ | sort -nr | sed -n 1p)
+
+create_environment
 source activate "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
 
 export PIO_MODEL_VERSION=$(ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/ | sort -nr | sed -n 1p)
