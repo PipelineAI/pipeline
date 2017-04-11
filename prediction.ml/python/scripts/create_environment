@@ -9,7 +9,9 @@ conda create --yes -n "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERS
 source activate "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
 
 # Note:  There may be conflicts between internal model_server requirements
-#        and external model-specific requirements.
+#   and external model-specific requirements.
+# Also, we loop over the installs to handle the case where *_requirements.txt is empty.
+#   Otherwise, the command fails.
 while read requirement;
   do conda install --yes $requirement;
 done < src/main/python/scikit/pio_model_server_conda_requirements.txt
