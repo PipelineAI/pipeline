@@ -1,17 +1,18 @@
 #!/bin/bash
+export PIO_MODEL_VERSION=$(ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME | sort -nr | sed -n 1p)
+export PIO_MODEL_FILENAME=$(ls $STORE_HOME/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME | grep .pkl | sed -n 1p)
+export PIO_MODEL_SERVER_PORT=9876
+export PIO_BUNDLE_SERVER_PORT=8000
 
 # Delete Environment for Clean Slate
-PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 delete_environment
+delete_environment
 
 # Create Environment
-PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 create_environment
+create_environment
 
 # Start Model Server
-PIO_MODEL_NAMESPACE=default PIO_MODEL_NAME=scikit_balancescale PIO_MODEL_VERSION=0 PIO_MODEL_FILENAME=balancescale.pkl PIO_MODEL_SERVER_PORT=9876 spawn_model_server &
+spawn_model_server 
 
 # Commented out b/c we're using PredictionService for this
 # Start Bundle Server
-#PIO_MODEL_NAMESPACE=<namespace> PIO_MODEL_NAME=<model_name> PIO_MODEL_VERSION=<version> PIO_BUNDLE_SERVER_PORT=8000 spawn_bundle_server
-
-cd ~
-java -Djava.security.egd=file:/dev/./urandom -jar lib/sbt-launch.jar "run-main com.advancedspark.serving.prediction.python.PredictionServiceMain"
+spawn_bundle_server

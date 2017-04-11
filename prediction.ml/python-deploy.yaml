@@ -33,6 +33,10 @@ spec:
             memory: 1000Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: scikit_balancetrain
         ports:
         - containerPort: 9040
         - containerPort: 9876
