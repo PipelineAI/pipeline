@@ -8,6 +8,7 @@ export PIO_BUNDLE_SERVER_PORT=8000
 spawn_bundle_server &
 
 create_environment
-source activate "${PIO_MODEL_NAMESPACE}_${PIO_MODEL_NAME}_${PIO_MODEL_VERSION}"
+
+source activate model_environment
 
 spawn_model_server 
