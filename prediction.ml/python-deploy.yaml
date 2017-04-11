@@ -5,7 +5,6 @@ metadata:
   labels:
     name: prediction-python
     app: prediction-python
-    hystrix.enabled: "true"
 spec:
   replicas: 1
   selector:
@@ -15,11 +14,10 @@ spec:
     metadata:
       labels:
         app: prediction-python
-        hystrix.enabled: "true"
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/prometheus"
-        prometheus.io/port: "9040"
+#      annotations:
+#        prometheus.io/scrape: "true"
+#        prometheus.io/path: "/prometheus"
+#        prometheus.io/port: "9040"
     spec:
       containers:
       - name: prediction-python
@@ -55,8 +53,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-      tolerations: 
-      - key: "node.alpha.kubernetes.io/notReady"
-        operator: "Exists"
-        effect: "NoExecute"
-        tolerationSeconds: 6000
