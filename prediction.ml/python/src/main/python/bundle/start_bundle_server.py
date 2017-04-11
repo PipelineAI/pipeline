@@ -15,23 +15,26 @@ def uuid_naming_strategy(original_name):
 class UploadHandler(tornado.web.RequestHandler):
     "Handle file uploads."
 
-    def initialize(self, upload_path, naming_strategy):
+#    def initialize(self, upload_path, naming_strategy):
+    def initialize(self):
         """Initialize with given upload path and naming strategy.
         :keyword upload_path: The upload path.
         :type upload_path: str
         :keyword naming_strategy: File naming strategy.
         :type naming_strategy: (str) -> str function
         """
-        self.upload_path = upload_path
-        if naming_strategy is None:
-            naming_strategy = original_naming_strategy
-        self.naming_strategy = naming_strategy
+#        self.upload_path = upload_path
+#        if naming_strategy is None:
+#        naming_strategy = original_naming_strategy
+#        self.naming_strategy = naming_strategy
 
     def post(self):
-        fileinfo = self.request.files['filearg'][0]
-        filename = self.naming_strategy(fileinfo['filename'])
+        fileinfo = self.request.files['bundle'][0]
+#        filename = self.naming_strategy(fileinfo['filename'])
+        filename = fileinfo['filename']
         try:
-            with open(os.path.join(self.upload_path, filename), 'w') as fh:
+#            with open(os.path.join(self.upload_path, filename), 'w') as fh:
+            with open(os.path.join('.', filename), 'wb') as fh:
                 fh.write(fileinfo['body'])
             logging.info("%s uploaded %s, saved as %s",
                          str(self.request.remote_ip),
@@ -47,15 +50,6 @@ if __name__ == '__main__':
 #    parser.add_argument('bundle_parent_path')
     args = parser.parse_args()
 
-#    bundle_rootpath = "%s/%s/%s/%s" % (STORE_HOME, PIO_MODEL_NAMESPACE, PIO_MODEL_NAME, PIO_MODEL_VERSION)
-#    handler = UploadHandler()
-#    handler.initialize("/", original_naming_strategy)
-#      args.bundle_parent_path, original_naming_strategy)
-    bundle_parent_path = '.'
-    port = 8000
-    app = tornado.web.Application([
-        (r"/", UploadHandler),
-    ])
     app.listen(port)
 
     print("")

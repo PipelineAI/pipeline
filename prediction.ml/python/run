@@ -12,7 +12,7 @@ delete_environment
 create_environment
 
 # Start Model Server
-spawn_model_server 
+spawn_model_server & 
 
 # Commented out b/c we're using PredictionService for this
 # Start Bundle Server
