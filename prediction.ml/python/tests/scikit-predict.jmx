@@ -70,13 +70,13 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">[{&quot;feature0&quot;:0, &quot;feature1&quot;:1, &quot;feature2&quot;:2, &quot;feature3&quot;:3}]</stringProp>
+                  <stringProp name="Argument.value">{&quot;feature0&quot;:0, &quot;feature1&quot;:1, &quot;feature2&quot;:2, &quot;feature3&quot;:3},{&quot;feature0&quot;:10, &quot;feature1&quot;:11, &quot;feature2&quot;:12, &quot;feature3&quot;:13}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">prediction-python.demo.pipeline.io</stringProp>
-            <stringProp name="HTTPSampler.port">81</stringProp>
+            <stringProp name="HTTPSampler.port">80</stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
