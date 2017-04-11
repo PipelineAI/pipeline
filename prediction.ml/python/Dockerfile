@@ -65,8 +65,8 @@ ENV LOGS_HOME=/root/logs
 COPY src/ src/
 COPY build.sbt build.sbt
 
-RUN \
-  sbt clean package
+#RUN \
+#  sbt clean package
 
 ENV \
   STORE_HOME=/root/store
