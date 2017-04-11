@@ -4,3 +4,4 @@
 /eclipse-generated/
 .classpath
 .project
+__pycache__/
