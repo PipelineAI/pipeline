@@ -34,8 +34,8 @@ spec:
 # Leave commented out to pick up the latest
 # Note:  This is not recommended as latest will change as time passes.
 #        It's best to pin this to a version for determinism
-        - name: PIO_MODEL_VERSION
-          value: "0"
+#        - name: PIO_MODEL_VERSION
+#          value: "0"
         ports:
         - containerPort: 9040
         - containerPort: 9876
