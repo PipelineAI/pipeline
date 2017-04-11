@@ -35,6 +35,9 @@ spec:
         env:
         ports:
         - containerPort: 9040
+        - containerPort: 9876
+        - containerPort: 9000
+        - containerPort: 8000
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes
