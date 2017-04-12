@@ -30,7 +30,6 @@ class UploadHandler(tornado.web.RequestHandler):
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             self.write('Successful uploaded and extracted bundle %s into %s' % (filename, bundle_path))
-            self.write(subprocess.run(['spawn_model_server &'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))
