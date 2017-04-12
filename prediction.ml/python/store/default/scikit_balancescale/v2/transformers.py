@@ -13,7 +13,7 @@ import numpy as np
 def input_transformer(data):
     transformed_data_list = []
     # surround the json with '[' ']' to prepare it for conversion
-    data = '[%s]' % data
+    data = '[%s]' % data.decode('utf-8')
     data_json = json.loads(data)
 
     transformed_data_list = ([parse_json(d) for d in data_json])
@@ -29,7 +29,7 @@ def output_transformer(data):
 
 if __name__ == '__main__':
     # purposely leaving off the '[' ']' around these json lines
-    input_str = '{"feature0":0, "feature1":1, "feature2":2, "feature3":3}, \
+    input_str = b'{"feature0":0, "feature1":1, "feature2":2, "feature3":3}, \
                  {"feature0":10, "feature1":11, "feature2":12, "feature3":13}'
 
     transformed_input = input_transformer(input_str)
