@@ -42,9 +42,9 @@ class MainHandler(tornado.web.RequestHandler):
         model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
         if model_key in model_registry:
             model = model_registry[model_key]
-            model_registry[model_key] = model
         else:
-            model = load_model(model_namespace, model_name, model_version)
+            (model_absolute_path, model) = load_model(model_namespace, model_name, model_version)
+            model_registry[model_key] = model
         command.model = model
         command.inputs = input_transformer(self.request.body)
         return command
