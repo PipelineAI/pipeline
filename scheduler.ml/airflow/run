@@ -1,11 +1,15 @@
 #!/bin/bash
 
 if [ ! -f $AIRFLOW_HOME/dags ]; then
-  cd $AIRFLOW_HOME && ln -s /root/volumes/source.ml/scheduler.ml/airflow/dags 
+  cd $AIRFLOW_HOME && ln -s /root/volumes/source.ml/scheduler.ml/airflow/dags
 fi
 
 if [ ! -f $AIRFLOW_HOME/triggers ]; then
   cd $AIRFLOW_HOME && ln -s /root/volumes/source.ml/scheduler.ml/airflow/triggers
+fi
+
+if [ ! -f $AIRFLOW_HOME/airflow.cfg ]; then
+  cd $AIRFLOW_HOME && ln -s $CONFIGMAP_HOME/airflow/airflow.cfg
 fi
 
 /usr/local/bin/dockerd
@@ -15,7 +19,7 @@ sleep 2
 
 # TODO:  Don't re-init upon process restart
 airflow initdb
-sleep 2 
+sleep 2
 
 # TODO:  Separate these out into separate containers - perhaps in same pod
 airflow flower &
@@ -24,4 +28,4 @@ airflow webserver &
 
 airflow worker &
 
-airflow scheduler 
+airflow scheduler

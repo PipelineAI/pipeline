@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap metastore-config --from-file=metastore
