@@ -1,0 +1,599 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="author" value="JMeter developers">
+<meta name="email" value="dev@jmeter.apache.org">
+
+<title>Apache JMeter - User's Manual: My boss wants me to …</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="component_reference.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="best-practices.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="boss"><strong>18. Help! My boss wants me to load test our application!</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+This is a fairly open-ended proposition. There are a number of questions to
+be asked first, and additionally a number of resources that will be needed. You
+will need some hardware to run the benchmarks/load-tests from. A number of
+tools will prove useful. There are a number of products to consider.  And finally,
+why is Java a good choice to implement a load-testing/Benchmarking product.
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="questions"><strong>18.1 Questions to ask</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+What is our anticipated average number of users (normal load)?
+
+</p>
+<p>
+What is our anticipated peak number of users?
+
+</p>
+<p>
+When is a good time to load-test our application (i.e. off-hours or week-ends),
+bearing in mind that this may very well crash one or more of our servers?
+
+</p>
+<p>
+Does our application have state? If so, how does our application manage it
+(cookies, session-rewriting, or some other method)?
+
+</p>
+<p>
+What is the testing intended to achieve?
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="resources"><strong>18.2 Resources</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+The following resources will prove very helpful. Bear in mind that if you
+cannot locate these resources, 
+<b>
+you
+</b>
+ will become these resources. As you
+already have your work cut out for you, it is worth knowing who the following
+people are, so that you can ask them for help if you need it.
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="network"><strong>18.2.1 Network</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Who knows our network topology? If you run into any firewall or
+    proxy issues, this will become very important. As well, a private
+    testing network (which will therefore have very low network latency)
+    would be a very nice thing. Knowing who can set one up for you
+    (if you feel that this is necessary) will be very useful. If the
+    application doesn't scale as expected, who can add additional
+    hardware?
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="application"><strong>18.2.2 Application</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Who knows how our application functions? The normal sequence is
+    
+<ul>
+
+        
+<li>
+test (low-volume - can we benchmark our application?)
+</li>
+
+        
+<li>
+benchmark (the average number of users)
+</li>
+
+        
+<li>
+load-test (the maximum number of users)
+</li>
+
+        
+<li>
+test destructively (what is our hard limit?)
+</li>
+
+    
+</ul>
+
+    The 
+<b>
+test
+</b>
+ process may progress from black-box testing to
+    white-box testing (the difference is that the first requires
+    no knowledge of the application [it is treated as a "black box"]
+    while the second requires some knowledge of the application).
+    It is not uncommon to discover problems with the application
+    during this process, so be prepared to defend your work.
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="platform"><strong>18.3 What platform should I use to run the benchmarks/load-tests?</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+This should be a widely-used piece of hardware, with a standard
+(i.e. vanilla) software installation. Remember, if you publish your results,
+the first thing your clients will do is hire a graduate student to verify them.
+You might as well make it as easy for this person as you possibly can.
+
+</p>
+<p>
+For Windows, Windows XP Professional should be a minimum (the others
+do not multi-thread past 50-60 connections, and you probably anticipate
+more users than that).
+
+</p>
+<p>
+Good free platforms include the linuxes, the BSDs, and Solaris Intel. If
+you have a little more money, there are commercial linuxes.
+This may be worth it if you need the support.
+
+</p>
+<p>
+
+For non-Windows platforms, investigate "
+<tt class="code">ulimit -n unlimited
+</tt>
+" with a view to
+including it in your user account startup scripts (
+<tt class="code">.bashrc
+</tt>
+ or 
+<tt class="code">.cshrc
+</tt>
+ scripts
+for the testing account).
+
+</p>
+<p>
+
+Also note that some Linux/Unix editions are intended for server use.
+These generally have minimal or no GUI support.
+Such OSes should be OK for running JMeter in non-GUI mode, but JMeter GUI mode probably won't work
+unless you install a minimal GUI environment.
+
+</p>
+<p>
+As you progress to larger-scale benchmarks/load-tests, this platform
+will become the limiting factor. So it's worth using the best hardware and
+software that you have available. Remember to include the hardware/software
+configuration in your published benchmarks.
+
+</p>
+<p>
+<b>
+When you need a lot of machines or want to test the network latency, Cloud can help you.
+</b>
+
+JMeter can easily be installed on Cloud instances as it runs on nearly any architecture available in the Cloud.
+JMeter is also supported within Commercial Cloud PAAS if you don't want to manage it yourself. 
+
+</p>
+<p>
+Don't forget JMeter batch (NON-GUI) mode. This mode should be used during load testing for many reasons:
+
+<ul>
+
+
+<li>
+If you have a powerful server that supports Java but perhaps does not have a fast graphics implementation, or where you need to login remotely.
+</li>
+
+
+<li>
+Batch (non-GUI) mode can reduce the network traffic compared with using a remote display or client-server mode.
+</li>
+
+
+<li>
+Java AWT Thread used for GUI mode can alter injection behaviour by blocking sometimes
+</li>
+
+
+</ul>
+
+The batch log file can then be loaded into JMeter on a workstation for analysis, or you can
+use CSV output and import the data into a spreadsheet.
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Remember GUI mode is for Script creation and debugging, not for load testing
+</td></tr>
+</table>
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="tools"><strong>18.4 Tools</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+The following tools will all prove useful. It is definitely worthwhile to
+become familiar with them. This should include trying them out, and reading the
+appropriate documentation (man-pages, info-files, application --help messages,
+and any supplied documentation).
+
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="ping"><strong>18.4.1 ping</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    This can be used to establish whether or not you can reach your
+    target site. Options can be specified so that '
+<tt class="code">ping
+</tt>
+' provides the
+    same type of route reporting as '
+<tt class="code">traceroute
+</tt>
+'.
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="dig"><strong>18.4.2 nslookup/dig</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    While the 
+<b>
+user
+</b>
+ will normally use a human-readable internet
+    address, 
+<b>
+you
+</b>
+ may wish to avoid the overhead of DNS lookups when
+    performing benchmarking/load-testing. These can be used to determine
+    the unique address (dotted quad) of your target site.
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="traceroute"><strong>18.4.3 traceroute</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    If you cannot "
+<tt class="code">ping
+</tt>
+" your target site, this may be used to determine 
+    the problem (possibly a firewall or a proxy). It can also be used
+    to estimate the overall network latency (running locally should give
+    the lowest possible network latency - remember that your users will
+    be running over a possibly busy internet). Generally, the fewer hops
+    the better.
+    
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="plugins"><strong>18.5 How can I enhance JMeter?</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+There a lot of open-source and commercial providers who provide JMeter plugins or other resources for use with JMeter.
+Some of these are listed on the JMeter Wiki.
+They are listed under several categories:
+
+<ul>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/JMeterPlugins">
+JMeterPlugins
+</a>
+ - plugins for extending JMeter
+</li>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/JMeterAddons">
+JMeterAddons
+</a>
+ - addons for use with JMeter, e.g. plugins for browsers, Maven and Jenkins.
+</li>
+
+
+<li>
+<a href="http://wiki.apache.org/jmeter/JMeterServices">
+JMeterServices
+</a>
+ - 3
+<sup>
+rd
+</sup>
+ party services, e.g. cloud-based JMeter
+</li>
+
+
+</ul>
+
+Note that appearance of these on the Wiki does not imply any endorsement by the Apache JMeter project.
+Any requests for support should be directed to the relevant supplier.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="java"><strong>18.6 Why Java?</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Why not Perl or C?
+
+</p>
+<p>
+Well, Perl might be a very good choice except that the Benchmark package
+seems to give fairly fuzzy results. Also, simulating multiple users with
+Perl is a tricky proposition (multiple connections can be simulated by forking
+many processes from a shell script, but these will not be threads, they will
+be processes). However, the Perl community is very large. If you find that
+someone has already written something that seems useful, this could be a very
+good solution.
+
+</p>
+<p>
+C, of course, is a very good choice (check out the Apache 
+<tt class="code">ab
+</tt>
+ tool).
+But be prepared to write all of the custom networking, threading, and state
+management code that you will need to benchmark your application.
+
+</p>
+<p>
+Java gives you (for free) the custom networking, threading, and state
+management code that you will need to benchmark your application. Java is
+aware of HTTP, FTP, and HTTPS - as well as RMI, IIOP, and JDBC (not to mention
+cookies, URL-encoding, and URL-rewriting). In addition Java gives you automatic
+garbage-collection, and byte-code level security.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="component_reference.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="best-practices.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: boss.xml 1767466 2016-11-01 10:12:37Z fschumacher $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

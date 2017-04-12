@@ -1,0 +1,8786 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Apache JMeter - User's Manual: Properties Reference</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="functions.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="component_reference.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table width="100%">
+<tr><td valign="top">
+<ul>
+<li><a href="#introduction">20 Introduction</a></li>
+<ul>
+</ul>
+<li><a href="#language">20.1 Language</a></li>
+<ul>
+</ul>
+<li><a href="#xml_parser">20.2 XML Parser</a></li>
+<ul>
+</ul>
+<li><a href="#ssl_config">20.3 SSL configuration</a></li>
+<ul>
+</ul>
+<li><a href="#laf_config">20.4 Look and Feel configuration</a></li>
+<ul>
+</ul>
+<li><a href="#toolbar_display">20.5 Toolbar display</a></li>
+<ul>
+</ul>
+<li><a href="#backup">20.6 JMX Backup configuration</a></li>
+<ul>
+</ul>
+<li><a href="#remote">20.7 Remote hosts and RMI configuration</a></li>
+<ul>
+</ul>
+<li><a href="#include_controller">20.8 Include Controller</a></li>
+<ul>
+</ul>
+<li><a href="#logging">20.9 Logging Configuration</a></li>
+<ul>
+</ul>
+<li><a href="#http_java_config">20.10 HTTP Java configuration</a></li>
+<ul>
+</ul>
+<li><a href="#httpclient_common_properties">20.11 Commons and Apache HttpClient common properties</a></li>
+<ul>
+</ul>
+<li><a href="#kerberos">20.12 Kerberos properties</a></li>
+<ul>
+</ul>
+<li><a href="#log_levels_commons_httpclient">20.13 Sample logging levels for Commons HttpClient</a></li>
+<ul>
+</ul>
+<li><a href="#httpclient_logging_examples">20.14 Apache HttpClient logging examples</a></li>
+<ul>
+</ul>
+<li><a href="#httpclient4">20.15 Apache HttpComponents HTTPClient configuration (HTTPClient4)</a></li>
+<ul>
+</ul>
+<li><a href="#httpclient31">20.16 Apache HttpComponents Commons HTTPClient configuration (HTTPClient 3.1)</a></li>
+<ul>
+</ul>
+<li><a href="#cache_maanger">20.17 HTTP Cache Manager configuration</a></li>
+<ul>
+</ul>
+<li><a href="#results_file_config">20.18 Results file configuration</a></li>
+<ul>
+</ul>
+<li><a href="#sample_results">20.19 Settings that affect SampleResults</a></li>
+<ul>
+</ul>
+<li><a href="#upgrade">20.20 Upgrade</a></li>
+<ul>
+</ul>
+</ul></td><td valign="top"><ul>
+<li><a href="#test_script_recorder">20.21 JMeter Test Script recorder configuration</a></li>
+<ul>
+</ul>
+<li><a href="#test_script_recorder_cert">20.22 Test Script Recorder certificate configuration</a></li>
+<ul>
+</ul>
+<li><a href="#proxy_config">20.23 JMeter Proxy configuration</a></li>
+<ul>
+</ul>
+<li><a href="#parser_config">20.24 HTML Parser configuration</a></li>
+<ul>
+</ul>
+<li><a href="#remote_batching_config">20.25 Remote batching configuration</a></li>
+<ul>
+</ul>
+<li><a href="#jdbc_request">20.26 JDBC Request configuration</a></li>
+<ul>
+</ul>
+<li><a href="#os_sampler">20.27 OS Process Sampler configuration</a></li>
+<ul>
+</ul>
+<li><a href="#tcp_sampler">20.28 TCP Sampler configuration</a></li>
+<ul>
+</ul>
+<li><a href="#summariser">20.29 Summariser - Generate Summary Results - configuration (mainly applies to non-GUI mode)</a></li>
+<ul>
+</ul>
+<li><a href="#aggregate_report_graph">20.30 Aggregate Report and Aggregate Graph - configuration</a></li>
+<ul>
+</ul>
+<li><a href="#backend">20.31 BackendListener - configuration</a></li>
+<ul>
+</ul>
+<li><a href="#beanshell">20.32 BeanShell configuration</a></li>
+<ul>
+</ul>
+<li><a href="#mailer">20.33 MailerModel configuration</a></li>
+<ul>
+</ul>
+<li><a href="#csv">20.34 CSVRead configuration</a></li>
+<ul>
+</ul>
+<li><a href="#time">20.35 __time() function configuration</a></li>
+<ul>
+</ul>
+<li><a href="#csv_dataset">20.36 CSV DataSet configuration</a></li>
+<ul>
+</ul>
+<li><a href="#ldap">20.37 LDAP Sampler configuration</a></li>
+<ul>
+</ul>
+<li><a href="#miscellaneous">20.38 Miscellaneous configuration</a></li>
+<ul>
+</ul>
+<li><a href="#classpath">20.39 Classpath configuration</a></li>
+<ul>
+</ul>
+<li><a href="#reporting">20.40 Reporting configuration</a></li>
+<ul>
+</ul>
+<li><a href="#properties">20.41 Additional property files to load</a></li>
+<ul>
+</ul>
+<li><a href="#validation">20.42 Thread Group Validation feature</a></li>
+<ul>
+</ul>
+<li><a href="#timer">20.43 Timer related feature</a></li>
+<ul>
+</ul>
+</ul>
+</td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="introduction"><strong>20 Introduction</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+
+
+<p>
+
+This document describes JMeter properties. The properties present in 
+<tt class="code">jmeter.properties
+</tt>
+ or 
+<tt class="code">reportgenerator.properties
+</tt>
+ should be set in the 
+<tt class="code">user.properties
+</tt>
+ file.
+These properties are only taken into account after restarting JMeter as they are usually resolved when the class is loaded.
+
+</p>
+
+
+</description>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="language"><strong>20.1 Language</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>language</td>
+<td>
+    Preferred GUI language. Comment out to use the JVM default locale's language.
+<br>
+
+
+    Example: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>language=en
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>This property is the only one that must be set in 
+<tt class="code">jmeter.properties
+</tt>
+ file
+</td></tr>
+</table>
+</p>
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>To fully configure language ensure you set locale, see 
+<a href="http://www.oracle.com/us/technologies/java/locale-140624.html">
+Internationalization: Understanding Locale in the Java Platform
+</a>
+.
+    Example for English:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>-Duser.language=en -Duser.region=EN
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+</td></tr>
+</table>
+</p>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>locales.add</td>
+<td>
+    Additional locale(s) to add to the displayed list.
+<br>
+
+
+    The current default list is: 
+<tt class="code">en
+</tt>
+, 
+<tt class="code">fr
+</tt>
+,
+    
+<tt class="code">de
+</tt>
+, 
+<tt class="code">no
+</tt>
+, 
+<tt class="code">es
+</tt>
+, 
+<tt class="code">tr
+</tt>
+,
+    
+<tt class="code">ja
+</tt>
+, 
+<tt class="code">zh_CN
+</tt>
+,
+    
+<tt class="code">zh_TW
+</tt>
+, 
+<tt class="code">pl
+</tt>
+, 
+<tt class="code">pt_BR
+</tt>
+.
+<br>
+
+
+    See 
+<tt class="code">JMeterMenuBar#makeLanguageMenu()
+</tt>
+<br>
+
+
+    The entries are a comma-separated list of language names.
+<br>
+
+
+    Example: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>locales.add=zu
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="xml_parser"><strong>20.2 XML Parser</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>xpath.namespace.config</td>
+<td>
+    Path to a Properties file containing Namespace mapping in the form 
+<tt class="code">prefix=Namespace
+</tt>
+.
+    Example: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>ns=http://biz.aol.com/schema/2006-12-18
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="ssl_config"><strong>20.3 SSL configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>SSL (Java) System properties are now in 
+<tt class="code">system.properties
+</tt>
+<br>
+
+ 
+JMeter no longer converts 
+<tt class="code">javax.
+<em>
+xxx
+</em>
+</tt>
+ property entries in this file into System properties.
+<br>
+
+
+These must now be defined in the 
+<tt class="code">system.properties
+</tt>
+ file or on the command-line.
+<br>
+
+
+The 
+<tt class="code">system.properties
+</tt>
+ file gives more flexibility.
+</td></tr>
+</table>
+</p>
+<property name="https.sessioncontext.shared">
+
+    By default, SSL session contexts are now created per-thread, rather than being shared.
+<br>
+
+
+    The old behaviour can be enabled by setting this property to 
+<tt class="code">true
+</tt>
+. Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</property>
+<property name="https.default.protocol">
+
+    Be aware that https default protocol may vary depending on the version of JVM.
+    See 
+<a href="https://blogs.oracle.com/java-platform-group/entry/diagnosing_tls_ssl_and_https" target="_blank">
+Diagnosing TLS, SSL and HTTPS
+</a>
+
+    and 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58236">Bug 58236</a>
+.
+    Default HTTPS protocol level: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>https.default.protocol=TLS
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    This may need to be changed to: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>https.default.protocol=SSLv3
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</property>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>https.socket.protocols</td>
+<td>
+    List of protocols to enable. You may have to select only a subset if you find issues with target server.
+<br>
+
+
+    This is needed when server does not support Socket version negotiation, this can lead to errors like:
+    
+<tt class="code">javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+</tt>
+
+    or 
+<tt class="code">java.net.SocketException: Connection reset
+</tt>
+.
+<br>
+
+
+    See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=54759">Bug 54759</a>
+, example: 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>https.socket.protocols=SSLv2Hello SSLv3 TLSv1
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>https.use.cached.ssl.context</td>
+<td>
+    Control if we allow reuse of cached SSL context between iterations.
+<br>
+
+
+    Set the value to 
+<tt class="code">false
+</tt>
+ to reset the SSL context each iteration.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>https.keyStoreStartIndex</td>
+<td>
+    Start index to be used with keystores with many entries.
+<br>
+
+
+    The default is to use entry 
+<tt class="code">0
+</tt>
+, i.e. the first.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>https.keyStoreEndIndex</td>
+<td>
+    End index to be used with keystores with many entries.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="laf_config"><strong>20.4 Look and Feel configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jmeter.laf.windows_10</td>
+<td>
+    Classname of the Swing default UI
+<br>
+
+
+    The LAF classnames that are available are now displayed as ToolTip text when hovering over
+    the Options/Look and Feel selection list.
+<br>
+
+
+    You can either use a full class name, as shown below, or one of the strings "
+<tt class="code">System
+</tt>
+"
+    or "
+<tt class="code">CrossPlatform
+</tt>
+" which means JMeter will use the
+    corresponding string returned by 
+<tt class="code">UIManager.get<name>LookAndFeelClassName()
+</tt>
+.
+<br>
+
+
+    LAF can be overridden by 
+<tt class="code">os.name
+</tt>
+ (lowercased, spaces replaced by '_').
+<br>
+
+
+    
+<a name="order-laf-lookup"/>
+<p><b>Order of LAF property lookup</b></p>
+
+        Take for example an 
+<tt class="code">os.name
+</tt>
+ of 
+<tt class="code">Windows 10
+</tt>
+.
+<br>
+
+
+        JMeter would look first for a property
+        
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.laf.windows_10=javax.swing.plaf.metal.MetalLookAndFeel
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+        Failing that, the OS family 
+<tt class="code">os.name
+</tt>
+ would be used shortened to the first space. In our example
+        JMeter would therefore look for a property
+        
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.laf.windows=com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+        Mac apparently looks better with the System LAF set through
+        
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.laf.mac=System
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+        Failing that, the JMeter default laf can be defined through:
+        
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.laf=System
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+        If none of the above 
+<tt class="code">jmeter.laf
+</tt>
+ properties are defined, JMeter uses the 
+<tt class="code">CrossPlatform
+</tt>
+ LAF.
+        This is because the 
+<tt class="code">CrossPlatform
+</tt>
+ LAF generally looks better than the 
+<tt class="code">System
+</tt>
+ LAF.
+        See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=52026">Bug 52026</a>
+ for details.
+    
+</td></tr>
+</table>
+</p>
+
+ 
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.loggerpanel.display</td>
+<td>
+    Display LoggerPanel.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.loggerpanel.enable_when_closed</td>
+<td>
+    Enable LogViewer Panel to receive log event even when closed.
+<br>
+
+
+    Enabled since 2.12
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note this has some impact on performances, but as GUI mode must not be used for Load Test it is acceptable
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.loggerpanel.maxlength</td>
+<td>
+     Max characters kept in LoggerPanel, 
+<tt class="code">0
+</tt>
+ means no limit.
+<br>
+
+
+     Defaults to: 
+<tt class="code">80000
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="toolbar_display"><strong>20.5 Toolbar display</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jmeter.toolbar.icons</td>
+<td>
+    Toolbar icon definitions.
+<br>
+
+
+    Defaults to 
+<tt class="code">org/apache/jmeter/images/toolbar/icons-toolbar.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.toolbar</td>
+<td>
+    Toolbar list.
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>new,open,close,save,save_as_testplan,|,cut,copy,paste,|,expand,collapse,toggle,|,test_start,test_stop,test_shutdown,|,test_start_remote_all,test_stop_remote_all,test_shutdown_remote_all,|,test_clear,test_clear_all,|,search,search_reset,|,function_helper,help
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.toolbar.icons.size</td>
+<td>
+    Available sizes are: 
+<tt class="code">22x22
+</tt>
+, 
+<tt class="code">32x32
+</tt>
+, 
+<tt class="code">48x48
+</tt>
+. Suggested value for HiDPI mode is
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.toolbar.icons.size=48x48
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Defaults to: 
+<tt class="code">22x22
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.icons</td>
+<td>
+    Icon definitions. Alternate set: 
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.icons=org/apache/jmeter/images/icon_1.properties
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Historical icon set (deprecated):
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter.icons=org/apache/jmeter/images/icon_old.properties
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Defaults to:
+<tt class="code">org/apache/jmeter/images/icon.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.tree.icons.size</td>
+<td>
+    Available sizes are: 
+<tt class="code">19x19
+</tt>
+, 
+<tt class="code">24x24
+</tt>
+, 
+<tt class="code">32x32
+</tt>
+, 
+<tt class="code">48x48
+</tt>
+.
+    Useful for HiDPI display (see below).
+<br>
+
+
+    Defaults to: 
+<tt class="code">19x19
+</tt>
+<br>
+
+
+    Suggested value for HiDPI screen like 3200x1800 is: 
+<tt class="code">32x32
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.hidpi.mode</td>
+<td>
+    HiDPI mode. Activate a '
+<em>
+pseudo
+</em>
+'-HiDPI mode. Allows to increase size of some UI
+    elements which are not correctly managed by JVM with high resolution screens in Linux or Windows.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.hidpi.scale.factor</td>
+<td>
+    HiDPI scale factor. Suggested value for HiDPI: 
+<tt class="code">2.0
+</tt>
+.
+    Defaults to: 
+<tt class="code">1.0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>not_in_menu</td>
+<td>
+    Components to not display in JMeter GUI (GUI class name or static label).
+<br>
+
+
+    These elements are deprecated and will be removed in next version:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>MongoDB Script, MongoDB Source Config
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.protocol.mongodb.sampler.MongoScriptSampler, org.apache.jmeter.protocol.mongodb.config.MongoSourceElement
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>undo.history.size</td>
+<td>
+    Number of items in undo history.
+<br>
+
+
+    Feature is disabled by default (
+<tt class="code">0
+</tt>
+) due to known and not fixed bugs
+    
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57043">Bug 57043</a>
+, 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57039">Bug 57039</a>
+ and 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=57040">Bug 57040</a>
+.
+    Set it to a number greater than zero (
+<tt class="code">25
+</tt>
+ can be a good default).
+<br>
+
+
+    The bigger it is, the more memory will be consumed.
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>gui.quick_X</td>
+<td>
+    Hotkeys to add JMeter components where 
+<tt class="code"><em>
+X
+</em>
+</tt>
+ is the shortcut key, for example:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+gui.quick_0=ThreadGroupGui
+gui.quick_1=HttpTestSampleGui
+gui.quick_2=RegexExtractorGui
+gui.quick_3=AssertionGui
+gui.quick_4=ConstantTimerGui
+gui.quick_5=TestActionGui
+gui.quick_6=JSR223PostProcessor
+gui.quick_7=JSR223PreProcessor
+gui.quick_8=DebugSampler
+gui.quick_9=ViewResultsFullVisualizer
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Above code will add the corresponding elements when you press
+    
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">0</span></span> …
+    
+<span class="keycombo"><span class="keysym">Ctrl</span>&nbsp;+&nbsp;<span class="keysym">9</span></span>
+    (
+<span class="keycombo"><span class="keysym">⌘</span>&nbsp;+&nbsp;<span class="keysym">0</span></span> …
+    
+<span class="keycombo"><span class="keysym">⌘</span>&nbsp;+&nbsp;<span class="keysym">9</span></span> on Mac)
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="backup"><strong>20.6 JMX Backup configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jmeter.gui.action.save.backup_on_save</td>
+<td>
+    Enable auto backups of the 
+<tt class="code">.jmx
+</tt>
+ file when a test plan is saved.
+<br>
+
+
+    When enabled, before the 
+<tt class="code">.jmx
+</tt>
+ is saved, it will be backed up to the directory
+    pointed to by the 
+<tt class="code">jmeter.gui.action.save.backup_directory
+</tt>
+ property (see below).
+    Backup file names are built after the jmx file being saved. For example,
+    saving 
+<tt class="code">test-plan.jmx
+</tt>
+ will create a 
+<tt class="code">test-plan-000012.jmx
+</tt>
+ in the backup
+    directory provided that the last created backup file is 
+<tt class="code">test-plan-000011.jmx
+</tt>
+.
+<br>
+
+
+    Default value is 
+<tt class="code">true
+</tt>
+ indicating that auto backups are enabled.
+<br>
+
+ 
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.gui.action.save.backup_directory</td>
+<td>
+    Set the backup directory path where JMX backups will be created upon save in the GUI.
+<br>
+
+
+    If not set (what it defaults to) then backup files will be created in a sub-directory of
+    the JMeter base installation. If set and the directory does not exist, a corresponding directory will be created.
+<br>
+
+
+    Defaults to: 
+<tt class="code">${JMETER_HOME}/backups
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.gui.action.save.keep_backup_max_hours</td>
+<td>
+    Set the maximum time (in hours) that backup files should be preserved since the save time.
+<br>
+
+
+    By default no expiration time is set which means we keep backups for ever.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.gui.action.save.keep_backup_max_count</td>
+<td>
+    Set the maximum number of backup files that should be preserved.
+    By default ten backups will be preserved.
+<br>
+
+
+    Setting this to zero will cause the backups to not being deleted (unless 
+<tt class="code">keep_backup_max_hours
+</tt>
+
+    is set to a non zero value).
+<br>
+
+
+    Defaults to: 
+<tt class="code">10
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="remote"><strong>20.7 Remote hosts and RMI configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>remote_hosts</td>
+<td>
+    Remote Hosts - comma delimited, for example
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>remote_hosts=localhost:1099,localhost:2010
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Defaults to: 
+<tt class="code">127.0.0.1
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>
+    RMI port to be used by the server (must start 
+<tt class="code">rmiregistry
+</tt>
+ with same port).
+    To change the port to (say) 
+<tt class="code">1234
+</tt>
+:
+<br>
+
+
+    On the server(s):
+    
+<ul>
+
+        
+<ol>
+<tt class="code">set server_port=1234
+</tt>
+</ol>
+
+        
+<ol>
+start 
+<tt class="code">rmiregistry
+</tt>
+ with port 
+<tt class="code">1234
+</tt>
+</ol>
+
+    
+</ul>
+
+    On Windows this can be done by:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>SET SERVER_PORT=1234
+JMETER-SERVER
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    On Unix:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>SERVER_PORT=1234 jmeter-server
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    On the windows client:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>set remote_hosts=
+<em>
+server
+</em>
+:1234
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    On the unix client:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>export remote_hosts=
+<em>
+server
+</em>
+:1234
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Defaults to: 
+<tt class="code">1099
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>client.rmi.localport</td>
+<td>
+    Parameter that controls the RMI port used by the 
+<tt class="code">RemoteSampleListenerImpl
+</tt>
+ (The Controler)
+<br>
+
+
+    Default value is 
+<tt class="code">0
+</tt>
+, which means port is randomly assigned.
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>You may need to open a port in the firewall on the Controller machine.
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>client.tries</td>
+<td>
+    When distributed test is starting, there may be several attempts to initialize remote engines.
+<br>
+
+
+    By default, only a single try is made. Increase this property to make it retry additional times.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>client.retries_delay</td>
+<td>
+    If initialization is retried, this property sets the delay between those attempts in milliseconds.
+<br>
+
+
+    Defaults to: 
+<tt class="code">5000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>client.continue_on_fail</td>
+<td>
+    When all initialization tries were made, the test will fail, if any remote engines are failed.
+<br>
+
+
+    Set this property to 
+<tt class="code">true
+</tt>
+ to ignore failed nodes and proceed with test.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>server.rmi.port</td>
+<td>
+    To change the default port (
+<tt class="code">1099
+</tt>
+) used to access the server.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1099
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>server.rmi.localport</td>
+<td>
+    To use a specific port for the JMeter server engine, define this property before starting the server.
+<br>
+
+
+    Defaults to: 
+<tt class="code">4000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>server.rmi.create</td>
+<td>
+    From JMeter version 2.3.1, the jmeter server creates the RMI registry as part of the server process.
+<br>
+
+
+    Set this property to 
+<tt class="code">false
+</tt>
+, to stop the server creating the RMI registry.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>server.exitaftertest</td>
+<td>
+    From JMeter version 2.3.1, define this property to cause JMeter to exit after the first test.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="include_controller"><strong>20.8 Include Controller</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>includecontroller.prefix</td>
+<td>
+    Prefix used by 
+<tt class="code">IncludeController
+</tt>
+ when building file names.
+<br>
+
+
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="logging"><strong>20.9 Logging Configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+
+    JMeter uses Avalon (Excalibur) LogKit.
+    The Logging Format is described 
+<a href="http://excalibur.apache.org/apidocs/org/apache/log/format/PatternFormatter.html" target="_blank">
+here
+</a>
+<br>
+
+
+    Default format:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_format=%{time:yyyy/MM/dd HH:mm:ss} %5.5{priority} - %{category}: %{message} %{throwable}
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td><tt class="code">\n
+</tt>
+ is automatically added to the end of the string.
+</td></tr>
+</table>
+</p>
+
+    Predefined formats in the JMeter LoggingManager:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>#log_format_type=default
+#log_format_type=thread_prefix
+#log_format_type=thread_suffix
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+<dl>
+
+        
+<dt>
+<tt class="code">default
+</tt>
+</dt>
+<dd>
+is as above.
+</dd>
+
+        
+<dt>
+<tt class="code">thread_prefix
+</tt>
+</dt>
+<dd>
+adds the thread name as a prefix to the category.
+</dd>
+
+        
+<dt>
+<tt class="code">thread_suffix
+</tt>
+</dt>
+<dd>
+adds the thread name as a suffix to the category.
+</dd>
+
+    
+</dl>
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Thread name is not included by default, as it requires extra processing.
+</td></tr>
+</table>
+</p>
+
+
+    To change the logging format, define either 
+<tt class="code">log_format_type
+</tt>
+ or 
+<tt class="code">log_format
+</tt>
+
+    If both are defined, the type takes precedence.
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note that these properties cannot be defined using the 
+<tt class="code">-J
+</tt>
+ or 
+<tt class="code">-D
+</tt>
+ JMeter
+    command-line flags, as the format will have already been determined by then.
+    However, they can be defined as JVM properties.
+</td></tr>
+</table>
+</p>
+
+    Logging levels for the logging categories in JMeter.
+    Correct values are:
+    
+<ul>
+
+        
+<li>
+<tt class="code">FATAL_ERROR
+</tt>
+</li>
+
+        
+<li>
+<tt class="code">ERROR
+</tt>
+</li>
+
+        
+<li>
+<tt class="code">WARN
+</tt>
+</li>
+
+        
+<li>
+<tt class="code">INFO
+</tt>
+</li>
+
+        
+<li>
+<tt class="code">DEBUG
+</tt>
+</li>
+
+    
+</ul>
+
+
+    To set the log level for a package or individual class, use:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+log_level.[package_name].[classname]=[PRIORITY_LEVEL]
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    But omit 
+<tt class="code">org.apache
+</tt>
+ from the package name. The classname is optional. Further examples below.
+
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+log_level.jmeter=INFO
+log_level.jmeter.junit=DEBUG
+log_level.jmeter.control=DEBUG
+log_level.jmeter.testbeans=DEBUG
+log_level.jmeter.engine=DEBUG
+log_level.jmeter.threads=DEBUG
+log_level.jmeter.gui=WARN
+log_level.jmeter.testelement=DEBUG
+log_level.jmeter.util=WARN
+log_level.jmeter.protocol.http=DEBUG
+# For CookieManager, AuthManager etc:
+log_level.jmeter.protocol.http.control=DEBUG
+log_level.jmeter.protocol.ftp=WARN
+log_level.jmeter.protocol.jdbc=DEBUG
+log_level.jmeter.protocol.java=WARN
+log_level.jmeter.testelements.property=DEBUG
+log_level.jorphan=INFO
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+    You can specify a different log file for different categories via:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_file.[category]=[filename]
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    
+<tt class="code">category
+</tt>
+ is equivalent to the package/class names described above.
+<br>
+
+
+
+    Combined log file (for 
+<tt class="code">jmeter
+</tt>
+ and 
+<tt class="code">jorphan
+</tt>
+)
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_file=jmeter.log
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+    To redirect logging to standard output, try the following (it will probably report an error, but output will be to 
+<tt class="code">stdout
+</tt>
+):
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_file=
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+    Or define separate logs if required:
+   
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_file.jorphan=jorphan.log
+log_file.jmeter=jmeter.log
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+    If the filename contains paired single-quotes, then the name is processed as 
+    a 
+<tt class="code">SimpleDateFormat
+</tt>
+ format applied to the current date, for example:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_file='jmeter_'yyyyMMddHHmmss'.tmp'
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+    When JMeter starts, it sets the system property:
+    
+<tt class="code">org.apache.commons.logging.Log
+</tt>
+ to
+    
+<tt class="code">org.apache.commons.logging.impl.LogKitLogger
+</tt>
+
+    if not already set. This causes Apache and Commons HttpClient to use the same logging as JMeter.
+<br>
+
+
+
+    Excalibur logging provides the facility to configure logging using configuration files written in XML. This allows for such features as
+    log file rotation, which are not supported directly by JMeter. If such a file is specified, it will be applied to the current logging
+    hierarchy when that has been created.
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_config=logkit.xml
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</description>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="http_java_config"><strong>20.10 HTTP Java configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>http.java.sampler.retries</td>
+<td>
+    Number of connection retries performed by HTTP Java sampler before giving up.
+    
+<tt class="code">0
+</tt>
+ means no retry since version 3.0.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="httpclient_common_properties"><strong>20.11 Commons and Apache HttpClient common properties</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>httpclient.timeout</td>
+<td>
+    Set the socket timeout (or use the parameter 
+<tt class="code">http.socket.timeout
+</tt>
+) for
+    AJP Sampler and HttpClient3 implementation.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note for HttpClient3 implementation it is better to use GUI to set timeout or
+    use 
+<tt class="code">http.socket.timeout
+</tt>
+ in 
+<tt class="code">httpclient.parameters
+</tt>
+.
+</td></tr>
+</table>
+</p>
+
+    Value is in milliseconds, 
+<tt class="code">0
+</tt>
+ means no timeout.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient.version</td>
+<td>
+    Set the http version.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1.1
+</tt>
+ (or use the parameter 
+<tt class="code">http.protocol.version
+</tt>
+)
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient.socket.http.cps</td>
+<td>
+    Set characters per second to a value greater then zero to emulate slow connections.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient.socket.https.cps</td>
+<td>
+    Same as before but for https.
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient.loopback</td>
+<td>
+    Enable loopback protocol.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient.localaddress</td>
+<td>
+    Define the local host address to be used for multi-homed hosts,
+    example 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>httpclient.localaddress=1.2.3.4
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="kerberos"><strong>20.12 Kerberos properties</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>kerberos_jaas_application</td>
+<td>
+    AuthManager Kerberos configuration
+<br>
+
+
+    Name of application module used in 
+<tt class="code">jaas.conf
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">JMeter
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>kerberos.spnego.strip_port</td>
+<td>
+    Should port be stripped from urls before constructing SPNs for SPNEGO authentication.
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="log_levels_commons_httpclient"><strong>20.13 Sample logging levels for Commons HttpClient</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+
+    Commons HttpClient Logging information can be found at 
+<a href="http://hc.apache.org/httpclient-3.x/logging.html" target="_blank">
+Logging
+</a>
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note that full category names are used, i.e. must include the 
+<tt class="code">org.apache
+</tt>
+.
+</td></tr>
+</table>
+</p>
+
+    Info level produces no output.
+<br>
+
+
+    Set debug level:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_level.org.apache.commons.httpclient=debug
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Might be useful:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_level.org.apache.commons.httpclient.Authenticator=trace
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+ 
+    Show headers only
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_level.httpclient.wire.header=debug
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Full wire debug produces a lot of output; consider using separate file:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+log_level.httpclient.wire=debug
+log_file.httpclient=httpclient.log
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</description>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="httpclient_logging_examples"><strong>20.14 Apache HttpClient logging examples</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+
+    Enable header wire and context logging - Best for Debugging
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+log_level.org.apache.http=DEBUG
+log_level.org.apache.http.wire=ERROR
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Enable full wire and context logging
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_level.org.apache.http=DEBUG
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Enable context logging for connection management
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>log_level.org.apache.http.impl.conn=DEBUG
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    Enable context logging for connection management / request execution
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+log_level.org.apache.http.impl.conn=DEBUG
+log_level.org.apache.http.impl.client=DEBUG
+log_level.org.apache.http.client=DEBUG
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</description>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="httpclient4"><strong>20.15 Apache HttpComponents HTTPClient configuration (HTTPClient4)</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>hc.parameters.file</td>
+<td>
+    Define a properties file for overriding Apache HttpClient parameters.
+<br>
+
+
+    Uncomment this line if you put anything in 
+<tt class="code">hc.parameters
+</tt>
+ file.
+<br>
+
+
+    Defaults to: 
+<tt class="code">hc.parameters
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient4.retrycount</td>
+<td>
+    Number of retries to attempt.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient4.idletimeout</td>
+<td>
+    Idle connection timeout (in milliseconds) to apply if the server does not send 
+<tt class="code">Keep-Alive
+</tt>
+ headers.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+ (no suggested duration for 
+<tt class="code">Keep-Alive
+</tt>
+)
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient4.validate_after_inactivity</td>
+<td>
+    Check connections if the elapsed time (in milliseconds) since the last use of the connection
+    exceeds this value.
+<br>
+
+
+    Defaults to: 
+<tt class="code">2000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient4.time_to_live</td>
+<td>
+    
+<abbr title="time to live">
+TTL
+</abbr>
+ (in milliseconds) represents an absolute value.
+    No matter what, the connection will not be re-used beyond its TTL.
+<br>
+
+
+    Defaults to: 
+<tt class="code">2000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient4.max_body_retain_size</td>
+<td>
+    Max size in bytes of 
+<tt class="code">PUT
+</tt>
+ body to retain in result sampler.
+    Bigger results will be clipped.
+<br>
+
+
+    Defaults to: 
+<tt class="code">327678
+</tt>
+ (bytes)
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="httpclient31"><strong>20.16 Apache HttpComponents Commons HTTPClient configuration (HTTPClient 3.1)</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>httpclient.parameters.file</td>
+<td>
+    Define a properties file for overriding Commons HttpClient parameters.
+    See 
+<a href="http://hc.apache.org/httpclient-3.x/preference-api.html">
+this
+</a>
+.
+    Uncomment this line if you put anything in 
+<tt class="code">httpclient.parameters
+</tt>
+ file.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpclient3.retrycount</td>
+<td>
+    Number of retries to attempt.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="cache_maanger"><strong>20.17 HTTP Cache Manager configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>cacheable_methods</td>
+<td>
+    Space or comma separated list of methods that can be cached.
+<br>
+
+
+    Defaults to: 
+<tt class="code">GET
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>cache_manager.cached_resource_mode</td>
+<td>
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>N.B. This property is currently a temporary solution for 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56162">Bug 56162</a>
+.
+</td></tr>
+</table>
+</p>
+
+    Since version 2.12, JMeter does not create anymore a Sample Result with a response
+    code of 
+<tt class="code">204
+</tt>
+ for a resource found in cache. This is in line with what browser do.
+<br>
+
+
+    You can choose between three modes:
+    
+<dl>
+
+        
+<dt>
+<tt class="code">RETURN_NO_SAMPLE
+</tt>
+ (default)
+</dt>
+
+        
+<dd>
+this mode returns no Sample Result. It has no additional configuration.
+</dd>
+
+        
+<dt>
+<tt class="code">RETURN_200_CACHE
+</tt>
+</dt>
+
+        
+<dd>
+this mode will return Sample Result with response code to 
+<tt class="code">200
+</tt>
+ and
+        response message to "
+<tt class="code">(ex cache)
+</tt>
+".
+</dd>
+
+        
+<dt>
+<tt class="code">RETURN_CUSTOM_STATUS
+</tt>
+</dt>
+
+        
+<dd>
+choosing this mode, response code and message have to be set by specifying
+        
+<tt class="code">RETURN_CUSTOM_STATUS.code
+</tt>
+ and 
+<tt class="code">RETURN_CUSTOM_STATUS.message
+</tt>
+.
+</dd>
+
+    
+</dl>
+
+    Defaults to: 
+<tt class="code">RETURN_NO_SAMPLE
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>RETURN_CUSTOM_STATUS.code</td>
+<td>
+    This lets you select what response code you want to return if mode 
+<tt class="code">RETURN_CUSTOM_STATUS
+</tt>
+
+    is selected.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>RETURN_CUSTOM_STATUS.message</td>
+<td>
+    This lets you select what response message you want to return if mode 
+<tt class="code">RETURN_CUSTOM_STATUS
+</tt>
+
+    is selected.
+<br>
+
+
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="results_file_config"><strong>20.18 Results file configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jmeter.save.saveservice.output_format</td>
+<td>
+    This section helps determine how result data will be saved.
+<br>
+
+
+    The commented out values are the defaults.
+<br>
+
+
+    Legitimate values: 
+<tt class="code">xml
+</tt>
+, 
+<tt class="code">csv
+</tt>
+, 
+<tt class="code">db
+</tt>
+.
+<br>
+
+
+    Only 
+<tt class="code">xml
+</tt>
+ and 
+<tt class="code">csv
+</tt>
+ are currently supported.
+<br>
+
+
+    Defaults to: 
+<tt class="code">csv
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.assertion_results_failure_message</td>
+<td>
+    
+<tt class="code">true
+</tt>
+ when field should be saved; 
+<tt class="code">false
+</tt>
+ otherwise.
+<br>
+
+
+    
+<tt class="code">assertion_results_failure_message
+</tt>
+ only affects CSV output.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.assertion_results</td>
+<td>
+    Legitimate values: 
+<tt class="code">none
+</tt>
+, 
+<tt class="code">first
+</tt>
+, 
+<tt class="code">all
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">none
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.data_type</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.label</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.response_code</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.response_data</td>
+<td>
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td><tt class="code">response_data
+</tt>
+ is currently not supported for CSV output
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.response_data.on_error</td>
+<td>
+    Save ResponseData for failed samples.
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.response_message</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.successful</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.thread_name</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.time</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.subresults</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.assertions</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.latency</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.connect_time</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.samplerData</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.responseHeaders</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.requestHeaders</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.encoding</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.bytes</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.url</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.filename</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.hostname</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.thread_counts</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.sample_count</td>
+<td>
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.idle_time</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.timestamp_format</td>
+<td>
+    Timestamp format - this only affects CSV output files.
+<br>
+
+
+    Legitimate values: 
+<tt class="code">none
+</tt>
+, 
+<tt class="code">ms
+</tt>
+, or a format suitable for 
+<tt class="code">SimpleDateFormat
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">ms
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.timestamp_format</td>
+<td>
+    Defaults to: 
+<tt class="code">yyyy/MM/dd HH:mm:ss.SSS
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.default_delimiter</td>
+<td>
+    For use with Comma-separated value (CSV) files or other formats where the fields' values
+    are separated by specified delimiters.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>For TAB, since JMeter version 2.3 one can use 
+<tt class="code">\t
+</tt>
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">,
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.print_field_names</td>
+<td>
+    Only applies to CSV format files:
+<br>
+
+
+    Print field names as first line in CSV
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sample_variables</td>
+<td>
+    Optional list of JMeter variable names whose values are to be saved in the result data files.
+<br>
+
+
+    Use commas to separate the names.
+<br>
+
+
+    Defaults to: 
+<tt class="code">SESSION_ID,REFERENCE
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.xml_pi</td>
+<td>
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>N.B. The current implementation saves the values in XML as attributes, so the names must be valid XML names.
+</td></tr>
+</table>
+</p>
+
+    Versions of JMeter after 2.3.2 send the variable to all servers to ensure that the correct data is available at the client.
+<br>
+
+
+    Optional xml processing instruction for line two of the file.
+<br>
+
+
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.base_prefix</td>
+<td>
+    Prefix used to identify filenames that are relative to the current base.
+<br>
+
+
+    Defaults to: 
+<tt class="code">~/
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.save.saveservice.autoflush</td>
+<td>
+    AutoFlush on each line written in XML or CSV output.
+<br>
+
+
+    Setting this to 
+<tt class="code">true
+</tt>
+ will result in less test results data loss in case of a crash, but
+    with impact on performances, particularly for intensive tests (low or no pauses).
+<br>
+
+
+    Since JMeter version 2.10, this is 
+<tt class="code">false
+</tt>
+ by default.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="sample_results"><strong>20.19 Settings that affect SampleResults</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>sampleresult.timestamp.start</td>
+<td>
+    Save the start time stamp instead of the end.
+<br>
+
+
+    This also affects the timestamp stored in result files.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sampleresult.useNanoTime</td>
+<td>
+    Whether to use 
+<tt class="code">System.nanoTime()
+</tt>
+ - otherwise only use 
+<tt class="code">System.currentTimeMillis()
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sampleresult.nanoThreadSleep</td>
+<td>
+    Use a background thread to calculate the nanoTime offset.
+<br>
+
+
+    Set this to a value less than zero to disable the background thread.
+<br>
+
+
+    Defaults to: 
+<tt class="code">5000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="upgrade"><strong>20.20 Upgrade</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>upgrade_properties</td>
+<td>
+    File that holds a record of name changes for backward compatibility issues.
+<br>
+
+
+    Defaults to: 
+<tt class="code">/bin/upgrade.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="test_script_recorder"><strong>20.21 JMeter Test Script recorder configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>proxy.pause</td>
+<td>
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>N.B. The element was originally called the Proxy recorder, which is why the properties
+    have the prefix "proxy".
+</td></tr>
+</table>
+</p>
+
+    If the recorder detects a gap of at least 5s (default) between HTTP requests, it assumes
+    that the user has clicked a new URL. Specified in milliseconds.
+<br>
+
+
+    Defaults to: 
+<tt class="code">5000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.number.requests</td>
+<td>
+    Add numeric prefix to Sampler names.
+<br>
+
+
+    defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.excludes.suggested</td>
+<td>
+    List of URL patterns that will be added to URL Patterns to exclude.
+<br>
+
+
+    Separate multiple lines with 
+<tt class="code">;
+</tt>
+<br>
+
+
+    Defaults to: 
+<tt class="code">.*\\.(bmp|css|js|gif|ico|jpe?g|png|swf|woff)
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.httpsampler</td>
+<td>
+    Change the default HTTP Sampler.
+<br>
+
+
+    Can be one of
+    
+<dl>
+
+        
+<dt>
+<tt class="code">HTTPSampler
+</tt>
+ or 
+<tt class="code">Java
+</tt>
+</dt>
+
+        
+<dd>
+Use the 
+<tt class="code">Java
+</tt>
+ Sampler
+</dd>
+
+        
+<dt>
+<tt class="code">HTTPSampler2
+</tt>
+ or 
+<tt class="code">HttpClient3.1
+</tt>
+</dt>
+
+        
+<dd>
+Use Apache HTTPClient version 3.1
+</dd>
+
+        
+<dt>
+<tt class="code">HttpClient4
+</tt>
+</dt>
+
+        
+<dd>
+Use Apache HTTPClient version 4
+</dd>
+
+    
+</dl>
+
+    Defaults to: 
+<tt class="code">HttpClient4
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.httpclient.strict_rfc2616</td>
+<td>
+    By default JMeter tries to be more lenient with 
+<a href="http://tools.ietf.org/html/rfc2616">
+RFC 2616
+</a>
+
+    redirects and allows relative paths.
+<br>
+
+
+    If you want to test strict conformance, set this value to 
+<tt class="code">true
+</tt>
+.
+<br>
+
+
+    When the property is 
+<tt class="code">true
+</tt>
+, JMeter follows
+    
+<a href="http://tools.ietf.org/html/rfc3986#section-5.2">
+RFC 3986 section 5.2
+</a>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.content_type_include</td>
+<td>
+    Default 
+<tt class="code">content-type
+</tt>
+ include filter to use. Specified as a regex.
+<br>
+
+
+    Defaults to: 
+<tt class="code">text/html|text/plain|text/xml
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.content_type_exclude</td>
+<td>
+    Default 
+<tt class="code">content-type
+</tt>
+ exclude filter to use. Specified as a regex.
+<br>
+
+
+    Defaults to: 
+<tt class="code">image/.*|text/css|application/.*
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.headers.remove</td>
+<td>
+    Default headers to remove from Header Manager elements. Specified as comma separated list
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>The headers 
+<tt class="code">Cookie
+</tt>
+ and 
+<tt class="code">Authorization
+</tt>
+ are always removed.
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">If-Modified-Since,If-None-Match,Host
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.binary.types</td>
+<td>
+    Binary 
+<tt class="code">content-type
+</tt>
+ handling.
+<br>
+
+
+    These 
+<tt class="code">content-types
+</tt>
+ will be handled by saving the request in a file.
+<br>
+
+
+    Defaults to: 
+<tt class="code">application/x-amf,application/x-java-serialized-object
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.binary.directory</td>
+<td>
+    The files will be saved in this directory.
+<br>
+
+
+    Defaults to: 
+<tt class="code">user.dir
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.binary.filesuffix</td>
+<td>
+    The files will be created suffixed with this value.
+<br>
+
+
+    Defaults to: 
+<tt class="code">.binary
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.redirect.disabling</td>
+<td>
+    Whether to attempt disabling of samples that resulted from redirects where the
+    generated samples use auto-redirection.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.ssl.protocol</td>
+<td>
+    SSL configuration.
+<br>
+
+
+    Defaults to: 
+<tt class="code">TLS
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="test_script_recorder_cert"><strong>20.22 Test Script Recorder certificate configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>proxy.cert.directory</td>
+<td>
+    Defaults to: 
+<em>
+JMeter 
+<tt class="code">bin
+</tt>
+ directory
+</em>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.file</td>
+<td>
+    Defaults to: 
+<tt class="code">proxyserver.jks
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.type</td>
+<td>
+    Defaults to: 
+<tt class="code">JKS
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.keystorepass</td>
+<td>
+    Defaults to: 
+<tt class="code">password
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.keypassword</td>
+<td>
+    Defaults to: 
+<tt class="code">password
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.factory</td>
+<td>
+    Defaults to: 
+<tt class="code">SunX509
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.alias</td>
+<td>
+    Define this property if you wish to use a special entry from the keystore.
+<br>
+
+
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.validity</td>
+<td>
+    The default validity (in days) for certificates created by JMeter.
+<br>
+
+
+    Defaults to: 
+<tt class="code">7
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>proxy.cert.dynamic_keys</td>
+<td>
+    Use dynamic key generation (if supported by JMeter/JVM).
+<br>
+
+
+    If 
+<tt class="code">false
+</tt>
+, will revert to using a single key with no certificate.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="proxy_config"><strong>20.23 JMeter Proxy configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>http.proxyDomain</td>
+<td>
+    Use command-line flags for user-name and password.
+<br>
+
+
+    Defaults to: NTLM domain, if required by HTTPClient sampler
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="parser_config"><strong>20.24 HTML Parser configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>HTTPResponse.parsers</td>
+<td>
+    Space-separated list of parser groups.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>For each parser, there should be a 
+<tt class="code"><em>
+parser
+</em>
+.types
+</tt>
+ and a 
+<tt class="code"><em>
+parser
+</em>
+.className
+</tt>
+ property
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">htmlParser wmlParser cssParser
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>cssParser.className</td>
+<td>
+    CSS Parser based on ph-css.
+<br>
+
+
+    Defaults to: 
+<tt class="code">org.apache.jmeter.protocol.http.parser.CssParser
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>cssParser.types</td>
+<td>
+    Content types handled by cssParser.
+<br>
+
+
+    Defaults to: 
+<tt class="code">text/css
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>css.parser.cache.size</td>
+<td>
+    CSS parser LRU cache size. This cache stores the URLs found in a CSS to avoid continuously
+    parsing the CSS. By default the cache size is 400. It can be disabled by setting its value to 0.
+<br>
+
+
+    Defaults to: 
+<tt class="code">400
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>css.parser.ignore_all_css_errors</td>
+<td>
+    Let the CSS Parser ignore all CSS errors.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>htmlParser.className</td>
+<td>
+    Define the HTML parser to be used.
+<br>
+
+
+    Do not comment this property.
+<br>
+
+
+    
+<dl>
+
+        
+<dt>
+org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+</dt>
+
+        
+<dd>
+This new parser (since 2.10) should perform better than all others. See 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55632">Bug 55632</a>
+.
+</dd>
+
+        
+<dt>
+<tt class="code">org.apache.jmeter.protocol.http.parser.JTidyHTMLParser
+</tt>
+</dt>
+
+        
+<dd>
+Default parser before JMeter version 2.10
+</dd>
+
+        
+<dt>
+<tt class="code">org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+</tt>
+</dt>
+
+        
+<dd>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note that Regexp extractor may detect references that have been commented out.
+</td></tr>
+</table>
+</p>
+
+         In many cases it will work OK, but you should be aware that it may generate additional references.
+</dd>
+
+        
+<dt>
+<tt class="code">org.apache.jmeter.protocol.http.parser.JsoupBasedHtmlParser
+</tt>
+</dt>
+
+        
+<dd>
+This parser is based on JSoup. It should be the most accurate parser,
+        but it is less performant than LagartoBasedHtmlParser
+</dd>
+
+    
+</dl>
+
+    Defaults to: 
+<tt class="code">org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+</tt>
+
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr>
+<td>htmlParser.types</td>
+<td>
+    Used by HTTPSamplerBase to associate htmlParser with content types below.
+<br>
+
+
+    Defaults to: 
+<tt class="code">text/html application/xhtml+xml application/xml text/xml
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>wmlParser.className</td>
+<td>
+    Defaults to: 
+<tt class="code">org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>wmlParser.types</td>
+<td>
+    Used by HTTPSamplerBase to associate wmlParser with content types below.
+<br>
+
+
+    Defaults to: 
+<tt class="code">text/vnd.wap.wml
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="remote_batching_config"><strong>20.25 Remote batching configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+    Configure how SampleResults are sent from server to client when using distributed testing.
+    
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note that the mode is currently resolved on the client, while other properties
+    (e.g. 
+<tt class="code">time_threshold
+</tt>
+) are resolved on the server.
+</td></tr>
+</table>
+</p>
+<p>
+
+    Since JMeter version 2.9, default is 
+<tt class="code">StrippedBatch
+</tt>
+, which returns samples in
+    batch mode (every 100 samples or every minute by default).
+<br>
+
+
+    You can set mode by configuring:
+    
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>mode=
+<em>
+one of the possible modes below
+</em>
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>StrippedBatch strips response data from SampleResult, so if you need the response data, change to another mode.
+</td></tr>
+</table>
+</p>
+<p>
+
+    Possible modes are:
+    
+</p>
+<dl>
+
+        
+<dt>
+<tt class="code">Standard
+</tt>
+</dt>
+
+        
+<dd>
+Sends SampleResult one by one
+</dd>
+
+        
+<dt>
+<tt class="code">Batch
+</tt>
+</dt>
+
+        
+<dd>
+Accumulates SampleResults before sending them. Configured by
+        properties 
+<tt class="code">num_sample_threshold
+</tt>
+ and 
+<tt class="code">time_threshold
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">Hold
+</tt>
+</dt>
+
+        
+<dd>
+retains samples until end of test (may need lots of memory)
+        
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>The related 
+<tt class="code">hold_samples
+</tt>
+ was originally defined as a separate property, but is deprecated now.
+</td></tr>
+</table>
+</p>
+
+        
+</dd>
+
+        
+<dt>
+<tt class="code">Statistical
+</tt>
+</dt>
+
+        
+<dd>
+returns sample summary statistics. Configured by
+        properties 
+<tt class="code">key_on_threadname
+</tt>
+ and 
+<tt class="code">time_threshold
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">Stripped
+</tt>
+</dt>
+
+        
+<dd>
+Similar to 
+<tt class="code">Standard
+</tt>
+ mode but strips Response from SampleResult.
+        Configured by property 
+<tt class="code">sample_sender_strip_also_on_error
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">StrippedBatch
+</tt>
+</dt>
+
+        
+<dd>
+Same as 
+<tt class="code">Batch
+</tt>
+ but strips Response from SampleResult.
+        Configured by properties 
+<tt class="code">num_sample_threshold
+</tt>
+, 
+<tt class="code">time_threshold
+</tt>
+
+        and 
+<tt class="code">sample_sender_strip_also_on_error
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">Asynch
+</tt>
+</dt>
+
+        
+<dd>
+Asynchronous sender; uses a queue and background worker process to return the samples.
+        Configured by propertiy 
+<tt class="code">asynch.batch.queue.size
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">StrippedAsynch
+</tt>
+</dt>
+
+        
+<dd>
+Same as 
+<tt class="code">Asynch
+</tt>
+ but strips response data from SampleResult.
+        Configured by properties 
+<tt class="code">asynch.batch.queue.size
+</tt>
+
+        and 
+<tt class="code">sample_sender_strip_also_on_error
+</tt>
+</dd>
+
+        
+<dt>
+<tt class="code">StrippedDiskStore
+</tt>
+</dt>
+
+        
+<dd>
+Same as 
+<tt class="code">DiskStore
+</tt>
+ but strips response data from SampleResult
+</dd>
+
+        
+<dt>
+Class extending 
+<a href="../api/org/apache/jmeter/samplers/AbstractSampleSender.html">
+<tt class="code">AbstractSampleSender
+</tt>
+</a>
+ (
+<tt class="code">org.example.load.MySampleSender
+</tt>
+ for example)
+</dt>
+
+        
+<dd>
+A custom implementation of your choice
+</dd>
+
+    
+</dl>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>sample_sender_client_configured</td>
+<td>
+    How is Sample sender implementations configured:
+<br>
+
+
+    
+<dl>
+
+        
+<dt>
+<tt class="code">true
+</tt>
+</dt>
+<dd>
+(default) means client configuration will be used
+</dd>
+
+        
+<dt>
+<tt class="code">false
+</tt>
+</dt>
+<dd>
+means server configuration will be used
+</dd>
+
+    
+</dl>
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sample_sender_strip_also_on_error</td>
+<td>
+    By default when Stripping modes are used JMeter since version 3.1 will strip
+    response even for SampleResults in error. If you want to revert to previous
+    behaviour (no stripping of Responses in error) set this property to 
+<tt class="code">false
+</tt>
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>
+    Remote batching support.
+<br>
+
+
+    Since JMeter version 2.9, default is 
+<tt class="code">StrippedBatch
+</tt>
+, which returns samples in
+    batch mode (every 100 samples or every minute by default).
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note also that StrippedBatch strips response data from SampleResult, so if you need
+    the response data, change to another mode.
+</td></tr>
+</table>
+</p>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>key_on_threadname</td>
+<td>
+    Set to 
+<tt class="code">true
+</tt>
+ to key statistical samples on 
+<tt class="code">threadName
+</tt>
+ rather than 
+<tt class="code">threadGroup
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>num_sample_threshold</td>
+<td>
+    Number of SampleResults to accumulate before sending to client.
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>time_threshold</td>
+<td>
+    Time to retain SampleResults before sending them to client.
+    Value is in milliseconds.
+<br>
+
+
+    Defaults to: 
+<tt class="code">60000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>asynch.batch.queue.size</td>
+<td>
+    Default queue size used by 
+<tt class="code">Async
+</tt>
+ mode.
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="jdbc_request"><strong>20.26 JDBC Request configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jdbcsampler.nullmarker</td>
+<td>
+    String used to indicate a null value.
+<br>
+
+
+    Defaults to: 
+<tt class="code">]NULL[
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jdbcsampler.max_retain_result_size</td>
+<td>
+    Max bytes to store from a 
+<tt class="code">CLOB
+</tt>
+ or 
+<tt class="code">BLOB
+</tt>
+ in the sampler.
+<br>
+
+
+    Defaults to: 
+<tt class="code">65536
+</tt>
+ (bytes)
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="os_sampler"><strong>20.27 OS Process Sampler configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>os_sampler.poll_for_timeout</td>
+<td>
+    Polling to see if process has finished its work, used when a timeout
+    is configured on sampler. Specified in milliseconds.
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="tcp_sampler"><strong>20.28 TCP Sampler configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>tcp.handler</td>
+<td>
+    The default handler class.
+<br>
+
+
+    Defaults to: 
+<tt class="code">TCPClientImpl
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.eolByte</td>
+<td>
+    Set this to a value outside the range 
+<tt class="code">-128
+</tt>
+ to 
+<tt class="code">+127
+</tt>
+ to skip
+    
+<tt class="code"><abbr title="end of line">
+eol
+</abbr>
+</tt>
+ checking.
+<br>
+
+
+    Defaults to byte value for end of line: 
+<tt class="code">1000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.charset</td>
+<td>
+    TCP Charset, used by 
+<tt class="code">org.apache.jmeter.protocol.tcp.sampler.TCPClientImpl
+</tt>
+.
+<br>
+
+
+    Defaults to platforms default charset as returned by 
+<tt class="code">Charset.defaultCharset().name()
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.status.prefix</td>
+<td>
+    String at the begining of the status response code.
+<br>
+
+
+    Defaults to: 
+<tt class="code">Status
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.status.suffix</td>
+<td>
+    String at the end of the status response code.
+<br>
+
+
+    defaults to: 
+<tt class="code">.
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.status.properties</td>
+<td>
+    Property file to convert codes to messages.
+<br>
+
+
+    Defaults to: 
+<tt class="code">mytestfiles/tcpstatus.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>tcp.binarylength.prefix.length</td>
+<td>
+    The length prefix used by 
+<tt class="code">LengthPrefixedBinaryTCPClientImpl
+</tt>
+ implementation (in bytes).
+<br>
+
+
+    Defaults to: 
+<tt class="code">2
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="summariser"><strong>20.29 Summariser - Generate Summary Results - configuration (mainly applies to non-GUI mode)</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>summariser.name</td>
+<td>
+    Comment the following property to disable the default non-GUI summariser.
+<br>
+
+
+    [or change the value to rename it]
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Applies to non-GUI mode only
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">summary
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>summariser.interval</td>
+<td>
+    Interval between summaries (in seconds).
+<br>
+
+
+    Defaults to: 
+<tt class="code">30
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>summariser.log</td>
+<td>
+    Write messages to log file.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>summariser.out</td>
+<td>
+    Write messages to 
+<tt class="code">System.out
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>summariser.ignore_transaction_controller_sample_result</td>
+<td>
+    Ignore SampleResults generated by TransactionControllers.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="aggregate_report_graph"><strong>20.30 Aggregate Report and Aggregate Graph - configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>aggregate_rpt_pct1</td>
+<td>
+    Percentiles to display in reports.
+<br>
+
+
+    Given as a float value between 
+<tt class="code">0
+</tt>
+ and 
+<tt class="code">100
+</tt>
+ (means percent).
+<br>
+
+
+    First percentile to display.
+<br>
+
+
+    Defaults to: 
+<tt class="code">90
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>aggregate_rpt_pct2</td>
+<td>
+    Second percentile to display.
+<br>
+
+
+    Given as a float value between 
+<tt class="code">0
+</tt>
+ and 
+<tt class="code">100
+</tt>
+ (means percent).
+<br>
+
+
+    Defaults to: 
+<tt class="code">95
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>aggregate_rpt_pct3</td>
+<td>
+    Second percentile to display.
+<br>
+
+
+    Given as a float value between 
+<tt class="code">0
+</tt>
+ and 
+<tt class="code">100
+</tt>
+ (means percent).
+<br>
+
+
+    Defaults to: 
+<tt class="code">99
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="backend"><strong>20.31 BackendListener - configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>backend_metrics_window</td>
+<td>
+    Backend metrics sliding window size for 
+<tt class="code">Percentiles
+</tt>
+, 
+<tt class="code">Min
+</tt>
+
+    and 
+<tt class="code">Max
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="beanshell"><strong>20.32 BeanShell configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>beanshell.server.port</td>
+<td>
+    BeanShell Server properties.
+<br>
+
+
+    Define the port number as non-zero to start the http server on that port.
+<br>
+
+
+    The telnet server will be started on the next port.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.server.file</td>
+<td>
+    Define the server initialisation file.
+<br>
+
+
+    Defaults to: 
+<tt class="code">../extras/startup.bsh
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.init.file</td>
+<td>
+    Define a file to be processed at startup.
+<br>
+
+
+    This is processed using its own interpreter.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.sampler.init</td>
+<td>
+    Define the intialisation files for BeanShell Sampler, Function and
+    other BeanShell elements.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>N.B. Beanshell test elements do not share interpreters.
+    Each element in each thread has its own interpreter.
+    This is retained between samples.
+</td></tr>
+</table>
+</p>
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.function.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.assertion.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.listener.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.postprocessor.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.preprocessor.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>beanshell.timer.init</td>
+<td>
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="mailer"><strong>20.33 MailerModel configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>mailer.successlimit</td>
+<td>
+    The file 
+<tt class="code">BeanShellListeners.bshrc
+</tt>
+ contains sample definitions
+    of Test and Thread Listeners.
+<br>
+
+
+    Number of successful samples before a message is sent.
+<br>
+
+
+    Defaults to: 
+<tt class="code">2
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>mailer.failurelimit</td>
+<td>
+    Number of failed samples before a message is sent.
+<br>
+
+
+    Defaults to: 
+<tt class="code">2
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="csv"><strong>20.34 CSVRead configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>csvread.delimiter</td>
+<td>
+    CSVRead delimiter setting (default "
+<tt class="code">,
+</tt>
+").
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Make sure that there are no trailing spaces or tabs after the delimiter
+    characters, or these will be included in the list of valid delimiters.
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">,
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="time"><strong>20.35 __time() function configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>time.YMD</td>
+<td>
+    This and the following properties can be used to redefine the default time formats.
+<br>
+
+
+    Defaults to: 
+<tt class="code">yyyyMMdd
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>time.HMS</td>
+<td>
+    Defaults to: 
+<tt class="code">HHmmss
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>time.YMDHMS</td>
+<td>
+    Defaults to: 
+<tt class="code">yyyyMMdd-HHmmss
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>time.USER1</td>
+<td>
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>time.USER2</td>
+<td>
+    Defaults to empty value
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="csv_dataset"><strong>20.36 CSV DataSet configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>csvdataset.eofstring</td>
+<td>
+    String to return at 
+<abbr title="end of file">
+<tt class="code">EOF
+</tt>
+</abbr>
+ (if recycle not used).
+<br>
+
+
+    Defaults to: 
+<tt class="code"><EOF>
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="ldap"><strong>20.37 LDAP Sampler configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>ldapsampler.max_sorted_results</td>
+<td>
+    Maximum number of search results returned by a search that will be sorted
+    to guarantee a stable ordering (if more results then this limit are retruned
+    then no sorting is done).
+<br>
+
+
+    Set to zero to turn off all sorting, in which case "Equals" response assertions
+    will be very likely to fail against search results.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>assertion.equals_section_diff_len</td>
+<td>
+    Number of characters to log for each of three sections (starting matching section,
+    diff section, ending matching section where not all sections will appear for all diffs)
+    diff display when an Equals assertion fails. So a value of 
+<tt class="code">100
+</tt>
+ means a
+    maximum of 
+<tt class="code">300
+</tt>
+ characters of diff text will be displayed (plus a number
+    of extra characters like "
+<tt class="code">...
+</tt>
+" and "
+<tt class="code">[[[
+</tt>
+"/"
+<tt class="code">]]]
+</tt>
+"
+    which are used to decorate it).
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>assertion.equals_diff_delta_start</td>
+<td>
+    Test written out to log to signify start/end of diff delta.
+<br>
+
+
+    Defaults to: 
+<tt class="code">[[[
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>assertion.equals_diff_delta_end</td>
+<td>
+    Defaults to: 
+<tt class="code">]]]
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="miscellaneous"><strong>20.38 Miscellaneous configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>monitor.buffer.size</td>
+<td>
+    To set the Monitor Health Visualiser buffer size, enter the desired value.
+<br>
+
+
+    Defaults to: 
+<tt class="code">800
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>mirror.server.port</td>
+<td>
+    If defined and greater then zero, then start the mirror server on the port.
+<br>
+
+
+    Defaults to: 
+<tt class="code">0
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>oro.patterncache.size</td>
+<td>
+    ORO PatternCacheLRU size.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>propertyEditorSearchPath</td>
+<td>
+    TestBeanGui
+<br>
+
+
+    Defaults to: 
+<tt class="code">null
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.expertMode</td>
+<td>
+    Turn expert mode on/off: expert mode will show expert-mode beans and properties.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.max_bytes_to_store_per_request</td>
+<td>
+    Max size of bytes stored in memory per 
+<tt class="code">SampleResult
+</tt>
+. Ensure that you
+    don't exceed the maximum capacity of a Java Array and remember that the higher you
+    set this value, the more memory JMeter will consume.
+<br>
+
+
+    Defaults to: 
+<tt class="code">10485760
+</tt>
+ bytes
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.max_buffer_size</td>
+<td>
+    Max size of buffer in bytes used when reading responses.
+<br>
+
+
+    Defaults to: 
+<tt class="code">66560
+</tt>
+ bytes
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.max_redirects</td>
+<td>
+    Maximum redirects to follow in a single sequence.
+<br>
+
+
+    Defaults to: 
+<tt class="code">20
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.max_frame_depth</td>
+<td>
+    Maximum frame/iframe nesting depth.
+<br>
+
+
+    defaults to: 
+<tt class="code">5
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.separate.container</td>
+<td>
+    Revert to 
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=51939">Bug 51939</a>
+ behaviour (no separate container for embedded resources)
+    by setting the following 
+<tt class="code">false
+</tt>
+.
+<br>
+
+
+    defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.ignore_failed_embedded_resources</td>
+<td>
+    If embedded resources download fails due to missing resources or other reasons,
+    if this property is 
+<tt class="code">true
+</tt>
+, Parent sample will not be marked as failed.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.parallel_download_thread_keepalive_inseconds</td>
+<td>
+    Keep-alive time for the parallel download threads (in seconds).
+<br>
+
+
+    Defaults to: 
+<tt class="code">60
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.embedded_resources_use_md5</td>
+<td>
+    Don't keep the embedded resources response data; just keep the size and the MD5 sum.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>httpsampler.user_defined_methods</td>
+<td>
+    List of extra HTTP methods that should be available in select box.
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>VERSION-CONTROL,REPORT,CHECKOUT,CHECKIN,UNCHECKOUT,MKWORKSPACE,UPDATE,LABEL,MERGE,BASELINE-CONTROL,MKACTIVITY
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sampleresult.default.encoding</td>
+<td>
+    The encoding to be used if none is provided.
+<br>
+
+
+    Defaults to: 
+<tt class="code">ISO-8859-1
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sampleresult.getbytes.body_real_size</td>
+<td>
+    Network response size calculation method
+<br>
+
+
+    Use real size: number of bytes for response body returned by webserver
+    (i.e. the network bytes received for response). If set to 
+<tt class="code">false
+</tt>
+,
+    the (uncompressed) response data size will used (default before version 2.5).
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>sampleresult.getbytes.headers_size</td>
+<td>
+    Include headers: add the headers size in real size.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>CookieManager.delete_null_cookies</td>
+<td>
+    CookieManager behaviour - should cookies with null/empty values be deleted?
+<br>
+
+
+    Use 
+<tt class="code">false
+</tt>
+ to revert to original behaviour.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>CookieManager.allow_variable_cookies</td>
+<td>
+    CookieManager behaviour - should variable cookies be allowed?
+<br>
+
+
+    Use 
+<tt class="code">false
+</tt>
+ to revert to original behaviour.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>CookieManager.save.cookies</td>
+<td>
+    CookieManager behaviour - should Cookies be stored as variables?
+<br>
+
+
+    Default to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>CookieManager.name.prefix</td>
+<td>
+    CookieManager behaviour - prefix to add to cookie name before storing it as a variable.
+<br>
+
+
+    Default is COOKIE_; to remove the prefix, define it as one or more spaces.
+<br>
+
+
+    Defaults to: 
+<tt class="code">COOKIE_
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>CookieManager.check.cookies</td>
+<td>
+    CookieManager behaviour - check received cookies are valid before storing them?
+<br>
+
+
+    Use 
+<tt class="code">false
+</tt>
+ to revert to previous behaviour.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>cookies</td>
+<td>
+    Netscape HTTP Cookie file.
+<br>
+
+
+    Defaults to: 
+<tt class="code">cookies
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>javascript.use_rhino</td>
+<td>
+    Ability to switch to Nashorn as default Javascript Engine used by 
+<tt class="code">IfController
+</tt>
+
+    and 
+<tt class="code">__javaScript
+</tt>
+ function.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>JMeter will prefer to use Rhino even if it detects a JRE 8 or higher.
+    If you want to use Nashorn, set this value to 
+<tt class="code">false
+</tt>
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.threadstop.wait</td>
+<td>
+    Number of milliseconds to wait for a thread to stop.
+<br>
+
+
+    Defaults to: 
+<tt class="code">5000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.remote.system.exit</td>
+<td>
+    Whether to invoke 
+<tt class="code">System.exit(0)
+</tt>
+ in server exit code after
+    stopping RMI.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.stopfail.system.exit</td>
+<td>
+    Whether to call 
+<tt class="code">System.exit(1)
+</tt>
+ on failure to stop threads in
+    non-GUI mode.
+<br>
+
+
+    This only takes effect if the test was explicitly requested to stop.
+<br>
+
+
+    If this is disabled, it may be necessary to kill the JVM externally.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.force.system.exit</td>
+<td>
+    Whether to force call 
+<tt class="code">System.exit(0)
+</tt>
+ at end of test in non-GUI mode,
+    even if there were no failures and the test was not explicitly asked to stop.
+<br>
+
+
+    Without this, the JVM may never exit if there are other threads spawned by
+    the test which never exit.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.exit.check.pause</td>
+<td>
+    How long to pause (in ms) in the daemon thread before reporting that the JVM has
+    failed to exit.
+<br>
+
+
+    If the value is less than zero, the JMeter does not start the daemon thread
+<br>
+
+
+    Defaults to: 
+<tt class="code">2000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.nongui.port</td>
+<td>
+    If running non-GUI, then JMeter listens on the following port for a shutdown message.
+<br>
+
+
+    To disable, set the port to 
+<tt class="code">1000
+</tt>
+ or less.
+<br>
+
+
+    Defaults to: 
+<tt class="code">4445
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterengine.nongui.maxport</td>
+<td>
+    If the initial port is busy, keep trying until this port is reached
+    (to disable searching, set the value less than or equal to the 
+<tt class="code">.port
+</tt>
+ property).
+<br>
+
+
+    Defaults to: 
+<tt class="code">4455
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeterthread.rampup.granularity</td>
+<td>
+    How often to check for shutdown during ramp-up (milliseconds).
+<br>
+
+
+    Defaults to: 
+<tt class="code">1000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>onload.expandtree</td>
+<td>
+    Should JMeter expand the tree when loading a test plan?
+<br>
+
+
+    Default value is 
+<tt class="code">false
+</tt>
+ since JMeter 2.7
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.wrapstyleword</td>
+<td>
+    JSyntaxTextArea configuration.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.linewrap</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.codefolding</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.maxundos</td>
+<td>
+    Set to zero to disable undo feature in JSyntaxTextArea.
+<br>
+
+
+    Defaults to: 
+<tt class="code">50
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.font.family</td>
+<td>
+    Change the font on the (JSyntax) Text Areas. (Useful for HiDPI screens).
+<br>
+
+
+    Defaults to empty value, which means platform default monospaced font
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsyntaxtextarea.font.size</td>
+<td>
+    Change the size of the (JSyntax) Text Areas. Will be used only,
+    when 
+<tt class="code">jsyntaxtextarea.font.family
+</tt>
+ is set.
+<br>
+
+
+    Defaults to: 
+<tt class="code">-1
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>loggerpanel.usejsyntaxtext</td>
+<td>
+    Set this to 
+<tt class="code">false
+</tt>
+ to disable the use of JSyntaxTextArea
+    for the Console Logger panel.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>view.results.tree.max_size</td>
+<td>
+    Maximum size (in bytes) of HTML page that can be displayed.
+<br>
+
+
+    Set to zero to disable the size check and display the whole response.
+<br>
+
+
+    Defaults to: 
+<tt class="code">10485760
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>view.results.tree.renderers_order</td>
+<td>
+    Order of Renderers in View Results Tree.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note full class names should be used for non JMeter core renderers
+</td></tr>
+</table>
+</p>
+
+    For JMeter core renderers, class names start with 
+<tt class="code">.
+</tt>
+ and are automatically
+    prefixed with 
+<tt class="code">org.apache.jmeter.visualizers
+</tt>
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>.RenderAsText,.RenderAsRegexp,.RenderAsCssJQuery,.RenderAsXPath,.RenderAsHTML,.RenderAsHTMLWithEmbedded,.RenderAsDocument,.RenderAsJSON,.RenderAsXML
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>document.max_size</td>
+<td>
+    Maximum size (in bytes) of Document that can be parsed by Tika engine
+<br>
+
+
+    Set to zero to disable the size check.
+<br>
+
+
+    Defaults to: 
+<tt class="code">10485760
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>JMSSampler.useSecurity.properties</td>
+<td>
+    JMS options.
+<br>
+
+
+    Enable the following property to stop JMS Point-to-Point Sampler from using
+    the properties 
+<tt class="code">java.naming.security.[principal|credentials]
+</tt>
+ when
+    creating the queue connection.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>confirm.delete.skip</td>
+<td>
+    Set the following value to 
+<tt class="code">true
+</tt>
+ in order to skip the delete
+    confirmation dialogue.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jsr223.compiled_scripts_cache_size</td>
+<td>
+    Used by JSR223 elements.
+<br>
+
+
+    Size of compiled scripts cache.
+<br>
+
+
+    Defaults to: 
+<tt class="code">100
+</tt>
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="classpath"><strong>20.39 Classpath configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>search_paths</td>
+<td>
+    List of directories (separated by 
+<tt class="code">;
+</tt>
+) to search for additional
+    JMeter plugin classes, for example new GUI elements and samplers.
+<br>
+
+
+    Any jar file in such a directory will be automatically included; jar files in sub directories are ignored.
+<br>
+
+
+    The given value is in addition to any jars found in the 
+<tt class="code">lib/ext
+</tt>
+ directory.
+<br>
+
+
+    Do not use this for utility or plugin dependency jars.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>user.classpath</td>
+<td>
+    List of directories that JMeter will search for utility and plugin dependency classes.
+<br>
+
+
+    Use your platform path separator to separate multiple paths.
+<br>
+
+
+    Any jar file in such a directory will be automatically included; jar files in sub directories are ignored.
+<br>
+
+
+    The given value is in addition to any jars found in the 
+<tt class="code">lib
+</tt>
+ directory.
+<br>
+
+
+    All entries will be added to the class path of the system class loader and also to the path
+    of the JMeter internal loader.
+<br>
+
+
+    Paths with spaces may cause problems for the JVM.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>plugin_dependency_paths</td>
+<td>
+    List of directories (separated by 
+<tt class="code">;
+</tt>
+) that JMeter will search for utility
+    and plugin dependency classes.
+<br>
+
+
+    Any jar file in such a directory will be automatically included; jar files in sub directories are ignored.
+<br>
+
+
+    The given value is in addition to any jars found in the 
+<tt class="code">lib
+</tt>
+ directory
+    or given by the 
+<tt class="code">user.classpath
+</tt>
+ property.
+<br>
+
+
+    All entries will be added to the path of the JMeter internal loader only.
+<br>
+
+
+    For plugin dependencies this property should be used instead of 
+<tt class="code">user.classpath
+</tt>
+.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>classfinder.functions.contain</td>
+<td>
+    The classpath finder currently needs to load every single JMeter class to find the classes it needs.
+<br>
+
+
+    For non-GUI mode, it's only necessary to scan for Function classes, but all classes are still loaded.
+<br>
+
+
+    All current Function classes include "
+<tt class="code">.function.
+</tt>
+" in their name, and none include
+    "
+<tt class="code">.gui.
+</tt>
+" in the name, so the number of unwanted classes loaded can be reduced by
+    checking for these. However, if a valid function class name does not match these restrictions,
+    it will not be loaded. If problems are encountered, then comment or change this or the following property.
+<br>
+
+
+    Defaults to: 
+<tt class="code">.functions.
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>classfinder.functions.notContain</td>
+<td>
+    Defaults to: 
+<tt class="code">.gui.
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="reporting"><strong>20.40 Reporting configuration</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>jmeter.reportgenerator.apdex_satisfied_threshold</td>
+<td>
+    Sets the satisfaction threshold for the APDEX calculation (in milliseconds).
+<br>
+
+
+    Defaults to: 
+<tt class="code">500
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.apdex_tolerated_threshold</td>
+<td>
+    Sets the tolerance threshold for the APDEX calculation (in milliseconds).
+<br>
+
+
+    Defaults to: 
+<tt class="code">1500
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.sample_filter</td>
+<td>
+    Regular Expression which Indicates which samples to keep for graphs and statistics generation.
+<br>
+
+
+    Empty value means no filtering
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.temp_dir</td>
+<td>
+    Sets the temporary directory used by the generation process if it needs file I/O operations.
+<br>
+
+
+    Defaults to: 
+<tt class="code">temp
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.statistic_window</td>
+<td>
+    Sets the size of the sliding window used by percentile evaluation.
+<br>
+
+
+    
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Caution: higher value provides a better accurency but needs more memory.
+</td></tr>
+</table>
+</p>
+
+    Defaults to: 
+<tt class="code">20000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.report_title</td>
+<td>
+    Configure this property to change the report title
+<br>
+
+
+    Defaults to: 
+<tt class="code">Apache JMeter Dashboard
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.overall_granularity</td>
+<td>
+    Defines the overall granularity for over time graphs
+<br>
+
+
+    Defaults to: 
+<tt class="code">60000
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimePercentiles.classname</td>
+<td>
+    Response Time Percentiles graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimePercentiles.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Response Time Percentiles
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeDistribution.classname</td>
+<td>
+    Response Time Distribution graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.ResponseTimeDistributionGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeDistribution.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Response Time Distribution
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeDistribution.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">500
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.activeThreadsOverTime.classname</td>
+<td>
+    Active Threads Over Time graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.ActiveThreadsGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.activeThreadsOverTime.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Active Threads Over Time
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.activeThreadsOverTime.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.timeVsThreads.classname</td>
+<td>
+    Time VS Threads graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.TimeVSThreadGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.timeVsThreads.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Time VS Threads
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.bytesThroughputOverTime.classname</td>
+<td>
+    Bytes Throughput Over Time graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.BytesThroughputGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.bytesThroughputOverTime.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Bytes Throughput Over Time
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.bytesThroughputOverTime.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimesOverTime.classname</td>
+<td>
+    Response Time Over Time graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.ResponseTimeOverTimeGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimesOverTime.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Response Time Over Time
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimesOverTime.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latenciesOverTime.classname</td>
+<td>
+    Latencies Over Time graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.LatencyOverTimeGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latenciesOverTime.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Latencies Over Time
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latenciesOverTime.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeVsRequest.classname</td>
+<td>
+    Response Time Vs Request graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.ResponseTimeVSRequestGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeVsRequest.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Response Time Vs Request
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeVsRequest.exclude_controllers</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.responseTimeVsRequest.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latencyVsRequest.classname</td>
+<td>
+    Latencies Vs Request graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.LatencyVSRequestGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latencyVsRequest.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Latencies Vs Request
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latencyVsRequest.exclude_controllers</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.latencyVsRequest.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.hitsPerSecond.classname</td>
+<td>
+    Hits Per Second graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.HitsPerSecondGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.hitsPerSecond.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Hits Per Second
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.hitsPerSecond.exclude_controllers</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.hitsPerSecond.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.codesPerSecond.classname</td>
+<td>
+    Codes Per Second graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.CodesPerSecondGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.codesPerSecond.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Codes Per Second
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.codesPerSecond.exclude_controllers</td>
+<td>
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.codesPerSecond.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.transactionsPerSecond.classname</td>
+<td>
+    Transactions Per Second graph definition
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.processor.graph.impl.TransactionsPerSecondGraphConsumer
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.transactionsPerSecond.title</td>
+<td>
+    Defaults to: 
+<tt class="code">Transactions Per Second
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.graph.transactionsPerSecond.property.set_granularity</td>
+<td>
+    Defaults to: 
+<tt class="code">${jmeter.reportgenerator.overall_granularity}
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.classname</td>
+<td>
+    HTML Export
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.report.dashboard.HtmlTemplateExporter
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.property.template_dir</td>
+<td>
+    Sets the source directory of templated files from which the html pages are generated.
+<br>
+
+
+    Defaults to: 
+<tt class="code">report-template
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.property.output_dir</td>
+<td>
+    Sets the destination directory for generated html pages.
+<br>
+
+
+    This will be overridden by the command line option 
+<tt class="code">-o
+</tt>
+.
+<br>
+
+
+    Defaults to: 
+<tt class="code">report-output
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.series_filter</td>
+<td>
+    Regular Expression which Indicates which graph series are filtered in display.
+<br>
+
+
+    Empty value means no filtering.
+<br>
+
+
+    Defaults to empty value.
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.filters_only_sample_series</td>
+<td>
+    Indicates whether series filter apply only on sample series
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>jmeter.reportgenerator.exporter.html.show_controllers_only</td>
+<td>
+    Indicates whether only controller samples are displayed on graphs that support it.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="properties"><strong>20.41 Additional property files to load</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>user.properties</td>
+<td>
+    Should JMeter automatically load additional JMeter properties?
+<br>
+
+
+    File name to look for (comment to disable)
+<br>
+
+
+    Defaults to: 
+<tt class="code">user.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>system.properties</td>
+<td>
+    Should JMeter automatically load additional system properties?
+<br>
+
+
+    File name to look for (comment to disable)
+<br>
+
+
+    Defaults to: 
+<tt class="code">system.properties
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>template.files</td>
+<td>
+    Comma separated list of files that contain reference to templates and their description.
+<br>
+
+
+    Path must be relative to JMeter root folder
+<br>
+
+
+    Defaults to: 
+<tt class="code">/bin/templates/templates.xml
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="validation"><strong>20.42 Thread Group Validation feature</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+Validation is the name of the feature used to rapidly validate a Thread Group runs fine
+</description>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>testplan_validation.tree_cloner_class</td>
+<td>
+    Default implementation is 
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.gui.action.validation.TreeClonerForValidation
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+    It runs validation without timers, with one thread and one iteration.
+<br>
+
+
+    You can implement your own policy that must extend 
+<tt class="code">org.apache.jmeter.engine.TreeCloner
+</tt>
+.
+<br>
+
+
+    JMeter will instantiate it and use it to create the Tree used to run validation on Thread Group.
+<br>
+
+
+    Defaults to:
+    
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>org.apache.jmeter.gui.action.validation.TreeClonerForValidation
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>testplan_validation.nb_threads_per_thread_group</td>
+<td>
+    Number of threads to use to validate a Thread Group.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>testplan_validation.ignore_timers</td>
+<td>
+    Ignore timers when validating the thread group of plan.
+<br>
+
+
+    Defaults to: 
+<tt class="code">true
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>testplan_validation.number_iterations</td>
+<td>
+    Number of iterations to use to validate a Thread Group.
+<br>
+
+
+    Defaults to: 
+<tt class="code">1
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>testplan_validation.tpc_force_100_pct</td>
+<td>
+    Force throughput controllers that work in percentage mode to be a 100%.
+<br>
+
+
+    Defaults to: 
+<tt class="code">false
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="timer"><strong>20.43 Timer related feature</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<description>
+Timer are used to introduce think time in your plan.
+</description>
+<p>
+<b>Parameters</b>
+<table border="1" cellspacing="0" cellpadding="2">
+<tr><th>Attribute</th><th>Description</th><th>Required</th></tr>
+<tr>
+<td>timer.factor</td>
+<td>
+    Apply a factor on computed pauses by the following Timers:
+    
+<ul>
+
+        
+<li>
+Gaussian Random Timer
+</li>
+
+        
+<li>
+Uniform Random Timer
+</li>
+
+        
+<li>
+Poisson Random Timer
+</li>
+
+    
+</ul>
+
+    Defaults to: 
+<tt class="code">1.0f
+</tt>
+
+
+</td>
+<td>
+No
+</td>
+</tr>
+</table>
+</p>
+<a href="#">
+^
+</a>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="functions.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="component_reference.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: property_reference.xml 1739440 2016-04-16 11:11:17Z pmouawad $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
