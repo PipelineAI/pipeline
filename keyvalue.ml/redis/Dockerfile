@@ -49,7 +49,8 @@ EXPOSE 7379
 EXPOSE 8101 8102 8105 22122 22222
 
 COPY run run
-COPY config/ config/
+# refactored to redis-config-volume configMap
+#COPY config/ config/
 
 # Relying on source.ml
 #COPY data/dump.rdb data/dump.rdb

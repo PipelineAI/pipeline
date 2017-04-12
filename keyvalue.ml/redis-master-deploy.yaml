@@ -32,9 +32,14 @@ spec:
         - containerPort: 6379
         - containerPort: 7379
         volumeMounts:
+          - name: redis-config-volume
+            mountPath: /root/redis-3.2.7/config
           - name: git-volume
             mountPath: /root/volumes
       volumes:
+        - name: redis-config-volume
+          configMap:
+            name: redis-config
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"

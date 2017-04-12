@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap spark-config --from-file=spark

@@ -22,6 +22,12 @@ RUN \
   && tar -xvzf presto-server-$PRESTO_VERSION.tar.gz \
   && rm presto-server-$PRESTO_VERSION.tar.gz
 
+ENV \
+  PRESTO_HOME=/root/presto-server-$PRESTO_VERSION
+
+ENV \
+  PATH=${PRESTO_HOME}/bin:$PATH
+
 RUN \
   cd presto-server-$PRESTO_VERSION/bin \
   && wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/$PRESTO_VERSION/presto-cli-$PRESTO_VERSION-executable.jar \

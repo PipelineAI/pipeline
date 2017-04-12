@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sql-mysql-master
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: sql-mysql-master
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 95

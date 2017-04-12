@@ -8,6 +8,9 @@ ENV \
 ENV \
   ZEPPELIN_HOME=/root/zeppelin-${ZEPPELIN_VERSION}
 
+ENV \
+  ZEPPELIN_CONF=${ZEPPELIN_HOME}/conf
+
 RUN \
   wget https://s3.amazonaws.com/fluxcapacitor.com/packages/zeppelin-$ZEPPELIN_VERSION.tar.gz \
   && tar -xzvf zeppelin-$ZEPPELIN_VERSION.tar.gz \
@@ -24,16 +27,11 @@ RUN \
   && mv kubectl /usr/local/bin/kubectl
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
-# from the github https://github.com/fluxcapacitor/source.ml repo 
+# from the github source.ml repo -> /root/pipeline
 # .kube/config is volume mounted from Kubernetes secret
 
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-
-RUN \
-  pip install tensorflow==$TENSORFLOW_VERSION
-
-COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
+# refactored to spark-config-volume configMap
+# COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 
 EXPOSE 3123 3124 6006
 

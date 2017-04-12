@@ -54,14 +54,16 @@ RUN \
   && pip install celery[redis] \
   && pip install flower
 
-RUN \
-  pip install tensorflow==1.0.1
-
 # Temp workaround for running Celery worker as root
 ENV \
   C_FORCE_ROOT=true
 
-COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
+# refactored to airflow-config-volume configMap
+# COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
+RUN \
+  mv ${AIRFLOW_HOME}/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg.orig \
+  && cd ${AIRFLOW_HOME} \
+  && ln -s /root/config-map/airflow/airflow.cfg
 
 COPY run run
 

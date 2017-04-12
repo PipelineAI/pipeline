@@ -33,14 +33,14 @@ spec:
         - containerPort: 9000
         - containerPort: 50070
         volumeMounts:
-#          - name: hadoop-conf-dev-volume
-#            mountPath: /etc/hadoop/conf
+          - name: hdfs-config-volume
+            mountPath: /root/hadoop-2.7.2/etc/hadoop
           - name: git-volume
             mountPath: /root/volumes
       volumes:
-#        - name: hadoop-conf-dev-volume
-#          secret:
-#            secretName: hadoop-conf-dev
+        - name: hdfs-config-volume
+          configMap:
+            name: hdfs-config
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
