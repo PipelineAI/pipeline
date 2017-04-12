@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap hdfs-config --from-file=hdfs

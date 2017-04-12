@@ -20,5 +20,3 @@ spec:
         env:
         - name: TEST_PATHNAMES
           value: /root/tests/RecommendationServiceStressTest-GCP.jmx
-      nodeSelector:
-        training: "true"

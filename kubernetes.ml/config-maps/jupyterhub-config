@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap jupyterhub-config --from-file=jupyterhub

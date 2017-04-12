@@ -17,6 +17,7 @@ ENV \
 
 # This must be separate from the ${SPARK_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
+  SPARK_CONF=${SPARK_HOME}/conf \
   PATH=${SPARK_HOME}/bin:$PATH
 
 ENV \
@@ -33,24 +34,24 @@ ENV \
 
 # This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
-  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
+  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop \
   PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
 
 # Required by Spark
 ENV \
   HADOOP_CONF_DIR=${HADOOP_CONF}
 
-COPY config/spark/ ${SPARK_HOME}/conf/
+# refactored to spark-config-volume configMap
+# COPY config/spark/ ${SPARK_HOME}/conf/
+#RUN \
+#  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
+#  && cd ${HADOOP_CONF} \
+#  && ln -s ${CONFIG_MAP_HOME}/conf/core-site.xml
 
-RUN \
-  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
-  && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/core-site.xml
-
-RUN \
-  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
-  && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
+#RUN \
+#  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
+#  && cd ${HADOOP_CONF} \
+#  && ln -s ${CONFIG_MAP_HOME}/conf/hdfs-site.xml
 
 WORKDIR /root
 

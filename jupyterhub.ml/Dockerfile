@@ -65,10 +65,10 @@ RUN \
   mkdir -p /root/models
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
-# from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline
+# from the github source.ml repo -> /root/pipeline
 # .kube/config is volume mounted from Kubernetes secret
-
-COPY config/jupyterhub/ config/jupyterhub/
+# refactored to jupyterhub-config-volume configMap
+# COPY config/jupyterhub/ config/jupyterhub/
 COPY profiles/ /root/.ipython/
 
 ENV \

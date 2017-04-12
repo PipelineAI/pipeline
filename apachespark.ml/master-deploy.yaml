@@ -4,6 +4,8 @@ metadata:
   name: apachespark-master-2-1-0
   labels:
     app: apachespark-master-2-1-0
+    role: master
+    version: 2.1.0
 spec:
   replicas: 1
   selector:
@@ -37,3 +39,15 @@ spec:
         - containerPort: 4042
         - containerPort: 4043
         - containerPort: 4044
+        volumeMounts:
+          - name: hdfs-config-volume
+            mountPath: /root/hadoop-2.7.2/etc/hadoop
+          - name: spark-config-volume
+            mountPath: /root/spark-2.1.0-bin-fluxcapacitor/conf
+      volumes:
+        - name: hdfs-config-volume
+          configMap:
+            name: hdfs-config
+        - name: spark-config-volume
+          configMap:
+            name: spark-config

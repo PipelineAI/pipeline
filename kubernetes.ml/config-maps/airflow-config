@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap airflow-config --from-file=airflow

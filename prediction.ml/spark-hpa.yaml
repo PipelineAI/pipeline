@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: prediction-spark
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: prediction-spark
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 95

@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cassandra
+  labels:
+    app: cassandra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: dl2.homeawaycorp.com/omnihub-docker/cassandra:master
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7199
+        - containerPort: 9042
+        - containerPort: 9160
+        - containerPort: 7000
+        volumeMounts:
+          - name: cassandra-config-volume
+            mountPath: /root/apache-cassandra-3.9/conf
+            readOnly: true
+      volumes:
+        - name: cassandra-config-volume
+          configMap:
+            name: cassandra-config
