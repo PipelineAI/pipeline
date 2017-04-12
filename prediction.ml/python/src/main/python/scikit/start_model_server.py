@@ -1,5 +1,7 @@
+                                                                                                    1,1           Top
 #!/usr/bin/env python3
 
+import os
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
@@ -10,6 +12,7 @@ import pickle
 import numpy as np
 from hystrix import Command
 import asyncio
+import fnmatch
 
 from transformers import input_transformer, output_transformer
 
@@ -33,11 +36,11 @@ class MainHandler(tornado.web.RequestHandler):
 
     def build_command(self):
         command = PredictCommand()
-        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version):
+        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
 
         command.name = 'Predict_%s' % model_key
         command.group_name = 'PredictGroup'
-        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version):
+        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
         if model_key in model_registry:
             model = model_registry[model_key]
         else:
@@ -57,7 +60,9 @@ def load_model(model_namespace, model_name, model_version):
     model_absolute_path = os.path.join(model_absolute_path, model_version)
 
     # TODO:  dynamically find model_filename similar to `run` bash script
-    model_filename = os.environ['PIO_MODEL_FILENAME']
+#    model_filename = os.environ['PIO_MODEL_FILENAME']
+    model_filename = fnmatch.filter(os.listdir(model_absolute_path), "*.pkl")[0]
+
     model_absolute_path = os.path.join(model_absolute_path, model_filename)
 
     with open(model_absolute_path, 'rb') as model_file:
@@ -77,11 +82,11 @@ if __name__ == '__main__':
     model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
     (model_absolute_path, model) = load_model(model_namespace, model_name, model_version)
 
-    model_registry[model_key] = model 
+    model_registry[model_key] = model
 
     app = tornado.web.Application([
       # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler,
+      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler)
     ])
     app.listen(port)
 
@@ -91,4 +96,4 @@ if __name__ == '__main__':
     print("Loaded Model from `%s`" % model_absolute_path)
     print("")
 
-   tornado.ioloop.IOLoop.current().start()
+    tornado.ioloop.IOLoop.current().start()
