@@ -1,12 +1,14 @@
 Each model server can contain 1 `<namespace>/<model_name>` combo.  
 
-Versions are incremental according to 
+`namespace`:  "default" by default
 
-The latest version is used unless specifically set in the `python-deploy.yaml`.
+`model_name`:  anything you'd like
+
+`version`:  unique version of model (ie. v0, myModelA, yourModel_9)
 
 ## Predict with JSON
 ```
-curl -X POST -H "Content-Type: application/json" -d '<json-data>' http://<prediction-python-service>
+curl -X POST -H "Content-Type: application/json" -d '<json-data>' http://<prediction-python-service>/<namespace>/<model_name>/<version>
 ```
 
 ## Upload New Version of Model Bundle
