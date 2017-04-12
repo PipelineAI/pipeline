@@ -28,5 +28,5 @@ tar -czvf bundle.tar.gz  <-- this can be named anything, but must match below
 
 `version`:  unique version of model
 ```
-curl -X POST -F bundle=@bundle.tar.gz http://<prediction-python-service>:81/<namespace>/<model_name>/<version>
+curl -X POST -F bundle=@/path/to/bundle.tar.gz http://<prediction-python-service>:81/<namespace>/<model_name>/<version>
 ```
