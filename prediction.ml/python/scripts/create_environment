@@ -19,10 +19,18 @@ while read requirement;
   do pip install $requirement;
 done < src/main/python/scikit/pio_model_server_pip_requirements.txt
 
+#while read requirement;
+#  do pip install $requirement;
+#done < src/main/python/scikit/pio_model_server_wheel_requirements.txt
+
 while read requirement;
   do conda install --yes $requirement;
 done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/conda_requirements.txt
 
 while read requirement;
-  do conda install --yes $requirement;
+  do pip install $requirement;
 done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/pip_requirements.txt
+
+while read requirement;
+  do pip install $requirement;
+done < $STORE_HOME/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}/wheel_requirements.txt
