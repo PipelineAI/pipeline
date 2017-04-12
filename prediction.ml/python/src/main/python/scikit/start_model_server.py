@@ -1,4 +1,3 @@
-                                                                                                    1,1           Top
 #!/usr/bin/env python3
 
 import os
