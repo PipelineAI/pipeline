@@ -33,7 +33,7 @@ class MainHandler(tornado.web.RequestHandler):
         output = yield self.build_future(command)
         self.write(output_transformer(output))
 
-    def build_command(self):
+    def build_command(self, model_namespace, model_name, model_version):
         command = PredictCommand()
         model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
 
