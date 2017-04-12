@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: dl2.homeawaycorp.com/omnihub-docker/cassandra:master
+        image: docker.io/fluxcapacitor/cassandra:master
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
