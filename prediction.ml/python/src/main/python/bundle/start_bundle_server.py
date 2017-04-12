@@ -42,17 +42,13 @@ class UploadHandler(tornado.web.RequestHandler):
             self.write(", Exception: %s" % kwargs["exc_info"][0].__name__)
 
 if __name__ == '__main__':
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-#    parser.add_argument('port')
-#    parser.add_argument('bundle_parent_path')
-    args = parser.parse_args()
+#    from argparse import ArgumentParser
 
-    port = 8000
+    port = os.environ['PIO_BUNDLE_SERVER_PORT'] 
     bundle_parent_path = os.environ['STORE_HOME']
 
     app = tornado.web.Application([
-      # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_VERSION/
+      # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
       (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", UploadHandler,
          dict(bundle_parent_path=bundle_parent_path))
     ])

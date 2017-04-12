@@ -15,30 +15,35 @@ from transformers import input_transformer, output_transformer
 
 class PredictCommand(Command):
     inputs = [[]]
-    def run(self):
-        return self.do_predict()
+    model = None
 
-    # TODO:  roll this into run() method
-    def do_predict(self):
-        return model.predict(self.inputs)
+    def run(self):
+        return self.model.predict(self.inputs)
 
     def fallback(self):
         return 'fallback!'
 
 class MainHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
-    def post(self):
+    def post(self, model_namespace, model_name, model_version):
         self.set_header("Content-Type", "application/json")
-        command = self.build_command()
+        command = self.build_command(model_namespace, model_name, model_version)
         output = yield self.build_future(command)
         self.write(output_transformer(output))
 
     def build_command(self):
         command = PredictCommand()
-        command.name = 'Predict'
+        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version):
+
+        command.name = 'Predict_%s' % model_key
         command.group_name = 'PredictGroup'
-        # TODO:  convert json to pandas array
-        command.inputs = input_transformer(self.json_args)
+        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version):
+        if model_key in model_registry:
+            model = model_registry[model_key]
+        else:
+            model = load_model(model_namespace, model_name, model_version)
+        command.model = model
+        command.inputs = input_transformer(self.request.body)
         return command
 
     def build_future(self, command):
@@ -46,37 +51,44 @@ class MainHandler(tornado.web.RequestHandler):
         future.add_done_callback(future.result)
         return future
 
-    def prepare(self):
-        if self.request.headers["Content-Type"].startswith("application/json"):
-            #self.json_args = json.loads(self.request.body)
-            self.json_args = self.request.body
-        else:
-            self.json_args = None
+def load_model(model_namespace, model_name, model_version):
+    model_absolute_path = os.path.join(store_home, model_namespace)
+    model_absolute_path = os.path.join(model_absolute_path, model_name)
+    model_absolute_path = os.path.join(model_absolute_path, model_version)
 
-def load_model(model_pkl_filename):
-    with open(model_pkl_filename, 'rb') as model_pkl:
-        model = pickle.load(model_pkl)
-    return model
+    # TODO:  dynamically find model_filename similar to `run` bash script
+    model_filename = os.environ['PIO_MODEL_FILENAME']
+    model_absolute_path = os.path.join(model_absolute_path, model_filename)
+
+    with open(model_absolute_path, 'rb') as model_file:
+        model = pickle.load(model_file)
+    return (model_absolute_path, model)
 
 if __name__ == '__main__':
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument('port')
-    parser.add_argument('model_pkl_filename')
-    args = parser.parse_args()
+    port = os.environ['PIO_MODEL_SERVER_PORT']
 
-    model = load_model(args.model_pkl_filename)
+    store_home = os.environ['STORE_HOME']
+    model_namespace = os.environ['PIO_MODEL_NAMESPACE']
+    model_name = os.environ['PIO_MODEL_NAME']
+    model_version = os.environ['PIO_MODEL_VERSION']
+
+    model_registry = {}
+
+    model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
+    (model_absolute_path, model) = load_model(model_namespace, model_name, model_version)
+
+    model_registry[model_key] = model 
 
     app = tornado.web.Application([
-        (r"/", MainHandler),
+      # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
+      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler,
     ])
-    app.listen(args.port)
-
+    app.listen(port)
 
     print("")
-    print("Started Tornado-based Http Server on Port %s" % args.port)
+    print("Started Tornado-based Http Server on Port %s" % port)
     print("")
-    print("Loaded Model from Filename `%s`" % args.model_pkl_filename)
+    print("Loaded Model from `%s`" % model_absolute_path)
     print("")
 
-    tornado.ioloop.IOLoop.current().start()
+   tornado.ioloop.IOLoop.current().start()
