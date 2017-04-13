@@ -27,12 +27,10 @@ class PredictCommand(Command):
     def fallback(self):
         return 'fallback!'
 
-
 class MainHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def post(self, model_namespace, model_name, model_version):
-        self.set_header("Content-Type", "application/json")
         command = self.build_command(model_namespace, model_name, model_version)
         output = yield self.build_future(command)
         self.write(output_transformer(output))
@@ -60,8 +58,6 @@ def load_model(model_namespace, model_name, model_version):
     model_absolute_path = os.path.join(model_absolute_path, model_name)
     model_absolute_path = os.path.join(model_absolute_path, model_version)
 
-    # TODO:  dynamically find model_filename similar to `run` bash script
-#    model_filename = os.environ['PIO_MODEL_FILENAME']
     model_filename = fnmatch.filter(os.listdir(model_absolute_path), "*.pkl")[0]
 
     model_absolute_path = os.path.join(model_absolute_path, model_filename)
