@@ -41,8 +41,6 @@ class UploadHandler(tornado.web.RequestHandler):
             self.write(", Exception: %s" % kwargs["exc_info"][0].__name__)
 
 if __name__ == '__main__':
-#    from argparse import ArgumentParser
-
     port = os.environ['PIO_BUNDLE_SERVER_PORT'] 
     bundle_parent_path = os.environ['STORE_HOME']
 

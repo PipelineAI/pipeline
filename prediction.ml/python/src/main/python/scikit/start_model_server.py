@@ -10,8 +10,7 @@ import pickle
 from hystrix import Command
 import fnmatch
 
-from transformers import input_transformer, output_transformer
-
+from io_transformers import input_transformer, output_transformer
 
 class PredictCommand(Command):
 
