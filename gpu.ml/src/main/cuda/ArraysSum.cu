@@ -99,9 +99,17 @@ int main()
     printf("Allocating %lu bytes on Device GPU to store the result array after summing the 2 arrays...\n", N_BYTES);
     CheckErrorUtil(cudaMalloc((void**)&cD, N_BYTES));
 
-    printf("Copying 2 arrays from Host to Device GPU...\n");
+//    printf("Copying 2 arrays from Host to Device GPU...\n");
     CheckErrorUtil(cudaMemcpy(aD, aH, N_BYTES, cudaMemcpyHostToDevice));
     CheckErrorUtil(cudaMemcpy(bD, bH, N_BYTES, cudaMemcpyHostToDevice));
+
+    // Use CUDA streams to manage the concurrency of copying and executing
+//    cudaStream_t stream;
+//    cudaStreamCreate(&stream);
+
+    // Copy Input Data to the GPU
+//    cudaMemcpyAsync(aD, aH, N_BYTES, cudaMemcpyHostToDevice, stream)
+//    cudaMemcpyAsync(bD, bH, N_BYTES, cudaMemcpyHostToDevice, stream)
 
     blockSize.x = BLOCK_SIZE; blockSize.y = 1; blockSize.z = 1;
     gridSize.x = ((N + BLOCK_SIZE - 1) / BLOCK_SIZE); gridSize.y = 1; gridSize.z = 1;
@@ -114,8 +122,15 @@ int main()
     CheckErrorUtil(cudaDeviceSynchronize());
     CheckErrorUtil(cudaGetLastError());
 
+//    cudaStreamSynchronize(stream);
+
     printf("Copying result array from Device GPU to Host...\n");
     CheckErrorUtil(cudaMemcpy(cH, cD, N_BYTES, cudaMemcpyDeviceToHost));
+
+    // Copy Output Data to the Host
+//    cudaMemcpyAsync(cH, cD, N_BYTES, cudaMemcpyDeviceToHost, stream);
+
+//    cudaStreamSynchronize(stream);
 
     printf("Comparing expected result array stored on Host with actual result calculated on Device GPU...\n");
     CompareArrays(N, cH, refH);

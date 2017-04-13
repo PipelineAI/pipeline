@@ -1,0 +1,8 @@
+---
+flows:
+- logResult: true
+  steps:
+  - kind: "endpoint"
+    uri: "timer://bar?period=8000"
+  - kind: "endpoint"
+    uri: "http://hello/"

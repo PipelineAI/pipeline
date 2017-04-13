@@ -1,0 +1,13 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "function1"
+  labels:
+    funktion.fabric8.io/kind: "Function"
+    runtime: "nodejs"
+data:
+  source: |
+    module.exports = function(context, callback) {
+        callback(200, "Hello, world!\n");
+    }
