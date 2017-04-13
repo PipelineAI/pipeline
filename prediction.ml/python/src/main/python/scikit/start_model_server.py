@@ -6,18 +6,21 @@ import tornado.web
 import tornado.httpserver
 import tornado.httputil
 import tornado.gen
-import json
 import pickle
-import numpy as np
 from hystrix import Command
-import asyncio
 import fnmatch
 
 from transformers import input_transformer, output_transformer
 
+
 class PredictCommand(Command):
-    inputs = [[]]
-    model = None
+
+    def __init__(self, inputs, model, name, group_name, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.inputs = inputs
+        self.model = model
+        self.name = name
+        self.group_name = group_name
 
     def run(self):
         return self.model.predict(self.inputs)
@@ -25,7 +28,9 @@ class PredictCommand(Command):
     def fallback(self):
         return 'fallback!'
 
+
 class MainHandler(tornado.web.RequestHandler):
+
     @tornado.gen.coroutine
     def post(self, model_namespace, model_name, model_version):
         self.set_header("Content-Type", "application/json")
@@ -34,25 +39,22 @@ class MainHandler(tornado.web.RequestHandler):
         self.write(output_transformer(output))
 
     def build_command(self, model_namespace, model_name, model_version):
-        command = PredictCommand()
-        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
-
-        command.name = 'Predict_%s' % model_key
-        command.group_name = 'PredictGroup'
         model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
         if model_key in model_registry:
             model = model_registry[model_key]
         else:
-            (model_absolute_path, model) = load_model(model_namespace, model_name, model_version)
+            _, model = load_model(model_namespace, model_name, model_version)
             model_registry[model_key] = model
-        command.model = model
-        command.inputs = input_transformer(self.request.body)
-        return command
+        return PredictCommand(inputs=input_transformer(self.request.body),
+                              model=model,
+                              name='Predict_%s' % model_key,
+                              group_name='PredictGroup')
 
     def build_future(self, command):
         future = command.observe()
         future.add_done_callback(future.result)
         return future
+
 
 def load_model(model_namespace, model_name, model_version):
     model_absolute_path = os.path.join(store_home, model_namespace)
@@ -68,6 +70,7 @@ def load_model(model_namespace, model_name, model_version):
     with open(model_absolute_path, 'rb') as model_file:
         model = pickle.load(model_file)
     return (model_absolute_path, model)
+
 
 if __name__ == '__main__':
     port = os.environ['PIO_MODEL_SERVER_PORT']
