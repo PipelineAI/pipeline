@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: presto-worker
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: presto-worker
+  minReplicas: 1
+  maxReplicas: 5 
+  targetCPUUtilizationPercentage: 75

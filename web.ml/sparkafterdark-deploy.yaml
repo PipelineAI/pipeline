@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web-sparkafterdark 
+  labels:
+    app: web-sparkafterdark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-sparkafterdark
+  template:
+    metadata:
+      labels:
+        app: web-sparkafterdark
+    spec:
+      containers:
+      - name: web-sparkafterdark
+        image: docker.io/fluxcapacitor/web-sparkafterdark:master
+        resources:
+          limits:
+            cpu: 100m
+            memory: 1000Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 80 
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml"
+            revision: "master"

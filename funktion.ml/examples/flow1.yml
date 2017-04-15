@@ -1,0 +1,21 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "flow1"
+  labels:
+    funktion.fabric8.io/kind: "Flow"
+    connector: "timer"
+data:
+  application.properties: |
+    # spring application properties file
+    foo = bar
+  funktion.yml: |
+    ---
+    flows:
+      - logResult: true
+        steps:
+        - kind: endpoint
+          uri: timer://foo?fixedRate=true&period=5000
+        - kind: endpoint
+          uri: http://ip.jsontest.com/

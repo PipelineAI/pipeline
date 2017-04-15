@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: blogendpoint
+  labels:
+    expose: 'true'
+    funktion.fabric8.io/kind: Function
+    runtime: nodejs
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    name: blogendpoint

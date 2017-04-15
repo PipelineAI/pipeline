@@ -1,0 +1,37 @@
+#!/bin/bash
+
+echo "Creating conda environment 'model_environment'"
+echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
+echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+
+# ensure we're in the root conda environment
+source activate root
+
+# remove a possibly pre-existing `model_environment` environment.
+conda env remove -n model_environment --yes || true
+
+# create a new, empty `model_environment` environment.
+conda create --yes -n model_environment python=3.5
+
+# activate it.
+source activate model_environment
+
+# Install the pio model-server requirements (conda, pip, custom wheel)
+export PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH='src/main/python/scikit'
+# conda
+[ -s ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/pio_model_server_conda_requirements.txt ] && conda install --yes --file ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/pio_model_server_conda_requirements.txt
+# pip
+[ -s ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/pio_model_server_requirements.txt ] && pip install -r ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/pio_model_server_requirements.txt
+# custom wheel
+[ -s ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/pio_model_server_wheel_requirements.txt ] && pip install -r ${PIO_MODEL_SERVER_REQUIREMENTS_BASE_PATH}/io_model_server_wheel_requirements.txt
+
+# Install the model-specific requirements (conda, pip, custom wheel)
+export MODEL_REQUIREMENTS_BASE_PATH=${STORE_HOME}/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}
+# conda
+[ -s ${MODEL_REQUIREMENTS_BASE_PATH}/conda_requirements.txt ] && conda install --yes --file ${MODEL_REQUIREMENTS_BASE_PATH}/conda_requirements.txt
+# pip
+[ -s ${MODEL_REQUIREMENTS_BASE_PATH}/requirements.txt ] && pip install -r ${MODEL_REQUIREMENTS_BASE_PATH}/requirements.txt
+# custom wheel
+[ -s ${MODEL_REQUIREMENTS_BASE_PATH}/wheel_requirements.txt ] && pip install -r ${MODEL_REQUIREMENTS_BASE_PATH}/wheel_requirements.txt
+
+source deactivate model_environment

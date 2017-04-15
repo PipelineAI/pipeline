@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apachespark-worker-2-1-0
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: apachespark-worker-2-1-0
+  minReplicas: 1
+  maxReplicas: 4 
+  targetCPUUtilizationPercentage: 75 

@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prediction-python
+  labels:
+    name: prediction-python
+    app: prediction-python
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: prediction-python
+  template:
+    metadata:
+      labels:
+        app: prediction-python
+    spec:
+      containers:
+      - name: prediction-python
+        image: docker.io/fluxcapacitor/prediction-python:master
+        resources:
+          limits:
+            cpu: 8000m
+            memory: 8000Mi
+          requests:
+            cpu: 1000m
+            memory: 1000Mi 
+        imagePullPolicy: "Always"
+        env:
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: scikit_balancescale
+        - name: PIO_MODEL_VERSION
+          value: v0
+        - name: PIO_MODEL_SERVER_PORT
+          value: "9876"
+        - name: PIO_BUNDLE_SERVER_PORT
+          value: "8000"
+        ports:
+        - containerPort: 9040
+        - containerPort: 9876
+        - containerPort: 9000
+        - containerPort: 8000
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml.git"
+            revision: "master"

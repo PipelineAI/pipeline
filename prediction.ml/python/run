@@ -1,0 +1,9 @@
+#!/bin/bash
+
+spawn_bundle_server &
+
+create_environment
+
+source activate model_environment
+
+spawn_model_server 

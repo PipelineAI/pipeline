@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo '...Starting Presto...'
+presto-server-$PRESTO_VERSION/bin/launcher --data-dir=work/ run 
