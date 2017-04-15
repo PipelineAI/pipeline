@@ -32,7 +32,7 @@ spec:
         - name: PIO_MODEL_NAME
           value: scikit_balancescale
         - name: PIO_MODEL_VERSION
-          value: v2
+          value: v0
         - name: PIO_MODEL_SERVER_PORT
           value: "9876"
         - name: PIO_BUNDLE_SERVER_PORT
