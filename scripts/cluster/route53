@@ -24,4 +24,3 @@ kubectl annotate svc presto-ui dns.alpha.kubernetes.io/external=presto.$PIO_DOMA
 kubectl annotate svc scheduler-airflow dns.alpha.kubernetes.io/external=airflow.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate svc web-home dns.alpha.kubernetes.io/external=www.$PIO_DOMAIN_NAME --overwrite
 kubectl annotate svc zeppelin dns.alpha.kubernetes.io/external=zeppelin.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate --namespace fission svc fission-ui dns.alpha.kubernetes.io/external=fission.$PIO_DOMAIN_NAME --overwrite
