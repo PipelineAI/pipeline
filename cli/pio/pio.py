@@ -18,7 +18,7 @@ class PioCli(object):
     """PipelineIO CLI"""
     
     def deploy(self, 
-               request_timeout=10, 
+               request_timeout=30, 
                model_server_url=None, 
                model_namespace=None, 
                model_name=None, 
@@ -46,6 +46,9 @@ class PioCli(object):
             compressed_model_filename = model_bundle_path.rstrip(os.sep)
             compressed_model_filename = '%s.tar.%s' % (compressed_model_filename, compression_type)
 
+            print("Compressing '%s' into '%s'" % (model_bundle_path, compressed_model_filename))  
+            print("")
+
             with tarfile.open(compressed_model_filename, 'w:%s' % compression_type) as tar:
                 tar.add(model_bundle_path, arcname='.')
 
@@ -56,7 +59,7 @@ class PioCli(object):
                 files = [(model_file_key, (model_filename, fh))]
 
                 model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-                print("Deploying model '%s' to %s" % (model_filename, model_server_url))
+                print("Deploying model '%s' to '%s'" % (model_filename, model_server_url))
                 print("")
 
                 headers = {'Accept': 'application/%s' % output_type}
@@ -65,7 +68,7 @@ class PioCli(object):
 
 
     def predict(self, 
-                request_timeout=10, 
+                request_timeout=30, 
                 model_server_url=None, 
                 model_namespace=None, 
                 model_name=None, 
@@ -87,7 +90,7 @@ class PioCli(object):
             input_binary = fh.read()
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-        print("Predicting file '%s' at '%s'" % (input_filename, model_server_url))
+
         print("")
 
         headers = {'Content-type': 'application/%s' % input_type, 'Accept': 'application/%s' % output_type} 
@@ -105,8 +108,10 @@ class PioCli(object):
         for i in ret.items:
              print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
+
 def main():
     fire.Fire(PioCli)
+
 
 if __name__ == '__main__':
     main()
