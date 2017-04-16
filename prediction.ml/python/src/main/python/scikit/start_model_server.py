@@ -77,8 +77,8 @@ class MainHandler(tornado.web.RequestHandler):
             (model_absolute_path, model_key, model, transformers_module) = self.registry[model_key]
         else:
             model_base_path = os.path.join(self.bundle_parent_path, model_namespace)
-            model_base_path = os.path.join(model_absolute_path, model_name)
-            model_base_path = os.path.join(model_absolute_path, model_version)
+            model_base_path = os.path.join(model_base_path, model_name)
+            model_base_path = os.path.join(model_base_path, model_version)
 
             model_filename = fnmatch.filter(os.listdir(model_base_path), "*.pkl")[0]
 
