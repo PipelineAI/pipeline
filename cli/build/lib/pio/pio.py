@@ -9,8 +9,7 @@ import os
 
 # TODO: enums
 #   model_type = ['xml', 'file']
-#   input_type = ['xml', 'json']
-#   output_type = ['json']
+#   return_type = ['json']
 #   compression_type =['None', 'tar', 'tar.gz']
 
 class PioCli(object):
@@ -24,13 +23,13 @@ class PioCli(object):
                            model_version=None, 
                            model_type=None, 
                            model_str=None, 
-                           output_type=None):
+                           return_type=None):
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
         print("Deploy model '%s' to %s" % (model_name, model_server_url))
         print("")
 
-        headers = {'Content-type': 'application/%s' % model_type, 'Accept': 'application/%s' % output_type}
+        headers = {'Content-type': 'application/%s' % model_type, 'Accept': 'application/%s' % return_type}
         response = requests.post(url=model_server_url, headers=headers, data=model_str, timeout=request_timeout)
         print(response.text)
 
@@ -42,13 +41,13 @@ class PioCli(object):
                             model_version=None, 
                             input_type=None, 
                             input_str=None, 
-                            output_type=None):
+                            return_type=None):
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
         print("Evaluate string '%s' at '%s'" % (input_str, model_server_url))
         print("")
 
-        headers = {'Content-type': 'application/%s' % input_type, 'Accept': 'application/%s' % output_type}
+        headers = {'Content-type': 'application/%s' % input_type, 'Accept': 'application/%s' % return_type}
         response = requests.post(url=model_server_url, headers=headers, data=input_str, timeout=request_timeout)
         print(response.text)
 
@@ -61,7 +60,7 @@ class PioCli(object):
                          model_type=None, 
                          model_file_key=None, 
                          model_filename=None, 
-                         output_type=None):
+                         return_type=None):
         with open(model_filename, 'rb') as file:
             files = [(model_file_key, (model_filename, file))]
 
@@ -69,7 +68,7 @@ class PioCli(object):
         print("Deploy model '%s' to %s" % (model_filename, model_server_url))
         print("")
 
-        headers = {'Accept': 'application/%s' % output_type}
+        headers = {'Accept': 'application/%s' % return_type}
         response = requests.post(url=model_server_url, headers=headers, files=files, timeout=request_timeout)
         print(response.text)
 
@@ -82,7 +81,7 @@ class PioCli(object):
                           input_type=None, 
                           input_file_key=None, 
                           input_filename=None, 
-                          output_type=None):
+                          return_type=None):
         with open(input_filename, 'rb') as file:
             files = [(input_file_key, (input_filename, file))]
 
@@ -90,7 +89,7 @@ class PioCli(object):
         print("Predict file '%s' at '%s'" % (input_filename, model_server_url))
         print("")
 
-        headers = {'Accept': 'application/%s' % output_type} 
+        headers = {'Accept': 'application/%s' % return_type} 
         response = requests.post(url=model_server_url, headers=headers, files=files, timeout=request_timeout)
         print(response.text)
 
@@ -103,7 +102,7 @@ class PioCli(object):
                         model_type=None, 
                         model_file_key=None, 
                         model_dir=None, 
-                        output_type=None, 
+                        return_type=None, 
                         compression_type=None):
         # TODO:  Compress the dir
         model_filename = '/tmp/bundle.tar.gz'
@@ -118,7 +117,7 @@ class PioCli(object):
 
         with open(model_filename, 'rb') as fh:
             files = [(model_file_key, (model_filename, fh))]
-            headers = {'Accept': 'application/%s' % output_type}
+            headers = {'Accept': 'application/%s' % return_type}
             response = requests.post(url=model_server_url, headers=headers, files=files, timeout=request_timeout)
             print(response.text)
 
