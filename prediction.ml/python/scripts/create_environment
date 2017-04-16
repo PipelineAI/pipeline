@@ -7,7 +7,7 @@ echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 source activate root
 
 # remove a possibly pre-existing `model_environment` environment.
-conda env remove -n model_environment --yes || true
+#conda env remove -n model_environment --yes || true
 
 # create a new, empty `model_environment` environment.
 conda create --yes -n model_environment python=3.5

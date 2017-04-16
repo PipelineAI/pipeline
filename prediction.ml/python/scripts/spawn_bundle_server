@@ -6,4 +6,6 @@ echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 echo "PIO_BUNDLE_SERVER_PORT=$PIO_BUNDLE_SERVER_PORT"
 echo "STORE_HOME=$STORE_HOME"
 
+source activate model_environment
+
 src/main/python/bundle/start_bundle_server.py 
