@@ -32,11 +32,11 @@ class PredictCommand(Command):
 
     def run(self):
         print(self.inputs)
-        transformed_inputs = self.transform_inputs(self.inputs)
-        print(self.transformed_inputs)
+        transformed_inputs = transform_inputs(self.inputs)
+        print(transformed_inputs)
         outputs = self.model.predict(transformed_inputs)
         print(outputs)
-        transformed_outputs = self.transform_outputs(outputs)
+        transformed_outputs = transform_outputs(outputs)
         print(transformed_outputs)
         return transformed_outputs
 
