@@ -30,6 +30,7 @@ setup(
         "sklearn_pandas",
         "kubernetes",
         "fire",
+        "requests"
     ],
     dependency_links=[
         "git+https://github.com/jpmml/sklearn2pmml.git"
