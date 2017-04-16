@@ -31,13 +31,13 @@ class PredictCommand(Command):
         self.group_name = group_name
 
     def run(self):
-        print(self.inputs)
+#        print(self.inputs)
         transformed_inputs = transform_inputs(self.inputs)
-        print(transformed_inputs)
+#        print(transformed_inputs)
         outputs = self.model.predict(transformed_inputs)
-        print(outputs)
+#        print(outputs)
         transformed_outputs = transform_outputs(outputs)
-        print(transformed_outputs)
+#        print(transformed_outputs)
         return transformed_outputs
 
     def fallback(self):
