@@ -1,6 +1,7 @@
 #!/bin/bash
-
-echo "Starting bundle server..."
+echo ""
+echo "Starting Bundle Server..."
+echo ""
 echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
 echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 echo "PIO_BUNDLE_SERVER_PORT=$PIO_BUNDLE_SERVER_PORT"
