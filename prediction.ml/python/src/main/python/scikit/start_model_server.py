@@ -31,12 +31,17 @@ class PredictCommand(Command):
         self.group_name = group_name
 
     def run(self):
+        print(self.inputs)
         transformed_inputs = self.transform_inputs(self.inputs)
+        print(self.transformed_inputs)
         outputs = self.model.predict(transformed_inputs)
+        print(outputs)
         transformed_outputs = self.transform_outputs(outputs)
+        print(transformed_outputs)
         return transformed_outputs
 
     def fallback(self):
+        print(self)
         return 'fallback!'
 
 class MainHandler(tornado.web.RequestHandler):

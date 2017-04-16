@@ -27,7 +27,7 @@ class UploadHandler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))`
+            self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             self.write('...Done!\n')
