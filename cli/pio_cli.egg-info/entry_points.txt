@@ -1,0 +1,3 @@
+[console_scripts]
+pio = pio.pio:main
+
