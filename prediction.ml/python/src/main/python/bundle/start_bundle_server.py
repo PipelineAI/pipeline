@@ -29,12 +29,12 @@ class UploadHandler(tornado.web.RequestHandler):
                           bundle_path_filename) )
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
-            self.write('Successfully uploaded and extracted bundle %s into %s' % (filename, bundle_path))
+            self.write('Successfully uploaded and extracted bundle %s into %s\n' % (filename, bundle_path))
             completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path, 
-                                               timeout=300, 
+                                               timeout=600, 
                                                shell=True,
                                                stdout=subprocess.PIPE)
-            self.write('Installed and updated environment.')
+            self.write('Installed bundle and updated environment.')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))
