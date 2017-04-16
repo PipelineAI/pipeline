@@ -27,14 +27,16 @@ class UploadHandler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
+            self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))`
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
-            self.write('Successfully uploaded and extracted bundle %s into %s\n' % (filename, bundle_path))
+            self.write('...Done!\n')
+            self.write('Installing bundle and updating environment...\n')
             completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path, 
                                                timeout=600, 
                                                shell=True,
                                                stdout=subprocess.PIPE)
-            self.write('Installed bundle and updated environment.')
+            self.write('...Done!\n')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))
@@ -50,7 +52,7 @@ if __name__ == '__main__':
     bundle_parent_path = os.environ['STORE_HOME']
 
     app = tornado.web.Application([
-      # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
+      # url: /$PIO_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
       (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", UploadHandler,
          dict(bundle_parent_path=bundle_parent_path))
     ])
