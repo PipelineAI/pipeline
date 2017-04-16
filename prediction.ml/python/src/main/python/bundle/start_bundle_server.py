@@ -29,7 +29,7 @@ class UploadHandler(tornado.web.RequestHandler):
                           bundle_path_filename) )
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
-            self.write('Successful uploaded and extracted bundle %s into %s' % (filename, bundle_path))
+            self.write('Successfully uploaded and extracted bundle %s into %s' % (filename, bundle_path))
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))
@@ -55,6 +55,6 @@ if __name__ == '__main__':
     print("")
     print("Started Tornado-based Bundle Server on Port %s" % port)
     print("")
-    print("Watching bundle parent path %s" % bundle_parent_path)
+    print("Watching bundles within path %s" % bundle_parent_path)
 
     tornado.ioloop.IOLoop.current().start()
