@@ -10,19 +10,31 @@ import pickle
 from hystrix import Command
 import fnmatch
 
-from io_transformers import input_transformer, output_transformer
+from io_transformers import transform_inputs, transform_outputs
 
 class PredictCommand(Command):
 
-    def __init__(self, inputs, model, name, group_name, *args, **kwargs):
+    def __init__(self, 
+                 inputs, 
+                 model, 
+#                 io_transformers 
+                 command_name, 
+                 group_name, 
+                 *args, 
+                 **kwargs):
+
         super().__init__(*args, **kwargs)
         self.inputs = inputs
         self.model = model
-        self.name = name
+#        self.io_transformers = io_transformers
+        self.command_name = command_name
         self.group_name = group_name
 
     def run(self):
-        return self.model.predict(self.inputs)
+        transformed_inputs = self.transform_inputs(self.inputs)
+        outputs = self.model.predict(transformed_inputs)
+        transformed_outputs = self.transform_outputs(outputs)
+        return transformed_outputs
 
     def fallback(self):
         return 'fallback!'
@@ -42,9 +54,9 @@ class MainHandler(tornado.web.RequestHandler):
         else:
             _, model = load_model(model_namespace, model_name, model_version)
             model_registry[model_key] = model
-        return PredictCommand(inputs=input_transformer(self.request.body),
+        return PredictCommand(inputs=self.request.body,
                               model=model,
-                              name='Predict_%s' % model_key,
+                              command_name='Predict_%s' % model_key,
                               group_name='PredictGroup')
 
     def build_future(self, command):
@@ -89,7 +101,7 @@ if __name__ == '__main__':
     app.listen(port)
 
     print("")
-    print("Started Tornado-based Http Server on Port %s" % port)
+    print("Started Tornado-based Http Server on Port '%s'" % port)
     print("")
     print("Loaded Model from `%s`" % model_absolute_path)
     print("")
