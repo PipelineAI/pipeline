@@ -20,7 +20,6 @@ conda create --yes -n model_environment python=3.5
 source activate model_environment
 
 # Install the pio model-server requirements (conda, pip, custom wheel)
-export PIO_MODEL_SERVER_PATH='src/main/python/scikit'
 # conda
 [ -s ${PIO_MODEL_SERVER_PATH}/pio_model_server_conda_requirements.txt ] && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/pio_model_server_conda_requirements.txt
 # pip
