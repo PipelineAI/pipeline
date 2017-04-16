@@ -45,7 +45,7 @@ class MainHandler(tornado.web.RequestHandler):
     def post(self, model_namespace, model_name, model_version):
         command = self.build_command(model_namespace, model_name, model_version)
         output = yield self.build_future(command)
-        self.write(output_transformer(output))
+        self.write(output)
 
     def build_command(self, model_namespace, model_name, model_version):
         model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
