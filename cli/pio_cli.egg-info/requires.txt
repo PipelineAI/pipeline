@@ -1,3 +1,0 @@
-sklearn_pandas
-kubernetes
-fire

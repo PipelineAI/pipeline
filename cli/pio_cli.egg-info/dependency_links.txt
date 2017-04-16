@@ -1,1 +1,0 @@
-git+https://github.com/jpmml/sklearn2pmml.git
