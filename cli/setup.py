@@ -11,8 +11,8 @@ version = re.search(
     re.M
     ).group(1)
 
-with open("README.md", "rb") as f:
-    long_descr = f.read().decode("utf-8")
+#with open("README.md", "rb") as f:
+#    long_descr = f.read().decode("utf-8")
 
 setup(
     name = "pio-cli",

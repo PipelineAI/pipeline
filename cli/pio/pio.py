@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.3"
+__version__ = "0.5"
 
 import requests
 import fire
 import tarfile
 import os
+from kubernetes import client, config
 
 # TODO: enums
 #   model_type = ['xml', 'file']
@@ -27,7 +28,7 @@ class PioCli(object):
                            output_type=None):
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-        print("Deploy model '%s' to %s" % (model_name, model_server_url))
+        print("Deploying model '%s' to %s" % (model_name, model_server_url))
         print("")
 
         headers = {'Content-type': 'application/%s' % model_type, 'Accept': 'application/%s' % output_type}
@@ -45,7 +46,7 @@ class PioCli(object):
                             output_type=None):
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-        print("Evaluate string '%s' at '%s'" % (input_str, model_server_url))
+        print("Evaluating string '%s' at '%s'" % (input_str, model_server_url))
         print("")
 
         headers = {'Content-type': 'application/%s' % input_type, 'Accept': 'application/%s' % output_type}
@@ -62,11 +63,11 @@ class PioCli(object):
                          model_file_key=None, 
                          model_filename=None, 
                          output_type=None):
-        with open(model_filename, 'rb') as file:
-            files = [(model_file_key, (model_filename, file))]
+        with open(model_filename, 'rb') as fh:
+            files = [(model_file_key, (model_filename, fh))]
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-        print("Deploy model '%s' to %s" % (model_filename, model_server_url))
+        print("Deploying model '%s' to %s" % (model_filename, model_server_url))
         print("")
 
         headers = {'Accept': 'application/%s' % output_type}
@@ -83,11 +84,11 @@ class PioCli(object):
                           input_file_key=None, 
                           input_filename=None, 
                           output_type=None):
-        with open(input_filename, 'rb') as file:
-            files = [(input_file_key, (input_filename, file))]
+        with open(input_filename, 'rb') as fh:
+            files = [(input_file_key, (input_filename, fh))]
 
         model_server_url = "%s/%s/%s/%s" % (model_server_url, model_namespace, model_name, model_version)
-        print("Predict file '%s' at '%s'" % (input_filename, model_server_url))
+        print("Predicting file '%s' at '%s'" % (input_filename, model_server_url))
         print("")
 
         headers = {'Accept': 'application/%s' % output_type} 
@@ -108,7 +109,6 @@ class PioCli(object):
         # TODO:  Compress the dir
         model_filename = '/tmp/bundle.tar.gz'
 
-
         with tarfile.open(model_filename, 'w:gz') as tar:
             tar.add(model_dir)
 
@@ -121,6 +121,17 @@ class PioCli(object):
             headers = {'Accept': 'application/%s' % output_type}
             response = requests.post(url=model_server_url, headers=headers, files=files, timeout=request_timeout)
             print(response.text)
+
+    def pods(_sentinel=None):
+
+        # Configs can be set in Configuration class directly or using helper utility
+        config.load_kube_config()
+
+        v1=client.CoreV1Api()
+        print("Listing pods with their IPs:")
+        ret = v1.list_pod_for_all_namespaces(watch=False)
+        for i in ret.items:
+             print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
 def main():
     fire.Fire(PioCli)
