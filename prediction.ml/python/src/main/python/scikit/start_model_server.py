@@ -6,7 +6,7 @@ import tornado.web
 import tornado.httpserver
 import tornado.httputil
 import tornado.gen
-import pickle
+import dill as pickle
 from hystrix import Command
 import fnmatch
 import importlib.util
