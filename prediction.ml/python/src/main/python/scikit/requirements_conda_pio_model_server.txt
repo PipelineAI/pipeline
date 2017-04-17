@@ -1,2 +1,2 @@
-tornado
-scikit-learn
+tornado=4.5
+dill=0.2.6
