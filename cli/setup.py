@@ -27,12 +27,12 @@ setup(
     author_email = "chris@fregly.com",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=[
-        "sklearn_pandas",
-        "kubernetes",
-        "fire",
-        "requests",
-        "pyyaml",
-        "pick",
+        "kubernetes==2.0.0a1",
+        "fire==0.1.0",
+        "requests==2.13.0",
+        "pyyaml==3.12",
+        "pick==0.6.3",
+        "gitpython==2.1.3"
     ],
     dependency_links=[
         "git+https://github.com/jpmml/sklearn2pmml.git"
