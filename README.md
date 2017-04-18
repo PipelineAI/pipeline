@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-# source.ml
-Source code for companion fluxcapacitor/pipeline project. 
-
-Stitched together by Kubernetes gitRepo Persistent Volume.
-
-http://pipeline.io
-
-=======
 ![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
 
 ### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
@@ -98,4 +89,3 @@ http://pipeline.io
 ### Docker [Images](https://hub.docker.com/u/fluxcapacitor)
 
 ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
->>>>>>> ecac5da6cd2e3e37ffbdad8497251dbc6e83259e
