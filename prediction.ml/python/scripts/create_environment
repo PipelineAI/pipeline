@@ -16,7 +16,7 @@ source activate root
 #conda env remove -n model_environment --yes || true
 
 # create a new, empty `model_environment` environment.
-#conda create --yes -n model_environment python=3.5
+conda create --yes -n model_environment python=3.5
 
 # activate it.
 source activate model_environment
