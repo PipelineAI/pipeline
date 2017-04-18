@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.9"
+__version__ = "0.10"
 
 import requests
 import fire
@@ -156,13 +156,13 @@ class PioCli(object):
         with open(compressed_model_bundle_filename, 'rb') as fh:
             files = [('bundle', (compressed_model_bundle_filename, fh))]
 
-        full_model_server_url = "%s:81/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
-        print("Deploying model bundle '%s' to '%s...'" % (compressed_model_bundle_filename, full_model_server_url))
-        print("")
-        headers = {'Accept': 'application/json'}
-        response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
-        print(response.text)
-        print("...Done!")
+            full_model_server_url = "%s:81/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
+            print("Deploying model bundle '%s' to '%s...'" % (compressed_model_bundle_filename, full_model_server_url))
+            print("")
+            headers = {'Accept': 'application/json'}
+            response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
+            print(response.text)
+            print("...Done!")
 
     def model_predict(self, 
                       model_version, 
