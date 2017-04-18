@@ -52,8 +52,8 @@ if __name__ == '__main__':
     bundle_parent_path = os.environ['STORE_HOME']
 
     app = tornado.web.Application([
-      # url: /$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", UploadHandler,
+      # url: /v1/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", UploadHandler,
          dict(bundle_parent_path=bundle_parent_path))
     ])
 

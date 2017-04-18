@@ -106,8 +106,8 @@ if __name__ == '__main__':
     model_version = os.environ['PIO_MODEL_VERSION']
 
     app = tornado.web.Application([
-      # url: /$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler, 
+      # url: /v1/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
+      (r"/v1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler, 
           dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)
