@@ -85,8 +85,8 @@ class MainHandler(tornado.web.RequestHandler):
             with open(model_absolute_path, 'rb') as model_file:
                 model = pickle.load(model_file)
 
-            # Load io_transformers from model directory
-            transformers_module_name = 'io_transformers'
+            # Load model_io_transformers from model directory
+            transformers_module_name = 'model_io_transformers'
             transformers_source_path = os.path.join(model_base_path, '%s.py' % transformers_module_name) 
             spec = importlib.util.spec_from_file_location(transformers_module_name, transformers_source_path)
             transformers_module = importlib.util.module_from_spec(spec)
