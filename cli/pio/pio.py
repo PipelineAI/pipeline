@@ -70,9 +70,7 @@ class PioCli(object):
                 os.makedirs(config_file_base_path)
             pio_api_version = self.pio_api_version() 
             initial_config_dict = {'pio_api_version': pio_api_version}
-            print("initial_config_dict %s" % initial_config_dict)
             initial_config_yaml =  yaml.dump(initial_config_dict, default_flow_style=False, explicit_start=True)
-            print("initial_config_yaml %s" % initial_config_yaml)
             print("Creating config '%s'..." % config_file_path)
             with open(config_file_path, 'w') as fh:
                 fh.write(initial_config_yaml)
@@ -82,7 +80,6 @@ class PioCli(object):
         # Update the YAML 
         with open(config_file_path, 'r') as fh:
             existing_config_dict = yaml.load(fh)
-            print("existing_config_dict: %s" % existing_config_dict)
             pio_api_version = existing_config_dict['pio_api_version']
             print("...Done!")
             return existing_config_dict
