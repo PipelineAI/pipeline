@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
@@ -13,13 +14,13 @@ import importlib.util
 
 class PredictCommand(Command):
 
-    def __init__(self, 
+    def __init__(self,
                  inputs,
-                 model, 
+                 model,
                  transformers_module,
-                 command_name, 
-                 group_name, 
-                 *args, 
+                 command_name,
+                 group_name,
+                 *args,
                  **kwargs):
 
         super().__init__(*args, **kwargs)
@@ -46,8 +47,8 @@ class MainHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def post(self, model_namespace, model_name, model_version):
-        (_, model_key, model, transformers_module) = self.get_model_assets(model_namespace, 
-                                                                           model_name, 
+        (_, model_key, model, transformers_module) = self.get_model_assets(model_namespace,
+                                                                           model_name,
                                                                            model_version)
         command = self.build_command(model_key, model, transformers_module)
 
@@ -76,6 +77,16 @@ class MainHandler(tornado.web.RequestHandler):
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
 
+            # Load `model` module from model directory
+            model_module_name = 'model'
+            model_module_source_path = os.path.join(model_base_path, '%s.py' % model_module_name)
+            model_module_spec = importlib.util.spec_from_file_location(model_module_name, model_module_source_path)
+            model_module = importlib.util.module_from_spec(model_module_spec)
+            model_module_spec.loader.exec_module(model_module)
+            # HACK:  This changes the model module globally which is not ideal.
+            #        Multiple models (or versions of models) cannot be served simultaneously.
+            sys.modules['model'] = model_module
+
             model_filename = fnmatch.filter(os.listdir(model_base_path), "*.pkl")[0]
 
             # Set absolute path to model directory
@@ -87,7 +98,7 @@ class MainHandler(tornado.web.RequestHandler):
 
             # Load model_io_transformers from model directory
             transformers_module_name = 'model_io_transformers'
-            transformers_source_path = os.path.join(model_base_path, '%s.py' % transformers_module_name) 
+            transformers_source_path = os.path.join(model_base_path, '%s.py' % transformers_module_name)
             spec = importlib.util.spec_from_file_location(transformers_module_name, transformers_source_path)
             transformers_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(transformers_module)
@@ -99,7 +110,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 if __name__ == '__main__':
     port = os.environ['PIO_MODEL_SERVER_PORT']
-    
+
     bundle_parent_path = os.environ['STORE_HOME']
     model_namespace = os.environ['PIO_MODEL_NAMESPACE']
     model_name = os.environ['PIO_MODEL_NAME']
@@ -107,7 +118,7 @@ if __name__ == '__main__':
 
     app = tornado.web.Application([
       # url: /v1/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/v1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler, 
+      (r"/v1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", MainHandler,
           dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)
