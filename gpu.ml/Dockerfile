@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-master-gpu:master
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:master
 
 WORKDIR /root
 
