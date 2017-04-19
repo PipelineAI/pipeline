@@ -45,7 +45,7 @@ class PredictionService {
   
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/update-python/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/update-python/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def updateSource(@PathVariable("namespace") namespace: String,
@@ -84,9 +84,9 @@ class PredictionService {
   /*  
    curl -i -X POST -v -H "Transfer-Encoding: chunked" \
      -F "model=@tensorflow_inception_graph.pb" \
-     http://[host]:[port]/update-tensorflow/default/tensorflow_inception/1
+     http://[host]:[port]/v1/update-tensorflow/default/tensorflow_inception/1
   */
-  @RequestMapping(path=Array("/update-python-bundle/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/update-python-bundle/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateTensorflow(@PathVariable("namespace") namespace: String,
                        @PathVariable("modelName") modelName: String, 
@@ -178,7 +178,7 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }  
   
-  @RequestMapping(path=Array("/evaluate-python/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/evaluate-python/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateSource(@PathVariable("namespace") namespace: String,

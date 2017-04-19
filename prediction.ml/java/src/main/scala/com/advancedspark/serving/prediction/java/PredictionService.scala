@@ -49,7 +49,7 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/update-java/{namespace}/{className}/{version}"),
+  @RequestMapping(path=Array("/v1/update-java/{namespace}/{className}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
@@ -96,9 +96,9 @@ class PredictionService {
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d {"id":"21618"} \
-      http://[hostname]:[port]/evaluate-java/default/java_equals/1
+      http://[hostname]:[port]/v1//evaluate-java/default/java_equals/1
 */
-  @RequestMapping(path=Array("/evaluate-java/{namespace}/{className}/{version}"),
+  @RequestMapping(path=Array("/v1/evaluate-java/{namespace}/{className}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateSource(@PathVariable("namespace") namespace: String, 

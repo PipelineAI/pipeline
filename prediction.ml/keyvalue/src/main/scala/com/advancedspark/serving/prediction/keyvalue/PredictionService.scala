@@ -31,7 +31,7 @@ class PredictionService {
  
   val jedisPool = new JedisPool(new JedisPoolConfig(), redisHostname, redisPort);
 
-  @RequestMapping(path=Array("/evaluate-keyvalue/{namespace}/{version}/{userId}/{itemId}"),
+  @RequestMapping(path=Array("/v1/evaluate-keyvalue/{namespace}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def prediction(@PathVariable("namespace") namespace: String, 
                  @PathVariable("version") version: String,
@@ -49,7 +49,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/evaluate-keyvalue-batch/{namespace}/{version}/{userId}/{itemId}"),
+  @RequestMapping(path=Array("/v1/evaluate-keyvalue-batch/{namespace}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def batchPrediction(@PathVariable("namespace") namespace: String,
                       @PathVariable("version") version: String,
@@ -67,7 +67,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/evaluate-recommendations/{namespace}/{version}/{userId}/{startIdx}/{endIdx}"), 
+  @RequestMapping(path=Array("/v1/evaluate-recommendations/{namespace}/{version}/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("namespace") namespace: String,
                       @PathVariable("version") version: String,
@@ -88,7 +88,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/evaluate-similars/{namespace}/{version}/{itemId}/{startIdx}/{endIdx}"),
+  @RequestMapping(path=Array("/v1/evaluate-similars/{namespace}/{version}/{itemId}/{startIdx}/{endIdx}"),
                   produces=Array("application/json; charset=UTF-8"))
   def similars(@PathVariable("namespace") namespace: String,
                @PathVariable("version") version: String,
