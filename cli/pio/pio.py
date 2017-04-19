@@ -157,7 +157,7 @@ class PioCli(object):
             files = [('bundle', (compressed_model_bundle_filename, fh))]
 
             full_model_server_url = "%s:81/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
-            print("Deploying model bundle '%s' to '%s...'" % (compressed_model_bundle_filename, full_model_server_url))
+            print("Deploying model bundle '%s' to '%s'..." % (compressed_model_bundle_filename, full_model_server_url))
             print("")
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
@@ -265,7 +265,7 @@ class PioCli(object):
         print("kube_namespace: '%s'" % kube_namespace)
         print("kube_yaml_base_path: '%s'" % kube_yaml_base_path)
         print("expanded_kube_yaml_base_path: '%s'" % expanded_kube_yaml_base_path)
-        print("pio_api_version: %s" % pio_api_version)
+        print("pio_api_version: '%s'" % pio_api_version)
 
         kubeconfig.load_kube_config()
         for component in components:
