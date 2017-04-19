@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.10"
+__version__ = "0.11"
 
 import requests
 import fire
@@ -45,7 +45,7 @@ class PioCli(object):
 
         existing_config_dict = self.config_get()
 
-        merged_config_dict = {**existing_config_dict, **config_dict}
+        merged_config_dict = {existing_config_dict, **config_dict}
         config_yaml = yaml.dump(merged_config_dict, default_flow_style=False, explicit_start=True)
 
         with open(config_file_path, 'w') as fh:
