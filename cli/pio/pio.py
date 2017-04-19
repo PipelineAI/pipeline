@@ -144,8 +144,10 @@ class PioCli(object):
         print('request_timeout: %s' % request_timeout)
         print("pio_api_version: %s" % pio_api_version)
  
-        compressed_model_bundle_filename = model_bundle_path.rstrip(os.sep)
-        compressed_model_bundle_filename = '%s.tar.gz' % compressed_model_bundle_filename
+        #compressed_model_bundle_filename = model_bundle_path.rstrip(os.sep)
+        #compressed_model_bundle_filename = model_bundle_path.replace('.', '')
+        #compressed_model_bundle_filename = 'bundle-%s.tar.gz' % compressed_model_bundle_filename
+        compressed_model_bundle_filename = 'bundle-%s-%s-%s.tar.gz' % (model_namespace, model_name, model_version)
 
         print("Compressing '%s' into '%s'..." % (model_bundle_path, compressed_model_bundle_filename))  
         print("")
