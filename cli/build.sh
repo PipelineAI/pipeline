@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pip install -e .
+pip uninstall . && pip install -e .
