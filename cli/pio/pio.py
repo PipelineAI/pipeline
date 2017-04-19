@@ -6,6 +6,7 @@ import requests
 import fire
 import tarfile
 import os
+import sys
 import kubernetes.client as kubeclient
 import kubernetes.config as kubeconfig
 import pick
@@ -29,23 +30,36 @@ class PioCli(object):
 
     def config_set(self, 
                    config_dict):
-        config_file_base_path = os.path.expanduser("~/.pio/")
-        os.makedirs(config_file_base_path, exist_ok=True)
-        config_file_path = os.path.join(config_file_base_path, 'config')
-        config_file_path_exists = os.path.exists(config_file_path)
+
         pio_api_version = self.pio_api_version()
 
-        print("config_dict: '%s'" % str(config_dict))
-        print("config_file_base_path: '%s'" % config_file_base_path)
-        print("config_file_path: '%s'" % config_file_path)
-        print("config_file_path_exists: '%s'" % config_file_path_exists)
-        print("pio_api_version: %s" % pio_api_version)
+        config_file_base_path = os.path.expanduser('~/.pio/')
+        config_file_path = os.path.join(config_file_base_path, 'config')
 
-        print("Merging new config_dict '%s' with old config file '%s'..." % (config_dict, config_file_path))
+        # >= Python3.5
+        # os.makedirs(config_file_base_path, exist_ok=True)
+        if not os.path.exists(config_file_path):
+            if not os.path.exists(config_file_base_path):
+                os.makedirs(config_file_base_path)
+            initial_config_dict = {'pio_api_version': pio_api_version}
+            initial_config_yaml =  yaml.dump(empty_config_dict, default_flow_style=False, explicit_start=True)
+            print("Creating config '%s'..." % config_file_path)
+            with open(config_file_path, 'w') as fh:
+                fh.write(initial_config_yaml)
+            print("...Done!")
+
+#        print("config_dict: '%s'" % str(config_dict))
+#        print("config_file_base_path: '%s'" % config_file_base_path)
+#        print("config_file_path: '%s'" % config_file_path)
+#        print("pio_api_version: %s" % pio_api_version)
 
         existing_config_dict = self.config_get()
 
-        merged_config_dict = {existing_config_dict, **config_dict}
+        print("Merging new config '%s' with existing config '%s'..." % (config_dict, config_file_path))
+        # >= Python3.5
+        # {**existing_config_dict, **config_dict}
+        merged_config_dict = existing_config_dict.update(config_dict)
+
         config_yaml = yaml.dump(merged_config_dict, default_flow_style=False, explicit_start=True)
 
         with open(config_file_path, 'w') as fh:
@@ -55,29 +69,32 @@ class PioCli(object):
 
 
     def config_get(self):
-        config_file_base_path = os.path.expanduser("~/.pio/")
-        os.makedirs(config_file_base_path, exist_ok=True)
-        config_file_path = os.path.join(config_file_base_path, 'config')
-        config_file_path_exists = os.path.exists(config_file_path)
         pio_api_version = self.pio_api_version()
 
-        print("config_file_base_path: '%s'" % config_file_base_path)
-        print("config_file_path: '%s'" % config_file_path)
-        print("config_file_path_exists: '%s'" % config_file_path_exists)
-        print("pio_api_version: %s" % pio_api_version)
+        config_file_base_path = os.path.expanduser("~/.pio/")
+        config_file_path = os.path.join(config_file_base_path, 'config')
 
-        print("Retrieving config file '%s'..." % config_file_path)
+        # >= Python3.5
+        # os.makedirs(config_file_base_path, exist_ok=True)
+        if not os.path.exists(config_file_path):
+            if not os.path.exists(config_file_base_path):
+                os.makedirs(config_file_base_path)
+            initial_config_dict = {'pio_api_version': pio_api_version}
+            initial_config_yaml =  yaml.dump(initial_config_dict, default_flow_style=False, explicit_start=True)
 
-        # TODO:  Update the YAML instead of overwritting it
-        # TODO:  Check if config_file_path exists, first
-        if (config_file_path_exists):
-            with open(config_file_path, 'r') as fh:
-                existing_config_dict = yaml.load(fh)
-        else:
-            existing_config_dict = {}
+            print("Creating config '%s'..." % config_file_path)
+            with open(config_file_path, 'w') as fh:
+                fh.write(initial_config_yaml)
+            print("...Done!")
+
+        print("Retrieving config '%s'..." % config_file_path)
+        # Update the YAML 
+        with open(config_file_path, 'r') as fh:
+            existing_config_dict = yaml.load(fh)
 
         print(existing_config_dict)
         print("...Done!")
+
         return existing_config_dict
 
     def config_view(self):
@@ -91,14 +108,17 @@ class PioCli(object):
         pio_api_version = self.pio_api_version()
         expanded_kube_yaml_base_path = os.path.expanduser(kube_yaml_base_path)
 
-        print('kube_cluster_context: %s' % kube_cluster_context)
-        print('kube_namespace: %s' % kube_namespace)
-        print("pio_api_version: %s" % pio_api_version)
-        print("kube_yaml_base_path: %s" % kube_yaml_base_path)
-        print("expanded_kube_yaml_base_path: %s" % expanded_kube_yaml_base_path)
+#        print('kube_cluster_context: %s' % kube_cluster_context)
+#        print('kube_namespace: %s' % kube_namespace)
+#        print("pio_api_version: %s" % pio_api_version)
+#        print("kube_yaml_base_path: %s" % kube_yaml_base_path)
+#        print("expanded_kube_yaml_base_path: %s" % expanded_kube_yaml_base_path)
 
         config_dict = {'kube_yaml_base_path': expanded_kube_yaml_base_path, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
+        print("Updating config with '%s'..." % config_dict)
         self.config_set(config_dict)
+        self.config_get()
+        print("...Done!")
 
 
     def model_init(self,
@@ -110,12 +130,12 @@ class PioCli(object):
 
         pio_api_version = self.pio_api_version()
 
-        print("model_server_url: '%s'" % model_server_url)
-        print("model_namespace: '%s'" % model_namespace)
-        print("model_name: '%s'" % model_name)
-        print("model_input_mime_type: '%s'" % model_input_mime_type)
-        print("model_output_mime_type: '%s'" % model_output_mime_type)
-        print("pio_api_version: %s" % pio_api_version)
+#        print("model_server_url: '%s'" % model_server_url)
+#        print("model_namespace: '%s'" % model_namespace)
+#        print("model_name: '%s'" % model_name)
+#        print("model_input_mime_type: '%s'" % model_input_mime_type)
+#        print("model_output_mime_type: '%s'" % model_output_mime_type)
+#        print("pio_api_version: %s" % pio_api_version)
 
         config_dict = {"model_server_url": model_server_url, 
                        "model_namespace": model_namespace,
@@ -123,7 +143,11 @@ class PioCli(object):
                        "model_input_mime_type": model_input_mime_type,
                        "model_output_mime_type": model_output_mime_type,
         }
+
+        print("Updating config with '%s'..." % config_dict)
         self.config_set(config_dict)
+        self.config_get()
+        print("...Done!")
 
 
     def model_deploy(self,
@@ -134,15 +158,17 @@ class PioCli(object):
         model_server_url = self.config_get()['model_server_url']
         model_namespace = self.config_get()['model_namespace']
         model_name = self.config_get()['model_name']
-        pio_api_version = self.pio_api_version()
+        pio_api_version = self.config_get()['pio_api_version']
 
-        print('model_server_url: %s' % model_server_url)
-        print('model_namespace: %s' % model_namespace)
-        print('model_name: %s' % model_name)
+        print(self.config_get())
+
+#        print('model_server_url: %s' % model_server_url)
+#        print('model_namespace: %s' % model_namespace)
+#        print('model_name: %s' % model_name)
         print('model_version: %s' % model_version)
         print('model_bundle_path: %s' % model_bundle_path)
         print('request_timeout: %s' % request_timeout)
-        print("pio_api_version: %s" % pio_api_version)
+#        print("pio_api_version: %s" % pio_api_version)
  
         #compressed_model_bundle_filename = model_bundle_path.rstrip(os.sep)
         #compressed_model_bundle_filename = model_bundle_path.replace('.', '')
@@ -177,17 +203,19 @@ class PioCli(object):
         model_input_mime_type = self.config_get()['model_input_mime_type']
         model_output_mime_type = self.config_get()['model_output_mime_type']
 
-        pio_api_version = self.pio_api_version()
+        pio_api_version = self.config_get()['pio_api_version']
 
-        print('model_server_url: %s' % model_server_url)
-        print('model_namespace: %s' % model_namespace)
-        print('model_name: %s' % model_name)
+        print(self.config_get())
+
+#        print('model_server_url: %s' % model_server_url)
+#        print('model_namespace: %s' % model_namespace)
+#        print('model_name: %s' % model_name)
         print('model_version: %s' % model_version)
         print('model_input_file_path: %s' % model_input_file_path)
-        print('model_input_mime_type: %s' % model_input_mime_type)
-        print('model_output_mime_type: %s' % model_output_mime_type)
+#        print('model_input_mime_type: %s' % model_input_mime_type)
+#        print('model_output_mime_type: %s' % model_output_mime_type)
         print('request_timeout: %s' % request_timeout)
-        print("pio_api_version: %s" % pio_api_version)
+#        print("pio_api_version: %s" % pio_api_version)
 
         full_model_server_url = "%s/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
 
@@ -208,11 +236,13 @@ class PioCli(object):
     def cluster_describe(self):
         kube_cluster_context = self.config_get()['kube_cluster_context']
         kube_namespace = self.config_get()['kube_namespace']
-        pio_api_version = self.pio_api_version()
+        pio_api_version = self.config_get()['pio_api_version']
 
-        print("kube_cluster_context: '%s'" % kube_cluster_context)
-        print("kube_namespace: '%s'" % kube_namespace)
-        print("pio_api_version: %s" % pio_api_version)
+        print(self.config_get())
+
+#        print("kube_cluster_context: '%s'" % kube_cluster_context)
+#        print("kube_namespace: '%s'" % kube_namespace)
+#        print("pio_api_version: %s" % pio_api_version)
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -262,12 +292,17 @@ class PioCli(object):
         kube_namespace = self.config_get()['kube_namespace']
         kube_yaml_base_path = self.config_get()['kube_yaml_base_path']
         expanded_kube_yaml_base_path = os.path.expanduser(kube_yaml_base_path)
-        pio_api_version = self.pio_api_version()
 
-        print("kube_namespace: '%s'" % kube_namespace)
-        print("kube_yaml_base_path: '%s'" % kube_yaml_base_path)
-        print("expanded_kube_yaml_base_path: '%s'" % expanded_kube_yaml_base_path)
-        print("pio_api_version: '%s'" % pio_api_version)
+        pio_api_version = self.config_get()['pio_api_version']
+
+        print(self.config_get())
+
+#        print("kube_namespace: '%s'" % kube_namespace)
+#        print("kube_yaml_base_path: '%s'" % kube_yaml_base_path)
+#        print("expanded_kube_yaml_base_path: '%s'" % expanded_kube_yaml_base_path)
+#        print("pio_api_version: '%s'" % pio_api_version)
+
+        print("components: '%s'" % components)
 
         kubeconfig.load_kube_config()
         for component in components:
@@ -344,28 +379,34 @@ class PioCli(object):
                  git_revision='HEAD'):
 
         expanded_git_repo_base_path = os.path.expanduser(git_repo_base_path)
-        pio_api_version = self.pio_api_version()
+        pio_api_version = self.config_get()['pio_api_version']
+
+        print(self.config_get())
 
         print("git_repo_base_path: '%s'" % git_repo_base_path)
         print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
         print("git_revision: '%s'" % git_revision)
-        print("pio_api_version: %s" % pio_api_version)
  
         config_dict = {'git_repo_base_path': expanded_git_repo_base_path , 'git_revision': git_revision}
-        self.config_set(config_dict)
 
+        print("Updating config with '%s'..." % config_dict)
+        self.config_set(config_dict)
+        self.config_get()
+        print("...Done!")
 
     def git_commit_hash(self):
 
         git_repo_base_path = self.config_get()['git_repo_base_path']
         expanded_git_repo_base_path = os.path.expanduser(git_repo_base_path)
         git_revision = self.config_get()['git_revision']
-        pio_api_version = self.pio_api_version()
+        pio_api_version = self.config_get()['pio_api_version']
 
-        print("git_repo_base_path: '%s'" % git_repo_base_path)
-        print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
+        print(self.config_get())
+
+#        print("git_repo_base_path: '%s'" % git_repo_base_path)
+#        print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
         print("git_revision: '%s'" % git_revision)
-        print("pio_api_version: %s" % pio_api_version)
+#        print("pio_api_version: %s" % pio_api_version)
 
         git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
         hc = git_repo.commit(git_revision)
