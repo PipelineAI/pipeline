@@ -21,6 +21,8 @@ cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapa
 cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0:$1 .
 cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-1.0-gpu:$1 -f Dockerfile.gpu .
 
+cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1 -f Dockerfile.gpu .
+
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-master-2.0.1:$1 -f Dockerfile.master .
 cd $PIPELINE_HOME/apachespark.ml/2.0.1/ && sudo docker build -q -t fluxcapacitor/apachespark-worker-2.0.1:$1 -f Dockerfile.worker .

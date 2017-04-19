@@ -17,6 +17,7 @@ sudo docker push fluxcapacitor/package-tensorflow-serving-1.0:$1
 sudo docker push fluxcapacitor/package-tensorflow-serving-1.0-gpu:$1
 sudo docker push fluxcapacitor/package-tensorflow-1.0:$1
 sudo docker push fluxcapacitor/package-tensorflow-1.0-gpu:$1
+sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1
 
 # apachespark.ml
 sudo docker push fluxcapacitor/apachespark-master-2.1.0:$1
