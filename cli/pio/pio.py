@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.12"
+__version__ = "0.13"
 
 import requests
 import fire
@@ -34,7 +34,7 @@ class PioCli(object):
     def config_set(self,
                    config_key,
                    config_value):
-        self.config_merge_dict(config_dict, {config_key: config_value})
+        self.config_merge_dict({config_key: config_value})
 
     def config_merge_dict(self, 
                           config_dict):
@@ -76,12 +76,10 @@ class PioCli(object):
                 fh.write(initial_config_yaml)
             print("...Done!")
 
-        print("Retrieving config '%s'..." % config_file_path)
         # Update the YAML 
         with open(config_file_path, 'r') as fh:
             existing_config_dict = yaml.load(fh)
             pio_api_version = existing_config_dict['pio_api_version']
-            print("...Done!")
             return existing_config_dict
 
 
@@ -161,6 +159,10 @@ class PioCli(object):
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
             print(response.text)
+            print("...Done!")
+
+            print("Removing model bundle '%s'..." % compressed_model_bundle_filename)
+            os.remove(compressed_model_bundle_filename)
             print("...Done!")
 
     def model_predict(self, 
