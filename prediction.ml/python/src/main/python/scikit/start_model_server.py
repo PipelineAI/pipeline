@@ -77,16 +77,6 @@ class MainHandler(tornado.web.RequestHandler):
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
 
-            # Load `model` module from model directory
-            model_module_name = 'model'
-            model_module_source_path = os.path.join(model_base_path, '%s.py' % model_module_name)
-            model_module_spec = importlib.util.spec_from_file_location(model_module_name, model_module_source_path)
-            model_module = importlib.util.module_from_spec(model_module_spec)
-            model_module_spec.loader.exec_module(model_module)
-            # HACK:  This changes the model module globally which is not ideal.
-            #        Multiple models (or versions of models) cannot be served simultaneously.
-            sys.modules['model'] = model_module
-
             model_filename = fnmatch.filter(os.listdir(model_base_path), "*.pkl")[0]
 
             # Set absolute path to model directory
