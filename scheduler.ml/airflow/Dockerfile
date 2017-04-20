@@ -3,7 +3,8 @@ FROM fluxcapacitor/package-spark-2.1.0:master
 WORKDIR /root
 
 ENV \
-  AIRFLOW_HOME=/root/airflow
+  AIRFLOW_HOME=/root/airflow \
+  CONFIGMAP_HOME=/root/config-map
 
 # MySql Python Adapter (Used by SQLAlchemy/Airflow)
 RUN \
@@ -36,7 +37,7 @@ RUN \
   && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
 
 ENV \
-  KUBERNETES_VERSION=1.5.1
+  KUBERNETES_VERSION=1.6.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -50,18 +51,16 @@ RUN \
   && cd $AIRFLOW_HOME
 
 RUN \
-  pip install airflow==1.7.1.3 \
+  pip install airflow==1.8.0 \
   && pip install celery[redis] \
   && pip install flower
-
-RUN \
-  pip install tensorflow==1.0.1
 
 # Temp workaround for running Celery worker as root
 ENV \
   C_FORCE_ROOT=true
 
-COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
+# refactored to airflow-config-volume configMap
+# COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
 
 COPY run run
 

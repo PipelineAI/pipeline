@@ -4,6 +4,7 @@ metadata:
   name: metastore-2-1-1
   labels:
     app: metastore-2-1-1
+    version: 2.1.1
 spec:
   replicas: 1
   selector:
@@ -30,3 +31,10 @@ spec:
           value: env
         ports:
         - containerPort: 9083
+        volumeMounts:
+          - name: metastore-config-volume
+            mountPath: /root/apache-hive-2.1.1-bin/conf
+      volumes:
+        - name: metastore-config-volume
+          configMap:
+            name: metastore-config

@@ -30,15 +30,10 @@ spec:
           value: env
         ports:
         - containerPort: 7060
-#        volumeMounts:
-#          - name: hadoop-conf-dev-volume
-#            mountPath: /etc/hadoop/conf/dev
-#          - name: hadoop-conf-prod-volume
-#            mountPath: /etc/hadoop/conf/prod
-#      volumes:
-#        - name: hadoop-conf-dev-volume
-#          secret:
-#            secretName: hadoop-conf-dev
-#        - name: hadoop-conf-prod-volume
-#          secret:
-#            secretName: hadoop-conf-prod
+        volumeMounts:
+          - name: presto-catalog-volume
+            mountPath: /root/presto-server-0.167/etc/catalog
+      volumes:
+        - name: presto-catalog-volume
+          configMap:
+            name: presto-catalog

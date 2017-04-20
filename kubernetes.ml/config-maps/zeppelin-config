@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap zeppelin-config --from-file=zeppelin

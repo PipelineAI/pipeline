@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl create configmap presto-catalog --from-file=presto

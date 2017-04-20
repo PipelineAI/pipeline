@@ -4,6 +4,7 @@ metadata:
   name: prediction-python
   labels:
     app: prediction-python
+    hystrix.enabled: "true"
 #  annotations:
 #    dns.alpha.kubernetes.io/external: prediction-python.your.domain.com
 spec:
@@ -23,3 +24,4 @@ spec:
     targetPort: 9000
   selector:    
     app: prediction-python
+    hystrix.enabled: "true"

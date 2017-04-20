@@ -17,10 +17,11 @@ ENV \
 
 # This must be separate from the ${HADOOP_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
-  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop/ \
-  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH} 
+  HADOOP_CONF=${HADOOP_HOME}/etc/hadoop \
+  PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
 
-COPY /etc/hadoop/*.xml ${HADOOP_CONF}
+# refactored to hdfs-config-volume configMap
+# COPY /etc/hadoop/*.xml ${HADOOP_CONF}
 
 RUN \
   apt-get update \
@@ -33,12 +34,24 @@ RUN \
   && ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -N "" \
   && cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
 
-RUN \
-  sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
-  && sed -i "s%\${JAVA_HOME}%${JAVA_HOME}%" ${HADOOP_CONF}/hadoop-env.sh
+# refactored to hdfs-config configMap
+#RUN \
+#  sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
+#  && sed -i "s%\${JAVA_HOME}%${JAVA_HOME}%" ${HADOOP_CONF}/hadoop-env.sh
 
 RUN \
   hadoop namenode -format
+
+# refactored to hdfs-config configMap
+#RUN \
+#  mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
+#  && cd ${HADOOP_CONF} \
+#  && ln -s ${CONFIG_MAP_HOME}/etc/hadoop/conf/core-site.xml
+
+#RUN \
+#  mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
+#  && cd ${HADOOP_CONF} \
+#  && ln -s ${CONFIG_MAP_HOME}/etc/hadoop/conf/hdfs-site.xml
 
 # Hue (port 8000)
 #RUN \

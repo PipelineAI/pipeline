@@ -43,7 +43,8 @@ ENV \
 RUN \
   ln -s $MYSQL_CONNECTOR_JAR $HIVE_HOME/lib
 
-COPY config/hive-site.xml $HIVE_HOME/conf/hive-site.xml
+# refactored to metastore-config-volume configMap
+#COPY config/hive-site.xml $HIVE_HOME/conf/hive-site.xml
 COPY run run
 
 EXPOSE 9083
