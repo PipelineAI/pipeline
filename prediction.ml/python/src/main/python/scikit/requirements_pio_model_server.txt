@@ -1,1 +1,2 @@
+tornado==4.5
 git+https://github.com/wiliamsouza/hystrix-py.git
