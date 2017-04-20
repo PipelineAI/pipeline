@@ -50,22 +50,32 @@ class MainHandler(tornado.web.RequestHandler):
         (_, model_key, model, transformers_module) = self.get_model_assets(model_namespace,
                                                                            model_name,
                                                                            model_version)
-        command = self.build_command(model_key, model, transformers_module)
 
-        output = yield self.build_future(command)
-        self.write(output)
+#        command = self.build_command(model_key, model, transformers_module)
+#
+#        output = yield self.build_future(command)
+#        self.write(output)
+#
+#    def build_command(self, model_key, model, transformers_module):
+#        return PredictCommand(inputs=self.request.body,
+#                              model=model,
+#                              transformers_module=transformers_module,
+#                              command_name='Predict_%s' % model_key,
+#                              group_name='PredictGroup')
+#
+#    def build_future(self, command):
+#        future = command.observe()
+#        future.add_done_callback(future.result)
+#        return future
 
-    def build_command(self, model_key, model, transformers_module):
-        return PredictCommand(inputs=self.request.body,
-                              model=model,
-                              transformers_module=transformers_module,
-                              command_name='Predict_%s' % model_key,
-                              group_name='PredictGroup')
+        output = yield self.do_post(self.request.body, model, transformers_module)
 
-    def build_future(self, command):
-        future = command.observe()
-        future.add_done_callback(future.result)
-        return future
+    @tornado.gen.coroutine
+    def do_post(self, inputs, model, transformers_module):
+        transformed_inputs = transformers_module.transform_inputs(inputs)
+        outputs = model.predict(transformed_inputs)
+        transformed_outputs = transformers_module.transform_outputs(outputs)
+        return transformed_outputs
 
 
     def get_model_assets(self, model_namespace, model_name, model_version):
