@@ -12,13 +12,10 @@ echo "PIO_MODEL_IO_TRANSFORMERS_PATH=$PIO_MODEL_IO_TRANSFORMERS_PATH"
 
 source activate root
 
-# remove a possibly pre-existing `model_environment` environment.
-#conda env remove -n model_environment --yes || true
-
-# create a new, empty `model_environment` environment.
+# Create a new, empty `model_environment` environment.
 conda create --yes -n model_environment python=3.5
 
-# activate it.
+# Activate it.
 source activate model_environment
 
 # Install the pio model-server requirements (conda, pip, custom wheel)
