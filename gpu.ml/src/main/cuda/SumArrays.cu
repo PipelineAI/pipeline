@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <ctime>
 
 #define CheckErrorUtil(err) CheckError(err, __FUNCTION__, __LINE__)
 #define CheckErrorMsgUtil(err, msg) CheckErrorMsg(err, msg, __FUNCTION__, __LINE__)
@@ -74,10 +75,13 @@ void CompareArrays(int const N, float const* const a, float const* const b)
 
 int main()
 {
+    std::clock_t start;
+    start = std::clock();
+
     dim3 gridSize;
     dim3 blockSize;
 
-    int    const N       = 4096000;
+    int    const N       = 8192000;
     size_t const N_BYTES = N * sizeof(float);
     int const BLOCK_SIZE = 512;
 
@@ -99,17 +103,9 @@ int main()
     printf("Allocating %lu bytes on Device GPU to store the result array after summing the 2 arrays...\n", N_BYTES);
     CheckErrorUtil(cudaMalloc((void**)&cD, N_BYTES));
 
-//    printf("Copying 2 arrays from Host to Device GPU...\n");
+    printf("Copying 2 arrays from Host to Device GPU...\n");
     CheckErrorUtil(cudaMemcpy(aD, aH, N_BYTES, cudaMemcpyHostToDevice));
     CheckErrorUtil(cudaMemcpy(bD, bH, N_BYTES, cudaMemcpyHostToDevice));
-
-    // Use CUDA streams to manage the concurrency of copying and executing
-//    cudaStream_t stream;
-//    cudaStreamCreate(&stream);
-
-    // Copy Input Data to the GPU
-//    cudaMemcpyAsync(aD, aH, N_BYTES, cudaMemcpyHostToDevice, stream)
-//    cudaMemcpyAsync(bD, bH, N_BYTES, cudaMemcpyHostToDevice, stream)
 
     blockSize.x = BLOCK_SIZE; blockSize.y = 1; blockSize.z = 1;
     gridSize.x = ((N + BLOCK_SIZE - 1) / BLOCK_SIZE); gridSize.y = 1; gridSize.z = 1;
@@ -117,39 +113,31 @@ int main()
     printf("Summing the 2 arrays and storing the result array on Device GPU...\n");
     ArraysSum<<<gridSize, blockSize>>>(aD, bD, cD, N);
 
-    // Get Errors from kernel
     printf("Synchronizing the Device GPU memory before copying the result array back to Host...\n");
     CheckErrorUtil(cudaDeviceSynchronize());
     CheckErrorUtil(cudaGetLastError());
 
-//    cudaStreamSynchronize(stream);
-
     printf("Copying result array from Device GPU to Host...\n");
     CheckErrorUtil(cudaMemcpy(cH, cD, N_BYTES, cudaMemcpyDeviceToHost));
-
-    // Copy Output Data to the Host
-//    cudaMemcpyAsync(cH, cD, N_BYTES, cudaMemcpyDeviceToHost, stream);
-
-//    cudaStreamSynchronize(stream);
 
     printf("Comparing expected result array stored on Host with actual result calculated on Device GPU...\n");
     CompareArrays(N, cH, refH);
 
+    printf("Freeing %lu bytes on Device GPU...\n", 3 * N_BYTES);
     CheckErrorUtil(cudaFree(aD));
     CheckErrorUtil(cudaFree(bD));
     CheckErrorUtil(cudaFree(cD));
 
-    printf("Freeing %lu bytes on Device GPU...\n", 3 * N_BYTES);
-    cudaFree(aD);
-    cudaFree(bD);
-    cudaFree(cD);
-
     printf("Freeing memory on Host...\n");
-    free(aH); free(bH); free(cH); free(refH);
+    free(aH);
+    free(bH); 
+    free(cH); 
+    free(refH);
 
-    CheckErrorUtil(cudaDeviceReset());
     printf("Resetting Device GPU as though nothing ever happened!\n\n\n");
-    cudaDeviceReset();
+    CheckErrorUtil(cudaDeviceReset());
+
+    printf("Executed in %.f milliseconds.\n\n", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000));
 
     return 0;
 }
