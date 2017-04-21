@@ -1,0 +1,11 @@
+#!/bin/bash
+
+python /root/src/main/python/xla/train_linear_xla.py &> train_linear_xla.log
+
+dot -T png /tmp/hlo_graph_1.*.dot -o /root/notebooks/hlo_graph_1.png &>/dev/null 
+
+dot -T png /tmp/hlo_graph_10.*.dot -o /root/notebooks/hlo_graph_10.png &>/dev/null 
+
+dot -T png /tmp/hlo_graph_25.*.dot -o /root/notebooks/hlo_graph_25.png &>/dev/null 
+
+dot -T png /tmp/hlo_graph_50.*.dot -o /root/notebooks/hlo_graph_50.png &>/dev/null
