@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # pull latest from github!
-pull-force-overwrite-local
+pull_force_overwrite_local
 
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &

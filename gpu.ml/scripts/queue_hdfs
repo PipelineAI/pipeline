@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Copying dataset to HDFS..."
-hadoop fs -copyFromLocal /root/datasets/csv/ /csv
+echo "Verifying the dataset in HDFS..."
+hadoop fs -ls /csv
 
 echo "Processing dataset from HDFS with TensorFlow..."
 python /root/src/main/python/queue/tensorflow_hdfs.py
