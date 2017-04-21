@@ -70,7 +70,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;inputs&quot;:[{&quot;x_observed&quot;:1.4}]}</stringProp>
+                  <stringProp name="Argument.value">{&quot;x_observed&quot;:1.5}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>

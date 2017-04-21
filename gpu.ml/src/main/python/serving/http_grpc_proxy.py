@@ -23,21 +23,16 @@ model_name = "linear"
 model_version = -1 # Latest version 
 request_timeout = 5.0 # 5 seconds
 
-class TensorflowServingGrpcCommand(Command, *args, **kwargs):
-  def __init__(self, inputs):
+class TensorflowServingGrpcCommand(Command):
+  def __init__(self, inputs, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.inputs = inputs
 
   def run(self):
-    # TODO:  pass on the actual inputs
-    return self.do_post(self.request.body) 
-
-  def do_post(self, inputs):
     # Convert json input to tensor
-    input_str = input_binary.decode('utf-8')
+    input_str = self.inputs.decode('utf-8')
     input_json = json.loads(input_str)
-    inputs_np = np.asarray([input_str['x_observed']])
-    print(inputs_np)
+    inputs_np = np.asarray([input_json['x_observed']])
     inputs_tensor_proto = tf.contrib.util.make_tensor_proto(inputs_np,
                                                             dtype=tf.float32)
     # Build the PredictRequest from inputs
@@ -54,15 +49,12 @@ class TensorflowServingGrpcCommand(Command, *args, **kwargs):
 
     # Send request
     result = stub.Predict(request, request_timeout)
-    print(result)
 
     # Convert PredictResult into np array
     result_np = tf.contrib.util.make_ndarray(result.outputs['y_pred'])
-    print(result_np)
 
     # Convert np array into json
-    result_json = json.dumps(result_np.tolist()))
-    print(result_json)
+    result_json = json.dumps({"y_pred": result_np.tolist()[0]})
 
     return result_json
 
@@ -76,13 +68,12 @@ class MainHandler(tornado.web.RequestHandler):
 
     command = self.build_command()
 
-    do_post_result = yield self.build_future(command)   
+    result = yield self.build_future(command)   
 
-    # Convert PredictResponse into json
-    self.write(do_post_result)
+    self.write(result)
 
   def build_command(self):
-    command = TensorflowServingGrpcCommand()
+    command = TensorflowServingGrpcCommand(self.request.body)
     command.name = 'TensorflowServingGrpcCommand'
     command.group_name = 'TensorflowServingGrpcCommandGroup'
     return command
