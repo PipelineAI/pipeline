@@ -18,8 +18,7 @@ RUN apt-get update && \
 #    rm -rf /var/lib/apt/lists/*
 
 # Install JupyterHub dependencies
-RUN npm install && rm -rf ~/.npm
-  #-g configurable-http-proxy && rm -rf ~/.npm
+RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
   conda install --yes -c conda-forge jupyterhub==0.7.2 \
@@ -66,6 +65,9 @@ RUN \
 
 RUN \
   mkdir -p /root/models
+
+RUN \
+  mkdir -p /root/logs
 
 # lib & notesbooks provided via Kubernets PersistentVolume Mount
 # from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline
