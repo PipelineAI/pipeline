@@ -64,11 +64,11 @@ void CompareArrays(int const N, float const* const a, float const* const b)
     }
     if(different)
     {
-        printf("\n\n\n*** Oh No!  The GPU failed to sum the arrays. ***\n\n\n");
+        printf("\n\n*** Oh No!  The GPU failed to sum the arrays. ***\n\n\n");
     }
     else
     {
-        printf("\n\n\n*** Awesome!  The GPU summed the arrays!! ***\n\n\n");
+        printf("\n\n*** Awesome!  The GPU summed the arrays!! ***\n\n\n");
     }
 }
 
