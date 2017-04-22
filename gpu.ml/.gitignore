@@ -1,3 +1,5 @@
 .ipynb_checkpoints
 libtensorflow_jni.so
-a.out
+*.out
+*.log
+*.png

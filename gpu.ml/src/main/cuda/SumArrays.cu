@@ -65,11 +65,11 @@ void CompareArrays(int const N, float const* const a, float const* const b)
 
     if(different)
     {
-        printf("Bummer.  The arrays do not match.\n");
+        printf("\n\n*** Oh No!  The GPU failed to sum the arrays. ***\n\n\n");
     }
     else
     {
-        printf("Awesome!  The arrays match.\n");
+        printf("\n\n*** Awesome!  The GPU summed the arrays!! ***\n\n\n");
     }
 }
 
@@ -134,7 +134,7 @@ int main()
     free(cH); 
     free(refH);
 
-    printf("Resetting Device GPU as though nothing ever happened!\n\n\n");
+    printf("Resetting Device GPU as though nothing ever happened!\n\n");
     CheckErrorUtil(cudaDeviceReset());
 
     printf("Executed in %.f milliseconds.\n\n", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000));
