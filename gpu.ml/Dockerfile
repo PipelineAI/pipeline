@@ -2,32 +2,54 @@ FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:master
 
 WORKDIR /root
 
-RUN \
-  conda install --yes -c conda-forge jupyterhub \
-  && conda install --yes ipykernel \
-  && conda install --yes notebook \
-  && conda install --yes -c conda-forge jupyter_contrib_nbextensions \
-  && conda install --yes ipywidgets \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions \
-  && conda install --yes -c conda-forge findspark=1.0.0
+# Based on the following:  https://github.com/jupyterhub/jupyterhub/blob/master/Dockerfile
+
+# install nodejs, utf8 locale
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y install npm nodejs nodejs-legacy wget locales git
+
+# libav-tools for matplotlib anim
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libav-tools && \
+    apt-get clean
+#    rm -rf /var/lib/apt/lists/*
+
+# Install JupyterHub dependencies
+RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
-  pip install jupyterlab \
+  conda install --yes -c conda-forge jupyterhub==0.7.2 \
+  && conda install --yes ipykernel==4.6.0 \
+  && conda install --yes notebook==5.0.0 \
+  && conda install --yes -c conda-forge jupyter_contrib_nbextensions==0.2.7 \
+  && conda install --yes ipywidgets==6.0.0 \
+  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions==1.0.0 \
+  && conda install --yes -c conda-forge findspark==1.0.0
+
+RUN \
+  pip install jupyterlab==0.19.0 \
+  && pip install jupyterlab_widgets==0.6.15 \
+  && pip install widgetslabextension==0.1.0
+
+RUN \
+  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
+  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
-
-RUN \
-  jupyter nbextension enable --py widgetsnbextension --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
-  pip install jupyterhub-dummyauthenticator
+  pip install jupyterhub-dummyauthenticator==0.1
 
 RUN \
-  pip install jupyterhub-simplespawner
+  pip install jupyterhub-simplespawner==0.1
 
 RUN \
-  conda install --yes nbconvert \
-  && conda install --yes graphviz
+  conda install --yes nbconvert==5.1.1 \
+  && conda install --yes graphviz==2.38.0 \
+  && conda install --yes seaborn==0.7.1
 
 RUN \
   pip install grpcio \
@@ -50,6 +72,25 @@ ENV \
 # This must be separate from the ${SPARK_HOME} ENV definition or else Docker doesn't recognize it
 ENV \
   PATH=${SPARK_HOME}/bin:$PATH
+
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline.git
+
+RUN \
+  ln -s pipeline/gpu.ml/src \
+  && ln -s pipeline/gpu.ml/notebooks \
+  && mkdir -p /root/.ipython \
+  && cd /root/.ipython \
+  && ln -s pipeline/gpu.ml/profiles \
+  && cd ~ \
+  && ln -s pipeline/gpu.ml/config \
+  && ln -s pipeline/gpu.ml/html \
+  && ln -s pipeline/gpu.ml/run  \
+  && ln -s pipeline/gpu.ml/lib \
+  && ln -s pipeline/gpu.ml/apache-jmeter-3.1 \
+  && ln -s pipeline/gpu.ml/tests \
+  && ln -s pipeline/gpu.ml/datasets \
+  && ln -s pipeline/gpu.ml/scripts
 
 # Hadoop/HDFS
 ENV \
@@ -84,7 +125,6 @@ ENV \
 ENV \
   HADOOP_CONF_DIR=${HADOOP_CONF}
 
-COPY config/ config/
 RUN \
   cd ${SPARK_HOME}/conf \
   && ln -s /root/config/spark/core-site.xml \
@@ -132,24 +172,6 @@ RUN \
   mkdir /var/run/sshd
 
 RUN \
-  git clone https://github.com/fluxcapacitor/pipeline.git
-
-RUN \
-  ln -s pipeline/gpu.ml/src \ 
-  && ln -s pipeline/gpu.ml/notebooks \
-  && mkdir -p /root/.ipython \
-  && cd /root/.ipython \
-  && ln -s pipeline/gpu.ml/profiles \
-  && cd ~ \
-  && ln -s pipeline/gpu.ml/html \
-  && ln -s pipeline/gpu.ml/run  \
-  && ln -s pipeline/gpu.ml/lib \
-  && ln -s pipeline/gpu.ml/apache-jmeter-3.1 \
-  && ln -s pipeline/gpu.ml/tests \
-  && ln -s pipeline/gpu.ml/datasets \
-  && ln -s pipeline/gpu.ml/scripts 
-
-RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
 
@@ -162,10 +184,6 @@ ENV \
 
 RUN \
   conda install --yes graphviz
-
-COPY apache-jmeter-3.1/ apache-jmeter-3.1/
-COPY tests/ tests/
-COPY datasets/ datasets/ 
 
 RUN \
   mkdir -p /root/tensorboard
@@ -197,6 +215,6 @@ RUN \
 RUN \
   chmod a+x /root
 
-EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044
+EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222
   # 8000
 CMD ["supervise", "."]
