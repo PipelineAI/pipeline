@@ -24,6 +24,45 @@ from git import Repo
 
 class PioCli(object):
 
+    kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
+                            'spark': (['apachespark.ml/master-deploy.yaml',
+                                       'apachespark.ml/worker-deploy.yaml'], ['metastore']),
+                            'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
+                            'hdfs': (['hdfs.ml/namenode-deploy.yaml'], []),
+                            'redis': (['keyvalue.ml/redis-master-deploy.yaml'], []),
+                            'presto': (['presto.ml/presto-master-deploy.yaml',
+                                        'presto.ml/presto-worker-deploy.yaml'], []),
+                            'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
+                            'airflow': (['scheduler.ml/airflow-deploy.yaml'], []),
+                            'mysql': (['mysql.ml/mysql-master-deploy.yaml'], []),
+                            'www': (['web.ml/home-deploy.yaml'], []),
+                            'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
+                            'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
+                            'kafka': (['stream.ml/kafka-0.10-rc.yaml'], ['zookeeper']),
+                            'cassandra': (['cassandra.ml/cassandra-rc.yaml'], []),
+                            'prediction-java': (['prediction.ml/java-deploy.yaml'], []),
+                            'prediction-redis': (['prediction.ml/keyvalue-deploy.yaml'], ['redis']),
+                            'prediction-pmml': (['prediction.ml/pmml-deploy.yaml'], []),
+                            'prediction-python': (['prediction.ml/python-deploy.yaml'], []),
+                            'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
+                           }
+
+    kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
+                         'spark': (['apachespark.ml/master-svc.yaml'], []),
+                         'metastore': (['metastore.ml/metastore-svc.yaml'], []),
+                         'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
+                         'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
+                         'presto-ui': (['presto.ml/presto-ui-svc.yaml'], []),
+                         'airflow': (['scheduler.ml/airflow-svc.yaml'], []),
+                         'www': (['web.ml/home-svc.yaml'], []),
+                         'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
+                         'prediction-java': (['prediction.ml/java-svc.yaml'], []),
+                         'prediction-redis': (['prediction.ml/keyvalue-svc.yaml'], []),
+                         'prediction-pmml': (['prediction.ml/pmml-svc.yaml'], []),
+                         'prediction-python': (['prediction.ml/python-svc.yaml'], []),
+                         'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
+                        }
+
     def pio_api_version(self):
         return 'v1'
 
@@ -237,7 +276,6 @@ class PioCli(object):
         for pod in response.items:
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
     
-
     def get_config_yamls(self, component):
         return 
 
@@ -247,13 +285,13 @@ class PioCli(object):
 
 
     def get_deploy_yamls(self, component):
-        (deploy_list, dependencies) = kube_deploy_registry[component]
+        (deploy_list, dependencies) = PioCli.kube_deploy_registry[component]
         for dependency in dependencies:
            return deploy_yamls + self.get_deploy_yamls(dependency)
 
 
     def get_svc_yamls(self, component):
-        (svc_list, dependencies) = kube_svc_registry[component]
+        (svc_list, dependencies) = PioCli.kube_svc_registry[component]
         for dependency in dependencies:
            return svc_yamls + self.get_svc_yamls(dependency)
 
@@ -283,13 +321,13 @@ class PioCli(object):
 
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
-        for config_yaml_filename in config_yaml_filenames:
+        #for config_yaml_filename in config_yaml_filenames:
             # TODO
-            return 
+        #    return 
 
-        for secret_yaml_filename in secret_yaml_filenames:
+        #for secret_yaml_filename in secret_yaml_filenames:
             # TODO 
-            return
+        #    return
 
         for deploy_yaml_filename in deploy_yaml_filenames:
             with open(os.path.join(expanded_kube_yaml_base_path, deploy_yaml_filename)) as fh:
@@ -302,47 +340,6 @@ class PioCli(object):
                 svc_yaml = yaml.load(fh)
                 response = kubeclient_v1_beta1.create_namespaced_deployment(body=svc_yaml, namespace=namespace)
                 print("Service created from '%s'. Status='%s'." % (svc_yaml_filename, str(resp.status)))
-
-
-    kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
-                            'spark': (['apachespark.ml/master-deploy.yaml',
-                                       'apachespark.ml/worker-deploy.yaml'], ['metastore']),
-                            'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
-                            'hdfs': (['hdfs.ml/namenode-deploy.yaml'], []),
-                            'redis': (['keyvalue.ml/redis-master-deploy.yaml'], []),
-                            'presto': (['presto.ml/presto-master-deploy.yaml',
-                                        'presto.ml/presto-worker-deploy.yaml'], []),
-                            'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
-                            'airflow': (['scheduler.ml/airflow-deploy.yaml'], []),
-                            'mysql': (['mysql.ml/mysql-master-deploy.yaml'], []),
-                            'www': (['web.ml/home-deploy.yaml'], []),
-                            'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
-                            'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
-                            'kafka': (['stream.ml/kafka-0.10-rc.yaml'], ['zookeeper']),
-                            'cassandra': (['cassandra.ml/cassandra-rc.yaml'], []),
-                            'prediction-java': (['prediction.ml/java-deploy.yaml'], []),
-                            'prediction-redis': (['prediction.ml/keyvalue-deploy.yaml'], ['redis']),
-                            'prediction-pmml': (['prediction.ml/pmml-deploy.yaml'], []),
-                            'prediction-python': (['prediction.ml/python-deploy.yaml'], []),
-                            'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
-                           }
-
-    kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'spark': (['apachespark.ml/master-svc.yaml'], []),
-                         'metastore': (['metastore.ml/metastore-svc.yaml'], []),
-                         'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
-                         'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
-                         'presto-ui': (['presto.ml/presto-ui-svc.yaml'], []),
-                         'airflow': (['scheduler.ml/airflow-svc.yaml'], []),
-                         'www': (['web.ml/home-svc.yaml'], []),
-                         'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
-                         'prediction-java': (['prediction.ml/java-svc.yaml'], []),
-                         'prediction-redis': (['prediction.ml/keyvalue-svc.yaml'], []),
-                         'prediction-pmml': (['prediction.ml/pmml-svc.yaml'], []),
-                         'prediction-python': (['prediction.ml/python-svc.yaml'], []),
-                         'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
-                        }
-
 
     def git_init(self,
                  git_repo_base_path=".",
