@@ -81,9 +81,12 @@ class PioCli(object):
         pio_api_version = self.config_get_all()['pio_api_version']
 
         config_file_base_path = os.path.expanduser("~/.pio/")
-        config_file_path = os.path.join(config_file_base_path, 'config')
+        expanded_config_file_base_path = os.path.expandvars(config_file_base_path)
+        expanded_config_file_base_path = os.path.expanduser(expanded_config_file_base_path)
+        expanded_config_file_base_path = os.path.abspath(expanded_config_file_base_path)
+        expanded_config_file_path = os.path.join(expanded_config_file_base_path, 'config')
 
-        print("Merging dict '%s' with existing config '%s'..." % (config_dict, config_file_path))
+        print("Merging dict '%s' with existing config '%s'..." % (json.dumps(config_dict, indent=2), expanded_config_file_path))
         existing_config_dict = self.config_get_all()
 
         # >= Python3.5 
@@ -92,7 +95,7 @@ class PioCli(object):
 
         new_config_yaml = yaml.dump(existing_config_dict, default_flow_style=False, explicit_start=True)
 
-        with open(config_file_path, 'w') as fh:
+        with open(expanded_config_file_path, 'w') as fh:
             fh.write(new_config_yaml)
         print(new_config_yaml)
         print("...Done!")
@@ -100,42 +103,48 @@ class PioCli(object):
 
     def config_get_all(self):
         config_file_base_path = os.path.expanduser("~/.pio/")
-        config_file_path = os.path.join(config_file_base_path, 'config')
+        expanded_config_file_base_path = os.path.expandvars(config_file_base_path)
+        expanded_config_file_base_path = os.path.expanduser(expanded_config_file_base_path)
+        expanded_config_file_base_path = os.path.abspath(expanded_config_file_base_path)
+        expanded_config_file_path = os.path.join(expanded_config_file_base_path, 'config')
 
         # >= Python3.5
-        # os.makedirs(config_file_base_path, exist_ok=True)
-        if not os.path.exists(config_file_path):
-            if not os.path.exists(config_file_base_path):
-                os.makedirs(config_file_base_path)
+        # os.makedirs(expanded_config_file_base_path, exist_ok=True)
+        if not os.path.exists(expanded_config_file_path):
+            if not os.path.exists(expanded_config_file_base_path):
+                os.makedirs(expanded_config_file_base_path)
             pio_api_version = self.pio_api_version() 
             initial_config_dict = {'pio_api_version': pio_api_version}
             initial_config_yaml =  yaml.dump(initial_config_dict, default_flow_style=False, explicit_start=True)
-            print("Creating config '%s'..." % config_file_path)
-            with open(config_file_path, 'w') as fh:
+            print("Creating config '%s'..." % expanded_config_file_path)
+            with open(expanded_config_file_path, 'w') as fh:
                 fh.write(initial_config_yaml)
             print("...Done!")
 
         # Update the YAML 
-        with open(config_file_path, 'r') as fh:
+        with open(expanded_config_file_path, 'r') as fh:
             existing_config_dict = yaml.load(fh)
             pio_api_version = existing_config_dict['pio_api_version']
             return existing_config_dict
 
 
     def config_view(self):
-        return self.config_get_all()
+        return json.dumps(self.config_get_all(), indent=2)
 
 
     def cluster_init(self,
-                     kube_yaml_base_path,
+                     pio_home,
+                     pio_version,
                      kube_cluster_context,
                      kube_namespace='default'):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
-        expanded_kube_yaml_base_path = os.path.expanduser(kube_yaml_base_path)
+        expanded_pio_home = os.path.expandvars(pio_home)
+        expanded_pio_home = os.path.expanduser(expanded_pio_home)
+        expanded_pio_home = os.path.abspath(expanded_pio_home)
 
-        config_dict = {'kube_yaml_base_path': expanded_kube_yaml_base_path, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
+        config_dict = {'pio_home': expanded_pio_home, 'pio_version': pio_version, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
         self.config_merge_dict(config_dict)
         self.config_get_all()
 
@@ -197,7 +206,7 @@ class PioCli(object):
             print("")
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
-            print(response.text)
+            print(json.dumps(response.text, indent=2))
             print("...Done!")
 
             print("Removing model bundle '%s'..." % compressed_model_bundle_filename)
@@ -239,7 +248,7 @@ class PioCli(object):
                                  headers=headers, 
                                  data=model_input_binary, 
                                  timeout=request_timeout)
-        print(response.text)
+        print(json.dumps(response.text, indent=2))
         print("...Done!")
 
 
@@ -277,34 +286,42 @@ class PioCli(object):
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
     
     def get_config_yamls(self, component):
-        return 
+        return [] 
 
 
     def get_secret_yamls(self, component):
-        return
+        return []
 
 
     def get_deploy_yamls(self, component):
-        (deploy_list, dependencies) = PioCli.kube_deploy_registry[component]
-        for dependency in dependencies:
-           return deploy_yamls + self.get_deploy_yamls(dependency)
-
+        (deploy_yamls, dependencies) = PioCli.kube_deploy_registry[component]
+        if len(dependencies) > 0:
+            for dependency in dependencies:
+                return deploy_yamls + self.get_deploy_yamls(dependency)
+        else:
+            return deploy_yamls 
 
     def get_svc_yamls(self, component):
-        (svc_list, dependencies) = PioCli.kube_svc_registry[component]
-        for dependency in dependencies:
-           return svc_yamls + self.get_svc_yamls(dependency)
-
+        (svc_yamls, dependencies) = PioCli.kube_svc_registry[component]
+        if len(dependencies) > 0:
+            for dependency in dependencies:
+                return svc_yamls + self.get_svc_yamls(dependency)
+        else:
+            return svc_yamls 
 
     def cluster_create(self,
-                       components=['jupyter','prediction-python']):
+                       components):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
         try: 
             kube_namespace = self.config_get_all()['kube_namespace']
-            kube_yaml_base_path = self.config_get_all()['kube_yaml_base_path']
-            expanded_kube_yaml_base_path = os.path.expanduser(kube_yaml_base_path)
+
+            pio_home = self.config_get_all()['pio_home']
+
+            expanded_pio_home = os.path.expandvars(pio_home)
+            expanded_pio_home = os.path.expanduser(expanded_pio_home)
+            expanded_pio_home = os.path.abspath(expanded_pio_home)
         except:
             print("Cluster needs to be initialized.")
             return
@@ -313,11 +330,17 @@ class PioCli(object):
         print("components: '%s'" % components)
 
         kubeconfig.load_kube_config()
+
+        config_yaml_filenames = [] 
+        secret_yaml_filenames = [] 
+        deploy_yaml_filenames = []
+        svc_yaml_filenames = [] 
+       
         for component in components:
-            config_yaml_filenames = self.get_config_yamls(component)
-            secret_yaml_filenames = self.get_secret_yamls(component)
-            deploy_yaml_filenames = self.get_deploy_yamls(component)
-            svc_yaml_filenames = self.get_svc_yamls(component)
+            config_yaml_filenames = config_yaml_filenames + self.get_config_yamls(component)
+            secret_yaml_filenames = secret_yaml_filenames + self.get_secret_yamls(component)
+            deploy_yaml_filenames = deploy_yaml_filenames + self.get_deploy_yamls(component)
+            svc_yaml_filenames = svc_yaml_filenames + self.get_svc_yamls(component)
 
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
@@ -329,23 +352,29 @@ class PioCli(object):
             # TODO 
         #    return
 
+        print(deploy_yaml_filenames)
+        print(svc_yaml_filenames)
+
         for deploy_yaml_filename in deploy_yaml_filenames:
-            with open(os.path.join(expanded_kube_yaml_base_path, deploy_yaml_filename)) as fh:
+            with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
                 deploy_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=namespace)
-                print("Deployment created from '%s'. Status='%s'." % (deploy_yaml_filename, str(resp.status)))
+                response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace)
+                print("Deployment created from '%s'. Status='%s'." % (deploy_yaml_filename, str(response.status)))
 
         for svc_yaml_filename in svc_yaml_filenames:
-            with open(os.path.join(expanded_kube_yaml_base_path, svc_yaml_filename)) as fh:
+            with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
                 svc_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=svc_yaml, namespace=namespace)
-                print("Service created from '%s'. Status='%s'." % (svc_yaml_filename, str(resp.status)))
+                response = kubeclient_v1_beta1.create_namespaced_deployment(body=svc_yaml, namespace=kube_namespace)
+                print("Service created from '%s'. Status='%s'." % (svc_yaml_filename, str(response.status)))
 
     def git_init(self,
                  git_repo_base_path=".",
                  git_revision='HEAD'):
 
-        expanded_git_repo_base_path = os.path.expanduser(git_repo_base_path)
+        expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
+        expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
+        expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
+
         pio_api_version = self.config_get_all()['pio_api_version']
 
         print(self.config_get_all())
@@ -364,7 +393,11 @@ class PioCli(object):
         pio_api_version = self.config_get_all()['pio_api_version']
         try: 
             git_repo_base_path = self.config_get_all()['git_repo_base_path']
-            expanded_git_repo_base_path = os.path.expanduser(git_repo_base_path)
+
+            expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
+            expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
+            expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
+
             git_revision = self.config_get_all()['git_revision']
         except:
             print("Git needs to be initialized.")
