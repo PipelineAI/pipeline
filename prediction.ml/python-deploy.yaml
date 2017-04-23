@@ -20,11 +20,11 @@ spec:
         image: docker.io/fluxcapacitor/prediction-python:master
         resources:
           limits:
-            cpu: 8000m
-            memory: 8000Mi
+            cpu: 1200m
+            memory: 100Mi
           requests:
-            cpu: 1000m
-            memory: 1000Mi 
+            cpu: 1200m
+            memory: 100Mi 
         imagePullPolicy: "Always"
         env:
         - name: PIO_MODEL_NAMESPACE
