@@ -19,11 +19,11 @@ spec:
         image: docker.io/fluxcapacitor/zeppelin:master
         resources:
           limits:
-            cpu: 500m
-            memory: 5000Mi
+            cpu: 1000m
+            memory: 1000Mi
           requests:
             cpu: 100m
-            memory: 1000Mi
+            memory: 100Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
