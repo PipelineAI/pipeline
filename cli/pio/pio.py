@@ -8,12 +8,14 @@ import tarfile
 import os
 import sys
 import kubernetes.client as kubeclient
+from kubernetes.client.rest import ApiException
 import kubernetes.config as kubeconfig
 import pick
 import yaml
 import json
 import dill as pickle
 from git import Repo
+from pprint import pprint
 
 # TODO: enums
 #   model_input_mime_type = ['application/xml', 'application/json']
@@ -23,7 +25,6 @@ from git import Repo
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
 
 class PioCli(object):
-
     kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'spark': (['apachespark.ml/master-deploy.yaml',
                                        'apachespark.ml/worker-deploy.yaml'], ['metastore']),
@@ -34,7 +35,7 @@ class PioCli(object):
                                         'presto.ml/presto-worker-deploy.yaml'], []),
                             'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
                             'airflow': (['scheduler.ml/airflow-deploy.yaml'], []),
-                            'mysql': (['mysql.ml/mysql-master-deploy.yaml'], []),
+                            'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
                             'www': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
@@ -48,7 +49,7 @@ class PioCli(object):
                            }
 
     kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'spark': (['apachespark.ml/master-svc.yaml'], []),
+                         'spark': (['apachespark.ml/master-svc.yaml', 'apachespark.ml/worker-svc.yaml'], []),
                          'metastore': (['metastore.ml/metastore-svc.yaml'], []),
                          'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
                          'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
@@ -269,19 +270,19 @@ class PioCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("Services:")
-        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
         for svc in response.items:
              print("%s\t\t%s" % (svc.metadata.name, svc.status.load_balancer.ingress))
 
         print("")
         print("Deployments:")
-        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
         for deploy in response.items:
              print("%s" % (deploy.metadata.name))
 
         print("")
         print("Pods:")
-        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
         for pod in response.items:
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
     
@@ -301,6 +302,7 @@ class PioCli(object):
         else:
             return deploy_yamls 
 
+
     def get_svc_yamls(self, component):
         (svc_yamls, dependencies) = PioCli.kube_svc_registry[component]
         if len(dependencies) > 0:
@@ -309,7 +311,8 @@ class PioCli(object):
         else:
             return svc_yamls 
 
-    def cluster_create(self,
+
+    def cluster_deploy(self,
                        components):
 
         pio_api_version = self.config_get_all()['pio_api_version']
@@ -327,7 +330,8 @@ class PioCli(object):
             return
 
         print(self.config_get_all())
-        print("components: '%s'" % components)
+        components_list = components.split(',')
+        print("components: '%s'" % components_list)
 
         kubeconfig.load_kube_config()
 
@@ -336,12 +340,13 @@ class PioCli(object):
         deploy_yaml_filenames = []
         svc_yaml_filenames = [] 
        
-        for component in components:
+        for component in components_list:
             config_yaml_filenames = config_yaml_filenames + self.get_config_yamls(component)
             secret_yaml_filenames = secret_yaml_filenames + self.get_secret_yamls(component)
             deploy_yaml_filenames = deploy_yaml_filenames + self.get_deploy_yamls(component)
             svc_yaml_filenames = svc_yaml_filenames + self.get_svc_yamls(component)
 
+        kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         #for config_yaml_filename in config_yaml_filenames:
@@ -356,16 +361,23 @@ class PioCli(object):
         print(svc_yaml_filenames)
 
         for deploy_yaml_filename in deploy_yaml_filenames:
-            with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
-                deploy_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace)
-                print("Deployment created from '%s'. Status='%s'." % (deploy_yaml_filename, str(response.status)))
+            try:
+                with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
+                    deploy_yaml = yaml.load(fh)
+                    response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace, pretty=True)
+                    pprint(response) 
+            except ApiException as e: 
+                print("Deployment not created for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
 
         for svc_yaml_filename in svc_yaml_filenames:
-            with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
-                svc_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=svc_yaml, namespace=kube_namespace)
-                print("Service created from '%s'. Status='%s'." % (svc_yaml_filename, str(response.status)))
+            try:
+                with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
+                    svc_yaml = yaml.load(fh)
+                    response = kubeclient_v1.create_namespaced_service(body=svc_yaml, namespace=kube_namespace, pretty=True)
+                    pprint(response)
+            except ApiException as e: 
+                print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
+
 
     def git_init(self,
                  git_repo_base_path=".",
