@@ -106,3 +106,12 @@ RUN \
   && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
   && mv linux-amd64/helm /usr/local/bin/helm \
   && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz
+
+RUN \
+  git clone https://github.com/fluxcapacitor/pipeline.git
+
+RUN \
+  ln -s scripts /root/pipeline/kubernetes.ml/scripts
+
+ENV \
+  PATH=/root/scripts:$PATH
