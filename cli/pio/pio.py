@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.17"
+__version__ = "0.18"
 
 import requests
 import fire
@@ -254,7 +254,9 @@ class PioCli(object):
         pprint(response.text)
         print("...Done!")
 
-
+    def cluster_view(self):
+        self.cluster_describe()
+ 
     def cluster_describe(self):
         pio_api_version = self.config_get_all()['pio_api_version']
 
@@ -404,7 +406,11 @@ class PioCli(object):
         pprint(self.config_get_all())
 
 
-    def git_current_hash(self):
+    def git_view(self):
+        self.git_describe()
+
+
+    def git_describe(self):
         pio_api_version = self.config_get_all()['pio_api_version']
         try: 
             git_repo_base_path = self.config_get_all()['git_repo_base_path']
@@ -421,10 +427,12 @@ class PioCli(object):
         pprint(self.config_get_all())
 
         git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
-        hc = git_repo.commit(git_revision)
+        ch = git_repo.commit(git_revision)
 
-        print("%s, %s, %s, %s" % (git_repo_base_path, git_revision, hc.hexsha, hc.message))
-        return hc.hexsha 
+        print("Git repo base path: '%s'" % git_repo_base_path)
+        print("Git revision: '%s'" % git_revision)
+        print("Git commit message: '%s'" % ch.message)
+        print("Git commit hash: '%s'" % ch.hexsha)
 
 
 def main():
