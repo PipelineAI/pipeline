@@ -20,10 +20,10 @@ spec:
         image: docker.io/fluxcapacitor/prediction-python:master
         resources:
           limits:
-            cpu: 1200m
-            memory: 100Mi
+            cpu: 1000m
+            memory: 1000Mi
           requests:
-            cpu: 1200m
+            cpu: 100m
             memory: 100Mi 
         imagePullPolicy: "Always"
         env:

@@ -7,20 +7,53 @@
 echo 'Usage:'
 echo 'PIO_DOMAIN_NAME=demo.pipeline.io ./route53'
 
-kubectl annotate svc apachespark-master-2-1-0 dns.alpha.kubernetes.io/external=spark.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc apachespark-worker-2-1-0 dns.alpha.kubernetes.io/external=spark-worker.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc dashboard-hystrix dns.alpha.kubernetes.io/external=hystrix.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc dashboard-turbine dns.alpha.kubernetes.io/external=turbine.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc hdfs-namenode dns.alpha.kubernetes.io/external=hdfs.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc jupyterhub dns.alpha.kubernetes.io/external=jupyter.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc keyvalue-redis-master dns.alpha.kubernetes.io/external=redis.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-java dns.alpha.kubernetes.io/external=prediction-java.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-keyvalue dns.alpha.kubernetes.io/external=prediction-keyvalue.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-pmml dns.alpha.kubernetes.io/external=prediction-pmml.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-python dns.alpha.kubernetes.io/external=prediction-python.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-spark dns.alpha.kubernetes.io/external=prediction-spark.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc prediction-tensorflow dns.alpha.kubernetes.io/external=prediction-tensorflow.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc presto-ui dns.alpha.kubernetes.io/external=presto.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc scheduler-airflow dns.alpha.kubernetes.io/external=airflow.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc web-home dns.alpha.kubernetes.io/external=www.$PIO_DOMAIN_NAME --overwrite
-kubectl annotate svc zeppelin dns.alpha.kubernetes.io/external=zeppelin.$PIO_DOMAIN_NAME --overwrite
+kubectl label svc apachespark-master-2-1-0 dns=route53 --overwrite
+kubectl annotate svc apachespark-master-2-1-0 domainName=spark.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc apachespark-worker-2-1-0 dns=route53 --overwrite
+kubectl annotate svc apachespark-worker-2-1-0 domainName=spark-worker.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc dashboard-hystrix dns=route53 --overwrite
+kubectl annotate svc dashboard-hystrix domainName=hystrix.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc dashboard-turbine dns=route53 --overwrite
+kubectl annotate svc dashboard-turbine domainName=turbine.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc hdfs-namenode dns=route53 --overwrite
+kubectl annotate svc hdfs-namenode domainName=hdfs.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc jupyterhub dns=route53 --overwrite
+kubectl annotate svc jupyterhub domainName=jupyter.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc keyvalue-redis-master dns=route53 --overwrite
+kubectl annotate svc keyvalue-redis-master domainName=redis.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-java dns=route53 --overwrite
+kubectl annotate svc prediction-java domainName=prediction-java.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-keyvalue dns=route53 --overwrite
+kubectl annotate svc prediction-keyvalue domainName=prediction-keyvalue.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-pmml dns=route53 --overwrite
+kubectl annotate svc prediction-pmml domainName=prediction-pmml.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-python dns=route53 --overwrite
+kubectl annotate svc prediction-python domainName=prediction-python.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-spark dns=route53 --overwrite
+kubectl annotate svc prediction-spark domainName=prediction-spark.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc prediction-tensorflow dns=route53 --overwrite
+kubectl annotate svc prediction-tensorflow domainName=prediction-tensorflow.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc presto-ui dns=route53 --overwrite
+kubectl annotate svc presto-ui domainName=presto.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc scheduler-airflow dns=route53 --overwrite
+kubectl annotate svc scheduler-airflow domainName=airflow.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc web-home dns=route53 --overwrite
+kubectl annotate svc web-home domainName=www.$PIO_DOMAIN_NAME --overwrite
+
+kubectl label svc zeppelin dns=route53 --overwrite
+kubectl annotate svc zeppelin domainName=zeppelin.$PIO_DOMAIN_NAME --overwrite

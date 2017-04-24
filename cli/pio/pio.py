@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.13"
+__version__ = "0.14"
 
 import requests
 import fire
@@ -8,12 +8,14 @@ import tarfile
 import os
 import sys
 import kubernetes.client as kubeclient
+from kubernetes.client.rest import ApiException
 import kubernetes.config as kubeconfig
 import pick
 import yaml
 import json
 import dill as pickle
 from git import Repo
+from pprint import pprint
 
 # TODO: enums
 #   model_input_mime_type = ['application/xml', 'application/json']
@@ -23,7 +25,6 @@ from git import Repo
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
 
 class PioCli(object):
-
     kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'spark': (['apachespark.ml/master-deploy.yaml',
                                        'apachespark.ml/worker-deploy.yaml'], ['metastore']),
@@ -34,7 +35,7 @@ class PioCli(object):
                                         'presto.ml/presto-worker-deploy.yaml'], []),
                             'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
                             'airflow': (['scheduler.ml/airflow-deploy.yaml'], []),
-                            'mysql': (['mysql.ml/mysql-master-deploy.yaml'], []),
+                            'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
                             'www': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
@@ -48,7 +49,7 @@ class PioCli(object):
                            }
 
     kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'spark': (['apachespark.ml/master-svc.yaml'], []),
+                         'spark': (['apachespark.ml/master-svc.yaml', 'apachespark.ml/worker-svc.yaml'], []),
                          'metastore': (['metastore.ml/metastore-svc.yaml'], []),
                          'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
                          'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
@@ -86,7 +87,8 @@ class PioCli(object):
         expanded_config_file_base_path = os.path.abspath(expanded_config_file_base_path)
         expanded_config_file_path = os.path.join(expanded_config_file_base_path, 'config')
 
-        print("Merging dict '%s' with existing config '%s'..." % (json.dumps(config_dict, indent=2), expanded_config_file_path))
+        pprint("Merging dict '%s' with existing config '%s'..." % (config_dict, expanded_config_file_path))
+
         existing_config_dict = self.config_get_all()
 
         # >= Python3.5 
@@ -129,7 +131,7 @@ class PioCli(object):
 
 
     def config_view(self):
-        return json.dumps(self.config_get_all(), indent=2)
+        return pprint(self.config_get_all())
 
 
     def cluster_init(self,
@@ -146,7 +148,7 @@ class PioCli(object):
 
         config_dict = {'pio_home': expanded_pio_home, 'pio_version': pio_version, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
     def model_init(self,
@@ -166,7 +168,7 @@ class PioCli(object):
         }
 
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
     def model_deploy(self,
@@ -184,7 +186,7 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         print('model_version: %s' % model_version)
         print('model_bundle_path: %s' % model_bundle_path)
@@ -206,12 +208,13 @@ class PioCli(object):
             print("")
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
-            print(json.dumps(response.text, indent=2))
+            pprint(response.text)
             print("...Done!")
 
             print("Removing model bundle '%s'..." % compressed_model_bundle_filename)
             os.remove(compressed_model_bundle_filename)
             print("...Done!")
+
 
     def model_predict(self, 
                       model_version, 
@@ -230,7 +233,7 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         print('model_version: %s' % model_version)
         print('model_input_file_path: %s' % model_input_file_path)
@@ -248,7 +251,7 @@ class PioCli(object):
                                  headers=headers, 
                                  data=model_input_binary, 
                                  timeout=request_timeout)
-        print(json.dumps(response.text, indent=2))
+        pprint(response.text)
         print("...Done!")
 
 
@@ -262,28 +265,29 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("Services:")
-        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
         for svc in response.items:
              print("%s\t\t%s" % (svc.metadata.name, svc.status.load_balancer.ingress))
 
         print("")
         print("Deployments:")
-        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
         for deploy in response.items:
              print("%s" % (deploy.metadata.name))
 
         print("")
         print("Pods:")
-        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False)
+        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
         for pod in response.items:
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
+
     
     def get_config_yamls(self, component):
         return [] 
@@ -301,6 +305,7 @@ class PioCli(object):
         else:
             return deploy_yamls 
 
+
     def get_svc_yamls(self, component):
         (svc_yamls, dependencies) = PioCli.kube_svc_registry[component]
         if len(dependencies) > 0:
@@ -309,7 +314,8 @@ class PioCli(object):
         else:
             return svc_yamls 
 
-    def cluster_create(self,
+
+    def cluster_deploy(self,
                        components):
 
         pio_api_version = self.config_get_all()['pio_api_version']
@@ -326,8 +332,9 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-        print(self.config_get_all())
-        print("components: '%s'" % components)
+        pprint(self.config_get_all())
+        components_list = components.split(',')
+        print("components: '%s'" % components_list)
 
         kubeconfig.load_kube_config()
 
@@ -336,12 +343,13 @@ class PioCli(object):
         deploy_yaml_filenames = []
         svc_yaml_filenames = [] 
        
-        for component in components:
+        for component in components_list:
             config_yaml_filenames = config_yaml_filenames + self.get_config_yamls(component)
             secret_yaml_filenames = secret_yaml_filenames + self.get_secret_yamls(component)
             deploy_yaml_filenames = deploy_yaml_filenames + self.get_deploy_yamls(component)
             svc_yaml_filenames = svc_yaml_filenames + self.get_svc_yamls(component)
 
+        kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         #for config_yaml_filename in config_yaml_filenames:
@@ -356,19 +364,26 @@ class PioCli(object):
         print(svc_yaml_filenames)
 
         for deploy_yaml_filename in deploy_yaml_filenames:
-            with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
-                deploy_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace)
-                print("Deployment created from '%s'. Status='%s'." % (deploy_yaml_filename, str(response.status)))
+            try:
+                with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
+                    deploy_yaml = yaml.load(fh)
+                    response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace, pretty=True)
+                    pprint(response) 
+            except ApiException as e: 
+                print("Deployment not created for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
 
         for svc_yaml_filename in svc_yaml_filenames:
-            with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
-                svc_yaml = yaml.load(fh)
-                response = kubeclient_v1_beta1.create_namespaced_deployment(body=svc_yaml, namespace=kube_namespace)
-                print("Service created from '%s'. Status='%s'." % (svc_yaml_filename, str(response.status)))
+            try:
+                with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
+                    svc_yaml = yaml.load(fh)
+                    response = kubeclient_v1.create_namespaced_service(body=svc_yaml, namespace=kube_namespace, pretty=True)
+                    pprint(response)
+            except ApiException as e: 
+                print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
+
 
     def git_init(self,
-                 git_repo_base_path=".",
+                 git_repo_base_path,
                  git_revision='HEAD'):
 
         expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
@@ -377,19 +392,19 @@ class PioCli(object):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
-        print(self.config_get_all())
-
         print("git_repo_base_path: '%s'" % git_repo_base_path)
         print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
         print("git_revision: '%s'" % git_revision)
+
+        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
  
-        config_dict = {'git_repo_base_path': expanded_git_repo_base_path , 'git_revision': git_revision}
+        config_dict = {'git_repo_base_path': git_repo.working_tree_dir , 'git_revision': git_revision}
 
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
-    def git_commit_hash(self):
+    def git_current_hash(self):
         pio_api_version = self.config_get_all()['pio_api_version']
         try: 
             git_repo_base_path = self.config_get_all()['git_repo_base_path']
@@ -403,11 +418,12 @@ class PioCli(object):
             print("Git needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
-        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
+        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
         hc = git_repo.commit(git_revision)
-        print("(%s, %s): %s" % (git_revision, hc.hexsha, hc.message))
+
+        print("%s, %s, %s, %s" % (git_repo_base_path, git_revision, hc.hexsha, hc.message))
         return hc.hexsha 
 
 

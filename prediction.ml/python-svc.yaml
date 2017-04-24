@@ -4,8 +4,9 @@ metadata:
   name: prediction-python
   labels:
     app: prediction-python
-#  annotations:
-#    dns.alpha.kubernetes.io/external: prediction-python.your.domain.com
+#      dns: route53
+#    annotations:
+#      domainName: prediction-python.your.domain.com
 spec:
   type: LoadBalancer
   ports:

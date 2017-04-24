@@ -5,6 +5,9 @@ metadata:
   labels:
     app: prediction-tensorflow-gpu
     hystrix.enabled: "true"
+#      dns: route53
+#    annotations:
+#      domainName: prediction-tensorflow-gpu.your.domain.com
 spec:
   type: LoadBalancer
   ports:
