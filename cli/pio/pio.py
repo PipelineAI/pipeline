@@ -87,7 +87,8 @@ class PioCli(object):
         expanded_config_file_base_path = os.path.abspath(expanded_config_file_base_path)
         expanded_config_file_path = os.path.join(expanded_config_file_base_path, 'config')
 
-        print("Merging dict '%s' with existing config '%s'..." % (json.dumps(config_dict, indent=2), expanded_config_file_path))
+        pprint("Merging dict '%s' with existing config '%s'..." % (config_dict, expanded_config_file_path))
+
         existing_config_dict = self.config_get_all()
 
         # >= Python3.5 
@@ -130,7 +131,7 @@ class PioCli(object):
 
 
     def config_view(self):
-        return json.dumps(self.config_get_all(), indent=2)
+        return pprint(self.config_get_all())
 
 
     def cluster_init(self,
@@ -147,7 +148,7 @@ class PioCli(object):
 
         config_dict = {'pio_home': expanded_pio_home, 'pio_version': pio_version, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
     def model_init(self,
@@ -167,7 +168,7 @@ class PioCli(object):
         }
 
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
     def model_deploy(self,
@@ -185,7 +186,7 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         print('model_version: %s' % model_version)
         print('model_bundle_path: %s' % model_bundle_path)
@@ -207,12 +208,13 @@ class PioCli(object):
             print("")
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, headers=headers, files=files, timeout=request_timeout)
-            print(json.dumps(response.text, indent=2))
+            pprint(response.text)
             print("...Done!")
 
             print("Removing model bundle '%s'..." % compressed_model_bundle_filename)
             os.remove(compressed_model_bundle_filename)
             print("...Done!")
+
 
     def model_predict(self, 
                       model_version, 
@@ -231,7 +233,7 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         print('model_version: %s' % model_version)
         print('model_input_file_path: %s' % model_input_file_path)
@@ -249,7 +251,7 @@ class PioCli(object):
                                  headers=headers, 
                                  data=model_input_binary, 
                                  timeout=request_timeout)
-        print(json.dumps(response.text, indent=2))
+        pprint(response.text)
         print("...Done!")
 
 
@@ -263,7 +265,7 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -285,6 +287,7 @@ class PioCli(object):
         response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
         for pod in response.items:
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
+
     
     def get_config_yamls(self, component):
         return [] 
@@ -329,7 +332,7 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
         components_list = components.split(',')
         print("components: '%s'" % components_list)
 
@@ -380,7 +383,7 @@ class PioCli(object):
 
 
     def git_init(self,
-                 git_repo_base_path=".",
+                 git_repo_base_path,
                  git_revision='HEAD'):
 
         expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
@@ -389,19 +392,19 @@ class PioCli(object):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
-        print(self.config_get_all())
-
         print("git_repo_base_path: '%s'" % git_repo_base_path)
         print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
         print("git_revision: '%s'" % git_revision)
+
+        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
  
-        config_dict = {'git_repo_base_path': expanded_git_repo_base_path , 'git_revision': git_revision}
+        config_dict = {'git_repo_base_path': git_repo.working_tree_dir , 'git_revision': git_revision}
 
         self.config_merge_dict(config_dict)
-        self.config_get_all()
+        pprint(self.config_get_all())
 
 
-    def git_commit_hash(self):
+    def git_current_hash(self):
         pio_api_version = self.config_get_all()['pio_api_version']
         try: 
             git_repo_base_path = self.config_get_all()['git_repo_base_path']
@@ -415,11 +418,12 @@ class PioCli(object):
             print("Git needs to be initialized.")
             return
 
-        print(self.config_get_all())
+        pprint(self.config_get_all())
 
-        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
+        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
         hc = git_repo.commit(git_revision)
-        print("(%s, %s): %s" % (git_revision, hc.hexsha, hc.message))
+
+        print("%s, %s, %s, %s" % (git_repo_base_path, git_revision, hc.hexsha, hc.message))
         return hc.hexsha 
 
 
