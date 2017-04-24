@@ -2,8 +2,22 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
-ENV KUBERNETES_VERSION=1.6.1
+ENV KUBERNETES_VERSION=1.6.2
 ENV KUBERNETES_HOME=/root/kubernetes/
+
+# Install Python with conda
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.5 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/kubernetes.tar.gz \
@@ -26,7 +40,7 @@ RUN \
 ENV \
   PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.6.0-alpha.1
+ENV KOPS_VERSION=1.6.0-alpha.2
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -39,22 +53,21 @@ RUN \
 ENV \
   PATH=$KOPS_HOME:$PATH
 
-# Kubernetes and Weavescope Dashboards
-RUN \
-  wget https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml \
-  && wget https://cloud.weave.works/launch/k8s/weavescope.yaml
-
-# https://github.com/kubernetes/heapster/blob/master/docs/influxdb.md
-RUN \
-  git clone https://github.com/kubernetes/heapster 
+ENV \
+  TERRAFORM_VERSION=0.9.3
 
 ENV \
-  TERRAFORM_VERSION=0.9.2
+  TERRAFORM_HOME=/root/terraform
 
 RUN \
-  wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+  mkdir -p $TERRAFORM_HOME \
+  && cd $TERRAFORM_HOME \ 
+  && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
   && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
   && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+
+ENV \
+  PATH=$TERRAFORM_HOME:$PATH
 
 RUN \
   apt-get update
@@ -67,9 +80,6 @@ RUN \
 
 RUN \
   pip install --upgrade appdirs
-
-#ENV \
-#  CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 
 RUN \
   echo "deb https://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
@@ -85,7 +95,14 @@ RUN \
   && apt-get update \
   && apt-get install -y azure-cli 
 
-#COPY .kube/ .kube/
-
 RUN \
   mkdir -p ~/.kube
+
+ENV \
+  HELM_VERSION=2.3.1
+
+RUN \
+  wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+  && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+  && mv linux-amd64/helm /usr/local/bin/helm \
+  && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz
