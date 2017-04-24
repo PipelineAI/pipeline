@@ -32,7 +32,8 @@ setup(
         "requests==2.13.0",
         "pyyaml==3.12",
         "pick==0.6.3",
-        "gitpython==2.1.3"
+        "gitpython==2.1.3",
+        "dill==0.2.6"
     ],
     dependency_links=[
         "git+https://github.com/jpmml/sklearn2pmml.git"
