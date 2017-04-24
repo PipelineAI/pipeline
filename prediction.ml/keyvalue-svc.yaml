@@ -5,8 +5,9 @@ metadata:
   labels:
     app: prediction-keyvalue
     hystrix.enabled: "true"
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: prediction-keyvalue.your.domain.com
+#    domainName: "prediction-keyvalue.your.domain.com"
 spec:
   type: LoadBalancer
   ports:

@@ -4,8 +4,9 @@ metadata:
   name: apachespark-worker-2-1-0
   labels:
     app: apachespark-worker-2-1-0
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: spark-worker.your.domain.com
+#    domainName: "spark-worker.your.domain.com"
 spec:
   type: LoadBalancer
   ports:

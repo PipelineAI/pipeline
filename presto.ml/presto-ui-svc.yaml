@@ -4,8 +4,9 @@ metadata:
   name: presto-ui
   labels:
     app: presto-ui 
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: presto.your.domain.com
+#    domainName: presto.your.domain.com
 spec:
   type: LoadBalancer
   ports:
