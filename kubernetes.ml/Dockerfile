@@ -115,3 +115,6 @@ RUN \
 
 ENV \
   PATH=/root/scripts:$PATH
+
+RUN \
+  pip install pio-cli==0.17.0
