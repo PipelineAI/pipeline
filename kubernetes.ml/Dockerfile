@@ -117,4 +117,9 @@ ENV \
   PATH=/root/scripts:$PATH
 
 RUN \
-  pip install pio-cli==0.17.0
+  pip install pio-cli==0.18.0
+
+RUN \
+  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.18.0/minikube-linux-amd64 \
+  && chmod a+x minikube \
+  && mv minikube /usr/local/bin/

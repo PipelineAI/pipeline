@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-serving-1.0:master
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571:master
 
 WORKDIR /root
 
@@ -37,6 +37,10 @@ ENV \
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY client/ client/
+COPY scripts/ scripts/
+
+ENV \
+  PATH=/root/scripts:$PATH
 
 RUN \
   cd client \
@@ -48,9 +52,6 @@ RUN \
 
 COPY run run
 
-RUN \
-  mkdir -p /root/tensorboard 
-
 ENV \
   STORE_HOME=/root/store
 
@@ -60,11 +61,12 @@ RUN \
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
-# Must carry this over in jupyter PYTHONVARS or whatever
-# import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL']='0'
-# import tensorflow as tf
+ENV \
+  PIO_MODEL_SERVER_PORT=9876 
 
-EXPOSE 5678 6006 9000 9001 9002 9040 
+ENV \
+  PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
+
+EXPOSE 9876 9000 9001 9002 9040 
 
 CMD ["supervise", "."]

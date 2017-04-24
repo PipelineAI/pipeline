@@ -10,16 +10,10 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - name: model-server
+  - name: http-model-server
     port: 80
     targetPort: 9876
-  - name: bundle-server
-    port: 81
-    targetPort: 8000
-  - name: scala-server
-    port: 9040
-    targetPort: 9040
-  - name: not-sure
+  - name: grpc-tensorflow-serving
     port: 9000
     targetPort: 9000
   selector:    

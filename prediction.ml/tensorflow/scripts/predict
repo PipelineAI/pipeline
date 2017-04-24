@@ -2,6 +2,6 @@
 
 # Args:
 #  $1: grpc_port
-#  $2: x_observed
+#  $2: inputs 
 
-curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"x_observed":"$2"}]}' http://localhost:$1/; echo
+curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"inputs":"$2"}]}' http://localhost:$1/v1/model/predict/python3/tensorflow1/; echo

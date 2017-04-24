@@ -33,15 +33,8 @@ spec:
           value: scikit_balancescale
         - name: PIO_MODEL_VERSION
           value: v0
-        - name: PIO_MODEL_SERVER_PORT
-          value: "9876"
-        - name: PIO_BUNDLE_SERVER_PORT
-          value: "8000"
         ports:
-        - containerPort: 9040
         - containerPort: 9876
-        - containerPort: 9000
-        - containerPort: 8000
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes

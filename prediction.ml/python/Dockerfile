@@ -44,19 +44,6 @@ RUN \
   apt-get update \
   && apt-get install -y python-qt4
 
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-
-RUN \
-  pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
-
-COPY lib/ lib/
-
-RUN \
-  cd ~/lib/jni \
-  && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
-
 RUN \
   mkdir -p /root/logs
 
@@ -81,6 +68,9 @@ ENV \
 
 COPY run run
 
-EXPOSE 9040 9876 9000 8000
+ENV \
+  PIO_MODEL_SERVER_PORT=9876
+
+EXPOSE 9876 
 
 CMD ["supervise", "."]
