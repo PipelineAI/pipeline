@@ -10,10 +10,6 @@ import tornado.gen
 import dill as pickle
 import fnmatch
 import importlib.util
-from grpc.beta import implementations
-import asyncio
-import predict_pb2
-import prediction_service_pb2
 
 
 class ModelPredictPython3Handler(tornado.web.RequestHandler):
