@@ -71,7 +71,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
         return (model_absolute_path, model_key, model, transformers_module)
 
 
-class ModelUploadPython3Handler(tornado.web.RequestHandler):
+class ModelDeployPython3Handler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 
@@ -123,8 +123,8 @@ if __name__ == '__main__':
       (r"/v1/model/predict/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler,
           dict(bundle_parent_path=bundle_parent_path)),
       # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-      # url: /v1/model/upload/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/upload/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelUploadPython3Handler,
+      # url: /v1/model/deploy/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/deploy/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler,
           dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)

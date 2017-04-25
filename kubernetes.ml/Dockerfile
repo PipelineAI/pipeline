@@ -117,9 +117,27 @@ ENV \
   PATH=/root/scripts:$PATH
 
 RUN \
-  pip install pio-cli==0.18.0
+  git clone https://github.com/fluxcapacitor/source.ml.git
+
+RUN \
+  pip install pio-cli==0.19.0
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.18.0/minikube-linux-amd64 \
   && chmod a+x minikube \
   && mv minikube /usr/local/bin/
+
+ENV \
+  FUNKTION_VERSION=1.0.10
+
+RUN \
+  wget https://github.com/funktionio/funktion/releases/download/v${FUNKTION_VERSION}/funktion-linux-amd64 \
+  && chmod a+x funktion-linux-amd64 \
+  && mv funktion-linux-amd64 /usr/local/bin/funktion
+
+# Intentionally keeping these at the bottom
+RUN \
+  cd pipeline && pull_force_overwrite_local
+
+RUN \
+  cd source.ml && pull_force_overwrite_local

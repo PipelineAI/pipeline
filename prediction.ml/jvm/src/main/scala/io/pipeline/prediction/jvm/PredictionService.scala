@@ -62,11 +62,11 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/v1/model/update/java/{namespace}/{sourceName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{sourceName}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
-  def updateSource(@PathVariable("namespace") namespace: String, 
+  def deploySource(@PathVariable("namespace") namespace: String, 
                    @PathVariable("sourceName") sourceName: String,
                    @PathVariable("version") version: String,
                    @RequestBody source: String): 
@@ -167,10 +167,10 @@ class PredictionService {
     }   
   }
 
-  @RequestMapping(path=Array("/v1/model/update/pmml/{namespace}/{pmmlName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{pmmlName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
-  def updatePmml(@PathVariable("namespace") namespace: String, 
+  def deployPmml(@PathVariable("namespace") namespace: String, 
                  @PathVariable("pmmlName") pmmlName: String, 
                  @PathVariable("version") version: String,
                  @RequestBody pmmlString: String): 
@@ -348,10 +348,10 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/v1/model/update/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/v1/model/update/spark/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/v1/model/deploy/spark/[namespace]/[model_name]/[version]
+  @RequestMapping(path=Array("/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
-  def updateSpark(@PathVariable("namespace") namespace: String,
+  def deploySpark(@PathVariable("namespace") namespace: String,
                   @PathVariable("modelName") modelName: String, 
                   @PathVariable("version") version: String,
                   @RequestParam("model") model: MultipartFile): ResponseEntity[HttpStatus] = {

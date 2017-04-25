@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.18"
+__version__ = "0.19"
 
 import requests
 import fire
@@ -153,6 +153,7 @@ class PioCli(object):
 
     def model_init(self,
                    model_server_url,
+                   model_type,
                    model_namespace,
                    model_name,
                    model_input_mime_type='application/json',
@@ -161,6 +162,7 @@ class PioCli(object):
         pio_api_version = self.config_get_all()['pio_api_version']
 
         config_dict = {"model_server_url": model_server_url, 
+                       "model_type": model_type,
                        "model_namespace": model_namespace,
                        "model_name": model_name,
                        "model_input_mime_type": model_input_mime_type,
@@ -180,6 +182,7 @@ class PioCli(object):
 
         try:
             model_server_url = self.config_get_all()['model_server_url']
+            model_type = self.config_get_all()['model_type']
             model_namespace = self.config_get_all()['model_namespace']
             model_name = self.config_get_all()['model_name']
         except:
@@ -192,7 +195,7 @@ class PioCli(object):
         print('model_bundle_path: %s' % model_bundle_path)
         print('request_timeout: %s' % request_timeout)
  
-        compressed_model_bundle_filename = 'bundle-%s-%s-%s.tar.gz' % (model_namespace, model_name, model_version)
+        compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
         print("Compressing '%s' into '%s'..." % (model_bundle_path, compressed_model_bundle_filename))  
         print("")
@@ -203,7 +206,7 @@ class PioCli(object):
         with open(compressed_model_bundle_filename, 'rb') as fh:
             files = [('bundle', (compressed_model_bundle_filename, fh))]
 
-            full_model_server_url = "%s:81/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
+            full_model_server_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
             print("Deploying model bundle '%s' to '%s'..." % (compressed_model_bundle_filename, full_model_server_url))
             print("")
             headers = {'Accept': 'application/json'}
@@ -225,6 +228,7 @@ class PioCli(object):
 
         try:
             model_server_url = self.config_get_all()['model_server_url']
+            model_type = self.config_get_all()['model_type']
             model_namespace = self.config_get_all()['model_namespace']
             model_name = self.config_get_all()['model_name']
             model_input_mime_type = self.config_get_all()['model_input_mime_type']
@@ -239,9 +243,9 @@ class PioCli(object):
         print('model_input_file_path: %s' % model_input_file_path)
         print('request_timeout: %s' % request_timeout)
 
-        full_model_server_url = "%s/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_namespace, model_name, model_version)
+        full_model_server_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
-        print("Predicting file '%s' with model '%s' at '%s'..." % (model_input_file_path, model_name, full_model_server_url))
+        print("Predicting file '%s' with model '%s/%s/%s' at '%s'..." % (model_input_file_path, model_type, model_namespace, model_name, full_model_server_url))
         print("")
         with open(model_input_file_path, 'rb') as fh:
             model_input_binary = fh.read()

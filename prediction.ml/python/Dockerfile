@@ -70,6 +70,12 @@ COPY run run
 ENV \
   PIO_MODEL_SERVER_PORT=9876
 
+ENV \
+  PIO_MODEL_SERVER_PATH=src/main/python/model
+
+RUN \
+  create_model_server_environment_python3
+
 EXPOSE 9876 
 
 CMD ["supervise", "."]

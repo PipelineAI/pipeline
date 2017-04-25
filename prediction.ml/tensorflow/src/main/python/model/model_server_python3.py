@@ -15,7 +15,7 @@ import predict_pb2
 import prediction_service_pb2
 
 
-class ModelPredictPython3TensorFlow1Handler(tornado.web.RequestHandler):
+class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     def initialize(self, 
                    bundle_parent_path,
                    grpc_host,
@@ -73,7 +73,7 @@ class ModelPredictPython3TensorFlow1Handler(tornado.web.RequestHandler):
         return self.registry[model_key]
 
 
-class ModelPython3TensorFlow1UploadHandler(tornado.web.RequestHandler):
+class ModelTensorFlowDeployHandler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 
@@ -123,15 +123,15 @@ if __name__ == '__main__':
     grpc_port = os.environ['PIO_MODEL_TENSORFLOW_SERVING_PORT']
 
     app = tornado.web.Application([
-      # url: /v1/model/predict/python3/tensorflow1/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/predict/python3/tensorflow1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3TensorFlow1Handler,
+      # url: /v1/model/predict/tensorflow/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/predict/tensorflow/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler,
           dict(bundle_parent_path=bundle_parent_path,
                grpc_host='127.0.0.1',
                grpc_port=grpc_port,
                request_timeout=30)),
       # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-      # url: /v1/model/upload/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/upload/python3/tensorflow1/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelUploadPython3TensorFlow1Handler,
+      # url: /v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/deploy/tensorflow/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployTensorFlowHandler,
           dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)

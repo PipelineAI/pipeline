@@ -67,6 +67,12 @@ ENV \
 ENV \
   PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
 
-EXPOSE 9876 9000 9001 9002 9040 
+ENV \
+  PIO_MODEL_SERVER_PATH=src/main/python/model
+
+RUN \
+  create_model_server_environment_python3
+
+EXPOSE 9876 9000 9040 
 
 CMD ["supervise", "."]
