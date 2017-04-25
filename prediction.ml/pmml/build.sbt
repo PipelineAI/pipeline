@@ -39,7 +39,6 @@ lazy val deps = Seq(
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudVersion,
-  "org.springframework.cloud" % "spring-cloud-starter-atlas" % springCloudVersion,
 // This must stay 1.1.1.RELEASE or jackson.xml errors happen at runtime
   "org.springframework.cloud" % "spring-cloud-starter-config" % "1.1.1.RELEASE",
   "org.jpmml" % "pmml-model-metro" % pmmlMetroVersion,
