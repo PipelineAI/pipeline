@@ -10,7 +10,7 @@ import tornado.gen
 import dill as pickle
 import fnmatch
 import importlib.util
-import grpc.beta import implementations
+from grpc.beta import implementations
 import asyncio
 import tensorflow as tf
 import predict_pb2
