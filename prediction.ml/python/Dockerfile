@@ -50,7 +50,6 @@ RUN \
 ENV LOGS_HOME=/root/logs
 
 COPY src/ src/
-COPY build.sbt build.sbt
 
 #RUN \
 #  sbt clean package
