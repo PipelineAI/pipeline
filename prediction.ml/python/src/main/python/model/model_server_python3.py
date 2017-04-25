@@ -12,7 +12,6 @@ import fnmatch
 import importlib.util
 from grpc.beta import implementations
 import asyncio
-import tensorflow as tf
 import predict_pb2
 import prediction_service_pb2
 
