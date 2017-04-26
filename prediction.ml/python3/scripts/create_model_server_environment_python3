@@ -2,9 +2,6 @@
 
 source activate root
 
-# Create a new, empty `model_environment_python3` environment.
-conda create --yes -n model_environment_python3 python=3.5
-
 # Activate it.
 source activate model_environment_python3
 

@@ -74,6 +74,9 @@ ENV \
   PIO_MODEL_SERVER_PATH=src/main/python/model
 
 RUN \
+  conda create --yes -n model_environment_python3 python=3.5
+
+RUN \
   create_model_server_environment_python3
 
 EXPOSE 9876 
