@@ -43,7 +43,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def do_post(self, inputs, model_base_path, transformers_module, model_name, model_version):
         # TODO: don't create channel on every request
-        channel = implementations.insecure_channel(self.grpc_host, self.grpc_port)
+        channel = implementations.insecure_channel(self.grpc_host, int(self.grpc_port))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
