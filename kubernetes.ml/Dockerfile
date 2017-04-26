@@ -110,9 +110,9 @@ RUN \
 RUN \
   git clone https://github.com/fluxcapacitor/pipeline.git
 
-RUN \
-  ln -s scripts /root/pipeline/kubernetes.ml/scripts
-
+#RUN \
+#  ln -s scripts /root/pipeline/kubernetes.ml/scripts
+COPY scripts/ scripts/
 ENV \
   PATH=/root/scripts:$PATH
 
