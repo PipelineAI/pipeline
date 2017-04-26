@@ -141,3 +141,7 @@ RUN \
 
 RUN \
   cd source.ml && pull_force_overwrite_local
+
+# TODO:  Remove this
+ENV \
+  PYTHONWARNINGS="ignore:Unverified HTTPS request"
