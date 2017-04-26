@@ -39,7 +39,7 @@ spec:
         - name: PIO_MODEL_NAME
           value: tensorflow_linear
         - name: PIO_MODEL_VERSION
-          value: 0
+          value: "0"
         ports:
         - containerPort: 9040
         - containerPort: 9876
@@ -52,4 +52,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-

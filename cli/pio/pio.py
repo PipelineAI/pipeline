@@ -291,16 +291,16 @@ class PioCli(object):
              print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
 
     
-    def get_config_yamls(self, component):
+    def get_config_yamls(self, service):
         return [] 
 
 
-    def get_secret_yamls(self, component):
+    def get_secret_yamls(self, service):
         return []
 
 
-    def get_deploy_yamls(self, component):
-        (deploy_yamls, dependencies) = PioCli.kube_deploy_registry[component]
+    def get_deploy_yamls(self, service):
+        (deploy_yamls, dependencies) = PioCli.kube_deploy_registry[service]
         if len(dependencies) > 0:
             for dependency in dependencies:
                 return deploy_yamls + self.get_deploy_yamls(dependency)
@@ -308,8 +308,8 @@ class PioCli(object):
             return deploy_yamls 
 
 
-    def get_svc_yamls(self, component):
-        (svc_yamls, dependencies) = PioCli.kube_svc_registry[component]
+    def get_svc_yamls(self, service):
+        (svc_yamls, dependencies) = PioCli.kube_svc_registry[service]
         if len(dependencies) > 0:
             for dependency in dependencies:
                 return svc_yamls + self.get_svc_yamls(dependency)
@@ -318,7 +318,7 @@ class PioCli(object):
 
 
     def cluster_deploy(self,
-                       components):
+                       services):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
@@ -335,8 +335,8 @@ class PioCli(object):
             return
 
         pprint(self.config_get_all())
-        components_list = components.split(',')
-        print("components: '%s'" % components_list)
+        service_list = services.split(',')
+        print("services: '%s'" % service_list)
 
         kubeconfig.load_kube_config()
 
@@ -345,11 +345,11 @@ class PioCli(object):
         deploy_yaml_filenames = []
         svc_yaml_filenames = [] 
        
-        for component in components_list:
-            config_yaml_filenames = config_yaml_filenames + self.get_config_yamls(component)
-            secret_yaml_filenames = secret_yaml_filenames + self.get_secret_yamls(component)
-            deploy_yaml_filenames = deploy_yaml_filenames + self.get_deploy_yamls(component)
-            svc_yaml_filenames = svc_yaml_filenames + self.get_svc_yamls(component)
+        for service in service_list:
+            config_yaml_filenames = config_yaml_filenames + self.get_config_yamls(service)
+            secret_yaml_filenames = secret_yaml_filenames + self.get_secret_yamls(service)
+            deploy_yaml_filenames = deploy_yaml_filenames + self.get_deploy_yamls(service)
+            svc_yaml_filenames = svc_yaml_filenames + self.get_svc_yamls(service)
 
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
