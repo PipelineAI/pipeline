@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.19"
+__version__ = "0.20"
 
 import requests
 import fire
@@ -16,6 +16,7 @@ import json
 import dill as pickle
 from git import Repo
 from pprint import pprint
+import subprocess
 
 # TODO: enums
 #   model_input_mime_type = ['application/xml', 'application/json']
@@ -26,15 +27,15 @@ from pprint import pprint
 
 class PioCli(object):
     kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
-                            'spark': (['apachespark.ml/master-deploy.yaml',
-                                       'apachespark.ml/worker-deploy.yaml'], ['metastore']),
+                            'spark': (['apachespark.ml/master-deploy.yaml'], ['spark-worker', 'metastore']),
+                            'spark-worker': (['apachespark.ml/worker-deploy.yaml'], []),
                             'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
                             'hdfs': (['hdfs.ml/namenode-deploy.yaml'], []),
                             'redis': (['keyvalue.ml/redis-master-deploy.yaml'], []),
                             'presto': (['presto.ml/presto-master-deploy.yaml',
-                                        'presto.ml/presto-worker-deploy.yaml'], []),
+                                        'presto.ml/presto-worker-deploy.yaml'], ['metastore']),
                             'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
-                            'airflow': (['scheduler.ml/airflow-deploy.yaml'], []),
+                            'airflow': (['scheduler.ml/airflow-deploy.yaml'], ['mysql', 'redis']),
                             'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
                             'www': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
@@ -47,14 +48,21 @@ class PioCli(object):
                            }
 
     kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'spark': (['apachespark.ml/master-svc.yaml', 'apachespark.ml/worker-svc.yaml'], []),
-                         'metastore': (['metastore.ml/metastore-svc.yaml'], []),
+                         'spark': (['apachespark.ml/master-svc.yaml'], ['spark-worker', 'metastore']), 
+                         'spark-worker': (['apachespark.ml/worker-svc.yaml'], []),
+                         'metastore': (['metastore.ml/metastore-svc.yaml'], ['mysql']),
                          'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
                          'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
-                         'presto-ui': (['presto.ml/presto-ui-svc.yaml'], []),
-                         'airflow': (['scheduler.ml/airflow-svc.yaml'], []),
+                         'presto': (['presto.ml/presto-master-svc.yaml',
+                                     'presto.ml/presto-worker-svc.yaml'], ['metastore']),
+                         'presto-ui': (['presto.ml/presto-ui-svc.yaml'], ['presto']),
+                         'airflow': (['scheduler.ml/airflow-svc.yaml'], ['mysql', 'redis']),
+                         'mysql': (['sql.ml/mysql-master-svc.yaml'], []),
                          'www': (['web.ml/home-svc.yaml'], []),
                          'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
+                         'zookeeper': (['zookeeper.ml/zookeeper-svc.yaml'], []),
+                         'kafka': (['stream.ml/kafka-0.10-svc.yaml'], ['zookeeper']),
+                         'cassandra': (['cassandra.ml/cassandra-svc.yaml'], []),
                          'prediction-jvm': (['prediction.ml/jvm-svc.yaml'], []),
                          'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
                          'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
@@ -63,14 +71,17 @@ class PioCli(object):
     def pio_api_version(self):
         return 'v1'
 
+
     def config_get(self,
                    config_key):
         return self.config_get_all()[config_key]
+
 
     def config_set(self,
                    config_key,
                    config_value):
         self.config_merge_dict({config_key: config_value})
+
 
     def config_merge_dict(self, 
                           config_dict):
@@ -254,10 +265,56 @@ class PioCli(object):
         pprint(response.text)
         print("...Done!")
 
+
     def cluster_view(self):
-        self.cluster_describe()
- 
-    def cluster_describe(self):
+        pio_api_version = self.config_get_all()['pio_api_version']
+
+        try:
+            kube_cluster_context = self.config_get_all()['kube_cluster_context']
+            kube_namespace = self.config_get_all()['kube_namespace']
+        except:
+            print("Cluster needs to be initialized.")
+            return
+
+        pprint(self.config_get_all())
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+        print("\n")
+        print("************")
+        print("Deployments:")
+        print("************")
+        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+        for deploy in response.items:
+             print("%s (%s of %s replicas available)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
+
+        print("\n")
+        print("*********")
+        print("Services:")
+        print("*********")
+        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
+        for svc in response.items:
+             ingress = 'Not public.' 
+             if svc.status.load_balancer.ingress and len(svc.status.load_balancer.ingress) > 0:
+                 if (svc.status.load_balancer.ingress[0].hostname):
+                     ingress = svc.status.load_balancer.ingress[0].hostname
+                 if (svc.status.load_balancer.ingress[0].ip):
+                     ingress = svc.status.load_balancer.ingress[0].ip               
+             print("%s: %s (%s)" % (svc.metadata.name, ingress, svc.spec.type))
+
+        print("\n")
+        print("*****")
+        print("Pods:")
+        print("*****")
+        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+        for pod in response.items:
+             print("%s (%s)" % (pod.metadata.name, pod.status.phase))
+
+
+    def service_shell(self,
+                     service):
+
         pio_api_version = self.config_get_all()['pio_api_version']
 
         try:
@@ -273,51 +330,96 @@ class PioCli(object):
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
-        print("Services:")
-        response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
-        for svc in response.items:
-             print("%s\t\t%s" % (svc.metadata.name, svc.status.load_balancer.ingress))
-
-        print("")
-        print("Deployments:")
-        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
-        for deploy in response.items:
-             print("%s" % (deploy.metadata.name))
-
-        print("")
-        print("Pods:")
         response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
         for pod in response.items:
-             print("%s\t\t%s" % (pod.metadata.name, pod.status.pod_ip))
+            if service in pod.metadata.name:
+                #print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))
+                break
+        print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))      
+        subprocess.call("kubectl exec -it %s bash" % pod.metadata.name, shell=True)
 
-    
-    def get_config_yamls(self, service):
+
+    def service_logs(self,
+                   service):
+
+        pio_api_version = self.config_get_all()['pio_api_version']
+
+        try:
+            kube_cluster_context = self.config_get_all()['kube_cluster_context']
+            kube_namespace = self.config_get_all()['kube_namespace']
+        except:
+            print("Cluster needs to be initialized.")
+            return
+
+        pprint(self.config_get_all())
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+        for pod in response.items:
+            if service in pod.metadata.name:
+                break
+        print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))
+        subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
+
+
+    def service_scale(self,
+                      service,
+                      replicas):
+
+        pio_api_version = self.config_get_all()['pio_api_version']
+
+        try:
+            kube_namespace = self.config_get_all()['kube_namespace']
+        except:
+            print("Cluster needs to be initialized.")
+            return
+
+        pprint(self.config_get_all())
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+        for deploy in response.items:
+            if service in deploy.metadata.name:
+                break
+        print("Scaling '%s' to %s replicas..." % (deploy.metadata.name, replicas))
+        subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
+ 
+
+    def get_config_yamls(self, 
+                         service):
         return [] 
 
 
-    def get_secret_yamls(self, service):
+    def get_secret_yamls(self, 
+                         service):
         return []
 
 
-    def get_deploy_yamls(self, service):
+    def get_deploy_yamls(self, 
+                         service):
         (deploy_yamls, dependencies) = PioCli.kube_deploy_registry[service]
         if len(dependencies) > 0:
             for dependency in dependencies:
-                return deploy_yamls + self.get_deploy_yamls(dependency)
-        else:
-            return deploy_yamls 
+                deploy_yamls = deploy_yamls + self.get_deploy_yamls(dependency)
+        return deploy_yamls 
 
 
-    def get_svc_yamls(self, service):
+    def get_svc_yamls(self, 
+                      service):
         (svc_yamls, dependencies) = PioCli.kube_svc_registry[service]
         if len(dependencies) > 0:
             for dependency in dependencies:
-                return svc_yamls + self.get_svc_yamls(dependency)
-        else:
-            return svc_yamls 
+                svc_yamls = svc_yamls + self.get_svc_yamls(dependency)
+        return svc_yamls 
 
 
-    def cluster_deploy(self,
+    def service_deploy(self,
                        services):
 
         pio_api_version = self.config_get_all()['pio_api_version']
@@ -336,7 +438,7 @@ class PioCli(object):
 
         pprint(self.config_get_all())
         service_list = services.split(',')
-        print("services: '%s'" % service_list)
+        print("Deploying services... '%s'" % service_list)
 
         kubeconfig.load_kube_config()
 
@@ -383,6 +485,36 @@ class PioCli(object):
             except ApiException as e: 
                 print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
 
+        self.cluster_view()
+
+
+    def service_delete(self,
+                       service,
+                       replicas):
+
+        pio_api_version = self.config_get_all()['pio_api_version']
+
+        try:
+            kube_namespace = self.config_get_all()['kube_namespace']
+        except:
+            print("Cluster needs to be initialized.")
+            return
+
+        pprint(self.config_get_all())
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+        for deploy in response.items:
+            if service in deploy.metadata.name:
+                break
+        print("Deleting '%s'" % (deploy.metadata.name, replicas))
+        subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
+
+        self.cluster_view()
+
 
     def git_init(self,
                  git_repo_base_path,
@@ -407,10 +539,6 @@ class PioCli(object):
 
 
     def git_view(self):
-        self.git_describe()
-
-
-    def git_describe(self):
         pio_api_version = self.config_get_all()['pio_api_version']
         try: 
             git_repo_base_path = self.config_get_all()['git_repo_base_path']
