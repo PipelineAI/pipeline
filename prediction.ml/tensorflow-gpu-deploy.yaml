@@ -32,6 +32,12 @@ spec:
             memory: 1000Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: tensorflow_linear 
+        - name: PIO_MODEL_VERSION
+          value: 0
         ports:
         - containerPort: 9040
         - containerPort: 9876

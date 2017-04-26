@@ -1,4 +1,4 @@
-package com.advancedspark.serving.prediction.tensorflow
+package io.pipeline.prediction.tensorflow
 
 import java.io.FileOutputStream
 

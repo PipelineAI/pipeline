@@ -40,7 +40,6 @@ import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestMethod
 
 @SpringBootApplication
 @RestController
@@ -66,21 +65,21 @@ class PredictionService {
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
-  def deploySource(@PathVariable("namespace") namespace: String, 
-                   @PathVariable("sourceName") sourceName: String,
-                   @PathVariable("version") version: String,
-                   @RequestBody source: String): 
+  def deployJava(@PathVariable("namespace") namespace: String, 
+                 @PathVariable("sourceName") sourceName: String,
+                 @PathVariable("version") version: String,
+                 @RequestBody source: String): 
       ResponseEntity[String] = {
     Try {
-      System.out.println(s"Generating source for ${namespace}/${sourceName}/${version}:\n${source}")
+      System.out.println(s"Generating source for 'java/${namespace}/${sourceName}/${version}':\n${source}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"store/${namespace}/${sourceName}/${version}")
+      val path = new java.io.File(s"model_store/java/${namespace}/${sourceName}/${version}")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"store/${namespace}/${sourceName}/${version}/${sourceName}.java")
+      val file = new java.io.File(s"model_store/java/${namespace}/${sourceName}/${version}/${sourceName}.java")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -90,10 +89,10 @@ class PredictionService {
 
       val (predictor, generatedCode) = PredictorCodeGenerator.codegen(sourceName, source)
       
-      System.out.println(s"Updating cache for ${namespace}/${sourceName}/${version}:\n${generatedCode}")
+      System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
       
       // Update Predictor in Cache
-      predictorRegistry.put(namespace + "/" + sourceName + "/" + version, predictor)
+      predictorRegistry.put("java/" + namespace + "/" + sourceName + "/" + version, predictor)
 
       new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
     } match {
@@ -120,7 +119,7 @@ class PredictionService {
                      @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      val predictorOption = predictorRegistry.get(namespace + "/" + sourceName + "/" + version)
+      val predictorOption = predictorRegistry.get("java/" + namespace + "/" + sourceName + "/" + version)
 
       val parsedInputOption = JSON.parseFull(inputJson)
       val inputs: Map[String, Any] = parsedInputOption match {
@@ -130,7 +129,7 @@ class PredictionService {
 
       val predictor = predictorOption match {
         case None => {
-          val sourceFileName = s"store/${namespace}/${sourceName}/${version}/${sourceName}.java"
+          val sourceFileName = s"model_store/java/${namespace}/${sourceName}/${version}/${sourceName}.java"
 
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(sourceFileName))
@@ -140,12 +139,12 @@ class PredictionService {
           
           val (predictor, generatedCode) = PredictorCodeGenerator.codegen(sourceName, source)
 
-          System.out.println(s"Updating cache for ${namespace}/${sourceName}/${version}:\n${generatedCode}")
+          System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
       
           // Update Predictor in Cache
-          predictorRegistry.put(namespace + "/" + sourceName + "/" + version, predictor)
+          predictorRegistry.put("java/" + namespace + "/" + sourceName + "/" + version, predictor)
       
-          System.out.println(s"Updating cache for ${namespace}/${sourceName}/${version}:\n${generatedCode}")
+          System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
 
           predictor
         }
@@ -177,12 +176,12 @@ class PredictionService {
       ResponseEntity[HttpStatus] = {
     try {
       // Write the new pmml (XML format) to local disk
-      val path = new java.io.File(s"store/${namespace}/${pmmlName}/${version}")
+      val path = new java.io.File(s"model_store/pmml/${namespace}/${pmmlName}/${version}")
       if (!path.isDirectory()) { 
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
+      val file = new java.io.File(s"model_store/pmml/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -205,7 +204,7 @@ class PredictionService {
       val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
 
       // Update PMML in Cache
-      pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
+      pmmlRegistry.put("pmml/" + namespace + "/" + pmmlName + "/" + version, modelEvaluator)
       
       new ResponseEntity(HttpStatus.OK)
     } catch {
@@ -229,11 +228,11 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val modelEvaluatorOption = pmmlRegistry.get(namespace + "/" + pmmlName + "/" + version)
+      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + pmmlName + "/" + version)
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"store/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
+          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -249,7 +248,7 @@ class PredictionService {
           val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
   
           // Cache modelEvaluator
-          pmmlRegistry.put(namespace + "/" + pmmlName + "/" + version, modelEvaluator)
+          pmmlRegistry.put("pmml/" + namespace + "/" + pmmlName + "/" + version, modelEvaluator)
           
           modelEvaluator
         }
@@ -305,7 +304,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/v1/model/predict/recommendations/{namespace}/{collection}/{version}/{userId}/{startIdx}/{endIdx}"), 
+  @RequestMapping(path=Array("/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("namespace") namespace: String,
                       @PathVariable("collection") collection: String,
@@ -327,7 +326,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/v1/model/predict/similars/{namespace}/{collection}/{version}/{itemId}/{startIdx}/{endIdx}"),
+  @RequestMapping(path=Array("/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{itemId}/{startIdx}/{endIdx}"),
                   produces=Array("application/json; charset=UTF-8"))
   def similars(@PathVariable("namespace") namespace: String,
                @PathVariable("collection") collection: String,
@@ -363,7 +362,7 @@ class PredictionService {
       val filename = model.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"store/${namespace}/${modelName}/${version}")
+      val filepath = new java.io.File(s"model_store/spark/${namespace}/${modelName}/${version}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -371,7 +370,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       inputStream = model.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/${version}/${filename}"))
+      Files.copy(inputStream, Paths.get(s"model_store/spark/${namespace}/${modelName}/${version}/${filename}"))
     } catch {
       case e: Throwable => {
         System.out.println(e)

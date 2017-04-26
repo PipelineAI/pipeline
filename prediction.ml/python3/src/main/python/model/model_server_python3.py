@@ -19,8 +19,9 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 
 
     @tornado.gen.coroutine
-    def post(self, model_namespace, model_name, model_version):
-        (_, model_key, model, transformers_module) = self.get_model_assets(model_namespace,
+    def post(self, model_type, model_namespace, model_name, model_version):
+        (_, model_key, model, transformers_module) = self.get_model_assets(model_type,
+                                                                           model_namespace,
                                                                            model_name,
                                                                            model_version)
 
@@ -36,22 +37,23 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
         return transformed_outputs
 
 
-    def get_model_assets(self, model_namespace, model_name, model_version):
-        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
+    def get_model_assets(self, model_type, model_namespace, model_name, model_version):
+        model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key in self.registry:
-            (model_absolute_path, model_key, model, transformers_module) = self.registry[model_key]
+            (model_file_absolute_path, model_key, model, transformers_module) = self.registry[model_key]
         else:
-            model_base_path = os.path.join(self.bundle_parent_path, model_namespace)
+            model_base_path = os.path.join(self.bundle_parent_path, model_type)
+            model_base_path = os.path.join(model_base_path, model_namespace)
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
 
             model_filename = fnmatch.filter(os.listdir(model_base_path), "*.pkl")[0]
 
             # Set absolute path to model directory
-            model_absolute_path = os.path.join(model_base_path, model_filename)
+            model_file_absolute_path = os.path.join(model_base_path, model_filename)
 
             # Load pickled model from model directory
-            with open(model_absolute_path, 'rb') as model_file:
+            with open(model_file_absolute_path, 'rb') as model_file:
                 model = pickle.load(model_file)
 
             # Load model_io_transformers from model directory
@@ -61,25 +63,26 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             transformers_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(transformers_module)
 
-            self.registry[model_key] = (model_absolute_path, model_key, model, transformers_module)
+            self.registry[model_key] = (model_file_absolute_path, model_key, model, transformers_module)
 
-        return (model_absolute_path, model_key, model, transformers_module)
+        return (model_file_absolute_path, model_key, model, transformers_module)
 
 
 class ModelDeployPython3Handler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 
-    def post(self, model_namespace, model_name, model_version):
+    def post(self, model_type, model_namespace, model_name, model_version):
         fileinfo = self.request.files['bundle'][0]
-        absolutepath = fileinfo['filename']
-        (_, filename) = os.path.split(absolutepath)
-        bundle_path = os.path.join(self.bundle_parent_path, model_namespace)
+        model_file_source_bundle_path = fileinfo['filename']
+        (_, filename) = os.path.split(model_file_source_bundle_path)
+        bundle_path = os.path.join(self.bundle_parent_path, model_type)
+        bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
         bundle_path = os.path.join(bundle_path, model_version)
         bundle_path_filename = os.path.join(bundle_path, filename)
         try:
-            os.makedirs(bundle_path, exist_ok=False)
+            os.makedirs(bundle_path, exist_ok=True)
             with open(bundle_path_filename, 'wb+') as fh:
                 fh.write(fileinfo['body'])
             print("%s uploaded %s, saved as %s" %
@@ -108,19 +111,20 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
 
 if __name__ == '__main__':
     port = os.environ['PIO_MODEL_SERVER_PORT']
-    bundle_parent_path = os.environ['STORE_HOME']
+    bundle_parent_path = os.environ['PIO_MODEL_STORE_HOME']
+    model_type = os.environ['PIO_MODEL_TYPE']
     model_namespace = os.environ['PIO_MODEL_NAMESPACE']
     model_name = os.environ['PIO_MODEL_NAME']
     model_version = os.environ['PIO_MODEL_VERSION']
 
     app = tornado.web.Application([
-      # url: /v1/model/predict/python3/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/predict/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler,
-          dict(bundle_parent_path=bundle_parent_path)),
+      # url: /v1/model/predict/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/predict/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+          ModelPredictPython3Handler, dict(bundle_parent_path=bundle_parent_path)),
       # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
       # url: /v1/model/deploy/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/deploy/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler,
-          dict(bundle_parent_path=bundle_parent_path))
+      (r"/v1/model/deploy/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+          ModelDeployPython3Handler, dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)
 

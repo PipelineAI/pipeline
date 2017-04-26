@@ -29,8 +29,9 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 
 
     @tornado.gen.coroutine
-    def post(self, model_namespace, model_name, model_version):
-        (model_base_path, transformers_module) = self.get_model_assets(model_namespace,
+    def post(self, model_type, model_namespace, model_name, model_version):
+        (model_base_path, transformers_module) = self.get_model_assets(model_type,
+                                                                       model_namespace,
                                                                        model_name,
                                                                        model_version)
 
@@ -40,24 +41,28 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def do_post(self, inputs, model_base_path, transformers_module, model_name, model_version):
-        request = predict_pb2.PredictRequest()
-        request.model_spec.name = model_name
-        request.model_spec.version.value = model_version
-        transformed_inputs = transformers_module.transform_inputs(inputs)
-        request.inputs['inputs'].CopyFrom(transformed_inputs)
+        # TODO: don't create channel on every request
         channel = implementations.insecure_channel(self.grpc_host, self.grpc_port)
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
-        outputs = stub.Predict(request, self.request_timeout)
+
+        # Transform raw inputs to TensorFlow PredictRequest
+        transformed_inputs_request = transformers_module.transform_inputs(inputs)
+        transformed_inputs_request.model_spec.name = model_name
+        transformed_inputs_request.model_spec.version.value = model_version
+
+        # Transform TensorFlow PredictResponse into output
+        outputs = stub.Predict(transformed_inputs_request, self.request_timeout)
         transformed_outputs = transformers_module.transform_outputs(outputs)
         return transformed_outputs
 
 
-    def get_model_assets(self, model_namespace, model_name, model_version):
-        model_key = '%s_%s_%s' % (model_namespace, model_name, model_version)
+    def get_model_assets(self, model_type, model_namespace, model_name, model_version):
+        model_key = '$s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key in self.registry:
             (model_base_path, transformers_module) = self.registry[model_key]
         else:
-            model_base_path = os.path.join(self.bundle_parent_path, model_namespace)
+            model_base_path = os.path.join(self.bundle_parent_path, model_type)
+            model_base_path = os.path.join(model_base_path, model_namespace)
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
 
@@ -77,16 +82,18 @@ class ModelTensorFlowDeployHandler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 
-    def post(self, model_namespace, model_name, model_version):
+    def post(self, model_type, model_namespace, model_name, model_version):
         fileinfo = self.request.files['bundle'][0]
-        absolutepath = fileinfo['filename']
-        (_, filename) = os.path.split(absolutepath)
-        bundle_path = os.path.join(self.bundle_parent_path, model_namespace)
-        bundle_path_with_model_name = os.path.join(bundle_path, model_name)
-        bundle_path = os.path.join(bundle_path_with_model_name, model_version)
+        model_file_source_bundle_path = fileinfo['filename']
+        (_, filename) = os.path.split(model_file_source_bundle_path)
+
+        bundle_path = os.path.join(self.bundle_parent_path, model_type)
+        bundle_path = os.path.join(bundle_path, model_namespace)
+        bundle_path = os.path.join(bundle_path, model_name)
+        bundle_path = os.path.join(bundle_path, model_version)
         bundle_path_filename = os.path.join(bundle_path, filename)
         try:
-            os.makedirs(bundle_path, exist_ok=False)
+            os.makedirs(bundle_path, exist_ok=True)
             with open(bundle_path_filename, 'wb+') as fh:
                 fh.write(fileinfo['body'])
             print("%s uploaded %s, saved as %s" %
@@ -116,23 +123,24 @@ class ModelTensorFlowDeployHandler(tornado.web.RequestHandler):
 
 if __name__ == '__main__':
     port = os.environ['PIO_MODEL_SERVER_PORT']
-    bundle_parent_path = os.environ['STORE_HOME']
+    bundle_parent_path = os.environ['PIO_MODEL_STORE_HOME']
+    model_type = os.environ['PIO_MODEL_TYPE']
     model_namespace = os.environ['PIO_MODEL_NAMESPACE']
     model_name = os.environ['PIO_MODEL_NAME']
     model_version = os.environ['PIO_MODEL_VERSION']
     grpc_port = os.environ['PIO_MODEL_TENSORFLOW_SERVING_PORT']
 
     app = tornado.web.Application([
-      # url: /v1/model/predict/tensorflow/$PIO_NAMESPACE/$PIO_MODELNAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/predict/tensorflow/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler,
-          dict(bundle_parent_path=bundle_parent_path,
+      # url: /v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+          ModelPredictTensorFlowHandler, dict(bundle_parent_path=bundle_parent_path,
                grpc_host='127.0.0.1',
                grpc_port=grpc_port,
                request_timeout=30)),
       # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
       # url: /v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/deploy/tensorflow/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployTensorFlowHandler,
-          dict(bundle_parent_path=bundle_parent_path))
+      (r"/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+          ModelDeployTensorFlowHandler, dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)
 

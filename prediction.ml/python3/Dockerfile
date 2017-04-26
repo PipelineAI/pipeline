@@ -55,10 +55,10 @@ COPY src/ src/
 #  sbt clean package
 
 ENV \
-  STORE_HOME=/root/store
+  PIO_MODEL_STORE_HOME=/root/model_store
 
 RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/python/store
+  ln -s /root/volumes/source.ml/prediction.ml/model_store
 
 COPY scripts/ scripts/
 

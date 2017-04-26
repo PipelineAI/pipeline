@@ -53,10 +53,10 @@ RUN \
 COPY run run
 
 ENV \
-  STORE_HOME=/root/store
+  PIO_MODEL_STORE_HOME=/root/model_store
 
 RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/tensorflow/store
+  ln -s /root/volumes/source.ml/prediction.ml/model_store
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
@@ -70,8 +70,19 @@ ENV \
 ENV \
   PIO_MODEL_SERVER_PATH=src/main/python/model
 
+ENV \
+  PIO_MODEL_SERVER_REQUEST_BATCHING=true
+
+# We're installing (duplicate of base Docker image) 
+#   in order to force an error during the Docker build 
+#   if/when the base Docker image changes TF version.
+# When the base Docker image changes TF version, be sure 
+#   to propagate this change to the following:
+#     src/main/python/model/requirements_pio_model_server.txt
+
 RUN \
-  create_model_server_environment_python3
+  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl \
+  && create_model_server_environment_python3
 
 EXPOSE 9876 9000 9040 
 

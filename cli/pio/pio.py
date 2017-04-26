@@ -41,10 +41,8 @@ class PioCli(object):
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
                             'kafka': (['stream.ml/kafka-0.10-rc.yaml'], ['zookeeper']),
                             'cassandra': (['cassandra.ml/cassandra-rc.yaml'], []),
-                            'prediction-java': (['prediction.ml/java-deploy.yaml'], []),
-                            'prediction-redis': (['prediction.ml/keyvalue-deploy.yaml'], ['redis']),
-                            'prediction-pmml': (['prediction.ml/pmml-deploy.yaml'], []),
-                            'prediction-python': (['prediction.ml/python-deploy.yaml'], []),
+                            'prediction-jvm': (['prediction.ml/jvm-deploy.yaml'], []),
+                            'prediction-python3': (['prediction.ml/python3-deploy.yaml'], []),
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
                            }
 
@@ -57,10 +55,8 @@ class PioCli(object):
                          'airflow': (['scheduler.ml/airflow-svc.yaml'], []),
                          'www': (['web.ml/home-svc.yaml'], []),
                          'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
-                         'prediction-java': (['prediction.ml/java-svc.yaml'], []),
-                         'prediction-redis': (['prediction.ml/keyvalue-svc.yaml'], []),
-                         'prediction-pmml': (['prediction.ml/pmml-svc.yaml'], []),
-                         'prediction-python': (['prediction.ml/python-svc.yaml'], []),
+                         'prediction-jvm': (['prediction.ml/jvm-svc.yaml'], []),
+                         'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
                          'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
                         }
 

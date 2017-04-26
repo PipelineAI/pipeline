@@ -1,4 +1,4 @@
-package com.advancedspark.serving.prediction.tensorflow
+package io.pipeline.prediction.tensorflow
 
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 import java.nio.file.Paths
 
-class TensorflowJavaWithImageCommand(commandName: String, 
+class TensorflowGrpcWithImageCommand(commandName: String, 
                                      namespace: String, 
                                      modelName: String, 
                                      version: String, 
@@ -49,28 +49,24 @@ class TensorflowJavaWithImageCommand(commandName: String,
   val randomInt = scala.util.Random
 
   def run(): String = {
-    try{
-      val results = new Array[String](k)
+    val results = new Array[String](k)
+    
+    val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
+      Paths.get(s"/root/store/${namespace}/images/${imageName}")))      
+
+    // TODO:  
+    //val results = TensorflowGrpcCommandOps.client.predict(modelName, version, "")
       
-      val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-        Paths.get(s"/root/store/${namespace}/images/${version}/${imageName}")))      
+    val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 
-      val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
-
-      val bestLabelIdxs = LabelImage.maxKIndex(labelProbabilities, k)
-      
-      for (i <- 0 until k) {
-        results(i) =
-          s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f}}"""        
-      }
-
-      s"""${results.mkString(",")}"""
-    } catch {
-       case e: Throwable => {
-         System.out.println(e)
-         throw e
-      }
+    val bestLabelIdxs = LabelImage.maxKIndex(labelProbabilities, k)
+    
+    for (i <- 0 until k) {
+      results(i) =
+        s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f}}"""        
     }
+
+    s"""${results.mkString(",")}"""
   }
 
   override def getFallback(): String = {

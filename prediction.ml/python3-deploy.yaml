@@ -1,23 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: prediction-python
+  name: prediction-python3
   labels:
-    name: prediction-python
-    app: prediction-python
+    name: prediction-python3
+    app: prediction-python3
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: prediction-python
+      app: prediction-python3
   template:
     metadata:
       labels:
-        app: prediction-python
+        app: prediction-python3
     spec:
       containers:
-      - name: prediction-python
-        image: docker.io/fluxcapacitor/prediction-python:master
+      - name: prediction-python3
+        image: docker.io/fluxcapacitor/prediction-python3:master
         resources:
           limits:
             cpu: 1000m
@@ -27,6 +27,8 @@ spec:
             memory: 100Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_TYPE
+          value: python3
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME

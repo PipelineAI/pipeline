@@ -25,7 +25,7 @@ RUN \
 ENV LOGS_HOME=/root/logs
 
 ENV \
-  STORE_HOME=/root/store
+  PIO_MODEL_STORE_HOME=/root/model_store
 
 COPY src/ src/
 COPY build.sbt build.sbt
@@ -36,7 +36,7 @@ RUN \
   sbt clean package 
 
 RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/jvm/store
+  ln -s /root/volumes/source.ml/prediction.ml/model_store
 
 EXPOSE 9040 
 
