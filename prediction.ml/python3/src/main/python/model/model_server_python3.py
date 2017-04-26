@@ -10,7 +10,8 @@ import tornado.gen
 import dill as pickle
 import fnmatch
 import importlib.util
-
+import tarfile
+import subprocess
 
 class ModelPredictPython3Handler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
@@ -118,12 +119,12 @@ if __name__ == '__main__':
     model_version = os.environ['PIO_MODEL_VERSION']
 
     app = tornado.web.Application([
-      # url: /v1/model/predict/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/predict/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+    # url: /v1/model/predict/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+      (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)",
           ModelPredictPython3Handler, dict(bundle_parent_path=bundle_parent_path)),
       # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
       # url: /v1/model/deploy/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/deploy/python3/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
+      (r"/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)",
           ModelDeployPython3Handler, dict(bundle_parent_path=bundle_parent_path))
     ])
     app.listen(port)

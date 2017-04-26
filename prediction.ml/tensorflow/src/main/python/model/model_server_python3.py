@@ -13,7 +13,8 @@ import asyncio
 import tensorflow as tf
 import predict_pb2
 import prediction_service_pb2
-
+import tarfile
+import subprocess
 
 class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     def initialize(self, 
