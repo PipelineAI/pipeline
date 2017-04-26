@@ -80,7 +80,11 @@ ENV \
 #   to propagate this change to the following:
 #     src/main/python/model/requirements_pio_model_server.txt
 RUN \
-  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl 
+  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl \
+  && pip uninstall -y /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl
+
+RUN \
+  conda create --yes -n model_environment_python3 python=3.5
 
 RUN \
   create_model_server_environment_python3
