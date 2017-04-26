@@ -49,7 +49,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         # Transform raw inputs to TensorFlow PredictRequest
         transformed_inputs_request = transformers_module.transform_inputs(inputs)
         transformed_inputs_request.model_spec.name = model_name
-        transformed_inputs_request.model_spec.version.value = model_version
+        transformed_inputs_request.model_spec.version.value = int(model_version)
 
         # Transform TensorFlow PredictResponse into output
         outputs = stub.Predict(transformed_inputs_request, self.request_timeout)
@@ -58,7 +58,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 
 
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
-        model_key = '$s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
+        model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key in self.registry:
             (model_base_path, transformers_module) = self.registry[model_key]
         else:
