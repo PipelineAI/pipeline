@@ -333,7 +333,6 @@ class PioCli(object):
         response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
         for pod in response.items:
             if service in pod.metadata.name:
-                #print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))
                 break
         print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))      
         subprocess.call("kubectl exec -it %s bash" % pod.metadata.name, shell=True)
@@ -361,7 +360,7 @@ class PioCli(object):
         for pod in response.items:
             if service in pod.metadata.name:
                 break
-        print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))
+        print("Tailing logs on '%s' (%s)" % (pod.metadata.name, pod.status.phase))
         subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
 
 
