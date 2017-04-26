@@ -110,9 +110,9 @@ RUN \
 RUN \
   git clone https://github.com/fluxcapacitor/pipeline.git
 
-RUN \
-  ln -s scripts /root/pipeline/kubernetes.ml/scripts
-
+#RUN \
+#  ln -s scripts /root/pipeline/kubernetes.ml/scripts
+COPY scripts/ scripts/
 ENV \
   PATH=/root/scripts:$PATH
 
@@ -120,7 +120,7 @@ RUN \
   git clone https://github.com/fluxcapacitor/source.ml.git
 
 RUN \
-  pip install pio-cli==0.19.0
+  pip install pio-cli==0.20.0
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.18.0/minikube-linux-amd64 \

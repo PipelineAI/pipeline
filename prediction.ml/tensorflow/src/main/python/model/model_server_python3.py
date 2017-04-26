@@ -43,13 +43,13 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def do_post(self, inputs, model_base_path, transformers_module, model_name, model_version):
         # TODO: don't create channel on every request
-        channel = implementations.insecure_channel(self.grpc_host, self.grpc_port)
+        channel = implementations.insecure_channel(self.grpc_host, int(self.grpc_port))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
         transformed_inputs_request = transformers_module.transform_inputs(inputs)
         transformed_inputs_request.model_spec.name = model_name
-        transformed_inputs_request.model_spec.version.value = model_version
+        transformed_inputs_request.model_spec.version.value = int(model_version)
 
         # Transform TensorFlow PredictResponse into output
         outputs = stub.Predict(transformed_inputs_request, self.request_timeout)
@@ -58,7 +58,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 
 
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
-        model_key = '$s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
+        model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key in self.registry:
             (model_base_path, transformers_module) = self.registry[model_key]
         else:
@@ -79,7 +79,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         return self.registry[model_key]
 
 
-class ModelTensorFlowDeployHandler(tornado.web.RequestHandler):
+class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 

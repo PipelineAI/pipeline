@@ -99,8 +99,8 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-# Note:  removing --copt=-mavx2 since the commondity AWS EC2 instance type, r3.2xlarge, does not support it 
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/...
+# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -120,8 +120,8 @@ RUN \
 RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
-# Note:  removing --copt=-mavx2 since the commondity AWS EC2 instance type, r3.2xlarge, does not support it
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
+# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/...
 
 RUN \
   cd $TENSORFLOW_HOME \
