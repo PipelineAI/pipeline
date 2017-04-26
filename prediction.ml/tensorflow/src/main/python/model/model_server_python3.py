@@ -79,7 +79,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         return self.registry[model_key]
 
 
-class ModelTensorFlowDeployHandler(tornado.web.RequestHandler):
+class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
     def initialize(self, bundle_parent_path):
         self.bundle_parent_path = bundle_parent_path
 
