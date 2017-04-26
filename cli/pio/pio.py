@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.20"
+__version__ = "0.22"
 
 import requests
 import fire
@@ -487,9 +487,9 @@ class PioCli(object):
         self.cluster_view()
 
 
-    def service_delete(self,
-                       service,
-                       replicas):
+    def service_undeploy(self,
+                         service,
+                         replicas):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
