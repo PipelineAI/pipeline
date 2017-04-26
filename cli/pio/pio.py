@@ -132,7 +132,7 @@ class PioCli(object):
 
     def cluster_init(self,
                      pio_home,
-                     pio_tag_or_branch,
+                     pio_release,
                      kube_cluster_context,
                      kube_namespace='default'):
 
@@ -142,7 +142,7 @@ class PioCli(object):
         expanded_pio_home = os.path.expanduser(expanded_pio_home)
         expanded_pio_home = os.path.abspath(expanded_pio_home)
 
-        config_dict = {'pio_home': expanded_pio_home, 'pio_tag_or_branch': pio_tag_or_branch, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
+        config_dict = {'pio_home': expanded_pio_home, 'pio_release': pio_release, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
         self.config_merge_dict(config_dict)
         pprint(self.config_get_all())
 
