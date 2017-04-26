@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.22"
+__version__ = "0.23"
 
 import requests
 import fire
@@ -488,8 +488,7 @@ class PioCli(object):
 
 
     def service_undeploy(self,
-                         service,
-                         replicas):
+                         service):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
@@ -509,7 +508,7 @@ class PioCli(object):
         for deploy in response.items:
             if service in deploy.metadata.name:
                 break
-        print("Deleting '%s'" % (deploy.metadata.name, replicas))
+        print("Deleting '%s'" % deploy.metadata.name)
         subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
 
         self.cluster_view()
