@@ -16,7 +16,7 @@ ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 ENV \
-  BAZEL_VERSION=0.4.4 \
+  BAZEL_VERSION=0.4.5 \
   TENSORFLOW_SERVING_VERSION=0.5.1
  
 # TensorFlow Serving Home (not required on PATH)
