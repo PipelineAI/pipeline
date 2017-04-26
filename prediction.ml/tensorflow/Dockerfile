@@ -79,10 +79,11 @@ ENV \
 # When the base Docker image changes TF version, be sure 
 #   to propagate this change to the following:
 #     src/main/python/model/requirements_pio_model_server.txt
+RUN \
+  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl 
 
 RUN \
-  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl \
-  && create_model_server_environment_python3
+  create_model_server_environment_python3
 
 EXPOSE 9876 9000 9040 
 
