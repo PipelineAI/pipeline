@@ -100,7 +100,8 @@ RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/...
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... \
+  && rm -rf /root/.cache/bazel
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -121,7 +122,8 @@ RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/...
+  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... \
+  && rm -rf /root/.cache/bazel
 
 RUN \
   cd $TENSORFLOW_HOME \
