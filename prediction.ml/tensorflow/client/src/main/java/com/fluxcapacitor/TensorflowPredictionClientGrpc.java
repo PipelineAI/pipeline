@@ -99,7 +99,7 @@ public class TensorflowPredictionClientGrpc {
         int port = 9000;
         String namespace = "my_namespace";
         String modelName = "tensorflow_minimal";
-        String version = "00000001";
+        Integer version = 1;
         String inputJson = "";
 
         // Parse command-line arguments
