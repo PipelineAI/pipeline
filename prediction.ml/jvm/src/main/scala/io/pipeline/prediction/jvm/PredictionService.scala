@@ -61,49 +61,49 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST)
-                  //produces=Array("application/json; charset=UTF-8")
-                  )
-  def deployJavaString(@PathVariable("namespace") namespace: String, 
-                       @PathVariable("modelName") modelName: String,
-                       @PathVariable("version") version: String,
-                       @RequestBody source: String): 
-      ResponseEntity[String] = {
-    Try {
-      System.out.println(s"Generating source for 'java/${namespace}/${modelName}/${version}':\n${source}")
-
-      // Write the new java source to local disk
-      val path = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}")
-      if (!path.isDirectory()) {
-        path.mkdirs()
-      }
-
-      val file = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java")
-      if (!file.exists()) {
-        file.createNewFile()
-      }
-
-      val fos = new java.io.FileOutputStream(file)
-      fos.write(source.getBytes())
-
-      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
-      
-      System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
-      
-      // Update Predictor in Cache
-      predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
-
-      new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
-    } match {
-      case Failure(t: Throwable) => {
-        val responseHeaders = new HttpHeaders();
-        new ResponseEntity[String](s"""${t.getMessage}:\n${t.getStackTrace().mkString("\n")}""", responseHeaders,
-          HttpStatus.BAD_REQUEST)
-      }
-      case Success(response) => response      
-    }
-  }
+//  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
+//                  method=Array(RequestMethod.POST)
+//                  //produces=Array("application/json; charset=UTF-8")
+//                  )
+//  def deployJavaString(@PathVariable("namespace") namespace: String, 
+//                       @PathVariable("modelName") modelName: String,
+//                       @PathVariable("version") version: String,
+//                       @RequestBody source: String): 
+//      ResponseEntity[String] = {
+//    Try {
+//      System.out.println(s"Generating source for 'java/${namespace}/${modelName}/${version}':\n${source}")
+//
+//      // Write the new java source to local disk
+//      val path = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}")
+//      if (!path.isDirectory()) {
+//        path.mkdirs()
+//      }
+//
+//      val file = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java")
+//      if (!file.exists()) {
+//        file.createNewFile()
+//      }
+//
+//      val fos = new java.io.FileOutputStream(file)
+//      fos.write(source.getBytes())
+//
+//      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
+//      
+//      System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
+//      
+//      // Update Predictor in Cache
+//      predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
+//
+//      new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
+//    } match {
+//      case Failure(t: Throwable) => {
+//        val responseHeaders = new HttpHeaders();
+//        new ResponseEntity[String](s"""${t.getMessage}:\n${t.getStackTrace().mkString("\n")}""", responseHeaders,
+//          HttpStatus.BAD_REQUEST)
+//      }
+//      case Success(response) => response      
+//    }
+//  }
   
   @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
@@ -205,53 +205,53 @@ class PredictionService {
     }   
   }
 
-  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST),
-                  produces=Array("application/xml; charset=UTF-8"))
-  def deployPmmlString(@PathVariable("namespace") namespace: String, 
-                       @PathVariable("modelName") modelName: String, 
-                       @PathVariable("version") version: String,
-                       @RequestBody pmmlString: String): 
-      ResponseEntity[HttpStatus] = {
-    try {
-      // Write the new pmml (XML format) to local disk
-      val path = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
-      if (!path.isDirectory()) { 
-        path.mkdirs()
-      }
-
-      val file = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
-      if (!file.exists()) {
-        file.createNewFile()
-      }
-
-      val fos = new java.io.FileOutputStream(file)
-      fos.write(pmmlString.getBytes())    
-
-      val transformedSource = ImportFilter.apply(new InputSource(new java.io.StringReader(pmmlString)))
-
-      val pmml = JAXBUtil.unmarshalPMML(transformedSource)
-
-      val predicateOptimizer = new PredicateOptimizer()
-      predicateOptimizer.applyTo(pmml)
-
-      val predicateInterner = new PredicateInterner()
-      predicateInterner.applyTo(pmml)
-
-      val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
-
-      val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
-
-      // Update PMML in Cache
-      pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
-      
-      new ResponseEntity(HttpStatus.OK)
-    } catch {
-       case e: Throwable => {
-         throw e
-       }
-    }
-  }
+//  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
+//                  method=Array(RequestMethod.POST),
+//                  produces=Array("application/xml; charset=UTF-8"))
+//  def deployPmmlString(@PathVariable("namespace") namespace: String, 
+//                       @PathVariable("modelName") modelName: String, 
+//                       @PathVariable("version") version: String,
+//                       @RequestBody pmmlString: String): 
+//      ResponseEntity[HttpStatus] = {
+//    try {
+//      // Write the new pmml (XML format) to local disk
+//      val path = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
+//      if (!path.isDirectory()) { 
+//        path.mkdirs()
+//      }
+//
+//      val file = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
+//      if (!file.exists()) {
+//        file.createNewFile()
+//      }
+//
+//      val fos = new java.io.FileOutputStream(file)
+//      fos.write(pmmlString.getBytes())    
+//
+//      val transformedSource = ImportFilter.apply(new InputSource(new java.io.StringReader(pmmlString)))
+//
+//      val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+//
+//      val predicateOptimizer = new PredicateOptimizer()
+//      predicateOptimizer.applyTo(pmml)
+//
+//      val predicateInterner = new PredicateInterner()
+//      predicateInterner.applyTo(pmml)
+//
+//      val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+//
+//      val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+//
+//      // Update PMML in Cache
+//      pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+//      
+//      new ResponseEntity(HttpStatus.OK)
+//    } catch {
+//       case e: Throwable => {
+//         throw e
+//       }
+//    }
+//  }
   
   @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
