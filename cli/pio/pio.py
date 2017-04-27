@@ -333,7 +333,7 @@ class PioCli(object):
              print("%s (%s)" % (pod.metadata.name, pod.status.phase))
 
 
-    def service_list(self):
+    def service_available(self):
        for key in self.kube_deploy_registry.keys():
            print(key)
 
