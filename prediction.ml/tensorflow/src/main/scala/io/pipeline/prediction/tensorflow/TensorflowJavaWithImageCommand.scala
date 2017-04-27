@@ -14,7 +14,7 @@ import java.nio.file.Paths
 class TensorflowJavaWithImageCommand(commandName: String, 
                                      namespace: String, 
                                      modelName: String, 
-                                     version: String, 
+                                     version: Integer, 
                                      imageName: String, 
                                      inputs: Map[String, Any], 
                                      fallback: String, 

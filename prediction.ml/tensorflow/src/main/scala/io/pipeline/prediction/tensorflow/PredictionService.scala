@@ -44,18 +44,18 @@ class PredictionService {
    -F "model=@tensorflow_inception_graph.pb" \
    http://[host]:[port]/v1/update-tensorflow/default/tensorflow_inception/1
 */
-  @RequestMapping(path=Array("/v1/update-tensorflow-model/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/deploy/tensorflow/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateTensorflow(@PathVariable("namespace") namespace: String,
                        @PathVariable("modelName") modelName: String, 
                        @PathVariable("version") version: String,
-                       @RequestParam("model") model: MultipartFile): ResponseEntity[HttpStatus] = {
+                       @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
 
     var inputStream: InputStream = null
 
     try {
       // Get name of uploaded file.
-      val filename = model.getOriginalFilename()
+      val filename = file.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
       val filepath = new java.io.File(s"store/${namespace}/${modelName}/export/${version}")
@@ -64,7 +64,7 @@ class PredictionService {
       }
   
       // This buffer will store the data read from 'model' multipart file
-      inputStream = model.getInputStream()
+      inputStream = file.getInputStream()
   
       Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/export/${version}/${filename}"))
     } catch {
@@ -81,12 +81,12 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }
 
-  @RequestMapping(path=Array("/v1/evaluate-tensorflow-grpc/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/predict/tensorflow-grpc/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluateTensorflowGrpc(@PathVariable("namespace") namespace: String,
+  def predictTensorFlowGrpc(@PathVariable("namespace") namespace: String,
                              @PathVariable("modelName") modelName: String, 
-                             @PathVariable("version") version: String, 
+                             @PathVariable("version") version: Integer, 
                              @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
@@ -107,12 +107,12 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/v1/evaluate-tensorflow-java/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/predict/tensorflow-java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateTensorflowNative(@PathVariable("namespace") namespace: String,
                                @PathVariable("modelName") modelName: String, 
-                               @PathVariable("version") version: String,
+                               @PathVariable("version") version: Integer,
                                @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
@@ -136,13 +136,13 @@ class PredictionService {
 /*  
    curl -i -X POST -v -H "Transfer-Encoding: chunked" \
     -F "image=@1.jpg" \
-    http://[host]:[port]/v1/evaluate-tensorflow-java-image/defeault/tensorflow_inception/1
+    http://[host]:[port]/v1/model/predict/tensorflow-java-with-image/default/tensorflow_inception/1
 */
-  @RequestMapping(path=Array("/v1/evaluate-tensorflow-java-image/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/predict/tensorflow-java-with-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
-  def evaluateTensorflowJavaWithImage(@PathVariable("namespace") namespace: String,
+  def preidctTensorFlowJavaWithImage(@PathVariable("namespace") namespace: String,
                                       @PathVariable("modelName") modelName: String,
-                                      @PathVariable("version") version: String,
+                                      @PathVariable("version") version: Integer,
                                       @RequestParam("image") image: MultipartFile): String = {
     try {
       val inputs = new HashMap[String,Any]()
@@ -179,11 +179,11 @@ class PredictionService {
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
   //  http://[host]:[port]/v1/evaluate-tensorflow-grpc-image/default/tensorflow_inception/1
-  @RequestMapping(path=Array("/v1/evaluate-tensorflow-grpc-image/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/predict/tensorflow-grpc-with-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
-  def evaluateTensorflowGrpcWithImage(@PathVariable("namespace") namespace: String,
+  def predictTensorFlowGrpcWithImage(@PathVariable("namespace") namespace: String,
                                       @PathVariable("modelName") modelName: String,
-                                      @PathVariable("version") version: String,
+                                      @PathVariable("version") version: Integer,
                                       @RequestParam("image") image: MultipartFile): String = {
     try {
       val inputs = new HashMap[String,Any]()

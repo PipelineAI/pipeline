@@ -61,25 +61,25 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{sourceName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
-  def deployJava(@PathVariable("namespace") namespace: String, 
-                 @PathVariable("sourceName") sourceName: String,
-                 @PathVariable("version") version: String,
-                 @RequestBody source: String): 
+  def deployJavaString(@PathVariable("namespace") namespace: String, 
+                       @PathVariable("modelName") modelName: String,
+                       @PathVariable("version") version: String,
+                       @RequestBody source: String): 
       ResponseEntity[String] = {
     Try {
-      System.out.println(s"Generating source for 'java/${namespace}/${sourceName}/${version}':\n${source}")
+      System.out.println(s"Generating source for 'java/${namespace}/${modelName}/${version}':\n${source}")
 
       // Write the new java source to local disk
-      val path = new java.io.File(s"model_store/java/${namespace}/${sourceName}/${version}")
+      val path = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}")
       if (!path.isDirectory()) {
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"model_store/java/${namespace}/${sourceName}/${version}/${sourceName}.java")
+      val file = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -87,12 +87,12 @@ class PredictionService {
       val fos = new java.io.FileOutputStream(file)
       fos.write(source.getBytes())
 
-      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(sourceName, source)
+      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
       
-      System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
+      System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
       
       // Update Predictor in Cache
-      predictorRegistry.put("java/" + namespace + "/" + sourceName + "/" + version, predictor)
+      predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
 
       new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
     } match {
@@ -105,21 +105,60 @@ class PredictionService {
     }
   }
   
+  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST)
+                  //produces=Array("application/json; charset=UTF-8")
+                  )
+  def deployJavaFile(@PathVariable("namespace") namespace: String, 
+                     @PathVariable("modelName") modelName: String,
+                     @PathVariable("version") version: String,
+                     @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
+
+    var inputStream: InputStream = null
+
+    try {
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()
+  
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"store/${namespace}/${modelName}/export/${version}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'model' multipart file
+      inputStream = file.getInputStream()
+  
+      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/export/${version}/${filename}"))
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+    
+    new ResponseEntity(HttpStatus.OK)
+  }
+  
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d {"id":"21618"} \
       http://[hostname]:[port]/v1/model/predict/java/default/java_equals/1
 */
-  @RequestMapping(path=Array("/v1/model/predict/java/{namespace}/{sourceName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/predict/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def predictJava(@PathVariable("namespace") namespace: String, 
-                     @PathVariable("sourceName") sourceName: String, 
+                     @PathVariable("modelName") modelName: String, 
                      @PathVariable("version") version: String,
                      @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      val predictorOption = predictorRegistry.get("java/" + namespace + "/" + sourceName + "/" + version)
+      val predictorOption = predictorRegistry.get("java/" + namespace + "/" + modelName + "/" + version)
 
       val parsedInputOption = JSON.parseFull(inputJson)
       val inputs: Map[String, Any] = parsedInputOption match {
@@ -129,7 +168,7 @@ class PredictionService {
 
       val predictor = predictorOption match {
         case None => {
-          val sourceFileName = s"model_store/java/${namespace}/${sourceName}/${version}/${sourceName}.java"
+          val sourceFileName = s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java"
 
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(sourceFileName))
@@ -137,14 +176,14 @@ class PredictionService {
           // reconstuct original
           val source = stream.collect(Collectors.joining("\n"))
           
-          val (predictor, generatedCode) = PredictorCodeGenerator.codegen(sourceName, source)
+          val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
 
-          System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
+          System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
       
           // Update Predictor in Cache
-          predictorRegistry.put("java/" + namespace + "/" + sourceName + "/" + version, predictor)
+          predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
       
-          System.out.println(s"Updating cache for 'java/${namespace}/${sourceName}/${version}':\n${generatedCode}")
+          System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
 
           predictor
         }
@@ -153,7 +192,7 @@ class PredictionService {
         }
       } 
           
-      val result = new JavaSourceCodeEvaluationCommand(sourceName, namespace, sourceName, version, predictor, inputs, "fallback", 25, 20, 10).execute()
+      val result = new JavaSourceCodeEvaluationCommand(modelName, namespace, modelName, version, predictor, inputs, "fallback", 25, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)
@@ -166,22 +205,22 @@ class PredictionService {
     }   
   }
 
-  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{pmmlName}/{version}"),
+  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/xml; charset=UTF-8"))
-  def deployPmml(@PathVariable("namespace") namespace: String, 
-                 @PathVariable("pmmlName") pmmlName: String, 
-                 @PathVariable("version") version: String,
-                 @RequestBody pmmlString: String): 
+  def deployPmmlString(@PathVariable("namespace") namespace: String, 
+                       @PathVariable("modelName") modelName: String, 
+                       @PathVariable("version") version: String,
+                       @RequestBody pmmlString: String): 
       ResponseEntity[HttpStatus] = {
     try {
       // Write the new pmml (XML format) to local disk
-      val path = new java.io.File(s"model_store/pmml/${namespace}/${pmmlName}/${version}")
+      val path = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
       if (!path.isDirectory()) { 
         path.mkdirs()
       }
 
-      val file = new java.io.File(s"model_store/pmml/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
+      val file = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
       if (!file.exists()) {
         file.createNewFile()
       }
@@ -204,7 +243,7 @@ class PredictionService {
       val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
 
       // Update PMML in Cache
-      pmmlRegistry.put("pmml/" + namespace + "/" + pmmlName + "/" + version, modelEvaluator)
+      pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
       
       new ResponseEntity(HttpStatus.OK)
     } catch {
@@ -213,12 +252,51 @@ class PredictionService {
        }
     }
   }
+  
+  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST)
+                  //produces=Array("application/json; charset=UTF-8")
+                  )
+  def deployPmmlFile(@PathVariable("namespace") namespace: String, 
+                     @PathVariable("modelName") modelName: String,
+                     @PathVariable("version") version: String,
+                     @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
 
-  @RequestMapping(path=Array("/v1/model/predict/pmml/{namespace}/{pmmlName}/{version}"),
+    var inputStream: InputStream = null
+
+    try {
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()
+  
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'model' multipart file
+      inputStream = file.getInputStream()
+  
+      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"))
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+    
+    new ResponseEntity(HttpStatus.OK)
+  }
+ 
+  @RequestMapping(path=Array("/v1/model/predict/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def predictPmml(@PathVariable("namespace") namespace: String, 
-                  @PathVariable("pmmlName") pmmlName: String, 
+                  @PathVariable("modelName") modelName: String, 
                   @PathVariable("version") version: String,
                   @RequestBody inputJson: String): String = {
     try {
@@ -228,11 +306,11 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + pmmlName + "/" + version)
+      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + modelName + "/" + version)
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${pmmlName}/${version}/${pmmlName}.pmml")
+          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -248,14 +326,14 @@ class PredictionService {
           val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
   
           // Cache modelEvaluator
-          pmmlRegistry.put("pmml/" + namespace + "/" + pmmlName + "/" + version, modelEvaluator)
+          pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
           
           modelEvaluator
         }
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(pmmlName, namespace, pmmlName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
        .execute()
 
       s"""{"results":[${results}]}"""

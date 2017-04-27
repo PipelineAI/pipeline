@@ -14,7 +14,7 @@ import java.nio.file.Paths
 class TensorflowNativeCommand(commandName: String, 
                               namespace: String, 
                               modelName: String, 
-                              version: String, 
+                              version: Integer, 
                               inputs: Map[String, Any],
     fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
   extends HystrixCommand[String](

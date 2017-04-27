@@ -37,7 +37,7 @@ public class TensorflowPredictionClientGrpc {
         stub = PredictionServiceGrpc.newBlockingStub(channel);    
     }
 
-    public String predict(String namespace, String modelName, String version, String inputJson) {
+    public String predict(String namespace, String modelName, Integer version, String inputJson) {
         // TODO:  Use generic json -> tensor proto utility (ie. from TF Java API)
         // Generate features TensorProto
         float[][] featuresTensorData = new float[][] {

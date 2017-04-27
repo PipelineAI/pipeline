@@ -14,7 +14,7 @@ object TensorflowGrpcCommandOps {
 class TensorflowGrpcCommand(commandName: String, 
                             namespace: String, 
                             modelName: String, 
-                            version: String, 
+                            version: Integer, 
                             inputs: Map[String, Any], 
                             fallback: String, 
                             timeout: Int, 
