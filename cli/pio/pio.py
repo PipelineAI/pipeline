@@ -303,7 +303,6 @@ class PioCli(object):
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
         print("\n")
-        print("************")
         print("Deployments:")
         print("************")
         response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
@@ -311,7 +310,6 @@ class PioCli(object):
              print("%s (%s of %s replicas available)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
 
         print("\n")
-        print("*********")
         print("Services:")
         print("*********")
         response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
@@ -325,7 +323,6 @@ class PioCli(object):
              print("%s: %s (%s)" % (svc.metadata.name, ingress, svc.spec.type))
 
         print("\n")
-        print("*****")
         print("Pods:")
         print("*****")
         response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
