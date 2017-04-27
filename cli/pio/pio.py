@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.23"
+__version__ = "0.24"
 
 import requests
 import fire
@@ -45,6 +45,12 @@ class PioCli(object):
                             'prediction-jvm': (['prediction.ml/jvm-deploy.yaml'], []),
                             'prediction-python3': (['prediction.ml/python3-deploy.yaml'], []),
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
+                            'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
+                            'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
+                            'weavescope': (['dashboard.ml/weavescope.yaml'], []),
+                            #'dashboard': (['dashboard.ml/kubernetes/kubernetes-dashboard.yaml'], []),
+                            #'heapster': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.3.0.yaml']), []),
+                            #'route53': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/route53-mapper/v1.3.0.yml']), []),
                            }
 
     kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
@@ -141,19 +147,34 @@ class PioCli(object):
         return pprint(self.config_get_all())
 
 
+    def cluster_top(self):
+        # TODO:  kubectl top node
+        pass 
+
+
+    def service_top(self,
+                    service):
+        # TODO:  kubectl top <pod>
+        pass
+
+
     def cluster_init(self,
                      pio_home,
-                     pio_release,
+                     pio_runtime_version,
                      kube_cluster_context,
                      kube_namespace='default'):
 
         pio_api_version = self.config_get_all()['pio_api_version']
 
-        expanded_pio_home = os.path.expandvars(pio_home)
-        expanded_pio_home = os.path.expanduser(expanded_pio_home)
-        expanded_pio_home = os.path.abspath(expanded_pio_home)
+        if 'http:' in pio_home or 'https:' in pio_home:
+            pio_home = os.path.expandvars(pio_home)
+            pio_home = os.path.expanduser(pio_home)
+            pio_home = os.path.abspath(pio_home)
 
-        config_dict = {'pio_home': expanded_pio_home, 'pio_release': pio_release, 'kube_cluster_context': kube_cluster_context, 'kube_namespace': kube_namespace}
+        config_dict = {'pio_home': pio_home, 
+                       'pio_runtime_version': pio_runtime_version, 
+                       'kube_cluster_context': kube_cluster_context, 
+                       'kube_namespace': kube_namespace}
         self.config_merge_dict(config_dict)
         pprint(self.config_get_all())
 
@@ -312,6 +333,11 @@ class PioCli(object):
              print("%s (%s)" % (pod.metadata.name, pod.status.phase))
 
 
+    def service_list(self):
+       for key in self.kube_deploy_registry.keys():
+           print(key)
+
+    
     def service_shell(self,
                      service):
 
@@ -428,9 +454,10 @@ class PioCli(object):
 
             pio_home = self.config_get_all()['pio_home']
 
-            expanded_pio_home = os.path.expandvars(pio_home)
-            expanded_pio_home = os.path.expanduser(expanded_pio_home)
-            expanded_pio_home = os.path.abspath(expanded_pio_home)
+            if 'http:' in pio_home or 'https:' in pio_home:
+                pio_home = os.path.expandvars(pio_home)
+                pio_home = os.path.expanduser(pio_home)
+                pio_home = os.path.abspath(pio_home)
         except:
             print("Cluster needs to be initialized.")
             return
@@ -468,19 +495,33 @@ class PioCli(object):
 
         for deploy_yaml_filename in deploy_yaml_filenames:
             try:
-                with open(os.path.join(expanded_pio_home, deploy_yaml_filename)) as fh:
-                    deploy_yaml = yaml.load(fh)
-                    response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, namespace=kube_namespace, pretty=True)
-                    pprint(response) 
+                # TODO: handle http: or https:
+                if 'http:' in pio_home or 'https:' in pio_home:
+                    # TODO: handle http: or https:
+                    pass
+                else:
+                    with open(os.path.join(pio_home, deploy_yaml_filename)) as fh:
+                        deploy_yaml = yaml.load(fh)
+                        response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, 
+                                                                                    namespace=kube_namespace, 
+                                                                                    pretty=True)
+                        pprint(response) 
             except ApiException as e: 
                 print("Deployment not created for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
 
         for svc_yaml_filename in svc_yaml_filenames:
             try:
-                with open(os.path.join(expanded_pio_home, svc_yaml_filename)) as fh:
-                    svc_yaml = yaml.load(fh)
-                    response = kubeclient_v1.create_namespaced_service(body=svc_yaml, namespace=kube_namespace, pretty=True)
-                    pprint(response)
+                # TODO: handle http: or https:
+                if 'http:' in pio_home or 'https:' in pio_home:
+                    # TODO: handle http: or https: 
+                    pass
+                else:
+                    with open(os.path.join(pio_home, svc_yaml_filename)) as fh:
+                        svc_yaml = yaml.load(fh)
+                        response = kubeclient_v1.create_namespaced_service(body=svc_yaml, 
+                                                                           namespace=kube_namespace, 
+                                                                           pretty=True)
+                        pprint(response)
             except ApiException as e: 
                 print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
 
@@ -514,51 +555,51 @@ class PioCli(object):
         self.cluster_view()
 
 
-    def git_init(self,
-                 git_repo_base_path,
-                 git_revision='HEAD'):
+#    def git_init(self,
+#                 git_repo_base_path,
+#                 git_revision='HEAD'):
 
-        expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
-        expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
-        expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
+#        expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
+#        expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
+#        expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
 
-        pio_api_version = self.config_get_all()['pio_api_version']
+#        pio_api_version = self.config_get_all()['pio_api_version']
 
-        print("git_repo_base_path: '%s'" % git_repo_base_path)
-        print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
-        print("git_revision: '%s'" % git_revision)
+#        print("git_repo_base_path: '%s'" % git_repo_base_path)
+#        print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
+#        print("git_revision: '%s'" % git_revision)
 
-        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
+#        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
  
-        config_dict = {'git_repo_base_path': git_repo.working_tree_dir , 'git_revision': git_revision}
+#        config_dict = {'git_repo_base_path': git_repo.working_tree_dir , 'git_revision': git_revision}
 
-        self.config_merge_dict(config_dict)
-        pprint(self.config_get_all())
+#        self.config_merge_dict(config_dict)
+#        pprint(self.config_get_all())
 
 
-    def git_view(self):
-        pio_api_version = self.config_get_all()['pio_api_version']
-        try: 
-            git_repo_base_path = self.config_get_all()['git_repo_base_path']
+#    def git_view(self):
+#        pio_api_version = self.config_get_all()['pio_api_version']
+#        try: 
+#            git_repo_base_path = self.config_get_all()['git_repo_base_path']
 
-            expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
-            expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
-            expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
+#            expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
+#            expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
+#            expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
 
-            git_revision = self.config_get_all()['git_revision']
-        except:
-            print("Git needs to be initialized.")
-            return
+#            git_revision = self.config_get_all()['git_revision']
+#        except:
+#            print("Git needs to be initialized.")
+#            return
 
-        pprint(self.config_get_all())
+#        pprint(self.config_get_all())
 
-        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
-        ch = git_repo.commit(git_revision)
+#        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
+#        ch = git_repo.commit(git_revision)
 
-        print("Git repo base path: '%s'" % git_repo_base_path)
-        print("Git revision: '%s'" % git_revision)
-        print("Git commit message: '%s'" % ch.message)
-        print("Git commit hash: '%s'" % ch.hexsha)
+#        print("Git repo base path: '%s'" % git_repo_base_path)
+#        print("Git revision: '%s'" % git_revision)
+#        print("Git commit message: '%s'" % ch.message)
+#        print("Git commit hash: '%s'" % ch.hexsha)
 
 
 def main():
