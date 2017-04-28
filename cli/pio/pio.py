@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.26"
+__version__ = "0.27"
 
 import warnings
 import requests
@@ -41,8 +41,8 @@ class PioCli(object):
                             'www': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
-                            'kafka': (['stream.ml/kafka-0.10-rc.yaml'], ['zookeeper']),
-                            'cassandra': (['cassandra.ml/cassandra-rc.yaml'], []),
+                            'kafka': (['stream.ml/kafka-0.10-deploy.yaml'], ['zookeeper']),
+                            'cassandra': (['cassandra.ml/cassandra-deploy.yaml'], []),
                             'prediction-jvm': (['prediction.ml/jvm-deploy.yaml'], []),
                             'prediction-python3': (['prediction.ml/python3-deploy.yaml'], []),
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
@@ -162,6 +162,10 @@ class PioCli(object):
 
     def app_top(self,
                 app_name):
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
         
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -197,7 +201,7 @@ class PioCli(object):
         print("\n")
 
 
-    def  model_init(self,
+    def model_init(self,
                    model_server_url,
                    model_type,
                    model_namespace,
@@ -237,8 +241,6 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
@@ -250,7 +252,7 @@ class PioCli(object):
         if (os.path.isdir(model_path)):
             compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
-            print("Compressing '%s' into '%s'..." % (model_path, compressed_model_bundle_filename))  
+            print("Compressing model '%s' into '%s'..." % (model_path, compressed_model_bundle_filename))  
             print("")
             with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
                 tar.add(model_path, arcname='.')
@@ -267,7 +269,7 @@ class PioCli(object):
             files = [(upload_key, (upload_value, fh))]
 
             full_model_server_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
-            print("Deploying model bundle '%s' to '%s'..." % (model_file, full_model_server_url))
+            print("Deploying model '%s' to '%s'..." % (model_file, full_model_server_url))
             print("")
             headers = {'Accept': 'application/json'}
             response = requests.post(url=full_model_server_url, 
@@ -278,7 +280,7 @@ class PioCli(object):
             print("...Done!")
 
         if (os.path.isdir(model_path)):
-            print("Removing model bundle '%s'..." % model_file)
+            print("Cleaning up compressed model '%s'..." % model_file)
             os.remove(model_file)
             print("...Done!")
 
@@ -303,15 +305,13 @@ class PioCli(object):
             print("Model needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         print('model_version: %s' % model_version)
         print('model_input_file_path: %s' % model_input_file_path)
         print('request_timeout: %s' % request_timeout)
 
         full_model_server_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
-        print("Predicting file '%s' with model '%s/%s/%s' at '%s'..." % (model_input_file_path, model_type, model_namespace, model_name, full_model_server_url))
+        print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_file_path, model_type, model_namespace, model_name, model_version, full_model_server_url))
         print("")
         with open(model_input_file_path, 'rb') as fh:
             model_input_binary = fh.read()
@@ -322,6 +322,7 @@ class PioCli(object):
                                  data=model_input_binary, 
                                  timeout=request_timeout)
         pprint(response.text)
+        print("\n")
         print("...Done!")
         print("\n")
 
@@ -344,6 +345,7 @@ class PioCli(object):
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
         print("\n")
         print("Apps")
         print("****")
@@ -391,8 +393,6 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
@@ -416,12 +416,12 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
-        print("\nApps")
+
+        print("\n")
+        print("Apps")
         print("****")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -458,7 +458,7 @@ class PioCli(object):
             for pod in response.items:
                 if app_name in pod.metadata.name:
                     break
-            print("Shelling into '%s' (%s)" % (pod.metadata.name, pod.status.phase))      
+            print("Shelling into '%s'" % pod.metadata.name)      
             subprocess.call("kubectl exec -it %s bash" % pod.metadata.name, shell=True)
         print("\n")
 
@@ -475,8 +475,6 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
@@ -488,7 +486,7 @@ class PioCli(object):
             for pod in response.items:
                 if app_name in pod.metadata.name:
                     break
-            print("Tailing logs on '%s' (%s)" % (pod.metadata.name, pod.status.phase))
+            print("Tailing logs on '%s'" % pod.metadata.name)
             subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
 
         print("\n")
@@ -506,8 +504,6 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
@@ -522,7 +518,12 @@ class PioCli(object):
             print("Scaling '%s' to %s replicas..." % (deploy.metadata.name, replicas))
             subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
 
+        self.cluster_view()
+
+        print("\n")
+        print("Note:  There may be a delay in the status change above ^^.")
         print("\n") 
+
 
     def get_config_yamls(self, 
                          app_name):
@@ -570,8 +571,7 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-        print("Deploying app... '%s'" % app_name)
+        print("Deploying app '%s'..." % app_name)
 
         kubeconfig.load_kube_config()
 
@@ -615,7 +615,7 @@ class PioCli(object):
                                                                                         pretty=True)
                             pprint(response) 
             except ApiException as e: 
-                    print("Deployment not created for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
+                print("App not deployed for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
 
         for svc_yaml_filename in svc_yaml_filenames:
             try:
@@ -649,8 +649,6 @@ class PioCli(object):
             print("Cluster needs to be initialized.")
             return
 
-#        pprint(self.config_get_all())
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
@@ -667,8 +665,7 @@ class PioCli(object):
         self.cluster_view()
 
         print("\n")
-        print("Note:  There may be a delay in status change above ^^.")
-
+        print("Note:  There may be a delay in the status change above ^^.")
         print("\n")
 
 #    def git_init(self,
