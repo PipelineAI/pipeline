@@ -14,6 +14,10 @@ spec:
     metadata:
       labels:
         app: prediction-python3
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "8080"
     spec:
       containers:
       - name: prediction-python3
@@ -37,6 +41,7 @@ spec:
           value: v0
         ports:
         - containerPort: 9876
+        - containerPort: 8080
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes

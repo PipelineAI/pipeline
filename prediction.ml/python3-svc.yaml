@@ -16,5 +16,8 @@ spec:
   - name: grpc-tensorflow-serving
     port: 9000
     targetPort: 9000
+  - name: prometheus
+    port: 8080
+    targetPort: 8080
   selector:    
     app: prediction-python3
