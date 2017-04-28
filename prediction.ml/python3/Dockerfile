@@ -71,7 +71,10 @@ ENV \
   PIO_MODEL_SERVER_PORT=9876
 
 ENV \
-  PIO_MODEL_SERVER_PATH=src/main/python/model
+  PIO_MODEL_SERVER_PATH=src/main/python
+
+ENV \
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 RUN \
   conda create --yes -n model_environment_python3 python=3.5
@@ -79,6 +82,6 @@ RUN \
 RUN \
   create_model_server_environment_python3
 
-EXPOSE 9876 
+EXPOSE 9876 8080
 
 CMD ["supervise", "."]
