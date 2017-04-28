@@ -40,6 +40,7 @@ import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import org.springframework.web.bind.annotation.RequestMethod
+import java.nio.file.StandardCopyOption
 
 @SpringBootApplication
 @RestController
@@ -277,7 +278,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"))
+      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
     } catch {
       case e: Throwable => {
         System.out.println(e)
