@@ -17,6 +17,13 @@ spec:
       containers:
       - name: cassandra
         image: docker.io/fluxcapacitor/cassandra:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2000Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
