@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.27"
+__version__ = "0.28"
 
 import warnings
 import requests
@@ -48,7 +48,7 @@ class PioCli(object):
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
                             'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
                             'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
-                            'weavescope': (['dashboard.ml/weavescope.yaml'], []),
+                            'weavescope': (['dashboard.ml/weavescope/weavescope.yaml'], []),
                             'dashboard': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.0.yaml'], []),
                             'heapster': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.3.0.yaml'], []),
                             'route53': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/route53-mapper/v1.3.0.yml'], []),
@@ -92,8 +92,6 @@ class PioCli(object):
                          config_value):
         print("config_key: '%s'" % config_key)
 
-        if 'http:' in config_value or 'https:' in config_value:
-            config_value = config_value.rstrip('/')
         self._merge_config_dict({config_key: config_value})
         print("config_value: '%s'" % self._get_full_config()[config_key])
         self._merge_config_dict({config_key: config_value})
@@ -101,6 +99,7 @@ class PioCli(object):
         print("")
         pprint(self._get_full_config())
         print("")        
+
 
     def _merge_config_dict(self, 
                           config_dict):
@@ -197,13 +196,10 @@ class PioCli(object):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
-        if 'http:' in pio_home or 'https:' in pio_home:
-            pio_home = pio_home.rstrip('/')
-        else:
+        if 'http:' not in pio_home and 'https:' not in pio_home:
             pio_home = os.path.expandvars(pio_home)
             pio_home = os.path.expanduser(pio_home)
             pio_home = os.path.abspath(pio_home)
-        
 
         config_dict = {'pio_home': pio_home,
                        'pio_runtime_version': pio_runtime_version}
@@ -615,7 +611,7 @@ class PioCli(object):
                     subprocess.call("kubectl create -f %s" % deploy_yaml_filename, shell=True)
                 else:
                     if 'http:' in pio_home or 'https:' in pio_home:
-                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_home, pio_runtime_version, deploy_yaml_filename), shell=True)
+                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_home.rstrip('/'), pio_runtime_version, deploy_yaml_filename), shell=True)
                     else:
                         with open(os.path.join(pio_home, deploy_yaml_filename)) as fh:
                             deploy_yaml = yaml.load(fh)
