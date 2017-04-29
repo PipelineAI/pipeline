@@ -174,7 +174,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -257,11 +257,11 @@ class PioCli(object):
 
         try:
             model_server_url = self._get_full_config()['model_server_url']
-            model_type = self.get_full_config()['model_type']
+            model_type = self._get_full_config()['model_type']
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
         except:
-            print("Model needs to be initialized.")
+            print("Model needs to be configured.")
             return
 
         model_path = os.path.expandvars(model_path)
@@ -324,7 +324,7 @@ class PioCli(object):
             model_input_mime_type = self._get_full_config()['model_input_mime_type']
             model_output_mime_type = self._get_full_config()['model_output_mime_type']
         except:
-            print("Model needs to be initialized.")
+            print("Model needs to be configured.")
             return
 
         print('model_version: %s' % model_version)
@@ -356,7 +356,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -413,7 +413,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -442,7 +442,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         pprint(self._get_full_config())
@@ -471,7 +471,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -481,12 +481,16 @@ class PioCli(object):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            found = False
             for pod in response.items:
                 if app_name in pod.metadata.name:
+                    found = True
                     break
-            print("Tailing logs on '%s'" % pod.metadata.name)
-            subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
-
+            if found:
+                print("Tailing logs on '%s'" % pod.metadata.name)
+                subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
+            else:
+                print("App '%s' is not running." % app_name)
         print("")
 
 
@@ -499,7 +503,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -509,16 +513,19 @@ class PioCli(object):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+            found = False
             for deploy in response.items:
                 if app_name in deploy.metadata.name:
+                    found = True
                     break
-            print("Scaling '%s' to '%s' replicas..." % (deploy.metadata.name, replicas))
-            subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
-            print("...Done!")
-
-        self.view_cluster()
-
-        print("Note:  There may be a delay in the status change above ^^.")
+            if found:
+                print("Scaling '%s' to '%s' replicas..." % (deploy.metadata.name, replicas))
+                subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
+                print("...Done!")
+                self.view_cluster()
+                print("Note:  There may be a delay in the status change above ^^.")
+            else:
+                print("App '%s' is not running." % app_name)
         print("") 
 
 
@@ -579,7 +586,7 @@ class PioCli(object):
 
             pio_runtime_version = self._get_full_config()['pio_runtime_version']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         config_yaml_filenames = [] 
@@ -657,7 +664,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be initialized.")
+            print("Cluster needs to be configured.")
             return
 
         kubeconfig.load_kube_config()
@@ -667,16 +674,19 @@ class PioCli(object):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+            found = False
             for deploy in response.items:
                 if app_name in deploy.metadata.name:
+                    found = True
                     break
-            print("Undeploying '%s'..." % deploy.metadata.name)
-            subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
-            print("...Done!")
-
-        self.view_cluster()
-        print("")
-        print("Note:  There may be a delay in the status change above ^^.")
+            if found:
+                print("Undeploying '%s'..." % deploy.metadata.name)
+                subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
+                print("...Done!")
+                self.view_cluster()
+                print("Note:  There may be a delay in the status change above ^^.")
+            else:
+                print("App '%s' is not running." % app_name)
         print("")
 
 
@@ -713,7 +723,7 @@ class PioCli(object):
 
 #            git_revision = self._get_full_config()['git_revision']
 #        except:
-#            print("Git needs to be initialized.")
+#            print("Git needs to be configured.")
 #            return
 
 #        pprint(self._get_full_config())
