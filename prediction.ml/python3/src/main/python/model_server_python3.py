@@ -19,7 +19,7 @@ import logging
 from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
-define("PIO_MODEL_STORE_HOME", default="python3", help="path to model_store", type=str)
+define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
 define("PIO_MODEL_TYPE", default="python3", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
 define("PIO_MODEL_NAME", default="scikit_balancescale", help="prediction model name", type=str)
@@ -97,7 +97,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
         if model_key in self.registry:
             (model_file_absolute_path, model_key, model, transformers_module) = self.registry[model_key]
         else:
-            model_base_path = os.path.join(self.settings.model_store_path, model_type)
+            model_base_path = os.path.join(self.settings['model_store_path'], model_type)
             model_base_path = os.path.join(model_base_path, model_namespace)
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
@@ -129,7 +129,7 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
         fileinfo = self.request.files['bundle'][0]
         model_file_source_bundle_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_bundle_path)
-        bundle_path = os.path.join(self.settings.model_store_path, model_type)
+        bundle_path = os.path.join(self.settings['model_store_path'], model_type)
         bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
         bundle_path = os.path.join(bundle_path, model_version)
