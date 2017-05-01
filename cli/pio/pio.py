@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.28"
+__version__ = "0.30"
 
 import warnings
 import requests
@@ -214,13 +214,13 @@ class PioCli(object):
                           kube_cluster_context,
                           kube_namespace='default'):
 
-        pio_api_version = self._config_get_all()['pio_api_version']
+        pio_api_version = self._get_full_config()['pio_api_version']
 
         config_dict = {'kube_cluster_context': kube_cluster_context, 
                        'kube_namespace': kube_namespace}
         self._merge_config_dict(config_dict)
         print("")
-        pprint(self.get_full_config())
+        pprint(self._get_full_config())
         print("")
 
 
