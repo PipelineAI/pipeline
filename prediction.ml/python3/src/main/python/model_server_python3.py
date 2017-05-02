@@ -171,10 +171,10 @@ def main():
     #        See the MetricsHandler class which provides a BaseHTTPRequestHandler
     #        https://github.com/prometheus/client_python/blob/ce5542bd8be2944a1898e9ac3d6e112662153ea4/prometheus_client/exposition.py#L79
     logger.info("Starting Prometheus Http Server on port '%s'" % options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
-    start_http_server(options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
+    start_http_server(int(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
     logger.info("Starting Model Predict and Deploy Http Server on port '%s'" % options.PIO_MODEL_SERVER_PORT)
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.PIO_MODEL_SERVER_PORT)
+    http_server.listen(int(options.PIO_MODEL_SERVER_PORT))
     tornado.ioloop.IOLoop.current().start()
 
 
