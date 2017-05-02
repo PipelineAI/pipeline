@@ -133,7 +133,7 @@ ENV \
 #  && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install pio-cli==0.24
+  pip install pio-cli==0.30
 
 # Intentionally keeping these at the bottom
 #RUN \
@@ -141,7 +141,3 @@ RUN \
 
 #RUN \
 #  cd source.ml && pull_force_overwrite_local
-
-# TODO:  Remove this
-ENV \
-  PYTHONWARNINGS="ignore:Unverified HTTPS request"
