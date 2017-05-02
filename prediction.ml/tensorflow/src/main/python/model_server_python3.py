@@ -20,10 +20,10 @@ from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
-define("PIO_MODEL_TYPE", default="python3", help="prediction model type", type=str)
+define("PIO_MODEL_TYPE", default="tensorflow", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
-define("PIO_MODEL_NAME", default="scikit_balancescale", help="prediction model name", type=str)
-define("PIO_MODEL_VERSION", default="v0", help="prediction model version", type=str)
+define("PIO_MODEL_NAME", default="tensorflow_linear", help="prediction model name", type=str)
+define("PIO_MODEL_VERSION", default="0", help="prediction model version", type=str)
 define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
 define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
 define("PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT", default="9000", help="port to run the prometheus http metrics server on", type=int)
@@ -43,10 +43,10 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", IndexHandler),
             # url: /v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler),
+            (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler),
             # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
             # url: /v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/v1/gmodel/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),
+            (r"/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployTensorFlowHandler),
         ]
         settings = dict(
             model_store_path=options.PIO_MODEL_STORE_HOME,
@@ -57,9 +57,10 @@ class Application(tornado.web.Application):
             model_server_port=options.PIO_MODEL_SERVER_PORT,
             model_server_prometheus_server_port=options.PIO_MODEL_SERVER_PROMETHEUS_PORT,
             model_server_tensorflow_serving_host='127.0.0.1',
-            model_server_tensorflow_serving_port=options.PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT
+            model_server_tensorflow_serving_port=options.PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT,
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
+            request_timeout=120,
             debug=True,
             autoescape=None,
         )
@@ -89,16 +90,18 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
                                                                        model_name,
                                                                        model_version)
 
-        channel = implementations.insecure_channel(self.grpc_host, int(self.grpc_port))
+        # TODO:  Don't create this channel everytime
+        channel = implementations.insecure_channel(self.settings['model_server_tensorflow_serving_host'], 
+                                                   int(self.settings['model_server_tensorflow_serving_port']))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
-        transformed_inputs_request = transformers_module.transform_inputs(inputs)
+        transformed_inputs_request = transformers_module.transform_inputs(self.request.body)
         transformed_inputs_request.model_spec.name = model_name
         transformed_inputs_request.model_spec.version.value = int(model_version)
 
         # Transform TensorFlow PredictResponse into output
-        outputs = stub.Predict(transformed_inputs_request, self.request_timeout)
+        outputs = stub.Predict(transformed_inputs_request, self.settings['request_timeout'])
         transformed_outputs = transformers_module.transform_outputs(outputs)
         self.write(transformed_outputs)
         self.finish()
@@ -147,16 +150,20 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
+            print("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
             self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
+            print('...Done!\n')
             self.write('...Done!\n')
+            print('Installing bundle and updating environment...\n')
             self.write('Installing bundle and updating environment...\n')
             # TODO:  Restart TensorFlow Model Serving and point to bundle_path_with_model_name
             #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
             #                                   timeout=600,
             #                                   shell=True,
             #                                   stdout=subprocess.PIPE)
+            print('...Done!\n')
             self.write('...Done!\n')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
