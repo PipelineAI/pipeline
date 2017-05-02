@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.30"
+__version__ = "0.31"
 
 import warnings
 import requests
@@ -162,7 +162,7 @@ class PioCli(object):
     def top_cluster(self):
         subprocess.call("kubectl top node", shell=True)
         print("")
-        print("Note:  Heapster must be deployed to support this command ^^.")
+        print("Note:  Heapster must be deployed with 'pio deploy-app heapster' to support this command ^^.")
         print("")
 
 
@@ -174,7 +174,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured 'pio configure-cluster'.")
             return
 
         kubeconfig.load_kube_config()
@@ -261,7 +261,7 @@ class PioCli(object):
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
         except:
-            print("Model needs to be configured.")
+            print("Model needs to be configured with 'pio configure-model'.")
             return
 
         model_path = os.path.expandvars(model_path)
@@ -301,7 +301,7 @@ class PioCli(object):
                                      timeout=request_timeout)
             pprint(response.text)
             print("...Done!")
-
+        # TODO:  cleanup in case of error, as well
         if (os.path.isdir(model_path)):
             print("Cleaning up compressed model '%s'..." % model_file)
             os.remove(model_file)
@@ -356,7 +356,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         kubeconfig.load_kube_config()
@@ -395,15 +395,14 @@ class PioCli(object):
         print("")
 
 
-    def view_available_apps(self):
+    def _get_all_available_apps(self):
         print("")
-        print("Available Apps")
-        print("**************")
+        print("All Available Apps")
+        print("******************")
         pio_api_version = self._get_full_config()['pio_api_version']
         available_apps = PioCli._kube_deploy_registry.keys()
         for app in available_apps:
             print(app)
-        self.view_apps()
 
 
     def view_apps(self):
@@ -413,8 +412,11 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
+
+        print("")
+        self._get_all_available_apps()
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -442,7 +444,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         pprint(self._get_full_config())
@@ -462,8 +464,8 @@ class PioCli(object):
         print("")
 
 
-    def tail_app(self,
-                 app_name):
+    def watch_app(self,
+                  app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -471,7 +473,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         kubeconfig.load_kube_config()
@@ -503,7 +505,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         kubeconfig.load_kube_config()
@@ -586,7 +588,7 @@ class PioCli(object):
 
             pio_runtime_version = self._get_full_config()['pio_runtime_version']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         config_yaml_filenames = [] 
@@ -651,8 +653,9 @@ class PioCli(object):
                 print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
 
         print("...Done!")
-        self.view_cluster()
+        print("")
         print("Note:  There may be a delay in the status change above ^^.")
+        self.view_cluster()
         print("")
 
 
@@ -664,7 +667,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured.")
+            print("Cluster needs to be configured with 'pio configure-cluster'.")
             return
 
         kubeconfig.load_kube_config()
