@@ -15,34 +15,80 @@ import predict_pb2
 import prediction_service_pb2
 import tarfile
 import subprocess
+import logging
+from tornado.options import define, options
+from prometheus_client import start_http_server, Summary
+
+define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
+define("PIO_MODEL_TYPE", default="python3", help="prediction model type", type=str)
+define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
+define("PIO_MODEL_NAME", default="scikit_balancescale", help="prediction model name", type=str)
+define("PIO_MODEL_VERSION", default="v0", help="prediction model version", type=str)
+define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
+define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
+define("PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT", default="9000", help="port to run the prometheus http metrics server on", type=int)
+
+# Create a metric to track time spent and requests made.
+REQUEST_TIME = Summary('request_processing_seconds', 'Model Server: Time spent processing request')
+REQUEST_TIME.observe(1.0)    # Observe 1.0 (seconds in this case)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+logger.addHandler(ch)
+
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", IndexHandler),
+            # url: /v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler),
+            # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
+            # url: /v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            (r"/v1/gmodel/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),
+        ]
+        settings = dict(
+            model_store_path=options.PIO_MODEL_STORE_HOME,
+            model_type=options.PIO_MODEL_TYPE,
+            model_namespace=options.PIO_MODEL_NAMESPACE,
+            model_name=options.PIO_MODEL_NAME,
+            model_version=options.PIO_MODEL_VERSION,
+            model_server_port=options.PIO_MODEL_SERVER_PORT,
+            model_server_prometheus_server_port=options.PIO_MODEL_SERVER_PROMETHEUS_PORT,
+            model_server_tensorflow_serving_host='127.0.0.1',
+            model_server_tensorflow_serving_port=options.PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            debug=True,
+            autoescape=None,
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
+
+
+    def fallback(self):
+        logger.warn('Model Server Application fallback: %s' % self)
+        return 'fallback!'
+
+
+class IndexHandler(tornado.web.RequestHandler):
+
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("index.html")
+
 
 class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
-    def initialize(self, 
-                   bundle_parent_path,
-                   grpc_host,
-                   grpc_port,
-                   request_timeout):
-        self.bundle_parent_path = bundle_parent_path
-        self.grpc_host = grpc_host
-        self.grpc_port = grpc_port
-        self.request_timeout = request_timeout
-        self.registry = {}
+    registry = {}
 
-
-    @tornado.gen.coroutine
+    @REQUEST_TIME.time()
+    @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
         (model_base_path, transformers_module) = self.get_model_assets(model_type,
                                                                        model_namespace,
                                                                        model_name,
                                                                        model_version)
 
-        output = yield self.do_post(self.request.body, model_base_path, transformers_module, model_name, model_version)
-        self.write(output)
-
-
-    @tornado.gen.coroutine
-    def do_post(self, inputs, model_base_path, transformers_module, model_name, model_version):
-        # TODO: don't create channel on every request
         channel = implementations.insecure_channel(self.grpc_host, int(self.grpc_port))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
@@ -54,15 +100,17 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         # Transform TensorFlow PredictResponse into output
         outputs = stub.Predict(transformed_inputs_request, self.request_timeout)
         transformed_outputs = transformers_module.transform_outputs(outputs)
-        return transformed_outputs
+        self.write(transformed_outputs)
+        self.finish()
 
 
+    @REQUEST_TIME.time()
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
         model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key in self.registry:
             (model_base_path, transformers_module) = self.registry[model_key]
         else:
-            model_base_path = os.path.join(self.bundle_parent_path, model_type)
+            model_base_path = os.path.join(self.settings['model_store_path'], model_type)
             model_base_path = os.path.join(model_base_path, model_namespace)
             model_base_path = os.path.join(model_base_path, model_name)
             model_base_path = os.path.join(model_base_path, model_version)
@@ -80,15 +128,13 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 
 
 class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
-    def initialize(self, bundle_parent_path):
-        self.bundle_parent_path = bundle_parent_path
-
+    @REQUEST_TIME.time()
     def post(self, model_type, model_namespace, model_name, model_version):
         fileinfo = self.request.files['bundle'][0]
         model_file_source_bundle_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_bundle_path)
 
-        bundle_path = os.path.join(self.bundle_parent_path, model_type)
+        bundle_path = os.path.join(self.settings['model_store_path'], model_type)
         bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
         bundle_path = os.path.join(bundle_path, model_version)
@@ -117,36 +163,24 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
             self.write('Failed to write file due to IOError %s' % str(e))
             raise e
 
+
     def write_error(self, status_code, **kwargs):
         self.write('Error %s' % status_code)
         if "exc_info" in kwargs:
             self.write(", Exception: %s" % kwargs["exc_info"][0].__name__)
 
-if __name__ == '__main__':
-    port = os.environ['PIO_MODEL_SERVER_PORT']
-    bundle_parent_path = os.environ['PIO_MODEL_STORE_HOME']
-    model_type = os.environ['PIO_MODEL_TYPE']
-    model_namespace = os.environ['PIO_MODEL_NAMESPACE']
-    model_name = os.environ['PIO_MODEL_NAME']
-    model_version = os.environ['PIO_MODEL_VERSION']
-    grpc_port = os.environ['PIO_MODEL_TENSORFLOW_SERVING_PORT']
 
-    app = tornado.web.Application([
-      # url: /v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
-          ModelPredictTensorFlowHandler, dict(bundle_parent_path=bundle_parent_path,
-               grpc_host='127.0.0.1',
-               grpc_port=grpc_port,
-               request_timeout=30)),
-      # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-      # url: /v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-      (r"/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", 
-          ModelDeployTensorFlowHandler, dict(bundle_parent_path=bundle_parent_path))
-    ])
-    app.listen(port)
-
-    print("")
-    print("Started Tornado-based Http Server on Port '%s'" % port)
-    print("")
-
+def main():
+    # Start up a web server to expose request made and time spent metrics to Prometheus
+    # TODO:  Potentially expose metrics to Prometheus using the Tornado HTTP server as long as it's not blocking
+    #        See the MetricsHandler class which provides a BaseHTTPRequestHandler
+    #        https://github.com/prometheus/client_python/blob/ce5542bd8be2944a1898e9ac3d6e112662153ea4/prometheus_client/exposition.py#L79
+    logger.info("Starting Prometheus Http Server on port '%s'" % options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
+    start_http_server(options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
+    logger.info("Starting Model Predict and Deploy Http Server on port '%s'" % options.PIO_MODEL_SERVER_PORT)
+    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server.listen(options.PIO_MODEL_SERVER_PORT)
     tornado.ioloop.IOLoop.current().start()
+
+if __name__ == '__main__':
+    main()
