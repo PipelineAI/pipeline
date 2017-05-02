@@ -20,6 +20,9 @@ spec:
   - name: http-netflixoss
     port: 9040
     targetPort: 9040
+  - name: prometheus
+    port: 8080 
+    targetPort: 8080
   selector:
     app: prediction-tensorflow
 #    hystrix.enabled: "true"
