@@ -35,6 +35,7 @@ spec:
         ports:
         - containerPort: 6006
         - containerPort: 8754
+        - containerPort: 8755
         volumeMounts:
 #          - name: kube-config-secret-volume
 #            readOnly: true
