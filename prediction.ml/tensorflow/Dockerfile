@@ -68,7 +68,7 @@ ENV \
   PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
 
 ENV \
-  PIO_MODEL_SERVER_PATH=src/main/python/model
+  PIO_MODEL_SERVER_PATH=src/main/python
 
 ENV \
   PIO_MODEL_SERVER_REQUEST_BATCHING=true
@@ -84,11 +84,15 @@ RUN \
   && pip uninstall -y /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl
 
 RUN \
+ENV \
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
+
+RUN \
   conda create --yes -n model_environment_python3 python=3.5
 
 RUN \
   create_model_server_environment_python3
 
-EXPOSE 9876 9000 9040 
+EXPOSE 9876 9000 9040 8080
 
 CMD ["supervise", "."]
