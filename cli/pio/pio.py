@@ -154,19 +154,36 @@ class PioCli(object):
             return existing_config_dict
 
 
-    def view_config(self):
+    def config(self):
         pprint(self._get_full_config())
         print("")
 
 
-    def top_cluster(self):
+    def top(self,
+            app_name=None):
+        print("Specify '--app-name' for specific app.") 
+        if (app_name):
+            self._top_app(app_name)
+        else:
+            self._top_cluster()
+
+
+    def _top_cluster(self):
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("Cluster needs to be configured 'pio cluster-init'.")
+            return
+
         subprocess.call("kubectl top node", shell=True)
         print("")
-        print("Note:  Heapster must be deployed with 'pio deploy-app heapster' to support this command ^^.")
+        print("Note:  Heapster must be deployed with 'pio deploy heapster' to support this command ^^.")
         print("")
 
 
-    def top_app(self,
+    def _top_app(self,
                 app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
@@ -174,7 +191,7 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured 'pio configure-cluster'.")
+            print("Cluster needs to be configured 'pio cluster-init'.")
             return
 
         kubeconfig.load_kube_config()
@@ -190,9 +207,9 @@ class PioCli(object):
         print("")
 
 
-    def configure_app(self,
-                      pio_home,
-                      pio_runtime_version):
+    def app_init(self,
+                 pio_home,
+                 pio_runtime_version):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -210,9 +227,9 @@ class PioCli(object):
         print("")
 
 
-    def configure_cluster(self,
-                          kube_cluster_context,
-                          kube_namespace='default'):
+    def cluster_init(self,
+                     kube_cluster_context,
+                     kube_namespace='default'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -224,13 +241,13 @@ class PioCli(object):
         print("")
 
 
-    def configure_model(self,
-                        model_server_url,
-                        model_type,
-                        model_namespace,
-                        model_name,
-                        model_input_mime_type='application/json',
-                        model_output_mime_type='application/json'):
+    def model_init(self,
+                   model_server_url,
+                   model_type,
+                   model_namespace,
+                   model_name,
+                   model_input_mime_type='application/json',
+                   model_output_mime_type='application/json'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -248,10 +265,10 @@ class PioCli(object):
         print("")
 
 
-    def deploy_model(self,
-                     model_version, 
-                     model_path,
-                     request_timeout=600):
+    def serve(self,
+              model_version, 
+              model_path,
+              request_timeout=600):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -261,7 +278,7 @@ class PioCli(object):
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
         except:
-            print("Model needs to be configured with 'pio configure-model'.")
+            print("Model needs to be configured with 'pio model-init'.")
             return
 
         model_path = os.path.expandvars(model_path)
@@ -288,31 +305,35 @@ class PioCli(object):
             upload_key = 'file'
             upload_value = os.path.split(model_path)
 
+        full_model_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
-
-            full_model_server_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
-            print("Deploying model '%s' to '%s'..." % (model_file, full_model_server_url))
+            print("Deploying model '%s' to '%s'..." % (model_file, full_model_url))
             print("")
             headers = {'Accept': 'application/json'}
-            response = requests.post(url=full_model_server_url, 
-                                     headers=headers, 
-                                     files=files, 
-                                     timeout=request_timeout)
-            pprint(response.text)
+            try:
+                response = requests.post(url=full_model_url, 
+                                         headers=headers, 
+                                         files=files, 
+                                         timeout=request_timeout)
+                pprint(response.text)
             print("...Done!")
-        # TODO:  cleanup in case of error, as well
+    
         if (os.path.isdir(model_path)):
             print("Cleaning up compressed model '%s'..." % model_file)
             os.remove(model_file)
             print("...Done!")
         print("")
+        print("If this command timed out after 10-15 seconds, the model is likely still deploying.")
+        print("Wait another minute, then run some predictions with the 'pio predict' command or with this url: '%s'" % full_model_url)
+        print("")
 
 
-    def predict_model(self, 
-                      model_version, 
-                      model_input_filename,
-                      request_timeout=30):
+    def predict(self, 
+                model_version, 
+                model_input_filename,
+                request_timeout=30):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -324,22 +345,22 @@ class PioCli(object):
             model_input_mime_type = self._get_full_config()['model_input_mime_type']
             model_output_mime_type = self._get_full_config()['model_output_mime_type']
         except:
-            print("Model needs to be configured.")
+            print("Model needs to be configured with 'pio model-init'.")
             return
 
         print('model_version: %s' % model_version)
         print('model_input_filename: %s' % model_input_filename)
         print('request_timeout: %s' % request_timeout)
 
-        full_model_server_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
-        print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_filename, model_type, model_namespace, model_name, model_version, full_model_server_url))
+        print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_filename, model_type, model_namespace, model_name, model_version, full_model_url))
         print("")
         with open(model_input_filename, 'rb') as fh:
             model_input_binary = fh.read()
 
         headers = {'Content-type': model_input_mime_type, 'Accept': model_output_mime_type} 
-        response = requests.post(url=full_model_server_url, 
+        response = requests.post(url=full_model_url, 
                                  headers=headers, 
                                  data=model_input_binary, 
                                  timeout=request_timeout)
@@ -349,21 +370,21 @@ class PioCli(object):
         print("")
 
 
-    def view_cluster(self):
+    def cluster(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
-        self.view_apps()
+        self.apps()
 
         print("DNS Internal :: DNS Public")
         print("**************************")
@@ -405,14 +426,14 @@ class PioCli(object):
             print(app)
 
 
-    def view_apps(self):
+    def apps(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         print("")
@@ -435,8 +456,8 @@ class PioCli(object):
         print("")
    
  
-    def shell_app(self,
-                  app_name):
+    def connect(self,
+                app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -444,7 +465,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         pprint(self._get_full_config())
@@ -464,8 +485,8 @@ class PioCli(object):
         print("")
 
 
-    def watch_app(self,
-                  app_name):
+    def logs(self,
+             app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -473,7 +494,7 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         kubeconfig.load_kube_config()
@@ -496,16 +517,16 @@ class PioCli(object):
         print("")
 
 
-    def scale_app(self,
-                  app_name,
-                  replicas):
+    def scale(self,
+              app_name,
+              replicas):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         kubeconfig.load_kube_config()
@@ -524,7 +545,7 @@ class PioCli(object):
                 print("Scaling '%s' to '%s' replicas..." % (deploy.metadata.name, replicas))
                 subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
                 print("...Done!")
-                self.view_cluster()
+                self.cluster()
                 print("Note:  There may be a delay in the status change above ^^.")
             else:
                 print("App '%s' is not running." % app_name)
@@ -569,8 +590,8 @@ class PioCli(object):
         return svc_yamls
 
 
-    def deploy_app(self,
-                   app_name):
+    def deploy(self,
+               app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -588,7 +609,7 @@ class PioCli(object):
 
             pio_runtime_version = self._get_full_config()['pio_runtime_version']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         config_yaml_filenames = [] 
@@ -655,19 +676,19 @@ class PioCli(object):
         print("...Done!")
         print("")
         print("Note:  There may be a delay in the status change above ^^.")
-        self.view_cluster()
+        self.cluster()
         print("")
 
 
-    def undeploy_app(self,
-                     app_name):
+    def undeploy(self,
+                 app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
-            print("Cluster needs to be configured with 'pio configure-cluster'.")
+            print("Cluster needs to be configured with 'pio cluster-init'.")
             return
 
         kubeconfig.load_kube_config()
@@ -686,14 +707,14 @@ class PioCli(object):
                 print("Undeploying '%s'..." % deploy.metadata.name)
                 subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
                 print("...Done!")
-                self.view_cluster()
+                self.cluster()
                 print("Note:  There may be a delay in the status change above ^^.")
             else:
                 print("App '%s' is not running." % app_name)
         print("")
 
 
-#    def configure_git(self,
+#    def git_init(self,
 #                      git_repo_base_path,
 #                      git_revision='HEAD'):
 
@@ -715,7 +736,7 @@ class PioCli(object):
 #        pprint(self._get_full_config())
 #        print("")
 
-#    def view_git(self):
+#    def git(self):
 #        pio_api_version = self._get_full_config()['pio_api_version']
 #        try: 
 #            git_repo_base_path = self._get_full_config()['git_repo_base_path']
@@ -726,7 +747,7 @@ class PioCli(object):
 
 #            git_revision = self._get_full_config()['git_revision']
 #        except:
-#            print("Git needs to be configured.")
+#            print("Git needs to be configured with 'pio git-init'.")
 #            return
 
 #        pprint(self._get_full_config())
