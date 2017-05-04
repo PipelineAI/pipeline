@@ -1,6 +1,13 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.32"
+__version__ = "0.35"
+
+# Requirements
+#   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
+
+# References:
+#   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
+#   https://github.com/kubernetes/kops/blob/master/docs/aws.md
 
 import warnings
 import requests
@@ -19,13 +26,6 @@ from git import Repo
 from pprint import pprint
 import subprocess
 
-# TODO: enums
-#   model_input_mime_type = ['application/xml', 'application/json']
-#   model_output_mime_type = ['application/json', 'text/plain']
-
-# References:
-#   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
-
 class PioCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'spark': (['apachespark.ml/master-deploy.yaml'], ['spark-worker', 'metastore']),
@@ -33,14 +33,16 @@ class PioCli(object):
                             'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
                             'hdfs': (['hdfs.ml/namenode-deploy.yaml'], []),
                             'redis': (['keyvalue.ml/redis-master-deploy.yaml'], []),
-                            'presto': (['presto.ml/presto-master-deploy.yaml',
-                                        'presto.ml/presto-worker-deploy.yaml'], ['metastore']),
-                            'presto-ui': (['presto.ml/presto-ui-deploy.yaml'], ['presto']),
+                            'presto': (['presto.ml/master-deploy.yaml',
+                                        'presto.ml/worker-deploy.yaml'], ['metastore']),
+                            'presto-ui': (['presto.ml/ui-deploy.yaml'], ['presto']),
                             'airflow': (['scheduler.ml/airflow-deploy.yaml'], ['mysql', 'redis']),
                             'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
                             'www': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
+                            'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-deploy.yaml'], []),
+                            'kibana': (['kibana.ml/kibana-4-5-0-deploy.yaml'], ['elasticsearch'], []), 
                             'kafka': (['stream.ml/kafka-0.10-deploy.yaml'], ['zookeeper']),
                             'cassandra': (['cassandra.ml/cassandra-deploy.yaml'], []),
                             'prediction-jvm': (['prediction.ml/jvm-deploy.yaml'], []),
@@ -48,10 +50,11 @@ class PioCli(object):
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
                             'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
                             'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
-                            'weavescope': (['dashboard.ml/weavescope/weavescope.yaml'], []),
-                            'dashboard': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.0.yaml'], []),
-                            'heapster': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.3.0.yaml'], []),
-                            'route53': (['https://raw.githubusercontent.com/kubernetes/kops/master/addons/route53-mapper/v1.3.0.yml'], []),
+                            'weavescope': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
+                            'dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.0.yaml'], []),
+                            'heapster': (['metrics.ml/monitoring-standalone/v1.3.0.yaml'], []),
+                            'route53': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
+                            'logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
                            }
 
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
@@ -75,9 +78,14 @@ class PioCli(object):
                          'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
                         }
 
-    def _pio_api_version(self):
+    def _get_default_pio_api_version(self):
         return 'v1'
 
+    def _get_default_pio_git_home(self):
+        return 'https://github.com/fluxcapacitor/pipeline/'
+
+    def _get_default_pio_git_version(self):
+        return 'v1.2.0'
 
     def get_config_value(self,
                          config_key):
@@ -91,11 +99,9 @@ class PioCli(object):
                          config_key,
                          config_value):
         print("config_key: '%s'" % config_key)
-
         self._merge_config_dict({config_key: config_value})
         print("config_value: '%s'" % self._get_full_config()[config_key])
         self._merge_config_dict({config_key: config_value})
-
         print("")
         pprint(self._get_full_config())
         print("")        
@@ -111,8 +117,8 @@ class PioCli(object):
         expanded_config_file_base_path = os.path.expanduser(expanded_config_file_base_path)
         expanded_config_file_base_path = os.path.abspath(expanded_config_file_base_path)
         expanded_config_file_path = os.path.join(expanded_config_file_base_path, 'config')
-
-        pprint("Merging dict '%s' with existing config '%s'..." % (config_dict, expanded_config_file_path))
+        print("")
+        pprint("Merging dict '%s' with existing config '%s'." % (config_dict, expanded_config_file_path))
 
         existing_config_dict = self._get_full_config()
 
@@ -125,7 +131,6 @@ class PioCli(object):
         with open(expanded_config_file_path, 'w') as fh:
             fh.write(new_config_yaml)
         print(new_config_yaml)
-        print("...Done!")
         print("")
 
 
@@ -139,14 +144,16 @@ class PioCli(object):
         if not os.path.exists(config_file_filename):
             if not os.path.exists(config_file_base_path):
                 os.makedirs(config_file_base_path)
-            pio_api_version = self._pio_api_version() 
-            initial_config_dict = {'pio_api_version': pio_api_version}
+            initial_config_dict = {'pio_api_version': self._get_default_pio_api_version(),
+                                   'pio_git_home': self._get_default_pio_git_home(),
+                                   'pio_git_version': self._get_default_pio_git_version()}
             initial_config_yaml =  yaml.dump(initial_config_dict, default_flow_style=False, explicit_start=True)
-            print("Creating config '%s'..." % config_file_filename)
+            print("")
+            print("Default config created at '%s'.  Override with 'pio init-pio'" % config_file_filename)
+            print("")
             with open(config_file_filename, 'w') as fh:
                 fh.write(initial_config_yaml)
-            print("...Done!")
-        print("")
+                pprint(initial_config_dict)
 
         # Update the YAML 
         with open(config_file_filename, 'r') as fh:
@@ -159,19 +166,36 @@ class PioCli(object):
         print("")
 
 
-    def top(self,
-            app_name=None):
+    # TODO
+    def flow(self):
+        print('Submit flow coming soon!')
+
+
+    # TODO
+    def submit(self):
+        print('Submit job coming soon!')
+
+
+    # TODO
+    def kill(self):
+        print('Kill job coming soon!')
+
+
+    def stats(self,
+              app_name=None):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured 'pio init-cluster'.")
+            print("")
             return
 
         print("")
-        print("Specify '--app-name' for specific app.") 
+        print("Retrieving cluster-level stats.  Use '--app-name' for app-level stats.") 
         print("")
         if (app_name):
             self._top_app(app_name)
@@ -183,7 +207,7 @@ class PioCli(object):
     def _top_cluster(self):
         subprocess.call("kubectl top node", shell=True)
         print("")
-        print("Note:  Heapster must be deployed with 'pio deploy heapster' to support this command ^^.")
+        print("If you see an error above, you need to start Heapster with 'pio start heapster'.")
         print("")
 
 
@@ -203,17 +227,131 @@ class PioCli(object):
         print("")
 
 
+    def up_aws(self,
+               ssh_public_key=None,
+               initial_worker_count='1',
+#               min_worker_count='1',
+#               max_worker_count='1',
+               worker_zones='us-west-2a,us-west-2b',
+               worker_type='r2.2xlarge',
+               master_zones='us-west-2c',
+               master_type='t2.medium',
+#               dns_zone='',
+#               vpc='',
+               kubernetes_version='1.6.2',
+               kubernetes_image='kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09'):
+        try:
+            kops_cluster_name = self._get_full_config()['kops_cluster_name']
+            kops_state_store = self._get_full_config()['kops_state_store']
+
+            if not kops_ssh_public_key:
+                subprocess.call("ssh-keygen -t rsa", shell=True)
+                ssh_public_key = '~/.ssh/id_rsa.pub'
+
+            subprocess.call("aws configure", shell=True)
+            subprocess.call("aws s3 mb %s" % kops_state_store, shell=True)
+
+            subprocess.call("kops create cluster --ssh-public-key %s --node-count %s --zones %s --master-zones %s --node-size %s --master-size %s --kubernetes-version %s --image %s --state %s --name %s" % (ssh_public_key, initial_worker_count, worker_zones, master_zones, worker_type, master_type, kubernetes_version, kubernetes_image, kops_state_store, kops_cluster_name), shell=True)
+            subprocess.call("kops update --state %s cluster %s --yes" % (kops_state_store, kops_cluster_name), shell=True)
+            subprocess.call("kubectl config set-cluster %s --insecure-skip-tls-verify=true" % kops_cluster_name)
+            print("")
+            print("Cluster is being created.  This may take a few mins.")
+            print("")
+            print("Once the cluster is up, run 'kubectl cluster-info' for the Kubernetes-dashboard url.")
+            print("Username is 'admin'.")
+            print("Password can be retrieved with 'kops get secrets kube --type secret -oplaintext --state %s'" % kops_state_store)
+        except:
+            print("")
+            print("Kops needs to be configured with 'pio init-kops'.")
+            print("")
+            return
+           
+
+    def init_kops(self,
+                  kops_cluster_name,
+                  kops_state_store):
+        config_dict = {'kops_cluster_name': kops_cluster_name,
+                       'kops_state_store': kops_state_store}
+        self._merge_config_dict(config_dict)
+        print("")
+        pprint(self._get_full_config())
+        print("")
+
+       
+    def instancegroups(self):
+        try:
+            kops_cluster_name = self._get_full_config()['kops_cluster_name']
+            kops_state_store = self._get_full_config()['kops_state_store']
+            
+            subprocess.call("kops --state %s --name %s get instancegroups" % (kops_state_store, kops_cluster_name), shell=True)
+            print("")
+        except:
+            print("")
+            print("Kops needs to be configured with 'pio init-kops'.")
+            print("")
+            return
+
+
+    def clusters(self):
+        try:
+            kops_cluster_name = self._get_full_config()['kops_cluster_name']
+            kops_state_store = self._get_full_config()['kops_state_store']
+
+            subprocess.call("kops --state %s --name %s get clusters" % (kops_state_store, kops_cluster_name), shell=True)
+            print("")
+        except:
+            print("")
+            print("Kops needs to be configured with 'pio init-kops'.")
+            print("")
+            return
+ 
+
+    def federations(self):
+        try:
+            kops_cluster_name = self._get_full_config()['kops_cluster_name']
+            kops_state_store = self._get_full_config()['kops_state_store']
+
+            subprocess.call("kops --state %s --name %s get federations" % (kops_state_store, kops_cluster_name), shell=True)
+            print("")
+        except:
+            print("")
+            print("Kops needs to be configured with 'pio init-kops'.")
+            print("")
+            return
+
+
+    def secrets(self):
+        try:
+            kops_cluster_name = self._get_full_config()['kops_cluster_name']
+            kops_state_store = self._get_full_config()['kops_state_store']
+
+            subprocess.call("kops --state %s --name %s get secrets" % (kops_state_store, kops_cluster_name), shell=True)
+            print("")
+        except:
+            print("")
+            print("Kops needs to be configured with 'pio init-kops'.")
+            print("")
+            return
+
+
+    def init_pio(self,
+                 pio_api_version,
+                 pio_git_home,
+                 pio_git_version):
+        config_dict = {'pio_api_version': pio_api_version,
+                       'pio_git_home': pio_git_home,
+                       'pio_git_version': pio_git_version}
+        self._merge_config_dict(config_dict)
+        print("")
+        pprint(self._get_full_config())
+        print("")
+
+
     def init_cluster(self,
-                     pio_home,
-                     pio_runtime_version,
                      kube_cluster_context,
-                     kube_namespace='default'):
-
+                     kube_namespace):
         pio_api_version = self._get_full_config()['pio_api_version']
-
-        config_dict = {'pio_home': pio_home,
-                       'pio_runtime_version': pio_runtime_version,
-                       'kube_cluster_context': kube_cluster_context, 
+        config_dict = {'kube_cluster_context': kube_cluster_context, 
                        'kube_namespace': kube_namespace}
         self._merge_config_dict(config_dict)
         print("")
@@ -245,10 +383,13 @@ class PioCli(object):
         print("")
 
 
-    def serve(self,
-              model_version, 
-              model_path,
-              request_timeout=600):
+    # TODO:  from_git=True/False (include git_commit_hash, use python git API? Perform immutable deployment??)
+    #        from_docker=True/False (include image name, version)
+    #        canary=True/False
+    def deploy(self,
+               model_version, 
+               model_path,
+               request_timeout=600):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -258,7 +399,9 @@ class PioCli(object):
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
         except:
+            print("")
             print("Model needs to be configured with 'pio init-model'.")
+            print("")
             return
 
         model_path = os.path.expandvars(model_path)
@@ -272,11 +415,11 @@ class PioCli(object):
         if (os.path.isdir(model_path)):
             compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
-            print("Compressing model '%s' into '%s'..." % (model_path, compressed_model_bundle_filename))  
+            print("")
+            print("Compressing model '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
             print("")
             with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
                 tar.add(model_path, arcname='.')
-            print("...Done!")
             model_file = compressed_model_bundle_filename
             upload_key = 'bundle'
             upload_value = compressed_model_bundle_filename
@@ -289,7 +432,8 @@ class PioCli(object):
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
-            print("Deploying model '%s' to '%s'..." % (model_file, full_model_url))
+            print("")
+            print("Deploying model '%s' to '%s'." % (model_file, full_model_url))
             print("")
             headers = {'Accept': 'application/json'}
             try:
@@ -299,16 +443,15 @@ class PioCli(object):
                                          timeout=request_timeout)
                 pprint(response.text)
             except IOError as e:
-                print("Error while deploying model.  Timeouts after 10-15 seconds are OK.\nError: '%s'" % str(e))
-            print("...Done!")
+                print("Error while deploying model.  Timeouts after 10-15 seconds are usually OK.\nError: '%s'" % str(e))
     
         if (os.path.isdir(model_path)):
+            print("")
             print("Cleaning up compressed model '%s'..." % model_file)
+            print("")
             os.remove(model_file)
-            print("...Done!")
         print("")
-        print("If this command timed out after 10-15 seconds, the model is likely still deploying.")
-        print("Wait another minute, then run some predictions with the 'pio predict' command or with this url: '%s'" % full_model_url)
+        print("Wait a bit, then predict with 'pio predict' or this url: '%s'" % full_model_url)
         print("")
 
 
@@ -324,10 +467,12 @@ class PioCli(object):
             model_type = self._get_full_config()['model_type']
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
-            model_input_mime_type = self._get_full_config()['model_input_mime_type']
-            model_output_mime_type = self._get_full_config()['model_output_mime_type']
+            #model_input_mime_type = self._get_full_config()['model_input_mime_type']
+            #model_output_mime_type = self._get_full_config()['model_output_mime_type']
         except:
+            print("")
             print("Model needs to be configured with 'pio model-init'.")
+            print("")
             return
 
         print('model_version: %s' % model_version)
@@ -335,7 +480,7 @@ class PioCli(object):
         print('request_timeout: %s' % request_timeout)
 
         full_model_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
-
+        print("")
         print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_filename, model_type, model_namespace, model_name, model_version, full_model_url))
         print("")
         with open(model_input_filename, 'rb') as fh:
@@ -348,8 +493,6 @@ class PioCli(object):
                                  timeout=request_timeout)
         pprint(response.text)
         print("")
-        print("...Done!")
-        print("")
 
 
     def cluster(self):
@@ -359,7 +502,9 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         kubeconfig.load_kube_config()
@@ -415,10 +560,11 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
-        print("")
         self._get_all_available_apps()
 
         kubeconfig.load_kube_config()
@@ -426,7 +572,7 @@ class PioCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("")
-        print("Running Apps")
+        print("Started Apps")
         print("************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -434,7 +580,7 @@ class PioCli(object):
                                                                       watch=False,
                                                                       pretty=True)
             for deploy in response.items:
-                print("%s (%s of %s replicas available)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
+                print("%s (%s of %s replicas are running)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
         print("")
    
  
@@ -447,7 +593,9 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         pprint(self._get_full_config())
@@ -462,7 +610,9 @@ class PioCli(object):
             for pod in response.items:
                 if app_name in pod.metadata.name:
                     break
+            print("")
             print("Shelling into '%s'" % pod.metadata.name)      
+            print("")
             subprocess.call("kubectl exec -it %s bash" % pod.metadata.name, shell=True)
         print("")
 
@@ -476,7 +626,9 @@ class PioCli(object):
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         kubeconfig.load_kube_config()
@@ -492,11 +644,14 @@ class PioCli(object):
                     found = True
                     break
             if found:
-                print("Tailing logs on '%s'" % pod.metadata.name)
+                print("")
+                print("Tailing logs on '%s'." % pod.metadata.name)
+                print("")
                 subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
             else:
+                print("")
                 print("App '%s' is not running." % app_name)
-        print("")
+                print("")
 
 
     def scale(self,
@@ -508,7 +663,9 @@ class PioCli(object):
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         kubeconfig.load_kube_config()
@@ -524,14 +681,18 @@ class PioCli(object):
                     found = True
                     break
             if found:
-                print("Scaling '%s' to '%s' replicas..." % (deploy.metadata.name, replicas))
+                print("")
+                print("Scaling app '%s' to '%s' replicas." % (deploy.metadata.name, replicas))
+                print("")
                 subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
-                print("...Done!")
-                self.cluster()
-                print("Note:  There may be a delay in the status change above ^^.")
+                #self.cluster()
+                print("")
+                print("Check status with 'pio cluster'.")
+                print("")
             else:
+                print("")
                 print("App '%s' is not running." % app_name)
-        print("") 
+                print("") 
 
 
     def _get_config_yamls(self, 
@@ -572,25 +733,27 @@ class PioCli(object):
         return svc_yamls
 
 
-    def deploy(self,
-               app_name):
+    def start(self,
+              app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try: 
             kube_namespace = self._get_full_config()['kube_namespace']
-            pio_home = self._get_full_config()['pio_home']
+            pio_git_home = self._get_full_config()['pio_git_home']
 
-            if 'http:' in pio_home or 'https:' in pio_home:
+            if 'http:' in pio_git_home or 'https:' in pio_git_home:
                 pass
             else:
-                pio_home = os.path.expandvars(pio_home)
-                pio_home = os.path.expanduser(pio_home)
-                pio_home = os.path.abspath(pio_home)
+                pio_git_home = os.path.expandvars(pio_git_home)
+                pio_git_home = os.path.expanduser(pio_git_home)
+                pio_git_home = os.path.abspath(pio_git_home)
 
-            pio_runtime_version = self._get_full_config()['pio_runtime_version']
+            pio_git_version = self._get_full_config()['pio_git_version']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         config_yaml_filenames = [] 
@@ -615,16 +778,18 @@ class PioCli(object):
             # TODO 
         #    return
 
-        print("Deploying app '%s'..." % app_name)
+        print("Starting app '%s'." % app_name)
         for deploy_yaml_filename in deploy_yaml_filenames:
             try:
                 if 'http:' in deploy_yaml_filename or 'https:' in deploy_yaml_filename:
+                    deploy_yaml_filename = deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
                     subprocess.call("kubectl create -f %s" % deploy_yaml_filename, shell=True)
                 else:
-                    if 'http:' in pio_home or 'https:' in pio_home:
-                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_home.rstrip('/'), pio_runtime_version, deploy_yaml_filename), shell=True)
+                    if 'http:' in pio_git_home or 'https:' in pio_git_home:
+                        pio_git_home = pio_git_home.replace('github.com', 'raw.githubusercontent.com')
+                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_git_home.rstrip('/'), pio_git_version, deploy_yaml_filename), shell=True)
                     else:
-                        with open(os.path.join(pio_home, deploy_yaml_filename)) as fh:
+                        with open(os.path.join(pio_git_home, deploy_yaml_filename)) as fh:
                             deploy_yaml = yaml.load(fh)
                             with warnings.catch_warnings():
                                 warnings.simplefilter("ignore")
@@ -633,17 +798,21 @@ class PioCli(object):
                                                                                             pretty=True)
                                 pprint(response) 
             except ApiException as e: 
-                print("App not deployed for '%s':\n%s\n" % (deploy_yaml_filename, str(e)))
+                print("")
+                print("App '%s' did not start properly.\n%s" % (deploy_yaml_filename, str(e)))
+                print("")
 
         for svc_yaml_filename in svc_yaml_filenames:
             try:
                 if 'http:' in svc_yaml_filename or 'https:' in svc_yaml_filename:
+                    svc_yaml_filename = svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
                     subprocess.call("kubectl create -f %s" % svc_yaml_filename, shell=True)
                 else:
-                    if 'http:' in pio_home or 'https:' in pio_home:
-                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_home, pio_runtime_version, svc_yaml_filename), shell=True)
+                    if 'http:' in pio_git_home or 'https:' in pio_git_home:
+                        pio_git_home = pio_git_home.replace('github.com', 'raw.githubusercontent.com')
+                        subprocess.call("kubectl create -f %s/%s/%s" % (pio_git_home.rstrip('/'), pio_git_version, svc_yaml_filename), shell=True)
                     else:
-                        with open(os.path.join(pio_home, svc_yaml_filename)) as fh:
+                        with open(os.path.join(pio_git_home, svc_yaml_filename)) as fh:
                             svc_yaml = yaml.load(fh)
                             with warnings.catch_warnings():
                                 warnings.simplefilter("ignore")
@@ -652,24 +821,26 @@ class PioCli(object):
                                                                                    pretty=True)
                                 pprint(response)
             except ApiException as e: 
-                print("Service not created for '%s':\n%s\n" % (svc_yaml_filename, str(e)))
+                print("")
+                print("App '%s' did not start properly.\n%s" % (svc_yaml_filename, str(e)))
+                print("")
 
-        print("...Done!")
         print("")
-        print("Note:  There may be a delay in the status change above ^^.")
-        self.cluster()
+        print("Check status with 'pio cluster'.")
         print("")
 
 
-    def undeploy(self,
-                 app_name):
+    def stop(self,
+             app_name):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
+            print("")
             print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
             return
 
         kubeconfig.load_kube_config()
@@ -685,14 +856,16 @@ class PioCli(object):
                     found = True
                     break
             if found:
-                print("Undeploying '%s'..." % deploy.metadata.name)
+                print("Stopping app '%s'." % deploy.metadata.name)
                 subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
-                print("...Done!")
-                self.cluster()
-                print("Note:  There may be a delay in the status change above ^^.")
+                #self.cluster()
+                print("")
+                print("Check status with 'pio cluster'.")
+                print("")
             else:
+                print("")
                 print("App '%s' is not running." % app_name)
-        print("")
+                print("")
 
 
 #    def git_init(self,
