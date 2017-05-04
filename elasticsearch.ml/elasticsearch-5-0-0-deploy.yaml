@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: elasticsearch-5-0-0 
+  labels:
+    app: elasticsearch-5-0-0 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch-5-0-0 
+  template:
+    metadata:
+      labels:
+        app: elasticsearch-5-0-0 
+    spec:
+      containers:
+      - name: elasticsearch-5-0-0 
+        image: docker.io/fluxcapacitor/elasticsearch-5.0.0:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        ports:
+        - containerPort: 9200
+        - containerPort: 9300
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml"
+            # repository: "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
+            revision: "master"

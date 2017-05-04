@@ -25,10 +25,8 @@ RUN \
   && rm kubernetes.tar.gz
 
 RUN \
-  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
-
-RUN \
-  chmod a+x kubectl \
+  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl \
+  && chmod a+x kubectl \
   && mv kubectl /usr/local/bin/kubectl
 
 #RUN \
@@ -40,7 +38,7 @@ RUN \
 #ENV \
 #  PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.6.0-alpha.2
+ENV KOPS_VERSION=1.6.0-beta.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -133,7 +131,7 @@ ENV \
 #  && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install pio-cli==0.31
+  pip install pio-cli==0.35
 
 # Intentionally keeping these at the bottom
 #RUN \

@@ -13,6 +13,9 @@ spec:
   - name: jupyterhub
     port: 80 
     targetPort: 8754
+  - name: jupyterhub-api-proxy
+    port: 81
+    targetPort: 8755
   - name: tensorboard
     port: 6006
     targetPort: 6006

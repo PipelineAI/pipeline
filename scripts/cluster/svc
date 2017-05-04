@@ -18,15 +18,17 @@ kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-svc.yaml $PIO_COMMAND_OPTS
 
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/keyvalue.ml/redis-master-svc.yaml
+
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/metastore.ml/metastore-svc.yaml $PIO_COMMAND_OPTS
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/jupyterhub.ml/jupyterhub-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-master-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/master-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-worker-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/worker-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/presto-ui-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/ui-svc.yaml $PIO_COMMAND_OPTS
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/web.ml/home-svc.yaml $PIO_COMMAND_OPTS
 
@@ -37,12 +39,8 @@ kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline
 ###################################
 # Model Prediction Services
 ###################################
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/java-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/jvm-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/keyvalue-svc.yaml $PIO_COMMAND_OPTS
-
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/pmml-svc.yaml $PIO_COMMAND_OPTS
-
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/python-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/python3-svc.yaml $PIO_COMMAND_OPTS
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/tensorflow-svc.yaml $PIO_COMMAND_OPTS
