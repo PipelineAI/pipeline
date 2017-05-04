@@ -15,4 +15,4 @@ RUN \
   mkdir -p ~/.kube
 
 RUN \
-  pip install pio-cli==0.31
+  pip install pio-cli==0.32
