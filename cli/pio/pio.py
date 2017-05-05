@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.36"
+__version__ = "0.37"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -170,6 +170,14 @@ class PioCli(object):
     def config(self):
         pprint(self._get_full_config())
         print("")
+
+
+    def proxy(self,
+              app_name,
+              local_port=None,
+              app_port=None):
+
+        self.tunnel(app_name, local_port, app_port)
 
 
     def tunnel(self,
@@ -505,12 +513,12 @@ class PioCli(object):
             compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
             print("")
-            print("Compressing model '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
+            print("Compressing model bundle '%s' to '%s'." % (model_path, compressed_model_bundle_filename))  
             print("")
             with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
                 tar.add(model_path, arcname='.')
             model_file = compressed_model_bundle_filename
-            upload_key = 'bundle'
+            upload_key = 'file'
             upload_value = compressed_model_bundle_filename
         else:
             model_file = model_path
@@ -530,18 +538,25 @@ class PioCli(object):
                                          headers=headers, 
                                          files=files, 
                                          timeout=request_timeout)
-                pprint(response.text)
+                if response.text:
+                    pprint(response.text)
+                else:
+                    print("")
+                    print("Success!")
+                    print("")
+                    print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/')
+                    print("")
             except IOError as e:
-                print("Error while deploying model.  Timeouts after 10-15 seconds are usually OK.\nError: '%s'" % str(e))
-    
+                print("Error while deploying model.  Timeout errors are usually OK.\nError: '%s'" % str(e))
+                print("")
+                print("Wait a bit, then try to predict with 'pio predict' or POST to '%s'" % full_model_url)
+                print("")   
+ 
         if (os.path.isdir(model_path)):
             print("")
-            print("Cleaning up compressed model '%s'..." % model_file)
+            print("Cleaning up compressed model bundle '%s'..." % model_file)
             print("")
             os.remove(model_file)
-        print("")
-        print("Wait a bit, then predict with 'pio predict' or this url: '%s'" % full_model_url)
-        print("")
 
 
     def predict(self, 
@@ -556,6 +571,8 @@ class PioCli(object):
             model_type = self._get_full_config()['model_type']
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
+            model_input_mime_type = self._get_full_config()['model_input_mime_type']
+            model_output_mime_type = self._get_full_config()['model_output_mime_type']
         except:
             print("")
             print("Model needs to be configured with 'pio model-init'.")

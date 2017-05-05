@@ -133,7 +133,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     def post(self, model_type, model_namespace, model_name, model_version):
-        fileinfo = self.request.files['bundle'][0]
+        fileinfo = self.request.files['file'][0]
         model_file_source_bundle_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_bundle_path)
 
