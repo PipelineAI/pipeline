@@ -25,11 +25,11 @@ spec:
         image: docker.io/fluxcapacitor/prediction-jvm:master
         resources:
           limits:
-            cpu: 2000m
+            cpu: 4000m
             memory: 2000Mi
           requests:
-            cpu: 100m
-            memory: 100Mi 
+            cpu: 400m
+            memory: 200Mi 
         imagePullPolicy: "Always"
         env:
         ports:
