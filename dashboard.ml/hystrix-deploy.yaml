@@ -19,8 +19,8 @@ spec:
         image: docker.io/fluxcapacitor/dashboard-hystrix:master
         resources:
           limits:
-            cpu: 500m
-            memory: 500Mi
+            cpu: 1000m
+            memory: 1000Mi
           requests:
             cpu: 100m
             memory: 100Mi
