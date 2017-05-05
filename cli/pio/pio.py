@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.35"
+__version__ = "0.36"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -76,16 +76,21 @@ class PioCli(object):
                          'prediction-jvm': (['prediction.ml/jvm-svc.yaml'], []),
                          'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
                          'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
+                         'turbine': (['dashboard.ml/turbine-svc.yaml'], []),
+                         'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
 
     def _get_default_pio_api_version(self):
         return 'v1'
 
+
     def _get_default_pio_git_home(self):
         return 'https://github.com/fluxcapacitor/pipeline/'
 
+
     def _get_default_pio_git_version(self):
         return 'v1.2.0'
+
 
     def get_config_value(self,
                          config_key):
@@ -166,27 +171,75 @@ class PioCli(object):
         print("")
 
 
-    # TODO
-    def flow(self):
-        print('Submit flow coming soon!')
+    def proxy(self,
+              app_name,
+              local_port=None,
+              app_port=None):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        pod = self._get_pod_by_app_name(app_name)
+        if not pod:
+            print("")
+            print("App '%s' is not running." % app_name)
+            print("")
+            return
+        if not app_port:
+            svc = self._get_svc_by_app_name(app_name)
+            if not svc:
+                print("")
+                print("App '%s' proxy port cannot be found." % app_name)
+                print("")
+                return
+            app_port = svc.spec.ports[0].target_port
+
+        if not local_port:
+            print("Proxying local port '<randomly-chosen>' to app '%s' port '%s' using pod '%s'." % (app_port, app_name, pod.metadata.name))
+            print("")
+            print("Use 'http://localhost:<randomly-chosen>' to access app '%s' on port '%s'." % (app_name, app_port))
+            print("")
+            print("If you break out of this terminal, your proxy session will end.")
+            print("")
+            subprocess.call('kubectl port-forward %s :%s' % (pod.metadata.name, app_port), shell=True)
+            print("")
+        else:
+            print("Proxying local port '%s' to app '%s' port '%s' using pod '%s'." % (local_port, app_port, app_name, pod.metadata.name))
+            print("")
+            print("Use 'http://localhost:%s' to access app '%s' on port '%s'." % (local_port, app_name, app_port))
+            print("")
+            print("If you break out of this terminal, your proxy session will end.")
+            print("")
+            subprocess.call('kubectl port-forward %s %s:%s' % (pod.metadata.name, local_port, app_port), shell=True)
+            print("")
 
 
-    # TODO
-    def submit(self):
-        print('Submit job coming soon!')
+    # TODO:  Start an airflow job
+    def flow(self,
+             flow_name):
+        print('Submit airflow coming soon!')
 
 
-    # TODO
-    def kill(self):
-        print('Kill job coming soon!')
+    # TODO:  Submit a spark job
+    def submit(self,
+               replicas):
+        print('Submit spark job coming soon!')
 
 
-    def stats(self,
-              app_name=None):
+    def system(self,
+               app_name=None):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
             print("")
@@ -194,25 +247,43 @@ class PioCli(object):
             print("")
             return
 
-        print("")
-        print("Retrieving cluster-level stats.  Use '--app-name' for app-level stats.") 
-        print("")
         if (app_name):
-            self._top_app(app_name)
+            print("")
+            print("Retrieving system resources used by app '%s'." % app_name)
+            print("")
+            self._get_app_resources(app_name)
+            print("")
+            print("Retrieving system resources for cluster.")
+            print("")
+            self._get_cluster_resources()
         else:
-            self._top_cluster()
+            print("")
+            print("Retrieving only system resources for cluster.  Use '--app-name' for app-level, as well.")
+            print("")
+            self._get_cluster_resources()
         print("")
 
 
-    def _top_cluster(self):
+    def _get_cluster_resources(self):
         subprocess.call("kubectl top node", shell=True)
         print("")
         print("If you see an error above, you need to start Heapster with 'pio start heapster'.")
         print("")
 
 
-    def _top_app(self,
-                 app_name):
+    def _get_app_resources(self,
+                           app_name):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured 'pio init-cluster'.")
+            print("")
+            return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -227,19 +298,20 @@ class PioCli(object):
         print("")
 
 
-    def up_aws(self,
-               ssh_public_key=None,
-               initial_worker_count='1',
-#               min_worker_count='1',
-#               max_worker_count='1',
-               worker_zones='us-west-2a,us-west-2b',
-               worker_type='r2.2xlarge',
-               master_zones='us-west-2c',
-               master_type='t2.medium',
-#               dns_zone='',
-#               vpc='',
-               kubernetes_version='1.6.2',
-               kubernetes_image='kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09'):
+    def up(self,
+           provider='aws',
+           ssh_public_key='~/.ssh/id_rsa.pub',
+           initial_worker_count='1',
+#           min_worker_count='1',
+#           max_worker_count='1',
+           worker_zones='us-west-2a,us-west-2b',
+           worker_type='r2.2xlarge',
+           master_zones='us-west-2c',
+           master_type='t2.medium',
+#           dns_zone='',
+#           vpc='',
+           kubernetes_version='1.6.2',
+           kubernetes_image='kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09'):
         try:
             kops_cluster_name = self._get_full_config()['kops_cluster_name']
             kops_state_store = self._get_full_config()['kops_state_store']
@@ -467,8 +539,6 @@ class PioCli(object):
             model_type = self._get_full_config()['model_type']
             model_namespace = self._get_full_config()['model_namespace']
             model_name = self._get_full_config()['model_name']
-            #model_input_mime_type = self._get_full_config()['model_input_mime_type']
-            #model_output_mime_type = self._get_full_config()['model_output_mime_type']
         except:
             print("")
             print("Model needs to be configured with 'pio model-init'.")
@@ -513,7 +583,7 @@ class PioCli(object):
 
         self.apps()
 
-        print("DNS Internal :: DNS Public")
+        print("DNS Internal (Public)")
         print("**************************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -525,7 +595,7 @@ class PioCli(object):
                         ingress = svc.status.load_balancer.ingress[0].hostname
                     if (svc.status.load_balancer.ingress[0].ip):
                         ingress = svc.status.load_balancer.ingress[0].ip               
-                print("%s :: %s" % (svc.metadata.name, ingress))
+                print("%s (%s)" % (svc.metadata.name, ingress))
 
         print("")
         print("Running Pods")
@@ -535,22 +605,129 @@ class PioCli(object):
             response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
             for pod in response.items:
                 print("%s (%s)" % (pod.metadata.name, pod.status.phase))
-        print("")
 
+        print("")
+        print("Nodes")
+        print("*****")
+        self._get_all_nodes()
+        
+        print("")
         print("Config")
         print("******")
         pprint(self._get_full_config())
         print("")
 
 
-    def _get_all_available_apps(self):
-        print("")
-        print("All Available Apps")
-        print("******************")
+    def _get_pod_by_app_name(self,
+                             app_name):
+
         pio_api_version = self._get_full_config()['pio_api_version']
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        found = False 
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            for pod in response.items:
+                if app_name in pod.metadata.name:
+                    found = True
+                    break
+        if found:
+            return pod
+        else:
+            return None
+
+
+    def _get_svc_by_app_name(self,
+                             app_name):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        found = False
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
+            for svc in response.items:
+                if app_name in svc.metadata.name:
+                    found = True
+                    break
+        if found:
+            return svc 
+        else:
+            return None
+
+
+    def _get_all_available_apps(self):
+        pio_api_version = self._get_full_config()['pio_api_version']
+
         available_apps = PioCli._kube_deploy_registry.keys()
         for app in available_apps:
             print(app)
+
+
+    def nodes(self):
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        print("")
+        print("Nodes")
+        print("*****")
+        self._get_all_nodes()
+        print("")
+
+
+    def _get_all_nodes(self):
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1.list_node(watch=False, pretty=True)
+            for node in response.items:
+                print("%s (%s)" % (node.metadata.labels['kubernetes.io/hostname'], node.metadata.labels['kubernetes.io/role']))
 
 
     def apps(self):
@@ -565,6 +742,9 @@ class PioCli(object):
             print("")
             return
 
+        print("")
+        print("All Available Apps")
+        print("******************")
         self._get_all_available_apps()
 
         kubeconfig.load_kube_config()
@@ -611,7 +791,7 @@ class PioCli(object):
                 if app_name in pod.metadata.name:
                     break
             print("")
-            print("Shelling into '%s'" % pod.metadata.name)      
+            print("Connecting to '%s'" % pod.metadata.name)      
             print("")
             subprocess.call("kubectl exec -it %s bash" % pod.metadata.name, shell=True)
         print("")
@@ -648,6 +828,7 @@ class PioCli(object):
                 print("Tailing logs on '%s'." % pod.metadata.name)
                 print("")
                 subprocess.call("kubectl logs -f %s" % pod.metadata.name, shell=True)
+                print("")
             else:
                 print("")
                 print("App '%s' is not running." % app_name)
@@ -661,6 +842,7 @@ class PioCli(object):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
             print("")
@@ -685,7 +867,6 @@ class PioCli(object):
                 print("Scaling app '%s' to '%s' replicas." % (deploy.metadata.name, replicas))
                 print("")
                 subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
-                #self.cluster()
                 print("")
                 print("Check status with 'pio cluster'.")
                 print("")
@@ -693,6 +874,83 @@ class PioCli(object):
                 print("")
                 print("App '%s' is not running." % app_name)
                 print("") 
+
+
+    def volumes(self):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        print("")
+        print("Volumes")
+        print("*******")
+        self._get_all_volumes()
+
+        print("")
+        print("Volume Claims")
+        print("*************")
+        self._get_all_volume_claims()
+        print("")
+
+
+    def _get_all_volumes(self):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1.list_persistent_volume(watch=False,
+                                                            pretty=True)
+            for claim in response.items:
+                print("%s" % (claim.metadata.name))
+        print("")
+
+
+    def _get_all_volume_claims(self):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+            kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        kubeconfig.load_kube_config()
+        kubeclient_v1 = kubeclient.CoreV1Api()
+        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1.list_persistent_volume_claim_for_all_namespaces(watch=False,
+                                                                                     pretty=True)
+            for claim in response.items:
+                print("%s" % (claim.metadata.name))
+        print("")
 
 
     def _get_config_yamls(self, 
@@ -739,6 +997,7 @@ class PioCli(object):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try: 
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
             pio_git_home = self._get_full_config()['pio_git_home']
 
@@ -777,8 +1036,10 @@ class PioCli(object):
         #for secret_yaml_filename in secret_yaml_filenames:
             # TODO 
         #    return
-
+        print("")
         print("Starting app '%s'." % app_name)
+        print("Ignore any 'Already Exists' errors.  These are OK.")
+        print("")
         for deploy_yaml_filename in deploy_yaml_filenames:
             try:
                 if 'http:' in deploy_yaml_filename or 'https:' in deploy_yaml_filename:
@@ -836,6 +1097,7 @@ class PioCli(object):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
+            kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
         except:
             print("")
@@ -858,7 +1120,6 @@ class PioCli(object):
             if found:
                 print("Stopping app '%s'." % deploy.metadata.name)
                 subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
-                #self.cluster()
                 print("")
                 print("Check status with 'pio cluster'.")
                 print("")
