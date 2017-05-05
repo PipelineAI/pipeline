@@ -50,11 +50,11 @@ class PioCli(object):
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
                             'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
                             'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
-                            'weavescope': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
-                            'dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.0.yaml'], []),
+                            'weave-scope-app': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
+                            'kubernetes-dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.0.yaml'], []),
                             'heapster': (['metrics.ml/monitoring-standalone/v1.3.0.yaml'], []),
-                            'route53': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
-                            'logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
+                            'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
+                            'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
                            }
 
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
@@ -79,6 +79,7 @@ class PioCli(object):
                          'turbine': (['dashboard.ml/turbine-svc.yaml'], []),
                          'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
+
 
     def _get_default_pio_api_version(self):
         return 'v1'
@@ -171,10 +172,10 @@ class PioCli(object):
         print("")
 
 
-    def proxy(self,
-              app_name,
-              local_port=None,
-              app_port=None):
+    def tunnel(self,
+               app_name,
+               local_port=None,
+               app_port=None):
 
         pio_api_version = self._get_full_config()['pio_api_version']
         try:
@@ -202,18 +203,20 @@ class PioCli(object):
             app_port = svc.spec.ports[0].target_port
 
         if not local_port:
+            print("")
             print("Proxying local port '<randomly-chosen>' to app '%s' port '%s' using pod '%s'." % (app_port, app_name, pod.metadata.name))
             print("")
-            print("Use 'http://localhost:<randomly-chosen>' to access app '%s' on port '%s'." % (app_name, app_port))
+            print("Use 'http://127.0.0.1:<randomly-chosen>' to access app '%s' on port '%s'." % (app_name, app_port))
             print("")
             print("If you break out of this terminal, your proxy session will end.")
             print("")
             subprocess.call('kubectl port-forward %s :%s' % (pod.metadata.name, app_port), shell=True)
             print("")
         else:
+            print("")
             print("Proxying local port '%s' to app '%s' port '%s' using pod '%s'." % (local_port, app_port, app_name, pod.metadata.name))
             print("")
-            print("Use 'http://localhost:%s' to access app '%s' on port '%s'." % (local_port, app_name, app_port))
+            print("Use 'http://127.0.0.1:%s' to access app '%s' on port '%s'." % (local_port, app_name, app_port))
             print("")
             print("If you break out of this terminal, your proxy session will end.")
             print("")
@@ -224,13 +227,20 @@ class PioCli(object):
     # TODO:  Start an airflow job
     def flow(self,
              flow_name):
-        print('Submit airflow coming soon!')
+        print("")
+        print("Submit airflow coming soon!")
 
 
     # TODO:  Submit a spark job
     def submit(self,
                replicas):
-        print('Submit spark job coming soon!')
+        print("Submit spark job coming soon!")
+
+
+    def top(self,
+            app_name=None):
+
+        self.system(app_name)
 
 
     def system(self,
@@ -295,6 +305,13 @@ class PioCli(object):
             for pod in response.items:
                 if (app_name in pod.metadata.name):
                     subprocess.call("kubectl top pod %s" % pod.metadata.name, shell=True)
+        print("")
+
+
+    def join(self,
+             federation):
+        print("")
+        print("Federation joining coming soon!")
         print("")
 
 
@@ -777,8 +794,6 @@ class PioCli(object):
             print("Cluster needs to be configured with 'pio init-cluster'.")
             print("")
             return
-
-        pprint(self._get_full_config())
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
