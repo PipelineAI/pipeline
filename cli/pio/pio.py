@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.37"
+__version__ = "0.38"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -544,7 +544,7 @@ class PioCli(object):
                     print("")
                     print("Success!")
                     print("")
-                    print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/')
+                    print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/'))
                     print("")
             except IOError as e:
                 print("Error while deploying model.  Timeout errors are usually OK.\nError: '%s'" % str(e))
@@ -797,6 +797,12 @@ class PioCli(object):
                 print("%s (%s of %s replicas are running)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
         print("")
    
+
+    def shell(self,
+              app_name):
+
+        self.connect(app_name)
+
  
     def connect(self,
                 app_name):
@@ -1070,6 +1076,7 @@ class PioCli(object):
         #    return
         print("")
         print("Starting app '%s'." % app_name)
+        print("")
         print("Ignore any 'Already Exists' errors.  These are OK.")
         print("")
         for deploy_yaml_filename in deploy_yaml_filenames:
