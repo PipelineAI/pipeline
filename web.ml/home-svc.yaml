@@ -4,8 +4,9 @@ metadata:
   name: web-home 
   labels:
     app: web-home
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: www.your.domain.com
+#    domainName: www.your.domain.com
 spec:
   type: LoadBalancer
   ports:

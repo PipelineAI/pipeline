@@ -6,24 +6,18 @@ cd $PIPELINE_HOME
 sudo docker push fluxcapacitor/package-ubuntu-14.04:$1
 sudo docker push fluxcapacitor/package-ubuntu-16.04:$1
 sudo docker push fluxcapacitor/package-java-openjdk-1.8:$1
-sudo docker push fluxcapacitor/package-spark-2.0.1:$1
 sudo docker push fluxcapacitor/package-spark-2.1.0:$1
-sudo docker push fluxcapacitor/package-kafka-0.8:$1
 sudo docker push fluxcapacitor/package-kafka-0.10:$1
 sudo docker push fluxcapacitor/package-presto-0.167:$1
 sudo docker push fluxcapacitor/package-apache2:$1
 sudo docker push fluxcapacitor/package-gpu-cuda8-16.04:$1
-sudo docker push fluxcapacitor/package-tensorflow-serving-1.0:$1
-sudo docker push fluxcapacitor/package-tensorflow-serving-1.0-gpu:$1
-sudo docker push fluxcapacitor/package-tensorflow-1.0:$1
-sudo docker push fluxcapacitor/package-tensorflow-1.0-gpu:$1
+sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1
 sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1
 
 # apachespark.ml
 sudo docker push fluxcapacitor/apachespark-master-2.1.0:$1
 sudo docker push fluxcapacitor/apachespark-worker-2.1.0:$1
-sudo docker push fluxcapacitor/apachespark-master-2.0.1:$1
-sudo docker push fluxcapacitor/apachespark-worker-2.0.1:$1
+
 # cassandra.ml
 sudo docker push fluxcapacitor/cassandra:$1
 
@@ -63,11 +57,8 @@ sudo docker push fluxcapacitor/loadtest:$1
 sudo docker push fluxcapacitor/metastore-2.1.1:$1
 
 # prediction.ml
-sudo docker push fluxcapacitor/prediction-java:$1
-sudo docker push fluxcapacitor/prediction-keyvalue:$1
-sudo docker push fluxcapacitor/prediction-pmml:$1
-sudo docker push fluxcapacitor/prediction-python:$1
-sudo docker push fluxcapacitor/prediction-spark:$1
+sudo docker push fluxcapacitor/prediction-jvm:$1
+sudo docker push fluxcapacitor/prediction-python3:$1
 sudo docker push fluxcapacitor/prediction-tensorflow:$1
 sudo docker push fluxcapacitor/prediction-tensorflow-gpu:$1
 
@@ -83,7 +74,6 @@ sudo docker push fluxcapacitor/scheduler-airflow:$1
 sudo docker push fluxcapacitor/sql-mysql-master:$1
 
 # stream.ml
-sudo docker push fluxcapacitor/stream-kafka-0.8:$1
 sudo docker push fluxcapacitor/stream-kafka-0.10:$1
 
 # web.ml

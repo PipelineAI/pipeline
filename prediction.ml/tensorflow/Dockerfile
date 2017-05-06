@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-serving-1.0:master
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571:master
 
 WORKDIR /root
 
@@ -37,6 +37,10 @@ ENV \
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY client/ client/
+COPY scripts/ scripts/
+
+ENV \
+  PATH=/root/scripts:$PATH
 
 RUN \
   cd client \
@@ -48,23 +52,46 @@ RUN \
 
 COPY run run
 
-RUN \
-  mkdir -p /root/tensorboard 
-
 ENV \
-  STORE_HOME=/root/store
+  PIO_MODEL_STORE_HOME=/root/model_store
 
 RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/tensorflow/store
+  ln -s /root/volumes/source.ml/prediction.ml/model_store
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
-# Must carry this over in jupyter PYTHONVARS or whatever
-# import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL']='0'
-# import tensorflow as tf
+ENV \
+  PIO_MODEL_SERVER_PORT=9876 
 
-EXPOSE 5678 6006 9000 9001 9002 9040 
+ENV \
+  PIO_MODEL_SERVER_PATH=src/main/python
+
+ENV \
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
+
+ENV \
+  PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
+
+ENV \
+  PIO_MODEL_SERVER_REQUEST_BATCHING=true
+
+# We're installing (duplicate of base Docker image) 
+#   in order to force an error during the Docker build 
+#   if/when the base Docker image changes TF version.
+# When the base Docker image changes TF version, be sure 
+#   to propagate this change to the following:
+#     src/main/python/model/requirements_pio_model_server.txt
+RUN \
+  pip install /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl \
+  && pip uninstall -y /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl
+
+RUN \
+  conda create --yes -n model_environment_python3 python=3.5
+
+RUN \
+  create_model_server_environment_python3
+
+EXPOSE 9876 9000 9040 8080
 
 CMD ["supervise", "."]

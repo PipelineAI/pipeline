@@ -1,0 +1,22 @@
+#!/bin/bash
+
+export PIO_MODEL_PATH=${PIO_MODEL_STORE_HOME}/${PIO_MODEL_TYPE}/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}
+export PIO_MODEL_BASE_PATH=${PIO_MODEL_PATH}/..
+
+echo ""
+echo "Starting TensorFlow Serving..."
+echo ""
+echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
+echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
+echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+echo "PIO_MODEL_VERSION=$PIO_MODEL_VERSION"
+echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+echo "PIO_MODEL_TENSORFLOW_SERVING_PORT=$PIO_MODEL_TENSORFLOW_SERVING_PORT"
+echo "PIO_MODEL_SERVER_REQUEST_BATCHING=$PIO_MODEL_SERVER_REQUEST_BATCHING"
+echo "PIO_MODEL_BASE_PATH=$PIO_MODEL_BASE_PATH"
+# Args:
+#  $1: grpc port number (int)
+#  $2: model_name (anything)
+#  $3: /<namespace>/<model_name>/<version> (path above all the /<version>/ paths)
+#  $4: request batching (true|false)
+$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server --port=$PIO_MODEL_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_BASE_PATH --enable_batching=$PIO_MODEL_SERVER_REQUEST_BATCHING --file_system_poll_wait_seconds=5

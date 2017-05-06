@@ -1,3 +1,8 @@
 #!/bin/bash
 
-java -Djava.security.egd=file:/dev/./urandom -jar target/turbine-server-0.0.1-SNAPSHOT.jar  
+source sysutils/container-limits.sh
+
+export JAVA_MAX_MEM_RATIO=85
+export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+
+java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -jar target/turbine-server-0.0.1-SNAPSHOT.jar  

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-python3
+  labels:
+    app: prediction-python3
+#      dns: route53
+#    annotations:
+#      domainName: prediction-python3.your.domain.com
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http-model-server
+    port: 80
+    targetPort: 9876
+  - name: grpc-tensorflow-serving
+    port: 9000
+    targetPort: 9000
+  - name: prometheus
+    port: 8080
+    targetPort: 8080
+  selector:    
+    app: prediction-python3

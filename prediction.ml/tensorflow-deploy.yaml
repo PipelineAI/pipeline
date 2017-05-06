@@ -18,22 +18,33 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
-        prometheus.io/port: "9040"
+        prometheus.io/port: "8080"
     spec:
       containers:
       - name: prediction-tensorflow
         image: docker.io/fluxcapacitor/prediction-tensorflow:master
         resources:
           limits:
-            cpu: 8000m
-            memory: 8000Mi
-          requests:
             cpu: 1000m
-            memory: 1000Mi 
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_TYPE
+          value: tensorflow 
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: tensorflow_linear
+        - name: PIO_MODEL_VERSION
+          value: "0"
         ports:
         - containerPort: 9040
+        - containerPort: 9876
+        - containerPort: 9000
+        - containerPort: 8080
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes
@@ -42,4 +53,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-

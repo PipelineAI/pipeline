@@ -4,8 +4,9 @@ metadata:
   name: keyvalue-redis-master 
   labels:
     app: keyvalue-redis-master
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: redis.your.domain.com
+#    domainName: "redis.your.domain.com"
 spec:
   type: LoadBalancer
   ports:

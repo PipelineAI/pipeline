@@ -21,10 +21,10 @@ spec:
         resources:
           limits:
             cpu: 1000m
-            memory: 3000Mi
+            memory: 1000Mi
           requests:
             cpu: 100m
-            memory: 300Mi
+            memory: 100Mi
         env:
         - name: GET_HOSTS_FROM
           value: env

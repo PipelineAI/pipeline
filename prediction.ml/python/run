@@ -1,7 +1,0 @@
-#!/bin/bash
-
-create_environment
-
-spawn_bundle_server &
-
-spawn_model_server 

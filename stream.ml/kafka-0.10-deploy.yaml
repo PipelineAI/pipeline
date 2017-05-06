@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment 
+metadata:
+  name: kafka-0-10
+  labels:
+    app: kafka-0-10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-0-10
+  template:
+    metadata:
+      labels:
+        app: kafka-0-10
+    spec:
+      containers:
+      - name: kafka-0-10
+        image: docker.io/fluxcapacitor/stream-kafka-0.10:master
+        imagePullPolicy: "Always"
+        env:
+        - name: TOPIC_NAME
+          value: item_ratings
+        - name: NUM_PARTITIONS
+          value: "1"
+        - name: NUM_REPLICAS
+          value: "1"
+        ports:
+        - containerPort: 9092
+        - containerPort: 8082
+        - containerPort: 8081

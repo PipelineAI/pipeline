@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source activate root
+
+# Activate it.
+source activate model_environment_python3
+
+# Install the pio model-server requirements (conda, pip/custom wheel)
+# conda
+[ -s ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt ] && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt
+# pip
+[ -s ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt ] && pip install -r ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt

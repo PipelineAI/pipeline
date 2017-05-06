@@ -27,3 +27,5 @@ ENV \
 
 ENV \
   PATH=$MAVEN_HOME/bin:$PATH
+
+COPY sysutils/ sysutils/

@@ -19,11 +19,11 @@ spec:
         image: docker.io/fluxcapacitor/jupyterhub:master
         resources:
           limits:
-            cpu: 500m
-            memory: 2500Mi
+            cpu: 1000m
+            memory: 2000Mi
           requests:
             cpu: 100m
-            memory: 500Mi
+            memory: 200Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
@@ -35,6 +35,7 @@ spec:
         ports:
         - containerPort: 6006
         - containerPort: 8754
+        - containerPort: 8755
         volumeMounts:
 #          - name: kube-config-secret-volume
 #            readOnly: true

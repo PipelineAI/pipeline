@@ -1,6 +1,6 @@
 FROM fluxcapacitor/package-ubuntu-16.04:master
 
-ENV KUBERNETES_VERSION=1.6.1
+ENV KUBERNETES_VERSION=1.6.2
 
 WORKDIR /root
 
@@ -13,3 +13,6 @@ RUN \
 
 RUN \
   mkdir -p ~/.kube
+
+RUN \
+  pip install pio-cli==0.32

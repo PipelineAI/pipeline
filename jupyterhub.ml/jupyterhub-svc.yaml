@@ -4,14 +4,18 @@ metadata:
   name: jupyterhub
   labels:
     app: jupyterhub
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: jupyter.your.domain.com
+#    domainName: "jupyter.your.domain.com"
 spec:
   type: LoadBalancer
   ports:
   - name: jupyterhub
     port: 80 
     targetPort: 8754
+  - name: jupyterhub-api-proxy
+    port: 81
+    targetPort: 8755
   - name: tensorboard
     port: 6006
     targetPort: 6006

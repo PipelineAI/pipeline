@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cd /root/pipeline && git pull -s recursive -X theirs

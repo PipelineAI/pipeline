@@ -14,7 +14,7 @@ RUN \
   && apt-get install -y libmysqlclient-dev
 
 RUN \
-  pip install mysqlclient
+  pip install mysqlclient==1.3.10
 
 #RUN \
 #  echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list \
@@ -36,7 +36,7 @@ RUN \
   && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
 
 ENV \
-  KUBERNETES_VERSION=1.5.1
+  KUBERNETES_VERSION=1.6.2
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -50,9 +50,9 @@ RUN \
   && cd $AIRFLOW_HOME
 
 RUN \
-  pip install airflow==1.7.1.3 \
-  && pip install celery[redis] \
-  && pip install flower
+  pip install airflow==1.8.0 \
+  && pip install celery[redis]==4.0.2 \
+  && pip install flower==0.9.1
 
 RUN \
   pip install tensorflow==1.0.1

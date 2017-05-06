@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo ""
+echo "Starting JVM-based Http Grpc Proxy..."
+echo ""
+echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
+echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
+echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+echo "PIO_MODEL_VERSION=$PIO_MODEL_VERSION"
+echo "PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT"
+echo "PIO_MODEL_TENSORFLOW_SERVING_PORT=$PIO_MODEL_TENSORFLOW_SERVING_PORT"
+
+cd ~
+java -Djava.security.egd=file:/dev/./urandom -Djava.library.path=lib/jni/ -cp lib/libtensorflow-1.0.0-PREVIEW1.jar:target/tensorflow-prediction-client-1.0-SNAPSHOT.jar -jar lib/sbt-launch.jar "run-main io.pipeline.prediction.tensorflow.PredictionServiceMain"
