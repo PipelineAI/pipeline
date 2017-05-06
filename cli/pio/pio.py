@@ -1157,6 +1157,7 @@ class PioCli(object):
                     found = True
                     break
             if found:
+                print("")
                 print("Stopping app '%s'." % deploy.metadata.name)
                 subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
                 print("")
