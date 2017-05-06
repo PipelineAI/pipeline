@@ -27,6 +27,7 @@ ENV LOGS_HOME=/root/logs
 ENV \
   PIO_MODEL_STORE_HOME=/root/model_store
 
+COPY sysutils/ sysutils/
 COPY src/ src/
 COPY build.sbt build.sbt
 COPY lib/ lib/
