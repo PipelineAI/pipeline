@@ -123,7 +123,7 @@ RUN \
   && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... \
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... \
   && rm -rf /root/.cache/bazel
 
 ENV \
@@ -145,7 +145,7 @@ RUN \
 #RUN \
 #  cd $TENSORFLOW_HOME \
 #  && tensorflow/tools/ci_build/builds/configured GPU \
-#  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/... \
+#  && bazel build --local_resources 5000,1.0,1.0 -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/... \
 #  && rm -rf /root/.cache/bazel
 
 # This configuration was inspired by the following resources:
@@ -171,7 +171,7 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build --config=cuda \
+  && bazel build --local_resources 5000,1.0,1.0 --config=cuda \
     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
     --test_tag_filters=-no_gpu,-benchmark-test -k \
     --jobs=${N_JOBS} \

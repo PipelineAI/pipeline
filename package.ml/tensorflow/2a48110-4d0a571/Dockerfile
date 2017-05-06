@@ -76,9 +76,9 @@ RUN \
 # Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
- && cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard 4d0a571ff9c15b937f58d3d5e97a5310b5decf2b
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
+# && cd $TENSORFLOW_SERVING_HOME \
+# && git reset --hard 4d0a571ff9c15b937f58d3d5e97a5310b5decf2b
    # be83fe98104f26362dd2819d20b53ffac9b8f592
 
 ENV TF_NEED_CUDA=0
@@ -100,7 +100,8 @@ RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commodity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... 
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... 
+#  && bazel build -k //tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -113,7 +114,7 @@ ENV \
 
 # Cloned on 3/30/2017
 RUN \
- git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git
+ git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git \
  && cd $TENSORFLOW_HOME \
  && git reset --hard 2a4811054a9e6b83e1f5a2705a92aab50e151b13
 
@@ -121,7 +122,7 @@ RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... 
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... 
 
 RUN \
   cd $TENSORFLOW_HOME \
