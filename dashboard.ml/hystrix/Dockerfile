@@ -12,25 +12,26 @@ FROM fluxcapacitor/package-java-openjdk-1.8:master
 #  at the end in order to pre-bake the dependencies into the Docker image.  This saves time and network bandwidth later.
 #
 ENV \
- HYSTRIX_VERSION=1.5.3 \
- SPRING_CORE_VERSION=4.3.0.RELEASE \
- SPRING_BOOT_VERSION=1.3.5.RELEASE \
- SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
+  HYSTRIX_VERSION=1.5.3 \
+  SPRING_CORE_VERSION=4.3.0.RELEASE \
+  SPRING_BOOT_VERSION=1.3.5.RELEASE \
+  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
+  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
 
 WORKDIR /root
 
 RUN \
- apt-get update
+  apt-get update
 
 # Hystrix Dashboard
-#RUN \
-# && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar
-
-COPY src/ src/
 RUN \
-  cd src \
-  && jar -cvf ../standalone-hystrix-pipelineio-dashboard-${HYSTRIX_VERSION}-all.jar * 
+  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar
+
+COPY sysutils/ sysutils/
+#COPY src/ src/
+#RUN \
+#  cd src \
+#  && jar -cvf ../standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar * 
 
 RUN \
   mkdir -p /root/logs
