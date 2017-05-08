@@ -1,8 +1,8 @@
 import tensorflow as tf
 
 filename_queue = tf.train.string_input_producer([
-  "hdfs://127.0.0.1:39000/linear/train.csv",
-  "hdfs://127.0.0.1:39000/linear/test.csv",
+  "hdfs://127.0.0.1:39000/linear/training.csv",
+  "hdfs://127.0.0.1:39000/linear/validation.csv",
 ])
 
 reader = tf.TextLineReader()
