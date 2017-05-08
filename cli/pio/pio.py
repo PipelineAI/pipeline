@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.39"
+__version__ = "0.40"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -1037,6 +1037,13 @@ class PioCli(object):
         try: 
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        try:
             pio_git_home = self._get_full_config()['pio_git_home']
 
             if 'http:' in pio_git_home or 'https:' in pio_git_home:
@@ -1049,7 +1056,7 @@ class PioCli(object):
             pio_git_version = self._get_full_config()['pio_git_version']
         except:
             print("")
-            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("PipelineIO needs to be configured with 'pio init-pio'.")
             print("")
             return
 
