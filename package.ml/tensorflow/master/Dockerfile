@@ -102,7 +102,7 @@ RUN \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commodity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
 # --jobs 1 is from here:  https://github.com/tensorflow/serving/issues/379
-  && bazel build --local_resources 10000,1.0,1.0 --verbose_failures -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... 
+  && bazel build --local_resources 50000,1.0,1.0 --verbose_failures -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... 
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -123,7 +123,7 @@ RUN \
   && tensorflow/tools/ci_build/builds/configured CPU \
 # Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commodity AWS EC2 instance types (ie. r3.2xlarge) do not support these optimizations
 # --jobs 1 is from here:  https://github.com/tensorflow/serving/issues/379
-  && bazel build --local_resources 10000,1.0,1.0 --verbose_failures -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... 
+  && bazel build --local_resources 50000,1.0,1.0 --verbose_failures -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... 
 
 RUN \
   cd $TENSORFLOW_HOME \
