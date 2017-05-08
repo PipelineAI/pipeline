@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.38"
+__version__ = "0.40"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -525,7 +525,7 @@ class PioCli(object):
             upload_key = 'file'
             upload_value = os.path.split(model_path)
 
-        full_model_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
@@ -583,7 +583,7 @@ class PioCli(object):
         print('model_input_filename: %s' % model_input_filename)
         print('request_timeout: %s' % request_timeout)
 
-        full_model_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
         print("")
         print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_filename, model_type, model_namespace, model_name, model_version, full_model_url))
         print("")
@@ -1037,6 +1037,13 @@ class PioCli(object):
         try: 
             kube_cluster_context = self._get_full_config()['kube_cluster_context']
             kube_namespace = self._get_full_config()['kube_namespace']
+        except:
+            print("")
+            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("")
+            return
+
+        try:
             pio_git_home = self._get_full_config()['pio_git_home']
 
             if 'http:' in pio_git_home or 'https:' in pio_git_home:
@@ -1049,7 +1056,7 @@ class PioCli(object):
             pio_git_version = self._get_full_config()['pio_git_version']
         except:
             print("")
-            print("Cluster needs to be configured with 'pio init-cluster'.")
+            print("PipelineIO needs to be configured with 'pio init-pio'.")
             print("")
             return
 
