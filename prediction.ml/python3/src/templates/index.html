@@ -18,13 +18,13 @@
     <h3>Upload New Model Version</h3>
     <pre><code>
     curl -X POST -F bundle=@/path/to/bundle.tar.gz \
-      http://prediction-python3.pipeline.demo.pipeline.io/v1/{model_type}/model_namespace}/{model_name}/{model_version}
+      http://prediction-python3.pipeline.demo.pipeline.io/api/v1/{model_type}/model_namespace}/{model_name}/{model_version}
     </code></pre>
 
     <h3>Predict</h3>
     <pre><code>
     curl -X POST -H "Content-Type: application/json" -d '{requestBody}' \
-      http://prediction-python3.pipeline.demo.io/v1/{model_type}/{model_namespace}/{model_name}/{model_version}
+      http://prediction-python3.pipeline.demo.io/api/v1/{model_type}/{model_namespace}/{model_name}/{model_version}
     </code></pre>
 
     <h3>Key Parameters</h3>

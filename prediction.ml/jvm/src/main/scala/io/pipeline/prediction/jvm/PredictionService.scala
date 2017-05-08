@@ -62,7 +62,7 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
 
-//  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
+//  @RequestMapping(path=Array("/api/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
 //                  method=Array(RequestMethod.POST)
 //                  //produces=Array("application/json; charset=UTF-8")
 //                  )
@@ -106,7 +106,7 @@ class PredictionService {
 //    }
 //  }
   
-  @RequestMapping(path=Array("/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
@@ -148,9 +148,9 @@ class PredictionService {
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d {"id":"21618"} \
-      http://[hostname]:[port]/v1/model/predict/java/default/java_equals/1
+      http://[hostname]:[port]/api/v1/model/predict/java/default/java_equals/1
 */
-  @RequestMapping(path=Array("/v1/model/predict/java/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def predictJava(@PathVariable("namespace") namespace: String, 
@@ -206,7 +206,7 @@ class PredictionService {
     }   
   }
 
-//  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
+//  @RequestMapping(path=Array("/api/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
 //                  method=Array(RequestMethod.POST),
 //                  produces=Array("application/xml; charset=UTF-8"))
 //  def deployPmmlString(@PathVariable("namespace") namespace: String, 
@@ -254,7 +254,7 @@ class PredictionService {
 //    }
 //  }
   
-  @RequestMapping(path=Array("/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
@@ -293,7 +293,7 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }
  
-  @RequestMapping(path=Array("/v1/model/predict/pmml/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def predictPmml(@PathVariable("namespace") namespace: String, 
@@ -345,7 +345,7 @@ class PredictionService {
     }
   }  
   
-  @RequestMapping(path=Array("/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def prediction(@PathVariable("namespace") namespace: String,
                  @PathVariable("collection") collection: String,
@@ -364,7 +364,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def batchPrediction(@PathVariable("namespace") namespace: String,
                       @PathVariable("collection") collection: String,
@@ -383,7 +383,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{startIdx}/{endIdx}"), 
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{startIdx}/{endIdx}"), 
                   produces=Array("application/json; charset=UTF-8"))
   def recommendations(@PathVariable("namespace") namespace: String,
                       @PathVariable("collection") collection: String,
@@ -405,7 +405,7 @@ class PredictionService {
     }
   }
 
-  @RequestMapping(path=Array("/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{itemId}/{startIdx}/{endIdx}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{itemId}/{startIdx}/{endIdx}"),
                   produces=Array("application/json; charset=UTF-8"))
   def similars(@PathVariable("namespace") namespace: String,
                @PathVariable("collection") collection: String,
@@ -426,8 +426,8 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/v1/model/deploy/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/api/v1/model/deploy/spark/[namespace]/[model_name]/[version]
+  @RequestMapping(path=Array("/api/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def deploySpark(@PathVariable("namespace") namespace: String,
                   @PathVariable("modelName") modelName: String, 
@@ -466,8 +466,8 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "input=@input.json" \
-  //  http://[host]:[port]/v1/model/predict/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/v1/model/predict/spark/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/api/v1/model/predict/spark/[namespace]/[model_name]/[version]
+  @RequestMapping(path=Array("/api/v1/model/predict/spark/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
     def predictSpark(@PathVariable("namespace") namespace: String,

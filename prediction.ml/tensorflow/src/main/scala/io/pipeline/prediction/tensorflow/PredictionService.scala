@@ -42,9 +42,9 @@ class PredictionService {
 /*  
  curl -i -X POST -v -H "Transfer-Encoding: chunked" \
    -F "model=@tensorflow_inception_graph.pb" \
-   http://[host]:[port]/v1/update-tensorflow/default/tensorflow_inception/1
+   http://[host]:[port]/api/v1/update-tensorflow/default/tensorflow_inception/1
 */
-  @RequestMapping(path=Array("/v1/model/deploy/tensorflow/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/deploy/tensorflow/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def updateTensorflow(@PathVariable("namespace") namespace: String,
                        @PathVariable("modelName") modelName: String, 
@@ -81,7 +81,7 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }
 
-  @RequestMapping(path=Array("/v1/model/predict/tensorflow-grpc/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/tensorflow-grpc/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def predictTensorFlowGrpc(@PathVariable("namespace") namespace: String,
@@ -107,7 +107,7 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/v1/model/predict/tensorflow-java/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/tensorflow-java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
   def evaluateTensorflowNative(@PathVariable("namespace") namespace: String,
@@ -136,9 +136,9 @@ class PredictionService {
 /*  
    curl -i -X POST -v -H "Transfer-Encoding: chunked" \
     -F "image=@1.jpg" \
-    http://[host]:[port]/v1/model/predict/tensorflow-java-with-image/default/tensorflow_inception/1
+    http://[host]:[port]/api/v1/model/predict/tensorflow-java-with-image/default/tensorflow_inception/1
 */
-  @RequestMapping(path=Array("/v1/model/predict/tensorflow-java-with-image/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/tensorflow-java-with-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def preidctTensorFlowJavaWithImage(@PathVariable("namespace") namespace: String,
                                       @PathVariable("modelName") modelName: String,
@@ -178,8 +178,8 @@ class PredictionService {
   
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  -F "image=@1.jpg" \
-  //  http://[host]:[port]/v1/evaluate-tensorflow-grpc-image/default/tensorflow_inception/1
-  @RequestMapping(path=Array("/v1/model/predict/tensorflow-grpc-with-image/{namespace}/{modelName}/{version}"),
+  //  http://[host]:[port]/api/v1/evaluate-tensorflow-grpc-image/default/tensorflow_inception/1
+  @RequestMapping(path=Array("/api/v1/model/predict/tensorflow-grpc-with-image/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST))
   def predictTensorFlowGrpcWithImage(@PathVariable("namespace") namespace: String,
                                       @PathVariable("modelName") modelName: String,
