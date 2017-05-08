@@ -525,7 +525,7 @@ class PioCli(object):
             upload_key = 'file'
             upload_value = os.path.split(model_path)
 
-        full_model_url = "%s/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
@@ -583,7 +583,7 @@ class PioCli(object):
         print('model_input_filename: %s' % model_input_filename)
         print('request_timeout: %s' % request_timeout)
 
-        full_model_url = "%s/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
         print("")
         print("Predicting file '%s' with model '%s/%s/%s/%s' at '%s'..." % (model_input_filename, model_type, model_namespace, model_name, model_version, full_model_url))
         print("")
