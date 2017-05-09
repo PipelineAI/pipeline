@@ -92,6 +92,7 @@ ENV TF_CUDNN_VERSION=5
 ENV CUDA_PATH="/usr/local/cuda"
 ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
 ENV CUDNN_INSTALL_PATH=$CUDA_PATH
+ENV PYTHON_BIN_PATH=/opt/conda/bin/python
 ENV CC_OPT_FLAGS="-march=native"
 ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7
 # Check the required COMPUTE_CAPABILITIES from the following link:
@@ -116,21 +117,22 @@ ENV \
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n\n\n" | ./configure 
+  && yes "" | ./configure
+#  && printf "\n\n\n\n\n" | ./configure 
 
 RUN \  
   cd $TENSORFLOW_SERVING_HOME \
   && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build --local_resources 5000,1.0,1.0 -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... \
+  && bazel build --local_resources 10000,1.0,1.0 -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... \
   && rm -rf /root/.cache/bazel
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
 # Configure the build for our CUDA configuration.
-ENV CI_BUILD_PYTHON python
+ENV CI_BUILD_PYTHON=$PYTHON_BIN_PATH
 ENV TF_ENABLE_XLA=1
 
 # Need this inside Docker for nvidia-docker build step HACK
@@ -170,11 +172,12 @@ RUN \
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n\n\n" | ./configure
+  && yes "" | ./configure
+##  && printf "\n\n\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && bazel build --local_resources 5000,1.0,1.0 --config=cuda \
+  && bazel build --local_resources 10000,1.0,1.0 --config=cuda \
     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
     --test_tag_filters=-no_gpu,-benchmark-test -k \
     --jobs=${N_JOBS} \
