@@ -87,6 +87,7 @@ ENV TF_NEED_JEMALLOC=1
 ENV TF_NEED_HDFS=1
 ENV TF_NEED_OPENCL=0
 ENV TF_ENABLE_XLA=0
+ENV PYTHON_BIN_PATH=/opt/conda/bin/python
 ENV CC_OPT_FLAGS="-march=native"
 
 ENV \
@@ -94,7 +95,8 @@ ENV \
 
 RUN \
   cd $TENSORFLOW_HOME \
-  && printf "\n\n\n" | ./configure
+#  && printf "\n\n\n" | ./configure
+  && yes "" | ./configure
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
@@ -106,7 +108,7 @@ RUN \
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
 
-ENV CI_BUILD_PYTHON python
+ENV CI_BUILD_PYTHON=$PYTHON_BIN_PATH
 ENV TF_ENABLE_XLA=1
 
 ENV \
