@@ -25,6 +25,7 @@ import dill as pickle
 from git import Repo
 from pprint import pprint
 import subprocess
+from datetime import timedelta
 
 class PioCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
@@ -559,6 +560,35 @@ class PioCli(object):
             os.remove(model_file)
 
 
+    def predict_many(self,
+                     model_version,
+                     model_input_filename,
+                     request_timeout=30,
+                     concurrent_iters=10,
+                     max_iters=100):
+
+        pio_api_version = self._get_full_config()['pio_api_version']
+
+        try:
+            model_server_url = self._get_full_config()['model_server_url']
+            model_type = self._get_full_config()['model_type']
+            model_namespace = self._get_full_config()['model_namespace']
+            model_name = self._get_full_config()['model_name']
+            model_input_mime_type = self._get_full_config()['model_input_mime_type']
+            model_output_mime_type = self._get_full_config()['model_output_mime_type']
+        except:
+            print("")
+            print("Model needs to be configured with 'pio model-init'.")
+            print("")
+            return
+        
+        for _ in max_iters:
+            self.predict(model_version, 
+                         model_input_filename, 
+                         request_timeout)
+
+      
+
     def predict(self, 
                 model_version, 
                 model_input_filename,
@@ -598,7 +628,7 @@ class PioCli(object):
         pprint(response.text)
         print("")
 
-
+     
     def cluster(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
