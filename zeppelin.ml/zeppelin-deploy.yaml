@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: zeppelin
-        image: docker.io/fluxcapacitor/zeppelin:master
+        image: docker.io/fluxcapacitor/zeppelin:v1.2.0
         resources:
           limits:
             cpu: 1000m
@@ -53,4 +53,4 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
-            revision: "master"
+            revision: "v1.2.0"

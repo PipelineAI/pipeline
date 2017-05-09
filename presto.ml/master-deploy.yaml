@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: presto-master
-        image: docker.io/fluxcapacitor/presto-master-0.167:master
+        image: docker.io/fluxcapacitor/presto-master-0.167:v1.2.0
         resources:
           limits:
             cpu: 1000m

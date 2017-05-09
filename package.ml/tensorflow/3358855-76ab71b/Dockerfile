@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04:master
+FROM fluxcapacitor/package-ubuntu-16.04:v1.2.0
 
 WORKDIR /root
 
@@ -95,7 +95,6 @@ ENV \
 RUN \
   cd $TENSORFLOW_HOME \
   && yes "" | ./configure
-  #&& printf "\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \

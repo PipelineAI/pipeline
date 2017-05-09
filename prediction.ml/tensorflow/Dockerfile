@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571:master
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571:v1.2.0
 
 WORKDIR /root
 
