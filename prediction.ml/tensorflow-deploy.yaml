@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: prediction-tensorflow
-        image: docker.io/fluxcapacitor/prediction-tensorflow:v1.2.0
+        image: docker.io/fluxcapacitor/prediction-tensorflow:master
         resources:
           limits:
             cpu: 1000m
@@ -52,4 +52,4 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "v1.2.0"
+            revision: "master"

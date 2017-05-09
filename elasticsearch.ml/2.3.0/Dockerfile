@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-java-openjdk-1.8:v1.2.0
+FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 RUN \
   adduser --system --disabled-password --gecos '' elasticsearch  \
