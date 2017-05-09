@@ -95,7 +95,6 @@ ENV \
 RUN \
   cd $TENSORFLOW_HOME \
   && yes "" | ./configure
-  #&& printf "\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
