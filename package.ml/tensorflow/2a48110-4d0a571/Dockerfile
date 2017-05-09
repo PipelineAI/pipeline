@@ -76,7 +76,7 @@ RUN \
 # Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git 
+ && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
  && cd $TENSORFLOW_SERVING_HOME \
  && git reset --hard 4d0a571ff9c15b937f58d3d5e97a5310b5decf2b
 
