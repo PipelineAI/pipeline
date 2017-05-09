@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: prediction-jvm
+  name: prediction-java
   labels:
-    app: prediction-jvm
+    app: prediction-java
     hystrix.enabled: "true"
 #    dns: route53
 #  annotations:
-#    domainName: "prediction-jvm.your.domain.com"
+#    domainName: "prediction-java.your.domain.com"
 spec:
   type: LoadBalancer
   ports:
-  - name: prediction-jvm
+  - name: prediction-java
     port: 80 
     targetPort: 9040 
   selector:
-    app: prediction-jvm
+    app: prediction-java
     hystrix.enabled: "true" 

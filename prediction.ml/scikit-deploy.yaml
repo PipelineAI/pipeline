@@ -1,26 +1,26 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: prediction-python3
+  name: prediction-scikit
   labels:
-    name: prediction-python3
-    app: prediction-python3
+    name: prediction-scikit
+    app: prediction-scikit
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: prediction-python3
+      app: prediction-scikit
   template:
     metadata:
       labels:
-        app: prediction-python3
+        app: prediction-scikit
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
         prometheus.io/port: "8080"
     spec:
       containers:
-      - name: prediction-python3
+      - name: prediction-scikit
         image: docker.io/fluxcapacitor/prediction-python3:master
         resources:
           limits:
@@ -32,11 +32,11 @@ spec:
         imagePullPolicy: "Always"
         env:
         - name: PIO_MODEL_TYPE
-          value: python3
+          value: scikit
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME
-          value: python3_zscore
+          value: scikit_balancescale
         - name: PIO_MODEL_VERSION
           value: v0
         ports:

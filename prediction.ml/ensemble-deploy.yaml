@@ -1,26 +1,26 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: prediction-python3
+  name: prediction-ensemble
   labels:
-    name: prediction-python3
-    app: prediction-python3
+    name: prediction-ensemble
+    app: prediction-ensemble
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: prediction-python3
+      app: prediction-ensemble
   template:
     metadata:
       labels:
-        app: prediction-python3
+        app: prediction-ensemble
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
         prometheus.io/port: "8080"
     spec:
       containers:
-      - name: prediction-python3
+      - name: prediction-ensemble
         image: docker.io/fluxcapacitor/prediction-python3:master
         resources:
           limits:
@@ -32,11 +32,11 @@ spec:
         imagePullPolicy: "Always"
         env:
         - name: PIO_MODEL_TYPE
-          value: python3
+          value: ensemble
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME
-          value: python3_zscore
+          value: ensemble_scikit_tensorflow_linear
         - name: PIO_MODEL_VERSION
           value: v0
         ports:
