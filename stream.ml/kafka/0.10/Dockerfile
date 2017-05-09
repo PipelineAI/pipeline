@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-kafka-0.10:master
+FROM fluxcapacitor/package-kafka-0.10:v1.2.0
 
 WORKDIR /root
 

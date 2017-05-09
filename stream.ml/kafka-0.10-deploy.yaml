@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: kafka-0-10
-        image: docker.io/fluxcapacitor/stream-kafka-0.10:master
+        image: docker.io/fluxcapacitor/stream-kafka-0.10:v1.2.0
         imagePullPolicy: "Always"
         env:
         - name: TOPIC_NAME

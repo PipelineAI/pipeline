@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: loadtest
-        image: docker.io/fluxcapacitor/loadtest:master
+        image: docker.io/fluxcapacitor/loadtest:v1.2.0
         imagePullPolicy: "Always"
         env:
         - name: TEST_PATHNAMES
