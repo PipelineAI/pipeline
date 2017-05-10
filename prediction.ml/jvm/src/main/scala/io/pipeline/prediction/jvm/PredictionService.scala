@@ -455,7 +455,8 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
+  // Note that "keyvalue-batch" is a one-off.  Fix this.
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue-batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def batchPredictKeyValue(@PathVariable("namespace") namespace: String,
                            @PathVariable("collection") collection: String,
