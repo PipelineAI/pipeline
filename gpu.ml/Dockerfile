@@ -187,6 +187,7 @@ ENV \
 
 RUN \
   conda install --yes graphviz \
+  && conda install --yes cudatoolkit \
   && conda install --yes numba
 
 RUN \
