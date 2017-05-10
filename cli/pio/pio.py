@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.41"
+__version__ = "0.42"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -50,6 +50,7 @@ class PioCli(object):
                             'prediction-python3': (['prediction.ml/python3-deploy.yaml'], []),
                             'prediction-scikit': (['prediction.ml/scikit-deploy.yaml'], []),
                             'prediction-pmml': (['prediction.ml/pmml-deploy.yaml'], []),
+                            'prediction-spark': (['prediction.ml/spark-deploy.yaml'], []),
                             'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
                             'prediction-tensorflow-gpu': (['prediction.ml/tensorflow-gpu-deploy.yaml'], []),
                             'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
@@ -80,6 +81,7 @@ class PioCli(object):
                          'prediction-java': (['prediction.ml/java-svc.yaml'], []),
                          'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
                          'prediction-scikit': (['prediction.ml/scikit-svc.yaml'], []),
+                         'prediction-spark': (['prediction.ml/spark-svc.yaml'], []),
                          'prediction-pmml': (['prediction.ml/pmml-svc.yaml'], []),
                          'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
                          'prediction-tensorflow-gpu': (['prediction.ml/tensorflow-gpu-svc.yaml'], []),
@@ -316,7 +318,8 @@ class PioCli(object):
         
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
+                                                                 pretty=True)
             for pod in response.items:
                 if (app_name in pod.metadata.name):
                     subprocess.call("kubectl top pod %s" % pod.metadata.name, shell=True)
@@ -657,7 +660,8 @@ class PioCli(object):
         print("**************************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_service_for_all_namespaces(watch=False, 
+                                                                     pretty=True)
             for svc in response.items:
                 ingress = 'Not public' 
                 if svc.status.load_balancer.ingress and len(svc.status.load_balancer.ingress) > 0:
@@ -672,7 +676,8 @@ class PioCli(object):
         print("************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
+                                                                 pretty=True)
             for pod in response.items:
                 print("%s (%s)" % (pod.metadata.name, pod.status.phase))
 
@@ -708,7 +713,7 @@ class PioCli(object):
         found = False 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, pretty=True)
             for pod in response.items:
                 if app_name in pod.metadata.name:
                     found = True
@@ -739,7 +744,8 @@ class PioCli(object):
         found = False
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_service(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_service_for_all_namespaces(watch=False, 
+                                                                     pretty=True)
             for svc in response.items:
                 if app_name in svc.metadata.name:
                     found = True
@@ -826,9 +832,8 @@ class PioCli(object):
         print("************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace,
-                                                                      watch=False,
-                                                                      pretty=True)
+            response = kubeclient_v1_beta1.list_deployment_for_all_namespaces(watch=False,
+                                                                              pretty=True)
             for deploy in response.items:
                 print("%s (%s of %s replicas are running)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
         print("")
@@ -860,7 +865,8 @@ class PioCli(object):
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
+                                                                 pretty=True)
             for pod in response.items:
                 if app_name in pod.metadata.name:
                     break
@@ -891,7 +897,8 @@ class PioCli(object):
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1.list_namespaced_pod(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
+                                                                 pretty=True)
             found = False
             for pod in response.items:
                 if app_name in pod.metadata.name:
@@ -930,7 +937,8 @@ class PioCli(object):
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1_beta1.list_deployment_for_all_namespaces(watch=False, 
+                                                                              pretty=True)
             found = False
             for deploy in response.items:
                 if app_name in deploy.metadata.name:
@@ -1193,7 +1201,7 @@ class PioCli(object):
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            response = kubeclient_v1_beta1.list_namespaced_deployment(namespace=kube_namespace, watch=False, pretty=True)
+            response = kubeclient_v1_beta1.list_deployment_for_all_namespaces(watch=False, pretty=True)
             found = False
             for deploy in response.items:
                 if app_name in deploy.metadata.name:
