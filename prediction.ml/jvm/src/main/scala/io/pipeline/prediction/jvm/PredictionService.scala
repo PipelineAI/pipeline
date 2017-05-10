@@ -345,6 +345,97 @@ class PredictionService {
     }
   }  
   
+  @RequestMapping(path=Array("/api/v1/model/deploy/xgboost/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST)
+                  //produces=Array("application/json; charset=UTF-8")
+                  )
+  def deployXgboostFile(@PathVariable("namespace") namespace: String, 
+                        @PathVariable("modelName") modelName: String,
+                        @PathVariable("version") version: String,
+                        @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
+
+    var inputStream: InputStream = null
+
+    try {
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()
+  
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'model' multipart file
+      inputStream = file.getInputStream()
+  
+      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+    
+    new ResponseEntity(HttpStatus.OK)
+  }
+ 
+  @RequestMapping(path=Array("/api/v1/model/predict/xgboost/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def predictXgboost(@PathVariable("namespace") namespace: String, 
+                  @PathVariable("modelName") modelName: String, 
+                  @PathVariable("version") version: String,
+                  @RequestBody inputJson: String): String = {
+    try {
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
+      
+      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + modelName + "/" + version)
+
+      val modelEvaluator = modelEvaluatorOption match {
+        case None => {     
+          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
+          val transformedSource = ImportFilter.apply(new InputSource(fis))
+  
+          val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+  
+          val predicateOptimizer = new PredicateOptimizer()
+          predicateOptimizer.applyTo(pmml)
+  
+          val predicateInterner = new PredicateInterner()
+          predicateInterner.applyTo(pmml)
+  
+          val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+  
+          val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+  
+          // Cache modelEvaluator
+          pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+          
+          modelEvaluator
+        }
+        case Some(modelEvaluator) => modelEvaluator
+      }          
+        
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+       .execute()
+
+      s"""{"results":[${results}]}"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }    
+  
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def predictKeyvalue(@PathVariable("namespace") namespace: String,
