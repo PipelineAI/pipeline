@@ -186,7 +186,8 @@ ENV \
   PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
 
 RUN \
-  conda install --yes graphviz
+  conda install --yes graphviz \
+  && conda install --yes numba
 
 RUN \
   mkdir -p /root/tensorboard
