@@ -25,13 +25,21 @@ spec:
         image: docker.io/fluxcapacitor/prediction-jvm:master
         resources:
           limits:
-            cpu: 4000m
-            memory: 2000Mi
+            cpu: 2000m
+            memory: 1000Mi
           requests:
-            cpu: 400m
-            memory: 200Mi 
+            cpu: 200m
+            memory: 100Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_TYPE
+          value: java 
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: java_equals
+        - name: PIO_MODEL_VERSION
+          value: v0
         ports:
         - containerPort: 9040
         volumeMounts:

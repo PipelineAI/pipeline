@@ -177,7 +177,7 @@ class PredictionService {
           // reconstuct original
           val source = stream.collect(Collectors.joining("\n"))
           
-          val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
+          val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)
 
           System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
       
@@ -347,11 +347,11 @@ class PredictionService {
   
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def prediction(@PathVariable("namespace") namespace: String,
-                 @PathVariable("collection") collection: String,
-                 @PathVariable("version") version: String,
-                 @PathVariable("userId") userId: String, 
-                 @PathVariable("itemId") itemId: String): String = {
+  def predictKeyvalue(@PathVariable("namespace") namespace: String,
+                      @PathVariable("collection") collection: String,
+                      @PathVariable("version") version: String,
+                      @PathVariable("userId") userId: String, 
+                      @PathVariable("itemId") itemId: String): String = {
     try {
       val result = new UserItemPredictionCommand("keyvalue_useritem", namespace, version, 25, 5, 10, -1.0d, userId, itemId)           
         .execute()
@@ -366,11 +366,11 @@ class PredictionService {
   
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def batchPrediction(@PathVariable("namespace") namespace: String,
-                      @PathVariable("collection") collection: String,
-                      @PathVariable("version") version: String,
-                      @PathVariable("userId") userId: String,
-                      @PathVariable("itemId") itemId: String): String = {
+  def batchPredictKeyvalue(@PathVariable("namespace") namespace: String,
+                           @PathVariable("collection") collection: String,
+                           @PathVariable("version") version: String,
+                           @PathVariable("userId") userId: String,
+                           @PathVariable("itemId") itemId: String): String = {
     try {
       val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", namespace, version, 25, 5, 10, -1.0d, userId, itemId)
         .execute()
@@ -490,7 +490,11 @@ class PredictionService {
   }  
 }
 
-object PredictorCodeGenerator {
+object SparkModelGenerator {
+  // TODO:
+}
+
+object JavaCodeGenerator {
   def codegen(sourceName: String, source: String): (Predictable, String) = {   
     val references = Map[String, Any]()
 

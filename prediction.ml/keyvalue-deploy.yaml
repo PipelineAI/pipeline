@@ -1,19 +1,19 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: prediction-tensorflow-gpu
+  name: prediction-keyvalue
   labels:
-    app: prediction-tensorflow-gpu
+    app: prediction-keyvalue
     hystrix.enabled: "true"
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: prediction-tensorflow-gpu
+      app: prediction-keyvalue
   template:
     metadata:
       labels:
-        app: prediction-tensorflow-gpu
+        app: prediction-keyvalue
         hystrix.enabled: "true"
       annotations:
         prometheus.io/scrape: "true"
@@ -21,30 +21,27 @@ spec:
         prometheus.io/port: "9040"
     spec:
       containers:
-      - name: prediction-tensorflow-gpu
-        image: docker.io/fluxcapacitor/prediction-tensorflow-gpu:master
+      - name: prediction-keyvalue
+        image: docker.io/fluxcapacitor/prediction-jvm:master
         resources:
           limits:
-            cpu: 3000m
-            memory: 3000Mi
+            cpu: 2000m
+            memory: 1000Mi
           requests:
-            cpu: 300m
+            cpu: 200m
             memory: 100Mi 
         imagePullPolicy: "Always"
         env:
         - name: PIO_MODEL_TYPE
-          value: tensorflow
+          value: keyvalue 
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME
-          value: tensorflow_linear 
-        # Note:  For now, this must be an integer value.
+          value: keyvalue_recommendations
         - name: PIO_MODEL_VERSION
-          value: "0"
+          value: v0
         ports:
         - containerPort: 9040
-        - containerPort: 9876
-        - containerPort: 9000
         volumeMounts:
           - name: git-volume
             mountPath: /root/volumes

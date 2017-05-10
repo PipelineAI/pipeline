@@ -20,10 +20,10 @@ from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
-define("PIO_MODEL_TYPE", default="tensorflow", help="prediction model type", type=str)
-define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
-define("PIO_MODEL_NAME", default="tensorflow_linear", help="prediction model name", type=str)
-define("PIO_MODEL_VERSION", default="0", help="prediction model version", type=str)
+define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
+define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
+define("PIO_MODEL_NAME", default="", help="prediction model name", type=str)
+define("PIO_MODEL_VERSION", default="", help="prediction model version", type=str)
 define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
 define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
 define("PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT", default="9000", help="port to run the prometheus http metrics server on", type=int)
@@ -42,10 +42,10 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", IndexHandler),
-            # url: /api/v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler),
             # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-            # url: /api/v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployTensorFlowHandler),
         ]
         settings = dict(
