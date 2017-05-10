@@ -361,7 +361,7 @@ class PredictionService {
       val filename = file.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
+      val filepath = new java.io.File(s"model_store/xgboost/${namespace}/${modelName}/${version}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -369,7 +369,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
+      Files.copy(inputStream, Paths.get(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -398,11 +398,11 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + modelName + "/" + version)
+      val modelEvaluatorOption = pmmlRegistry.get("xgboost/" + namespace + "/" + modelName + "/" + version)
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
+          val fis = new java.io.FileInputStream(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -418,7 +418,7 @@ class PredictionService {
           val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
   
           // Cache modelEvaluator
-          pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+          pmmlRegistry.put("xgboost/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
           
           modelEvaluator
         }
@@ -438,7 +438,7 @@ class PredictionService {
   
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def predictKeyvalue(@PathVariable("namespace") namespace: String,
+  def predictKeyValue(@PathVariable("namespace") namespace: String,
                       @PathVariable("collection") collection: String,
                       @PathVariable("version") version: String,
                       @PathVariable("userId") userId: String, 
@@ -457,7 +457,7 @@ class PredictionService {
   
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def batchPredictKeyvalue(@PathVariable("namespace") namespace: String,
+  def batchPredictKeyValue(@PathVariable("namespace") namespace: String,
                            @PathVariable("collection") collection: String,
                            @PathVariable("version") version: String,
                            @PathVariable("userId") userId: String,
