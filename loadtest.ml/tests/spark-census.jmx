@@ -17,8 +17,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">25</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">50</stringProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <longProp name="ThreadGroup.start_time">1458953108000</longProp>
         <longProp name="ThreadGroup.end_time">1458953108000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -70,21 +70,35 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">[{&quot;tags&quot;:[&quot;cat&quot;],&quot;prompt&quot;:&quot;I like cats&quot;,&quot;weight&quot;:0.4,&quot;user_score&quot;:1},{&quot;tags&quot;:[&quot;cat&quot;],&quot;prompt&quot;:&quot;I like cat movies&quot;,&quot;weight&quot;:0.5,&quot;user_score&quot;:2},{&quot;tags&quot;:[&quot;cat&quot;],&quot;prompt&quot;:&quot;I like Garfield&quot;,&quot;weight&quot;:0.65,&quot;user_score&quot;:3},{&quot;tags&quot;:[&quot;dog&quot;],&quot;prompt&quot;:&quot;I like dogs&quot;,&quot;weight&quot;:0.75,&quot;user_score&quot;:4},{&quot;tags&quot;:[&quot;dog&quot;],&quot;prompt&quot;:&quot;I like dog parks&quot;,&quot;weight&quot;:0.25,&quot;user_score&quot;:5},{&quot;tags&quot;:[&quot;dog&quot;],&quot;prompt&quot;:&quot;I like Cesar Milan&quot;,&quot;weight&quot;:0.35,&quot;user_score&quot;:6}]</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;age&quot;: 39,&#xd;
+  &quot;workclass&quot;: &quot;State-gov&quot;,&#xd;
+  &quot;education&quot;: &quot;Bachelors&quot;,&#xd;
+  &quot;education_num&quot;: 13,&#xd;
+  &quot;marital_status&quot;: &quot;Never-married&quot;,&#xd;
+  &quot;occupation&quot;: &quot;Adm-clerical&quot;,&#xd;
+  &quot;relationship&quot;: &quot;Not-in-family&quot;,&#xd;
+  &quot;race&quot;: &quot;White&quot;,&#xd;
+  &quot;sex&quot;: &quot;Male&quot;,&#xd;
+  &quot;capital_gain&quot;: 2174,&#xd;
+  &quot;capital_loss&quot;: 0,&#xd;
+  &quot;hours_per_week&quot;: 40,&#xd;
+  &quot;native_country&quot;: &quot;United-States&quot;&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">prediction-python3.demo.pipeline.io</stringProp>
-            <stringProp name="HTTPSampler.port">80</stringProp>
+            <stringProp name="HTTPSampler.domain">prediction-spark.demo.pipeline.io</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/model/predict/python3/default/python3_zscore/v0</stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/model/predict/spark/default/spark_census/v0</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
             <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
