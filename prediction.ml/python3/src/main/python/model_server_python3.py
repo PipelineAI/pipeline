@@ -142,16 +142,16 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            logger.info("Uploading and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
+            logger.info("Uploaded and extracting bundle into '%s'..." % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             logger.info('...Done!')
-            logger.info('Installing bundle and updating environment...\n')
-            completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
-                                               timeout=600,
-                                               shell=True,
-                                               stdout=subprocess.PIPE)
-            logger.info('...Done!')
+            #logger.info('Installing bundle and updating environment...\n')
+            #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
+            #                                   timeout=600,
+            #                                   shell=True,
+            #                                   stdout=subprocess.PIPE)
+            #logger.info('...Done!')
             self.write('Model successfully deployed!')
         except IOError as e:
             logger.error('Failed to write file due to IOError %s' % str(e))
