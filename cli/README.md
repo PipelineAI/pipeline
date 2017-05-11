@@ -1,93 +1,112 @@
 # PipelineIO CLI
-
-## Supported Model Types
-* TensorFLow
-* Scikit-Learn
-* Ad-hoc Python
-* Ad-hoc Java
-* PMML
-* Spark ML
-* R
-* Ensembles accross all model types
-
-
 ## Install CLI
 ```
 pip install pio-cli
 ```
 
-## Initialize Cluster (Kubernetes)
-```
-pio init-cluster --kube-cluster-context <kube-cluster-context> \
-                 --kube-namespace <kube-namespace>
-```
+## Deploy and Test ML/AI Models
+### Supported Model Types
+* Scikit-Learn
+* R
+* Spark ML
+* TensorFlow
+* XGBoost
+* Python3
+* Java
+* PMML
+* Ensembles
 
-## Initialize Model 
+### Initialize Model 
 ```
 pio init-model --model-server-url <model_server_url> \
                --model-type <model_type> \
                --model-namespace <model_namespace> \
-               --model_name <model_name>
+               --model_name <model_name> \
+               --model-version <model_version> \
+               --model-path /path/to/model \
+               --model-test-input-path /path/to/test/inputs
 ```
 
-## Deploy Model 
+### Deploy Model 
 ```
-pio deploy --model_version <version> 
-           --model-path /path/to/model
-```
-
-## Predict Model
-```
-pio predict --model_version <version>
-            --input-file-path /path/to/inputs
+pio deploy
 ```
 
-## Examples
+### Predict Model
+```
+pio predict
+```
+
+### Examples
 ```
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
-### TensorFLow
+**TensorFlow**
+
 `model_type`: `tensorflow`
 ```
-cd source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0
-
 pio init-model http://your.model.server.com \
                tensorflow \
                default \
-               tensorflow_linear 
+               tensorflow_linear \
+               0 \
+               ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
+               ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
 ```
 
-### Scikit-Learn
-`model_type`: `python3`
-```
-cd source.ml/prediction.ml/model_store/python3/default/scikit_linear/0
+**Scikit-Learn**
 
+`model_type`: `scikit`
+```
 pio init-model http://your.model.server.com \
                python3 \
                default \
-               scikit_linear 
+               scikit_linear \
+               v0 \
+               ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
+               ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
 ```
 
-### PMML
-`model_type`: `pmml`
-```
-cd source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/0
+**Spark ML**
 
+`model_type`: `spark`
+```
 pio init-model http://your.model.server.com \
-               pmml \
+               spark \
                default \
-               pmml_airbnb 
+               spark_airbnb 
+               v0 \
+               ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
+               ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
+```
+
+
+**Python3**
+
+`model_type`: `python3`
+```
+pio init-model http://your.model.server.com \
+               python3 \
+               default \
+               python3_zscore \
+               v0 \
+               ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
+               ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
+
+pio deploy
+
+pio predict
 ```

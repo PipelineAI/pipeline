@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.44"
+__version__ = "0.45"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -9,6 +9,7 @@ __version__ = "0.44"
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
 #   https://github.com/kubernetes/kops/blob/master/docs/aws.md
 
+from multiprocessing import Process, Pool
 import warnings
 import requests
 import fire
@@ -275,12 +276,12 @@ class PioCli(object):
             return
 
         if (app_name):
-            print("")
-            print("Retrieving system resources used by app '%s'." % app_name)
-            print("")
+#            print("")
+#            print("Retrieving system metrics for app '%s'." % app_name)
+#            print("")
             self._get_app_resources(app_name)
-            print("")
-            print("Retrieving system resources for cluster.")
+#            print("")
+#            print("Retrieving system metrics for cluster.")
             print("")
             self._get_cluster_resources()
         else:
@@ -288,14 +289,13 @@ class PioCli(object):
             print("Retrieving only system resources for cluster.  Use '--app-name' for app-level, as well.")
             print("")
             self._get_cluster_resources()
+
+        print("If you see an error above, you need to start Heapster with 'pio start heapster'.")
         print("")
 
 
     def _get_cluster_resources(self):
         subprocess.call("kubectl top node", shell=True)
-        print("")
-        print("If you see an error above, you need to start Heapster with 'pio start heapster'.")
-        print("")
 
 
     def _get_app_resources(self,
@@ -323,7 +323,7 @@ class PioCli(object):
             pods = response.items
             for pod in pods: 
                 if (app_name in pod.metadata.name):
-                    subprocess.call("kubectl top pod %s" % pod.metadata.name, shell=True)
+                    subprocess.call('kubectl top pod %s' % pod.metadata.name, shell=True)
         print("")
 
 
@@ -497,6 +497,16 @@ class PioCli(object):
         print("")
 
 
+    def deploy_from_git(self,
+                        model_server_url=None,
+                        model_type=None,
+                        model_namespace=None,
+                        model_name=None,
+                        model_version=None,
+                        git_path=None):
+        print("Coming soon!")
+
+
     # TODO:  from_git=True/False (include git_commit_hash, use python git API? Perform immutable deployment??)
     #        from_docker=True/False (include image name, version)
     #        canary=True/False
@@ -579,7 +589,7 @@ class PioCli(object):
             compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
             print("")
-            print("Compressing model bundle '%s' down to '%s'." % (model_path, compressed_model_bundle_filename))  
+            print("Compressing model bundle '%s'\nto '%s'." % (model_path, compressed_model_bundle_filename))  
             print("")
             with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
                 tar.add(model_path, arcname='.')
@@ -596,7 +606,7 @@ class PioCli(object):
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
             print("")
-            print("Deploying model\n\t'%s'\n\tto\n\t'%s'." % (model_file, full_model_url))
+            print("Deploying model '%s'\nto '%s'." % (model_file, full_model_url))
             print("")
             headers = {'Accept': 'application/json'}
             try:
@@ -609,7 +619,7 @@ class PioCli(object):
                 print("")
                 print("Success!")
                 print("")
-                print("Predict with\n\t'pio predict'\n\tor POST to\n\t'%s'" % full_model_url.replace('/deploy/','/predict/'))
+                print("Predict with\n'pio predict'\nor POST to\n'%s'" % full_model_url.replace('/deploy/','/predict/'))
                 print("")
             except IOError as e:
                 print("Error while deploying model.  Timeout errors are usually OK.\nError: '%s'" % str(e))
@@ -623,28 +633,6 @@ class PioCli(object):
             print("")
             os.remove(model_file)
 
-
-    def predict_many(self,
-                     model_server_url=None,
-                     model_type=None,
-                     model_namespace=None,
-                     model_name=None,
-                     model_version=None,
-                     model_test_input_path=None,
-                     model_input_mime_type=None,
-                     model_output_mime_type=None,
-                     num_iterations=100):
-
-        for _ in range(num_iterations):
-            self.predict(model_server_url,
-                         model_type,
-                         model_namespace,
-                         model_name,
-                         model_version,
-                         model_test_input_path,
-                         model_input_mime_type,
-                         model_output_mime_type)
-      
 
     def predict(self,
                 model_server_url=None,
@@ -745,20 +733,52 @@ class PioCli(object):
 
         full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
         print("")
-        print("Predicting file\n\t'%s'\nwith model\n\t'%s/%s/%s/%s'\nat\n\t'%s'" % (model_test_input_path, model_type, model_namespace, model_name, model_version, full_model_url))
+        print("Predicting with file '%s'\nusing '%s'" % (model_test_input_path, full_model_url))
         print("")
         with open(model_test_input_path, 'rb') as fh:
             model_input_binary = fh.read()
 
         headers = {'Content-type': model_input_mime_type, 'Accept': model_output_mime_type} 
+        from datetime import datetime 
+
+        begin_time = datetime.now()
         response = requests.post(url=full_model_url, 
                                  headers=headers, 
                                  data=model_input_binary, 
                                  timeout=30)
+        end_time = datetime.now()
         pprint(response.text)
         print("")
+        total_time = end_time - begin_time
+        print("Total time: %s milliseconds" % (total_time.microseconds / 1000))
+        print("")
+        #return (response.text, total_time)
 
-     
+
+    def predict_many(self,
+                     num_iterations,
+                     model_server_url=None,
+                     model_type=None,
+                     model_namespace=None,
+                     model_name=None,
+                     model_version=None,
+                     model_test_input_path=None,
+                     model_input_mime_type=None,
+                     model_output_mime_type=None):
+
+        p = Pool(num_iterations)
+        for _ in range(num_iterations):        
+            p.apply(self.predict, (model_server_url,
+                                   model_type,
+                                   model_namespace,
+                                 model_name,
+                              model_version,
+                              model_test_input_path,
+                              model_input_mime_type,
+                              model_output_mime_type),
+               )
+
+
     def cluster(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
