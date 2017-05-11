@@ -41,7 +41,7 @@ kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline
 ###################################
 # Model Prediction Services
 ###################################
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/spark-deploy.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/spark-deploy.yaml
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/prediction.ml/java-deploy.yaml
 
