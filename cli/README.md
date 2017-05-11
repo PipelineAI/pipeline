@@ -27,7 +27,10 @@ pio init-cluster --kube-cluster-context <kube-cluster-context> \
 pio init-model --model-server-url <model_server_url> \
                --model-type <model_type> \
                --model-namespace <model_namespace> \
-               --model_name <model_name>
+               --model_name <model_name> \
+               --model-version <model_version> \
+               --model-path /path/to/model \
+               --model-test-input-path /path/to/inputs.json
 ```
 
 ## Deploy Model 
