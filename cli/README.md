@@ -82,7 +82,7 @@ pio deploy
 pio predict
 ```
 
-### Spark
+### Spark ML
 `model_type`: `spark`
 ```
 cd source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0
