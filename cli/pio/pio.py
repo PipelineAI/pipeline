@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.45"
+__version__ = "0.46"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -69,9 +69,9 @@ class PioCli(object):
                          'metastore': (['metastore.ml/metastore-svc.yaml'], ['mysql']),
                          'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
                          'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
-                         'presto': (['presto.ml/presto-master-svc.yaml',
-                                     'presto.ml/presto-worker-svc.yaml'], ['metastore']),
-                         'presto-ui': (['presto.ml/presto-ui-svc.yaml'], ['presto']),
+                         'presto': (['presto.ml/master-svc.yaml',
+                                     'presto.ml/worker-svc.yaml'], ['metastore']),
+                         'presto-ui': (['presto.ml/ui-svc.yaml'], ['presto']),
                          'airflow': (['scheduler.ml/airflow-svc.yaml'], ['mysql', 'redis']),
                          'mysql': (['sql.ml/mysql-master-svc.yaml'], []),
                          'www': (['web.ml/home-svc.yaml'], []),
