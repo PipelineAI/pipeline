@@ -30,19 +30,17 @@ pio init-model --model-server-url <model_server_url> \
                --model_name <model_name> \
                --model-version <model_version> \
                --model-path /path/to/model \
-               --model-test-input-path /path/to/inputs.json
+               --model-test-input-path /path/to/test/inputs
 ```
 
 ## Deploy Model 
 ```
-pio deploy --model_version <version> 
-           --model-path /path/to/model
+pio deploy
 ```
 
 ## Predict Model
 ```
-pio predict --model_version <version>
-            --input-file-path /path/to/inputs
+pio predict
 ```
 
 ## Examples
@@ -53,16 +51,17 @@ git clone https://github.com/fluxcapacitor/source.ml
 ### TensorFLow
 `model_type`: `tensorflow`
 ```
-cd source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0
-
 pio init-model http://your.model.server.com \
                tensorflow \
                default \
-               tensorflow_linear 
+               tensorflow_linear \
+               0 \
+               ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
+               cd source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
 ```
 
 ### Scikit-Learn
@@ -73,24 +72,30 @@ cd source.ml/prediction.ml/model_store/python3/default/scikit_linear/0
 pio init-model http://your.model.server.com \
                python3 \
                default \
-               scikit_linear 
+               scikit_linear \
+               v0 \
+               ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/0 \
+               cd source.ml/prediction.ml/model_store/scikit/default/scikit_linear/0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
 ```
 
-### PMML
-`model_type`: `pmml`
+### Spark
+`model_type`: `spark`
 ```
-cd source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/0
+cd source.ml/prediction.ml/model_store/spark/default/spark_airbnb/0
 
 pio init-model http://your.model.server.com \
-               pmml \
+               spark \
                default \
-               pmml_airbnb 
+               spark_airbnb 
+               v0 \
+               ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/0 \
+               cd source.ml/prediction.ml/model_store/spark/default/spark_airbnb/0/test_inputs.txt
 
-pio deploy 0 ./
+pio deploy
 
-pio predict 0 ./test_inputs.txt
+pio predict
 ```
