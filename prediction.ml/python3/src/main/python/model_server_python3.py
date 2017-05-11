@@ -142,7 +142,7 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            logger.info("Uploaded and extracting bundle into '%s'..." % (filename, bundle_path))
+            logger.info("Uploaded and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             logger.info('...Done!')
