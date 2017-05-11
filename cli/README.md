@@ -43,6 +43,7 @@ git clone https://github.com/fluxcapacitor/source.ml
 ```
 
 **TensorFlow**
+
 `model_type`: `tensorflow`
 ```
 pio init-model http://your.model.server.com \
@@ -59,6 +60,7 @@ pio predict
 ```
 
 **Scikit-Learn**
+
 `model_type`: `scikit`
 ```
 pio init-model http://your.model.server.com \
@@ -75,6 +77,7 @@ pio predict
 ```
 
 **Spark ML**
+
 `model_type`: `spark`
 ```
 pio init-model http://your.model.server.com \
@@ -92,6 +95,7 @@ pio predict
 
 
 **Python3**
+
 `model_type`: `python3`
 ```
 pio init-model http://your.model.server.com \
