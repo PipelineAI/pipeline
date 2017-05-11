@@ -4,6 +4,6 @@ metadata:
   name: github_oauth
 type: Opaque
 data:
-  OAUTH_CALLBACK_URL: 
+  OAUTH_CALLBACK_URL: ""
   GITHUB_CLIENT_ID: 
   GITHUB_CLIENT_SECRET: 
