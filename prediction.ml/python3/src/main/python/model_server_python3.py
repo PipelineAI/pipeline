@@ -39,7 +39,7 @@ logger.addHandler(ch)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", IndexHandler),
+            #(r"/", IndexHandler),
             # TODO:  Disable DEPLOY if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode (or equivalent)
             # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),            
