@@ -5,11 +5,11 @@
 * R
 * Spark ML
 * TensorFlow
+* XGBoost
 * Python3
 * Java
 * PMML
 * Ensembles
-
 
 ## Install CLI
 ```
