@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prediction-spark
+  labels:
+    app: prediction-spark
+    hystrix.enabled: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: prediction-spark
+  template:
+    metadata:
+      labels:
+        app: prediction-spark
+        hystrix.enabled: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "9040"
+    spec:
+      containers:
+      - name: prediction-spark
+        image: docker.io/fluxcapacitor/prediction-jvm:master
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 1000Mi
+          requests:
+            cpu: 200m
+            memory: 100Mi 
+        imagePullPolicy: "Always"
+        env:
+        - name: PIO_MODEL_TYPE
+          value: spark
+        - name: PIO_MODEL_NAMESPACE
+          value: default
+        - name: PIO_MODEL_NAME
+          value: spark_airbnb
+        - name: PIO_MODEL_VERSION
+          value: v0
+        ports:
+        - containerPort: 9040
+        volumeMounts:
+          - name: git-volume
+            mountPath: /root/volumes
+      volumes:
+        - name: git-volume
+          gitRepo:
+            repository: "https://github.com/fluxcapacitor/source.ml.git"
+            revision: "master"
