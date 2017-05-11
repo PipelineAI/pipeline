@@ -1,6 +1,11 @@
 # PipelineIO CLI
+## Install CLI
+```
+pip install pio-cli
+```
 
-## Supported Model Types
+## Deploy and Test ML/AI Models
+### Supported Model Types
 * Scikit-Learn
 * R
 * Spark ML
@@ -11,18 +16,7 @@
 * PMML
 * Ensembles
 
-## Install CLI
-```
-pip install pio-cli
-```
-
-## Initialize Cluster (Kubernetes)
-```
-pio init-cluster --kube-cluster-context <kube-cluster-context> \
-                 --kube-namespace <kube-namespace>
-```
-
-## Initialize Model 
+### Initialize Model 
 ```
 pio init-model --model-server-url <model_server_url> \
                --model-type <model_type> \
@@ -33,22 +27,22 @@ pio init-model --model-server-url <model_server_url> \
                --model-test-input-path /path/to/test/inputs
 ```
 
-## Deploy Model 
+### Deploy Model 
 ```
 pio deploy
 ```
 
-## Predict Model
+### Predict Model
 ```
 pio predict
 ```
 
-## Examples
+### Examples
 ```
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
-### TensorFLow
+**TensorFlow**
 `model_type`: `tensorflow`
 ```
 pio init-model http://your.model.server.com \
@@ -64,7 +58,7 @@ pio deploy
 pio predict
 ```
 
-### Scikit-Learn
+**Scikit-Learn**
 `model_type`: `scikit`
 ```
 pio init-model http://your.model.server.com \
@@ -80,7 +74,7 @@ pio deploy
 pio predict
 ```
 
-### Spark ML
+**Spark ML**
 `model_type`: `spark`
 ```
 pio init-model http://your.model.server.com \
@@ -97,7 +91,7 @@ pio predict
 ```
 
 
-### Python3
+**Python3**
 `model_type`: `python3`
 ```
 pio init-model http://your.model.server.com \
