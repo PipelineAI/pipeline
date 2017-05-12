@@ -41,7 +41,7 @@ logger.addHandler(ch)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", IndexHandler),
+            #(r"/", IndexHandler),
             # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler),
             # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
@@ -146,25 +146,26 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
             os.makedirs(bundle_path, exist_ok=True)
             with open(bundle_path_filename, 'wb+') as fh:
                 fh.write(fileinfo['body'])
+            print("")
             print("%s uploaded %s, saved as %s" %
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            print("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
-            self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
+            print("")
+            print("Uploading and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
+            print("")
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
-            print('...Done!\n')
-            self.write('...Done!\n')
-            print('Installing bundle and updating environment...\n')
-            self.write('Installing bundle and updating environment...\n')
+            print("")
+            print("...Done!")
+            print("")
+            #print('Installing bundle and updating environment...\n')
             # TODO:  Restart TensorFlow Model Serving and point to bundle_path_with_model_name
             #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
             #                                   timeout=600,
             #                                   shell=True,
             #                                   stdout=subprocess.PIPE)
-            print('...Done!\n')
-            self.write('...Done!\n')
+            #print('...Done!\n')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))

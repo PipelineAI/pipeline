@@ -38,7 +38,9 @@ ENV \
 ENV \
   PATH=${YANAGISHIMA_HOME}/bin:$PATH
 
-RUN rm -rf conf
+RUN \
+  mv conf conf.orig \
+  && mkdir -p /root/data
 
 COPY conf/ ${YANAGISHIMA_HOME}/conf/
 COPY run run

@@ -39,7 +39,7 @@ logger.addHandler(ch)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", IndexHandler),
+            #(r"/", IndexHandler),
             # TODO:  Disable DEPLOY if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode (or equivalent)
             # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),            
@@ -142,16 +142,16 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            logger.info("Uploading and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
+            logger.info("Uploaded and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             logger.info('...Done!')
-            logger.info('Installing bundle and updating environment...\n')
-            completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
-                                               timeout=600,
-                                               shell=True,
-                                               stdout=subprocess.PIPE)
-            logger.info('...Done!')
+            #logger.info('Installing bundle and updating environment...\n')
+            #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
+            #                                   timeout=600,
+            #                                   shell=True,
+            #                                   stdout=subprocess.PIPE)
+            #logger.info('...Done!')
             self.write('Model successfully deployed!')
         except IOError as e:
             logger.error('Failed to write file due to IOError %s' % str(e))
