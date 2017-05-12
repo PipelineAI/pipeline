@@ -33,7 +33,22 @@ spec:
         - name: SPARK_SUBMIT_ARGS
           value: ""
         - name: JUPYTERHUB_AUTHENTICATOR
-          value: dummyauthenticator.DummyAuthenticator 
+          value: oauthenticator.GitHubOAuthenticator
+        - name: OAUTH_CALLBACK_URL 
+          valueFrom:
+            secretKeyRef:
+              name: github_oauth
+              key: OAUTH_CALLBACK_URL
+        - name: GITHUB_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: github_oauth
+              key: GITHUB_CLIENT_ID
+        - name: GITHUB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github_oauth
+              key: GITHUB_CLIENT_SECRET
         ports:
         - containerPort: 6006
         - containerPort: 8754

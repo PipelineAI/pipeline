@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-keyvalue
+  labels:
+    app: prediction-keyvalue
+    hystrix.enabled: "true"
+#    dns: route53
+#  annotations:
+#    domainName: "prediction-keyvalue.your.domain.com"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: prediction-keyvalue
+    port: 80 
+    targetPort: 9040 
+  selector:
+    app: prediction-keyvalue
+    hystrix.enabled: "true" 

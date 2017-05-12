@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Args:
-#  $1: proxy listen port (this proxy)
-#  $2: grpc port (Tensorflow Serving)
-
-python /root/src/main/python/serving/http_grpc_proxy.py $1 $2  

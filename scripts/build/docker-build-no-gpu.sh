@@ -15,7 +15,8 @@ cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build $2 -q -t fluxcap
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
 #cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build $2 -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-1.0:$1 .
+#cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
 #cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1 -f Dockerfile.gpu .
 
 # apachespark.ml
@@ -37,7 +38,7 @@ cd $PIPELINE_HOME/dashboard.ml/turbine && sudo docker build $2 -q -t fluxcapacit
 cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && sudo docker build $2 -q -t fluxcapacitor/elasticsearch-2.3.0:$1 .
 
 # gpu.ml
-cd $PIPELINE_HOME/gpu.ml && sudo docker build $2 -q -t fluxcapacitor/gpu-tensorflow-spark:$1 .
+#cd $PIPELINE_HOME/gpu.ml && sudo docker build $2 -q -t fluxcapacitor/gpu-tensorflow-spark:$1 .
 
 # hdfs.ml
 cd $PIPELINE_HOME/hdfs.ml && sudo docker build $2 -q -t fluxcapacitor/hdfs-namenode:$1 .

@@ -177,7 +177,7 @@ class PredictionService {
           // reconstuct original
           val source = stream.collect(Collectors.joining("\n"))
           
-          val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
+          val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)
 
           System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
       
@@ -345,13 +345,104 @@ class PredictionService {
     }
   }  
   
+  @RequestMapping(path=Array("/api/v1/model/deploy/xgboost/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST)
+                  //produces=Array("application/json; charset=UTF-8")
+                  )
+  def deployXgboostFile(@PathVariable("namespace") namespace: String, 
+                        @PathVariable("modelName") modelName: String,
+                        @PathVariable("version") version: String,
+                        @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
+
+    var inputStream: InputStream = null
+
+    try {
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()
+  
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"model_store/xgboost/${namespace}/${modelName}/${version}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'model' multipart file
+      inputStream = file.getInputStream()
+  
+      Files.copy(inputStream, Paths.get(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+    
+    new ResponseEntity(HttpStatus.OK)
+  }
+ 
+  @RequestMapping(path=Array("/api/v1/model/predict/xgboost/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def predictXgboost(@PathVariable("namespace") namespace: String, 
+                  @PathVariable("modelName") modelName: String, 
+                  @PathVariable("version") version: String,
+                  @RequestBody inputJson: String): String = {
+    try {
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
+      
+      val modelEvaluatorOption = pmmlRegistry.get("xgboost/" + namespace + "/" + modelName + "/" + version)
+
+      val modelEvaluator = modelEvaluatorOption match {
+        case None => {     
+          val fis = new java.io.FileInputStream(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml")
+          val transformedSource = ImportFilter.apply(new InputSource(fis))
+  
+          val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+  
+          val predicateOptimizer = new PredicateOptimizer()
+          predicateOptimizer.applyTo(pmml)
+  
+          val predicateInterner = new PredicateInterner()
+          predicateInterner.applyTo(pmml)
+  
+          val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+  
+          val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+  
+          // Cache modelEvaluator
+          pmmlRegistry.put("xgboost/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+          
+          modelEvaluator
+        }
+        case Some(modelEvaluator) => modelEvaluator
+      }          
+        
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+       .execute()
+
+      s"""{"results":[${results}]}"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }    
+  
   @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def prediction(@PathVariable("namespace") namespace: String,
-                 @PathVariable("collection") collection: String,
-                 @PathVariable("version") version: String,
-                 @PathVariable("userId") userId: String, 
-                 @PathVariable("itemId") itemId: String): String = {
+  def predictKeyValue(@PathVariable("namespace") namespace: String,
+                      @PathVariable("collection") collection: String,
+                      @PathVariable("version") version: String,
+                      @PathVariable("userId") userId: String, 
+                      @PathVariable("itemId") itemId: String): String = {
     try {
       val result = new UserItemPredictionCommand("keyvalue_useritem", namespace, version, 25, 5, 10, -1.0d, userId, itemId)           
         .execute()
@@ -364,13 +455,14 @@ class PredictionService {
     }
   }
   
-  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
+  // Note that "keyvalue-batch" is a one-off.  Fix this.
+  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue-batch/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
-  def batchPrediction(@PathVariable("namespace") namespace: String,
-                      @PathVariable("collection") collection: String,
-                      @PathVariable("version") version: String,
-                      @PathVariable("userId") userId: String,
-                      @PathVariable("itemId") itemId: String): String = {
+  def batchPredictKeyValue(@PathVariable("namespace") namespace: String,
+                           @PathVariable("collection") collection: String,
+                           @PathVariable("version") version: String,
+                           @PathVariable("userId") userId: String,
+                           @PathVariable("itemId") itemId: String): String = {
     try {
       val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", namespace, version, 25, 5, 10, -1.0d, userId, itemId)
         .execute()
@@ -490,7 +582,11 @@ class PredictionService {
   }  
 }
 
-object PredictorCodeGenerator {
+object SparkModelGenerator {
+  // TODO:
+}
+
+object JavaCodeGenerator {
   def codegen(sourceName: String, source: String): (Predictable, String) = {   
     val references = Map[String, Any]()
 

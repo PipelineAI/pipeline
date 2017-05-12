@@ -20,10 +20,10 @@ from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
-define("PIO_MODEL_TYPE", default="tensorflow", help="prediction model type", type=str)
-define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
-define("PIO_MODEL_NAME", default="tensorflow_linear", help="prediction model name", type=str)
-define("PIO_MODEL_VERSION", default="0", help="prediction model version", type=str)
+define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
+define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
+define("PIO_MODEL_NAME", default="", help="prediction model name", type=str)
+define("PIO_MODEL_VERSION", default="", help="prediction model version", type=str)
 define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
 define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
 define("PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT", default="9000", help="port to run the prometheus http metrics server on", type=int)
@@ -41,11 +41,11 @@ logger.addHandler(ch)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", IndexHandler),
-            # url: /api/v1/model/predict/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            #(r"/", IndexHandler),
+            # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictTensorFlowHandler),
             # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-            # url: /api/v1/model/deploy/tensorflow/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployTensorFlowHandler),
         ]
         settings = dict(
@@ -146,25 +146,26 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
             os.makedirs(bundle_path, exist_ok=True)
             with open(bundle_path_filename, 'wb+') as fh:
                 fh.write(fileinfo['body'])
+            print("")
             print("%s uploaded %s, saved as %s" %
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            print("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
-            self.write("Uploading and extracting bundle '%s' into '%s'...\n" % (filename, bundle_path))
+            print("")
+            print("Uploading and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
+            print("")
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
-            print('...Done!\n')
-            self.write('...Done!\n')
-            print('Installing bundle and updating environment...\n')
-            self.write('Installing bundle and updating environment...\n')
+            print("")
+            print("...Done!")
+            print("")
+            #print('Installing bundle and updating environment...\n')
             # TODO:  Restart TensorFlow Model Serving and point to bundle_path_with_model_name
             #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
             #                                   timeout=600,
             #                                   shell=True,
             #                                   stdout=subprocess.PIPE)
-            print('...Done!\n')
-            self.write('...Done!\n')
+            #print('...Done!\n')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))

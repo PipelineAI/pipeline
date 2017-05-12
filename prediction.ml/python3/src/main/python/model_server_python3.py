@@ -20,10 +20,10 @@ from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
-define("PIO_MODEL_TYPE", default="python3", help="prediction model type", type=str)
-define("PIO_MODEL_NAMESPACE", default="default", help="prediction model namespace", type=str)
-define("PIO_MODEL_NAME", default="scikit_balancescale", help="prediction model name", type=str)
-define("PIO_MODEL_VERSION", default="v0", help="prediction model version", type=str)
+define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
+define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
+define("PIO_MODEL_NAME", default="", help="prediction model name", type=str)
+define("PIO_MODEL_VERSION", default="", help="prediction model version", type=str)
 define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
 define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
 
@@ -39,12 +39,12 @@ logger.addHandler(ch)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", IndexHandler),
-            # url: /api/v1/model/predict/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            #(r"/", IndexHandler),
+            # TODO:  Disable DEPLOY if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode (or equivalent)
+            # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
+            (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),            
+            # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler),
-            # TODO:  Disable this if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode
-            # url: /api/v1/model/deploy/python3/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),
         ]
         settings = dict(
             model_store_path=options.PIO_MODEL_STORE_HOME,
@@ -142,16 +142,16 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
                         ( str(self.request.remote_ip),
                           str(filename),
                           bundle_path_filename) )
-            logger.info("Uploading and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
+            logger.info("Uploaded and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             logger.info('...Done!')
-            logger.info('Installing bundle and updating environment...\n')
-            completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
-                                               timeout=600,
-                                               shell=True,
-                                               stdout=subprocess.PIPE)
-            logger.info('...Done!')
+            #logger.info('Installing bundle and updating environment...\n')
+            #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
+            #                                   timeout=600,
+            #                                   shell=True,
+            #                                   stdout=subprocess.PIPE)
+            #logger.info('...Done!')
             self.write('Model successfully deployed!')
         except IOError as e:
             logger.error('Failed to write file due to IOError %s' % str(e))

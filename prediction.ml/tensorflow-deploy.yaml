@@ -25,10 +25,10 @@ spec:
         image: docker.io/fluxcapacitor/prediction-tensorflow:master
         resources:
           limits:
-            cpu: 1000m
+            cpu: 3000m
             memory: 1000Mi
           requests:
-            cpu: 100m
+            cpu: 300m
             memory: 100Mi 
         imagePullPolicy: "Always"
         env:

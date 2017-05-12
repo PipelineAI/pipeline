@@ -117,7 +117,6 @@ ENV \
 RUN \
   cd $TENSORFLOW_HOME \
   && yes "" | ./configure
-#  && printf "\n\n\n\n\n" | ./configure 
 
 RUN \  
   cd $TENSORFLOW_SERVING_HOME \
@@ -125,7 +124,7 @@ RUN \
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
 # --jobs 1 is from here: https://github.com/tensorflow/serving/issues/379
-  && bazel build --local_resources 10000,1.0,1.0 --verbose_failures -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... 
+  && bazel build --local_resources 40000,1.0,1.0 --verbose_failures -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... 
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -173,13 +172,12 @@ RUN \
 RUN \
   cd $TENSORFLOW_HOME \
   && yes "" | ./configure
-#  && printf "\n\n\n\n\n" | ./configure
 
 RUN \
   cd $TENSORFLOW_HOME \
 # Anything higher than --jobs 1 can sometimes causes weird errors at the end of the build phase
 #   https://github.com/tensorflow/serving/issues/379
-  && bazel build --local_resources 10000,1.0,1.0 --verbose_failures \
+  && bazel build --local_resources 40000,1.0,1.0 --verbose_failures \
     --config=cuda \
     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
     --test_tag_filters=-no_gpu,-benchmark-test -k \

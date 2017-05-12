@@ -25,19 +25,22 @@ spec:
         image: docker.io/fluxcapacitor/prediction-tensorflow-gpu:master
         resources:
           limits:
-            cpu: 8000m
-            memory: 8000Mi
+            cpu: 3000m
+            memory: 3000Mi
           requests:
-            cpu: 1000m
-            memory: 1000Mi 
+            cpu: 300m
+            memory: 100Mi 
         imagePullPolicy: "Always"
         env:
+        - name: PIO_MODEL_TYPE
+          value: tensorflow
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME
           value: tensorflow_linear 
+        # Note:  For now, this must be an integer value.
         - name: PIO_MODEL_VERSION
-          value: 0
+          value: "0"
         ports:
         - containerPort: 9040
         - containerPort: 9876
@@ -50,4 +53,3 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
             revision: "master"
-

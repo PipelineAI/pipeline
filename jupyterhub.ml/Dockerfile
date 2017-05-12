@@ -44,6 +44,9 @@ RUN \
   pip install jupyterhub-dummyauthenticator==0.1
 
 RUN \
+  pip install oauthenticator==0.5.1
+
+RUN \
   pip install jupyterhub-simplespawner==0.1
 
 RUN \
