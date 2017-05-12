@@ -1,4 +1,7 @@
-FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:master
+#FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:master
+# Changing to -no-avx mode as we might end up on cloud instance hardware that does not support avx.
+# TensorFlow crashes in this case.
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu-no-avx:master
 
 WORKDIR /root
 
@@ -187,8 +190,8 @@ ENV \
 
 RUN \
   conda install --yes graphviz \
-  && conda install --yes cudatoolkit \
-  && conda install --yes numba
+  && conda install --yes -c numba cudatoolkit==8.0 \
+  && conda install --yes -c numba numba==0.33
 
 RUN \
   mkdir -p /root/tensorboard
@@ -219,6 +222,9 @@ RUN \
 # http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
 RUN \
   chmod a+x /root
+
+RUN \
+  pip install pio-cli==0.47
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222
   # 8000
