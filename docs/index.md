@@ -1,6 +1,6 @@
 ## Welcome to PipelineIO Documentation
 
-[PipelineIO](https://www.pipeline.io/) is an End-to-End Machine Learning and Artificial Intelligence Model Training and Deployment Platform.
+[PipelineIO](http://jupyter.demo.pipeline.io/) is an End-to-End Machine Learning and Artificial Intelligence Model Training and Deployment Platform.
 
 Click [here](./home/getting_started.md) to get started.
 
