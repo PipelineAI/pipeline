@@ -1,6 +1,6 @@
-Initialize a PipelineIO model.
+# Initialize a PipelineIO model.
 
-### Usage
+## Usage
 ```bash
 
 pio init-model --model-server-url <model_server_url> \
@@ -13,24 +13,21 @@ pio init-model --model-server-url <model_server_url> \
 
 ```
 
-### Parameters 
-| Name                         | Default | Description                                                        |
-| ---------------------------- | ------- | ------------------------------------------------------------------ |
-| model-server-url             |         | Http endpoint URL hosting your model                               |
-| model-type                   |         | See Model Types section                                            |
-| model-namespace              |         | Unique namespace for your models                                   |
-| model-name                   |         | Unique name for your model within your model namespace             |
-| model-version                |         | Unique version with model name and namespace (ie. 1, v0, git hash) |
+## Parameters 
+| Name                         | Description                                                        |
+| ---------------------------- | ------------------------------------------------------------------ |
+| model-server-url             | Model Server URL hosting your models                               |
+| model-type                   | See Model Types section.                                           |
+| model-namespace              | Unique namespace for your models                                   |
+| model-name                   | Unique name for your model within your model namespace             |
+| model-version                | Unique version with model name and namespace (ie. 1, v0, git hash) |
+| model-path                   | /path/to/model/  Contents will be tar.gz'd and uploaded.           | 
+| model-test-input-path        | /path/to/test/inputs.txt  File used for testing the model locally. |
        
-### Description
-Creates or updates the `~/.pio/config` with the given parameters.
+## Description
+This command will create or update the `~/.pio/config` file and prepare you for model deploying and predicting.
 
-This command also creates a `.pioignore` file in the `model-path` directory. 
-Any files and directories you do not want PipelineIO to track can be added to this file. 
-When you deploy your model on PipelineIO, these files will not be uploaded. 
-More details on how the `.pioignore` file works is available [here](../home/pio_ignore).
-
-### Model Types
+## Model Types
 * scikit
 * R
 * spark
@@ -41,69 +38,94 @@ More details on how the `.pioignore` file works is available [here](../home/pio_
 * pmml
 * ensemble
 
-### Examples
+## Examples
 Clone the source repo
 ```
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
-TensorFlow
+### TensorFlow
+Initialize Model
 ```
-pio init-model http://your.model.server.com \
+pio init-model http://prediction-tensorflow.demo.pipeline.io \
                tensorflow \
                default \
                tensorflow_linear \
                0 \
                ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
                ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+```
 
+Deploy the Model
+```
 pio deploy
+```
 
+Predict with Model
+```
 pio predict
 ```
 
-Scikit-Learn
+### Scikit-Learn
 ```
-pio init-model http://your.model.server.com \
+pio init-model http://prediction-tensorflow.demo.pipeline.io \
                python3 \
                default \
                scikit_linear \
                v0 \
                ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
                ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+```
 
+Deploy the Model
+```
 pio deploy
+```
 
+Predict with Model
+```
 pio predict
 ```
 
-Spark ML
+### Spark ML
 ```
-pio init-model http://your.model.server.com \
+pio init-model http://prediction-tensorflow.demo.pipeline.io \
                spark \
                default \
                spark_airbnb 
                v0 \
                ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
                ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
+```
 
+Deploy the Model
+```
 pio deploy
+```
 
+Predict with Model
+```
 pio predict
 ```
 
-Python3
+### Python3
 ```
-pio init-model http://your.model.server.com \
+pio init-model http://prediction-tensorflow.demo.pipeline.io \
                python3 \
                default \
                python3_zscore \
                v0 \
                ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
                ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
+```
 
+[Deploy](deploy.md) the Model
+```
 pio deploy
+```
 
+[Predict](predict.md) with Model
+```
 pio predict
 ```
 
