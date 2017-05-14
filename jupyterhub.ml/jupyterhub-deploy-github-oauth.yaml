@@ -37,17 +37,17 @@ spec:
         - name: OAUTH_CALLBACK_URL 
           valueFrom:
             secretKeyRef:
-              name: github_oauth
+              name: github-oauth
               key: OAUTH_CALLBACK_URL
         - name: GITHUB_CLIENT_ID
           valueFrom:
             secretKeyRef:
-              name: github_oauth
+              name: github-oauth
               key: GITHUB_CLIENT_ID
         - name: GITHUB_CLIENT_SECRET
           valueFrom:
             secretKeyRef:
-              name: github_oauth
+              name: github-oauth
               key: GITHUB_CLIENT_SECRET
         ports:
         - containerPort: 6006
@@ -66,7 +66,7 @@ spec:
 #          secret:
 #            secretName: kube-config-secret
 #        - name: hadoop-conf-dev-volume
-#          secret:
+#           secret:
 #            secretName: hadoop-conf-dev
         - name: git-volume
           gitRepo:
