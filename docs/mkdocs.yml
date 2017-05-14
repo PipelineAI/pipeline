@@ -1,7 +1,7 @@
 site_name: PipelineIO 
 site_url: http://www.pipeline.io
 site_author: PipelineIO 
-repo_url: https://github.com/fluxcapacitor/pipeline/docs
+repo_url: https://github.com/fluxcapacitor/pipeline/
 pages:
     - Home: index.md
     - Get Started:
@@ -23,7 +23,7 @@ theme: material
 extra:
   palette:
     primary: 'orange'
-    accent: 'orange'
+    accent: 'black'
     extra:
   logo: 'img/pipelineio-logo-128x128.png'
   font:
@@ -34,6 +34,16 @@ extra:
       link: 'https://github.com/fluxcapacitor/pipeline'
     - type: 'twitter'
       link: 'https://twitter.com/pipelineio'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/company/6609122/'
+    - type: 'meetup'
+      link: 'https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/'
+    - type: 'youtube'
+      link: 'https://youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw'
+    - type: 'slideshare'
+      link: 'https://www.slideshare.net/cfregly'
+      
+      
 markdown_extensions:
     - markdown_include.include:
         base_path: docs
