@@ -39,13 +39,13 @@ This command will create or update the `~/.pio/config` file and prepare you for 
 * ensemble
 
 ## Examples
-Clone the source repo
+Clone the Example [source.ml](https://github.com/fluxcapacitor/source.ml/prediction.ml) Model Store Repo
 ```
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
 ### TensorFlow
-Initialize Model
+[Initialize](init-model.md) Model
 ```
 pio init-model http://prediction-tensorflow.demo.pipeline.io \
                tensorflow \
@@ -56,17 +56,18 @@ pio init-model http://prediction-tensorflow.demo.pipeline.io \
                ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
 ```
 
-Deploy the Model
+[Deploy](deploy.md) the Model
 ```
 pio deploy
 ```
 
-Predict with Model
+[Predict](predict.md) with Model
 ```
 pio predict
 ```
 
 ### Scikit-Learn
+[Initialize](init-model.md) Model
 ```
 pio init-model http://prediction-tensorflow.demo.pipeline.io \
                python3 \
@@ -77,17 +78,18 @@ pio init-model http://prediction-tensorflow.demo.pipeline.io \
                ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
 ```
 
-Deploy the Model
+[Deploy](deploy.md) the Model
 ```
 pio deploy
 ```
 
-Predict with Model
+[Predict](predict.md) with Model
 ```
 pio predict
 ```
 
 ### Spark ML
+[Initialize](init-model.md) Model
 ```
 pio init-model http://prediction-tensorflow.demo.pipeline.io \
                spark \
@@ -98,17 +100,18 @@ pio init-model http://prediction-tensorflow.demo.pipeline.io \
                ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 ```
 
-Deploy the Model
+[Deploy](deploy.md) the Model
 ```
 pio deploy
 ```
 
-Predict with Model
+[Predict](predict.md) with Model
 ```
 pio predict
 ```
 
 ### Python3
+[Initialize](init-model.md) Model
 ```
 pio init-model http://prediction-tensorflow.demo.pipeline.io \
                python3 \
