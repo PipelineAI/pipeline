@@ -2,20 +2,58 @@ site_name: PipelineIO
 site_url: http://www.pipeline.io
 site_author: PipelineIO 
 repo_url: https://github.com/fluxcapacitor/pipeline/
+base_url: http://docs.pipeline.io
 pages:
     - Home: index.md
-    - Get Started:
+    - Getting Started:
         - 'Installation': home/install.md
         - 'Getting Started': home/getting_started.md
         - 'Environments': home/environments.md
-        - 'PipelineIO Ignore': home/pio_ignore.md
-    - Guides:
-        - 'Contributing': guides/contributing.md
+        - '.pioignore': home/pio_ignore.md
+    - Contributing: guides/contributing.md
     - CLI Commands:
-        - 'pio': commands/index.md
+        - 'All Commands': commands/index.md
+        - 'pio init-pio': commands/init-pio.md
+        - 'pio config': commands/config.md
+        - 'pio get-config-value': commands/get-config-value.md
+        - 'pio set-config-value': commands/set-config-value.md
+
         - 'pio init-model': commands/init-model.md
         - 'pio deploy': commands/deploy.md
+        - 'pio deploy-from-git': commands/deploy-from-git.md
         - 'pio predict': commands/predict.md
+        - 'pio predict-many': commands/predict-many.md
+
+        - 'pio init-kops': commands/init-kops.md
+        - 'pio up': commands/up.md
+
+        - 'pio init-cluster': commands/init-cluster.md
+        - 'pio cluster': commands/cluster.md
+        - 'pio clusters': commands/clusters.md
+        - 'pio join': commands/join.md
+        - 'pio nodes': commands/nodes.md
+        - 'pio instancegroups': commands/instancegroups.md
+        - 'pio volumes': commands/volumes.md
+        - 'pio secrets': commands/secrets.md
+        - 'pio maps': commands/maps.md
+        - 'pio system': commands/system.md
+        - 'pio top': commands/top.md
+
+        - 'pio apps': commands/apps.md
+        - 'pio start': commands/start.md
+        - 'pio stop': commands/stop.md
+        - 'pio scale': commands/scale.md
+        - 'pio upgrade': commands/upgrade.md
+        - 'pio rollback': commands/rollback.md
+        - 'pio canary': commands/canary.md
+        - 'pio logs': commands/logs.md
+        - 'pio connect': commands/connect.md
+        - 'pio shell': commands/shell.md
+        - 'pio proxy': commands/proxy.md
+        - 'pio tunnel': commands/tunnel.md
+
+        - 'pio flow': commands/flow.md
+        - 'pio submit': commands/submit.md
     - Legal:
         - 'Privacy': legal/privacy.md
         - 'Terms of Service': legal/terms.md
@@ -32,17 +70,16 @@ extra:
   social:
     - type: 'github'
       link: 'https://github.com/fluxcapacitor/pipeline'
-    - type: 'twitter'
-      link: 'https://twitter.com/pipelineio'
-    - type: 'linkedin'
-      link: 'https://www.linkedin.com/company/6609122/'
     - type: 'meetup'
       link: 'https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/'
     - type: 'youtube'
       link: 'https://youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw'
     - type: 'slideshare'
       link: 'https://www.slideshare.net/cfregly'
-      
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/company/6609122/'
+    - type: 'twitter'
+      link: 'https://twitter.com/pipelineio'
       
 markdown_extensions:
     - markdown_include.include:
