@@ -1,4 +1,4 @@
-# Insetall `pio-cli`
+# Install `pio-cli`
 ```
 pip install pio-cli
 ```
