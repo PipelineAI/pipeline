@@ -7,34 +7,25 @@ pages:
     - Get Started:
         - 'Installation': home/install.md
         - 'Getting Started': home/getting_started.md
-        - 'Using Datasets': home/using_datasets.md
-        - 'Managing Output': home/managing_output.md
-        - 'Installing Dependencies': home/installing_dependencies.md
         - 'Environments': home/environments.md
         - 'PipelineIO Ignore': home/pio_ignore.md
     - Guides:
-        - 'Jupyter Notebook': guides/jupyter.md
-        - 'Style Transfer': guides/style_transfer.md
-        - 'Deep Text Corrector': guides/deep_corrector.md
-        - 'CycleGAN': guides/cyclegan.md
-        - 'Public Datasets': guides/datasets.md
         - 'Contributing': guides/contributing.md
     - CLI Commands:
         - 'pio': commands/index.md
-        - 'pio init-model': commands/login.md
-        - 'pio deploy': commands/init.md
-        - 'pio predict': commands/run.md
+        - 'pio init-model': commands/init-model.md
+        - 'pio deploy': commands/deploy.md
+        - 'pio predict': commands/predict.md
     - Legal:
         - 'Privacy': legal/privacy.md
         - 'Terms of Service': legal/terms.md
-    - FAQs: faq.md
 theme: material
 extra:
   palette:
     primary: 'orange'
     accent: 'orange'
     extra:
-  logo: 'img/f_white_small.png'
+  logo: 'img/pipelineio-logo-128x128.png'
   font:
     text: 'Roboto'
     code: 'Source Code Pro'
