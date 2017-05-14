@@ -54,7 +54,7 @@ RUN \
   && conda install --yes graphviz==2.38.0 \
   && conda install --yes seaborn==0.7.1
 
-ENV KUBERNETES_VERSION=1.6.1
+ENV KUBERNETES_VERSION=1.6.2
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
@@ -78,14 +78,15 @@ RUN \
 
 COPY config/jupyterhub/ config/jupyterhub/
 COPY profiles/ /root/.ipython/
+COPY img/ img/
 
 ENV \
- TENSORFLOW_VERSION=1.0.1
+ TENSORFLOW_VERSION=1.1.0
 
 RUN \
   pip install tensorflow==$TENSORFLOW_VERSION
 
-EXPOSE 6006 8754
+EXPOSE 6006 8754 8755
 
 COPY run run
 

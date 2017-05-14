@@ -172,7 +172,7 @@ c.JupyterHub.ip = '0.0.0.0'
 # c.JupyterHub.last_activity_interval = 300
 
 # Specify path to a logo image to override the Jupyter logo in the banner.
-# c.JupyterHub.logo_file = ''
+c.JupyterHub.logo_file = 'img/pipelineio-logo-128x128.png'
 
 # File to write PID Useful for daemonizing jupyterhub.
 # c.JupyterHub.pid_file = ''
@@ -208,8 +208,23 @@ c.Session.debug = True
 # Should be a subclass of Spawner.
 #c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
 #c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
-c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
+#c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
 c.SimpleLocalProcessSpawner.home_path_template = '/root/'
+
+c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
+# Don't try to cleanup servers on exit - since in general for k8s, we want
+# the hub to be able to restart without losing user containers
+c.JupyterHub.cleanup_servers = False
+# First pulls can be really slow, so let's give it a big timeout
+c.KubeSpawner.start_timeout = 60 * 5
+# Our simplest user image! Optimized to just... start, and be small!
+c.KubeSpawner.singleuser_image_spec = 'yuvipanda/simple-singleuser:v1'
+# The spawned containers need to be able to talk to the hub through the proxy!
+c.KubeSpawner.hub_connect_ip = os.environ['JUPYTERHUB_SERVICE_HOST']
+c.KubeSpawner.hub_connect_port = os.environ['8754']
+c.KubeSpawner.mem_limit = '2G'
+c.KubeSpawner.cpu_limit = 1
+
 
 # Spawn user containers from this image
 #c.DockerSpawner.container_image = 'jupyter/pyspark-notebook'
