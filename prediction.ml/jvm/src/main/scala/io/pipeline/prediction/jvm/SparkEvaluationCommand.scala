@@ -37,7 +37,7 @@ class SparkEvaluationCommand(commandName: String,
       )
     )
 {
-  val modelDir = s"/root/store/spark/${namespace}/${modelName}/${version}"
+  val modelDir = s"/root/model_store/spark/${namespace}/${modelName}/${version}"
 
   val model = FileUtil.readAllBytesOrExit(Paths.get(modelDir, "model.parquet"))
 
@@ -47,7 +47,7 @@ class SparkEvaluationCommand(commandName: String,
       val results = new Array[String](k)
 /*      
       val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-        Paths.get(s"/root/store/.../images/${inputName}")))      
+        Paths.get(s"/root/model_store/.../images/${inputName}")))      
 
       val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
 

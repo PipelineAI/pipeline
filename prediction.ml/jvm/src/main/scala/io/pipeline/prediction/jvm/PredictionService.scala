@@ -61,50 +61,6 @@ class PredictionService {
   val jedisPool = new JedisPool(new JedisPoolConfig(), redisHostname, redisPort);
 
   val responseHeaders = new HttpHeaders();
-
-//  @RequestMapping(path=Array("/api/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
-//                  method=Array(RequestMethod.POST)
-//                  //produces=Array("application/json; charset=UTF-8")
-//                  )
-//  def deployJavaString(@PathVariable("namespace") namespace: String, 
-//                       @PathVariable("modelName") modelName: String,
-//                       @PathVariable("version") version: String,
-//                       @RequestBody source: String): 
-//      ResponseEntity[String] = {
-//    Try {
-//      System.out.println(s"Generating source for 'java/${namespace}/${modelName}/${version}':\n${source}")
-//
-//      // Write the new java source to local disk
-//      val path = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}")
-//      if (!path.isDirectory()) {
-//        path.mkdirs()
-//      }
-//
-//      val file = new java.io.File(s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java")
-//      if (!file.exists()) {
-//        file.createNewFile()
-//      }
-//
-//      val fos = new java.io.FileOutputStream(file)
-//      fos.write(source.getBytes())
-//
-//      val (predictor, generatedCode) = PredictorCodeGenerator.codegen(modelName, source)
-//      
-//      System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
-//      
-//      // Update Predictor in Cache
-//      predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
-//
-//      new ResponseEntity[String](generatedCode, responseHeaders, HttpStatus.OK)
-//    } match {
-//      case Failure(t: Throwable) => {
-//        val responseHeaders = new HttpHeaders();
-//        new ResponseEntity[String](s"""${t.getMessage}:\n${t.getStackTrace().mkString("\n")}""", responseHeaders,
-//          HttpStatus.BAD_REQUEST)
-//      }
-//      case Success(response) => response      
-//    }
-//  }
   
   @RequestMapping(path=Array("/api/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
@@ -118,19 +74,29 @@ class PredictionService {
     var inputStream: InputStream = null
 
     try {
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()
-  
+      val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
+      print(parentDir)
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"store/${namespace}/${modelName}/export/${version}")
+      val filepath = new java.io.File(parentDir)
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
-  
+      
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/export/${version}/${filename}"))
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()
+      print(filename)
+      val zipFilename = s"${parentDir}/${filename}"
+      print(zipFilename)
+      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
+      
+      TarGzUtil.extract(zipFilename, parentDir)
+      
+      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      
+      Files.delete(Paths.get(zipFilename))      
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -147,8 +113,8 @@ class PredictionService {
   
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
-      -d {"id":"21618"} \
-      http://[hostname]:[port]/api/v1/model/predict/java/default/java_equals/1
+      -d '{"id":"21618"}' \
+      http://[hostname]:[port]/api/v1/model/predict/java/default/java_equals/v0
 */
   @RequestMapping(path=Array("/api/v1/model/predict/java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
@@ -159,9 +125,15 @@ class PredictionService {
                      @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      val predictorOption = predictorRegistry.get("java/" + namespace + "/" + modelName + "/" + version)
-
-      val parsedInputOption = JSON.parseFull(inputJson)
+      val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
+      println(parentDir)
+      
+      println(inputJson)
+      val predictorOption = predictorRegistry.get(parentDir)
+      
+      val parsedInputOption = JSON.parseFull(inputJson)      
+      println(parsedInputOption)
+      
       val inputs: Map[String, Any] = parsedInputOption match {
         case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
         case None => Map[String, Any]() 
@@ -169,22 +141,25 @@ class PredictionService {
 
       val predictor = predictorOption match {
         case None => {
-          val sourceFileName = s"model_store/java/${namespace}/${modelName}/${version}/${modelName}.java"
-
+          val sourceFileName = s"${parentDir}/${modelName}.java"
+          println(sourceFileName)
+          
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(sourceFileName))
+          println(stream)
 			    
           // reconstuct original
           val source = stream.collect(Collectors.joining("\n"))
+          println(source)
           
           val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)
 
-          System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
+          System.out.println(s"Updating cache for '${parentDir}':\n${generatedCode}")
       
           // Update Predictor in Cache
-          predictorRegistry.put("java/" + namespace + "/" + modelName + "/" + version, predictor)
+          predictorRegistry.put(parentDir, predictor)
       
-          System.out.println(s"Updating cache for 'java/${namespace}/${modelName}/${version}':\n${generatedCode}")
+          System.out.println(s"Updating cache for '${parentDir}':\n${generatedCode}")
 
           predictor
         }
@@ -205,54 +180,6 @@ class PredictionService {
       case Success(response) => response
     }   
   }
-
-//  @RequestMapping(path=Array("/api/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
-//                  method=Array(RequestMethod.POST),
-//                  produces=Array("application/xml; charset=UTF-8"))
-//  def deployPmmlString(@PathVariable("namespace") namespace: String, 
-//                       @PathVariable("modelName") modelName: String, 
-//                       @PathVariable("version") version: String,
-//                       @RequestBody pmmlString: String): 
-//      ResponseEntity[HttpStatus] = {
-//    try {
-//      // Write the new pmml (XML format) to local disk
-//      val path = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
-//      if (!path.isDirectory()) { 
-//        path.mkdirs()
-//      }
-//
-//      val file = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
-//      if (!file.exists()) {
-//        file.createNewFile()
-//      }
-//
-//      val fos = new java.io.FileOutputStream(file)
-//      fos.write(pmmlString.getBytes())    
-//
-//      val transformedSource = ImportFilter.apply(new InputSource(new java.io.StringReader(pmmlString)))
-//
-//      val pmml = JAXBUtil.unmarshalPMML(transformedSource)
-//
-//      val predicateOptimizer = new PredicateOptimizer()
-//      predicateOptimizer.applyTo(pmml)
-//
-//      val predicateInterner = new PredicateInterner()
-//      predicateInterner.applyTo(pmml)
-//
-//      val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
-//
-//      val modelEvaluator: Evaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
-//
-//      // Update PMML in Cache
-//      pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
-//      
-//      new ResponseEntity(HttpStatus.OK)
-//    } catch {
-//       case e: Throwable => {
-//         throw e
-//       }
-//    }
-//  }
   
   @RequestMapping(path=Array("/api/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
@@ -266,19 +193,29 @@ class PredictionService {
     var inputStream: InputStream = null
 
     try {
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()
-  
+      val parentDir = s"model_store/pmml/${namespace}/${modelName}/${version}/"
+
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"model_store/pmml/${namespace}/${modelName}/${version}")
+      val filepath = new java.io.File(parentDir)
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
-  
+
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
-  
-      Files.copy(inputStream, Paths.get(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
+
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()  
+
+      val zipFilename = s"${parentDir}/${filename}"
+      
+      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
+      
+      TarGzUtil.extract(zipFilename, parentDir)
+
+      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      
+      Files.delete(Paths.get(zipFilename))      
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -307,11 +244,13 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val modelEvaluatorOption = pmmlRegistry.get("pmml/" + namespace + "/" + modelName + "/" + version)
+      val parentDir = s"model_store/pmml/${namespace}/${modelName}/${version}/"
+            
+      val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"model_store/pmml/${namespace}/${modelName}/${version}/${modelName}.pmml")
+          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -327,7 +266,7 @@ class PredictionService {
           val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
   
           // Cache modelEvaluator
-          pmmlRegistry.put("pmml/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+          pmmlRegistry.put(parentDir, modelEvaluator)
           
           modelEvaluator
         }
@@ -357,19 +296,29 @@ class PredictionService {
     var inputStream: InputStream = null
 
     try {
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()
+      val parentDir = s"model_store/xgboost/${namespace}/${modelName}/${version}/"
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"model_store/xgboost/${namespace}/${modelName}/${version}")
+      val filepath = new java.io.File(s"${parentDir}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
   
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
-  
-      Files.copy(inputStream, Paths.get(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml"), StandardCopyOption.REPLACE_EXISTING)
+
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()  
+
+      val zipFilename = s"${parentDir}/${filename}"
+      
+      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
+      
+      TarGzUtil.extract(zipFilename, parentDir)
+
+      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      
+      Files.delete(Paths.get(zipFilename))      
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -398,11 +347,13 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val modelEvaluatorOption = pmmlRegistry.get("xgboost/" + namespace + "/" + modelName + "/" + version)
+      val parentDir = s"model_store/xgboost/${namespace}/${modelName}/${version}/"
+      
+      val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"model_store/xgboost/${namespace}/${modelName}/${version}/${modelName}.pmml")
+          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.xgboost")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -418,7 +369,7 @@ class PredictionService {
           val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
   
           // Cache modelEvaluator
-          pmmlRegistry.put("xgboost/" + namespace + "/" + modelName + "/" + version, modelEvaluator)
+          pmmlRegistry.put(parentDir, modelEvaluator)
           
           modelEvaluator
         }
@@ -436,7 +387,113 @@ class PredictionService {
     }
   }    
   
-  @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
+  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+  //  -F "file=@bundle.tar.gz" \
+  //  http://[host]:[port]/api/v1/model/deploy/spark/[namespace]/[model_name]/[version]
+  @RequestMapping(path=Array("/api/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST))
+  def deploySpark(@PathVariable("namespace") namespace: String,
+                  @PathVariable("modelName") modelName: String, 
+                  @PathVariable("version") version: String,
+                  @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
+
+    var inputStream: InputStream = null
+
+    try {
+      val parentDir = s"model_store/spark/${namespace}/${modelName}/${version}/"
+
+      // Path where the uploaded file will be stored.
+      val filepath = new java.io.File(s"${parentDir}")
+      if (!filepath.isDirectory()) {
+        filepath.mkdirs()
+      }
+  
+      // This buffer will store the data read from 'model' multipart file
+      inputStream = file.getInputStream()
+      
+      // Get name of uploaded file.
+      val filename = file.getOriginalFilename()  
+
+      val zipFilename = s"${parentDir}/${filename}"
+      
+      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
+      
+      TarGzUtil.extract(zipFilename, parentDir)
+
+      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      
+      Files.delete(Paths.get(zipFilename))      
+    } catch {
+      case e: Throwable => {
+        System.out.println(e)
+        throw e
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close()
+      }
+    }
+
+    new ResponseEntity(HttpStatus.OK)
+  }
+
+  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
+  //  http://[host]:[port]/api/v1/model/predict/spark/[namespace]/[model_name]/[version]
+  @RequestMapping(path=Array("/api/v1/model/predict/spark/{namespace}/{modelName}/{version}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+    def predictSpark(@PathVariable("namespace") namespace: String,
+                     @PathVariable("modelName") modelName: String,
+                     @PathVariable("version") version: String,
+                     @RequestBody inputJson: String): String = {
+    try {
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
+      
+      val parentDir = s"model_store/spark/${namespace}/${modelName}/${version}/"
+      
+      val modelEvaluatorOption = pmmlRegistry.get(parentDir)
+
+      val modelEvaluator = modelEvaluatorOption match {
+        case None => {     
+          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.pmml")
+          val transformedSource = ImportFilter.apply(new InputSource(fis))
+  
+          val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+  
+          val predicateOptimizer = new PredicateOptimizer()
+          predicateOptimizer.applyTo(pmml)
+  
+          val predicateInterner = new PredicateInterner()
+          predicateInterner.applyTo(pmml)
+  
+          val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+  
+          val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+  
+          // Cache modelEvaluator
+          pmmlRegistry.put(parentDir, modelEvaluator)
+          
+          modelEvaluator
+        }
+        case Some(modelEvaluator) => modelEvaluator
+      }          
+        
+      val results = new SparkEvaluationCommand(modelName, namespace, modelName, version, inputs, s"""{"result": "fallback"}""", 50, 20, 10)
+       .execute()
+
+      s"""{"results":[${results}]}"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }
+  
+ @RequestMapping(path=Array("/api/v1/model/predict/keyvalue/{namespace}/{collection}/{version}/{userId}/{itemId}"),
                   produces=Array("application/json; charset=UTF-8"))
   def predictKeyValue(@PathVariable("namespace") namespace: String,
                       @PathVariable("collection") collection: String,
@@ -513,71 +570,6 @@ class PredictionService {
        case e: Throwable => {
          throw e
        }
-    }
-  }
-  
-  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-  //  -F "model=@tensorflow_inception_graph.pb" \
-  //  http://[host]:[port]/api/v1/model/deploy/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/api/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST))
-  def deploySpark(@PathVariable("namespace") namespace: String,
-                  @PathVariable("modelName") modelName: String, 
-                  @PathVariable("version") version: String,
-                  @RequestParam("model") model: MultipartFile): ResponseEntity[HttpStatus] = {
-
-    var inputStream: InputStream = null
-
-    try {
-      // Get name of uploaded file.
-      val filename = model.getOriginalFilename()
-  
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"model_store/spark/${namespace}/${modelName}/${version}")
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-  
-      // This buffer will store the data read from 'model' multipart file
-      inputStream = model.getInputStream()
-  
-      Files.copy(inputStream, Paths.get(s"model_store/spark/${namespace}/${modelName}/${version}/${filename}"))
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
-    } finally {
-      if (inputStream != null) {
-        inputStream.close()
-      }
-    }
-
-    new ResponseEntity(HttpStatus.OK)
-  }
-
-  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-  //  -F "input=@input.json" \
-  //  http://[host]:[port]/api/v1/model/predict/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/api/v1/model/predict/spark/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST),
-                  produces=Array("application/json; charset=UTF-8"))
-    def predictSpark(@PathVariable("namespace") namespace: String,
-                     @PathVariable("modelName") modelName: String,
-                     @PathVariable("version") version: String,
-                     @RequestBody inputJson: String): String = {
-    try {
-      val inputs = JSON.parseFull(inputJson).get.asInstanceOf[Map[String,Any]]
-    
-      val results = new SparkEvaluationCommand(modelName, namespace, modelName, version, inputs, "fallback", 5000, 20, 10)
-          .execute()
-  
-      s"""{"results":[${results}]}"""
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
     }
   }  
 }
