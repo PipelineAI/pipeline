@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.50"
+__version__ = "0.51"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -973,7 +973,7 @@ class PioCli(object):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, pretty=True)
-            pods = reponse.items
+            pods = response.items
             for pod in pods:
                 if app_name in pod.metadata.name:
                     found = True
