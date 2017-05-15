@@ -75,7 +75,7 @@ class PredictionService {
 
     try {
       val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
-      print(parentDir)
+      
       // Path where the uploaded file will be stored.
       val filepath = new java.io.File(parentDir)
       if (!filepath.isDirectory()) {
@@ -87,9 +87,9 @@ class PredictionService {
   
       // Get name of uploaded file.
       val filename = file.getOriginalFilename()
-      print(filename)
+      
       val zipFilename = s"${parentDir}/${filename}"
-      print(zipFilename)
+      
       Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
       
       TarGzUtil.extract(zipFilename, parentDir)
@@ -152,14 +152,10 @@ class PredictionService {
           val source = stream.collect(Collectors.joining("\n"))
           println(source)
           
-          val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)
-
-          System.out.println(s"Updating cache for '${parentDir}':\n${generatedCode}")
+          val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)        
       
           // Update Predictor in Cache
           predictorRegistry.put(parentDir, predictor)
-      
-          System.out.println(s"Updating cache for '${parentDir}':\n${generatedCode}")
 
           predictor
         }
@@ -273,7 +269,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
        .execute()
 
       s"""{"results":[${results}]}"""
@@ -376,7 +372,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 25, 20, 10)
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
        .execute()
 
       s"""{"results":[${results}]}"""
