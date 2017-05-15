@@ -1,4 +1,8 @@
 # PipelineIO Commands
+## Installation
+```
+pip install -U pio-cli
+```
 
 ## PipelineIO CLI Configuration
 | Command              | Description                                               |
