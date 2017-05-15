@@ -34,6 +34,12 @@ spec:
           value: ""
         - name: JUPYTERHUB_AUTHENTICATOR
           value: dummyauthenticator.DummyAuthenticator 
+        - name: OAUTH_CALLBACK_URL
+          value: ''
+        - name: GITHUB_CLIENT_ID
+          value: ''
+        - name: GITHUB_CLIENT_SECRET
+          value ''
         ports:
         - containerPort: 6006
         - containerPort: 8754
