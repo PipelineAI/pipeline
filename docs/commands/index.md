@@ -5,8 +5,8 @@
 | -------------------- | --------------------------------------------------------- |
 | pio init-pio         | Initialize PIO CLI                                        |
 | pio config           | View current configuration                                |
-| pio config-get-value | Get value for config key                                  |
-| pio config-set-value | Set value for config key                                  |
+| pio config-get       | Get value for config key                                  |
+| pio config-set       | Set value for config key                                  |
 
 ## AI/ML Model Management
 | Command              | Description                                               |
