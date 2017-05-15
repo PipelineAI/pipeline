@@ -1,4 +1,4 @@
-## Login to PipelineIO
+## Login to PipelineIO Community
 ```
 http://www.community.pipeline.io
 ```
