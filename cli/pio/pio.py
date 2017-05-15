@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.47"
+__version__ = "0.51"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -40,7 +40,7 @@ class PioCli(object):
                             'presto-ui': (['presto.ml/ui-deploy.yaml'], ['presto']),
                             'airflow': (['scheduler.ml/airflow-deploy.yaml'], ['mysql', 'redis']),
                             'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
-                            'www': (['web.ml/home-deploy.yaml'], []),
+                            'web-home': (['web.ml/home-deploy.yaml'], []),
                             'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
                             'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-deploy.yaml'], []),
@@ -74,7 +74,7 @@ class PioCli(object):
                          'presto-ui': (['presto.ml/ui-svc.yaml'], ['presto']),
                          'airflow': (['scheduler.ml/airflow-svc.yaml'], ['mysql', 'redis']),
                          'mysql': (['sql.ml/mysql-master-svc.yaml'], []),
-                         'www': (['web.ml/home-svc.yaml'], []),
+                         'web-home': (['web.ml/home-svc.yaml'], []),
                          'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
                          'zookeeper': (['zookeeper.ml/zookeeper-svc.yaml'], []),
                          'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-svc.yaml'], []),
@@ -105,17 +105,17 @@ class PioCli(object):
         return 'v1.2.0'
 
 
-    def get_config_value(self,
-                         config_key):
+    def config_get(self,
+                   config_key):
         print("")
         pprint(self._get_full_config())
         print("")
         return self._get_full_config()[config_key]
 
 
-    def set_config_value(self,
-                         config_key,
-                         config_value):
+    def config_set(self,
+                   config_key,
+                   config_value):
         print("config_key: '%s'" % config_key)
         self._merge_config_dict({config_key: config_value})
         print("config_value: '%s'" % self._get_full_config()[config_key])
@@ -126,7 +126,7 @@ class PioCli(object):
 
 
     def _merge_config_dict(self, 
-                          config_dict):
+                           config_dict):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -713,9 +713,13 @@ class PioCli(object):
             upload_key = 'file'
             upload_value = compressed_model_bundle_filename
         else:
-            model_file = model_path
-            upload_key = 'file'
-            upload_value = os.path.split(model_path)
+            print("")
+            print("Model path must be a directory.  Use .pioignore within the directory to keep files from being uploaded.")
+            print("")
+            return
+            #model_file = model_path
+            #upload_key = 'file'
+            #upload_value = os.path.split(model_path)
 
         full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 
@@ -971,7 +975,7 @@ class PioCli(object):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, pretty=True)
-            pods = reponse.items
+            pods = response.items
             for pod in pods:
                 if app_name in pod.metadata.name:
                     found = True
