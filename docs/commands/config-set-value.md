@@ -1,8 +1,8 @@
-Deploy a PipelineIO model.
+Set a config value by key.
 
 ### Usage
 ```bash
-pio deploy 
+pio config-set-value 
 ```
 
 ### (Optional) Parameters 

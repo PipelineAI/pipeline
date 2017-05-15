@@ -15,8 +15,8 @@ pages:
         - 'All Commands': commands/index.md
         - 'pio init-pio': commands/init-pio.md
         - 'pio config': commands/config.md
-        - 'pio get-config-value': commands/get-config-value.md
-        - 'pio set-config-value': commands/set-config-value.md
+        - 'pio config-get-value': commands/config-get-value.md
+        - 'pio config-set-value': commands/config-set-value.md
 
         - 'pio init-model': commands/init-model.md
         - 'pio deploy': commands/deploy.md

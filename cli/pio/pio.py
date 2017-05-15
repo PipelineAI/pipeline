@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.47"
+__version__ = "0.49"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -103,7 +103,7 @@ class PioCli(object):
         return 'v1.2.0'
 
 
-    def get_config_value(self,
+    def config_get_value(self,
                          config_key):
         print("")
         pprint(self._get_full_config())
@@ -111,7 +111,7 @@ class PioCli(object):
         return self._get_full_config()[config_key]
 
 
-    def set_config_value(self,
+    def config_set_value(self,
                          config_key,
                          config_value):
         print("config_key: '%s'" % config_key)
@@ -711,9 +711,13 @@ class PioCli(object):
             upload_key = 'file'
             upload_value = compressed_model_bundle_filename
         else:
-            model_file = model_path
-            upload_key = 'file'
-            upload_value = os.path.split(model_path)
+            print("")
+            print("Model path must be a directory.  Use .pioignore within the directory to keep files from being uploaded.")
+            print("")
+            return
+            #model_file = model_path
+            #upload_key = 'file'
+            #upload_value = os.path.split(model_path)
 
         full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
 

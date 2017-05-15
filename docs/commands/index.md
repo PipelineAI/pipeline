@@ -1,21 +1,21 @@
 # PipelineIO Commands
 
 ## PipelineIO CLI Configuration
-| Command              | Description                                                 |
-| -------------------- | ----------------------------------------------------------- |
-| pio init-pio         | Initialize PIO CLI                                          |
-| pio config           | View current configuration                                  |
-| pio get-config-value | Get value for config key                                    |
-| pio set-config-value | Set value for config key                                    |
+| Command              | Description                                               |
+| -------------------- | --------------------------------------------------------- |
+| pio init-pio         | Initialize PIO CLI                                        |
+| pio config           | View current configuration                                |
+| pio config-get-value | Get value for config key                                  |
+| pio config-set-value | Set value for config key                                  |
 
 ## AI/ML Model Management
-| Command              | Description                                                 |
-| -------------------- | ----------------------------------------------------------- |
-| pio init-model       | Initialize model for deployment and prediction              |
-| pio deploy           | Deploy model to model server                                |
-| pio deploy-from-git  | Deploy a model from git                                     |
-| pio predict          | Predict with model                                          |
-| pio predict-many     | Predict many times (mini load-test)                         |
+| Command              | Description                                               |
+| -------------------- | --------------------------------------------------------- |
+| pio init-model       | Initialize model for deployment and prediction            |
+| pio deploy           | Deploy model to model server                              |
+| pio deploy-from-git  | Deploy a model from git                                   |
+| pio predict          | Predict with model                                        |
+| pio predict-many     | Predict many times (mini load-test)                       |
 
 ## New Cluster Creation
 | Command            | Description                                                 |
