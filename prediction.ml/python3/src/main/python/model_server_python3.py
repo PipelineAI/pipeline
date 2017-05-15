@@ -146,12 +146,18 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
             with tarfile.open(bundle_path_filename, "r:gz") as tar:
                 tar.extractall(path=bundle_path)
             logger.info('...Done!')
-            #logger.info('Installing bundle and updating environment...\n')
+            logger.info('')
+            logger.info('Installing bundle and updating environment...\n')
             #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
-            #                                   timeout=600,
-            #                                   shell=True,
-            #                                   stdout=subprocess.PIPE)
-            #logger.info('...Done!')
+            completed_process = subprocess.run('cd %s && [ -s ./requirements_conda.txt ] && conda install --yes --file ./requirements_conda.txt' % bundle_path,
+                                               timeout=600,
+                                               shell=True,
+                                               stdout=subprocess.PIPE)
+            completed_process = subprocess.run('cd %s && [ -s ./requirements.txt ] && pip install -r ./requirements.txt' % bundle_path,
+                                               timeout=600,
+                                               shell=True,
+                                               stdout=subprocess.PIPE)
+            logger.info('...Done!')
             self.write('Model successfully deployed!')
         except IOError as e:
             logger.error('Failed to write file due to IOError %s' % str(e))

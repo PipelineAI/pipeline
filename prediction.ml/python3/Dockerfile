@@ -77,7 +77,8 @@ ENV \
   PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 RUN \
-  conda create --yes -n model_environment_python3 python=3.5
+  conda create --yes -n model_environment_python3 python=3.5 
+#  && source activate model_environment_python3
 
 RUN \
   create_model_server_environment_python3
