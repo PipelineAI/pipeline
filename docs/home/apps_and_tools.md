@@ -1,4 +1,4 @@
-# Tools 
+# Applications and Tools 
 
 Below is the list of applications and tools supported by PipelineIO.
 

@@ -8,9 +8,10 @@ pages:
     - Getting Started: home/getting_started.md
 #        - 'Installation': home/install.md
 #        - 'Getting Started': home/getting_started.md 
-    - Supported Models: home/environments.md
+    - GPUs: home/gpus.md
+    - Supported Models: home/model_environments.md
 #        - '.pioignore': home/pio_ignore.md
-    - Supported Apps and Tools: home/apps-and-tools.md
+    - Supported Apps and Tools: home/apps_and_tools.md
     - CLI Commands: commands/index.md
 #        - 'All Commands': commands/index.md
 #        - 'pio init-pio': commands/init-pio.md
@@ -66,8 +67,8 @@ extra:
   social:
     - type: 'github'
       link: 'https://github.com/fluxcapacitor/pipeline'
-    - type: 'dockerhub'
-      link: 'https://hub.docker.com/r/fluxcapacitor'
+#    - type: 'docker'
+#      link: 'https://hub.docker.com/r/fluxcapacitor'
     - type: 'meetup'
       link: 'https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/'
     - type: 'youtube'

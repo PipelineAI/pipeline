@@ -1,6 +1,6 @@
 ## Login to PipelineIO
 ```
-http://jupyter.demo.pipeline.io
+http://www.community.pipeline.io
 ```
 
 {!contributing.md!}
