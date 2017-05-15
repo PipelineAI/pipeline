@@ -159,13 +159,18 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
             print("")
             print("...Done!")
             print("")
-            #print('Installing bundle and updating environment...\n')
+            logger.info('Installing bundle and updating environment...\n')
             # TODO:  Restart TensorFlow Model Serving and point to bundle_path_with_model_name
             #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
-            #                                   timeout=600,
-            #                                   shell=True,
-            #                                   stdout=subprocess.PIPE)
-            #print('...Done!\n')
+            completed_process = subprocess.run('cd %s && [ -s ./requirements_conda.txt ] && conda install --yes --file ./requirements_conda.txt' % bundle_path,
+                                               timeout=600,
+                                               shell=True,
+                                               stdout=subprocess.PIPE)
+            completed_process = subprocess.run('cd %s && [ -s ./requirements.txt ] && pip install -r ./requirements.txt' % bundle_path,
+                                               timeout=600,
+                                               shell=True,
+                                               stdout=subprocess.PIPE)
+            logger.info('...Done!')
         except IOError as e:
             print('Failed to write file due to IOError %s' % str(e))
             self.write('Failed to write file due to IOError %s' % str(e))

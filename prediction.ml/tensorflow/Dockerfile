@@ -87,7 +87,8 @@ RUN \
   && pip uninstall -y /tmp/pip/tensorflow-1.1.0rc0-cp35-cp35m-linux_x86_64.whl
 
 RUN \
-  conda create --yes -n model_environment_python3 python=3.5
+  conda create --yes -n model_environment_python3 python=3.5 
+#  && source activate model_environment_python3
 
 RUN \
   create_model_server_environment_python3
