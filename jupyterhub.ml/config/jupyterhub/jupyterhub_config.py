@@ -208,10 +208,10 @@ c.Session.debug = True
 # Should be a subclass of Spawner.
 #c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
 #c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
-#c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
+c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
 c.SimpleLocalProcessSpawner.home_path_template = '/root/'
 
-c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
+#c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
 # Don't try to cleanup servers on exit - since in general for k8s, we want
 # the hub to be able to restart without losing user containers
 c.JupyterHub.cleanup_servers = False
@@ -222,7 +222,7 @@ c.KubeSpawner.singleuser_image_spec = 'yuvipanda/simple-singleuser:v1'
 # The spawned containers need to be able to talk to the hub through the proxy!
 c.KubeSpawner.hub_connect_ip = os.environ['JUPYTERHUB_SERVICE_HOST']
 #c.KubeSpawner.hub_connect_ip = 'jupyterhub'
-c.KubeSpawner.hub_connect_port = 8755
+c.KubeSpawner.hub_connect_port = 8754
 c.KubeSpawner.mem_limit = '2G'
 c.KubeSpawner.cpu_limit = 1
 
