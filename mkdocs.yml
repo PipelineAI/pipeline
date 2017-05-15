@@ -10,7 +10,7 @@ pages:
 #        - 'Getting Started': home/getting_started.md 
     - Supported Models: home/environments.md
 #        - '.pioignore': home/pio_ignore.md
-    - Supported Tools: home/tools.md
+    - Supported Apps and Tools: home/apps-and-tools.md
     - CLI Commands: commands/index.md
 #        - 'All Commands': commands/index.md
 #        - 'pio init-pio': commands/init-pio.md
