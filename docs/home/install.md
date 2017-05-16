@@ -6,7 +6,7 @@ runs on both Python 2.7 and Python 3.
 Use `pip` to install the cli.
 
 ```bash
-pip install -U pio-cli
+pip install pio-cli
 ```
 
 You can view the commands supported by the CLI using just `pio`. 
