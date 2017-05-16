@@ -45,17 +45,24 @@ git clone https://github.com/fluxcapacitor/source.ml
 **TensorFlow**
 
 `model_type`: `tensorflow`
+
+Initialize Model
 ```
-pio init-model http://your.model.server.com \
-               tensorflow \
-               default \
-               tensorflow_linear \
-               0 \
-               ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
-               ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+pio init-model --model-server-url http://your.model.server.com \
+               --model-type tensorflow \
+               --model-namespace default \
+               --model-name tensorflow_linear \
+               --model-version 0 \
+               --model-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
+               --model-test-input-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+```
 
+Deploy Model
+```
 pio deploy
-
+```
+Predict Model
+```
 pio predict
 ```
 
