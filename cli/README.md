@@ -163,3 +163,34 @@ Predict Model
 ```
 pio predict
 ```
+
+**PMML**
+
+model_type: `pmml`
+
+
+Start Model Server
+```
+pio start prediction-pmml
+```
+
+Initialize Model
+```
+pio init-model http://your.model.server.com \
+               pmml \
+               default \
+               pmml_airbnb \
+               v0 \
+               ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
+               ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
+```
+
+Deploy Model
+```
+pio deploy
+```
+
+Predict Model
+```
+pio predict
+```
