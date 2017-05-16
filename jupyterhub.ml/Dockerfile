@@ -108,6 +108,14 @@ RUN \
     'r-crayon=1.3*' \
     'r-randomforest=4.6*' && conda clean -tipsy
 
+
+COPY share/ share/
+
+RUN \
+  mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
+  && cd /opt/conda/share/jupyter/hub/templates/ \
+  && ln -s ~/share/jupyter/hub/templates/login.html
+
 EXPOSE 6006 8754 8755
 
 COPY run run
