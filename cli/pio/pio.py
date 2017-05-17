@@ -292,13 +292,14 @@ class PioCli(object):
             print("")
             self._get_cluster_resources()
 
+        print("")
         print("If you see an error above, you need to start Heapster with 'pio start heapster'.")
         print("")
 
 
     def _get_cluster_resources(self):
         subprocess.call("kubectl top node", shell=True)
-
+        print("")
 
     def _get_app_resources(self,
                            app_name):
@@ -533,20 +534,20 @@ class PioCli(object):
                 print("")
                 print("Upgrading app '%s' using Docker image '%s:%s'." % (deploy.metadata.name, docker_image, docker_tag))
                 print("")
-                kube_command = "kubectl set image deploy %s %s=%s:%s" % (deploy.metadata.name, deploy.metadata.name, docker_image, docker_tag)
-                print("Executing '%s'." % kube_command)
+                kube_cmd = "kubectl set image deploy %s %s=%s:%s" % (deploy.metadata.name, deploy.metadata.name, docker_image, docker_tag)
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
-                kube_command = "kubectl rollout status deploy %s" % deploy.metadata.name
-                print("Executing '%s'." % kube_command)
+                kube_cmd = "kubectl rollout status deploy %s" % deploy.metadata.name
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
-                kube_command = "kubectl rollout history deploy %s" % deploy.metadata.name
-                print("Executing '%s'." % kube_command)
+                kube_cmd = "kubectl rollout history deploy %s" % deploy.metadata.name
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
                 print("Check status with 'pio cluster'.")
                 print("")
@@ -589,24 +590,24 @@ class PioCli(object):
                 print("")
                 if to_revision:
                     print("Rolling back app '%s' to revision '%s'." % deploy.metadata.name, revision)
-                    kube_command = "kubectl rollout undo deploy %s --to-revision=%s" % (deploy.metadata.name, to_revision)
+                    kube_cmd = "kubectl rollout undo deploy %s --to-revision=%s" % (deploy.metadata.name, to_revision)
                 else:
                     print("Rolling back app '%s'." % deploy.metadata.name)
-                    kube_command = "kubectl rollout undo deploy %s" % deploy.metadata.name
+                    kube_cmd = "kubectl rollout undo deploy %s" % deploy.metadata.name
                 print("")
-                print("Executing '%s'." % kube_command)
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
-                kube_command = "kubectl rollout status deploy %s" % deploy.metadata.name
-                print("Executing '%s'." % kube_command)
+                kube_cmd = "kubectl rollout status deploy %s" % deploy.metadata.name
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
-                kube_command = "kubectl rollout history deploy %s" % deploy.metadata.name
-                print("Executing '%s'." % kube_command)
+                kube_cmd = "kubectl rollout history deploy %s" % deploy.metadata.name
+                print("Running '%s'." % kube_cmd)
                 print("")
-                subprocess.call(kube_command, shell=True)
+                subprocess.call(kube_cmd, shell=True)
                 print("")
                 print("Check status with 'pio cluster'.")
                 print("")
@@ -705,7 +706,7 @@ class PioCli(object):
             compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
 
             print("")
-            print("Compressing model bundle '%s'\nto '%s'." % (model_path, compressed_model_bundle_filename))  
+            print("Compressing model bundle '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
             print("")
             with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
                 tar.add(model_path, arcname='.')
@@ -726,7 +727,7 @@ class PioCli(object):
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
             print("")
-            print("Deploying model '%s'\nto '%s'." % (model_file, full_model_url))
+            print("Deploying model '%s' to '%s'." % (model_file, full_model_url))
             print("")
             headers = {'Accept': 'application/json'}
             try:
@@ -739,7 +740,7 @@ class PioCli(object):
                 print("")
                 print("Success!")
                 print("")
-                print("Predict with\n'pio predict'\nor POST to\n'%s'" % full_model_url.replace('/deploy/','/predict/'))
+                print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/'))
                 print("")
             except IOError as e:
                 print("Error while deploying model.\nError: '%s'" % str(e))
@@ -851,7 +852,7 @@ class PioCli(object):
 
         full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
         print("")
-        print("Predicting with file '%s'\nusing '%s'" % (model_test_input_path, full_model_url))
+        print("Predicting with file '%s' using '%s'" % (model_test_input_path, full_model_url))
         print("")
         with open(model_test_input_path, 'rb') as fh:
             model_input_binary = fh.read()
@@ -916,7 +917,7 @@ class PioCli(object):
         self.apps()
 
         print("DNS Internal (Public)")
-        print("**************************")
+        print("*********************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_service_for_all_namespaces(watch=False, 
@@ -932,8 +933,8 @@ class PioCli(object):
                 print("%s (%s)" % (svc.metadata.name, ingress))
 
         print("")
-        print("Running Pods")
-        print("************")
+        print("Containers (Pods)")
+        print("****************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
@@ -1084,8 +1085,8 @@ class PioCli(object):
             return
 
         print("")
-        print("All Available Apps")
-        print("******************")
+        print("Available Apps")
+        print("**************")
         self._get_all_available_apps()
 
         kubeconfig.load_kube_config()
@@ -1093,7 +1094,7 @@ class PioCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("")
-        print("Started Apps")
+        print("Running Apps")
         print("************")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -1217,7 +1218,10 @@ class PioCli(object):
                 print("")
                 print("Scaling app '%s' to '%s' replicas." % (deploy.metadata.name, replicas))
                 print("")
-                subprocess.call("kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas), shell=True)
+                kube_cmd = "kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas)
+                print("Running '%s'." % kube_cmd)
+                print("")
+                subprocess.call(kube_cmd, shell=True)
                 print("")
                 print("Check status with 'pio cluster'.")
                 print("")
@@ -1383,7 +1387,10 @@ class PioCli(object):
         config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(app_name)
         secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(app_name)
         deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(app_name)
+        #print(deploy_yaml_filenames)
+ 
         svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(app_name)
+        #print(svc_yaml_filenames)
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1399,19 +1406,25 @@ class PioCli(object):
         print("")
         print("Starting app '%s'." % app_name)
         print("")
-        print("Ignore any 'Already Exists' errors.  These are OK.")
-        print("")
         print("Kubernetes Deployments:")
         print("")
         for deploy_yaml_filename in deploy_yaml_filenames:
             try:
                 if 'http:' in deploy_yaml_filename or 'https:' in deploy_yaml_filename:
                     deploy_yaml_filename = deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
-                    subprocess.call("kubectl create -f %s --record" % deploy_yaml_filename, shell=True)
+                    kube_cmd = "kubectl create -f %s --record" % deploy_yaml_filename
+                    print("Running '%s'." % kube_cmd)
+                    print("")
+                    subprocess.call(kube_cmd, shell=True)
+                    print("")
                 else:
                     if 'http:' in pio_git_home or 'https:' in pio_git_home:
                         pio_git_home = pio_git_home.replace('github.com', 'raw.githubusercontent.com')
-                        subprocess.call("kubectl create -f %s/%s/%s --record" % (pio_git_home.rstrip('/'), pio_git_version, deploy_yaml_filename), shell=True)
+                        kube_cmd = "kubectl create -f %s/%s/%s --record" % (pio_git_home.rstrip('/'), pio_git_version, deploy_yaml_filename)
+                        print("Running '%s'." % kube_cmd)
+                        print("")
+                        subprocess.call(kube_cmd, shell=True)
+                        print("")
                     else:
                         with open(os.path.join(pio_git_home, deploy_yaml_filename)) as fh:
                             deploy_yaml = yaml.load(fh)
@@ -1433,11 +1446,19 @@ class PioCli(object):
             try:
                 if 'http:' in svc_yaml_filename or 'https:' in svc_yaml_filename:
                     svc_yaml_filename = svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
-                    subprocess.call("kubectl create -f %s --record" % svc_yaml_filename, shell=True)
+                    kube_cmd = "kubectl create -f %s --record" % svc_yaml_filename
+                    print("Running '%s'." % kube_cmd)
+                    print("")
+                    subprocess.call(kube_cmd, shell=True)
+                    print("")
                 else:
                     if 'http:' in pio_git_home or 'https:' in pio_git_home:
                         pio_git_home = pio_git_home.replace('github.com', 'raw.githubusercontent.com')
-                        subprocess.call("kubectl create -f %s/%s/%s --record" % (pio_git_home.rstrip('/'), pio_git_version, svc_yaml_filename), shell=True)
+                        kube_cmd = "kubectl create -f %s/%s/%s --record" % (pio_git_home.rstrip('/'), pio_git_version, svc_yaml_filename)
+                        print("Running '%s'." % kube_cmd)
+                        print("")
+                        subprocess.call(kube_cmd, shell=True)
+                        print("")
                     else:
                         with open(os.path.join(pio_git_home, svc_yaml_filename)) as fh:
                             svc_yaml = yaml.load(fh)
@@ -1452,6 +1473,8 @@ class PioCli(object):
                 print("App '%s' did not start properly.\n%s" % (svc_yaml_filename, str(e)))
                 print("")
 
+        print("")
+        print("Ignore any 'Already Exists' errors.  These are OK.")
         print("")
         print("Check app status with 'pio apps' or 'pio cluster'.")
         print("")
@@ -1488,7 +1511,10 @@ class PioCli(object):
                 print("")
                 print("Stopping app '%s'." % deploy.metadata.name)
                 print("")
-                subprocess.call("kubectl delete deploy %s" % deploy.metadata.name, shell=True)
+                kube_cmd = "kubectl delete deploy %s" % deploy.metadata.name
+                print("Running '%s'." % kube_cmd)
+                print("")
+                subprocess.call(kube_cmd, shell=True)
                 print("")
                 print("Check app status with 'pio apps' or 'pio cluster'.")
                 print("")
@@ -1496,54 +1522,6 @@ class PioCli(object):
                 print("")
                 print("App '%s' is not running." % app_name)
                 print("")
-
-
-#    def git_init(self,
-#                      git_repo_base_path,
-#                      git_revision='HEAD'):
-
-#        expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
-#        expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
-#        expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
-
-#        pio_api_version = self._get_full_config()['pio_api_version']
-
-#        print("git_repo_base_path: '%s'" % git_repo_base_path)
-#        print("expanded_git_repo_base_path: '%s'" % expanded_git_repo_base_path)
-#        print("git_revision: '%s'" % git_revision)
-
-#        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=True)
- 
-#        config_dict = {'git_repo_base_path': git_repo.working_tree_dir , 'git_revision': git_revision}
-
-#        self._merge_config_dict(config_dict)
-#        pprint(self._get_full_config())
-#        print("")
-
-#    def git(self):
-#        pio_api_version = self._get_full_config()['pio_api_version']
-#        try: 
-#            git_repo_base_path = self._get_full_config()['git_repo_base_path']
-
-#            expanded_git_repo_base_path = os.path.expandvars(git_repo_base_path)
-#            expanded_git_repo_base_path = os.path.expanduser(expanded_git_repo_base_path)
-#            expanded_git_repo_base_path = os.path.abspath(expanded_git_repo_base_path)
-
-#            git_revision = self._get_full_config()['git_revision']
-#        except:
-#            print("Git needs to be configured with 'pio git-init'.")
-#            return
-
-#        pprint(self._get_full_config())
-
-#        git_repo = Repo(expanded_git_repo_base_path, search_parent_directories=False)
-#        ch = git_repo.commit(git_revision)
-
-#        print("Git repo base path: '%s'" % git_repo_base_path)
-#        print("Git revision: '%s'" % git_revision)
-#        print("Git commit message: '%s'" % ch.message)
-#        print("Git commit hash: '%s'" % ch.hexsha)
-#        print("")
 
 
 def main():
