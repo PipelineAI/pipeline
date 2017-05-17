@@ -126,13 +126,10 @@ class PredictionService {
       ResponseEntity[String] = {
     Try {
       val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
-      println(parentDir)
-      
-      println(inputJson)
+
       val predictorOption = predictorRegistry.get(parentDir)
       
       val parsedInputOption = JSON.parseFull(inputJson)      
-      println(parsedInputOption)
       
       val inputs: Map[String, Any] = parsedInputOption match {
         case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
@@ -142,15 +139,12 @@ class PredictionService {
       val predictor = predictorOption match {
         case None => {
           val sourceFileName = s"${parentDir}/${modelName}.java"
-          println(sourceFileName)
           
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(sourceFileName))
-          println(stream)
 			    
           // reconstuct original
           val source = stream.collect(Collectors.joining("\n"))
-          println(source)
           
           val (predictor, generatedCode) = JavaCodeGenerator.codegen(modelName, source)        
       
@@ -589,7 +583,7 @@ object JavaCodeGenerator {
       val clazz = CodeGenerator.compile(codeGenBundle)
       val generatedCode = CodeFormatter.format(codeGenBundle)
 
-      System.out.println(s"\n${generatedCode}}")      
+      System.out.println(s"Generated code: \n${generatedCode}}")      
             
       val bar = clazz.newInstance().asInstanceOf[Initializable]
       bar.initialize(references)
