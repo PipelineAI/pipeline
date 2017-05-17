@@ -4,6 +4,7 @@ val globalSettings = Seq(
 )
 
 (unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
+(unmanagedClasspath in Compile) += file("lib/dbml-local-0.1.2-spark2.1.jar")
 
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-jvm")
