@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-presto-0.167:master
+FROM fluxcapacitor/package-presto-0.167:v1.2.0
 
 WORKDIR /root
 

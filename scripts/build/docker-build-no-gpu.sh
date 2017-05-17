@@ -15,8 +15,8 @@ cd $PIPELINE_HOME/package.ml/presto/0.167/ && sudo docker build $2 -q -t fluxcap
 cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
 #cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build $2 -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/1.0/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-1.0:$1 .
-#cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-no-avx:$1 -f Dockerfile.no-avx .
 #cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1 -f Dockerfile.gpu .
 
 # apachespark.ml
@@ -65,7 +65,9 @@ cd $PIPELINE_HOME/metastore.ml && sudo docker build $2 -q -t fluxcapacitor/metas
 cd $PIPELINE_HOME/prediction.ml/jvm && sudo docker build $2 -q -t fluxcapacitor/prediction-jvm:$1 .
 cd $PIPELINE_HOME/prediction.ml/python3 && sudo docker build $2 -q -t fluxcapacitor/prediction-python3:$1 .
 cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow:$1 .
-#cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-gpu:$1 -f Dockerfile.gpu .
+cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-no-avx:$1 -f Dockerfile.no-avx.
+#cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-gpu:$1 -f Dockerfile.gpu
+#cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-gpu-no-avx:$1 -f Dockerfile.gpu-no-avx .
 
 # presto.ml
 cd $PIPELINE_HOME/presto.ml/master && sudo docker build $2 -q -t fluxcapacitor/presto-master-0.167:$1 .

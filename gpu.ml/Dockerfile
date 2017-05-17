@@ -1,7 +1,7 @@
-#FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:master
+#FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:v1.2.0
 # Changing to -no-avx mode as we might end up on cloud instance hardware that does not support avx.
 # TensorFlow crashes in this case.
-FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu-no-avx:master
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu-no-avx:v1.2.0
 
 WORKDIR /root
 

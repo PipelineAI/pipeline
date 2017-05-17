@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: online-tensorflow-consumer
-        image: docker.io/fluxcapacitor/online-tensorflow-consumer-0.10:master
+        image: docker.io/fluxcapacitor/online-tensorflow-consumer-0.10:v1.2.0
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
