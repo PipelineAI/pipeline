@@ -75,7 +75,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">prediction-tensorflow.demo.pipeline.io</stringProp>
+            <stringProp name="HTTPSampler.domain">prediction-tensorflow.community.pipeline.io</stringProp>
             <stringProp name="HTTPSampler.port">80</stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
