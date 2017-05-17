@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-no-avx:v1.2.0
+FROM fluxcapacitor/package-tensorflow-2a48110-4d0a571-no-avx:master
 
 WORKDIR /root
 
