@@ -110,6 +110,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             # Load pickled model from model directory
             with open(model_file_absolute_path, 'rb') as model_file:
                 model = pickle.load(model_file)
+                model.setup()
 
             # Load model_io_transformers from model directory
             transformers_module_name = 'model_io_transformers'
