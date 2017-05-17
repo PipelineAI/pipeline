@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: zookeeper
-        image: docker.io/fluxcapacitor/zookeeper:master
+        image: docker.io/fluxcapacitor/zookeeper:v1.2.0
         resources:
           limits:
             cpu: 1000m
@@ -37,4 +37,4 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
-            revision: "master"
+            revision: "v1.2.0"

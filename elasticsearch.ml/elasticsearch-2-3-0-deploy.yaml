@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch-2-3-0 
-        image: docker.io/fluxcapacitor/elasticsearch-2.3.0:master
+        image: docker.io/fluxcapacitor/elasticsearch-2.3.0:v1.2.0
         resources:
           limits:
             cpu: 1000m
@@ -37,4 +37,4 @@ spec:
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml"
             # repository: "https://[o-auth-personal-acess-token]:x-oauth-basic@github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "v1.2.0"

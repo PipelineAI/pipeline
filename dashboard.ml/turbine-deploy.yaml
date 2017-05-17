@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dashboard-turbine
-        image: docker.io/fluxcapacitor/dashboard-turbine:master
+        image: docker.io/fluxcapacitor/dashboard-turbine:v1.2.0
         imagePullPolicy: "Always"
         resources:
           limits:

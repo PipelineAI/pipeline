@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: prediction-xgboost
-        image: docker.io/fluxcapacitor/prediction-jvm:master
+        image: docker.io/fluxcapacitor/prediction-jvm:v1.2.0
         resources:
           limits:
             cpu: 2000m
@@ -49,4 +49,4 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "v1.2.0"

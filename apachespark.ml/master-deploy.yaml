@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: apachespark-master-2-1-0
-        image: docker.io/fluxcapacitor/apachespark-master-2.1.0:master
+        image: docker.io/fluxcapacitor/apachespark-master-2.1.0:v1.2.0
         resources:
           limits:
             cpu: 1000m

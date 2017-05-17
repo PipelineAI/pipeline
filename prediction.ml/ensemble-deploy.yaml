@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: prediction-ensemble
-        image: docker.io/fluxcapacitor/prediction-python3:master
+        image: docker.io/fluxcapacitor/prediction-python3:v1.2.0
         resources:
           limits:
             cpu: 1000m
@@ -49,4 +49,4 @@ spec:
         - name: git-volume
           gitRepo:
             repository: "https://github.com/fluxcapacitor/source.ml.git"
-            revision: "master"
+            revision: "v1.2.0"
