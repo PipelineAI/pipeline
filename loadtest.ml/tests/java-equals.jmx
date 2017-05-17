@@ -75,7 +75,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">prediction-java.demo.pipeline.io</stringProp>
+            <stringProp name="HTTPSampler.domain">prediction-java.community.pipeline.io</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
