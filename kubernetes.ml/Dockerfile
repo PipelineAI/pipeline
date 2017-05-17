@@ -131,7 +131,7 @@ ENV \
 #  && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install -U pio-cli==0.49
+  pip install pio-cli==0.51
 
 # Intentionally keeping these at the bottom
 #RUN \

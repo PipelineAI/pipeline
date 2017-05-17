@@ -77,6 +77,8 @@ class PioCli(object):
                          'web-home': (['web.ml/home-svc.yaml'], []),
                          'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
                          'zookeeper': (['zookeeper.ml/zookeeper-svc.yaml'], []),
+                         'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-svc.yaml'], []),
+                         'kibana': (['kibana.ml/kibana-4-5-0-svc.yaml'], ['elasticsearch'], []),
                          'kafka': (['stream.ml/kafka-0.10-svc.yaml'], ['zookeeper']),
                          'cassandra': (['cassandra.ml/cassandra-svc.yaml'], []),
                          'prediction-java': (['prediction.ml/java-svc.yaml'], []),
