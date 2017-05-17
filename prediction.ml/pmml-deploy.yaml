@@ -37,7 +37,7 @@ spec:
         - name: PIO_MODEL_NAMESPACE
           value: default
         - name: PIO_MODEL_NAME
-          value: keyvalue_recommendations
+          value: pmml_airbnb 
         - name: PIO_MODEL_VERSION
           value: v0
         ports:
