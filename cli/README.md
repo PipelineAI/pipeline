@@ -82,13 +82,13 @@ pio start prediction-scikit
 
 Initialize Model
 ```
-pio init-model http://your.model.server.com \
-               python3 \
-               default \
-               scikit_linear \
-               v0 \
-               ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
-               ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+pio init-model --model-server-url http://your.model.server.com \
+               --model-type scikit \
+               --model-namespace default \
+               --model-name scikit_linear \
+               --model-version v0 \
+               --model-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
+               --model-test-input-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -113,13 +113,13 @@ pio start prediction-spark
 
 Initialize Model
 ```
-pio init-model http://your.model.server.com \
-               spark \
-               default \
-               spark_airbnb 
-               v0 \
-               ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
-               ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
+pio init-model --model-server-url http://your.model.server.com \
+               --model-type spark \
+               --model-namespace default \
+               --model-name spark_airbnb 
+               --model-version v0 \
+               --model-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
+               --model-test-input-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -145,13 +145,13 @@ pio start prediction-python3
 
 Initialize Model
 ```
-pio init-model http://your.model.server.com \
-               python3 \
-               default \
-               python3_zscore \
-               v0 \
-               ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
-               ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
+pio init-model --model-server-url http://your.model.server.com \
+               --model-type python3 \
+               --model-namespace default \
+               --model-name python3_zscore \
+               --model-version v0 \
+               --model-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
+               --model-test-input-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -176,13 +176,13 @@ pio start prediction-pmml
 
 Initialize Model
 ```
-pio init-model http://your.model.server.com \
-               pmml \
-               default \
-               pmml_airbnb \
-               v0 \
-               ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
-               ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
+pio init-model --model-server-url http://your.model.server.com \
+               --model-type pmml \
+               --model-namespace default \
+               --model-name pmml_airbnb \
+               --model-version v0 \
+               --model-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
+               --model-test-input-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model
