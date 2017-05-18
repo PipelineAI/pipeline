@@ -17,6 +17,8 @@ cd $PIPELINE_HOME/package.ml/apache2/ && sudo docker build $2 -q -t fluxcapacito
 
 cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
 cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-no-avx:$1 -f Dockerfile.no-avx .
+cd $PIPELINE_HOME/package.ml/tensorflow/b6bafad-1697e74/ && sudo docker build $2 -t fluxcapacitor/package-tensorflow-b6bafad-1697e74:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/b6bafad-1697e74/ && sudo docker build $2 -t fluxcapacitor/package-tensorflow-b6bafad-1697e74-no-avx:$1 -f Dockerfile.no-avx .
 #cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1 -f Dockerfile.gpu .
 
 # apachespark.ml
