@@ -224,8 +224,14 @@ RUN \
   chmod a+x /root
 
 RUN \
-  pip install pio-cli==0.47
+  pip install pio-cli==0.52
 
-EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222
+RUN \
+  git clone https://github.com/BonsaiAI/nvidia-prometheus-stats \
+  && export LC_ALL=C \
+  && cd nvidia-prometheus-stats \
+  && pip2 install -r requirements.txt 
+
+EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 5050
   # 8000
 CMD ["supervise", "."]

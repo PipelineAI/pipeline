@@ -33,6 +33,8 @@ source /etc/apache2/envvars
 
 service apache2 start
 
+cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py --port 5050 &
+
 cd ~
 export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
 CLASSPATH=$CLASSPATH jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out
