@@ -90,7 +90,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
                                                                        model_name,
                                                                        model_version)
 
-        # TODO:  Don't create this channel everytime
+        # TODO:  Reuse instead of creating this channel everytime
         channel = implementations.insecure_channel(self.settings['model_server_tensorflow_serving_host'], 
                                                    int(self.settings['model_server_tensorflow_serving_port']))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
