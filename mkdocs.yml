@@ -2,55 +2,56 @@ site_name: PipelineIO
 site_url: http://pipeline.io
 site_author: PipelineIO 
 repo_url: https://github.com/fluxcapacitor/pipeline/
-#base_url: http://docs.pipeline.io
 pages:
     - Home: index.md
-    - Getting Started: home/getting_started.md
-#        - 'Installation': home/install.md
-#        - 'Getting Started': home/getting_started.md 
-    - GPUs: home/gpus.md
-    - Supported Models: home/model_environments.md
-#        - '.pioignore': home/pio_ignore.md
-    - Supported Apps and Tools: home/apps_and_tools.md
-    - CLI Commands: commands/index.md
-#        - 'All Commands': commands/index.md
-#        - 'pio init-pio': commands/init-pio.md
-#        - 'pio config': commands/config.md
-#        - 'pio config-get': commands/config-get.md
-#        - 'pio config-set': commands/config-set.md
-#        - 'pio init-model': commands/init-model.md
-#        - 'pio deploy': commands/deploy.md
-#        - 'pio deploy-from-git': commands/deploy-from-git.md
-#        - 'pio predict': commands/predict.md
-#        - 'pio predict-many': commands/predict-many.md
-#        - 'pio init-kops': commands/init-kops.md
-#        - 'pio up': commands/up.md
-#        - 'pio init-cluster': commands/init-cluster.md
-#        - 'pio cluster': commands/cluster.md
-#        - 'pio clusters': commands/clusters.md
-#        - 'pio join': commands/join.md
-#        - 'pio nodes': commands/nodes.md
-#        - 'pio instancegroups': commands/instancegroups.md
-#        - 'pio volumes': commands/volumes.md
-#        - 'pio secrets': commands/secrets.md
-#        - 'pio maps': commands/maps.md
-#        - 'pio system': commands/system.md
-#        - 'pio top': commands/top.md
-#        - 'pio apps': commands/apps.md
-#        - 'pio start': commands/start.md
-#        - 'pio stop': commands/stop.md
-#        - 'pio scale': commands/scale.md
-#        - 'pio upgrade': commands/upgrade.md
-#        - 'pio rollback': commands/rollback.md
-#        - 'pio canary': commands/canary.md
-#        - 'pio logs': commands/logs.md
-#        - 'pio connect': commands/connect.md
-#        - 'pio shell': commands/shell.md
-#        - 'pio proxy': commands/proxy.md
-#        - 'pio tunnel': commands/tunnel.md
-#        - 'pio flow': commands/flow.md
-#        - 'pio submit': commands/submit.md
-    - Contributing: guides/contributing.md
+    - Getting Started: 
+        - Community Edition: products/community_edition.md
+        - Professional Edition: products/professional_edition.md
+        #- Amazon AWS: professional/aws_marketplace.md
+        #- Google GCP: professional/gcp_marketplace.md
+    - Getting Started: getting_started/index.hd
+    - Command Line Interface: cli/index.md
+    - REST API: rest/index.md
+    - Model Training: 
+        - Supported Models: model_deployments/supported_models.md
+        - Apps and Tools: model_training/apps_and_tools.md
+        - Fault Tolerance: model_training/fault_tolerance.md
+        - Scalability: model_training/scalability.md
+        - Command Line Interface: commands/index.md
+        - REST API: model_training/rest.md
+        - Examples: model_training/examples.md
+        - Fault Tolerance: model_training/fault_tolerance.md
+        - Scalability: model_training/scalability.md
+    - Model Deployments: 
+        - Supported Runtimes: model_deployments/supported_runtimes.md
+        - REST-based: model_deployments/rest.md
+        - Workflow: model_deployments/workflow.md
+        - Rollbacks: model_deployments/rollbacks.md
+        - Fault Tolerance: model_deployments/fault_tolerance.md
+        - Scalability: model_deployments/scalability.md
+    - Experimentation:
+        - A/B Testing: experiments/ab_testing.md
+        - Multi-armed Bandits: experiments/multi_armed_bandit_testing.md
+        - Canary Deployment: model_deployments/canary.md
+        - Traffic Splitting: model_deployments/traffic_splitting.md
+        - Traffic Shadowing: model_deployments/traffic_shadowing.md
+    - Model Predictions:
+        - REST-based: predictions/rest.md
+        - Streaming: predictions/streaming.md
+    - Hybrid Cloud and On-Premise:
+        - Federated Clusters: hybrid_cluster/federated.md
+        - Heterogeneous GPU and CPU: hybrid_cluster/heterogeneous_gpu_and_cpu.md
+    - Visualizations and Dashboards:
+        - Metrics: visualizations/metrics.md
+# TODO:  GPU METRICS!!
+        - Workflow: visualizations/workflow.md
+    - Performance: performance/index.md
+    - GPUs: gpu/index.md
+    - TPUs: tpu/index.md
+    - FPGAs: fpga/index.md 
+    - Training and Workshops: training/index.md
+    - Open Source and Meetups: open_source/index.md
+    - Contributing: contributing/index.md
     - Legal:
         - 'Privacy': legal/privacy.md
         - 'Terms of Service': legal/terms.md
@@ -67,8 +68,6 @@ extra:
   social:
     - type: 'github'
       link: 'https://github.com/fluxcapacitor/pipeline'
-#    - type: 'docker'
-#      link: 'https://hub.docker.com/r/fluxcapacitor'
     - type: 'meetup'
       link: 'https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/'
     - type: 'youtube'
