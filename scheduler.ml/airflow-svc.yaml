@@ -8,7 +8,7 @@ metadata:
 #  annotations:
 #    domainName: airflow.your.domain.com
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: airflow-webui
     port: 80
