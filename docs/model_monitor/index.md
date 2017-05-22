@@ -1,4 +1,4 @@
-# Monitoring a Model
+# Monitor Model
 Metrics, dashboards, and visualizations are native to PipelineIO.  
 
 We believe that you should have full insight into everything deployed to production.

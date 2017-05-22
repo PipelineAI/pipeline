@@ -1,4 +1,4 @@
-# Model Experiments
+# Experiment
 ## A/B Testing
 
 ![AB Testing](/img/ab-testing-170x100.png)

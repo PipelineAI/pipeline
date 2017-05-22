@@ -1,4 +1,6 @@
 # Train Model
+
+## Applications and Tools
 Below is the list of applications and tools supported by PipelineIO.  This set of tools derives from the ridiculously popular PANCAKE STACK made famous in 2016.
 
 ![PANCAKE STACK](http://pipeline.io/images/pancake-stack-645x363.png)
@@ -21,5 +23,8 @@ All applications and tools can be auto-scaled across both CPU and GPU nodes in a
 | spark                       |                                                  |
 | zeppelin                    |                                                  |
 | zookeeper                   |                                                  
+
+## PipelineIO Cluster
+![PipelineIO Cluster](/img/weavescope-pipelineio.png)
 
 {!contributing.md!}
