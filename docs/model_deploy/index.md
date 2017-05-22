@@ -142,4 +142,31 @@ Predict Model
 pio predict
 ```
 
+## Deployment Workflow
+PipelineIO uses python-based Airflow for pipeline workflow management.
+```
+pio flow
+```
+
+## Upgrade
+PipelineIO supports rolling upgrades.
+```
+pio upgrade
+```
+
+## Canary Deploy
+PipelineIO supports various canary deployment strategies including traffic-splitting and traffic-shadowing.
+```
+pio canary
+```
+### Traffic Splitting
+
+### Traffic Shadowing
+
+## Rollback
+PipelineIO supports rolling back to any previous revision.
+```
+pio rollback --revision=1
+```
+
 {!contributing.md!}
