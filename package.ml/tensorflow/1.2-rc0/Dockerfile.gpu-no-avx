@@ -161,7 +161,7 @@ RUN \
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --config=cuda \
       --spawn_strategy=standalone --genrule_strategy=standalone \
-      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
       --crosstool_top=@local_config_cuda//crosstool:toolchain \
       tensorflow_serving/model_servers:tensorflow_model_server \
   && chmod a+x bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server \
@@ -238,7 +238,7 @@ RUN \
      --jobs=${CPU_COUNT} \
      --test_timeout 300,450,1200,3600 \
      --test_output=errors --local_test_jobs=${GPU_COUNT} \
-     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
      --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
      --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
      //tensorflow/...
