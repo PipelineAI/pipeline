@@ -120,10 +120,10 @@ RUN \
 
 RUN \  
   cd $TENSORFLOW_SERVING_HOME \
-  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
-  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build --local_resources 20000,1.0,1.0 -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone \
+  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone \
   # --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
   -k //tensorflow_serving/... 
 
@@ -174,30 +174,32 @@ RUN \
   && tensorflow/tools/ci_build/builds/configured GPU
 #  && yes "" | ./configure
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel build --local_resources 20000,1.0,1.0 --config=cuda \
-#    --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-    --test_tag_filters=-no_gpu,-benchmark-test -k \
-    --jobs=${N_JOBS} \
-    --test_timeout 300,450,1200,3600 \
-#   --build_tests_only \
-    --test_output=errors \
-    --local_test_jobs=${TF_GPU_COUNT} \
-    --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
-    //tensorflow/... 
+### Commenting this shit out
 
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel build --config=cuda \
+##    --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#    --test_tag_filters=-no_gpu,-benchmark-test -k \
+#    --jobs=${N_JOBS} \
+#    --test_timeout 300,450,1200,3600 \
+##   --build_tests_only \
+#    --test_output=errors \
+#    --local_test_jobs=${TF_GPU_COUNT} \
+#    --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
+#    //tensorflow/... 
 
-RUN \
-  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+#RUN \
+#  cd $TENSORFLOW_HOME \
+#  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
-RUN \
-  TF_CPP_MIN_LOG_LEVEL=0 \
-  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+#RUN \
+#  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-# Cleanup for nvidia-docker build step HACK
-RUN \
-  rm /usr/local/nvidia/lib64/libcuda.so.1
+#RUN \
+#  TF_CPP_MIN_LOG_LEVEL=0 \
+#  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+
+## Cleanup for nvidia-docker build step HACK
+#RUN \
+#  rm /usr/local/nvidia/lib64/libcuda.so.1

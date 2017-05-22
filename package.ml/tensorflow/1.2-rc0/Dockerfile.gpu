@@ -63,15 +63,6 @@ RUN \
 RUN \
   apt-get install -y python-qt4
 
-#RUN \ 
-#  mkdir /root/bazel \
-#  && cd /root/bazel \
-#  && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-#  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/$BAZEL_VERSION/LICENSE.txt \
-#  && chmod +x bazel-*.sh \
-#  && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-#  && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
-
 # Set up Bazel.
 
 # Running bazel inside a `docker build` command causes trouble, cf:
@@ -139,15 +130,31 @@ RUN \
   cd $TENSORFLOW_SERVING_HOME/tensorflow \
   && tensorflow/tools/ci_build/builds/configured GPU
 
-RUN \  
+RUN \
   cd $TENSORFLOW_SERVING_HOME \
-  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
-# http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... 
+  && bazel build -c opt --config=cuda \
+      --spawn_strategy=standalone --genrule_strategy=standalone \
+      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+      --crosstool_top=@local_config_cuda//crosstool:toolchain \
+      tensorflow_serving/model_servers:tensorflow_model_server \
+  && chmod a+x bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server \
+  && cp bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server /usr/local/bin/ \
+  && bazel clean --expunge
 
-ENV \
-  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+# OLD SUCCESSFUL WAY BEGIN #
+#RUN \  
+#  cd $TENSORFLOW_SERVING_HOME \
+#  && sed -i.bak 's/@org_tensorflow\/\/third_party\/gpus\/crosstool/@local_config_cuda\/\/crosstool:toolchain/g' tools/bazel.rc \
+#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+# http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
+#  && bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone \
+#     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#     -k //tensorflow_serving/... 
+
+#ENV \
+#  PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
+# OLD SUCCESSFUL WAY END *
 
 # Configure the build for our CUDA configuration.
 ENV TF_ENABLE_XLA=1
@@ -162,75 +169,64 @@ RUN \
   ldconfig /usr/local/cuda/lib64
 
 # This configuration was inspired by the following resources:
+#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/ci_build/xla/linux/gpu/run_py3.sh
+#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
 #   http://ci.tensorflow.org/job/tensorflow-master-linux-xla/104/consoleText
 #   https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/ci_build
-#   tensorflow/tools/ci_build/xla/linux/gpu/run_py3.sh
-
-# Notes:  --local_test_jobs should be sync'd with the TF_GPU_COUNT
-#         Also, we may need to just call `bazel build`,
-#           since we may not be building on a GPU.
-#         The commit hash of the CI build above was bbe056e5a0ab81b67fcb6053400812b3d5805fc7,
-#           but we tested with 12a98726e769e988f6368a029ec2f5b0ac3ccbd4 
-#           (version used by this version of TF Serving) and things look OK.
-
-# TODO:  Make these dynamic based on build worker
-ENV TF_GPU_COUNT=1
-ENV N_JOBS=8
-#$(grep -c ^processor /proc/cpuinfo)
 
 ENV \
   TENSORFLOW_HOME=/root/tensorflow
 
 RUN \
- git clone -b v1.2.0-rc0 --recurse-submodules https://github.com/tensorflow/tensorflow.git 
+ git clone -b r1.2 --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+ && cd $TENSORFLOW_HOME \
+ && git reset --hard c9dd88f
 
-# && cd $TENSORFLOW_HOME \ 
-# && git reset --hard c462db4 
-
-#RUN \
-#  cd $TENSORFLOW_HOME \
-#  && tensorflow/tools/ci_build/builds/configured GPU
-
-### Commenting this shit out
-
-#RUN \
-#  cd $TENSORFLOW_HOME \
-#  && bazel build --local_resources 20000,1.0,1.0 --config=cuda \
-#    --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-#    --test_tag_filters=-no_gpu,-benchmark-test -k \
-#    --jobs=${N_JOBS} \
-#    --test_timeout 300,450,1200,3600 \
-##   --build_tests_only \
-#    --test_output=errors \
-#    --local_test_jobs=${TF_GPU_COUNT} \
-#    --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
-#    //tensorflow/... 
-
-#RUN \
-#  cd $TENSORFLOW_HOME \
-#  && CI_DOCKER_EXTRA_PARAMS="-e CI_BUILD_PYTHON=python3" \
-#    tensorflow/tools/ci_build/ci_build.sh GPU \
-#    tensorflow/tools/ci_build/builds/pip.sh GPU \
-#    -c opt --config=cuda \
-#    //tensorflow/...
-
+ENV \ 
+  TF_NEED_CUDA=1 \
+  TF_ENABLE_XLA=1 \
+  TF_CUDA_COMPUTE_CAPABILITIES=3.7
 
 RUN \
-    cd $TENSORFLOW_HOME \
-    && tensorflow/tools/ci_build/builds/configured GPU \
+  cd $TENSORFLOW_HOME \
+  && yes "" | ./configure
+
+RUN \
+  # Run bazel test command. Double test timeouts to avoid flakes.
+  cd $TENSORFLOW_HOME \
+  && bazel build -c opt --config=cuda \
+     #--test_tag_filters=-no_gpu,-benchmark-test \
+     -k \
+     --jobs=1 --test_timeout 300,450,1200,3600 \
+     #--build_tests_only \
+# Notes:  --local_test_jobs should == TF_GPU_COUNT
+     --test_output=errors --local_test_jobs=1 \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-       bazel build -c opt --config=cuda --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
-       --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-       -k //tensorflow/...
+     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+     --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
+     --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
+#     tensorflow/tools/pip_package:build_pip_package 
+     //tensorflow/...
 
 RUN \
-    $TENSORFLOW_HOME/bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
-    pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+  cd $TENSORFLOW_HOME \
+  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip \
+  && pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+
+#TODO# Clean up pip wheel and Bazel cache when done.
+#RUN tensorflow/tools/ci_build/builds/configured GPU \
+    #pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
+    #rm -rf /tmp/pip && \
+    #rm -rf /root/.cache
 
 RUN \
   TF_CPP_MIN_LOG_LEVEL=0 \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
 
-## Cleanup for nvidia-docker build step HACK
 #RUN \
-#  rm /usr/local/nvidia/lib64/libcuda.so.1
+#  source $TENSORFLOW_HOME/tools/ci_build/builds/libtensorflow.sh \
+#  build_libtensorflow_tarball 
+
+## Cleanup for nvidia-docker build step HACK
+RUN \
+  rm /usr/local/nvidia/lib64/libcuda.so.1
