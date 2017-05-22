@@ -10,6 +10,6 @@ _(SOLD OUT)_
 [O'Reilly TensorFlow Sep 07](https://www.safaribooksonline.com/live-training/courses/high-performance-tensorflow-in-production/0636920082859/)
 
 ## Corporate Training
-Available upon request.
+Available upon [request](mailto:help@pipeline.io).
 
 {!contributing.md!}

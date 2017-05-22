@@ -1,4 +1,4 @@
-# Model Training 
+# Train Model
 Below is the list of applications and tools supported by PipelineIO.  This set of tools derives from the ridiculously popular PANCAKE STACK made famous in 2016.
 
 ![PANCAKE STACK](http://pipeline.io/images/pancake-stack-645x363.png)

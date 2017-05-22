@@ -1,5 +1,5 @@
 # Deploy Model
-![Deploy Spark ML Model to Production](img/deploy-ml-model-to-production.png)
+![Deploy Spark ML Model to Production](/img/deploy-ml-model-to-production.png)
 
 ## Supported Model Types
 * Scikit-Learn
