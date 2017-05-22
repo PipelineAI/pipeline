@@ -10,27 +10,6 @@
 * PMML
 * Ensembles
 
-### Initialize Model 
-```
-pio init-model --model-server-url <model_server_url> \
-               --model-type <model_type> \
-               --model-namespace <model_namespace> \
-               --model_name <model_name> \
-               --model-version <model_version> \
-               --model-path /path/to/model \
-               --model-test-input-path /path/to/test/inputs
-```
-
-### Deploy Model 
-```
-pio deploy
-```
-
-### Predict Model
-```
-pio predict
-```
-
 ## Examples
 ```
 git clone https://github.com/fluxcapacitor/source.ml
@@ -86,7 +65,7 @@ Predict Model
 pio predict
 ```
 
-## Spark ML
+### Spark ML
 
 model_type: `spark`
 
