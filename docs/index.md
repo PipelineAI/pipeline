@@ -10,7 +10,7 @@ Click [here](getting_started/index.md) to get started with either our free [Comm
 ### 24x7 Global Support
 Check out the [PipelineIO Support Forum](https://pipelineio.zendesk.com) for discussions, feature requests, and 24x7 support from San Francisco-based PipelineIO and 1000's of global PipelineIO users and customers.
 
-While we absolutely treat all support requests as high priority, dedicated enterprise-level support is available.
+While all support requests are high priority, we offer dedicated [enterprise-level support](getting_started/index.md), as well.
 
 ### More Info?
 Email us at [help@pipeline.io](mailto:help@pipeline.io) and we'll get right back to you!
