@@ -1,7 +1,7 @@
 site_name: PipelineIO 
 site_url: http://pipeline.io
 site_author: PipelineIO
-site_description: End-to-End Model ML and AI Model Training and Deployment Platform with GPUs 
+site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
 repo_url: https://github.com/fluxcapacitor/pipeline/
 repo_name: 'GitHub'
 edit_uri: edit/master/docs/
@@ -11,14 +11,14 @@ site_dir: site
 google_analytics: ['UA-78551725-1', 'docs.pipeline.io']
 pages:
     - Home: index.md
-    - Products: products/index.md
-    - Command Line Interface: cli/index.md
-    - REST API: rest/index.md
-    - Train a Model: model_train/index.md 
+    - Getting Started: getting_started/index.md
+    - Installing CLI: cli/index.md
+#    - REST API: rest/index.md
+    - Training a Model: model_train/index.md 
 #        - Supported Models: model_training/supported_models.md
 #        - Examples: model_training/examples.md
 #        - Apps and Tools: model_training/apps_and_tools.md
-    - Deploy a Model: model_deploy/index.md 
+    - Deploying a Model: model_deploy/index.md 
 #        - Supported Runtimes: model_deploying/supported_runtimes.md
 #        - Examples: model_deploying/examples.md
 #        - Canary Deploying: model_deploying/canary.md
@@ -26,11 +26,11 @@ pages:
 #        - Traffic Shadowing: model_deploying/traffic_shadowing.md
 #        - Workflow: model_deploying/workflow.md
 #        - Rollbacks: model_deploying/rollbacks.md
-    - Predict with Model: model_predict/index.md
+#    - Predict with Model: model_predict/index.md
 #        - CLI-based: model_predicting/cli.md
 #        - REST-based: model_predicting/rest.md
 #        - Streaming: model_predicting/streaming.md
-    - Experiment with Models: model_experiment/index.md
+#    - Experiment with Models: model_experiment/index.md
 #        - A/B Testing: model_experiment/ab_testing.md
 #        - Multi-armed Bandit Testing: model_experiment/multi_armed_bandit_testing.md
 #        - Canary Deploy: model_experiment/canary.md
@@ -38,22 +38,21 @@ pages:
 #        - Traffic Shadowing: model_experiment/traffic_shadowing.md
 #        - Workflow: model_deploy/workflow.md
 #        - Rollbacks: model_deploy/rollbacks.md
-    - Hybrid Cloud and On-Premise: cluster/index.md
+#    - Hybrid Cloud and On-Premise: cluster/index.md
 #        - Federated Clusters: hybrid_cluster/federated.md
 #        - Heterogeneous GPU and CPU: hybrid_cluster/heterogeneous_gpu_and_cpu.md
-    - Visualizations and Dashboards: visualization/index.md
+    - Monitoring a Model: monitoring/index.md
 #        - Metrics: visualizations/metrics.md
 # TODO:  GPU METRICS!!
 #        - Workflow: visualizations/workflow.md
-    - Performance: performance/index.md
-    - GPUs: gpu/index.md
-    - Training and Workshops: pio_training/index.md
+#    - Performance: performance/index.md
+#    - GPUs: gpu/index.md
+#    - Training and Workshops: pio_training/index.md
     - Open Source and Community: open_source/index.md
     - Contributing: contributing/index.md
     - Datasets and Sources: data/index.md
-    - Legal:
-        - 'Privacy': legal/privacy.md
-        - 'Terms of Service': legal/terms.md
+    - Privacy: legal/privacy.md
+    - Terms of Service: legal/terms.md
 theme: material
 extra:
   palette:

@@ -1,16 +1,21 @@
-# PipelineIO Community Edition (Hosted at PipelineIO)
-Click [here](http://community.pipeline.io) to register and login.
-* Train and Deploy All Major Model Types
+# Getting Started
 
-# PipelineIO Professional Edition (Hosted in Your Own Cloud Account!)
-* Everything from PipelineIO Community Edition
-* Pre-built Docker-based and Cloud-based Images Deployed into Your Environment
-* Deploy in All Major Cloud Providers (AWS, Google, Azure) or On-Premise!
+## PipelineIO Community Edition 
+* Hosted in Shared PipelineIO Environment
+* Train and Deploy All Major Model Types
+* Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
+
+Click [here](http://community.pipeline.io) to signup and start deploying models!
+
+## PipelineIO Professional Edition
+* Includes everything from PipelineIO Community Edition
+* Hosted in Your Own Cloud or On-Premise Environment
+* Easy One-Click Installation
+* Pre-built Docker-based and Cloud-based Images 
+* Deploy in All Major Cloud Providers (AWS, Google, Azure) and On-Premise
 * 24x7 Global Support, 24 hour Response SLA
-* 8 Training Hours Included (Online)
+* 4 Training Hours Included (Online)
 * Flexible Auto-Scaling and Spot-Pricing Policies
-* Support for All Major ML/AI Model Types including Apache Spark, TensorFlow, Scikit-Learn, R, Xgboost, PMML, etc
-* Custom Model Ensembles Across All Supported Model Types
 * Advanced Admin UI including Cluster and Model Management
 * Continuous, Online Model Training and Deployment Pipelines
 * A/B and Multi-armed Bandit Model Testing
@@ -21,10 +26,12 @@ Click [here](http://community.pipeline.io) to register and login.
 * Automated Circuit Breakers to Control Overall System Health
 * Real-time Dashboards for All Metrics and Circuit Breakers
 
-# PipelineIO Enterprise Edition
-* Everything from PipelineIO Professional (and Community) Edition
+Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
+
+## PipelineIO Enterprise Edition
+* Includes everything from PipelineIO Professional Edition
 * 24x7 Global Support, 8 hour Response SLA 
-* 24 Training Hours Included (On-site or Online)
+* 32 Training Hours Included (On-site or Online)
 * Deploy in Hybrid Cloud and On-Premise Environment for Maximum High Availability
 * Automatic Traffic Shifting Between Hybrid Cloud and On-Premise Deployments for Maxmium Cost Savings
 

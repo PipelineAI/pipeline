@@ -1,16 +1,15 @@
+# Data 
 ## Public Datasets
 PipelineIO hosts some popular public datasets.
 
-| Dataset Name                    | Description                                     | 
-| ------------------------------- | ----------------------------------------------- |
-| [Airbnb (Linear Regression)](https://s3.amazonaws.com/datapalooza/airbnb/airbnb.csv.bz2) | Airbnb Room Specs and Prices |
-| [Census (Decision Tree)](  https://s3.amazonaws.com/datapalooza/R/census.csv) | Classic R Census Dataset |
+| Dataset Name                    | Description                                         | 
+| ------------------------------- | --------------------------------------------------- |
+| Airbnb (Linear Regression)      | Airbnb Room Specs and Prices                        |
+| Census (Decision Tree)          | Predict Income `>= 50K` or `< 50K` from Census Data |
 
-If you have requests or suggestions for any public datasets to add to our servers, let us know [contact@pipeline.io](mailto:contact@pipeline.io)
+Contact [help@pipeline.io] if you'd like us to support additional public datasets.
 
 ## Data Sources
-
 PipelineIO integrates with S3, HDFS, and many other data sources.
-There are many examples to follow for data ingestion.
 
 {!contributing.md!}
