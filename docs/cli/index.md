@@ -4,6 +4,11 @@
 pip install -U pio-cli
 ```
 
+You can view the commands supported by the CLI using just `pio`.
+```
+pio
+```
+
 ## PipelineIO CLI Configuration
 | Command              | Description                                               |
 | -------------------- | --------------------------------------------------------- |

@@ -1,4 +1,5 @@
-PipelineIO hosts some popular public datasets. 
+## Public Datasets
+PipelineIO hosts some popular public datasets.
 
 | Dataset Name                    | Description                                     | 
 | ------------------------------- | ----------------------------------------------- |
@@ -6,5 +7,10 @@ PipelineIO hosts some popular public datasets.
 | [Census (Decision Tree)](  https://s3.amazonaws.com/datapalooza/R/census.csv) | Classic R Census Dataset |
 
 If you have requests or suggestions for any public datasets to add to our servers, let us know [contact@pipeline.io](mailto:contact@pipeline.io)
+
+## Data Sources
+
+PipelineIO integrates with S3, HDFS, and many other data sources.
+There are many examples to follow for data ingestion.
 
 {!contributing.md!}
