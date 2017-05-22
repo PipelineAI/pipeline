@@ -8,7 +8,9 @@ edit_uri: edit/master/docs/
 docs_dir: docs
 site_dir: site
 #strict: true
-google_analytics: ['UA-78551725-1', 'docs.pipeline.io']
+google_analytics:
+  - 'UA-78551725-1'
+  - 'auto'
 pages:
   - Home: index.md
   - Getting Started: getting_started/index.md
@@ -57,6 +59,7 @@ pages:
 #  - Datasets and Sources: data/index.md
   - Privacy and Terms: legal/index.md
 theme: material
+site_favicon: 'img/favicon.png'
 extra:
   feature:
     tabs: false
