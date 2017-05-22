@@ -41,18 +41,18 @@ pages:
 #    - Hybrid Cloud and On-Premise: cluster/index.md
 #        - Federated Clusters: hybrid_cluster/federated.md
 #        - Heterogeneous GPU and CPU: hybrid_cluster/heterogeneous_gpu_and_cpu.md
-    - Monitoring a Model: monitoring/index.md
+    - Monitoring a Model: model_monitor/index.md
 #        - Metrics: visualizations/metrics.md
 # TODO:  GPU METRICS!!
 #        - Workflow: visualizations/workflow.md
 #    - Performance: performance/index.md
 #    - GPUs: gpu/index.md
 #    - Training and Workshops: pio_training/index.md
-    - Open Source and Community: open_source/index.md
+    - Open Source: open_source/index.md
+    - Community Events: community/index.md
     - Contributing: contributing/index.md
-    - Datasets and Sources: data/index.md
-    - Privacy: legal/privacy.md
-    - Terms of Service: legal/terms.md
+#    - Datasets and Sources: data/index.md
+    - Privacy and Terms: legal/index.md
 theme: material
 extra:
   palette:
