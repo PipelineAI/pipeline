@@ -1,9 +1,14 @@
 # Getting Started
 
-## PipelineIO Community Edition 
-* Hosted in Shared PipelineIO Environment
-* Train and Deploy All Major Model Types
-* Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
+## Supported Environments
+PipelineIO can be self-hosted on-premise or in any major cloud provider.
+![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
+![Azure](http://pipeline.io/images/azure-logo-200x103.png)
+
+## PipelineIO Community Edition
+* Host in your own Cloud-based or On-Premise Environment - er use the Shared PipelineIO Community Edition
+* Train and Deploy All Major Model Types including Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
 Click [here](http://community.pipeline.io) to signup and start deploying models!
 

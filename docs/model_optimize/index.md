@@ -11,6 +11,9 @@ Unoptimized Linear Regression
 Optimized Linear Regression
 
 ### Spark ML: Generating Native Code
+![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png) 
+![Nvidia GPU](http://pipeline.io/images/nvidia-cuda-338x181.png) ![Intel CPU](http://pipeline.io/images/intel-logo-250x165.png)
+
 Unoptimized Decision Tree
 
 Optimized Decision Tree

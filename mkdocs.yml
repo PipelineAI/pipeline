@@ -12,13 +12,15 @@ google_analytics: ['UA-78551725-1', 'docs.pipeline.io']
 pages:
   - Home: index.md
   - Getting Started: getting_started/index.md
-  - Installing CLI: cli/index.md
-#  - REST API: rest/index.md
-  - Training a Model: model_train/index.md 
+  - Install PipelineIO: install/index.md
+  - Command Line Interface: cli/index.md
+  - REST API: rest/index.md
+  - Train Model: model_train/index.md 
 #      - Supported Models: model_training/supported_models.md
 #      - Examples: model_training/examples.md
 #      - Apps and Tools: model_training/apps_and_tools.md
-  - Deploying a Model: model_deploy/index.md 
+  - Optimize Model: model_optimize/index.md
+  - Deploy Model: model_deploy/index.md 
 #      - Supported Runtimes: model_deploying/supported_runtimes.md
 #      - Examples: model_deploying/examples.md
 #      - Canary Deploying: model_deploying/canary.md
@@ -41,14 +43,16 @@ pages:
 #  - Hybrid Cloud and On-Premise: cluster/index.md
 #      - Federated Clusters: hybrid_cluster/federated.md
 #      - Heterogeneous GPU and CPU: hybrid_cluster/heterogeneous_gpu_and_cpu.md
-  - Monitoring a Model: model_monitor/index.md
+  - Monitor Model: model_monitor/index.md
 #      - Metrics: visualizations/metrics.md
 #      - Workflow: visualizations/workflow.md
 #  - Performance: performance/index.md
-#  - GPUs: gpu/index.md
-#  - Training and Workshops: pio_training/index.md
+  - Streaming: streaming/index.md
+  - GPUs: gpu/index.md
   - Open Source: open_source/index.md
   - Community Events: community/index.md
+  - Videos and Presentations: media/index.md
+  - Training and Workshops: pio_training/index.md
   - Contributing: contributing/index.md
 #  - Datasets and Sources: data/index.md
   - Privacy and Terms: legal/index.md

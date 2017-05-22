@@ -1,4 +1,6 @@
 # Deploy and Test ML/AI Models
+![Deploy Spark ML Model to Production](https://s3.amazonaws.com/fluxcapacitor.com/img/deploy-ml-model-to-production.png)
+
 ## Supported Model Types
 * Scikit-Learn
 * R
