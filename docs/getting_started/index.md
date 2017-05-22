@@ -2,8 +2,11 @@
 
 ## Supported Environments
 PipelineIO can be self-hosted on-premise or in any major cloud provider.
+
 ![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+
 ![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
+
 ![Azure](http://pipeline.io/images/azure-logo-200x103.png)
 
 ## PipelineIO Community Edition

@@ -1,5 +1,6 @@
 # Installing PipelineIO in Your Environment
 PipelineIO uses Kubernetes for Docker Container Management and Orchestration.
+
 ![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
 
 ## PipelineIO [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)

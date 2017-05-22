@@ -6,13 +6,18 @@ Various model optimization and simplification techniques include folding batch n
 ## Examples
 
 ### TensorFlow: Quantizing Weights
+![TensorFlow](img/tensorflow-logo-150x128.png)
+
 Unoptimized Linear Regression 
 
 Optimized Linear Regression
 
 ### Spark ML: Generating Native Code
-![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png) 
-![Nvidia GPU](http://pipeline.io/images/nvidia-cuda-338x181.png) ![Intel CPU](http://pipeline.io/images/intel-logo-250x165.png)
+![Generate and Optimize Spark ML Model](img/ml-model-generating-and-optimizing.png) 
+
+![Nvidia GPU](img/nvidia-cuda-338x181.png) 
+
+![Intel CPU](img/intel-logo-250x165.png)
 
 Unoptimized Decision Tree
 
