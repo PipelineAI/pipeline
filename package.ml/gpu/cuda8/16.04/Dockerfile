@@ -16,4 +16,6 @@ RUN \
  && apt-get install -y python-pip \
  && apt-get install -y python3-dev \
  && apt-get install -y python3-pip \
- && apt-get install -y daemontools 
+ && apt-get install -y daemontools \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* 
