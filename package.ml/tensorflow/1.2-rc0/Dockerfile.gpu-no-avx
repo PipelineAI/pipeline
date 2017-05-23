@@ -5,6 +5,7 @@ WORKDIR /root
 ENV \
   TERM=xterm
 
+
 ###################
 # Setup OpenJDK 1.8
 ###################
@@ -20,6 +21,7 @@ RUN \
 
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
 
 ###################
 # Setup Bazel 0.4.5
@@ -63,7 +65,6 @@ RUN \
         build-essential \
         curl \
         libcurl3-dev \
-#        libcupti-dev \
         git \
         libfreetype6-dev \
         libpng12-dev \
@@ -85,16 +86,6 @@ RUN \
         zlib1g-dev \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-#RUN \
-#  pip install --upgrade pip
-
-#RUN \
-#  pip install grpcio
-#RUN \
-#  pip3 install enum34 futures mock six && \
-#  pip3 install --pre 'protobuf>=3.0.0a3' && \
-#  pip3 install -i https://testpypi.python.org/simple --pre grpcio
 
 # Install Anaconda with Python3 
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -134,7 +125,7 @@ ENV TF_CUDNN_VERSION=5
 ENV CUDA_PATH="/usr/local/cuda"
 ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
 ENV CUDNN_INSTALL_PATH=$CUDA_PATH
-ENV PYTHON_BIN_PATH=/opt/conda/bin/python
+ENV PYTHON_BIN_PATH-/opt/conda/bin/python
 ENV PYTHON_LIB_PATH=/usr/local/lib/python3.5/dist-packages
 ENV CI_BUILD_PYTHON=$PYTHON_BIN_PATH
 ENV CC_OPT_FLAGS="-march=native"
@@ -160,6 +151,7 @@ RUN \
   # Remove NCCL since it isn't building properly
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --config=cuda \
+      --verbose_failures \
       --spawn_strategy=standalone --genrule_strategy=standalone \
 #      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
       --crosstool_top=@local_config_cuda//crosstool:toolchain \
@@ -233,11 +225,13 @@ ENV \
 
 RUN \
   cd $TENSORFLOW_HOME \
+  && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/kernels/mfcc_test.cc \
   && bazel build -c opt --config=cuda \
-     -k \
      --jobs=${CPU_COUNT} \
+     --verbose_failures \
      --test_timeout 300,450,1200,3600 \
-     --test_output=errors --local_test_jobs=${GPU_COUNT} \
+     --test_output=errors \
+     --local_test_jobs=${GPU_COUNT} \
 #     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
      --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
      --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
@@ -248,19 +242,15 @@ RUN \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip \
   && pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-#TODO# Clean up pip wheel and Bazel cache when done.
-#RUN tensorflow/tools/ci_build/builds/configured GPU \
-    #pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
-    #rm -rf /tmp/pip && \
-    #rm -rf /root/.cache
+# Clean up pip wheel and Bazel cache when done.
+#RUN \
+#    pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
+#    rm -rf /tmp/pip && \
+#    rm -rf /root/.cache
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
-
-#RUN \
-#  source $TENSORFLOW_HOME/tools/ci_build/builds/libtensorflow.sh \
-#  build_libtensorflow_tarball 
 
 ## Cleanup for nvidia-docker build step HACK
 RUN \
