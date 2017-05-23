@@ -1,8 +1,9 @@
 # GPUs 
-
 PipelineIO supports GPUs natively throughout the entire platform.
 
-Here are some publically-available resources including Docker images, source code, Nvidia driver and toolkit configuration, videos, slides, and workshop materials that demonstrate our support for GPUs.
+![Nvidia GPU](/img/nvidia-cuda-338x181.png)
+
+Here are some publically-available resources including Docker images, source code, Nvidia driver and toolkit configuration, videos, slides, and workshop materials that demonstrate PipelineIO's support for GPUs.
 
 ## Docker Images
 [AWS GPU + Tensorflow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
