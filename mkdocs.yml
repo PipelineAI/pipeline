@@ -27,8 +27,8 @@ pages:
     - Streaming Deployments: streaming/index.md
   - Dashboards and Visualizations: 
     - System and Model Metrics: model_monitor/index.md
-  - Performance:
-    - GPU Support: gpu/index.md  
+  - GPUs and Performance:
+    - GPU Support: gpu/index.md 
   - Open Source Community:
     - Open Source Development: open_source/index.md 
     - Contribute to PipelineIO: open_source/contribute.md
