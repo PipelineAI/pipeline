@@ -1,6 +1,6 @@
 # Welcome to PipelineIO! 
 
-![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
+![PipelineIO](/img/pipeline-io-logo-shadow-210x186.png)
 
 ## What is PipelineIO?
 [PipelineIO](http://pipeline.io/) is an end-to-end, highly-scalable, highly-available, GPU-based machine learning and artificial intelligence model training and deployment platform.
@@ -26,10 +26,10 @@ PipelineIO is built with Love and Scale by a core group of ex-Netflix, Databrick
 ## 24x7 Global Support
 Check out the [PipelineIO Support Forum](https://pipelineio.zendesk.com) for discussions, feature requests, and 24x7 support from San Francisco-based PipelineIO and 1000's of global PipelineIO users and customers.
 
-While all support requests are high priority, we offer dedicated [enterprise-level support](getting_started/index.md), as well.
+While all support requests are high priority, we offer dedicated [enterprise-level support](products/index.md), as well.
 
 ## I Want to Use PipelineIO Right Now!
-Click [here](getting_started/index.md) to get started with either our free [Community Edition](getting_started/index.md), our upgraded [Professional Edition](getting_started/index.md), or our complete [Enterprise Edition](getting_started/index.md).
+Click [here](products/index.md) to get started with either our free [Community Edition](products/index.md), our upgraded [Professional Edition](products/index.md), or our complete [Enterprise Edition](products/index.md).
 
 ## I Want More Info on PipelineIO
 Email us at [help@pipeline.io](mailto:help@pipeline.io) and we'll get right back to you!

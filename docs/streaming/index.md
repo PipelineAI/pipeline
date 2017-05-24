@@ -1,9 +1,9 @@
 # PipelineIO Streaming
 PipelineIO integrates with popular streaming tools such as Kafka, Kinesis, Spark Streaming, Flink Streaming, Storm, and Huron.
 
-![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) 
+![Kafka](/img/kafka-logo-wide-219x98.png) 
 
-![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **AWS Kinesis**
+![Kinesis](/imgkinesis-logo-110x110.png) **AWS Kinesis**
 
 ## Continuous, Streaming Model Predictions
 PipelineIO's modular design lets you re-use your REST-based models inside your streams for continuous model predictions.

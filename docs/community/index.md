@@ -1,7 +1,7 @@
 # PipelineIO and Community Events 
 PipelineIO is the organizer and sponsor for the series of [Advanced Spark and TensorFlow Meetups](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/) throughout the world.
 
-![Meetup](http://pipeline.io/images/meetup-442x300.png)
+![Meetup](/img/meetup-442x300.png)
 
 With over 20,000 members globally, we frequently host highly-technical, in-person and online meetups in such high-tech cities as...
 

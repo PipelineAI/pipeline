@@ -1,5 +1,5 @@
 # Deploy Model
-![Deploy from Jupyter Notebook](deploy-model-jupyter-740x510.png)
+![Deploy from Jupyter Notebook](/img/deploy-model-jupyter-740x510.png)
 
 ![Deploy Spark ML Model to Production](/img/deploy-ml-model-to-production.png)
 
