@@ -27,7 +27,7 @@ setup(
     author_email = "chris@fregly.com",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=[
-        "kubernetes==2.0.0a1",
+        "kubernetes==2.0.0",
         "fire==0.1.0",
         "requests==2.13.0",
         "pyyaml==3.12",

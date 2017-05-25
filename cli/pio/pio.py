@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.52"
+__version__ = "0.53"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -896,6 +896,9 @@ class PioCli(object):
                               model_input_mime_type,
                               model_output_mime_type),
                )
+        print("")
+        print("This currently only works with Python 3.")
+        print("")
 
 
     def cluster(self):
