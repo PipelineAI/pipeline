@@ -13,9 +13,7 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Getting Started: 
-    - Product Overview: products/index.md
-    - Installing PipelineIO Community Edition: products/install.md
+  - Product Overview: products/index.md
   - CLI and REST API:
     - Command Line Interface: cli/index.md
     - REST API: rest/index.md
