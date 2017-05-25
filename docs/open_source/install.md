@@ -1,7 +1,7 @@
 # Installing PipelineIO Community Edition in Your Environment
-While we recommend the hosted [PipelineIO Community Edition](http://community.pipeline.io), we offer PipelineIO Community Edition as a self-hosted solution using your own cloud-based or on-premise environment.
+While we recommend the hosted [PipelineIO Community Edition](http://community.pipeline.io) when evaluating PipelineIO, we provide installation instructions below to setup PipelineIO in your own cloud-based or on-premise environment.
 
-Installation instructions are below.  While [support](mailto:help@pipeline.io) is limited for the self-hosted offering, we would love your feedback and feature requests.   
+Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [here](https://pipelineio.zendesk.com). 
 
 ## Standalone
 The standalone PipelineIO Community Edition uses a single Docker image that can run in any CPU and GPU-based environment that supports [Docker](https://www.docker.com/) for CPUs or [Nvidia-Docker](https://github.com/NVIDIA/nvidia-docker) for GPUs.

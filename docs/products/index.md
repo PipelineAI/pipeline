@@ -20,7 +20,7 @@ Click [here](http://community.pipeline.io) to signup and start deploying models!
 * Host in your own Cloud-based or On-Premise Environment
 * [Support](https://pipelineio.zendesk.com) is limited for this offering, but we would love feedback and feature requests.
 
-Click [here](./install.md) for instructions to install PipelineIO Community Edition in your own environment.
+Click [here](/open_source/install.md) for instructions to install PipelineIO Community Edition in your own environment.
 
 
 ## PipelineIO Professional Edition

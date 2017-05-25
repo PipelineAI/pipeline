@@ -13,7 +13,7 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Product Overview: products/index.md
+  - Products: products/index.md
   - CLI and REST API:
     - Command Line Interface: cli/index.md
     - REST API: rest/index.md
@@ -30,6 +30,7 @@ pages:
   - Open Source Community:
     - Open Source Development: open_source/index.md 
     - Contribute to PipelineIO: open_source/contribute.md
+    - Install PipelineIO: open_source/install.md
     - Global Meetups: community/index.md
     - Videos and Slides: media/index.md
   - Training and Workshops: 
