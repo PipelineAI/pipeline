@@ -7,7 +7,17 @@ For example, Netflix uses [Hystrix](https://github.com/Netflix/Hystrix/wiki) whi
 
 Here is a snapshot of the dashboard being used to monitor several systems across the company.
 
-![Hytrix Dashboard](https://raw.githubusercontent.com/fluxcapacitor/pipeline/master/dashboard.ml/turbine/NetflixDash.jpg)
+### NetflixOSS Hystrix Circuit Breaker Dashboard
+* Navigate your browser to
+```
+http://<hystrix-external-ip>/hystrix-dashboard/
+```
+* Follow the steps below
+![Hystrix Dashboard Turbine Setup](http://pipeline.io/img/hystrix-dashboard-turbine-setup.png)
+
+* Monitor your circuit breakers
+![Hystrix Dashboard](http://pipeline.io/img/hystrix-example-600x306.png)
+![Hystrix Dashboard](http://pipeline.io/img/hystrix-dashboard-annotated-640x411.png)
 
 User Guide
 ==============================
