@@ -4,14 +4,20 @@ cd $PIPELINE_HOME
 # $1:  version (ie. v1.2.0)
 
 # package.ml
-cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker push fluxcapacitor/package-gpu-cuda8-16.04
+sudo docker push fluxcapacitor/package-gpu-cuda8-16.04:$1
 
-cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu
-cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu-no-avx
+sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu:$1
+sudo docker push fluxcapacitor/package-tensorflow-2a48110-4d0a571-gpu-no-avx:$1
+
+sudo docker push fluxcapacitor/package-tensorflow-072355e-a44fd6d-gpu:$1
+sudo docker push fluxcapacitor/package-tensorflow-072355e-a44fd6d-gpu-no-avx:$1
+
+sudo docker push fluxcapacitor/gpu-tensorflow-spark:$1
+sudo docker push fluxcapacitor/gpu-tensorflow-spark-no-avx:$1
 
 # clustered.ml
-cd $PIPELINE_HOME/clustered.ml/tensorflow && sudo docker push fluxcapacitor/clustered-tensorflow-gpu
+sudo docker push fluxcapacitor/clustered-tensorflow-gpu:$1
 
 # prediction.ml
-cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker push fluxcapacitor/prediction-tensorflow-gpu
-cd $PIPELINE_HOME/prediction.ml/tensorflow && sudo docker push fluxcapacitor/prediction-tensorflow-gpu-no-avx
+sudo docker push fluxcapacitor/prediction-tensorflow-gpu:$1
+sudo docker push fluxcapacitor/prediction-tensorflow-gpu-no-avx:$1

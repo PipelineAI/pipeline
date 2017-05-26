@@ -112,7 +112,8 @@ RUN \
  cd ~ \
  && git clone -b master --recurse-submodules https://github.com/tensorflow/serving.git \
  && cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard 0aca2e0 
+ && git reset --hard a44fd6d
+ # 0aca2e0 
 
 ENV TF_NEED_CUDA=1
 ENV TF_NEED_GCP=0
@@ -177,9 +178,10 @@ RUN \
   ldconfig /usr/local/cuda/lib64
 
 RUN \
- git clone -b r1.2 --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+ git clone -b master --recurse-submodules https://github.com/tensorflow/tensorflow.git \
  && cd $TENSORFLOW_HOME \
- && git reset --hard c9dd88f
+ && git reset --hard 072355e
+   #c9dd88f
 
 ENV TF_NEED_CUDA=1
 ENV TF_NEED_GCP=0
