@@ -14,6 +14,10 @@ google_analytics:
 pages:
   - Home: index.md
   - Products: products/index.md
+  - Dashboards and Visualizations: model_monitor/index.md
+  - 24x7 Global Support: support/index.md
+  - GPUs: gpu/index.md
+  - Training: workshops/index.md
   - CLI and REST API:
     - Command Line Interface: cli/index.md
     - REST API: rest/index.md
@@ -23,18 +27,12 @@ pages:
     - Deploy a Model: model_deploy/index.md 
     - Model Experiments: model_experiment/index.md
     - Streaming Deployments: streaming/index.md
-  - Dashboards and Visualizations: 
-    - System and Model Metrics: model_monitor/index.md
-  - GPUs and Performance:
-    - GPU Support: gpu/index.md 
   - Open Source Community:
     - Open Source Development: open_source/index.md 
     - Contribute to PipelineIO: open_source/contribute.md
     - Install PipelineIO: open_source/install.md
     - Global Meetups: community/index.md
     - Videos and Slides: media/index.md
-  - Training and Workshops: 
-    - Upcoming Events: workshops/index.md
   - Privacy and Terms: legal/index.md
 theme: material
 site_favicon: 'img/favicon.png'

@@ -7,14 +7,12 @@ PipelineIO self-hosted on-premise or in any major cloud provider.
 
 ![Azure](/img/azure-logo-200x103.png)
 
-
 ## PipelineIO Community Edition
 * Free, Hosted PipelineIO Open Source 
 * Train and Deploy All Major Model Types 
 * Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
 Click [here](http://community.pipeline.io) to signup and start deploying models!
-
 
 ## PipelineIO Professional Edition
 * Includes Everything from PipelineIO Community Edition
@@ -36,7 +34,6 @@ Click [here](http://community.pipeline.io) to signup and start deploying models!
 * Circuit Breakers Around All Service to Avoid Cascading Failures
 
 Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
-
 
 ## PipelineIO Enterprise Edition
 * Includes Everything from PipelineIO Professional Edition
