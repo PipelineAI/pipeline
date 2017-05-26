@@ -13,28 +13,20 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Getting Started: getting_started/index.md
-  - Install PipelineIO: install/index.md
-  - Command Line Interface: cli/index.md
-  - REST API: rest/index.md
-  - Train Model: model_train/index.md 
-  - Optimize Model: model_optimize/index.md
-  - Deploy Model: model_deploy/index.md 
-  - Experiment: model_experiment/index.md
-#      - A/B Testing: model_experiment/ab_testing.md
-#      - Multi-armed Bandit Testing: model_experiment/multi_armed_bandit_testing.md
-#  - Hybrid Cloud and On-Premise: cluster/index.md
-#      - Federated Clusters: hybrid_cluster/federated.md
-#      - Heterogeneous GPU and CPU: hybrid_cluster/heterogeneous_gpu_and_cpu.md
-  - Monitor Model: model_monitor/index.md
-  - Streaming: streaming/index.md
-  - GPUs: gpu/index.md
-  - Open Source: open_source/index.md
-  - Contribute to PipelineIO: contribute/index.md
-  - Community Events: community/index.md
-  - Videos and Presentations: media/index.md
-  - Training and Workshops: pio_training/index.md
-#  - Datasets and Sources: data/index.md
+  - Train and Deploy a Model:
+    - Train Your Model: model_train/index.md
+    - Optimize Your Model: model_optimize/index.md
+    - Deploy Your Model: model_deploy/index.md
+    - Experiment With Your Models: model_experiment/index.md
+    - Stream Your Models: model_stream/index.md
+  - Powered by PipelineIO: products/index.md
+  - 24x7 Support: support/index.md
+  - Upcoming Events: events/index.md
+  - Training: training/index.md
+  - Dashboards and Visualizations: model_monitor/index.md
+  - GPUs and Performance: gpu/index.md
+  - APIs: api/index.md
+  - Open Source: open_source/index.md 
   - Privacy and Terms: legal/index.md
 theme: material
 site_favicon: 'img/favicon.png'

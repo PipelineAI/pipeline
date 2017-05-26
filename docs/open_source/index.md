@@ -1,30 +1,31 @@
-# PipelineIO is Open Source
+# PipelineIO is [Open Source](https://github.com/fluxcapacitor/pipeline)!
 PipelineIO builds upon many great open source projects including Jupyter, Zeppelin, Spark, TensorFlow, ElasticSearch, Kafka, Docker, Kubernetes, Prometheus, etc.
 
-![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) 
+![Jupyter](/img/jupyter-logo-105x106.png) 
 
-![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-48x50.png)![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-110x50.png) 
+![Zeppelin](/img/zeppelin-logo-wide-48x50.png)![Zeppelin](/img/zeppelin-logo-wide-110x50.png) 
 
-![Spark](http://pipeline.io/images/spark-logo-150x78.png) 
+![Spark](/img/spark-logo-150x78.png) 
 
-![TensorFlow](http://pipeline.io/images/tensorflow-logo-150x128.png)
+![TensorFlow](/img/tensorflow-logo-150x128.png)
 
-![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) 
+![Kafka](/img/kafka-logo-wide-219x98.png) 
 
-![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) 
+![Kubernetes](/img/kubernetes-logo-200x171.png) 
 
-![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+![Docker](/img/docker-logo-150x126.png)
 
-## GitHub and DockerHub
-[PipelineIO](https://github.com/fluxcapacitor/pipeline) and the extended PipelineIO global [community](https://github.com/fluxcapacitor/pipeline/stargazers) are 100% dedicated to open source development.  
+## [GitHub](https://github.com/fluxcapacitor/pipeline) 
+[PipelineIO](https://github.com/fluxcapacitor/pipeline) and the extended PipelineIO global [community](https://github.com/fluxcapacitor/pipeline/stargazers) are 100% dedicated to open source development.
 
-We develop openly in [GitHub](https://github.com/fluxcapacitor/pipeline) and post many of our Docker images in [DockerHub](https://hub.docker.com/r/fluxcapacitor) for everyone to embrace and extend.
+![GitHub](/img/github-logo-150x125.png)
 
-![GitHub](http://pipeline.io/images/github-logo-150x125.png)
+## [DockerHub](https://hub.docker.com/r/fluxcapacitor)
+We openly develop in [GitHub](https://github.com/fluxcapacitor/pipeline) and use [DockerHub](https://hub.docker.com/r/fluxcapacitor) for our Docker images.
 
-![DockerHub](http://pipeline.io/images/docker-logo-150x126.png)
+![DockerHub](/img/docker-logo-150x126.png)
 
-## Committers and Contributors 
+## Become a [Committer](/open_source/contribute.md)!
 Many of our employees, contributors, and community members are active committers and contributors to such popular open source projects as...
 
 * Apache Spark
@@ -49,5 +50,7 @@ Many of our employees, contributors, and community members are active committers
 * Scala
 * Sbt
 * Maven
+
+## Install [PipelineIO](/open_source/install.md)
 
 {!contributing.md!}
