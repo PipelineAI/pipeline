@@ -1,4 +1,4 @@
-# PipelineIO Streaming
+# Stream Your Models 
 PipelineIO integrates with popular streaming tools such as Kafka, Kinesis, Spark Streaming, Flink Streaming, Storm, and Huron.
 
 ![Kafka](/img/kafka-logo-wide-219x98.png) 

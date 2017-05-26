@@ -1,4 +1,4 @@
-# PipelineIO Product Overview 
+# Powered by PipelineIO
 PipelineIO self-hosted on-premise or in any major cloud provider.
 
 ![AWS](/img/aws-logo-185x73.png)

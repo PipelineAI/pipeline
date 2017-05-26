@@ -1,5 +1,6 @@
-# PipelineIO Commands
-## Installation
+# PipelineIO APIs
+## Command Line Interface (CLI)
+### Installation
 ```
 pip install -U pio-cli
 ```
@@ -9,7 +10,7 @@ You can view the commands supported by the CLI using just `pio`.
 pio
 ```
 
-## PipelineIO CLI Configuration
+### PipelineIO CLI Configuration
 | Command              | Description                                               |
 | -------------------- | --------------------------------------------------------- |
 | pio init-pio         | Initialize PIO CLI                                        |
@@ -17,7 +18,7 @@ pio
 | pio config-get       | Get value for config key                                  |
 | pio config-set       | Set value for config key                                  |
 
-## AI/ML Model Management
+### AI/ML Model Management
 | Command              | Description                                               |
 | -------------------- | --------------------------------------------------------- |
 | pio init-model       | Initialize model for deployment and prediction            |
@@ -26,13 +27,13 @@ pio
 | pio predict          | Predict with model                                        |
 | pio predict-many     | Predict many times (mini load-test)                       |
 
-## New Cluster Creation
+### New Cluster Creation
 | Command            | Description                                                 |
 | ------------------ | ----------------------------------------------------------- |
 | pio init-kops      | Initialize cluster (new)                                    |
 | pio up             | Start the cluster                                           |
 
-## Existing Cluster Management
+### Existing Cluster Management
 | Command            | Description                                                 |
 | ------------------ | ----------------------------------------------------------- |
 | pio init-cluster   | Initialize cluster (existing)                               |
@@ -46,7 +47,7 @@ pio
 | pio maps           | View config maps                                            |
 | pio system/top     | View system resource utilization (RAM, CPU) for an app      |
 
-## Application Management
+### Application Management
 | Command            | Description                                                 |
 | ------------------ | ----------------------------------------------------------- |
 | pio apps           | Retrieve available and running apps                         |
@@ -61,8 +62,13 @@ pio
 | pio proxy/tunnel   | Create a proxy/tunnel to a private app in your cluster      |
 | pio system/top     | Get system resource utilization (RAM, CPU) for an app       |
 
-## Job and Workflow Management
+### Job and Workflow Management
 | Command            | Description                                                 |
 | ------------------ | ----------------------------------------------------------- |
 | pio flow           | Start an Airflow job                                        |
 | pio submit         | Submit a Spark job                                          |
+
+## REST API
+Documentation Coming Soon!
+
+{!contributing.md!}
