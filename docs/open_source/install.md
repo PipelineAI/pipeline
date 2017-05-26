@@ -27,8 +27,8 @@ PipelineIO uses Kubernetes for Docker Container management and orchestration.
 
 ![PipelineIO Cluster](/img/weavescope-pipelineio.png)
 
-### [Mini](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) 
-Mini Kubernetes Cluster + PipelineIO Community on Local Laptop or Low-Memory Server
+### [Local](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) 
+Local, Mini Kubernetes Cluster + PipelineIO Community on Local Laptop or Low-Memory Server
 
 ### [AWS](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
 Full Kubernetes Cluster + PipelineIO Community on AWS.  
