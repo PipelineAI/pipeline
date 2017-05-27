@@ -1,5 +1,5 @@
 # PipelineIO Training
-## Training Levels
+## Product 
 ### Community Edition
 Global [Events](/events/index.md) and [Workshops](/events/index.md#workshops)
 
