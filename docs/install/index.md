@@ -13,7 +13,7 @@ The standalone PipelineIO Community Edition uses a single Docker image that can 
 ### [AWS GPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
 Standalone Docker Image + PipelineIO Community Edition for AWS GPU Instance
 
-### [Google GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
+### [Google Cloud GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 Standalone Docker Image + PipelineIO Community Edition for Google GPU Instance
 
 ## Clustered PipelineIO
