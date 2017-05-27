@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.53"
+__version__ = "0.54"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -23,7 +23,7 @@ import pick
 import yaml
 import json
 import dill as pickle
-from git import Repo
+#from git import Repo
 from pprint import pprint
 import subprocess
 from datetime import timedelta
