@@ -3,7 +3,7 @@ While we recommend the hosted [PipelineIO Community Edition](http://community.pi
 
 Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [here](https://pipelineio.zendesk.com). 
 
-## Standalone PipelineIO
+## Standalone 
 The standalone PipelineIO Community Edition uses a single Docker image that can run in any CPU and GPU-based environment that supports [Docker](https://www.docker.com/) for CPUs or [Nvidia-Docker](https://github.com/NVIDIA/nvidia-docker) for GPUs.
 
 ![Nvidia GPU](/img/nvidia-cuda-338x181.png)
@@ -16,7 +16,7 @@ Standalone Docker Image + PipelineIO Community Edition for AWS GPU Instance
 ### [Google Cloud GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 Standalone Docker Image + PipelineIO Community Edition for Google GPU Instance
 
-## Clustered PipelineIO
+## Clustered
 PipelineIO uses Kubernetes for Docker Container management and orchestration.
 
 ![Kubernetes](/img/kubernetes-logo-200x171.png)
