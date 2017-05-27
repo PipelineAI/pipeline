@@ -71,12 +71,12 @@ At the end of the workshop, each attendee can download the Docker image and run 
 
 **Dates**
 
-Apr 22 Spark TensorFlow GPU _(SOLD OUT)_
+Apr 22 Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[May 27 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33853114577?discount=ADVANCEDTENSORFLOW20)
+May 27 Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[June 10 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33971332169?discount=ADVANCEDTENSORFLOW20)
+[June 10 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33971332169?discount=ADVANCEDTENSORFLOW20)
 
-[July 8 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-34906919536?discount=ADVANCEDTENSORFLOW20)
+[July 8 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-34906919536?discount=ADVANCEDTENSORFLOW20)
 
 {!contributing.md!}
