@@ -1,3 +1,2 @@
 ### Directory Naming Convention
-<git commit hash tensorflow>-<git commit hash tensorflow serving>
-
+[tensorflow git commit hash]-[serving git commit hash]
