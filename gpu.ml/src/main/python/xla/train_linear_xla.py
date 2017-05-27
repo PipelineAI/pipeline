@@ -32,11 +32,11 @@ with tf.device("/cpu:0"):
   x_observed = tf.placeholder(shape=[None], dtype=tf.float32, name='x_observed')
   print(x_observed)
 
-with tf.device("/job:localhost/replica:0/task:0/device:XLA_GPU:0"):
+with tf.device("/job:localhost/replica:0/task:0/device:XLA_CPU:0"):
   y_pred = W * x_observed + b
   print(y_pred)
 
-with tf.device("/job:localhost/replica:0/task:0/device:XLA_GPU:0"):
+with tf.device("/job:localhost/replica:0/task:0/device:XLA_CPU:0"):
   y_observed = tf.placeholder(shape=[None], dtype=tf.float32, name='y_observed')
   print(y_observed)
 
@@ -57,14 +57,6 @@ with tf.device("/cpu:0"):
   init_op = tf.global_variables_initializer()
   print(init_op)
 
-config = tf.ConfigProto(
-  log_device_placement=True,
-)
-
-config.gpu_options.allow_growth=True
-config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
-
-print(config)
 
 from datetime import datetime
 version = int(datetime.now().strftime("%s"))
