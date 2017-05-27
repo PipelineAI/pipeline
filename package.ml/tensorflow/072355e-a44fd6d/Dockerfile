@@ -21,7 +21,8 @@ ENV \
 
 # TensorFlow Serving Home (not required on PATH)
 ENV \
-  TENSORFLOW_SERVING_HOME=/root/serving 
+  TENSORFLOW_SERVING_HOME=/root/serving \
+  TENSORFLOW_HOME=/root/serving/tensorflow
 
 # Required by TensorFlow Serving
 RUN \
@@ -75,9 +76,9 @@ RUN \
 # Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/serving.git \
+ && git clone -b master --recurse-submodules https://github.com/tensorflow/serving.git \
  && cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard 1697e74 
+ && git reset --hard a44fd6d 
 
 ENV TF_NEED_CUDA=0
 ENV TF_NEED_GCP=0
@@ -92,14 +93,16 @@ ENV \
   LANG=en_us.UTF-8
 
 RUN \
-  cd $TENSORFLOW_SERVING_HOME/tensorflow \
-  && tensorflow/tools/ci_build/builds/configured CPU 
+  cd $TENSORFLOW_HOME \
+  && yes "" | ./configure
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commodity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build --local_resources 20000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/... 
+  && bazel build \
+    -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+    --spawn_strategy=standalone --genrule_strategy=standalone \
+    //tensorflow_serving/... 
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -111,22 +114,25 @@ ENV \
   TENSORFLOW_HOME=/root/tensorflow
 
 RUN \
- git clone -b master --single-branch --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+ git clone -b master --recurse-submodules https://github.com/tensorflow/tensorflow.git \
  && cd $TENSORFLOW_HOME \
- && git reset --hard b6bafad 
+ && git reset --hard 072355e 
 
 RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
-# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
-  && bazel build --local_resources 20000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/... 
+  && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/kernels/mfcc_test.cc \
+  && bazel build \
+    -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+    --spawn_strategy=standalone --genrule_strategy=standalone \
+    //tensorflow/... 
 
 RUN \
   cd $TENSORFLOW_HOME \
   && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
 
 RUN \
-  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
+  pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-1.2.0rc0-cp35-cp35m-linux_x86_64.whl
 
 RUN \
   TF_CPP_MIN_LOG_LEVEL=0 \

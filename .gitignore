@@ -13,7 +13,7 @@ __pycache__/
 .settings
 .project
 jmeter.log
-nohup.out
+nohup*.out
 __pycache__
 .DS_Store
 .cache-tests
