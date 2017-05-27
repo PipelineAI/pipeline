@@ -1,4 +1,4 @@
-# PipelineIO Upcoming Events
+# PipelineIO Global Events
 ## Meetups
 
 ![Meetup](/img/meetup-442x300.png)
@@ -12,7 +12,7 @@ PipelineIO is the organizer and sponsor for the series of [Advanced Spark and Te
 * London
 * Berlin
 * Toronto
-* Warsaw
+* Madrid 
 * Beijing
 * Chennai
 * Bangalore
@@ -22,18 +22,61 @@ In 2016 alone, we hosted 60+ free meetup community events throughout the world.
 
 While this dedication to the community requires a large amount of human and financial capital, we continue to push forward with close to 100+ global community events planned in 2017.
 
-## Videos and Slides 
-
-### [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
+## [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
 ![YouTube](http://advancedspark.com/img/youtube-300x134.png)
-* [Optimize and Deploy Distributed TensorFlow, Spark, and Scikit-Learn Models](https://www.youtube.com/watch?v=dTDq_Z81m5M)
-* [Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/swiPWUxBvSc)
-* [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
 
-### [Slides](http://www.slideshare.net/cfregly)
+[Optimize and Deploy Distributed TensorFlow, Spark, and Scikit-Learn Models (Meetup London, May 2017)](https://www.youtube.com/watch?v=dTDq_Z81m5M)
 
+[Deploying High Performance TensorFlow in Production with GPUs (PyData London, May 2017)](https://www.youtube.com/watch?v=TuGszWtR0ss)
+
+[Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/swiPWUxBvSc)
+
+[Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
+
+## [Slides](http://www.slideshare.net/cfregly)
 ![Slideshare](http://advancedspark.com/img/slideshare.png)
 
+[Deploying High Performance TensorFlow in Production with GPUs - Strata London - May 24, 2017](https://www.slideshare.net/cfregly/optimize-deploy-distributed-tensorflow-spark-and-scikitlearn-models-on-gpus)
+
+[High Performance TensorFlow + GPUs - GPU Tech Conference - San Jose, May 2017 (Slides)](https://www.slideshare.net/cfregly/high-performance-distributed-tensorflow-with-gpus-nvidia-gpu-tech-conference-may-08-2017)
+
 ## [Workshops](/training/index.md)
+
+### PipelineIO Distributed Spark ML + Tensorflow AI + GPU Workshop
+_Everybody gets their own GPU for the duration of the workshop!!_
+
+We will each build an end-to-end, continuous, distributed Spark ML and Tensorflow AI model training and deployment pipeline on our own GPU-based cloud instance.
+
+The only prequisites are a modern browser and an internet connection. We provide the rest including a GPU-based cloud instance for each attendee.
+
+At the end of the workshop, each attendee can download the Docker image and run everything in your own cloud account.
+
+**Agenda**
+
+* Spark ML
+* TensorFlow AI
+* Storing and Serving Models with HDFS
+* Trade-offs of CPU vs. GPU, Scale Up vs. Scale Out
+* CUDA + cuDNN GPU Development Overview
+* TensorFlow Model Checkpointing, Saving, Exporting, and Importing
+* Distributed TensorFlow AI Model Training (Distributed Tensorflow)
+* TensorFlow's Accelerated Linear Algebra Framework (XLA)
+* TensorFlow's Just-in-Time (JIT) Compiler, Ahead of Time (AOT) Compiler
+* Centralized Logging and Visualizing of Distributed TensorFlow Training (Tensorboard)
+* Distributed Tensorflow AI Model Serving/Predicting (TensorFlow Serving)
+* Centralized Logging and Metrics Collection (Prometheus, Grafana)
+* Continuous TensorFow AI Model Deployment (TensorFlow, Airflow)
+* Hybrid Cross-Cloud and On-Premise Deployments (Kubernetes)
+* High-Performance and Fault-Tolerant Micro-services (NetflixOSS)
+
+**Dates**
+
+Apr 22 Spark TensorFlow GPU _(SOLD OUT)_
+
+[May 27 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33853114577?discount=ADVANCEDTENSORFLOW20)
+
+[June 10 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33971332169?discount=ADVANCEDTENSORFLOW20)
+
+[July 8 Spark TensorFlow GPU](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-34906919536?discount=ADVANCEDTENSORFLOW20)
 
 {!contributing.md!}

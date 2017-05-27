@@ -1,4 +1,4 @@
-# Installing PipelineIO in Your Environment
+# Install PipelineIO in Your Environment
 While we recommend the hosted [PipelineIO Community Edition](http://community.pipeline.io) when evaluating PipelineIO, we provide installation instructions below to setup PipelineIO in your own cloud-based or on-premise environment.
 
 Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [here](https://pipelineio.zendesk.com). 

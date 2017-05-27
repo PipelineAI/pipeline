@@ -25,7 +25,7 @@ We openly develop in [GitHub](https://github.com/fluxcapacitor/pipeline) and use
 
 ![DockerHub](/img/docker-logo-150x126.png)
 
-## Become a [Committer](/open_source/contribute.md)!
+## [Contribute](/contribute/index.md) and Become a Committer!
 Many of our employees, contributors, and community members are active committers and contributors to such popular open source projects as...
 
 * Apache Spark
@@ -51,6 +51,6 @@ Many of our employees, contributors, and community members are active committers
 * Sbt
 * Maven
 
-## Install [PipelineIO](/open_source/install.md)
+## [Install](/install/index.md) PipelineIO
 
 {!contributing.md!}

@@ -5,6 +5,7 @@
 ## What is PipelineIO?
 [PipelineIO](http://pipeline.io/) is an end-to-end, highly-scalable, highly-available, GPU-based machine learning and artificial intelligence model training and deployment platform.
 
+## Who is Using PipelineIO?
 PipelineIO, our employees, our advisors, our investors, and our media activity are listed on [Crunchbase](https://www.crunchbase.com/organization/pipelineio) along with 1000's of our [global users and customers](https://www.crunchbase.com/organization/pipelineio/customers).
 
 ## Where is PipelineIO?

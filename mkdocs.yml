@@ -19,14 +19,16 @@ pages:
     - Deploy Your Model: model_deploy/index.md
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
-  - Powered by PipelineIO: products/index.md
+  - Get PipelineIO!: products/index.md
   - 24x7 Support: support/index.md
-  - Upcoming Events: events/index.md
+  - Global Events: events/index.md
   - Training: training/index.md
   - Dashboards and Visualizations: model_monitor/index.md
   - GPUs and Performance: gpu/index.md
   - APIs: api/index.md
   - Open Source: open_source/index.md 
+  - Contribute to PipelineIO: contribute/index.md
+  - Install PipelineIO: install/index.md
   - Privacy and Terms: legal/index.md
 theme: material
 site_favicon: 'img/favicon.png'
