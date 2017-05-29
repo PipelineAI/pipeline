@@ -41,18 +41,15 @@ RUN \
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
-  pip install jupyterhub-dummyauthenticator==0.1
-
-RUN \
-  pip install oauthenticator==0.5.1
-
-RUN \
+  pip install jupyterhub-dummyauthenticator==0.1 \
+  pip install oauthenticator==0.5.1 \
   pip install jupyterhub-simplespawner==0.1
 
 RUN \
   conda install --yes nbconvert==5.1.1 \
   && conda install --yes graphviz==2.38.0 \
-  && conda install --yes seaborn==0.7.1
+  && conda install --yes seaborn==0.7.1 \
+  && conda install --yes dill==0.2.5
 
 ENV KUBERNETES_VERSION=1.6.2
 
@@ -81,7 +78,7 @@ COPY profiles/ /root/.ipython/
 COPY img/ img/
 
 ENV \
- TENSORFLOW_VERSION=1.1.0
+ TENSORFLOW_VERSION=1.2.0rc1
 
 RUN \
   pip install tensorflow==$TENSORFLOW_VERSION
@@ -108,13 +105,15 @@ RUN \
     'r-crayon=1.3*' \
     'r-randomforest=4.6*' && conda clean -tipsy
 
-
 COPY share/ share/
 
 RUN \
   mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
   && cd /opt/conda/share/jupyter/hub/templates/ \
   && ln -s ~/share/jupyter/hub/templates/login.html
+
+RUN \
+  pip install -y pio-cli==0.60
 
 EXPOSE 6006 8754 8755
 
