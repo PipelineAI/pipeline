@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.57"
+__version__ = "0.58"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -135,7 +135,6 @@ class PioCli(object):
         config_file_base_path = os.path.abspath(config_file_base_path)
         config_file_path = os.path.join(config_file_base_path, 'config')
         print("")
-        pprint("Merging dict '%s' with existing config '%s'." % (config_dict, config_file_path))
 
         existing_config_dict = self._get_full_config()
 
@@ -147,8 +146,8 @@ class PioCli(object):
 
         with open(config_file_path, 'w') as fh:
             fh.write(new_config_yaml)
-        print(new_config_yaml)
-        print("")
+#        print(new_config_yaml)
+#        print("")
 
 
     def _get_full_config(self):
