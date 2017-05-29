@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.55"
+__version__ = "0.57"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -476,29 +476,28 @@ class PioCli(object):
                    model_name,
                    model_version,
                    model_path,
-                   model_test_input_path,
+                   model_test_request_path=None,
                    model_input_mime_type='application/json',
                    model_output_mime_type='application/json'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
-        model_server_url = model_server_url.replace('//', '/')
-
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
         
-        model_test_input_path = os.path.expandvars(model_test_input_path)
-        model_test_input_path = os.path.expanduser(model_test_input_path)
-        model_test_input_path = os.path.abspath(model_test_input_path)
+        if model_test_request_path:
+            model_test_request_path = os.path.expandvars(model_test_request_path)
+            model_test_request_path = os.path.expanduser(model_test_request_path)
+            model_test_request_path = os.path.abspath(model_test_request_path)
 
-        config_dict = {"model_server_url": model_server_url, 
+        config_dict = {"model_server_url": model_server_url.rstrip('/'), 
                        "model_type": model_type,
                        "model_namespace": model_namespace,
                        "model_name": model_name,
                        "model_version": model_version,
                        "model_path": model_path, 
-                       "model_test_input_path": model_test_input_path,
+                       "model_test_request_path": model_test_request_path,
                        "model_input_mime_type": model_input_mime_type,
                        "model_output_mime_type": model_output_mime_type,
         }
@@ -730,8 +729,7 @@ class PioCli(object):
             print("")
             return
 
-        full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
-        full_model_url = full_model_url.replace('//', '/')
+        full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_namespace, model_name, model_version)
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
@@ -768,7 +766,7 @@ class PioCli(object):
                 model_namespace=None,
                 model_name=None,
                 model_version=None,
-                model_test_input_path=None,
+                model_test_request_path=None,
                 model_input_mime_type=None,
                 model_output_mime_type=None):
 
@@ -819,18 +817,19 @@ class PioCli(object):
                 print("")
                 return
 
-        if not model_test_input_path:
+        if not model_test_request_path:
             try:
-                model_test_input_path = self._get_full_config()['model_test_input_path']
+                model_test_request_path = self._get_full_config()['model_test_request_path']
             except:
                 print("")
                 print("Model needs to be configured with 'pio init-model'.")
                 print("")
                 return
 
-        model_test_input_path= os.path.expandvars(model_test_input_path)
-        model_test_input_path = os.path.expanduser(model_test_input_path)
-        model_test_input_path = os.path.abspath(model_test_input_path)
+        if model_test_request_path:
+            model_test_request_path = os.path.expandvars(model_test_request_path)
+            model_test_request_path = os.path.expanduser(model_test_request_path)
+            model_test_request_path = os.path.abspath(model_test_request_path)
 
         if not model_input_mime_type:
             try:
@@ -855,16 +854,15 @@ class PioCli(object):
         print('model_namespace: %s' % model_namespace)
         print('model_name: %s' % model_name)
         print('model_version: %s' % model_version)
-        print('model_test_input_path: %s' % model_test_input_path)
+        print('model_test_request_path: %s' % model_test_request_path)
         print('model_input_mime_type: %s' % model_input_mime_type)
         print('model_output_mime_type: %s' % model_output_mime_type)
 
-        full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url, pio_api_version, model_type, model_namespace, model_name, model_version)
-        full_model_url = full_model_url.replace('//', '/')
+        full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_namespace, model_name, model_version)
         print("")
-        print("Predicting with file '%s' using '%s'" % (model_test_input_path, full_model_url))
+        print("Predicting with file '%s' using '%s'" % (model_test_request_path, full_model_url))
         print("")
-        with open(model_test_input_path, 'rb') as fh:
+        with open(model_test_request_path, 'rb') as fh:
             model_input_binary = fh.read()
 
         headers = {'Content-type': model_input_mime_type, 'Accept': model_output_mime_type} 
@@ -890,7 +888,7 @@ class PioCli(object):
                      model_namespace=None,
                      model_name=None,
                      model_version=None,
-                     model_test_input_path=None,
+                     model_test_request_path=None,
                      model_input_mime_type=None,
                      model_output_mime_type=None):
 
@@ -901,7 +899,7 @@ class PioCli(object):
                                    model_namespace,
                                    model_name,
                                    model_version,
-                                   model_test_input_path,
+                                   model_test_request_path,
                                    model_input_mime_type,
                                    model_output_mime_type),
                )
