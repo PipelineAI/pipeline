@@ -7,7 +7,7 @@ repo_name: fluxcapacitor/pipeline
 edit_uri: edit/master/docs/
 docs_dir: docs
 site_dir: site
-#strict: true
+strict: true
 google_analytics:
   - 'UA-78551725-1'
   - 'auto'
@@ -30,7 +30,8 @@ pages:
   - Contribute to PipelineIO: contribute/index.md
   - Install PipelineIO: install/index.md
   - Privacy and Terms: legal/index.md
-theme: material
+#theme: material
+theme_dir: mkdocs-material/material
 site_favicon: 'img/favicon.png'
 extra:
   feature:

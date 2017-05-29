@@ -22,6 +22,15 @@ In 2016 alone, we hosted 60+ free meetup community events throughout the world.
 
 While this dedication to the community requires a large amount of human and financial capital, we continue to push forward with close to 100+ global community events planned in 2017.
 
+## Monthly PipelineIO Community Dev Sync
+_Everyone is invited!_
+
+Date/Time:  9am PT, Every Third Monday.
+
+Register [here](https://zoom.us/webinar/register/4c3a4266139a5d1d8c34be5db4a05ad8).
+
+More info [here](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/events/240026055/).
+
 ## [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
 ![YouTube](http://advancedspark.com/img/youtube-300x134.png)
 
