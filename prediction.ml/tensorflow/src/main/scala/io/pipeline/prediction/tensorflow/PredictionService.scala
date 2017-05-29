@@ -29,6 +29,10 @@ import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import javax.servlet.annotation.MultipartConfig
 import java.io.InputStream
 import scala.util.parsing.json.JSON
+import org.tensorflow.Session
+import org.tensorflow.Session
+import org.tensorflow.Graph
+import org.tensorflow.Tensor
 
 @SpringBootApplication
 @RestController
@@ -39,16 +43,18 @@ class PredictionService {
   HystrixPrometheusMetricsPublisher.register("prediction_tensorflow")
   new StandardExports().register()
 
+  val registry = new scala.collection.mutable.HashMap[String, Session]()
+  
 /*  
  curl -i -X POST -v -H "Transfer-Encoding: chunked" \
    -F "model=@tensorflow_inception_graph.pb" \
    http://[host]:[port]/api/v1/update-tensorflow/default/tensorflow_inception/1
 */
-  @RequestMapping(path=Array("/api/v1/model/deploy/tensorflow/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/deploy/tensorflow/{modelNamespace}/{modelName}/{modelVersion}"),
                   method=Array(RequestMethod.POST))
-  def updateTensorflow(@PathVariable("namespace") namespace: String,
+  def updateTensorflow(@PathVariable("modelNamespace") modelNamespace: String,
                        @PathVariable("modelName") modelName: String, 
-                       @PathVariable("version") version: String,
+                       @PathVariable("modelVersion") modelVersion: String,
                        @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
 
     var inputStream: InputStream = null
@@ -58,7 +64,7 @@ class PredictionService {
       val filename = file.getOriginalFilename()
   
       // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"store/${namespace}/${modelName}/export/${version}")
+      val filepath = new java.io.File(s"model_store/${modelNamespace}/${modelName}/${modelVersion}")
       if (!filepath.isDirectory()) {
         filepath.mkdirs()
       }
@@ -66,7 +72,7 @@ class PredictionService {
       // This buffer will store the data read from 'model' multipart file
       inputStream = file.getInputStream()
   
-      Files.copy(inputStream, Paths.get(s"store/${namespace}/${modelName}/export/${version}/${filename}"))
+      Files.copy(inputStream, Paths.get(s"store/model_store/${modelNamespace}/${modelName}/${modelVersion}/${filename}"))
     } catch {
       case e: Throwable => {
         System.out.println(e)
@@ -110,9 +116,9 @@ class PredictionService {
   @RequestMapping(path=Array("/api/v1/model/predict/tensorflow-java/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def evaluateTensorflowNative(@PathVariable("namespace") namespace: String,
+  def evaluateTensorflowNative(@PathVariable("modelNamespace") modelNamespace: String,                               
                                @PathVariable("modelName") modelName: String, 
-                               @PathVariable("version") version: Integer,
+                               @PathVariable("modelVersion") modelVersion: Integer,
                                @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
@@ -121,9 +127,37 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
 
-      val results = new TensorflowNativeCommand(s"${modelName}_java", namespace, modelName, version, inputs, "fallback", 5000, 20, 10)
-        .execute()
+      //val modelParentPath = s"/root/model_store/${modelType}/${modelNamespace}/${modelName}/${modelVersion}"
+      val modelParentPath = s"/Users/cfregly/workspace-fluxcapacitor/source.ml/prediction.ml/model_store/tensorflow/${modelNamespace}/${modelName}/${modelVersion}"
+      val modelPath = Paths.get(modelParentPath, "saved_model.pb")
+      
+      // TODO:  implement this:
 
+      // var session = registry.get(modelPath.toAbsolutePath().toString)
+      // if session == null ...
+      
+      val graphDefBinary: Array[Byte] = Files.readAllBytes(modelPath)
+      System.out.println(graphDefBinary.length)
+    
+      val graph: Graph = new Graph()
+      graph.importGraphDef(graphDefBinary);
+    
+      val session: Session = new Session(graph)
+
+      registry.put(modelPath.toAbsolutePath().toString, session)
+
+      val input = 1.5f
+      val inputTensor: Tensor = Tensor.create(input) 
+    
+      val results = new TensorflowNativeCommand(s"${modelName}_java", session, inputTensor, inputs, 0.0f, 5000, 20, 10)
+        .execute()
+        
+      val outputTensor: Tensor = session.runner().feed("x_observed:0", inputTensor).fetch("add:0").run().get(0) 
+      val output = new Array[Float](0)
+      outputTensor.copyTo(output)
+    
+      print("Output: " + output)
+        
       s"""{"results":[${results}]"""
     } catch {
       case e: Throwable => {

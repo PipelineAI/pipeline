@@ -16,10 +16,10 @@ import com.netflix.hystrix.HystrixCommand
 class UserItemBatchPredictionCollapser(commandName: String, 
                                        namespace: String, 
                                        version: String, 
+                                       fallback: Double,
                                        timeout: Int, 
                                        concurrencyPoolSize: Int,  
-                                       rejectionThreshold: Int, 
-                                       fallback: Double, 
+                                       rejectionThreshold: Int,                 
                                        userId: String, 
                                        itemId: String)
   extends HystrixCollapser[Map[String, Double], Double, String](
@@ -31,7 +31,7 @@ class UserItemBatchPredictionCollapser(commandName: String,
   override def getRequestArgument(): String = s"${userId}:${itemId}" 
 
   override def createCommand(collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): HystrixCommand[Map[String, Double]] = {
-    new UserItemBatchPredictionCommand(commandName, namespace, version, userId, itemId, timeout, concurrencyPoolSize, rejectionThreshold, collapsedRequests, fallback)    
+    new UserItemBatchPredictionCommand(commandName, namespace, version, userId, itemId, fallback, timeout, concurrencyPoolSize, rejectionThreshold, collapsedRequests)    
   }
 
   override def mapResponseToRequests(batchResponse: Map[String, Double], collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]]): Unit = {   

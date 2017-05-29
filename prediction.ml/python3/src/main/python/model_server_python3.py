@@ -79,11 +79,10 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
-        (_, model_key, model, transformers_module) = self.get_model_assets(model_type,
-                                                                           model_namespace,
-                                                                           model_name,
-                                                                           model_version)
-
+		(model, transformers_module) = self.get_model_assets(model_type,
+           													 model_namespace,
+                                                             model_name,
+                                                             model_version)
         transformed_inputs = transformers_module.transform_inputs(self.request.body)
         outputs = model.predict(transformed_inputs)
         transformed_outputs = transformers_module.transform_outputs(outputs)
@@ -94,15 +93,23 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
         model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
-        if model_key in self.registry:
-            (model_file_absolute_path, model_key, model, transformers_module) = self.registry[model_key]
-        else:
-            model_base_path = os.path.join(self.settings['model_store_path'], model_type)
-            model_base_path = os.path.join(model_base_path, model_namespace)
-            model_base_path = os.path.join(model_base_path, model_name)
-            model_base_path = os.path.join(model_base_path, model_version)
+        if model_key not in self.registry:
+            model_base_path = self.settings['model_store_path']
+            model_base_path = os.path.expandvars(model_base_path)
+            model_base_path = os.path.expanduser(model_base_path)
+            model_base_path = os.path.abspath(model_base_path)
 
-            model_filename = fnmatch.filter(os.listdir(model_base_path), "*.pkl")[0]
+            bundle_path = os.path.join(model_base_path, model_type)
+            bundle_path = os.path.join(bundle_path, model_namespace)
+            bundle_path = os.path.join(bundle_path, model_name)
+            bundle_path = os.path.join(bundle_path, model_version)
+
+            # TODO:  remove filter + listdir - only need to check specific file
+            model_filenames = fnmatch.filter(os.listdir(bundle_path), "%s.pkl" % model_name)
+
+            if (len(model_filenames) == 0):
+                log.error("Missing or invalid pickle file.  Please re-deploy a directory/bundle that contains '%s.pkl'" % model_name)
+                raise "Missing or invalid pickle file.  Please re-deploy a directory/bundle that contains '%s.pkl'" % model_name
 
             # Set absolute path to model directory
             model_file_absolute_path = os.path.join(model_base_path, model_filename)
@@ -119,9 +126,9 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             transformers_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(transformers_module)
 
-            self.registry[model_key] = (model_file_absolute_path, model_key, model, transformers_module)
+            self.registry[model_key] = (model, transformers_module)            
 
-        return (model_file_absolute_path, model_key, model, transformers_module)
+        return self.registry[model_key]
 
 
 class ModelDeployPython3Handler(tornado.web.RequestHandler):
@@ -130,7 +137,13 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
         fileinfo = self.request.files['file'][0]
         model_file_source_bundle_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_bundle_path)
-        bundle_path = os.path.join(self.settings['model_store_path'], model_type)
+        
+        model_base_path = self.settings['model_store_path']
+        model_base_path = os.path.expandvars(model_base_path)
+        model_base_path = os.path.expanduser(model_base_path)
+        model_base_path = os.path.abspath(model_base_path)
+        
+        bundle_path = os.path.join(model_base_path, model_type)
         bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
         bundle_path = os.path.join(bundle_path, model_version)

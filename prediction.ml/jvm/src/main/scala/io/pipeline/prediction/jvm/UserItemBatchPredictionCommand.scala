@@ -15,11 +15,11 @@ class UserItemBatchPredictionCommand(commandName: String,
                                      version: String, 
                                      userId: String, 
                                      itemId: String, 
+                                     fallback: Double,
                                      timeout: Int, 
                                      concurrencyPoolSize: Int, 
                                      rejectionThreshold: Int, 
-    collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]], 
-    fallback: Double)
+                                     collapsedRequests: java.util.Collection[CollapsedRequest[Double, String]])
   extends HystrixCommand[Map[String, Double]](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))

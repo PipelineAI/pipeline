@@ -1,23 +1,28 @@
 package io.pipeline.prediction.tensorflow
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
+import org.tensorflow.Graph
+import org.tensorflow.Session
+import org.tensorflow.Tensor
+
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
 import com.netflix.hystrix.HystrixCommandKey
 import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
-import org.tensorflow.Tensor
-import java.util.ArrayList
 
-import java.nio.file.Paths
-
-class TensorflowNativeCommand(commandName: String, 
-                              namespace: String, 
-                              modelName: String, 
-                              version: Integer, 
+class TensorflowNativeCommand(commandName: String,       
+                              session: Session,
+                              input: Tensor,
                               inputs: Map[String, Any],
-    fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
-  extends HystrixCommand[String](
+                              fallback: Float, 
+                              timeout: Int, 
+                              concurrencyPoolSize: Int, 
+                              rejectionThreshold: Int)
+  extends HystrixCommand[Tensor](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
         .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
@@ -36,46 +41,16 @@ class TensorflowNativeCommand(commandName: String,
       )
     )
 {
-  val modelDir = s"/root/store/${namespace}/${modelName}/export/${version}"
-
-  val graphDef = LabelImage.readAllBytesOrExit(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
-  val labels = LabelImage.readAllLinesOrExit(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt"))
-/*
-  val image0: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/0.jpg")))
-  val image1: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/1.jpg")))
-  val image2: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/2.jpg")))
-  val image3: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/3.jpg")))
-  val image4: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/4.jpg")))
-  val image5: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/5.jpg")))
-  val image6: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/6.jpg")))
-  val image7: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/7.jpg")))
-  val image8: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/8.jpg")))
-  val image9: Tensor = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(Paths.get("/root/store/images/9.jpg")))
-
-  val images = Array(image0, image1, image2, image3, image4, image5, image6, image7, image8, image9)
-*/
   val k = 10
   val randomInt = scala.util.Random
 
-  def run(): String = {
+  def run(): Tensor = {
     try{
       val results = new Array[String](k)
 
-      // val image = images(randomInt.nextInt(10)) 
-
-      val image = LabelImage.constructAndExecuteGraphToNormalizeImage(LabelImage.readAllBytesOrExit(
-        Paths.get(s"/root/store/${namespace}/images/${version}/${randomInt.nextInt(10)}.jpg")))
-
-      val labelProbabilities = LabelImage.executeInceptionGraph(graphDef, image)
-
-      val bestLabelIdxs = LabelImage.maxKIndex(labelProbabilities, k)
+      // TODO. session.run(feed).get(fetch)
       
-      for (i <- 0 until k) {
-        results(i) =
-          s"""{'${labels.get(bestLabelIdxs(i))}':${labelProbabilities(bestLabelIdxs(i)) * 100f}}"""        
-      }
-
-      s"""${results.mkString(",")}"""
+      Tensor.create(0.0f)
     } catch {
        case e: Throwable => {
          System.out.println(e)
@@ -84,7 +59,37 @@ class TensorflowNativeCommand(commandName: String,
     }
   }
 
-  override def getFallback(): String = {
-    s"""${fallback}"""
+  override def getFallback(): Tensor = {
+    Tensor.create(fallback)
+  }
+}
+
+object TensorflowJavaCommand {
+  def main(args: Array[String]): Unit = {
+    val modelType = "tensorflow"
+    val modelNamespace = "default"
+    val modelName = "tensorflow_linear"
+    val modelVersion = "0"
+
+    //val modelParentPath = s"/root/model_store/${modelType}/${modelNamespace}/${modelName}/${modelVersion}"
+    val modelParentPath = s"/Users/cfregly/workspace-fluxcapacitor/source.ml/prediction.ml/model_store/${modelType}/${modelNamespace}/${modelName}/${modelVersion}"
+    val modelPath = Paths.get(modelParentPath, "saved_model.pb")
+
+    val graphDefBinary: Array[Byte] = Files.readAllBytes(modelPath)
+    System.out.println(graphDefBinary.length)
+
+    val graph: Graph = new Graph()
+    graph.importGraphDef(graphDefBinary);
+
+    val session: Session = new Session(graph)
+
+    val input = 1.5f
+    val inputTensor: Tensor = Tensor.create(input) 
+    
+    val outputTensor: Tensor = session.runner().feed("x_observed:0", inputTensor).fetch("add:0").run().get(0) 
+    val output = new Array[Float](0)
+    outputTensor.copyTo(output)
+    
+    print("Output: " + output)
   }
 }

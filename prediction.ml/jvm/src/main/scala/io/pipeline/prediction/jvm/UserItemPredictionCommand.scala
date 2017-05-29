@@ -12,10 +12,11 @@ import com.netflix.hystrix.HystrixThreadPoolProperties
 class UserItemPredictionCommand(commandName: String, 
                                 namespace: String, 
                                 version: String, 
+                                fallback: Double, 
                                 timeout: Int, 
                                 concurrencyPoolSize: Int, 
                                 rejectionThreshold: Int, 
-    fallback: Double, userId: String, itemId: String)
+                                userId: String, itemId: String)
   extends HystrixCommand[Double](
       HystrixCommand.Setter
         .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))

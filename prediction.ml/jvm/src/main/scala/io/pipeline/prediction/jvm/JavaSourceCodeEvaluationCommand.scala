@@ -15,7 +15,10 @@ class JavaSourceCodeEvaluationCommand(commandName: String,
                                       version: String, 
                                       predictor: Predictable, 
                                       inputs: Map[String, Any],
-    fallback: String, timeout: Int, concurrencyPoolSize: Int, rejectionThreshold: Int)
+                                      fallback: String, 
+                                      timeout: Int, 
+                                      concurrencyPoolSize: Int, 
+                                      rejectionThreshold: Int)
   extends HystrixCommand[String](
     HystrixCommand.Setter
       .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))

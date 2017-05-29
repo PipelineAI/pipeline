@@ -41,6 +41,7 @@ import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import org.springframework.web.bind.annotation.RequestMethod
 import java.nio.file.StandardCopyOption
+import java.nio.file.Path
 
 @SpringBootApplication
 @RestController
@@ -204,6 +205,12 @@ class PredictionService {
       TarGzUtil.extract(zipFilename, parentDir)
 
       // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      val pmmlFilePath = s"${parentDir}/${modelName}.pmml"
+      
+      // TODO: Handle this failure
+      //if (Path.exists(pmmlFilePath)) {
+      //  throw new RuntimeException(s"""Invalid '.pmml' filename.  The filename must match model_name '${modelName}'.  Please re-deploy a directory/bundle that contains '${modelName}.pmml'.""")
+      //}
       
       Files.delete(Paths.get(zipFilename))      
     } catch {
@@ -491,7 +498,7 @@ class PredictionService {
                       @PathVariable("userId") userId: String, 
                       @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemPredictionCommand("keyvalue_useritem", namespace, version, 25, 5, 10, -1.0d, userId, itemId)           
+      val result = new UserItemPredictionCommand("keyvalue_useritem", namespace, version, -1.0d, 25, 5, 10, userId, itemId)           
         .execute()
 
       s"""{"result":${result}}"""
@@ -511,7 +518,7 @@ class PredictionService {
                            @PathVariable("userId") userId: String,
                            @PathVariable("itemId") itemId: String): String = {
     try {
-      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", namespace, version, 25, 5, 10, -1.0d, userId, itemId)
+      val result = new UserItemBatchPredictionCollapser("keyvalue_useritem_batch", namespace, version, -1.0d, 25, 5, 10, userId, itemId)
         .execute()
 
       s"""{"result":${result}}"""
