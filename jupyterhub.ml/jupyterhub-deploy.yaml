@@ -20,10 +20,10 @@ spec:
         resources:
           limits:
             cpu: 1000m
-            memory: 2000Mi
+            memory: 4000Mi
           requests:
             cpu: 100m
-            memory: 200Mi
+            memory: 400Mi
         imagePullPolicy: "Always"
         env:
         - name: GET_HOSTS_FROM
