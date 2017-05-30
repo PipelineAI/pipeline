@@ -41,9 +41,9 @@ RUN \
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
-  pip install jupyterhub-dummyauthenticator==0.1 \
-  pip install oauthenticator==0.5.1 \
-  pip install jupyterhub-simplespawner==0.1
+  pip install jupyterhub-dummyauthenticator==0.3.1 \
+              oauthenticator==0.5.1 \
+              jupyterhub-simplespawner==0.1
 
 RUN \
   conda install --yes nbconvert==5.1.1 \
@@ -113,7 +113,7 @@ RUN \
   && ln -s ~/share/jupyter/hub/templates/login.html
 
 RUN \
-  pip install -y pio-cli==0.60
+  pip install pio-cli==0.58
 
 EXPOSE 6006 8754 8755
 
