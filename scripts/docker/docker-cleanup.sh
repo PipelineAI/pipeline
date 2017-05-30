@@ -2,14 +2,14 @@
 
 echo "Removing exited containers..."
 # remove exited containers:
-docker ps --filter status=dead --filter status=exited -aq | xargs docker rm -v
+sudo docker ps --filter status=dead --filter status=exited -aq | xargs sudo docker rm -v
 
 echo "Removing unused images..."
 # remove unused images:
-docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs docker rmi
+sudo docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs sudo docker rmi
 
 echo "Removing unused volumes..."
 # remove unused volumes:
-docker volume ls -qf dangling=true | xargs docker volume rm
+sudo docker volume ls -qf dangling=true | xargs sudo docker volume rm
 
 echo "...Done!"
