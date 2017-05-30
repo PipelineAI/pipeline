@@ -31,7 +31,7 @@ pages:
   - Install PipelineIO: install/index.md
   - Privacy and Terms: legal/index.md
 #theme: material
-theme_dir: mkdocs-material/material
+theme_dir: docs/mkdocs-material/material
 site_favicon: 'img/favicon.png'
 extra:
   feature:
@@ -57,7 +57,7 @@ extra:
       link: 'https://www.linkedin.com/company/6609122/'
     - type: 'twitter'
       link: 'https://twitter.com/pipelineio'
-    - type: 'docker'
+    - type: 'globe'
       link: 'https://hub.docker.com/r/fluxcapacitor'
       
 markdown_extensions:
@@ -82,6 +82,9 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tasklist(custom_checkbox=true)
   - pymdownx.tilde
+extra_javascript:
+  - ../application-06a3e72efd.js
+  - ../modernizr-1df76c4e58.js
 extra_css:
   - css/bootstrap_paper.min.css
   - css/style.css
