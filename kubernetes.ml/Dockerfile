@@ -2,9 +2,6 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
-ENV KUBERNETES_VERSION=1.6.2
-ENV KUBERNETES_HOME=/root/kubernetes/
-
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
     echo '874dbb0d3c7ec665adf7231bbb575ab2 */tmp/miniconda.sh' | md5sum -c - && \
@@ -19,6 +16,9 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
+ENV KUBERNETES_VERSION=1.6.3
+ENV KUBERNETES_HOME=/root/kubernetes/
+
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/kubernetes.tar.gz \
   && tar -xzvf kubernetes.tar.gz \
@@ -28,9 +28,6 @@ RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl \
   && chmod a+x kubectl \
   && mv kubectl /usr/local/bin/kubectl
-
-#RUN \
-#  echo "source <(kubectl completion bash)" >> ~/.bashrc
 
 #RUN \
 #  echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
@@ -79,11 +76,15 @@ RUN \
 RUN \
   pip install --upgrade appdirs
 
+#RUN \
+#  echo "deb https://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+#  && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y google-cloud-sdk
+
 RUN \
-  echo "deb https://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
-  && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
-  && apt-get update \
-  && apt-get install -y google-cloud-sdk
+  curl https://sdk.cloud.google.com | bash \
+  && exec -l $SHELL
 
 RUN \
   apt-get update && apt-get install -y libssl-dev libffi-dev python-dev build-essential \
@@ -105,22 +106,19 @@ RUN \
   && mv linux-amd64/helm /usr/local/bin/helm \
   && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz
 
-#RUN \
-#  git clone https://github.com/fluxcapacitor/pipeline.git
-#RUN \
-#  ln -s scripts /root/pipeline/kubernetes.ml/scripts
-
 COPY scripts scripts
 ENV \
   PATH=/root/scripts:$PATH
 
-#RUN \
-#  git clone https://github.com/fluxcapacitor/source.ml.git
+ENV MINIKUBE_VERSION=0.19.0
 
-#RUN \
-#  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.18.0/minikube-linux-amd64 \
-#  && chmod a+x minikube \
-#  && mv minikube /usr/local/bin/
+RUN \
+  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
+  && chmod a+x minikube \
+  && mv minikube /usr/local/bin/
+
+RUN \
+  minikube config set kubernetes-version ${KUBERNETES_VERSION}
 
 #ENV \
 #  FUNKTION_VERSION=1.0.10
@@ -131,11 +129,4 @@ ENV \
 #  && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install pio-cli==0.51
-
-# Intentionally keeping these at the bottom
-#RUN \
-#  cd pipeline && pull_force_overwrite_local
-
-#RUN \
-#  cd source.ml && pull_force_overwrite_local
+  pip install pio-cli==0.58
