@@ -83,8 +83,7 @@ RUN \
 #  && apt-get install -y google-cloud-sdk
 
 RUN \
-  curl https://sdk.cloud.google.com | bash \
-  && exec -l $SHELL
+  curl https://sdk.cloud.google.com | bash 
 
 RUN \
   apt-get update && apt-get install -y libssl-dev libffi-dev python-dev build-essential \
