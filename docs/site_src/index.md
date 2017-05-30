@@ -35,4 +35,4 @@ Click [here](products/index.md) to get started with either our free [Community E
 ## I Want More Info on PipelineIO
 Email us at [help@pipeline.io](mailto:help@pipeline.io) and we'll get right back to you!
 
-{!contributing.md!}
+{!./contributing.md!}
