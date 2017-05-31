@@ -1,4 +1,4 @@
-# Get PipelineIO!
+# Get PipelineIO Today!
 PipelineIO can self-hosted on-premise or on any major cloud provider.
 
 ![AWS](/img/aws-logo-185x73.png)
