@@ -17,12 +17,12 @@ cd $PIPELINE_HOME/package.ml/spark/2.1.0/ && pwd && sudo docker build $2 -q -t f
 cd $PIPELINE_HOME/package.ml/kafka/0.10/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-kafka-0.10:$1 .
 cd $PIPELINE_HOME/package.ml/presto/0.167/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package.ml/apache2/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
-#cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && sudo docker build $2 -q -t fluxcapacitor/package-gpu-cuda8-16.04:$1 .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571:$1 .
-cd $PIPELINE_HOME/package.ml/tensorflow/2a48110-4d0a571/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-2a48110-4d0a571-no-avx:$1 -f Dockerfile.no-avx .
-cd $PIPELINE_HOME/package.ml/tensorflow/b6bafad-1697e74/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-b6bafad-1697e74:$1 .
-cd $PIPELINE_HOME/package.ml/tensorflow/b6bafad-1697e74/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-b6bafad-1697e74-no-avx:$1 -f Dockerfile.no-avx .
+cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d/:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-no-avx:$1 -f Dockerfile.no-avx .
+
+cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d:$1 .
+cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-no-avx:$1 -f Dockerfile.no-avx .
 
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/apachespark-master-2.1.0:$1 -f Dockerfile.master .
@@ -33,7 +33,6 @@ cd $PIPELINE_HOME/cassandra.ml && pwd && sudo docker build $2 -q -t fluxcapacito
 
 # clustered.ml
 cd $PIPELINE_HOME/clustered.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/clustered-tensorflow:$1 .
-#cd $PIPELINE_HOME/clustered.ml/tensorflow && sudo docker build $2 -q -t fluxcapacitor/clustered-tensorflow-gpu:$1 -f Dockerfile.gpu .
 
 # dashboard.ml
 cd $PIPELINE_HOME/dashboard.ml/hystrix && pwd && sudo docker build $2 -q -t fluxcapacitor/dashboard-hystrix:$1 .
