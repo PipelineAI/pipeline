@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.58"
+__version__ = "0.59"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -30,6 +30,7 @@ from datetime import timedelta
 
 class PioCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
+                            'jupyterhub': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'spark': (['apachespark.ml/master-deploy.yaml'], ['spark-worker', 'metastore']),
                             'spark-worker': (['apachespark.ml/worker-deploy.yaml'], []),
                             'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
@@ -64,6 +65,7 @@ class PioCli(object):
                            }
 
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
+                         'jupyterhub': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
                          'spark': (['apachespark.ml/master-svc.yaml'], ['spark-worker', 'metastore']), 
                          'spark-worker': (['apachespark.ml/worker-svc.yaml'], []),
                          'metastore': (['metastore.ml/metastore-svc.yaml'], ['mysql']),
@@ -98,11 +100,11 @@ class PioCli(object):
 
 
     def _get_default_pio_git_home(self):
-        return 'https://github.com/fluxcapacitor/pipeline/'
+        return 'https://github.com/fluxcapacitor/source.ml/'
 
 
     def _get_default_pio_git_version(self):
-        return 'v1.2.0'
+        return 'master'
 
 
     def config_get(self,
@@ -1078,7 +1080,7 @@ class PioCli(object):
             response = kubeclient_v1.list_node(watch=False, pretty=True)
             nodes = response.items
             for node in nodes:
-                print("%s (%s)" % (node.metadata.labels['kubernetes.io/hostname'], node.metadata.labels['kubernetes.io/role']))
+                print("%s" % node.metadata.labels['kubernetes.io/hostname'])
 
 
     def apps(self):
