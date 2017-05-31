@@ -128,4 +128,4 @@ RUN \
 #  && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install pio-cli==0.58
+  pip install pio-cli==0.59
