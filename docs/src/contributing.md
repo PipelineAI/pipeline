@@ -55,3 +55,7 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
 mixpanel.init("89d4c9ede735c8bc7ad5e4732b2b5e2b");
 </script>
 <!-- End Mixpanel -->
+
+<script>
+  mixpanel.track("PipelineIO Home Page View");
+</script>
