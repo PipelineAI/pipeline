@@ -1,5 +1,13 @@
 ---
-## Signup for PipelineIO Updates
+## 24x7 Global Support
+Check out the [PipelineIO Support Forum](https://pipelineio.zendesk.com) for discussions, feature requests, and 24x7 support from San Francisco-based PipelineIO and 1000's of global PipelineIO users and customers.
+
+While all support requests are high priority, we offer dedicated [enterprise-level support](/products/index.md), as well.
+
+## Get PipelineIO Today!
+Click [HERE](/products/index.md) to get started with either our free [Community Edition](/products/index.md), our upgraded [Professional Edition](/products/index.md), or our complete [Enterprise Edition](/products/index.md).
+
+## Register for PipelineIO Updates
 <!-- Begin MailChimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"> 
 <!--<link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">-->
@@ -19,7 +27,7 @@
 </div>
 <!--End MailChimp Signup Form -->
 
-## Suggest an Edit
+## Improve Documentation
 Option 1:  Click the `Edit` icon at the top right of this page.
 
 Option 2:  Create a [GitHub Issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).
