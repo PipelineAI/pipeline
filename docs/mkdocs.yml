@@ -42,8 +42,8 @@ extra:
     extra:
   logo: 'img/pipelineio-logo-128x128.png'
   font:
-    text: 'Roboto'
-    code: 'Source Code Pro'
+    text: 'Ubuntu'
+    code: 'Ubuntu Mono'
   social:
     - type: 'github'
       link: 'https://github.com/fluxcapacitor/pipeline'
