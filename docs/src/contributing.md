@@ -5,7 +5,7 @@ Check out the [PipelineIO Support Forum](https://pipelineio.zendesk.com) for dis
 While all support requests are high priority, we offer dedicated [enterprise-level support](/products/index.md), as well.
 
 ## Get PipelineIO Today!
-Click [HERE](/products/index.md) to get started with either our free [Community Edition](/products/index.md), our upgraded [Professional Edition](/products/index.md), or our complete [Enterprise Edition](/products/index.md).
+Click [HERE](/products/index.md) to get started with our basic [Community](/products/index.md) edition - or our enterprise-ready [Advanced](/products/index.md) edition.
 
 ## Register for PipelineIO Updates
 <!-- Begin MailChimp Signup Form -->

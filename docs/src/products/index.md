@@ -7,22 +7,24 @@ PipelineIO can self-hosted on-premise or on any major cloud provider.
 
 ![Azure](/img/azure-logo-200x103.png)
 
-## Get Community Edition
+## Get PipelineIO Community 
 * Free, Hosted PipelineIO Open Source 
 * Train and Deploy All Major Model Types 
 * Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
-## Get Professional Edition
+## Get PipelineIO Advanced 
 * Includes Everything from PipelineIO Community Edition
-* Hosted in Your Own Cloud or On-Premise Environment
+* Deploy Across All Major Cloud Providers *and* On-Premise 
+* Auto-Scaling and Traffic-Shifting Across Hybrid Cloud and On-Premise Environments for Maximum High Availability, Scalability, and Cost Savings
 * Easy One-Click Installation through AWS, Azure, and Google Cloud Cloud Marketplaces
 * Standalone License Available for On-Premise Deployment
-* 24x7 Global Support, 24 hour Response SLA
+* 24x7 Global Support, 24-hour Response SLA
 * Pre-built Docker-based and Cloud-based Images 
 * Deploy in All Major Cloud Providers (AWS, Google, Azure) and On-Premise
-* 4 Online Training Hours Including JumpStart Program
+* Online or Onsite Training Available
+* Access to JumpStart Program
 * Flexible Auto-Scaling and Spot-Pricing Policies
 * Advanced Admin UI including Cluster and Model Management
 * Continuous, Online Model Training and Deployment Pipelines with Full Audit Logging
@@ -31,19 +33,7 @@ Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 * Automated Model Hyper-Parameter Tuning 
 * Automated Model Optimizations including Native CPU x86 and GPU NVPTX Code Generation
 * End-to-End, Real-time Pipeline Monitoring of all System and Prediction Metrics
-* Circuit Breakers Around All Service to Avoid Cascading Failures
-
-Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
-
-## Get Enterprise Edition
-* Includes Everything from PipelineIO Professional Edition
-* Hosted in Your Own Cloud or On-Premise Environment
-* Easy One-Click Installation through AWS, Azure, and Google Cloud Cloud Marketplaces
-* Standalone License Available for On-Premise Deployment
-* 24x7 Global Support, 8 hour Response SLA 
-* 16 Online or On-site Training Hours Including JumpStart Program
-* Supports Hybrid Cloud *and* On-Premise Deployment Environment for Maximum High Availability and Scalability
-* Automatic Traffic Shifting Between Hybrid Cloud and On-Premise Deployment Environments for Maxmium Cost Savings
+* Circuit Breakers Wrapp All Services to Avoid Cascading Failures
 
 Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
 

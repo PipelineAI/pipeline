@@ -13,7 +13,7 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Quick Start:
+  - Tour:
     - Train Your Model: model_train/index.md
     - Optimize Your Model: model_optimize/index.md
     - Deploy Your Model: model_deploy/index.md
