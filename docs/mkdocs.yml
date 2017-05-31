@@ -5,8 +5,8 @@ site_description: End-to-End ML and AI Model Training and Deployment Platform wi
 repo_url: https://github.com/fluxcapacitor/pipeline/
 repo_name: fluxcapacitor/pipeline 
 edit_uri: edit/master/docs/site_src
-docs_dir: site_src 
-site_dir: site_generated
+docs_dir: src 
+site_dir: generated
 strict: true
 google_analytics:
   - 'UA-78551725-1'
@@ -31,7 +31,7 @@ pages:
   - Install PipelineIO: install/index.md
   - Privacy and Terms: legal/index.md
 #theme: material
-theme_dir: site_src/mkdocs-material/material
+theme_dir: src/mkdocs-material/material
 site_favicon: 'img/favicon.png'
 extra:
   feature:
@@ -62,7 +62,7 @@ extra:
       
 markdown_extensions:
   - markdown_include.include:
-      base_path: site_src 
+      base_path: src 
   - markdown.extensions.admonition
   - markdown.extensions.codehilite(guess_lang=false)
   - markdown.extensions.def_list
