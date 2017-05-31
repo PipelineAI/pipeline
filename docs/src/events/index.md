@@ -1,7 +1,9 @@
 # PipelineIO Global Events
 ## Meetups
 
-![Global Meetups](/img/global_meetups.png)
+![Global Meetups](/img/global-meetups.png)
+
+![Members](/img/advanced-spark-and-tensorflow-meetup-17000-cake-with-border.png)
 
 PipelineIO is the organizer and sponsor for the series of [Advanced Spark and TensorFlow Meetups](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/) with 20,000+ members throughout the world including the following cites:
 
