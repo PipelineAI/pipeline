@@ -12,7 +12,7 @@ PipelineIO can self-hosted on-premise or on any major cloud provider.
 * Train and Deploy All Major Model Types 
 * Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
-Click [here](http://community.pipeline.io) to signup and start deploying models!
+Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
 ## Professional Edition
 * Includes Everything from PipelineIO Community Edition
