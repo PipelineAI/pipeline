@@ -22,6 +22,7 @@ _CPU Versions are Below._
 PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fluxcapacitor) with many optimizations already enabled including OpenBLAS, AVX, AVX2, FMA, etc.
 
 ### [GitHub Repo](https://github.com/fluxcapacitor/pipeline/tree/master/package.ml)
+[fluxcapacitor/pipeline/gpu.ml](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
 
 [fluxcapacitor/pipeline/package.ml](https://github.com/fluxcapacitor/pipeline/tree/master/package.ml)
 
@@ -34,12 +35,16 @@ PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fl
 ## ML/AI Model Performance Optimizations
 Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineIO.
 
-### TensorFlow Example
+### TensorFlow Model Optimization Example
 **Before Optimization**
+
+_This model is very slow at prediction time._
 
 ![Unoptimized TensorFlow Model](http://pipeline.io/img/unoptimized-tensorflow-linear.png)
 
 **After Optimization**
+
+_This model is **much** faster at prediction time!_
 
 ![Optimized TensorFlow Model](http://pipeline.io/img/optimized-tensorflow-linear.png)
 
