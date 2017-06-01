@@ -95,6 +95,6 @@ Delete Local Branch
 git branch -d <branch-name>
 ```
  
-## License and Public Datasetse 
-- Your work should be open source under a liberal license (ie. Apache2, MIT)
-- You should use publicly-available training and validation datasets so that others can easily replicate your work.
+## License and Datasets 
+* Your work should be open source under a liberal license (ie. Apache2, MIT)
+* Please use **public** training and validation datasets so that others can easily replicate your work.
