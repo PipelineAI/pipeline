@@ -478,10 +478,9 @@ class PredictionService {
           modelEvaluator
         }
         case Some(modelEvaluator) => modelEvaluator
-      }          
-        
-      val results = new SparkEvaluationCommand(modelName, namespace, modelName, version, inputs, s"""{"result": "fallback"}""", 50, 20, 10)
-       .execute()
+      }                 
+      
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
 
       s"""{"results":[${results}]}"""
     } catch {
