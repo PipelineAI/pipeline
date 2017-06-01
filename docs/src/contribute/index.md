@@ -5,7 +5,7 @@ We will gladly accept pull requests for implementations of popular ML/AI models,
 
 The active list of outstanding PipelineIO issues and feature requests are [here](https://github.com/fluxcapacitor/pipeline/issues).
 
-## Create a Pull Request
+## Creating a Pull Request
 ### Create a Branch for Your Changes
 ```
 git branch <branch-name>
@@ -80,7 +80,7 @@ Note:  If you see an error related to `Permission denied (publickey)` or `Please
 ### Wait for Committer to Merge Pull Request (within Github UI)
 
 ### Delete the Branch (from both Local and Remote Github)
-Go back to `master` branch
+Go Back to `master` Branch
 ```
 git checkout master
 ```
@@ -95,6 +95,6 @@ Delete Local Branch
 git branch -d <branch-name>
 ```
  
-## License and Public Datasetse 
-- Your work should be open source under a liberal license (ie. Apache2, MIT)
-- You should use publicly-available training and validation datasets so that others can easily replicate your work.
+## License and Datasets 
+* Your work should be open source under a liberal license (ie. Apache2, MIT)
+* Please use **public** training and validation datasets so that others can easily replicate your work.
