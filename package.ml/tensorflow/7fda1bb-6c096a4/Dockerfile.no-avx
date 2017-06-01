@@ -122,6 +122,7 @@ RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
   && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/kernels/mfcc_test.cc \
+  && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/util/ctc/ctc_beam_search_test.cc \
   && bazel build \
 #    -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
     --spawn_strategy=standalone --genrule_strategy=standalone \
