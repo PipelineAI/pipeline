@@ -14,17 +14,17 @@ Various model optimization and simplification techniques include folding batch n
 
 **Unoptimized Linear Regression**
 
-![Unoptimized TensorFlow Linear Regression](/img/unoptimized_tensorflow_linear.png)
+![Unoptimized TensorFlow Linear Regression](/img/unoptimized-tensorflow-linear.png)
 
 **Optimized Linear Regression**
 
-![Optimized TensorFlow Linear Regression](/img/optimized_tensorflow_linear.png)
+![Optimized TensorFlow Linear Regression](/img/optimized-tensorflow-linear.png)
 
 **Weight Quantization**
 
-![Weight Quantization 1](img/weight-quantization-1.png)
+![Weight Quantization 1](/img/weight-quantization-1.png)
 
-![Weight Quantization 2](img/weight-quantization-2.png)
+![Weight Quantization 2](/img/weight-quantization-2.png)
 
 ### Spark ML
 ![Spark](/img/spark-logo-150x78.png)
