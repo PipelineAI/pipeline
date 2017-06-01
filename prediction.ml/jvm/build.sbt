@@ -27,7 +27,9 @@ val httpClientVersion = "4.5.2"
 val fluentHCVersion = "4.5.2"
 val prometheusSimpleClientVersion = "0.0.21"
 val prometheusSimpleClientHotspotVersion = "0.0.21"
-val apacheCommonsCompress = "1.14-SNAPSHOT"
+val commonsCompressVersion = "1.13"
+val commonsIOVersion = "1.3.2"
+val tensorflowVersion = "1.2.0-rc1"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
@@ -54,6 +56,7 @@ lazy val deps = Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
   "org.apache.httpcomponents" % "httpclient" % httpClientVersion,
   "org.apache.httpcomponents" % "fluent-hc" % fluentHCVersion,
-  "org.apache.commons" % "commons-compress" % "1.13",
-  "org.apache.commons" % "commons-io" % "1.3.2"
+  "org.apache.commons" % "commons-compress" % commonsCompressVersion,
+  "org.apache.commons" % "commons-io" % commonsIOVersion,
+  "org.tensorflow" % "tensorflow" % tensorflowVersion
 )
