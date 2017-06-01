@@ -4,7 +4,6 @@ val globalSettings = Seq(
 )
 
 (unmanagedClasspath in Compile) += file("lib/tensorflow-prediction-client-1.0-SNAPSHOT.jar")
-(unmanagedClasspath in Compile) += file("lib/libtensorflow-1.0.0-PREVIEW1.jar")
 (unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 
 lazy val settings = (project in file("."))
