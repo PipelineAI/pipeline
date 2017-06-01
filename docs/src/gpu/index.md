@@ -16,6 +16,8 @@ Here are some publically-available resources including Docker images, source cod
 
 [Google Cloud (GPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 
+_CPU Versions are Below._
+
 ## Performance
 PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fluxcapacitor) with many optimizations already enabled including OpenBLAS, AVX, AVX2, FMA, etc.
 
