@@ -13,7 +13,7 @@ Here are some publically-available resources including Docker images, source cod
 
 [Google Cloud GPU + Tensorflow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 
-## Recent Conferences and Meetups 
-[Videos and Slides](/events/index.md#videos-and-slides)
+## Recent [Events](/events/index.md) 
+[Videos and Slides](/events/index.md)
 
 {!contributing.md!}
