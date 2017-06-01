@@ -29,6 +29,16 @@ PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fl
 
 [Google Cloud (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
+## ML/AI Model Performance Optimizations
+Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineIO.
+
+### Example
+**TensorFlow Model Before Optimization**
+![Unoptimized TensorFlow Model](http://pipeline.io/img/unoptimized-tensorflow-linear.png)
+
+**TensorFlow Model After Optimization**
+![Optimized TensorFlow Model](http://pipeline.io/img/optimized-tensorflow-linear.png)
+
 ## Recent [Events](/events/index.md) 
 [Videos and Slides](/events/index.md)
 
