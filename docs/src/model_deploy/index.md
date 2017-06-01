@@ -84,14 +84,62 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-test-input-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 ```
 
-Deploy Model
+Deploy Model (CLI)
 ```
 pio deploy
 ```
 
-Predict Model
+Deploy Model (REST)
+```
+import requests
+
+deploy_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/deploy/spark/default/airbnb/v0'
+
+files = {'file': open('airbnb.parquet', 'rb')}
+
+response = requests.post(deploy_url, files=files)
+
+print("Success!\n\n%s" % response.text)
+```
+
+Predict Model (CLI)
 ```
 pio predict
+```
+
+Predict Model (REST)
+```
+import json
+
+data = {"bathrooms":2.0,
+        "bedrooms":2.0,
+        "security_deposit":175.00,
+        "cleaning_fee":25.0,
+        "extra_people":1.0,
+        "number_of_reviews": 2.0,
+        "square_feet": 250.0,
+        "review_scores_rating": 2.0,
+        "room_type": "Entire home/apt",
+        "host_is_super_host": "0.0",
+        "cancellation_policy": "flexible",
+        "instant_bookable": "1.0",
+        "state": "CA" }
+
+json_data = json.dumps(data)
+
+with open('test_inputs.json', 'wt') as fh:
+    fh.write(json_data)
+```
+```
+predict_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/predict/spark/default/airbnb/v0'
+
+headers = {'content-type': 'application/json'}
+
+response = requests.post(predict_url,
+                         data=json_data,
+                         headers=headers)
+
+print("Response:\n\n%s" % response.text)
 ```
 
 ### Python3
