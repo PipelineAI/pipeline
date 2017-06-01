@@ -80,7 +80,7 @@ Note:  If you see an error related to `Permission denied (publickey)` or `Please
 ### Wait for Committer to Merge Pull Request (within Github UI)
 
 ### Delete the Branch (from both Local and Remote Github)
-Go back to `master` branch
+Go Back to `master` Branch
 ```
 git checkout master
 ```
