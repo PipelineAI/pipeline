@@ -270,8 +270,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
-       .execute()
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
@@ -374,8 +373,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
-       .execute()
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
@@ -480,7 +478,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }                 
       
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
