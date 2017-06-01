@@ -5,7 +5,7 @@ We will gladly accept pull requests for implementations of popular ML/AI models,
 
 The active list of outstanding PipelineIO issues and feature requests are [here](https://github.com/fluxcapacitor/pipeline/issues).
 
-## Create a Pull Request
+## Creating a Pull Request
 ### Create a Branch for Your Changes
 ```
 git branch <branch-name>
