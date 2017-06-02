@@ -87,10 +87,10 @@ markdown_extensions:
   - codehilite(guess_lang=true)
   - toc(permalink=true)
 extra_javascript:
-  - js/hystrix/d3.v2.min.js
-  - js/hystrix/jquery.min.js
-  - js/hystrix/jquery.tinysort.min.js
-  - js/hystrix/tmpl.js
+  - js/d3.v2.min.js
+  - js/jquery.min.js
+  - js/jquery.tinysort.min.js
+  - js/tmpl.js
 extra_css:
   - css/bootstrap_paper.min.css
   - css/style.css
