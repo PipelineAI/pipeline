@@ -86,10 +86,10 @@ markdown_extensions:
   - codehilite(guess_lang=true)
   - toc(permalink=true)
 extra_javascript:
-#  - assets/javascripts/application-06a3e72efd.js
-#  - assets/javascripts/modernizr-1df76c4e58.js
-#  - assets/javascripts/application.js
-#  - assets/javascripts/components/Material.js
+  - js/hystrix/d3.v2.min.js
+  - js/hystrix/jquery.min.js
+  - js/hystrix/jquery.tinysort.min.js
+  - js/hystrix/tmpl.js
 extra_css:
   - css/bootstrap_paper.min.css
   - css/style.css
