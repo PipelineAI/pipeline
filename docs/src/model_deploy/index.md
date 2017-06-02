@@ -20,13 +20,13 @@
 ![XGBoost](/img/xgboost-logo-280x120.png)
 
 ### Python 
-![Python3](/img/python-logo-184x180.png)
+![Python](/img/python-logo-184x180.png)
 
 ### Java
 ![Java](/img/java-logo-300x168.png)
 
 ### Recommendations
-![Recommendations](/img/recommendations-logo-280x186.png)
+![Recommendations](/img/recommendations-logo-280x196.png)
 
 ### Key-Value (Redis)
 ![Redis](/img/redis-logo-300x100.png)
@@ -173,6 +173,7 @@ print("Response:\n\n%s" % response.text)
 ```
 
 ### Python3
+![Python](/img/python-logo-184x180.png)
 
 model_type: `python3`
 
@@ -198,6 +199,7 @@ pio predict
 ```
 
 ### PMML
+![PMML](/img/pmml-logo-210x96.png)
 
 model_type: `pmml`
 
