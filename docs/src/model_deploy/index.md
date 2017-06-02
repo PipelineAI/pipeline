@@ -26,7 +26,7 @@
 ![Java](/img/java-logo-300x168.png)
 
 ### Recommendations
-![Recommendations](/img/recommendations-280x186.png)
+![Recommendations](/img/recommendations-logo-280x186.png)
 
 ### Key-Value (Redis)
 ![Redis](/img/redis-logo-300x100.png)
