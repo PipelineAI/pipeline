@@ -27,27 +27,27 @@ Unhealthy or latent services may open a [circuit](https://www.infoq.com/intervie
 ![Model Health](/img/hystrix-example-600x306.png)
 
 <!-- Setup base for everything -->
-<link rel="stylesheet" type="text/css" href="/css/global.css" />
+<link rel="stylesheet" type="text/css" href="/css/hystrix/global.css" />
   
   <!-- Our custom CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/monitor.css" />
+  <link rel="stylesheet" type="text/css" href="/css/hystrix/monitor.css" />
 
   <!-- d3 -->
-  <script type="text/javascript" src="/js/d3.v2.min.js"></script>
+  <script type="text/javascript" src="/js/hystrix/d3.v2.min.js"></script>
   
   <!-- Javascript to monitor and display -->
   <script src="../js/jquery.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/js/jquery.tinysort.min.js"></script>
-  <script type="text/javascript" src="/js/tmpl.js"></script>
+  <script type="text/javascript" src="/js/hystrix/jquery.tinysort.min.js"></script>
+  <script type="text/javascript" src="/js/hystrix/tmpl.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   
   <!-- HystrixCommand -->
-  <script type="text/javascript" src="/js/components/hystrixCommand/hystrixCommand.js"></script>
-  <link rel="stylesheet" type="text/css" href="/css/components/hystrixCommand/hystrixCommand.css" />
+  <script type="text/javascript" src="/js/hystrx/components/hystrixCommand/hystrixCommand.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/hystrix/components/hystrixCommand/hystrixCommand.css" />
   
   <!-- HystrixThreadPool -->
-  <script type="text/javascript" src="/js/components/hystrixThreadPool/hystrixThreadPool.js"></script>
-  <link rel="stylesheet" type="text/css" href="/css/components/hystrixThreadPool/hystrixThreadPool.css" />
+  <script type="text/javascript" src="/js/hystrix/components/hystrixThreadPool/hystrixThreadPool.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/hystrix/components/hystrixThreadPool/hystrixThreadPool.css" />
 
 <div id="header"></div>
 <div id="content"></div>
