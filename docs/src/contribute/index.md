@@ -3,7 +3,7 @@ Want to join the PipelineIO Community?
 
 We will gladly accept pull requests for implementations of popular ML/AI models, fast prediction runtimes, and flexible experimentation frameworks.
 
-The active list of outstanding PipelineIO issues and feature requests are [here](https://github.com/fluxcapacitor/pipeline/issues).
+Click [HERE](https://github.com/fluxcapacitor/pipeline/issues) for the active list of outstanding PipelineIO issues and feature requests..
 
 ## Creating a Pull Request
 ### Create a Branch for Your Changes
