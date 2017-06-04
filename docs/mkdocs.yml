@@ -13,7 +13,7 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Tour:
+  - Quick Tour:
     - Train Your Model: model_train/index.md
     - Optimize Your Model: model_optimize/index.md
     - Deploy Your Model: model_deploy/index.md
@@ -31,7 +31,6 @@ pages:
   - Contribute to PipelineIO: contribute/index.md
   - Install PipelineIO Open Source: install/index.md
   - Privacy and Terms: legal/index.md
-#theme: material
 theme_dir: mkdocs-material/material/
 site_favicon: 'img/favicon.png'
 extra:

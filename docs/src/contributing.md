@@ -27,7 +27,7 @@ Click [HERE](/products/index.md) to get started with our basic [Community](/prod
 </div>
 <!--End MailChimp Signup Form -->
 
-## Improve Documentation
+## Suggest Edit 
 Option 1:  Click the `Edit` icon at the top right of this page.
 
 Option 2:  Create a [GitHub Issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).
