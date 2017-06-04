@@ -17,14 +17,14 @@ On-Premise
 
 ![On-Premise](/img/on-premise-216x216.png)
 
-## PipelineIO Community 
+## Community Edition
 * Free, Hosted PipelineIO Open Source 
 * Train and Deploy All Major Model Types 
 * Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
-## PipelineIO Advanced 
+## Advanced Edition 
 * Includes Everything from PipelineIO Community Edition
 * Deploy Across All Major Cloud Providers *and* On-Premise 
 * Auto-Scaling and Traffic-Shifting Across Hybrid Cloud and On-Premise Environments for Maximum High Availability, Scalability, and Cost Savings
