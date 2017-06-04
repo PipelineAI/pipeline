@@ -1,20 +1,30 @@
 # Get PipelineIO Today!
 PipelineIO can self-hosted on-premise or on any major cloud provider.
 
+Amazon Web Services (AWS)
+
 ![AWS](/img/aws-logo-185x73.png)
+
+Google Cloud
 
 ![Google Cloud Platform](/img/gce-logo-190x90.png)
 
+Azure
+
 ![Azure](/img/azure-logo-200x103.png)
 
-## Get PipelineIO Community 
+On-Premise
+
+![On-Premise](/img/on-premise-216x216.png)
+
+## PipelineIO Community 
 * Free, Hosted PipelineIO Open Source 
 * Train and Deploy All Major Model Types 
 * Supports Spark ML, TensorFlow AI, Scikit-Learn, R, Xgboost, Ensembles, Ad-hoc Python, Ad-hoc Python, PMML
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
-## Get PipelineIO Advanced 
+## PipelineIO Advanced 
 * Includes Everything from PipelineIO Community Edition
 * Deploy Across All Major Cloud Providers *and* On-Premise 
 * Auto-Scaling and Traffic-Shifting Across Hybrid Cloud and On-Premise Environments for Maximum High Availability, Scalability, and Cost Savings
