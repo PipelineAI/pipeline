@@ -2,7 +2,7 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 
 RUN \
   apt-get update \
-  apt-get install -y apache2 
+  && apt-get install -y apache2 
 
 WORKDIR /root
  

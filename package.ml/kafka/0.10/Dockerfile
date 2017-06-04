@@ -1,5 +1,8 @@
 FROM fluxcapacitor/package-java-openjdk-1.8:master
 
+RUN \
+  apt-get update 
+
 ENV CONFLUENT_VERSION=3.0.0
 ENV CONFLUENT_MAJOR_VERSION=3.0
 ENV CONFLUENT_HOME=/root/confluent-${CONFLUENT_VERSION}
