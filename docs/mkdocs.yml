@@ -17,6 +17,7 @@ pages:
     - Train Your Model: model_train/index.md
     - Optimize Your Model: model_optimize/index.md
     - Deploy Your Model: model_deploy/index.md
+    - Monitor Your Model: model_monitor/index.md
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
   - Get PipelineIO Today!: products/index.md
@@ -86,10 +87,10 @@ markdown_extensions:
   - codehilite(guess_lang=true)
   - toc(permalink=true)
 extra_javascript:
-#  - assets/javascripts/application-06a3e72efd.js
-#  - assets/javascripts/modernizr-1df76c4e58.js
-#  - assets/javascripts/application.js
-#  - assets/javascripts/components/Material.js
+  - js/d3.v2.min.js
+  - js/jquery.min.js
+  - js/jquery.tinysort.min.js
+  - js/tmpl.js
 extra_css:
   - css/bootstrap_paper.min.css
   - css/style.css

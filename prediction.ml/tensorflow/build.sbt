@@ -4,7 +4,6 @@ val globalSettings = Seq(
 )
 
 (unmanagedClasspath in Compile) += file("lib/tensorflow-prediction-client-1.0-SNAPSHOT.jar")
-(unmanagedClasspath in Compile) += file("lib/libtensorflow-1.0.0-PREVIEW1.jar")
 (unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 
 lazy val settings = (project in file("."))
@@ -19,6 +18,9 @@ val grpcVersion = "1.0.0"
 val protobufVersion = "3.0.0"
 val prometheusSimpleClientVersion = "0.0.21"
 val prometheusSimpleClientHotspotVersion = "0.0.21"
+val commonsCompressVersion = "1.13"
+val commonsIOVersion = "1.3.2"
+val tensorflowVersion = "1.2.0-rc1"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion,
@@ -35,5 +37,8 @@ lazy val deps = Seq(
   "io.grpc" % "grpc-netty" % grpcVersion,
   "io.grpc" % "grpc-protobuf" % grpcVersion,
   "io.grpc" % "grpc-stub" % grpcVersion,
-  "com.google.protobuf" % "protobuf-java" % protobufVersion
+  "com.google.protobuf" % "protobuf-java" % protobufVersion,
+  "org.apache.commons" % "commons-compress" % commonsCompressVersion,
+  "org.apache.commons" % "commons-io" % commonsIOVersion,
+  "org.tensorflow" % "tensorflow" % tensorflowVersion
 )

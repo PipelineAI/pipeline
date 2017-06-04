@@ -75,8 +75,10 @@ object TensorflowJavaCommand {
     val modelParentPath = s"/Users/cfregly/workspace-fluxcapacitor/source.ml/prediction.ml/model_store/${modelType}/${modelNamespace}/${modelName}/${modelVersion}"
     val modelPath = Paths.get(modelParentPath, "saved_model.pb")
 
+//    print(modelPath)
+    
     val graphDefBinary: Array[Byte] = Files.readAllBytes(modelPath)
-    System.out.println(graphDefBinary.length)
+    //System.out.println(graphDefBinary.length)
 
     val graph: Graph = new Graph()
     graph.importGraphDef(graphDefBinary);

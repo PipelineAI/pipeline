@@ -205,7 +205,7 @@ class PredictionService {
       TarGzUtil.extract(zipFilename, parentDir)
 
       // TODO:  Find the actual model and rename it to <model_name>.<extension>
-      val pmmlFilePath = s"${parentDir}/${modelName}.pmml"
+      val modelFilePath = s"${parentDir}/model.pmml"
       
       // TODO: Handle this failure
       //if (Path.exists(pmmlFilePath)) {
@@ -247,7 +247,7 @@ class PredictionService {
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.pmml")
+          val fis = new java.io.FileInputStream(s"${parentDir}/model.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -270,8 +270,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
-       .execute()
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
@@ -314,6 +313,7 @@ class PredictionService {
       TarGzUtil.extract(zipFilename, parentDir)
 
       // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      val modelFilePath = s"${parentDir}/model.xgboost"
       
       Files.delete(Paths.get(zipFilename))      
     } catch {
@@ -350,7 +350,7 @@ class PredictionService {
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.xgboost")
+          val fis = new java.io.FileInputStream(s"${parentDir}/model.xgboost")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -373,8 +373,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10)
-       .execute()
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
@@ -417,7 +416,7 @@ class PredictionService {
       
       TarGzUtil.extract(zipFilename, parentDir)
 
-      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      // TODO:  Find the actual model and rename it to `model.spark`
       
       Files.delete(Paths.get(zipFilename))      
     } catch {
@@ -456,7 +455,7 @@ class PredictionService {
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
-          val fis = new java.io.FileInputStream(s"${parentDir}/${modelName}.pmml")
+          val fis = new java.io.FileInputStream(s"${parentDir}/model.spark")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
           val pmml = JAXBUtil.unmarshalPMML(transformedSource)
@@ -477,10 +476,9 @@ class PredictionService {
           modelEvaluator
         }
         case Some(modelEvaluator) => modelEvaluator
-      }          
-        
-      val results = new SparkEvaluationCommand(modelName, namespace, modelName, version, inputs, s"""{"result": "fallback"}""", 50, 20, 10)
-       .execute()
+      }                 
+      
+      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {

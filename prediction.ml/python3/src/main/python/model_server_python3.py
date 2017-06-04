@@ -19,6 +19,11 @@ import logging
 from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
+from pio_model import PioRequestTransformer
+from pio_model import PioResponseTransformer
+from pio_model import PioModelInitializer
+from pio_model import PioModel
+
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
 define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
@@ -42,7 +47,7 @@ class Application(tornado.web.Application):
             #(r"/", IndexHandler),
             # TODO:  Disable DEPLOY if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode (or equivalent)
             # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),            
+            (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),
             # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
             (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler),
         ]
@@ -79,14 +84,13 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
-		(model, transformers_module) = self.get_model_assets(model_type,
-           													 model_namespace,
-                                                             model_name,
-                                                             model_version)
-        transformed_inputs = transformers_module.transform_inputs(self.request.body)
-        outputs = model.predict(transformed_inputs)
-        transformed_outputs = transformers_module.transform_outputs(outputs)
-        self.write(transformed_outputs)
+        model = self.get_model_assets(model_type,
+                                      model_namespace,
+                                      model_name,
+                                      model_version)
+        print(self.request.body)
+        response = model.predict(self.request.body)
+        self.write(response)
         self.finish()
 
 
@@ -94,39 +98,23 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
         model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
         if model_key not in self.registry:
-            model_base_path = self.settings['model_store_path']
-            model_base_path = os.path.expandvars(model_base_path)
-            model_base_path = os.path.expanduser(model_base_path)
-            model_base_path = os.path.abspath(model_base_path)
+            model_store_path = self.settings['model_store_path']
+            model_store_path = os.path.expandvars(model_store_path)
+            model_store_path = os.path.expanduser(model_store_path)
+            model_store_path = os.path.abspath(model_store_path)
 
-            bundle_path = os.path.join(model_base_path, model_type)
+            bundle_path = os.path.join(model_store_path, model_type)
             bundle_path = os.path.join(bundle_path, model_namespace)
             bundle_path = os.path.join(bundle_path, model_name)
             bundle_path = os.path.join(bundle_path, model_version)
 
-            # TODO:  remove filter + listdir - only need to check specific file
-            model_filenames = fnmatch.filter(os.listdir(bundle_path), "%s.pkl" % model_name)
-
-            if (len(model_filenames) == 0):
-                log.error("Missing or invalid pickle file.  Please re-deploy a directory/bundle that contains '%s.pkl'" % model_name)
-                raise "Missing or invalid pickle file.  Please re-deploy a directory/bundle that contains '%s.pkl'" % model_name
-
-            # Set absolute path to model directory
-            model_file_absolute_path = os.path.join(model_base_path, model_filename)
+            model_file_absolute_path = os.path.join(bundle_path, "pio_model.pkl")
 
             # Load pickled model from model directory
             with open(model_file_absolute_path, 'rb') as model_file:
                 model = pickle.load(model_file)
-                model.setup()
 
-            # Load model_io_transformers from model directory
-            transformers_module_name = 'model_io_transformers'
-            transformers_source_path = os.path.join(model_base_path, '%s.py' % transformers_module_name)
-            spec = importlib.util.spec_from_file_location(transformers_module_name, transformers_source_path)
-            transformers_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(transformers_module)
-
-            self.registry[model_key] = (model, transformers_module)            
+            self.registry[model_key] = model
 
         return self.registry[model_key]
 
@@ -137,12 +125,12 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
         fileinfo = self.request.files['file'][0]
         model_file_source_bundle_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_bundle_path)
-        
+
         model_base_path = self.settings['model_store_path']
         model_base_path = os.path.expandvars(model_base_path)
         model_base_path = os.path.expanduser(model_base_path)
         model_base_path = os.path.abspath(model_base_path)
-        
+
         bundle_path = os.path.join(model_base_path, model_type)
         bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
@@ -162,7 +150,6 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
             logger.info('...Done!')
             logger.info('')
             logger.info('Installing bundle and updating environment...\n')
-            #completed_process = subprocess.run('cd %s && ./install.sh' % bundle_path,
             completed_process = subprocess.run('cd %s && [ -s ./requirements_conda.txt ] && conda install --yes --file ./requirements_conda.txt' % bundle_path,
                                                timeout=600,
                                                shell=True,

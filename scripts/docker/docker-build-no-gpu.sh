@@ -68,7 +68,7 @@ cd $PIPELINE_HOME/metastore.ml && pwd && sudo docker build $2 -q -t fluxcapacito
 cd $PIPELINE_HOME/prediction.ml/jvm && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-jvm:$1 .
 cd $PIPELINE_HOME/prediction.ml/python3 && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-python3:$1 .
 cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow:$1 .
-cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-no-avx:$1 -f Dockerfile.no-avx.
+cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-no-avx:$1 -f Dockerfile.no-avx .
 
 # presto.ml
 cd $PIPELINE_HOME/presto.ml/master && pwd && sudo docker build $2 -q -t fluxcapacitor/presto-master-0.167:$1 .

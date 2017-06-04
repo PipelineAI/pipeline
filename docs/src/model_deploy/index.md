@@ -4,15 +4,42 @@
 ![Deploy Spark ML Model to Production](/img/deploy-ml-model-to-production.png)
 
 ## Supported Model Types
-* Scikit-Learn
-* R
-* Spark ML
-* TensorFlow
-* XGBoost
-* Python3
-* Java
-* PMML
-* Ensembles
+### Scikit-Learn
+![Scikit-Learn](/img/scikit-logo-277x150.png)
+
+### R
+![R](/img/r-logo-280x212.png)
+
+### Spark ML
+![Spark ML](/img/spark-logo-254x163.png)
+
+### TensorFlow
+![TensorFlow](/img/tensorflow-logo-202x168.png)
+
+### XGBoost
+![XGBoost](/img/xgboost-logo-280x120.png)
+
+### Python 
+![Python](/img/python-logo-184x180.png)
+
+### Java
+![Java](/img/java-logo-300x168.png)
+
+### Recommendations
+![Recommendations](/img/recommendations-logo-280x196.png)
+
+### Key-Value (Redis)
+![Redis](/img/redis-logo-300x100.png)
+
+### Key-Value (Cassandra)
+![Cassandra](/img/cassandra-logo-279x187.png)
+
+### PMML
+![PMML](/img/pmml-logo-210x96.png)
+
+### Custom Ensembles
+![Custom Ensembles](/img/ensemble-logo-285x125.png)
+
 
 ## Examples
 ```
@@ -20,6 +47,7 @@ git clone https://github.com/fluxcapacitor/source.ml
 ```
 
 ### TensorFlow
+![TensorFlow](/img/tensorflow-logo-202x168.png)
 
 model_type: `tensorflow`
 
@@ -31,7 +59,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name tensorflow_linear \
                --model-version 0 \
                --model-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
 ```
 
 Deploy Model
@@ -45,6 +73,7 @@ pio predict
 ```
 
 ### Scikit-Learn
+![Scikit-Learn](/img/scikit-logo-277x150.png)
 
 model_type: `scikit`
 
@@ -56,7 +85,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name scikit_linear \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -70,6 +99,7 @@ pio predict
 ```
 
 ### Spark ML
+![Spark ML](/img/spark-logo-254x163.png)
 
 model_type: `spark`
 
@@ -81,7 +111,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name spark_airbnb 
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model (CLI)
@@ -93,9 +123,9 @@ Deploy Model (REST)
 ```
 import requests
 
-deploy_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/deploy/spark/default/airbnb/v0'
+deploy_url = 'http://your.model.server.com/api/v1/model/deploy/spark/default/spark_airbnb/v0'
 
-files = {'file': open('airbnb.parquet', 'rb')}
+files = {'file': open('model.spark', 'rb')}
 
 response = requests.post(deploy_url, files=files)
 
@@ -131,7 +161,7 @@ with open('test_inputs.json', 'wt') as fh:
     fh.write(json_data)
 ```
 ```
-predict_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/predict/spark/default/airbnb/v0'
+predict_url = 'http://your.model.server.com/api/v1/model/predict/spark/default/spark_airbnb/v0'
 
 headers = {'content-type': 'application/json'}
 
@@ -143,6 +173,7 @@ print("Response:\n\n%s" % response.text)
 ```
 
 ### Python3
+![Python](/img/python-logo-184x180.png)
 
 model_type: `python3`
 
@@ -154,7 +185,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name python3_zscore \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -168,6 +199,7 @@ pio predict
 ```
 
 ### PMML
+![PMML](/img/pmml-logo-210x96.png)
 
 model_type: `pmml`
 
@@ -179,7 +211,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name pmml_airbnb \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model

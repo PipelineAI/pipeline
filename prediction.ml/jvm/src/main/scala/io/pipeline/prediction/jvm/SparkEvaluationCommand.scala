@@ -37,10 +37,6 @@ class SparkEvaluationCommand(commandName: String,
       )
     )
 {
-  val modelDir = s"/root/model_store/spark/${namespace}/${modelName}/${version}"
-
-  val model = FileUtil.readAllBytesOrExit(Paths.get(modelDir, "model.parquet"))
-
   def run(): String = {
     try{
       val k = 5

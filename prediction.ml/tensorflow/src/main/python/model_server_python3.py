@@ -19,6 +19,11 @@ import logging
 from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
+from pio_model import PioRequestTransformer
+from pio_model import PioResponseTransformer
+from pio_model import PioModelInitializer
+from pio_model import PioModel
+
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
 define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
