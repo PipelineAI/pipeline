@@ -226,6 +226,7 @@ ENV \
 RUN \
   cd $TENSORFLOW_HOME \
   && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/kernels/mfcc_test.cc \
+  && sed -i.bak 's/EXPECT_FALSE(isinf(score[0][path]));/EXPECT_FALSE(0);/g' tensorflow/core/util/ctc/ctc_beam_search_test.cc \
   && bazel build -c opt --config=cuda \
      --jobs=${CPU_COUNT} \
      --verbose_failures \
