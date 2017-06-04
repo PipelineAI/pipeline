@@ -9,7 +9,6 @@ echo "version="$1
 echo ""
 
 # package.ml
-#cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-ubuntu-14.04:$1 .
 cd $PIPELINE_HOME/package.ml/ubuntu/16.04/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-ubuntu-16.04:$1 .
 cd $PIPELINE_HOME/package.ml/java/openjdk/1.8/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-java-openjdk-1.8:$1 .
 
