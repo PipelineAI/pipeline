@@ -31,20 +31,20 @@ Full Kubernetes Cluster + PipelineIO Community on AWS.
 
 ![AWS](/img/aws-logo-185x73.png)
 
-This requires large AWS instance types with at least 60 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 ### [Google Cloud](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
 Full Kubernetes Cluster + PipelineIO Community on Google Cloud
 
 ![Google Cloud Platform](/img/gce-logo-190x90.png)
 
-This requires large Google Cloud instance types with at least 52 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 ### [Azure](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Azure)
 Full Kubernetes Cluster + PipelineIO Community Edition on Azure
 
 ![Azure Cluster](/img/azure-logo-200x103.png)
 
-This requires large Google Cloud instance types with at least 60 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 {!contributing.md!}

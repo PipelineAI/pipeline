@@ -27,7 +27,7 @@ Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 * Automated Model Hyper-Parameter Tuning 
 * Automated Model Optimizations including Native CPU x86 and GPU NVPTX Code Generation
 * End-to-End, Real-time Pipeline Monitoring of all System and Prediction Metrics
-* Circuit Breakers Wrapp All Services to Avoid Cascading Failures
+* Circuit Breakers Wrap All Services to Avoid Cascading Failures
 
 Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
 
