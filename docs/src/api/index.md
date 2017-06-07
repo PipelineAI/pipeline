@@ -76,7 +76,7 @@ More Documentation Coming Soon!
 ```
 import requests
 
-deploy_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/deploy/spark/default/airbnb/v0'
+deploy_url = 'http://your.model.server.com/api/v1/model/deploy/spark/default/airbnb/v0'
 
 files = {'file': open('airbnb.parquet', 'rb')}
 
@@ -109,7 +109,7 @@ with open('test_inputs.json', 'wt') as fh:
     fh.write(json_data)
 ```
 ```
-predict_url = 'http://prediction-spark.community.pipeline.io/api/v1/model/predict/spark/default/airbnb/v0'
+predict_url = 'http://your.model.server.com/api/v1/model/predict/spark/default/airbnb/v0'
 
 headers = {'content-type': 'application/json'}
 

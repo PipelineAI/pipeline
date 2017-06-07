@@ -1,7 +1,7 @@
 # Install PipelineIO Open Source 
 While we recommend the hosted [PipelineIO Community Edition](http://community.pipeline.io) when evaluating PipelineIO, we provide installation instructions below to setup PipelineIO in your own cloud-based or on-premise environment.
 
-Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [here](https://pipelineio.zendesk.com). 
+Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [HERE](https://pipelineio.zendesk.com). 
 
 ## Standalone 
 The standalone PipelineIO Community Edition uses a single Docker image that can run in any CPU and GPU-based environment that supports [Docker](https://www.docker.com/) for CPUs or [Nvidia-Docker](https://github.com/NVIDIA/nvidia-docker) for GPUs.
@@ -31,20 +31,20 @@ Full Kubernetes Cluster + PipelineIO Community on AWS.
 
 ![AWS](/img/aws-logo-185x73.png)
 
-This requires large AWS instance types with at least 60 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 ### [Google Cloud](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
 Full Kubernetes Cluster + PipelineIO Community on Google Cloud
 
 ![Google Cloud Platform](/img/gce-logo-190x90.png)
 
-This requires large Google Cloud instance types with at least 52 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 ### [Azure](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Azure)
 Full Kubernetes Cluster + PipelineIO Community Edition on Azure
 
 ![Azure Cluster](/img/azure-logo-200x103.png)
 
-This requires large Google Cloud instance types with at least 60 GB RAM, 8 CPUs, 100 GB Disk.
+This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 
 {!contributing.md!}

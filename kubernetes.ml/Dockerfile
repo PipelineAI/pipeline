@@ -109,15 +109,15 @@ COPY scripts scripts
 ENV \
   PATH=/root/scripts:$PATH
 
-ENV MINIKUBE_VERSION=0.19.0
+#ENV MINIKUBE_VERSION=0.19.0
 
-RUN \
-  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
-  && chmod a+x minikube \
-  && mv minikube /usr/local/bin/
+#RUN \
+#  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
+#  && chmod a+x minikube \
+#  && mv minikube /usr/local/bin/
 
-RUN \
-  minikube config set kubernetes-version ${KUBERNETES_VERSION}
+#RUN \
+#  minikube config set kubernetes-version ${KUBERNETES_VERSION}
 
 #ENV \
 #  FUNKTION_VERSION=1.0.10

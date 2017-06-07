@@ -27,7 +27,7 @@ Click [HERE](/products/index.md) to get started with our basic [Community](/prod
 </div>
 <!--End MailChimp Signup Form -->
 
-## Improve Documentation
+## Suggest Edit 
 Option 1:  Click the `Edit` icon at the top right of this page.
 
 Option 2:  Create a [GitHub Issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).
@@ -55,6 +55,10 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
 mixpanel.init("89d4c9ede735c8bc7ad5e4732b2b5e2b");
 </script>
 <!-- End Mixpanel -->
+
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/3108647.js"></script>
+<!-- End of HubSpot Embed Code -->
 
 <script>
   mixpanel.track("PipelineIO Home Page View");
