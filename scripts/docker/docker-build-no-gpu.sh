@@ -21,8 +21,8 @@ cd $PIPELINE_HOME/package.ml/apache2/ && pwd && sudo docker build $2 -q -t fluxc
 cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d:$1 .
 cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-no-avx:$1 -f Dockerfile.no-avx .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4:$1 -f Dockerfile .
-cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-no-avx:$1 -f Dockerfile.no-avx .
+#cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4:$1 -f Dockerfile .
+#cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-no-avx:$1 -f Dockerfile.no-avx .
 
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/apachespark-master-2.1.0:$1 -f Dockerfile.master .
