@@ -3,7 +3,6 @@ FROM fluxcapacitor/package-spark-2.1.0:master
 WORKDIR /root
 
 COPY run.master run
-COPY demos/ demos/
 
 # Expose Spark Master Port for Web Admin UI
 EXPOSE 6060
