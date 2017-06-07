@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+  <PMML version="4.1" xmlns="http://www.dmg.org/PMML-4_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Header copyright="www.dmg.org" description="A very small binary tree model to show structure."/>
+    <DataDictionary numberOfFields="5" >
+      <DataField name="temperature" optype="continuous" dataType="double"/>
+      <DataField name="humidity" optype="continuous" dataType="double"/>
+      <DataField name="windy" optype="categorical" dataType="string">
+        <Value value="true"/>
+        <Value value="false"/>
+      </DataField>
+      <DataField name="outlook" optype="categorical" dataType="string" >
+        <Value value="sunny"/>
+        <Value value="overcast"/>
+        <Value value="rain"/>
+      </DataField>
+      <DataField name="whatIdo" optype="categorical" dataType="string" >
+        <Value value="will play"/>
+        <Value value="may play"/>
+        <Value value="no play"/>
+      </DataField>
+    </DataDictionary>
+    <TreeModel modelName="golfing" functionName="classification"  missingValueStrategy="lastPrediction" noTrueChildStrategy="returnLastPrediction">
+      <MiningSchema>
+        <MiningField name="temperature"/>
+        <MiningField name="humidity"/>
+        <MiningField name="windy"/>
+        <MiningField name="outlook"/>
+        <MiningField name="whatIdo" usageType="predicted"/>
+      </MiningSchema>
+      <Node id="0" score="will play">
+        <True/>
+        <Node id="1" score="will play">
+          <SimplePredicate field="outlook" operator="equal" value="sunny"/>
+          <Node id="2" score="will play">
+            <CompoundPredicate booleanOperator="and" >
+              <SimplePredicate field="temperature" operator="lessThan" value="90" />
+              <SimplePredicate field="temperature" operator="greaterThan" value="50" />
+            </CompoundPredicate>
+            <Node id="3" score="will play" >
+              <SimplePredicate field="humidity" operator="lessThan" value="80" />
+            </Node>
+            <Node id="4" score="no play" >
+              <SimplePredicate field="humidity" operator="greaterOrEqual" value="80" />
+            </Node>
+          </Node>
+	          <Node id="5" score="no play" >
+	            <CompoundPredicate booleanOperator="or" >
+	              <SimplePredicate field="temperature" operator="greaterOrEqual" value="90"/>
+	              <SimplePredicate field="temperature" operator="lessOrEqual" value="50" />
+	            </CompoundPredicate>
+	          </Node>
+        </Node>
+        <Node id="6" score="may play" >
+          <CompoundPredicate booleanOperator="or" >
+            <SimplePredicate field="outlook" operator="equal" value="overcast" />
+            <SimplePredicate field="outlook" operator="equal" value="rain" />
+          </CompoundPredicate>
+          <Node id="7" score="may play" >
+            <CompoundPredicate booleanOperator="and" >
+              <SimplePredicate field="temperature" operator="greaterThan" value="60" />
+              <SimplePredicate field="temperature" operator="lessThan" value="100" />
+              <SimplePredicate field="outlook" operator="equal" value="overcast" />
+              <SimplePredicate field="humidity" operator="lessThan" value="70" />
+              <SimplePredicate field="windy" operator="equal" value="false" />
+            </CompoundPredicate>
+          </Node>
+          <Node id="8" score="no play" >
+            <CompoundPredicate booleanOperator="and" >
+              <SimplePredicate field="outlook" operator="equal" value="rain" />
+              <SimplePredicate field="humidity" operator="lessThan" value="70" />
+            </CompoundPredicate>
+          </Node>
+        </Node>
+      </Node>
+    </TreeModel>
+  </PMML>

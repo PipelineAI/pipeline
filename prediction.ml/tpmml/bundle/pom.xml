@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.turn.tpmml</groupId>
+		<artifactId>tpmml</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>bundle</artifactId>
+	<packaging>bundle</packaging>
+
+	<name>tpmml OSGi bundle</name>
+	<description>tpmml OSGi bundle</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.turn.tpmml</groupId>
+			<artifactId>pmml-translator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.turn.tpmml</groupId>
+			<artifactId>pmml-evaluator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.turn.tpmml</groupId>
+			<artifactId>pmml-manager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.turn.tpmml</groupId>
+			<artifactId>pmml-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.turn.tpmml</groupId>
+			<artifactId>pmml-schema</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>org.testng</groupId>
+		  <artifactId>testng</artifactId>
+		  <version>6.1.1</version>
+		  <scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>tpmml-${project.artifactId}-${project.version}</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.2.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-DocURL>http://www.tpmml.org</Bundle-DocURL>
+						<Bundle-Name>tpmml</Bundle-Name>
+						<Embed-Dependency>*;scope=compile|runtime;inline=true</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
+<!--  						<Export-Package>com.turn.tpmml.*;-split-package:=merge-first,com.turn.tpmml.*</Export-Package>
+ -->						<Import-Package>*</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,85 @@
+package com.turn.tpmml.translator;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeMap;
+
+/**
+ * Template for PMML model
+ *
+ * This template assumes all incoming variables are Double. Missing 
+ * value is represented as "null".  
+ *
+ */
+public class $className implements CompiledModel {
+	
+	public Object execute(Map<String, Object> nameToValue) {
+		
+	}
+
+	private static Logger logger = new Logger(${className}.class);
+	
+	#foreach($var in $variables) 
+	protected static int INDEX_${var.name};
+	#end
+
+	public $className() throws Exception {
+		super();
+	}
+
+	@Override
+	public final FeatureVectorSpecification getFeatureVectorSpecification() {
+		return spec;
+	}
+
+	private FeatureVectorSpecification spec;
+
+	@Override
+	public Set<String> getFeatures() {
+		Set<String> features = new HashSet<String>();
+		#foreach($var in $variables) 
+features.add("${var.name}");
+		#end
+		
+		return features;	
+	}
+
+	@Override
+	public void setFeatureVectorSpecification(FeatureVectorSpecification spec) {
+		this.spec = spec;
+		#foreach($var in $variables) 
+INDEX_${var.name} = spec.lookupFeatureIndexInVector(new Feature("${var.name}"));
+		#end
+
+	}
+
+	@Override
+	public final void score(FeatureVector fvec, ScoreResult scoreResult)
+			throws ScoringException {
+
+		scoreResult.goalAdjustment = 1.0f;
+		
+		// check null pointer
+		if (fvec == null || scoreResult == null) {
+			return;
+		}
+		if (fvec.ad == null || fvec.ad.getRuntimeScorableAd() == null) {
+			return;
+		}
+				
+${modelCode}
+
+${assignAdjustment}
+	}
+
+	@Override
+	public int score(FeatureVector featureVector,
+			double[] staticTargetPageFeatures, double[] staticAdFeatures)
+			throws ScoringException, IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}
