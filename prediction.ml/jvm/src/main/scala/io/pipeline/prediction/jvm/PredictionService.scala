@@ -95,7 +95,7 @@ class PredictionService {
       
       TarGzUtil.extract(zipFilename, parentDir)
       
-      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      // TODO:  Make sure the bundle contains a file called model.java!
       
       Files.delete(Paths.get(zipFilename))      
     } catch {
@@ -139,7 +139,7 @@ class PredictionService {
 
       val predictor = predictorOption match {
         case None => {
-          val sourceFileName = s"${parentDir}/${modelName}.java"
+          val sourceFileName = s"${parentDir}/model.java"
           
           //read file into stream
           val stream: Stream[String] = Files.lines(Paths.get(sourceFileName))
@@ -204,7 +204,8 @@ class PredictionService {
       
       TarGzUtil.extract(zipFilename, parentDir)
 
-      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      // TODO:  Make sure the bundle contains a file called model.pmml!
+
       val modelFilePath = s"${parentDir}/model.pmml"
       
       // TODO: Handle this failure
@@ -312,7 +313,8 @@ class PredictionService {
       
       TarGzUtil.extract(zipFilename, parentDir)
 
-      // TODO:  Find the actual model and rename it to <model_name>.<extension>
+      // TODO:  Make sure the bundle contains a file called model.xgboost!
+
       val modelFilePath = s"${parentDir}/model.xgboost"
       
       Files.delete(Paths.get(zipFilename))      
