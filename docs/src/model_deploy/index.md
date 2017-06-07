@@ -46,6 +46,8 @@
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
+Note: You can use the same `model-server-url` from the the PipelineIO [Community Edition](http://community.pipeline.io).  See the Community Edition example [notebooks](http://community.pipeline.io) for complete, end-to-end examples.
+
 ### TensorFlow
 ![TensorFlow](/img/tensorflow-logo-202x168.png)
 
