@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.60"
+__version__ = "0.62"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -27,6 +27,7 @@ import dill as pickle
 from pprint import pprint
 import subprocess
 from datetime import timedelta
+
 
 class PioCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
@@ -105,6 +106,13 @@ class PioCli(object):
 
     def _get_default_pio_git_version(self):
         return 'master'
+
+
+    def _get_current_context_from_kube_config(self):
+        kube_cmd = "kubectl config current-context" 
+        process = subprocess.Popen(kube_cmd.split(), stdout=subprocess.PIPE) 
+        (output, error) = process.communicate() 
+        return output.rstrip().decode('utf-8')
 
 
     def config_get(self,
@@ -459,9 +467,16 @@ class PioCli(object):
 
 
     def init_cluster(self,
-                     kube_cluster_context,
-                     kube_namespace):
+                     kube_cluster_context=None,
+                     kube_namespace=None):
         pio_api_version = self._get_full_config()['pio_api_version']
+
+        if not kube_cluster_context:
+            kube_cluster_context = self._get_current_context_from_kube_config()
+
+        if not kube_namespace:
+            kube_namespace = 'default'
+
         config_dict = {'kube_cluster_context': kube_cluster_context, 
                        'kube_namespace': kube_namespace}
         self._merge_config_dict(config_dict)
