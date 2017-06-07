@@ -14,8 +14,8 @@ cd $PIPELINE_HOME/package.ml/gpu/cuda8/16.04/ && pwd && sudo docker build $2 -q 
 cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-gpu:$1 -f Dockerfile.gpu .
 cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-gpu-no-avx:$1 -f Dockerfile.gpu-no-avx .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-gpu:$1 -f Dockerfile.gpu .
-cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-gpu-no-avx:$1 -f Dockerfile.gpu-no-avx .
+#cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-gpu:$1 -f Dockerfile.gpu .
+#cd $PIPELINE_HOME/package.ml/tensorflow/7fda1bb-6c096a4/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-7fda1bb-6c096a4-gpu-no-avx:$1 -f Dockerfile.gpu-no-avx .
 
 cd $PIPELINE_HOME/clustered.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/clustered-tensorflow-gpu:$1 -f Dockerfile.gpu .
 
