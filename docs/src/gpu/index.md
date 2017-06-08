@@ -35,7 +35,7 @@ PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fl
 ## ML/AI Model Performance Optimizations
 Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineIO.
 
-### TensorFlow Model Optimization Example
+### TensorFlow Optimization Example
 **Before Optimization**
 
 _This model is very slow at prediction time._
