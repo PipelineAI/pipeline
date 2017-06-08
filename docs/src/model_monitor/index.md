@@ -26,4 +26,6 @@ Unhealthy or latent services may open a [circuit](https://www.infoq.com/intervie
 
 ![Model Health](/img/hystrix-example-600x306.png)
 
+![Model Health Annotated](/img/hystrix-dashboard-annotated-600x306.png)
+
 {!contributing.md!}
