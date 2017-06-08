@@ -7,6 +7,10 @@
 ## Who Uses PipelineIO?
 PipelineIO's list of 100's of beta customers are listed on [Crunchbase](https://www.crunchbase.com/organization/pipelineio/customers).  With 30,000+ users on our GA waitlist, we expect a 10-15x increase in customers by the end of the year.  We're moving as quickly as we can!
 
+Mentioned by [Hotels.com](http://hotels.com) at Spark Summit San Francisco 2017!
+
+![PipelineIO @ Hotels.com](/img/pipelineio-spark-summit-annotated-700x394.png)
+
 ## Who is PipelineIO?
 PipelineIO's employees, advisors, investors, and media activity are listed on [Crunchbase](https://www.crunchbase.com/organization/pipelineio).
 
