@@ -9,23 +9,21 @@ In addition, PipelineIO provides dashboards for real-time model server metrics i
 
 ## Example Dashboards
 
-### Latency
-Higher latency may lead to an unhealthy model server if left unbounded.
-
-### Memory Usage
-Higher memory usage beyond physical container or node limits may degrade performance.
-
-### GPU Utilization
-Higher, consistent utilization is preferred.  You want to saturate your cores, but not oversaturate them.
-
-### Request Batch Size
-Larger batch sizes usually provide higher throughput.
-
-### Health
-Unhealthy or latent services may open a [circuit](https://www.infoq.com/interviews/Building-Resilient-Systems-Michael-Nygard).  This causes the circuit to return a degraded, fallback response.
+### Maintain Stability with Fallbacks
+Unhealthy or latent model servers may open a [circuit](https://www.infoq.com/interviews/Building-Resilient-Systems-Michael-Nygard), respond with a suitable fallback, and allow the cluster to stabilize.
 
 ![Model Health](/img/hystrix-example-600x306.png)
 
-![Model Health Annotated](/img/hystrix-dashboard-annotated-600x306.png)
+### Control Latency with Timeouts
+High latency may lead to unhealthy model servers if left unbounded.  All PipelineIO service calls are bound with timeouts.
+
+### Monitor and Alert
+High resource utilization - beyond container and physical node limits - will certainly degrade performance.  PipelineIO monitors all system resources.
+
+### Optimize Performance
+Large batch sizes provide higher throughput at the expense of latency.  PipelineIO dynamically configures the system to find the proper balance.
+
+### Scale Dynamically as Needed
+All PipelineIO services support auto-scaling across federated cloud and on-premise environments.
 
 {!contributing.md!}
