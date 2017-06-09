@@ -71,7 +71,7 @@ pio
 ## REST API
 More Documentation Coming Soon!
 
-### AI/ML Model Deployment and Prediction
+### AI/ML Model Deploy and Predict
 **Deploy Model**
 ```
 import requests
