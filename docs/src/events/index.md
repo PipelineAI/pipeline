@@ -1,5 +1,5 @@
-# PipelineIO Global Events
-## Meetups
+# Upcoming Events
+## Global Meetups
 
 ![Global Meetups](/img/global-meetups.png)
 
@@ -20,13 +20,12 @@ PipelineIO is the organizer and sponsor for the series of [Advanced Spark and Te
 * Bangalore
 * Dubai
 
-
-
 In 2016 alone, we hosted 60+ free meetup community events throughout the world.  
 
-While this dedication to the community requires a large amount of human and financial capital, we continue to push forward with close to 100+ global community events planned in 2017.
+While this dedication to the community requires a large amount of human and financial capital, we continue to push forward with close to 100 global community events planned in 2017.
 
 ## Monthly PipelineIO Community Dev Sync (Online)
+
 _Everyone is invited!_
 
 Date/Time:  9am PT, Every Third Monday, Online.

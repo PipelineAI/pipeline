@@ -1,4 +1,4 @@
-# PipelineIO 24x7 Global Support 
+# 24x7 Global Support 
 ## Product
 ### Community 
 Limited Support through [Support Forums](https://pipelineio.zendesk.com)

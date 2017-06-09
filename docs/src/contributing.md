@@ -1,13 +1,8 @@
 ---
-## 24x7 Global Support
-Check out the [PipelineIO Support Forum](https://pipelineio.zendesk.com) for discussions, feature requests, and 24x7 support from San Francisco-based PipelineIO and 1000's of global PipelineIO users and customers.
+## Try our Free [Community Edition](/products/index.md)!
+Click [HERE](/products/index.md) to get started with our basic [Community Edition](/products/index.md) 
 
-While all support requests are high priority, we offer dedicated [enterprise-level support](/products/index.md), as well.
-
-## Get PipelineIO Today!
-Click [HERE](/products/index.md) to get started with our basic [Community](/products/index.md) edition - or our enterprise-ready [Advanced](/products/index.md) edition.
-
-## Register for PipelineIO Updates
+## Register for PipelineIO [Advanced Edition](/products/index.md)
 <!-- Begin MailChimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"> 
 <!--<link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">-->
@@ -26,11 +21,6 @@ Click [HERE](/products/index.md) to get started with our basic [Community](/prod
 </form>
 </div>
 <!--End MailChimp Signup Form -->
-
-## Suggest Edit 
-Option 1:  Click the `Edit` icon at the top right of this page.
-
-Option 2:  Create a [GitHub Issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).
 
 <!-- Start of PipelineIO Zendesk Widget script -->
 <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var e=this.createElement("script");n&&(this.domain=n),e.id="js-iframe-async",e.src="https://assets.zendesk.com/embeddable_framework/main.js",this.t=+new Date,this.zendeskHost="pipelineio.zendesk.com",this.zEQueue=a,this.body.appendChild(e)},o.write('<body onload="document._l();">'),o.close()}();
@@ -60,6 +50,16 @@ mixpanel.init("89d4c9ede735c8bc7ad5e4732b2b5e2b");
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/3108647.js"></script>
 <!-- End of HubSpot Embed Code -->
 
-<script>
-  mixpanel.track("PipelineIO Home Page View");
+
+## Getting to Know You
+
+<div class="typeform-widget" data-url="https://chris971.typeform.com/to/SAwqti" style="width: 100%; height: 500px;" > </div>
+<script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })()
 </script>
+
+
+## Help Us Improve
+
+Option 1:  [Edit](https://github.com/fluxcapacitor/pipeline/edit/master/docs/src/index.md) the documentation directly.
+
+Option 2:  Create a GitHub [issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).

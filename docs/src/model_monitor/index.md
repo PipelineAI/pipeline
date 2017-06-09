@@ -5,7 +5,7 @@ We believe that you should have full insight into everything deployed to product
 
 PipelineIO provides the usual dashboards for real-time system metrics including memory usage, disk I/O and network throughput, CPU and GPU utilization of your model training and deployment activities.
 
-In addition, PipelineIO provides dashboards for real-time model server metrics including latency, throughput, and health of your models in production.
+In addition, PipelineIO provides dashboards for real-time prediction metrics including accuracy, latency, and throughput of your models in production.
 
 ## Example Dashboards
 

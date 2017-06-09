@@ -20,16 +20,19 @@ pages:
     - Monitor Your Model: model_monitor/index.md
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
-  - Get PipelineIO Today!: products/index.md
-  - 24x7 Global Support: support/index.md
-  - Global Events: events/index.md
-  - Training: training/index.md
+  - Try our Free Community Edition!: products/index.md
+  - Getting to Know You: survey/index.md
   - Dashboards and Visualizations: model_monitor/index.md
   - GPUs and Performance: gpu/index.md
-  - APIs: api/index.md
-  - Open Source: open_source/index.md 
-  - Contribute to PipelineIO: contribute/index.md
-  - Install PipelineIO Open Source: install/index.md
+  - Command Line and REST APIs: api/index.md
+  - Upcoming Events and Training:
+    - Upcoming Events: events/index.md
+    - Training: training/index.md
+  - Open Source: 
+    - GitHub and DockerHub Repos: open_source/index.md 
+    - Become a Committer!: contribute/index.md
+    - Install PipelineIO Open Source: install/index.md
+  - 24x7 Global Support: support/index.md
   - Privacy and Terms: legal/index.md
 theme_dir: mkdocs-material/material/
 site_favicon: 'img/favicon.png'

@@ -15,13 +15,21 @@ PipelineIO builds upon many great open source projects including Jupyter, Zeppel
 
 ![Docker](/img/docker-logo-150x126.png)
 
+## PipelineIO is Global
+
+![PipelineIO Global Community](/img/pipelineio-geo-border-no-stars.png)
+
 ## [GitHub](https://github.com/fluxcapacitor/pipeline) 
+
+We openly develop in [GitHub](https://github.com/fluxcapacitor/pipeline) and encourage quality contributions and feedback.
+
 [PipelineIO](https://github.com/fluxcapacitor/pipeline) and the extended PipelineIO global [community](https://github.com/fluxcapacitor/pipeline/stargazers) are 100% dedicated to open source development.
 
 ![GitHub](/img/github-logo-150x125.png)
 
 ## [DockerHub](https://hub.docker.com/r/fluxcapacitor)
-We openly develop in [GitHub](https://github.com/fluxcapacitor/pipeline) and use [DockerHub](https://hub.docker.com/r/fluxcapacitor) for our Docker images.
+
+We store all of our open source Docker images in a public [DockerHub](https://hub.docker.com/r/fluxcapacitor) repository.
 
 ![DockerHub](/img/docker-logo-150x126.png)
 
