@@ -4,7 +4,7 @@ PipelineIO can be deployed to any on-premise or major cloud provider environment
 ## Products 
 ### Community Edition
 * Free, Hosted PipelineIO Open Source 
-* Train and Deploy All Supported Model Types 
+* Train and Deploy All [Supported Model Types](http://pipeline.io/model_train/)
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
@@ -31,6 +31,7 @@ Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
 Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
 
+
 ## Deployment Environments
 ### Amazon Web Services (AWS)
 ![AWS](/img/aws-logo-185x73.png)
@@ -44,42 +45,5 @@ Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing infor
 ### On-Premise
 ![On-Premise](/img/on-premise-216x216.png)
 
-
-## Supported Model Types
-### Scikit-Learn
-![Scikit-Learn](/img/scikit-logo-277x150.png)
-
-### R
-![R](/img/r-logo-280x212.png)
-
-### Spark ML
-![Spark ML](/img/spark-logo-254x163.png)
-
-### TensorFlow
-![TensorFlow](/img/tensorflow-logo-202x168.png)
-
-### XGBoost
-![XGBoost](/img/xgboost-logo-280x120.png)
-
-### Python 
-![Python](/img/python-logo-184x180.png)
-
-### Java
-![Java](/img/java-logo-300x168.png)
-
-### Recommendations
-![Recommendations](/img/recommendations-logo-280x196.png)
-
-### Key-Value (Redis)
-![Redis](/img/redis-logo-300x100.png)
-
-### Key-Value (Cassandra)
-![Cassandra](/img/cassandra-logo-279x187.png)
-
-### PMML
-![PMML](/img/pmml-logo-210x96.png)
-
-### Custom Ensembles
-![Custom Ensembles](/img/ensemble-logo-285x125.png)
 
 {!contributing.md!}
