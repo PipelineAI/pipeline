@@ -78,7 +78,7 @@ import requests
 
 deploy_url = 'http://<pipelineio-model-server>/api/v1/model/deploy/spark/default/airbnb/v0'
 
-files = {'file': open('airbnb.parquet', 'rb')}
+files = {'file': open('airbnb.model', 'rb')}
 
 response = requests.post(deploy_url, files=files)
 
