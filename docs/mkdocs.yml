@@ -21,10 +21,10 @@ pages:
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
   - Try our Free Community Edition!: products/index.md
-  - Getting to Know You: survey/index.md
   - Dashboards and Visualizations: model_monitor/index.md
   - GPUs and Performance: gpu/index.md
   - Command Line and REST APIs: api/index.md
+  - Getting to Know You: survey/index.md
   - Upcoming Events and Training:
     - Upcoming Events: events/index.md
     - Training: training/index.md
