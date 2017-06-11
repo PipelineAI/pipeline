@@ -28,9 +28,8 @@ setup(
         "fire==0.1.0",
         "requests==2.13.0",
         "pyyaml==3.12",
-        "pick==0.6.3",
         "dill==0.2.5",
-        "requests==2.13.0",
+        "tabulate==0.7.7",
     ],
     dependency_links=[
     ]

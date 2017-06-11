@@ -27,7 +27,8 @@ RUN \
   && conda install --yes -c conda-forge jupyter_contrib_nbextensions==0.2.7 \
   && conda install --yes ipywidgets==6.0.0 \
   && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions==1.0.0 \
-  && conda install --yes -c conda-forge findspark==1.0.0 
+  && conda install --yes -c conda-forge findspark==1.0.0 \
+  && conda install --yes -c conda-forge tabulate==0.7.7
 
 RUN \
   pip install jupyterlab==0.19.0 \
@@ -113,7 +114,7 @@ RUN \
   && ln -s ~/share/jupyter/hub/templates/login.html
 
 RUN \
-  pip install pio-cli==0.58
+  pip install pio-cli==0.63
 
 EXPOSE 6006 8754 8755
 
