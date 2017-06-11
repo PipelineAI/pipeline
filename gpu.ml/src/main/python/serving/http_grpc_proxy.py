@@ -30,6 +30,8 @@ class TensorflowServingGrpcCommand(Command):
 
   def run(self):
     # Convert json input to tensor
+    
+    print(self.inputs.decode('utf-8'))
     input_str = self.inputs.decode('utf-8')
     input_json = json.loads(input_str)
     inputs_np = np.asarray([input_json['x_observed']])
@@ -49,6 +51,7 @@ class TensorflowServingGrpcCommand(Command):
 
     # Send request
     result = stub.Predict(request, request_timeout)
+    print(result)
 
     # Convert PredictResult into np array
     result_np = tf.contrib.util.make_ndarray(result.outputs['y_pred'])
