@@ -110,8 +110,10 @@ COPY share/ share/
 
 RUN \
   mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
+  && mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
   && cd /opt/conda/share/jupyter/hub/templates/ \
-  && ln -s ~/share/jupyter/hub/templates/login.html
+  && ln -s ~/share/jupyter/hub/templates/login.html \
+  && ln -s ~/share/jupyter/hub/templates/page.html \
 
 RUN \
   pip install pio-cli==0.63
