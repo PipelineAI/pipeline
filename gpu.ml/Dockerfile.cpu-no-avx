@@ -222,7 +222,7 @@ RUN \
   chmod a+x /root
 
 RUN \
-  pip install pio-cli==0.52
+  pip install pio-cli==0.63
 
 RUN \
   git clone https://github.com/BonsaiAI/nvidia-prometheus-stats \
