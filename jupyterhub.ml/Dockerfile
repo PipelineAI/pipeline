@@ -107,13 +107,18 @@ RUN \
     'r-randomforest=4.6*' && conda clean -tipsy
 
 COPY share/ share/
-
 RUN \
   mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
-  && mv /opt/conda/share/jupyter/hub/templates/login.html /opt/conda/share/jupyter/hub/templates/login.html.orig \
+  && mv /opt/conda/share/jupyter/hub/templates/page.html /opt/conda/share/jupyter/hub/templates/page.html.orig \
   && cd /opt/conda/share/jupyter/hub/templates/ \
   && ln -s ~/share/jupyter/hub/templates/login.html \
-  && ln -s ~/share/jupyter/hub/templates/page.html \
+  && ln -s ~/share/jupyter/hub/templates/page.html 
+
+COPY notebook/ notebook/
+RUN \
+  mv /opt/conda/lib/python3.5/site-packages/notebook/static/custom/ /opt/conda/lib/python3.5/site-packages/notebook/static/custom.orig \
+  && cd /opt/conda/lib/python3.5/site-packages/notebook/static/ \
+  && ln -s ~/notebook/static/custom
 
 RUN \
   pip install pio-cli==0.63

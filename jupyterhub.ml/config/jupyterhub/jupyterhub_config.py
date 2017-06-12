@@ -465,4 +465,6 @@ c.LocalAuthenticator.create_system_users = False
 # c.PAMAuthenticator.open_sessions = False
 
 # The PAM service to use for authentication.
-# c.PAMAuthenticator.service = 'login'                     
+# c.PAMAuthenticator.service = 'login'     
+
+MappingKernelManager.cull_idle_timeout = 300              
