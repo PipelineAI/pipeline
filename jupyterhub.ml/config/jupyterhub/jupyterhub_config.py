@@ -75,10 +75,13 @@ c.JupyterHub.answer_yes = True
 #   and `data` is the POST form data from the login page.
 #c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
 c.JupyterHub.authenticator_class = os.environ['JUPYTERHUB_AUTHENTICATOR'] 
+c.Auth0OAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
+c.Auth0OAuthenticator.client_id = os.environ['OAUTH_CLIENT_ID']
+c.Auth0OAuthenticator.client_secret = os.environ['OAUTH_CLIENT_SECRET']
 #c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
-c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
-c.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
+#c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
+#c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
+#.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
 
 # The base URL of the entire application
 c.JupyterHub.base_url = '/'
@@ -300,7 +303,7 @@ c.Spawner.debug = True
 # traversal, while preserving user's homedir as landing page for notebook
 #
 # `%U` will be expanded to the user's username
-c.Spawner.default_url = '/lab'
+#c.Spawner.default_url = '/lab'
 
 # Disable per-user configuration of single-user servers.
 #

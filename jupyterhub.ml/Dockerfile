@@ -30,15 +30,15 @@ RUN \
   && conda install --yes -c conda-forge findspark==1.0.0 \
   && conda install --yes -c conda-forge tabulate==0.7.7
 
-RUN \
-  pip install jupyterlab==0.19.0 \
-  && pip install jupyterlab_widgets==0.6.15 \
-  && pip install widgetslabextension==0.1.0
+#RUN \
+#  pip install jupyterlab==0.19.0 \
+#  && pip install jupyterlab_widgets==0.6.15 \
+#  && pip install widgetslabextension==0.1.0
 
-RUN \
-  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
-  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
+#RUN \
+#  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
+#  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
+#  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
@@ -79,7 +79,7 @@ COPY profiles/ /root/.ipython/
 COPY img/ img/
 
 ENV \
- TENSORFLOW_VERSION=1.2.0rc1
+ TENSORFLOW_VERSION=1.2.0rc2
 
 RUN \
   pip install tensorflow==$TENSORFLOW_VERSION
@@ -115,6 +115,9 @@ RUN \
 
 RUN \
   pip install pio-cli==0.63
+
+RUN \
+  pip install git+https://github.com/jupyterhub/oauthenticator.git
 
 EXPOSE 6006 8754 8755
 
