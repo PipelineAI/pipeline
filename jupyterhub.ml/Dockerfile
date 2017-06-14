@@ -123,8 +123,10 @@ RUN \
 RUN \
   pip install pio-cli==0.63
 
+COPY oauthenticator/ oauthenticator/
 RUN \
-  pip install git+https://github.com/jupyterhub/oauthenticator.git
+  cd oauthenticator \
+  && pip install -e .
 
 EXPOSE 6006 8754 8755
 

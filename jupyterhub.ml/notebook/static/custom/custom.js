@@ -7,6 +7,9 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+//  var email_address = document.location.pathname.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+//  var page = document.location.pathname.replace(email_address, 'REDACTED');
+//  ga('set', 'page', page);
   ga('create', 'UA-78551725-2', 'auto');
   ga('send', 'pageview');
     <!-- End of Google Analytics -->
