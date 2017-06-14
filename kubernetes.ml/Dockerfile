@@ -48,21 +48,21 @@ RUN \
 ENV \
   PATH=$KOPS_HOME:$PATH
 
-#ENV \
-#  TERRAFORM_VERSION=0.9.3
+ENV \
+  TERRAFORM_VERSION=0.9.8
 
-#ENV \
-#  TERRAFORM_HOME=/root/terraform
+ENV \
+  TERRAFORM_HOME=/root/terraform
 
-#RUN \
-#  mkdir -p $TERRAFORM_HOME \
-#  && cd $TERRAFORM_HOME \ 
-#  && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-#  && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-#  && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+RUN \
+  mkdir -p $TERRAFORM_HOME \
+  && cd $TERRAFORM_HOME \ 
+  && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+  && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+  && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-#ENV \
-#  PATH=$TERRAFORM_HOME:$PATH
+ENV \
+  PATH=$TERRAFORM_HOM:E$PATH
 
 RUN \
   apt-get update
@@ -75,12 +75,6 @@ RUN \
 
 RUN \
   pip install --upgrade appdirs
-
-#RUN \
-#  echo "deb https://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
-#  && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
-#  && apt-get update \
-#  && apt-get install -y google-cloud-sdk
 
 RUN \
   curl https://sdk.cloud.google.com | bash 
