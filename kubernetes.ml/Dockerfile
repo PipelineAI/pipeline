@@ -16,7 +16,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.6.3
+ENV KUBERNETES_VERSION=1.7.0-beta.1
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -35,7 +35,7 @@ RUN \
 #ENV \
 #  PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.6.0-beta.1
+ENV KOPS_VERSION=1.6.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -97,7 +97,7 @@ RUN \
   mkdir -p ~/.kube
 
 ENV \
-  HELM_VERSION=2.3.1
+  HELM_VERSION=2.4.2
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -109,23 +109,23 @@ COPY scripts scripts
 ENV \
   PATH=/root/scripts:$PATH
 
-#ENV MINIKUBE_VERSION=0.19.0
-
-#RUN \
-#  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
-#  && chmod a+x minikube \
-#  && mv minikube /usr/local/bin/
-
-#RUN \
-#  minikube config set kubernetes-version ${KUBERNETES_VERSION}
-
-#ENV \
-#  FUNKTION_VERSION=1.0.10
-
-#RUN \
-#  wget https://github.com/funktionio/funktion/releases/download/v${FUNKTION_VERSION}/funktion-linux-amd64 \
-#  && chmod a+x funktion-linux-amd64 \
-#  && mv funktion-linux-amd64 /usr/local/bin/funktion
+ENV MINIKUBE_VERSION=0.19.1
 
 RUN \
-  pip install pio-cli==0.59
+  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
+  && chmod a+x minikube \
+  && mv minikube /usr/local/bin/
+
+RUN \
+  minikube config set kubernetes-version ${KUBERNETES_VERSION}
+
+ENV \
+  FUNKTION_VERSION=1.0.14
+
+RUN \
+  wget https://github.com/funktionio/funktion/releases/download/v${FUNKTION_VERSION}/funktion-linux-amd64 \
+  && chmod a+x funktion-linux-amd64 \
+  && mv funktion-linux-amd64 /usr/local/bin/funktion
+
+RUN \
+  pip install pio-cli==0.63
