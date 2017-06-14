@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.64"
+__version__ = "0.65"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -1503,6 +1503,18 @@ class PioCli(object):
         print("")
         print("Check app status with 'pio apps' or 'pio cluster'.")
         print("")
+
+
+    def kill(self,
+             app_name):
+
+        self.stop(app_name)
+
+
+    def delete(self,
+               app_name):
+
+        self.stop(app_name)
 
 
     def stop(self,
