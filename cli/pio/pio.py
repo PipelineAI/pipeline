@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.63"
+__version__ = "0.64"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -19,7 +19,6 @@ import sys
 import kubernetes.client as kubeclient
 from kubernetes.client.rest import ApiException
 import kubernetes.config as kubeconfig
-import pick
 import yaml
 import json
 import dill as pickle
