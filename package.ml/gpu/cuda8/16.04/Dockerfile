@@ -18,4 +18,6 @@ RUN \
  && apt-get install -y python3-pip \
  && apt-get install -y daemontools \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* 
+ && rm -rf /var/lib/apt/lists/*
+
+COPY sysutils/container-limits.sh sysutils/container-limits.sh

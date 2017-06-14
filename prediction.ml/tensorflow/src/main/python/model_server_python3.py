@@ -90,10 +90,10 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
-		(model_base_path, transformers_module) = self.get_model_assets(model_type,
-        					                                           model_namespace,
-                             					                       model_name,
-                                                  					   model_version)
+        (model_base_path, transformers_module) = self.get_model_assets(model_type,
+                                                                       model_namespace,
+                                                                       model_name,
+                                                                       model_version)
 
         # TODO:  Reuse instead of creating this channel everytime
         channel = implementations.insecure_channel(self.settings['model_server_tensorflow_serving_host'], 
