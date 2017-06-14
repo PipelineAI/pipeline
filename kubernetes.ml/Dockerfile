@@ -62,7 +62,7 @@ RUN \
   && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 ENV \
-  PATH=$TERRAFORM_HOM:E$PATH
+  PATH=$TERRAFORM_HOME:$PATH
 
 RUN \
   apt-get update
@@ -122,4 +122,4 @@ RUN \
   && mv funktion-linux-amd64 /usr/local/bin/funktion
 
 RUN \
-  pip install pio-cli==0.63
+  pip install pio-cli==0.64
