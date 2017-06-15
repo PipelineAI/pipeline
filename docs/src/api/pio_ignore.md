@@ -1,8 +1,8 @@
 Similar to `.gitignore`, `.pioignore` is a file that lists which files should not be 
-uploaded to the PipelineIO servers.
+uploaded to the PipelineAI servers.
 
 ## Initialization
-Create the `.pioignore` file with a list of files and directories to ignore when uploading code and models to PipelineIO. 
+Create the `.pioignore` file with a list of files and directories to ignore when uploading code and models to PipelineAI. 
 ```
 .git
 .DS_Store

@@ -2,13 +2,13 @@
 
 ## Products
 ### Community Edition
-* Free, Hosted PipelineIO Open Source 
+* Free, Hosted PipelineAI Open Source 
 * Train and Deploy All Supported Model Types
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
 ### Advanced Edition 
-* Includes Everything from PipelineIO Community Edition
+* Includes Everything from PipelineAI Community Edition
 * Advanced Admin UI including Cluster and Model Management
 * Continuous, Online Model Training and Deployment Pipelines with Full Audit Logging
 * Flexible Auto-Scaling and Spot-Pricing Policies

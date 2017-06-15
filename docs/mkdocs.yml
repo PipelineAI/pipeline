@@ -1,6 +1,6 @@
-site_name: PipelineIO 
+site_name: PipelineAI 
 site_url: http://pipeline.io
-site_author: PipelineIO
+site_author: PipelineAI
 site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
 repo_url: https://github.com/fluxcapacitor/pipeline/
 repo_name: fluxcapacitor/pipeline 
@@ -32,7 +32,7 @@ pages:
   - Open Source: 
     - GitHub and DockerHub Repos: open_source/index.md 
     - Become a Committer!: contribute/index.md
-    - Install PipelineIO Open Source: install/index.md
+    - Install PipelineAI Open Source: install/index.md
   - 24x7 Global Support: support/index.md
   - Contact Us: contact/index.md
   - Privacy and Terms: legal/index.md
@@ -98,4 +98,4 @@ extra_javascript:
 extra_css:
   - css/bootstrap_paper.min.css
   - css/style.css
-copyright: Copyright &copy; 2017 PipelineIO Inc.
+copyright: Copyright &copy; 2017 PipelineAI Inc.

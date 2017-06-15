@@ -1,4 +1,4 @@
-# PipelineIO Training
+# PipelineAI Training
 ## Community Edition
 Global [Events](/events/index.md) and [Workshops](/events/index.md#workshops)
 

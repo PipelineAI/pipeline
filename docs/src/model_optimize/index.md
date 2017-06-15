@@ -1,5 +1,5 @@
 # Optimize Your Model 
-Upon deploying your model, PipelineIO will optimize your model for high-performance serving and predicting.
+Upon deploying your model, PipelineAI will optimize your model for high-performance serving and predicting.
 
 Various model optimization and simplification techniques include folding batch normalizations, quantizing weights, and generating native code for both CPU and GPU.
 

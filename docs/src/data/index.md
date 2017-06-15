@@ -1,6 +1,6 @@
 # Data 
 ## Public Datasets
-PipelineIO hosts some popular public datasets.
+PipelineAI hosts some popular public datasets.
 
 | Dataset Name                    | Description                                         | 
 | ------------------------------- | --------------------------------------------------- |
@@ -10,6 +10,6 @@ PipelineIO hosts some popular public datasets.
 Contact [help@pipeline.io] if you'd like us to support additional public datasets.
 
 ## Data Sources
-PipelineIO integrates with S3, HDFS, and many other data sources.
+PipelineAI integrates with S3, HDFS, and many other data sources.
 
 {!contributing.md!}

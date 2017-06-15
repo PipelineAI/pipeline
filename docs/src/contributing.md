@@ -2,7 +2,7 @@
 ## Try our Free [Community Edition](/products/index.md)!
 Click [HERE](/products/index.md) to get started with our basic [Community Edition](/products/index.md) 
 
-## Register for PipelineIO [Advanced Edition](/products/index.md)
+## Register for PipelineAI [Advanced Edition](/products/index.md)
 <!-- Begin MailChimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"> 
 <!--<link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">-->
@@ -12,7 +12,7 @@ Click [HERE](/products/index.md) to get started with our basic [Community Editio
 <div id="mc_embed_signup">
 <form action="//pipeline.us8.list-manage.com/subscribe/post?u=36f687b9890483604c5d7d2b5&amp;id=010427f054" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 <!--<div id="mc_embed_signup_scroll">-->
-<!--<label for="mce-EMAIL">Signup for PipelineIO Updates!</label>-->
+<!--<label for="mce-EMAIL">Signup for PipelineAI Updates!</label>-->
 <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
 <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
 <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_36f687b9890483604c5d7d2b5_010427f054" tabindex="-1" value=""></div>
@@ -22,10 +22,10 @@ Click [HERE](/products/index.md) to get started with our basic [Community Editio
 </div>
 <!--End MailChimp Signup Form -->
 
-<!-- Start of PipelineIO Zendesk Widget script -->
+<!-- Start of PipelineAI Zendesk Widget script -->
 <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var e=this.createElement("script");n&&(this.domain=n),e.id="js-iframe-async",e.src="https://assets.zendesk.com/embeddable_framework/main.js",this.t=+new Date,this.zendeskHost="pipelineio.zendesk.com",this.zEQueue=a,this.body.appendChild(e)},o.write('<body onload="document._l();">'),o.close()}();
 /*]]>*/</script>
-<!-- End of PipelineIO Zendesk Widget script -->
+<!-- End of PipelineAI Zendesk Widget script -->
 
 <!-- Start Google Analytics -->
 <script>
