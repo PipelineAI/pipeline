@@ -121,7 +121,7 @@ RUN \
   && ln -s ~/notebook/static/custom
 
 RUN \
-  pip install pio-cli==0.63
+  pip install pio-cli==0.64
 
 COPY oauthenticator/ oauthenticator/
 RUN \
