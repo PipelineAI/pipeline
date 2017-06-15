@@ -10,8 +10,8 @@ import tornado.gen
 import importlib.util
 from grpc.beta import implementations
 import asyncio
-import tensorflow as tf
-import predict_pb2
+#import tensorflow as tf
+#import predict_pb2
 import prediction_service_pb2
 import tarfile
 import subprocess
@@ -90,24 +90,24 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
-        (model_base_path, transformers_module) = self.get_model_assets(model_type,
-                                                                       model_namespace,
-                                                                       model_name,
-                                                                       model_version)
+        model = self.get_model_assets(model_type,
+                                      model_namespace,
+                                      model_name,
+                                      model_version)
 
         # TODO:  Reuse instead of creating this channel everytime
-        channel = implementations.insecure_channel(self.settings['model_server_tensorflow_serving_host'], 
+        channel = implementations.insecure_channel(self.settings['model_server_tensorflow_serving_host'],
                                                    int(self.settings['model_server_tensorflow_serving_port']))
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
-        transformed_inputs_request = transformers_module.transform_inputs(self.request.body)
+        transformed_inputs_request = model.request_transformer.transform_request(self.request.body)
         transformed_inputs_request.model_spec.name = model_name
         transformed_inputs_request.model_spec.version.value = int(model_version)
 
         # Transform TensorFlow PredictResponse into output
         outputs = stub.Predict(transformed_inputs_request, self.settings['request_timeout'])
-        transformed_outputs = transformers_module.transform_outputs(outputs)
+        transformed_outputs = model.response_transformer.transform_response(outputs)
         self.write(transformed_outputs)
         self.finish()
 
@@ -115,7 +115,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     def get_model_assets(self, model_type, model_namespace, model_name, model_version):
         model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
-        if model_key not in self.registry:        
+        if model_key not in self.registry:
             model_base_path = self.settings['model_store_path']
             model_base_path = os.path.expandvars(model_base_path)
             model_base_path = os.path.expanduser(model_base_path)
@@ -127,22 +127,20 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
             bundle_path = os.path.join(bundle_path, model_version)
 
             # TODO:  remove filter + listdir - only need to check specific file
-            model_filenames = fnmatch.filter(os.listdir(bundle_path), "saved_model.pb")
+            #model_filenames = fnmatch.filter(os.listdir(bundle_path), "saved_model.pb")
+#            model_filenames =['pio_model.pkl', 'saved_model.pb']
+#            if (len(model_filenames) != 2):
+#                log.error("Invalid bundle.  Please re-deploy a directory/bundle that contains 'pio_model.pkl' and 'saved_model.pb'" % model_name)
+#                raise "Invalid bundle.  Please re-deploy a directory/bundle that contains 'pio_model.pkl' and 'saved_model.pb'" % model_name
 
-            if (len(model_filenames) == 0):
-                log.error("Invalid bundle.  Please re-deploy a directory/bundle that contains 'saved_model.pb'" % model_name)
-                raise "Invalid bundle.  Please re-deploy a directory/bundle that contains 'saved_model.pb'" % model_name
+            model_file_absolute_path = os.path.join(bundle_path, "pio_model.pkl")
 
+            # Load pickled model from model directory
+            with open(model_file_absolute_path, 'rb') as model_file:
+                model = pickle.load(model_file)
 
-			# Load model_io_transformers from model directory
-            transformers_module_name = 'model_io_transformers'
-            transformers_source_path = os.path.join(model_base_path, '%s.py' % transformers_module_name)
-            spec = importlib.util.spec_from_file_location(transformers_module_name, transformers_source_path)
-            transformers_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(transformers_module)
+            self.registry[model_key] = model
 
-            self.registry[model_key] = (model_base_path, transformers_module)                        
-            
         return self.registry[model_key]
 
 
@@ -157,13 +155,13 @@ class ModelDeployTensorFlowHandler(tornado.web.RequestHandler):
         model_base_path = os.path.expandvars(model_base_path)
         model_base_path = os.path.expanduser(model_base_path)
         model_base_path = os.path.abspath(model_base_path)
-            
+
         bundle_path = os.path.join(model_base_path, model_type)
         bundle_path = os.path.join(bundle_path, model_namespace)
         bundle_path = os.path.join(bundle_path, model_name)
         bundle_path = os.path.join(bundle_path, model_version)
         bundle_path_filename = os.path.join(bundle_path, filename)
-        
+
         try:
             os.makedirs(bundle_path, exist_ok=True)
             with open(bundle_path_filename, 'wb+') as fh:
