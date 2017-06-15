@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-serving:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d:master
 
 WORKDIR /root
 
