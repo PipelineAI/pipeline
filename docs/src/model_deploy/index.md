@@ -252,11 +252,5 @@ PipelineAI supports rolling back to any previous revision.
 ```
 pio rollback --revision=1
 ```
-<!--
-<script src="/js/dropzone.js"></script>
 
-<form action="http://prediction-python3.community.pipeline.io/api/v1/model/deploy/python3/default/python3_zscore/v54"
-      class="dropzone"
-      id="model-upload"></form>
--->
 {!contributing.md!}
