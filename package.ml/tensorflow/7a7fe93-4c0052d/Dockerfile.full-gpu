@@ -240,7 +240,7 @@ RUN \
      --test_timeout 300,450,1200,3600 \
      --test_output=errors \
      --local_test_jobs=${GPU_COUNT} \
-     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
      --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
      --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
 #     //tensorflow/tools/pip_package:build_pip_package

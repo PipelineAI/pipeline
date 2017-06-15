@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full:master
 
 WORKDIR /root
 
@@ -187,9 +187,11 @@ ENV \
   PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
 
 RUN \
-  conda install --yes graphviz \
-  && conda install --yes -c numba cudatoolkit==8.0 \
-  && conda install --yes -c numba numba==0.33
+  conda install --yes graphviz 
+
+#RUN \
+#  conda install --yes -c numba cudatoolkit==8.0 \
+#  && conda install --yes -c numba numba==0.33
 
 RUN \
   mkdir -p /root/tensorboard
@@ -222,7 +224,7 @@ RUN \
   chmod a+x /root
 
 RUN \
-  pip install pio-cli==0.63
+  pip install pio-cli==0.64
 
 RUN \
   git clone https://github.com/BonsaiAI/nvidia-prometheus-stats \

@@ -10,15 +10,16 @@ The standalone PipelineAI Community Edition uses a single Docker image that can 
 
 ![Docker](/img/docker-logo-150x126.png)
 
-### GPU
+### AWS GPU
 [AWS GPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
 
+### Google Cloud GPU
 [Google Cloud GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 
-### CPU
-
+### AWS CPU
 [AWS CPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-CPU-Tensorflow-Docker)
 
+### Google Cloud CPU
 [Google Cloud CPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
 ## Distributed 

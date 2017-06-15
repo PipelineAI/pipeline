@@ -1,11 +1,11 @@
 # 24x7 Global Support 
-## Product
-### Community 
+## Products
+### Community Edition
 Limited Support through [Support Forums](https://pipelineio.zendesk.com)
 
 Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 
-### Advanced 
+### Advanced Edition
 24x7 Global Support
 
 24 hour Response SLA
