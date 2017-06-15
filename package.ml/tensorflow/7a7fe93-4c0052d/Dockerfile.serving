@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-gpu-cuda8-16.04:master
+FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
@@ -24,10 +24,10 @@ ENV \
 
 
 ###################
-# Setup Bazel 0.4.5
+# Setup Bazel 0.5.0
 ###################
 ENV \
-  BAZEL_VERSION=0.4.5 
+  BAZEL_VERSION=0.5.0 
 
 # Running bazel inside a `docker build` command causes trouble, cf:
 #   https://github.com/bazelbuild/bazel/issues/134
@@ -110,26 +110,27 @@ RUN \
 # Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --recurse-submodules https://github.com/tensorflow/serving.git \
- && cd $TENSORFLOW_SERVING_HOME \
- && git reset --hard 6c096a4 
+ && git clone --recurse-submodules https://github.com/tensorflow/serving.git \
+ && cd $TENSORFLOW_SERVING_HOME \ 
+ && git reset --hard 7a7fe93 
 
-ENV TF_NEED_CUDA=1
+#ENV TF_NEED_CUDA=1
+ENV TF_NEED_CUDA=0
 ENV TF_NEED_GCP=0
 ENV TF_NEED_JEMALLOC=1
 ENV TF_NEED_HDFS=1
 ENV TF_NEED_OPENCL=0
 ENV TF_ENABLE_XLA=0
-ENV TF_CUDA_VERSION=8.0
-ENV TF_CUDNN_VERSION=5
-ENV CUDA_PATH="/usr/local/cuda"
-ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
-ENV CUDNN_INSTALL_PATH=$CUDA_PATH
+#ENV TF_CUDA_VERSION=8.0
+#ENV TF_CUDNN_VERSION=5
+#ENV CUDA_PATH="/usr/local/cuda"
+#ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
+#ENV CUDNN_INSTALL_PATH=$CUDA_PATH
 ENV PYTHON_BIN_PATH=/opt/conda/bin/python
 ENV PYTHON_LIB_PATH=/usr/local/lib/python3.5/dist-packages
 ENV CI_BUILD_PYTHON=$PYTHON_BIN_PATH
 ENV CC_OPT_FLAGS="-march=native"
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7
+#ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7
 ####################
 ###      AWS     ###
 ##  P2 Instances  ##
@@ -144,115 +145,21 @@ ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME/tensorflow \
-  && tensorflow/tools/ci_build/builds/configured GPU
+  && tensorflow/tools/ci_build/builds/configured CPU
 
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
   # Remove NCCL since it isn't building properly
   && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
-  && bazel build -c opt --config=cuda \
+#  && bazel build -c opt --config=cuda \
+  && bazel build -c opt \
       --verbose_failures \
       --spawn_strategy=standalone --genrule_strategy=standalone \
-#      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-      --crosstool_top=@local_config_cuda//crosstool:toolchain \
+      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#      --crosstool_top=@local_config_cuda//crosstool:toolchain \
       tensorflow_serving/model_servers:tensorflow_model_server \
   && chmod a+x bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server \
   && cp bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server /usr/local/bin/ \
   && bazel clean --expunge
 
-
-##################
-# Build TensorFlow
-##################
-ENV \
-  TENSORFLOW_HOME=/root/tensorflow
-
-# Need this inside Docker for nvidia-docker build step HACK
-ENV LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-RUN \
-  mkdir -p /usr/local/nvidia/lib64/ \
-  && cd /usr/local/nvidia/lib64/ \
-  && ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib/stubs/libcuda.so libcuda.so.1
-RUN \
-  ldconfig /usr/local/cuda/lib64
-
-RUN \
- git clone -b master --recurse-submodules https://github.com/tensorflow/tensorflow.git \
- && cd $TENSORFLOW_HOME \
- && git reset --hard 7fda1bb 
-
-ENV TF_NEED_CUDA=1
-ENV TF_NEED_GCP=0
-ENV TF_NEED_JEMALLOC=1
-ENV TF_NEED_HDFS=1
-ENV TF_NEED_OPENCL=0
-ENV TF_ENABLE_XLA=1
-ENV TF_CUDA_VERSION=8.0
-ENV TF_CUDNN_VERSION=5
-ENV CUDA_PATH="/usr/local/cuda"
-ENV CUDA_TOOLKIT_PATH=$CUDA_PATH
-ENV CUDNN_INSTALL_PATH=$CUDA_PATH
-ENV PYTHON_BIN_PATH=/opt/conda/bin/python
-ENV PYTHON_LIB_PATH=/usr/local/lib/python3.5/dist-packages
-ENV CI_BUILD_PYTHON=$PYTHON_BIN_PATH
-ENV CC_OPT_FLAGS="-march=native"
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7
-####################
-###      AWS     ###
-##  P2 Instances  ##
-# Tesla K-80 (3.7) #
-#                  #
-##  G2 Instances  ##
-# GRID K520 (3.5)  #
-#                  #
-###  Google GCP  ###
-# Tesla K-80 (3.7) #
-####################
-
-# This build command is inspired by the following resources:
-#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/ci_build/xla/linux/gpu/run_py3.sh
-#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu
-#   http://ci.tensorflow.org/job/tensorflow-master-linux-xla/104/consoleText
-#   https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/ci_build
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && yes "" | ./configure
-
-ENV \
-  CPU_COUNT=8 \
-  GPU_COUNT=1 
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && sed -i.bak 's/EXPECT_FALSE(isnan(value));/EXPECT_FALSE(0);/g' tensorflow/core/kernels/mfcc_test.cc \
-  && sed -i.bak 's/EXPECT_FALSE(isinf(score[0][path]));/EXPECT_FALSE(0);/g' tensorflow/core/util/ctc/ctc_beam_search_test.cc \
-  && bazel build -c opt --config=cuda \
-     --jobs=${CPU_COUNT} \
-     --verbose_failures \
-     --test_timeout 300,450,1200,3600 \
-     --test_output=errors \
-     --local_test_jobs=${GPU_COUNT} \
-#     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-     --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
-     --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
-     //tensorflow/...
-
-RUN \
-  cd $TENSORFLOW_HOME \
-  && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip \
-  && pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
-
-# Clean up pip wheel and Bazel cache when done.
-#RUN \
-#    pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl && \
-#    rm -rf /tmp/pip && \
-#    rm -rf /root/.cache
-
-ENV \
-  TF_CPP_MIN_LOG_LEVEL=0 \
-  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
-
-## Cleanup for nvidia-docker build step HACK
-RUN \
-  rm /usr/local/nvidia/lib64/libcuda.so.1
+##############################################################################
