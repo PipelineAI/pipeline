@@ -1,10 +1,10 @@
 # GPUs and Performance
 ## GPUs
-PipelineIO supports GPUs natively throughout the entire platform.
+PipelineAI supports GPUs natively throughout the entire platform.
 
 ![Nvidia GPU](/img/nvidia-cuda-338x181.png)
 
-Here are some publically-available resources including Docker images, source code, Nvidia driver and toolkit configuration, videos, slides, and workshop materials that demonstrate PipelineIO's support for GPUs.
+Here are some publically-available resources including Docker images, source code, Nvidia driver and toolkit configuration, videos, slides, and workshop materials that demonstrate PipelineAI's support for GPUs.
 
 ### [GitHub Repo](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
 [fluxcapacitor/pipeline/gpu.ml](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
@@ -19,7 +19,7 @@ Here are some publically-available resources including Docker images, source cod
 _CPU Versions are Below._
 
 ## Performance
-PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fluxcapacitor) with many optimizations already enabled including OpenBLAS, AVX, AVX2, FMA, etc.
+PipelineAI maintains a collection of [Docker Images](https://hub.docker.com/r/fluxcapacitor) with many optimizations already enabled including OpenBLAS, AVX, AVX2, FMA, etc.
 
 ### [GitHub Repo](https://github.com/fluxcapacitor/pipeline/tree/master/package.ml)
 [fluxcapacitor/pipeline/gpu.ml](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
@@ -33,7 +33,7 @@ PipelineIO maintains a collection of [Docker Images](https://hub.docker.com/r/fl
 [Google Cloud (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
 ## ML/AI Model Performance Optimizations
-Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineIO.
+Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineAI.
 
 ### TensorFlow Optimization Example
 **Before Optimization**

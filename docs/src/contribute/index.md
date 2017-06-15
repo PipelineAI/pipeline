@@ -1,9 +1,9 @@
-# Contribute to PipelineIO
-Want to join the PipelineIO Community?  
+# Contribute to PipelineAI 
+Want to join the PipelineAI Community?  
 
 We will gladly accept pull requests for implementations of popular ML/AI models, fast prediction runtimes, and flexible experimentation frameworks.
 
-Click [HERE](https://github.com/fluxcapacitor/pipeline/issues) for the active list of outstanding PipelineIO issues and feature requests..
+Click [HERE](https://github.com/fluxcapacitor/pipeline/issues) for the active list of outstanding PipelineAI issues and feature requests..
 
 ## Creating a Pull Request
 ### Create a Branch for Your Changes

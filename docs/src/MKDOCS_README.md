@@ -1,5 +1,5 @@
 # docs 
-PipelineIO Documentation [http://docs.pipeline.io/](http://docs.pipeline.io/)
+PipelineAI Documentation [http://docs.pipeline.io/](http://docs.pipeline.io/)
 
 ## Steps to build and deploy documentation
 * Install requirements.txt with `pip install -r requirements.txt`

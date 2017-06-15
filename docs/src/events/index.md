@@ -5,7 +5,7 @@
 
 ![Members](/img/advanced-spark-and-tensorflow-meetup-17000-cake-with-border.png)
 
-PipelineIO is the organizer and sponsor for the series of [Advanced Spark and TensorFlow Meetups](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/) with 20,000+ members throughout the world including the following cites:
+PipelineAI is the organizer and sponsor for the series of [Advanced Spark and TensorFlow Meetups](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/) with 20,000+ members throughout the world including the following cites:
 
 * San Francisco
 * Chicago
@@ -24,7 +24,7 @@ In 2016 alone, we hosted 60+ free meetup community events throughout the world.
 
 While this dedication to the community requires a large amount of human and financial capital, we continue to push forward with close to 100 global community events planned in 2017.
 
-## Monthly PipelineIO Community Dev Sync (Online)
+## Monthly PipelineAI Community Dev Sync (Online)
 
 _Everyone is invited!_
 
@@ -54,7 +54,7 @@ More info [HERE](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/eve
 
 ## [Workshops](/training/index.md)
 
-### PipelineIO Distributed Spark ML + Tensorflow AI + GPU Workshop
+### PipelineAI Distributed Spark ML + Tensorflow AI + GPU Workshop
 _Everybody gets their own GPU for the duration of the workshop!!_
 
 We will each build an end-to-end, continuous, distributed Spark ML and Tensorflow AI model training and deployment pipeline on our own GPU-based cloud instance.

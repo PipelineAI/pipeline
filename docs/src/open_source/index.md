@@ -1,5 +1,5 @@
-# PipelineIO is [Open Source](https://github.com/fluxcapacitor/pipeline)!
-PipelineIO builds upon many great open source projects including Jupyter, Zeppelin, Spark, TensorFlow, ElasticSearch, Kafka, Docker, Kubernetes, Prometheus, etc.
+# PipelineAI is [Open Source](https://github.com/fluxcapacitor/pipeline)!
+PipelineAI builds upon many great open source projects including Jupyter, Zeppelin, Spark, TensorFlow, ElasticSearch, Kafka, Docker, Kubernetes, Prometheus, etc.
 
 ![Jupyter](/img/jupyter-logo-105x106.png) 
 
@@ -15,15 +15,15 @@ PipelineIO builds upon many great open source projects including Jupyter, Zeppel
 
 ![Docker](/img/docker-logo-150x126.png)
 
-## PipelineIO is Global
+## PipelineAI is Global
 
-![PipelineIO Global Community](/img/pipelineio-geo-border-no-stars.png)
+![PipelineAI Global Community](/img/pipelineio-geo-border-no-stars.png)
 
 ## [GitHub](https://github.com/fluxcapacitor/pipeline) 
 
 We openly develop in [GitHub](https://github.com/fluxcapacitor/pipeline) and encourage quality contributions and feedback.
 
-[PipelineIO](https://github.com/fluxcapacitor/pipeline) and the extended PipelineIO global [community](https://github.com/fluxcapacitor/pipeline/stargazers) are 100% dedicated to open source development.
+[PipelineAI](https://github.com/fluxcapacitor/pipeline) and the extended PipelineAI global [community](https://github.com/fluxcapacitor/pipeline/stargazers) are 100% dedicated to open source development.
 
 ![GitHub](/img/github-logo-150x125.png)
 
@@ -60,6 +60,6 @@ Many of our commiters, contributors, and community members are active committers
 * Maven
 * AngularJS
 
-## [Install](/install/index.md) PipelineIO Open Source
+## [Install](/install/index.md) PipelineAI Open Source
 
 {!contributing.md!}

@@ -1,4 +1,4 @@
-# Initialize a PipelineIO model.
+# Initialize a PipelineAI model.
 
 ## Usage
 ```bash

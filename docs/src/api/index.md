@@ -1,4 +1,4 @@
-# PipelineIO APIs
+# PipelineAI APIs
 ## Command Line Interface (CLI)
 ### Installation
 ```
@@ -10,7 +10,7 @@ You can view the commands supported by the CLI using just `pio`.
 pio
 ```
 
-### PipelineIO CLI Configuration
+### PipelineAI CLI Configuration
 | Command              | Description                                               |
 | -------------------- | --------------------------------------------------------- |
 | pio init-pio         | Initialize PIO CLI                                        |

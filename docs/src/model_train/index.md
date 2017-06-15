@@ -38,7 +38,7 @@
 ![Custom Ensembles](/img/ensemble-logo-285x125.png)
 
 ## Applications and Tools
-Below is the list of applications and tools supported by PipelineIO.  This set of tools derives from the ridiculously popular PANCAKE STACK made famous in 2016.
+Below is the list of applications and tools supported by PipelineAI.  This set of tools derives from the ridiculously popular PANCAKE STACK made famous in 2016.
 
 ![PANCAKE STACK](/img/pancake-stack-645x363.png)
  
@@ -61,7 +61,7 @@ All applications and tools can be auto-scaled across both CPU and GPU nodes in a
 | zeppelin                    |                                                  |
 | zookeeper                   |                                                  
 
-## PipelineIO Cluster Deployment
-![PipelineIO Cluster](/img/weavescope-pipelineio.png)
+## PipelineAI Cluster Deployment
+![PipelineAI Cluster](/img/weavescope-pipelineio.png)
 
 {!contributing.md!}

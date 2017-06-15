@@ -46,7 +46,7 @@
 git clone https://github.com/fluxcapacitor/source.ml
 ```
 
-Note: You can use the same `model-server-url` from the the PipelineIO [Community Edition](http://community.pipeline.io).  See the Community Edition example [notebooks](http://community.pipeline.io) for complete, end-to-end examples.
+Note: You can use the same `model-server-url` from the the PipelineAI [Community Edition](http://community.pipeline.io).  See the Community Edition example [notebooks](http://community.pipeline.io) for complete, end-to-end examples.
 
 ### TensorFlow
 ![TensorFlow](/img/tensorflow-logo-202x168.png)
@@ -227,19 +227,19 @@ pio predict
 ```
 
 ## Deployment Workflow
-PipelineIO uses python-based Airflow for pipeline workflow management.
+PipelineAI uses python-based Airflow for pipeline workflow management.
 ```
 pio flow
 ```
 
 ## Upgrade
-PipelineIO supports rolling upgrades.
+PipelineAI supports rolling upgrades.
 ```
 pio upgrade
 ```
 
 ## Canary Deploy
-PipelineIO supports various canary deployment strategies including traffic-splitting and traffic-shadowing.
+PipelineAI supports various canary deployment strategies including traffic-splitting and traffic-shadowing.
 ```
 pio canary
 ```
@@ -248,7 +248,7 @@ pio canary
 ### Traffic Shadowing
 
 ## Rollback
-PipelineIO supports rolling back to any previous revision.
+PipelineAI supports rolling back to any previous revision.
 ```
 pio rollback --revision=1
 ```
