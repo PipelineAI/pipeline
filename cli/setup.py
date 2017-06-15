@@ -18,8 +18,8 @@ setup(
         "console_scripts": ['pio = pio.pio:main']
     },
     version = version,
-    description = "PipelineIO CLI",
-    long_description = "PipelineIO CLI",
+    description = "PipelineAI CLI",
+    long_description = "PipelineAI CLI",
     author = "Chris Fregly",
     author_email = "chris@fregly.com",
     url = "https://github.com/fluxcapacitor/pipeline/cli",

@@ -1,3 +1,3 @@
-![PipelineIO](http://pipeline.io/img/pipeline-io-logo-shadow-210x186.png)
+![PipelineAI](http://pipeline.io/img/pipeline-io-logo-shadow-210x186.png)
 
-### Click [Here](http://pipeline.io) for PipelineIO Home!
+### Click [Here](http://pipeline.io) for PipelineAI Home!
