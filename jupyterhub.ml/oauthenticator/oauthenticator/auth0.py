@@ -24,7 +24,7 @@ If you are using the environment variable config, all you should need to
 do is define them in the environment then add the following line to 
 jupyterhub_config.py :
 
-  c.JupyterHub.authenticator_class = 'oauthenticator.auth0.Auth0OAuthenticator'
+  c.JupyterHub.authenticator_class = 'oauthenticator.auth0.CommunityAuth0OAuthenticator'
 
 """
 
@@ -97,6 +97,56 @@ class Auth0OAuthenticator(OAuthenticator):
 
         import hashlib
         return hashlib.md5(resp_json["email"].encode('utf8')).hexdigest()
+
+
+"""
+Same as Auth0Authenticator, except returns "community" instead of the username
+"""
+class CommunityAuth0OAuthenticator(OAuthenticator):
+
+    login_service = "Auth0"
+
+    login_handler = Auth0LoginHandler
+
+    @gen.coroutine
+    def authenticate(self, handler, data=None):
+        code = handler.get_argument("code")
+        # TODO: Configure the curl_httpclient for tornado
+        http_client = AsyncHTTPClient()
+
+        params = {
+            'grant_type': 'authorization_code',
+            'client_id': self.client_id,
+            'client_secret': self.client_secret,
+            'code':code,
+            'redirect_uri': self.get_callback_url(handler)
+        }
+        url = "https://%s.auth0.com/oauth/token" % AUTH0_SUBDOMAIN
+
+        req = HTTPRequest(url,
+                          method="POST",
+                          headers={"Content-Type": "application/json"},
+                          body=json.dumps(params)
+                          )
+
+        resp = yield http_client.fetch(req)
+        resp_json = json.loads(resp.body.decode('utf8', 'replace'))
+
+        access_token = resp_json['access_token']
+
+        # Determine who the logged in user is
+        headers={"Accept": "application/json",
+                 "User-Agent": "JupyterHub",
+                 "Authorization": "Bearer {}".format(access_token)
+        }
+        req = HTTPRequest("https://%s.auth0.com/userinfo" % AUTH0_SUBDOMAIN,
+                          method="GET",
+                          headers=headers
+                          )
+        resp = yield http_client.fetch(req)
+        resp_json = json.loads(resp.body.decode('utf8', 'replace'))
+
+        return 'community'
 
 
 class LocalAuth0OAuthenticator(LocalAuthenticator, Auth0OAuthenticator):
