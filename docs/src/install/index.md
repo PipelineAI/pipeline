@@ -10,13 +10,18 @@ The standalone PipelineIO Community Edition uses a single Docker image that can 
 
 ![Docker](/img/docker-logo-150x126.png)
 
-### [AWS GPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
-Standalone Docker Image + PipelineIO Community Edition for AWS GPU Instance
+### GPU
+[AWS GPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
 
-### [Google Cloud GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
-Standalone Docker Image + PipelineIO Community Edition for Google GPU Instance
+[Google Cloud GPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 
-## Clustered
+### CPU
+
+### [AWS CPU](https://github.com/fluxcapacitor/pipeline/wiki/AWS-CPU-Tensorflow-Docker)
+
+### [Google Cloud CPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
+
+## Distributed 
 PipelineIO uses Kubernetes for Docker Container management and orchestration.
 
 ![Kubernetes](/img/kubernetes-logo-200x171.png)
