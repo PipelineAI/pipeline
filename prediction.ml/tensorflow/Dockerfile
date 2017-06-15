@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-072355e-a44fd6d:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-serving:master
 
 WORKDIR /root
 
@@ -82,13 +82,16 @@ ENV \
 # When the base Docker image changes TF version, be sure 
 #   to propagate this change to the following:
 #     src/main/python/model/requirements_pio_model_server.txt
-RUN \
-  pip install /tmp/pip/tensorflow-1.2.0rc0-cp35-cp35m-linux_x86_64.whl \
-  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc0-cp35-cp35m-linux_x86_64.whl
+#RUN \
+#  pip install /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl \
+#  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl
 
 RUN \
   conda create --yes -n model_environment_python3 python=3.5 
 #  && source activate model_environment_python3
+
+ENV \
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 RUN \
   create_model_server_environment_python3
