@@ -36,16 +36,16 @@ ENV \
 
 COPY src/ src/
 COPY build.sbt build.sbt
-COPY client/ client/
+#COPY client/ client/
 COPY scripts/ scripts/
 
 ENV \
   PATH=/root/scripts:$PATH
 
-RUN \
-  cd client \
-  && /root/apache-maven-3.3.9/bin/mvn clean install \
-  && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
+#RUN \
+#  cd client \
+#  && /root/apache-maven-3.3.9/bin/mvn clean install \
+#  && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
 
 RUN \
   sbt clean package 
