@@ -85,7 +85,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                                       model_version)
 
         transformed_input_request = model.transform_request(self.request.body)
-        response_raw = model.predict(model, transformed_input_request)
+        response_raw = model.predict(transformed_input_request)
         transformed_response = model.transform_response(response_raw)
         self.write(transformed_response)
         self.finish()
@@ -105,7 +105,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             bundle_path = os.path.join(bundle_path, model_name)
             bundle_path = os.path.join(bundle_path, model_version)
 
-            model_file_absolute_path = os.path.join(bundle_path, "pio_model.pkl")
+            model_file_absolute_path = os.path.join(bundle_path, "pio_bundle.pkl")
 
             # Load pickled model from model directory
             with open(model_file_absolute_path, 'rb') as model_file:

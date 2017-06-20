@@ -136,7 +136,7 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
 #                log.error("Invalid bundle.  Please re-deploy a directory/bundle that contains 'pio_model.pkl' and 'saved_model.pb'" % model_name)
 #                raise "Invalid bundle.  Please re-deploy a directory/bundle that contains 'pio_model.pkl' and 'saved_model.pb'" % model_name
 
-            model_file_absolute_path = os.path.join(bundle_path, "pio_model.pkl")
+            model_file_absolute_path = os.path.join(bundle_path, "pio_bundle.pkl")
 
             # Load pickled model from model directory
             with open(model_file_absolute_path, 'rb') as model_file:
