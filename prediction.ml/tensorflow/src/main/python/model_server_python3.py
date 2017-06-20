@@ -10,14 +10,15 @@ import tornado.gen
 import importlib.util
 from grpc.beta import implementations
 import asyncio
-#import tensorflow as tf
-#import predict_pb2
+import tensorflow as tf
+import predict_pb2
 import prediction_service_pb2
 import tarfile
 import subprocess
 import logging
 from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
+import dill as pickle
 
 from pio_model import PioRequestTransformer
 from pio_model import PioResponseTransformer
@@ -101,14 +102,21 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
-        transformed_inputs_request = model.request_transformer.transform_request(self.request.body)
-        transformed_inputs_request.model_spec.name = model_name
-        transformed_inputs_request.model_spec.version.value = int(model_version)
+        transformed_inputs_np = model.request_transformer.transform_request(self.request.body)
+        inputs_tensor_proto = tf.make_tensor_proto(transformed_inputs_np,
+                                                   dtype=tf.float32)
+        tf_request = predict_pb2.PredictRequest()
+        tf_request.inputs['x_observed'].CopyFrom(inputs_tensor_proto)
+
+        tf_request.model_spec.name = model_name
+        tf_request.model_spec.version.value = int(model_version)
 
         # Transform TensorFlow PredictResponse into output
         outputs = stub.Predict(transformed_inputs_request, self.settings['request_timeout'])
-        transformed_outputs = model.response_transformer.transform_response(outputs)
-        self.write(transformed_outputs)
+        outputs_np = tf.contrib.util.make_ndarray(response.outputs['y_pred'])
+
+        transformed_outputs_np = model.response_transformer.transform_response(outputs_np)
+        self.write(transformed_outputs_np)
         self.finish()
 
 

@@ -96,6 +96,12 @@ ENV \
 RUN \
   create_model_server_environment_python3
 
+# HACK
+#RUN \
+#  conda remove --yes numpy \
+#  && pip install numpy==1.11.0 \
+#  && pip install tensorflow==1.2.0
+
 EXPOSE 9876 9000 9040 8080
 
 CMD ["supervise", "."]
