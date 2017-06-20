@@ -20,11 +20,6 @@ from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 import dill as pickle
 
-from pio_model import PioRequestTransformer
-from pio_model import PioResponseTransformer
-from pio_model import PioModelInitializer
-from pio_model import PioModel
-
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
 define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
@@ -102,8 +97,8 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
         # Transform raw inputs to TensorFlow PredictRequest
-        transformed_inputs_np = model.request_transformer.transform_request(self.request.body)
-        inputs_tensor_proto = tf.make_tensor_proto(transformed_inputs_np,
+        transformed_inputs_request = model.transform_request(self.request.body)
+        inputs_tensor_proto = tf.make_tensor_proto(transformed_inputs_request,
                                                    dtype=tf.float32)
         tf_request = predict_pb2.PredictRequest()
         tf_request.inputs['x_observed'].CopyFrom(inputs_tensor_proto)
@@ -111,12 +106,12 @@ class ModelPredictTensorFlowHandler(tornado.web.RequestHandler):
         tf_request.model_spec.name = model_name
         tf_request.model_spec.version.value = int(model_version)
 
-        # Transform TensorFlow PredictResponse into output
-        outputs = stub.Predict(transformed_inputs_request, self.settings['request_timeout'])
-        outputs_np = tf.contrib.util.make_ndarray(response.outputs['y_pred'])
+       # Transform TensorFlow PredictResponse into output
+        response = stub.Predict(tf_request, self.settings['request_timeout'])
+        response_np = tf.contrib.util.make_ndarray(response.outputs['y_pred'])
 
-        transformed_outputs_np = model.response_transformer.transform_response(outputs_np)
-        self.write(transformed_outputs_np)
+        transformed_response_np = model.transform_response(response_np)
+        self.write(transformed_response_np)
         self.finish()
 
 
