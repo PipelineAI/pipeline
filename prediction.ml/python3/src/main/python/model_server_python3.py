@@ -19,11 +19,6 @@ import logging
 from tornado.options import define, options
 from prometheus_client import start_http_server, Summary
 
-from pio_model import PioRequestTransformer
-from pio_model import PioResponseTransformer
-from pio_model import PioModelInitializer
-from pio_model import PioModel
-
 define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
 define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
 define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
@@ -88,9 +83,11 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                                       model_namespace,
                                       model_name,
                                       model_version)
-        print(self.request.body)
-        response = model.predict(self.request.body)
-        self.write(response)
+
+        transformed_input_request = model.transform_request(self.request.body)
+        response_raw = model.predict(model, transformed_input_request)
+        transformed_response = model.transform_response(response_raw)
+        self.write(transformed_response)
         self.finish()
 
 
