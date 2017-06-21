@@ -19,6 +19,6 @@ spec:
         imagePullPolicy: "Always"
         env:
         - name: TEST_PATHNAMES
-          value: /root/tests/RecommendationServiceStressTest-AWS-airbnb.jmx
+          value: /root/tests/pmml-airbnb.jmx
       nodeSelector:
         training: "true"

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-echo "Deleting conda environment..."
-echo "PIO_MODEL_NAMESPACE=$PIO_MODEL_NAMESPACE"
-echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
-
-echo "Deleting 'model_environment'"
-conda remove --yes -n model_environment --all

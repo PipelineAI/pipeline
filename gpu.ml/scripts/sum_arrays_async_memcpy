@@ -1,0 +1,3 @@
+#!/bin/bash
+
+nvcc -Wno-deprecated-gpu-targets --run /root/src/main/cuda/SumArraysAsyncMemcpy.cu

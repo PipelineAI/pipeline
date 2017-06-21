@@ -1,0 +1,16 @@
+appdirs==1.4.0
+click==6.7
+Jinja2==2.9.5
+livereload==2.5.1
+Markdown==2.6.8
+markdown-include==0.5.1
+MarkupSafe==0.23
+mkdocs==0.16.1
+mkdocs-bootstrap==0.1.1
+mkdocs-bootswatch==0.4.0
+mkdocs-material==1.0.3
+packaging==16.8
+pyparsing==2.1.10
+PyYAML==3.12
+six==1.10.0
+tornado==4.4.2

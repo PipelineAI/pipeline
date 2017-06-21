@@ -16,7 +16,7 @@ ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 ENV \
-  BAZEL_VERSION=0.4.4 \
+  BAZEL_VERSION=0.4.5 \
   TENSORFLOW_SERVING_VERSION=0.5.1
 
 # TensorFlow Serving Home (not required on PATH)
@@ -68,7 +68,7 @@ RUN \
   mkdir /root/bazel \
   && cd /root/bazel \
   && curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
-  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt \
+  && curl -fSsL -o /root/bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/$BAZEL_VERSION/LICENSE.txt \
   && chmod +x bazel-*.sh \
   && ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh \
   && rm bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
@@ -99,7 +99,8 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/...
+# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commodity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow_serving/...
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH
@@ -110,7 +111,8 @@ ENV TF_ENABLE_XLA=1
 RUN \
   cd $TENSORFLOW_HOME \
   && tensorflow/tools/ci_build/builds/configured CPU \
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow/...
+# Note:  removing --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 since the commondity AWS EC2 instance types (ie. r3.2xlarge) don't not support these optimizations
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone -k //tensorflow/...
 
 RUN \
   cd $TENSORFLOW_HOME \
@@ -119,4 +121,6 @@ RUN \
 RUN \
   pip --no-cache-dir install --ignore-installed --upgrade /tmp/pip/tensorflow-*.whl
 
-
+RUN \
+  TF_CPP_MIN_LOG_LEVEL=0 \
+  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*

@@ -1,1 +1,0 @@
-git+https://github.com/wiliamsouza/hystrix-py.git

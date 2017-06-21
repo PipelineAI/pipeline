@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+site/
 .ipynb_checkpoints/
 .DS_Store
 /bin/
@@ -6,7 +6,6 @@
 .classpath
 .project
 __pycache__/
-=======
 .cache-main
 .cache-tests
 .idea
@@ -14,9 +13,8 @@ __pycache__/
 .settings
 .project
 jmeter.log
-nohup.out
+nohup*.out
 __pycache__
 .DS_Store
 .cache-tests
 *.iml
->>>>>>> ecac5da6cd2e3e37ffbdad8497251dbc6e83259e

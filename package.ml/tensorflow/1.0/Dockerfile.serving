@@ -16,7 +16,7 @@ ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 ENV \
-  BAZEL_VERSION=0.4.4 \
+  BAZEL_VERSION=0.4.5 \
   TENSORFLOW_SERVING_VERSION=0.5.1
 
 # TensorFlow Serving Home (not required on PATH)
@@ -99,7 +99,8 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
 # http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions
-  && bazel build -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/...
+  && bazel build --local_resources 5000,1.0,1.0 -c opt --spawn_strategy=standalone --genrule_strategy=standalone --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 -k //tensorflow_serving/... \
+  && rm -rf /root/.cache/bazel
 
 ENV \
   PATH=$TENSORFLOW_SERVING_HOME/bazel-bin/tensorflow_serving/model_servers/:$PATH

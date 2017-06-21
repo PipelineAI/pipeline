@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
+FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
 # From fluxcapacitor/package-ubuntu-16.04
 RUN \
@@ -16,4 +16,8 @@ RUN \
  && apt-get install -y python-pip \
  && apt-get install -y python3-dev \
  && apt-get install -y python3-pip \
- && apt-get install -y daemontools 
+ && apt-get install -y daemontools \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY sysutils/container-limits.sh sysutils/container-limits.sh

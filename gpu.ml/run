@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # pull latest from github!
-pull
+pull_force_overwrite_local
 
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
@@ -33,5 +33,8 @@ source /etc/apache2/envvars
 
 service apache2 start
 
+cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py --port 5050 &
+
 cd ~
-jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out
+export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+CLASSPATH=$CLASSPATH jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out

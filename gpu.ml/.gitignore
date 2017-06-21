@@ -1,2 +1,6 @@
+timeline-*.*
 .ipynb_checkpoints
 libtensorflow_jni.so
+*.out
+*.log
+*.png

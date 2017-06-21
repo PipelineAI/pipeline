@@ -1,0 +1,101 @@
+site_name: PipelineAI 
+site_url: http://pipeline.io
+site_author: PipelineAI
+site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
+repo_url: https://github.com/fluxcapacitor/pipeline/
+repo_name: fluxcapacitor/pipeline 
+edit_uri: edit/master/docs/src
+docs_dir: src 
+site_dir: generated
+strict: false 
+google_analytics:
+  - 'UA-78551725-1'
+  - 'auto'
+pages:
+  - Home: index.md
+  - Quick Tour:
+    - Train Your Model: model_train/index.md
+    - Optimize Your Model: model_optimize/index.md
+    - Deploy Your Model: model_deploy/index.md
+    - Monitor Your Model: model_monitor/index.md
+    - Experiment With Your Models: model_experiment/index.md
+    - Stream Your Models: model_stream/index.md
+  - Try our Free Community Edition!: products/index.md
+  - Hybrid Cloud and On-Premise: environments/index.md
+  - Dashboards and Visualizations: model_monitor/index.md
+  - GPUs and Performance: gpu/index.md
+  - Command Line and REST APIs: api/index.md
+  - Take a Quick, Fun Survey!: survey/index.md
+  - Upcoming Events and Training:
+    - Upcoming Events: events/index.md
+    - Training: training/index.md
+  - Open Source: 
+    - GitHub and DockerHub Repos: open_source/index.md 
+    - Become a Committer!: contribute/index.md
+    - Install PipelineAI Open Source: install/index.md
+  - 24x7 Global Support: support/index.md
+  - Contact Us: contact/index.md
+  - Privacy and Terms: legal/index.md
+theme_dir: mkdocs-material/material/
+site_favicon: 'img/favicon.png'
+extra:
+  feature:
+    tabs: false
+  palette:
+    primary: 'deep orange'
+    accent: 'deep orange'
+    extra:
+  logo: 'img/pipelineio-logo-128x128.png'
+  font:
+    text: 'Ubuntu'
+    code: 'Ubuntu Mono'
+  social:
+    - type: 'github'
+      link: 'https://github.com/fluxcapacitor/pipeline'
+    - type: 'meetup'
+      link: 'https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/'
+    - type: 'youtube'
+      link: 'https://youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw'
+    - type: 'slideshare'
+      link: 'https://www.slideshare.net/cfregly'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/company/6609122/'
+    - type: 'twitter'
+      link: 'https://twitter.com/pipelineio'
+    - type: 'globe'
+      link: 'https://hub.docker.com/r/fluxcapacitor'
+      
+markdown_extensions:
+  - markdown_include.include:
+      base_path: src 
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite(guess_lang=false)
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc(permalink=true)
+  - pymdownx.arithmatex
+  - pymdownx.betterem(smart_enable=all)
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist(custom_checkbox=true)
+  - pymdownx.tilde
+  - admonition
+  - codehilite(guess_lang=true)
+  - toc(permalink=true)
+extra_javascript:
+  - js/d3.v2.min.js
+  - js/jquery.min.js
+  - js/jquery.tinysort.min.js
+  - js/tmpl.js
+extra_css:
+  - css/bootstrap_paper.min.css
+  - css/style.css
+copyright: Copyright &copy; 2017 PipelineAI Inc.

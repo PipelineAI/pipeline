@@ -11,9 +11,6 @@ version = re.search(
     re.M
     ).group(1)
 
-#with open("README.md", "rb") as f:
-#    long_descr = f.read().decode("utf-8")
-
 setup(
     name = "pio-cli",
     packages = ["pio"],
@@ -21,20 +18,19 @@ setup(
         "console_scripts": ['pio = pio.pio:main']
     },
     version = version,
-    description = "PipelineIO CLI",
-    long_description = "PipelineIO CLI",
+    description = "PipelineAI CLI",
+    long_description = "PipelineAI CLI",
     author = "Chris Fregly",
     author_email = "chris@fregly.com",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=[
-        "sklearn_pandas",
-        "kubernetes",
-        "fire",
-        "requests",
-        "pyyaml",
-        "pick",
+        "kubernetes==2.0.0",
+        "fire==0.1.0",
+        "requests==2.13.0",
+        "pyyaml==3.12",
+        "dill==0.2.5",
+        "tabulate==0.7.7",
     ],
     dependency_links=[
-        "git+https://github.com/jpmml/sklearn2pmml.git"
     ]
 )

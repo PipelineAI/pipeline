@@ -3,7 +3,8 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 WORKDIR /root
 
 RUN \
-  apt-get install -y default-jdk
+  apt-get update \
+  && apt-get install -y default-jdk
 
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -27,3 +28,5 @@ ENV \
 
 ENV \
   PATH=$MAVEN_HOME/bin:$PATH
+
+COPY sysutils/ sysutils/

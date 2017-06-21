@@ -11,6 +11,7 @@ WORKDIR /root
 RUN \
  apt-get update
 
+COPY sysutils/ sysutils/
 COPY src/ src/
 COPY pom.xml pom.xml
 

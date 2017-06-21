@@ -12,44 +12,26 @@ FROM fluxcapacitor/package-java-openjdk-1.8:master
 #  at the end in order to pre-bake the dependencies into the Docker image.  This saves time and network bandwidth later.
 #
 ENV \
-# SBT_VERSION=1.0.0-M4 \
- HYSTRIX_VERSION=1.5.3 \
-# ATLAS_VERSION=1.4.5 \
- SPRING_CORE_VERSION=4.3.0.RELEASE \
- SPRING_BOOT_VERSION=1.3.5.RELEASE \
- SPRING_CLOUD_VERSION=1.1.2.RELEASE \
- SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
-# SPRING_PROFILES_ACTIVE=local
+  HYSTRIX_VERSION=1.5.3 \
+  SPRING_CORE_VERSION=4.3.0.RELEASE \
+  SPRING_BOOT_VERSION=1.3.5.RELEASE \
+  SPRING_CLOUD_VERSION=1.1.2.RELEASE \
+  SPRING_CLOUD_DEPENDENCIES=Brixton.RC1
 
 WORKDIR /root
 
 RUN \
- apt-get update
-
-#RUN \
-# cd ~ \
-# && wget https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz \
-# && tar xvzf sbt-${SBT_VERSION}.tgz \
-# && rm sbt-${SBT_VERSION}.tgz \
-# && ln -s /root/sbt/bin/sbt /usr/local/bin
-
-# Sbt Clean - This seems weird, but this triggers the full Sbt install.
-#             This retrievees a lot of external dependencies,
-#               so we get it out of the way at Docker build time.
-#RUN \
-#  sbt clean clean-files
+  apt-get update
 
 # Hystrix Dashboard
 RUN \
- cd ~ \
-# && mkdir -p ~/hystrix-dashboard-${HYSTRIX_VERSION} \
-# && cd hystrix-dashboard-${HYSTRIX_VERSION} \
- && wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar
+  wget https://s3.amazonaws.com/fluxcapacitor.com/packages/standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar
 
-# Ports to expose
-EXPOSE 8761 7979
-
-WORKDIR /root
+COPY sysutils/ sysutils/
+#COPY src/ src/
+#RUN \
+#  cd src \
+#  && jar -cvf ../standalone-hystrix-dashboard-${HYSTRIX_VERSION}-all.jar * 
 
 RUN \
   mkdir -p /root/logs
@@ -57,5 +39,8 @@ RUN \
 ENV LOGS_HOME=/root/logs
 
 COPY run run
+
+# Ports to expose
+EXPOSE 8761 7979
 
 CMD ["supervise", "."]

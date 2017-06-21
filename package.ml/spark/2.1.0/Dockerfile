@@ -2,6 +2,9 @@ FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 WORKDIR /root
 
+RUN \
+  apt-get update 
+
 ENV \
   SPARK_VERSION=2.1.0 \
   PYSPARK_VERSION=0.10.4

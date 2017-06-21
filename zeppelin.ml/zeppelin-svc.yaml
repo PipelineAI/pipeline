@@ -4,8 +4,9 @@ metadata:
   name: zeppelin
   labels:
     app: zeppelin
+#    dns: route53
 #  annotations:
-#    dns.alpha.kubernetes.io/external: zeppelin.your.domain.com
+#    domainName: zeppelin.your.domain.com
 spec:
   type: LoadBalancer
   ports:

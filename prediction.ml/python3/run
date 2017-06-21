@@ -1,0 +1,5 @@
+#!/bin/bash
+
+create_environment_python3
+
+spawn_model_server_python3
