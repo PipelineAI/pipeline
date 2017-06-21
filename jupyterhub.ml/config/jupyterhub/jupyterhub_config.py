@@ -78,10 +78,6 @@ c.JupyterHub.authenticator_class = os.environ['JUPYTERHUB_AUTHENTICATOR']
 c.Auth0OAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
 c.Auth0OAuthenticator.client_id = os.environ['OAUTH_CLIENT_ID']
 c.Auth0OAuthenticator.client_secret = os.environ['OAUTH_CLIENT_SECRET']
-#c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-#c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
-#c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
-#.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
 
 # The base URL of the entire application
 c.JupyterHub.base_url = '/'
