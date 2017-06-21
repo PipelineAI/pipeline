@@ -22,7 +22,6 @@ import kubernetes.config as kubeconfig
 import yaml
 import json
 import dill as pickle
-#from git import Repo
 from pprint import pprint
 import subprocess
 from datetime import timedelta
@@ -126,16 +125,16 @@ class PioCli(object):
                    config_key,
                    config_value):
         print("config_key: '%s'" % config_key)
-        self._merge_config_dict({config_key: config_value})
+        self._merge_dict({config_key: config_value})
         print("config_value: '%s'" % self._get_full_config()[config_key])
-        self._merge_config_dict({config_key: config_value})
+        self._merge_dict({config_key: config_value})
         print("")
         pprint(self._get_full_config())
         print("")        
 
 
-    def _merge_config_dict(self, 
-                           config_dict):
+    def _merge_dict(self, 
+                    new_dict):
 
         pio_api_version = self._get_full_config()['pio_api_version']
         config_file_base_path = "~/.pio/"
@@ -148,8 +147,8 @@ class PioCli(object):
         existing_config_dict = self._get_full_config()
 
         # >= Python3.5 
-        # {**existing_config_dict, **config_dict}
-        existing_config_dict.update(config_dict)
+        # {**existing_config_dict, **new_dict}
+        existing_config_dict.update(new_dict)
 
         new_config_yaml = yaml.dump(existing_config_dict, default_flow_style=False, explicit_start=True)
 
@@ -390,7 +389,7 @@ class PioCli(object):
                   kops_state_store):
         config_dict = {'kops_cluster_name': kops_cluster_name,
                        'kops_state_store': kops_state_store}
-        self._merge_config_dict(config_dict)
+        self._merge_dict(config_dict)
         print("")
         pprint(self._get_full_config())
         print("")
@@ -459,7 +458,7 @@ class PioCli(object):
         config_dict = {'pio_api_version': pio_api_version,
                        'pio_git_home': pio_git_home,
                        'pio_git_version': pio_git_version}
-        self._merge_config_dict(config_dict)
+        self._merge_dict(config_dict)
         print("")
         pprint(self._get_full_config())
         print("")
@@ -478,7 +477,7 @@ class PioCli(object):
 
         config_dict = {'kube_cluster_context': kube_cluster_context, 
                        'kube_namespace': kube_namespace}
-        self._merge_config_dict(config_dict)
+        self._merge_dict(config_dict)
         print("")
         pprint(self._get_full_config())
         print("")
@@ -517,7 +516,7 @@ class PioCli(object):
                        "model_output_mime_type": model_output_mime_type,
         }
 
-        self._merge_config_dict(config_dict)
+        self._merge_dict(config_dict)
         print("")
         pprint(self._get_full_config())
         print("")
@@ -740,7 +739,7 @@ class PioCli(object):
             upload_value = compressed_model_bundle_filename
         else:
             print("")
-            print("Model path must be a directory.  Note:  You can use .pioignore within the directory to keep files from being uploaded.")
+            print("Model path must be a directory.  All contents of the directory will be uploaded.")
             print("")
             return
 
@@ -757,15 +756,26 @@ class PioCli(object):
                                          headers=headers, 
                                          files=files, 
                                          timeout=600)
+                print("")
+                print(response)
+
                 if response.text:
+                    print("")
                     pprint(response.text)
+
+                if response.status_code == requests.code.ok:
+                    print("")
+                    print("Success!")
+                    print("")
+                    print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/')) 
+                else:
+                    response.raise_for_status()
+                    print("")
+            except requests.exceptions.HTTPError as hte:
+                print("Error while deploying model.\nError: '%s'" % str(hte))
                 print("")
-                print("Success!")
-                print("")
-                print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/'))
-                print("")
-            except IOError as e:
-                print("Error while deploying model.\nError: '%s'" % str(e))
+            except IOError as ioe:
+                print("Error while deploying model.\nError: '%s'" % str(ioe))
                 print("")
  
         if (os.path.isdir(model_path)):
