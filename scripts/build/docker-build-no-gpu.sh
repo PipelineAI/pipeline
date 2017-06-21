@@ -18,8 +18,8 @@ cd $PIPELINE_HOME/package.ml/kafka/0.10/ && pwd && sudo docker build $2 -q -t fl
 cd $PIPELINE_HOME/package.ml/presto/0.167/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package.ml/apache2/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
 
-cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d:$1 .
-cd $PIPELINE_HOME/package.ml/tensorflow/072355e-a44fd6d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-072355e-a44fd6d-no-avx:$1 -f Dockerfile.no-avx .
+cd $PIPELINE_HOME/package.ml/tensorflow/7a7fe93-4c0052d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-full-cpu:$1 -f Dockerfile.full-cpu .
+cd $PIPELINE_HOME/package.ml/tensorflow/7a7fe93-4c0052d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-cpu:$1 -f Dockerfile.cpu .
 
 # apachespark.ml
 cd $PIPELINE_HOME/apachespark.ml/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/apachespark-master-2.1.0:$1 -f Dockerfile.master .
@@ -40,7 +40,6 @@ cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && pwd && sudo docker build $2 -q -t fl
 
 # gpu.ml (actually, cpu)
 cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -t fluxcapacitor/gpu-tensorflow-spark-cpu:$1 -f Dockerfile.cpu .
-cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -t fluxcapacitor/gpu-tensorflow-spark-cpu-no-avx:$1 -f Dockerfile.cpu-no-avx .
 
 # hdfs.ml
 cd $PIPELINE_HOME/hdfs.ml && pwd && sudo docker build $2 -q -t fluxcapacitor/hdfs-namenode:$1 .
@@ -66,8 +65,7 @@ cd $PIPELINE_HOME/metastore.ml && pwd && sudo docker build $2 -q -t fluxcapacito
 # prediction.ml
 cd $PIPELINE_HOME/prediction.ml/jvm && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-jvm:$1 .
 cd $PIPELINE_HOME/prediction.ml/python3 && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-python3:$1 .
-cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow:$1 .
-cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-no-avx:$1 -f Dockerfile.no-avx .
+cd $PIPELINE_HOME/prediction.ml/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/prediction-tensorflow-cpu:$1 -f Dockerfile.cpu .
 
 # presto.ml
 cd $PIPELINE_HOME/presto.ml/master && pwd && sudo docker build $2 -q -t fluxcapacitor/presto-master-0.167:$1 .
