@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Args:
-#   $1:  version (ie. v1.2.0)
-#   $2:  --no-cache
+#   $1:  version (ie. v1.3.0)
 
 echo ""
 echo "PIPELINE_HOME="$PIPELINE_HOME

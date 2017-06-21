@@ -1,8 +1,12 @@
-cd $PIPELINE_HOME
+#!/bin/bash
 
-# TODO:  
-# $1:  version (ie. v1.2.0)
-
+# Args:
+#   $1:  version (ie. v1.2.0)
+#   $2:  --no-cache
+echo ""
+echo "PIPELINE_HOME="$PIPELINE_HOME
+echo "version="$1
+echo ""
 
 # package.ml
 cd $PIPELINE_HOME/package.ml/ubuntu/14.04/ && pwd && sudo docker push fluxcapacitor/package-ubuntu-14.04:$1
