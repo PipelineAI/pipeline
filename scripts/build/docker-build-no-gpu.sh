@@ -39,7 +39,7 @@ cd $PIPELINE_HOME/dashboard.ml/turbine && pwd && sudo docker build $2 -q -t flux
 cd $PIPELINE_HOME/elasticsearch.ml/2.3.0 && pwd && sudo docker build $2 -q -t fluxcapacitor/elasticsearch-2.3.0:$1 .
 
 # gpu.ml (actually, cpu)
-cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -t fluxcapacitor/gpu-tensorflow-spark-cpu:$1 -f Dockerfile.cpu .
+cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -q -t fluxcapacitor/gpu-tensorflow-spark-cpu:$1 -f Dockerfile.cpu .
 
 # hdfs.ml
 cd $PIPELINE_HOME/hdfs.ml && pwd && sudo docker build $2 -q -t fluxcapacitor/hdfs-namenode:$1 .
