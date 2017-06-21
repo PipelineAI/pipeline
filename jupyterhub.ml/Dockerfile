@@ -120,9 +120,6 @@ RUN \
   && cd /opt/conda/lib/python3.5/site-packages/notebook/static/ \
   && ln -s ~/notebook/static/custom
 
-RUN \
-  pip install pio-cli==0.64
-
 COPY oauthenticator/ oauthenticator/
 RUN \
   cd oauthenticator \
@@ -134,6 +131,13 @@ RUN \
 
 RUN \
   pip install keras 
+
+RUN \
+  pip install sklearn_pandas==1.4.0 \
+  && pip install git+https://github.com/jpmml/sklearn2pmml.git
+
+RUN \
+  pip install pio-cli==0.67
 
 EXPOSE 6006 8754 8755
 
