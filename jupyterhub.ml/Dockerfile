@@ -128,6 +128,13 @@ RUN \
   cd oauthenticator \
   && pip install -e .
 
+RUN \
+  conda install -y gcc \
+  && pip install xgboost
+
+RUN \
+  pip install keras 
+
 EXPOSE 6006 8754 8755
 
 COPY run run

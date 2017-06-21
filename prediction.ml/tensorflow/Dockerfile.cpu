@@ -96,10 +96,6 @@ ENV \
 RUN \
   create_model_server_environment_python3
 
-RUN \
-  conda install -y gcc \
-  && pip install xgboost
-
 EXPOSE 9876 9000 9040 8080
 
 CMD ["supervise", "."]
