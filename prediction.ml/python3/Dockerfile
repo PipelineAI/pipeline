@@ -27,7 +27,7 @@ ENV LOGS_HOME=/root/logs
 COPY src/ src/
 
 ENV \
-  PIO_MODEL_STORE_HOME=/root/model_store
+  PIO_MODEL_STORE_HOME=/root/volumes/source.ml/model_store
 
 ENV \
   PIO_MODEL_SERVER_PATH=src/main/python
