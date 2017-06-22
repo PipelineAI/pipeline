@@ -1,50 +1,69 @@
 #!/usr/bin/env python3
 
+from io import StringIO
+import logging
 import os
-import sys
 import tornado.auth
 import tornado.escape
 import tornado.ioloop
-#import tornado.options
+import tornado.options
 import tornado.web
 import tornado.httpserver
 import tornado.httputil
-#import tornado.gen
-import dill as pickle
-import fnmatch
 import importlib.util
 import tarfile
 import subprocess
-import logging
+
 from tornado.options import define, options
-from prometheus_client import start_http_server, Summary
+from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 
-define("PIO_MODEL_STORE_HOME", default="model_store", help="path to model_store", type=str)
-define("PIO_MODEL_TYPE", default="", help="prediction model type", type=str)
-define("PIO_MODEL_NAMESPACE", default="", help="prediction model namespace", type=str)
-define("PIO_MODEL_NAME", default="", help="prediction model name", type=str)
-define("PIO_MODEL_VERSION", default="", help="prediction model version", type=str)
-define("PIO_MODEL_SERVER_PORT", default="9876", help="tornado http server listen port", type=int)
-define("PIO_MODEL_SERVER_PROMETHEUS_PORT", default="8080", help="port to run the prometheus http metrics server on", type=int)
+define('PIO_MODEL_STORE_HOME', default='model_store', help='path to model_store', type=str)
+define('PIO_MODEL_TYPE', default='python3', help='prediction model type', type=str)
+define('PIO_MODEL_NAMESPACE', default='default', help='prediction model namespace', type=str)
+define('PIO_MODEL_NAME', default='python3-zscore', help='prediction model name', type=str)
+define('PIO_MODEL_VERSION', default='v0', help='prediction model version', type=str)
+define('PIO_MODEL_SERVER_PORT', default='8080', help='tornado http server listen port', type=int)
+define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=10254, help='port to run the prometheus http metrics server on', type=int)
 
+MODEL_MODULE_NAME = 'model'
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'Model Server: Time spent processing request')
 REQUEST_TIME.observe(1.0)    # Observe 1.0 (seconds in this case)
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-logger.addHandler(ch)
+REQUESTS_IN_PROGRESS = Gauge('inprogress_requests', 'model server: request current in progress')
+REQUESTS_COUNT = Counter('http_requests_total', 'model server: total \
+            http request count since the last time the process was restarted', ['method', 'model_type', 'model_namespace',
+                                                                                'model_name', 'model_version'])
+EX_COUNT = Counter('exceptions_total', 'model server: total http request count since the last time the process was restarted')
+REQUEST_LATENCY = Histogram('http_request_processing_seconds', 'model server: time in seconds spent processing requests.')
+REQUEST_LATENCY_BUCKETS = Histogram('http_request_duration_microseconds', 'model server: \
+                         time in microseconds spent processing requests.', ['method', 'model_type', 'model_namespace',
+                                                                            'model_name', 'model_version'])
+REGISTRY = CollectorRegistry()
+REGISTRY.register(REQUEST_TIME)
+REGISTRY.register(REQUESTS_IN_PROGRESS)
+REGISTRY.register(REQUESTS_COUNT)
+REGISTRY.register(EX_COUNT)
+REGISTRY.register(REQUEST_LATENCY)
+REGISTRY.register(REQUEST_LATENCY_BUCKETS)
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+CH = logging.StreamHandler()
+CH.setLevel(logging.DEBUG)
+LOGGER.addHandler(CH)
 
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            #(r"/", IndexHandler),
+            (r'/', IndexHandler),
+            (r'/healthz', HealthzHandler),
+            (r'/metrics', MetricsHandler),
             # TODO:  Disable DEPLOY if we're not explicitly in PIO_MODEL_ENVIRONMENT=dev mode (or equivalent)
             # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelDeployPython3Handler),
+            (r'/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+             ModelDeployPython3Handler),
             # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAMESPACE/$PIO_MODEL_NAME/$PIO_MODEL_VERSION/
-            (r"/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)", ModelPredictPython3Handler),
+            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+             ModelPredictPython3Handler),
         ]
         settings = dict(
             model_store_path=options.PIO_MODEL_STORE_HOME,
@@ -54,15 +73,15 @@ class Application(tornado.web.Application):
             model_version=options.PIO_MODEL_VERSION,
             model_server_port=options.PIO_MODEL_SERVER_PORT,
             model_server_prometheus_server_port=options.PIO_MODEL_SERVER_PROMETHEUS_PORT,
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            template_path=os.path.join(os.path.dirname(__file__), 'template'),
+            static_path=os.path.join(os.path.dirname(__file__), 'static'),
             debug=True,
             autoescape=None,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
 
     def fallback(self):
-        logger.warn('Model Server Application fallback: %s' % self)
+        LOGGER.warn('Model Server Application fallback: {0}'.format(self))
         return 'fallback!'
 
 
@@ -70,117 +89,173 @@ class IndexHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     def get(self):
-        self.render("index.html")
+        self.render('index.html')
+
+
+class HealthzHandler(tornado.web.RequestHandler):
+
+    @tornado.web.asynchronous
+    def get(self):
+        try:
+            self.set_status(200, None)
+            self.add_header('Content-Type', 'text/plain')
+            self.finish()
+        except Exception as e:
+            logging.exception('HealthzHandler.get: Exception {0}'.format(str(e)))
+
+
+class MetricsHandler(tornado.web.RequestHandler):
+
+    def metrics(self):
+        return generate_latest(REGISTRY)
+
+    @tornado.web.asynchronous
+    def get(self):
+        try:
+            self.set_status(200, None)
+            self.add_header('Content-Type', 'text/plain')
+            self.write(self.metrics())
+            self.finish()
+        except Exception as e:
+            logging.exception('MetricsHandler.get: Exception {0}'.format(str(e)))
 
 
 class ModelPredictPython3Handler(tornado.web.RequestHandler):
-    registry = {}
 
+    _registry = {}
+
+    @tornado.web.asynchronous
+    def get(self, model_type, model_namespace, model_name, model_version):
+        try:
+            self.render('index.html')
+        except Exception as e:
+            logging.exception('MainHandler.get: Exception {0}'.format(str(e)))
+
+    @REQUESTS_IN_PROGRESS.track_inprogress()
+    @REQUEST_LATENCY.time()
+    @EX_COUNT.count_exceptions()
     @REQUEST_TIME.time()
     @tornado.web.asynchronous
     def post(self, model_type, model_namespace, model_name, model_version):
-        model = self.get_model_assets(model_type,
-                                      model_namespace,
-                                      model_name,
-                                      model_version)
-
-        transformed_input_request = model.transform_request(self.request.body)
-        response_raw = model.predict(transformed_input_request)
-        transformed_response = model.transform_response(response_raw)
-        self.write(transformed_response)
-        self.finish()
-
+        model_key_list = [model_type, model_namespace, model_name, model_version]
+        try:
+            REQUESTS_COUNT.labels('predict', *model_key_list).inc()
+            model = self.get_model_assets(model_key_list)
+            with REQUEST_LATENCY_BUCKETS.labels('predict', *model_key_list).time():
+                self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
+            self.finish()
+        except Exception as e:
+            message = 'MainHandler.post: Exception - {0} Error {1}'.format('_'.join(model_key_list), str(e))
+            LOGGER.info(message)
+            logging.exception(message)
 
     @REQUEST_TIME.time()
-    def get_model_assets(self, model_type, model_namespace, model_name, model_version):
-        model_key = '%s_%s_%s_%s' % (model_type, model_namespace, model_name, model_version)
-        if model_key not in self.registry:
-            model_store_path = self.settings['model_store_path']
-            model_store_path = os.path.expandvars(model_store_path)
-            model_store_path = os.path.expanduser(model_store_path)
-            model_store_path = os.path.abspath(model_store_path)
-
-            bundle_path = os.path.join(model_store_path, model_type)
-            bundle_path = os.path.join(bundle_path, model_namespace)
-            bundle_path = os.path.join(bundle_path, model_name)
-            bundle_path = os.path.join(bundle_path, model_version)
-
-            model_file_absolute_path = os.path.join(bundle_path, "pio_bundle.pkl")
-
-            # Load pickled model from model directory
-            with open(model_file_absolute_path, 'rb') as model_file:
-                model = pickle.load(model_file)
-
-            self.registry[model_key] = model
-
-        return self.registry[model_key]
+    def get_model_assets(self, model_key_list):
+        model_key = '_'.join(model_key_list)
+        if model_key in ModelPredictPython3Handler._registry:
+            model = ModelPredictPython3Handler._registry[model_key]
+        else:
+            LOGGER.info('Model Server get_model_assets if: begin')
+            with REQUEST_LATENCY_BUCKETS.labels('pickle-load', *model_key_list).time():
+                LOGGER.info('Installing bundle and updating environment: begin')
+                try:
+                    model_source_path = os.path.join(self.settings['model_store_path'], *model_key_list,
+                                                     '{0}.py'.format(MODEL_MODULE_NAME))
+                    spec = importlib.util.spec_from_file_location(MODEL_MODULE_NAME, model_source_path)
+                    model = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(model)
+                    ModelPredictPython3Handler._registry[model_key] = model
+                    LOGGER.info('Installing bundle and updating environment: complete')
+                except Exception as e:
+                    message = 'ModelPredictPython3Handler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
+                    LOGGER.info(message)
+                    logging.exception(message)
+                    model = None
+        return model
 
 
 class ModelDeployPython3Handler(tornado.web.RequestHandler):
+
+    @REQUESTS_IN_PROGRESS.track_inprogress()
+    @REQUEST_LATENCY.time()
+    @EX_COUNT.count_exceptions()
     @REQUEST_TIME.time()
     def post(self, model_type, model_namespace, model_name, model_version):
-        fileinfo = self.request.files['file'][0]
-        model_file_source_bundle_path = fileinfo['filename']
-        (_, filename) = os.path.split(model_file_source_bundle_path)
-
-        model_base_path = self.settings['model_store_path']
-        model_base_path = os.path.expandvars(model_base_path)
-        model_base_path = os.path.expanduser(model_base_path)
-        model_base_path = os.path.abspath(model_base_path)
-
-        bundle_path = os.path.join(model_base_path, model_type)
-        bundle_path = os.path.join(bundle_path, model_namespace)
-        bundle_path = os.path.join(bundle_path, model_name)
-        bundle_path = os.path.join(bundle_path, model_version)
-        bundle_path_filename = os.path.join(bundle_path, filename)
+        model_key_list = [model_type, model_namespace, model_name, model_version]
+        model_id = '_'.join(model_key_list)
         try:
-            os.makedirs(bundle_path, exist_ok=True)
-            with open(bundle_path_filename, 'wb+') as fh:
-                fh.write(fileinfo['body'])
-            logger.info("'%s' uploaded '%s', saved as '%s'" %
-                        ( str(self.request.remote_ip),
-                          str(filename),
-                          bundle_path_filename) )
-            logger.info("Uploaded and extracting bundle '%s' into '%s'..." % (filename, bundle_path))
-            with tarfile.open(bundle_path_filename, "r:gz") as tar:
-                tar.extractall(path=bundle_path)
-            logger.info('...Done!')
-            logger.info('')
-            logger.info('Installing bundle and updating environment...\n')
-            completed_process = subprocess.run('cd %s && [ -s ./requirements_conda.txt ] && conda install --yes --file ./requirements_conda.txt' % bundle_path,
-                                               timeout=600,
-                                               shell=True,
-                                               stdout=subprocess.PIPE)
-            completed_process = subprocess.run('cd %s && [ -s ./requirements.txt ] && pip install -r ./requirements.txt' % bundle_path,
-                                               timeout=600,
-                                               shell=True,
-                                               stdout=subprocess.PIPE)
-            logger.info('...Done!')
-            self.write('Model successfully deployed!')
-        except IOError as e:
-            logger.error('Failed to write file due to IOError %s' % str(e))
-            self.write('Failed to write file due to IOError %s' % str(e))
-            raise e
+            REQUESTS_COUNT.labels('deploy', *model_key_list).inc()
+            with REQUEST_LATENCY_BUCKETS.labels('deploy', *model_key_list).time():
+                fileinfo = self.request.files['file'][0]
+                model_file_source_bundle_path = fileinfo['filename']
+                (_, filename) = os.path.split(model_file_source_bundle_path)
 
+                model_base_path = self.settings['model_store_path']
+                model_base_path = os.path.expandvars(model_base_path)
+                model_base_path = os.path.expanduser(model_base_path)
+                model_base_path = os.path.abspath(model_base_path)
 
-    def write_error(self, status_code, **kwargs):
-        self.write('Error %s' % status_code)
-        if "exc_info" in kwargs:
-            self.write(", Exception: %s" % kwargs["exc_info"][0].__name__)
+                bundle_path = os.path.join(model_base_path, model_type, model_namespace, model_name, model_version)
+                bundle_path_filename = os.path.join(bundle_path, filename)
+
+                os.makedirs(bundle_path, exist_ok=True)
+                with open(bundle_path_filename, 'wb+') as fh:
+                    fh.write(fileinfo['body'])
+                LOGGER.info('{0} uploaded {1}, saved as {2}'.format(str(self.request.remote_ip), str(filename),
+                                                                    bundle_path_filename))
+                LOGGER.info('Uploaded and extracting bundle {0} into {1}: begin'.format(filename, bundle_path))
+                with tarfile.open(bundle_path_filename, 'r:gz') as tar:
+                    tar.extractall(path=bundle_path)
+                LOGGER.info('Uploaded and extracting bundle {0} into {1}: complete'.format(filename, bundle_path))
+
+                LOGGER.info('Installing bundle and updating environment: begin')
+                completed_process = subprocess.run('cd {0} && [ -s ./requirements_conda.txt ] && conda install --yes --file \
+                                                   ./requirements_conda.txt'.format(bundle_path),
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+                completed_process = subprocess.run('cd {0} && [ -s ./requirements.txt ] && pip install -r \
+                                                   ./requirements.txt'.format(bundle_path),
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+                LOGGER.info('Installing bundle and updating environment: complete')
+            LOGGER.info('{0} Model successfully deployed!'.format(model_id))
+            self.write('{0} Model successfully deployed!'.format(model_id))
+        except Exception as e:
+            message = 'ModelDeployPython3Handler.post: Exception - {0} Error {1}'.format(model_id, str(e))
+            LOGGER.info(message)
+            logging.exception(message)
 
 
 def main():
-    # Start up a web server to expose request made and time spent metrics to Prometheus
-    # TODO:  Potentially expose metrics to Prometheus using the Tornado HTTP server as long as it's not blocking
-    #        See the MetricsHandler class which provides a BaseHTTPRequestHandler
-    #        https://github.com/prometheus/client_python/blob/ce5542bd8be2944a1898e9ac3d6e112662153ea4/prometheus_client/exposition.py#L79
-    logger.info("Starting Prometheus Http Server on port '%s'" % options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
-    start_http_server(int(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
-    logger.info("Starting Model Predict and Deploy Http Server on port '%s'" % options.PIO_MODEL_SERVER_PORT)
-    http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(int(options.PIO_MODEL_SERVER_PORT))
-    tornado.ioloop.IOLoop.current().start()
+    try:
+        tornado.options.parse_command_line()
+        if not (options.PIO_MODEL_STORE_HOME and options.PIO_MODEL_TYPE and options.PIO_MODEL_NAMESPACE
+                and options.PIO_MODEL_NAME and options.PIO_MODEL_VERSION and options.PIO_MODEL_SERVER_PORT
+                and options.PIO_MODEL_SERVER_PROMETHEUS_PORT):
+            print('--PIO_MODEL_STORE_HOME and --PIO_MODEL_TYPE and --PIO_MODEL_NAMESPACE and --PIO_MODEL_NAME and \
+                  --PIO_MODEL_VERSION and --PIO_MODEL_SERVER_PORT and --PIO_MODEL_SERVER_PROMETHEUS_PORT must be set')
+            return
 
+        LOGGER.info('Model Server main: begin start tornado-based http server port {0}'.format(options.PIO_MODEL_SERVER_PORT))
+        http_server = tornado.httpserver.HTTPServer(Application())
+        http_server.listen(options.PIO_MODEL_SERVER_PORT)
+        LOGGER.info('Model Server main: complete start tornado-based http server port {0}'.format(options.PIO_MODEL_SERVER_PORT))
+
+        LOGGER.info('Model Server main: begin start prometheus http server port {0}'.format(
+            options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
+        # Start up a web server to expose request made and time spent metrics to Prometheus
+        # TODO potentially expose metrics to Prometheus using the Tornado HTTP server as long as their not blocking
+        # see the MetricsHandler class which provides a BaseHTTPRequestHandler
+        # https://github.com/prometheus/client_python/blob/ce5542bd8be2944a1898e9ac3d6e112662153ea4/prometheus_client/exposition.py#L79
+        start_http_server(options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
+        LOGGER.info('Model Server main: complete start prometheus http server port {0}'.format(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
+
+        tornado.ioloop.IOLoop.current().start()
+    except Exception as e:
+        LOGGER.info('model_server_python3.main: Exception {0}'.format(str(e)))
+        logging.exception('model_server_python3.main: Exception {0}'.format(str(e)))
 
 if __name__ == '__main__':
     main()
