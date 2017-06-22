@@ -30,7 +30,7 @@ pio init-model --model-server-url <model_server_url> \
                --model_name <model_name> \
                --model-version <model_version> \
                --model-path /path/to/model \
-               --model-test-input-path /path/to/test/inputs
+               --model-test-request-path /path/to/test/inputs
 ```
 
 ### Deploy Model 
@@ -65,7 +65,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name tensorflow_linear \
                --model-version 0 \
                --model-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
 ```
 
 Deploy Model
@@ -94,7 +94,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name scikit_linear \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -125,7 +125,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name spark_airbnb 
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -157,7 +157,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name python3_zscore \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
 ```
 
 Deploy Model
@@ -188,7 +188,7 @@ pio init-model --model-server-url http://your.model.server.com \
                --model-name pmml_airbnb \
                --model-version v0 \
                --model-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
-               --model-test-input-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
+               --model-test-request-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
 ```
 
 Deploy Model
