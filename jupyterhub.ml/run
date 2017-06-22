@@ -10,6 +10,11 @@ fi
 
 export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
 
+source sysutils/container-limits.sh
+
+export JAVA_MAX_MEM_RATIO=85
+export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
