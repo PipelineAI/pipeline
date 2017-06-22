@@ -2,7 +2,7 @@
 ## Command Line Interface (CLI)
 ### Installation
 ```
-pip install -U pio-cli
+pip install --upgrade --ignore-installed pio-cli
 ```
 
 You can view the commands supported by the CLI using just `pio`.
