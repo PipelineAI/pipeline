@@ -20,10 +20,10 @@ from prometheus_client import CollectorRegistry, generate_latest, start_http_ser
 define('PIO_MODEL_STORE_HOME', default='model_store', help='path to model_store', type=str)
 define('PIO_MODEL_TYPE', default='python3', help='prediction model type', type=str)
 define('PIO_MODEL_NAMESPACE', default='default', help='prediction model namespace', type=str)
-define('PIO_MODEL_NAME', default='python3-zscore', help='prediction model name', type=str)
+define('PIO_MODEL_NAME', default='python3_zscore', help='prediction model name', type=str)
 define('PIO_MODEL_VERSION', default='v0', help='prediction model version', type=str)
-define('PIO_MODEL_SERVER_PORT', default='8080', help='tornado http server listen port', type=int)
-define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=10254, help='port to run the prometheus http metrics server on', type=int)
+define('PIO_MODEL_SERVER_PORT', default='9876', help='tornado http server listen port', type=int)
+define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=8080, help='port to run the prometheus http metrics server on', type=int)
 
 MODEL_MODULE_NAME = 'model'
 # Create a metric to track time spent and requests made.
