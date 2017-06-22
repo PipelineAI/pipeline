@@ -145,13 +145,13 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
             self.finish()
         except Exception as e:
-            message = 'MainHandler.post: Exception - {0} Error {1}'.format('_'.join(model_key_list), str(e))
+            message = 'MainHandler.post: Exception - {0} Error {1}'.format('|__|'.join(model_key_list), str(e))
             LOGGER.info(message)
             logging.exception(message)
 
     @REQUEST_TIME.time()
     def get_model_assets(self, model_key_list):
-        model_key = '_'.join(model_key_list)
+        model_key = '|__|'.join(model_key_list)
         if model_key in ModelPredictPython3Handler._registry:
             model = ModelPredictPython3Handler._registry[model_key]
         else:
@@ -182,7 +182,7 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
     @REQUEST_TIME.time()
     def post(self, model_type, model_namespace, model_name, model_version):
         model_key_list = [model_type, model_namespace, model_name, model_version]
-        model_id = '_'.join(model_key_list)
+        model_id = '|__|'.join(model_key_list)
         try:
             REQUESTS_COUNT.labels('deploy', *model_key_list).inc()
             with REQUEST_LATENCY_BUCKETS.labels('deploy', *model_key_list).time():

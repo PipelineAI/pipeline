@@ -59,11 +59,11 @@ RUN \
 RUN \
   git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
 
-RUN \
-  git clone -b master https://github.com/fluxcapacitor/source.ml.git
+#RUN \
+#  git clone -b master https://github.com/fluxcapacitor/source.ml.git
 
 RUN \
-  ln -s /root/source.ml/prediction.ml/model_store
+  ln -s /root/volumes/source.ml/prediction.ml/model_store
 
 COPY scripts/ scripts/
 
@@ -81,6 +81,6 @@ RUN \
 
 COPY run run
 
-EXPOSE 9876 8080 10254
+EXPOSE 8080 10254
 
 CMD ["supervise", "."]

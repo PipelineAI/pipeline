@@ -189,7 +189,7 @@
       <div class="col-sm-6">
         <div class="about-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
           <h2>About us</h2>
-          <p>Fluxcapactor Pipeline.IO POC</p>
+          <p>PipelineAI</p>
         </div>
       </div>
       <div class="col-sm-6">
@@ -240,7 +240,7 @@
             <h3>Predict</h3>
             <pre><code>
               curl -X POST -H "Content-Type: application/json" -d '{requestBody}' \
-                https://python3-prediction.pipeline.io:80/v1/{model_namespace}/{model_name}/{model_version}
+                https://<pipeline-model-server>:80/api/v1/{model_type}/{model_namespace}/{model_name}/{model_version}
               </code></pre>
 
             <h3>Key Parameters</h3>
@@ -249,9 +249,15 @@
               <tr>
                 <td colspan="2">The following key parameters are used to establish model unique id's and api endpoints.<br/>
                   <ul>
-                    <li>api endpoint = {model_namespace}/{model_name}/{model_version}</li>
-                    <li>model unique id = {model_namespace}_{model_name}_{model_version}</li>
+                    <li>api endpoint = {model_type}/{model_namespace}/{model_name}/{model_version}</li>
+                    <li>model unique id = {model_type}|_|{model_namespace}|_|{model_name}|_|{model_version}</li>
                   </ul>
+                </td>
+              </tr>
+              <tr>
+                <th align="right">model_type</th>
+                <td>model type - see <a href="http://pipeline.io/api/">API</a> for examples
+                  Examples: "tensorflow", "scikit", "spark", "xgboost", "pmml", etc 
                 </td>
               </tr>
               <tr>
@@ -268,7 +274,7 @@
               </tr>
               <tr>
                 <th align="right">model_version</th>
-                <td>version of model; unique within {model_namespace}/{model_name}; ie. v0, myModelA, yourModel_9</td>
+                <td>version of model; unique within {model_type}/{model_namespace}/{model_name}; ie. v0, myModelA, yourModel_9</td>
               </tr>
               </tbody>
             </table>
@@ -283,7 +289,7 @@
     <div class="heading wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
       <div class="row">
         <div class="text-center col-sm-8 col-sm-offset-2">
-          <h2>Command Line Interface (CLI)</h2>
+          <h2>[API](http://pipeline.io/api)</h2>
           <p>Upload new model versions and make predictions from the bash prompt.</p>
         </div>
       </div>
@@ -292,22 +298,29 @@
       <div class="row">
         <div class="col-sm-15 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
           <div class="text-left service-info">
-            <h3>PipelineIO Command Line Interface (CLI)</h3>
+            <h3>[CLI](http://pipeline.io/api)</h3>
             <pre><code>
-              pip install pio-cli
+              pip install --upgrade --ignore-installed pio-cli
               </code></pre>
 
             <h3>Upload New Model Version</h3>
             <pre><code>
-              pio model_deploy --model_server_url={model_server_url}:81 --model_namespace={model_namespace} \
-              --model_name={model_name} --model_version={model_version} \
-              --model_bundle_path=/path/to/{model_namespace}/{model_name}/{model_version}/
+               pio init-model --model-server-url={model_server_url} \
+               --model-type={model_type} \
+               --model-namespace={model_namespace} \
+               --model-name={model_name} \
+               --model-version={model_version} \
+               --model-path /path/to/model/directory/ \
+               --model-test-request-path /path/to/test_request.json 
+              </code></pre>
+
+            <pre><code>
+               pio deploy
               </code></pre>
 
             <h3>Predict</h3>
             <pre><code>
-              pio model_predict --model_server_url={model_server_url} --model_namespace={model_namespace} \
-              --model_name={model_name} --model_version={model_version} --input_file_path=/path/to/inputs.json
+              pio predict 
               </code></pre>
           </div>
         </div>
@@ -320,7 +333,7 @@
     <div class="row">
       <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1200ms" data-wow-delay="300ms">
         <h2>The Team</h2>
-        <p>The Pipeline.IO POC leverages Chris Fregly's fluxcapacitor/pipeline project along with Kubernetes and
+        <p>PipelineAI leverages Chris Fregly's fluxcapacitor/pipeline project along with Kubernetes and
           Data Science Modeling.</p>
       </div>
     </div>
@@ -333,8 +346,7 @@
             </div>
             <div class="member-info">
               <h3>Chris Fregly</h3>
-              <h4>Founder of Flux Capacitor, LLC</h4>
-              <p>Research Scientist @ PipelineIO, Apache Spark Contributor, Advanced Spark TensorFlow Meetup Founder, High Performance Tensorflow Author, ex-Netflix, Databricks</p>
+              <p>Research Engineer @ PipelineAI, Apache Spark Contributor, Advanced Spark TensorFlow Meetup Founder, High Performance Tensorflow Author, ex-Netflix, Databricks</p>
             </div>
             <div class="social-icons">
               <ul>
