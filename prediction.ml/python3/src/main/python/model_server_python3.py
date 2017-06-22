@@ -25,7 +25,7 @@ define('PIO_MODEL_VERSION', default='v0', help='prediction model version', type=
 define('PIO_MODEL_SERVER_PORT', default='9876', help='tornado http server listen port', type=int)
 define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=8080, help='port to run the prometheus http metrics server on', type=int)
 
-MODEL_MODULE_NAME = 'model'
+MODEL_MODULE_NAME = 'pio_bundle'
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'Model Server: Time spent processing request')
 REQUEST_TIME.observe(1.0)    # Observe 1.0 (seconds in this case)
@@ -142,7 +142,11 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             REQUESTS_COUNT.labels('predict', *model_key_list).inc()
             model = self.get_model_assets(model_key_list)
             with REQUEST_LATENCY_BUCKETS.labels('predict', *model_key_list).time():
-                self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
+                transformed_input_request = model.transform_request(self.request.body)
+                response_raw = model.predict(transformed_input_request)
+                transformed_response = model.transform_response(response_raw)
+                self.write(transformed_response)
+                #self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
             self.finish()
         except Exception as e:
             message = 'MainHandler.post: Exception - {0} Error {1}'.format('|__|'.join(model_key_list), str(e))
@@ -160,10 +164,15 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 LOGGER.info('Installing bundle and updating environment: begin')
                 try:
                     model_source_path = os.path.join(self.settings['model_store_path'], *model_key_list,
-                                                     '{0}.py'.format(MODEL_MODULE_NAME))
-                    spec = importlib.util.spec_from_file_location(MODEL_MODULE_NAME, model_source_path)
-                    model = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(model)
+                                                     '{0}.pkl'.format(MODEL_MODULE_NAME))
+                    #spec = importlib.util.spec_from_file_location(MODEL_MODULE_NAME, model_source_path)
+                    #model = importlib.util.module_from_spec(spec)
+                    #spec.loader.exec_module(model)
+
+                    # Load pickled model from model directory
+                    with open(model_file_absolute_path, 'rb') as model_file:
+                        model = pickle.load(model_file)
+
                     ModelPredictPython3Handler._registry[model_key] = model
                     LOGGER.info('Installing bundle and updating environment: complete')
                 except Exception as e:

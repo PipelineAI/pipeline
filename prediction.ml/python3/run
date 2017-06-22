@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#cd /root/source.ml && git checkout master && git up
+cd /root/source.ml && git checkout master && git up
 
 create_environment_python3
 
