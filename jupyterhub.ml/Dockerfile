@@ -1,4 +1,5 @@
-FROM fluxcapacitor/package-spark-2.1.0:master
+#FROM fluxcapacitor/package-spark-2.1.0:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-cpu:master
 
 WORKDIR /root
 
@@ -21,14 +22,12 @@ RUN apt-get update && \
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
-  conda install --yes -c conda-forge jupyterhub==0.7.2 \
-  && conda install --yes ipykernel==4.6.0 \
-  && conda install --yes notebook==5.0.0 \
-  && conda install --yes -c conda-forge jupyter_contrib_nbextensions==0.2.7 \
-  && conda install --yes ipywidgets==6.0.0 \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions==1.0.0 \
-  && conda install --yes -c conda-forge findspark==1.0.0 \
-  && conda install --yes -c conda-forge tabulate==0.7.7
+  pip install jupyterhub==0.7.2 \
+  && pip install ipykernel==4.6.1 \
+  && pip install notebook==5.0.0 \
+  && pip install ipywidgets==6.0.0 \
+  && pip install findspark==1.1.0 \
+  && pip install tabulate==0.7.7
 
 #RUN \
 #  pip install jupyterlab==0.19.0 \
@@ -47,19 +46,10 @@ RUN \
               jupyterhub-simplespawner==0.1
 
 RUN \
-  conda install --yes nbconvert==5.1.1 \
+  pip install nbconvert==5.2.1 \
   && conda install --yes graphviz==2.38.0 \
   && conda install --yes seaborn==0.7.1 \
   && conda install --yes dill==0.2.5
-
-ENV KUBERNETES_VERSION=1.6.2
-
-RUN \
-  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl
-
-RUN \
-  chmod a+x kubectl \
-  && mv kubectl /usr/local/bin/kubectl
 
 RUN \
   mkdir -p /root/tensorboard
@@ -70,19 +60,12 @@ RUN \
 RUN \
   mkdir -p /root/logs
 
-# lib & notesbooks provided via Kubernets PersistentVolume Mount
-# from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline
-# .kube/config is volume mounted from Kubernetes secret
+# lib & notebooks provided via Docker or Kubernetes Volume Mount
+# from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline/
 
 COPY config/jupyterhub/ config/jupyterhub/
 COPY profiles/ /root/.ipython/
 COPY img/ img/
-
-ENV \
- TENSORFLOW_VERSION=1.2.0rc2
-
-RUN \
-  pip install tensorflow==$TENSORFLOW_VERSION
 
 RUN \
   pip install git+https://github.com/jupyterhub/kubespawner
@@ -130,11 +113,11 @@ RUN \
   && pip install xgboost
 
 RUN \
-  pip install keras 
+  pip install sklearn_pandas==1.4.0 \
+  && pip install git+https://github.com/jpmml/sklearn2pmml.git@0.20.3
 
 RUN \
-  pip install sklearn_pandas==1.4.0 \
-  && pip install git+https://github.com/jpmml/sklearn2pmml.git
+  pip install keras==2.0.5
 
 RUN \
   pip install pio-cli==0.67
