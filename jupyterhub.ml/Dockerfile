@@ -60,6 +60,30 @@ RUN \
 RUN \
   mkdir -p /root/logs
 
+# Apache2
+RUN \
+  apt-get install -y apache2
+
+RUN \
+  a2enmod proxy \
+  && a2enmod proxy_http \
+  && a2dissite 000-default
+
+RUN \
+  mv /var/www/html /var/www/html.orig
+
+RUN \
+  mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
+
+# All paths (dirs, not files) up to and including /root must have +x permissions.
+# It's just the way linux works.  Don't fight it.
+# http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
+RUN \
+  chmod a+x /root
+
+COPY config/apache2/ config/apache2/
+COPY html/ html/
+
 # lib & notebooks provided via Docker or Kubernetes Volume Mount
 # from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline/
 
@@ -163,17 +187,24 @@ ENV \
 ENV \
   HADOOP_CONF_DIR=${HADOOP_CONF}
 
-COPY config/spark/ ${SPARK_HOME}/conf/
+COPY config/spark/ config/spark/
+RUN \
+  cd ${SPARK_HOME}/conf \
+  && ln -s /root/config/spark/core-site.xml \
+  && ln -s /root/config/spark/fairscheduler.xml \
+  && ln -s /root/config/spark/hdfs-site.xml \
+  && ln -s /root/config/spark/hive-site.xml \
+  && ln -s /root/config/spark/spark-defaults.conf
 
 RUN \
   mv ${HADOOP_CONF}/core-site.xml ${HADOOP_CONF}/core-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/core-site.xml
+  && ln -s /root/config/spark/core-site.xml
 
 RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s ${SPARK_HOME}/conf/hdfs-site.xml
+  && ln -s /root/config/spark/conf/hdfs-site.xml
 
 # Required by Tensorflow
 ENV \
@@ -182,6 +213,9 @@ ENV \
 # Required by Tensorflow for HDFS
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
+
+ENV \
+  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
 
 RUN \
   pip install keras==2.0.5

@@ -8,6 +8,24 @@ if [ ! -f ~/lib ]; then
   cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/lib
 fi
 
+if [ ! -f /var/www/html ]; then
+  cd /var/www/ && ln -s /root/html
+fi
+
+if [ ! -f /etc/apache2/apache2.conf ]; then
+  cd /etc/apache2/ && ln -s /root/config/apache2/apache2.conf
+fi
+
+if [ ! -f /etc/apache2/sites-available/www.conf ]; then
+  cd /etc/apache2/sites-available && ln -s /root/config/apache2/www.conf
+fi
+
+a2ensite www.conf
+
+source /etc/apache2/envvars
+
+service apache2 start
+
 export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
 
 source sysutils/container-limits.sh
