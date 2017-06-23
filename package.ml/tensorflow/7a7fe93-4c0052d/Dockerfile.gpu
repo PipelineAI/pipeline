@@ -262,5 +262,5 @@ ENV \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
 
 ## Cleanup for nvidia-docker build step HACK
-RUN \
-  rm /usr/local/nvidia/lib64/libcuda.so.1
+#RUN \
+#  rm /usr/local/nvidia/lib64/libcuda.so.1

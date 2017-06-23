@@ -92,6 +92,13 @@ RUN \
 RUN \
   create_model_server_environment_python3
 
+## HACK until new base package/tensorflow-...-gpu images are built
+RUN \
+  cd /usr/local/nvidia/lib64/ \
+  && ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib/stubs/libcuda.so libcuda.so.1
+RUN \
+  ldconfig /usr/local/cuda/lib64
+
 EXPOSE 9876 9000 9040 8080
 
 CMD ["supervise", "."]
