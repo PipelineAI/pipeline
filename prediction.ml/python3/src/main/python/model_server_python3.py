@@ -74,7 +74,7 @@ class Application(tornado.web.Application):
             model_version=options.PIO_MODEL_VERSION,
             model_server_port=options.PIO_MODEL_SERVER_PORT,
             model_server_prometheus_server_port=options.PIO_MODEL_SERVER_PROMETHEUS_PORT,
-            template_path=os.path.join(os.path.dirname(__file__), 'template'),
+            template_path=os.path.join(os.path.dirname(__file__), 'templates'),
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
             debug=True,
             autoescape=None,
