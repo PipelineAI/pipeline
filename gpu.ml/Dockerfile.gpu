@@ -227,7 +227,7 @@ RUN \
   git clone https://github.com/BonsaiAI/nvidia-prometheus-stats \
   && export LC_ALL=C \
   && cd nvidia-prometheus-stats \
-  && pip2 install -r requirements.txt
+  && pip install -r requirements.txt
 
 RUN \
   pip install pio-cli==0.67
