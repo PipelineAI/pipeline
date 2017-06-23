@@ -1,9 +1,8 @@
 #!/bin/bash
-
+echo "create_environment: begin"
 source activate root
 
-# Activate it.
-echo "Activating 'model_environment_python3'"
+echo "Activating model_environment_python3"
 source activate model_environment_python3
 
 export PIO_MODEL_PATH=${PIO_MODEL_STORE_HOME}/${PIO_MODEL_TYPE}/${PIO_MODEL_NAMESPACE}/${PIO_MODEL_NAME}/${PIO_MODEL_VERSION}
@@ -14,14 +13,42 @@ echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 echo "PIO_MODEL_VERSION=$PIO_MODEL_VERSION"
 echo "PIO_MODEL_SERVER_PATH=$PIO_MODEL_SERVER_PATH"
 echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+export PIO_MODEL_TYPE_DIRECTORY=${PIO_MODEL_STORE_HOME}/${PIO_MODEL_TYPE}
+echo "PIO_MODEL_TYPE_DIRECTORY=$PIO_MODEL_TYPE_DIRECTORY"
 
-# Install the model
-cd ${PIO_MODEL_PATH}
+echo "conda install: begin"
+for directory in $(find $PIO_MODEL_TYPE_DIRECTORY -type d);
+do
+  echo "$directory";
+  cd ${directory};
+  # Check if conda_requirements.txt exist
+  if [ -e requirements_conda.txt ]; then
+    #  Verify the file is not empty and conda install from it
+    if [ -s requirements_conda.txt ]; then
+      echo "performing conda install in $directory";
+      conda install --yes --file ./requirements_conda.txt;
+    fi
+  fi
+done
+echo "conda install: complete";
 
-# Check for (non-empty) conda_requirements.txt and `conda install` from it.
-[ -s ./requirements_conda.txt ] && conda install --yes --file ./requirements_conda.txt
+echo "pip install: begin";
+for directory in $(find $PIO_MODEL_TYPE_DIRECTORY -type d);
+do
+  echo "$directory";
+  cd ${directory};
+  # Check requirements.txt exist
+  if [ -e requirements.txt ]; then
+    #  Verify the file is not empty and pip install from it
+    if [ -s requirements.txt ]; then
+      echo "performing pip install in $directory";
+      pip install -r ./requirements.txt;
+    fi
+  fi
+done
+echo "pip install: complete";
 
-# Check for (non-empty) requirements.txt and `pip install` it.
-[ -s ./requirements.txt ] && pip install -r ./requirements.txt
+#./install.sh
 
-./install.sh
+cd ${PIO_MODEL_PATH};
+echo "create_environment: complete"
