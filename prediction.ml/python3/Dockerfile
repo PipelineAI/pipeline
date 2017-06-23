@@ -27,7 +27,7 @@ ENV LOGS_HOME=/root/logs
 COPY src/ src/
 
 ENV \
-  PIO_MODEL_SERVER_PATH=src/main/python
+  PIO_MODEL_SERVER_PATH=/root/src/main/python
 
 ENV \
   PIO_MODEL_TYPE=python3
@@ -57,11 +57,10 @@ RUN \
   git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
 
 RUN \
-  git clone -b master https://github.com/fluxcapacitor/source.ml.git
+  git clone -b master https://github.com/fluxcapacitor/source.ml.git 
 
 ENV \
   PIO_MODEL_STORE_HOME=/root/source.ml/prediction.ml/model_store
-#  PIO_MODEL_STORE_HOME=/root/model_store
 
 #RUN \
 #  ln -s /root/source.ml/prediction.ml/model_store
