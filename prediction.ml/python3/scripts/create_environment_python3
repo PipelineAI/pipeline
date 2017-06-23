@@ -48,7 +48,5 @@ do
 done
 echo "pip install: complete";
 
-#./install.sh
-
 cd ${PIO_MODEL_PATH};
 echo "create_environment: complete"

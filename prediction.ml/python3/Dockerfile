@@ -47,24 +47,6 @@ ENV \
 ENV \
   PIO_MODEL_SERVER_PROMETHEUS_PORT="8080"
 
-RUN \
-  git config --global http.sslverify false
-
-RUN \
-  git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt
-
-RUN \
-  git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
-
-RUN \
-  git clone -b master https://github.com/fluxcapacitor/source.ml.git 
-
-ENV \
-  PIO_MODEL_STORE_HOME=/root/source.ml/prediction.ml/model_store
-
-#RUN \
-#  ln -s /root/source.ml/prediction.ml/model_store
-
 COPY scripts/ scripts/
 
 ENV \
@@ -76,8 +58,18 @@ RUN \
 RUN \
   create_model_server_environment_python3
 
-RUN \
-  create_environment_python3
+ENV \
+  PIO_MODEL_STORE_HOME=/root/volumes/source.ml/prediction.ml/model_store
+#ENV \
+#  PIO_MODEL_STORE_HOME=/root/source.ml/prediction.ml/model_store
+#RUN \
+#  git config --global http.sslverify false \
+#  && git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt \
+#  && git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
+#RUN \
+#  git clone -b master https://github.com/fluxcapacitor/source.ml.git
+#RUN \
+#  create_environment_python3
 
 COPY run run
 
