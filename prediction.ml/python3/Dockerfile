@@ -29,17 +29,17 @@ COPY src/ src/
 ENV \
   PIO_MODEL_SERVER_PATH=/root/src/main/python
 
-ENV \
-  PIO_MODEL_TYPE=python3
+#ENV \
+#  PIO_MODEL_TYPE=python3
 
-ENV \
-  PIO_MODEL_NAMESPACE=default
+#ENV \
+#  PIO_MODEL_NAMESPACE=default
 
-ENV \
-  PIO_MODEL_NAME=python3_zscore
+#ENV \
+#  PIO_MODEL_NAME=python3_zscore
 
-ENV \
-  PIO_MODEL_VERSION=v0
+#ENV \
+#  PIO_MODEL_VERSION=v0
 
 ENV \
   PIO_MODEL_SERVER_PORT="9876"

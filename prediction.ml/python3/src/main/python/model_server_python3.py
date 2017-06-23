@@ -14,15 +14,14 @@ import importlib.util
 import tarfile
 import subprocess
 import dill as pickle
-
 from tornado.options import define, options
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 
-define('PIO_MODEL_STORE_HOME', default='model_store', help='path to model_store', type=str)
-define('PIO_MODEL_TYPE', default='python3', help='prediction model type', type=str)
-define('PIO_MODEL_NAMESPACE', default='default', help='prediction model namespace', type=str)
-define('PIO_MODEL_NAME', default='python3_zscore', help='prediction model name', type=str)
-define('PIO_MODEL_VERSION', default='v0', help='prediction model version', type=str)
+define('PIO_MODEL_STORE_HOME', default='', help='path to model_store', type=str)
+define('PIO_MODEL_TYPE', default='', help='prediction model type', type=str)
+define('PIO_MODEL_NAMESPACE', default='', help='prediction model namespace', type=str)
+define('PIO_MODEL_NAME', default='', help='prediction model name', type=str)
+define('PIO_MODEL_VERSION', default='', help='prediction model version', type=str)
 define('PIO_MODEL_SERVER_PORT', default='9876', help='tornado http server listen port', type=int)
 define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=8080, help='port to run the prometheus http metrics server on', type=int)
 
@@ -147,12 +146,12 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 response_raw = model.predict(transformed_input_request)
                 transformed_response = model.transform_response(response_raw)
                 self.write(transformed_response)
-                #self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
             self.finish()
         except Exception as e:
             message = 'MainHandler.post: Exception - {0} Error {1}'.format('|_|'.join(model_key_list), str(e))
             LOGGER.info(message)
             logging.exception(message)
+
 
     @REQUEST_TIME.time()
     def get_model_assets(self, model_key_list):
@@ -166,9 +165,6 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 try:
                     model_pkl_path = os.path.join(self.settings['model_store_path'], *model_key_list,
                                                      '{0}.pkl'.format(MODEL_MODULE_NAME))
-                    #spec = importlib.util.spec_from_file_location(MODEL_MODULE_NAME, model_source_path)
-                    #model = importlib.util.module_from_spec(spec)
-                    #spec.loader.exec_module(model)
 
                     # Load pickled model from model directory
                     with open(model_pkl_path, 'rb') as fh:
@@ -253,14 +249,14 @@ def main():
         http_server.listen(options.PIO_MODEL_SERVER_PORT)
         LOGGER.info('Model Server main: complete start tornado-based http server port {0}'.format(options.PIO_MODEL_SERVER_PORT))
 
-        LOGGER.info('Model Server main: begin start prometheus http server port {0}'.format(
+        LOGGER.info('Prometheus Server main: begin start prometheus http server port {0}'.format(
             options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
         # Start up a web server to expose request made and time spent metrics to Prometheus
         # TODO potentially expose metrics to Prometheus using the Tornado HTTP server as long as their not blocking
         # see the MetricsHandler class which provides a BaseHTTPRequestHandler
         # https://github.com/prometheus/client_python/blob/ce5542bd8be2944a1898e9ac3d6e112662153ea4/prometheus_client/exposition.py#L79
         start_http_server(options.PIO_MODEL_SERVER_PROMETHEUS_PORT)
-        LOGGER.info('Model Server main: complete start prometheus http server port {0}'.format(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
+        LOGGER.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
 
         tornado.ioloop.IOLoop.current().start()
     except Exception as e:

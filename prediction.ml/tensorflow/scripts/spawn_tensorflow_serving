@@ -12,11 +12,11 @@ echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 echo "PIO_MODEL_VERSION=$PIO_MODEL_VERSION"
 echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
 echo "PIO_MODEL_TENSORFLOW_SERVING_PORT=$PIO_MODEL_TENSORFLOW_SERVING_PORT"
-echo "PIO_MODEL_SERVER_REQUEST_BATCHING=$PIO_MODEL_SERVER_REQUEST_BATCHING"
+echo "PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING"
 echo "PIO_MODEL_BASE_PATH=$PIO_MODEL_BASE_PATH"
 # Args:
 #  $1: grpc port number (int)
 #  $2: model_name (anything)
-#  $3: /<namespace>/<model_name>/<version> (path above all the /<version>/ paths)
+#  $3: <model_type>/<model_namespace>/<model_name>/ (aka. parent path above all the /<model_version>/ paths)
 #  $4: request batching (true|false)
-tensorflow_model_server --port=$PIO_MODEL_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_BASE_PATH --enable_batching=$PIO_MODEL_SERVER_REQUEST_BATCHING --file_system_poll_wait_seconds=5
+tensorflow_model_server --port=$PIO_MODEL_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_BASE_PATH --enable_batching=$PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING --file_system_poll_wait_seconds=5
