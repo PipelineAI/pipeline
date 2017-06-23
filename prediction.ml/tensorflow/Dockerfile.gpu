@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-gpu:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-cpu:master
 
 WORKDIR /root
 
@@ -7,6 +7,9 @@ COPY lib/ lib/
 RUN \
   cd ~/lib/jni \
   && ln -s ~/lib/jni/libtensorflow_jni-gpu.so libtensorflow_jni.so
+
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0
 
 RUN \
   mkdir -p /root/logs
@@ -20,77 +23,51 @@ RUN \
   && apt-get update \
   && apt-get install -y sbt
 
-RUN \
-  sbt clean clean-files
-
-RUN \
-  wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
-  && tar -xvzf apache-maven-3.3.9-bin.tar.gz \
-  && rm apache-maven-3.3.9-bin.tar.gz
-
-ENV \
-  MAVEN_HOME=/root/apache-maven-3.3.9/
-
-ENV \
-  PATH=$MAVEN_HOME/bin:$PATH
-
 COPY src/ src/
 COPY build.sbt build.sbt
-#COPY client/ client/
 COPY scripts/ scripts/
 
 ENV \
   PATH=/root/scripts:$PATH
 
-#RUN \
-#  cd client \
-#  && /root/apache-maven-3.3.9/bin/mvn clean install \
-#  && cp target/tensorflow-prediction-client-1.0-SNAPSHOT.jar ../lib
-
 RUN \
-  sbt clean package 
-
-COPY run run
+  sbt clean clean-files package 
 
 ENV \
-  PIO_MODEL_STORE_HOME=/root/model_store
-
-RUN \
-  ln -s /root/volumes/source.ml/prediction.ml/model_store
+  PIO_MODEL_SERVER_PATH=/root/src/main/python
 
 ENV \
-  TF_CPP_MIN_LOG_LEVEL=0
+  PIO_MODEL_SERVER_PORT=9876 
 
 ENV \
-  PIO_MODEL_SERVER_PORT=9876
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 ENV \
   PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
 
 ENV \
-  PIO_MODEL_SERVER_PATH=src/main/python
+  PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
-ENV \
-  PIO_MODEL_SERVER_REQUEST_BATCHING=true
-
-# We're installing (duplicate of base Docker image)
-#   in order to force an error during the Docker build
+# We're installing (duplicate of base Docker image) 
+#   in order to force an error during the Docker build 
 #   if/when the base Docker image changes TF version.
-# When the base Docker image changes TF version, be sure
+# When the base Docker image changes TF version, be sure 
 #   to propagate this change to the following:
 #     src/main/python/model/requirements_pio_model_server.txt
-#RUN \
-#  pip install /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl \
-#  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl
-
-ENV \
-  PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
+RUN \
+  pip install /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl \
+  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl
 
 RUN \
-  conda create --yes -n model_environment_python3 python=3.5
+  conda create --yes -n model_environment_python3 python=3.5 
 
 RUN \
   create_model_server_environment_python3
+
+ENV \
+  PIO_MODEL_STORE_HOME=/root/volumes/source.ml/prediction.ml/model_store
+
+COPY run run
 
 ## HACK until new base package/tensorflow-...-gpu images are built
 RUN \
