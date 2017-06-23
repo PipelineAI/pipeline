@@ -142,7 +142,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             REQUESTS_COUNT.labels('predict', *model_key_list).inc()
             model = self.get_model_assets(model_key_list)
             with REQUEST_LATENCY_BUCKETS.labels('predict', *model_key_list).time():
-                self.write(model.predict(StringIO(self.request.body.decode('utf-8'))))
+                self.write(model.predict(StringIO(self.request.body)))
             self.finish()
         except Exception as e:
             message = 'MainHandler.post: Exception - {0} Error {1}'.format('_'.join(model_key_list), str(e))

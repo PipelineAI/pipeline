@@ -81,6 +81,6 @@ RUN \
 
 COPY run run
 
-EXPOSE 9876 8080 10254
+EXPOSE 8080 10254
 
 CMD ["supervise", "."]
