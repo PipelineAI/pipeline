@@ -67,6 +67,15 @@ RUN \
 ENV \
   PIO_MODEL_STORE_HOME=/root/volumes/source.ml/prediction.ml/model_store
 
+COPY sysutils/ sysutils/
+
+RUN \
+  apt-get update \
+# Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
+  && apt-get install libgfortran3
+RUN \
+  conda install -c anaconda openblas
+
 COPY run run
 
 EXPOSE 9876 9000 9040 8080
