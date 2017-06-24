@@ -43,10 +43,10 @@ ENV \
   PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 ENV \
-  PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
 
 ENV \
-  PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING=true
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
 # We're installing (duplicate of base Docker image) 
 #   in order to force an error during the Docker build 
@@ -70,11 +70,11 @@ ENV \
 COPY run run
 
 ## HACK until new base package/tensorflow-...-gpu images are built
-RUN \
-  cd /usr/local/nvidia/lib64/ \
-  && ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib/stubs/libcuda.so libcuda.so.1
-RUN \
-  ldconfig /usr/local/cuda/lib64
+#RUN \
+#  cd /usr/local/nvidia/lib64/ \
+#  && ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib/stubs/libcuda.so libcuda.so.1
+#RUN \
+#  ldconfig /usr/local/cuda/lib64
 
 EXPOSE 9876 9000 9040 8080
 

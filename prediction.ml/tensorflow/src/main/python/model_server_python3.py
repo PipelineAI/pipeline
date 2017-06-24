@@ -83,13 +83,12 @@ class Application(tornado.web.Application):
             model_server_tensorflow_serving_host='127.0.0.1',
             model_server_tensorflow_serving_port=options.PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT,
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),
-            static_path=os.path.join(os.path.dirname(__file__), 'static',
+            static_path=os.path.join(os.path.dirname(__file__), 'static'),
             request_timeout=120,
             debug=True,
             autoescape=None,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
-
 
     def fallback(self):
         LOGGER.warn('Model Server Application fallback: {0}'.format(self))
