@@ -43,10 +43,10 @@ ENV \
   PIO_MODEL_SERVER_PROMETHEUS_PORT=8080
 
 ENV \
-  PIO_MODEL_TENSORFLOW_SERVING_PORT=9000
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
 
 ENV \
-  PIO_MODEL_TENSORFLOW_SERVING_REQUEST_BATCHING=true
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
 # We're installing (duplicate of base Docker image) 
 #   in order to force an error during the Docker build 
@@ -66,6 +66,15 @@ RUN \
 
 ENV \
   PIO_MODEL_STORE_HOME=/root/volumes/source.ml/prediction.ml/model_store
+
+COPY sysutils/ sysutils/
+
+RUN \
+  apt-get update \
+# Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
+  && apt-get install libgfortran3
+RUN \
+  conda install -c anaconda openblas
 
 COPY run run
 

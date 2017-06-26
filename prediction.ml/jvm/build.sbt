@@ -13,29 +13,30 @@ lazy val settings = (project in file("."))
 		    .settings(javaOptions += "-Xmx10G")
 
 val jblasVersion = "1.2.4" 
-val breezeVersion = "0.11.2"
-val jedisVersion = "2.7.3" 
-val springBootVersion = "1.3.5.RELEASE" 
-val springCloudVersion = "1.1.2.RELEASE" 
-val springCoreVersion = "4.3.0.RELEASE" 
-val pmmlEvaluatorVersion = "1.3.3" 
-val pmmlModelVersion = "1.3.3" 
-val pmmlMetroVersion = "1.3.3" 
+val breezeVersion = "0.13.1"
+val jedisVersion = "2.9.0" 
+//val springBootVersion = "1.3.5.RELEASE" 
+//val springCloudVersion = "1.1.2.RELEASE" 
+val springBootVersion = "1.5.4.RELEASE"
+val springCloudVersion = "1.3.1.RELEASE"
+val pmmlEvaluatorVersion = "1.3.7" 
+val pmmlModelVersion = "1.3.7" 
+val pmmlMetroVersion = "1.3.7" 
 val janinoVersion = "2.7.8" 
 val codahaleMetricsVersion = "3.1.2"
-val httpClientVersion = "4.5.2"
-val fluentHCVersion = "4.5.2"
+val httpClientVersion = "4.5.3"
+val fluentHCVersion = "4.5.3"
 val prometheusSimpleClientVersion = "0.0.21"
 val prometheusSimpleClientHotspotVersion = "0.0.21"
 val commonsCompressVersion = "1.13"
 val commonsIOVersion = "1.3.2"
-val tensorflowVersion = "1.2.0-rc1"
+val tensorflowVersion = "1.2.0"
+val grpcVersion = "1.0.0"
+val protobufVersion = "3.0.0"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
   "io.prometheus" % "simpleclient_spring_boot" % prometheusSimpleClientVersion, 
-  "org.jpmml" % "pmml-model" % "1.3.3",
-  "org.jpmml" % "pmml-evaluator" % "1.3.2",
   "io.dropwizard.metrics" % "metrics-core" % codahaleMetricsVersion,
   "org.codehaus.janino"  % "janino"             % janinoVersion,
   "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
@@ -54,6 +55,10 @@ lazy val deps = Seq(
   "org.jpmml" % "pmml-evaluator" % pmmlEvaluatorVersion,
   "org.jpmml" % "pmml-evaluator-extension" % pmmlEvaluatorVersion,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
+  "io.grpc" % "grpc-netty" % grpcVersion,
+  "io.grpc" % "grpc-protobuf" % grpcVersion,
+  "io.grpc" % "grpc-stub" % grpcVersion,
+  "com.google.protobuf" % "protobuf-java" % protobufVersion,
   "org.apache.httpcomponents" % "httpclient" % httpClientVersion,
   "org.apache.httpcomponents" % "fluent-hc" % fluentHCVersion,
   "org.apache.commons" % "commons-compress" % commonsCompressVersion,
