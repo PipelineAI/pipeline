@@ -1,0 +1,101 @@
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-cpu:master
+
+WORKDIR /root
+
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0
+
+RUN \
+  mkdir -p /root/logs
+
+ENV \
+  LOGS_HOME=/root/logs
+
+RUN \
+  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && apt-get update \
+  && apt-get install -y sbt
+
+RUN \
+# Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
+  apt-get install libgfortran3
+RUN \
+  conda install -c anaconda openblas
+
+# We're installing (duplicate of base Docker image)
+#   in order to force an error during the Docker build
+#   if/when the base Docker image changes TF version.
+# When the base Docker image changes TF version, be sure
+#   to propagate this change to the following:
+#     src/main/python/model/requirements_pio_model_server.txt
+RUN \
+  pip install /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl \
+  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl
+
+RUN \
+  apt-get install -y nginx \
+  && apt-get install -y tmux \
+  && apt-get install -y screen
+
+COPY lib/ lib/
+
+RUN \
+  cd ~/lib/jni \
+  && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
+
+COPY sysutils/ sysutils/
+
+COPY jvm_src/ jvm_src/
+COPY build.sbt build.sbt
+
+RUN \
+  sbt clean clean-files package 
+
+COPY src/ src/
+
+ENV \
+  PIO_MODEL_SERVER_PATH=/root/src/main/python
+
+ENV \
+  PIO_MODEL_SERVER_PORT=9876 
+
+ENV \
+  PIO_MODEL_SERVER_PROMETHEUS_PORT=10254
+
+ENV \
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
+
+ENV \
+  PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
+
+ENV \
+  PIO_MODEL_STORE_HOME=/root/model_store
+
+ENV \
+  PIO_MODEL_SERVER_ALLOW_UPLOAD=False
+
+COPY html/ /var/www/html/
+COPY config/ config/
+RUN \
+  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
+  && cd /etc/nginx/sites-available/ \
+  && ln -s /root/config/nginx/default \
+  && cd /etc/nginx/sites-enabled/ \
+  && rm default \
+  && ln -s /etc/nginx/sites-available/default
+
+RUN \
+#  source activate root \
+#  && conda create --yes -n model_environment_python3 python=3.5 \
+#  && source activate model_environment_python3 \
+  [ -s ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt ] \
+  && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt \
+  && [ -s ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt ] \
+  && pip install -r ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt
+
+COPY run run
+
+EXPOSE 80 9876 9000 9040 10254 
+
+CMD ["supervise", "."]
