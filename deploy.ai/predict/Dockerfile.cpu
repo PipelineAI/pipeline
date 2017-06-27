@@ -38,6 +38,45 @@ RUN \
   && apt-get install -y tmux \
   && apt-get install -y screen
 
+COPY config/ config/
+RUN \
+  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
+  && cd /etc/nginx/sites-available/ \
+  && ln -s /root/config/nginx/default \
+  && cd /etc/nginx/sites-enabled/ \
+  && rm default \
+  && ln -s /etc/nginx/sites-available/default
+
+RUN \
+  wget https://github.com/prometheus/prometheus/releases/download/v1.7.1/prometheus-1.7.1.linux-amd64.tar.gz \
+  && tar xvfz prometheus-1.7.1.linux-amd64.tar.gz \
+  && rm prometheus-1.7.1.linux-amd64.tar.gz
+
+RUN \
+  mv /root/prometheus-1.7.1.linux-amd64/prometheus.yml /root/prometheus-1.7.1.linux-amd64/prometheus.yml.orig \
+  && cd /root/prometheus-1.7.1.linux-amd64/ \
+  && ln -s /root/config/prometheus/prometheus.yml
+
+ENV \
+  PATH=/root/prometheus-1.7.1.linux-amd64/:$PATH
+
+RUN \
+  wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.3.1_amd64.deb \
+  && apt-get install -y adduser libfontconfig \
+  && dpkg -i grafana_4.3.1_amd64.deb \
+  && rm grafana_4.3.1_amd64.deb
+
+RUN \
+  apt-get install -y automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+
+RUN \
+  git clone https://github.com/s3fs-fuse/s3fs-fuse.git \
+  && cd s3fs-fuse \
+  && ./autogen.sh \
+  && ./configure \
+  && make \
+  && make install
+
 COPY lib/ lib/
 
 RUN \
@@ -70,32 +109,29 @@ ENV \
   PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
 ENV \
-  PIO_MODEL_STORE_HOME=/root/model_store
-
-ENV \
   PIO_MODEL_SERVER_ALLOW_UPLOAD=False
 
-COPY html/ /var/www/html/
-COPY config/ config/
 RUN \
-  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
-  && cd /etc/nginx/sites-available/ \
-  && ln -s /root/config/nginx/default \
-  && cd /etc/nginx/sites-enabled/ \
-  && rm default \
-  && ln -s /etc/nginx/sites-available/default
-
-RUN \
-#  source activate root \
-#  && conda create --yes -n model_environment_python3 python=3.5 \
-#  && source activate model_environment_python3 \
   [ -s ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt ] \
   && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt \
   && [ -s ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt ] \
   && pip install -r ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt
 
+COPY html/ /var/www/html/
 COPY run run
 
-EXPOSE 80 9876 9000 9040 10254 
+ARG model_file_path 
+RUN \
+  echo $model_file_path 
+
+ENV \
+  PIO_MODEL_STORE_HOME=/root/model_store/
+#  PIO_MODEL_STORE_HOME=$model_file_path
+
+ARG model_s3_path
+RUN \
+  echo $model_s3_path
+
+EXPOSE 80 9876 9000 9040 9090 3000 10254
 
 CMD ["supervise", "."]

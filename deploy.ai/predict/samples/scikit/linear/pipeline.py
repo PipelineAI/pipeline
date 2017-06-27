@@ -1,10 +1,16 @@
-class PioBundle(object):
+class Pipeline(object):
 
     def __init__(self,
                  model):
         self.model = model
 
+
+    def setup(self,
+              *args,
+              **kwargs):
+        pass
         
+
     def predict(self,
                 request):
 
@@ -56,11 +62,11 @@ if __name__ == '__main__':
     # Train the model using the training sets
     model.fit(diabetes_X_train, diabetes_y_train)
 
-    import dill as pickle
+    import cloudpickle as pickle
 
-    pio_bundle = PioBundle(model)
+    pipeline = Pipeline(model)
 
-    pio_bundle_pkl_path = 'pio_bundle.pkl'
+    pipeline_pkl_path = 'pipeline.pkl'
 
-    with open(pio_bundle_pkl_path, 'wb') as fh:
-        pickle.dump(pio_bundle, fh)
+    with open(pipeline_pkl_path, 'wb') as fh:
+        pickle.dump(pipeline, fh)
