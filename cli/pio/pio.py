@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.67"
+__version__ = "0.68"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -486,9 +486,7 @@ class PioCli(object):
     def init_model(self,
                    model_server_url,
                    model_type,
-                   model_namespace,
                    model_name,
-                   model_version,
                    model_path,
                    model_test_request_path=None,
                    model_input_mime_type='application/json',
@@ -507,9 +505,7 @@ class PioCli(object):
 
         config_dict = {"model_server_url": model_server_url.rstrip('/'), 
                        "model_type": model_type,
-                       "model_namespace": model_namespace,
                        "model_name": model_name,
-                       "model_version": model_version,
                        "model_path": model_path, 
                        "model_test_request_path": model_test_request_path,
                        "model_input_mime_type": model_input_mime_type,
@@ -643,13 +639,21 @@ class PioCli(object):
                         git_path,
                         model_server_url=None,
                         model_type=None,
-                        model_namespace=None,
-                        model_name=None,
-                        model_version=None):
+                        model_name=None):
         print("")
         print("Coming soon!")
         print("")
 
+
+    def _filter_tar_bundle(self,
+                           tarinfo):
+        ignore_list = ['__pycache__', 'data', 'test.sh']
+        for ignore in ignore_list:
+            if ignore in tarinfo.name:
+                return None
+
+        return tarinfo
+        
 
     def bundle(self,
                path_to_bundle,
@@ -657,16 +661,18 @@ class PioCli(object):
                filemode='w',
                compression='gz'):
 
+        path_to_bundle = os.path.expandvars(path_to_bundle)
+        path_to_bundle = os.path.expanduser(path_to_bundle)
+        path_to_bundle = os.path.abspath(path_to_bundle)
+
         with tarfile.open(bundle_name, '%s:%s' % (filemode, compression)) as tar:
-            tar.add(path_to_bundle, arcname='.')
+            tar.add(path_to_bundle, arcname='.', filter=self._filter_tar_bundle)
 
 
     def deploy(self,
                model_server_url=None,
                model_type=None,
-               model_namespace=None,
                model_name=None,
-               model_version=None, 
                model_path=None):
 
         pio_api_version = self._get_full_config()['pio_api_version']
@@ -689,27 +695,9 @@ class PioCli(object):
                 print("")
                 return
 
-        if not model_namespace:
-            try:
-                model_namespace = self._get_full_config()['model_namespace']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio init-model'.")
-                print("")
-                return
-
         if not model_name:
             try:
                 model_name = self._get_full_config()['model_name']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio init-model'.")
-                print("")
-                return
-
-        if not model_version:
-            try:
-                model_version = self._get_full_config()['model_version']
             except:
                 print("")
                 print("Model needs to be configured with 'pio init-model'.")
@@ -731,19 +719,14 @@ class PioCli(object):
 
         print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
-        print('model_namespace: %s' % model_namespace)
         print('model_name: %s' % model_name)
-        print('model_version: %s' % model_version)
         print('model_path: %s' % model_path)
 
         if (os.path.isdir(model_path)):
-            compressed_model_bundle_filename = 'bundle-%s-%s-%s-%s.tar.gz' % (model_type, model_namespace, model_name, model_version)
+            compressed_model_bundle_filename = 'pipeline.tar.gz' 
 
             print("")
             print("Compressing model bundle '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
-            print("")
-#            with tarfile.open(compressed_model_bundle_filename, 'w:gz') as tar:
-#                tar.add(model_path, arcname='.')
             self.bundle(path_to_bundle=model_path,
                         bundle_name=compressed_model_bundle_filename,
                         filemode='w',
@@ -754,34 +737,34 @@ class PioCli(object):
         else:
             print("")
             print("Model path must be a directory.  All contents of the directory will be uploaded.")
-            print("")
             return
 
-        full_model_url = "%s/api/%s/model/deploy/%s/%s/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_namespace, model_name, model_version)
+        
+        full_model_url = "%s/api/%s/model/deploy/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_name) 
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
             print("")
             print("Deploying model '%s' to '%s'." % (model_file, full_model_url))
-            print("")
             headers = {'Accept': 'application/json'}
             try:
                 response = requests.post(url=full_model_url, 
                                          headers=headers, 
                                          files=files, 
                                          timeout=600)
-                print("")
-                print(response)
+                #print("")
+                #print(response)
 
-                if response.text:
-                    print("")
-                    pprint(response.text)
+                if response.status_code != requests.codes.ok:
+                    if response.text:
+                        print("")
+                        pprint(response.text.decode('utf-8'))
 
                 if response.status_code == requests.codes.ok:
                     print("")
                     print("Success!")
                     print("")
-                    print("Predict with 'pio predict' or POST to '%s'" % full_model_url.replace('/deploy/','/predict/')) 
+                    print("curl -X POST -H 'Content-Type: [request_mime_type]' -d '[request_body]' %s" % full_model_url.replace('/deploy/','/predict/'))
                 else:
                     response.raise_for_status()
                     print("")
@@ -794,17 +777,15 @@ class PioCli(object):
  
         if (os.path.isdir(model_path)):
             print("")
-            print("Cleaning up compressed model bundle '%s'..." % model_file)
-            print("")
+            #print("Cleaning up compressed model bundle '%s'..." % model_file)
+            #print("")
             os.remove(model_file)
 
 
     def predict(self,
                 model_server_url=None,
                 model_type=None,
-                model_namespace=None,
                 model_name=None,
-                model_version=None,
                 model_test_request_path=None,
                 model_input_mime_type=None,
                 model_output_mime_type=None):
@@ -829,27 +810,9 @@ class PioCli(object):
                 print("")
                 return
 
-        if not model_namespace:
-            try:
-                model_namespace = self._get_full_config()['model_namespace']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio init-model'.")
-                print("")
-                return
-
         if not model_name:
             try:
                 model_name = self._get_full_config()['model_name']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio init-model'.")
-                print("")
-                return
-
-        if not model_version:
-            try:
-                model_version = self._get_full_config()['model_version']
             except:
                 print("")
                 print("Model needs to be configured with 'pio init-model'.")
@@ -890,17 +853,16 @@ class PioCli(object):
 
         print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
-        print('model_namespace: %s' % model_namespace)
         print('model_name: %s' % model_name)
-        print('model_version: %s' % model_version)
         print('model_test_request_path: %s' % model_test_request_path)
         print('model_input_mime_type: %s' % model_input_mime_type)
         print('model_output_mime_type: %s' % model_output_mime_type)
 
-        full_model_url = "%s/api/%s/model/predict/%s/%s/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_namespace, model_name, model_version)
+        full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_name)
         print("")
         print("Predicting with file '%s' using '%s'" % (model_test_request_path, full_model_url))
         print("")
+
         with open(model_test_request_path, 'rb') as fh:
             model_input_binary = fh.read()
 
@@ -913,9 +875,17 @@ class PioCli(object):
                                  data=model_input_binary, 
                                  timeout=30)
         end_time = datetime.now()
-        pprint(response.text)
-        print("")
+
+        if response.text:
+            print("")
+            pprint(response.text.decode('utf-8'))
+
+        if response.status_code == requests.codes.ok:
+            print("")
+            print("Success!")
+
         total_time = end_time - begin_time
+        print("")
         print("Total time: %s milliseconds" % (total_time.microseconds / 1000))
         print("")
 
@@ -924,9 +894,7 @@ class PioCli(object):
                      num_iterations,
                      model_server_url=None,
                      model_type=None,
-                     model_namespace=None,
                      model_name=None,
-                     model_version=None,
                      model_test_request_path=None,
                      model_input_mime_type=None,
                      model_output_mime_type=None):
@@ -935,9 +903,7 @@ class PioCli(object):
         for _ in range(num_iterations):        
             p.apply(self.predict, (model_server_url,
                                    model_type,
-                                   model_namespace,
                                    model_name,
-                                   model_version,
                                    model_test_request_path,
                                    model_input_mime_type,
                                    model_output_mime_type),
