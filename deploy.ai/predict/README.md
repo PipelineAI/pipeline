@@ -58,7 +58,7 @@ curl -i -X POST -v -H "Transfer-Encoding: chunked" \
 ### Predict with Model
 ```
 curl -X POST -H "Content-Type: application/json" \
-  -d '' \
+  -d '{"x_observed":1.5}' \
   http://localhost:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
