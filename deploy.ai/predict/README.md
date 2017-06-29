@@ -62,14 +62,14 @@ The following is under heavy construction.  Ignore this for now.
 http://$PIO_MODEL_SERVER_HOST:6969/
 ```
 
-## Dashboard
+## Dashboards (Grafana)
 Username/Password: admin/admin
 
 Pre-built dashboards are coming soon.
 ```
 http://$PIO_MODEL_SERVER_HOST:3000/
 ```
-Note:  Use Prometheus Url value = `http://$PIO_MODEL_SERVER_HOST:9090` when setting up the Prometheus data source.
+Note:  Use `http://$PIO_MODEL_SERVER_HOST:9090` for the Prometheus data source within your Grafana Dashboard.
 
 
 ## Command Line API (CLI) 
@@ -103,14 +103,14 @@ export PIO_MODEL_NAME=linear
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
-Predict Individual Requests
+Predict an Individual Request
 ```
 pio predict --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
   --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
 ```
 
-Predict 200 Concurrent Requests
+Predict 100 Concurrent Requests
 ```
-pio predict --concurrency 200 --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
+pio predict --concurrency 100 --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
   --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
 ```
