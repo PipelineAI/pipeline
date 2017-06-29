@@ -13,7 +13,6 @@ docker pull fluxcapacitor/deploy-predict-cpu:master
 ## Start Model Server
 `model_type`: scikit, tensorflow, python3, spark, xgboost, r, pmml
 ```
-export PIO_MODEL_SERVER_URL=http://localhost:6969
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
@@ -23,15 +22,13 @@ docker run --name=deploy-predict-cpu -itd -m 4G -p 6969:6969 -p 7070:7070 -p 80:
 ```
 
 ## REST API
-### Configure Model
+### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
-
-### Deploy Model
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
@@ -40,7 +37,7 @@ tar -cvzf pipeline.tar.gz *
 ```
 curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   -F "file=@pipeline.tar.gz" \
-  http://localhost:6969/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_URL/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
 ### Predict Model
@@ -52,17 +49,17 @@ export PIO_MODEL_NAME=linear
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"x_observed":1.5}' \
-  http://localhost:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_URL/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
 ## WebUI 
 ```
-http://localhost:6969/
+http://$PIO_MODEL_SERVER_URL/
 ```
 
 ## Dashboard
 ```
-http://lcoalhost:6969/dashboard
+http://$PIO_MODEL_SERVER_URL/dashboard
 ```
 
 ## CLI Example
@@ -70,16 +67,14 @@ http://lcoalhost:6969/dashboard
 ```
 sudo pip install --upgrade --ignore-installed pio-cli
 ```
-### Configure Model
+
+### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
-```
 
-### Deploy Model
-```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
 pio deploy --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
@@ -87,12 +82,11 @@ pio deploy --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE
 
 ### Predict with Model
 ```
+export PIO_MODEL_SERVER_URL=http://localhost:6969
+export PIO_MODEL_TYPE=tensorflow
+export PIO_MODEL_NAME=linear
+
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
 pio predict --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
-```
-
-## Dashboard
-```
-http://localhost:6969/dashboard
 ```
