@@ -39,6 +39,8 @@ setup(
         "pyyaml==3.12",
         "dill==0.2.5",
         "tabulate==0.7.7",
+        "futures==3.1.1"
+        "cloudpickle==0.3.1"
     ],
     dependency_links=[
     ]
