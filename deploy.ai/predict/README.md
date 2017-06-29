@@ -13,7 +13,7 @@ git clone https://github.com/fluxcapacitor/pipeline
 ## Start Model Server
 `model_type`: scikit, tensorflow, python3, spark, xgboost, r, pmml
 ```
-export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
+export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
@@ -25,7 +25,7 @@ docker run --name=deploy-predict-cpu -itd -m 4G -p 6969:6969 -p 7070:7070 -p 102
 ### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
-export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
+export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
@@ -73,7 +73,7 @@ sudo pip install --upgrade --ignore-installed pio-cli
 ### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
-export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
+export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 
@@ -91,4 +91,3 @@ export PIO_MODEL_NAME=linear
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
 pio predict --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
-```
