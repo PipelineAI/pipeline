@@ -28,7 +28,7 @@ docker run --name=deploy-predict-cpu -itd -m 4G \
 ## REST API
 ### Deploy Model
 ```
-export PIO_MODEL_SERVER_URL=http://localhost:6969
+export PIO_MODEL_SERVER_URL=localhost:6969
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
