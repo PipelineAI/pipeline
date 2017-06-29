@@ -30,7 +30,7 @@ define('PIO_MODEL_NAME', default='', help='prediction model name', type=str)
 define('PIO_MODEL_SERVER_PORT', default='', help='tornado http server listen port', type=int)
 define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=0, help='port to run the prometheus http metrics server on', type=int)
 define('PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT', default='', help='port to run the prometheus http metrics server on', type=int)
-define('PIO_MODEL_SERVER_ALLOW_UPLOAD', default='False', help='port to run the prometheus http metrics server on', type=str)
+define('PIO_MODEL_SERVER_ALLOW_UPLOAD', default='True', help='allow /deploy', type=str)
 
 
 UPLOAD_ARTIFACTS = ['pipeline.pkl', 'pio_bundle.pkl', 'pipeline.py', 'model.py']
@@ -191,7 +191,8 @@ class ModelPredictPython3NameOnlyHandler(tornado.web.RequestHandler):
             with REQUEST_LATENCY_BUCKETS.labels('pickle-load', *model_key_list).time():
                 LOGGER.info('Installing pipeline bundle and updating environment: begin')
                 try:
-                    model_pkl_path = os.path.join(self.settings['model_store_path'], 
+                    model_pkl_path = os.path.join(self.settings['model_store_path'],
+                                                  *model_key_list, 
                                                   '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                     # Load pickled model from model directory
@@ -237,7 +238,7 @@ class ModelDeployPython3NameOnlyHandler(tornado.web.RequestHandler):
                 model_base_path = os.path.expanduser(model_base_path)
                 model_base_path = os.path.abspath(model_base_path)
 
-                bundle_path = model_base_path
+                bundle_path = os.path.join(model_base_path, *model_key_list) 
                 bundle_path_filename = os.path.join(bundle_path, filename)
 
                 os.makedirs(bundle_path, exist_ok=True)
@@ -284,7 +285,7 @@ class ModelDeployPython3NameOnlyHandler(tornado.web.RequestHandler):
             LOGGER.info('Installing pipeline bundle and updating environment: begin')
             try:
                 model_pkl_path = os.path.join(self.settings['model_store_path'],
-                                              #*model_key_list,
+                                              *model_key_list,
                                               '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                 # Load pickled model from model directory
@@ -352,7 +353,7 @@ class ModelPredictScikitNameOnlyHandler(tornado.web.RequestHandler):
                 LOGGER.info('Installing bundle and updating environment: begin')
                 try:
                     model_pkl_path = os.path.join(self.settings['model_store_path'], 
-                                                  #*model_key_list,
+                                                  *model_key_list,
                                                   '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                     # Load pickled model from model directory
@@ -397,7 +398,7 @@ class ModelDeployScikitNameOnlyHandler(tornado.web.RequestHandler):
                 model_base_path = os.path.expanduser(model_base_path)
                 model_base_path = os.path.abspath(model_base_path)
 
-                bundle_path = model_base_path
+                bundle_path = os.path.join(model_base_path, *model_key_list)
                 bundle_path_filename = os.path.join(bundle_path, filename)
 
                 os.makedirs(bundle_path, exist_ok=True)
@@ -442,7 +443,7 @@ class ModelDeployScikitNameOnlyHandler(tornado.web.RequestHandler):
             LOGGER.info('Installing pipeline bundle and updating environment: begin')
             try:
                 model_pkl_path = os.path.join(self.settings['model_store_path'],
-                                              #*model_key_list,
+                                              *model_key_list,
                                               '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                 # Load pickled model from model directory
@@ -527,7 +528,7 @@ class ModelPredictTensorFlowNameOnlyHandler(tornado.web.RequestHandler):
                 LOGGER.info('Installing bundle and updating environment: begin')
                 try:
                     model_pkl_path = os.path.join(self.settings['model_store_path'],
-                                                  # *model_key_list,
+                                                  *model_key_list,
                                                   '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                     # Load pickled model from model directory
@@ -617,6 +618,7 @@ class ModelDeployTensorFlowNameOnlyHandler(tornado.web.RequestHandler):
             LOGGER.info('Installing pipeline bundle and updating environment: begin')
             try:
                 model_pkl_path = os.path.join(self.settings['model_store_path'],
+                                              *model_key_list,
                                               '{0}'.format(UPLOAD_ARTIFACTS[0]))
 
                 # Load pickled model from model directory

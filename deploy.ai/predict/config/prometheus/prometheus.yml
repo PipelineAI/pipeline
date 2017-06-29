@@ -28,6 +28,10 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9040']
 
+  - job_name: 'gpu'
+    static_configs:
+      - targets: ['localhost:7070']
+
 #  - job_name: 'prometheus'
 #    static_configs:
 #      - targets: ['localhost:9090']

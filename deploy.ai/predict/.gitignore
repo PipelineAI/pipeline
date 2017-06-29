@@ -1,4 +1,5 @@
 target/
+*.tar.gz
 start-dev.sh
 build-cpu.sh
 build-gpu.sh
