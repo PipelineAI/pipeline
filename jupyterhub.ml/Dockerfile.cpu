@@ -1,5 +1,4 @@
-#FROM fluxcapacitor/package-spark-2.1.0:master
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-cpu:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-cpu:master
 
 WORKDIR /root
 
@@ -214,14 +213,17 @@ ENV \
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
-ENV \
-  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
+#ENV \
+#  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
+
+RUN \
+  pip install tensorflow==1.2.0
 
 RUN \
   pip install keras==2.0.5
 
 RUN \
-  pip install pio-cli==0.67
+  pip install pio-cli==0.68
 
 EXPOSE 6006 8754 8755
 
