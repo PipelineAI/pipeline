@@ -1,5 +1,6 @@
 # Getting Started with DeployAI 
 `model_type`: [scikit, tensorflow, python3, spark, xgboost, r, pmml]
+
 `model_name`: [\*]
 
 Your model should live in the
