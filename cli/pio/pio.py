@@ -672,7 +672,7 @@ class PioCli(object):
                model_server_url=None,
                model_type=None,
                model_name=None,
-               model_path=None):
+               model_path='.'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -894,7 +894,7 @@ class PioCli(object):
                 model_server_url=None,
                 model_type=None,
                 model_name=None,
-                model_test_request_path=None,
+                model_test_request_path='./data/test_request.json',
                 model_request_mime_type='application/json',
                 model_response_mime_type='application/json'):
 
