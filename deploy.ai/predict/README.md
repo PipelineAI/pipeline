@@ -16,6 +16,7 @@ git clone https://github.com/fluxcapacitor/pipeline
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
+export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 docker run --name=deploy-predict-cpu -itd -m 4G \
@@ -28,10 +29,10 @@ docker run --name=deploy-predict-cpu -itd -m 4G \
 ## REST API
 ### Deploy Model
 ```
-export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
+export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
@@ -47,9 +48,9 @@ curl -i -X POST -H "Transfer-Encoding: chunked" \
 
 ### Predict Model
 ```
-export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
+export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 curl -X POST -H "Content-Type: application/json" \
@@ -82,10 +83,10 @@ sudo pip install --upgrade --ignore-installed pio-cli
 
 ### Deploy Model
 ```
-export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
+export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
@@ -97,9 +98,9 @@ pio deploy --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
 
 ### Predict with Model
 ```
-export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
+export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
