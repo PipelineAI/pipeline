@@ -1,13 +1,13 @@
 # Getting Started 
 
-## Clone this Repo
-```
-git clone https://github.com/fluxcapacitor/pipeline
-```
-
 ## Pull Docker Image 
 ```
 docker pull fluxcapacitor/deploy-predict-cpu:master
+```
+
+## Clone this Repo
+```
+git clone https://github.com/fluxcapacitor/pipeline
 ```
 
 ## Start Model Server
