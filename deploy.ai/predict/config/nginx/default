@@ -40,20 +40,8 @@ server {
 
         server_name _;
 
-        location /prometheus-api/ {
+        location /prometheus/ {
           proxy_pass http://127.0.0.1:9090;
-        }
-
-        #location /prometheus-dashboard/ {
-        #  proxy_pass http://127.0.0.1:9000;
-        #}
-
-        location /grafana-dashboard/ {
-          proxy_pass http://127.0.0.1:3000;
-        }
-
-        location /gpu-metrics/ {
-          proxy_pass http://127.0.0.1:7070;
         }
 
         location ~ /api/v1/model/(.*)/python3/ {

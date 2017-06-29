@@ -57,7 +57,7 @@ prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
 service grafana-server start
 
-python2 $PIO_MODEL_SERVER_PATH/nvidia/nvidia-prometheus-stats.py --verbose -u 1.0 -p 7070 &
+python2 $PIO_MODEL_SERVER_PATH/nvidia/nvidia-prometheus-stats.py -u 1.0 -p 7070 &
 
 echo "Required Environment Variables..."
 echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
