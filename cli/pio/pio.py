@@ -9,7 +9,6 @@ __version__ = "0.68"
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
 #   https://github.com/kubernetes/kops/blob/master/docs/aws.md
 
-from multiprocessing import Process, Pool
 import warnings
 import requests
 import fire
@@ -21,7 +20,7 @@ from kubernetes.client.rest import ApiException
 import kubernetes.config as kubeconfig
 import yaml
 import json
-import dill as pickle
+import cloudpickle as pickle
 from pprint import pprint
 import subprocess
 from datetime import timedelta
@@ -489,8 +488,8 @@ class PioCli(object):
                    model_name,
                    model_path,
                    model_test_request_path=None,
-                   model_input_mime_type='application/json',
-                   model_output_mime_type='application/json'):
+                   model_request_mime_type='application/json',
+                   model_response_mime_type='application/json'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -508,8 +507,8 @@ class PioCli(object):
                        "model_name": model_name,
                        "model_path": model_path, 
                        "model_test_request_path": model_test_request_path,
-                       "model_input_mime_type": model_input_mime_type,
-                       "model_output_mime_type": model_output_mime_type,
+                       "model_request_mime_type": model_request_mime_type,
+                       "model_response_mime_type": model_response_mime_type,
         }
 
         self._merge_dict(config_dict)
@@ -782,13 +781,13 @@ class PioCli(object):
             os.remove(model_file)
 
 
-    def predict(self,
+    def _predict(self,
                 model_server_url=None,
                 model_type=None,
                 model_name=None,
                 model_test_request_path=None,
-                model_input_mime_type=None,
-                model_output_mime_type=None):
+                model_request_mime_type='application/json',
+                model_response_mime_type='application/json'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -833,18 +832,18 @@ class PioCli(object):
             model_test_request_path = os.path.expanduser(model_test_request_path)
             model_test_request_path = os.path.abspath(model_test_request_path)
 
-        if not model_input_mime_type:
+        if not model_request_mime_type:
             try:
-                model_input_mime_type = self._get_full_config()['model_input_mime_type']
+                model_request_mime_type = self._get_full_config()['model_request_mime_type']
             except:
                 print("")
                 print("Model needs to be configured with 'pio init-model'.")
                 print("")
                 return
 
-        if not model_output_mime_type:
+        if not model_response_mime_type:
             try:
-                model_output_mime_type = self._get_full_config()['model_output_mime_type']
+                model_response_mime_type = self._get_full_config()['model_response_mime_type']
             except:
                 print("")
                 print("Model needs to be configured with 'pio init-model'.")
@@ -855,8 +854,8 @@ class PioCli(object):
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
         print('model_test_request_path: %s' % model_test_request_path)
-        print('model_input_mime_type: %s' % model_input_mime_type)
-        print('model_output_mime_type: %s' % model_output_mime_type)
+        print('model_request_mime_type: %s' % model_request_mime_type)
+        print('model_response_mime_type: %s' % model_response_mime_type)
 
         full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_name)
         print("")
@@ -866,7 +865,7 @@ class PioCli(object):
         with open(model_test_request_path, 'rb') as fh:
             model_input_binary = fh.read()
 
-        headers = {'Content-type': model_input_mime_type, 'Accept': model_output_mime_type} 
+        headers = {'Content-type': model_request_mime_type, 'Accept': model_response_mime_type} 
         from datetime import datetime 
 
         begin_time = datetime.now()
@@ -890,27 +889,25 @@ class PioCli(object):
         print("")
 
 
-    def predict_many(self,
-                     num_iterations,
-                     model_server_url=None,
-                     model_type=None,
-                     model_name=None,
-                     model_test_request_path=None,
-                     model_input_mime_type=None,
-                     model_output_mime_type=None):
+    def predict(self,
+                concurrency=1,
+                model_server_url=None,
+                model_type=None,
+                model_name=None,
+                model_test_request_path=None,
+                model_request_mime_type='application/json',
+                model_response_mime_type='application/json'):
 
-        p = Pool(num_iterations)
-        for _ in range(num_iterations):        
-            p.apply(self.predict, (model_server_url,
-                                   model_type,
-                                   model_name,
-                                   model_test_request_path,
-                                   model_input_mime_type,
-                                   model_output_mime_type),
-               )
-        print("")
-        print("This currently only works with Python 3.")
-        print("")
+
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        with ThreadPoolExecutor(max_workers=concurrency) as executor:
+            for _ in range(concurrency):
+                executor.submit(self._predict(model_server_url,
+                                                 model_type,
+                                                 model_name,
+                                                 model_test_request_path,
+                                                 model_request_mime_type,
+                                                 model_response_mime_type))
 
 
     def cluster(self):
