@@ -13,6 +13,7 @@ git clone https://github.com/fluxcapacitor/pipeline
 
 ## Start TensorFlow Model Server
 ```
+export PIO_MODEL_SERVER_URL=http://localhost:6969
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/]/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
@@ -28,7 +29,7 @@ sudo pip install --upgrade --ignore-installed pio-cli
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME 
 
-pio deploy --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
+pio deploy --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
 ```
 
 ### Predict with Model
