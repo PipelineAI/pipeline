@@ -18,7 +18,7 @@ export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
 ```
-docker run --name=deploy-predict-cpu -itd -m 4G -p 6969:6969 -p 7070:7070 -p 80:80 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 -v $PIO_MODEL_STORE:/root/model_store -e "PIO_MODEL_TYPE=$PIO_MODEL_TYPE" -e "PIO_MODEL_NAME=$PIO_MODEL_NAME" fluxcapacitor/deploy-predict-cpu:master
+docker run --name=deploy-predict-cpu -itd -m 4G -p 6969:6969 -p 7070:7070 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 -v $PIO_MODEL_STORE:/root/model_store -e "PIO_MODEL_TYPE=$PIO_MODEL_TYPE" -e "PIO_MODEL_NAME=$PIO_MODEL_NAME" fluxcapacitor/deploy-predict-cpu:master
 ```
 
 ## REST API
