@@ -28,7 +28,7 @@ docker run --name=deploy-predict-cpu -itd -m 4G \
 ## REST API
 ### Deploy Model
 ```
-export PIO_MODEL_SERVER_URL=localhost:6969
+export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
@@ -41,31 +41,31 @@ tar -cvzf pipeline.tar.gz *
 ```
 curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   -F "file=@pipeline.tar.gz" \
-  http://$PIO_MODEL_SERVER_URL/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
 ### Predict Model
 ```
-export PIO_MODEL_SERVER_URL=http://localhost:6969
+export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"x_observed":1.5}' \
-  http://$PIO_MODEL_SERVER_URL/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 
 ## WebUI 
 ```
-http://$PIO_MODEL_SERVER_URL:6969/
+http://$PIO_MODEL_SERVER_HOST:6969/
 ```
 
 ## Dashboard
 ```
-http://$PIO_MODEL_SERVER_URL:3000/
+http://$PIO_MODEL_SERVER_HOST:3000/
 ```
-Note:  Use `http://$PIO_MODEL_SERVER_URL:9090` when setting up the Prometheus data source.
+Note:  Use `http://$PIO_MODEL_SERVER_HOST:9090` when setting up the Prometheus data source.
 
 
 ## CLI Example
@@ -76,22 +76,24 @@ sudo pip install --upgrade --ignore-installed pio-cli
 
 ### Deploy Model
 ```
-export PIO_MODEL_SERVER_URL=http://localhost:6969
+export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
-pio deploy --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
+pio deploy --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
+  --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
 ```
 
 ### Predict with Model
 ```
-export PIO_MODEL_SERVER_URL=http://localhost:6969
+export PIO_MODEL_SERVER_HOST=localhost
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 
-pio predict --model_server_url $PIO_MODEL_SERVER_URL --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
+pio predict --model_server_url http://$PIO_MODEL_SERVER_HOST:6969 \
+  --model_type $PIO_MODEL_TYPE --model_name $PIO_MODEL_NAME
