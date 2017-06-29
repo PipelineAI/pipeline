@@ -14,8 +14,8 @@
 # Default server configuration
 #
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen 6969 default_server;
+        listen [::]:6969 default_server;
 
         # SSL configuration
         #
@@ -40,61 +40,45 @@ server {
 
         server_name _;
 
-        location / {
-                # First attempt to serve request as file, then
-                # as directory, then fall back to displaying a 404.
-                try_files $uri $uri/ =404;
+        location /prometheus/ {
+          proxy_pass http://127.0.0.1:9000;
         }
 
-        location /api/v1/model/deploy/python3/ {
-          proxy_pass http://127.0.0.1:9876/api/v1/model/deploy/python3/;
+        location /dashboard/ {
+          proxy_pass http://127.0.0.1:3000;
         }
 
-        location /api/v1/model/deploy/scikit/ {
-          proxy_pass http://127.0.0.1:9876/api/v1/model/deploy/scikit/;
+        location ~ /api/v1/model/(.*)/python3/ {
+          proxy_pass http://127.0.0.1:9876;
         }
 
-        location /api/v1/model/deploy/tensorflow/ {
-          proxy_pass http://127.0.0.1:9876/api/v1/model/deploy/tensorflow/;
+        location ~ /api/v1/model/(.*)/scikit/ {
+          proxy_pass http://127.0.0.1:9876;
         }
 
-        location /api/v1/model/deploy/spark/ {
-          proxy_pass http://127.0.0.1:9040/api/v1/model/deploy/spark/;
+        location ~ /api/v1/model/(.*)/tensorflow/ {
+          proxy_pass http://127.0.0.1:9876;
         }
 
-        location /api/v1/model/deploy/pmml/ {
-          proxy_pass http://127.0.0.1:9040/api/v1/model/deploy/pmml/;
+        location ~ /api/v1/model/(.*)/spark/ {
+          proxy_pass http://127.0.0.1:9040;
         }
 
-        location /api/v1/model/deploy/java/ {
-          proxy_pass http://127.0.0.1:9040/api/v1/model/deploy/java/;
+        location ~ /api/v1/model/(.*)/pmml/ {
+          proxy_pass http://127.0.0.1:9040;
         }
 
-        location /api/v1/model/deploy/xgboost/ {
-          proxy_pass http://127.0.0.1:9040/api/v1/model/deploy/xgboost/;
+        location ~ /api/v1/model/(.*)/java/ {
+          proxy_pass http://127.0.0.1:9040;
         }
 
-        location /api/v1/model/deploy/R/ {
-          proxy_pass http://127.0.0.1:9040/api/v1/model/deploy/R/;
+        location /api/v1/model/(.*)/xgboost/ {
+          proxy_pass http://127.0.0.1:9040;
         }
 
-        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-        #
-        #location ~ \.php$ {
-        #       include snippets/fastcgi-php.conf;
-        #
-        #       # With php7.0-cgi alone:
-        #       fastcgi_pass 127.0.0.1:9000;
-        #       # With php7.0-fpm:
-        #       fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-        #}
-
-        # deny access to .htaccess files, if Apache's document root
-        # concurs with nginx's one
-        #
-        #location ~ /\.ht {
-        #       deny all;
-        #}
+        location /api/v1/model/(.*)/R/ {
+          proxy_pass http://127.0.0.1:9040;
+        }
 }
 
 # Virtual Host configuration for example.com
