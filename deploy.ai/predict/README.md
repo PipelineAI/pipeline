@@ -13,7 +13,7 @@ docker pull fluxcapacitor/deploy-predict-cpu:master
 ## Start Model Server
 `model_type`: scikit, tensorflow, python3, spark, xgboost, r, pmml
 ```
-export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
+export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
@@ -25,7 +25,7 @@ docker run --name=deploy-predict-cpu -itd -m 4G -p 6969:6969 -p 7070:7070 -p 102
 ### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
-export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
+export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 ```
@@ -54,13 +54,15 @@ curl -X POST -H "Content-Type: application/json" \
 
 ## WebUI 
 ```
-http://$PIO_MODEL_SERVER_URL/
+http://$PIO_MODEL_SERVER_URL:6969/
 ```
 
 ## Dashboard
 ```
-http://$PIO_MODEL_SERVER_URL/dashboard
+http://$PIO_MODEL_SERVER_URL:3000/
 ```
+Note:  Use `http://$PIO_MODEL_SERVER_URL:9090` when setting up the Prometheus data source.
+
 
 ## CLI Example
 ### Install `pio-cli`
@@ -71,7 +73,7 @@ sudo pip install --upgrade --ignore-installed pio-cli
 ### Deploy Model
 ```
 export PIO_MODEL_SERVER_URL=http://localhost:6969
-export PIO_MODEL_STORE=[/absolute/path/to/this/repo]/deploy.ai/predict/samples
+export PIO_MODEL_STORE=/absolute/path/to/this/repo/pipeline/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 
