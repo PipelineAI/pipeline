@@ -11,7 +11,7 @@ git clone https://github.com/fluxcapacitor/pipeline
 ```
 
 ## Start Model Server
-`model_type`: scikit, tensorflow, python3, spark, xgboost, r, pmml
+`model_type`: [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/python3/), spark, xgboost, r, [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/pmml/)
 ```
 export PIO_MODEL_STORE=[/absolute/path/to/this/repo/pipeline]/deploy.ai/predict/samples
 export PIO_MODEL_TYPE=tensorflow
