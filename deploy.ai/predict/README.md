@@ -36,7 +36,8 @@ export PIO_MODEL_SERVER_HOST=localhost
 ```
 ```
 cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
-
+```
+```
 tar -cvzf pipeline.tar.gz *
 ```
 ```
