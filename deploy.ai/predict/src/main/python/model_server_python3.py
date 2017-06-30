@@ -53,10 +53,17 @@ REGISTRY.register(EX_COUNT)
 REGISTRY.register(REQUEST_LATENCY)
 REGISTRY.register(REQUEST_LATENCY_BUCKETS)
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
+LOGGER.setLevel(logging.ERROR)
 CH = logging.StreamHandler()
-CH.setLevel(logging.DEBUG)
+CH.setLevel(logging.ERROR)
 LOGGER.addHandler(CH)
+
+TORNADO_ACCESS_LOGGER = logging.getLogger('tornado.access')
+TORNADO_ACCESS_LOGGER.setLevel(logging.ERROR)
+TORNADO_APPLICATION_LOGGER = logging.getLogger('tornado.application')
+TORNADO_APPLICATION_LOGGER.setLevel(logging.ERROR)
+TORNADO_GENERAL_LOGGER = logging.getLogger('tornado.general')
+TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
 
 class Application(tornado.web.Application):
     def __init__(self):

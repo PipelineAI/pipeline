@@ -46,7 +46,7 @@ echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIO_MODEL_SERVER_TEN
 #  $2: model_name (anything)
 #  $3: <model_type>/<model_name>/ (aka. parent path above all the /<model_version>/ paths)
 #  $4: request batching (true|false)
-tensorflow_model_server --port=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME --enable_batching=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING --file_system_poll_wait_seconds=5 &
+tensorflow_model_server --port=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME --batching_parameters_file=/root/config/tf_serving/batching_config.txt --enable_batching=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING --file_system_poll_wait_seconds=5 &
 }
 
 source sysutils/container-limits.sh
@@ -57,7 +57,7 @@ prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
 service grafana-server start
 
-python2 $PIO_MODEL_SERVER_PATH/nvidia/nvidia-prometheus-stats.py --verbose -u 1.0 -p 7070 &
+python2 $PIO_MODEL_SERVER_PATH/nvidia/nvidia-prometheus-stats.py -u 1.0 -p 7070 &
 
 echo "Required Environment Variables..."
 echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"

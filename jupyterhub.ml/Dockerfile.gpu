@@ -1,4 +1,4 @@
-FROM fluxcapacitor/gpu-cuda8-cudnn6-16.04:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-gpu:master
 
 WORKDIR /root
 

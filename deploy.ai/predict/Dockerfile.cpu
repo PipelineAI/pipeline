@@ -49,6 +49,11 @@ RUN \
   && dpkg -i grafana_4.3.1_amd64.deb \
   && rm grafana_4.3.1_amd64.deb
 
+#RUN \
+#  mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.orig \
+#  && cd /etc/grafana/ \
+#  && ln -s /root/config/grafana/grafana.ini
+
 RUN \
   apt-get install -y automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
 
