@@ -43,7 +43,7 @@ tar -cvzf pipeline.tar.gz *
 ```
 curl -i -X POST -H "Transfer-Encoding: chunked" \
   -F "file=@pipeline.tar.gz" \
-  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME \
   -w "\n\n"
 ```
 
@@ -56,7 +56,7 @@ export PIO_MODEL_SERVER_HOST=localhost
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"x_observed":1.5}' \
-  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+  http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME \
   -w "\n\n"
 ```
 
