@@ -46,7 +46,7 @@ RUN \
               jupyterhub-simplespawner==0.1
 
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo '7097150146dd3b83c805223663ebffcc */tmp/miniconda.sh' | md5sum -c - && \
+    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
     bash /tmp/miniconda.sh -f -b -p /opt/conda && \
     /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
     /opt/conda/bin/pip install --upgrade pip && \
