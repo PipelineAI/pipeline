@@ -18,6 +18,16 @@ RUN apt-get update && \
     apt-get clean
 #    rm -rf /var/lib/apt/lists/*
 
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
 # Install JupyterHub dependencies
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
@@ -44,13 +54,6 @@ RUN \
   pip install jupyterhub-dummyauthenticator==0.3.1 \
               oauthenticator==0.5.1 \
               jupyterhub-simplespawner==0.1
-
-RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo '7097150146dd3b83c805223663ebffcc */tmp/miniconda.sh' | md5sum -c - && \
-    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
-    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
-    /opt/conda/bin/pip install --upgrade pip && \
-    rm /tmp/miniconda.sh
 
 RUN \
   pip install nbconvert==5.2.1 \

@@ -19,4 +19,7 @@ RUN \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
+RUN \
+  pip install --upgrade pip
+
 COPY sysutils/container-limits.sh sysutils/container-limits.sh
