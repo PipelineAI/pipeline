@@ -1,8 +1,0 @@
-setup.cfg
-setup.py
-pio_monitors/__init__.py
-pio_monitors.egg-info/PKG-INFO
-pio_monitors.egg-info/SOURCES.txt
-pio_monitors.egg-info/dependency_links.txt
-pio_monitors.egg-info/requires.txt
-pio_monitors.egg-info/top_level.txt

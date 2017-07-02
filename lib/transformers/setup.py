@@ -21,7 +21,7 @@ version = re.search(
     ).group(1)
 
 setup(
-    name = "pio_transformers",
+    name = "pio-transformers",
     packages = ["pio_transformers"],
     version = version,
     description = "PipelineIO Transformers",

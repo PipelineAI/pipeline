@@ -21,7 +21,7 @@ version = re.search(
     ).group(1)
 
 setup(
-    name = "pio_monitors",
+    name = "pio-monitors",
     packages = ["pio_monitors"],
     version = version,
     description = "PipelineIO Monitors",

@@ -1,2 +1,0 @@
-pandas==0.20.2
-cloudpickle==0.3.1
