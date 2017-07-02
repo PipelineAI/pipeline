@@ -7,8 +7,8 @@ from setuptools import setup
 
 import sys
 if not sys.version_info[0] == 3:
-#    sys.exit("\n \
-    print("\n \
+#    print("\n \
+    sys.exit("\n \
               ****************************************************************\n \
               * The CLI has only been tested with Python 3+ at this time.    *\n \
               * Report any issues with Python 2 by emailing help@pipeline.io *\n \
@@ -34,8 +34,8 @@ setup(
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=[
         "kubernetes==2.0.0",
-        "fire==0.1.0",
-        "requests==2.13.0",
+        "fire==0.1.1",
+        "requests==2.18.1",
         "pyyaml==3.12",
         "dill==0.2.5",
         "tabulate==0.7.7",
