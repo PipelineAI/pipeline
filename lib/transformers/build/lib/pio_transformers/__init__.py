@@ -1,6 +1,6 @@
 import pandas as pd
-import cloudpickle as pickle
 from io import BytesIO, StringIO
+import numpy as np
 
 __version__ = "0.1"
 

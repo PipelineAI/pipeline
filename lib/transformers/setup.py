@@ -16,19 +16,19 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pipeline_transformers/__init__.py').read(),
+    open('pio_transformers/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pipeline_transformers",
-    packages = ["pipeline_transformers"],
+    name = "pio_transformers",
+    packages = ["pio_transformers"],
     version = version,
-    description = "PipelineAI Transformers",
-    long_description = "PipelineAI Transformers",
+    description = "PipelineIO Transformers",
+    long_description = "PipelineIO Transformers",
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/transformers",
+    url = "https://github.com/fluxcapacitor/pipeline/lib/transformers",
     install_requires=[
         "pandas==0.20.2",
         "cloudpickle==0.3.1",

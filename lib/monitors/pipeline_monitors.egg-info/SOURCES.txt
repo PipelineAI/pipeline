@@ -1,8 +1,0 @@
-setup.cfg
-setup.py
-pipeline_monitors/__init__.py
-pipeline_monitors.egg-info/PKG-INFO
-pipeline_monitors.egg-info/SOURCES.txt
-pipeline_monitors.egg-info/dependency_links.txt
-pipeline_monitors.egg-info/requires.txt
-pipeline_monitors.egg-info/top_level.txt

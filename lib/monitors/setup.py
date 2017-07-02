@@ -16,19 +16,19 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pipeline_monitors/__init__.py').read(),
+    open('pio_monitors/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pipeline_monitors",
-    packages = ["pipeline_monitors"],
+    name = "pio_monitors",
+    packages = ["pio_monitors"],
     version = version,
-    description = "PipelineAI Monitors",
-    long_description = "PipelineAI Monitors",
+    description = "PipelineIO Monitors",
+    long_description = "PipelineIO Monitors",
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/monitors",
+    url = "https://github.com/fluxcapacitor/pipeline/lib/monitors",
     install_requires=[
         "prometheus_client==0.0.19",
     ],
