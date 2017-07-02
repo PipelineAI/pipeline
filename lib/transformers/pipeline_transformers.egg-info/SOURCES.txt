@@ -1,0 +1,8 @@
+setup.cfg
+setup.py
+pipeline_transformers/__init__.py
+pipeline_transformers.egg-info/PKG-INFO
+pipeline_transformers.egg-info/SOURCES.txt
+pipeline_transformers.egg-info/dependency_links.txt
+pipeline_transformers.egg-info/requires.txt
+pipeline_transformers.egg-info/top_level.txt
