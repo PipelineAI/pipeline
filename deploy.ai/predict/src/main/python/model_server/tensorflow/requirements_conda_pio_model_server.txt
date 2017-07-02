@@ -1,0 +1,2 @@
+# This is required by tensorflow 1.2+
+numpy>=1.13.0
