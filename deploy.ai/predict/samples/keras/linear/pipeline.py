@@ -4,7 +4,6 @@ import numpy as np
 import json
 from keras_theano_model import KerasTheanoModel
 from pio_monitors import Monitor
-import cloudpickle as pickle
 
 # The public objects from this module, see:
 #    https://docs.python.org/3/tutorial/modules.html#importing-from-a-package
