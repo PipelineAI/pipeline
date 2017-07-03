@@ -26,6 +26,11 @@ docker run --name=deploy-predict-cpu -itd -m 4G \
   fluxcapacitor/deploy-predict-cpu:master
 ```
 
+**Wait for the container to fully start by using the following command:**
+```
+docker logs -f deploy-predict-cpu
+```
+
 ## REST API
 ### Deploy Model
 ```
@@ -40,6 +45,8 @@ cd $PIO_MODEL_STORE/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
 ```
 tar -cvzf pipeline.tar.gz *
 ```
+
+**Note:  The Docker container must be fully started and settled before running the following command:**
 ```
 curl -i -X POST -H "Transfer-Encoding: chunked" \
   -F "file=@pipeline.tar.gz" \
@@ -53,6 +60,7 @@ export PIO_MODEL_TYPE=tensorflow
 export PIO_MODEL_NAME=linear
 export PIO_MODEL_SERVER_HOST=localhost
 ```
+**Note:  The Docker container must be fully started and settled before running the following command:**
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"x_observed":1.5}' \
@@ -61,20 +69,20 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 ## WebUI
-The following is under heavy construction.  Ignore this for now. 
+The following is under heavy construction.  Ignore for now. 
 ```
 http://$PIO_MODEL_SERVER_HOST:6969/
 ```
 
 ## Dashboards (Grafana)
-Username/Password: admin/admin
+Username/Password: **admin**/**admin**
 
-Pre-built dashboards are coming soon.
+Pre-built dashboards coming soon.
+
+Note:  Use `http://$PIO_MODEL_SERVER_HOST:9090` for the Prometheus data source within your Grafana Dashboard.
 ```
 http://$PIO_MODEL_SERVER_HOST:3000/
 ```
-Note:  Use `http://$PIO_MODEL_SERVER_HOST:9090` for the Prometheus data source within your Grafana Dashboard.
-
 
 ## Command Line API (CLI) 
 ### Install `pio-cli`
