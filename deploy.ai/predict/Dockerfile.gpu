@@ -30,8 +30,8 @@ RUN \
 #   to propagate this change to the following:
 #     src/main/python/model/requirements_pio_model_server.txt
 RUN \
-  pip install /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl \
-  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp35-cp35m-linux_x86_64.whl
+  pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
+  && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl
 
 RUN \
   apt-get install -y nginx \
@@ -98,16 +98,23 @@ RUN \
 COPY src/ src/
 
 ENV \
-  PIO_MODEL_SERVER_PATH=/root/src/main/python
+  PIO_MODEL_SERVER_PATH=/root/src/main/python/model_server/
 
+COPY nvidia/ nvidia/
 RUN \
-  pip2 install -r $PIO_MODEL_SERVER_PATH/nvidia/requirements.txt
+  pip2 install -r /root/nvidia/requirements.txt
 
 ENV \
   PIO_MODEL_SERVER_PORT=9876
 
 ENV \
   PIO_MODEL_SERVER_PROMETHEUS_PORT=10254
+
+ENV \
+  PIO_MODEL_SERVER_TENSORFLOW_PORT=9877
+
+ENV \
+  PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT=10255
 
 ENV \
   PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
@@ -117,12 +124,6 @@ ENV \
 
 ENV \
   PIO_MODEL_SERVER_ALLOW_UPLOAD=True
-
-RUN \
-  [ -s ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt ] \
-  && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt \
-  && [ -s ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt ] \
-  && pip install -r ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt
 
 COPY html/ /var/www/html/
 COPY run run
@@ -139,6 +140,6 @@ ARG model_s3_path
 RUN \
   echo $model_s3_path
 
-EXPOSE 6969 9876 9000 9040 9090 3000 10254 7070
+EXPOSE 6969 9876 9877 9000 9040 9090 3000 10254 10255 7070
 
 CMD ["supervise", "."]

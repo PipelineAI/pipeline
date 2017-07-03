@@ -24,7 +24,6 @@ define('PIO_MODEL_SERVER_PROMETHEUS_PORT', default=0, help='port to run the prom
 define('PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT', default='', help='port to run the prometheus http metrics server on', type=int)
 define('PIO_MODEL_SERVER_ALLOW_UPLOAD', default='True', help='allow /deploy', type=str)
 
-
 UPLOAD_ARTIFACTS = ['pipeline.pkl', 'pio_bundle.pkl', 'pipeline.py', 'model.py']
 
 # Create a metric to track time spent and requests made.
@@ -69,20 +68,12 @@ class Application(tornado.web.Application):
             (r'/metrics', MetricsHandler),
 
             # /deploy is effectively disabled if PIO_MODEL_SERVER_ALLOW_UPLOAD=False
-            # url: /api/v1/model/deploy/python3/$PIO_MODEL_NAME
-            (r'/api/v1/model/deploy/python3/([a-zA-Z\-0-9\.:,_]+)',
+            # url: /api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+            (r'/api/v1/model/deploy/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelDeployPython3Handler),
-            # url: /api/v1/model/predict/python3/$PIO_MODEL_NAME
-            (r'/api/v1/model/predict/python3/([a-zA-Z\-0-9\.:,_]+)',
+            # url: /api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME
+            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelPredictPython3Handler),
-
-            # /deploy is effectively disabled if PIO_MODEL_SERVER_ALLOW_UPLOAD=False
-            # url: /api/v1/model/deploy/scikit/$PIO_MODEL_NAME
-            (r'/api/v1/model/deploy/scikit/([a-zA-Z\-0-9\.:,_]+)',
-             ModelDeployScikitHandler),
-            # url: /api/v1/model/predict/scikit/$PIO_MODEL_NAME
-            (r'/api/v1/model/predict/scikit/([a-zA-Z\-0-9\.:,_]+)',
-             ModelPredictScikitHandler),
         ]
         settings = dict(
             model_store_path=options.PIO_MODEL_STORE_HOME,
@@ -154,8 +145,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 
 
     @tornado.web.asynchronous
-    def post(self, model_name):
-        model_type = 'python3'
+    def post(self, model_type, model_name):
         method = 'predict'
         model_key_list = [model_type, model_name]
         model_key = '/'.join(model_key_list)
@@ -186,15 +176,21 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             try:
                 model_pkl_path = os.path.join(self.settings['model_store_path'],
                                                   *model_key_list, 
-                                                  '{0}'.format(UPLOAD_ARTIFACTS[0]))
+                                                  '{0}'.format(UPLOAD_ARTIFACTS[2]))
+
+                pipeline_module_name = 'pipeline'
+                spec = importlib.util.spec_from_file_location(pipeline_module_name, '%s.py' % pipeline_module_name)
+                pipeline_module = importlib.util.module_from_spec(spec)
+                # Note:  This will initialize all global vars inside of pipeline.py
+                spec.loader.exec_module(pipeline_module)
 
                 # Load pickled model from model directory
-                with open(model_pkl_path, 'rb') as fh:
-                    model = pickle.load(fh)
-                    try:
-                        model.setup()
-                    except AttributeError:
-                        pass
+                #with open(model_pkl_path, 'rb') as fh:
+                #    model = pickle.load(fh)
+                #    try:
+                #        model.setup()
+                #    except AttributeError:
+                #        pass
 
                 ModelPredictPython3Handler._registry[model_key] = model
                 LOGGER.info('Installing pipeline bundle and updating environment: complete')
@@ -212,8 +208,7 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
 #    @REQUEST_LATENCY.time()
 #    @EX_COUNT.count_exceptions()
 #    @REQUEST_TIME.time()
-    def post(self, model_name):
-        model_type = 'python3'
+    def post(self, model_type, model_name):
         method = 'deploy'
         model_key_list = [model_type, model_name]
         model_key = '/'.join(model_key_list)
@@ -280,175 +275,26 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
         try:
             model_pkl_path = os.path.join(self.settings['model_store_path'],
                                           *model_key_list,
-                                          '{0}'.format(UPLOAD_ARTIFACTS[0]))
+                                          '{0}'.format(UPLOAD_ARTIFACTS[2]))
+
+            pipeline_module_name = 'pipeline'
+            spec = importlib.util.spec_from_file_location(pipeline_module_name, '%s.py' % pipeline_module_name)
+            pipeline_module = importlib.util.module_from_spec(spec)
+            # Note:  This will initialize all global vars inside of pipeline.py
+            spec.loader.exec_module(pipeline_module)
 
             # Load pickled model from model directory
-            with open(model_pkl_path, 'rb') as fh:
-                model = pickle.load(fh)
-                try:
-                    model.setup()
-                except AttributeError:
-                    pass
+            #with open(model_pkl_path, 'rb') as fh:
+            #    model = pickle.load(fh)
+            #    try:
+            #        model.setup()
+            #    except AttributeError:
+            #        pass
 
             ModelPredictPython3Handler._registry[model_key] = model
             LOGGER.info('Installing pipeline bundle and updating environment: complete')
         except Exception as e:
             message = 'ModelPredictPython3Handler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
-            LOGGER.info(message)
-            logging.exception(message)
-            model = None
-        return model
-
-
-class ModelPredictScikitHandler(tornado.web.RequestHandler):
-
-    _registry = {}
-
-    @tornado.web.asynchronous
-    def get(self, model_name):
-        try:
-            self.write(json.dumps(ModelPredictScikitHandler._registry.keys()))
-            self.finish()
-        except Exception as e:
-            logging.exception('ModelPredictScikitHandler.get: Exception {0}'.format(str(e)))
-
-
-#    @REQUESTS_IN_PROGRESS.track_inprogress()
-#    @REQUEST_LATENCY.time()
-#    @EX_COUNT.count_exceptions()
-#    @REQUEST_TIME.time()
-    @tornado.web.asynchronous
-    def post(self, model_name):
-        model_key_list = ['scikit', model_name]
-        model_key = '/'.join(model_key_list)
-        try:
-            REQUESTS_COUNTER.labels('predict', *model_key_list).inc()
-            model = self.get_model_assets(model_key_list)
-            transformed_input_request = model.transform_request(self.request.body)
-            response_raw = model.predict(transformed_input_request)
-            transformed_response = model.transform_response(response_raw)
-            self.write(transformed_response)
-            self.finish()
-        except Exception as e:
-            message = 'ModelPredictScikitHandler.post: Exception - {0} Error {1}'.format(model_key, str(e))
-            LOGGER.info(message)
-            logging.exception(message)
-
-
-#    @REQUEST_TIME.time()
-    def get_model_assets(self, model_key_list):
-        model_key = '/'.join(model_key_list)
-        if model_key in ModelPredictScikitHandler._registry:
-            model = ModelPredictScikitHandler._registry[model_key]
-        else:
-            LOGGER.info('Model Server get_model_assets if: begin')
-#            with REQUEST_LATENCY_BUCKETS.labels('model-load', *model_key_list).time():
-            LOGGER.info('Installing bundle and updating environment: begin')
-            try:
-                model_pkl_path = os.path.join(self.settings['model_store_path'], 
-                                              *model_key_list,
-                                              '{0}'.format(UPLOAD_ARTIFACTS[0]))
-
-                # Load pickled model from model directory
-                with open(model_pkl_path, 'rb') as fh:
-                    model = pickle.load(fh)
-                    try:
-                        model.setup()
-                    except AttributeError:
-                        pass
-
-                ModelPredictScikitHandler._registry[model_key] = model
-                LOGGER.info('Installing bundle and updating environment: complete')
-            except Exception as e:
-                message = 'ModelPredictScikitHandler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
-                LOGGER.info(message)
-                logging.exception(message)
-                model = None
-        return model
-
-
-class ModelDeployScikitHandler(tornado.web.RequestHandler):
-
-#    @REQUESTS_IN_PROGRESS.track_inprogress()
-#    @REQUEST_LATENCY.time()
-#    @EX_COUNT.count_exceptions()
-#    @REQUEST_TIME.time()
-    def post(self, model_name):
-        model_key_list = ['scikit', model_name]
-        model_key = '/'.join(model_key_list)
-        try:
-            if not self.settings['model_server_allow_upload']:
-                raise PioDeployException('Deploy not allowed.')
-
-            REQUEST_COUNTER.labels('deploy', *model_key_list).inc()
-            fileinfo = self.request.files['file'][0]
-            model_file_source_bundle_path = fileinfo['filename']
-            _, filename = os.path.split(model_file_source_bundle_path)
-
-            model_base_path = self.settings['model_store_path']
-            model_base_path = os.path.expandvars(model_base_path)
-            model_base_path = os.path.expanduser(model_base_path)
-            model_base_path = os.path.abspath(model_base_path)
-
-            bundle_path = os.path.join(model_base_path, *model_key_list)
-            bundle_path_filename = os.path.join(bundle_path, filename)
-
-            os.makedirs(bundle_path, exist_ok=True)
-            with open(bundle_path_filename, 'wb+') as fh:
-                fh.write(fileinfo['body'])
-            LOGGER.info('{0} uploaded {1}, saved as {2}'.format(str(self.request.remote_ip), str(filename),
-                                                                bundle_path_filename))
-            LOGGER.info('Extracting bundle {0} into {1}: begin'.format(filename, bundle_path))
-            with tarfile.open(bundle_path_filename, 'r:gz') as tar:
-                tar.extractall(path=bundle_path)
-            LOGGER.info('Extracting bundle {0} into {1}: complete'.format(filename, bundle_path))
-
-            LOGGER.info('Updating dependencies: begin')
-            completed_process = subprocess.run('cd {0} && [ -s ./requirements_conda.txt ] && conda install --yes --file \
-                                                   ./requirements_conda.txt'.format(bundle_path),
-                                                   timeout=1200,
-                                                   shell=True,
-                                                   stdout=subprocess.PIPE)
-            completed_process = subprocess.run('cd {0} && [ -s ./requirements.txt ] && pip install -r \
-                                                   ./requirements.txt'.format(bundle_path),
-                                                   timeout=1200,
-                                                   shell=True,
-                                                   stdout=subprocess.PIPE)
-            LOGGER.info('Updating dependencies: complete')
-
-            # Update registry
-            self.update_model_assets(model_key_list)
-
-            LOGGER.info('{0} Model successfully deployed!'.format(model_key))
-            self.write('{0} Model successfully deployed!'.format(model_key))
-        except Exception as e:
-            message = 'ModelDeployScikitHandler.post: Exception - {0} Error {1}'.format(model_key, str(e))
-            LOGGER.info(message)
-            logging.exception(message)
-
-
-#    @REQUEST_TIME.time()
-    def update_model_assets(self, model_key_list):
-        model_key = '/'.join(model_key_list)
-        LOGGER.info('Model Server get_model_assets if: begin')
-        LOGGER.info('Installing pipeline bundle and updating environment: begin')
-        try:
-            model_pkl_path = os.path.join(self.settings['model_store_path'],
-                                          *model_key_list,
-                                          '{0}'.format(UPLOAD_ARTIFACTS[0]))
-
-            # Load pickled model from model directory
-            with open(model_pkl_path, 'rb') as fh:
-                model = pickle.load(fh)
-                try:
-                    model.setup()
-                except AttributeError:
-                    pass
-
-            ModelPredictScikitHandler._registry[model_key] = model
-            LOGGER.info('Installing pipeline bundle and updating environment: complete')
-        except Exception as e:
-            message = 'ModelPredictScikitHandler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
             LOGGER.info(message)
             logging.exception(message)
             model = None

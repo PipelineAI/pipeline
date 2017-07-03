@@ -100,8 +100,9 @@ COPY src/ src/
 ENV \
   PIO_MODEL_SERVER_PATH=/root/src/main/python/model_server/
 
-RUN \
-  pip2 install -r /root/src/main/python/nvidia/requirements.txt
+#COPY nvidia/ nvidia/
+#RUN \
+#  pip2 install -r /root/nvidia/requirements.txt
 
 ENV \
   PIO_MODEL_SERVER_PORT=9876
@@ -123,12 +124,6 @@ ENV \
 
 ENV \
   PIO_MODEL_SERVER_ALLOW_UPLOAD=True
-
-#RUN \
-#  [ -s ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt ] \
-#  && conda install --yes --file ${PIO_MODEL_SERVER_PATH}/requirements_conda_pio_model_server.txt \
-#  && [ -s ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt ] \
-#  && pip install -r ${PIO_MODEL_SERVER_PATH}/requirements_pio_model_server.txt
 
 COPY html/ /var/www/html/
 COPY run run
