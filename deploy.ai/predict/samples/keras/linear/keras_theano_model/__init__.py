@@ -8,8 +8,6 @@ import keras
 from keras.layers import Input, Dense
 from keras.models import Model
 from keras.models import save_model, load_model
-from config import MODEL_H5_STATE_FILENAME
-
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, Normalizer
 
 class KerasTheanoModel(object):
@@ -27,7 +25,7 @@ class KerasTheanoModel(object):
        return request
  
 if __name__ == '__main__':
-    df = pd.read_csv("data/training.csv")
+    df = pd.read_csv("../data/training.csv")
     df["People per Television"] = pd.to_numeric(df["People per Television"],errors='coerce')
     df = df.dropna()
 
@@ -48,4 +46,4 @@ if __name__ == '__main__':
     model.compile(optimizer=sgd ,loss='mse')
     model.fit(x_,y_, batch_size=1, verbose=1, epochs=10, shuffle=False)
 
-    save_model(model, MODEL_H5_STATE_FILENAME)
+    save_model(model, '../state/keras_theano_linear_model_state.h5')

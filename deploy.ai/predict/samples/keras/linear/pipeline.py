@@ -2,8 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import json
-from keras_theano_linear_model import KerasTheanoModel 
-from config import MODEL_H5_STATE_FILENAME
+from keras_theano_model import KerasTheanoModel
 from pio_monitors import Monitor
 import cloudpickle as pickle
 
@@ -40,7 +39,7 @@ def _initialize_upon_import(model_state_path: str) -> KerasTheanoModel:
 
 
 # This is called unconditionally at *module import time*...
-_model = _initialize_upon_import(os.path.join(MODEL_H5_STATE_FILENAME))
+_model = _initialize_upon_import(os.path.join('state/keras_theano_linear_model_state.h5'))
 
 
 def predict(request: bytes) -> bytes:
