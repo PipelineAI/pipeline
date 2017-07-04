@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-ubuntu-16.04:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-gpu:master
 
 WORKDIR /root
 
@@ -17,15 +17,15 @@ RUN apt-get update && \
     apt-get clean
 #    rm -rf /var/lib/apt/lists/*
 
-RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
-    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
-    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
-    /opt/conda/bin/pip install --upgrade pip && \
-    rm /tmp/miniconda.sh
+#RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+#    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
+#    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+#    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
+#    /opt/conda/bin/pip install --upgrade pip && \
+#    rm /tmp/miniconda.sh
 
-ENV \
-  PATH=/opt/conda/bin:$PATH
+#ENV \
+#  PATH=/opt/conda/bin:$PATH
 
 # Install JupyterHub dependencies
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
@@ -61,10 +61,6 @@ RUN \
   && conda install --yes dill==0.2.5
 
 RUN \
-  conda install --yes -c numba cudatoolkit==8.0 \
-  && conda install --yes -c numba numba==0.33
-
-RUN \
   mkdir -p /root/tensorboard
 
 RUN \
@@ -88,14 +84,7 @@ RUN \
 RUN \
   mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
 
-# All paths (dirs, not files) up to and including /root must have +x permissions.
-# It's just the way linux works.  Don't fight it.
-# http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
-RUN \
-  chmod a+x /root
-
 COPY config/apache2/ config/apache2/
-COPY html/ html/
 
 # lib & notebooks provided via Docker or Kubernetes Volume Mount
 # from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline/
@@ -235,39 +224,7 @@ RUN \
 #ENV \
 #  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
 
-ENV \
-  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
-
-RUN \
-  apt-get update \
-  && apt-get install -y ssh
-
-RUN \
-  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
-  && sed -i s/#.*StrictHostKeyChecking.*/StrictHostKeyChecking\ no/ /etc/ssh/ssh_config \
-  && ssh-keygen -A \
-  && ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -N "" \
-  && cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
-
-RUN \
-  sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
-  && sed -i "s%\${JAVA_HOME}%${JAVA_HOME}%" ${HADOOP_CONF}/hadoop-env.sh
-
-RUN \
-  hadoop namenode -format
-
-# Hue (port 8000)
-#RUN \
-#  wget https://dl.dropboxusercontent.com/u/730827/hue/releases/3.12.0/hue-3.12.0.tgz \
-#  && tar xvzf hue-3.12.0.tgz \
-#  && rm hue-3.12.0.tgz
-
-# Required by sshd
-RUN \
-  mkdir /var/run/sshd
-
-RUN \
-  pip install tensorflow-gpu==1.2.0
+COPY apache-jmeter-3.1/ apache-jmeter-3.1/
 
 RUN \
   pip install keras==2.0.5
@@ -275,7 +232,10 @@ RUN \
 RUN \
   pip install pio-cli==0.68
 
-#EXPOSE 6006 8754 8755
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0 \
+  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 
 COPY run run

@@ -17,6 +17,16 @@ RUN apt-get update && \
     apt-get clean
 #    rm -rf /var/lib/apt/lists/*
 
+#RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+#    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
+#    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+#    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
+#    /opt/conda/bin/pip install --upgrade pip && \
+#    rm /tmp/miniconda.sh
+
+#ENV \
+#  PATH=/opt/conda/bin:$PATH
+
 # Install JupyterHub dependencies
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
@@ -74,14 +84,7 @@ RUN \
 RUN \
   mv /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig
 
-# All paths (dirs, not files) up to and including /root must have +x permissions.
-# It's just the way linux works.  Don't fight it.
-# http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
-RUN \
-  chmod a+x /root
-
 COPY config/apache2/ config/apache2/
-COPY html/ html/
 
 # lib & notebooks provided via Docker or Kubernetes Volume Mount
 # from the github.com/fluxcapacitor/source.ml repo -> /root/pipeline/
@@ -218,8 +221,18 @@ ENV \
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
-ENV \
-  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
+#ENV \
+#  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
+
+COPY apache-jmeter-3.1/ apache-jmeter-3.1/
+#COPY datasets/ datasets/
+#COPY lib/ lib/
+#COPY scripts/ scripts/
+#COPY src/ src/
+#COPY tests/ tests/
+
+#RUN \
+#  pip install tensorflow==1.2.0
 
 RUN \
   pip install keras==2.0.5
@@ -227,7 +240,11 @@ RUN \
 RUN \
   pip install pio-cli==0.68
 
-EXPOSE 6006 8754 8755
+ENV \
+  TF_CPP_MIN_LOG_LEVEL=0 \
+  TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+
+EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 
 COPY run run
 
