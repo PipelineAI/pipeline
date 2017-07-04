@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.69"
+__version__ = "0.71"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -82,7 +82,7 @@ class PioCli(object):
                          'kibana': (['kibana.ml/kibana-4-5-0-svc.yaml'], ['elasticsearch'], []),
                          'kafka': (['stream.ml/kafka-0.10-svc.yaml'], ['zookeeper']),
                          'cassandra': (['cassandra.ml/cassandra-svc.yaml'], []),
-                         'jenkins': (['jenkins.ml/jenkins-svc.yaml'], []),
+                         'jenkins': (['jenkins/jenkins-svc.yaml'], []),
                          'prediction-java': (['prediction.ml/java-svc.yaml'], []),
                          'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
                          'prediction-scikit': (['prediction.ml/scikit-svc.yaml'], []),
@@ -1401,10 +1401,11 @@ class PioCli(object):
         config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(app_name)
         secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(app_name)
         deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(app_name)
-        #print(deploy_yaml_filenames)
+        print("Using '%s'" % deploy_yaml_filenames)
  
         svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(app_name)
-        #print(svc_yaml_filenames)
+        print(svc_yaml_filenames)
+        print("Using '%s'" % svc_yaml_filenames)
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
