@@ -432,6 +432,7 @@ def main():
         LOGGER.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT))
 
         tornado.ioloop.IOLoop.current().start()
+        print('...Python-based Model Server Started!')
     except Exception as e:
         LOGGER.info('model_server_python3.main: Exception {0}'.format(str(e)))
         logging.exception('model_server_python3.main: Exception {0}'.format(str(e)))

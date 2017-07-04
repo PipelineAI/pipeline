@@ -21,36 +21,53 @@ RUN apt-get update && \
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
-  conda install --yes -c conda-forge jupyterhub==0.7.2 \
-  && conda install --yes ipykernel==4.6.0 \
-  && conda install --yes notebook==5.0.0 \
-  && conda install --yes -c conda-forge jupyter_contrib_nbextensions==0.2.7 \
-  && conda install --yes ipywidgets==6.0.0 \
-  && conda install --yes -c anaconda-nb-extensions anaconda-nb-extensions==1.0.0 \
-  && conda install --yes -c conda-forge findspark==1.0.0 \
-  && conda install --yes -c conda-forge tabulate=0.7.7
+  pip install jupyterhub==0.7.2 \
+  && pip install ipykernel==4.6.1 \
+  && pip install notebook==5.0.0 \
+  && pip install ipywidgets==6.0.0 \
+  && pip install findspark==1.1.0 \
+  && pip install tabulate=0.7.7
 
-RUN \
-  pip install jupyterlab==0.19.0 \
-  && pip install jupyterlab_widgets==0.6.15 \
-  && pip install widgetslabextension==0.1.0
+#RUN \
+#  pip install jupyterlab==0.19.0 \
+#  && pip install jupyterlab_widgets==0.6.15 \
+#  && pip install widgetslabextension==0.1.0
 
-RUN \
-  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
-  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix
+#RUN \
+#  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
+#  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
+#  && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
-  pip install jupyterhub-dummyauthenticator==0.1
+  pip install jupyterhub-dummyauthenticator==0.3.1 \
+              oauthenticator==0.5.1 \
+              jupyterhub-simplespawner==0.1
 
 RUN \
-  pip install jupyterhub-simplespawner==0.1
-
-RUN \
-  conda install --yes nbconvert==5.1.1 \
+  pip install nbconvert==5.2.1 \
   && conda install --yes graphviz==2.38.0 \
-  && conda install --yes seaborn==0.7.1
+  && conda install --yes seaborn==0.7.1 \
+  && conda install --yes dill==0.2.5
+
+RUN \
+  conda config --add channels r && \
+  conda install --quiet --yes \
+    'r-base=3.3.2' \
+    'r-irkernel=0.7*' \
+    'r-plyr=1.8*' \
+    'r-devtools=1.12*' \
+    'r-tidyverse=1.0*' \
+    'r-shiny=0.14*' \
+    'r-rmarkdown=1.2*' \
+    'r-forecast=7.3*' \
+    'r-rsqlite=1.1*' \
+    'r-reshape2=1.4*' \
+    'r-nycflights13=0.2*' \
+    'r-caret=6.0*' \
+    'r-rcurl=1.95*' \
+    'r-crayon=1.3*' \
+    'r-randomforest=4.6*' && conda clean -tipsy
 
 RUN \
   pip install grpcio \
@@ -187,7 +204,7 @@ ENV \
   PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
 
 RUN \
-  conda install --yes graphviz
+  conda install --yes graphviz==2.38.0
 
 RUN \ 
   conda install --yes -c numba cudatoolkit==8.0 \
@@ -230,8 +247,13 @@ RUN \
   && pip install -r requirements.txt
 
 RUN \
-  pip install pio-cli==0.67
+  pip install keras==2.0.5
+
+RUN \
+  pip install pio-cli==0.68
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 5050
-  # 8000
+
+COPY run run
+
 CMD ["supervise", "."]

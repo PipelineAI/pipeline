@@ -27,12 +27,11 @@ define('PIO_MODEL_SERVER_ALLOW_UPLOAD', default='True', help='allow /deploy', ty
 UPLOAD_ARTIFACTS = ['pipeline.pkl', 'pio_bundle.pkl', 'pipeline.py', 'model.py']
 
 # Create a metric to track time spent and requests made.
-REQUEST_TIME_SUMMARY = Summary('request_processing_time', 'Model Server: Time spent processing request')
+REQUEST_TIME_SUMMARY = Summary('request_processing_time', 'Model Server: Time Spent Processing Request', ['method', 'model_type', 'model_name'])
 #REQUEST_TIME.observe(1.0)    # Observe 1.0 (seconds in this case)
-REQUESTS_IN_PROGRESS_GAUGE = Gauge('inprogress_requests', 'model server: request current in progress')
-REQUEST_COUNTER = Counter('http_requests_total', 'model server: total \
-            http request count since the last time the process was restarted', ['method', 'model_type', 'model_name'])
-EXCEPTION_COUNTER = Counter('exceptions_total', 'model server: total http request count since the last time the process was restarted')
+REQUESTS_IN_PROGRESS_GAUGE = Gauge('inprogress_requests', 'Model Server: Requests Currently In Progress', ['method', 'model_type', 'model_name'])
+REQUEST_COUNTER = Counter('http_requests_total', 'Model Server: Total Http Request Count Since Last Process Restart', ['method', 'model_type', 'model_name'])
+EXCEPTION_COUNTER = Counter('exceptions_total', 'Model Server: Total Exceptions', ['method', 'model_type', 'model_name'])
 #REQUEST_LATENCY_HISTOGRAM = Histogram('http_request_processing_time', 'model server: time spent processing requests.')
 #REQUEST_LATENCY_BUCKETS_HISTROGRAM = Histogram('http_request_processing_time', 'model server: \
 #                        histogram of time spent processing requests.', ['method', 'model_type', 'model_name'])
@@ -153,10 +152,8 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
           REQUESTS_IN_PROGRESS_GAUGE.labels(method, *model_key_list).track_inprogress():
             try:
                 REQUEST_COUNTER.labels(method, *model_key_list).inc()
-                model = self.get_model_assets(model_key_list)
-                # transformed_input_request = model.transform_request(self.request.body)
-                response = model.predict(self.request.body)
-                # transformed_response = model.transform_response(response_raw)
+                pipeline = self.get_model_assets(model_key_list)
+                response = pipeline.predict(self.request.body)
                 self.write(response)
                 self.finish()
             except Exception as e:
@@ -169,20 +166,21 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     def get_model_assets(self, model_key_list):
         model_key = '/'.join(model_key_list)
         if model_key in ModelPredictPython3Handler._registry:
-            model = ModelPredictPython3Handler._registry[model_key]
+            pipeline = ModelPredictPython3Handler._registry[model_key]
         else:
             LOGGER.info('Model Server get_model_assets if: begin')
             LOGGER.info('Installing pipeline bundle and updating environment: begin')
             try:
-                model_pkl_path = os.path.join(self.settings['model_store_path'],
+                #model_pkl_path = os.path.join(self.settings['model_store_path'],
+                pipeline_path = os.path.join(self.settings['model_store_path'],
                                                   *model_key_list, 
                                                   '{0}'.format(UPLOAD_ARTIFACTS[2]))
 
                 pipeline_module_name = 'pipeline'
-                spec = importlib.util.spec_from_file_location(pipeline_module_name, '%s.py' % pipeline_module_name)
-                pipeline_module = importlib.util.module_from_spec(spec)
+                spec = importlib.util.spec_from_file_location(pipeline_module_name, pipeline_path)
+                pipeline = importlib.util.module_from_spec(spec)
                 # Note:  This will initialize all global vars inside of pipeline.py
-                spec.loader.exec_module(pipeline_module)
+                spec.loader.exec_module(pipeline)
 
                 # Load pickled model from model directory
                 #with open(model_pkl_path, 'rb') as fh:
@@ -192,14 +190,14 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 #    except AttributeError:
                 #        pass
 
-                ModelPredictPython3Handler._registry[model_key] = model
+                ModelPredictPython3Handler._registry[model_key] = pipeline 
                 LOGGER.info('Installing pipeline bundle and updating environment: complete')
             except Exception as e:
                 message = 'ModelPredictPython3Handler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
                 LOGGER.info(message)
                 logging.exception(message)
-                model = None
-        return model
+                pipeline = None
+        return pipeline
 
 
 class ModelDeployPython3Handler(tornado.web.RequestHandler):
@@ -257,8 +255,8 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
                 # Update registry
                 self.update_model_assets(model_key_list)
 
-                LOGGER.info('{0} Model successfully deployed!'.format(model_key))
-                self.write('{0} Model successfully deployed!'.format(model_key))
+                LOGGER.info('"{0}" successfully deployed!'.format(model_key))
+                self.write('"{0}" successfully deployed!'.format(model_key))
                 #LOGGER.info('Model ID: {0}'.format(model_id)) 
                 #self.write('Model ID: {0}'.format(model_id))
             except Exception as e:
@@ -270,18 +268,18 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
 #    @REQUEST_TIME.time()
     def update_model_assets(self, model_key_list):
         model_key = '/'.join(model_key_list)
-        LOGGER.info('Model Server get_model_assets if: begin')
+        LOGGER.info('Model Server update_model_assets if: begin')
         LOGGER.info('Installing pipeline bundle and updating environment: begin')
         try:
-            model_pkl_path = os.path.join(self.settings['model_store_path'],
+            pipeline_path = os.path.join(self.settings['model_store_path'],
                                           *model_key_list,
                                           '{0}'.format(UPLOAD_ARTIFACTS[2]))
 
             pipeline_module_name = 'pipeline'
-            spec = importlib.util.spec_from_file_location(pipeline_module_name, '%s.py' % pipeline_module_name)
-            pipeline_module = importlib.util.module_from_spec(spec)
+            spec = importlib.util.spec_from_file_location(pipeline_module_name, pipeline_path)
+            pipeline = importlib.util.module_from_spec(spec)
             # Note:  This will initialize all global vars inside of pipeline.py
-            spec.loader.exec_module(pipeline_module)
+            spec.loader.exec_module(pipeline)
 
             # Load pickled model from model directory
             #with open(model_pkl_path, 'rb') as fh:
@@ -291,14 +289,14 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
             #    except AttributeError:
             #        pass
 
-            ModelPredictPython3Handler._registry[model_key] = model
+            ModelPredictPython3Handler._registry[model_key] = pipeline
             LOGGER.info('Installing pipeline bundle and updating environment: complete')
         except Exception as e:
-            message = 'ModelPredictPython3Handler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
+            message = 'ModelPredictPython3Handler.update_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
             LOGGER.info(message)
             logging.exception(message)
-            model = None
-        return model
+            pipeline = None
+        return pipeline
 
 
 def main():
@@ -331,6 +329,7 @@ def main():
         LOGGER.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIO_MODEL_SERVER_PROMETHEUS_PORT))
 
         tornado.ioloop.IOLoop.current().start()
+        print('...Python-based Model Server Started!')
     except Exception as e:
         LOGGER.info('model_server_python3.main: Exception {0}'.format(str(e)))
         logging.exception('model_server_python3.main: Exception {0}'.format(str(e)))

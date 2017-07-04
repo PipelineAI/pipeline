@@ -8,7 +8,27 @@ if [ ! -f ~/lib ]; then
   cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/lib
 fi
 
+if [ ! -f ~/datasets ]; then
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/datasets
+fi
+
+if [ ! -f ~/scripts ]; then
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/scripts
+fi
+
+if [ ! -f ~/src ]; then
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.com/src
+fi
+
+if [ ! -f ~/tests ]; then
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.com/tests
+fi
+
+# All paths (dirs, not files) up to and including /root must have +x permissions.
+# It's just the way linux works.  Don't fight it.
+# http://askubuntu.com/questions/537032/how-to-configure-apache2-with-symbolic-links-in-var-www
 if [ ! -f /var/www/html ]; then
+  chmod a+x /root
   cd /var/www/ && ln -s /root/html
 fi
 
@@ -18,9 +38,8 @@ fi
 
 if [ ! -f /etc/apache2/sites-available/www.conf ]; then
   cd /etc/apache2/sites-available && ln -s /root/config/apache2/www.conf
+  a2ensite www.conf
 fi
-
-a2ensite www.conf
 
 source /etc/apache2/envvars
 
