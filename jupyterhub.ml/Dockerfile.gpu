@@ -140,8 +140,7 @@ RUN \
   && pip install -e .
 
 RUN \
-  conda install -y gcc \
-  && pip install xgboost
+  conda install -c conda-forge xgboost=0.6a2
 
 RUN \
   pip install sklearn_pandas==1.4.0 \
@@ -211,7 +210,7 @@ RUN \
 RUN \
   mv ${HADOOP_CONF}/hdfs-site.xml ${HADOOP_CONF}/hdfs-site.xml.orig \
   && cd ${HADOOP_CONF} \
-  && ln -s /root/config/spark/conf/hdfs-site.xml
+  && ln -s /root/config/spark/hdfs-site.xml
 
 # Required by Tensorflow
 ENV \
@@ -221,16 +220,54 @@ ENV \
 RUN \
   echo 'export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)' >> /root/.bashrc
 
-#ENV \
-#  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:/root/scripts:$PATH
+ENV \
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${JAVA_HOME}/jre/lib/amd64/server
+
+ENV \
+  PATH=/root/scripts:$PATH
+
+ENV \
+  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:$PATH
+
+RUN \
+  apt-get install -y ssh
+
+RUN \
+  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
+  && sed -i s/#.*StrictHostKeyChecking.*/StrictHostKeyChecking\ no/ /etc/ssh/ssh_config \
+  && ssh-keygen -A \
+  && ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -N "" \
+  && cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
+
+RUN \
+  sed -i "s%<HADOOP_HOME>%${HADOOP_HOME}%" ${HADOOP_CONF}/*.xml \
+  && sed -i "s%\${JAVA_HOME}%${JAVA_HOME}%" ${HADOOP_CONF}/hadoop-env.sh
+
+RUN \
+  hadoop namenode -format
+
+# Required by sshd
+RUN \
+  mkdir /var/run/sshd
 
 COPY apache-jmeter-3.1/ apache-jmeter-3.1/
+#COPY datasets/ datasets/
+#COPY lib/ lib/
+#COPY scripts/ scripts/
+#COPY src/ src/
+#COPY tests/ tests/
+
+#RUN \
+#  pip install tensorflow==1.2.0
+
+RUN \
+  pip install tensorboard
 
 RUN \
   pip install keras==2.0.5
 
 RUN \
-  pip install pio-cli==0.68
+  pip install pio-cli==0.71
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \

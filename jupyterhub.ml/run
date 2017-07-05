@@ -17,11 +17,15 @@ if [ ! -f ~/scripts ]; then
 fi
 
 if [ ! -f ~/src ]; then
-  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.com/src
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/src
 fi
 
 if [ ! -f ~/tests ]; then
-  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.com/tests
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/tests
+fi
+
+if [ ! -f ~/html ]; then
+  cd ~ && ln -s /root/volumes/source.ml/jupyterhub.ml/html
 fi
 
 # All paths (dirs, not files) up to and including /root must have +x permissions.
@@ -45,15 +49,18 @@ source /etc/apache2/envvars
 
 service apache2 start
 
-export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
-
 source sysutils/container-limits.sh
 
 export JAVA_MAX_MEM_RATIO=85
 export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
 
+/usr/sbin/sshd
+cd ~
+start-dfs.sh &
+
 cd ~
 tensorboard --host=0.0.0.0 --logdir=/root/tensorboard &
 
 cd ~
-jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py
+export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
+CLASSPATH=$CLASSPATH jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out

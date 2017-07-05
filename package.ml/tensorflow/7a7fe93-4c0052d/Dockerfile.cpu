@@ -257,6 +257,27 @@ RUN \
 #    rm -rf /tmp/pip && \
 #    rm -rf /root/.cache
 
+####################
+# Build TensorBoard
+####################
+#ENV \
+#  TENSORBOARD_HOME=/root/tensorboard
+
+#RUN \
+# git clone --recurse-submodules https://github.com/tensorflow/tensorboard.git \
+# && cd $TENSORBOARD_HOME \
+# && git reset --hard 92a51f9
+
+#RUN \
+#  cd $TENSORBOARD_HOME \
+#  && bazel build tensorboard:tensorboard \
+#  && chmod a+x bazel-bin/tensorboard/tensorboard \
+#  && cp bazel-bin/tensorboard/tensorboard /usr/local/bin/ \
+#  && bazel clean --expunge
+
+RUN \
+  pip install tensorboard
+
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
