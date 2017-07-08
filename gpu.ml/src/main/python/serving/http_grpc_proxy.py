@@ -41,7 +41,7 @@ class TensorflowServingGrpcCommand(Command):
     request.model_spec.name = model_name
     if model_version > 0:
       request.model_spec.version.value = model_version
-    request.inputs['x_observed'].CopyFrom(inputs_tensor_proto)
+    request.inputs['inputs'].CopyFrom(inputs_tensor_proto)
 
     # Create gRPC client and request
     grpc_port = int(sys.argv[2])
@@ -52,7 +52,7 @@ class TensorflowServingGrpcCommand(Command):
     result = stub.Predict(request, request_timeout)
 
     # Convert PredictResult into np array
-    result_np = tf.contrib.util.make_ndarray(result.outputs['y_pred'])
+    result_np = tf.contrib.util.make_ndarray(result.outputs['outputs'])
 
     # Convert np array into json
     result_json = json.dumps({"y_pred": result_np.tolist()[0]})
