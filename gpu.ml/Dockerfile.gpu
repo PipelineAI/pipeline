@@ -37,8 +37,6 @@ RUN \
   && pip install widgetslabextension==0.1.0
 
 RUN \
-#  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
-#  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
   jupyter labextension install jupyterlab-hub
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
@@ -95,7 +93,8 @@ ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
 RUN \
-  git clone https://github.com/fluxcapacitor/pipeline.git
+  git clone https://github.com/fluxcapacitor/pipeline.git \
+  && git reset master
 
 RUN \
   ln -s pipeline/gpu.ml/src \

@@ -274,7 +274,7 @@ c.SimpleLocalProcessSpawner.home_path_template = '/root/'
 c.Spawner.args = ['--allow-root']
 # The command used for starting notebooks.
 #c.Spawner.cmd = ['jupyterhub-singleuser']
-c.Spawner.cmd = ['jupyter labhub']
+#c.Spawner.cmd = ['jupyter labhub']
 
 # Enable debug-logging of the single-user server
 c.Spawner.debug = True
@@ -285,7 +285,7 @@ c.Spawner.debug = True
 # traversal, while preserving user's homedir as landing page for notebook
 #
 # `%U` will be expanded to the user's username
-#c.Spawner.default_url = '/lab'
+c.Spawner.default_url = '/lab'
 
 # Disable per-user configuration of single-user servers.
 #
