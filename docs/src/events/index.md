@@ -87,8 +87,12 @@ Apr 22 Spark + TensorFlow + GPUs _(SOLD OUT)_
 
 May 27 Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[June 10 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-33971332169?discount=ADVANCEDTENSORFLOW20)
+June 10 Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[July 8 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineio-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-34906919536?discount=ADVANCEDTENSORFLOW20)
+July 8 Spark + TensorFlow + GPUs _(SOLD OUT)_
+
+[Aug 12 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-35387193047?discount=ADVANCEDTENSORFLOW20)
+
+[Oct 28 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-35387827946?discount=ADVANCEDTENSORFLOW20)
 
 {!contributing.md!}
