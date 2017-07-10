@@ -33,7 +33,8 @@ source /etc/apache2/envvars
 
 service apache2 start
 
-cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py --port 5050 &
+[ -s /root/nvidia/nvidia-prometheus-stats.py ] \
+  && cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py -u 1.0 -p 5050 &
 
 cd ~
 export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)

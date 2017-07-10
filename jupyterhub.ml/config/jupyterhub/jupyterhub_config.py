@@ -213,17 +213,16 @@ c.SimpleLocalProcessSpawner.home_path_template = '/root/'
 #c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
 # Don't try to cleanup servers on exit - since in general for k8s, we want
 # the hub to be able to restart without losing user containers
-c.JupyterHub.cleanup_servers = False
+#c.JupyterHub.cleanup_servers = False
 # First pulls can be really slow, so let's give it a big timeout
-c.KubeSpawner.start_timeout = 60 * 5
+#c.KubeSpawner.start_timeout = 60 * 5
 # Our simplest user image! Optimized to just... start, and be small!
-c.KubeSpawner.singleuser_image_spec = 'yuvipanda/simple-singleuser:v1'
+#c.KubeSpawner.singleuser_image_spec = 'yuvipanda/simple-singleuser:v1'
 # The spawned containers need to be able to talk to the hub through the proxy!
-c.KubeSpawner.hub_connect_ip = os.environ['JUPYTERHUB_SERVICE_HOST']
-#c.KubeSpawner.hub_connect_ip = 'jupyterhub'
-c.KubeSpawner.hub_connect_port = 8754
-c.KubeSpawner.mem_limit = '2G'
-c.KubeSpawner.cpu_limit = 1
+#c.KubeSpawner.hub_connect_ip = os.environ['JUPYTERHUB_SERVICE_HOST']
+#c.KubeSpawner.hub_connect_port = os.environ['JUPYTERHUB_SERVICE_PORT_JUPYTERHUB_API_PROXY'] 
+#c.KubeSpawner.mem_limit = '2G'
+#c.KubeSpawner.cpu_limit = 1
 
 
 # Spawn user containers from this image
@@ -288,7 +287,8 @@ c.KubeSpawner.cpu_limit = 1
 # Extra arguments to be passed to the single-user server
 c.Spawner.args = ['--allow-root']
 # The command used for starting notebooks.
-# c.Spawner.cmd = ['jupyterhub-singleuser']
+#c.Spawner.cmd = ['jupyterhub-singleuser']
+#c.Spawner.cmd = ['jupyter labhub']
 
 # Enable debug-logging of the single-user server
 c.Spawner.debug = True
@@ -299,7 +299,7 @@ c.Spawner.debug = True
 # traversal, while preserving user's homedir as landing page for notebook
 #
 # `%U` will be expanded to the user's username
-#c.Spawner.default_url = '/lab'
+c.Spawner.default_url = '/lab'
 
 # Disable per-user configuration of single-user servers.
 #

@@ -26,17 +26,18 @@ RUN \
   && pip install notebook==5.0.0 \
   && pip install ipywidgets==6.0.0 \
   && pip install findspark==1.1.0 \
-  && pip install tabulate=0.7.7
+  && pip install tabulate==0.7.7
 
-#RUN \
-#  pip install jupyterlab==0.19.0 \
-#  && pip install jupyterlab_widgets==0.6.15 \
-#  && pip install widgetslabextension==0.1.0
+RUN \
+  pip install jupyterlab==0.24.1 \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix 
+  
+RUN \
+  pip install jupyterlab_widgets==0.6.15 \
+  && pip install widgetslabextension==0.1.0
 
-#RUN \
-#  jupyter labextension install --sys-prefix --py jupyterlab_widgets \
-#  && jupyter labextension enable --sys-prefix --py jupyterlab_widgets \
-#  && jupyter serverextension enable --py jupyterlab --sys-prefix
+RUN \
+  jupyter labextension install jupyterlab-hub
 
 # Install non-secure dummyauthenticator for jupyterhub (dev purposes only)
 RUN \
@@ -92,7 +93,8 @@ ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
 RUN \
-  git clone https://github.com/fluxcapacitor/pipeline.git
+  git clone https://github.com/fluxcapacitor/pipeline.git \
+  && git reset master
 
 RUN \
   ln -s pipeline/gpu.ml/src \
@@ -207,8 +209,10 @@ RUN \
   conda install --yes graphviz==2.38.0
 
 RUN \ 
-  conda install --yes -c numba cudatoolkit==8.0 \
-  && conda install --yes -c numba numba==0.33
+  conda install --yes -c numba cudatoolkit==8.0 
+
+RUN \
+  conda install --yes -c numba numba==0.34
 
 RUN \
   mkdir -p /root/tensorboard
@@ -250,7 +254,7 @@ RUN \
   pip install keras==2.0.5
 
 RUN \
-  pip install pio-cli==0.68
+  pip install pio-cli==0.71
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 5050
 

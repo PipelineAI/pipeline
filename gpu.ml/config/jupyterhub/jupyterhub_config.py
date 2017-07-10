@@ -273,7 +273,8 @@ c.SimpleLocalProcessSpawner.home_path_template = '/root/'
 # Extra arguments to be passed to the single-user server
 c.Spawner.args = ['--allow-root']
 # The command used for starting notebooks.
-# c.Spawner.cmd = ['jupyterhub-singleuser']
+#c.Spawner.cmd = ['jupyterhub-singleuser']
+#c.Spawner.cmd = ['jupyter labhub']
 
 # Enable debug-logging of the single-user server
 c.Spawner.debug = True
