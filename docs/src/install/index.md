@@ -3,7 +3,7 @@ While we recommend the hosted [PipelineAI Community Edition](http://community.pi
 
 Note:  Support is limited for this offering, but we would love your feedback, bug reports, and feature requests [HERE](https://pipelineio.zendesk.com). 
 
-## Standalone 
+## PipelineAI Standalone 
 The standalone PipelineAI Community Edition uses a single Docker image that can run in any CPU and GPU-based environment that supports [Docker](https://www.docker.com/) for CPUs or [Nvidia-Docker](https://github.com/NVIDIA/nvidia-docker) for GPUs.
 
 ![Nvidia GPU](/img/nvidia-cuda-338x181.png)
@@ -22,7 +22,7 @@ The standalone PipelineAI Community Edition uses a single Docker image that can 
 ### Google Cloud CPU
 [Google Cloud CPU](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
-## Distributed 
+## PipelineAI Distributed
 PipelineAI uses Kubernetes for Docker Container management and orchestration.
 
 ![Kubernetes](/img/kubernetes-logo-200x171.png)
@@ -52,5 +52,11 @@ Full Kubernetes Cluster + PipelineAI Community Edition on Azure
 ![Azure Cluster](/img/azure-logo-200x103.png)
 
 This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
+
+### [On-Premise](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-On-Premise)
+Full Kubernetes Cluster + PipelineAI Community Edition On-Premise
+
+![On-Premise Cluster](/img/on-premise-216x216.png)
+https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-On-Premise
 
 {!contributing.md!}
