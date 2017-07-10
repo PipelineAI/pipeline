@@ -57,6 +57,5 @@ This requires large instance types with at least 50 GB RAM, 8 CPUs, 100 GB Disk.
 Full Kubernetes Cluster + PipelineAI Community Edition On-Premise
 
 ![On-Premise Cluster](/img/on-premise-216x216.png)
-https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-On-Premise
 
 {!contributing.md!}
