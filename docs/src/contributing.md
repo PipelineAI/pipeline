@@ -63,3 +63,15 @@ mixpanel.init("89d4c9ede735c8bc7ad5e4732b2b5e2b");
 Option 1:  [Edit](https://github.com/fluxcapacitor/pipeline/edit/master/docs/src/index.md) the documentation directly.
 
 Option 2:  Create a GitHub [issue](https://github.com/fluxcapacitor/pipeline/issues/new?body=This%20documentation%20issue%20is%20about%20).
+
+## More Resources
+<div class="more-resources">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <a href="https://github.com/fluxcapacitor/pipeline" class="fa fa-github"></a>
+      &nbsp;&nbsp;<a href="https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/" class="fa fa-meetup"></a>
+      &nbsp;&nbsp;<a href="https://youtube.com/channel/UCvlZKtekcKkBUuz8f9dhobw" class="fa fa-youtube"></a>
+      &nbsp;&nbsp;<a href="https://www.slideshare.net/cfregly" class="fa fa-slideshare"></a>
+      &nbsp;&nbsp;<a href="https://www.linkedin.com/company/6609122/" class="fa fa-linkedin"></a>
+      &nbsp;&nbsp;<a href="https://twitter.com/pipelineio" class="fa fa-twitter"></a>
+      &nbsp;&nbsp;<a href="https://hub.docker.com/r/fluxcapacitor" class="fa fa-globe"></a>
+</div>
