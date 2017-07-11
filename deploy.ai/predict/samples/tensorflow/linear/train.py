@@ -8,9 +8,9 @@ import numpy as np
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--learning_rate', type=float, help='Learning Rate')
-parser.add_argument('--train_dir', type=str, help='Train Dir')
-parser.add_argument('--test_dir', type=str, help='Test Dir')
+parser.add_argument('--learning_rate', type=float, help='Learning Rate', default=0.025)
+parser.add_argument('--train_dir', type=str, help='Train Dir', default='./train')
+parser.add_argument('--test_dir', type=str, help='Test Dir', default='./test')
 FLAGS, unparsed = parser.parse_known_args()
 print(FLAGS)
 print(unparsed)
@@ -64,6 +64,7 @@ with tf.device("/cpu:0"):
     print(y_pred)
 
 learning_rate = FLAGS.learning_rate
+#learning_rate = 0.025
 
 global loss_op
 
@@ -95,9 +96,6 @@ test(x_train, y_train)
 
 loss_summary_scalar_op = tf.summary.scalar('loss', loss_op)
 loss_summary_merge_all_op = tf.summary.merge_all()
-
-from datetime import datetime 
-version = int(datetime.now().strftime("%s"))
 
 train_summary_writer = tf.summary.FileWriter(FLAGS.train_dir, 
                                             graph=tf.get_default_graph())
@@ -133,21 +131,19 @@ graph = tf.get_default_graph()
 x_observed = graph.get_tensor_by_name('x_observed:0')
 y_pred = graph.get_tensor_by_name('add:0')
 
-tensor_info_x_observed = utils.build_tensor_info(x_observed)
-print(tensor_info_x_observed)
+inputs_map = {'inputs': x_observed}
+outputs_map = {'outputs': y_pred}
 
-tensor_info_y_pred = utils.build_tensor_info(y_pred)
-print(tensor_info_y_pred)
-
-prediction_signature = signature_def_utils.build_signature_def(inputs = 
-                {'x_observed': tensor_info_x_observed}, 
-                outputs = {'y_pred': tensor_info_y_pred}, 
-                method_name = signature_constants.PREDICT_METHOD_NAME)
+prediction_signature = signature_def_utils.predict_signature_def(inputs=inputs_map,
+                                                              outputs=outputs_map)
 
 from tensorflow.python.saved_model import builder as saved_model_builder
 from tensorflow.python.saved_model import tag_constants
 
-fully_optimized_saved_model_path = './export-%s' % version
+from datetime import datetime
+version = int(datetime.now().strftime("%s"))
+
+fully_optimized_saved_model_path = './%s' % version
 print(fully_optimized_saved_model_path)
 
 builder = saved_model_builder.SavedModelBuilder(fully_optimized_saved_model_path)
@@ -160,5 +156,5 @@ signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY:prediction_signature},
 
 builder.save(as_text=False)
 print('')
-print('Model training completed and saved here:  ./export-%s' % version)
+print('Model training completed and saved here:  ./%s' % version)
 print('')

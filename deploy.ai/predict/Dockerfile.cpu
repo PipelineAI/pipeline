@@ -98,7 +98,7 @@ RUN \
 COPY src/ src/
 
 ENV \
-  PIO_MODEL_SERVER_PATH=/root/src/main/python/model_server/
+  PIO_MODEL_SERVER_PATH=/root/src/main/python/model_server
 
 #COPY nvidia/ nvidia/
 #RUN \
@@ -122,23 +122,35 @@ ENV \
 ENV \
   PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
-ENV \
-  PIO_MODEL_SERVER_ALLOW_UPLOAD=True
+#ENV \
+#  PIO_MODEL_SERVER_ALLOW_UPLOAD=True
 
 COPY html/ /var/www/html/
 COPY run run
 
-ARG model_file_path 
-RUN \
-  echo $model_file_path 
-
 ENV \
-  PIO_MODEL_STORE_HOME=/root/model_store/
-#  PIO_MODEL_STORE_HOME=$model_file_path
+  PIO_MODEL_STORE_HOME=/root/model_store
 
-ARG model_s3_path
+ARG model_type
 RUN \
-  echo $model_s3_path
+  echo $model_type
+ENV \
+  PIO_MODEL_TYPE=$model_type
+
+ARG model_name
+RUN \
+  echo $model_name
+ENV \
+  PIO_MODEL_NAME=$model_name
+
+#ARG model_s3_path
+#RUN \
+#  echo $model_s3_path
+
+COPY samples/$model_type/$model_name/ $PIO_MODEL_STORE_HOME/$model_type/$model_name/ 
+COPY scripts/setup_environment.sh scripts/setup_environment.sh
+RUN \
+  /root/scripts/setup_environment.sh
 
 EXPOSE 6969 9876 9877 9000 9040 9090 3000 10254 10255 7070
 

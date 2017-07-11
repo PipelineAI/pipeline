@@ -1,0 +1,6 @@
+tornado==4.5.1
+prometheus_client==0.0.19
+grpcio>=0.15.0
+grpcio-tools>=0.15.0
+pio-monitors>=0.2
+#/tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl

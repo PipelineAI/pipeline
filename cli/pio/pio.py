@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.71"
+__version__ = "0.72"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -20,11 +20,11 @@ from kubernetes.client.rest import ApiException
 import kubernetes.config as kubeconfig
 import yaml
 import json
-import cloudpickle as pickle
+#import cloudpickle as pickle
 from pprint import pprint
 import subprocess
 from datetime import timedelta
-
+import importlib.util
 
 class PioCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
@@ -656,7 +656,7 @@ class PioCli(object):
         return tarinfo
         
 
-    def bundle(self,
+    def model_bundle(self,
                path_to_bundle,
                bundle_name='pipeline.tar.gz',
                filemode='w',
@@ -670,11 +670,61 @@ class PioCli(object):
             tar.add(path_to_bundle, arcname='.', filter=self._filter_tar_bundle)
 
 
-    def deploy(self,
-               model_server_url=None,
-               model_type=None,
-               model_name=None,
-               model_path='.'):
+#    def model_pickle(self,
+#                     model_name='model',
+#                     path_to_model='.'):
+
+#        import cloudpickle as pickle
+
+#        spec = importlib.util.spec_from_file_location(model_name, path_to_model)
+#        model = importlib.util.module_from_spec(spec)
+        # Note:  This will initialize all global vars defined inside of <path_to_model>/model.py
+#        spec.loader.exec_module(model)
+
+#        model_pkl_path = '%s.pkl' % model_name
+
+#        with open(model_pkl_path, 'wb') as fh:
+#            pickle.dump(model, fh)
+
+
+#    def model_package(self,
+#                      path_to_model,
+#                      ):
+
+#        pio_api_version = self._get_full_config()['pio_api_version']
+
+#        try:
+#            kube_cluster_context = self._get_full_config()['kube_cluster_context']
+#            kube_namespace = self._get_full_config()['kube_namespace']
+#        except:
+#            print("")
+#            print("Cluster needs to be configured with 'pio init-cluster'.")
+#            print("")
+#            return
+
+#        try:
+#            pio_git_home = self._get_full_config()['pio_git_home']
+
+#            if 'http:' in pio_git_home or 'https:' in pio_git_home:
+#                pass
+#            else:
+#                pio_git_home = os.path.expandvars(pio_git_home)
+#                pio_git_home = os.path.expanduser(pio_git_home)
+#                pio_git_home = os.path.abspath(pio_git_home)
+
+#            pio_git_version = self._get_full_config()['pio_git_version']
+#        except:
+#            print("")
+#            print("PipelineIO needs to be configured with 'pio init-pio'.")
+#            print("")
+#            return
+
+
+    def model_deploy(self,
+                     model_server_url=None,
+                     model_type=None,
+                     model_name=None,
+                     model_path='.'):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
@@ -728,10 +778,10 @@ class PioCli(object):
 
             print("")
             print("Compressing model bundle '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
-            self.bundle(path_to_bundle=model_path,
-                        bundle_name=compressed_model_bundle_filename,
-                        filemode='w',
-                        compression='gz')
+            self.model_bundle(path_to_bundle=model_path,
+                              bundle_name=compressed_model_bundle_filename,
+                              filemode='w',
+                              compression='gz')
             model_file = compressed_model_bundle_filename
             upload_key = 'file'
             upload_value = compressed_model_bundle_filename
@@ -891,17 +941,17 @@ class PioCli(object):
         print("")
 
 
-    def predict(self,
-                concurrency=1,
-                model_server_url=None,
-                model_type=None,
-                model_name=None,
-                model_test_request_path='./data/test_request.json',
-                model_request_mime_type='application/json',
-                model_response_mime_type='application/json'):
-
+    def model_predict(self,
+                      concurrency=1,
+                      model_server_url=None,
+                      model_type=None,
+                      model_name=None,
+                      model_test_request_path='./data/test_request.json',
+                      model_request_mime_type='application/json',
+                      model_response_mime_type='application/json'):
 
         from concurrent.futures import ThreadPoolExecutor, as_completed
+
         with ThreadPoolExecutor(max_workers=concurrency) as executor:
             for _ in range(concurrency):
                 executor.submit(self._predict(model_server_url,
