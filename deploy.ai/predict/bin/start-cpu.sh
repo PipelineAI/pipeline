@@ -1,4 +1,3 @@
-#echo 'PIO_MODEL_STORE (ie. /path/to/models/parent/path/)'==$PIO_MODEL_STORE
 echo 'PIO_MODEL_TYPE (ie. scikit, tensorflow, python3, spark, xgboost)'==$PIO_MODEL_TYPE
 echo 'PIO_MODEL_NAME (ie. my_model)'==$PIO_MODEL_NAME
 

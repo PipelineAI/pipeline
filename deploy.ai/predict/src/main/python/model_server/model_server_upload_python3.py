@@ -16,7 +16,7 @@ from prometheus_client import CollectorRegistry, generate_latest, start_http_ser
 import json
 
 
-define('PIO_MODEL_STORE_HOME', default='', help='path to model_store', type=str)
+define('PIO_MODEL_STORE_PATH', default='', help='path to model_store', type=str)
 define('PIO_MODEL_TYPE', default='', help='prediction model type', type=str)
 define('PIO_MODEL_NAME', default='', help='prediction model name', type=str)
 define('PIO_MODEL_SERVER_PORT', default='', help='tornado http server listen port', type=int)
@@ -75,7 +75,7 @@ class Application(tornado.web.Application):
              ModelPredictPython3Handler),
         ]
         settings = dict(
-            model_store_path=options.PIO_MODEL_STORE_HOME,
+            model_store_path=options.PIO_MODEL_STORE_PATH,
             model_type=options.PIO_MODEL_TYPE,
             model_name=options.PIO_MODEL_NAME,
             model_server_port=options.PIO_MODEL_SERVER_PORT,
@@ -292,14 +292,14 @@ class ModelDeployPython3Handler(tornado.web.RequestHandler):
 def main():
     try:
         tornado.options.parse_command_line()
-        if not (options.PIO_MODEL_STORE_HOME 
+        if not (options.PIO_MODEL_STOREPATH_
                 and options.PIO_MODEL_TYPE 
                 and options.PIO_MODEL_NAME 
                 and options.PIO_MODEL_SERVER_PORT
                 and options.PIO_MODEL_SERVER_PROMETHEUS_PORT 
                 and options.PIO_MODEL_SERVER_ALLOW_UPLOAD  
                 and options.PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT):
-            LOGGER.error('--PIO_MODEL_STORE_HOME and --PIO_MODEL_TYPE and --PIO_MODEL_NAME and \
+            LOGGER.error('--PIO_MODEL_STORE_PATH and --PIO_MODEL_TYPE and --PIO_MODEL_NAME and \
                           --PIO_MODEL_SERVER_PORT and --PIO_MODEL_SERVER_PROMETHEUS_PORT and \
                           --PIO_MODEL_SERVER_ALLOW_UPLOAD and --PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT and must be set')
             return

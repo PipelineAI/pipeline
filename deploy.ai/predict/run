@@ -1,132 +1,68 @@
 #!/bin/bash
 
 start_model_server_python3 () {
+    echo "PIO_MODEL_SERVER_PATH=$PIO_MODEL_SERVER_PATH"
+    echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+    echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
+    echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+    echo "PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT"
+    echo "PIO_MODEL_SERVER_PROMETHEUS_PORT=$PIO_MODEL_SERVER_PROMETHEUS_PORT"
+    echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
 
-#source activate model_server
+    echo ""
+    echo "Starting Python-based Model Server..."
+    echo ""
 
-echo "PIO_MODEL_SERVER_PATH=$PIO_MODEL_SERVER_PATH"
-echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
-echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
-echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
-echo "PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT"
-echo "PIO_MODEL_SERVER_PROMETHEUS_PORT=$PIO_MODEL_SERVER_PROMETHEUS_PORT"
-#echo "PIO_MODEL_SERVER_ALLOW_UPLOAD=$PIO_MODEL_SERVER_ALLOW_UPLOAD"
-echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    source activate $PIO_CONDA_ENV_NAME 
 
-#echo ""
-#echo "Installing Model Dependencies..."
-#echo ""
-## Model
-#[ -s $PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements_conda.txt ] \
-#  && conda install --yes --file $PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements_conda.txt
-#[ -s $PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements.txt ] \
-#  && pip install -r $PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements.txt
-#echo ""
-#echo "...Model Dependencies Installed!"
-#echo ""
+    cd $PIO_MODEL_PATH \
+      && PYTHONPATH=$PIO_MODEL_PATH:$PYTHONPATH \
+        $PIO_MODEL_SERVER_PATH/model_server_python3.py \
+        --PIO_MODEL_TYPE=$PIO_MODEL_TYPE \
+        --PIO_MODEL_NAME=$PIO_MODEL_NAME \
+        --PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT \
+        --PIO_MODEL_SERVER_PROMETHEUS_PORT=$PIO_MODEL_SERVER_PROMETHEUS_PORT \
+        --PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT
 
-#echo ""
-#echo "Installing Model Server Dependencies..."
-#echo ""
-## Model Server
-#[ -s $PIO_MODEL_SERVER_PATH/python3/requirements_conda_pio_model_server.txt ] \
-#  && conda install --yes --file $PIO_MODEL_SERVER_PATH/python3/requirements_conda_pio_model_server.txt
-#[ -s $PIO_MODEL_SERVER_PATH/python3/requirements_pio_model_server.txt ] \
-#  && pip install -r $PIO_MODEL_SERVER_PATH/python3/requirements_pio_model_server.txt
-#echo ""
-#echo "...Model Server Dependencies Installed!"
-#echo ""
-
-echo ""
-echo "Starting Python-based Model Server..."
-echo ""
-PYTHONPATH=$PYTHONPATH:$PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME \
-  $PIO_MODEL_SERVER_PATH/model_server_python3.py \
-  --PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME \
-  --PIO_MODEL_TYPE=$PIO_MODEL_TYPE \
-  --PIO_MODEL_NAME=$PIO_MODEL_NAME \
-  --PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT \
-  --PIO_MODEL_SERVER_PROMETHEUS_PORT=$PIO_MODEL_SERVER_PROMETHEUS_PORT \
-  --PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT
+    cd /root
 }
 
-#start_model_server_tensorflow () {
-#echo "PIO_MODEL_SERVER_PATH=$PIO_MODEL_SERVER_PATH"
-#echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
-#echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
-#echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
-#echo "PIO_MODEL_SERVER_TENSORFLOW_PORT=$PIO_MODEL_SERVER_TENSORFLOW_PORT"
-#echo "PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT=$PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT"
-##echo "PIO_MODEL_SERVER_ALLOW_UPLOAD=$PIO_MODEL_SERVER_ALLOW_UPLOAD"
-#echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
-
-#echo ""
-#echo "Installing Model Dependencies..."
-#echo ""
-## Model
-#[ -s $PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements_conda.txt ] \
-#  && conda install --yes --file $PIO_MODEL_SERVER_PATH/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements_conda.txt 
-#[ -s $PIO_MODEL_SERVER_PATH/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements.txt ] \
-#  && pip install -r $PIO_MODEL_SERVER_PATH/$PIO_MODEL_TYPE/$PIO_MODEL_NAME/requirements.txt
-#echo ""
-#echo "...Model Dependencies Installed!"
-#echo ""
-
-#echo ""
-#echo "Installing Model Server Dependencies..."
-#echo ""
-## Model Server
-#[ -s $PIO_MODEL_SERVER_PATH/tensorflow/requirements_conda_pio_model_server.txt ] \
-#  && conda install --yes --file $PIO_MODEL_SERVER_PATH/tensorflow/requirements_conda_pio_model_server.txt 
-#[ -s $PIO_MODEL_SERVER_PATH/tensorflow/requirements_pio_model_server.txt ] \
-#  && pip install -r $PIO_MODEL_SERVER_PATH/tensorflow/requirements_pio_model_server.txt
-#echo ""
-#echo "...Model Server Dependencies Installed!"
-#echo ""
-
-#echo ""
-#echo "Starting Python-based Model Server..."
-#echo ""
-#$PIO_MODEL_SERVER_PATH/model_server_python3.py --PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME --PIO_MODEL_TYPE=$PIO_MODEL_TYPE --PIO_MODEL_NAME=$PIO_MODEL_NAME --PIO_MODEL_SERVER_TENSORFLOW_PORT=$PIO_MODEL_SERVER_TENSORFLOW_PORT --PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT=$PIO_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT --PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT
-# --PIO_MODEL_SERVER_ALLOW_UPLOAD=$PIO_MODEL_SERVER_ALLOW_UPLOAD 
-#}
-
 start_model_server_jvm () {
-echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
-echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
-echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
-echo "PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT"
-echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+    echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
+    echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+    echo "PIO_MODEL_SERVER_PORT=$PIO_MODEL_SERVER_PORT"
+    echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
 
-export JAVA_MAX_MEM_RATIO=85
-export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    export JAVA_MAX_MEM_RATIO=85
+    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
 
-echo ""
-echo "Starting JVM-based Model Server..."
-echo ""
-java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -jar /root/lib/sbt-launch.jar "run-main io.pipeline.prediction.jvm.PredictionServiceMain"
+    echo ""
+    echo "Starting JVM-based Model Server..."
+    echo ""
+    cd $PIO_MODEL_PATH \
+      && java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom \
+        -jar /root/lib/sbt-launch.jar \
+        "run-main io.pipeline.prediction.jvm.PredictionServiceMain"
 }
 
 start_tensorflow_serving_in_background () {
-echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
-echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
-echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
-echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
-echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
-echo ""
-echo "TensorFlow Model Base Path=$PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME"
-echo ""
-echo "Starting TensorFlow Serving..."
-echo ""
-# Args:
-#  $1: grpc port number (int)
-#  $2: model_name (anything)
-#  $3: <model_type>/<model_name>/ (aka. parent path above all the /<model_version>/ paths)
-#  $4: request batching (true|false)
-tensorflow_model_server --port=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_STORE_HOME/$PIO_MODEL_TYPE/$PIO_MODEL_NAME --batching_parameters_file=/root/config/tf_serving/batching_config.txt --enable_batching=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING --file_system_poll_wait_seconds=5 &
-echo ""
-echo "...TensorFlow Serving Started!"
-echo ""
+    echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+    echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
+    echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+    echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
+    echo ""
+    echo "Starting TensorFlow Serving..."
+    echo ""
+    tensorflow_model_server --port=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT \
+        --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_PATH \
+        --batching_parameters_file=/root/config/tf_serving/batching_config.txt \
+        --enable_batching=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
+        --file_system_poll_wait_seconds=5 &
+    echo ""
+    echo "...TensorFlow Serving Started!"
+    echo ""
 }
 
 source sysutils/container-limits.sh
@@ -141,7 +77,7 @@ service grafana-server start
   && python2 /root/nvidia/nvidia-prometheus-stats.py -u 1.0 -p 7070 &
 
 echo "Required Environment Variables..."
-echo "PIO_MODEL_STORE_HOME=$PIO_MODEL_STORE_HOME"
+echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
 echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
 echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
 
@@ -153,9 +89,9 @@ if [[ $PIO_MODEL_TYPE == "python3" ]] ||
 fi;
 
 if [[ $PIO_MODEL_TYPE == "tensorflow" ]]; then
+
   start_tensorflow_serving_in_background 
   start_model_server_python3
-#  start_model_server_tensorflow
 fi;
 
 if [[ $PIO_MODEL_TYPE == "spark" ]] ||
