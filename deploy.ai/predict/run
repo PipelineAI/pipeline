@@ -29,12 +29,10 @@ start_model_training_python3() {
 
     source activate $PIO_CONDA_ENV_NAME
 
-    cd $PIO_MODEL_PATH \
-    python pio_train.py
+    cd $PIO_MODEL_PATH && python pio_train.py && cd /root
     echo ""
     echo "...Training Complete!"
     echo ""
-    cd /root
 }
 
 start_model_serving_python3 () {
