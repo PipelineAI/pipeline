@@ -1,0 +1,120 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../fa-awesome/fa-awesome.html">
+<link rel="import" href="../guild-imports/jquery.html">
+<link rel="import" href="../guild-imports/d3.html">
+<link rel="import" href="../guild-imports/datatables.html">
+<link rel="import" href="../guild-run/guild-run.html">
+<link rel="import" href="../guild-util/guild-util.html">
+
+<link rel="import" href="guild-compare-table-select.html">
+
+<script src="compare-table.js"></script>
+
+<dom-module id="compare-table-styles">
+  <template>
+    <style>
+
+     /* General formatting */
+
+     a.date {
+         white-space: nowrap;
+         color: var(--default-primary-color);
+     }
+
+     table.dataTable thead th {
+         text-align: left;
+         border: none;
+     }
+
+     .status-title {
+         margin-left: 2px;
+     }
+
+     .dataTables_scrollHead {
+         color: rgba(0, 0, 0, 0.54);
+         border-bottom: 1px solid #eee !important;
+     }
+
+     .dataTables_scrollBody {
+         border-bottom: 1px solid #eee !important;
+     }
+
+     .dataTables_wrapper .dataTables_filter {
+         display: none;
+     }
+
+     table.dataTable thead th {
+         padding: 10px 10px;
+     }
+
+     table.dataTable tbody tr.highlight {
+         background-color: #f5f5f5;
+     }
+
+     /* Remove image from th */
+
+     table.dataTable thead th.sorting {
+         background-image: none;
+     }
+
+     table.dataTable thead th.sorting_asc {
+         background-image: none;
+     }
+
+     table.dataTable thead th.sorting_desc {
+         background-image: none;
+     }
+
+     table.dataTable thead th.sorting_asc_disabled {
+         background-image: none;
+     }
+
+     table.dataTable thead th.sorting_desc_disabled {
+         background-image: none;
+     }
+
+     /* Add image to .header-title (wraps title content) */
+
+     table.dataTable thead .header-title {
+         background-repeat: no-repeat;
+         background-position: center right;
+         padding-right: 20px;
+     }
+
+     table.dataTable thead .sorting .header-title {
+         background-image: url(../datatables.net-dt/images/sort_both.png);
+     }
+
+     table.dataTable thead .sorting_asc .header-title {
+         background-image: url(../datatables.net-dt/images/sort_asc.png);
+     }
+
+     table.dataTable thead .sorting_desc .header-title {
+         background-image: url(../datatables.net-dt/images/sort_desc.png);
+     }
+
+     table.dataTable thead .sorting_asc_disabled .header-title {
+         background-image: url(../datatables.net-dt/images/sort_asc_disabled.png);
+     }
+
+     table.dataTable thead .sorting_desc_disabled .header-title {
+         background-image: url(../datatables.net-dt/images/sort_desc_disabled.png);
+     }
+    </style>
+  </template>
+</dom-module>

@@ -1,0 +1,107 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-data/guild-data-listener.html">
+
+<dom-module id="guild-run-data-listener">
+  <script>
+   Polymer({
+       is: "guild-run-data-listener",
+
+       behaviors: [Guild.DataListener],
+
+       properties: {
+           env: Object,
+           scope: String,
+           runDataSource: String,
+           dataSource: {
+               computed: "computeDataSource(runDataSource, env.selectedRun, scope)",
+           },
+           stopWithRun: {
+               type: Boolean,
+               value: false
+           },
+           runDataFetchInterval: {
+               type: Number,
+               // Must initialize with to trigger calls to
+               // computeDataFetchInterval. Must be null so
+               // we can use env.settings.refreshInterval by
+               // default.
+               value: null
+           },
+           dataFetchInterval: {
+               computed: "computeDataFetchInterval("
+                       + "  runDataFetchInterval,"
+                       + "  stopWithRun,"
+                       + "  env.selectedRun,"
+                       + "  env.runs,"
+                       + "  env.settings)"
+           },
+           data: {
+               type: Object,
+               notify: true
+           },
+           formattedValue: {
+               type: String,
+               notify: true,
+               computed: "computeFormattedValue(data)"
+           },
+           formattedDefault: String
+       },
+
+       computeDataSource: function(runDataSource, selectedRun, scope) {
+           if (selectedRun) {
+               if (scope == "eval") {
+                   return runDataSource + "?run=" + selectedRun + "&eval";
+               } else {
+                   return runDataSource + "?run=" + selectedRun;
+               }
+           } else {
+               return null;
+           }
+       },
+
+       computeDataFetchInterval: function(interval, stopWithRun, selected,
+                                          runs, settings) {
+           if (stopWithRun && !this.util.isRunning(selected, runs)) {
+               return 0;
+           } else {
+               return interval != null
+                    ? interval
+                    : (settings.refreshInterval || 0);
+           }
+       },
+
+       handleData: function(data) {
+           this.data = data;
+       },
+
+       computeFormattedValue: function(data) {
+           if (this.dataFormat) {
+               return this.formatData(data, this.formattedDefault);
+           }
+       },
+
+       util: new function() {
+
+           this.isRunning = function(selected, runs) {
+               var run = Guild.Run.runForId(selected, runs);
+               return Guild.Run.isRunning(run);
+           };
+       }
+   });
+  </script>
+</dom-module>

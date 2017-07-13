@@ -1,0 +1,55 @@
+#!/usr/bin/env escript
+%%-*-erlang-*-
+%%! -env ERL_LIBS build/default/lib
+
+%% Copyright 2016-2017 TensorHub, Inc.
+%%
+%% Licensed under the Apache License, Version 2.0 (the "License");
+%% you may not use this file except in compliance with the License.
+%% You may obtain a copy of the License at
+%%
+%% http://www.apache.org/licenses/LICENSE-2.0
+%%
+%% Unless required by applicable law or agreed to in writing, software
+%% distributed under the License is distributed on an "AS IS" BASIS,
+%% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+%% See the License for the specific language governing permissions and
+%% limitations under the License.
+
+main(Args) ->
+    try
+        run_tests(Args)
+    catch
+        _:Err ->
+            print_error(Err, erlang:get_stacktrace()),
+            erlang:halt(1)
+    end.
+
+run_tests([]) ->
+    guild_tests:run();
+run_tests(Tests) ->
+    lists:foreach(fun guild_tests:run/1, Tests).
+
+print_error(Err, Stack) ->
+    io:format("ERROR~n"),
+    print_file_and_line(Err, Stack),
+    io:format("~p~n", [Stack]).
+
+print_file_and_line(Err, Stack) ->
+    case last_file_info(Stack) of
+        {File, Line} ->
+            io:format("~s:~b: ~99999p~n", [shorten_file(File), Line, Err]);
+        error ->
+            io:format("~99999p~n", [Err])
+    end.
+
+last_file_info([{_, _, _, Attrs}|Rest]) ->
+    case proplists:get_value(file, Attrs) of
+        undefined -> last_file_info(Rest);
+        File -> {File, proplists:get_value(line, Attrs)}
+    end;
+last_file_info([]) ->
+    error.
+
+shorten_file(File) ->
+    re:replace(File, "^.*/build/default/lib/guild/", "").

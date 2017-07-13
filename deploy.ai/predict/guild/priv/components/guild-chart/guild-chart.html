@@ -1,0 +1,129 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-chart-options/guild-chart-options.html">
+<link rel="import" href="../guild-component-panel/guild-component-panel.html">
+<link rel="import" href="../guild-line-chart/guild-line-chart.html">
+<link rel="import" href="../guild-run/guild-run-data-listener.html">
+<link rel="import" href="../guild-util/guild-fullscreen-behavior.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<dom-module id="guild-chart">
+  <template>
+    <style>
+     #container {
+         background-color: #fff;
+         padding: 10px 10px 10px 0;
+         height: 260px;
+         display: flex;
+         align-items: stretch;
+     }
+
+     guild-line-chart {
+         flex: 1;
+     }
+
+     paper-icon-button {
+         color: var(--secondary-text-color);
+     }
+    </style>
+
+    <guild-run-data-listener
+        env="[[env]]"
+        scope="[[scope]]"
+        run-data-source="[[series.source]]"
+        data="{{data}}"
+        active="[[active]]"
+        stop-with-run
+    </guild-run-data-listener>
+
+    <guild-component-panel id="panel" heading="[[series.title]]">
+      <div class="actions">
+        <paper-icon-button
+            icon="[[fullscreenIcon]]"
+            on-click="toggleFullscreen">
+        </paper-icon-button>
+        <guild-chart-options options="{{options}}"></guild-chart-option>
+      </div>
+      <div id="container">
+        <guild-line-chart id="chart" options="[[options]]"></guild-line-chart>
+      </div>
+    </guild-component-panel>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-chart",
+
+       behaviors: [Guild.FullscreenBehavior],
+
+       properties: {
+           env: Object,
+           scope: String,
+           series: Object,
+           active: Boolean,
+           data: Object,
+           options: {
+               type: Object,
+               notify: true,
+               value: function() {
+                   return {
+                       smoothing: 0,
+                       xType: "wall_time",
+                       yScale: "linear",
+                       tooltipSort: "default"
+                   }
+               }
+           }
+       },
+
+       observers: [
+           "handleData(data)"
+       ],
+
+       handleData: function(data) {
+           var names = Object.keys(data);
+           this.$.chart.setVisibleSeries(names);
+           names.forEach(function(name) {
+               var seriesData = this.seriesData(name, data);
+               this.$.chart.setSeriesData(name, seriesData);
+           }.bind(this));
+       },
+
+       seriesData: function(name, data) {
+           return data[name].map(function(item, index) {
+               return {
+                   wall_time: new Date(item[0]),
+                   step: item[1] || index,
+                   scalar: item[2]
+               }
+           });
+       },
+
+       onFullscreen: function() {
+           this.$.container.style.height = '520px';
+           this.$.panel.noToggle = true;
+           this.$.panel.opened = true;
+       },
+
+       onFullscreenExit: function() {
+           this.$.container.style.height = '260px';
+           this.$.panel.noToggle = false;
+       }
+   });
+  </script>
+</dom-module>

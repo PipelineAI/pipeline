@@ -68,16 +68,3 @@ def _json_to_numpy(request: bytes) -> bytes:
 def _numpy_to_json(response: np.array) -> str:
     import json
     return json.dumps(response.tolist())
-
-
-def _test() -> bytes:
-    with open('data/test_request.json', 'rb') as fh:
-        request_binary = fh.read()
-
-    response = predict(request_binary)
-    return response
-
-
-if __name__ == '__main__':
-    response = _test()
-    print(response)

@@ -1,0 +1,20 @@
+#-*-shell-script-*-
+
+# This script builds sources in $srcdir and copies package files to
+# $pkgdir. If the package merely contains the unpacked sources, you
+# may delete this file and remove the 'packager' attribute from
+# GuildPkg.
+
+build() {
+    # Use $srcdir to reference unpacked sources. Build artifacts are
+    # typically generated within $srcdir and copied by the package
+    # function (see below).
+    echo "TODO Perform any build steps here"
+}
+
+package() {
+    # Use $srcdir to reference unpacked sources or files generated
+    # during the build function (see above). Copy files to the
+    # $pkgdir, which represents the root of the package archive.
+    echo "TODO Copy packages here"
+}

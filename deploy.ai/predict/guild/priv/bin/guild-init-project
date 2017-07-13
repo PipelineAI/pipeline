@@ -1,0 +1,10 @@
+#!/bin/bash -eu
+
+set -o pipefail
+
+src="$1"
+dest="$2"
+
+echo "Initialzing project in $dest"
+mkdir -p "$dest"
+rsync -a --exclude='/Guild.in' --exclude='/.GuildPkg' "$src/" "$dest/"

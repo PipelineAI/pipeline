@@ -1,0 +1,127 @@
+FROM fluxcapacitor/package-ubuntu-16.04:master
+
+WORKDIR /root
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+RUN \
+  apt-get update
+
+# Install Anaconda with Python3
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  pip install --upgrade pip
+
+RUN \
+  apt-get install -y nginx 
+
+RUN \
+  apt-get install -y tmux \
+  && apt-get install -y screen
+
+#RUN \
+#  wget https://github.com/prometheus/prometheus/releases/download/v1.7.1/prometheus-1.7.1.linux-amd64.tar.gz \
+#  && tar xvfz prometheus-1.7.1.linux-amd64.tar.gz \
+#  && rm prometheus-1.7.1.linux-amd64.tar.gz
+
+#ENV \
+#  PATH=/root/prometheus-1.7.1.linux-amd64/:$PATH
+
+#RUN \
+#  wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.3.1_amd64.deb \
+#  && apt-get install -y adduser libfontconfig \
+#  && dpkg -i grafana_4.3.1_amd64.deb \
+#  && rm grafana_4.3.1_amd64.deb
+
+RUN \
+  mkdir -p /root/logs
+
+ENV \
+  LOGS_HOME=/root/logs
+
+COPY sysutils/ sysutils/
+
+COPY config/ config/
+
+#RUN \
+#  mv /root/prometheus-1.7.1.linux-amd64/prometheus.yml /root/prometheus-1.7.1.linux-amd64/prometheus.yml.orig \
+#  && cd /root/prometheus-1.7.1.linux-amd64/ \
+#  && ln -s /root/config/prometheus/prometheus.yml
+
+RUN \
+  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
+  && cd /etc/nginx/sites-available/ \
+  && ln -s /root/config/nginx/default \
+  && cd /etc/nginx/sites-enabled/ \
+  && rm default \
+  && ln -s /etc/nginx/sites-available/default
+
+#COPY nvidia/ nvidia/
+#RUN \
+#  pip2 install -r /root/nvidia/requirements.txt
+
+RUN \
+  pip install --upgrade psutil 
+
+RUN \
+  apt-get install --yes erlang
+
+RUN \
+  apt-get install --yes sqlite3 libsqlite3-dev 
+
+RUN \
+  apt-get install --yes nodejs-legacy npm 
+
+RUN \
+  echo '{ "allow_root": true }' > /root/.bowerrc \
+  && npm install -g bower
+
+COPY guild/ guild/
+RUN \
+  cd guild \
+  && make
+RUN \
+  ln -s /root/guild/scripts/guild-dev /usr/local/bin/guild
+
+COPY run-train run 
+
+COPY html/ /var/www/html/
+
+ENV \
+  PIO_MODEL_PATH=/root/model
+
+ENV \
+  PIO_CONDA_ENV_NAME=pio
+
+ARG model_type
+RUN \
+  echo $model_type
+ENV \
+  PIO_MODEL_TYPE=$model_type
+
+ARG model_name
+RUN \
+  echo $model_name
+ENV \
+  PIO_MODEL_NAME=$model_name
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+COPY samples/$model_type/$model_name/ $PIO_MODEL_PATH
+COPY scripts/setup_environment.sh scripts/setup_environment.sh
+
+RUN \
+  scripts/setup_environment.sh
+
+EXPOSE 80 6333 
+
+CMD ["supervise", "."]

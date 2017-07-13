@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+import argparse
+import sys
+
+def main(args):
+    from tensorflow.python.summary.impl import event_file_loader
+    loader = event_file_loader.EventFileLoader(args.file)
+    if args.image is not None:
+        output_image(loader, args.image)
+    else:
+        print_events(loader)
+
+def output_image(loader, index):
+    i = 0
+    for event in loader.Load():
+        if event.HasField("summary"):
+            for value in event.summary.value:
+                if value.HasField("image"):
+                    if i == index:
+                        sys.stdout.write(value.image.encoded_image_string)
+                        sys.stdout.flush()
+                        sys.exit(0)
+                    i += 1
+    sys.stderr.write("Image not found\n")
+    sys.exit(1)
+
+def print_events(loader):
+    for event in loader.Load():
+        print event.wall_time, event.step
+        if event.HasField("file_version"):
+            print "  file_version", event.file_version
+        elif event.HasField("graph_def"):
+            print "  graph_def"
+        elif event.HasField("tagged_run_metadata"):
+            tag = event.tagged_run_metadata.tag
+            run_metadata = event.tagged_run_metadata.run_metadata
+            print "  tagged_run_metadata", tag, run_metadata
+        elif event.HasField("summary"):
+            for value in event.summary.value:
+                if value.HasField("simple_value"):
+                    print "  simple_value", value.tag, value.simple_value
+                if value.HasField("histo"):
+                    print "  histo", value.tag
+                if value.HasField("image"):
+                    print "  image", value.tag
+                if value.HasField("audio"):
+                    print "  audio", value.tag
+
+def parser():
+    p = argparse.ArgumentParser(
+        description="Inspect TensorFlow event logs.")
+    p.add_argument("file", metavar="FILE",
+                   help="TF event file to inspect")
+    p.add_argument("--image", metavar="INDEX", type=int,
+                   help="Output image at INDEX")
+    return p
+
+if __name__ == "__main__":
+    p = parser();
+    main(p.parse_args())

@@ -1,0 +1,13 @@
+#!/bin/bash -eu
+# Simple app used int tests. See src/guild_tests.erl.
+#
+# Echos some status to stderr and command arguments to stdout, sleeps
+# and then exits. Sleep seconds are specified by the 'sleep' env val
+# (default 0). Exit stsatus is specified by 'exit' (default 0). Sleep
+# is used between echos to encourage buffers to flush.
+
+echo "test start" >&2    && sleep 0
+echo "args: $*"          && sleep 0
+sleep ${SLEEP:-0}
+echo "test stop" >&2     && sleep 0
+exit ${exit:-0}

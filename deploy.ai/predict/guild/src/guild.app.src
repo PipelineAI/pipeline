@@ -1,0 +1,10 @@
+%% -*-erlang-*-
+{application, guild,
+ [{description, "Guild client"},
+  {vsn, "0.0.0"},
+  {modules, []},
+  {registered, []},
+  {applications, [kernel, stdlib, gproc, euuid]},
+  {mod, {e2_application, [guild_app]}},
+  {env, []}
+ ]}.

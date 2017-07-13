@@ -1,0 +1,309 @@
+#-*-conf-*-
+
+######################################################################
+#
+# This is an annotated Guild project file. Review the comments below
+# and modify the attributes as needed for your project. Feel free to
+# delete comments as you become familiar with the project structure.
+#
+# For a complete project reference, see:
+#
+#   https://guild.ai/project-reference/
+#
+######################################################################
+
+# The lines below define variables that are used to generate a project
+# from a template. Each line must begin with "#+var " followed by the
+# variable name, description, and options. Use double quotes when
+# specifying values containing spaces.
+#
+# Options include:
+#
+#   required       - the variable must be specified when initializing a
+#                    project
+#   default=VALUE  - the variable value if not specified - be sure to
+#                    surround this option with double quotes if it
+#                    contains spaces - e.g. "default=value with spaces".
+#
+# You can list the variables defined for a project template by running:
+#
+#   guild init --print-vars [ --template TEMPLATE ]
+
+#+var name "Project name (defaults to project dir name)"
+
+###################################################################
+# Project
+###################################################################
+
+[project]
+
+# A sample annotated project
+
+# Each Guild project has a project section that provides information
+# about the project.
+
+  # The project name is used whenever the project is displayed --
+  # e.g. in the view title.
+
+  name = {{name|default:project_dir}}
+
+  # The project description is a short description of the prject.
+
+  description =
+
+###################################################################
+# Models
+###################################################################
+
+[model]
+
+# Model sections provide information about a model to be
+# trained. Guild projects may contain multiple model sections. To
+# differentiate model sections from one another, provide quoted model
+# names in the section headers (see "mnist" example below). This model
+# is considerd the default model.
+
+  # You may provide a short (one line) description of the model. This
+  # is particularly useful if you define more than one model.
+
+  description = Default model
+
+  # The train command spec is used to train a model. This should be
+  # the name of the Python module that handles training. Flags that
+  # correspond to the model, that have been selected by the user with
+  # the '--profile' option, and that have been specified with '-F,
+  # --flag' options are automatically added to this command for the
+  # train operation.
+  #
+  # To see the command that Guild will use for the train operation,
+  # including all flags, use the '--preview' option for the train
+  # command.
+
+  train =
+
+  # If a model requires a long preparatory phase -- commonly used for
+  # downloading and preparing data for training -- you may define a
+  # prepare spec. The same conventions are used for prepare as for
+  # train (see above).
+
+  prepare =
+
+  # If your model requires files to train (e.g. files created during
+  # the prepare operation) you can define them as a comma separated
+  # list as train_requires. Paths are evaluated relative to the
+  # project directory (i.e. the directory containing this file).
+
+  train_requires =
+
+  # If your model is evaluated using a separate command, you can
+  # define an evaluate operation. The same conventions are used for
+  # evaluate as for train (see above).
+
+  evaluate =
+
+#[model "mnist"]
+#
+# Example of a named model
+#
+# If your project supports multiple models or model configurations
+# (e.g. a model training script that uses multiple GPUs) you can
+# uncomment this section and provide the alternate details below.
+#
+#  train =
+#  prepare =
+#  train_requires =
+#  evaluate =
+
+###################################################################
+# Flags
+###################################################################
+
+[flags]
+
+# Flag sections define the flags associated with a model. Flag
+# sections are associated with models using their names. This section
+# corresponds to the default model. To define flags for a named model,
+# use the quoted corresponding name in the flags section (see "mnist"
+# example below).
+#
+# Flags are automatically passed to operation commands in the form:
+#
+#   --NAME=VALUE
+#
+# If a flag doesn't have a value it's passed as a flag:
+#
+#   --NAME
+#
+# The default flags section applies to all models regardless of
+# whether they're named. Named flags section that correspond to the
+# model can provide additional flags or redefine default values.
+#
+# Users may additionally add or redefine flags using '-F, --flag'
+# options for an operation.
+#
+# Flags may use operation environment variables as needed. Common
+# environment variables include:
+#
+#  RUNDIR      the directory created for the run (applies to
+#              train, evaluate, and serve operations)
+#  GPU_COUNT   the number of GPUs detected on the system
+
+  # You may provide an optional description attribute. Use this to
+  # describe the set of flags - it will not be passed through as a
+  # command line option.
+
+  description = Default flags
+
+  # Below are some common flags. Uncomment and modify or delete as
+  # needed.
+
+  #data_dir = data
+  #train_dir = $RUNDIR/train
+  #batch_size = 128
+  #max_steps = 1000
+
+#[flags "quick"]
+
+# Named flag sections may be used as profiles for an operation. In
+# this example, the section defines a relatively smaller number of
+# steps to train on. You would invoke this profile for training using
+# the '--profile' option:
+#
+#   guild train --profile quick
+#
+# Flags defined in named sections are applied in addition to default
+# flags (see above) -- i.e. new flags are added and existing flags are
+# redefined.
+#
+# Profiles can be used any operation that supports flags.
+
+  #description = Train with fewer steps
+  #max_steps               = 100
+
+###################################################################
+# Resources
+###################################################################
+
+# Resources are hooks for performing operations that generate content
+# related to your project. They can be run using the prepare command:
+#
+#  guild prepare samples
+#
+# The example below illustrates how "samples" might be generated.
+
+#[resource "samples"]
+
+  #prepare = samples --sample-dir samples
+
+# As with models, resource may be associated with named flags
+# sections.
+
+#[flags "samples"]
+
+  #sample-count = 100
+
+###################################################################
+# Fields
+###################################################################
+
+# Fields are displayed in the Train page of Guild View. Fields have
+# the following attributes:
+#
+#  label     - text to appear in the field label
+#  color     - field color (see Material Design color palette)
+#  source    - source path (e.g. series/tf/train/accuracy)
+#  reduce    - series reduce function (e.g. last, average, etc.)
+#              if soure references a series
+#  attribute - attribute name if source references a map
+#  format    - pattern for formatting the field value
+#
+# Fields may include attributes from templates using the @attrs
+# directive. @attrs accepts two arguments: the section type and name
+# containing the attributs to include. Attributes defined after the
+# @attrs directive replace those defined previously.
+#
+# Below are some examples. Note that each project can store values in
+# different paths. To list the series keys available for a trained
+# project, run:
+#
+#  guild list-series RUN
+
+#[field "validation-accuracy"]
+
+  #@attrs template "accuracy-field"
+  #source = series/tf/validation/accuracy
+  #label = Validation Accuracy
+
+#[field "train-accuracy"]
+
+  #@attrs template "accuracy-field"
+  #source = series/tf/train/accuracy
+  #label = Training Accuracy
+  #color = teal-400
+
+#[field "steps"]
+
+#  @attrs template "steps-field"
+#  source = series/tf/train/loss
+
+#[field "time"]
+
+  #@attrs template "time-field"
+  #source = series/tf/train/loss
+
+###################################################################
+# Series
+###################################################################
+
+# Series are displayed a time series charts on the Train page
+#
+# Series sections support the following attributes:
+#
+#  title  - text to appear at the top of the chart
+#  label  - text to appear along the Y axis (not yet implemented)
+#  format - pattern used to format chart values (not yet implemented)
+#  source - series source path (e.g. series/tf/train/loss)
+#
+# As with fields you may use an @attrs directive to include attributes
+# defined in other sections.
+
+#[series "loss"]
+
+  #@attrs template "loss-series"
+  #source = series/tf/train/loss
+
+#[series "accuracy"]
+
+  #@attrs template "accuracy-series"
+  #source = series/tf/.+/accuracy
+
+###################################################################
+# Compare fields
+###################################################################
+
+# Compare fields are used for run comparison columns in the Compare
+# page. They support the same list of attributes as fields. You may
+# include a full field definition using the @attrs directive. Refer to
+# the examples below for details.
+
+#[compare-field "validation-accuracy"]
+
+  #@attrs field "validation-accuracy"
+
+#[compare-field "train-accuracy"]
+
+  #@attrs field "train-accuracy"
+
+#[compare-field "batch-size"]
+
+  #label = Batch Size
+  #source = flags
+  #attribute = batch_size
+
+#[compare-field "steps"]
+
+  #@attrs field "steps"
+
+#[compare-field "time"]
+
+  #@attrs field "time"

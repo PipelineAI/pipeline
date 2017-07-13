@@ -21,6 +21,11 @@ docker build -t fluxcapacitor/deploy-predict-$PIO_MODEL_TYPE-$PIO_MODEL_NAME-cpu
   --build-arg model_name=$PIO_MODEL_NAME -f Dockerfile.cpu .
 ```
 
+## Start Model Server
+```
+```
+Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
+
 ## Predict 
 ```
 export PIO_MODEL_TYPE=scikit

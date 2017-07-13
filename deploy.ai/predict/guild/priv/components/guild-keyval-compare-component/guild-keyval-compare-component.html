@@ -1,0 +1,325 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-compare-component-panel/guild-compare-component-panel.html">
+<link rel="import" href="../guild-run/guild-run-compare-data-listener.html">
+<link rel="import" href="../guild-run-dropdown-menu/guild-run-dropdown-menu.html">
+<link rel="import" href="../guild-styles/guild-styles.html">
+<link rel="import" href="../guild-util/jsondiffpatch.html">
+<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+
+<dom-module id="guild-keyval-compare-component">
+  <template>
+    <style include="guild-table-styles"></style>
+    <style>
+     :host {
+         --paper-input-container: {
+             padding: 0 0 4px;
+         };
+     }
+
+     div.waiting {
+         padding: 0 20px;
+         color: #777;
+         text-align: center;
+     }
+
+     div.unchanged {
+         color: #777;
+         display: flex;
+         flex-direction: row;
+         flex-wrap: wrap;
+         align-items: center;
+         justify-content: center;
+         padding: 10px 20px 0;
+     }
+
+     div.table-responsive {
+         margin-bottom: 0;
+     }
+
+     paper-toggle-button {
+         --paper-toggle-button-label-color: #777;
+         --paper-toggle-button-checked-button-color: var(--paper-blue-500);
+         margin-left: 20px;
+     }
+
+     a {
+         color: var(--default-primary-color);
+     }
+
+     table th.longest-key-placeholder span {
+         font-weight: bold;
+         visibility: hidden;
+     }
+
+     table thead th {
+         font-weight: normal;
+         border-bottom: none !important;
+         padding-top: 0 !important;
+     }
+
+     table thead th a,
+     table tbody td span {
+         white-space: normal;
+     }
+
+     table tr.unchanged td.left,
+     table tr.unchanged td.right,
+     {
+         color: #999;
+     }
+
+     table tr.modified td.left span,
+     table tr.deleted td.left span {
+         color: #777;
+         background: #eee;
+         padding: 0 4px;
+     }
+
+     table tr.modified td.right span,
+     table tr.added td.right span {
+         background: var(--paper-light-blue-100);
+         padding: 0 4px;
+     }
+
+     paper-item {
+         cursor: pointer;
+      }
+    </style>
+
+    <guild-run-compare-data-listener
+        active="[[active]]"
+        env="[[env]]"
+        compare-data-source="[[source]]"
+        compare-data-fetch-interval="0"
+        runs="[[runs]]"
+        data="{{data}}">
+    </guild-run-compare-data-listener>
+
+    <guild-compare-component-panel heading="[[heading]]">
+      <template is="dom-if" if="[[!right]]">
+        <div class="waiting">No runs selected</div>
+      </template>
+      <template is="dom-if" if="[[right]]">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="20%" class="longest-key-placeholder">
+                  <span>[[longestKey(diff.rows)]]</span>
+                </th>
+                <template is="dom-if" if="[[left]]">
+                  <th width="40%">
+                    <guild-run-dropdown-menu runs="[[sortedRuns]]" selected="{{left}}">
+                    </guild-run-dropdown-menu>
+                  </th>
+                </template>
+                <th width="40%">
+                  <guild-run-dropdown-menu runs="[[sortedRuns]]" selected="{{right}}">
+                  </guild-run-dropdown-menu>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <iron-collapse opened="[[showValues]]">
+            <table class="table table-hover">
+              <tbody>
+                <template is="dom-repeat" items="[[diff.rows]]" as="row">
+                  <tr class$="[[row.type]]">
+                    <th width="20%" class="key">[[row.key]]</th>
+                    <template is="dom-if" if="[[left]]">
+                      <td width="40%" class="left"><span>[[row.left]]</span></td>
+                    </template>
+                    <td width="40%" class="right"><span>[[row.right]]</span></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </iron-collapse>
+        </div>
+        <template is="dom-if" if="[[diff.unchanged]]">
+          <div class="unchanged">
+            [[unchangedMessage(left, right)]]
+            <paper-toggle-button active="{{showValues}}">Show values</paper-toggle-button>
+          </div>
+        </template>
+      </template>
+    </guild-compare-component-panel>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-keyval-compare-component",
+
+       properties: {
+           env: Object,
+           source: String,
+           active: Boolean,
+           runs: Array,
+           sortedRuns: {
+               type: Array,
+               computed: "sortRuns(runs)"
+           },
+           heading: String,
+           source: String,
+           runs: Array,
+           data: {
+               observer: "handleData"
+           },
+           left: {
+               type: Object,
+               value: null,
+               observer: 'refreshDiff'
+           },
+           right: {
+               type: Object,
+               value: null,
+               observer: 'refreshDiff'
+           },
+           diff: {
+               type: Object
+           },
+           showValues: Boolean,
+           lockDiff: Boolean
+       },
+
+       handleData: function(data, old) {
+           if (this.util.dataChanged(data, old)) {
+               this.lockDiff = true;
+               this.left = this.util.left(this.sortedRuns);
+               this.right = this.util.right(this.sortedRuns);
+               this.lockDiff = false;
+               this.refreshDiff();
+           }
+       },
+
+       refreshDiff: function() {
+           if (!this.lockDiff) {
+               this.diff = this.util.computeDiff(
+                   this.left, this.right, this.data, this.source);
+               this.showValues = !this.diff.unchanged;
+           }
+       },
+
+       sortRuns: function(runs) {
+           var sorted = Array.from(runs);
+           sorted.sort(function(a, b) {
+               return a.started < b.started;
+           });
+           return sorted;
+       },
+
+       longestKey: function(rows) {
+           var longest = "";
+           rows.forEach(function(row) {
+               if (row.key.length > longest.length) {
+                   longest = row.key;
+               }
+           });
+           return longest;
+       },
+
+       unchangedMessage: function(left, right) {
+           if (left == right) {
+               return "Comparing the same run";
+           } else {
+               return "Runs have the same values";
+           }
+       },
+
+       util: new function() {
+
+           this.dataChanged = function(data, old) {
+               return (
+                   !old
+                   || data.length != old.length
+                   || JSON.stringify(data) != JSON.stringify(old));
+           };
+
+           this.left = function(runs) {
+               return runs.length > 1 ? runs[runs.length - 1].id : null;
+           };
+
+           this.right = function(runs) {
+               return runs.length > 0 ? runs[0].id : null;
+           };
+
+           this.computeDiff = function(left, right, data, source) {
+               if (left && right) {
+                   return diffRuns(left, right, data, source);
+               } else if (right) {
+                   return singleRun(right, data, source);
+               } else {
+                   return noDiff();
+               }
+           };
+
+           var diffRuns = function(left, right, data, source) {
+               var leftData = runData(left, data, source);
+               var rightData = runData(right, data, source);
+               var delta = Guild.JSONDiffPatch.diff(leftData, rightData);
+               var rows = Guild.JSONDiffPatch.formatKeyvalDelta(delta, leftData);
+               return formatDiff(rows, delta);
+           };
+
+           var runData = function(runId, data, source) {
+               for (var i = 0; i < data.length; i++) {
+                   var item = data[i];
+                   if (item.run.id == runId) {
+                       return item[source];
+                   }
+               }
+               throw ["cannot find run", runId, data];
+           };
+
+           var formatDiff = function(rows, delta) {
+               return {
+                   rows: rows,
+                   unchanged: delta == null
+               }
+           };
+
+           var singleRun = function(run, data, source) {
+               return {
+                   rows: formatKeyvals(runData(run, data, source)),
+                   unchanged: false
+               }
+           };
+
+           var formatKeyvals = function(items) {
+               var keys = Object.keys(items);
+               return keys.map(function(key) {
+                   return {
+                       type: "unchanged",
+                       key: key,
+                       left: null,
+                       right: items[key]
+                   }
+               });
+           };
+
+           var noDiff = function() {
+               return {
+                   rows: [],
+                   unchanged: false
+               }
+           };
+       }
+   });
+  </script>
+</dom-module>

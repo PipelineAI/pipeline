@@ -1,0 +1,14 @@
+#!/bin/bash -eu
+
+set -o pipefail
+
+path="$1"
+
+# Safeguard
+if [[ "$(dirname $path)" != */.guild/pkg ]]; then
+    echo "$path does not appear to be an installed package, quitting"
+    exit 1
+fi
+
+echo "Uninstalling $(basename $path)"
+rm -rf "$path"

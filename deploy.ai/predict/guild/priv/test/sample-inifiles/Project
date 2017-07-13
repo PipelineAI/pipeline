@@ -1,0 +1,7 @@
+#-*-conf-*-
+
+[field "loss"]
+
+  @attrs template "loss"
+  label = Cross entropy
+  source = series/tf/loss

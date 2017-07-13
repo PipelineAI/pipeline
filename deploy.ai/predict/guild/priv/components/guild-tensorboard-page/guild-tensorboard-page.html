@@ -1,0 +1,257 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-page-header/guild-page-header.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../tf-audio-dashboard/tf-audio-dashboard.html">
+<link rel="import" href="../tf-backend/tf-backend.html">
+<link rel="import" href="../tf-distribution-dashboard/tf-distribution-dashboard.html">
+<link rel="import" href="../tf-graph-dashboard/tf-graph-dashboard.html">
+<link rel="import" href="../tf-histogram-dashboard/tf-histogram-dashboard.html">
+<link rel="import" href="../tf-image-dashboard/tf-image-dashboard.html">
+<link rel="import" href="../tf-scalar-dashboard/tf-scalar-dashboard.html">
+<link rel="import" href="../tf-storage/tf-storage.html">
+
+<!-- Special import because we're patching paper-styles to remove
+     the flex layout classes, which are deprecated. TF components
+     still rely on these however. -->
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+
+<link rel="import" href="guild-tensorboard-styles.html">
+
+<dom-module id="guild-tensorboard-page">
+  <template>
+    <style include="tf-styles"></style>
+    <style>
+
+     :host {
+         --paper-tabs-selection-bar-color: var(--toolbar-text-accent-color );
+         --toolbar-text-color: #444;
+         --toolbar-text-accent-color: #ccc;
+         --toolbar-tab-ink: #ccc;
+
+         display: block;
+     }
+
+     paper-header-panel {
+         --paper-header-panel-shadow: {
+             display: none;
+         } ;
+     }
+
+     .toolbar {
+         display: flex;
+         flex: 1;
+         justify-content: space-between;
+     }
+
+     paper-tabs {
+         color: var(--toolbar-text-color);
+         font-size: 14px;
+         height: 38px;
+         margin-left: 0px;
+     }
+
+     paper-tab {
+         padding: 0 15px;
+         --paper-tab-ink: var(--toolbar-tab-ink);
+     }
+
+     .dashboard {
+         padding: 18px 15px;
+         height: 100%;
+     }
+    </style>
+
+    <paper-header-panel>
+      <guild-page-header
+          heading="[[env.project.__meta__.title]]"
+          heading-tooltip="[[env.project.__meta__.description]]"
+          class="paper-header">
+        <div class="toolbar">
+          <paper-tabs selected="{{selected}}">
+            <template is="dom-repeat" items="[[tabs]]" as="tab">
+              <paper-tab data-mode="[[tab.id]]">[[tab.label]]</paper-tab>
+            </template>
+          </paper-tabs>
+          <paper-icon-button
+              icon="refresh"
+              on-tap="reload"
+              disabled$="[[isGraphs(mode)]]"
+              id="reload-button">
+          </paper-icon-button>
+        </div>
+      </guild-page-header>
+
+      <div class="dashboard">
+        <template is="dom-if" if="[[initialized]]">
+          <template is="dom-if" if="[[isScalars(mode)]]">
+            <tf-scalar-dashboard
+                id="scalars"
+                backend="[[backend]]"
+                router="[[router]]">
+            </tf-scalar-dashboard>
+          </template>
+          <template is="dom-if" if="[[isImages(mode)]]">
+            <tf-image-dashboard
+                id="images"
+                backend="[[backend]]">
+            </tf-image-dashboard>
+          </template>
+          <template is="dom-if" if="[[isAudio(mode)]]">
+            <tf-audio-dashboard
+                id="audio"
+                backend="[[backend]]">
+            </tf-audio-dashboard>
+          </template>
+          <template is="dom-if" if="[[isGraphs(mode)]]">
+            <tf-graph-dashboard
+                id="graphs"
+                backend="[[backend]]">
+            </tf-graph-dashboard>
+          </template>
+          <template is="dom-if" if="[[isDistributions(mode)]]">
+            <tf-distribution-dashboard
+                id="distributions"
+                backend="[[backend]]">
+            </tf-distribution-dashboard>
+          </template>
+          <template is="dom-if" if="[[isHistograms(mode)]]">
+            <tf-histogram-dashboard
+                id="histograms"
+                backend="[[backend]]">
+            </tf-histogram-dashboard>
+          </template>
+        </template>
+      </div>
+    </paper-header-panel>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-tensorboard-page",
+
+       behaviors: [Polymer.IronResizableBehavior],
+
+       listeners: {
+           "iron-resize": "onResize"
+       },
+
+       properties: {
+           env: Object,
+           initialized: {
+               type: Boolean,
+               computed: "computeInitialized(router, backend)"
+           },
+           router: {
+               type: Object,
+               computed: "computeRouter(env.settings)"
+           },
+           backend: {
+               type: Object,
+               computed: "computeBackend(router)"
+           },
+           selected: {
+               type: Number,
+               value: 0
+           },
+           mode: {
+               type: String,
+               computed: "computeMode(selected, tabs)"
+           },
+           tabs: {
+               type: Array,
+               readOnly: true,
+               value: function() {
+                   return [
+                       {id: "scalars", label: "Scalars"},
+                       {id: "images", label: "Images"},
+                       {id: "audio", label: "Audio"},
+                       {id: "graphs", label: "Graphs"},
+                       {id: "distributions", label: "Distributions"},
+                       {id: "histograms", label: "Histograms"}
+                   ]
+               }
+           }
+       },
+
+       computeInitialized: function(router, backend) {
+           return router && backend;
+       },
+
+       computeRouter: function(settings) {
+           if (settings.tensorboard) {
+               if (settings.tensorboard.demo) {
+                   return TF.Backend.router("/assets/tf-demo", true);
+               } else {
+                   return TF.Backend.router("/data/tf");
+               }
+           } else {
+               return undefined;
+           }
+       },
+
+       computeBackend: function(router) {
+           return new TF.Backend.Backend(router);
+       },
+
+       computeMode: function(selected, tabs) {
+           var mode = tabs[selected].id;
+           return mode;
+       },
+
+       isScalars: function(mode) {
+           return mode == "scalars";
+       },
+
+       isImages: function(mode) {
+           return mode == "images";
+       },
+
+       isAudio: function(mode) {
+           return mode == "audio";
+       },
+
+       isGraphs: function(mode) {
+           return mode == "graphs";
+       },
+
+       isDistributions: function(mode) {
+           return mode == "distributions";
+       },
+
+       isHistograms: function(mode) {
+           return mode == "histograms";
+       },
+
+       onResize: function() {
+           var height = window.innerHeight - 64;
+           this.style.height = height + "px";
+       },
+
+       reload: function() {
+           var active = this.$$("#" + this.mode);
+           if (active && active.reload) {
+               active.reload();
+           }
+       }
+   });
+  </script>
+</dom-module>

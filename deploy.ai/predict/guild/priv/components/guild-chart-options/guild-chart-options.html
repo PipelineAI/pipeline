@@ -1,0 +1,101 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-component-options/guild-component-options.html">
+<link rel="import" href="../guild-component-options/option-dropdown.html">
+<link rel="import" href="../guild-component-options/option-element.html">
+<link rel="import" href="../guild-smoothing-input/guild-smoothing-input.html">
+<link rel="import" href="../paper-item/paper-item.html">
+
+<dom-module id="guild-chart-options">
+  <template>
+    <guild-component-options>
+
+      <option-element label="Smoothing">
+        <guild-smoothing-input
+            min="0"
+            max="1"
+            step="0.01"
+            value="{{options.smoothing}}">
+        </guild-smoothing-input>
+      </option-element>
+
+      <option-dropdown
+          label="Horizontal axis"
+          value="{{options.xType}}"
+          items="[[xTypeOptions]]">
+      </option-dropdown>
+
+      <option-dropdown
+          label="Vertical axis scale"
+          value="{{options.yScale}}"
+          items="[[yScaleOptions]]">
+      </option-dropdown>
+
+      <option-dropdown
+          label="Tooltip sort order"
+          value="{{options.tooltipSort}}"
+          items="[[tooltipSortOptions]]">
+      </option-dropdown>
+
+    </guild-component-options>
+  </template>
+  <script>
+   Polymer({
+       is: "guild-chart-options",
+
+       properties: {
+           options: {
+               type: Object,
+               value: function() {
+                   return {}
+               },
+               notify: true
+           },
+           xTypeOptions: {
+               type: Array,
+               value: function() {
+                   return [
+                       { value: "wall_time", label: "Wall time" },
+                       { value: "relative",  label: "Relative time" },
+                       { value: "step",      label: "Global step" }
+                   ]
+               }
+           },
+           yScaleOptions: {
+               type: Array,
+               value: function() {
+                   return [
+                       { value: "linear", label: "Linear" },
+                       { value: "log",  label: "Logarithmic" }
+                   ]
+               }
+           },
+           tooltipSortOptions: {
+               type: Array,
+               value: function() {
+                   return [
+                       { value: "default",    label: "Default" },
+                       { value: "descending", label: "Large values first" },
+                       { value: "ascending",  label: "Small values first" },
+                       { value: "nearest",    label: "Nearest to cursor" }
+                   ]
+               }
+           }
+       }
+   });
+  </script>
+</dom-module>

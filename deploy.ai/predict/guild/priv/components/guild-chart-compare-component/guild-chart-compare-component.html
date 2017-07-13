@@ -1,0 +1,125 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-chart-options/guild-chart-options.html">
+<link rel="import" href="../guild-compare-component-panel/guild-compare-component-panel.html">
+<link rel="import" href="../guild-run/guild-run-compare-data-listener.html">
+<link rel="import" href="../guild-line-chart/guild-line-chart.html">
+
+<dom-module id="guild-chart-compare-component">
+  <template>
+    <style>
+     #container {
+         background-color: #fff;
+         padding: 10px 10px 10px 0;
+         height: 260px;
+         display: flex;
+         align-items: stretch;
+     }
+
+     guild-line-chart {
+         flex: 1;
+     }
+    </style>
+
+    <guild-run-compare-data-listener
+        active="[[active]]"
+        env="[[env]]"
+        compare-data-source="[[source]]"
+        runs="[[runs]]"
+        active="[[active]]"
+        stop-with-runs
+        data="{{data}}">
+    </guild-run-compare-data-listener>
+
+    <guild-compare-component-panel heading="[[heading]]" on-component-fullscreen="fullscreen">
+      <div class="actions">
+        <guild-chart-options options="{{options}}"></guild-chart-option>
+      </div>
+      <div id="container">
+        <guild-line-chart id="chart" options="{{options}}"></guild-line-chart>
+      </div>
+    </guild-compare-component-panel>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-chart-compare-component",
+
+       properties: {
+           env: Object,
+           source: String,
+           active: Boolean,
+           runs: Array,
+           heading: String,
+           data: {
+               observer: "handleData"
+           },
+           options: {
+               type: Object,
+               value: function() {
+                   return {
+                       smoothing: 0,
+                       xType: "relative",
+                       yScale: "linear",
+                       tooltipSort: "default"
+                   }
+               }
+           }
+       },
+
+       handleData: function(data) {
+           var labels = [];
+           var labelData = {};
+           data.forEach(function(item) {
+               var seriesData = this.seriesData(item[this.source]);
+               if (seriesData) {
+                   var label = Guild.Run.runLabel(item.run);
+                   labels.push(label);
+                   labelData[label] = seriesData;
+               }
+           }.bind(this));
+           this.$.chart.setVisibleSeries(labels);
+           labels.forEach(function(label) {
+               this.$.chart.setSeriesData(label, labelData[label]);
+           }.bind(this));
+       },
+
+       seriesData: function(data) {
+           var series = data[Object.keys(data)[0]];
+           return series ? this.formatDataSeries(series) : null;
+       },
+
+       formatDataSeries: function(series) {
+           return series.map(function(item, index) {
+               return {
+                   wall_time: new Date(item[0]),
+                   step: item[1] || index,
+                   scalar: item[2]
+               }
+           });
+       },
+
+       fullscreen: function(e) {
+           if (e.detail.fullscreen) {
+               this.$.container.style.height = '520px';
+           } else {
+               this.$.container.style.height = '260px';
+           }
+       }
+   });
+  </script>
+</dom-module>

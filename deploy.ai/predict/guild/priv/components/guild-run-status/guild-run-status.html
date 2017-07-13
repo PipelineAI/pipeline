@@ -1,0 +1,76 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../fa-awesome/fa-awesome.html">
+<link rel="import" href="../guild-run/guild-run.html">
+<link rel="import" href="../guild-styles/guild-styles.html">
+
+<dom-module id="guild-run-status">
+  <template>
+    <style include="guild-run-status-styles"></style>
+    <style>
+     :host {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+
+     }
+
+     #icon {
+         display: flex;
+         align-items: center;
+     }
+
+     fa-awesome {
+         --fa-awesome-icon-width: 26px;
+         --fa-awesome-icon-height: auto;
+         margin-right: 0.6em;
+     }
+
+     #label {
+         font-size: 24px;
+     }
+    </style>
+    <div id="icon">
+      <fa-awesome
+          hidden$="[[!status.icon]]"
+          class$="[[status.iconClass]]"
+          spin$="[[status.spin]]"
+          icon="[[status.icon]]">
+      </fa-awesome>
+    </div>
+    <div id="label">[[status.label]]</div>
+  </template>
+
+  <script>
+   Polymer({
+       is: "guild-run-status",
+
+       properties: {
+           env: Object,
+           status: {
+               type: Object,
+               computed: "computeStatus(env.selectedRun, env.runs)"
+           }
+       },
+
+       computeStatus: function(selected, runs) {
+           var run = Guild.Run.runForId(selected, runs);
+           return run ? Guild.Run.runStatus(run) : {};
+       }
+   });
+  </script>
+</dom-module>

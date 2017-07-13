@@ -1,0 +1,239 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-filter-input/guild-filter-input.html">
+<link rel="import" href="../guild-run/guild-run-compare-data-listener.html">
+<link rel="import" href="../guild-styles/guild-styles.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-toolbar/paper-toolbar.html">
+
+<link rel="import" href="compare-table-support.html">
+
+<dom-module id="guild-compare-table">
+  <template>
+    <style include="guild-run-status-styles"></style>
+    <style include="compare-table-styles"></style>
+    <style>
+     :host {
+         display: block;
+         --paper-toolbar-background: transparent;
+         --paper-toolbar-height: 100%;
+         --paper-toolbar-content: {
+             padding: 0 10px 5px;
+             flex-wrap: wrap;
+             justify-content: space-between;
+         };
+         --paper-toggle-button-checked-bar-color: var(--paper-green-200);
+         --paper-toggle-button-checked-button-color: var(--paper-green-600);
+     }
+
+     paper-material {
+         background-color: white;
+     }
+
+     #container {
+         padding: 10px 20px 20px;
+     }
+    </style>
+
+    <guild-run-compare-data-listener
+        env="[[env]]"
+        compare-data-source="[[dataSource]]"
+        compare-data-fetch-interval="[[dataFetchInterval]]"
+        runs="[[env.runs]]"
+        active="[[active]]"
+        stop-with-runs
+        data="{{data}}">
+    </guild-run-compare-data-listener>
+
+    <paper-material>
+      <div id="container">
+        <paper-toolbar>
+          <guild-filter-input id="filter" on-input="syncWithSearch"></guild-filter-input>
+          <paper-toggle-button checked="{{hideFailed}}">Hide failed runs</paper-toggle-button>
+        </paper-toolbar>
+        <table
+            id="table"
+            class="hover row-border"
+            cellpadding="0"
+            cellspacing="0"
+            border="0">
+        </table>
+      </div>
+    </paper-material>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-compare-table",
+
+       properties: {
+           env: Object,
+           fields: Array,
+           dataSource: {
+               computed: "computeDataSource(fields)"
+           },
+           dataFetchInterval: {
+               computed: "computeDataFetchInterval(env.settings)"
+           },
+           active: Boolean,
+           data: Array,
+           dt: {
+               type: Object,
+               computed: "initDt(fields)"
+           },
+           selectedRuns: {
+               type: Array,
+               notify: true
+           },
+           cachedSearchInput: Object,
+           hideFailed: {
+               type: Boolean,
+               value: false,
+               observer: "hideFailedChanged"
+           },
+           lockSelects: Boolean
+       },
+
+       observers: [
+           "handleData(data, dt, fields)"
+       ],
+
+       listeners: {
+           "select-changed": "handleSelected",
+           "select-header-changed": "handleHeader"
+       },
+
+       ready: function() {
+           this.scopeSubtree(this.$.container, true);
+       },
+
+       initDt: function(fields) {
+           if (!this.dt) {
+               var dt = Guild.CompareTable.init(
+                   this.$.table,
+                   fields,
+                   {height: "250px"});
+               dt.on("search.dt", this.handleSearch.bind(this));
+               return dt;
+           } else {
+               // Compare fields are now defined per project so we
+               // should not get here.
+               console.warn("fields changed!", [fields, this.fields]);
+               return this.dt;
+           }
+       },
+
+       computeDataSource: function(fields) {
+           return Guild.CompareTable.fieldsDataSource(fields);
+       },
+
+       computeDataFetchInterval: function(settings) {
+           return settings.refreshInterval || 5;
+       },
+
+       handleData: function(data) {
+           Guild.CompareTable.refresh(this.dt, data, this.fields);
+           this.updateSelectedRuns();
+       },
+
+       handleSelected: function() {
+           Guild.CompareTable.refreshRowsForSelected(this.dt);
+           this.refreshSelectHeader();
+           this.updateSelectedRuns();
+       },
+
+       updateSelectedRuns: function() {
+           this.debounce(
+               "update-selected-runs",
+               this.updateSelectedRuns_.bind(this),
+               200);
+       },
+
+       updateSelectedRuns_: function() {
+           var filter = function(item) {
+               return item.selected;
+           };
+           var selectedItems = this.dt.data().filter(filter).toArray();
+           var newSelectedRuns = selectedItems.map(function(item) {
+               return item.run;
+           });
+           if (Guild.CompareTable.runsChanged(newSelectedRuns, this.selectedRuns)) {
+               this.selectedRuns = newSelectedRuns;
+           }
+       },
+
+       handleHeader: function() {
+           this.syncSelectsWithHeader();
+       },
+
+       syncSelectsWithHeader: function() {
+           if (!this.lockSelects) {
+               this.lockSelects = true;
+               Guild.CompareTable.syncSelectsWithHeader(this.dt);
+               this.lockSelects = false;
+           }
+       },
+
+       refreshSelectHeader: function() {
+           if (!this.lockSelects) {
+               this.lockSelects = true;
+               Guild.CompareTable.refreshSelectHeader(this.dt);
+               this.lockSelects = false;
+           }
+       },
+
+       syncWithSearch: function(e) {
+           var search = this.searchInputElement();
+           search.value = e.target.value;
+           search.dispatchEvent(new Event("input"));
+       },
+
+       searchInputElement: function() {
+           if (this.cachedSearchInput === undefined) {
+               this.cachedSearchInput = this.$$("input[type='search']");
+           }
+           return this.cachedSearchInput;
+       },
+
+       hideFailedChanged: function(val, old) {
+           if (this.dt != undefined) {
+               var status = this.dt.column(1);
+               if (val) {
+                   status.search("Completed|Running", true).draw();
+               } else {
+                   status.search("").draw();
+               }
+           }
+       },
+
+       handleSearch: function() {
+           this.debounce("handle-search", this.handleSearch_, 100);
+       },
+
+       handleSearch_: function() {
+           var deselected = Guild.CompareTable.deselectRemoved(this.dt);
+           if (deselected) {
+               // We need to fire this event because the removed items
+               // aren't in the DOM and so their events don't propagate.
+               this.fire("select-changed");
+           }
+           this.refreshSelectHeader();
+       }
+   });
+  </script>
+</dom-module>

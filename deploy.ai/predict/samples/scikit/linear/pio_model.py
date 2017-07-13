@@ -2,6 +2,7 @@ import os
 import numpy as np
 from pio_monitors import Monitor
 import ujson
+import cloudpickle as pickle
 
 # The public objects from this module, see:
 #    https://docs.python.org/3/tutorial/modules.html#importing-from-a-package
@@ -28,8 +29,6 @@ _transform_response_monitor = Monitor(labels=_monitor_labels,
 def _initialize_upon_import():
     ''' Initialize / Restore Model Object.
     '''
-    import cloudpickle as pickle
-
     model_pkl_path = 'model.pkl'
 
     # Load pickled model from model directory
@@ -56,7 +55,6 @@ def predict(request: bytes) -> bytes:
 
 
 def _transform_request(request: bytes) -> np.array:
-        import numpy as np
         request_str = request.decode('utf-8')
         request_str = request_str.strip().replace('\n', ',')
         # surround the json with '[' ']' to prepare for conversion

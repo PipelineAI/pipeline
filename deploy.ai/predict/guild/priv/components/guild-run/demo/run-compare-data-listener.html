@@ -1,0 +1,407 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../guild-imports/d3.html">
+<link rel="import" href="../../guild-icons/guild-icons.html">
+<link rel="import" href="../../guild-run-select/guild-run-select-item.html">
+<link rel="import" href="../../iron-list/iron-list.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../paper-dialog/paper-dialog.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-listbox/paper-listbox.html">
+<link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../paper-styles/paper-styles.html">
+
+<link rel="import" href="../guild-run.html">
+<link rel="import" href="../guild-run-compare-data-listener.html">
+
+<html>
+  <head>
+    <title>guild-checkbox demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <style>
+     body {
+         padding: 0 20px 20px;
+         display: flex;
+         flex-direction: column;
+         font-family: 'Roboto', 'Noto', sans-serif;
+     }
+
+     guild-run-data-demo {
+         flex: 1;
+     }
+    </style>
+  </head>
+  <body>
+    <dom-module id="guild-run-data-demo">
+      <template>
+        <style>
+         :host {
+             display: flex;
+             flex-direction: column;
+             align-items: flex-start;
+         }
+
+         .item {
+             color: #333;
+             padding-bottom: 10px;
+             display: flex;
+         }
+
+         .time {
+             margin-right: 10px;
+         }
+
+         .source {
+             margin-right: 10px;
+             font-weight: 700;
+         }
+
+         .data {
+             color: #666;
+         }
+
+         iron-list {
+             flex: 1;
+             width: 100%;
+         }
+
+         paper-icon-button {
+             color: var(--paper-blue-800);
+             font-size: 24px;
+         }
+
+         paper-icon-button[icon=help] {
+             margin-bottom: 12px;
+         }
+
+         paper-icon-button[disabled] {
+             color: #ccc;
+         }
+
+         paper-toggle-button {
+             margin-bottom: 10px;
+         }
+
+         paper-dropdown-menu {
+             margin-right: 10px;
+         }
+
+         paper-item {
+             cursor: pointer;
+         }
+
+         iron-icon {
+             margin-right: 5px;
+             visibility: hidden;
+         }
+
+         .env div:not(:last-child) {
+             margin-bottom: 10px;
+         }
+
+         .label {
+             color: var(--secondary-text-color);
+         }
+
+         .row {
+             display: flex;
+             align-items: center;
+         }
+
+         paper-dialog.help {
+             width: 300px;
+         }
+        </style>
+
+        <h2>Run compare data listener</h2>
+
+        <guild-run-compare-data-listener
+            id="listener"
+            env="[[env]]"
+            runs="[[selectedRuns]]"
+            data-prefix=""
+            compare-data-source="[[compareDataSource]]"
+            stop-with-runs="[[stopWithRuns]]"
+            compare-data-fetch-interval="[[compareDataFetchInterval]]"
+            active="[[active]]"
+            data="{{data}}">
+        </guild-run-compare-data-listener>
+
+        <paper-toggle-button checked="{{active}}">Active</paper-toggle-button>
+        <div class="row">
+          <paper-toggle-button checked="{{stopWithRuns}}">
+            Stop with runs
+          </paper-toggle-button>
+          <paper-icon-button icon="help" onclick="openBy(stopWithRunsHelp, this)">
+          </paper-icon-button>
+        </div>
+
+        <paper-dialog id="stopWithRunsHelp" class="help"
+                      horizontal-align="left" vertical-align="top">
+          <p>
+
+            When <strong>Stop with runs</strong> is selected, the
+            listener stop repeating when all of the runs are stopped,
+            regardless of the value of <strong>Run data fetch interval</strong>.
+
+          </p>
+        </paper-dialog>
+
+        <paper-dropdown-menu
+            label="Run data source"
+            value="{{compareDataSource}}"
+            no-animations>
+          <paper-listbox class="dropdown-content">
+            <paper-item>series</paper-item>
+            <paper-item>flags</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <paper-dropdown-menu
+            label="Run data fetch interval"
+            selected-item="{{selectedInterval}}"
+            no-animations>
+          <paper-listbox class="dropdown-content">
+            <paper-item>0</paper-item>
+            <paper-item>1</paper-item>
+            <paper-item>2</paper-item>
+            <paper-item>5</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <h3>Runs</h3>
+
+        <template is="dom-repeat" items="[[env.runs]]" as="run">
+          <div class="row">
+            <paper-checkbox checked="[[isSelected(run)]]" run-id$="[[run.id]]" on-change="handleRunChecked"></paper-checkbox>
+            <guild-run-select-item run="[[run]]"></guild-run-select-item>
+            <paper-icon-button
+                icon="av:play-arrow"
+                run-id$="[[run.id]]"
+                on-tap="startRun"
+                disabled="[[isRunning(run)]]">
+            </paper-icon-button>
+            <paper-icon-button
+                icon="av:stop"
+                run-id$="[[run.id]]"
+                on-tap="stopRun"
+                disabled="[[!isRunning(run)]]">
+            </paper-icon-button>
+          </div>
+        </template>
+
+        <p><span class="label">Selected:</span> [[joinSelected(selectedRuns)]]</p>
+
+        <h3>Env</h3>
+
+        <div class="env">
+          <div>
+            <span class="label">settings.refreshInterval:</span>
+            [[env.settings.refreshInterval]]
+          </div>
+        </div>
+
+        <h3>Data
+          <paper-icon-button icon="delete-sweep" on-tap="clearLog"></paper-icon-button>
+        </h3>
+
+        <iron-list id="logList" items="[[log]]">
+          <template>
+            <div class="item">
+              <span class="time">[[formatTime(item.time)]]</span>
+              <span class="source">[[item.source]]</span>
+              <span class="data">[[formatData(item.data)]]</span>
+            </div>
+          </template>
+        </iron-list>
+
+      </template>
+      <script>
+       var SAMPLE_ENV = {
+           settings: {
+               refreshInterval: 2
+           },
+           runs: [
+               {
+                   "stopped": 1492797969444,
+                   "started": 1492797875512,
+                   "model": "intro",
+                   "status": "running",
+                   "id": 295228047
+               },
+               {
+                   "stopped": 1492786905920,
+                   "started": 1492786811830,
+                   "model": "intro",
+                   "exit_status": 0,
+                   "status": "stopped",
+                   "id": 744510823
+               },
+               {
+                   "stopped": 1492786262276,
+                   "started": 1492786218788,
+                   "model": "intro",
+                   "exit_status": 1,
+                   "status": "stopped",
+                   "id": 3655183969
+               }
+           ]
+       };
+
+       var openBy = function(dialog, target) {
+           dialog.positionTarget = target;
+           dialog.open();
+       }
+
+       HTMLImports.whenReady(function () {
+           Polymer({
+               is: "guild-run-data-demo",
+
+               properties: {
+                   env: {
+                       type: Object,
+                       value: function() {
+                           return SAMPLE_ENV;
+                       }
+                   },
+                   compareDataSource: String,
+                   selectedInterval: String,
+                   userSelectedRuns: {
+                       type: Array,
+                       value: function() {
+                           return new Set();
+                       }
+                   },
+                   selectedRuns: {
+                       type: Array,
+                       computed: "computeSelectedRuns(userSelectedRuns, env.runs)"
+                   },
+                   compareDataFetchInterval: {
+                       type: Number,
+                       computed: "computeRunDataFetchInterval(selectedInterval)"
+                   },
+                   active: {
+                       type: Boolean,
+                       value: true
+                   },
+                   stopWithRuns: {
+                       type: Boolean,
+                       value: true
+                   },
+                   data: {
+                       observer: "handleData"
+                   },
+                   log: {
+                       type: Array,
+                       value: function() {
+                           return []
+                       }
+                   },
+                   timeFormat: {
+                       value: function() {
+                           return d3.time.format("%H:%M:%S.%L");
+                       }
+                   }
+               },
+
+               computeRunDataFetchInterval: function(item) {
+                   return item ? parseInt(item.textContent) : this.dataFetchInterval;
+               },
+
+               computeSelectedRuns: function(selected, runs) {
+                   return runs.filter(function(run) {
+                       return selected.has(run.id);
+                   });
+               },
+
+               isSelected: function(run) {
+                   return this.userSelectedRuns.has(run.id);
+               },
+
+               isRunning: function(run) {
+                   return Guild.Run.isRunning(run);
+               },
+
+               startRun: function(e) {
+                   this.setRunStatus(
+                       e.target.parentElement.getAttribute("run-id"),
+                       "running");
+               },
+
+               stopRun: function(e) {
+                   this.setRunStatus(
+                       e.target.parentElement.getAttribute("run-id"),
+                       "stopped");
+               },
+
+               setRunStatus: function(runId, status) {
+                   var run = Guild.Run.runForId(runId, this.env.runs);
+
+                   // Update run by creating a copy + updated status
+                   var updatedRun = Object.assign({}, run);
+                   updatedRun.status = status;
+
+                   // Replace env.runs with a copy containing the updated run
+                   var index = this.env.runs.indexOf(run);
+                   this.env.runs[index] = updatedRun;
+                   this.set("env.runs", Array.from(this.env.runs));
+               },
+
+               joinSelected: function(selected) {
+                   return selected.map(function(run) {return run.id}).join();
+               },
+
+               handleRunChecked: function(e) {
+                   var runId = parseInt(e.target.getAttribute("run-id"));
+                   if (e.target.checked) {
+                       this.userSelectedRuns.add(runId);
+                   } else {
+                       this.userSelectedRuns.delete(runId);
+                   }
+                   this.userSelectedRuns = new Set(this.userSelectedRuns);
+               },
+
+               handleData: function(data) {
+                   this.push("log", {
+                       time: new Date(),
+                       data: data,
+                       source: this.$.listener.dataSource
+                   });
+                   this.$.logList.scrollToIndex(this.log.length - 1);
+               },
+
+               formatTime: function(time) {
+                   return this.timeFormat(time);
+               },
+
+               formatData: function(data) {
+                   return JSON.stringify(data);
+               },
+
+               clearLog: function() {
+                   this.log = [];
+               }
+           });
+       });
+      </script>
+    </dom-module>
+    <guild-run-data-demo></guild-run-data-demo>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-imports/datatables.html">
+<link rel="import" href="../guild-imports/jquery.html">
+
+<link rel="import" href="datatable-col.html">
+<link rel="import" href="datatable-styles.html">
+
+<dom-module id="guild-datatable">
+  <template>
+    <style include="datatable-styles"></style>
+    <div id="container">
+      <table
+          id="table"
+          class="hover row-border"
+          cellpadding="0"
+          cellspacing="0"
+          border="0">
+      </table>
+    </div>
+    <content select="datatable-col"></content>
+  </template>
+  <script src="guild-datatable.js"></script>
+  <script>
+   Polymer({
+       is: "guild-datatable",
+
+       properties: {
+           height: String,
+           itemNamePlural: String,
+           filter: {
+               type: String,
+               observer: "filterChanged"
+           },
+           dt: Object,
+           cachedDtOps: {
+               type: Array,
+               value: function() {
+                   return []
+               }
+           },
+           searchInput: Object
+       },
+
+       attached: function() {
+           if (this.dt === undefined) {
+               var dt = this.initDatatable();
+               this.initSearchInput();
+               this.applyCachedDtOps(dt);
+               this.dt = dt;
+           }
+       },
+
+       ready: function() {
+           this.scopeSubtree(this.$.container, true);
+       },
+
+       initDatatable: function() {
+           var opts = this;
+           return Guild.DataTable.init(this.$.table, this.columns(), opts);
+       },
+
+       columns: function() {
+           var cols = this.getContentChildNodes("[select=datatable-col]");
+           return Array.from(cols).map(function(col) {
+               return col.toDatatableCol();
+           });
+       },
+
+       initSearchInput: function() {
+           this.searchInput = this.$$("input[type='search']");
+           this.filterChanged(this.filter);
+       },
+
+       addRows: function(rows) {
+           this.dtOp(function(dt) {
+               Guild.DataTable.addRows(dt, rows)
+           });
+       },
+
+       dtOp: function(op) {
+           if (this.dt) {
+               op(this.dt);
+           } else {
+               this.cachedDtOps.push(op);
+           }
+       },
+
+       applyCachedDtOps: function(dt) {
+           this.cachedDtOps.forEach(function(op) {
+               op(dt);
+           });
+           this.cachedDtOps = [];
+       },
+
+       filterChanged: function(val) {
+           // Use datatables built-in search input to filter
+           if (this.searchInput) {
+               this.searchInput.value = val;
+               this.searchInput.dispatchEvent(new Event("input"));
+           }
+       },
+
+       clear: function() {
+           this.dtOp(function(dt) {
+               dt.clear();
+               dt.draw();
+           });
+       }
+   });
+  </script>
+</dom-module>

@@ -1,0 +1,86 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+
+<dom-module id="guild-component-options">
+  <template>
+    <style>
+     :host {
+         --paper-menu-button: {
+             padding: 0;
+         }
+     }
+
+     paper-icon-button {
+         color: var(--secondary-text-color);
+     }
+
+     .options {
+         padding: 20px;
+     }
+
+     .options ::content h3 {
+         color: var(--primary-text-color);
+         font-size: 15px;
+         font-weight: 400;
+         margin: 4px 0;
+     }
+
+     .options ::content .value {
+         color: var(--secondary-text-color);
+         font-size: 14px;
+     }
+    </style>
+    <paper-menu-button
+        horizontal-align="right"
+        on-paper-dropdown-close="closed">
+      <paper-icon-button icon="more-vert" class="dropdown-trigger">
+      </paper-icon-button>
+      <div id="content" class="options dropdown-content">
+        <content></content>
+      </div>
+    </paper-menu-button>
+  </template>
+  <script>
+   Polymer({
+       is: "guild-component-options",
+
+       ready: function() {
+           // Force to set this here because it defaults to true
+           this.$$('paper-menu-button').restoreFocusOnClose = false;
+       },
+
+       closed: function(e) {
+           if (e.target == this.$$("paper-menu-button")) {
+               // Make sure we lose focus on close (setting
+               // restoreFocusOnClose to false doesn't seem to work in
+               // some cases)
+               this.blurButton();
+           }
+       },
+
+       blurButton: function() {
+           var button = this.$$("paper-icon-button");
+           window.setTimeout(function() {
+               button.blur();
+           }, 100);
+       }
+   });
+  </script>
+</dom-module>

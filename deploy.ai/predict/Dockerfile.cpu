@@ -102,6 +102,29 @@ ENV \
 #RUN \
 #  pip2 install -r /root/nvidia/requirements.txt
 
+RUN \
+  pip install --upgrade psutil
+
+RUN \
+  apt-get install --yes erlang
+
+RUN \
+  apt-get install --yes sqlite3 libsqlite3-dev
+
+RUN \
+  apt-get install --yes nodejs-legacy npm
+
+RUN \
+  echo '{ "allow_root": true }' > /root/.bowerrc \
+  && npm install -g bower
+
+COPY guild/ guild/
+RUN \
+  cd guild \
+  && make
+RUN \
+  ln -s /root/guild/scripts/guild-dev /usr/local/bin/guild
+
 ENV \
   PIO_MODEL_SERVER_PORT=9876
 

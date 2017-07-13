@@ -1,0 +1,164 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-util/guild-util.html">
+
+<link rel="import" href="guild-data.html">
+
+<script>
+ var Guild = Guild || {};
+ // @polymerBehavior Guild.DataListener
+ Guild.DataListener = {
+
+     properties: {
+         dataSource: String,
+         dataFetchInterval: {
+             type: Number,
+             observer: "dataFetchIntervalChanged"
+         },
+         dataReduce: String,
+         dataFormat: String,
+         dataPrefix: {
+             type: String,
+             value: "/data/"
+         },
+         active: {
+             type: Boolean,
+             value: true,
+             observer: 'activeChanged'
+         },
+         pendingFetch: {
+             type: Object,
+             value: null
+         }
+     },
+
+     observers: [
+         "maybeFetch(dataSource, active)"
+     ],
+
+     maybeFetch: function(source, active) {
+         if (source && active) {
+             this.scheduleFetch(0);
+         }
+     },
+
+     scheduleFetch: function(whenSeconds) {
+         if (this.dataSource && this.active) {
+             var url = this.dataFetchUrl();
+             var handler = this.handleFetchResult.bind(this);
+             this.cancelPendingFetch();
+             this.pendingFetch =
+                 Guild.Data.scheduleFetch(url, handler, whenSeconds * 1000);
+         }
+     },
+
+     dataFetchUrl: function() {
+         return this.dataPrefix + this.dataSource;
+     },
+
+     handleFetchResult: function(result) {
+         this.cancelPendingFetch();
+         if (result != null) {
+             var data = this.maybeReduce(result);
+             this.handleData.bind(this)(data);
+         }
+         this.maybeScheduleNextFetch();
+     },
+
+     cancelPendingFetch: function() {
+         if (this.pendingFetch) {
+             window.clearTimeout(this.pendingFetch);
+             this.pendingFetch = null;
+         }
+     },
+
+     maybeScheduleNextFetch: function() {
+         if (this.dataFetchInterval > 0 && !this.pendingFetch) {
+             this.scheduleFetch(this.dataFetchInterval);
+         }
+     },
+
+     maybeReduce: function(data) {
+         var reduce = Guild.Reduce[this.dataReduce];
+         return reduce ? reduce(data) : data;
+     },
+
+     handleData: function(data) {
+         // stub to be overridden by host
+     },
+
+     formatData: function(data, defaultValue) {
+         var val = this.dataValue(data);
+         if (val != undefined) {
+             return Guild.Util.tryFormat(val, this.dataFormat);
+         } else {
+             return defaultValue;
+         }
+     },
+
+     dataValue: function(data) {
+         if (typeof data === "object" && data != null) {
+             return data[Object.keys(data)[0]];
+         } else {
+             return data;
+         }
+     },
+
+     dataFetchIntervalChanged(interval, old) {
+         if (interval > 0) {
+             this.maybeFetch(this.dataSource, this.active);
+         }
+     },
+
+     activeChanged: function(val, old) {
+         if (old !== undefined) {
+             this.cancelPendingFetch();
+             if (val) {
+                 this.scheduleFetch(0);
+             }
+         }
+     }
+ };
+</script>
+
+<dom-module id="guild-data-listener">
+  <script>
+   Polymer({
+       is: "guild-data-listener",
+
+       behaviors: [Guild.DataListener],
+
+       properties: {
+           deepCompare: {
+               type: Boolean,
+               value: false
+           },
+           data: {
+               type: Object,
+               notify: true
+           }
+       },
+
+       handleData: function(data) {
+           if (!this.deepCompare ||
+               JSON.stringify(data) != JSON.stringify(this.data)) {
+               this.data = data;
+           }
+       }
+   });
+  </script>
+</dom-module>

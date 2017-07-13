@@ -1,0 +1,151 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-chart-compare-component/guild-chart-compare-component.html">
+<link rel="import" href="../guild-keyval-compare-component/guild-keyval-compare-component.html">
+<link rel="import" href="../guild-styles/guild-styles.html">
+
+<link rel="import" href="guild-compare-component-select.html">
+
+<dom-module id="guild-compare-components">
+  <template>
+    <style include="guild-row-styles"></style>
+    <style>
+     .component {
+         margin: 10px 0;
+
+     }
+
+     .component:last-child {
+         margin-bottom: 20px;
+     }
+    </style>
+
+    <div class="row row-20">
+      <template is="dom-repeat" items="[[components]]" as="c">
+        <div class="component col-12">
+          <template is="dom-if" if="[[c.isChart]]">
+            <guild-chart-compare-component
+                env="[[env]]"
+                source="[[c.source]]"
+                runs="[[runs]]"
+                active="[[active]]"
+                heading="[[c.heading]]">
+            </guild-chart-compare-component>
+          </template>
+          <template is="dom-if" if="[[c.isKeyval]]">
+            <guild-keyval-compare-component
+                env="[[env]]"
+                source="[[c.source]]"
+                runs="[[runs]]"
+                active="[[active]]"
+                heading="[[c.heading]]">
+          </template>
+        </div>
+      </template>
+    </div>
+
+    <guild-compare-component-select
+        env="[[env]]"
+        on-component-selected="handleComponentSelected">
+    </guild-compare-component-select>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-compare-components",
+
+       properties: {
+           env: Object,
+           runs: Array,
+           components: {
+               type: Array,
+               value: function() {
+                   return [];
+               }
+           },
+           active: {
+               type: Boolean,
+               observer: "activeChanged"
+           }
+       },
+
+       listeners: {
+           "guild-compare-component-delete": "handleComponentDelete"
+       },
+
+       handleComponentSelected: function(e) {
+           var c = this.componentForSource(e.detail.source);
+           this.push("components", c);
+       },
+
+       componentForSource: function(source) {
+           if (source.startsWith("series/")) {
+               return {
+                   isChart: true,
+                   source: source,
+                   heading: source.slice(7)
+               };
+           } else if (source == "flags") {
+               return {
+                   isKeyval: true,
+                   source: source,
+                   heading: "Flags"
+               };
+           } else if  (source == "attrs") {
+               return {
+                   isKeyval: true,
+                   source: source,
+                   heading: "Attributes"
+               };
+           } else {
+               throw ["unsupported component source", source];
+           }
+       },
+
+       handleComponentDelete: function(e) {
+           var c = this.componentForTarget(e.target);
+           var index = this.componentIndex(c);
+           this.splice("components", index, 1);
+       },
+
+       componentForTarget: function(target) {
+           if (target.classList.contains("component")) {
+               return target;
+           } else {
+               return this.componentForTarget(target.parentNode);
+           }
+       },
+
+       componentIndex: function(target) {
+           var cs = Polymer.dom(this.root).querySelectorAll(".component");
+           for (var i = 0; i < cs.length; i++) {
+               if (cs[i] == target) {
+                   return i;
+               }
+           }
+           throw ["cannot find component index", target];
+       },
+
+       activeChanged: function(val) {
+           var cs = Polymer.dom(this.root).querySelectorAll(".component");
+           cs.forEach(function(c) {
+               c.active = val;
+           });
+       }
+   });
+  </script>
+</dom-module>

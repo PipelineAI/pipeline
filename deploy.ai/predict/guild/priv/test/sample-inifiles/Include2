@@ -1,0 +1,7 @@
+#-*-conf-*-
+
+[template "loss"]
+
+  @attrs template "summary-field-last"
+  label = Loss
+  color = red-700

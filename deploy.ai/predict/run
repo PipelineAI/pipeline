@@ -1,6 +1,43 @@
 #!/bin/bash
 
-start_model_server_python3 () {
+start_model_training_tensorflow() {
+    echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+    echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
+    echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+
+    echo ""
+    echo "Starting TensorFlow-based Model Training..."
+    echo ""
+
+    source activate $PIO_CONDA_ENV_NAME
+
+    cd $PIO_MODEL_PATH \
+    guild prepare
+    guild train
+    guild view
+    cd /root
+}
+
+start_model_training_python3() {
+    echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
+    echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
+    echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
+
+    echo ""
+    echo "Starting Python-based Model Training..."
+    echo ""
+
+    source activate $PIO_CONDA_ENV_NAME
+
+    cd $PIO_MODEL_PATH \
+    python pio_train.py
+    echo ""
+    echo "...Training Complete!"
+    echo ""
+    cd /root
+}
+
+start_model_serving_python3 () {
     echo "PIO_MODEL_SERVER_PATH=$PIO_MODEL_SERVER_PATH"
     echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
     echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
@@ -27,7 +64,7 @@ start_model_server_python3 () {
     cd /root
 }
 
-start_model_server_jvm () {
+start_model_serving_jvm () {
     echo "PIO_MODEL_PATH=$PIO_MODEL_PATH"
     echo "PIO_MODEL_TYPE=$PIO_MODEL_TYPE"
     echo "PIO_MODEL_NAME=$PIO_MODEL_NAME"
@@ -56,7 +93,7 @@ start_tensorflow_serving_in_background () {
     echo "Starting TensorFlow Serving..."
     echo ""
     tensorflow_model_server --port=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT \
-        --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_PATH \
+        --model_name=$PIO_MODEL_NAME --model_base_path=$PIO_MODEL_PATH/versions \
         --batching_parameters_file=/root/config/tf_serving/batching_config.txt \
         --enable_batching=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
         --file_system_poll_wait_seconds=5 &
@@ -85,13 +122,18 @@ if [[ $PIO_MODEL_TYPE == "python3" ]] ||
    [[ $PIO_MODEL_TYPE == "keras" ]] ||
    [[ $PIO_MODEL_TYPE == "scikit" ]]; then
 
-  start_model_server_python3
+  [ -s $PIO_MODEL_PATH/pio_train.py ] \
+    && start_model_training_python3
+
+  start_model_serving_python3
 fi;
 
 if [[ $PIO_MODEL_TYPE == "tensorflow" ]]; then
+  [ -s $PIO_MODEL_PATH/pio_train.py ] \
+    && start_model_training_tensorflow
 
   start_tensorflow_serving_in_background 
-  start_model_server_python3
+  start_model_serving_python3
 fi;
 
 if [[ $PIO_MODEL_TYPE == "spark" ]] ||
@@ -100,5 +142,5 @@ if [[ $PIO_MODEL_TYPE == "spark" ]] ||
    [[ $PIO_MODEL_TYPE == "xgboost" ]] ||
    [[ $PIO_MODEL_TYPE == "r" ]]; then
 
-  start_model_server_jvm
+  start_model_serving_jvm
 fi;

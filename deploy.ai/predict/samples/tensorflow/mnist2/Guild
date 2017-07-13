@@ -6,29 +6,21 @@
 
 [project]
 
-  name = MNIST
-  description = Guild MNIST example
+  name = tensorflow/linear 
+  description = TensorFlow Linear Example
 #  sources = *.py
 
 ###################################################################
 # Models
 ###################################################################
 
-[model "intro"]
+[model "linear"]
 
-  train = intro
-  prepare = intro --prepare
+  train = train
+  prepare = 
   train_requires = ./data
-  evaluate = intro --test
-  sources = intro.py
-
-[model "expert"]
-
-  train = expert
-  prepare = expert --prepare
-  train_requires = ./data
-  evaluate = expert --test
-  sources = expert.py
+  evaluate = 
+  sources = train.py
 
 ###################################################################
 # Flags
@@ -38,20 +30,13 @@
 
   datadir = ./data
   rundir = $RUNDIR
-  batch_size = 100
-  epochs = 10
+  num_samples = 100000
+#  batch_size = 100
+#  epochs = 10
 
 ###################################################################
 # Resources
 ###################################################################
-
-[resource "samples"]
-
-  prepare = samples --sample-dir samples
-
-[flags "samples"]
-
-  sample-count = 100
 
 ###################################################################
 # Fields
@@ -88,7 +73,7 @@
 [series "loss"]
 
   @attrs template "loss-series"
-  source = series/tf/train/loss
+  source = series/tf/.+/loss
 
 [series "accuracy"]
 
@@ -112,6 +97,18 @@
   label = Batch Size
   source = flags
   attribute = batch_size
+
+[compare-field "learning-rate"]
+
+  label = Learning Rate 
+  source = flags
+  attribute = learning_rate
+
+[compare-field "num-samples"]
+
+  label = Num Samples
+  source = flags
+  attribute = num_samples
 
 [compare-field "steps"]
 

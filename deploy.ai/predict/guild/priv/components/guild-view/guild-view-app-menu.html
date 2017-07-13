@@ -1,0 +1,63 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-icons/guild-icons.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-toolbar/paper-toolbar.html">
+
+<dom-module id="guild-view-app-menu">
+  <template>
+    <style>
+     paper-toolbar {
+         --paper-toolbar-title: {
+             margin-left: 0;
+         };
+     }
+
+     iron-icon {
+         --iron-icon-width: 24px;
+         --iron-icon-height: 24px;
+         margin-right: 5px;
+     }
+    </style>
+    <paper-toolbar>
+      <span class="title">Guild View</span>
+    </paper-toolbar>
+    <paper-menu selected="{{selected}}" attr-for-selected="page">
+      <template is="dom-repeat" items="[[pages]]" as="page">
+        <paper-item page="[[page.id]]">
+          <iron-icon class="menu-icon" icon="[[page.icon]]"></iron-icon>
+          [[page.label]]
+        </paper-item>
+      </template>
+    </paper-menu>
+  </template>
+  <script>
+   Polymer({
+       is: "guild-view-app-menu",
+
+       properties: {
+           pages: Array,
+           selected: {
+               type: String,
+               notify: true
+           }
+       }
+   });
+  </script>
+</dom-module>

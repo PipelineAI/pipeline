@@ -1,0 +1,21 @@
+# -*-conf-*-
+
+# This is a sample project. Content here is used in tests. New content
+# will not likely break tests, but deleting or changing content will
+# almost certainly effect tests. Be sure to run tests and fixing them
+# before committing changes to this file.
+
+[project]
+
+name = Test project
+
+[model]
+
+train = train
+evaluate = evaluate
+prepare = prepare
+
+[view]
+
+fields = accuracy loss
+series = accuracy loss

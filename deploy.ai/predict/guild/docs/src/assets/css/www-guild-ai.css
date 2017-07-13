@@ -1,0 +1,560 @@
+/*******************************************************************
+ * Navbar logo and nav items
+ *******************************************************************/
+
+.navbar-brand > img {
+    display: inline-block;
+    max-height: 32px;
+    transition: 0.2s ease;
+}
+
+.nav-link span {
+    padding: 5px 1px;
+    display: inline-block;
+}
+
+/*******************************************************************
+ * Home page masthead
+ *******************************************************************/
+
+.bd-masthead {
+    padding: 1rem 15px 1rem;
+    background-color: #4d4d99;
+    background-image: none;
+}
+
+.bd-masthead .lead {
+    margin-bottom: 1rem;
+    font-size: 1.7rem;
+}
+
+.bd-masthead .lead-sub {
+    font-size: 1.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+
+.bd-masthead .version {
+    margin: 1rem 0 0;
+    color: #cdbfe3;
+}
+
+.bd-masthead .version a {
+    color: #cdbfe3;
+}
+
+.bd-masthead .btn {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+    color: #fff;
+    border-color: #fff;
+}
+
+@media (min-width: 576px) {
+    .bd-masthead {
+        padding: 2.5rem 15px 2.5rem;
+    }
+
+    .bd-masthead .lead {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .bd-masthead .btn {
+        padding: 1rem 2rem;
+    }
+
+    .bd-masthead .lead-sub {
+        display: inherit;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .bd-masthead .lead {
+        font-size: 2.2rem;
+    }
+
+    .bd-masthead .lead-sub {
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .bd-masthead .lead {
+        width: 85%;
+        font-size: 2.5rem;
+    }
+
+    .bd-masthead .lead-sub {
+        width: 75%;
+        font-size: 1.5rem;
+    }
+}
+
+/*******************************************************************
+ * Page header
+ *******************************************************************/
+
+.bd-pageheader {
+    padding: 1.5rem 15px;
+    margin-bottom: 1.5rem;
+    color: #cdbfe3;
+    background-color: #4d4d99;
+    text-align: left;
+}
+
+.bd-pageheader h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.bd-pageheader .lead {
+    display: none;
+    line-height: 1.4;
+}
+
+@media (min-width: 576px) {
+    .bd-pageheader {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+    }
+    .bd-pageheader h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .bd-pageheader h1 {
+        font-size: 2.5rem;
+    }
+    .bd-pageheader p {
+        font-size: 1.3rem;
+    }
+    .bd-pageheader .lead {
+        display: inherit;
+    }
+}
+
+@media (min-width: 992px) {
+    .bd-pageheader h1 {
+        font-size: 3rem;
+        margin-right: 224px;
+    }
+    .bd-pageheader p {
+        font-size: 1.5rem;
+        margin-right: 224px;
+    }
+}
+
+/*******************************************************************
+ * Page typography
+ *******************************************************************/
+
+.bd-title.hidden {
+    display:none;
+}
+
+@media (min-width: 576px) {
+    .bd-title {
+        font-size: 2.5rem;
+    }
+
+    .bd-title + p,
+    .par-lead{
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+}
+
+.bd-content > h2 {
+    font-size: 2rem;
+}
+
+.bd-content > h2:not(:first-child) {
+    margin-top: 2rem;
+}
+
+.bd-content > h3 {
+  margin-top: 1.3rem;
+}
+
+code {
+    padding: 0.2rem 0.3rem;
+}
+
+a code {
+    color: #0275d8;
+}
+
+a code:hover {
+    color: #014c8c;
+}
+
+/*******************************************************************
+ * TOC typography
+ *******************************************************************/
+
+.active > .bd-toc-link {
+    font-weight: 600;
+}
+
+/*******************************************************************
+ * Featurette
+ *******************************************************************/
+
+.bd-featurette {
+    padding: 30px 0 20px;
+    border-top: 1px solid #ddd;
+}
+
+.bd-featurette dl {
+    text-align: left;
+}
+
+@media (min-width: 576px) {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+@media (min-width: 992px) {
+
+    .bd-featurette .col-lg-6:first-child {
+        padding-right: 35px;
+    }
+    .bd-featurette .col-lg-6:last-child {
+        padding-left: 35px;
+    }
+}
+
+/*******************************************************************
+ * Definition lists
+ *******************************************************************/
+
+dl {
+    padding: 0.5em;
+}
+
+dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+}
+
+dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
+}
+
+/*******************************************************************
+ * Highligher CSS tweaking
+ *******************************************************************/
+
+.highlight {
+    background-color: #f0f0f4;
+    padding: 0.75rem;
+    line-height: 1.25;
+}
+
+.highlight pre code {
+    font-size: 0.85rem;
+}
+
+@media (min-width: 576px) {
+    .highlight {
+        padding: 0.75rem;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+figure.language-commands,
+figure.language-commands-long {
+    background-color: #999;
+}
+
+.highlight pre code.language-commands,
+.highlight pre code.language-commands-long {
+    color: #fff;
+}
+
+figure.language-commands-long {
+    padding-bottom: 0.8rem;
+}
+
+figure.language-commands-long pre {
+    padding-bottom: 0.5rem;
+}
+
+.nn {
+    color: inherit;
+}
+
+.c {
+    color: #666;
+}
+
+/*******************************************************************
+ * Screen shots
+ *******************************************************************/
+
+.bd-screen {
+    margin: 1rem 1.5rem;
+}
+
+/*******************************************************************
+ * Callouts
+ *******************************************************************/
+
+.bd-callout {
+    border-left-width: .25rem;
+    border-radius: .25rem;
+    border-color: #ddd;
+    border-left-color: #bfbfbf;
+    background-color: #fafafa;
+}
+
+.bd-callout h4 {
+    font-size: 1.33rem;
+}
+
+.bd-callout-note h4 {
+    color: #d9534f;
+}
+
+.bd-callout-note {
+    border-left-color: rgba(217, 83, 79, 0.65);
+}
+
+.bd-callout-warning {
+    border-left-color: rgba(171, 171, 59, 0.55);
+}
+
+.bd-callout-warning h4 {
+    color: rgb(171, 171, 59);
+}
+
+.bd-callout-imagecap {
+    padding-bottom: 1rem;
+}
+
+ .callout-container {
+     position: relative;
+ }
+
+/*******************************************************************
+ * Popover callouts
+ *******************************************************************/
+
+.popover-callout {
+    background-color:rgba(51,126,204,0.65);
+    color: white;
+    border: none;
+    font-size: 12px;
+    border-radius: 3px;
+    padding: 5px 8px;
+}
+
+.popover-callout.popover-right::after {
+    border-right-color: rgba(51,126,204,0.65);
+    border-width: 6px;
+    margin-top: -6px;
+    left: -12px;
+}
+
+.popover-callout.popover-top::after {
+    border-top-color: rgba(51,126,204,0.65);
+    border-width: 6px;
+    margin-left: -6px;
+    bottom: -12px;
+}
+
+.popover-callout.popover-left::after {
+    border-left-color: rgba(51,126,204,0.65);
+    border-width: 6px;
+    margin-top: -6px;
+    right: -12px;
+}
+
+.popover-callout.popover-bottom::after {
+    border-bottom-color: rgba(51,126,204,0.65);
+    border-width: 6px;
+    margin-left: -6px;
+    top: -12px;
+}
+
+.popover-callout.popover-right::before,
+.popover-callout.popover-top::before,
+.popover-callout.popover-left::before,
+.popover-callout.popover-bottom::before {
+    border: none;
+}
+
+/*******************************************************************
+ * TOC Links
+ *******************************************************************/
+
+.bd-toc-header {
+    margin-top: 2rem;
+    padding: 1.5rem 0.75rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/*******************************************************************
+ * Copy support
+ *******************************************************************/
+
+.with-copy .highlight {
+    padding-top: 1.8rem;
+}
+
+.btn-clipboard {
+    top: 3px;
+}
+
+.bd-clipboard {
+    display: inherit;
+}
+
+/*******************************************************************
+ * Guild specific formatting
+ *******************************************************************/
+
+.guild-features p {
+    margin-bottom: 25px;
+}
+
+.figure {
+    margin: 0;
+    text-align: center;
+}
+
+.figure-img {
+    margin-bottom: 0;
+}
+
+.figure-img.border {
+    border-width: 5px 2px 1px;
+    border-style: solid;
+    border-color: #fafafa;
+    box-shadow:
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.figure-caption {
+    margin-top: 1rem;
+    color: #292b2c;
+    font-size: 100%;
+}
+
+.figure-caption p {
+    text-align: center;
+}
+
+.figure-caption li {
+    padding-top: 0.5rem;
+}
+
+.image-1028 {
+    max-width: 1028px;
+}
+
+.serve-icon {
+    font-size: 12rem;
+}
+
+.screenshot {
+    width: 100%;
+}
+
+#contents {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    padding-left: 20px;
+}
+
+.flow-step {
+    display: inline-block;
+    background-color: #e4e4f0;
+    text-align: center;
+    height: 5rem;
+    line-height: 5rem;
+    border: 1px solid #ccc;
+}
+
+.flow-step a {
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+.flow-arrow {
+    background-image: url(../img/flow-arrow-down.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 15px;
+    height: 50px;;
+}
+
+@media (min-width: 992px) {
+    .flow-arrow {
+        background-image: url(../img/flow-arrow.png);
+        max-width: 50px;
+        background-size: 75%;
+        height: 5rem;
+    }
+}
+
+.cmd-options {
+    margin-bottom: 1rem;
+}
+
+.cmd-options td {
+    border: none !important;
+    padding: 0.3rem 0.75rem !important;
+}
+
+.cmd-options td code {
+    background-color: inherit;
+    color: #292b2c;
+    font-weight: 600;
+}
+
+span.cmd-desc-item-name {
+    display: inline-block;
+    min-width: 10rem;
+    padding-left: 1rem;
+    font-style: italic;
+}
+
+.next-link {
+    margin-top: 2rem;
+}
+
+.next-link + .next-link {
+    margin-top: inherit;
+}
+
+.doclist .row  {
+    margin-bottom: 15px;
+}
+
+.doclist h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ext-link-icon {
+    font-size: 80%;
+}
+
+.col-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

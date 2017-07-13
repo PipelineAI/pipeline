@@ -1,0 +1,134 @@
+#!/bin/bash -eu
+
+shopt -s expand_aliases
+if [ `uname` = "Darwin" ]; then
+    alias sed-i="sed -i ''"
+else
+    alias sed-i="sed -i"
+fi
+
+block-insert() {
+    local file=$1
+    local block_start=$2
+    local block_end=$3
+    local content=$4
+    if ! grep -q -- "$content" $file; then
+        sed-i -e "/$block_start/{:a;n;/$block_end/!ba;i$content" -e "}" $file
+    fi
+}
+
+# Remove imports of roboto.html which incur a dependency on Google's CDN
+# See https://github.com/PolymerElements/paper-styles/pull/128
+sed-i /roboto.html/d priv/components/paper-styles/typography.html
+
+# Remove import of iron-flex-layout/classes
+# See https://github.com/PolymerElements/paper-styles/issues/49
+sed-i /iron-flex-layout\\/classes\\/iron-flex-layout.html/d priv/components/paper-styles/paper-styles.html
+
+# Remove incorrect sorting of tooltips in vz-line-chart
+sed-i '/names = names.sort();/d' priv/components/vz-line-chart/vz-line-chart.js
+
+# Ensure correct use of 'src$=...' in
+sed-i 's/src=/src$=/' priv/components/tf-image-dashboard/tf-image-loader.html
+
+# Style hooks
+
+block-insert \
+    priv/components/vz-line-chart/vz-line-chart.html \
+    '\#tooltip {' '}' \
+    '\        @apply(--vz-chart-tooltip);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-multi-checkbox.html \
+    '\#outer-container {' '}' \
+    '\      @apply(--tf-multi-checkbox-outer-container);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-sidebar-helper.html \
+    '\.sidebar-section {' '}' \
+    '\        @apply(--tf-sidebar-helper-sidebar-section);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-sidebar-helper.html \
+    '\.sidebar-section:first-child {' '}' \
+    '\        @apply(--tf-sidebar-helper-first-sidebar-section);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-regex-group.html \
+    '\.regex-input {' '}' \
+    '\            @apply(--tf-regex-group-regex-input);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-option-selector.html \
+    '<style>' '<\/style>' \
+    '\      .content-wrapper { @apply(--tf-option-selector-content-wrapper); }'
+
+block-insert \
+    priv/components/tf-dashboard-common/dashboard-style.html \
+    '.sidebar-section {' '}' \
+    '\        @apply(--tf-dashboard-style-sidebar-section);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-collapsable-pane.html \
+    '.heading {' '}' \
+    '\        @apply(--tf-collapsable-pane-heading);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-collapsable-pane.html \
+    '.content {' '}' \
+    '\        @apply(--tf-collapsable-pane-content);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-collapsable-pane.html \
+    ':host {' '}' \
+    '\        @apply(--tf-collapsable-pane);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-collapsable-pane.html \
+    ':host:first-of-type {' '}' \
+    '\        @apply(--tf-collapsable-pane-first);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-collapsable-pane.html \
+    ':host:last-of-type {' '}' \
+    '\        @apply(--tf-collapsable-pane-last);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-categorizer.html \
+    ':host {' '}' \
+    '\        @apply(--tf-categorizer);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-categorizer.html \
+    '#underscore-categorization {' '}' \
+    '\        @apply(--tf-categorizer-underscore-categorization);'
+
+block-insert \
+    priv/components/tf-dashboard-common/tf-dashboard-layout.html \
+    '#sidebar {' '}' \
+    '\        @apply(--tf-dashboard-layout-sidebar);'
+
+block-insert \
+    priv/components/tf-graph-board/tf-graph-board.html \
+    '.container {' '}' \
+    '\  @apply(--tf-graph-board-container);'
+
+block-insert \
+    priv/components/tf-graph/tf-graph.html \
+    '.container {' '}' \
+    '\  @apply(--tf-graph-container);'
+
+block-insert \
+    priv/components/tf-graph/tf-graph-controls.html \
+    '.allcontrols {' '}' \
+    '\  @apply(--tf-graph-controls-allcontrols);'
+
+block-insert \
+    priv/components/tf-graph/tf-graph-controls.html \
+    '.legend-holder {' '}' \
+    '\  @apply(--tf-graph-controls-legend-holder);'
+
+block-insert \
+    priv/components/paper-dropdown-menu/paper-dropdown-menu-light.html \
+    'label.label-is-floating {' '}' \
+    '\        @apply(--paper-dropdown-menu-label-floating);'

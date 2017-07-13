@@ -1,0 +1,166 @@
+---
+layout: home
+---
+
+<main class="bd-masthead" id="content">
+  <div class="container">
+    <p class="lead">{{site.tagline_main}}</p>
+    <p class="lead-sub">{{site.tagline_sub}}</p>
+    <p class="lead">
+      <a href="/getting-started/introduction/" class="btn btn-lg">Get Started</a>
+    </p>
+    <p class="version">Currently <a href="https://github.com/guildai/guild/releases/tag/v{{site.current_version}}">{{site.current_version}}</a></p>
+  </div>
+</main>
+
+<div class="bd-featurette guild-features">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+
+        <h4 class="mt-0"><i class="fa fa-dashboard fa-fw"></i> Monitor TensorFlow in real time</h4>
+
+        <p>
+
+          Guild AI provides a high-level dashboard for your models
+          that lets you view important details at-a-glance. As you
+          train your models, Guild automatically tracks run progress
+          and updates your dashboard in real time. In addition to
+          tracking TensorFlow metrics, Guild captures system details
+          such as GPU utilization and memory allocation to give you a
+          more complete picture of your training operations.
+
+        </p>
+
+        <h4><i class="fa fa-table fa-fw"></i> Compare and analyze</h4>
+
+        <p>
+
+          Guild AI maintains detailed records of each TensorFlow
+          experiment and lets you quickly compare results over
+          time. Guild provides high level summaries, TensorFlow and
+          system metric comparisons per run, and configuration level
+          diffing.
+
+        </p>
+
+
+        <h4><i class="fa fa-line-chart fa-fw"></i> TensorBoard integration</h4>
+
+        <p>
+
+          Guild AI seamlessly integrates TensorBoard, letting you
+          drill into TensorFlow event logs when you need lower level
+          details. TensorBoard includes visualizations for event
+          scalars, distributions, histograms, images, audio, and
+          graphs. There's no need to run TensorBoard separately as
+          it's built directly into Guild AI.
+
+        </p>
+
+        <p class="text-center" style="margin-bottom:30px">
+          <a href="/features/" class="btn btn-bs btn-outline">More about Guild AI features</a>
+        </p>
+
+      </div>
+
+      <div class="col-lg-6" style="text-align:center">
+        <figure class="figure" style="margin-top:-10px;margin-bottom:30px;">
+          <a href="/features">
+            <img class="figure-img border" src="/assets/img/view-anim-1.gif" width="100%">
+          </a>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="bd-featurette">
+  <div class="container">
+
+    <h2 class="bd-featurette-title">Guild AI works with your TensorFlow code</h2>
+    <p class="lead">Train, evaluate, and serve your models using simple command line operations.</p>
+
+    <div class="row">
+      <div class="col-lg-6 mb-3">
+        <h4>Command line interface</h4>
+        <p>Guild reduces complex model operations to single
+        commands. This makes your life easier and it also makes your
+        models easier to use by others.</p>
+
+        <dl>
+          <dt><code>prepare</code></dt>
+          <dd>prepares a model for training (e.g. download and pre-process a dataset)</dd>
+
+          <dt><code>train</code></dt>
+          <dd>trains a model defined in your Guild project file</dd>
+
+          <dt><code>view</code></dt>
+          <dd>start Guild View - a browser interface for viewing
+          training results for your project</dd>
+
+          <dt><code>evaluate</code></dt>
+          <dd>evaluate a trained model's performance</dd>
+
+          <dt><code>serve</code></dt>
+          <dd>serve a trained model locally over HTTP + JSON</dd>
+        </dl>
+
+        <p class="text-center">
+          <a class="btn btn-bs" href="/command-reference/overview/">View all Guild commands</a>
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-3">
+        <h4>Guild project file</h4>
+        <p>To enable Guild features, add a <code>Guild</code> file to
+          your project.</p>
+
+        {% highlight none %}[project]
+
+name            = MNIST
+
+[model]
+
+runtime         = tensorflow
+train           = intro
+prepare         = intro --prepare
+evaluate        = intro --evaluate
+
+[flags]
+
+batch-size      = 100
+epochs          = 5{% endhighlight %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="bd-featurette">
+  <div class="container">
+    <h2 class="bd-featurette-title">Measure system resources used by your model</h2>
+
+    <p class="lead">Guild runs efficiently in the background logging
+    CPU, GPU, and other system metrics to give you a more complete
+    picture of model performance.</p>
+
+    <div class="row">
+      <div class="col-12 col-center">
+        <figure class="figure">
+          <img
+              class="figure-img img-fluid mx-auto border img-1028"
+              src="/assets/img/view-3.jpg"
+              alt="Guild system metrics"
+              width="75%">
+        </figure>
+
+        <p class="text-center mt-4">
+          <a href="/project-reference/fields/#series" class="btn btn-bs btn-outline">View stats collected by Guild</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,1 @@
+/Users/cfregly/miniconda3/bin/python -u pio_train.py --learning_rate 0.025 --num_samples 100000 --rundir $RUNDIR --datadir ./data

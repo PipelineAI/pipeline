@@ -1,0 +1,51 @@
+<header class="navbar navbar-light navbar-static-top bd-navbar">
+  <div class="container">
+    <nav>
+      <div class="clearfix">
+        <button class="navbar-toggler float-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#bd-main-nav" aria-controls="bd-main-nav" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <a class="navbar-brand hidden-sm-up" href="/">
+          <img src="/assets/img/logo-blue-sm.png" alt="{{site.title}}" class="img-fluid">
+        </a>
+      </div>
+      <div class="collapse navbar-toggleable" id="bd-main-nav">
+        <ul class="nav navbar-nav">
+          <li class="nav-item hidden-xs-down">
+            <a class="nav-item nav-link navbar-brand" href="/">
+              <img src="/assets/img/logo-blue-sm.png" alt="{{site.title}}" class="img-fluid">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link {% if page.group == 'features' %}active{% endif %}" href="/features/">
+              <span>Features</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link {% if page.layout == 'docs' or page.layout == 'docs_overview' %}active{% endif %}" href="/getting-started/introduction/">
+              <span>Documentation</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link {% if page.group == 'examples' %}active{% endif %}" href="/examples/">
+              <span>Examples</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link {% if page.group == 'faq' %}active{% endif %}" href="/faq/">
+              <span>FAQ</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link {% if page.group == 'about' %}active{% endif %}" href="/about/">
+              <span>About</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link" href="{{site.repo}}" target="_blank">
+              <span>GitHub</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>

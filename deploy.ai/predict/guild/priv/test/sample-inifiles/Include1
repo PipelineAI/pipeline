@@ -1,0 +1,6 @@
+#-*-conf-*-
+
+[template "summary-field-last"]
+
+  color = gray-500
+  reduce = last

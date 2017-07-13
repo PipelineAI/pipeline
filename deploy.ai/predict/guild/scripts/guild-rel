@@ -1,0 +1,18 @@
+#!/bin/sh -eu
+
+realpath() {
+    if [ "$(uname -s)" = "Darwin" ]; then
+        perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"
+    else
+        readlink -f "$1"
+    fi
+}
+
+SCRIPT=$(realpath $0)
+export ROOTDIR=${SCRIPT%/*/*}
+export BINDIR=$(echo $ROOTDIR/erts-*/bin)
+export EMU=beam
+export PROGNAME=$0
+export ERL_CRASH_DUMP=/dev/null
+
+exec $BINDIR/erlexec +B -boot start_clean -noshell -run guild main -extra "$@"

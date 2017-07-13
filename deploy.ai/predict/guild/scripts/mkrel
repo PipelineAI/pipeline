@@ -1,0 +1,171 @@
+#!/bin/bash -eu
+
+PKG_NAME=guild
+
+# If you change ERTS_VER you MUST also change REL_OTP_APPS to specify
+# the corresponding app versions for the new version of Erlang. Refer
+# to OTP_SRC/otp_versions.table for application versions associated
+# with a particular release. Failing to keep these versions in sync
+# will almost certainly cause hard to diagnose bugs in Guild.
+#
+ERTS_VER=8.3   # !!!! READ ABOVE COMMENT BEFORE CHANGING !!!!
+REL_OTP_APPS=(
+    compiler-7.0.4
+    crypto-3.7.3
+    inets-6.3.6
+    kernel-5.2
+    observer-2.3.1
+    runtime_tools-1.11.1
+    sasl-3.0.3
+    stdlib-3.3
+    syntax_tools-2.1.1
+    wx-1.8
+)
+
+REL_ROOT=releases
+ERLANG_HOME=/usr/local/lib/erlang
+GUILD_SRC="$(dirname $0)/.."
+GUILD_BUILD="$GUILD_SRC/build/default"
+
+VERSION="${1:-}"
+
+###################################################################
+# Init
+###################################################################
+
+init() {
+    check-user-args
+    init-args
+    check-args
+}
+
+check-user-args() {
+    if [ -z "$VERSION" ]; then
+        usage-error
+    fi
+}
+
+init-args() {
+    OS=`package-os`
+    ARCH=`package-arch`
+    REL_PKG=${PKG_NAME}_${VERSION}_${OS}_${ARCH}
+    REL_DIR=$REL_ROOT/$REL_PKG
+}
+
+package-os() {
+    uname -s | tr "[:upper:]" "[:lower:]"
+}
+
+package-arch() {
+    uname -m
+}
+
+check-args() {
+    if [ ! -e "$ERLANG_HOME/erts-$ERTS_VER" ]; then
+        echo "Erlang erts version $ERTS_VER (defined by ERTS_VER) is not installed, quitting"
+        exit 1
+    fi
+}
+
+###################################################################
+# Create package
+###################################################################
+
+create-package() {
+    echo "Creating package $REL_PKG"
+    init-release-dir
+    install-erlang
+    install-guild
+}
+
+init-release-dir() {
+    mkdir -p $REL_DIR
+}
+
+install-erlang() {
+    install-erlang-bin
+    install-erts
+    install-erlang-libs
+}
+
+install-erlang-bin() {
+    mkdir -p $REL_DIR/bin
+    cp -f $ERLANG_HOME/bin/{start.boot,start_clean.boot} $REL_DIR/bin/
+}
+
+install-erts() {
+    rsync -a $ERLANG_HOME/erts-$ERTS_VER/ $REL_DIR/erts-$ERTS_VER/
+}
+
+install-erlang-libs() {
+    local app versioned_app app_src app_dest
+    for app in ${REL_OTP_APPS[@]}; do
+        app_src=$ERLANG_HOME/lib/$app
+        app_dest=$REL_DIR/lib/$app
+        mkdir -p $app_dest
+        sync-otp-app $app_src/ $app_dest/
+    done
+}
+
+sync-otp-app() {
+    rsync \
+        -aL \
+        --include ebin --include 'ebin/**' \
+        --include priv --include 'priv/**' \
+        --exclude '*' \
+        "$1" "$2"
+}
+
+install-guild() {
+    install-guild-bin
+    install-guild-libs
+    set-guild-version
+}
+
+install-guild-bin() {
+    mkdir -p $REL_DIR/bin
+    cp $GUILD_SRC/scripts/guild-rel $REL_DIR/bin/guild
+}
+
+install-guild-libs() {
+    local app
+    for app in `ls $GUILD_BUILD/lib`; do
+        sync-otp-app $GUILD_BUILD/lib/$app/ $REL_DIR/lib/$app/
+    done
+}
+
+set-guild-version() {
+    local guild_app
+    guild_app=$REL_DIR/lib/guild/ebin/guild.app
+    sed -i -e s/0.0.0/$VERSION/ $guild_app
+}
+
+###################################################################
+# Create archive
+###################################################################
+
+create-archive() {
+    echo "Creating archive $REL_PKG.tar.gz"
+    tar -C $REL_ROOT -czf $REL_ROOT/$REL_PKG.tar.gz $REL_PKG
+}
+
+###################################################################
+# Shared
+###################################################################
+
+usage-error() {
+    echo "usage: $0 VERSION"
+    exit 1
+}
+
+###################################################################
+# Main
+###################################################################
+
+main() {
+    init
+    create-package
+    create-archive
+}
+
+main

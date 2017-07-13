@@ -1,0 +1,28 @@
+#!/bin/bash -eu
+
+set -o pipefail
+
+pkg="$1"
+dest="$2"
+
+echo "Installing $pkg"
+mkdir -p "$dest"
+tar -C "$dest" -xjf "$pkg"
+
+# TODO Checking for Guild.in as a proxy for "source package" - I think
+# this should be explicitly defined in GuildPkg, or inferred from the
+# package name, maybe.
+
+if [ -e "$dest/Guild.in" ]; then
+    cat <<EOF | tr '\n' ' '
+Use 'guild init --template=$(basename $dest)' to create a
+project using this package
+EOF
+else
+    cat <<EOF | tr '\n' ' '
+Use '\$PKGHOME/$(basename $dest)' to reference package
+files in your Guild project files
+EOF
+fi
+
+echo

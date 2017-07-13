@@ -1,0 +1,1 @@
+fps=5,scale=460:-1:flags=lanczos [x]; [x][1:v]

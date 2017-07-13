@@ -1,0 +1,210 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-data/guild-data-listener.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+
+<dom-module id="guild-compare-component-select">
+  <template>
+    <style>
+     :host {
+         --paper-fab-background: var(--paper-blue-500);
+         --paper-fab-keyboard-focus-background: var(--paper-blue-700);
+         --paper-item-min-height: 38px;
+         --paper-input-container: {
+             padding: 8px 0 0;
+         };
+         --paper-input-container-input: {
+             padding-right: 5px;
+         };
+         --paper-menu-selected-item: {
+             font-weight: normal;
+         };
+         --paper-menu: {
+             padding: 4px 0;
+         };
+     }
+
+     .dropdown-content {
+         height: 400px;
+     }
+
+     paper-item {
+         cursor: pointer;
+         padding: 8px 16px;
+     }
+
+     iron-icon.item {
+         margin-right: 16px;
+         color: #888;
+     }
+
+     paper-input {
+         padding: 0;
+     }
+
+     iron-icon.search {
+         margin: 0 8px;
+         color: var(--paper-input-container-color, --secondary-text-color);
+     }
+    </style>
+
+    <paper-menu-button
+        horizontal-offset="55"
+        dynamic-align
+        opened="{{addOpened}}"
+        on-paper-dropdown-open="handleAddOpened">
+      <paper-fab mini icon="[[addIcon]]" class="dropdown-trigger"></paper-fab>
+      <div class="dropdown-content">
+        <paper-header-panel id="panel" mode="waterfall">
+          <paper-input
+              id="filter"
+              class="paper-header"
+              label="Filter"
+              no-label-float
+              type="search"
+              on-input="refreshFilteredItems",
+              on-keydown="maybeMenuFocus">
+            <iron-icon class="search" icon="search" prefix></iron-icon>
+          </paper-input>
+          <paper-menu id="menu" on-iron-select="itemSelected">
+            <template is="dom-repeat" items="[[sources]]" as="source">
+              <paper-item>
+                <iron-icon class="item" icon="[[iconForSource(source)]]" item-icon></iron-icon>
+                [[labelForSource(source)]]
+              </paper-item>
+            </template>
+          </paper-menu>
+        </paper-header-panel>
+      </div
+    </paper-menu-button>
+  </template>
+
+  <script>
+   Polymer({
+       is: "guild-compare-component-select",
+
+       behaviors: [Guild.DataListener],
+
+       properties: {
+           dataSource: {
+               type: String,
+               value: "sources"
+           },
+           dataFetchInterval: {
+               type: Number,
+               value: 15
+           },
+           addIcon: {
+               type: String,
+               computed: 'computeAddIcon(addOpened)'
+           },
+           addOpened: Boolean,
+           sources: {
+               type: Array,
+               value: function() {
+                   return [];
+               }
+           }
+       },
+
+       ready: function() {
+           this.scheduleFetch(0);
+       },
+
+       computeAddIcon: function(addOpened) {
+           return addOpened ? 'close' : 'add';
+       },
+
+       handleData: function(sources) {
+           this.sources = sources;
+       },
+
+       handleAddOpened: function() {
+           this.$.filter.value = "";
+           this.refreshFilteredItems();
+           // Defer these items until popup is visible
+           window.setTimeout(function() {
+               this.resetMenu();
+               this.setFilterInputFocus();
+           }.bind(this), 100);
+       },
+
+       refreshFilteredItems: function() {
+           var filter = this.$.filter.value.toLowerCase();
+           var matches = function(text) {
+               return text.indexOf(filter) != -1;
+           };
+           this.querySelectorAll("paper-item").forEach(function(item) {
+               item.hidden = !matches(item.innerText.toLowerCase());
+           });
+       },
+
+       resetMenu: function() {
+           this.$.menu.selected = -1;
+           this.$.panel.scroller.scrollTop = 0;
+       },
+
+       setFilterInputFocus: function() {
+           this.$.filter.$.input.focus();
+       },
+
+       maybeMenuFocus: function(e) {
+           if (e.key == "ArrowDown"
+               && !e.altKey
+               && !e.ctrlKey
+               && !e.shiftKey) {
+               this.$.menu.focus();
+           }
+       },
+
+       itemSelected: function(e) {
+           var menu = e.target;
+           var source = this.sources[e.target.selected];
+           this.fire("component-selected", {source: source});
+       },
+
+       iconForSource: function(source) {
+           if (source == "attrs"
+               || source == "flags") {
+               return "fa:table";
+           } else if (source.startsWith("series/")) {
+               return "timeline";
+           } else {
+               return "";
+           }
+       },
+
+       labelForSource: function(source) {
+           if (source == "attrs") {
+               return "Attributes";
+           } else if (source == "flags") {
+               return "Flags";
+           } else if (source.startsWith("series/")) {
+               return source.slice(7);
+           } else {
+               return source;
+           }
+       }
+   });
+  </script>
+</dom-module>

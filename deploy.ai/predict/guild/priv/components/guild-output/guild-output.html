@@ -1,0 +1,112 @@
+<!--
+Copyright 2016-2017 TensorHub, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../guild-component-panel/guild-component-panel.html">
+<link rel="import" href="../guild-datatable/guild-datatable.html">
+<link rel="import" href="../guild-filter-input/guild-filter-input.html">
+<link rel="import" href="../guild-imports/d3.html">
+<link rel="import" href="../guild-run/guild-run-data-listener.html">
+<link rel="import" href="../paper-toolbar/paper-toolbar.html">
+
+<dom-module id="guild-output">
+  <template>
+    <style>
+     :host {
+         --paper-toolbar-background: transparent;
+         --paper-toolbar-height: 100%;
+         --paper-toolbar-content: {
+             padding: 0 10px 5px;
+         };
+         --guild-datatable-td: {
+             padding: 14px 10px;
+             line-height: 18px;
+             vertical-align: top;
+         }
+     }
+
+     span.time {
+         white-space: nowrap;
+     }
+    </style>
+
+    <guild-run-data-listener
+        env="[[env]]"
+        scope="[[scope]]"
+        run-data-source="output"
+        data="{{data}}"
+        stop-with-run
+    </guild-run-data-listener>
+
+    <guild-component-panel heading="Output">
+      <paper-toolbar>
+        <guild-filter-input id="filter" value="{{filter}}"></guild-filter-input>
+      </paper-toolbar>
+      <guild-datatable
+          id="table"
+          height="320px"
+          item-name-plural="events"
+          filter="[[filter]]">
+        <datatable-col title="Time" sort="timeSort" filter="time">
+          <template><span class="time">[[time]]</span></template>
+        </datatable-col>
+        <datatable-col title="Message" data="message"></datatable-col>
+      </guild-datatable>
+    </guild-component-panel>
+
+  </template>
+  <script>
+   Polymer({
+       is: "guild-output",
+
+       properties: {
+           env: Object,
+           scope: String,
+           filter: String,
+           nextIndex: Number,
+           data: Object
+       },
+
+       observers: [
+           "handleData(data)",
+           "reset(env.selectedRun)"
+       ],
+
+       reset: function() {
+           this.nextIndex = 0;
+           this.$.table.clear();
+       },
+
+       handleData: function(data) {
+           var slice = data.slice(this.nextIndex);
+           this.$.table.addRows(this.formatItems(slice));
+           this.nextIndex = data.length;
+       },
+
+       formatItems: function(data) {
+           var formatTime = d3.time.format("%b %d %H:%M:%S.%L");
+           return data.map(function(item, index) {
+               return {
+                   // index used to order when times are equal
+                   timeSort: item[0] * 1000 + index,
+                   time: formatTime(new Date(item[0])),
+                   stream: item[1],
+                   message: item[2]
+               }
+           });
+       }
+   });
+  </script>
+</dom-module>
