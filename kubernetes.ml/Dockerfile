@@ -16,7 +16,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.7.0-beta.1
+ENV KUBERNETES_VERSION=1.7.0
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -35,7 +35,7 @@ RUN \
 #ENV \
 #  PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.6.1
+ENV KOPS_VERSION=1.7.0-alpha.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -49,7 +49,7 @@ ENV \
   PATH=$KOPS_HOME:$PATH
 
 ENV \
-  TERRAFORM_VERSION=0.9.8
+  TERRAFORM_VERSION=0.10.0-beta2
 
 ENV \
   TERRAFORM_HOME=/root/terraform
@@ -91,7 +91,7 @@ RUN \
   mkdir -p ~/.kube
 
 ENV \
-  HELM_VERSION=2.4.2
+  HELM_VERSION=2.5.0
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -103,7 +103,7 @@ COPY scripts scripts
 ENV \
   PATH=/root/scripts:$PATH
 
-ENV MINIKUBE_VERSION=0.19.1
+ENV MINIKUBE_VERSION=0.20.0
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
@@ -113,13 +113,17 @@ RUN \
 RUN \
   minikube config set kubernetes-version ${KUBERNETES_VERSION}
 
-ENV \
-  FUNKTION_VERSION=1.0.14
+RUN \
+  apt-get install --yes automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
 
 RUN \
-  wget https://github.com/funktionio/funktion/releases/download/v${FUNKTION_VERSION}/funktion-linux-amd64 \
-  && chmod a+x funktion-linux-amd64 \
-  && mv funktion-linux-amd64 /usr/local/bin/funktion
+  git clone https://github.com/s3fs-fuse/s3fs-fuse.git \
+  && cd s3fs-fuse \
+  && ./autogen.sh \
+  && ./configure \
+  && make \
+  && make install
+# Follow these steps to setup s3fuse:  https://github.com/s3fs-fuse/s3fs-fuse#examples
 
 RUN \
-  pip install pio-cli==0.64
+  pip install pio-cli==0.71
