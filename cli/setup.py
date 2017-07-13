@@ -33,14 +33,12 @@ setup(
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=[
-        "kubernetes==2.0.0",
+        "kubernetes==3.0.0a1",
         "fire==0.1.1",
         "requests==2.18.1",
         "pyyaml==3.12",
-        "dill==0.2.5",
         "tabulate==0.7.7",
         "futures==3.1.1",
-        "cloudpickle==0.3.1",
     ],
     dependency_links=[
     ]
