@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.75"
+__version__ = "0.78"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -555,6 +555,21 @@ class PioCli(object):
         process = subprocess.call(cmd, shell=True)
 
 
+    def model_push(self,
+                   model_type=None,
+                   model_name=None,
+                   model_chip='cpu'):
+
+        if not model_type:
+            model_type = self._get_full_config()['model_type']
+
+        if not model_name:
+            model_name = self._get_full_config()['model_name']
+
+        cmd = 'docker push fluxcapacitor/deploy-predict-%s-%s-%s:master' % (model_type, model_name, model_chip)
+        process = subprocess.call(cmd, shell=True)
+
+
     def model_start(self,
                     model_type=None,
                     model_name=None,
@@ -1078,7 +1093,7 @@ class PioCli(object):
                                               model_response_mime_type))
 
 
-    def cluster_describe(self):
+    def clusters(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
@@ -1095,8 +1110,8 @@ class PioCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("")
-        print("Available Apps")
-        print("**************")
+        print("Available Services")
+        print("******************")
         self._get_all_available_apps()
 
         print("")
@@ -1135,7 +1150,7 @@ class PioCli(object):
         print("")
         print("Config")
         print("******")
-        pprint(self._get_full_config())
+        self.config_view()
         print("")
 
 
@@ -1256,39 +1271,9 @@ class PioCli(object):
                 print("%s" % node.metadata.labels['kubernetes.io/hostname'])
 
 
-    def service_list(self):
-        pio_api_version = self._get_full_config()['pio_api_version']
+    def services(self):
+        self.cluster_view() 
 
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pio cluster-init'.")
-            print("")
-            return
-
-        print("")
-        print("Available Apps")
-        print("**************")
-        self._get_all_available_apps()
-
-        kubeconfig.load_kube_config()
-        kubeclient_v1 = kubeclient.CoreV1Api()
-        kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
-
-        print("")
-        print("Running Apps")
-        print("************")
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            response = kubeclient_v1_beta1.list_deployment_for_all_namespaces(watch=False,
-                                                                              pretty=True)
-            deployments = response.items
-            for deploy in deployments:
-                print("%s (%s of %s replicas are running)" % (deploy.metadata.name, deploy.status.ready_replicas, deploy.status.replicas))
-        print("")
-   
 
     def service_shell(self,
               app_name):
