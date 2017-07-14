@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.78"
+__version__ = "0.81"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -142,7 +142,6 @@ class PioCli(object):
         config_file_base_path = os.path.expanduser(config_file_base_path)
         config_file_base_path = os.path.abspath(config_file_base_path)
         config_file_path = os.path.join(config_file_base_path, 'config')
-        print("")
 
         existing_config_dict = self._get_full_config()
 
@@ -154,8 +153,6 @@ class PioCli(object):
 
         with open(config_file_path, 'w') as fh:
             fh.write(new_config_yaml)
-#        print(new_config_yaml)
-#        print("")
 
 
     def _get_full_config(self):
@@ -177,7 +174,6 @@ class PioCli(object):
             print("")
             with open(config_file_filename, 'w') as fh:
                 fh.write(initial_config_yaml)
-                pprint(initial_config_dict)
 
         # Load the YAML 
         with open(config_file_filename, 'r') as fh:
@@ -472,7 +468,7 @@ class PioCli(object):
         self._merge_dict(config_dict)
 
         print("")
-        pprint(self._get_full_config())
+        print(yaml.dump(self._get_full_config(), default_flow_style=False, explicit_start=True))
         print("")
 
 
@@ -499,8 +495,7 @@ class PioCli(object):
                    model_type,
                    model_name,
                    model_path,
-                   model_server_host,
-                   model_server_port,
+                   model_server_url,
                    model_test_request_path=None,
                    model_request_mime_type='application/json',
                    model_response_mime_type='application/json'):
@@ -518,8 +513,7 @@ class PioCli(object):
         else:
             model_test_request_path = os.path.join(model_path, 'data/test_request.json')
 
-        config_dict = {'model_server_host': model_server_host.rstrip('/'), 
-                       'model_server_port': model_server_port,
+        config_dict = {'model_server_url': model_server_url.rstrip('/'), 
                        'model_type': model_type,
                        'model_name': model_name,
                        'model_path': model_path, 
@@ -826,8 +820,7 @@ class PioCli(object):
 
 
     def model_deploy(self,
-                     model_server_host=None,
-                     model_server_port=0,
+                     model_server_url=None,
                      model_type=None,
                      model_name=None,
                      model_path='.',
@@ -835,18 +828,9 @@ class PioCli(object):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
-        if not model_server_host:
+        if not model_server_url:
             try:
-                model_server_host = self._get_full_config()['model_server_host']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio model-init'.")
-                print("")
-                return
-
-        if not model_server_port:
-            try:
-                model_server_port = self._get_full_config()['model_server_port']
+                model_server_url= self._get_full_config()['model_server_url']
             except:
                 print("")
                 print("Model needs to be configured with 'pio model-init'.")
@@ -884,8 +868,7 @@ class PioCli(object):
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
 
-        print('model_server_host: %s' % model_server_host)
-        print('model_server_port: %s' % model_server_port)
+        print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
         print('model_path: %s' % model_path)
@@ -908,7 +891,7 @@ class PioCli(object):
             return
 
         
-        full_model_url = "http://%s:%s/api/%s/model/deploy/%s/%s" % (model_server_host.rstrip('/'), model_server_port, pio_api_version, model_type, model_name) 
+        full_model_url = "%s/api/%s/model/deploy/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_name) 
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
@@ -951,8 +934,7 @@ class PioCli(object):
 
 
     def _predict(self,
-                model_server_host=None,
-                model_server_port=0,
+                model_server_url=None,
                 model_type=None,
                 model_name=None,
                 model_test_request_path=None,
@@ -962,18 +944,9 @@ class PioCli(object):
 
         pio_api_version = self._get_full_config()['pio_api_version']
 
-        if not model_server_host:
+        if not model_server_url:
             try:
-                model_server_host = self._get_full_config()['model_server_host']
-            except:
-                print("")
-                print("Model needs to be configured with 'pio model-init'.")
-                print("")
-                return
-
-        if not model_server_port:
-            try:
-                model_server_port = self._get_full_config()['model_server_port']
+                model_server_url = self._get_full_config()['model_server_url']
             except:
                 print("")
                 print("Model needs to be configured with 'pio model-init'.")
@@ -1030,15 +1003,14 @@ class PioCli(object):
                 print("")
                 return
 
-        print('model_server_host: %s' % model_server_host)
-        print('model_server_port: %s' % model_server_port)
+        print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
         print('model_test_request_path: %s' % model_test_request_path)
         print('model_request_mime_type: %s' % model_request_mime_type)
         print('model_response_mime_type: %s' % model_response_mime_type)
 
-        full_model_url = "http://%s:%s/api/%s/model/predict/%s/%s" % (model_server_host.rstrip('/'), model_server_port, pio_api_version, model_type, model_name)
+        full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), pio_api_version, model_type, model_name)
         print("")
         print("Predicting with file '%s' using '%s'" % (model_test_request_path, full_model_url))
         print("")
@@ -1072,8 +1044,7 @@ class PioCli(object):
 
     def model_predict(self,
                       concurrency=1,
-                      model_server_host=None,
-                      model_server_port=0,
+                      model_server_url=None,
                       model_type=None,
                       model_name=None,
                       model_test_request_path=None,
@@ -1084,8 +1055,7 @@ class PioCli(object):
 
         with ThreadPoolExecutor(max_workers=concurrency) as executor:
             for _ in range(concurrency):
-                executor.submit(self._predict(model_server_host,
-                                              model_server_port,
+                executor.submit(self._predict(model_server_url,
                                               model_type,
                                               model_name,
                                               model_test_request_path,
@@ -1093,7 +1063,7 @@ class PioCli(object):
                                               model_response_mime_type))
 
 
-    def clusters(self):
+    def cluster_view(self):
         pio_api_version = self._get_full_config()['pio_api_version']
 
         try:
@@ -1150,7 +1120,7 @@ class PioCli(object):
         print("")
         print("Config")
         print("******")
-        self.config_view()
+        self.config()
         print("")
 
 
