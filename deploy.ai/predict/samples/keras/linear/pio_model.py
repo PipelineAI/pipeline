@@ -46,7 +46,6 @@ _model = _initialize_upon_import(os.path.join('state/keras_theano_linear_model_s
 
 def predict(request: bytes) -> bytes:
     '''Where the magic happens...'''
-    print(request)
     with _transform_request_monitor:
         transformed_request = _json_to_numpy(request)
 
