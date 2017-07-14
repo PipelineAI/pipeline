@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.81"
+__version__ = "0.82"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -874,17 +874,17 @@ class PioCli(object):
         print('model_path: %s' % model_path)
 
         if (os.path.isdir(model_path)):
-            compressed_model_bundle_filename = 'pio_model.tar.gz' 
+            compressed_model_package_filename = 'pio_model.tar.gz' 
 
             print("")
-            print("Compressing model bundle '%s' into '%s'." % (model_path, compressed_model_bundle_filename))  
-            self.model_bundle(path_to_bundle=model_path,
-                              bundle_name=compressed_model_bundle_filename,
-                              filemode='w',
-                              compression='gz')
-            model_file = compressed_model_bundle_filename
+            print("Compressing model package '%s' into '%s'." % (model_path, compressed_model_package_filename))  
+            self.model_package(path_to_package=model_path,
+                               package_name=compressed_model_package_filename,
+                               filemode='w',
+                               compression='gz')
+            model_file = compressed_model_package_filename
             upload_key = 'file'
-            upload_value = compressed_model_bundle_filename
+            upload_value = compressed_model_package_filename
         else:
             print("")
             print("Model path must be a directory.  All contents of the directory will be uploaded.")
@@ -928,7 +928,7 @@ class PioCli(object):
  
         if (os.path.isdir(model_path)):
             print("")
-            #print("Cleaning up compressed model bundle '%s'..." % model_file)
+            #print("Cleaning up compressed model package '%s'..." % model_file)
             #print("")
             os.remove(model_file)
 
