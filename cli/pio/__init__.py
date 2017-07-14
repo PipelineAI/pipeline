@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.74"
+__version__ = "0.75"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -1099,6 +1099,7 @@ class PioCli(object):
         print("**************")
         self._get_all_available_apps()
 
+        print("")
         print("DNS Internal (Public)")
         print("*********************")
         with warnings.catch_warnings():
@@ -1210,7 +1211,6 @@ class PioCli(object):
         available_apps.sort()
         for app in available_apps:
             print(app)
-        print("")
 
 
     def node_list(self):
