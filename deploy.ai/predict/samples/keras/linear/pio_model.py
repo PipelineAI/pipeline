@@ -1,4 +1,7 @@
 import os
+os.environ['KERAS_BACKEND'] = 'theano'
+os.environ['THEANO_FLAGS'] = 'floatX=float32,device=cpu'
+
 import pandas as pd
 import numpy as np
 import json
@@ -11,7 +14,7 @@ from pio_monitors import Monitor
 __all__ = ['predict']
 
 # Performance monitors, a-la prometheus...
-_monitor_labels= {'model_type':'keras_theano',
+_monitor_labels= {'model_type':'keras',
                   'model_name':'linear'}
                  
 _transform_request_monitor = Monitor(labels=_monitor_labels, 
@@ -55,7 +58,6 @@ def predict(request: bytes) -> bytes:
 
 
 def _json_to_numpy(request: bytes) -> bytes:
-    import numpy as np
     request_str = request.decode('utf-8')
     request_str = request_str.strip().replace('\n', ',')
     # surround the json with '[' ']' to prepare for conversion
@@ -65,6 +67,5 @@ def _json_to_numpy(request: bytes) -> bytes:
     return np.array(request_transformed)
 
 
-def _numpy_to_json(response: np.array) -> str:
-    import json
+def _numpy_to_json(response: np.array) -> bytes:
     return json.dumps(response.tolist())

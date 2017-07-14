@@ -3,9 +3,9 @@ channels:
 dependencies:
   - mkl=2017.0.1=0
   - mkl-service=1.1.2=py36_3
-  - numpy=1.13.0=py36_0
   - openssl=1.0.2l=0
-  - pandas=0.20.2=np113py36_0
+  - pandas=0.20.3=np113py36_0
+  - numpy=1.13.1=py36_0
   - pip=9.0.1=py36_1
   - python=3.6.1=2
   - pytz=2017.2=py36_0
