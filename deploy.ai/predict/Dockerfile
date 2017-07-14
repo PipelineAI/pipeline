@@ -1,4 +1,6 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-cpu:master
+ARG model_chip 
+
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
 
 WORKDIR /root
 
@@ -66,7 +68,7 @@ ENV \
 COPY lib/ lib/
 RUN \
   cd ~/lib/jni \
-  && ln -s ~/lib/jni/libtensorflow_jni-cpu.so libtensorflow_jni.so
+  && ln -s ~/lib/jni/libtensorflow_jni-$arch.so libtensorflow_jni.so
 
 COPY sysutils/ sysutils/
 
@@ -166,12 +168,11 @@ ENV \
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+COPY samples/$model_type/$model_name/ $PIO_MODEL_PATH 
+
 ENV \
   PIO_CONDA_ENV_NAME=pio
-
-COPY samples/$model_type/$model_name/ $PIO_MODEL_PATH 
 COPY scripts/setup_environment.sh scripts/setup_environment.sh
-
 RUN \
   scripts/setup_environment.sh
 

@@ -45,7 +45,7 @@ start_model_serving_python3 () {
     echo "PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIO_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
 
     echo ""
-    echo "Starting Python-based Model Server..."
+    echo "Starting Python-based Model Serving..."
     echo ""
 
     source activate $PIO_CONDA_ENV_NAME 
@@ -73,7 +73,7 @@ start_model_serving_jvm () {
     export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
 
     echo ""
-    echo "Starting JVM-based Model Server..."
+    echo "Starting JVM-based Model Serving..."
     echo ""
     cd $PIO_MODEL_PATH \
       && java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom \

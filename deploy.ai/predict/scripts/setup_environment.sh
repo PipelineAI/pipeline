@@ -22,7 +22,7 @@ echo "...Model Dependencies Installed!"
 echo ""
 
 echo ""
-echo "Installing '$PIO_MODEL_TYPE' Server Dependencies..."
+echo "Installing Model Server Dependencies for Model Type '$PIO_MODEL_TYPE'..."
 echo ""
 if [[ $PIO_MODEL_TYPE = "tensorflow" ]]; then  
   cat $PIO_MODEL_SERVER_PATH/requirements/tensorflow/pio_model_server_conda_requirements.txt
