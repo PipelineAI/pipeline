@@ -11,11 +11,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--learning_rate', type=float, help='Learning Rate', default=0.025)
-    parser.add_argument('--num_samples', type=int, help='Num Samples', 100000)
+    parser.add_argument('--num_samples', type=int, help='Num Samples', default=100000)
 
     from datetime import datetime
     version = int(datetime.now().strftime("%s"))
-    parser.add_argument('--rundir', type=str, help='Run Directory', 'runs/%s' % version)
+    parser.add_argument('--rundir', type=str, help='Run Directory', default='runs/%s' % version)
 
     FLAGS, unparsed = parser.parse_known_args()
     print(FLAGS)
