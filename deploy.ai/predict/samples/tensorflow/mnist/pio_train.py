@@ -14,6 +14,7 @@ def init_flags():
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
     parser.add_argument("--test", action="store_true")
+    parser.add_argument('--learning_rate', type=float, default=0.025)
     FLAGS, _ = parser.parse_known_args()
 
 def init_data():
@@ -29,59 +30,20 @@ def init_train():
     init_session()
 
 def init_model():
-    global x, y
-
-    # Input layer
+    global x, y, W, b
     x = tf.placeholder(tf.float32, [None, 784])
-
-    # First convolutional layer
-    W_conv1 = weight_variable([5, 5, 1, 32])
-    b_conv1 = bias_variable([32])
-    x_image = tf.reshape(x, [-1, 28, 28, 1])
-    h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
-    h_pool1 = max_pool_2x2(h_conv1)
-
-    # Second convolutional layer
-    W_conv2 = weight_variable([5, 5, 32, 64])
-    b_conv2 = bias_variable([64])
-    h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-    h_pool2 = max_pool_2x2(h_conv2)
-
-    # First fully connected layer
-    W_fc1 = weight_variable([7 * 7 * 64, 1024])
-    b_fc1 = bias_variable([1024])
-    h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
-    h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-
-    # Dropout
-    keep_prob = tf.placeholder_with_default(1.0, [])
-    h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
-
-    # Output layer
-    W_fc2 = weight_variable([1024, 10])
-    b_fc2 = bias_variable([10])
-    y = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
-
-def weight_variable(shape):
-    return tf.Variable(tf.truncated_normal(shape, stddev=0.1))
-
-def bias_variable(shape):
-    return tf.Variable(tf.constant(0.1, shape=shape))
-
-def conv2d(x, W):
-    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding="SAME")
-
-def max_pool_2x2(x):
-    return tf.nn.max_pool(
-        x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+    W = tf.Variable(tf.zeros([784, 10]))
+    b = tf.Variable(tf.zeros([10]))
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
 
 def init_train_op():
     global y_, loss, train_op
     y_ = tf.placeholder(tf.float32, [None, 10])
     loss = tf.reduce_mean(
-             tf.nn.softmax_cross_entropy_with_logits(
-               logits=y, labels=y_))
-    train_op = tf.train.AdamOptimizer(1e-4).minimize(loss)
+             -tf.reduce_sum(
+               y_ * tf.log(y),
+               reduction_indices=[1]))
+    train_op = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(loss)
 
 def init_eval_op():
     global accuracy
@@ -90,11 +52,23 @@ def init_eval_op():
 
 def init_summaries():
     init_inputs_summary()
+    init_variable_summaries(W, "weights")
+    init_variable_summaries(b, "biases")
     init_op_summaries()
     init_summary_writers()
 
 def init_inputs_summary():
     tf.summary.image("inputs", tf.reshape(x, [-1, 28, 28, 1]), 10)
+
+def init_variable_summaries(var, name):
+    with tf.name_scope(name):
+        mean = tf.reduce_mean(var)
+        tf.summary.scalar("mean", mean)
+        stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+        tf.summary.scalar("stddev", stddev)
+        tf.summary.scalar("max", tf.reduce_max(var))
+        tf.summary.scalar("min", tf.reduce_min(var))
+        tf.summary.histogram(name, var)
 
 def init_op_summaries():
     tf.summary.scalar("loss", loss)
@@ -142,7 +116,7 @@ def maybe_log_accuracy(step, last_training_batch):
 def evaluate(step, data, writer, name):
     accuracy_val, summary = sess.run([accuracy, summaries], data)
     writer.add_summary(summary, step)
-    print "Step %i: %s=%f" % (step, name, accuracy_val)
+    print("Step %i: %s=%f" % (step, name, accuracy_val))
 
 def maybe_save_model(step):
     epoch_step = mnist.train.num_examples / FLAGS.batch_size
@@ -150,9 +124,50 @@ def maybe_save_model(step):
         save_model()
 
 def save_model():
-    print "Saving trained model"
+    print("Saving trained model")
     tf.gfile.MakeDirs(FLAGS.rundir + "/model")
     tf.train.Saver().save(sess, FLAGS.rundir + "/model/export")
+#    tf.gfile.MakeDirs("/root/model/versions")
+#    tf.train.Saver().save(sess, "/root/model/versions")
+
+
+    from tensorflow.python.saved_model import utils
+    from tensorflow.python.saved_model import signature_constants
+    from tensorflow.python.saved_model import signature_def_utils
+
+    graph = tf.get_default_graph()
+
+#    x_observed = graph.get_tensor_by_name('x_observed:0')
+#    y_pred = graph.get_tensor_by_name('add:0')
+
+    inputs_map = {'inputs': x}
+    outputs_map = {'outputs': y}
+
+    prediction_signature = signature_def_utils.predict_signature_def(inputs=inputs_map,
+                                                                     outputs=outputs_map)
+
+    from tensorflow.python.saved_model import builder as saved_model_builder
+    from tensorflow.python.saved_model import tag_constants
+
+    from datetime import datetime
+    version = int(datetime.now().strftime("%s"))
+
+    fully_optimized_saved_model_path = '/root/model/versions/%s' % version
+    print(fully_optimized_saved_model_path)
+
+    builder = saved_model_builder.SavedModelBuilder(fully_optimized_saved_model_path)
+    builder.add_meta_graph_and_variables(sess,
+                                         [tag_constants.SERVING],
+                                         signature_def_map={'predict':prediction_signature,
+    signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY:prediction_signature},
+                                         clear_devices=True,
+    )
+
+    builder.save(as_text=False)
+    print('')
+    print('Model training completed and saved here:  ./%s' % version)
+    print('')
+
 
 def init_test():
     init_session()
@@ -169,7 +184,7 @@ def init_exported_collections():
 def test():
     data = {x: mnist.test.images, y_: mnist.test.labels}
     test_accuracy = sess.run(accuracy, data)
-    print "Test accuracy=%f" % test_accuracy
+    print("Test accuracy=%f" % test_accuracy)
 
 if __name__ == "__main__":
     init_flags()

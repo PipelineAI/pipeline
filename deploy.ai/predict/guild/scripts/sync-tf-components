@@ -27,7 +27,7 @@ components=(
 )
 
 function component-src() {
-    echo $TF_HOME/tensorflow/tensorboard/components/$c
+    echo $TF_HOME/tensorboard/tensorboard/components/$c
 }
 
 function component-dest() {

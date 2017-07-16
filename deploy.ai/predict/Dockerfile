@@ -2,13 +2,30 @@ ARG model_chip
 
 FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
 
+# Create the home directory for the new app user.
+#RUN mkdir -p /home/appuser
+
+# Create an app user so our program doesn't run as root.
+RUN groupadd -r appuser \
+  && useradd -r -g appuser -d /root -p password -c "app user" appuser \
+  && usermod -aG sudo appuser
+
+RUN \
+  chmod a+wrx /root
+
+#RUN \
+#  chown -R appuser:appuser /root
+
 WORKDIR /root
 
 RUN \
-  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-  && apt-get update \
-  && apt-get install -y sbt
+  apt-get update 
+
+#RUN \
+#  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+#  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+#  && apt-get update \
+#  && apt-get install -y sbt
 
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
 RUN \
@@ -30,6 +47,9 @@ RUN \
   apt-get install -y nginx 
 
 RUN \
+  service nginx start
+
+RUN \
   apt-get install -y tmux \
   && apt-get install -y screen
 
@@ -43,6 +63,9 @@ RUN \
   && apt-get install -y adduser libfontconfig \
   && dpkg -i grafana_4.3.1_amd64.deb \
   && rm grafana_4.3.1_amd64.deb
+
+RUN \
+  service grafana-server start
 
 #RUN \
 #  mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.orig \
@@ -73,10 +96,10 @@ RUN \
 COPY sysutils/ sysutils/
 
 COPY jvm_src/ jvm_src/
-COPY build.sbt build.sbt
+#COPY build.sbt build.sbt
 
-RUN \
-  sbt clean clean-files package 
+#RUN \
+#  sbt clean clean-files package 
 
 COPY config/ config/
 
@@ -104,11 +127,35 @@ ENV \
 #RUN \
 #  pip2 install -r /root/nvidia/requirements.txt
 
-RUN \
-  pip install --upgrade psutil
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN \
-  apt-get install --yes erlang
+  apt-get update
+
+RUN \
+  apt-get install -y erlang erlang-ssl erlang-inets erlang-dev \
+    erlang-edoc erlang-eunit erlang-tools erlang-common-test
+
+#ADD https://github.com/erlang/otp/archive/OTP-19.2.tar.gz .
+#RUN tar zxf OTP-19.2.tar.gz
+
+#RUN \
+#  apt-get install -y autoconf libssl-dev
+
+#WORKDIR otp-OTP-19.2
+#RUN ./otp_build autoconf && \
+#    CFLAGS="-Os" ./configure --prefix=/myuser/erlang/19.2 --without-termcap --disable-hipe && \
+#    make -j10
+
+#RUN mkdir -p //erlang/19.2 && \
+#    make install
+
+#RUN mkdir -p /myuser/rebar3/bin
+#ADD https://s3.amazonaws.com/rebar3/rebar3 /myuser/rebar3/bin/rebar3
+#RUN chmod a+x /myuser/rebar3/bin/rebar3
+#ENV PATH=/myuser/erlang/19.2/bin:/myuser/rebar3/bin:$PATH
+#RUN \
+#  rebar3 as prod release -o /artifacts
 
 RUN \
   apt-get install --yes sqlite3 libsqlite3-dev
@@ -166,8 +213,6 @@ ENV \
 ENV \
   PIO_MODEL_PATH=/root/model
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
 COPY samples/$model_type/$model_name/ $PIO_MODEL_PATH 
 
 ENV \
@@ -176,6 +221,25 @@ COPY scripts/setup_environment.sh scripts/setup_environment.sh
 RUN \
   scripts/setup_environment.sh
 
-EXPOSE 6969 9876 9877 9000 9040 9090 3000 10254 10255 7070
+ENV SHELL=/bin/bash
+RUN \
+  chmod a+wr -R /opt/conda/lib/python3.6/site-packages \
+  && chmod a+wr -R /root/.cache/pip
+
+RUN \
+  chmod a+wr -R /root/model 
+
+# Guild Requirements
+RUN \
+  source activate $PIO_CONDA_ENV_NAME \
+  && pip install psutil 
+
+RUN \
+  source activate $PIO_CONDA_ENV_NAME \
+  && pip2 install tensorflow
+
+USER appuser
+
+EXPOSE 6969 9876 9877 9000 9040 9090 3000 10254 10255 7070 6333
 
 CMD ["supervise", "."]

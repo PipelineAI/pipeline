@@ -1,0 +1,7 @@
+channels:
+  - conda-forge 
+dependencies:
+  - mkl=2017.0.1=0
+  - mkl-service=1.1.2=py36_3
+  - pip=9.0.1=py36_1
+  - python=3.6.1=2

@@ -1,1 +1,0 @@
-/Users/cfregly/miniconda3/bin/python -u train --learning_rate 0.025 --num_samples 100000 --rundir $RUNDIR --datadir ./data

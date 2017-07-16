@@ -11,10 +11,10 @@ start_model_training_tensorflow() {
 
     source activate $PIO_CONDA_ENV_NAME
 
-    cd $PIO_MODEL_PATH \
+    cd $PIO_MODEL_PATH 
     guild prepare
     guild train
-    guild view
+    guild view &
     cd /root
 }
 

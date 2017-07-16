@@ -6,21 +6,20 @@
 
 [project]
 
-  name = tensorflow/linear 
-  description = TensorFlow Linear Example
-#  sources = *.py
+  name = tensorflow/mnist 
+  description = TensorFlow MNIST example
+  sources = *.py
 
 ###################################################################
 # Models
 ###################################################################
 
-[model "linear"]
+[model "tensorflow/mnist"]
 
-  train = train
-  prepare = 
+  train = pio_train.py 
+  prepare = pio_train --prepare
   train_requires = ./data
-  evaluate = 
-  sources = train.py
+  evaluate = pio_train --test
 
 ###################################################################
 # Flags
@@ -30,14 +29,21 @@
 
   datadir = ./data
   rundir = $RUNDIR
-  num_samples = 100000
-  learning_rate = 0.025
-#  batch_size = 100
-#  epochs = 10
+  batch_size = 100
+  epochs = 10
+  learning_rate = 0.05
 
 ###################################################################
 # Resources
 ###################################################################
+
+[resource "samples"]
+
+  prepare = samples --sample-dir samples
+
+[flags "samples"]
+
+  sample-count = 100
 
 ###################################################################
 # Fields
@@ -74,7 +80,7 @@
 [series "loss"]
 
   @attrs template "loss-series"
-  source = series/tf/.+/loss
+  source = series/tf/train/loss
 
 [series "accuracy"]
 
@@ -104,12 +110,6 @@
   label = Learning Rate 
   source = flags
   attribute = learning_rate
-
-[compare-field "num-samples"]
-
-  label = Num Samples
-  source = flags
-  attribute = num_samples
 
 [compare-field "steps"]
 
