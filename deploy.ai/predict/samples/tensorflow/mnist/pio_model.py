@@ -55,9 +55,11 @@ def predict(request: bytes) -> bytes:
 
 
 def _transform_request(request: bytes) -> np.array:
+    print(request)
     request_str = request.decode('utf-8')
     request_json = json.loads(request_str)
-    request_np = np.asarray([request_json['inputs']])
+    request_np = ((255 - np.array(request_json, dtype=np.uint8)) / 255.0).reshape(1, 784)
+#    request_np = np.asarray([request_json['inputs']])
     return request_np
          
     
