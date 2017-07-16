@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.82"
+__version__ = "0.86"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -549,6 +549,22 @@ class PioCli(object):
         process = subprocess.call(cmd, shell=True)
 
 
+    def model_shell(self,
+                    model_type=None,
+                    model_name=None,
+                    model_chip='cpu'):
+
+        if not model_type:
+            model_type = self._get_full_config()['model_type']
+
+        if not model_name:
+            model_name = self._get_full_config()['model_name']
+
+        cmd = 'docker exec -it deploy-predict-%s-%s-%s bash' % (model_type, model_name, model_chip)
+
+        process = subprocess.call(cmd, shell=True)
+
+
     def model_push(self,
                    model_type=None,
                    model_name=None,
@@ -578,7 +594,7 @@ class PioCli(object):
 
         cmd = 'docker run -itd --name=deploy-predict-%s-%s-%s \
                -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
-               -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
+               -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
                fluxcapacitor/deploy-predict-%s-%s-%s:master' % (model_type, model_name, model_chip, model_memory, model_type, model_name, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
