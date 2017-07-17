@@ -10,7 +10,7 @@ def init_flags():
     parser = argparse.ArgumentParser()
     parser.add_argument("--datadir", default="/tmp/MNIST_data",)
     parser.add_argument("--rundir", default="/tmp/MNIST_train")
-    parser.add_argument("--batch_size", type=int, default=100)
+    parser.add_argument("--batch_size", type=int, default=1000)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
     parser.add_argument("--test", action="store_true")
@@ -102,7 +102,7 @@ def train():
         batch = {x: images, y_: labels}
         sess.run(train_op, batch)
         maybe_log_accuracy(step, batch)
-        maybe_save_model(step)
+    save_model()
 
 def maybe_log_accuracy(step, last_training_batch):
     if step % 20 == 0:
@@ -127,18 +127,12 @@ def save_model():
     print("Saving trained model")
     tf.gfile.MakeDirs(FLAGS.rundir + "/model")
     tf.train.Saver().save(sess, FLAGS.rundir + "/model/export")
-#    tf.gfile.MakeDirs("/root/model/versions")
-#    tf.train.Saver().save(sess, "/root/model/versions")
-
 
     from tensorflow.python.saved_model import utils
     from tensorflow.python.saved_model import signature_constants
     from tensorflow.python.saved_model import signature_def_utils
 
     graph = tf.get_default_graph()
-
-#    x_observed = graph.get_tensor_by_name('x_observed:0')
-#    y_pred = graph.get_tensor_by_name('add:0')
 
     inputs_map = {'inputs': x}
     outputs_map = {'outputs': y}

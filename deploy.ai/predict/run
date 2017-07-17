@@ -14,6 +14,7 @@ start_model_training_tensorflow() {
     cd $PIO_MODEL_PATH 
     guild prepare
     guild train
+#    guild evaluate --latest-run
     guild view &
     cd /root
 }
