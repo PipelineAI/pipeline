@@ -2,8 +2,9 @@
 ![PipelineAI](/img/pipeline-io-logo-shadow-210x186.png)
 
 ## Recent News
+(July 2017) PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end deployment of TensorFlow Model from research to production with full metrics and insight into the off-line training and online prediction pipeline phases
 
-PipelineAI was featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
+(June 2017) PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
 
 ![PipelineAI @ Hotels.com](/img/pipelineio-spark-summit-annotated-700x394.png)
 
