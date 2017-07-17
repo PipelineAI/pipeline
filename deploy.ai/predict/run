@@ -103,11 +103,11 @@ start_tensorflow_serving_in_background () {
 
 source sysutils/container-limits.sh
 
-service nginx start
+sudo service nginx start
 
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
-service grafana-server start
+sudo service grafana-server start
 
 [ -s /root/nvidia/nvidia-prometheus-stats.py ] \
   && python2 /root/nvidia/nvidia-prometheus-stats.py -u 1.0 -p 7070 &

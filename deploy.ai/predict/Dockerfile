@@ -2,6 +2,11 @@ ARG model_chip
 
 FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
 
+WORKDIR /root
+
+RUN \
+  apt-get update
+
 # Create the home directory for the new app user.
 #RUN mkdir -p /home/appuser
 
@@ -11,15 +16,17 @@ RUN groupadd -r appuser \
   && usermod -aG sudo appuser
 
 RUN \
+  apt-get install -y sudo
+
+RUN \
+  echo "appuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+  && cat /etc/sudoers
+
+RUN \
   chmod a+wrx /root
 
 #RUN \
 #  chown -R appuser:appuser /root
-
-WORKDIR /root
-
-RUN \
-  apt-get update 
 
 #RUN \
 #  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \

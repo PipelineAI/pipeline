@@ -18,6 +18,7 @@ def prepare_samples(mnist):
     tf.gfile.MakeDirs(FLAGS.sample_dir)
 
     images, labels = mnist.train.next_batch(FLAGS.sample_count)
+    print(images[0])
     i = 1
     for image, label in zip(images, labels):
         summary_bin = sess.run(summary, feed_dict={inputs: [image]})
