@@ -254,7 +254,7 @@ RUN \
   pip install keras==2.0.5
 
 RUN \
-  pip install pio-cli==0.71
+  pip install pio-cli==0.86
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 5050
 
