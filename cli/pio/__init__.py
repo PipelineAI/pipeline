@@ -113,6 +113,10 @@ class PioCli(object):
         return output.rstrip().decode('utf-8')
 
 
+    def version(self):
+        print(__version__)
+
+
     def config_get(self,
                    config_key):
         print("")
@@ -540,11 +544,16 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker build -t fluxcapacitor/deploy-predict-%s-%s-%s:master \
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s build -t fluxcapacitor/deploy-predict-%s-%s-%s:master \
                  --build-arg model_type=%s \
                  --build-arg model_name=%s \
                  --build-arg model_chip=%s \
-                 -f Dockerfile %s' % (model_type, model_name, model_chip, model_type, model_name, model_chip, model_build_context)
+                 -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_type, model_name, model_chip, model_build_context)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -560,7 +569,12 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker exec -it deploy-predict-%s-%s-%s bash' % (model_type, model_name, model_chip)
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s exec -it deploy-predict-%s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -576,7 +590,12 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker push fluxcapacitor/deploy-predict-%s-%s-%s:master' % (model_type, model_name, model_chip)
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s push fluxcapacitor/deploy-predict-%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip)
         process = subprocess.call(cmd, shell=True)
 
 
@@ -592,10 +611,15 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker run -itd --name=deploy-predict-%s-%s-%s \
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s run -itd --name=deploy-predict-%s-%s-%s \
                -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
                -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
-               fluxcapacitor/deploy-predict-%s-%s-%s:master' % (model_type, model_name, model_chip, model_memory, model_type, model_name, model_type, model_name, model_chip)
+               fluxcapacitor/deploy-predict-%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip, model_memory, model_type, model_name, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -612,7 +636,12 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker rm -f deploy-predict-%s-%s-%s' % (model_type, model_name, model_chip)
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s rm -f deploy-predict-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -629,7 +658,12 @@ class PioCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        cmd = 'docker logs -f deploy-predict-%s-%s-%s' % (model_type, model_name, model_chip)
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s logs -f deploy-predict-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
