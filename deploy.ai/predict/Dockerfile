@@ -1,6 +1,6 @@
 ARG model_chip 
 
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-$model_chip:master
 
 WORKDIR /root
 
@@ -50,6 +50,9 @@ RUN \
   pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
   && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl
 
+RUN \
+  conda install -c numba cudatoolkit=8.0
+ 
 RUN \
   apt-get install -y nginx 
 
@@ -181,6 +184,15 @@ RUN \
 RUN \
   ln -s /root/guild/scripts/guild-dev /usr/local/bin/guild
 
+# Guild Requirements
+RUN \
+  source activate $PIO_CONDA_ENV_NAME \
+  && pip install psutil
+
+RUN \
+  source activate $PIO_CONDA_ENV_NAME \
+  && pip2 install tensorflow==1.2.1
+
 ENV \
   PIO_MODEL_SERVER_PORT=9876
 
@@ -235,15 +247,6 @@ RUN \
 
 RUN \
   chmod a+wr -R /root/model 
-
-# Guild Requirements
-RUN \
-  source activate $PIO_CONDA_ENV_NAME \
-  && pip install psutil 
-
-RUN \
-  source activate $PIO_CONDA_ENV_NAME \
-  && pip2 install tensorflow
 
 USER appuser
 
