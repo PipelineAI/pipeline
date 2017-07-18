@@ -16,7 +16,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.7.0
+ENV KUBERNETES_VERSION=1.7.1
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -126,4 +126,4 @@ RUN \
 # Follow these steps to setup s3fuse:  https://github.com/s3fs-fuse/s3fs-fuse#examples
 
 RUN \
-  pip install pio-cli==0.71
+  pip install pio-cli==0.87
