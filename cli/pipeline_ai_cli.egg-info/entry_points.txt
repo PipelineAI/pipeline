@@ -1,0 +1,3 @@
+[console_scripts]
+pipeline = cli.__init__:main
+

@@ -1,0 +1,6 @@
+kubernetes==3.0.0a1
+fire==0.1.1
+requests==2.18.1
+pyyaml==3.12
+tabulate==0.7.7
+futures==3.1.1

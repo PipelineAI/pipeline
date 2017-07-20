@@ -1,1 +1,1 @@
-from pio_monitors import Monitor 
+from pipeline_monitors import PipelineMonitor 

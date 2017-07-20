@@ -16,20 +16,24 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pipeline_models/__init__.py').read(),
+    open('pipeline_runtimes/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pipeline-ai-models",
-    packages = ["pipeline_models"],
+    name = "pipeline-ai-runtimes",
+    packages = ["pipeline_runtimes"],
     version = version,
-    description = "PipelineAI Models",
-    long_description = "PipelineAI Models",
+    description = "PipelineAI Runtimes",
+    long_description = "PipelineAI Runtimes",
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/lib/models",
+    url = "https://github.com/fluxcapacitor/pipeline/lib/runtimes",
     install_requires=[
+        "pipeline-ai-monitors==0.1",
+        "pipeline-ai-models==0.1",
+        "cloudpickle==0.3.1",
+        "tornado==4.5.1",
     ],
     dependency_links=[
     ]

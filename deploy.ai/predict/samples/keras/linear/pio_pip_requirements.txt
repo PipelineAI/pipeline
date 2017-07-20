@@ -1,3 +1,0 @@
-keras==2.0.6
-cloudpickle==0.3.1
-pio-monitors>=0.2

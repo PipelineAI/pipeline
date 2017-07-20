@@ -1,0 +1,120 @@
+#-*-conf-*-
+
+###################################################################
+# Project
+###################################################################
+
+[project]
+
+  name = tensorflow/linear 
+  description = TensorFlow Linear Example
+#  sources = *.py
+
+###################################################################
+# Models
+###################################################################
+
+[model "model"]
+
+  train = pipeline_train
+  prepare = 
+  train_requires = ./data
+  evaluate = 
+  sources = pipeline_train.py
+
+###################################################################
+# Flags
+###################################################################
+
+[flags]
+
+  datadir = ./data
+  rundir = $RUNDIR
+  num_samples = 100000
+  learning_rate = 0.025
+#  batch_size = 100
+#  epochs = 10
+
+###################################################################
+# Resources
+###################################################################
+
+###################################################################
+# Fields
+###################################################################
+
+[train-field "validation-accuracy"]
+
+  @attrs template "accuracy-field"
+  source = series/tf/validation/accuracy
+  label = Validation Accuracy
+
+[train-field "train-accuracy"]
+
+  @attrs template "accuracy-field"
+  source = series/tf/train/accuracy
+  label = Training Accuracy
+  color = teal-400
+
+[train-field "steps"]
+
+  @attrs template "steps-field"
+  source = series/tf/train/loss
+
+[train-field "time"]
+
+  @attrs template "time-field"
+  source = series/tf/train/loss
+  template = time-field
+
+###################################################################
+# Series
+###################################################################
+
+[series "loss"]
+
+  @attrs template "loss-series"
+  source = series/tf/.+/loss
+
+[series "accuracy"]
+
+  @attrs template "accuracy-series"
+  source = series/tf/.+/accuracy
+
+###################################################################
+# Compare fields
+###################################################################
+
+[compare-field "validation-accuracy"]
+
+  @attrs train-field "validation-accuracy"
+
+[compare-field "train-accuracy"]
+
+  @attrs train-field "train-accuracy"
+
+[compare-field "batch-size"]
+
+  label = Batch Size
+  source = flags
+  attribute = batch_size
+
+[compare-field "learning-rate"]
+
+  label = Learning Rate 
+  source = flags
+  attribute = learning_rate
+
+[compare-field "num-samples"]
+
+  label = Num Samples
+  source = flags
+  attribute = num_samples
+
+[compare-field "steps"]
+
+  @attrs train-field "steps"
+
+[compare-field "time"]
+
+  @attrs train-field "time"
