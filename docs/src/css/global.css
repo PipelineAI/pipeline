@@ -13,7 +13,7 @@ img {
 }
 
 #header {
-	background: #FFFFFF url(../images/pipelineio-logo-86x78.png) no-repeat scroll 99% 0%;
+	background: #FFFFFF url(/img/logo/pipelineai-black-flux-86x86.png) no-repeat scroll 99% 0%;
 	height: 65px;
 	margin-bottom: 5px;
 }
@@ -68,7 +68,7 @@ img {
 	}
 
 	#header {
-		background: #FFFFFF url(../images/pipelineio-logo-86x78.png) no-repeat scroll 99% 50%;
+		background: #FFFFFF url(/img/logo/pipelineai-black-flux-86x86.png) no-repeat scroll 99% 50%;
 		height: 65px;
 	}
 

@@ -6,7 +6,7 @@
 
 (June 2017) PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
 
-![PipelineAI @ Hotels.com](/img/pipelineio-spark-summit-annotated-700x394.png)
+![PipelineAI @ Hotels.com](/img/pipelineai-spark-summit-annotated-700x394.png)
 
 ## Who, What, and Where is PipelineAI?
 [PipelineAI](http://pipeline.io/) is a standards-based, highly-scalable ML / AI  model deployment platform.
