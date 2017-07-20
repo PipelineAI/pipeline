@@ -8,4 +8,4 @@ dependencies:
     - grpcio>=0.15.0
     - grpcio-tools>=0.15.0
     - tensorflow>=1.2.0
-    - pipeline-ai-runtimes>=0.1
+    - pipeline-ai-runtimes>=0.2
