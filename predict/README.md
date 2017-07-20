@@ -46,6 +46,14 @@ pipeline model-logs --package-type=docker \
                     --model-name=mnist
 ```
 
+## Train, Tune, and Validate Model UI
+This UI sometimes requires a couple refreshes.  We are working to stabilize the UI.
+```
+http://localhost:6333/
+```
+
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
+
 ## Predict 
 ### CLI
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
@@ -80,18 +88,10 @@ curl -X POST -H "Content-Type: application/json" \
 
 **Prediction Outputs**:  The highest confidence is the 6th element in the array which represents **Digit 6**.
 
-## WebUI
-The following is under heavy construction.  Ignore for now. 
-```
-http://localhost:6969/
-```
-
-## Dashboards (Grafana)
+## Prediction Dashboards
 Username/Password: **admin**/**admin**
 
-Pre-built dashboards coming soon.
-
-Note:  Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.
+Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.  (Pre-build dashboards are coming soon.)
 ```
 http://localhost:3000/
 ```
