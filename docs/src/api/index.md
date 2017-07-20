@@ -66,7 +66,7 @@ pipeline model-start --memory=2G
 
 Monitor the train, optimize, and deployment logs.
 ```
-pipeline package-logs
+pipeline model-logs
 ```
 
 ### View Model Train, Optimize, and Deploy Dashboard
