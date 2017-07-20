@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from pipeline_monitors import Monitor
+from pipeline_monitors import PipelineMonitor as Monitor
 import json
 from pipeline_models import TensorFlowServingModel
 

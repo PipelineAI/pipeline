@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import json
 from keras_theano_model import KerasTheanoModel
-from pipeline_monitors import Monitor
+from pipeline_monitors import PipelineMonitor as Monitor
 
 # The public objects from this module, see:
 #    https://docs.python.org/3/tutorial/modules.html#importing-from-a-package
