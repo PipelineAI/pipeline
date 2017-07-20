@@ -20,16 +20,16 @@ pipeline init
 cd pipeline/predict
 ```
 ```
-pipeline model-init --model-type=scikit \
-                    --model-name=linear
+pipeline model-init --model-type=tensorflow \
+                    --model-name=mnist
 ```
 ```
-pipeline model-build
+pipeline model-package --package-type=docker
 ```
 
 ## Start Model Server with Your Model
 ```
-pipeline model-start
+pipeline model-start --memory=2G
 ```
 Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
 
