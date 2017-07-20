@@ -1,9 +1,0 @@
-setup.cfg
-setup.py
-cli/__init__.py
-pipeline_ai_cli.egg-info/PKG-INFO
-pipeline_ai_cli.egg-info/SOURCES.txt
-pipeline_ai_cli.egg-info/dependency_links.txt
-pipeline_ai_cli.egg-info/entry_points.txt
-pipeline_ai_cli.egg-info/requires.txt
-pipeline_ai_cli.egg-info/top_level.txt

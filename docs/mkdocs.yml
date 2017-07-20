@@ -45,7 +45,7 @@ extra:
     primary: 'deep orange'
     accent: 'deep orange'
     extra:
-  logo: '/img/logo/pipelineai-split-black-flux-32x32.png'
+  logo: '/img/logo/pipelineai-black-flux-128x128.png'
   font:
     text: 'Ubuntu'
     code: 'Ubuntu Mono'
