@@ -24,15 +24,14 @@ pipeline init
 
 ## Build Model into a Docker Image
 Supported Model Types:
-* Scikit-Learn
-* R
-* Spark ML
-* TensorFlow
-* XGBoost
-* Python3
-* Java
-* PMML
-* Ensembles
+* [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/)
+* [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/)
+* [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/) 
+* [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/)
+* spark
+* xgboost
+* r
+* [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/)
 
 ### Clone this Repo
 ```
