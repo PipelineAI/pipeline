@@ -1,12 +1,15 @@
 # PipelineAI APIs
 
-## Pre-requisites
-* Install [Docker for Mac](https://www.docker.com/docker-mac)
-* Install [Docker for Windows](https://www.docker.com/docker-windows)
+## Install Pre-Requisites
+### Docker
+* Install [Docker](https://www.docker.com/community-edition#/download)
 
-## Command Line Interface (CLI)
+### Python3
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 Support
+
+## Install PipelineAI CLI
 ### Installation
-Note: This cli requires Python3.
+Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```
 pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
@@ -22,7 +25,7 @@ pipeline
 pipeline init
 ```
 
-## Build Model into a Docker Image
+## Deploy Model Locally
 Supported Model Types:
 * [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/)
 * [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/)
@@ -38,18 +41,38 @@ Supported Model Types:
 git clone https://github.com/fluxcapacitor/pipeline
 ```
 
-### Initialize Model
+Enter the `predict/` directory within the cloned repo above.
 ```
 cd pipeline/predict
 ```
+
+### Initialize Model
 ```
-pipeline model-init --model-type=scikit \
-                    --model-name=linear
+pipeline model-init --model-type=tensorflow \
+                    --model-name=mnist
 ```
 
-### Build Model into a Docker Image
+### Build and Package Model Source
+This command will build the model source code into a runnable Docker image.
 ```
-pipeline model-build
+pipeline model-package --package-type=docker
+```
+
+### Train and Deploy Model Locally
+This command will start the model train, optimize, and deploy as a runnable Docker image from above.
+```
+pipeline model-start --memory=2G
+```
+
+Monitor the train, optimize, and deployment logs.
+```
+pipeline package-logs
+```
+
+### View Model Train, Optimize, and Deploy Dashboard
+Navigate to the following:
+```
+http://localhost:6333
 ```
 
 ## Predict 
