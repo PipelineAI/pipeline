@@ -1,17 +1,29 @@
 # PipelineAI APIs
+
+## Pre-requisites
+* Install [Docker for Mac](https://www.docker.com/docker-mac)
+* Install [Docker for Windows](https://www.docker.com/docker-windows)
+
 ## Command Line Interface (CLI)
 ### Installation
+Note: This cli requires Python3.
 ```
-pip install --upgrade --ignore-installed pio-cli
-```
-
-You can view the commands supported by the CLI using just `pio`.
-```
-pio
+pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 
-## Deploy ML/AI Models
-### Supported Model Types
+### Explore CLI
+You can view the commands supported by the CLI using just `pipeline`.
+```
+pipeline
+```
+
+### Initialize CLI
+```
+pipeline init
+```
+
+## Build Model into a Docker Image
+Supported Model Types:
 * Scikit-Learn
 * R
 * Spark ML
@@ -22,234 +34,56 @@ pio
 * PMML
 * Ensembles
 
-### Initialize Model 
+### Clone this Repo
 ```
-pio init-model --model-server-url <model_server_url> \
-               --model-type <model_type> \
-               --model-namespace <model_namespace> \
-               --model_name <model_name> \
-               --model-version <model_version> \
-               --model-path /path/to/model \
-               --model-test-request-path /path/to/test/inputs
+git clone https://github.com/fluxcapacitor/pipeline
 ```
 
-### Deploy Model 
+### Initialize Model
 ```
-pio deploy
+cd pipeline/predict
 ```
-
-### Predict Model
 ```
-pio predict
-```
-
-### Examples
-```
-git clone https://github.com/fluxcapacitor/source.ml
+pipeline model-init --model-type=scikit \
+                    --model-name=linear
 ```
 
-**TensorFlow**
-
-model_type: `tensorflow`
-
-Start Model Server
+### Build Model into a Docker Image
 ```
-pio start prediction-tensorflow
+pipeline model-build
 ```
 
-Initialize Model
+## Predict 
+### CLI
+Perform Single Prediction
 ```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type tensorflow \
-               --model-namespace default \
-               --model-name tensorflow_linear \
-               --model-version 0 \
-               --model-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+pipeline model-predict --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=data/test_request.json
 ```
 
-Deploy Model
+Perform 100 Concurrent Predictions
 ```
-pio deploy
-```
-Predict Model
-```
-pio predict
+pipeline model-predict --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=data/test_request.json \
+                       --concurrency=100
 ```
 
-**Scikit-Learn**
-
-model_type: `scikit`
-
-Start Model Server
+### REST API
 ```
-pio start prediction-scikit
-```
-
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type scikit \
-               --model-namespace default \
-               --model-name scikit_linear \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"inputs": 0.03807590643342410180}' \
+  http://localhost:6969/api/v1/model/predict/tensorflow/mnist \
+  -w "\n\n"
 ```
 
-Deploy Model
+## Model System and Prediction Metrics
+Username/Password: **admin**/**admin**
+
+Pre-built dashboards coming soon.
+
+Note:  Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.
 ```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-**Spark ML**
-
-model_type: `spark`
-
-
-Start Model Server
-```
-pio start prediction-spark
-```
-
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type spark \
-               --model-namespace default \
-               --model-name spark_airbnb 
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
-```
-
-Deploy Model
-```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-
-**Python3**
-
-model_type: `python3`
-
-
-Start Model Server
-```
-pio start prediction-python3
-```
-
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type python3 \
-               --model-namespace default \
-               --model-name python3_zscore \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
-```
-
-Deploy Model
-```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-**PMML**
-
-model_type: `pmml`
-
-
-Start Model Server
-```
-pio start prediction-pmml
-```
-
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type pmml \
-               --model-namespace default \
-               --model-name pmml_airbnb \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
-```
-
-Deploy Model
-```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-## REST API
-
-### Deploy AI/ML Models
-**Deploy**
-```
-import requests
-
-deploy_url = 'http://<pipelineio-model-server>/api/v1/model/deploy/spark/default/airbnb/v0'
-
-files = {'file': open('airbnb.model', 'rb')}
-
-response = requests.post(deploy_url, files=files)
-
-print("Success!\n\n%s" % response.text)
-```
-
-**Predict**
-```
-import json
-
-data = {"bathrooms":2.0, 
-        "bedrooms":2.0, 
-        "security_deposit":175.00, 
-        "cleaning_fee":25.0, 
-        "extra_people":1.0, 
-        "number_of_reviews": 2.0, 
-        "square_feet": 250.0, 
-        "review_scores_rating": 2.0, 
-        "room_type": "Entire home/apt", 
-        "host_is_super_host": "0.0", 
-        "cancellation_policy": "flexible", 
-        "instant_bookable": "1.0", 
-        "state": "CA" }
-
-json_data = json.dumps(data)
-
-with open('test_inputs.json', 'wt') as fh:
-    fh.write(json_data)
-```
-```
-predict_url = 'http://<pipelineio-model-server>/api/v1/model/predict/spark/default/airbnb/v0'
-
-headers = {'content-type': 'application/json'}
-
-response = requests.post(predict_url, 
-                         data=json_data, 
-                         headers=headers)
-
-print("Response:\n\n%s" % response.text)
+http://localhost:3000/
 ```
 
 {!contributing.md!}
