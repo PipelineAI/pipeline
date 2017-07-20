@@ -1,8 +1,8 @@
 # Welcome to PipelineAI! 
-![PipelineAI](/img/pipeline-io-logo-shadow-210x186.png)
+![PipelineAI](/img/logo/pipelineai-split-black-flux-200x200.png)
 
 ## Recent News
-(July 2017) PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end deployment of TensorFlow Model from research to production with full metrics and insight into the off-line training and online prediction pipeline phases
+(July 2017) PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
 
 (June 2017) PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
 
@@ -18,12 +18,6 @@ Headquartered in San Francisco, PipelineAI maintains offices in Chicago, Washing
 ## Who Uses PipelineAI?
 PipelineAI's list of 100's of beta customers are listed on [Crunchbase](https://www.crunchbase.com/organization/pipelineio/customers).  
 
-With 30,000+ users on our [Advanced Edition](/products/index.md) waitlist, we expect a 10-15x increase in customers by the end of the year.  We're moving as quickly as we can!
+With 32,000+ users on our [Advanced Edition](/products/index.md) waitlist, we expect a 10-15x increase in customers by the end of the year.  We're moving as quickly as we can!
 
 {!contributing.md!}
-
-<!-- Begin Mixpanel -->
-<script>
-  mixpanel.track("PipelineAI Home Page View");
-</script>
-<!-- End Mixpanel -->
