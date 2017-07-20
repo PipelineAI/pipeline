@@ -62,6 +62,8 @@ http://localhost:6333/
 
 ![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
 
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui-2.png)
+
 ## Predict Model
 ### CLI
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
