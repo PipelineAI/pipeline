@@ -78,7 +78,7 @@ curl -X POST -H "Content-Type: application/json" \
 {"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
 ```
 
-**Prediction Outputs**:  The highest confidence is the 7th element which represents **Digit 6** in a 0-index array starting with Digit 1.
+**Prediction Outputs**:  The highest confidence is the 6th element in the array which represents **Digit 6**.
 
 ## WebUI
 The following is under heavy construction.  Ignore for now. 
