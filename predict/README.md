@@ -14,14 +14,14 @@ pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
 pipeline init
 ```
 
-## Build Your Model into the Model Server
-`model_type`: [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/keras/), spark, xgboost, r, [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/deploy.ai/predict/samples/pmml/)
+## Package Your Model
+`model_type`: [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/), spark, xgboost, r, [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/)
 ```
-cd pipeline/deploy.ai/predict
+cd pipeline/predict
 ```
 ```
 pipeline model-init --model-type=scikit \
-                    --model-name=linear \
+                    --model-name=linear
 ```
 ```
 pipeline model-build
@@ -43,8 +43,8 @@ pipeline model-predict --model-server-url=http://localhost:6969 \
 Perform 50 Predictions in Parallel
 ```
 pipeline model-predict --model-server-url=http://localhost:6969 \
-                  --model-test-request-path=data/test_request.json \
-                  --concurrency=50
+                       --model-test-request-path=data/test_request.json \
+                       --concurrency=50
 ```
 
 ### REST API
