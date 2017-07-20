@@ -30,8 +30,8 @@ setup(
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/lib/runtimes",
     install_requires=[
-        "pipeline-ai-monitors==0.1",
-        "pipeline-ai-models==0.1",
+        "pipeline-ai-monitors==0.2",
+        "pipeline-ai-models==0.2",
         "cloudpickle==0.3.1",
         "tornado==4.5.1",
     ],

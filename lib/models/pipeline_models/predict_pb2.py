@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 from tensorflow.core.framework import tensor_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__pb2
-from pio_models import model_pb2 as model__pb2
+from . import model_pb2 as model__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(

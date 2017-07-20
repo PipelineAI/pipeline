@@ -3,7 +3,7 @@ from timeit import default_timer
 
 REGISTRY = CollectorRegistry()
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 class PipelineMonitor(object):
     def __init__(self,
@@ -11,7 +11,6 @@ class PipelineMonitor(object):
                  action: str,
                  description: str):
         self._labels = labels
-
         self._counter = Counter('%s_counter' % action, description, list(labels.keys()))
         self._summary = Summary('%s_summary' % action, description, list(labels.keys()))
         REGISTRY.register(self._counter)
