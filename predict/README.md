@@ -15,7 +15,11 @@ pipeline init
 ```
 
 ## Package Your Model
-`model_type`: [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/), spark, xgboost, r, [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/)
+Supported Model Types: [scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/), spark, xgboost, r
+
+More samples coming soon!
+
+## Initialize Model
 ```
 cd pipeline/predict
 ```
@@ -24,6 +28,8 @@ pipeline model-init --model-type=tensorflow \
                     --model-name=mnist \
                     --model-path=./samples/tensorflow/mnist
 ```
+
+## Package Model
 ```
 pipeline model-package --package-type=docker \
                        --package-path=. \
@@ -40,13 +46,15 @@ pipeline model-start --package-type=docker \
                      --model-name=mnist
 ```
 Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
+
+## Monitor Model Training and Hyper-Parameter Tuning
 ```
 pipeline model-logs --package-type=docker \
                     --model-type=tensorflow \
                     --model-name=mnist
 ```
 
-## Train, Tune, and Validate Model UI
+## View PipelineAI Model UI
 This UI sometimes requires a couple refreshes.  We are working to stabilize the UI.
 ```
 http://localhost:6333/
@@ -54,7 +62,7 @@ http://localhost:6333/
 
 ![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
 
-## Predict 
+## Predict Model
 ### CLI
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
 ```
@@ -70,7 +78,6 @@ pipeline model-predict --model-server-url=http://localhost:6969 \
 ```
 
 ### REST API
-
 **Prediction Inputs**:  JSON representation of gray-scale values for **Digit 6**.
 
 ![Digit 6](https://github.com/fluxcapacitor/pipeline/blob/master/predict/samples/tensorflow/mnist/data/6.jpg)
@@ -88,10 +95,11 @@ curl -X POST -H "Content-Type: application/json" \
 
 **Prediction Outputs**:  The highest confidence is the 6th element in the array which represents **Digit 6**.
 
-## Prediction Dashboards
+## Monitor Model Predictions
+Note:  These dashboards will be rolled into the PipelineAI Model UI soon!
 Username/Password: **admin**/**admin**
 
-Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.  (Pre-build dashboards are coming soon.)
+Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.  
 ```
 http://localhost:3000/
 ```
