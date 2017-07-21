@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.1"
+__version__ = "0.3"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -499,7 +499,7 @@ class PipelineCli(object):
                    model_type,
                    model_name,
                    model_path,
-                   model_server_url,
+                   model_server_url=None,
                    model_test_request_path=None,
                    model_request_mime_type='application/json',
                    model_response_mime_type='application/json'):
@@ -517,14 +517,27 @@ class PipelineCli(object):
         else:
             model_test_request_path = os.path.join(model_path, 'data/test_request.json')
 
-        config_dict = {'model_server_url': model_server_url.rstrip('/'), 
-                       'model_type': model_type,
-                       'model_name': model_name,
-                       'model_path': model_path, 
-                       'model_test_request_path': model_test_request_path,
-                       'model_request_mime_type': model_request_mime_type,
-                       'model_response_mime_type': model_response_mime_type,
-        }
+        if model_server_url:
+            model_server_url.rstrip('/')
+
+            config_dict = {
+                           'model_server_url': model_server_url,
+                           'model_type': model_type,
+                           'model_name': model_name,
+                           'model_path': model_path, 
+                           'model_test_request_path': model_test_request_path,
+                           'model_request_mime_type': model_request_mime_type,
+                           'model_response_mime_type': model_response_mime_type,
+            }
+        else:
+            config_dict = {
+                           'model_type': model_type,
+                           'model_name': model_name,
+                           'model_path': model_path,
+                           'model_test_request_path': model_test_request_path,
+                           'model_request_mime_type': model_request_mime_type,
+                           'model_response_mime_type': model_response_mime_type,
+            }
 
         self._merge_dict(config_dict)
         print("")
@@ -532,11 +545,14 @@ class PipelineCli(object):
         print("")
 
 
-    def model_build(self,
-                    model_type=None,
-                    model_name=None,
-                    model_chip='cpu',
-                    model_build_context='.'):
+    def model_package(self,
+                      model_type=None,
+                      model_name=None,
+                      model_path='.',
+                      model_chip='cpu',
+                      package_type='docker',
+                      package_path='.',
+                      package_tag='master'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -544,19 +560,34 @@ class PipelineCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
+        model_path = os.path.expandvars(model_path)
+        model_path = os.path.expanduser(model_path)
+        model_path = os.path.abspath(model_path)
+
+        package_path = os.path.expandvars(package_path)
+        package_path = os.path.expanduser(package_path)
+        package_path = os.path.abspath(package_path)
+
+        if package_type == 'docker':
+            if model_chip == 'gpu':
+                docker_cmd = 'nvidia-docker'
+            else:
+                docker_cmd = 'docker'
+
+            # TODO:  Incorporate model_path
+            cmd = '%s build -t fluxcapacitor/%s-%s-%s:%s \
+                     --build-arg model_type=%s \
+                     --build-arg model_name=%s \
+                     --build-arg model_chip=%s \
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, package_tag, model_type, model_name, model_chip, package_path)
+
+            process = subprocess.call(cmd, shell=True)
         else:
-            docker_cmd = 'docker'
-
-        cmd = '%s build -t fluxcapacitor/deploy-predict-%s-%s-%s:master \
-                 --build-arg model_type=%s \
-                 --build-arg model_name=%s \
-                 --build-arg model_chip=%s \
-                 -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_type, model_name, model_chip, model_build_context)
-
-        process = subprocess.call(cmd, shell=True)
-
+            self._model_package_tar(model_type,
+                                    model_name,
+                                    model_path,
+                                    package_path,
+                                    package_tag)  
 
     def model_shell(self,
                     model_type=None,
@@ -574,7 +605,7 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s exec -it deploy-predict-%s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s exec -it %s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -595,15 +626,16 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s push fluxcapacitor/deploy-predict-%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s push fluxcapacitor/%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip)
         process = subprocess.call(cmd, shell=True)
 
 
     def model_start(self,
+                    package_type='docker',
                     model_type=None,
                     model_name=None,
                     model_chip='cpu',
-                    model_memory='2G'):
+                    memory='2G'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -616,40 +648,16 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=deploy-predict-%s-%s-%s \
+        cmd = '%s run -itd --name=%s-%s-%s \
                -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
                -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
-               fluxcapacitor/deploy-predict-%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip, model_memory, model_type, model_name, model_type, model_name, model_chip)
+               fluxcapacitor/%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip, memory, model_type, model_name, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
-        self.model_logs(model_type,
-                        model_name,
-                        model_chip)
 
 
     def model_stop(self,
-                    model_type=None,
-                    model_name=None,
-                    model_chip='cpu',
-                    model_memory='4G'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s rm -f deploy-predict-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
-
-        process = subprocess.call(cmd, shell=True)
-
-
-    def model_logs(self,
+                   package_type='docker',
                    model_type=None,
                    model_name=None,
                    model_chip='cpu'):
@@ -665,7 +673,29 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s logs -f deploy-predict-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s rm -f %s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
+
+        process = subprocess.call(cmd, shell=True)
+
+
+    def model_logs(self,
+                   package_type='docker',
+                   model_type=None,
+                   model_name=None,
+                   model_chip='cpu'):
+
+        if not model_type:
+            model_type = self._get_full_config()['model_type']
+
+        if not model_name:
+            model_name = self._get_full_config()['model_name']
+
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s logs -f %s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -787,15 +817,6 @@ class PipelineCli(object):
                 print("")
 
 
-    def model_deploy_from_git(self,
-                              git_path,
-                              model_type=None,
-                              model_name=None):
-        print("")
-        print("Coming soon!")
-        print("")
-
-
     def _filter_tar(self,
                     tarinfo):
         # TODO:  Load this from .pipelineignore
@@ -807,18 +828,29 @@ class PipelineCli(object):
         return tarinfo
 
 
-    def model_package(self,
-                      path_to_model,
-                      package_name='pipeline_package.tar.gz',
-                      filemode='w',
-                      compression='gz'):
+    def _model_package_tar(self,
+                           model_type,
+                           model_name,
+                           model_path,
+                           package_path,
+                           package_name,
+                           package_tag='master',
+                           filemode='w',
+                           compression='gz'):
 
-        path_to_model = os.path.expandvars(path_to_model)
-        path_to_model = os.path.expanduser(path_to_model)
-        path_to_model = os.path.abspath(path_to_model)
+        model_path = os.path.expandvars(model_path)
+        model_path = os.path.expanduser(model_path)
+        model_path = os.path.abspath(model_path)
 
-        with tarfile.open(package_name, '%s:%s' % (filemode, compression)) as tar:
-            tar.add(path_to_model, arcname='.', filter=self._filter_tar)
+        package_path = os.path.expandvars(package_path)
+        package_path = os.path.expanduser(package_path)
+        package_path = os.path.abspath(package_path)
+       
+        package_absolute_path = os.path.join(package_path, package_name) 
+
+        # TODO:  Incorporate package_tag if relevant
+        with tarfile.open(package_absolute_path, '%s:%s' % (filemode, compression)) as tar:
+            tar.add(model_path, arcname='.', filter=self._filter_tar)
 
 
 #    def model_pickle(self,
@@ -871,7 +903,7 @@ class PipelineCli(object):
 #            return
 
 
-    def model_deploy(self,
+    def _model_deploy(self,
                      model_server_url=None,
                      model_type=None,
                      model_name=None,
