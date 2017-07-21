@@ -108,18 +108,17 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 Digit  Confidence
 =====  ==========
-1      0.0022526539396494627
-2      2.63791100074684e-10
-3      0.4638307988643646
-4      0.21909376978874207
-5      3.2985670372909226e-07
-6      0.29357224702835083    <-- Highest Confidence!
-7      0.00019597385835368186
-8      5.230629176367074e-05
-9      0.020996594801545143
-0      5.426473762781825e-06
+0      0.0022526539396494627
+1      2.63791100074684e-10
+2      0.4638307988643646
+3      0.21909376978874207
+4      3.2985670372909226e-07
+5      0.29357224702835083 
+6      0.00019597385835368186
+7      5.230629176367074e-05
+8      0.020996594801545143
+9      5.426473762781825e-06
 ```
-The highest confidence is the 6th element in the array which represents **Digit 6**.
 
 ## Monitor Model Predictions
 Note:  These dashboards will be rolled into the PipelineAI Model UI soon!
