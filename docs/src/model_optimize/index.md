@@ -1,4 +1,9 @@
 # Optimize Your Model 
+
+![Training](/img/pipelineai-train-compare-ui.png)
+
+![Experiments](/img/pipelineai-train-compare-ui-2.png)
+
 Upon deploying your model, PipelineAI will optimize your model for high-performance serving and predicting.
 
 Various model optimization and simplification techniques include folding batch normalizations, quantizing weights, and generating native code for both CPU and GPU.
