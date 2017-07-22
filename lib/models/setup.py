@@ -21,7 +21,7 @@ version = re.search(
     ).group(1)
 
 setup(
-    name = "pipeline-ai-models",
+    name = "pipeline-models",
     packages = ["pipeline_models"],
     version = version,
     description = "PipelineAI Models",

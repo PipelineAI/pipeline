@@ -15,4 +15,4 @@ dependencies:
   - h5py=2.7.0=np113py36_0
   - pip:  
     - keras==2.0.6
-    - pipeline-ai-runtimes>=0.1
+    - pipeline-runtimes>=0.5

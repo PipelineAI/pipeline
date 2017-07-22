@@ -21,7 +21,7 @@ version = re.search(
     ).group(1)
 
 setup(
-    name = "pipeline-ai-runtimes",
+    name = "pipeline-runtimes",
     packages = ["pipeline_runtimes"],
     version = version,
     description = "PipelineAI Runtimes",
@@ -30,8 +30,9 @@ setup(
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/lib/runtimes",
     install_requires=[
-        "pipeline-ai-monitors==0.2",
-        "pipeline-ai-models==0.2",
+        "pipeline-loggers==0.2",
+        "pipeline-monitors==0.5",
+        "pipeline-models==0.2",
         "cloudpickle==0.3.1",
         "tornado==4.5.1",
     ],

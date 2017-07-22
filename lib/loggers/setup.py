@@ -16,21 +16,20 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pipeline_monitors/__init__.py').read(),
+    open('pipeline_loggers/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pipeline-monitors",
-    packages = ["pipeline_monitors"],
+    name = "pipeline-loggers",
+    packages = ["pipeline_loggers"],
     version = version,
-    description = "PipelineAI Monitors",
-    long_description = "PipelineAI Monitors",
+    description = "PipelineAI Loggers",
+    long_description = "PipelineAI Loggers",
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/lib/monitors",
+    url = "https://github.com/fluxcapacitor/pipeline/lib/loggers",
     install_requires=[
-        "prometheus_client==0.0.20",
     ],
     dependency_links=[
     ]

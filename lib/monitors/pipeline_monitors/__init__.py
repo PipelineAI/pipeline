@@ -3,9 +3,9 @@ from timeit import default_timer
 
 REGISTRY = CollectorRegistry()
 
-__version__ = "0.2"
+__version__ = "0.5"
 
-class PipelineMonitor(object):
+class PrometheusMonitor(object):
     def __init__(self,
                  labels: dict,
                  action: str,
