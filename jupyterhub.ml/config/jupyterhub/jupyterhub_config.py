@@ -171,7 +171,7 @@ c.JupyterHub.ip = '0.0.0.0'
 # c.JupyterHub.last_activity_interval = 300
 
 # Specify path to a logo image to override the Jupyter logo in the banner.
-c.JupyterHub.logo_file = 'img/pipelineio-logo-128x128.png'
+c.JupyterHub.logo_file = 'img/logo/pipelineai-split-black-flux-128x128.png'
 
 # File to write PID Useful for daemonizing jupyterhub.
 # c.JupyterHub.pid_file = ''
