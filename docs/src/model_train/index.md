@@ -1,5 +1,9 @@
 # Train Your Model
 
+## Manage and Compare Experiments
+![Training](/img/pipelineai-train-compare-ui.png)
+![Experiments](/img/pipelineai-train-compare-ui-2.png)
+
 ## Supported Model Types
 ### Scikit-Learn
 ![Scikit-Learn](/img/scikit-logo-277x150.png)
