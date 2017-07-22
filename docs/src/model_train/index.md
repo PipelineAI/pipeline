@@ -2,6 +2,7 @@
 
 ## Manage and Compare Experiments
 ![Training](/img/pipelineai-train-compare-ui.png)
+
 ![Experiments](/img/pipelineai-train-compare-ui-2.png)
 
 ## Supported Model Types
