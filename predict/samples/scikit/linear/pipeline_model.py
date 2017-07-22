@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from pipeline_monitors import PipelineMonitor as Monitor
+from pipeline_monitors import PrometheusMonitor as Monitor
 import ujson
 import cloudpickle as pickle
 
