@@ -16,7 +16,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.7.1
+ENV KUBERNETES_VERSION=1.7.2
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -35,7 +35,7 @@ RUN \
 #ENV \
 #  PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.7.0-alpha.1
+ENV KOPS_VERSION=1.7.0-beta.1
 ENV KOPS_HOME=/root/kops/
 
 RUN \
