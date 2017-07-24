@@ -1,2 +1,0 @@
-prometheus_client==0.0.19
-cloudpickle==0.3.1

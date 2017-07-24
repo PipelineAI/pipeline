@@ -17,7 +17,7 @@ PipelineAI builds upon many great open source projects including Jupyter, Zeppel
 
 ## PipelineAI is Global
 
-![PipelineAI Global Community](/img/pipelineio-geo-border-no-stars.png)
+![PipelineAI Global Community](/img/geo-border-no-stars.png)
 
 ## [GitHub](https://github.com/fluxcapacitor/pipeline) 
 

@@ -16,15 +16,15 @@ if not sys.version_info[0] == 3:
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pio/__init__.py').read(),
+    open('cli/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pio-cli",
-    packages = ["pio"],
+    name = "pipeline-ai-cli",
+    packages = ["cli"],
     entry_points = {
-        "console_scripts": ['pio = pio.__init__:main']
+        "console_scripts": ['pipeline = cli.__init__:main']
     },
     version = version,
     description = "PipelineAI CLI",

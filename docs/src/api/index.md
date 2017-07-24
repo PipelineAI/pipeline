@@ -1,255 +1,132 @@
 # PipelineAI APIs
-## Command Line Interface (CLI)
-### Installation
+
+## Install Pre-Requisites
+### Docker
+* Install [Docker](https://www.docker.com/community-edition#/download)
+
+### Python3
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 Support
+
+## Setup `pipeline-ai-cli` 
+Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```
-pip install --upgrade --ignore-installed pio-cli
+pip3 install --ignore-installed --no-cache -U pipeline-ai-cli>=0.3
+```
+```
+pipeline init
 ```
 
-You can view the commands supported by the CLI using just `pio`.
+## Supported Model Types 
+[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/), spark, xgboost, r
+
+More samples coming soon!
+
+## Clone this Repo
 ```
-pio
+git clone https://github.com/fluxcapacitor/pipeline
 ```
 
-## Deploy ML/AI Models
-### Supported Model Types
-* Scikit-Learn
-* R
-* Spark ML
-* TensorFlow
-* XGBoost
-* Python3
-* Java
-* PMML
-* Ensembles
-
-### Initialize Model 
+## Initialize Model
 ```
-pio init-model --model-server-url <model_server_url> \
-               --model-type <model_type> \
-               --model-namespace <model_namespace> \
-               --model_name <model_name> \
-               --model-version <model_version> \
-               --model-path /path/to/model \
-               --model-test-request-path /path/to/test/inputs
+cd pipeline/predict
+```
+```
+pipeline model-init --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-path=./samples/tensorflow/mnist
 ```
 
-### Deploy Model 
+## Package Model
 ```
-pio deploy
-```
-
-### Predict Model
-```
-pio predict
-```
-
-### Examples
-```
-git clone https://github.com/fluxcapacitor/source.ml
+pipeline model-package --package-type=docker \
+                       --package-path=. \
+                       --model-path=./samples/tensorflow/mnist \
+                       --model-type=tensorflow \
+                       --model-name=mnist
 ```
 
-**TensorFlow**
-
-model_type: `tensorflow`
-
-Start Model Server
+## Start Docker-based Model Package
 ```
-pio start prediction-tensorflow
+pipeline model-start --package-type=docker \
+                     --memory=2G \
+                     --model-type=tensorflow \
+                     --model-name=mnist
 ```
+Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
 
-Initialize Model
+## Monitor Model Training and Hyper-Parameter Tuning
 ```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type tensorflow \
-               --model-namespace default \
-               --model-name tensorflow_linear \
-               --model-version 0 \
-               --model-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/tensorflow/default/tensorflow_linear/0/test_inputs.txt
+pipeline model-logs --package-type=docker \
+                    --model-type=tensorflow \
+                    --model-name=mnist
 ```
 
-Deploy Model
+## View PipelineAI Model UI
+This UI sometimes requires a couple refreshes.  We are working to stabilize the UI.
 ```
-pio deploy
-```
-Predict Model
-```
-pio predict
+http://localhost:6333/
 ```
 
-**Scikit-Learn**
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
 
-model_type: `scikit`
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui-2.png)
 
-Start Model Server
-```
-pio start prediction-scikit
-```
+## Predict Model
+### CLI
+**Perform Single Image Prediction**
 
-Initialize Model
+Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
 ```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type scikit \
-               --model-namespace default \
-               --model-name scikit_linear \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/scikit/default/scikit_linear/v0/test_inputs.txt
+pipeline model-predict --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=./samples/tensorflow/mnist/data/test_request.json
 ```
 
-Deploy Model
+**Perform 100 Predictions in Parallel**
 ```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
+pipeline model-predict --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=./samples/tensorflow/mnist/data/test_request.json \
+                       --concurrency=100
 ```
 
-**Spark ML**
+### REST API
+**Prediction Inputs**
 
-model_type: `spark`
+JSON representation of gray-scale values for **Digit 6**.  ![Digit 6](https://github.com/fluxcapacitor/pipeline/blob/master/predict/samples/tensorflow/mnist/data/6.jpg)
 
-
-Start Model Server
 ```
-pio start prediction-spark
-```
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"image": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05098039656877518, 0.529411792755127, 0.3960784673690796, 0.572549045085907, 0.572549045085907, 0.847058892250061, 0.8156863451004028, 0.9960784912109375, 1.0, 1.0, 0.9960784912109375, 0.5960784554481506, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7882353663444519, 0.11764706671237946, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.988235354423523, 0.7921569347381592, 0.9450981020927429, 0.545098066329956, 0.21568629145622253, 0.3450980484485626, 0.45098042488098145, 0.125490203499794, 0.125490203499794, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.803921639919281, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6352941393852234, 0.9921569228172302, 0.803921639919281, 0.24705883860588074, 0.3490196168422699, 0.6509804129600525, 0.32156863808631897, 0.32156863808631897, 0.1098039299249649, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007843137718737125, 0.7529412508010864, 0.9921569228172302, 0.9725490808486938, 0.9686275124549866, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.8274510502815247, 0.29019609093666077, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2549019753932953, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.847058892250061, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5921568870544434, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7333333492279053, 0.44705885648727417, 0.23137256503105164, 0.23137256503105164, 0.4784314036369324, 0.9921569228172302, 0.9921569228172302, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5568627715110779, 0.9568628072738647, 0.7098039388656616, 0.08235294371843338, 0.019607843831181526, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.43137258291244507, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15294118225574493, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1882353127002716, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6705882549285889, 0.9921569228172302, 0.9921569228172302, 0.12156863510608673, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2392157018184662, 0.9647059440612793, 0.9921569228172302, 0.6274510025978088, 0.003921568859368563, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08235294371843338, 0.44705885648727417, 0.16470588743686676, 0.0, 0.0, 0.2549019753932953, 0.9294118285179138, 0.9921569228172302, 0.9333333969116211, 0.27450981736183167, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4941176772117615, 0.9529412388801575, 0.0, 0.0, 0.5803921818733215, 0.9333333969116211, 0.9921569228172302, 0.9921569228172302, 0.4078431725502014, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7411764860153198, 0.9764706492424011, 0.5529412031173706, 0.8784314393997192, 0.9921569228172302, 0.9921569228172302, 0.9490196704864502, 0.43529415130615234, 0.007843137718737125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6235294342041016, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9764706492424011, 0.6274510025978088, 0.1882353127002716, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18431372940540314, 0.5882353186607361, 0.729411780834198, 0.5686274766921997, 0.3529411852359772, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "label": 5}' \
+  http://localhost:6969/api/v1/model/predict/tensorflow/mnist \
+  -w "\n\n"
 
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type spark \
-               --model-namespace default \
-               --model-name spark_airbnb 
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/spark/default/spark_airbnb/v0/test_inputs.txt
+### EXPECTED OUTPUT ###
+
+{"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
 ```
 
-Deploy Model
+**Prediction Outputs**
 ```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-
-**Python3**
-
-model_type: `python3`
-
-
-Start Model Server
-```
-pio start prediction-python3
+Digit  Confidence
+=====  ==========
+0      0.0022526539396494627
+1      2.63791100074684e-10
+2      0.4638307988643646
+3      0.21909376978874207
+4      3.2985670372909226e-07
+5      0.29357224702835083 
+6      0.00019597385835368186
+7      5.230629176367074e-05
+8      0.020996594801545143
+9      5.426473762781825e-06
 ```
 
-Initialize Model
+## Monitor Model Predictions
+Note:  These dashboards will be rolled into the PipelineAI Model UI soon!
+Username/Password: **admin**/**admin**
+
+Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.  
 ```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type python3 \
-               --model-namespace default \
-               --model-name python3_zscore \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/python3/default/python3_zscore/v0/test_inputs.txt
-```
-
-Deploy Model
-```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-**PMML**
-
-model_type: `pmml`
-
-
-Start Model Server
-```
-pio start prediction-pmml
-```
-
-Initialize Model
-```
-pio init-model --model-server-url http://your.model.server.com \
-               --model-type pmml \
-               --model-namespace default \
-               --model-name pmml_airbnb \
-               --model-version v0 \
-               --model-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0 \
-               --model-test-request-path ./source.ml/prediction.ml/model_store/pmml/default/pmml_airbnb/v0/test_inputs.txt
-```
-
-Deploy Model
-```
-pio deploy
-```
-
-Predict Model
-```
-pio predict
-```
-
-## REST API
-
-### Deploy AI/ML Models
-**Deploy**
-```
-import requests
-
-deploy_url = 'http://<pipelineio-model-server>/api/v1/model/deploy/spark/default/airbnb/v0'
-
-files = {'file': open('airbnb.model', 'rb')}
-
-response = requests.post(deploy_url, files=files)
-
-print("Success!\n\n%s" % response.text)
-```
-
-**Predict**
-```
-import json
-
-data = {"bathrooms":2.0, 
-        "bedrooms":2.0, 
-        "security_deposit":175.00, 
-        "cleaning_fee":25.0, 
-        "extra_people":1.0, 
-        "number_of_reviews": 2.0, 
-        "square_feet": 250.0, 
-        "review_scores_rating": 2.0, 
-        "room_type": "Entire home/apt", 
-        "host_is_super_host": "0.0", 
-        "cancellation_policy": "flexible", 
-        "instant_bookable": "1.0", 
-        "state": "CA" }
-
-json_data = json.dumps(data)
-
-with open('test_inputs.json', 'wt') as fh:
-    fh.write(json_data)
-```
-```
-predict_url = 'http://<pipelineio-model-server>/api/v1/model/predict/spark/default/airbnb/v0'
-
-headers = {'content-type': 'application/json'}
-
-response = requests.post(predict_url, 
-                         data=json_data, 
-                         headers=headers)
-
-print("Response:\n\n%s" % response.text)
+http://localhost:3000/
 ```
 
 {!contributing.md!}

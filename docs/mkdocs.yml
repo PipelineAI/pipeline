@@ -21,10 +21,10 @@ pages:
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
   - Try our Free Community Edition!: products/index.md
-  - Hybrid Cloud and On-Premise: environments/index.md
-  - Dashboards and Visualizations: model_monitor/index.md
-  - GPUs and Performance: gpu/index.md
-  - Command Line and REST APIs: api/index.md
+  - Deployments: environments/index.md
+  - Dashboards: model_monitor/index.md
+  - GPUs: gpu/index.md
+  - APIs: api/index.md
   - Take a Quick, Fun Survey!: survey/index.md
   - Upcoming Events and Training:
     - Upcoming Events: events/index.md
@@ -45,7 +45,7 @@ extra:
     primary: 'deep orange'
     accent: 'deep orange'
     extra:
-  logo: 'img/pipelineio-logo-128x128.png'
+  logo: '/img/logo/pipelineai-black-flux-128x128.png'
   font:
     text: 'Ubuntu'
     code: 'Ubuntu Mono'
@@ -61,7 +61,7 @@ extra:
     - type: 'linkedin'
       link: 'https://www.linkedin.com/company/6609122/'
     - type: 'twitter'
-      link: 'https://twitter.com/pipelineio'
+      link: 'https://twitter.com/cfregly'
     - type: 'globe'
       link: 'https://hub.docker.com/r/fluxcapacitor'
       

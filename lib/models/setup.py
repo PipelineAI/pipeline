@@ -16,16 +16,16 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pio_models/__init__.py').read(),
+    open('pipeline_models/__init__.py').read(),
     re.M
     ).group(1)
 
 setup(
-    name = "pio-models",
-    packages = ["pio_models"],
+    name = "pipeline-models",
+    packages = ["pipeline_models"],
     version = version,
-    description = "PipelineIO Models",
-    long_description = "PipelineIO Models",
+    description = "PipelineAI Models",
+    long_description = "PipelineAI Models",
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/lib/models",

@@ -1,4 +1,4 @@
-pio_cli.egg-info/
+pipeline_ai_cli.egg-info/
 dist/
 build/
 *.pyc

@@ -1,6 +1,6 @@
 ### Click [HERE](http://pipeline.io) for PipelineAI Home!
 
-![PipelineAI](http://pipeline.io/img/pipeline-io-logo-shadow-210x186.png) ![Nvidia GPU](http://pipeline.io/img/nvidia-cuda-338x181.png) 
+![PipelineAI](http://pipeline.io/img/logo/pipelineai-split-black-flux-200x200.png) ![Nvidia GPU](http://pipeline.io/img/nvidia-cuda-338x181.png) 
 
 ![TensorFlow](http://pipeline.io/img/tensorflow-logo-202x168.png) ![Spark](http://pipeline.io/img/spark-logo-254x163.png) 
 
