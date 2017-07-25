@@ -12,11 +12,18 @@ Here are some publically-available resources including Docker images, source cod
 [fluxcapacitor/pipeline/package.ml](https://github.com/fluxcapacitor/pipeline/tree/master/package.ml)
 
 ### [Docker Images](https://hub.docker.com/r/fluxcapacitor/)
+
+**GPU**
+
 [AWS (GPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-Tensorflow-Docker)
 
 [Google Cloud (GPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker)
 
-_CPU Versions are Below._
+**CPU**
+
+[AWS (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/AWS-CPU-Tensorflow-Docker)
+
+[Google Cloud (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
 ## Performance
 PipelineAI maintains a collection of [Docker Images](https://hub.docker.com/r/fluxcapacitor) with many optimizations already enabled including OpenBLAS, AVX, AVX2, FMA, etc.
@@ -25,12 +32,6 @@ PipelineAI maintains a collection of [Docker Images](https://hub.docker.com/r/fl
 [fluxcapacitor/pipeline/gpu.ml](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
 
 [fluxcapacitor/pipeline/package.ml](https://github.com/fluxcapacitor/pipeline/tree/master/package.ml)
-
-### [Docker Images](https://hub.docker.com/r/fluxcapacitor/)
-
-[AWS (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/AWS-CPU-Tensorflow-Docker)
-
-[Google Cloud (CPU) + TensorFlow + Spark + HDFS + Docker](https://github.com/fluxcapacitor/pipeline/wiki/GCP-CPU-Tensorflow-Docker)
 
 ## ML/AI Model Performance Optimizations
 Click [HERE](http://pipeline.io/model_optimize/) for examples of optimizing model prediction performance with PipelineAI.
