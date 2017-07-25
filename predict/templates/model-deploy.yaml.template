@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}
+  labels:
+    app: model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}
+    hystrix.enabled: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}} 
+  template:
+    metadata:
+      labels:
+        app: model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}
+        hystrix.enabled: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}} 
+        image: docker.io/fluxcapacitor/model-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}:{{PIPELINE_MODEL_TAGS}}
+        resources:
+          limits:
+            cpu: {{PIPELINE_LIMIT_CPU}}
+            memory: {{PIPELINE_LIMIT_MEMORY}}
+          requests:
+            cpu: 100m
+            memory: 100Mi 
+        imagePullPolicy: "Always"
+        env:
+        - name: PIPELINE_MODEL_TYPE
+          value: {{PIPELINE_MODEL_TYPE}} 
+        - name: PIPELINE_MODEL_NAME
+          value: {{PIPELINE_MODEL_NAME}}
+        - name: PIPELINE_MODEL_TAGS
+          value: {{PIPELINE_MODEL_TAGS}}
+        ports:
+        - containerPort: 9040
+        - containerPort: 9876
+        - containerPort: 9000
+        - containerPort: 8080
+      tolerations: 
+        - key: "node.alpha.kubernetes.io/notReady"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 6000

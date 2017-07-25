@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.3"
+__version__ = "0.4"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -24,6 +24,7 @@ from pprint import pprint
 import subprocess
 from datetime import timedelta
 import importlib.util
+from jinja2 import Template
 
 class PipelineCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
@@ -61,7 +62,6 @@ class PipelineCli(object):
                             'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
                             'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
                            }
-
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
                          'jupyterhub': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
                          'spark': (['apachespark.ml/master-svc.yaml'], ['spark-worker', 'metastore']), 
@@ -93,6 +93,8 @@ class PipelineCli(object):
                          'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
 
+    _kube_deploy_template_registry = {'predict': (['predict/templates/model-deploy.yaml.template'], [])}
+    _kube_svc_template_registry = {'predict': (['predict/templates/model-svc.yaml.template'], [])}
 
     def _get_default_pipeline_api_version(self):
         return 'v1'
@@ -115,6 +117,15 @@ class PipelineCli(object):
 
     def version(self):
         print(__version__)
+
+
+    def conda_view(self,
+              environment):
+        print("Dumping dependencies for conda env '%s'" % environment)
+        cmd = 'conda -n %s list' % environment
+        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+        (output, error) = process.communicate()
+        return output.rstrip().decode('utf-8')
 
 
     def config_get(self,
@@ -188,6 +199,10 @@ class PipelineCli(object):
     def config(self):
         print(yaml.dump(self._get_full_config(), default_flow_style=False, explicit_start=True))
         print("")
+
+
+    def service_list(self):
+        self.cluster_view()
 
 
     def service_proxy(self,
@@ -548,7 +563,7 @@ class PipelineCli(object):
     def model_package(self,
                       model_type=None,
                       model_name=None,
-                      model_path='.',
+                      model_path=None,
                       model_chip='cpu',
                       package_type='docker',
                       package_path='.',
@@ -559,6 +574,9 @@ class PipelineCli(object):
 
         if not model_name:
             model_name = self._get_full_config()['model_name']
+
+        if not model_path:
+            model_path = self._get_full_config()['model_path']
 
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
@@ -579,9 +597,20 @@ class PipelineCli(object):
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
                      --build-arg model_chip=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, package_tag, model_type, model_name, model_chip, package_path)
+                     --build-arg model_path=%s \
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, package_tag, model_type, model_name, model_chip, model_path, package_path)
 
+            print(cmd)
+            print("")
             process = subprocess.call(cmd, shell=True)
+
+            # TODO:  Implement jinja templating 
+            #template = Template('Hello {{ name }}!')
+            #template.render(name='John Doe')
+            model_predict_deploy_yaml_template_path = _kube_deploy_template_registry['model-predict']
+            model_predict_svc_yaml_template_path = _kube_svc_template_registry['model-predict']
+            # TODO:  
+
         else:
             self._model_package_tar(model_type,
                                     model_name,
@@ -958,7 +987,7 @@ class PipelineCli(object):
         print('model_path: %s' % model_path)
 
         if (os.path.isdir(model_path)):
-            compressed_model_package_filename = 'pipeline_package.tar.gz' 
+            compressed_model_package_filename = 'pipeline.tar.gz' 
 
             print("")
             print("Compressing model package '%s' into '%s'." % (model_path, compressed_model_package_filename))  
@@ -1276,7 +1305,7 @@ class PipelineCli(object):
     def _get_all_available_apps(self):
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
-        available_apps = list(PioCli._kube_deploy_registry.keys())
+        available_apps = list(PipelineCli._kube_deploy_registry.keys())
         available_apps.sort()
         for app in available_apps:
             print(app)
@@ -1546,7 +1575,7 @@ class PipelineCli(object):
     def _get_deploy_yamls(self, 
                          app_name):
         try:
-            (deploy_yamls, dependencies) = PioCli._kube_deploy_registry[app_name]
+            (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[app_name]
         except:
             dependencies = []
             deploy_yamls = []
@@ -1560,7 +1589,7 @@ class PipelineCli(object):
     def _get_svc_yamls(self, 
                       app_name):
         try:
-            (svc_yamls, dependencies) = PioCli._kube_svc_registry[app_name]
+            (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[app_name]
         except:
             dependencies = []
             svc_yamls = []
