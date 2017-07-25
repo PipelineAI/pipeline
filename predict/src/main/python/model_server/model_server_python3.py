@@ -50,7 +50,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/healthz', HealthzHandler),
             (r'/metrics', MetricsHandler),
-
+            (r'/env', EnvionmentHandler),
             # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
             (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelPredictPython3Handler),
@@ -100,6 +100,21 @@ class MetricsHandler(tornado.web.RequestHandler):
         except Exception as e:
             logging.exception('MetricsHandler.get: Exception {0}'.format(str(e)))
 
+
+class EnvironmentHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        try:
+            self.set_status(200, None)
+            self.add_header('Content-Type', 'text/plain')
+            cmd = 'conda list'
+            process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+            (output, error) = process.communicate()
+            output = output.rstrip().decode('utf-8')
+            self.write(output)
+            self.finish()
+        except Exception as e:
+            logging.exception('EnvironmentHandler.get: Exception {0}'.format(str(e)))
 
 
 class ModelPredictPython3Handler(tornado.web.RequestHandler):

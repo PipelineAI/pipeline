@@ -39,6 +39,7 @@ setup(
         "pyyaml==3.12",
         "tabulate==0.7.7",
         "futures==3.1.1",
+        "jinja2==2.9.6",
     ],
     dependency_links=[
     ]

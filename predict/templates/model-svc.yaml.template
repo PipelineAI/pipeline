@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}} 
+  labels:
+    app: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}} 
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http-model-server 
+    port: 80 
+    targetPort: 9876 
+  - name: grpc-tensorflow-serving
+    port: 9000
+    targetPort: 9000
+  - name: http-netflixoss
+    port: 9040
+    targetPort: 9040
+  - name: prometheus
+    port: 8080 
+    targetPort: 8080
+  selector:
+    app: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}} 

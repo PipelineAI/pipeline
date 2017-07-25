@@ -183,10 +183,17 @@ RUN \
 ENV \
   PIPELINE_MODEL_NAME=$model_name
 
+ARG model_path
+RUN \
+  echo $model_path
 ENV \
   PIPELINE_MODEL_PATH=/root/model
 
-COPY samples/$model_type/$model_name/ $PIPELINE_MODEL_PATH 
+# Note:  If $model_path is a tar.gz file, the ADD command will untar/unzip the tar.gz file in $PIPELINE_MODEL_PATH.
+#        Otherwise, it will copy the entire $model_path directory into $PIPELINE_MODEL_PATHi.
+#        Note:  $model_path can point to a specific *directory* within a Github Repo.  More details @ pipeline.io.
+# TODO:  Handle S3?  Or expect s3fuse to have been mounted on file system.
+ADD $model_path $PIPELINE_MODEL_PATH 
 
 ENV \
   PIPELINE_CONDA_ENV_NAME=pipeline
@@ -227,6 +234,9 @@ RUN \
 
 RUN \
   chmod a+wr -R /root/model 
+
+RUN \
+  conda -n $PIPELINE_CONDA_ENV_NAME list 
 
 USER appuser
 

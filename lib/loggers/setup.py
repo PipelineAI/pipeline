@@ -30,6 +30,7 @@ setup(
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/lib/loggers",
     install_requires=[
+        "pipeline-monitors>=0.5"
     ],
     dependency_links=[
     ]

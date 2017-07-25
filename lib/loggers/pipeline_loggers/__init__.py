@@ -1,11 +1,12 @@
 from logging import Logger
 from datetime import datetime
 
-__version__ = "0.4"
+__version__ = "0.5"
 
 # TODO:  Allow custom inputs_log_fn and outputs_log_fn
 # TODO:  Handle batched inputs and outputs (using above custom fn's - match inputs to outputs!)
 # TODO:  Log in a json format (vs. custom :: delimited format)
+# TODO:  Add Monitors around these calls!!
 
 class log_inputs_and_outputs(object):
 
