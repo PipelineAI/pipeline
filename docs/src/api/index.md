@@ -10,7 +10,7 @@
 ## Setup `pipeline-ai-cli` 
 Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```
-pip3 install --ignore-installed --no-cache -U pipeline-ai-cli>=0.3
+pip3 install --ignore-installed --no-cache -U pipeline-ai-cli>=0.4
 ```
 ```
 pipeline init
@@ -21,44 +21,38 @@ pipeline init
 
 More samples coming soon!
 
-## Clone this Repo
+## Clone this Repo and 
 ```
 git clone https://github.com/fluxcapacitor/pipeline
 ```
-
-## Initialize Model
 ```
 cd pipeline/predict
-```
-```
-pipeline model-init --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-path=./samples/tensorflow/mnist
 ```
 
 ## Package Model
 ```
 pipeline model-package --package-type=docker \
-                       --package-path=. \
-                       --model-path=./samples/tensorflow/mnist \
+                       --model-path=./models/tensorflow/mnist \
                        --model-type=tensorflow \
-                       --model-name=mnist
+                       --model-name=mnist \
+                       --model-tag=master
 ```
 
 ## Start Docker-based Model Package
 ```
-pipeline model-start --package-type=docker \
-                     --memory=2G \
+pipeline model-start --memory_limit=2G \
                      --model-type=tensorflow \
-                     --model-name=mnist
+                     --model-name=mnist \
+                     --model-tag=master
 ```
 Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
 
 ## Monitor Model Training and Hyper-Parameter Tuning
+Wait for the following logs to settle down...
 ```
-pipeline model-logs --package-type=docker \
-                    --model-type=tensorflow \
-                    --model-name=mnist
+pipeline model-logs --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
 ```
 
 ## View PipelineAI Model UI
@@ -78,14 +72,20 @@ http://localhost:6333/
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
 ```
 pipeline model-predict --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./samples/tensorflow/mnist/data/test_request.json
+                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
+                       --model-type=tensorflow \
+                       --model-name=mnist \
+                       --model-tag=master
 ```
 
 **Perform 100 Predictions in Parallel**
 ```
 pipeline model-predict --model-server-url=http://localhost:6969 \
                        --model-test-request-path=./samples/tensorflow/mnist/data/test_request.json \
-                       --concurrency=100
+                       --concurrency=100 \
+                       --model-type=tensorflow \
+                       --model-name=mnist \
+                       --model-tag=master
 ```
 
 ### REST API
@@ -127,6 +127,13 @@ Username/Password: **admin**/**admin**
 Use `http://localhost:9090` for the Prometheus data source within your Grafana Dashboard.  
 ```
 http://localhost:3000/
+```
+
+## Stop Docker-based Model Package
+```
+pipeline model-stop --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
 ```
 
 {!contributing.md!}
