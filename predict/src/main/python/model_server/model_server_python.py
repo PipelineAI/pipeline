@@ -9,7 +9,8 @@ import tornado.web
 import tornado.httpserver
 import cloudpickle as pickle
 from tornado.options import define, options
-from pipeline_monitors import monitor, monitor_registry 
+from pipeline_monitors import pipeline_monitor as monitor
+from pipeline_monitors import pipeline_monitor_registry as monitor_registry
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 
 define('PIPELINE_MODEL_TYPE', default='', help='model type', type=str)
