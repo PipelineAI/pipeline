@@ -43,7 +43,7 @@ RUN \
 #   if/when the base Docker image changes TF version.
 # When the base Docker image changes TF version, be sure
 #   to propagate this change to the following:
-#     src/main/python/model_server/requirements/python3/requirements_pipeline_model_server.txt
+#     src/main/python/model_server/requirements/python/requirements_pipeline_model_server.txt
 RUN \
   pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
   && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl

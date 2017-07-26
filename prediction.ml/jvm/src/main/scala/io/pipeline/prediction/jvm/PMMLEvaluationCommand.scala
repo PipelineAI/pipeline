@@ -12,10 +12,8 @@ import com.netflix.hystrix.HystrixCommandProperties
 import com.netflix.hystrix.HystrixThreadPoolKey
 import com.netflix.hystrix.HystrixThreadPoolProperties
 
-class PMMLEvaluationCommand(commandName: String, 
-                            namespace: String, 
-                            pmmlName: String, 
-                            version: String,
+class PMMLEvaluationCommand(modelType: String, 
+                            modelName: String,                             
                             modelEvaluator: Evaluator, 
                             inputs: Map[String, Any], 
                             fallback: String, 
@@ -24,9 +22,9 @@ class PMMLEvaluationCommand(commandName: String,
                             rejectionThreshold: Int)
     extends HystrixCommand[String](
       HystrixCommand.Setter
-        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandName))
-        .andCommandKey(HystrixCommandKey.Factory.asKey(commandName))
-        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(commandName))
+        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(modelType + "_" + modelName))
+        .andCommandKey(HystrixCommandKey.Factory.asKey(modelType + "_" + modelName))
+        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(modelType + "_" + modelName))
         .andCommandPropertiesDefaults(
           HystrixCommandProperties.Setter()
            .withExecutionTimeoutInMilliseconds(timeout)
@@ -59,7 +57,7 @@ class PMMLEvaluationCommand(commandName: String,
       val targetField = modelEvaluator.getTargetFields().asScala(0)
       val targetValue = results.get(targetField.getName)
 
-      s"""[{'${targetField.getName}': '${targetValue}'}]"""
+      s"""{"${targetField.getName}": "${targetValue}"}"""
     } catch { 
        case e: Throwable => {
          // System.out.println(e) 
@@ -71,6 +69,6 @@ class PMMLEvaluationCommand(commandName: String,
   override def getFallback(): String = {
     // System.out.println("PMML Evaluator is Down!  Fallback!!")
 
-    s"""${fallback}"""
+    s"${fallback}"
   }
 }

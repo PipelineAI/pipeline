@@ -10,14 +10,14 @@
 ## Setup `pipeline-ai-cli` 
 Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```bash
-pip3 install --ignore-installed --no-cache -U pipeline-ai-cli>=0.4
+pip3 install --ignore-installed --no-cache -U pipeline-ai-cli>=0.8
 ```
 ```
 pipeline init
 ```
 
 ## Supported Model Types 
-[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), spark, xgboost, r
+[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), spark, xgboost, r
 
 More [samples](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/) coming soon for spark, xgboost, and r.
 
@@ -81,7 +81,7 @@ pipeline model-predict --model-server-url=http://localhost:6969 \
 **Perform 100 Predictions in Parallel**
 ```
 pipeline model-predict --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./samples/tensorflow/mnist/data/test_request.json \
+                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
                        --concurrency=100 \
                        --model-type=tensorflow \
                        --model-name=mnist \

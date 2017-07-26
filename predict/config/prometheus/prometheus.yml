@@ -9,7 +9,7 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-  - job_name: 'model_server_python3'
+  - job_name: 'model_server_python'
     static_configs:
       - targets: ['localhost:10254']
 

@@ -3,7 +3,7 @@ os.environ['KERAS_BACKEND'] = 'theano'
 os.environ['THEANO_FLAGS'] = 'floatX=float32,device=cpu'
 
 import cloudpickle as pickle
-import pipeline_model 
+import pipeline_predict
 import pandas as pd
 import numpy as np
 import keras
@@ -40,4 +40,4 @@ if __name__ == '__main__':
     model_pkl_path = 'model.pkl' 
 
     with open(model_pkl_path, 'wb') as fh:
-        pickle.dump(pipeline_model, fh)
+        pickle.dump(pipeline_predict, fh)

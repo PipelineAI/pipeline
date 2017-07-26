@@ -20,7 +20,7 @@ start_model_training_tensorflow() {
     cd /root
 }
 
-start_model_training_python3() {
+start_model_training_python() {
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
@@ -39,7 +39,7 @@ start_model_training_python3() {
     echo ""
 }
 
-start_model_serving_python3 () {
+start_model_serving_python () {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
@@ -57,7 +57,7 @@ start_model_serving_python3 () {
 
     cd $PIPELINE_MODEL_PATH \
       && PYTHONPATH=$PIPELINE_MODEL_PATH:$PYTHONPATH \
-        $PIPELINE_MODEL_SERVER_PATH/model_server_python3.py \
+        $PIPELINE_MODEL_SERVER_PATH/model_server_python.py \
         --PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE \
         --PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME \
         --PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH \
@@ -125,14 +125,14 @@ echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
 echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
 echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
 
-if [[ $PIPELINE_MODEL_TYPE == "python3" ]] ||
+if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
 
   [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
-    && start_model_training_python3
+    && start_model_training_python
 
-  start_model_serving_python3
+  start_model_serving_python
 fi;
 
 if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
@@ -140,7 +140,7 @@ if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
     && start_model_training_tensorflow
 
   start_tensorflow_serving_in_background 
-  start_model_serving_python3
+  start_model_serving_python
 fi;
 
 if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||
