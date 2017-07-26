@@ -1,20 +1,22 @@
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 from timeit import default_timer
 
-REGISTRY = CollectorRegistry()
+__version__ = "0.6"
 
-__version__ = "0.5"
+prometheus_monitor_registry = CollectorRegistry()
 
-class PrometheusMonitor(object):
+class prometheus_monitor(object):
+
+    # Interface for 'with' scope context manager
     def __init__(self,
                  labels: dict,
-                 action: str,
-                 description: str):
+                 name: str):
         self._labels = labels
-        self._counter = Counter('%s_counter' % action, description, list(labels.keys()))
-        self._summary = Summary('%s_summary' % action, description, list(labels.keys()))
-        REGISTRY.register(self._counter)
-        REGISTRY.register(self._summary)        
+        self._name = name
+        self._counter = Counter('%s_counter' % self._name, self._name, list(self._labels.keys()))
+        self._summary = Summary('%s_summary' % self._name, self._name, list(self._labels.keys()))
+        prometheus_monitor_registry.register(self._counter)
+        prometheus_monitor_registry.register(self._summary)        
 
     def __enter__(self, *args, **kwargs):
         self._counter.labels(*list(self._labels.values())).inc()
@@ -22,3 +24,15 @@ class PrometheusMonitor(object):
 
     def __exit__(self, *args, **kwargs):
         self._summary.labels(*list(self._labels.values())).observe(max(default_timer() - self._start, 0))
+
+
+    # Interface for decorator
+    def __call__(self, function, *args):
+
+        def wrapped_function(*args):
+            self.__enter__(*args)
+            response = function(*args)
+            self.__exit__(*args)
+            return response
+
+        return wrapped_function
