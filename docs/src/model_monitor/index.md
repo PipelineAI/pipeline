@@ -9,7 +9,13 @@ In addition, PipelineAI provides dashboards for real-time prediction metrics inc
 
 ## Example Dashboards
 
-### Stabilize the Cluster
+### Monitor and Optimize Model Training
+
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
+
+![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui-2.png)
+
+### Stabilize the Model Server Cluster
 Unhealthy or latent model servers may open a [circuit](https://www.infoq.com/interviews/Building-Resilient-Systems-Michael-Nygard), respond with a suitable fallback, and allow the cluster to stabilize.
 
 ![Stabilize the Cluster](/img/hystrix-example-600x306.png)
