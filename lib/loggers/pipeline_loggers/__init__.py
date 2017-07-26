@@ -2,7 +2,7 @@ from logging import Logger
 from datetime import datetime
 import json
 
-__version__ = "0.5"
+__version__ = "0.6"
 
 # TODO:  Handle batched inputs and outputs (using above custom fn's - match inputs to outputs!)
 # TODO:  Add Monitors around these calls!!
