@@ -40,7 +40,7 @@ pipeline model-package --package-type=docker \
 
 ## Start Docker-based Model Package
 ```
-pipeline model-start --memory_limit=2G \
+pipeline model-start --memory-limit=2G \
                      --model-type=tensorflow \
                      --model-name=mnist \
                      --model-tag=master
