@@ -17,9 +17,9 @@ pipeline init
 ```
 
 ## Supported Model Types 
-[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/samples/pmml/), spark, xgboost, r
+[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python3](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python3/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), spark, xgboost, r
 
-More samples coming soon!
+More [samples](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/) coming soon for spark, xgboost, and r.
 
 ## Clone this Repo and 
 ```
