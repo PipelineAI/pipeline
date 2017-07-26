@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.4"
+__version__ = "0.8"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -93,8 +93,8 @@ class PipelineCli(object):
                          'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
 
-    _kube_deploy_template_registry = {'predict': (['predict/templates/model-deploy.yaml.template'], [])}
-    _kube_svc_template_registry = {'predict': (['predict/templates/model-svc.yaml.template'], [])}
+    _kube_deploy_template_registry = {'predict': (['templates/model-deploy.yaml.template'], [])}
+    _kube_svc_template_registry = {'predict': (['templates/model-svc.yaml.template'], [])}
 
     def _get_default_pipeline_api_version(self):
         return 'v1'
@@ -560,14 +560,15 @@ class PipelineCli(object):
         print("")
 
 
+    # TODO:  make package_path more clear (ie docker package, tar.gz package)
     def model_package(self,
                       model_type=None,
                       model_name=None,
                       model_path=None,
                       model_chip='cpu',
+                      model_tag='master',
                       package_type='docker',
-                      package_path='.',
-                      package_tag='master'):
+                      package_path='.'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -578,13 +579,13 @@ class PipelineCli(object):
         if not model_path:
             model_path = self._get_full_config()['model_path']
 
-        model_path = os.path.expandvars(model_path)
-        model_path = os.path.expanduser(model_path)
-        model_path = os.path.abspath(model_path)
+        #model_path = os.path.expandvars(model_path)
+        #model_path = os.path.expanduser(model_path)
+        #model_path = os.path.abspath(model_path)
 
-        package_path = os.path.expandvars(package_path)
-        package_path = os.path.expanduser(package_path)
-        package_path = os.path.abspath(package_path)
+        #package_path = os.path.expandvars(package_path)
+        #package_path = os.path.expanduser(package_path)
+        #package_path = os.path.abspath(package_path)
 
         if package_type == 'docker':
             if model_chip == 'gpu':
@@ -593,34 +594,36 @@ class PipelineCli(object):
                 docker_cmd = 'docker'
 
             # TODO:  Incorporate model_path
-            cmd = '%s build -t fluxcapacitor/%s-%s-%s:%s \
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s \
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
-                     --build-arg model_chip=%s \
                      --build-arg model_path=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, package_tag, model_type, model_name, model_chip, model_path, package_path)
+                     --build-arg model_chip=%s \
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, model_chip, package_path)
 
             print(cmd)
             print("")
             process = subprocess.call(cmd, shell=True)
 
-            # TODO:  Implement jinja templating 
-            #template = Template('Hello {{ name }}!')
-            #template.render(name='John Doe')
-            model_predict_deploy_yaml_template_path = _kube_deploy_template_registry['model-predict']
-            model_predict_svc_yaml_template_path = _kube_svc_template_registry['model-predict']
-            # TODO:  
+            model_predict_deploy_yaml_template_path = os.path.join(package_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
+            model_predict_svc_yaml_template_path = os.path.join(package_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
 
+            #deploy_yaml_template = Template(model_predict_deploy_yaml_template_path)
+            #deploy_yaml_rendered = deloy_yaml_template.render()
+
+            #svc_yaml_template = Template(model_predict_svc_yaml_template_path)
+            #svc_yaml_rendered = svc_yaml_template.render()
         else:
             self._model_package_tar(model_type,
                                     model_name,
                                     model_path,
-                                    package_path,
-                                    package_tag)  
+                                    model_tag,
+                                    package_path)  
 
     def model_shell(self,
                     model_type=None,
                     model_name=None,
+                    model_tag='master',
                     model_chip='cpu'):
 
         if not model_type:
@@ -634,15 +637,17 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s exec -it %s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip)
-
+        cmd = '%s exec -it predict-%s-%s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        print(cmd)
+        print("")
         process = subprocess.call(cmd, shell=True)
 
 
     def model_push(self,
                    model_type=None,
                    model_name=None,
-                   model_chip='cpu'):
+                   model_chip='cpu',
+                   model_tag='master'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -650,12 +655,15 @@ class PipelineCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
+        if not model_tag:
+            model_tag = self._get_full_config()['model_tag']
+
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s push fluxcapacitor/%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s push fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
         process = subprocess.call(cmd, shell=True)
 
 
@@ -664,7 +672,8 @@ class PipelineCli(object):
                     model_type=None,
                     model_name=None,
                     model_chip='cpu',
-                    memory='2G'):
+                    model_tag='master',
+                    memory_limit='2G'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -672,15 +681,19 @@ class PipelineCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
+        if not model_tag:
+            model_tag = self._get_full_config()['model_tag']
+
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=%s-%s-%s \
-               -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s \
+               -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 \
+               -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
                -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
-               fluxcapacitor/%s-%s-%s:master' % (docker_cmd, model_type, model_name, model_chip, memory, model_type, model_name, model_type, model_name, model_chip)
+               fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -689,7 +702,8 @@ class PipelineCli(object):
                    package_type='docker',
                    model_type=None,
                    model_name=None,
-                   model_chip='cpu'):
+                   model_chip='cpu',
+                   model_tag='master'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -697,12 +711,15 @@ class PipelineCli(object):
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
+        if not model_tag:
+            model_tag = self._get_full_config()['model_tag']
+
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s rm -f %s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s rm -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -711,20 +728,24 @@ class PipelineCli(object):
                    package_type='docker',
                    model_type=None,
                    model_name=None,
-                   model_chip='cpu'):
-
+                   model_chip='cpu',
+                   model_tag='master'):
+          
         if not model_type:
             model_type = self._get_full_config()['model_type']
 
         if not model_name:
             model_name = self._get_full_config()['model_name']
 
+        if not model_tag:
+            model_tag = self._get_full_config()['model_tag']
+
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s logs -f %s-%s-%s' % (docker_cmd, model_type, model_name, model_chip)
+        cmd = '%s logs -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -861,9 +882,9 @@ class PipelineCli(object):
                            model_type,
                            model_name,
                            model_path,
+                           model_tag,
                            package_path,
                            package_name,
-                           package_tag='master',
                            filemode='w',
                            compression='gz'):
 
@@ -877,7 +898,7 @@ class PipelineCli(object):
        
         package_absolute_path = os.path.join(package_path, package_name) 
 
-        # TODO:  Incorporate package_tag if relevant
+        # TODO:  Incorporate model_tag if relevant
         with tarfile.open(package_absolute_path, '%s:%s' % (filemode, compression)) as tar:
             tar.add(model_path, arcname='.', filter=self._filter_tar)
 
@@ -933,11 +954,12 @@ class PipelineCli(object):
 
 
     def _model_deploy(self,
-                     model_server_url=None,
-                     model_type=None,
-                     model_name=None,
-                     model_path='.',
-                     timeout=60):
+                      model_server_url=None,
+                      model_type=None,
+                      model_name=None,
+                      model_path='.',
+                      model_tag='master',
+                      timeout=60):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -977,6 +999,15 @@ class PipelineCli(object):
                 print("")
                 return
 
+        if not model_tag:
+            try:
+                model_tag = self._get_full_config()['model_tag']
+            except:
+                print("")
+                print("Model needs to be configured with 'pipeline model-init'.")
+                print("")
+                return
+
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
@@ -985,6 +1016,7 @@ class PipelineCli(object):
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
         print('model_path: %s' % model_path)
+        print('model_tag: %s' % model_tag)
 
         if (os.path.isdir(model_path)):
             compressed_model_package_filename = 'pipeline.tar.gz' 
@@ -1050,6 +1082,7 @@ class PipelineCli(object):
                 model_server_url=None,
                 model_type=None,
                 model_name=None,
+                model_tag='master',
                 model_test_request_path=None,
                 model_request_mime_type='application/json',
                 model_response_mime_type='application/json',
@@ -1078,6 +1111,15 @@ class PipelineCli(object):
         if not model_name:
             try:
                 model_name = self._get_full_config()['model_name']
+            except:
+                print("")
+                print("Model needs to be configured with 'pipeline model-init'.")
+                print("")
+                return
+
+        if not model_tag:
+            try:
+                model_tag = self._get_full_config()['model_tag']
             except:
                 print("")
                 print("Model needs to be configured with 'pipeline model-init'.")
@@ -1119,6 +1161,7 @@ class PipelineCli(object):
         print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
+        print('model_tag: %s' % model_tag)
         print('model_test_request_path: %s' % model_test_request_path)
         print('model_request_mime_type: %s' % model_request_mime_type)
         print('model_response_mime_type: %s' % model_response_mime_type)
@@ -1160,6 +1203,7 @@ class PipelineCli(object):
                       model_server_url=None,
                       model_type=None,
                       model_name=None,
+                      model_tag='master',
                       model_test_request_path=None,
                       model_request_mime_type='application/json',
                       model_response_mime_type='application/json'):
@@ -1171,6 +1215,7 @@ class PipelineCli(object):
                 executor.submit(self._predict(model_server_url,
                                               model_type,
                                               model_name,
+                                              model_tag,
                                               model_test_request_path,
                                               model_request_mime_type,
                                               model_response_mime_type))
@@ -1398,7 +1443,7 @@ class PipelineCli(object):
 
 
     def service_logs(self,
-             app_name):
+                     app_name):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -1563,17 +1608,17 @@ class PipelineCli(object):
 
 
     def _get_config_yamls(self, 
-                         app_name):
+                          app_name):
         return [] 
 
 
     def _get_secret_yamls(self, 
-                         app_name):
+                          app_name):
         return []
 
 
     def _get_deploy_yamls(self, 
-                         app_name):
+                          app_name):
         try:
             (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[app_name]
         except:
@@ -1587,7 +1632,7 @@ class PipelineCli(object):
 
 
     def _get_svc_yamls(self, 
-                      app_name):
+                       app_name):
         try:
             (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[app_name]
         except:
@@ -1601,7 +1646,7 @@ class PipelineCli(object):
 
 
     def service_start(self,
-              app_name):
+                      app_name):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -1734,19 +1779,19 @@ class PipelineCli(object):
 
 
     def service_kill(self,
-             app_name):
+                     app_name):
 
         self.service_stop(app_name)
 
 
     def service_delete(self,
-               app_name):
+                       app_name):
 
         self.service_stop(app_name)
 
 
     def service_stop(self,
-             app_name):
+                     app_name):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
