@@ -91,7 +91,7 @@ pipeline model-predict --model-server-url=http://localhost:6969 \
 ### REST API
 **Prediction Inputs**
 
-JSON representation of gray-scale values for **Digit 6**.  ![Digit 6](https://github.com/fluxcapacitor/pipeline/blob/master/predict/samples/tensorflow/mnist/data/6.jpg)
+JSON representation of gray-scale values for **Digit 6**.  ![Digit 6](http://pipeline.io/img/6.jpg)
 
 ```
 curl -X POST -H "Content-Type: application/json" \
