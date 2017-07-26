@@ -65,7 +65,9 @@ def _json_hash_fn(*args):
     return hash(json.dumps(request_json, sort_keys=True))
 
 
-@log_inputs_and_outputs(logger=_logger, labels=_labels, hash_fn=_json_hash_fn) 
+@log_inputs_and_outputs(logger=_logger, 
+                        labels=_labels, 
+                        canonical_inputs_fn=_json_hash_fn) 
 def predict(request: bytes) -> bytes:
     '''Where the magic happens...'''
     with _transform_request_monitor:

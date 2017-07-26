@@ -11,8 +11,9 @@ import cloudpickle as pickle
 from tornado.options import define, options
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 
-define('PIPELINE_MODEL_TYPE', default='', help='prediction model type', type=str)
-define('PIPELINE_MODEL_NAME', default='', help='prediction model name', type=str)
+define('PIPELINE_MODEL_TYPE', default='', help='model type', type=str)
+define('PIPELINE_MODEL_NAME', default='', help='model name', type=str)
+define('PIPELINE_MODEL_PATH', default='', help='model path', type=str)
 define('PIPELINE_MODEL_SERVER_PORT', default='', help='tornado http server listen port', type=int)
 define('PIPELINE_MODEL_SERVER_PROMETHEUS_PORT', default=0, help='port to run the prometheus http metrics server on', type=int)
 define('PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT', default='', help='port to run the prometheus http metrics server on', type=int)
@@ -47,17 +48,10 @@ TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
 
 class Application(tornado.web.Application):
     def __init__(self):
-        handlers = [
-            (r'/healthz', HealthzHandler),
-            (r'/metrics', MetricsHandler),
-            (r'/environment', EnvironmentHandler),
-            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
-            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
-             ModelPredictPython3Handler),
-        ]
         settings = dict(
             model_type=options.PIPELINE_MODEL_TYPE,
             model_name=options.PIPELINE_MODEL_NAME,
+            model_path=options.PIPELINE_MODEL_PATH,
             model_server_port=options.PIPELINE_MODEL_SERVER_PORT,
             model_server_prometheus_server_port=options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT,
             model_server_tensorflow_serving_host='127.0.0.1',
@@ -66,6 +60,14 @@ class Application(tornado.web.Application):
             debug=True,
             autoescape=None,
         )
+        handlers = [
+            (r'/healthz', HealthzHandler),
+            (r'/metrics', MetricsHandler),
+            (r'/environment', EnvironmentHandler),
+            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
+            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+             ModelPredictPython3Handler, dict(model_path=settings['model_path'])),
+        ]
         tornado.web.Application.__init__(self, handlers, **settings)
 
     def fallback(self):
@@ -121,6 +123,8 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 
     _registry = {}
 
+    def initialize(self, model_path):
+        self.model_path = model_path
 
     @tornado.web.asynchronous
     def get(self, model_name):
@@ -159,8 +163,8 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
             LOGGER.info('Model Server get_model_assets if: begin')
             LOGGER.info('Installing model bundle and updating environment: begin')
             try:
-                artifact_name = 'pipeline_model'
-                spec = importlib.util.spec_from_file_location(artifact_name, '/root/model/pipeline_model.py') 
+                artifact_name = 'pipeline_predict'
+                spec = importlib.util.spec_from_file_location(artifact_name, '%s/pipeline_predict.py' % self.model_path) 
                 model = importlib.util.module_from_spec(spec)
                 # Note:  This will initialize all global vars inside of model
                 spec.loader.exec_module(model)
@@ -180,10 +184,11 @@ def main():
         tornado.options.parse_command_line()
         if not (options.PIPELINE_MODEL_TYPE
                 and options.PIPELINE_MODEL_NAME 
+                and options.PIPELINE_MODEL_PATH
                 and options.PIPELINE_MODEL_SERVER_PORT
                 and options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT 
                 and options.PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT):
-            LOGGER.error('--PIPELINE_MODEL_TYPE and --PIPELINE_MODEL_NAME and \
+            LOGGER.error('--PIPELINE_MODEL_TYPE and --PIPELINE_MODEL_NAME and --PIPELINE_MODEL_PATH \
                           --PIPELINE_MODEL_SERVER_PORT and --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT and \
                           --PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT and must be set')
             return

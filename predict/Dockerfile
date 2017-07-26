@@ -1,5 +1,5 @@
 ARG model_chip 
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-$model_chip:master
 # This needs to come after the FROM
 RUN \
   echo $model_chip
@@ -26,11 +26,11 @@ RUN \
 RUN \
   chmod a+wrx /root
 
-#RUN \
-#  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
-#  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-#  && apt-get update \
-#  && apt-get install -y sbt
+RUN \
+  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+  && apt-get update \
+  && apt-get install -y sbt
 
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
 RUN \
@@ -48,9 +48,6 @@ RUN \
   pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
   && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl
 
-#RUN \
-#  conda install -c numba cudatoolkit=8.0
- 
 RUN \
   apt-get install -y nginx 
 
@@ -88,12 +85,12 @@ ENV \
 
 COPY sysutils/ sysutils/
 
-#COPY jvm/ jvm/
-#RUN \
-#  cd jvm && sbt clean clean-files package 
-#RUN \
-#  cd jvm/lib/jni \
-#  && ln -s jvm/lib/jni/libtensorflow_jni-$model_chip.so libtensorflow_jni.so
+COPY jvm/ jvm/
+RUN \
+  cd jvm && sbt clean clean-files package 
+RUN \
+  cd jvm/lib/jni \
+  && ln -s jvm/lib/jni/libtensorflow_jni-$model_chip.so libtensorflow_jni.so
 
 COPY config/ config/
 
