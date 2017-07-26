@@ -6,13 +6,11 @@ from pipeline_monitors import PrometheusMonitor as Monitor
 from pipeline_models import TensorFlowServingModel
 from pipeline_loggers import log_inputs_and_outputs
 
-
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.INFO)
 _handler = logging.StreamHandler()
 _handler.setLevel(logging.INFO)
 _logger.addHandler(_handler)
-
 
 # The public objects from this module, see:
 #    https://docs.python.org/3/tutorial/modules.html#importing-from-a-package
@@ -51,6 +49,7 @@ def _initialize_upon_import() -> TensorFlowServingModel:
 # This is called unconditionally at *module import time*...
 _model = _initialize_upon_import()
 
+def _canonical_inputs_
 
 @log_inputs_and_outputs(logger=_logger,
                         labels=_labels)
