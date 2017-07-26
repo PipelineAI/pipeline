@@ -12,7 +12,7 @@ __all__ = ['predict']
 
 # Performance monitors, a-la prometheus...
 _monitor_labels= {'model_type':'tensorflow',
-                  'model_name':'mnist'}
+                  'model_name':'linear'}
 
 _transform_request_monitor = Monitor(labels=_monitor_labels,
                                     action='transform_request',
@@ -32,7 +32,7 @@ def _initialize_upon_import() -> TensorFlowServingModel:
     '''
     return TensorFlowServingModel(host='localhost', 
                                   port=9000,
-                                  model_name='mnist',
+                                  model_name='linear',
                                   inputs_name='inputs',
                                   outputs_name='outputs',
                                   timeout=100)
@@ -55,10 +55,9 @@ def predict(request: bytes) -> bytes:
 
 
 def _transform_request(request: bytes) -> np.array:
-    print(request)
     request_str = request.decode('utf-8')
     request_json = json.loads(request_str)
-    request_np = ((255 - np.array(request_json['image'], dtype=np.uint8)) / 255.0).reshape(1, 784)
+    request_np = np.asarray([request_json['inputs']])
     return request_np
          
     

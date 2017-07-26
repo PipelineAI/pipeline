@@ -4,8 +4,8 @@ val globalSettings = Seq(
 )
 
 sourcesInBase := false
-scalaSource in Compile := baseDirectory.value / "jvm_src"
-javaSource in Compile := baseDirectory.value / "jvm_src"
+scalaSource in Compile := baseDirectory.value / "src"
+javaSource in Compile := baseDirectory.value / "src"
 
 (unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 (unmanagedClasspath in Compile) += file("lib/dbml-local-0.1.2-spark2.1.jar")

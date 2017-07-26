@@ -83,7 +83,7 @@ start_model_serving_jvm () {
     echo ""
     cd $PIPELINE_MODEL_PATH \
       && java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom \
-        -jar /root/lib/sbt-launch.jar \
+        -jar /root/jvm/lib/sbt-launch.jar \
         "run-main io.pipeline.prediction.jvm.PredictionServiceMain"
 }
 

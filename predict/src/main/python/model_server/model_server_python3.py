@@ -50,7 +50,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/healthz', HealthzHandler),
             (r'/metrics', MetricsHandler),
-            (r'/env', EnvionmentHandler),
+            (r'/environment', EnvironmentHandler),
             # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
             (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelPredictPython3Handler),

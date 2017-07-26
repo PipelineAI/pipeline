@@ -1,10 +1,10 @@
 ARG model_chip 
-
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-$model_chip:master
-
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-$model_chip:master
 # This needs to come after the FROM
 RUN \
   echo $model_chip
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 WORKDIR /root
 
@@ -26,11 +26,11 @@ RUN \
 RUN \
   chmod a+wrx /root
 
-RUN \
-  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-  && apt-get update \
-  && apt-get install -y sbt
+#RUN \
+#  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+#  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+#  && apt-get update \
+#  && apt-get install -y sbt
 
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
 RUN \
@@ -48,8 +48,8 @@ RUN \
   pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
   && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl
 
-RUN \
-  conda install -c numba cudatoolkit=8.0
+#RUN \
+#  conda install -c numba cudatoolkit=8.0
  
 RUN \
   apt-get install -y nginx 
@@ -86,18 +86,14 @@ RUN \
 ENV \
   LOGS_HOME=/root/logs
 
-COPY lib/ lib/
-RUN \
-  cd ~/lib/jni \
-  && ln -s ~/lib/jni/libtensorflow_jni-$arch.so libtensorflow_jni.so
-
 COPY sysutils/ sysutils/
 
-COPY jvm_src/ jvm_src/
-COPY build.sbt build.sbt
-
-RUN \
-  sbt clean clean-files package 
+#COPY jvm/ jvm/
+#RUN \
+#  cd jvm && sbt clean clean-files package 
+#RUN \
+#  cd jvm/lib/jni \
+#  && ln -s jvm/lib/jni/libtensorflow_jni-$model_chip.so libtensorflow_jni.so
 
 COPY config/ config/
 
@@ -120,11 +116,6 @@ COPY src/ src/
 
 ENV \
   PIPELINE_MODEL_SERVER_PATH=/root/src/main/python/model_server
-
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
-RUN \
-  apt-get update
 
 RUN \
   apt-get install -y erlang erlang-ssl erlang-inets erlang-dev \
@@ -183,17 +174,31 @@ RUN \
 ENV \
   PIPELINE_MODEL_NAME=$model_name
 
+ARG model_tag
+RUN \
+  echo $model_tag
+
 ARG model_path
 RUN \
   echo $model_path
 ENV \
   PIPELINE_MODEL_PATH=/root/model
 
-# Note:  If $model_path is a tar.gz file, the ADD command will untar/unzip the tar.gz file in $PIPELINE_MODEL_PATH.
-#        Otherwise, it will copy the entire $model_path directory into $PIPELINE_MODEL_PATHi.
-#        Note:  $model_path can point to a specific *directory* within a Github Repo.  More details @ pipeline.io.
-# TODO:  Handle S3?  Or expect s3fuse to have been mounted on file system.
-ADD $model_path $PIPELINE_MODEL_PATH 
+RUN \
+  pip install awscli
+
+COPY $model_path $PIPELINE_MODEL_PATH
+#RUN \
+#  if [[ $model_path == "http:"* ]] || [[ $model_path == "https:"* ]]; then \
+#    wget -r -e --no-parent -O $PIPELINE_MODEL_PATH $model_path; \
+#  fi 
+
+#RUN \
+#  if [[ $model_path == "s3:"* ]]; then \
+#    aws s3 cp --no-sign-request --recursive \
+#      $model_path \
+#      $PIPELINE_MODEL_PATH; \
+#  fi 
 
 ENV \
   PIPELINE_CONDA_ENV_NAME=pipeline
@@ -236,7 +241,7 @@ RUN \
   chmod a+wr -R /root/model 
 
 RUN \
-  conda -n $PIPELINE_CONDA_ENV_NAME list 
+  conda list -n $PIPELINE_CONDA_ENV_NAME
 
 USER appuser
 
