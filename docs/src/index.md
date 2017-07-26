@@ -1,6 +1,6 @@
 ![PipelineAI](/img/logo/pipelineai-split-black-flux-128x128.png)
 
-## Recent News
+## PipelineAI In The News!
 (July 2017) PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/gWgy3EdDObQ" frameborder="0" allowfullscreen></iframe>
