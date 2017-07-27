@@ -32,16 +32,16 @@ git clone https://github.com/fluxcapacitor/pipeline
 cd pipeline/predict
 ```
 
-## Package Model into Docker Image
+## Build Model into Docker Image
 Note:  The `--model-path` currently must be **relative** to the `pipeline/predict` directory.
 ```
-pipeline model-package --model-type=tensorflow \
-                       --model-name=mnist \
-                       --model-tag=master \
-                       --model-path=./models/tensorflow/mnist
+pipeline model-build --model-type=tensorflow \
+                     --model-name=mnist \
+                     --model-tag=master \
+                     --model-path=./models/tensorflow/mnist
 ```
 
-## Start Docker-based Model Package
+## Start Docker-based Model 
 ```
 pipeline model-start --model-type=tensorflow \
                      --model-name=mnist \
@@ -134,7 +134,7 @@ Use `http://localhost:9090` for the Prometheus data source within your Grafana D
 http://localhost:3000/
 ```
 
-## Stop Docker-based Model Package
+## Stop Docker-based Model 
 ```
 pipeline model-stop --model-type=tensorflow \
                     --model-name=mnist \
