@@ -202,7 +202,7 @@ class PipelineCli(object):
         print("")
 
 
-    def service_list(self):
+    def services(self):
         self.cluster_view()
 
 
@@ -267,14 +267,14 @@ class PipelineCli(object):
 
 
     # TODO:  Start an airflow job
-    def job_flow(self,
+    def _job_flow(self,
              flow_name):
         print("")
         print("Submit airflow coming soon!")
 
 
     # TODO:  Submit a spark job
-    def job_submit(self,
+    def _job_submit(self,
                replicas):
         print("Submit spark job coming soon!")
 
@@ -282,11 +282,11 @@ class PipelineCli(object):
     def top(self,
             app_name=None):
 
-        self.metrics_system(app_name)
+        self._system_view(app_name)
 
 
-    def metrics_system(self,
-               app_name=None):
+    def _system_view(self,
+                     app_name=None):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -352,14 +352,14 @@ class PipelineCli(object):
         print("")
 
 
-    def cluster_join(self,
-             federation):
+    def _cluster_join(self,
+                      federation):
         print("")
         print("Federation joining coming soon!")
         print("")
 
 
-    def cluster_up(self,
+    def _cluster_up(self,
            provider='aws',
            ssh_public_key='~/.ssh/id_rsa.pub',
            initial_worker_count='1',
@@ -400,7 +400,7 @@ class PipelineCli(object):
             return
            
 
-    def kops_init(self,
+    def _kops_init(self,
                   kops_cluster_name,
                   kops_state_store):
         config_dict = {'kops_cluster_name': kops_cluster_name,
@@ -411,7 +411,7 @@ class PipelineCli(object):
         print("")
 
        
-    def instancegroup_list(self):
+    def _instancegroups(self):
         try:
             kops_cluster_name = self._get_full_config()['kops_cluster_name']
             kops_state_store = self._get_full_config()['kops_state_store']
@@ -425,7 +425,7 @@ class PipelineCli(object):
             return
 
 
-    def cluster_list(self):
+    def clusters(self):
         try:
             kops_cluster_name = self._get_full_config()['kops_cluster_name']
             kops_state_store = self._get_full_config()['kops_state_store']
@@ -439,7 +439,7 @@ class PipelineCli(object):
             return
  
 
-    def federation_list(self):
+    def _federations(self):
         try:
             kops_cluster_name = self._get_full_config()['kops_cluster_name']
             kops_state_store = self._get_full_config()['kops_state_store']
@@ -453,7 +453,7 @@ class PipelineCli(object):
             return
 
 
-    def secret_list(self):
+    def secrets(self):
         try:
             kops_cluster_name = self._get_full_config()['kops_cluster_name']
             kops_state_store = self._get_full_config()['kops_state_store']
@@ -618,8 +618,8 @@ class PipelineCli(object):
                       model_tag,
                       model_chip='cpu',
                       package_path='.',
-                      memory_limit='2000m',
-                      cpu_limit='4000Mi'):
+                      memory_limit='2G',
+                      cpu_limit='4000m'):
         model_predict_deploy_yaml_template_path = os.path.join(package_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
         model_predict_svc_yaml_template_path = os.path.join(package_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
 
@@ -1381,7 +1381,7 @@ class PipelineCli(object):
             print(app)
 
 
-    def node_list(self):
+    def nodes(self):
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
         try:
@@ -1553,7 +1553,7 @@ class PipelineCli(object):
                 print("") 
 
 
-    def volume_list(self):
+    def volumes(self):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -1670,8 +1670,8 @@ class PipelineCli(object):
         return svc_yamls
 
 
-    def service_start(self,
-                      app_name):
+    def service_create(self,
+                       app_name):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
 
@@ -1705,7 +1705,7 @@ class PipelineCli(object):
         secret_yaml_filenames = [] 
         deploy_yaml_filenames = []
         svc_yaml_filenames = [] 
-       
+        
         config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(app_name)
         secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(app_name)
         deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(app_name)
@@ -1803,19 +1803,13 @@ class PipelineCli(object):
         print("")
 
 
-    def service_kill(self,
-                     app_name):
-
-        self.service_stop(app_name)
-
-
     def service_delete(self,
                        app_name):
 
         self.service_stop(app_name)
 
 
-    def service_stop(self,
+    def _service_stop(self,
                      app_name):
 
         pipeline_api_version = self._get_full_config()['pipeline_api_version']
