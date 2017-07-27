@@ -242,6 +242,9 @@ class PredictionService {
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
+          
+          // TODO:  Make sure the bundle contains a file called model.pmml!
+
           val fis = new java.io.FileInputStream(s"${parentDir}/model.pmml")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
@@ -293,6 +296,9 @@ class PredictionService {
 
       val modelEvaluator = modelEvaluatorOption match {
         case None => {     
+          
+          // TODO:  Make sure the bundle contains a file called model.r!
+          
           val fis = new java.io.FileInputStream(s"${parentDir}/model.r")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
@@ -394,7 +400,10 @@ class PredictionService {
       val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
       val modelEvaluator = modelEvaluatorOption match {
-        case None => {     
+        case None => {   
+          
+          // TODO:  Make sure the bundle contains a file called model.xgboost!
+          
           val fis = new java.io.FileInputStream(s"${parentDir}/model.xgboost")
           val transformedSource = ImportFilter.apply(new InputSource(fis))
   
