@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.8"
+__version__ = "0.9"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -598,8 +598,7 @@ class PipelineCli(object):
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
                      --build-arg model_path=%s \
-                     --build-arg model_chip=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, model_chip, package_path)
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, package_path)
 
             print(cmd)
             print("")
@@ -1199,7 +1198,7 @@ class PipelineCli(object):
 
 
     def model_predict(self,
-                      concurrency=1,
+                      model_test_request_concurrency=1,
                       model_server_url=None,
                       model_type=None,
                       model_name=None,
@@ -1210,8 +1209,8 @@ class PipelineCli(object):
 
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
-        with ThreadPoolExecutor(max_workers=concurrency) as executor:
-            for _ in range(concurrency):
+        with ThreadPoolExecutor(max_workers=model_test_request_concurrency) as executor:
+            for _ in range(model_test_request_concurrency):
                 executor.submit(self._predict(model_server_url,
                                               model_type,
                                               model_name,
