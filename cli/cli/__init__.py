@@ -24,7 +24,7 @@ from pprint import pprint
 import subprocess
 from datetime import timedelta
 import importlib.util
-from jinja2 import Template
+import jinja2
 
 class PipelineCli(object):
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
@@ -94,8 +94,8 @@ class PipelineCli(object):
                          'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
 
-    _kube_deploy_template_registry = {'predict': (['templates/model-deploy.yaml.template'], [])}
-    _kube_svc_template_registry = {'predict': (['templates/model-svc.yaml.template'], [])}
+    _kube_deploy_template_registry = {'predict': (['templates/predict-deploy.yaml.template'], [])}
+    _kube_svc_template_registry = {'predict': (['templates/predict-svc.yaml.template'], [])}
 
     def _get_default_pipeline_api_version(self):
         return 'v1'
@@ -605,14 +605,6 @@ class PipelineCli(object):
             print("")
             process = subprocess.call(cmd, shell=True)
 
-            model_predict_deploy_yaml_template_path = os.path.join(package_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
-            model_predict_svc_yaml_template_path = os.path.join(package_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
-
-            #deploy_yaml_template = Template(model_predict_deploy_yaml_template_path)
-            #deploy_yaml_rendered = deloy_yaml_template.render()
-
-            #svc_yaml_template = Template(model_predict_svc_yaml_template_path)
-            #svc_yaml_rendered = svc_yaml_template.render()
         else:
             self._model_package_tar(model_type,
                                     model_name,
@@ -620,6 +612,39 @@ class PipelineCli(object):
                                     model_tag,
                                     package_path)  
 
+    def model_prepare(self,
+                      model_type,
+                      model_name,
+                      model_tag,
+                      model_chip='cpu',
+                      package_path='.',
+                      memory_limit='2000m',
+                      cpu_limit='4000Mi'):
+        model_predict_deploy_yaml_template_path = os.path.join(package_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
+        model_predict_svc_yaml_template_path = os.path.join(package_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
+
+        context = {'PIPELINE_MODEL_TYPE': model_type,
+                   'PIPELINE_MODEL_NAME': model_name,
+                   'PIPELINE_MODEL_CHIP': model_chip,
+                   'PIPELINE_MODEL_TAG': model_tag,
+                   'PIPELINE_CPU_LIMIT': cpu_limit,
+                   'PIPELINE_MEMORY_LIMIT': memory_limit}
+
+        path, filename = os.path.split(model_predict_deploy_yaml_template_path)
+        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
+        print(rendered)
+
+        path, filename = os.path.split(model_predict_svc_yaml_template_path)
+        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
+        print(rendered)
+
+        #deploy_yaml_template = Template(model_predict_deploy_yaml_template_path)
+        #deploy_yaml_rendered = deloy_yaml_template.render()
+
+        #svc_yaml_template = Template(model_predict_svc_yaml_template_path)
+        #svc_yaml_rendered = svc_yaml_template.render()
+                      
+                       
     def model_shell(self,
                     model_type=None,
                     model_name=None,

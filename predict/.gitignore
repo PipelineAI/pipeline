@@ -1,3 +1,5 @@
+*-deploy.yaml
+*-svc.yaml
 target/
 *.tar.gz
 /eclipse-generated/
