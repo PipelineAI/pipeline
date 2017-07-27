@@ -10,4 +10,4 @@ dependencies:
   - scikit-learn=0.18.2
   - ujson=1.35=py36_0
   - pip:
-    - pipeline-runtimes>=0.8
+    - pipeline-runtimes>=0.9

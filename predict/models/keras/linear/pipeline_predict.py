@@ -54,12 +54,12 @@ def _numpy_to_json(response: np.array) -> bytes:
     return json.dumps(response.tolist())
 
 
-@monitor(labels=_labels, name="predict")
 @log(labels=_labels, logger=_logger)
 def predict(request: bytes) -> bytes:
     '''Where the magic happens...'''
     transformed_request = _json_to_numpy(request)
 
-    predictions = _model.predict(transformed_request)
+    with monitor(labels=_labels, name="predict"):
+        predictions = _model.predict(transformed_request)
 
     return _numpy_to_json(predictions)
