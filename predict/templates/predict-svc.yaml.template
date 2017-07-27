@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
+  labels:
+    app: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
+spec:
+  type: LoadBalancer
+  ports:
+  - name: nginx 
+    port: 6969 
+    targetPort: 6969
+  - name: nginx_canary
+    port: 7070
+    targetPort: 7070
+  - name: model_server_python 
+    port: 9876
+    targetPort: 9876
+  - name: model_server_python_canary
+    port: 9877
+    targetPort: 9877
+  - name: tensorflow_serving 
+    port: 9000
+    targetPort: 9000
+  - name: tensorflow_serving_canary
+    port: 9001
+    targetPort: 9001
+  - name: model_server_python_prometheus
+    port: 10254
+    targetPort: 10254
+  - name: model_server_python_prometheus_canary
+    port: 10255
+    targetPort: 10255
+  - name: model_server_jvm
+    port: 9040
+    targetPort: 9040
+  - name: prometheus 
+    port: 9090
+    targetPort: 9090
+  - name: grafana 
+    port: 3000
+    targetPort: 3000
+  - name: guild
+    port: 6333
+    targetPort: 6333
+  selector:
+    app: {{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
