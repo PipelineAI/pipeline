@@ -1,4 +1,4 @@
-package io.pipeline.prediction.jvm
+package io.pipeline.predict.jvm
 
 import scala.collection.JavaConverters.collectionAsScalaIterableConverter
 

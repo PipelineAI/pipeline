@@ -78,14 +78,15 @@ start_model_serving_jvm () {
 
     export JAVA_MAX_MEM_RATIO=85
     export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
-
+    echo ""
+    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
     echo ""
     echo "Starting JVM-based Model Serving..."
     echo ""
-    cd $PIPELINE_MODEL_PATH \
+    cd $PIPELINE_JVM_MODEL_SERVER_PATH \
       && java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom \
         -jar /root/jvm/lib/sbt-launch.jar \
-        "run-main io.pipeline.prediction.jvm.PredictionServiceMain"
+        "run-main io.pipeline.predict.jvm.PredictionServiceMain"
 }
 
 start_tensorflow_serving_in_background () {

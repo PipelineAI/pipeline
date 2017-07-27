@@ -1,10 +1,10 @@
-ARG model_chip 
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-$model_chip:master
+#ARG model_chip 
+FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-cpu:master
 # This needs to come after the FROM
-RUN \
-  echo $model_chip
+#RUN \
+#  echo $model_chip
 ENV \
-  PIPELINE_MODEL_CHIP=$model_chip
+  PIPELINE_MODEL_CHIP=cpu
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -87,12 +87,14 @@ ENV \
 
 COPY sysutils/ sysutils/
 
+ENV \
+  PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
 COPY jvm/ jvm/
 RUN \
-  cd jvm && sbt clean clean-files package 
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt clean-files package
 RUN \
-  cd jvm/lib/jni \
-  && ln -s jvm/lib/jni/libtensorflow_jni-$model_chip.so libtensorflow_jni.so
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
+  && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
 
 COPY config/ config/
 
@@ -203,33 +205,37 @@ ENV \
   PIPELINE_CONDA_ENV_NAME=pipeline
 
 RUN \
-  echo "" \
-  && echo "Creating and Activating '$PIPELINE_CONDA_ENV_NAME' Conda Environment with '$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME' Model Dependencies with '$PIPELINE_MODEL_PATH/pipeline_conda_environment.yml'..." \
-  && echo "" \
-  && conda env create --name $PIPELINE_CONDA_ENV_NAME \
-    --file $PIPELINE_MODEL_PATH/pipeline_conda_environment.yml \
-  && echo "" \
-  && echo "...Created and Activated!" \
-  && echo ""
+  if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
+     [[ $PIPELINE_MODEL_TYPE == "keras" ]] || \
+     [[ $PIPELINE_MODEL_TYPE == "scikit" ]] || \
+     [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
+       echo "" \
+       && echo "Creating and Activating '$PIPELINE_CONDA_ENV_NAME' Conda Environment with '$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME' Model Dependencies with '$PIPELINE_MODEL_PATH/pipeline_conda_environment.yml'..." \
+       && echo "" \
+       && conda env create --name $PIPELINE_CONDA_ENV_NAME \
+         --file $PIPELINE_MODEL_PATH/pipeline_conda_environment.yml \
+       && echo "" \
+       && echo "...Created and Activated!" \
+       && echo "" \
+       && echo "" \
+       && echo "Installing Model Server Dependencies..." \
+       && echo "" \
+       && conda env update --name $PIPELINE_CONDA_ENV_NAME \ 
+         --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
+       && echo "" \
+       && echo "...Model Server Dependencies Installed!" \
+       && echo ""; \
+  fi
 
+# Guild/TensorFlow Requirements
 RUN \
-  echo "" \
-  && echo "Installing Model Server Dependencies..." \
-  && echo "" \
-  && conda env update --name $PIPELINE_CONDA_ENV_NAME \ 
-    --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
-  && echo "" \
-  && echo "...Model Server Dependencies Installed!" \
-  && echo "" 
-
-# Guild Requirements
-RUN \
-  source activate $PIPELINE_CONDA_ENV_NAME \
-  && pip install psutil
-
-RUN \
-  source activate $PIPELINE_CONDA_ENV_NAME \
-  && pip2 install tensorflow==1.2.0
+  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
+      source activate $PIPELINE_CONDA_ENV_NAME \
+      && pip install psutil \
+      && source activate $PIPELINE_CONDA_ENV_NAME \
+      && pip2 install tensorflow==1.2.0 \
+      && conda list -n $PIPELINE_CONDA_ENV_NAME; \
+  fi
 
 ENV SHELL=/bin/bash
 RUN \
@@ -237,10 +243,9 @@ RUN \
   && chmod a+wr -R /root/.cache/pip
 
 RUN \
-  chmod a+wr -R /root/model 
-
-RUN \
-  conda list -n $PIPELINE_CONDA_ENV_NAME
+  chmod a+wr -R /root/model \
+  && chmod a+wr -R /root/.ivy2 \
+  && chmod a+wr -R /root/.sbt
 
 USER appuser
 

@@ -1,4 +1,4 @@
-package io.pipeline.prediction.jvm
+package io.pipeline.predict.jvm
 
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream

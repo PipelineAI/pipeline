@@ -1,4 +1,4 @@
-package io.pipeline.prediction.jvm
+package io.pipeline.predict.jvm
 
 import java.io.InputStream
 import java.nio.file.Files
@@ -49,7 +49,7 @@ import java.nio.file.Path
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector	
 class PredictionService {
-  HystrixPrometheusMetricsPublisher.register("prediction_jvm")
+  HystrixPrometheusMetricsPublisher.register("predict")
   new StandardExports().register()
 
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]
@@ -117,16 +117,14 @@ class PredictionService {
       -d '{"id":"21618"}' \
       http://[hostname]:[port]/api/v1/model/predict/java/default/java_equals/v0
 */
-  @RequestMapping(path=Array("/api/v1/model/predict/java/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/java/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def predictJava(@PathVariable("namespace") namespace: String, 
-                     @PathVariable("modelName") modelName: String, 
-                     @PathVariable("version") version: String,
-                     @RequestBody inputJson: String): 
+  def predictJava(@PathVariable("modelName") modelName: String,                   
+                  @RequestBody inputJson: String): 
       ResponseEntity[String] = {
     Try {
-      val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
+      val parentDir = s"/root/model/"
 
       val predictorOption = predictorRegistry.get(parentDir)
       
@@ -159,7 +157,7 @@ class PredictionService {
         }
       } 
           
-      val result = new JavaSourceCodeEvaluationCommand(modelName, namespace, modelName, version, predictor, inputs, "fallback", 25, 20, 10).execute()
+      val result = new JavaSourceCodeEvaluationCommand("java", modelName, predictor, inputs, "fallback", 25, 20, 10).execute()
 
       new ResponseEntity[String](s"${result}", responseHeaders,
            HttpStatus.OK)
@@ -176,15 +174,13 @@ class PredictionService {
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
                   )
-  def deployPmmlFile(@PathVariable("namespace") namespace: String, 
-                     @PathVariable("modelName") modelName: String,
-                     @PathVariable("version") version: String,
+  def deployPmmlFile(@PathVariable("modelName") modelName: String,
                      @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
 
     var inputStream: InputStream = null
 
     try {
-      val parentDir = s"model_store/pmml/${namespace}/${modelName}/${version}/"
+      val parentDir = s"/root/model/"
 
       // Path where the uploaded file will be stored.
       val filepath = new java.io.File(parentDir)
@@ -228,12 +224,10 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }
  
-  @RequestMapping(path=Array("/api/v1/model/predict/pmml/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/pmml/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def predictPmml(@PathVariable("namespace") namespace: String, 
-                  @PathVariable("modelName") modelName: String, 
-                  @PathVariable("version") version: String,
+  def predictPmml(@PathVariable("modelName") modelName: String, 
                   @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
@@ -242,7 +236,7 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val parentDir = s"model_store/pmml/${namespace}/${modelName}/${version}/"
+      val parentDir = s"/root/model/"
             
       val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
@@ -271,9 +265,9 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
+      val results = new PMMLEvaluationCommand("pmml", modelName, modelEvaluator, inputs, "\"fallback\"", 100, 20, 10).execute()
 
-      s"""{"results":[${results}]}"""
+      s"""{"outputs":${results}}"""
     } catch {
        case e: Throwable => {
          throw e
@@ -332,13 +326,11 @@ class PredictionService {
     new ResponseEntity(HttpStatus.OK)
   }
  
-  @RequestMapping(path=Array("/api/v1/model/predict/xgboost/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/xgboost/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def predictXgboost(@PathVariable("namespace") namespace: String, 
-                  @PathVariable("modelName") modelName: String, 
-                  @PathVariable("version") version: String,
-                  @RequestBody inputJson: String): String = {
+  def predictXgboost(@PathVariable("modelName") modelName: String,                      
+                     @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
       val inputs: Map[String, Any] = parsedInputOption match {
@@ -346,7 +338,7 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val parentDir = s"model_store/xgboost/${namespace}/${modelName}/${version}/"
+      val parentDir = s"/root/model/"
       
       val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
@@ -375,7 +367,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }          
         
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
+      val results = new PMMLEvaluationCommand("xgboost", modelName, modelEvaluator, inputs, "\"fallback\"", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {
@@ -437,12 +429,10 @@ class PredictionService {
 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  http://[host]:[port]/api/v1/model/predict/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/api/v1/model/predict/spark/{namespace}/{modelName}/{version}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/spark/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-    def predictSpark(@PathVariable("namespace") namespace: String,
-                     @PathVariable("modelName") modelName: String,
-                     @PathVariable("version") version: String,
+    def predictSpark(@PathVariable("modelName") modelName: String,                     
                      @RequestBody inputJson: String): String = {
     try {
       val parsedInputOption = JSON.parseFull(inputJson)
@@ -451,7 +441,7 @@ class PredictionService {
         case None => Map[String, Any]() 
       }
       
-      val parentDir = s"model_store/spark/${namespace}/${modelName}/${version}/"
+      val parentDir = s"/root/model/"
       
       val modelEvaluatorOption = pmmlRegistry.get(parentDir)
 
@@ -480,7 +470,7 @@ class PredictionService {
         case Some(modelEvaluator) => modelEvaluator
       }                 
       
-      val results = new PMMLEvaluationCommand(modelName, namespace, modelName, version, modelEvaluator, inputs, s"""{"result": "fallback"}""", 100, 20, 10).execute()
+      val results = new PMMLEvaluationCommand("spark", modelName, modelEvaluator, inputs, "\"fallback\"", 100, 20, 10).execute()
 
       s"""{"results":[${results}]}"""
     } catch {

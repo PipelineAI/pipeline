@@ -40,7 +40,7 @@ import org.tensorflow.Tensor
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
 class PredictionService {
-  HystrixPrometheusMetricsPublisher.register("prediction_tensorflow")
+  HystrixPrometheusMetricsPublisher.register("predict_tensorflow")
   new StandardExports().register()
 
   val registry = new scala.collection.mutable.HashMap[String, Session]()
