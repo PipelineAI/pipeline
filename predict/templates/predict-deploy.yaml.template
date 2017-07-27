@@ -1,4 +1,4 @@
-a9piVersion: extensions/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
@@ -18,7 +18,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
-        prometheus.io/port: "8080"
+        prometheus.io/port: "10254"
     spec:
       containers:
       - name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
@@ -47,7 +47,7 @@ spec:
         - containerPort: 9877
         - containerPort: 9000
         - containerPort: 9001
-        - contianerPort: 10254
+        - containerPort: 10254
         - containerPort: 10255
         - containerPort: 9040
         - containerPort: 9090
