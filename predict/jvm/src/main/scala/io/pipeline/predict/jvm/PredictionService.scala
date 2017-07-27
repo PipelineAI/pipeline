@@ -275,6 +275,57 @@ class PredictionService {
     }
   }  
   
+ @RequestMapping(path=Array("/api/v1/model/predict/r/{modelName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def predictR(@PathVariable("modelName") modelName: String, 
+               @RequestBody inputJson: String): String = {
+    try {
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
+      
+      val parentDir = s"/root/model/"
+            
+      val modelEvaluatorOption = pmmlRegistry.get(parentDir)
+
+      val modelEvaluator = modelEvaluatorOption match {
+        case None => {     
+          val fis = new java.io.FileInputStream(s"${parentDir}/model.r")
+          val transformedSource = ImportFilter.apply(new InputSource(fis))
+  
+          val pmml = JAXBUtil.unmarshalPMML(transformedSource)
+  
+          val predicateOptimizer = new PredicateOptimizer()
+          predicateOptimizer.applyTo(pmml)
+  
+          val predicateInterner = new PredicateInterner()
+          predicateInterner.applyTo(pmml)
+  
+          val modelEvaluatorFactory = ModelEvaluatorFactory.newInstance()
+  
+          val modelEvaluator = modelEvaluatorFactory.newModelEvaluator(pmml)
+  
+          // Cache modelEvaluator
+          pmmlRegistry.put(parentDir, modelEvaluator)
+          
+          modelEvaluator
+        }
+        case Some(modelEvaluator) => modelEvaluator
+      }          
+        
+      val results = new PMMLEvaluationCommand("r", modelName, modelEvaluator, inputs, "\"fallback\"", 100, 20, 10).execute()
+
+      s"""{"outputs":${results}}"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }    
+  
   @RequestMapping(path=Array("/api/v1/model/deploy/xgboost/{namespace}/{modelName}/{version}"),
                   method=Array(RequestMethod.POST)
                   //produces=Array("application/json; charset=UTF-8")
