@@ -3,6 +3,8 @@ FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-$model_chip:master
 # This needs to come after the FROM
 RUN \
   echo $model_chip
+ENV \
+  PIPELINE_MODEL_CHIP=$model_chip
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
