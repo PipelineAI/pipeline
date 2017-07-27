@@ -94,8 +94,8 @@ class PipelineCli(object):
                          'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
                         }
 
-    _kube_deploy_template_registry = {'predict': (['templates/predict-deploy.yaml.template'], [])}
-    _kube_svc_template_registry = {'predict': (['templates/predict-svc.yaml.template'], [])}
+    _kube_deploy_template_registry = {'predict': (['predict-deploy.yaml.template'], [])}
+    _kube_svc_template_registry = {'predict': (['predict-svc.yaml.template'], [])}
 
     def _get_default_pipeline_api_version(self):
         return 'v1'
@@ -561,15 +561,15 @@ class PipelineCli(object):
         print("")
 
 
-    # TODO:  make package_path more clear (ie docker package, tar.gz package)
-    def model_package(self,
-                      model_type=None,
-                      model_name=None,
-                      model_path=None,
-                      model_chip='cpu',
-                      model_tag='master',
-                      package_type='docker',
-                      package_path='.'):
+    # TODO:  make build_path more clear (ie docker build, tar.gz build)
+    def model_build(self,
+                   model_type=None,
+                   model_name=None,
+                   model_path=None,
+                   model_chip='cpu',
+                   model_tag='master',
+                   build_type='docker',
+                   build_path='.'):
 
         if not model_type:
             model_type = self._get_full_config()['model_type']
@@ -580,48 +580,46 @@ class PipelineCli(object):
         if not model_path:
             model_path = self._get_full_config()['model_path']
 
-        #model_path = os.path.expandvars(model_path)
-        #model_path = os.path.expanduser(model_path)
-        #model_path = os.path.abspath(model_path)
-
-        #package_path = os.path.expandvars(package_path)
-        #package_path = os.path.expanduser(package_path)
-        #package_path = os.path.abspath(package_path)
-
-        if package_type == 'docker':
+        if build_type == 'docker':
             if model_chip == 'gpu':
                 docker_cmd = 'nvidia-docker'
             else:
                 docker_cmd = 'docker'
 
-            # TODO:  Incorporate model_path
             cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s \
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
                      --build-arg model_path=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, package_path)
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
 
             print(cmd)
             print("")
             process = subprocess.call(cmd, shell=True)
 
         else:
-            self._model_package_tar(model_type,
+            self._model_build_tar(model_type,
                                     model_name,
                                     model_path,
                                     model_tag,
-                                    package_path)  
+                                    build_path)  
 
     def model_prepare(self,
                       model_type,
                       model_name,
                       model_tag,
                       model_chip='cpu',
-                      package_path='.',
+                      template_path='./templates/',
                       memory_limit='2G',
                       cpu_limit='4000m'):
-        model_predict_deploy_yaml_template_path = os.path.join(package_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
-        model_predict_svc_yaml_template_path = os.path.join(package_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
+
+        template_path = os.path.expandvars(template_path)
+        template_path = os.path.expanduser(template_path)
+        template_path = os.path.abspath(template_path)
+
+        print("Using templates from '%s'" % template_path)
+
+        model_predict_deploy_yaml_template_path = os.path.join(template_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
+        model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
 
         context = {'PIPELINE_MODEL_TYPE': model_type,
                    'PIPELINE_MODEL_NAME': model_name,
@@ -693,7 +691,7 @@ class PipelineCli(object):
 
 
     def model_start(self,
-                    package_type='docker',
+                    build_type='docker',
                     model_type=None,
                     model_name=None,
                     model_chip='cpu',
@@ -724,7 +722,7 @@ class PipelineCli(object):
 
 
     def model_stop(self,
-                   package_type='docker',
+                   build_type='docker',
                    model_type=None,
                    model_name=None,
                    model_chip='cpu',
@@ -750,7 +748,7 @@ class PipelineCli(object):
 
 
     def model_logs(self,
-                   package_type='docker',
+                   build_type='docker',
                    model_type=None,
                    model_name=None,
                    model_chip='cpu',
@@ -903,13 +901,13 @@ class PipelineCli(object):
         return tarinfo
 
 
-    def _model_package_tar(self,
+    def _model_build_tar(self,
                            model_type,
                            model_name,
                            model_path,
                            model_tag,
-                           package_path,
-                           package_name,
+                           tar_path,
+                           tar_name,
                            filemode='w',
                            compression='gz'):
 
@@ -917,65 +915,15 @@ class PipelineCli(object):
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
 
-        package_path = os.path.expandvars(package_path)
-        package_path = os.path.expanduser(package_path)
-        package_path = os.path.abspath(package_path)
+        tar_path = os.path.expandvars(tar_path)
+        tar_path = os.path.expanduser(tar_path)
+        tar_path = os.path.abspath(tar_path)
        
-        package_absolute_path = os.path.join(package_path, package_name) 
+        tar_absolute_path = os.path.join(tar_path, tar_name) 
 
         # TODO:  Incorporate model_tag if relevant
-        with tarfile.open(package_absolute_path, '%s:%s' % (filemode, compression)) as tar:
+        with tarfile.open(tar_absolute_path, '%s:%s' % (filemode, compression)) as tar:
             tar.add(model_path, arcname='.', filter=self._filter_tar)
-
-
-#    def model_pickle(self,
-#                     model_name='model',
-#                     path_to_model='.'):
-
-#        import cloudpickle as pickle
-
-#        spec = importlib.util.spec_from_file_location(model_name, path_to_model)
-#        model = importlib.util.module_from_spec(spec)
-        # Note:  This will initialize all global vars defined inside of <path_to_model>/model.py
-#        spec.loader.exec_module(model)
-
-#        model_pkl_path = '%s.pkl' % model_name
-
-#        with open(model_pkl_path, 'wb') as fh:
-#            pickle.dump(model, fh)
-
-
-#    def model_package(self,
-#                      path_to_model,
-#                      ):
-
-#        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-#        try:
-#            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-#            kube_namespace = self._get_full_config()['kube_namespace']
-#        except:
-#            print("")
-#            print("Cluster needs to be configured with 'pipeline init-cluster'.")
-#            print("")
-#            return
-
-#        try:
-#            pipeline_git_home = self._get_full_config()['pipeline_git_home']
-
-#            if 'http:' in pipeline_git_home or 'https:' in pipeline_git_home:
-#                pass
-#            else:
-#                pipeline_git_home = os.path.expandvars(pipeline_git_home)
-#                pipeline_git_home = os.path.expanduser(pipeline_git_home)
-#                pipeline_git_home = os.path.abspath(pipeline_git_home)
-
-#            pipeline_git_version = self._get_full_config()['pipeline_git_version']
-#        except:
-#            print("")
-#            print("PipelineIO needs to be configured with 'pipeline init'.")
-#            print("")
-#            return
 
 
     def _model_deploy(self,
@@ -1044,17 +992,17 @@ class PipelineCli(object):
         print('model_tag: %s' % model_tag)
 
         if (os.path.isdir(model_path)):
-            compressed_model_package_filename = 'pipeline.tar.gz' 
+            compressed_model_tar_filename = 'pipeline.tar.gz' 
 
             print("")
-            print("Compressing model package '%s' into '%s'." % (model_path, compressed_model_package_filename))  
-            self.model_package(path_to_model=model_path,
-                               package_name=compressed_model_package_filename,
-                               filemode='w',
-                               compression='gz')
-            model_file = compressed_model_package_filename
+            print("Compressing model tar '%s' into '%s'." % (model_path, compressed_model_tar_filename))  
+            self.model_build_tar(path_to_model=model_path,
+                                 tar_name=compressed_model_tar_filename,
+                                 filemode='w',
+                                 compression='gz')
+            model_file = compressed_model_tar_filename
             upload_key = 'file'
-            upload_value = compressed_model_package_filename
+            upload_value = compressed_model_tar_filename
         else:
             print("")
             print("Model path must be a directory.  All contents of the directory will be uploaded.")
@@ -1098,7 +1046,7 @@ class PipelineCli(object):
  
         if (os.path.isdir(model_path)):
             print("")
-            #print("Cleaning up compressed model package '%s'..." % model_file)
+            #print("Cleaning up compressed model tar '%s'..." % model_file)
             #print("")
             os.remove(model_file)
 
