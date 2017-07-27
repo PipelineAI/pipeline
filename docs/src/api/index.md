@@ -90,7 +90,7 @@ pipeline model-predict --model-type=tensorflow \
                        --model-tag=master \
                        --model-server-url=http://localhost:6969 \
                        --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
-                       --concurrency=100
+                       --model-test-request-concurrency=100
 ```
 
 ### REST API
