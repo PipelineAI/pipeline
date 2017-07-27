@@ -6,4 +6,6 @@ if __name__ == '__main__':
    
     response = pipeline_predict.predict(request_binary)
     print(response)
+    response = pipeline_predict.predict(request_binary)
+    print(response)
 

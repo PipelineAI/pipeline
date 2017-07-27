@@ -20,6 +20,14 @@ version = re.search(
     re.M
     ).group(1)
 
+
+# Get the long description from the relevant file
+with open('README.rst', encoding='utf-8') as f:
+    long_description = f.read()
+
+with open('requirements.txt', encoding='utf-8') as f:
+    requirements = [line.rstrip() for line in f.readlines()]
+
 setup(
     name = "pipeline-ai-cli",
     packages = ["cli"],
@@ -28,19 +36,11 @@ setup(
     },
     version = version,
     description = "PipelineAI CLI",
-    long_description = "PipelineAI CLI",
+    long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
-    install_requires=[
-        "kubernetes==3.0.0a1",
-        "fire==0.1.1",
-        "requests==2.18.1",
-        "pyyaml==3.12",
-        "tabulate==0.7.7",
-        "futures==3.1.1",
-        "jinja2==2.9.6",
-    ],
+    install_requires=requirements,
     dependency_links=[
     ]
 )

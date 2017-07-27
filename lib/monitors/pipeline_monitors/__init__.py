@@ -1,22 +1,26 @@
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 from timeit import default_timer
 
-__version__ = "0.6"
+__version__ = "0.8"
 
 prometheus_monitor_registry = CollectorRegistry()
 
 class prometheus_monitor(object):
 
-    # Interface for 'with' scope context manager
-    def __init__(self,
-                 labels: dict,
-                 name: str):
-        self._labels = labels
-        self._name = name
-        self._counter = Counter('%s_counter' % self._name, self._name, list(self._labels.keys()))
-        self._summary = Summary('%s_summary' % self._name, self._name, list(self._labels.keys()))
-        prometheus_monitor_registry.register(self._counter)
-        prometheus_monitor_registry.register(self._summary)        
+    _instances = {}
+
+    def __new__(cls, labels: dict, name: str):
+        if name in cls._instances:
+            return cls._instances[name]
+        instance = super().__new__(cls)
+        instance._labels = labels
+        instance._name = name
+        instance._counter = Counter('%s_counter' % instance._name, instance._name, list(instance._labels.keys()))
+        instance._summary = Summary('%s_summary' % instance._name, instance._name, list(instance._labels.keys()))
+        prometheus_monitor_registry.register(instance._counter)
+        prometheus_monitor_registry.register(instance._summary)        
+        cls._instances[name] = instance
+        return instance
 
     def __enter__(self, *args, **kwargs):
         self._counter.labels(*list(self._labels.values())).inc()
@@ -25,14 +29,11 @@ class prometheus_monitor(object):
     def __exit__(self, *args, **kwargs):
         self._summary.labels(*list(self._labels.values())).observe(max(default_timer() - self._start, 0))
 
-
     # Interface for decorator
     def __call__(self, function, *args):
 
         def wrapped_function(*args):
-            self.__enter__(*args)
-            response = function(*args)
-            self.__exit__(*args)
-            return response
+            with self:
+                return function(*args)
 
         return wrapped_function

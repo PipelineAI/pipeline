@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.9"
+__version__ = "0.10"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -62,6 +62,7 @@ class PipelineCli(object):
                             'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
                             'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
                            }
+
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
                          'jupyterhub': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
                          'spark': (['apachespark.ml/master-svc.yaml'], ['spark-worker', 'metastore']), 

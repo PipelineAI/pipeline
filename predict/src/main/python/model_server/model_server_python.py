@@ -148,12 +148,13 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
                 REQUEST_COUNTER.labels(method, *model_key_list).inc()
                 model = self.get_model_assets(model_key_list)
                 response = model.predict(self.request.body)
+            except Exception as e:
+                response = 'ModelPredictPython3Handler.post: Exception - {0} Error {1}'.format(model_key, str(e))
+                _logger.info(response)
+                _logger.exception(response)
+            finally:
                 self.write(response)
                 self.finish()
-            except Exception as e:
-                message = 'ModelPredictPython3Handler.post: Exception - {0} Error {1}'.format(model_key, str(e))
-                _logger.info(message)
-                _logger.exception(message)
 
 
     def get_model_assets(self, model_key_list):

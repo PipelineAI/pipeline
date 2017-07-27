@@ -20,18 +20,23 @@ version = re.search(
     re.M
     ).group(1)
 
+# Get the long description from the relevant file
+with open('README.rst', encoding='utf-8') as f:
+    long_description = f.read()
+
+with open('requirements.txt', encoding='utf-8') as f:
+    requirements = [line.rstrip() for line in f.readlines()]
+
 setup(
     name = "pipeline-loggers",
     packages = ["pipeline_loggers"],
     version = version,
     description = "PipelineAI Loggers",
-    long_description = "PipelineAI Loggers",
+    long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/lib/loggers",
-    install_requires=[
-        "pipeline-monitors>=0.6"
-    ],
+    install_requires=requirements,
     dependency_links=[
     ]
 )
