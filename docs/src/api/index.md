@@ -17,46 +17,51 @@ pipeline init
 ```
 
 ## Supported Model Types 
-[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), spark, xgboost, r
+[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), [spark](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/spark/), xgboost, r
 
-More [samples](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/) coming soon for spark, xgboost, and r.
+More [samples](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/) coming soon for xgboost, and r.
 
-## Clone this Repo and 
+## Clone this Repo 
+This may take a few minutes...
 ```
 git clone https://github.com/fluxcapacitor/pipeline
 ```
+
+## Change to `pipeline/predict` Directory within Cloned Repo
 ```
 cd pipeline/predict
 ```
 
-## Package Model
+## Package Model into Docker Image
+Note:  The `--model-path` currently must be **relative** to the `pipeline/predict` directory.
 ```
-pipeline model-package --package-type=docker \
-                       --model-path=./models/tensorflow/mnist \
-                       --model-type=tensorflow \
+pipeline model-package --model-type=tensorflow \
                        --model-name=mnist \
-                       --model-tag=master
+                       --model-tag=master \
+                       --model-path=./models/tensorflow/mnist
 ```
 
 ## Start Docker-based Model Package
 ```
-pipeline model-start --memory-limit=2G \
-                     --model-type=tensorflow \
+pipeline model-start --model-type=tensorflow \
                      --model-name=mnist \
-                     --model-tag=master
+                     --model-tag=master \
+                     --memory-limit=2G
 ```
 Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
 
 ## Monitor Model Training and Hyper-Parameter Tuning
-Wait for the following logs to settle down...
+View the logs and wait for them to settle down.
 ```
 pipeline model-logs --model-type=tensorflow \
                     --model-name=mnist \
                     --model-tag=master
 ```
 
-## View PipelineAI Model UI
+## View PipelineAI Model UI (TensorFlow Models Only)
 This UI sometimes requires a couple refreshes.  We are working to stabilize the UI.
+
+Note:  This UI currently works only with TensorFlow Models
 ```
 http://localhost:6333/
 ```
@@ -71,27 +76,27 @@ http://localhost:6333/
 
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
 ```
-pipeline model-predict --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
-                       --model-type=tensorflow \
+pipeline model-predict --model-type=tensorflow \
                        --model-name=mnist \
-                       --model-tag=master
+                       --model-tag=master \
+                       --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json
 ```
 
 **Perform 100 Predictions in Parallel**
 ```
-pipeline model-predict --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
-                       --concurrency=100 \
-                       --model-type=tensorflow \
+pipeline model-predict --model-type=tensorflow \
                        --model-name=mnist \
-                       --model-tag=master
+                       --model-tag=master \
+                       --model-server-url=http://localhost:6969 \
+                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
+                       --concurrency=100
 ```
 
 ### REST API
 **Prediction Inputs**
 
-JSON representation of gray-scale values for **Digit 6**.  ![Digit 6](http://pipeline.io/img/6.jpg)
+JSON representation of gray-scale values for Digit ![Digit 6](http://pipeline.io/img/6.jpg).
 
 ```
 curl -X POST -H "Content-Type: application/json" \
