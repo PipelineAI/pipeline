@@ -96,7 +96,7 @@ pipeline model-predict --model-type=tensorflow \
 ### REST API
 **Prediction Inputs**
 
-JSON representation of gray-scale values for Digit ![Digit 6](http://pipeline.io/img/6.jpg).
+JSON representation of gray-scale values for a given digit (5).
 
 ```
 curl -X POST -H "Content-Type: application/json" \
