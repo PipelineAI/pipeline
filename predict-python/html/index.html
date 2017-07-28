@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>DeployAI</title>
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/animate.min.css">
+  <link rel="stylesheet" href="/static/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/lightbox.css">
+
+  <link rel="stylesheet" href="/static/main.css">
+  <link rel="stylesheet" id="css-preset" href="/static/preset1.css">
+  <link rel="stylesheet" href="/static/responsive.css">
+  <link rel="stylesheet" href="/static/dropzone.css">
+
+  <style>
+    #cf {
+      position:relative;
+      height:281px;
+      width:450px;
+      margin:0 auto;
+    }
+
+    #cf img {
+      position:absolute;
+      left:0;
+      -webkit-transition: opacity 1s ease-in-out;
+      -moz-transition: opacity 1s ease-in-out;
+      -o-transition: opacity 1s ease-in-out;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #cf img.top:hover {
+      opacity:0;
+    }
+
+    .img__wrap:hover .img__description {
+      opacity: 0;
+    }
+    .img__wrap:hover .img__description__alt {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .img__description__alt {
+      visibility: hidden;
+      opacity: 0;
+    }
+  </style>
+  <!--[if lt IE 9]>
+  <script src="/static/html5shiv.js"></script>
+  <script src="/static/respond.min.js"></script>
+  <![endif]-->
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+
+  <script src="/static/dropzone.js"></script>
+</head><!--/head-->
+
+<body>
+
+<header id="home">
+  <div id="home-slider" class="carousel slide carousel-fade" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="item active" style="background-image: url(/static/slider-1.jpg)">
+        <div class="caption">
+        <h1 class="animated fadeInDownBig">Deploy <span>AI</span></h1>
+          <p class="animated fadeInLeftBig">Apache Spark ML - TensorFlow - Scikit-Learn - R</p>
+          <p class="animated fadeInRightBig">High Performance - GPUs - Scalable - Hybrid Cloud</p>
+          <a data-scroll class="btn btn-start animated fadeInUpBig" href="#prepare">Start Now</a>
+        </div>
+      </div>
+    </div>
+    <!--<a class="left-control" href="#home-slider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+    <a class="right-control" href="#home-slider" data-slide="next"><i class="fa fa-angle-right"></i></a>
+    <a id="tohash" href="#services"><i class="fa fa-angle-down"></i></a>-->
+  </div><!--/#home-slider-->
+
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <h1><img class="img-responsive" height=55 width=55 src="/static/pipelineio-logo-128x128.png" alt="logo"></h1>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="scroll"><a href="#home">Home</a></li>
+          <li class="scroll active"><a href="#prepare">Prepare</a></li>
+          <li class="scroll"><a href="#deploy">Deploy</a></li>
+          <li class="scroll"><a href="#monitor">Monitor</a></li>
+          <li class="scroll"><a href="#team">Team</a></li>
+        </ul>
+      </div>
+    </div>
+  </div><!--/.navbar-->
+</header><!--/#home-->
+<section id="prepare">
+<div class="container">
+    <div class="row">
+      <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+        <h2>Prepare</h2>
+        <p>Choose a Model Type</p>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="text-center col-sm-4 col-sm-offset-1">
+        <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="300ms">
+          <div class="folio-image">
+            <img class="img-responsive" src="/static/scikit-logo-277x150.png" alt="Scikit-Learn">
+          </div>
+          <div class="overlay">
+            <div class="overlay-content">
+              <div class="overlay-text">
+                <div class="folio-info">
+                  <h3>Scikit-Learn</h3>
+                  <p>Blah, Blah</p>
+                </div>
+                <div class="folio-overview">
+                  <span class="folio-link"><a href="#scikit"><i class="fa fa-link"></i></a></span>
+                  <span class="folio-expand"><a href="/static/scikit-logo-277x150.png" data-lightbox="prepare"><i
+                      class="fa fa-search-plus"></i></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center col-sm-4 col-sm-offset-1">
+        <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="400ms">
+          <div class="folio-image">
+            <img class="img-responsive" src="/static/spark-logo-254x163.png" alt="Apache Spark ML">
+          </div>
+          <div class="overlay">
+            <div class="overlay-content">
+              <div class="overlay-text">
+                <div class="folio-info">
+                  <h3>Apache Spark ML</h3>
+                  <p>Blah, Blah</p>
+                </div>
+                <div class="folio-overview">
+                  <span class="folio-link"><a href="#spark"><i class="fa fa-link"></i></a></span>
+                  <span class="folio-expand"><a href="/static/spark-logo-254x163.png" data-lightbox="prepare"><i
+                      class="fa fa-search-plus"></i></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center col-sm-4 col-sm-offset-1">
+        <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="400ms">
+          <div class="folio-image">
+            <img class="img-responsive" src="/static/tensorflow-logo-202x168.png" alt="TensorFlow">
+          </div>
+          <div class="overlay">
+            <div class="overlay-content">
+              <div class="overlay-text">
+                <div class="folio-info">
+                  <h3>TensorFlow</h3>
+                  <p>Blah, Blah</p>
+                </div>
+                <div class="folio-overview">
+                  <span class="folio-link"><a href="#tensorflow"><i class="fa fa-link"></i></a></span>
+                  <span class="folio-expand"><a href="/static/tensorflow-logo-202x168.png" data-lightbox="prepare"><i
+                      class="fa fa-search-plus"></i></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center col-sm-4 col-sm-offset-1">
+        <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="400ms">
+          <div class="folio-image">
+            <img class="img-responsive" src="/static/r-logo-280x212.png" alt="R">
+          </div>
+          <div class="overlay">
+            <div class="overlay-content">
+              <div class="overlay-text">
+                <div class="folio-info">
+                  <h3>R</h3>
+                  <p>Blah, Blah</p>
+                </div>
+                <div class="folio-overview">
+                  <span class="folio-link"><a href="#r"><i class="fa fa-link"></i></a></span>
+                  <span class="folio-expand"><a href="/static/r-logo-280x212.png" data-lightbox="prepare"><i
+                      class="fa fa-search-plus"></i></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="prepare-single-wrap">
+    <div id="prepare-single">
+    </div>
+  </div><!-- /#prepare-single-wrap -->
+</section><!--/#prepare-->
+<section id="deploy">
+  <div class="container">
+    <div class="heading wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+      <div class="row">
+        <div class="text-center col-sm-8 col-sm-offset-2">
+          <h2>Drop It!</h2>
+          <p>Drop It!<p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center our-rest">
+      <div class="row">
+        <div class="col-sm-15 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+          <div class="text-left service-info">
+            <h3>Drop It!</h3>
+
+             <form action="http://35.185.201.44/api/v1/model/deploy/python3/default/python3_zscore/v54"
+                   class="dropzone"
+                   id="deploy-model"></form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--/#deploy-->
+<section id="rest">
+  <div class="container">
+    <div class="heading wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+      <div class="row">
+        <div class="text-center col-sm-8 col-sm-offset-2">
+          <h2>REST API</h2>
+          <p>REST API</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center our-rest">
+      <div class="row">
+        <div class="col-sm-15 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+          <div class="text-left service-info">
+            <h3>Key Parameters</h3>
+            <table>
+              <tbody>
+              <tr>
+                <th align="right">PIO_MODEL_SERVER_HOST</th>
+                <td>
+                  Example:  predict.community.pipeline.io
+                </td>
+              </tr>
+              <tr>
+                <th align="right">PIO_MODEL_TYPE</th>
+                <td>
+                  Available Model Types:  tensorflow, scikit, spark, xgboost, r, java, python3
+                </td>
+              </tr>
+              <tr>
+                <th align="right">PIO_MODEL_NAME</th>
+                <td>
+                  Examples:  census-2017, airbnb-san-francisco, etc.
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <h3>Deploy</h3>
+            <pre><code>
+            curl -i -X POST -H "Transfer-Encoding: chunked" \
+              -F "file=@pipeline.tar.gz" \
+              http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/deploy/$PIO_MODEL_TYPE/$PIO_MODEL_NAME \
+              -w "\n\n"
+            </code></pre>
+            <h3>Predict</h3>
+            <pre><code>
+            curl -X POST -H "Content-Type: application/json" \
+              -d '{"x_observed":1.5}' \
+              http://$PIO_MODEL_SERVER_HOST:6969/api/v1/model/predict/$PIO_MODEL_TYPE/$PIO_MODEL_NAME \
+              -w "\n\n"
+            </code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--/#rest-->
+<section id="cli">
+  <div class="container">
+    <div class="heading wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+      <div class="row">
+        <div class="text-center col-sm-8 col-sm-offset-2">
+          <h2>[API](http://pipeline.io/api)</h2>
+          <p>Upload new model versions and make predictions from the bash prompt.</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center our-cli">
+      <div class="row">
+        <div class="col-sm-15 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+          <div class="text-left service-info">
+            <h3>[CLI](http://pipeline.io/api)</h3>
+            <pre><code>
+              pip install --upgrade --ignore-installed pio-cli
+              </code></pre>
+
+            <h3>Upload New Model Version</h3>
+            <pre><code>
+               pio init-model --model-server-url={model_server_url} \
+               --model-type={model_type} \
+               --model-namespace={model_namespace} \
+               --model-name={model_name} \
+               --model-version={model_version} \
+               --model-path /path/to/model/directory/ \
+               --model-test-request-path /path/to/test_request.json
+              </code></pre>
+
+            <pre><code>
+               pio deploy
+              </code></pre>
+
+            <h3>Predict</h3>
+            <pre><code>
+              pio predict
+              </code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--/#cli-->
+<section id="team">
+  <div class="container">
+    <div class="row">
+      <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1200ms" data-wow-delay="300ms">
+        <h2>The Team</h2>
+        <p>PipelineAI leverages Chris Fregly's fluxcapacitor/pipeline project along with Kubernetes and
+          Data Science Modeling.</p>
+      </div>
+    </div>
+    <div class="team-members">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="team-member wow flipInY" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="member-image">
+              <img class="img-responsive" src="/static/chris-fregly.png" alt="">
+            </div>
+            <div class="member-info">
+              <h3>Chris Fregly</h3>
+              <p>Research Engineer @ PipelineAI, Apache Spark Contributor, Advanced Spark TensorFlow Meetup Founder, High Performance Tensorflow Author, ex-Netflix, Databricks</p>
+            </div>
+            <div class="social-icons">
+              <ul>
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="rss" href="#"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member wow flipInY" data-wow-duration="1000ms" data-wow-delay="500ms">
+            <div class="member-image">
+              <img class="img-responsive" src="/static/brent-dorsey.jpeg" alt="">
+            </div>
+            <div class="member-info">
+              <h3>Brent Dorsey</h3>
+              <h4>Data Architect</h4>
+            </div>
+            <div class="social-icons">
+              <ul>
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="rss" href="#"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member wow flipInY" data-wow-duration="1000ms" data-wow-delay="800ms">
+            <div class="member-image">
+              <img class="img-responsive" src="/static/kurt-smith.jpeg" alt="">
+            </div>
+            <div class="member-info">
+              <h3>Kurt Smith</h3>
+              <h4>Data Scientist</h4>
+            </div>
+            <div class="social-icons">
+              <ul>
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="rss" href="#"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="team-member wow flipInY" data-wow-duration="1000ms" data-wow-delay="1100ms">
+            <div class="member-image">
+              <img class="img-responsive" src="/static/brent-schneeman.jpg" alt="">
+            </div>
+            <div class="member-info">
+              <h3>Brent Schneeman</h3>
+              <h4>Eccentric philanthropic entrepreneur</h4>
+            </div>
+            <div class="social-icons">
+              <ul>
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="rss" href="#"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--/#team-->
+<footer id="footer">
+  <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+    <div class="container text-center">
+      <div class="footer-logo">
+        <a href="index.html"><img class="img-responsive" src="/static/logo.png" alt=""></a>
+      </div>
+      <div class="social-icons">
+        <ul>
+          <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+          <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+          <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+          <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+          <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+          <li><a class="tumblr" href="#"><i class="fa fa-tumblr-square"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>&copy; HomeAway, Inc.</p>
+        </div>
+        <div class="col-sm-6">
+          <p class="pull-right">Crafted by Brent Dorsey</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" src="/static/jquery.js"></script>
+<script type="text/javascript" src="/static/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/jquery.inview.min.js"></script>
+<script type="text/javascript" src="/static/wow.min.js"></script>
+<script type="text/javascript" src="/static/mousescroll.js"></script>
+<script type="text/javascript" src="/static/smoothscroll.js"></script>
+<script type="text/javascript" src="/static/jquery.countTo.js"></script>
+<script type="text/javascript" src="/static/lightbox.min.js"></script>
+<script type="text/javascript" src="/static/main.js"></script>
+</body>
+</html>
