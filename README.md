@@ -6,6 +6,10 @@
 
 ![Scikit-Learn](http://pipeline.io/img/scikit-logo-277x150.png) ![R](http://pipeline.io/img/r-logo-280x212.png)
 
+![PipelineAI UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
+
+![PipelineAI UI 2](http://pipeline.io/img/pipelineai-train-compare-ui-2.png)
+
 ![PipelineAI Architecture](http://pipeline.io/img/pipelineio-kubernetes.png)
 
 ![Jupyter Python Notebooks](http://pipeline.io/img/deploy-model-jupyter-740x510.png)
