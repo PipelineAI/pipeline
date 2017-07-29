@@ -1,0 +1,81 @@
+#!/usr/bin/env groovy
+@Library( 'pipeline-shared-library@1.0.1' ) _ // make sure you include the trailing underscore
+
+properties([buildDiscarder(logRotator(artifactNumToKeepStr: '5', daysToKeepStr: '15'))])
+
+def modelType = 'python3'
+def modelName = 'leakage'
+def tag = '0.0.1'
+def githubOrg = 'fluxcapacitor'
+def dockerImageNamePrefix = 'predict'
+def imageName = [ dockerImageNamePrefix, modelType, modelName ].join('-')
+def sourceImageName = [ githubOrg, imageName].join('/')
+def imageNameAndTag = [ sourceImageName, tag ].join(':')
+def modelStoreS3Bucket = 'fluxcapacitor-us-east-1'
+def modelStoreS3Location = 'model-store'
+def slackTitle = 'predict-model-deploy'
+def slackChannel = "#ds-pipeline-jenkins"
+def slackColor = 'good'
+def jobName = getJobName()
+
+node {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+
+        try{
+            node {
+                wrap([$class: 'AnsiColorBuildWrapper']) {
+                    try{
+                        slackColor = 'good'
+
+                        stage('Build Docker Image') {
+                            checkout scm
+                            stage('s3Download') {
+                                withAWS(role:'datascience_role', roleAccount:'575835809734', region: 'us-east-1') {
+                                    def modelPath = [ modelStoreS3Location, modelType, modelName, tag, ].join('/') + '/'
+                                    s3Download(file: 'model/', bucket: modelStoreS3Bucket, path: modelPath, force: true)
+                                }
+                            }
+                            sh """
+                            docker run --rm \
+                            -v `pwd`:/workdir \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            docker build --build-arg MODEL_TYPE=${modelType} --build-arg MODEL_NAME=${modelName} \
+                            --build-arg MODEL_VERSION=${tag} -t fluxcapacitor/${imageName}:${tag} .
+                            """
+
+                            notifySlack title: slackTitle,
+                                    message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                    "Build Docker image ${imageName} successful",
+                                    channel: slackChannel, color: slackColor
+                        }
+
+                        stage('Tag and Publish Docker Image') {
+                            checkoutProject()
+
+                            tagDockerImage sourceImageName: sourceImageName, tags: [tag]
+
+                            def publishImageName = [ githubOrg,imageName].join('/')
+                            publishDockerImage imageName: publishImageName, tags: [tag]
+
+                            notifySlack title: slackTitle,
+                                    message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                            " publishDockerImage ${imageNameAndTag} successful",
+                                    channel: slackChannel, color: slackColor
+                        }
+                    }catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe){
+                        printErrorDesc(fe)
+                        notifySlack title: slackTitle,
+                                message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                "image ${imageNameAndTag} FlowInterruptedException ${fe}",
+                                channel: slackChannel, color: 'bad'
+                    }
+                }
+            }
+        }catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe){
+            printErrorDesc(fe)
+            notifySlack message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                    "FlowInterruptedException ${fe}",
+                    channel: slackChannel, color: 'bad'
+        }
+    }
+}

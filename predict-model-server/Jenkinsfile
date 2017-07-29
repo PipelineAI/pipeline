@@ -1,0 +1,62 @@
+#!/usr/bin/env groovy
+@Library( 'devops/pipeline-shared-library@1.0.1' ) _ // make sure you include the trailing underscore
+
+properties([buildDiscarder(logRotator(artifactNumToKeepStr: '5', daysToKeepStr: '15'))])
+
+def imageName = 'predict-model-server'
+def tag = 'master'
+def githubOrg = 'fluxcapacitor'
+def sourceImageName = [ githubOrg, imageName].join('/')
+def imageNameAndTag = [ sourceImageName, tag ].join(':')
+def slackTitle = 'predict-docker-image-build-and-publish'
+def slackChannel = "#ds-pipeline-jenkins"
+def slackColor = 'good'
+def jobName = getJobName()
+
+node {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+
+        if ("${env.BRANCH_NAME}" == 'master') {
+
+            node {
+                wrap([$class: 'AnsiColorBuildWrapper']) {
+                    try {
+                        slackColor = 'good'
+
+                        stage('Build Docker Image') {
+                            //checkout scm
+                            checkoutProject()
+                            buildDockerImage tags: [tag]
+
+                            notifySlack title: slackTitle,
+                                    message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                            "Build Docker image ${imageNameAndTag} successful",
+                                    channel: slackChannel, color: slackColor
+                        }
+
+                        stage('Tag and Publish Docker Image') {
+                            //checkout scm
+                            checkoutProject()
+
+                            tagDockerImage sourceImageName: sourceImageName, tags: [tag]
+
+                            publishDockerImage tags: [tag]
+
+                            notifySlack title: slackTitle,
+                                    message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                            " publishDockerImage ${imageNameAndTag} successful",
+                                    channel: slackChannel, color: slackColor
+                        }
+
+                    } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe) {
+                        printErrorDesc(fe)
+                        notifySlack title: slackTitle,
+                                message: "Jenkins ${jobName} Branch ${env.BRANCH_NAME} " +
+                                        "image ${imageNameAndVersion} FlowInterruptedException ${fe}",
+                                channel: slackChannel, color: 'bad'
+                    }
+                }
+            }
+        }
+    }
+}
