@@ -134,6 +134,13 @@ Use `http://localhost:9090` for the Prometheus data source within your Grafana D
 http://localhost:3000/
 ```
 
+## Shell into Docker-based Model 
+```
+pipeline model-shell --model-type=tensorflow \
+                     --model-name=mnist \
+                     --model-tag=master
+```
+
 ## Stop Docker-based Model 
 ```
 pipeline model-stop --model-type=tensorflow \
