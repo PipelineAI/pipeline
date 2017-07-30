@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.14"
+__version__ = "0.15"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -568,8 +568,6 @@ class PipelineCli(object):
                    model_path=None,
                    model_tag='master',
                    model_chip='cpu',
-#                   model_config_path=None,
-                   build_namespace='fluxcapacitor/predict',
                    build_type='docker',
                    build_path='.'):
 
@@ -583,24 +581,16 @@ class PipelineCli(object):
             model_path = self._get_full_config()['model_path']
 
         if build_type == 'docker':
-#            if not model_config_path:
-#                model_config_path = os.path.expandvars(model_config_path)
-#                model_config_path = os.path.expanduser(model_config_path)
-#                model_config_path = os.path.abspath(model_config_path)
-#                docker_env_file = '--env-file=%s' % model_config_path
-#            else:
-#                docker_env_file = ''
-
             if model_chip == 'gpu':
                 docker_cmd = 'nvidia-docker'
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t %s-%s-%s-%s:%s \
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s \
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
                      --build-arg model_path=%s \
-                     -f Dockerfile %s' % (docker_cmd, build_namespace, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
+                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
 
             print(cmd)
             print("")
@@ -613,6 +603,8 @@ class PipelineCli(object):
                                   build_path)  
 
 
+    # TODO: Pull ./templates/ into this cli project 
+    #       (or otherwise handle the location of templates outside of the cli)
     def model_prepare(self,
                       model_type,
                       model_name,
@@ -730,9 +722,10 @@ class PipelineCli(object):
             docker_cmd = 'docker'
 
         cmd = '%s run -itd --name=predict-%s-%s-%s-%s \
-               -m %s -p 6969:6969 -p 7070:7070 -p 10254:10254 \
-               -p 9876:9876 -p 9040:9040 -p 9090:9090 -p 3000:3000 \
-               -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
+               -m %s \
+               -p 6969:6969 -p 7070:7070 -p 9876:9876 -p 9877:9877 -p 9000:9000 -p 9001:9001 \
+               -p 10254:10254 -p 10255:10255 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 \
+               -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
                fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
