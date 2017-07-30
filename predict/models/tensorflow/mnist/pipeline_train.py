@@ -148,7 +148,12 @@ def save_model():
     from tensorflow.python.saved_model import builder as saved_model_builder
     from tensorflow.python.saved_model import tag_constants
 
-    saved_model_path = '%s/model/versions/%s' % (FLAGS.rundir, _version)
+    # TODO:  Fix this logic.  Goal is to end up with the saved_model in a place where TF Serving can find it.
+    #        (With or without Guild.)
+    if FLAGS.rundir != './runs':
+        saved_model_path = '/root/model/versions/%s' % _version
+    else:
+        saved_model_path = '%s/model/versions/%s' % (FLAGS.rundir, _version)
     print(saved_model_path)
 
     builder = saved_model_builder.SavedModelBuilder(saved_model_path)

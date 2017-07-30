@@ -220,7 +220,7 @@ RUN \
        && conda env update --name $PIPELINE_CONDA_ENV_NAME \ 
            --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
        && echo "" \
-       && echo "source activate $PIPELINE_CONDA_ENV_NAME\n" >> ~/.bashrc \
+       && echo "source activate $PIPELINE_CONDA_ENV_NAME" >> ~/.bashrc \
        && echo "...Model Server Dependencies Installed!" \
        && echo ""; \
   fi
@@ -279,7 +279,8 @@ RUN \
        && echo "" \
        && source activate $PIPELINE_CONDA_ENV_NAME \
        && cd $PIPELINE_MODEL_PATH \
-# TODO:  If expecting TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
+# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
+# TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
        && python pipeline_train.py \
        && cd /root \
        && echo "" \
@@ -290,7 +291,7 @@ RUN \
 # TODO:  Clean up this logic
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ] \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.py" ] \
      && [ -f "$PIPELINE_MODEL_PATH/Guild" ]; then \
        echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
        && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
@@ -305,7 +306,8 @@ RUN \
        && guild prepare \
        && guild train --flag=learning_rate=0.05 \
        && guild train --flag=learning_rate=0.025 \
-       && ln -s /root/model/runs/model/versions \
+# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
+#       && ln -s /root/model/runs/model/versions \
        && cd /root \
        && echo "" \
        && echo "...Training Complete!" \
@@ -314,7 +316,7 @@ RUN \
 
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "python" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.py" ]; then \
        echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
        && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
        && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
