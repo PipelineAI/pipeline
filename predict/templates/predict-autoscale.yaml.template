@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}} 
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}} 
+  minReplicas: {{PIPELINE_MIN_REPLICAS}} 
+  maxReplicas: {{PIPELINE_MAX_REPLICAS}} 
+  targetCPUUtilizationPercentage: {{PIPELINE_TARGET_CPU_UTIL_PERCENTAGE}} 
