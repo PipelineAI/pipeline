@@ -22,10 +22,10 @@ version = re.search(
 
 
 # Get the long description from the relevant file
-with open('README.rst', encoding='utf-8') as f:
+with open('README.rst') as f:
     long_description = f.read()
 
-with open('requirements.txt', encoding='utf-8') as f:
+with open('requirements.txt') as f:
     requirements = [line.rstrip() for line in f.readlines()]
 
 setup(

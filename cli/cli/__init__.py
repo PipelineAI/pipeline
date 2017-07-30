@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.13"
+__version__ = "0.14"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -96,6 +96,7 @@ class PipelineCli(object):
 
     _kube_deploy_template_registry = {'predict': (['predict-deploy.yaml.template'], [])}
     _kube_svc_template_registry = {'predict': (['predict-svc.yaml.template'], [])}
+    _kube_autoscale_template_registry = {'predict': (['predict-autoscale.yaml.template'], [])}
 
     def _get_default_pipeline_api_version(self):
         return 'v1'
@@ -561,13 +562,14 @@ class PipelineCli(object):
         print("")
 
 
-    # TODO:  make build_path more clear (ie docker build, tar.gz build)
     def model_build(self,
                    model_type=None,
                    model_name=None,
                    model_path=None,
-                   model_chip='cpu',
                    model_tag='master',
+                   model_chip='cpu',
+#                   model_config_path=None,
+                   build_namespace='fluxcapacitor/predict',
                    build_type='docker',
                    build_path='.'):
 
@@ -581,27 +583,35 @@ class PipelineCli(object):
             model_path = self._get_full_config()['model_path']
 
         if build_type == 'docker':
+#            if not model_config_path:
+#                model_config_path = os.path.expandvars(model_config_path)
+#                model_config_path = os.path.expanduser(model_config_path)
+#                model_config_path = os.path.abspath(model_config_path)
+#                docker_env_file = '--env-file=%s' % model_config_path
+#            else:
+#                docker_env_file = ''
+
             if model_chip == 'gpu':
                 docker_cmd = 'nvidia-docker'
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s \
+            cmd = '%s build -t %s-%s-%s-%s:%s \
                      --build-arg model_type=%s \
                      --build-arg model_name=%s \
                      --build-arg model_path=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
+                     -f Dockerfile %s' % (docker_cmd, build_namespace, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
 
             print(cmd)
             print("")
             process = subprocess.call(cmd, shell=True)
-
         else:
             self._model_build_tar(model_type,
-                                    model_name,
-                                    model_path,
-                                    model_tag,
-                                    build_path)  
+                                  model_name,
+                                  model_path,
+                                  model_tag,
+                                  build_path)  
+
 
     def model_prepare(self,
                       model_type,
@@ -610,7 +620,10 @@ class PipelineCli(object):
                       model_chip='cpu',
                       template_path='./templates/',
                       memory_limit='2G',
-                      cpu_limit='4000m'):
+                      cpu_limit='4000m',
+                      target_cpu_util_percentage='75',
+                      min_replicas='1',
+                      max_replicas='2'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
@@ -618,30 +631,34 @@ class PipelineCli(object):
 
         print("Using templates from '%s'" % template_path)
 
-        model_predict_deploy_yaml_template_path = os.path.join(template_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
-        model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
-
         context = {'PIPELINE_MODEL_TYPE': model_type,
                    'PIPELINE_MODEL_NAME': model_name,
                    'PIPELINE_MODEL_CHIP': model_chip,
                    'PIPELINE_MODEL_TAG': model_tag,
                    'PIPELINE_CPU_LIMIT': cpu_limit,
-                   'PIPELINE_MEMORY_LIMIT': memory_limit}
+                   'PIPELINE_MEMORY_LIMIT': memory_limit,
+                   'PIPELINE_TARGET_CPU_UTIL_PERCENTAGE': target_cpu_util_percentage,
+                   'PIPELINE_MIN_REPLICAS': min_replicas,
+                   'PIPELINE_MAX_REPLICAS': max_replicas}
+
+        model_predict_deploy_yaml_template_path = os.path.join(template_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
 
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
         print(rendered)
+        print('--')
+
+        model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
         print(rendered)
+        print('--')
+ 
+        model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
 
-        #deploy_yaml_template = Template(model_predict_deploy_yaml_template_path)
-        #deploy_yaml_rendered = deloy_yaml_template.render()
-
-        #svc_yaml_template = Template(model_predict_svc_yaml_template_path)
-        #svc_yaml_rendered = svc_yaml_template.render()
-                      
+        path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
+        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
                        
     def model_shell(self,
                     model_type=None,
@@ -1754,7 +1771,7 @@ class PipelineCli(object):
     def service_delete(self,
                        app_name):
 
-        self.service_stop(app_name)
+        self._service_stop(app_name)
 
 
     def _service_stop(self,
