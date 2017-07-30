@@ -1,42 +1,20 @@
 #!/bin/bash
 
-start_model_training_tensorflow() {
+start_ui() {
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
     echo ""
-    echo "Starting TensorFlow-based Model Training..."
+    echo "Starting UI..."
     echo ""
 
     source activate $PIPELINE_CONDA_ENV_NAME
 
     cd $PIPELINE_MODEL_PATH 
-    guild prepare
-    guild train --flag=learning_rate=0.05
-    guild train --flag=learning_rate=0.025
     guild view &
     cd /root
-}
-
-start_model_training_python() {
-    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
-    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
-    echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
-    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-
-    echo ""
-    echo "Starting Python-based Model Training..."
-    echo ""
-
-    source activate $PIPELINE_CONDA_ENV_NAME
-
-    cd $PIPELINE_MODEL_PATH && python pipeline_train.py && cd /root
-    echo ""
-    echo "...Training Complete!"
-    echo ""
 }
 
 start_model_serving_python () {
@@ -117,9 +95,6 @@ prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
 sudo service grafana-server start
 
-#[ -s /root/nvidia/nvidia-prometheus-stats.py ] \
-#  && python2 /root/nvidia/nvidia-prometheus-stats.py -u 1.0 -p 7070 &
-
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
 echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
@@ -130,17 +105,17 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
 
-  [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
-    && start_model_training_python
-
   start_model_serving_python
 fi;
 
 if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
   [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
-    && start_model_training_tensorflow
+    && [ -s $PIPELINE_MODEL_PATH/Guild ] \
+    && start_ui
 
-  start_tensorflow_serving_in_background 
+  [ -s $PIPELINE_MODEL_PATH/versions ] \
+    && start_tensorflow_serving_in_background 
+
   start_model_serving_python
 fi;
 
