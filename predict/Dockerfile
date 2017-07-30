@@ -264,9 +264,34 @@ RUN \
 
 USER appuser
 
+# TODO:  Clean up this logic
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ] \ 
+     && [ ! -f "$PIPELINE_MODEL_PATH/Guild" ]; then \
+       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
+       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
+       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
+       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "" \
+       && echo "Starting TensorFlow-based Model Training..." \
+       && echo "" \
+       && source activate $PIPELINE_CONDA_ENV_NAME \
+       && cd $PIPELINE_MODEL_PATH \
+# TODO:  If expecting TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
+       && python pipeline_train.py \
+       && cd /root \
+       && echo "" \
+       && echo "...Training Complete!" \
+       && echo ""; \
+  fi
+
+# TODO:  Clean up this logic
+RUN \
+  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ] \
+     && [ -f "$PIPELINE_MODEL_PATH/Guild" ]; then \
        echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
        && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
        && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
