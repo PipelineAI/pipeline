@@ -23,6 +23,18 @@ spec:
       containers:
       - name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
         image: docker.io/fluxcapacitor/predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}:{{PIPELINE_MODEL_TAG}}
+      readinessProbe:
+        httpGet:
+          path: /healthz
+          port: 9876
+          scheme: HTTP
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 9876
+          scheme: HTTP
+        initialDelaySeconds: 180
+        timeoutSeconds: 5
         resources:
           limits:
             cpu: {{PIPELINE_CPU_LIMIT}}
