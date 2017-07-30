@@ -1,8 +1,5 @@
-#ARG model_chip 
 FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-cpu:master
-# This needs to come after the FROM
-#RUN \
-#  echo $model_chip
+
 ENV \
   PIPELINE_MODEL_CHIP=cpu
 
@@ -45,7 +42,7 @@ RUN \
 #   if/when the base Docker image changes TF version.
 # When the base Docker image changes TF version, be sure
 #   to propagate this change to the following:
-#     src/main/python/model_server/requirements/python/requirements_pipeline_model_server.txt
+#     src/main/python/model_server/requirements/python/pipeline_model_server_conda_requirements.yml
 RUN \
   pip install /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl \
   && pip uninstall -y /tmp/pip/tensorflow-1.2.0rc2-cp36-cp36m-linux_x86_64.whl
@@ -213,7 +210,7 @@ RUN \
        && echo "Creating and Activating '$PIPELINE_CONDA_ENV_NAME' Conda Environment with '$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME' Model Dependencies with '$PIPELINE_MODEL_PATH/pipeline_conda_environment.yml'..." \
        && echo "" \
        && conda env create --name $PIPELINE_CONDA_ENV_NAME \
-         --file $PIPELINE_MODEL_PATH/pipeline_conda_environment.yml \
+           --file $PIPELINE_MODEL_PATH/pipeline_conda_environment.yml \
        && echo "" \
        && echo "...Created and Activated!" \
        && echo "" \
@@ -221,11 +218,29 @@ RUN \
        && echo "Installing Model Server Dependencies..." \
        && echo "" \
        && conda env update --name $PIPELINE_CONDA_ENV_NAME \ 
-         --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
+           --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
        && echo "" \
+       && echo "source activate $PIPELINE_CONDA_ENV_NAME\n" >> ~/.bashrc \
        && echo "...Model Server Dependencies Installed!" \
        && echo ""; \
   fi
+
+# TODO:  Include this in the above if statement 
+RUN \
+  if [ -e "$PIPELINE_MODEL_PATH/pipeline_setup.sh" ]; then \  
+     CONDA_ENV_ROOT_PATH=$(conda info --root) \ 
+       && echo "Setting Up Conda Environment with '$PIPELINE_MODEL_PATH/pipeline_setup.sh'..." \
+       && conda info --root \
+       && conda env list \
+       && echo "" \
+       && source activate $PIPELINE_CONDA_ENV_NAME \ 
+       && echo "Running '$PIPELINE_MODEL_PATH/pipeline_setup.sh':\n" \
+       && chmod a+x $PIPELINE_MODEL_PATH/pipeline_setup.sh \   
+       && $PIPELINE_MODEL_PATH/pipeline_setup.sh \
+       && export \
+       && echo "...Conda Environment Successfully Setup at '$CONDA_ENV_ROOT_PATH/PIPELINE_CONDA_ENV_NAME/etc/conda/activate.d/pipeline_conda_environment_setup.sh'!" \
+       && echo ""; \
+  fi 
 
 # Guild/TensorFlow Requirements
 RUN \
@@ -248,6 +263,49 @@ RUN \
   && chmod a+wr -R /root/.sbt
 
 USER appuser
+
+RUN \
+  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
+       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
+       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
+       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
+       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "" \
+       && echo "Starting TensorFlow-based Model Training..." \
+       && echo "" \
+       && source activate $PIPELINE_CONDA_ENV_NAME \
+       && cd $PIPELINE_MODEL_PATH \
+       && guild prepare \
+       && guild train --flag=learning_rate=0.05 \
+       && guild train --flag=learning_rate=0.025 \
+       && ln -s /root/model/runs/model/versions \
+       && cd /root \
+       && echo "" \
+       && echo "...Training Complete!" \
+       && echo ""; \
+  fi
+
+RUN \
+  if [[ $PIPELINE_MODEL_TYPE == "python" ]] \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
+       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
+       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
+       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
+       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "" \
+       && echo "Starting Python-based Model Training..." \
+       && echo "" \
+       && source activate $PIPELINE_CONDA_ENV_NAME \
+       && cd $PIPELINE_MODEL_PATH \
+       && python pipeline_train.py \
+       && cd /root \
+       && echo "" \
+       && echo "...Training Complete!" \
+       && echo ""; \
+  fi
 
 EXPOSE 6969 7070 9876 9877 9000 9001 10254 10255 9040 9090 3000 6333
 
