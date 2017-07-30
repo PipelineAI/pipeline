@@ -5,11 +5,15 @@ import tensorflow as tf
 
 from tensorflow.examples.tutorials.mnist import input_data
 
+from datetime import datetime
+_version = int(datetime.now().strftime("%s"))
+
 def init_flags():
     global FLAGS
     parser = argparse.ArgumentParser()
-    parser.add_argument("--datadir", default="/tmp/MNIST_data",)
-    parser.add_argument("--rundir", default="/tmp/MNIST_train")
+    parser.add_argument("--rundir", default="./runs")
+    parser.add_argument("--datadir", default="./runs/data")
+    parser.add_argument("--servingdir", default="./model/versions")
     parser.add_argument("--batch_size", type=int, default=1000)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
@@ -126,7 +130,8 @@ def maybe_save_model(step):
 def save_model():
     print("Saving trained model")
     tf.gfile.MakeDirs(FLAGS.rundir + "/model")
-    tf.train.Saver().save(sess, FLAGS.rundir + "/model/export")
+    exported_model_path = FLAGS.rundir + "/model/export"
+    tf.train.Saver().save(sess, exported_model_path)
 
     from tensorflow.python.saved_model import utils
     from tensorflow.python.saved_model import signature_constants
@@ -143,13 +148,10 @@ def save_model():
     from tensorflow.python.saved_model import builder as saved_model_builder
     from tensorflow.python.saved_model import tag_constants
 
-    from datetime import datetime
-    version = int(datetime.now().strftime("%s"))
+    saved_model_path = '%s/model/versions/%s' % (FLAGS.rundir, _version)
+    print(saved_model_path)
 
-    fully_optimized_saved_model_path = '/root/model/versions/%s' % version
-    print(fully_optimized_saved_model_path)
-
-    builder = saved_model_builder.SavedModelBuilder(fully_optimized_saved_model_path)
+    builder = saved_model_builder.SavedModelBuilder(saved_model_path)
     builder.add_meta_graph_and_variables(sess,
                                          [tag_constants.SERVING],
                                          signature_def_map={'predict':prediction_signature,
@@ -158,14 +160,18 @@ def save_model():
     )
 
     builder.save(as_text=False)
-    print('')
-    print('Model training completed and saved here:  ./%s' % version)
-    print('')
+    print("")
+
+    served_model_path = '%s/%s' % (FLAGS.servingdir, _version)
+
+    print("Training complete.  tf.train.Saver exported to '%s'.\nSavedModelBuilder saved to '%s'.\nTensorFlow Serving at '%s'" % (exported_model_path, saved_model_path, served_model_path))
+    print("")
 
 
 def init_test():
     init_session()
     init_exported_collections()
+
 
 def init_exported_collections():
     global x, y_, accuracy
