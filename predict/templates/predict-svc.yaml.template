@@ -32,4 +32,4 @@ spec:
     targetPort: 6333
   selector:
     app: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
-    hystrix.enabled="true"
+    hystrix.enabled: "true"
