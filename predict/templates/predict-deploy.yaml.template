@@ -18,23 +18,23 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheus"
-        prometheus.io/port: "10254"
+        prometheus.io/port: "9040"
     spec:
       containers:
       - name: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
         image: docker.io/fluxcapacitor/predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}:{{PIPELINE_MODEL_TAG}}
-      readinessProbe:
-        httpGet:
-          path: /healthz
-          port: 9876
-          scheme: HTTP
-      livenessProbe:
-        httpGet:
-          path: /healthz
-          port: 9876
-          scheme: HTTP
-        initialDelaySeconds: 180
-        timeoutSeconds: 5
+#      readinessProbe:
+#        httpGet:
+#          path: /healthz
+#          port: 9876
+#          scheme: HTTP
+#      livenessProbe:
+#        httpGet:
+#          path: /healthz
+#          port: 9876
+#          scheme: HTTP
+#        initialDelaySeconds: 180
+#        timeoutSeconds: 5
         resources:
           limits:
             cpu: {{PIPELINE_CPU_LIMIT}}
@@ -54,13 +54,9 @@ spec:
           value: {{PIPELINE_MODEL_TAG}}
         ports:
         - containerPort: 6969
-        - containerPort: 7070
         - containerPort: 9876
-        - containerPort: 9877
         - containerPort: 9000
         - containerPort: 9001
-        - containerPort: 10254
-        - containerPort: 10255
         - containerPort: 9040
         - containerPort: 9090
         - containerPort: 3000

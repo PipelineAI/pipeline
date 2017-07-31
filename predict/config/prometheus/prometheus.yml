@@ -9,21 +9,9 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-  - job_name: 'model_server_python'
-    static_configs:
-      - targets: ['localhost:10254']
-
-  - job_name: 'model_server_tensorflow'
-    static_configs:
-      - targets: ['localhost:10255']
-
-  - job_name: 'model_server_jvm'
+  - job_name: 'model_server_python_and_jvm'
     static_configs:
       - targets: ['localhost:9040']
-
-  - job_name: 'gpu'
-    static_configs:
-      - targets: ['localhost:7070']
 
 #  - job_name: 'prometheus'
 #    static_configs:

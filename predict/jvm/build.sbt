@@ -7,7 +7,6 @@ sourcesInBase := false
 scalaSource in Compile := baseDirectory.value / "src"
 javaSource in Compile := baseDirectory.value / "src"
 
-(unmanagedClasspath in Compile) += file("lib/prometheus-hystrix-2.0.0.jar")
 (unmanagedClasspath in Compile) += file("lib/dbml-local-0.1.2-spark2.1.jar")
 
 lazy val settings = (project in file("."))
@@ -30,13 +29,14 @@ val janinoVersion = "2.7.8"
 val codahaleMetricsVersion = "3.1.2"
 val httpClientVersion = "4.5.3"
 val fluentHCVersion = "4.5.3"
-val prometheusSimpleClientVersion = "0.0.21"
-val prometheusSimpleClientHotspotVersion = "0.0.21"
+val prometheusSimpleClientVersion = "0.0.25"
+val prometheusSimpleClientHotspotVersion = "0.0.25"
 val commonsCompressVersion = "1.13"
 val commonsIOVersion = "1.3.2"
 val tensorflowVersion = "1.2.0"
 val grpcVersion = "1.0.0"
 val protobufVersion = "3.0.0"
+val prometheusHystrixVersion = "3.1.0"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
@@ -67,5 +67,6 @@ lazy val deps = Seq(
   "org.apache.httpcomponents" % "fluent-hc" % fluentHCVersion,
   "org.apache.commons" % "commons-compress" % commonsCompressVersion,
   "org.apache.commons" % "commons-io" % commonsIOVersion,
-  "org.tensorflow" % "tensorflow" % tensorflowVersion
+  "org.tensorflow" % "tensorflow" % tensorflowVersion,
+  "de.ahus1.prometheus.hystrix" % "prometheus-hystrix" % prometheusHystrixVersion
 )

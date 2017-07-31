@@ -139,14 +139,11 @@ RUN \
 ENV \
   PIPELINE_MODEL_SERVER_PORT=9876
 
+# Note:  Port 9040 is used in 2 separate contexts:
+#        1) separate http server for prometheus running within the python-based model server
+#        2) the same port as the main JVM-based model server
 ENV \
-  PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=10254
-
-ENV \
-  PIPELINE_MODEL_SERVER_TENSORFLOW_PORT=9877
-
-ENV \
-  PIPELINE_MODEL_SERVER_TENSORFLOW_PROMETHEUS_PORT=10255
+  PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=9040
 
 ENV \
   PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
@@ -334,6 +331,6 @@ RUN \
        && echo ""; \
   fi
 
-EXPOSE 6969 7070 9876 9877 9000 9001 10254 10255 9040 9090 3000 6333
+EXPOSE 6969 9876 9000 9040 9090 3000 6333
 
 CMD ["supervise", "."]
