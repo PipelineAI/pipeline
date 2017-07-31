@@ -49,7 +49,7 @@ import java.nio.file.Path
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector	
 class PredictionService {
-  HystrixPrometheusMetricsPublisher.register("predict")
+  HystrixPrometheusMetricsPublisher.register("predict-jvm")
   new StandardExports().register()
 
   val pmmlRegistry = new scala.collection.mutable.HashMap[String, Evaluator]

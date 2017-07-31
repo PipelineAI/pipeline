@@ -2,7 +2,7 @@ server:
   port: 9040
 spring:
   application:
-    name: prediction-tensorflow
+    name: predict-jvm 
   cloud:
     config:
       enabled: false
