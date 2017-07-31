@@ -10,7 +10,7 @@
 ## Setup `pipeline-ai-cli` 
 Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```bash
-pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
+pip3 install --ignore-installed --no-cache --update pipeline-ai-cli
 ```
 ```
 pipeline init
@@ -41,7 +41,7 @@ pipeline model-build --model-type=tensorflow \
                      --model-path=./models/tensorflow/mnist
 ```
 
-## Start Docker-based Model 
+## Start Docker-based Model
 ```
 pipeline model-start --model-type=tensorflow \
                      --model-name=mnist \
