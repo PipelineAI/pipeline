@@ -621,8 +621,6 @@ class PipelineCli(object):
         template_path = os.path.expanduser(template_path)
         template_path = os.path.abspath(template_path)
 
-        print("Using templates from '%s'" % template_path)
-
         context = {'PIPELINE_MODEL_TYPE': model_type,
                    'PIPELINE_MODEL_NAME': model_name,
                    'PIPELINE_MODEL_CHIP': model_chip,
@@ -638,14 +636,14 @@ class PipelineCli(object):
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
         print(rendered)
+        print('')
         print('--')
-
+        print('')
         model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
         print(rendered)
-        print('--')
  
         model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
 
