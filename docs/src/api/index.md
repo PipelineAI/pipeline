@@ -10,7 +10,7 @@
 ## Setup `pipeline-ai-cli` 
 Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
 ```bash
-pip3 install --ignore-installed --no-cache --update pipeline-ai-cli
+pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 ```
 pipeline init
