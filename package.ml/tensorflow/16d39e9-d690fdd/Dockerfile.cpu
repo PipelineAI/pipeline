@@ -10,7 +10,8 @@ ENV \
 # Setup OpenJDK 1.8
 ###################
 RUN \
-  apt-get install -y software-properties-common \
+  apt-get update \
+  && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:openjdk-r/ppa \
   && apt-get update \
   && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
@@ -24,10 +25,10 @@ ENV \
 
 
 ###################
-# Setup Bazel 0.5.3
+# Setup Bazel 0.5.2 (required due to https://github.com/tensorflow/tensorflow/issues/11884)
 ###################
 ENV \
-  BAZEL_VERSION=0.5.3
+  BAZEL_VERSION=0.5.2
 
 # Running bazel inside a `docker build` command causes trouble, cf:
 #   https://github.com/bazelbuild/bazel/issues/134
@@ -52,7 +53,7 @@ RUN mkdir /root/bazel && \
 # Build TensorFlow Serving
 ##########################
 ENV \
-  TENSORFLOW_SERVING_VERSION=0.5.1 \
+  TENSORFLOW_SERVING_VERSION=0.6.0 \
   TENSORFLOW_SERVING_HOME=/root/serving 
 
 # Required by TensorFlow Serving
@@ -150,7 +151,7 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
   # Remove NCCL since it isn't building properly
-  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
 #  && bazel build -c opt --config=cuda \
   && bazel build -c opt \
       --verbose_failures \
