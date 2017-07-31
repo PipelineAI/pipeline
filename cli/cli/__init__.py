@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.15"
+__version__ = "0.17"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -26,7 +26,9 @@ from datetime import timedelta
 import importlib.util
 import jinja2
 
+
 class PipelineCli(object):
+
     _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'jupyterhub': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
                             'spark': (['apachespark.ml/master-deploy.yaml'], ['spark-worker', 'metastore']),
@@ -98,245 +100,106 @@ class PipelineCli(object):
     _kube_svc_template_registry = {'predict': (['predict-svc.yaml.template'], [])}
     _kube_autoscale_template_registry = {'predict': (['predict-autoscale.yaml.template'], [])}
 
-    def _get_default_pipeline_api_version(self):
-        return 'v1'
+    _pipeline_api_version = 'v1' 
+    _pipeline_git_home = 'https://github.com/fluxcapacitor/source.ml/' 
+    _pipeline_git_version = 'master'
 
 
-    def _get_default_pipeline_git_home(self):
-        return 'https://github.com/fluxcapacitor/source.ml/'
-
-
-    def _get_default_pipeline_git_version(self):
-        return 'master'
-
-
-    def _get_current_context_from_kube_config(self):
-        cmd = 'kubectl config current-context'
-        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE) 
-        (output, error) = process.communicate() 
-        return output.rstrip().decode('utf-8')
+    def config(self):
+        print("api_version: '%s'" % PipelineCli._pipeline_api_version)
+        print("git_home: '%s'" % PipelineCli._pipeline_git_home)
+        print("git_version: '%s'" % PipelineCli._pipeline_git_version)
 
 
     def version(self):
         print(__version__)
 
 
-    def conda_view(self,
-              environment):
-        print("Dumping dependencies for conda env '%s'" % environment)
-        cmd = 'conda -n %s list' % environment
+    def model_env(self,
+                  environment='pipeline'):
+        print("Make sure you are running in the '%s` conda env for your local development and testing." % environment)
+        print("(Your model should have a `pipeline_conda_environment.yml` file that you can use to create the '%s' conda environment.)")
+        print("")
+        print("Exporting '%s' conda environment..." % environment)
+        print("")
+
+        cmd = 'conda env export -n %s' % environment
         process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
         (output, error) = process.communicate()
+
+        print("")
+        print("...export complete!")
         return output.rstrip().decode('utf-8')
 
 
-    def config_get(self,
-                   config_key):
-        print("")
-        pprint(self._get_full_config())
-        print("")
-        return self._get_full_config()[config_key]
-
-
-    def config_set(self,
-                   config_key,
-                   config_value):
-        print("config_key: '%s'" % config_key)
-        self._merge_dict({config_key: config_value})
-        print("config_value: '%s'" % self._get_full_config()[config_key])
-        self._merge_dict({config_key: config_value})
-        print("")
-        pprint(self._get_full_config())
-        print("")        
-
-
-    def _merge_dict(self, 
-                    new_dict):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-        config_file_base_path = "~/.pipeline/"
-        config_file_base_path = os.path.expandvars(config_file_base_path)
-        config_file_base_path = os.path.expanduser(config_file_base_path)
-        config_file_base_path = os.path.abspath(config_file_base_path)
-        config_file_path = os.path.join(config_file_base_path, 'config')
-
-        existing_config_dict = self._get_full_config()
-
-        # >= Python3.5 
-        # {**existing_config_dict, **new_dict}
-        existing_config_dict.update(new_dict)
-
-        new_config_yaml = yaml.dump(existing_config_dict, default_flow_style=False, explicit_start=True)
-
-        with open(config_file_path, 'w') as fh:
-            fh.write(new_config_yaml)
-
-
-    def _get_full_config(self):
-        config_file_base_path = "~/.pipeline/"
-        config_file_base_path = os.path.expandvars(config_file_base_path)
-        config_file_base_path = os.path.expanduser(config_file_base_path)
-        config_file_base_path = os.path.abspath(config_file_base_path)
-        config_file_filename = os.path.join(config_file_base_path, 'config')
-
-        if not os.path.exists(config_file_filename):
-            if not os.path.exists(config_file_base_path):
-                os.makedirs(config_file_base_path)
-            initial_config_dict = {'pipeline_api_version': self._get_default_pipeline_api_version(),
-                                   'pipeline_git_home': self._get_default_pipeline_git_home(),
-                                   'pipeline_git_version': self._get_default_pipeline_git_version()}
-            initial_config_yaml =  yaml.dump(initial_config_dict, default_flow_style=False, explicit_start=True)
-            print("")
-            print("Default config created at '%s'.  Override with 'pipeline init'" % config_file_filename)
-            print("")
-            with open(config_file_filename, 'w') as fh:
-                fh.write(initial_config_yaml)
-
-        # Load the YAML 
-        with open(config_file_filename, 'r') as fh:
-            existing_config_dict = yaml.load(fh)
-            return existing_config_dict
-
-
-    def config(self):
-        print(yaml.dump(self._get_full_config(), default_flow_style=False, explicit_start=True))
-        print("")
-
-
-    def services(self):
-        self.cluster_view()
-
-
     def service_proxy(self,
-              app_name,
-              local_port=None,
-              app_port=None):
+                      service_name,
+                      local_port=None,
+                      service_port=None):
 
-        self.service_tunnel(app_name, local_port, app_port)
-
-
-    def service_tunnel(self,
-               app_name,
-               local_port=None,
-               app_port=None):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
-
-        pod = self._get_pod_by_app_name(app_name)
+        pod = self._get_pod_by_service_name(service_name)
         if not pod:
             print("")
-            print("App '%s' is not running." % app_name)
+            print("App '%s' is not running." % service_name)
             print("")
             return
-        if not app_port:
-            svc = self._get_svc_by_app_name(app_name)
+        if not service_port:
+            svc = self._get_svc_by_service_name(service_name)
             if not svc:
                 print("")
-                print("App '%s' proxy port cannot be found." % app_name)
+                print("App '%s' proxy port cannot be found." % service_name)
                 print("")
                 return
-            app_port = svc.spec.ports[0].target_port
+            service_port = svc.spec.ports[0].target_port
 
         if not local_port:
             print("")
-            print("Proxying local port '<randomly-chosen>' to app '%s' port '%s' using pod '%s'." % (app_port, app_name, pod.metadata.name))
+            print("Proxying local port '<randomly-chosen>' to app '%s' port '%s' using pod '%s'." % (service_port, service_name, pod.metadata.name))
             print("")
-            print("Use 'http://127.0.0.1:<randomly-chosen>' to access app '%s' on port '%s'." % (app_name, app_port))
-            print("")
-            print("If you break out of this terminal, your proxy session will end.")
-            print("")
-            subprocess.call('kubectl port-forward %s :%s' % (pod.metadata.name, app_port), shell=True)
-            print("")
-        else:
-            print("")
-            print("Proxying local port '%s' to app '%s' port '%s' using pod '%s'." % (local_port, app_port, app_name, pod.metadata.name))
-            print("")
-            print("Use 'http://127.0.0.1:%s' to access app '%s' on port '%s'." % (local_port, app_name, app_port))
+            print("Use 'http://127.0.0.1:<randomly-chosen>' to access app '%s' on port '%s'." % (service_name, service_port))
             print("")
             print("If you break out of this terminal, your proxy session will end.")
             print("")
-            subprocess.call('kubectl port-forward %s %s:%s' % (pod.metadata.name, local_port, app_port), shell=True)
+            subprocess.call('kubectl port-forward %s :%s' % (pod.metadata.name, service_port), shell=True)
             print("")
-
-
-    # TODO:  Start an airflow job
-    def _job_flow(self,
-             flow_name):
-        print("")
-        print("Submit airflow coming soon!")
-
-
-    # TODO:  Submit a spark job
-    def _job_submit(self,
-               replicas):
-        print("Submit spark job coming soon!")
-
-
-    def top(self,
-            app_name=None):
-
-        self._system_view(app_name)
-
-
-    def _system_view(self,
-                     app_name=None):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured 'pipeline cluster-init'.")
-            print("")
-            return
-
-        if (app_name):
-#            print("")
-#            print("Retrieving system metrics for app '%s'." % app_name)
-#            print("")
-            self._get_app_resources(app_name)
-#            print("")
-#            print("Retrieving system metrics for cluster.")
-            print("")
-            self._get_cluster_resources()
         else:
             print("")
-            print("Retrieving only system resources for cluster.  Use '--app-name' for app-level, as well.")
+            print("Proxying local port '%s' to app '%s' port '%s' using pod '%s'." % (local_port, service_port, service_name, pod.metadata.name))
             print("")
-            self._get_cluster_resources()
+            print("Use 'http://127.0.0.1:%s' to access app '%s' on port '%s'." % (local_port, service_name, service_port))
+            print("")
+            print("If you break out of this terminal, your proxy session will end.")
+            print("")
+            subprocess.call('kubectl port-forward %s %s:%s' % (pod.metadata.name, local_port, service_port), shell=True)
+            print("")
+
+
+    def service_top(self,
+                    service_name):
+
+        self._get_service_resources(service_name)
+        self.cluster_top()
 
         print("")
         print("If you see an error above, you need to start Heapster with 'pipeline start heapster'.")
         print("")
 
 
+    def cluster_top(self):
+
+        self._get_cluster_resources()
+
+        print("")
+        print("If you see an error above, you need to start Heapster with 'pipeline start heapster'.")
+        print("")
+
     def _get_cluster_resources(self):
         subprocess.call("kubectl top node", shell=True)
         print("")
 
-    def _get_app_resources(self,
-                           app_name):
 
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured 'pipeline cluster-init'.")
-            print("")
-            return
+    def _get_service_resources(self,
+                              service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -348,237 +211,19 @@ class PipelineCli(object):
                                                                  pretty=True)
             pods = response.items
             for pod in pods: 
-                if (app_name in pod.metadata.name):
+                if (service_name in pod.metadata.name):
                     subprocess.call('kubectl top pod %s' % pod.metadata.name, shell=True)
         print("")
 
 
-    def _cluster_join(self,
-                      federation):
-        print("")
-        print("Federation joining coming soon!")
-        print("")
-
-
-    def _cluster_up(self,
-           provider='aws',
-           ssh_public_key='~/.ssh/id_rsa.pub',
-           initial_worker_count='1',
-#           min_worker_count='1',
-#           max_worker_count='1',
-           worker_zones='us-west-2a,us-west-2b',
-           worker_type='r2.2xlarge',
-           master_zones='us-west-2c',
-           master_type='t2.medium',
-#           dns_zone='',
-#           vpc='',
-           kubernetes_version='1.6.2',
-           kubernetes_image='kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09'):
-        try:
-            kops_cluster_name = self._get_full_config()['kops_cluster_name']
-            kops_state_store = self._get_full_config()['kops_state_store']
-
-            if not kops_ssh_public_key:
-                subprocess.call("ssh-keygen -t rsa", shell=True)
-                ssh_public_key = '~/.ssh/id_rsa.pub'
-
-            subprocess.call("aws configure", shell=True)
-            subprocess.call("aws s3 mb %s" % kops_state_store, shell=True)
-
-            subprocess.call("kops create cluster --ssh-public-key %s --node-count %s --zones %s --master-zones %s --node-size %s --master-size %s --kubernetes-version %s --image %s --state %s --name %s" % (ssh_public_key, initial_worker_count, worker_zones, master_zones, worker_type, master_type, kubernetes_version, kubernetes_image, kops_state_store, kops_cluster_name), shell=True)
-            subprocess.call("kops update --state %s cluster %s --yes" % (kops_state_store, kops_cluster_name), shell=True)
-            subprocess.call("kubectl config set-cluster %s --insecure-skip-tls-verify=true" % kops_cluster_name)
-            print("")
-            print("Cluster is being created.  This may take a few mins.")
-            print("")
-            print("Once the cluster is up, run 'kubectl cluster-info' for the Kubernetes dashboard url.")
-            print("Username is 'admin'.")
-            print("Password can be retrieved with 'kops get secrets kube --type secret -oplaintext --state %s'" % kops_state_store)
-        except:
-            print("")
-            print("Kops needs to be configured with 'pipeline kops-init'.")
-            print("")
-            return
-           
-
-    def _kops_init(self,
-                  kops_cluster_name,
-                  kops_state_store):
-        config_dict = {'kops_cluster_name': kops_cluster_name,
-                       'kops_state_store': kops_state_store}
-        self._merge_dict(config_dict)
-        print("")
-        pprint(self._get_full_config())
-        print("")
-
-       
-    def _instancegroups(self):
-        try:
-            kops_cluster_name = self._get_full_config()['kops_cluster_name']
-            kops_state_store = self._get_full_config()['kops_state_store']
-            
-            subprocess.call("kops --state %s --name %s get instancegroups" % (kops_state_store, kops_cluster_name), shell=True)
-            print("")
-        except:
-            print("")
-            print("Kops needs to be configured with 'pipeline kops-init'.")
-            print("")
-            return
-
-
-    def clusters(self):
-        try:
-            kops_cluster_name = self._get_full_config()['kops_cluster_name']
-            kops_state_store = self._get_full_config()['kops_state_store']
-
-            subprocess.call("kops --state %s --name %s get clusters" % (kops_state_store, kops_cluster_name), shell=True)
-            print("")
-        except:
-            print("")
-            print("Kops needs to be configured with 'pipeline kops-init'.")
-            print("")
-            return
- 
-
-    def _federations(self):
-        try:
-            kops_cluster_name = self._get_full_config()['kops_cluster_name']
-            kops_state_store = self._get_full_config()['kops_state_store']
-
-            subprocess.call("kops --state %s --name %s get federations" % (kops_state_store, kops_cluster_name), shell=True)
-            print("")
-        except:
-            print("")
-            print("Kops needs to be configured with 'pipeline kops-init'.")
-            print("")
-            return
-
-
-    def secrets(self):
-        try:
-            kops_cluster_name = self._get_full_config()['kops_cluster_name']
-            kops_state_store = self._get_full_config()['kops_state_store']
-
-            subprocess.call("kops --state %s --name %s get secrets" % (kops_state_store, kops_cluster_name), shell=True)
-            print("")
-        except:
-            print("")
-            print("Kops needs to be configured with 'pipeline kops-init'.")
-            print("")
-            return
-
-
-    def init(self,
-             pipeline_api_version=None,
-             pipeline_git_home=None,
-             pipeline_git_version=None):
-
-        if not pipeline_api_version:
-             pipeline_api_version = self._get_default_pipeline_api_version()
-
-        if not pipeline_git_home:
-             pipeline_git_home = self._get_default_pipeline_git_home()
- 
-        if not pipeline_git_version:
-             pipeline_git_version = self._get_default_pipeline_git_version()
-
-        config_dict = {'pipeline_api_version': pipeline_api_version,
-                       'pipeline_git_home': pipeline_git_home,
-                       'pipeline_git_version': pipeline_git_version}
-
-        self._merge_dict(config_dict)
-
-        print("")
-        print(yaml.dump(self._get_full_config(), default_flow_style=False, explicit_start=True))
-        print("")
-
-
-    def cluster_init(self,
-                     kube_cluster_context=None,
-                     kube_namespace=None):
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        if not kube_cluster_context:
-            kube_cluster_context = self._get_current_context_from_kube_config()
-
-        if not kube_namespace:
-            kube_namespace = 'default'
-
-        config_dict = {'kube_cluster_context': kube_cluster_context, 
-                       'kube_namespace': kube_namespace}
-        self._merge_dict(config_dict)
-        print("")
-        pprint(self._get_full_config())
-        print("")
-
-
-    def model_init(self,
+    def model_build(self,
                    model_type,
                    model_name,
                    model_path,
-                   model_server_url=None,
-                   model_test_request_path=None,
-                   model_request_mime_type='application/json',
-                   model_response_mime_type='application/json'):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        model_path = os.path.expandvars(model_path)
-        model_path = os.path.expanduser(model_path)
-        model_path = os.path.abspath(model_path)
-        
-        if model_test_request_path:
-            model_test_request_path = os.path.expandvars(model_test_request_path)
-            model_test_request_path = os.path.expanduser(model_test_request_path)
-            model_test_request_path = os.path.abspath(model_test_request_path)
-        else:
-            model_test_request_path = os.path.join(model_path, 'data/test_request.json')
-
-        if model_server_url:
-            model_server_url.rstrip('/')
-
-            config_dict = {
-                           'model_server_url': model_server_url,
-                           'model_type': model_type,
-                           'model_name': model_name,
-                           'model_path': model_path, 
-                           'model_test_request_path': model_test_request_path,
-                           'model_request_mime_type': model_request_mime_type,
-                           'model_response_mime_type': model_response_mime_type,
-            }
-        else:
-            config_dict = {
-                           'model_type': model_type,
-                           'model_name': model_name,
-                           'model_path': model_path,
-                           'model_test_request_path': model_test_request_path,
-                           'model_request_mime_type': model_request_mime_type,
-                           'model_response_mime_type': model_response_mime_type,
-            }
-
-        self._merge_dict(config_dict)
-        print("")
-        pprint(self._get_full_config())
-        print("")
-
-
-    def model_build(self,
-                   model_type=None,
-                   model_name=None,
-                   model_path=None,
-                   model_tag='master',
+                   model_tag,
                    model_chip='cpu',
                    build_type='docker',
                    build_path='.'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if not model_path:
-            model_path = self._get_full_config()['model_path']
 
         if build_type == 'docker':
             if model_chip == 'gpu':
@@ -651,16 +296,10 @@ class PipelineCli(object):
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
                        
     def model_shell(self,
-                    model_type=None,
-                    model_name=None,
-                    model_tag='master',
+                    model_type,
+                    model_name,
+                    model_tag,
                     model_chip='cpu'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
 
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
@@ -674,19 +313,10 @@ class PipelineCli(object):
 
 
     def model_push(self,
-                   model_type=None,
-                   model_name=None,
-                   model_chip='cpu',
-                   model_tag='master'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if not model_tag:
-            model_tag = self._get_full_config()['model_tag']
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu'):
 
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
@@ -697,22 +327,27 @@ class PipelineCli(object):
         process = subprocess.call(cmd, shell=True)
 
 
+    def model_pull(self,
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu'):
+
+        if model_chip == 'gpu':
+            docker_cmd = 'nvidia-docker'
+        else:
+            docker_cmd = 'docker'
+
+        cmd = '%s pull fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        process = subprocess.call(cmd, shell=True)
+
+
     def model_start(self,
-                    build_type='docker',
-                    model_type=None,
-                    model_name=None,
+                    model_type,
+                    model_name,
+                    model_tag,
                     model_chip='cpu',
-                    model_tag='master',
                     memory_limit='2G'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if not model_tag:
-            model_tag = self._get_full_config()['model_tag']
 
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
@@ -721,8 +356,8 @@ class PipelineCli(object):
 
         cmd = '%s run -itd --name=predict-%s-%s-%s-%s \
                -m %s \
-               -p 6969:6969 -p 7070:7070 -p 9876:9876 -p 9877:9877 -p 9000:9000 -p 9001:9001 \
-               -p 10254:10254 -p 10255:10255 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 \
+               -p 6969:6969 -p 9876:9876 -p 9000:9000 \
+               -p 10254:10254 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 \
                -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
                fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_type, model_name, model_chip, model_tag)
 
@@ -730,20 +365,10 @@ class PipelineCli(object):
 
 
     def model_stop(self,
-                   build_type='docker',
-                   model_type=None,
-                   model_name=None,
-                   model_chip='cpu',
-                   model_tag='master'):
-
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if not model_tag:
-            model_tag = self._get_full_config()['model_tag']
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu'): 
 
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
@@ -756,20 +381,10 @@ class PipelineCli(object):
 
 
     def model_logs(self,
-                   build_type='docker',
-                   model_type=None,
-                   model_name=None,
-                   model_chip='cpu',
-                   model_tag='master'):
-          
-        if not model_type:
-            model_type = self._get_full_config()['model_type']
-
-        if not model_name:
-            model_name = self._get_full_config()['model_name']
-
-        if not model_tag:
-            model_tag = self._get_full_config()['model_tag']
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu'):
 
         if model_chip == 'gpu':
             docker_cmd = 'nvidia-docker'
@@ -782,20 +397,9 @@ class PipelineCli(object):
 
 
     def service_upgrade(self,
-                        app_name,
-                        docker_image,
-                        docker_tag):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+                        service_name,
+                        service_image,
+                        service_tag):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -807,51 +411,40 @@ class PipelineCli(object):
                                                                               pretty=True)
             found = False
             deployments = response.items
-            for deploy in deployments:
-                if app_name in deploy.metadata.name:
+            for deployment in deployments:
+                if service_name in deployment.metadata.name:
                     found = True
                     break
             if found:
                 print("")
-                print("Upgrading app '%s' using Docker image '%s:%s'." % (deploy.metadata.name, docker_image, docker_tag))
+                print("Upgrading service '%s' using Docker image '%s:%s'." % (deployment.metadata.name, service_image, service_tag))
                 print("")
-                cmd = "kubectl set image deploy %s %s=%s:%s" % (deploy.metadata.name, deploy.metadata.name, docker_image, docker_tag)
+                cmd = "kubectl set image deploy %s %s=%s:%s" % (deployment.metadata.name, deployment.metadata.name, service_image, service_tag)
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                cmd = "kubectl rollout status deploy %s" % deploy.metadata.name
+                cmd = "kubectl rollout status deploy %s" % deployment.metadata.name
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                cmd = "kubectl rollout history deploy %s" % deploy.metadata.name
+                cmd = "kubectl rollout history deploy %s" % deployment.metadata.name
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                print("Check status with 'pipeline cluster'.")
+                print("Check status with 'pipeline services'.")
                 print("")
             else:
                 print("")
-                print("App '%s' is not running." % app_name)
+                print("App '%s' is not running." % service_name)
                 print("")
 
 
     def service_rollback(self,
-                         app_name,
+                         service_name,
                          to_revision=None):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -863,38 +456,38 @@ class PipelineCli(object):
                                                                               pretty=True)
             found = False
             deployments = response.items
-            for deploy in deployments:
-                if app_name in deploy.metadata.name:
+            for deployment in deployments:
+                if service_name in deployment.metadata.name:
                     found = True
                     break
             if found:
                 print("")
                 if to_revision:
-                    print("Rolling back app '%s' to revision '%s'." % deploy.metadata.name, revision)
-                    cmd = "kubectl rollout undo deploy %s --to-revision=%s" % (deploy.metadata.name, to_revision)
+                    print("Rolling back app '%s' to revision '%s'." % deployment.metadata.name, revision)
+                    cmd = "kubectl rollout undo deploy %s --to-revision=%s" % (deployment.metadata.name, to_revision)
                 else:
-                    print("Rolling back app '%s'." % deploy.metadata.name)
-                    cmd = "kubectl rollout undo deploy %s" % deploy.metadata.name
+                    print("Rolling back app '%s'." % deployment.metadata.name)
+                    cmd = "kubectl rollout undo deploy %s" % deployment.metadata.name
                 print("")
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                cmd = "kubectl rollout status deploy %s" % deploy.metadata.name
+                cmd = "kubectl rollout status deploy %s" % deployment.metadata.name
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                cmd = "kubectl rollout history deploy %s" % deploy.metadata.name
+                cmd = "kubectl rollout history deploy %s" % deployment.metadata.name
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                print("Check status with 'pipeline cluster'.")
+                print("Check status with 'pipeline services'.")
                 print("")
             else:
                 print("")
-                print("App '%s' is not running." % app_name)
+                print("App '%s' is not running." % service_name)
                 print("")
 
 
@@ -935,59 +528,12 @@ class PipelineCli(object):
 
 
     def _model_deploy(self,
-                      model_server_url=None,
-                      model_type=None,
-                      model_name=None,
-                      model_path='.',
-                      model_tag='master',
+                      model_type,
+                      model_name,
+                      model_path,
+                      model_tag,
+                      model_server_url,
                       timeout=60):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        if not model_server_url:
-            try:
-                model_server_url= self._get_full_config()['model_server_url']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_type:
-            try:
-                model_type = self._get_full_config()['model_type']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_name:
-            try:
-                model_name = self._get_full_config()['model_name']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_path:
-            try:
-                model_path = self._get_full_config()['model_path']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_tag:
-            try:
-                model_tag = self._get_full_config()['model_tag']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
 
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
@@ -1060,84 +606,18 @@ class PipelineCli(object):
 
 
     def _predict(self,
-                model_server_url=None,
-                model_type=None,
-                model_name=None,
-                model_tag='master',
-                model_test_request_path=None,
+                model_server_url,
+                model_type,
+                model_name,
+                model_tag,
+                model_test_request_path,
                 model_request_mime_type='application/json',
                 model_response_mime_type='application/json',
                 timeout=10):
 
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        if not model_server_url:
-            try:
-                model_server_url = self._get_full_config()['model_server_url']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_type:
-            try:
-                model_type = self._get_full_config()['model_type']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_name:
-            try:
-                model_name = self._get_full_config()['model_name']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_tag:
-            try:
-                model_tag = self._get_full_config()['model_tag']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_test_request_path:
-            try:
-                model_test_request_path = self._get_full_config()['model_test_request_path']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if model_test_request_path:
-            model_test_request_path = os.path.expandvars(model_test_request_path)
-            model_test_request_path = os.path.expanduser(model_test_request_path)
-            model_test_request_path = os.path.abspath(model_test_request_path)
-
-        if not model_request_mime_type:
-            try:
-                model_request_mime_type = self._get_full_config()['model_request_mime_type']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
-
-        if not model_response_mime_type:
-            try:
-                model_response_mime_type = self._get_full_config()['model_response_mime_type']
-            except:
-                print("")
-                print("Model needs to be configured with 'pipeline model-init'.")
-                print("")
-                return
+        model_test_request_path = os.path.expandvars(model_test_request_path)
+        model_test_request_path = os.path.expanduser(model_test_request_path)
+        model_test_request_path = os.path.abspath(model_test_request_path)
 
         print('model_server_url: %s' % model_server_url)
         print('model_type: %s' % model_type)
@@ -1147,7 +627,7 @@ class PipelineCli(object):
         print('model_request_mime_type: %s' % model_request_mime_type)
         print('model_response_mime_type: %s' % model_response_mime_type)
 
-        full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), pipeline_api_version, model_type, model_name)
+        full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name)
         print("")
         print("Predicting with file '%s' using '%s'" % (model_test_request_path, full_model_url))
         print("")
@@ -1180,12 +660,12 @@ class PipelineCli(object):
 
 
     def model_predict(self,
+                      model_type,
+                      model_name,
+                      model_tag,
+                      model_server_url,
+                      model_test_request_path,
                       model_test_request_concurrency=1,
-                      model_server_url=None,
-                      model_type=None,
-                      model_name=None,
-                      model_tag='master',
-                      model_test_request_path=None,
                       model_request_mime_type='application/json',
                       model_response_mime_type='application/json'):
 
@@ -1202,17 +682,7 @@ class PipelineCli(object):
                                               model_response_mime_type))
 
 
-    def cluster_view(self):
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+    def services(self):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1221,7 +691,7 @@ class PipelineCli(object):
         print("")
         print("Available Services")
         print("******************")
-        self._get_all_available_apps()
+        self._get_all_available_services()
 
         print("")
         print("DNS Internal (Public)")
@@ -1239,6 +709,17 @@ class PipelineCli(object):
                     if (svc.status.load_balancer.ingress[0].ip):
                         ingress = svc.status.load_balancer.ingress[0].ip               
                 print("%s (%s)" % (svc.metadata.name, ingress))
+
+        print("")
+        print("Deployments")
+        print("***********")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            response = kubeclient_v1_beta1.list_deployment_for_all_namespaces(watch=False,
+                                                                              pretty=True)
+            deployments = response.items
+            for deployment in deployments:
+                print("%s (Available Replicas: %s)" % (deployment.metadata.name, deployment.status.available_replicas))
 
         print("")
         print("Containers (Pods)")
@@ -1263,18 +744,8 @@ class PipelineCli(object):
         print("")
 
 
-    def _get_pod_by_app_name(self,
-                             app_name):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+    def _get_pod_by_service_name(self,
+                             service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1286,7 +757,7 @@ class PipelineCli(object):
             response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, pretty=True)
             pods = response.items
             for pod in pods:
-                if app_name in pod.metadata.name:
+                if service_name in pod.metadata.name:
                     found = True
                     break
         if found:
@@ -1295,18 +766,8 @@ class PipelineCli(object):
             return None
 
 
-    def _get_svc_by_app_name(self,
-                             app_name):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+    def _get_svc_by_service_name(self,
+                             service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1319,7 +780,7 @@ class PipelineCli(object):
                                                                      pretty=True)
             services = response.items
             for svc in services:
-                if app_name in svc.metadata.name:
+                if service_name in svc.metadata.name:
                     found = True
                     break
         if found:
@@ -1328,26 +789,15 @@ class PipelineCli(object):
             return None
 
 
-    def _get_all_available_apps(self):
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
+    def _get_all_available_services(self):
 
-        available_apps = list(PipelineCli._kube_deploy_registry.keys())
-        available_apps.sort()
-        for app in available_apps:
-            print(app)
+        available_services = list(PipelineCli._kube_deploy_registry.keys())
+        available_services.sort()
+        for service in available_services:
+            print(service)
 
 
-    def nodes(self):
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+    def cluster_nodes(self):
 
         print("")
         print("Nodes")
@@ -1357,16 +807,6 @@ class PipelineCli(object):
 
 
     def _get_all_nodes(self):
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1380,29 +820,8 @@ class PipelineCli(object):
                 print("%s" % node.metadata.labels['kubernetes.io/hostname'])
 
 
-    def services(self):
-        self.cluster_view() 
-
-
     def service_shell(self,
-              app_name):
-
-        self.service_connect(app_name)
-
- 
-    def service_connect(self,
-                app_name):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+                     service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1414,7 +833,7 @@ class PipelineCli(object):
                                                                  pretty=True)
             pods = response.items
             for pod in pods:
-                if app_name in pod.metadata.name:
+                if service_name in pod.metadata.name:
                     break
             print("")
             print("Connecting to '%s'" % pod.metadata.name)      
@@ -1424,18 +843,7 @@ class PipelineCli(object):
 
 
     def service_logs(self,
-                     app_name):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+                     service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1448,7 +856,7 @@ class PipelineCli(object):
             found = False
             pods = response.items
             for pod in pods:
-                if app_name in pod.metadata.name:
+                if service_name in pod.metadata.name:
                     found = True
                     break
             if found:
@@ -1459,24 +867,13 @@ class PipelineCli(object):
                 print("")
             else:
                 print("")
-                print("App '%s' is not running." % app_name)
+                print("App '%s' is not running." % service_name)
                 print("")
 
 
     def service_scale(self,
-                      app_name,
+                      service_name,
                       replicas):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1489,38 +886,27 @@ class PipelineCli(object):
             found = False
             deployments = response.items
             for deploy in deployments:
-                if app_name in deploy.metadata.name:
+                if service_name in deploy.metadata.name:
                     found = True
                     break
             if found:
                 print("")
-                print("Scaling app '%s' to '%s' replicas." % (deploy.metadata.name, replicas))
+                print("Scaling service '%s' to '%s' replicas." % (deploy.metadata.name, replicas))
                 print("")
                 cmd = "kubectl scale deploy %s --replicas=%s" % (deploy.metadata.name, replicas)
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                print("Check status with 'pipeline cluster'.")
+                print("Check status with 'pipeline services'.")
                 print("")
             else:
                 print("")
-                print("App '%s' is not running." % app_name)
+                print("App '%s' is not running." % service_name)
                 print("") 
 
 
-    def volumes(self):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+    def cluster_volumes(self):
 
         print("")
         print("Volumes")
@@ -1535,17 +921,6 @@ class PipelineCli(object):
 
 
     def _get_all_volumes(self):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1563,17 +938,6 @@ class PipelineCli(object):
 
     def _get_all_volume_claims(self):
 
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
-
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
@@ -1589,19 +953,19 @@ class PipelineCli(object):
 
 
     def _get_config_yamls(self, 
-                          app_name):
+                          service_name):
         return [] 
 
 
     def _get_secret_yamls(self, 
-                          app_name):
+                          service_name):
         return []
 
 
     def _get_deploy_yamls(self, 
-                          app_name):
+                          service_name):
         try:
-            (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[app_name]
+            (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[service_name]
         except:
             dependencies = []
             deploy_yamls = []
@@ -1613,9 +977,9 @@ class PipelineCli(object):
 
 
     def _get_svc_yamls(self, 
-                       app_name):
+                       service_name):
         try:
-            (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[app_name]
+            (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[service_name]
         except:
             dependencies = []
             svc_yamls = []
@@ -1627,47 +991,27 @@ class PipelineCli(object):
 
 
     def service_create(self,
-                       app_name):
+                       service_name,
+                       kube_namespace='default'):
 
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try: 
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
-
-        try:
-            pipeline_git_home = self._get_full_config()['pipeline_git_home']
-
-            if 'http:' in pipeline_git_home or 'https:' in pipeline_git_home:
-                pass
-            else:
-                pipeline_git_home = os.path.expandvars(pipeline_git_home)
-                pipeline_git_home = os.path.expanduser(pipeline_git_home)
-                pipeline_git_home = os.path.abspath(pipeline_git_home)
-
-            pipeline_git_version = self._get_full_config()['pipeline_git_version']
-        except:
-            print("")
-            print("PipelineIO needs to be configured with 'pipeline init-pipeline'.")
-            print("")
-            return
+        if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
+            pass
+        else:
+            pipeline_git_home = os.path.expandvars(PipelineCli._pipeline_git_home)
+            pipeline_git_home = os.path.expanduser(PipelineCli._pipeline_git_home)
+            pipeline_git_home = os.path.abspath(PipelineCli._pipeline_git_home)
 
         config_yaml_filenames = [] 
         secret_yaml_filenames = [] 
         deploy_yaml_filenames = []
         svc_yaml_filenames = [] 
         
-        config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(app_name)
-        secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(app_name)
-        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(app_name)
+        config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(service_name)
+        secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(service_name)
+        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name)
         print("Using '%s'" % deploy_yaml_filenames)
  
-        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(app_name)
+        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name)
         print(svc_yaml_filenames)
         print("Using '%s'" % svc_yaml_filenames)
 
@@ -1675,15 +1019,8 @@ class PipelineCli(object):
         kubeclient_v1 = kubeclient.CoreV1Api()
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
-        #for config_yaml_filename in config_yaml_filenames:
-            # TODO
-        #    return 
-
-        #for secret_yaml_filename in secret_yaml_filenames:
-            # TODO 
-        #    return
         print("")
-        print("Starting app '%s'." % app_name)
+        print("Starting service '%s'." % service_name)
         print("")
         print("Kubernetes Deployments:")
         print("")
@@ -1697,9 +1034,9 @@ class PipelineCli(object):
                     subprocess.call(cmd, shell=True)
                     print("")
                 else:
-                    if 'http:' in pipeline_git_home or 'https:' in pipeline_git_home:
-                        pipeline_git_home = pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
-                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), pipeline_git_version, deploy_yaml_filename)
+                    if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
+                        pipeline_git_home = PipelineCli._pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
+                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), PipelineCli._pipeline_git_version, deploy_yaml_filename)
                         print("Running '%s'." % cmd)
                         print("")
                         subprocess.call(cmd, shell=True)
@@ -1731,9 +1068,9 @@ class PipelineCli(object):
                     subprocess.call(cmd, shell=True)
                     print("")
                 else:
-                    if 'http:' in pipeline_git_home or 'https:' in pipeline_git_home:
-                        pipeline_git_home = pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
-                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), pipeline_git_version, svc_yaml_filename)
+                    if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
+                        pipeline_git_home = PipelineCli._pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
+                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), PipelineCli._pipeline_git_version, svc_yaml_filename)
                         print("Running '%s'." % cmd)
                         print("")
                         subprocess.call(cmd, shell=True)
@@ -1755,29 +1092,13 @@ class PipelineCli(object):
         print("")
         print("Ignore any 'Already Exists' errors.  These are OK.")
         print("")
-        print("Check app status with 'pipeline apps' or 'pipeline cluster-init'.")
+        print("Check service status with 'pipeline services'.")
         print("")
 
 
     def service_delete(self,
-                       app_name):
-
-        self._service_stop(app_name)
-
-
-    def _service_stop(self,
-                     app_name):
-
-        pipeline_api_version = self._get_full_config()['pipeline_api_version']
-
-        try:
-            kube_cluster_context = self._get_full_config()['kube_cluster_context']
-            kube_namespace = self._get_full_config()['kube_namespace']
-        except:
-            print("")
-            print("Cluster needs to be configured with 'pipeline cluster-init'.")
-            print("")
-            return
+                       service_name,
+                       kube_namespace='default'):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1789,23 +1110,23 @@ class PipelineCli(object):
             found = False
             deployments = response.items
             for deploy in deployments:
-                if app_name in deploy.metadata.name:
+                if service_name in deploy.metadata.name:
                     found = True
                     break
             if found:
                 print("")
-                print("Stopping app '%s'." % deploy.metadata.name)
+                print("Deleting service '%s'." % deploy.metadata.name)
                 print("")
                 cmd = "kubectl delete deploy %s" % deploy.metadata.name
                 print("Running '%s'." % cmd)
                 print("")
                 subprocess.call(cmd, shell=True)
                 print("")
-                print("Check app status with 'pipeline apps' or 'pipeline cluster'.")
+                print("Check service status with 'pipeline services'.")
                 print("")
             else:
                 print("")
-                print("App '%s' is not running." % app_name)
+                print("Service '%s' is not running." % service_name)
                 print("")
 
 
