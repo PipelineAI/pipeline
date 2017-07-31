@@ -24,10 +24,10 @@ ENV \
 
 
 ###################
-# Setup Bazel 0.5.0
+# Setup Bazel 0.5.2 (required due to https://github.com/tensorflow/tensorflow/issues/11884)
 ###################
 ENV \
-  BAZEL_VERSION=0.5.0
+  BAZEL_VERSION=0.5.2
 
 # Running bazel inside a `docker build` command causes trouble, cf:
 #   https://github.com/bazelbuild/bazel/issues/134
@@ -53,7 +53,7 @@ RUN mkdir /root/bazel && \
 # Build TensorFlow Serving
 ##########################
 ENV \
-  TENSORFLOW_SERVING_VERSION=0.5.1 \
+  TENSORFLOW_SERVING_VERSION=0.6.0 \
   TENSORFLOW_SERVING_HOME=/root/serving 
 
 # Required by TensorFlow Serving
@@ -111,7 +111,7 @@ RUN \
 # Clone Tensorflow Serving and the Tensorflow Submodule
 RUN \
  cd ~ \
- && git clone -b master --recurse-submodules https://github.com/tensorflow/serving.git \
+ && git clone --recurse-submodules https://github.com/tensorflow/serving.git \
  && cd $TENSORFLOW_SERVING_HOME \
  && git reset --hard d690fdd 
 
@@ -157,13 +157,14 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
   # Remove NCCL since it isn't building properly
-  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --config=cuda \
       --verbose_failures \
       --spawn_strategy=standalone --genrule_strategy=standalone \
-#      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
-      --crosstool_top=@local_config_cuda//crosstool:toolchain \
-      tensorflow_serving/model_servers:tensorflow_model_server \
+      --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+#      --crosstool_top=@local_config_cuda//crosstool:toolchain \
+#      tensorflow_serving/model_servers:tensorflow_model_server \
+       tensorflow_serving/... \
   && chmod a+x bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server \
   && cp bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server /usr/local/bin/ \
   && bazel clean --expunge
@@ -185,7 +186,7 @@ RUN \
   ldconfig /usr/local/cuda/lib64
 
 RUN \
- git clone -b master --recurse-submodules https://github.com/tensorflow/tensorflow.git \
+ git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git \
  && cd $TENSORFLOW_HOME \
  && git reset --hard 16d39e9 
 
@@ -240,7 +241,7 @@ RUN \
      --test_timeout 300,450,1200,3600 \
      --test_output=errors \
      --local_test_jobs=${GPU_COUNT} \
-#     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
+     --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 \
      --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
      --run_under=//tensorflow/tools/ci_build/gpu_build:parallel_gpu_execute -- \
       //tensorflow/tools/pip_package:build_pip_package
