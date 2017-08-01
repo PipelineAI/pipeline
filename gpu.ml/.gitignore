@@ -3,4 +3,3 @@ timeline-*.*
 libtensorflow_jni.so
 *.out
 *.log
-*.png
