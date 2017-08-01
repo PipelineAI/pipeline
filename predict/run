@@ -101,6 +101,14 @@ echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
 echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
 echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
 
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+
 if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
