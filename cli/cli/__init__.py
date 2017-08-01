@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.17"
+__version__ = "0.20"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -250,7 +250,7 @@ class PipelineCli(object):
 
     # TODO: Pull ./templates/ into this cli project 
     #       (or otherwise handle the location of templates outside of the cli)
-    def model_kube(self,
+    def kube_model(self,
                    model_type,
                    model_name,
                    model_tag,
@@ -1037,31 +1037,48 @@ class PipelineCli(object):
             subprocess.call(cmd, shell=True)
             print("")
 
-
+    """
+    Specifying --service-name will use the internally-configured deploy, svc, config, 
+    and secret configs in the _kube_registry.  This will override *_yaml_path params passed.
+    """
     def service_create(self,
-                       service_name,
+                       service_name=None,
+                       deploy_yaml_path=None,
+                       svc_yaml_path=None,
+                       config_yaml_path=None,
+                       secret_yaml_path=None,
                        kube_namespace='default'):
 
-        if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
-            pass
-        else:
-            pipeline_git_home = os.path.expandvars(PipelineCli._pipeline_git_home)
-            pipeline_git_home = os.path.expanduser(PipelineCli._pipeline_git_home)
-            pipeline_git_home = os.path.abspath(PipelineCli._pipeline_git_home)
-
-        config_yaml_filenames = [] 
-        secret_yaml_filenames = [] 
+        config_yaml_filenames = []
+        secret_yaml_filenames = []
         deploy_yaml_filenames = []
-        svc_yaml_filenames = [] 
-        
-        config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(service_name)
-        secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(service_name)
-        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name)
-        print("Using '%s'" % deploy_yaml_filenames)
+        svc_yaml_filenames = []
+
+        if not service_name:
+            if deploy_yaml_path:
+                deploy_yaml_filenames = [deploy_yaml_path]
+            if svc_yaml_path:
+                svc_yaml_filenames = [svc_yaml_path]
+            if config_yaml_path:
+                config_yaml_filenames = [config_yaml_path]
+            if secret_yaml_path:
+                secret_yaml_filenames = [secret_yaml_path]
+        else:
+            if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
+                pass
+            else:
+                pipeline_git_home = os.path.expandvars(PipelineCli._pipeline_git_home)
+                pipeline_git_home = os.path.expanduser(PipelineCli._pipeline_git_home)
+                pipeline_git_home = os.path.abspath(PipelineCli._pipeline_git_home)
+
+            config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(service_name)
+            secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(service_name)
+            deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name)
+            print("Using '%s'" % deploy_yaml_filenames)
  
-        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name)
-        print(svc_yaml_filenames)
-        print("Using '%s'" % svc_yaml_filenames)
+            svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name)
+            print(svc_yaml_filenames)
+            print("Using '%s'" % svc_yaml_filenames)
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
