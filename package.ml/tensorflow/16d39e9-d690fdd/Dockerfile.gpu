@@ -157,7 +157,7 @@ RUN \
 RUN \
   cd $TENSORFLOW_SERVING_HOME \
   # Remove NCCL since it isn't building properly
-#  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
+  && sed -i.bak '/nccl/d' tensorflow/tensorflow/contrib/BUILD \
   && bazel build -c opt --config=cuda \
       --verbose_failures \
       --spawn_strategy=standalone --genrule_strategy=standalone \
