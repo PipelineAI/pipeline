@@ -134,6 +134,14 @@ Use `http://localhost:9090` for the Prometheus data source within your Grafana D
 http://localhost:3000/
 ```
 
+## Stop Docker-based Model 
+```
+pipeline model-stop --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
+```
+
+## Extras
 ## Shell into Docker-based Model 
 ```
 pipeline model-shell --model-type=tensorflow \
@@ -141,11 +149,24 @@ pipeline model-shell --model-type=tensorflow \
                      --model-tag=master
 ```
 
-## Stop Docker-based Model 
+## Push Image to Docker
 ```
-pipeline model-stop --model-type=tensorflow \
+pipeline model-push --model-type=tensorflow \
                     --model-name=mnist \
                     --model-tag=master
+```
+
+## Create Kubernetes YAML for the Model
+```
+pipeline kube-model --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
+```
+
+## Deploy Model to Kubernetes as a Service
+```
+pipeline service-create --deploy-yaml-path=./tensorflow-mnist-cpu-master-deploy.yaml \
+                        --svc-yaml-path=./tensorflow-mnist-cpu-master-svc.yaml
 ```
 
 {!contributing.md!}
