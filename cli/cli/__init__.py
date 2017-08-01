@@ -250,26 +250,25 @@ class PipelineCli(object):
 
     # TODO: Pull ./templates/ into this cli project 
     #       (or otherwise handle the location of templates outside of the cli)
-    def model_prepare(self,
-                      model_type,
-                      model_name,
-                      model_tag,
-                      model_chip='cpu',
-                      template_path='./templates/',
-                      memory_limit='2G',
-                      cpu_limit='4000m',
-                      target_cpu_util_percentage='75',
-                      min_replicas='1',
-                      max_replicas='2'):
+    def model_kube(self,
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu',
+                   template_path='./templates/',
+                   memory_limit='2G',
+                   cpu_limit='4000m',
+                   target_cpu_util_percentage='75',
+                   min_replicas='1',
+                   max_replicas='2'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
         template_path = os.path.abspath(template_path)
 
         print("")
-        print("Using templates in '%s'" % template_path)
-        print("")
-        print("Specify --template-path if the templates live elsewhere.") 
+        print("Using templates in '%s'." % template_path)
+        print("(Specify --template-path if the templates live elsewhere.)") 
         print("")
  
         context = {'PIPELINE_MODEL_TYPE': model_type,
@@ -286,26 +285,27 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-        print(rendered)
-        with open('./%s-%s-%s-%s-deploy.yaml' % (model_type, model_name, model_chip, model_tag), 'wb') as fh:
+        rendered_filename = './%s-%s-%s-%s-deploy.yaml' % (model_type, model_name, model_chip, model_tag)
+        with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
-        print('')
-        print('--')
-        print('')
         model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
+        print("Prepared '%s' from '%s'." % (rendered_filename, filename))
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
-        print(rendered)
-        with open('./%s-%s-%s-%s-svc.yaml' % (model_type, model_name, model_chip, model_tag), 'wb') as fh:
+        rendered_filename = './%s-%s-%s-%s-svc.yaml' % (model_type, model_name, model_chip, model_tag)
+        with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
- 
+        print("Prepared '%s' from '%s'." % (rendered_filename, filename)) 
+
         model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
 
         path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
-        with open('./%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag), 'wb') as fh:
+        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
+        with open(rendered_filename, 'wt') as fh:
             fh.write(rendered) 
+        print("Prepared '%s' from '%s'." % (rendered_filename, filename))
 
 
     def model_shell(self,
@@ -1001,6 +1001,41 @@ class PipelineCli(object):
             for dependency in dependencies:
                 svc_yamls = svc_yamls + self._get_svc_yamls(dependency)
         return svc_yamls
+
+
+    def kube_create(self,
+                    deploy_yaml_path,
+                    svc_yaml_path=None,
+                    config_yaml_path=None,
+                    secret_yaml_path=None,
+                    kube_namespace='default'):
+
+        cmd = "kubectl create -f %s --record" % deploy_yaml_path
+        print("Running '%s'." % cmd)
+        print("")
+        subprocess.call(cmd, shell=True)
+        print("")
+
+        if svc_yaml_path:
+            cmd = "kubectl create -f %s --record" % svc_yaml_path
+            print("Running '%s'." % cmd)
+            print("")
+            subprocess.call(cmd, shell=True)
+            print("")
+
+        if config_yaml_path:
+            cmd = "kubectl create -f %s --record" % config_yaml_path
+            print("Running '%s'." % cmd)
+            print("")
+            subprocess.call(cmd, shell=True)
+            print("")
+
+        if secret_yaml_path:
+            cmd = "kubectl create -f %s --record" % secret_yaml_path
+            print("Running '%s'." % cmd)
+            print("")
+            subprocess.call(cmd, shell=True)
+            print("")
 
 
     def service_create(self,
