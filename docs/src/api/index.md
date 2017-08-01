@@ -158,9 +158,9 @@ pipeline model-push --model-type=tensorflow \
 
 ## Create Kubernetes YAML for the Model
 ```
-pipeline kube-model --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-tag=master
+pipeline model-service --model-type=tensorflow \
+                       --model-name=mnist \
+                       --model-tag=master
 ```
 
 ## Deploy Model to Kubernetes as a Service
