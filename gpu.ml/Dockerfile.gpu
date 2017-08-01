@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-full-gpu:master
+FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-full-gpu:master
 
 WORKDIR /root
 
@@ -93,8 +93,8 @@ ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
 RUN \
-  git clone https://github.com/fluxcapacitor/pipeline.git \
-  && git reset master
+  git clone https://github.com/fluxcapacitor/pipeline.git
+#  && git reset master
 
 RUN \
   ln -s pipeline/gpu.ml/src \
