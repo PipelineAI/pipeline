@@ -35,7 +35,7 @@ RUN \
 #ENV \
 #  PATH=$KUBERNETES_HOME/client/bin:$PATH
 
-ENV KOPS_VERSION=1.7.0-beta.1
+ENV KOPS_VERSION=1.7.0
 ENV KOPS_HOME=/root/kops/
 
 RUN \
@@ -49,7 +49,7 @@ ENV \
   PATH=$KOPS_HOME:$PATH
 
 ENV \
-  TERRAFORM_VERSION=0.10.0-beta2
+  TERRAFORM_VERSION=0.10.0-rc1
 
 ENV \
   TERRAFORM_HOME=/root/terraform
@@ -103,7 +103,7 @@ COPY scripts scripts
 ENV \
   PATH=/root/scripts:$PATH
 
-ENV MINIKUBE_VERSION=0.20.0
+ENV MINIKUBE_VERSION=0.21.0
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
@@ -114,16 +114,4 @@ RUN \
   minikube config set kubernetes-version ${KUBERNETES_VERSION}
 
 RUN \
-  apt-get install --yes automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
-
-RUN \
-  git clone https://github.com/s3fs-fuse/s3fs-fuse.git \
-  && cd s3fs-fuse \
-  && ./autogen.sh \
-  && ./configure \
-  && make \
-  && make install
-# Follow these steps to setup s3fuse:  https://github.com/s3fs-fuse/s3fs-fuse#examples
-
-RUN \
-  pip install pio-cli==0.87
+  pip install pipeline-ai-cli==0.21
