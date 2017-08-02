@@ -110,8 +110,19 @@ RUN \
   && chmod a+x minikube \
   && mv minikube /usr/local/bin/
 
+# This differs form the MINIKUBE_VERSION for some reason
+ENV \
+  MINIKUBE_ISO_VERSION=0.23.0
+
 RUN \
-  minikube config set kubernetes-version ${KUBERNETES_VERSION}
+  wget https://storage.googleapis.com/minikube/iso/minikube-v${MINIKUBE_ISO_VERSION}.iso
+
+# This is not always the latest
+ENV \
+  MINIKUBE_KUBERNETES_VERSION=1.7.0-rc.1
+
+RUN \
+  wget https://storage.googleapis.com/minikube/k8sReleases/v${MINIKUBE_KUBERNETES_VERSION}/localkube-linux-amd64
 
 RUN \
   pip install pipeline-ai-cli==0.21
