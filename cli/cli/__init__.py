@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.21"
+__version__ = "0.27"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -216,12 +216,36 @@ class PipelineCli(object):
         print("")
 
 
+#    def model_init(self,
+#                   model_type,
+#                   model_name,
+#                   model_tag,
+#                   model_path='.',
+#                   model_chip='cpu',
+#                   template_path='./templates/'):
+
+#        context = {'PIPELINE_MODEL_TYPE': model_type,
+#                   'PIPELINE_MODEL_NAME': model_name,
+#                   'PIPELINE_MODEL_CHIP': model_chip,
+#                   'PIPELINE_MODEL_TAG': model_tag}
+
+#        model_build_Dockerfile_template_path = os.path.join(template_path, 'predict-Dockerfile-tensorflow.template')
+
+#        path, filename = os.path.split(model_build_Dockerfile_template_path)
+#        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
+#        rendered_Dockerfile = 'Dockerfile-%s-%s-%s-%s' % (model_type, model_name, model_chip, model_tag)
+#        with open(rendered_Dockerfile, 'wt') as fh:
+#            fh.write(rendered)
+#        print("'%s' -> '%s'." % (filename, rendered_Dockerfile))
+
+
     def model_build(self,
                    model_type,
                    model_name,
                    model_path,
                    model_tag,
                    model_chip='cpu',
+                   template_path='./templates/',
                    build_type='docker',
                    build_path='.'):
 
@@ -231,11 +255,7 @@ class PipelineCli(object):
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s \
-                     --build-arg model_type=%s \
-                     --build-arg model_name=%s \
-                     --build-arg model_path=%s \
-                     -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_path=%s -f %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
 
             print(cmd)
             print("")
@@ -367,12 +387,7 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s \
-               -m %s \
-               -p 6969:6969 -p 9876:9876 -p 9000:9000 \
-               -p 10254:10254 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 \
-               -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" \
-               fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_type, model_name, model_chip, model_tag)
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 10254:10254 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 -e "PIO_MODEL_TYPE=%s" -e "PIO_MODEL_NAME=%s" fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
