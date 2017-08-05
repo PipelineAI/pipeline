@@ -235,7 +235,7 @@ RUN \
       source activate $PIPELINE_CONDA_ENV_NAME \
       && pip install psutil \
       && source activate $PIPELINE_CONDA_ENV_NAME \
-      && pip2 install tensorflow==1.3.0-rc0 \
+      && pip2 install tensorflow==1.3.0rc2 \
       && conda list -n $PIPELINE_CONDA_ENV_NAME; \
   fi
 
