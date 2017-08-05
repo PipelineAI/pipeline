@@ -42,5 +42,9 @@ setup(
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=requirements,
     dependency_links=[
-    ]
-)
+    ],
+    data_files=[('templates', ['templates/predict-Dockerfile-tensorflow.template', 
+                               'templates/predict-svc.yaml.template', 
+                               'templates/predict-deploy.yaml.template', 
+                               'templates/predict-autoscale.yaml.template'])]
+ )
