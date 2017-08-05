@@ -16,7 +16,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.7.2
+ENV KUBERNETES_VERSION=1.7.3
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -107,4 +107,4 @@ RUN \
 #  && mv minikube /usr/local/bin/
 
 RUN \
-  pip install pipeline-ai-cli==0.21
+  pip install pipeline-ai-cli==0.27
