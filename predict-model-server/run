@@ -1,10 +1,6 @@
 #!/bin/bash
 
 start_model_training_python3() {
-    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
-    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
-    echo "PIPELINE_MODEL_VERSION=$PIPELINE_MODEL_VERSION"
 
     echo ""
     echo "Starting Python-based Model Training..."
@@ -19,14 +15,6 @@ start_model_training_python3() {
 }
 
 start_model_serving_python3 () {
-    echo "PIPELINE_MODEL_SERVER_PATH=$PIPELINE_MODEL_SERVER_PATH"
-    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
-    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
-    echo "PIPELINE_MODEL_VERSION=$PIPELINE_MODEL_VERSION"
-    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT"
-    echo "PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=$PIPELINE_MODEL_SERVER_PROMETHEUS_PORT"
 
     echo ""
     echo "Starting Python-based Model Serving..."
@@ -37,9 +25,6 @@ start_model_serving_python3 () {
     cd $PIPELINE_MODEL_PATH \
       && PYTHONPATH=$PIPELINE_MODEL_PATH:$PYTHONPATH \
         $PIPELINE_MODEL_SERVER_PATH/model_server_python3.py \
-        --PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE \
-        --PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME \
-        --PIPELINE_MODEL_VERSION=$PIPELINE_MODEL_VERSION \
         --PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH \
         --PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT \
         --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=$PIPELINE_MODEL_SERVER_PROMETHEUS_PORT
@@ -49,14 +34,17 @@ start_model_serving_python3 () {
 
 source sysutils/container-limits.sh
 
-#sudo service nginx start
-
-echo "Required Environment Variables..."
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+echo "PIPELINE_MODEL_SERVER_PATH=$PIPELINE_MODEL_SERVER_PATH"
 echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
-echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
-echo "PIPELINE_MODEL_VERSION=$PIPELINE_MODEL_VERSION"
-echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+echo "PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT"
+echo "PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=$PIPELINE_MODEL_SERVER_PROMETHEUS_PORT"
 
 [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
     && start_model_training_python3

@@ -10,9 +10,6 @@ import tornado.httpserver
 from tornado.options import define, options
 from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 
-define('PIPELINE_MODEL_TYPE', default='', help='prediction model type', type=str)
-define('PIPELINE_MODEL_NAME', default='', help='prediction model name', type=str)
-define('PIPELINE_MODEL_VERSION', default='', help='prediction model version', type=str)
 define('PIPELINE_MODEL_PATH', default='', help='prediction model path', type=str)
 define('PIPELINE_MODEL_SERVER_PORT', default='', help='tornado http server listen port', type=int)
 define('PIPELINE_MODEL_SERVER_PROMETHEUS_PORT', default=0, help='port to run the prometheus http metrics server on', type=int)
@@ -48,20 +45,22 @@ TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r'/alive.txt', HealthzHandler),
-            (r'/healthz', HealthzHandler),
+            (r'/', IndexHandler),
+            (r'/healthz', HealthCheckHandler),
             (r'/metrics', MetricsHandler),
+            (r'/favicon.ico', tornado.web.StaticFileHandler, {'path': 'static/favicon.ico'}),
+            (r'/conda-list-environment.txt', tornado.web.StaticFileHandler, {'path': 'static/conda-list-environment.txt'}),
+            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
             # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
             (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelPredictPython3Handler),
         ]
         settings = dict(
-            model_type=options.PIPELINE_MODEL_TYPE,
-            model_name=options.PIPELINE_MODEL_NAME,
-            model_version=options.PIPELINE_MODEL_VERSION,
             model_path=options.PIPELINE_MODEL_PATH,
             model_server_port=options.PIPELINE_MODEL_SERVER_PORT,
             model_server_prometheus_server_port=options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT,
+            template_path=os.path.join(os.path.dirname(__file__), 'template'),
+            static_path=os.path.join(os.path.dirname(__file__), 'static'),
             model_server_tensorflow_serving_host='127.0.0.1',
             request_timeout=120,
             debug=True,
@@ -74,7 +73,13 @@ class Application(tornado.web.Application):
         return 'fallback!'
 
 
-class HealthzHandler(tornado.web.RequestHandler):
+class IndexHandler(tornado.web.RequestHandler):
+
+    @tornado.web.asynchronous
+    def get(self):
+        self.render('index.html')
+
+class HealthCheckHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Health check endpoint.
@@ -92,7 +97,7 @@ class HealthzHandler(tornado.web.RequestHandler):
             self.set_header('Content-Type', 'text/plain')
             self.flush()
         except Exception as e:
-            logging.exception('HealthzHandler.get: Exception {0}'.format(str(e)))
+            logging.exception('HealthCheckHandler.get: Exception {0}'.format(str(e)))
 
 
 class MetricsHandler(tornado.web.RequestHandler):
@@ -130,6 +135,14 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def post(self, model_type, model_name):
         method = 'predict'
+        # Python does not support dashes "-" in package directory paths
+        if ('-' in model_type) or ('-' in model_name):
+            message = "ERROR:  Underscores are not supported in model_type: {0} or model_name: {1}.".format(model_type,
+                                                                                                            model_name)
+            self.write(message)
+            self.finish()
+            LOGGER.error(message)
+        else:
         model_key_list = [model_type, model_name]
         model_key = '/'.join(model_key_list)
         with EXCEPTION_COUNTER.labels(method, *model_key_list).count_exceptions(), \
@@ -174,16 +187,10 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 def main():
     try:
         tornado.options.parse_command_line()
-        if not (options.PIPELINE_MODEL_TYPE
-                and options.PIPELINE_MODEL_NAME
-                and options.PIPELINE_MODEL_VERSION
-                and options.PIPELINE_MODEL_PATH
+        if not (options.PIPELINE_MODEL_PATH
                 and options.PIPELINE_MODEL_SERVER_PORT
                 and options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT):
-            LOGGER.error('--PIPELINE_MODEL_TYPE \
-                        and --PIPELINE_MODEL_NAME \
-                        and --PIPELINE_MODEL_VERSION \
-                        and --PIPELINE_MODEL_PATH \
+            LOGGER.error('--PIPELINE_MODEL_PATH \
                         and --PIPELINE_MODEL_SERVER_PORT \
                         and --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT \
                         and must be set')

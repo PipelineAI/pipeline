@@ -63,8 +63,7 @@ TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r'/alive.txt', HealthzHandler),
-            (r'/healthz', HealthzHandler),
+            (r'/alive.txt', HealthCheckHandler),
             (r'/metrics', MetricsHandler),
 
             # /deploy is effectively disabled if PIPELINE_MODEL_SERVER_ALLOW_UPLOAD=False
@@ -94,7 +93,7 @@ class Application(tornado.web.Application):
         LOGGER.warn('Model Server Application fallback: {0}'.format(self))
         return 'fallback!'
 
-class HealthzHandler(tornado.web.RequestHandler):
+class HealthCheckHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Health check endpoint.
@@ -112,7 +111,7 @@ class HealthzHandler(tornado.web.RequestHandler):
             self.set_header('Content-Type', 'text/plain')
             self.flush()
         except Exception as e:
-            logging.exception('HealthzHandler.get: Exception {0}'.format(str(e)))
+            logging.exception('HealthCheckHandler.get: Exception {0}'.format(str(e)))
 
 
 class MetricsHandler(tornado.web.RequestHandler):
