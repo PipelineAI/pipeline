@@ -2,14 +2,14 @@ FROM fluxcapacitor/package-java-openjdk-1.8:master
 
 WORKDIR /root
 
-ENV CONFLUENT_VERSION=3.0.0 
-ENV CONFLUENT_MAJOR_VERSION=3.0
+ENV CONFLUENT_VERSION=3.3.0 
+ENV CONFLUENT_MAJOR_VERSION=3.3
 ENV CONFLUENT_HOME=/root/confluent-${CONFLUENT_VERSION}
 
 RUN \
- wget http://packages.confluent.io/archive/${CONFLUENT_MAJOR_VERSION}/confluent-${CONFLUENT_VERSION}-2.11.tar.gz \
- && tar xvzf confluent-${CONFLUENT_VERSION}-2.11.tar.gz \
- && rm confluent-${CONFLUENT_VERSION}-2.11.tar.gz
+ wget http://packages.confluent.io/archive/${CONFLUENT_MAJOR_VERSION}/confluent-oss-${CONFLUENT_VERSION}-2.11.tar.gz \
+ && tar xvzf confluent-oss-${CONFLUENT_VERSION}-2.11.tar.gz \
+ && rm confluent-oss-${CONFLUENT_VERSION}-2.11.tar.gz
 
 EXPOSE 2181
 
