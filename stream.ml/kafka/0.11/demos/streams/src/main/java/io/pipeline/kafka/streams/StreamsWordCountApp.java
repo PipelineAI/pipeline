@@ -60,8 +60,9 @@ public class StreamsWordCountApp {
 
 	KStream<String, Long> wordCounts = textLines
             .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
-            .map((key, value) -> new KeyValue<>(value, value))
-            .countByKey("Counts")
+//            .map((key, value) -> new KeyValue<>(value, value))
+            .groupBy((key, value) -> value)
+            .count("Counts")
             .toStream();
 
         // need to override value serde to Long type
