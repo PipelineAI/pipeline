@@ -1,3 +1,7 @@
 #!/bin/bash
 
-pip uninstall . && pip install -e .
+pip uninstall .
+
+pip install -e .
+
+pipeline version

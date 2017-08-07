@@ -1,9 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.29"
-
-# Requirements
-#   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
+__version__ = "0.35"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -46,7 +43,7 @@ class PipelineCli(object):
                             'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
                             'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-deploy.yaml'], []),
                             'kibana': (['kibana.ml/kibana-4-5-0-deploy.yaml'], ['elasticsearch'], []), 
-                            'kafka': (['stream.ml/kafka-0.10-deploy.yaml'], ['zookeeper']),
+                            'kafka': (['stream.ml/kafka-0.11-deploy.yaml'], ['zookeeper']),
                             'cassandra': (['cassandra.ml/cassandra-deploy.yaml'], []),
                             'jenkins': (['jenkins/jenkins-deploy.yaml'], []),
                             'prediction-java': (['prediction.ml/java-deploy.yaml'], []),
@@ -58,11 +55,11 @@ class PipelineCli(object):
                             'prediction-tensorflow-gpu': (['prediction.ml/tensorflow-gpu-deploy.yaml'], []),
                             'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
                             'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
-                            'weave-scope-app': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
-                            'kubernetes-dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.0.yaml'], []),
-                            'heapster': (['metrics.ml/monitoring-standalone/v1.3.0.yaml'], []),
-                            'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
-                            'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
+#                            'weave-scope-app': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
+#                            'kubernetes-dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.3.yaml'], []),
+#                            'heapster': (['metrics.ml/monitoring-standalone/v1.7.0.yaml'], []),
+#                            'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
+#                            'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
                            }
 
     _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
@@ -82,7 +79,7 @@ class PipelineCli(object):
                          'zookeeper': (['zookeeper.ml/zookeeper-svc.yaml'], []),
                          'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-svc.yaml'], []),
                          'kibana': (['kibana.ml/kibana-4-5-0-svc.yaml'], ['elasticsearch'], []),
-                         'kafka': (['stream.ml/kafka-0.10-svc.yaml'], ['zookeeper']),
+                         'kafka': (['stream.ml/kafka-0.11-svc.yaml'], ['zookeeper']),
                          'cassandra': (['cassandra.ml/cassandra-svc.yaml'], []),
                          'jenkins': (['jenkins/jenkins-svc.yaml'], []),
                          'prediction-java': (['prediction.ml/java-svc.yaml'], []),
@@ -101,18 +98,15 @@ class PipelineCli(object):
     _kube_autoscale_template_registry = {'predict': (['predict-autoscale.yaml.template'], [])}
 
     _pipeline_api_version = 'v1' 
-    _pipeline_git_home = 'https://github.com/fluxcapacitor/source.ml/' 
-    _pipeline_git_version = 'master'
 
 
     def config(self):
         print("api_version: '%s'" % PipelineCli._pipeline_api_version)
-        print("git_home: '%s'" % PipelineCli._pipeline_git_home)
-        print("git_version: '%s'" % PipelineCli._pipeline_git_version)
 
 
     def version(self):
         print(__version__)
+        self.config()
 
 
     def model_env(self,
@@ -178,20 +172,13 @@ class PipelineCli(object):
                     service_name):
 
         self._get_service_resources(service_name)
-        self.cluster_top()
-
-        print("")
-        print("If you see an error above, you need to start Heapster with 'pipeline start heapster'.")
-        print("")
+        self.cluster_resources()
 
 
-    def cluster_top(self):
+    def cluster_resources(self):
 
         self._get_cluster_resources()
 
-        print("")
-        print("If you see an error above, you need to start Heapster with 'pipeline start heapster'.")
-        print("")
 
     def _get_cluster_resources(self):
         subprocess.call("kubectl top node", shell=True)
@@ -270,17 +257,17 @@ class PipelineCli(object):
 
     # TODO: Pull ./templates/ into this cli project 
     #       (or otherwise handle the location of templates outside of the cli)
-    def model_service(self,
-                      model_type,
-                      model_name,
-                      model_tag,
-                      model_chip='cpu',
-                      template_path='./templates/',
-                      memory_limit='2G',
-                      cpu_limit='4000m',
-                      target_cpu_util_percentage='75',
-                      min_replicas='1',
-                      max_replicas='2'):
+    def model_yaml(self,
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu',
+                   template_path='./templates/',
+                   memory_limit='2G',
+                   cpu_limit='4000m',
+                   target_cpu_util_percentage='75',
+                   min_replicas='1',
+                   max_replicas='2'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
@@ -591,7 +578,7 @@ class PipelineCli(object):
             return
 
         
-        full_model_url = "%s/api/%s/model/deploy/%s/%s" % (model_server_url.rstrip('/'), pipeline_api_version, model_type, model_name) 
+        full_model_url = "%s/api/%s/model/deploy/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name) 
 
         with open(model_file, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
@@ -603,8 +590,6 @@ class PipelineCli(object):
                                          headers=headers, 
                                          files=files, 
                                          timeout=timeout)
-                #print("")
-                #print(response)
 
                 if response.status_code != requests.codes.ok:
                     if response.text:
@@ -980,18 +965,10 @@ class PipelineCli(object):
         print("")
 
 
-    def _get_config_yamls(self, 
-                          service_name):
-        return [] 
-
-
-    def _get_secret_yamls(self, 
-                          service_name):
-        return []
-
-
     def _get_deploy_yamls(self, 
-                          service_name):
+                          service_name,
+                          git_home,
+                          git_version):
         try:
             (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[service_name]
         except:
@@ -1001,11 +978,16 @@ class PipelineCli(object):
         if len(dependencies) > 0:
             for dependency in dependencies:
                 deploy_yamls = deploy_yamls + self._get_deploy_yamls(dependency)
+
+        deploy_yamls = ['%s/%s/%s' % (git_home, git_version, deploy_yaml) for deploy_yaml in deploy_yamls]
+
         return deploy_yamls 
 
 
     def _get_svc_yamls(self, 
-                       service_name):
+                       service_name,
+                       git_home,
+                       git_version):
         try:
             (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[service_name]
         except:
@@ -1015,6 +997,9 @@ class PipelineCli(object):
         if len(dependencies) > 0:
             for dependency in dependencies:
                 svc_yamls = svc_yamls + self._get_svc_yamls(dependency)
+
+        svc_yamls = ['%s/%s/%s' % (git_home, git_version, svc_yaml) for svc_yaml in svc_yamls]
+
         return svc_yamls
 
 
@@ -1023,7 +1008,7 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl --namespace %s create -f %s --record" % (kube_namespace, yaml_path)
-        self.kube(cmd)
+        self.kube_cmd(cmd)
 
 
     def kube_delete(self,
@@ -1031,11 +1016,11 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl --namespace %s delete -f %s" % (kube_namespace, yaml_path)
-        self.kube(cmd) 
+        self.kube_cmd(cmd) 
    
  
-    def kube(self,
-             cmd):
+    def kube_cmd(self,
+                 cmd):
         print("")
         print("Running '%s'." % cmd)
         print("")
@@ -1048,49 +1033,22 @@ class PipelineCli(object):
     and secret configs in the _kube_registry.  This will override *_yaml_path params passed.
     """
     def service_create(self,
-                       service_name=None,
-                       deploy_yaml_path=None,
-                       svc_yaml_path=None,
-#                       config_yaml_path=None,
-#                       secret_yaml_path=None,
+                       service_name,
+                       git_home='https://github.com/fluxcapacitor/source.ml',
+                       git_version='master',
                        kube_namespace='default'):
 
-#        config_yaml_filenames = []
-#        secret_yaml_filenames = []
         deploy_yaml_filenames = []
         svc_yaml_filenames = []
 
-        if not service_name:
-            if deploy_yaml_path:
-                deploy_yaml_filenames = [deploy_yaml_path]
-            if svc_yaml_path:
-                svc_yaml_filenames = [svc_yaml_path]
-#            if config_yaml_path:
-#                config_yaml_filenames = [config_yaml_path]
-#            if secret_yaml_path:
-#                secret_yaml_filenames = [secret_yaml_path]
-        else:
-#            if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
-#                pass
-#            else:
-#                pipeline_git_home = os.path.expandvars(PipelineCli._pipeline_git_home)
-#                pipeline_git_home = os.path.expanduser(PipelineCli._pipeline_git_home)
-#                pipeline_git_home = os.path.abspath(PipelineCli._pipeline_git_home)
-
-#            config_yaml_filenames = config_yaml_filenames + self._get_config_yamls(service_name)
-#            secret_yaml_filenames = secret_yaml_filenames + self._get_secret_yamls(service_name)
-            deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name)
-            #for deploy_yaml_filename in deploy_yaml_filenames:
-            deploy_yaml_filenames = [deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for deploy_yaml_filename in deploy_yaml_filenames]
-#                if 'http:' in deploy_yaml_filename or 'https:' in deploy_yaml_filename:
-#                    deploy_yaml_filename = deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
-            print("Using '%s'" % deploy_yaml_filenames)
+        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name, git_home, git_version)
+        deploy_yaml_filenames = [deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for deploy_yaml_filename in deploy_yaml_filenames]
+        print("Using '%s'" % deploy_yaml_filenames)
  
-            svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name)
-            svc_yaml_filenames = [svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for svc_yaml_filename in svc_yaml_filenames]
+        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name, git_home, git_version)
+        svc_yaml_filenames = [svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for svc_yaml_filename in svc_yaml_filenames]
 
-#            print(svc_yaml_filenames)
-            print("Using '%s'" % svc_yaml_filenames)
+        print("Using '%s'" % svc_yaml_filenames)
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1102,70 +1060,20 @@ class PipelineCli(object):
         print("Kubernetes Deployments:")
         print("")
         for deploy_yaml_filename in deploy_yaml_filenames:
-#            try:
-#                if 'http:' in deploy_yaml_filename or 'https:' in deploy_yaml_filename:
-#                    deploy_yaml_filename = deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
             cmd = "kubectl create -f %s --record" % deploy_yaml_filename
             print("Running '%s'." % cmd)
             print("")
             subprocess.call(cmd, shell=True)
             print("")
-#                else:
-#                    if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
-#                        pipeline_git_home = PipelineCli._pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
-#                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), PipelineCli._pipeline_git_version, deploy_yaml_filename)
-#                        print("Running '%s'." % cmd)
-#                        print("")
-#                        subprocess.call(cmd, shell=True)
-#                        print("")
-#                    else:
-#                        with open(os.path.join(pipeline_git_home, deploy_yaml_filename)) as fh:
-#                            deploy_yaml = yaml.load(fh)
-#                            with warnings.catch_warnings():
-#                                warnings.simplefilter("ignore")
-#                                response = kubeclient_v1_beta1.create_namespaced_deployment(body=deploy_yaml, 
-#                                                                                            namespace=kube_namespace, 
-#                                                                                            pretty=True)
-#                                pprint(response) 
-#            except ApiException as e: 
-#                print("")
-#                print("App '%s' did not start properly.\n%s" % (deploy_yaml_filename, str(e)))
-#                print("")
-
         print("")
         print("Kubernetes Services:")
         print("")
         for svc_yaml_filename in svc_yaml_filenames:
-#            try:
-#                if 'http:' in svc_yaml_filename or 'https:' in svc_yaml_filename:
-#                    svc_yaml_filename = svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com')
             cmd = "kubectl create -f %s --record" % svc_yaml_filename
             print("Running '%s'." % cmd)
             print("")
             subprocess.call(cmd, shell=True)
             print("")
-#                else:
-#                    if 'http:' in PipelineCli._pipeline_git_home or 'https:' in PipelineCli._pipeline_git_home:
-#                        pipeline_git_home = PipelineCli._pipeline_git_home.replace('github.com', 'raw.githubusercontent.com')
-#                        cmd = "kubectl create -f %s/%s/%s --record" % (pipeline_git_home.rstrip('/'), PipelineCli._pipeline_git_version, svc_yaml_filename)
-#                        print("Running '%s'." % cmd)
-#                        print("")
-#                        subprocess.call(cmd, shell=True)
-#                        print("")
-#                    else:
-#                        with open(os.path.join(pipeline_git_home, svc_yaml_filename)) as fh:
-#                            svc_yaml = yaml.load(fh)
-#                            with warnings.catch_warnings():
-#                                warnings.simplefilter("ignore")
-#                                response = kubeclient_v1.create_namespaced_service(body=svc_yaml, 
-#                                                                                   namespace=kube_namespace, 
-#                                                                                   pretty=True)
-#                                pprint(response)
-#            except ApiException as e: 
-#                print("")
-#                print("App '%s' did not start properly.\n%s" % (svc_yaml_filename, str(e)))
-#                print("")
-
         print("")
         print("Ignore any 'Already Exists' errors.  These are OK.")
         print("")
