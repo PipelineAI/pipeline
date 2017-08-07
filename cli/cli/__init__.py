@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.36"
+__version__ = "0.37"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -242,7 +242,7 @@ class PipelineCli(object):
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_path=%s -f %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_path=%s -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
 
             print(cmd)
             print("")
