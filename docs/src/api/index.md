@@ -156,9 +156,9 @@ pipeline model-push --model-type=tensorflow \
 
 ## Create Kubernetes YAML for the Model
 ```
-pipeline model-service --model-type=tensorflow \
-                       --model-name=mnist \
-                       --model-tag=master
+pipeline model-yaml --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
                        
 ### EXPECTED OUTPUT ###
 Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/templates'.
