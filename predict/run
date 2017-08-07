@@ -95,6 +95,8 @@ prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
 sudo service grafana-server start
 
+confluent start kafka-rest
+
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
 echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
