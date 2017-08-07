@@ -1,13 +1,13 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """setup.py: setuptools control."""
 
 import re
-from setuptools import setup
+from setuptools import setup, find_packages
 
 import sys
 if not sys.version_info[0] == 3:
-#    print("\n \
     sys.exit("\n \
               ****************************************************************\n \
               * The CLI has only been tested with Python 3+ at this time.    *\n \
@@ -41,10 +41,10 @@ setup(
     author_email = "chris@pipeline.io",
     url = "https://github.com/fluxcapacitor/pipeline/cli",
     install_requires=requirements,
-    dependency_links=[
-    ],
-    data_files=[('templates', ['templates/predict-Dockerfile-tensorflow.template', 
-                               'templates/predict-svc.yaml.template', 
-                               'templates/predict-deploy.yaml.template', 
-                               'templates/predict-autoscale.yaml.template'])]
+    dependency_links=[],
+    package=find_packages(exclude=['concurrent', 'concurrent.*', '*.concurrent.*']),
+#    data_files=[('templates', ['templates/predict-Dockerfile-tensorflow.template', 
+#                               'templates/predict-svc.yaml.template', 
+#                               'templates/predict-deploy.yaml.template', 
+#                               'templates/predict-autoscale.yaml.template'])]
  )
