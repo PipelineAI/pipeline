@@ -8,7 +8,8 @@
 * Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 Support
 
 ## Setup `pipeline-ai-cli` 
-Note: This command line interface requires Python3 and Docker.  See Pre-Requisites above.
+Note: This command line interface requires **Python3** and **Docker**. (See Pre-Requisites above.)
+
 ```bash
 pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
