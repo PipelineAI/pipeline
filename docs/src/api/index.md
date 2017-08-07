@@ -159,9 +159,17 @@ pipeline model-push --model-type=tensorflow \
 pipeline model-service --model-type=tensorflow \
                        --model-name=mnist \
                        --model-tag=master
+                       
+### EXPECTED OUTPUT ###
+Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/templates'.
+(Specify --template-path if the templates live elsewhere.)
+
+'predict-deploy.yaml.template' -> './tensorflow-mnist-cpu-master-deploy.yaml'.
+'predict-svc.yaml.template' -> './tensorflow-mnist-cpu-master-svc.yaml'.
+...
 ```
 
-## Deploy Model to Kubernetes as a Service
+## Deploy Model to Kubernetes Using Generated YAML Above
 ```
 pipeline service-create --deploy-yaml-path=./tensorflow-mnist-cpu-master-deploy.yaml \
                         --svc-yaml-path=./tensorflow-mnist-cpu-master-svc.yaml
