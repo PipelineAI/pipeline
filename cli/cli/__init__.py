@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.28"
+__version__ = "0.29"
 
 # Requirements
 #   python3, kops, ssh-keygen, awscli, packaging, appdirs, gcloud, azure-cli, helm, kubectl, kubernetes.tar.gz
@@ -1018,39 +1018,30 @@ class PipelineCli(object):
         return svc_yamls
 
 
-#    def _kube_create(self,
-#                    deploy_yaml_path,
-#                    svc_yaml_path=None,
-#                    config_yaml_path=None,
-#                    secret_yaml_path=None,
-#                    kube_namespace='default'):
+    def kube_create(self,
+                    yaml_path,
+                    kube_namespace='default'):
 
-#        cmd = "kubectl create -f %s --record" % deploy_yaml_path
-#        print("Running '%s'." % cmd)
-#        print("")
-#        subprocess.call(cmd, shell=True)
-#        print("")
+        cmd = "kubectl --namespace %s create -f %s --record" % (kube_namespace, yaml_path)
+        self.kube(cmd)
 
-#        if svc_yaml_path:
-#            cmd = "kubectl create -f %s --record" % svc_yaml_path
-#            print("Running '%s'." % cmd)
-#            print("")
-#            subprocess.call(cmd, shell=True)
-#            print("")
 
-#        if config_yaml_path:
-#            cmd = "kubectl create -f %s --record" % config_yaml_path
-#            print("Running '%s'." % cmd)
-#            print("")
-#            subprocess.call(cmd, shell=True)
-#            print("")
+    def kube_delete(self,
+                    yaml_path,
+                    kube_namespace='default'):
 
-#        if secret_yaml_path:
-#            cmd = "kubectl create -f %s --record" % secret_yaml_path
-#            print("Running '%s'." % cmd)
-#            print("")
-#            subprocess.call(cmd, shell=True)
-#            print("")
+        cmd = "kubectl --namespace %s delete -f %s" % (kube_namespace, yaml_path)
+        self.kube(cmd) 
+   
+ 
+    def kube(self,
+             cmd):
+        print("")
+        print("Running '%s'." % cmd)
+        print("")
+        subprocess.call(cmd, shell=True)
+        print("")
+
 
     """
     Specifying --service-name will use the internally-configured deploy, svc, config, 
