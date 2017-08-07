@@ -11,7 +11,7 @@
 Note: This command line interface requires **Python3** and **Docker**. (See Pre-Requisites above.)
 
 ```bash
-pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
+pip install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 
 ## Supported Model Types 
@@ -156,12 +156,20 @@ pipeline model-push --model-type=tensorflow \
 
 ## Create Kubernetes YAML for the Model
 ```
-pipeline model-service --model-type=tensorflow \
-                       --model-name=mnist \
-                       --model-tag=master
+pipeline model-yaml --model-type=tensorflow \
+                    --model-name=mnist \
+                    --model-tag=master
+                       
+### EXPECTED OUTPUT ###
+Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/templates'.
+(Specify --template-path if the templates live elsewhere.)
+
+'predict-deploy.yaml.template' -> './tensorflow-mnist-cpu-master-deploy.yaml'.
+'predict-svc.yaml.template' -> './tensorflow-mnist-cpu-master-svc.yaml'.
+...
 ```
 
-## Deploy Model to Kubernetes as a Service
+## Deploy Model to Kubernetes Using Generated YAML Above
 ```
 pipeline service-create --deploy-yaml-path=./tensorflow-mnist-cpu-master-deploy.yaml \
                         --svc-yaml-path=./tensorflow-mnist-cpu-master-svc.yaml
