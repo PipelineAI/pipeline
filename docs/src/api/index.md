@@ -11,7 +11,7 @@
 Note: This command line interface requires **Python3** and **Docker**. (See Pre-Requisites above.)
 
 ```bash
-pip3 install --ignore-installed --no-cache -U pipeline-ai-cli
+pip install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 
 ## Supported Model Types 
