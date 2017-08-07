@@ -170,9 +170,14 @@ Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/temp
 ```
 
 ## Deploy Model to Kubernetes Using Generated YAML Above
+Create the Kubernetes Deployment
 ```
-pipeline service-create --deploy-yaml-path=./tensorflow-mnist-cpu-master-deploy.yaml \
-                        --svc-yaml-path=./tensorflow-mnist-cpu-master-svc.yaml
+pipeline kube-create ./tensorflow-mnist-cpu-master-deploy.yaml
+```
+
+Create the Kubernetes Service (Load Balancer)
+```
+pipeline kube-create ./tensorflow-mnist-cpu-master-svc.yaml
 ```
 
 {!contributing.md!}
