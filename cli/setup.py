@@ -43,8 +43,4 @@ setup(
     install_requires=requirements,
     dependency_links=[],
     package=find_packages(exclude=['concurrent', 'concurrent.*', '*.concurrent.*']),
-#    data_files=[('templates', ['templates/predict-Dockerfile-tensorflow.template', 
-#                               'templates/predict-svc.yaml.template', 
-#                               'templates/predict-deploy.yaml.template', 
-#                               'templates/predict-autoscale.yaml.template'])]
  )
