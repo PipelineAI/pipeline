@@ -277,6 +277,8 @@ RUN \
 USER appuser
 
 # TODO:  Clean up this logic
+# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
+# TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
      && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ] \ 
@@ -291,8 +293,6 @@ RUN \
        && echo "" \
        && source activate $PIPELINE_CONDA_ENV_NAME \
        && cd $PIPELINE_MODEL_PATH \
-# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
-# TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
        && python pipeline_train.py \
        && cd /root \
        && echo "" \
@@ -301,6 +301,8 @@ RUN \
   fi
 
 # TODO:  Clean up this logic
+# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
+#       && ln -s /root/model/runs/model/versions 
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
      && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.py" ] \
@@ -318,8 +320,6 @@ RUN \
        && guild prepare \
        && guild train --flag=learning_rate=0.05 \
        && guild train --flag=learning_rate=0.025 \
-# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
-#       && ln -s /root/model/runs/model/versions \
        && cd /root \
        && echo "" \
        && echo "...Training Complete!" \
