@@ -30,7 +30,6 @@ def main(_):
 
       # Build model...
       W = tf.Variable(0.0, name='weights')
-      #W = tf.get_variable(shape=None, dtype=tf.float32, name='weights')
       print(W)
 
       b = tf.Variable(0.0, name='bias')
@@ -64,8 +63,9 @@ def main(_):
     num_steps = 10000
 
     # The StopAtStepHook handles stopping after running given steps.
-    stop_hook = tf.train.StopAtStepHook(last_step=num_steps)
+    stop_hook = tf.train.StopAtStepHook(last_step=(num_steps-1))
     logging_hook = tf.train.LoggingTensorHook([W,b], every_n_iter=1000, at_end=True)
+
     hooks=[logging_hook, stop_hook]
 
     version = 0
