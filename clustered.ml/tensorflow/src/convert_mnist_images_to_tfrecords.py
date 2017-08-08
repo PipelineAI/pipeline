@@ -1,5 +1,5 @@
-Derived from the following:
-   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/how_tos/reading_data/convert_to_records.py
+# Derived from the following:
+#   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/how_tos/reading_data/convert_to_records.py
 
 """Converts MNIST data to TFRecords file format with Example protos."""
 from __future__ import absolute_import
@@ -13,13 +13,13 @@ from tensorflow.contrib.learn.python.learn.datasets import mnist
 
 SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
 
-TRAIN_IMAGES = 'train-images-idx3-ubyte.gz'  # MNIST filenames
+TRAIN_IMAGES = 'train-images-idx3-ubyte.gz' 
 TRAIN_LABELS = 'train-labels-idx1-ubyte.gz'
 TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
 TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
 
-tf.app.flags.DEFINE_string('directory', '/tmp/data',
+tf.app.flags.DEFINE_string('directory', './generated',
                            'Directory to download data files and write the '
                            'converted result')
 tf.app.flags.DEFINE_integer('validation_size', 5000,
@@ -65,14 +65,20 @@ def convert_to(data_set, name):
 
 def main(argv):
   # Get the data.
+  print('Retrieving datasets...')
   data_sets = mnist.read_data_sets(FLAGS.directory,
                                    dtype=tf.uint8,
                                    reshape=False,
                                    validation_size=FLAGS.validation_size)
 
+  print('Converting training dataset...')
   # Convert to Examples and write the result to TFRecords.
   convert_to(data_sets.train, 'train')
+
+  print('Converting validation dataset...')
   convert_to(data_sets.validation, 'validation')
+
+  print('Converting test dataset...')
   convert_to(data_sets.test, 'test')
 
 
