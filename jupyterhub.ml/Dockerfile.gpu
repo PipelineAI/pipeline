@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-7a7fe93-4c0052d-gpu:master
+FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-gpu:master
 
 WORKDIR /root
 
@@ -7,17 +7,18 @@ WORKDIR /root
 # install nodejs, utf8 locale
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get -y install npm nodejs nodejs-legacy wget locales git
+RUN \
+  apt-get -y update \
+#  apt-get -y upgrade && \
+  && apt-get -y install npm nodejs nodejs-legacy wget locales git
 
 # libav-tools for matplotlib anim
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libav-tools && \
-    apt-get clean
+RUN \
+  apt-get install -y --no-install-recommends libav-tools 
 
 # Install JupyterHub dependencies
-RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
+RUN \
+  npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
   conda update conda \
@@ -85,7 +86,8 @@ RUN \
 
 # Apache2
 RUN \
-  apt-get install -y apache2
+  apt-get update \
+  && apt-get install -y apache2
 
 RUN \
   a2enmod proxy \
@@ -139,8 +141,8 @@ RUN \
   && pip install git+https://github.com/jpmml/sklearn2pmml.git@0.20.3
 
 RUN \
-  apt-get update \
-  && apt-get install -y default-jdk
+#  apt-get update \
+  apt-get install -y default-jdk
 
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
