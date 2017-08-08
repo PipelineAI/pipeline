@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.37"
+__version__ = "0.38"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -1008,7 +1008,7 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl --namespace %s create -f %s --record" % (kube_namespace, yaml_path)
-        self.kube_cmd(cmd)
+        self.kube(cmd)
 
 
     def kube_delete(self,
@@ -1016,11 +1016,11 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl --namespace %s delete -f %s" % (kube_namespace, yaml_path)
-        self.kube_cmd(cmd) 
+        self.kube(cmd) 
    
  
-    def kube_cmd(self,
-                 cmd):
+    def kube(self,
+             cmd):
         print("")
         print("Running '%s'." % cmd)
         print("")
