@@ -29,12 +29,11 @@ def main(_):
         cluster=cluster)):
 
       # Build model...
-      W = tf.Variable(0.0)
-      #W = tf.get_variable(shape=[], name='weights')
+      W = tf.Variable(0.0, name='weights')
+      #W = tf.get_variable(shape=None, dtype=tf.float32, name='weights')
       print(W)
 
-      b = tf.Variable(0.0)
-      #b = tf.get_variable(shape=[], name='bias')
+      b = tf.Variable(0.0, name='bias')
       print(b)
 
       x_observed = tf.placeholder(shape=[None], 
