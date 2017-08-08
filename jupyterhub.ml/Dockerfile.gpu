@@ -20,6 +20,10 @@ RUN apt-get update && \
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 
 RUN \
+  conda update conda \
+  && conda install python=3.5
+
+RUN \
   pip install jupyterhub==0.7.2 \
   && pip install ipykernel==4.6.1 \
   && pip install notebook==5.0.0 \
@@ -113,13 +117,13 @@ RUN \
 
 COPY notebook/ notebook/
 RUN \
-  mv /opt/conda/lib/python3.6/site-packages/notebook/static/custom/ /opt/conda/lib/python3.6/site-packages/notebook/static/custom.orig \
-  && cd /opt/conda/lib/python3.6/site-packages/notebook/static/ \
+  mv /opt/conda/lib/python3.5/site-packages/notebook/static/custom/ /opt/conda/lib/python3.5/site-packages/notebook/static/custom.orig \
+  && cd /opt/conda/lib/python3.5/site-packages/notebook/static/ \
   && ln -s ~/notebook/static/custom
 
 RUN \
-  mv /opt/conda/lib/python3.6/site-packages/notebook/templates/tree.html /opt/conda/lib/python3.6/site-packages/notebook/templates/tree.html.orig \
-  && cd /opt/conda/lib/python3.6/site-packages/notebook/templates/ \
+  mv /opt/conda/lib/python3.5/site-packages/notebook/templates/tree.html /opt/conda/lib/python3.5/site-packages/notebook/templates/tree.html.orig \
+  && cd /opt/conda/lib/python3.5/site-packages/notebook/templates/ \
   && ln -s ~/notebook/templates/tree.html
 
 COPY oauthenticator/ oauthenticator/
