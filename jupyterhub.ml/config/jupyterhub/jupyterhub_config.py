@@ -299,7 +299,7 @@ c.Spawner.debug = True
 # traversal, while preserving user's homedir as landing page for notebook
 #
 # `%U` will be expanded to the user's username
-c.Spawner.default_url = '/lab'
+#c.Spawner.default_url = '/lab'
 
 # Disable per-user configuration of single-user servers.
 #
