@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.38"
+__version__ = "0.39"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -181,6 +181,7 @@ class PipelineCli(object):
 
 
     def _get_cluster_resources(self):
+
         subprocess.call("kubectl top node", shell=True)
         print("")
 
@@ -702,6 +703,16 @@ class PipelineCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("")
+        print("Config")
+        print("******")
+        self.config()
+
+        print("")
+        print("Nodes")
+        print("*****")
+        self._get_all_nodes()
+
+        print("")
         print("Available Services")
         print("******************")
         self._get_all_available_services()
@@ -735,8 +746,8 @@ class PipelineCli(object):
                 print("%s (Available Replicas: %s)" % (deployment.metadata.name, deployment.status.available_replicas))
 
         print("")
-        print("Containers (Pods)")
-        print("****************")
+        print("Pods")
+        print("****")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             response = kubeclient_v1.list_pod_for_all_namespaces(watch=False, 
@@ -744,18 +755,8 @@ class PipelineCli(object):
             pods = response.items
             for pod in pods:
                 print("%s (%s)" % (pod.metadata.name, pod.status.phase))
-
         print("")
-        print("Nodes")
-        print("*****")
-        self._get_all_nodes()
-        
-        print("")
-        print("Config")
-        print("******")
-        self.config()
-        print("")
-
+      
 
     def _get_pod_by_service_name(self,
                              service_name):
