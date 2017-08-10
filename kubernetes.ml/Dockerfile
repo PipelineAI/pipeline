@@ -107,4 +107,4 @@ RUN \
 #  && mv minikube /usr/local/bin/
 
 RUN \
-  pip install pipeline-ai-cli==0.27
+  pip install pipeline-ai-cli==0.42
