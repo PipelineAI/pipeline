@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.40"
+__version__ = "0.42"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -96,6 +96,7 @@ class PipelineCli(object):
     _kube_deploy_template_registry = {'predict': (['predict-deploy.yaml.template'], [])}
     _kube_svc_template_registry = {'predict': (['predict-svc.yaml.template'], [])}
     _kube_autoscale_template_registry = {'predict': (['predict-autoscale.yaml.template'], [])}
+    _kube_clustered_template_registry = {'train': (['clustered.yaml.template'], [])}
 
     _pipeline_api_version = 'v1' 
 
@@ -107,6 +108,48 @@ class PipelineCli(object):
     def version(self):
         print(__version__)
         self.config()
+
+
+
+    # TODO: Pull ./templates/ into this cli project
+    #       (or otherwise handle the location of templates outside of the cli)
+    def train_yaml(self,
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_chip='cpu',
+                   template_path='./templates/',
+                   worker_memory_limit='2G',
+                   worker_cpu_limit='4000m',
+                   ps_replicas='2',
+                   worker_replicas='3'):
+
+        template_path = os.path.expandvars(template_path)
+        template_path = os.path.expanduser(template_path)
+        template_path = os.path.abspath(template_path)
+
+        print("")
+        print("Using templates in '%s'." % template_path)
+        print("(Specify --template-path if the templates live elsewhere.)")
+        print("")
+
+        context = {'PIPELINE_MODEL_TYPE': model_type,
+                   'PIPELINE_MODEL_NAME': model_name,
+                   'PIPELINE_MODEL_CHIP': model_chip,
+                   'PIPELINE_MODEL_TAG': model_tag,
+                   'PIPELINE_WORKER_CPU_LIMIT': worker_cpu_limit,
+                   'PIPELINE_WORKER_MEMORY_LIMIT': worker_memory_limit,
+                   'PIPELINE_PS_REPLICAS': ps_replicas,
+                   'PIPELINE_WORKER_REPLICAS': worker_replicas}
+
+        model_train_distributed_template = os.path.join(template_path, PipelineCli._kube_train_distributed_template_registry['train'][0][0])
+
+        path, filename = os.path.split(model_train_distributed_template)
+        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
+        rendered_filename = './%s-%s-%s-%s-train-distributed.yaml' % (model_type, model_name, model_chip, model_tag)
+        with open(rendered_filename, 'wt') as fh:
+            fh.write(rendered)
+        print("'%s' -> '%s'." % (filename, rendered_filename))
 
 
     def model_env(self,
