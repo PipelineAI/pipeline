@@ -64,7 +64,7 @@ spec:
         - "--logdir={{ train_dir }}"
 {% else %}
         command:
-        - "/usr/bin/python3"
+        - "/usr/bin/python"
         - "src/pipeline_train.py"
         args:
         - "--data_dir=./datasets"
