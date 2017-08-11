@@ -3,8 +3,9 @@ FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-serving-cpu:master
 ENV \
   PIPELINE_MODEL_CHIP=cpu
 
-RUN rm /bin/sh \
-    && ln -s /bin/bash /bin/sh
+RUN \
+  rm /bin/sh \
+  && ln -s /bin/bash /bin/sh
 
 WORKDIR /root
 
