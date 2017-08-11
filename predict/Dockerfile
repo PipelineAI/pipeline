@@ -80,10 +80,10 @@ RUN \
 RUN \
   service grafana-server start
 
-#RUN \
-#  mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.orig \
-#  && cd /etc/grafana/ \
-#  && ln -s /root/config/grafana/grafana.ini
+RUN \
+  mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.orig \
+  && cd /etc/grafana/ \
+  && ln -s /root/config/grafana/grafana.ini
 
 RUN \
   mkdir -p /root/logs
