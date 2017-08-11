@@ -98,16 +98,6 @@ COPY jvm/ jvm/
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt cleanFiles package
 
-ARG model_chip
-RUN \
-  echo $model_chip
-ENV \
-  PIPELINE_MODEL_CHIP=$model_chip
-
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
-  && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
-
 COPY config/ config/
 
 RUN \
@@ -214,6 +204,10 @@ RUN \
   echo $model_chip
 ENV \
   PIPELINE_MODEL_CHIP=$model_chip
+
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
+  && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
 
 ARG model_tag
 RUN \
