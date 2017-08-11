@@ -89,11 +89,11 @@ start_tensorflow_serving_in_background () {
 
 source sysutils/container-limits.sh
 
-sudo service nginx start
+service nginx start
 
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
-sudo service grafana-server start
+service grafana-server start
 
 confluent start kafka-rest
 
@@ -119,9 +119,9 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
 fi;
 
 if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
-  [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
-    && [ -s $PIPELINE_MODEL_PATH/Guild ] \
-    && start_ui
+#  [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
+#    && [ -s $PIPELINE_MODEL_PATH/Guild ] \
+#    && start_ui
 
   [ -s $PIPELINE_MODEL_PATH/versions ] \
     && start_tensorflow_serving_in_background 

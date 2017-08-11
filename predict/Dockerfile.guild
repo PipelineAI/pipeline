@@ -22,12 +22,25 @@ RUN \
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
-ENV \
-  SHELL=/bin/bash
-
 RUN \
   rm /bin/sh \
   && ln -s /bin/bash /bin/sh
+
+# Create an app user so our program doesn't run as root.
+RUN groupadd -r appuser \
+  && useradd -r -g appuser -d /root -p password -c "app user" appuser \
+  && usermod -aG sudo appuser
+
+RUN \
+  apt-get update \
+  && apt-get install -y sudo
+
+RUN \
+  echo "appuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+  && cat /etc/sudoers
+
+RUN \
+  chmod a+wrx /root
 
 RUN \
   echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
@@ -35,24 +48,9 @@ RUN \
   && apt-get update \
   && apt-get install -y sbt
 
-# Install Anaconda with Python3
-RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
-    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
-    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
-    /opt/conda/bin/pip install --upgrade pip && \
-    rm /tmp/miniconda.sh
-
-ENV \
-  PATH=/opt/conda/bin:$PATH
-
-RUN \
-  pip install --upgrade pip
-
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
 RUN \
-  apt-get install -y libgfortran3
-
+  apt-get install libgfortran3
 RUN \
   conda install -c anaconda openblas
 
@@ -148,6 +146,27 @@ COPY src/ src/
 ENV \
   PIPELINE_MODEL_SERVER_PATH=/root/src/main/python/model_server
 
+RUN \
+  apt-get install -y erlang erlang-ssl erlang-inets erlang-dev \
+    erlang-edoc erlang-eunit erlang-tools erlang-common-test
+
+RUN \
+  apt-get install --yes sqlite3 libsqlite3-dev
+
+RUN \
+  apt-get install --yes nodejs-legacy npm
+
+RUN \
+  echo '{ "allow_root": true }' > /root/.bowerrc \
+  && npm install -g bower
+
+COPY guild/ guild/
+RUN \
+  cd guild \
+  && make
+RUN \
+  ln -s /root/guild/scripts/guild-dev /usr/local/bin/guild
+
 ENV \
   PIPELINE_MODEL_SERVER_PORT=9876
 
@@ -221,16 +240,6 @@ ENV \
   PIPELINE_CONDA_ENV_NAME=pipeline
 
 RUN \
-  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
-      echo "" \
-      && echo "Installing TensorFlow Serving..." \
-      && echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" | tee /etc/apt/sources.list.d/tensorflow-serving.list \
-      && curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | apt-key add - \
-      && apt-get update \
-      && apt-get install -y tensorflow-model-server; \ 
-  fi
-
-RUN \
   if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
      [[ $PIPELINE_MODEL_TYPE == "keras" ]] || \
      [[ $PIPELINE_MODEL_TYPE == "scikit" ]] || \
@@ -271,14 +280,34 @@ RUN \
        && echo ""; \
   fi 
 
+# Guild/TensorFlow Requirements
+RUN \
+  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
+      source activate $PIPELINE_CONDA_ENV_NAME \
+      && pip install psutil \
+      && pip2 install tensorflow==1.2.1 \
+      && conda list -n $PIPELINE_CONDA_ENV_NAME; \
+  fi
+
 ENV SHELL=/bin/bash
+RUN \
+  chmod a+wr -R /opt/conda/lib/python3.6/site-packages \
+  && chmod a+wr -R /root/.cache/pip
+
+RUN \
+  chmod a+wr -R /root/model \
+  && chmod a+wr -R /root/.ivy2 \
+  && chmod a+wr -R /root/.sbt
+
+USER appuser
 
 # TODO:  Clean up this logic
 # TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
 # TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
 RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ] \ 
+     && [ ! -f "$PIPELINE_MODEL_PATH/Guild" ]; then \
        echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
        && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
        && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
@@ -290,6 +319,32 @@ RUN \
        && source activate $PIPELINE_CONDA_ENV_NAME \
        && cd $PIPELINE_MODEL_PATH \
        && python pipeline_train.py \
+       && cd /root \
+       && echo "" \
+       && echo "...Training Complete!" \
+       && echo ""; \
+  fi
+
+# TODO:  Clean up this logic
+# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
+#       && ln -s /root/model/runs/model/versions 
+RUN \
+  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
+     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.py" ] \
+     && [ -f "$PIPELINE_MODEL_PATH/Guild" ]; then \
+       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
+       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
+       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
+       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
+       && echo "" \
+       && echo "Starting TensorFlow-based Model Training..." \
+       && echo "" \
+       && source activate $PIPELINE_CONDA_ENV_NAME \
+       && cd $PIPELINE_MODEL_PATH \
+       && guild prepare \
+       && guild train --flag=learning_rate=0.05 \
+       && guild train --flag=learning_rate=0.025 \
        && cd /root \
        && echo "" \
        && echo "...Training Complete!" \
@@ -316,7 +371,6 @@ RUN \
        && echo ""; \
   fi
 
-EXPOSE 6969 9876 9000 9040 9090 3000 9092 8082 8081
-  # 6333
+EXPOSE 6969 9876 9000 9040 9090 3000 6333 9092 8082 8081
 
 CMD ["supervise", "."]
