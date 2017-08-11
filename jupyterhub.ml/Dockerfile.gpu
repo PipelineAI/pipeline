@@ -20,6 +20,9 @@ RUN \
 RUN \
   npm install -g configurable-http-proxy && rm -rf ~/.npm
 
+
+# Downgrade Python 3.6 (from the base FROM Docker image built with Python 3.6)
+#   to Python 3.5 since Spark doesn't like Python 3.6
 RUN \
   conda update conda \
   && conda install python=3.5
@@ -259,6 +262,13 @@ RUN \
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
   TF_XLA_FLAGS=--xla_generate_hlo_graph=.*
+
+# This will install tensorflow for Python 3.5 since we overrode the Python way up top.
+RUN \
+  pip install tensorflow-gpu==1.3.0-rc2
+
+RUN \
+  pip install pipeline-ai-cli=0.43
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 
