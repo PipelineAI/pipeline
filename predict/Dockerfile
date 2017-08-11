@@ -1,4 +1,26 @@
-FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-serving-cpu:master
+FROM fluxcapacitor/package-ubuntu-16.04:master
+
+WORKDIR /root
+
+ENV \
+  TERM=xterm
+
+###################
+# Setup OpenJDK 1.8
+###################
+RUN \
+  apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get install -y apt-transport-https \
+  && apt-get install -y wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV \
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 ENV \
   PIPELINE_MODEL_CHIP=cpu
@@ -6,11 +28,6 @@ ENV \
 RUN \
   rm /bin/sh \
   && ln -s /bin/bash /bin/sh
-
-WORKDIR /root
-
-RUN \
-  apt-get update
 
 # Create an app user so our program doesn't run as root.
 RUN groupadd -r appuser \
@@ -80,7 +97,7 @@ ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
 COPY jvm/ jvm/
 RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt clean-files package
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt cleanFiles package
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
   && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
@@ -261,8 +278,7 @@ RUN \
   if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
       source activate $PIPELINE_CONDA_ENV_NAME \
       && pip install psutil \
-      && source activate $PIPELINE_CONDA_ENV_NAME \
-      && pip2 install tensorflow==1.3.0rc2 \
+      && pip2 install tensorflow==1.2.1 \
       && conda list -n $PIPELINE_CONDA_ENV_NAME; \
   fi
 

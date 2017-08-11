@@ -79,7 +79,7 @@ start_tensorflow_serving_in_background () {
     echo ""
     tensorflow_model_server --port=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT \
         --model_name=$PIPELINE_MODEL_NAME --model_base_path=$PIPELINE_MODEL_PATH/versions \
-        --batching_parameters_file=/root/config/tf_serving/batching_config.txt \
+        --batching_parameters_file=/root/config/tfserving/batching_config.txt \
         --enable_batching=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
         --file_system_poll_wait_seconds=5 &
     echo ""
