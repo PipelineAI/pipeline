@@ -2,6 +2,10 @@ FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
+RUN \
+  rm /bin/sh \
+  && ln -s /bin/bash /bin/sh
+
 # Install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
     echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
@@ -76,8 +80,18 @@ RUN \
 RUN \
   pip install --upgrade appdirs
 
+#RUN \
+#  curl https://sdk.cloud.google.com | bash 
+
 RUN \
-  curl https://sdk.cloud.google.com | bash 
+  echo "deb http://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+RUN \
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+RUN \
+  apt-get update \
+  && apt-get install -y google-cloud-sdk
 
 RUN \
   apt-get update && apt-get install -y libssl-dev libffi-dev python-dev build-essential \
@@ -105,20 +119,6 @@ RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
   && chmod a+x minikube \
   && mv minikube /usr/local/bin/
-
-RUN \
-  rm /bin/sh \
-  && ln -s /bin/bash /bin/sh
-
-RUN \
-  echo "deb http://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s) main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-RUN \
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-
-RUN \
-  apt-get update \
-  && apt-get install -y google-cloud-sdk
 
 RUN \
   pip install pipeline-ai-cli==0.43
