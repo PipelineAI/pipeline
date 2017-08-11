@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.42"
+__version__ = "0.44"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -142,11 +142,11 @@ class PipelineCli(object):
                    'PIPELINE_PS_REPLICAS': ps_replicas,
                    'PIPELINE_WORKER_REPLICAS': worker_replicas}
 
-        model_train_distributed_template = os.path.join(template_path, PipelineCli._kube_train_distributed_template_registry['train'][0][0])
+        model_clustered_template = os.path.join(template_path, PipelineCli._kube_clustered_template_registry['train'][0][0])
 
-        path, filename = os.path.split(model_train_distributed_template)
+        path, filename = os.path.split(model_clustered_template)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-        rendered_filename = './%s-%s-%s-%s-train-distributed.yaml' % (model_type, model_name, model_chip, model_tag)
+        rendered_filename = './clustered-%s-%s-%s-%s.yaml' % (model_type, model_name, model_chip, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
         print("'%s' -> '%s'." % (filename, rendered_filename))
