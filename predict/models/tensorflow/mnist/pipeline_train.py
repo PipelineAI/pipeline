@@ -13,7 +13,7 @@ def init_flags():
     parser = argparse.ArgumentParser()
     parser.add_argument("--rundir", default="./runs")
     parser.add_argument("--datadir", default="./runs/data")
-    parser.add_argument("--servingdir", default="./model/versions")
+    parser.add_argument("--servingdir", default="./versions")
     parser.add_argument("--batch_size", type=int, default=1000)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
@@ -148,12 +148,7 @@ def save_model():
     from tensorflow.python.saved_model import builder as saved_model_builder
     from tensorflow.python.saved_model import tag_constants
 
-    # TODO:  Fix this logic.  Goal is to end up with the saved_model in a place where TF Serving can find it.
-    #        (With or without Guild.)
-    if FLAGS.rundir != './runs':
-        saved_model_path = '/root/model/versions/%s' % _version
-    else:
-        saved_model_path = '%s/model/versions/%s' % (FLAGS.rundir, _version)
+    saved_model_path = '%s/%s' % (FLAGS.servingdir, _version)
     print(saved_model_path)
 
     builder = saved_model_builder.SavedModelBuilder(saved_model_path)
@@ -167,9 +162,9 @@ def save_model():
     builder.save(as_text=False)
     print("")
 
-    served_model_path = '%s/%s' % (FLAGS.servingdir, _version)
+#    served_model_path = '%s/%s' % (FLAGS.servingdir, _version)
 
-    print("Training complete.  tf.train.Saver exported to '%s'.\nSavedModelBuilder saved to '%s'.\nTensorFlow Serving at '%s'" % (exported_model_path, saved_model_path, served_model_path))
+    print("Training complete.  tf.train.Saver exported to '%s'.\nSavedModelBuilder saved to '%s'." % (exported_model_path, saved_model_path))
     print("")
 
 
