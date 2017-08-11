@@ -22,9 +22,6 @@ RUN \
 ENV \
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
-ENV \
-  PIPELINE_MODEL_CHIP=cpu
-
 RUN \
   rm /bin/sh \
   && ln -s /bin/bash /bin/sh
@@ -95,9 +92,18 @@ COPY sysutils/ sysutils/
 
 ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
+
 COPY jvm/ jvm/
+
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt cleanFiles package
+
+ARG model_chip
+RUN \
+  echo $model_chip
+ENV \
+  PIPELINE_MODEL_CHIP=$model_chip
+
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
   && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
@@ -202,6 +208,12 @@ RUN \
   echo $model_name
 ENV \
   PIPELINE_MODEL_NAME=$model_name
+
+ARG model_chip
+RUN \
+  echo $model_chip
+ENV \
+  PIPELINE_MODEL_CHIP=$model_chip
 
 ARG model_tag
 RUN \
