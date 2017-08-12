@@ -1,0 +1,1425 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- start the processing -->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../docs/css/style.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Apache JMeter - User's Manual: Best Practices</title>
+<style>
+  .code { font-weight: bold; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#525D76">
+<table border="0" cellspacing="0">
+<tr>
+<td align="left">
+<a href="http://www.apache.org"><img style="margin: 0px 30px 0px 0px" title="Apache Software Foundation" width="261" height="106" src="../../docs/images/asf-logo.png" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jmeter.apache.org/"><img width="259" height="88" src="../../docs/images/jmeter.png" alt="Apache JMeter" title="Apache JMeter" border="0"/></a>
+</td>
+</tr>
+</table>
+<table border="0" cellspacing="4">
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td align="left" valign="top">
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="boss.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="realtime-results.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="best_practices"><strong>17. Best Practices</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="use_latest_version"><strong>17.1 Always use latest version of JMeter</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+The performance of JMeter is being constantly improved, so users are highly encouraged to use the most up to date version. 
+<br>
+
+
+Ensure you always read 
+<a href="../changes.html">
+changes list
+</a>
+ to be aware of new improvements and components.
+You should absolutely avoid using versions that are older than 3 versions before the last one.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="sizing_threads"><strong>17.2 Use the correct Number of Threads</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Your hardware capabilities as well as the Test Plan design will both impact the number of threads you can effectively
+run with JMeter.  The number will also depend on how fast your server is (a faster server
+ makes JMeter work harder since it returns a response quicker).  As with any Load Testing tool, if you don't correctly size
+ the number of threads, you will face the "Coordinated Omission" problem which can give you wrong or inaccurate results.
+ If you need large-scale load testing, consider running multiple non-GUI JMeter instances on multiple machines 
+ using distributed mode (or not). When using distributed mode the result file is combined on the Controller node, if
+ using multiple autonomous instances, the sample result files can be combined for subsequent analysis.
+For testing how JMeter performs on a given platform, the JavaTest sampler can be used.
+It does not require any network access so can give some idea as to the maximum throughput achievable.
+
+</p>
+<p>
+
+JMeter has an option to delay thread creation until the thread starts sampling, i.e. after any thread group delay and the ramp-up time for the thread itself.
+This allows for a very large total number of threads, provided that not too many are active concurrently.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="put_cookie_manager"><strong>17.3 Where to Put the Cookie Manager</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+See 
+<a href="build-web-test-plan.html#adding_cookie_support">
+Building a Web Test
+</a>
+
+for information.
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="put_auth_manager"><strong>17.4 Where to Put the Authorization Manager</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+See 
+<a href="build-adv-web-test-plan.html#header_manager">
+Building an Advanced
+Web Test
+</a>
+ for information.
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="proxy_server"><strong>17.5 Using the HTTP(S) Test Script Recorder</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+Refer to 
+<a href="../usermanual/component_reference.html#HTTP(S)_Test_Script_Recorder">HTTP(S) Test Script Recorder</a>
+ for details on setting up the
+recorder. The most important thing to do is filter out all requests you aren't
+interested in.  For instance, there's no point in recording image requests (JMeter can
+be instructed to download all images on a page - see 
+<a href="../usermanual/component_reference.html#HTTP_Request">HTTP Request</a>
+).
+These will just clutter your test plan.  Most likely, there is an extension all your files
+share, such as 
+<tt class="code">.jsp
+</tt>
+, 
+<tt class="code">.asp
+</tt>
+, 
+<tt class="code">.php
+</tt>
+, 
+<tt class="code">.html
+</tt>
+ or the like.
+These you should "
+<tt class="code">include
+</tt>
+" by entering "
+<tt class="code">.*\.jsp
+</tt>
+" as an "Include Pattern". 
+</p>
+<p>
+Alternatively, you can exclude images by entering "
+<tt class="code">.*\.gif
+</tt>
+" as an "Exclude Pattern".
+Depending on your application, this may or may not be a better way to go.  You may
+also have to exclude stylesheets, javascript files, and other included files.  Test
+out your settings to verify you are recording what you want, and then erase and start
+fresh.
+</p>
+<p>
+The HTTP(S) Test Script Recorder expects to find a ThreadGroup element with a Recording Controller
+under it where it will record HTTP Requests to.  This conveniently packages all your samples under one
+controller, which can be given a name that describes the test case.
+</p>
+<p>
+Now, go through the steps of a Test Case.  If you have no pre-defined test cases, use
+JMeter to record your actions to define your test cases.  Once you have finished a
+definite series of steps, save the entire test case in an appropriately named file.  Then, wipe
+clean and start a new test case.  By doing this, you can quickly record a large number of
+test case "rough drafts".
+</p>
+<p>
+One of the most useful features of the HTTP(S) Test Script Recorder is that you can abstract out
+certain common elements from the recorded samples.  By defining some
+
+<a href="functions.html">
+user-defined variables
+</a>
+ at the Test Plan level or in
+
+<a href="../usermanual/component_reference.html#User_Defined_Variables">User Defined Variables</a>
+ elements, you can have JMeter automatically
+replace values in you recorded samples.  For instance, if you are testing an app on
+server "
+<tt class="code">xxx.example.com
+</tt>
+", then you can define a variable called "
+<tt class="code">server
+</tt>
+" with the value of
+"
+<tt class="code">xxx.example.com
+</tt>
+", and anyplace that value is found in your recorded samples will be replaced
+with "
+<tt class="code">${server}
+</tt>
+".
+
+
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Please note that matching is case-sensitive.
+</td></tr>
+</table>
+</p>
+
+
+
+</p>
+<p>
+
+If JMeter does not record any samples, check that the browser really is using the proxy.
+If the browser works OK even if JMeter is not running, then the browser cannot be using the proxy.
+Some browsers ignore proxy settings for 
+<tt class="code">localhost
+</tt>
+ or 
+<tt class="code">127.0.0.1
+</tt>
+; try using the local hostname or IP instead.
+
+</p>
+<p>
+
+The error "
+<tt class="code">unknown_ca
+</tt>
+" probably means that you are trying to record HTTPS, and the browser has not accepted the
+JMeter Proxy server certificate.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="user_variables"><strong>17.6 User variables</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Some test plans need to use different values for different users/threads. 
+For example, you might want to test a sequence that requires a unique login for each user.
+This is easy to achieve with the facilities provided by JMeter.
+
+</p>
+<p>
+For example:
+</p>
+<ul>
+
+
+<li>
+Create a text file containing the user names and passwords, separated by commas.
+Put this in the same directory as your test plan.
+
+</li>
+
+
+<li>
+
+Add a CSV DataSet configuration element to the test plan.
+Name the variables 
+<tt class="code">USER
+</tt>
+ and 
+<tt class="code">PASS
+</tt>
+.
+
+</li>
+
+
+<li>
+
+Replace the login name with 
+<tt class="code">${USER}
+</tt>
+ and the password with 
+<tt class="code">${PASS}
+</tt>
+ on the appropriate
+samplers
+
+</li>
+
+
+</ul>
+<p>
+The CSV Data Set element will read a new line for each thread.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="lean_mean"><strong>17.7 Reducing resource requirements</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Some suggestions on reducing resource usage.
+
+</p>
+<ul>
+
+
+<li>
+Use non-GUI mode: 
+<tt class="code">jmeter -n -t test.jmx -l test.jtl
+</tt>
+</li>
+
+
+<li>
+Use as few Listeners as possible; if using the 
+<tt class="code">-l
+</tt>
+ flag as above they can all be deleted or disabled.
+</li>
+
+
+<li>
+Don't use "View Results Tree" or "View Results in Table" listeners during the load test, use them only during scripting phase to debug your scripts.
+</li>
+
+
+<li>
+Rather than using lots of similar samplers,
+use the same sampler in a loop, and use variables (CSV Data Set) to vary the sample.
+[The Include Controller does not help here, as it adds all the test elements in the file to the test plan.]
+
+</li>
+
+
+<li>
+Don't use functional mode
+</li>
+
+
+<li>
+Use CSV output rather than XML
+</li>
+
+
+<li>
+Only save the data that you need
+</li>
+
+
+<li>
+Use as few Assertions as possible
+</li>
+
+
+<li>
+Use the most performing scripting language (see JSR223 section)
+</li>
+
+
+</ul>
+<p>
+
+If your test needs large amounts of data - particularly if it needs to be randomised - create the test data in a file
+that can be read with CSV Dataset. This avoids wasting resources at run-time.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="beanshell_server"><strong>17.8 BeanShell server</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+The BeanShell interpreter has a very useful feature - it can act as a server,
+which is accessible by telnet or http.
+
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>
+There is no security. Anyone who can connect to the port can issue any BeanShell commands.
+These can provide unrestricted access to the JMeter application and the host.
+
+<b>
+Do not enable the server unless the ports are protected against access, e.g. by a firewall.
+</b>
+
+
+</td></tr>
+</table>
+</p>
+<p>
+
+If you do wish to use the server, define the following in 
+<tt class="code">jmeter.properties
+</tt>
+:
+
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+beanshell.server.port=9000
+beanshell.server.file=../extras/startup.bsh
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+
+In the above example, the server will be started, and will listen on ports 
+<tt class="code">9000
+</tt>
+ and 
+<tt class="code">9001
+</tt>
+.
+Port 
+<tt class="code">9000
+</tt>
+ will be used for http access. Port 
+<tt class="code">9001
+</tt>
+ will be used for telnet access.
+The 
+<tt class="code">startup.bsh
+</tt>
+ file will be processed by the server, and can be used to define various functions and set up variables.
+The startup file defines methods for setting and printing JMeter and system properties.
+This is what you should see in the JMeter console:
+
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+Startup script running
+Startup script completed
+Httpd started on port: 9000
+Session started on port: 9001
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+
+There is a sample script (
+<tt class="code">extras/remote.bsh
+</tt>
+) you can use to test the server.
+[Have a look at it to see how it works.]
+
+<br>
+
+
+When starting it in the JMeter 
+<tt class="code">bin
+</tt>
+ directory
+(adjust paths as necessary if running from elsewhere)
+the output should look like:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+$ java -jar ../lib/bshclient.jar localhost 9000 ../extras/remote.bsh
+Connecting to BSH server on localhost:9000
+Reading responses from server …
+BeanShell 2.0b5 - by Pat Niemeyer (pat@pat.net)
+bsh % remote.bsh starting
+user.home = C:\Documents and Settings\User
+user.dir = D:\eclipseworkspaces\main\JMeter_trunk\bin
+log_level.jmeter = INFO
+log_level.jorphan = INFO
+Setting property 'EXAMPLE' to '0'.
+Setting property 'EXAMPLE' to '1'.
+Setting property 'EXAMPLE' to '2'.
+Setting property 'EXAMPLE' to '3'.
+Setting property 'EXAMPLE' to '4'.
+Setting property 'EXAMPLE' to '5'.
+Setting property 'EXAMPLE' to '6'.
+Setting property 'EXAMPLE' to '7'.
+Setting property 'EXAMPLE' to '8'.
+Setting property 'EXAMPLE' to '9'.
+EXAMPLE = 9
+remote.bsh ended
+bsh % … disconnected from server.
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</p>
+<p>
+
+As a practical example, assume you have a long-running JMeter test running in non-GUI mode,
+and you want to vary the throughput at various times during the test.
+The test-plan includes a Constant Throughput Timer which is defined in terms of a property,
+e.g. 
+<tt class="code">${__P(throughput)}
+</tt>
+.
+The following BeanShell commands could be used to change the test:
+
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+printprop("throughput");
+curr = Integer.decode(args[0]);  // Start value
+inc  = Integer.decode(args[1]);  // Increment
+end  = Integer.decode(args[2]);  // Final value
+secs = Integer.decode(args[3]);  // Wait between changes
+while(curr <= end) {
+  setprop("throughput",curr.toString()); // Needs to be a string here
+  Thread.sleep(secs*1000);
+  curr += inc;
+}
+printprop("throughput");
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+<p>
+The script can be stored in a file (
+<tt class="code">throughput.bsh
+</tt>
+, say), and sent to the server using 
+<tt class="code">bshclient.jar
+</tt>
+.
+For example:
+
+</p>
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+java -jar ../lib/bshclient.jar localhost 9000 throughput.bsh 70 5 100 60
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="bsh_scripting"><strong>17.9 BeanShell scripting</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Since JMeter 3.1, we advise switching from BeanShell to JSR223 Test Elements (see JSR223 section below for more details), and switching from 
+<tt class="code"><a href="functions.html#__BeanShell">
+__Beanshell
+</a>
+</tt>
+ function 
+to 
+<a href="functions.html#__groovy">
+__groovy
+</a>
+ function.
+</td></tr>
+</table>
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="bsh_overview"><strong>17.9.1 Overview</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Each BeanShell test element has its own copy of the interpreter (for each thread).
+If the test element is repeatedly called, e.g. within a loop, then the interpreter is retained
+between invocations unless the "
+<tt class="code">Reset bsh.Interpreter before each call
+</tt>
+" option is selected.
+
+</p>
+<p>
+
+Some long-running tests may cause the interpreter to use lots of memory; if this is the case try using the reset option.
+
+</p>
+<p>
+
+You can test BeanShell scripts outside JMeter by using the command-line interpreter:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+$ java -cp bsh-xxx.jar[;other jars as needed] bsh.Interpreter file.bsh [parameters]
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+or
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+$ java -cp bsh-xxx.jar bsh.Interpreter
+bsh% source("file.bsh");
+bsh% exit(); // or use EOF key (e.g. ^Z or ^D)
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#828DA6">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="bsh_variables"><strong>17.9.2 Sharing Variables</strong></a>
+</font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Variables can be defined in startup (initialisation) scripts.
+These will be retained across invocations of the test element, unless the reset option is used.
+
+</p>
+<p>
+
+Scripts can also access JMeter variables using the 
+<tt class="code">get()
+</tt>
+ and 
+<tt class="code">put()
+</tt>
+ methods of the "
+<tt class="code">vars
+</tt>
+" variable,
+for example:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>vars.get("HOST");
+vars.put("MSG","Successful");
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+The 
+<tt class="code">get()
+</tt>
+ and 
+<tt class="code">put()
+</tt>
+ methods only support variables with String values,
+but there are also 
+<tt class="code">getObject()
+</tt>
+ and 
+<tt class="code">putObject()
+</tt>
+ methods which can be used for arbitrary objects.
+JMeter variables are local to a thread, but can be used by all test elements (not just Beanshell).
+
+</p>
+<p>
+
+If you need to share variables between threads, then JMeter properties can be used:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+import org.apache.jmeter.util.JMeterUtils;
+String value = JMeterUtils.getPropDefault("name","");
+JMeterUtils.setProperty("name", "value");
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+The sample 
+<tt class="code">.bshrc
+</tt>
+ files contain sample definitions of 
+<tt class="code">getprop()
+</tt>
+ and 
+<tt class="code">setprop()
+</tt>
+ methods.
+
+</p>
+<p>
+
+Another possible method of sharing variables is to use the "
+<tt class="code">bsh.shared
+</tt>
+" shared namespace.
+For example:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+if (bsh.shared.myObj == void){
+    // not yet defined, so create it:
+    myObj = new AnyObject();
+}
+bsh.shared.myObj.process();
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+Rather than creating the object in the test element, it can be created in the startup file
+defined by the JMeter property "
+<tt class="code">beanshell.init.file
+</tt>
+". This is only processed once.
+
+</p>
+</blockquote>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="developing_scripts"><strong>17.10 Developing script functions in Groovy or Jexl3 etc.</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+It's quite hard to write and test scripts as functions.
+However, JMeter has the JSR223 samplers which can be used instead with any language supporting it. 
+We advise using 
+<a href="http://www.groovy-lang.org/">
+Apache Groovy
+</a>
+ or any language that supports the 
+<tt class="code"><a href="https://docs.oracle.com/javase/8/docs/api/javax/script/Compilable.html">
+Compilable
+</a>
+</tt>
+ interface of JSR223.
+
+</p>
+<p>
+
+Create a simple Test Plan containing the JSR223 Sampler and Tree View Listener.
+Code the script in the sampler script pane, and test it by running the test.
+If there are any errors, these will show up in the Tree View and 
+<tt class="code">jmeter.log
+</tt>
+ file.
+Also the result of running the script will show up as the response.
+
+</p>
+<p>
+
+Once the script is working properly, it can be stored as a variable on the Test Plan.
+The script variable can then be used to create the function call.
+For example, suppose a Groovy script is stored in the variable 
+<tt class="code">RANDOM_NAME
+</tt>
+.
+The function call can then be coded as 
+<tt class="code">${__groovy(${RANDOM_NAME})}
+</tt>
+.
+There is no need to escape any commas in the script,
+because the function call is parsed before the variable's value is interpolated.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="parameterising_tests"><strong>17.11 Parameterising tests</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Often it is useful to be able to re-run the same test with different settings.
+For example, changing the number of threads or loops, or changing a hostname.
+
+</p>
+<p>
+
+One way to do this is to define a set of variables on the Test Plan, and then use those variables in the test elements.
+For example, one could define the variable 
+<tt class="code">LOOPS=10
+</tt>
+, and refer to that in the Thread Group as 
+<tt class="code">${LOOPS}
+</tt>
+.
+To run the test with 20 loops, just change the value of the 
+<tt class="code">LOOPS
+</tt>
+ variable on the Test Plan.
+
+</p>
+<p>
+
+This quickly becomes tedious if you want to run lots of tests in non-GUI mode.
+One solution to this is to define the Test Plan variable in terms of a property,
+for example 
+<tt class="code">LOOPS=${__P(loops,10))}
+</tt>
+.
+This uses the value of the property "
+<tt class="code">loops
+</tt>
+", defaulting to 
+<tt class="code">10
+</tt>
+ if the property is not found.
+The "
+<tt class="code">loops
+</tt>
+" property can then be defined on the JMeter command-line:
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>jmeter … -Jloops=12 …
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+If there are a lot of properties that need to be changed together,
+then one way to achieve this is to use a set of property files.
+The appropriate property file can be passed in to JMeter using the 
+<tt class="code">-q
+</tt>
+ command-line option.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="jsr223"><strong>17.12 JSR223 Elements</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+For intensive load testing, the recommended scripting language is one whose ScriptingEngine implements the 
+<tt class="code"><a href="https://docs.oracle.com/javase/8/docs/api/javax/script/Compilable.html">
+Compilable
+</a>
+</tt>
+ interface.
+Groovy scripting engine implements 
+<tt class="code"><a href="https://docs.oracle.com/javase/8/docs/api/javax/script/Compilable.html">
+Compilable
+</a>
+</tt>
+. However neither Beanshell nor Javascript do so as of release date of JMeter 3.1, so it is
+recommended to avoid them for intensive load testing.
+
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Note: Beanshell implements the 
+<tt class="code"><a href="https://docs.oracle.com/javase/8/docs/api/javax/script/Compilable.html">
+Compilable
+</a>
+</tt>
+ interface but it has not been coded - the method just throws an Exception.
+JMeter has an explicit work-round for this bug.
+</td></tr>
+</table>
+</p>
+
+
+When using JSR 223 elements, it is advised to check 
+<tt class="code">Cache compiled script if available
+</tt>
+ property to ensure the script compilation is cached if underlying language supports it.
+In this case, ensure the script does not use any variable using 
+<tt class="code">${varName}
+</tt>
+ as caching would take only first value of 
+<tt class="code">${varName}
+</tt>
+. Instead use :
+
+<div align="left">
+<table cellspacing="4" cellpadding="0" border="0">
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#ffffff"><pre>
+vars.get("varName")
+
+</pre></td>
+<td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+<tr>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+<td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+</tr>
+</table>
+</div>
+
+
+</p>
+<p>
+
+You can also pass them as Parameters to the script and use them this way.
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="sharing_variables"><strong>17.13 Sharing variables between threads and thread groups</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+
+Variables are local to a thread; a variable set in one thread cannot be read in another.
+This is by design. For variables that can be determined before a test starts, see 
+
+<a href="#parameterising_tests">
+Parameterising Tests
+</a>
+ (above). 
+If the value is not known until the test starts, there are various options:
+
+<ul>
+
+
+<li>
+Store the variable as a property - properties are global to the JMeter instance
+</li>
+
+
+<li>
+Write variables to a file and re-read them.
+</li>
+
+
+<li>
+Use the 
+<tt class="code">bsh.shared
+</tt>
+ namespace - see 
+<a href="#bsh_variables">
+above
+</a>
+</li>
+
+
+<li>
+Write your own Java classes
+</li>
+
+
+</ul>
+
+
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="properties"><strong>17.14 Managing properties</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+When you need to modify jmeter properties, ensure you don't modify 
+<tt class="code">jmeter.properties
+</tt>
+ file,
+
+<b>
+instead copy the property from 
+<tt class="code">jmeter.properties
+</tt>
+ and modify its value in 
+<tt class="code">user.properties
+</tt>
+ file
+</b>
+.
+<br>
+
+
+Doing so will ease you migration to the next version of JMeter. 
+<br>
+
+
+Note that in the documentation 
+<tt class="code">jmeter.properties
+</tt>
+ is frequently mentioned but this should be understood as
+"Copy from 
+<tt class="code">jmeter.properties
+</tt>
+ to 
+<tt class="code">user.properties
+</tt>
+ the property you want to modify and do so in the latter file".
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td><tt class="code">user.properties
+</tt>
+ file supersedes the properties defined in 
+<tt class="code">jmeter.properties
+</tt>
+</td></tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<tr><td bgcolor="#525D76">
+<font color="#ffffff" face="arial,helvetica,sanserif">
+<a name="deprecation"><strong>17.15 Deprecated elements</strong></a></font>
+</td></tr>
+<tr><td>
+<blockquote>
+<p>
+It is advised not to use deprecated elements (marked as such in 
+<a href="../changes.html">
+changes list
+</a>
+ and in 
+<a href="./component_reference.html">
+component reference
+</a>
+) 
+and to migrate to new advised elements if available or new way of doing the same thing. 
+<br>
+
+
+Deprecated elements are removed from the menu in version N but can be enabled for migration by modifying 
+<tt class="code">not_in_menu
+</tt>
+ property in 
+<tt class="code">user.properties
+</tt>
+ file and removing the full class name 
+of the element from there.
+<br>
+
+</p>
+<p>
+<table border="1" bgcolor="#bbbb00" width="50%" cellspacing="0" cellpadding="2">
+<tr><td>Please note that deprecated elements in version N will be removed definitely in version N+1, so ensure you stop using them as soon as possible.
+</td></tr>
+</table>
+</p>
+</blockquote>
+</p>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<br>
+<table>
+<tr>
+<td bgcolor="#525D76">
+<div align="right"><a href="index.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Index</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="boss.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Next</font></a></div>
+</td>
+<td bgcolor="#525D76">
+<div align="right"><a href="realtime-results.html"><font size=-1 color="#ffffff" face="arial,helvetica,sanserif">Prev</font></a></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<hr noshade size="1"/>
+</td></tr>
+<tr>
+<td>
+<table width=100%>
+<tr>
+<td>
+<font color="#525D76" size="-1"><em>
+Copyright &copy; 1999-2016, Apache Software Foundation
+</em></font>
+</td>
+<td align="right">
+<font color="#525D76" size="-1"><em>
+$Id: best-practices.xml 1767315 2016-10-31 15:52:25Z pmouawad $
+</em></font>
+</td>
+</tr>
+<tr><td colspan="2">
+<div align="center"><font color="#525D76" size="-1">
+Apache, Apache JMeter, JMeter, the Apache feather, and the Apache JMeter logo are
+trademarks of the Apache Software Foundation.
+</font>
+</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

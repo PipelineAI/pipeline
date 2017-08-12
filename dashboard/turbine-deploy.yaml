@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-turbine
+  labels:
+    app: dashboard-turbine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-turbine
+  template:
+    metadata:
+      labels:
+        app: dashboard-turbine
+    spec:
+      containers:
+      - name: dashboard-turbine
+        image: docker.io/fluxcapacitor/dashboard-turbine:master
+        imagePullPolicy: "Always"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        ports:
+        - containerPort: 8989

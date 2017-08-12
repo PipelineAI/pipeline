@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Args:
-#  $1: grpc_port
-#  $2: inputs 
-
-curl -H "Content-Type: application/json" -X POST -d '{"inputs":[{"inputs":"$2"}]}' http://localhost:$1/api/v1/model/predict/python3/tensorflow1/; echo

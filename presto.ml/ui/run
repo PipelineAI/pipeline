@@ -1,5 +1,0 @@
-#!/bin/bash
-
-yanagishima-start.sh
-
-tail -f yanagishima.log

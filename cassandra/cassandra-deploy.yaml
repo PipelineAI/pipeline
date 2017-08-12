@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta
+kind: Deployment 
+metadata:
+  name: cassandra
+  labels:
+    app: cassandra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: docker.io/fluxcapacitor/cassandra:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 4000Mi
+          requests:
+            cpu: 100m
+            memory: 400Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7199
+        - containerPort: 9042
+        - containerPort: 9160
+        - containerPort: 7000

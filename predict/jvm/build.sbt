@@ -7,8 +7,6 @@ sourcesInBase := false
 scalaSource in Compile := baseDirectory.value / "src"
 javaSource in Compile := baseDirectory.value / "src"
 
-(unmanagedClasspath in Compile) += file("lib/dbml-local-0.1.2-spark2.1.jar")
-
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-jvm")
                     .settings(globalSettings:_*)

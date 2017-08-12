@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-hystrix
+  labels:
+    app: dashboard-hystrix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-hystrix
+  template:
+    metadata:
+      labels:
+        app: dashboard-hystrix
+    spec:
+      containers:
+      - name: dashboard-hystrix
+        image: docker.io/fluxcapacitor/dashboard-hystrix:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7979

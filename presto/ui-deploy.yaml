@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: presto-ui
+  labels:
+    app: presto-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: presto-ui
+  template:
+    metadata:
+      labels:
+        app: presto-ui
+    spec:
+      containers:
+      - name: presto-ui
+        image: docker.io/fluxcapacitor/presto-ui:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 4125

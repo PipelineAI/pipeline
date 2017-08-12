@@ -1,3 +1,0 @@
-#!/bin/bash
-
-$KIBANA_HOME/bin/kibana

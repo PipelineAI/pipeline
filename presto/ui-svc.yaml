@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: presto-ui
+  labels:
+    app: presto-ui 
+#    dns: route53
+#  annotations:
+#    domainName: presto.your.domain.com
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 4125
+  selector:
+    app: presto-ui 

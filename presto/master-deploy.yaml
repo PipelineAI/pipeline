@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: presto-master
+  labels:
+    app: presto-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: presto-master
+  template:
+    metadata:
+      labels:
+        app: presto-master
+    spec:
+      containers:
+      - name: presto-master
+        image: docker.io/fluxcapacitor/presto-master-0.167:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7060
+#        volumeMounts:
+#          - name: hadoop-conf-dev-volume
+#            mountPath: /etc/hadoop/conf/dev
+#          - name: hadoop-conf-prod-volume
+#            mountPath: /etc/hadoop/conf/prod
+#      volumes:
+#        - name: hadoop-conf-dev-volume
+#          secret:
+#            secretName: hadoop-conf-dev
+#        - name: hadoop-conf-prod-volume
+#          secret:
+#            secretName: hadoop-conf-prod

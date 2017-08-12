@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#cat datasets/dogs_and_cats/dogs_and_cats.tar.gz-part-* > datasets/dogs_and_cats/dogs_and_cats.tar.gz
-#tar --directory datasets/dogs_and_cats/ -xzvf datasets/dogs_and_cats/dogs_and_cats.tar.gz
-
-python src/online-tensorflow-producer.py 2>&1 > online-tensorflow-producer.log &
-
-tail -f online-tensorflow-producer.log

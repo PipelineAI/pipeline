@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apachespark-master-2-1-0
+  labels: 
+    app: apachespark-master-2-1-0
+#    dns: route53
+#  annotations:
+#    domainName: "spark.your.domain.com"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: admin-http
+    port: 80
+    targetPort: 6060
+  - name: rest-submit
+    port: 6066
+    targetPort: 6066
+  - name: spark-submit
+    port: 7077
+    targetPort: 7077
+  - name: "4040"
+    port: 4040
+    targetPort: 4040
+  - name: "4041"
+    port: 4041
+    targetPort: 4041
+  - name: "4042"
+    port: 4042
+    targetPort: 4042
+  - name: "4043"
+    port: 4043
+    targetPort: 4043
+  - name: "4044"
+    port: 4044
+    targetPort: 4044
+  selector:
+    app: apachespark-master-2-1-0

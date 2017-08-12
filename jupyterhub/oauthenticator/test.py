@@ -1,0 +1,1 @@
+import oauthenticator.auth0.Auth0OAuthenticator

@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: metastore-2-1-1
+  labels:
+    app: metastore-2-1-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metastore-2-1-1
+  template:
+    metadata:
+      labels:
+        app: metastore-2-1-1
+    spec:
+      containers:
+      - name: metastore-2-1-1
+        image: docker.io/fluxcapacitor/metastore-2.1.1:master
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 9083

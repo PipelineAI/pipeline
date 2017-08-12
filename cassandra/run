@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cassandra -f -R
+
+#tail -f $CASSANDRA_HOME/logs/system.log

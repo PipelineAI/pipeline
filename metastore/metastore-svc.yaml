@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: metastore-2-1-1
+  labels:
+    app: metastore-2-1-1
+spec:
+  type: NodePort
+  ports:
+    # the port that this service should serve on
+  - name: metastore-native
+    port: 9083
+    targetPort: 9083
+  selector:
+    app: metastore-2-1-1
