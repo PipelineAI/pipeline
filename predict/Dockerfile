@@ -62,28 +62,47 @@ RUN \
 RUN \
   service nginx start
 
-RUN \
-  apt-get install -y tmux \
-  && apt-get install -y screen
+COPY config/ config/
 
 RUN \
-  wget https://github.com/prometheus/prometheus/releases/download/v1.7.1/prometheus-1.7.1.linux-amd64.tar.gz \
-  && tar xvfz prometheus-1.7.1.linux-amd64.tar.gz \
-  && rm prometheus-1.7.1.linux-amd64.tar.gz
+  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
+  && cd /etc/nginx/sites-available/ \
+  && ln -s /root/config/nginx/default \
+  && cd /etc/nginx/sites-enabled/ \
+  && rm default \
+  && ln -s /etc/nginx/sites-available/default
+
+ENV \
+  PROMETHEUS_VERSION=1.7.1
 
 RUN \
-  wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.3.1_amd64.deb \
-  && apt-get install -y adduser libfontconfig \
-  && dpkg -i grafana_4.3.1_amd64.deb \
-  && rm grafana_4.3.1_amd64.deb
+  wget https://github.com/prometheus/prometheus/releases/download/v$PROMETHEUS_VERSION/prometheus-$PROMETHEUS_VERSION.linux-amd64.tar.gz \
+  && tar xvfz prometheus-$PROMETHEUS_VERSION.linux-amd64.tar.gz \
+  && rm prometheus-$PROMETHEUS_VERSION.linux-amd64.tar.gz
 
 RUN \
-  service grafana-server start
+  mv /root/prometheus-$PROMETHEUS_VERSION.linux-amd64/prometheus.yml /root/prometheus-$PROMETHEUS_VERSION.linux-amd64/prometheus.yml.orig \
+  && cd /root/prometheus-$PROMETHEUS_VERSION.linux-amd64/ \
+  && ln -s /root/config/prometheus/prometheus.yml
+
+ENV \
+  PATH=/root/prometheus-$PROMETHEUS_VERSION.linux-amd64/:$PATH
+
+ENV \
+  GRAFANA_VERSION=4.4.3
 
 RUN \
-  mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.orig \
-  && cd /etc/grafana/ \
-  && ln -s /root/config/grafana/grafana.ini
+  wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-$GRAFANA_VERSION.linux-x64.tar.gz \ 
+  && tar -zxvf grafana-$GRAFANA_VERSION.linux-x64.tar.gz \
+  && rm grafana-$GRAFANA_VERSION.linux-x64.tar.gz
+
+ENV \
+  PATH=/root/grafana-$GRAFANA_VERSION/bin:$PATH 
+
+RUN \
+  cd /root/grafana-$GRAFANA_VERSION/conf \
+  && ln -s /root/config/grafana/custom.ini \
+  && ln -s /root/config/grafana/dashboards
 
 RUN \
   mkdir -p /root/logs
@@ -100,23 +119,6 @@ COPY jvm/ jvm/
 
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt cleanFiles package
-
-COPY config/ config/
-
-RUN \
-  mv /root/prometheus-1.7.1.linux-amd64/prometheus.yml /root/prometheus-1.7.1.linux-amd64/prometheus.yml.orig \
-  && cd /root/prometheus-1.7.1.linux-amd64/ \
-  && ln -s /root/config/prometheus/prometheus.yml
-
-ENV \
-  PATH=/root/prometheus-1.7.1.linux-amd64/:$PATH
-RUN \
-  mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig \
-  && cd /etc/nginx/sites-available/ \
-  && ln -s /root/config/nginx/default \
-  && cd /etc/nginx/sites-enabled/ \
-  && rm default \
-  && ln -s /etc/nginx/sites-available/default
 
 ENV \
   CONFLUENT_VERSION=3.3.0 \
