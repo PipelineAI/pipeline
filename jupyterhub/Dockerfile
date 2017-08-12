@@ -255,7 +255,6 @@ RUN \
 
 COPY notebooks/ notebooks/
 COPY lib/ lib/
-COPY datasets/ datasets/
 COPY scripts/ scripts/
 COPY src/ src/
 COPY tests/ tests/
