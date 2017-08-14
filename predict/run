@@ -93,8 +93,6 @@ service nginx start
 
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
-#service grafana-server start
-
 cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
 cd ~

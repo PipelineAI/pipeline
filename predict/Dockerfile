@@ -145,6 +145,11 @@ RUN \
 RUN \
   pip install --upgrade confluent-kafka
 
+# Must run ths or you will see the following error:
+#   ImportError: librdkafka.so.1: cannot open shared object file: No such file or directory
+RUN \
+  ldconfig
+
 COPY src/ src/
 
 ENV \
