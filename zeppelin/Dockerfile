@@ -24,7 +24,7 @@ RUN \
   && mv kubectl /usr/local/bin/kubectl
 
 COPY lib/ lib/
-COPY notebooks/ notebooks/
+COPY notebook/ notebook/
 
 ENV \
   TENSORFLOW_VERSION=1.3.0-rc2

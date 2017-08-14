@@ -17,18 +17,16 @@ cd $PIPELINE_HOME/package/kafka/0.10/ && pwd && sudo docker build $2 -q -t fluxc
 cd $PIPELINE_HOME/package/presto/0.167/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package/apache2/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
 
-$cd $PIPELINE_HOME/package/tensorflow/7a7fe93-4c0052d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-full-cpu:$1 -f Dockerfile.full-cpu .
-$cd $PIPELINE_HOME/package/tensorflow/7a7fe93-4c0052d/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-cpu:$1 -f Dockerfile.cpu .
+#cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-serving-cpu:$1 -f Dockerfile.serving-cpu .
+#cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-full-cpu:$1 -f Dockerfile.full-cpu .
+cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-tensorflow-cpu:$1 -f Dockerfile.cpu .
 
 # apachespark
-cd $PIPELINE_HOME/apachespark/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/apachespark-master-2.1.0:$1 -f Dockerfile.master .
-cd $PIPELINE_HOME/apachespark/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/apachespark-worker-2.1.0:$1 -f Dockerfile.worker .
+cd $PIPELINE_HOME/spark/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/spark-master-2.1.0:$1 -f Dockerfile.master .
+cd $PIPELINE_HOME/spark/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/spark-worker-2.1.0:$1 -f Dockerfile.worker .
 
 # cassandra
 cd $PIPELINE_HOME/cassandra && pwd && sudo docker build $2 -q -t fluxcapacitor/cassandra:$1 .
-
-# clustered
-#cd $PIPELINE_HOME/clustered/tensorflow && pwd && sudo docker build $2 -q -t fluxcapacitor/clustered-tensorflow:$1 .
 
 # dashboard
 cd $PIPELINE_HOME/dashboard/hystrix && pwd && sudo docker build $2 -q -t fluxcapacitor/dashboard-hystrix:$1 .
@@ -38,7 +36,7 @@ cd $PIPELINE_HOME/dashboard/turbine && pwd && sudo docker build $2 -q -t fluxcap
 cd $PIPELINE_HOME/elasticsearch/2.3.0 && pwd && sudo docker build $2 -q -t fluxcapacitor/elasticsearch-2.3.0:$1 .
 
 # gpu.ml (actually, cpu)
-#cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -q -t fluxcapacitor/gpu-tensorflow-spark-cpu:$1 -f Dockerfile.cpu .
+cd $PIPELINE_HOME/gpu.ml && pwd && sudo docker build $2 -q -t fluxcapacitor/gpu-tensorflow-spark:$1 -f Dockerfile.cpu .
 
 # hdfs
 cd $PIPELINE_HOME/hdfs && pwd && sudo docker build $2 -q -t fluxcapacitor/hdfs-namenode:$1 .
@@ -71,8 +69,8 @@ cd $PIPELINE_HOME/presto/master && pwd && sudo docker build $2 -q -t fluxcapacit
 cd $PIPELINE_HOME/presto/worker && pwd && sudo docker build $2 -q -t fluxcapacitor/presto-worker-0.167:$1 .
 cd $PIPELINE_HOME/presto/ui && pwd && sudo docker build $2 -q -t fluxcapacitor/presto-ui:$1 .
 
-# scheduler
-cd $PIPELINE_HOME/scheduler/airflow && pwd && sudo docker build $2 -q -t fluxcapacitor/scheduler-airflow:$1 .
+# airflow
+cd $PIPELINE_HOME/airflow && pwd && sudo docker build $2 -q -t fluxcapacitor/airflow:$1 .
 
 # sql
 cd $PIPELINE_HOME/sql/mysql && pwd && sudo docker build $2 -q -t fluxcapacitor/sql-mysql-master:$1 .

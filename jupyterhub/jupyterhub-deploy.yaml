@@ -29,7 +29,7 @@ spec:
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
-          value: spark://apachespark-master-2-1-0:7077
+          value: spark://spark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
           value: ""
         - name: JUPYTERHUB_AUTHENTICATOR

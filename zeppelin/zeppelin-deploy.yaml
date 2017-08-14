@@ -29,7 +29,7 @@ spec:
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
-          value: spark://apachespark-master-2-1-0:7077
+          value: spark://spark-master-2-1-0:7077
         - name: SPARK_SUBMIT_ARGS
           value: "--conf spark.cores.max=2 --conf spark.executor.memory=2g --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.1,org.apache.spark:spark-streaming-kafka-0-10_2.11:2.1.0 --jars /root/lib/jpmml-sparkml-package-1.0-SNAPSHOT.jar --py-files /root/lib/jpmml.py"
         ports:

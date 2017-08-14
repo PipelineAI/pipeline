@@ -1,0 +1,4 @@
+pipeline_ai_cli.egg-info/
+dist/
+build/
+*.pyc

@@ -14,9 +14,9 @@ kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/hdfs.ml/namenode-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/master-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/spark.ml/master-svc.yaml $PIO_COMMAND_OPTS
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-svc.yaml $PIO_COMMAND_OPTS
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/spark.ml/worker-svc.yaml $PIO_COMMAND_OPTS
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/keyvalue.ml/redis-master-svc.yaml
 

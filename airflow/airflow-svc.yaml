@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: scheduler-airflow
+  name: airflow
   labels:
-    app: scheduler-airflow
+    app: airflow
 #    dns: route53
 #  annotations:
 #    domainName: airflow.your.domain.com
@@ -23,4 +23,4 @@ spec:
     port: 8793
     targetPort: 8793
   selector:
-    app: scheduler-airflow 
+    app: airflow 

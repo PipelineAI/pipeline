@@ -16,9 +16,9 @@ kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/hdfs.ml/namenode-deploy.yaml
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/master-deploy.yaml
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/spark.ml/master-deploy.yaml
 
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-deploy.yaml
+kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/spark.ml/worker-deploy.yaml
 
 kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/keyvalue.ml/redis-master-deploy.yaml
 

@@ -65,8 +65,6 @@ COPY config/airflow/airflow.cfg $AIRFLOW_HOME/airflow.cfg
 
 COPY run run
 
-COPY airflow/ airflow/
-
 EXPOSE 8080 5000 5555 8793
 
 CMD ["supervise", "."]

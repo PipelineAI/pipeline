@@ -21,7 +21,7 @@ RUN \
   && apt-get install -y sbt
 
 RUN \
-  sbt clean clean-files
+  sbt clean cleanFiles
 
 RUN \
   wget http://apache.mirrors.tds.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
