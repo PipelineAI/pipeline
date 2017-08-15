@@ -21,10 +21,14 @@ pages:
     - Experiment With Your Models: model_experiment/index.md
     - Stream Your Models: model_stream/index.md
   - Try our Free Community Edition!: products/index.md
-  - Deployments: environments/index.md
+  - Hybrid Cloud: environments/index.md
   - Dashboards: model_monitor/index.md
   - GPUs: gpu/index.md
   - APIs: api/index.md
+  - Releases: releases/index.md
+  - 24x7 Global Support: support/index.md
+  - Contact Us: contact/index.md
+  - Privacy and Terms: legal/index.md
   - Take a Quick, Fun Survey!: survey/index.md
   - Upcoming Events and Training:
     - Upcoming Events: events/index.md
@@ -33,9 +37,6 @@ pages:
     - GitHub and DockerHub Repos: open_source/index.md 
     - Become a Committer!: contribute/index.md
     - Install PipelineAI Open Source: install/index.md
-  - 24x7 Global Support: support/index.md
-  - Contact Us: contact/index.md
-  - Privacy and Terms: legal/index.md
 theme_dir: mkdocs-material/material/
 site_favicon: 'img/favicon.png'
 extra:

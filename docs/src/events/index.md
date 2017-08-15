@@ -81,18 +81,20 @@ At the end of the workshop, each attendee can download the Docker image and run 
 * Hybrid Cross-Cloud and On-Premise Deployments (Kubernetes)
 * High-Performance and Fault-Tolerant Micro-services (NetflixOSS)
 
-**Dates**
+**Dates -- Location**
 
-Apr 22 Spark + TensorFlow + GPUs _(SOLD OUT)_
+Apr 22 -- San Francisco -- Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-May 27 Spark + TensorFlow + GPUs _(SOLD OUT)_
+May 27 -- London -- Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-June 10 Spark + TensorFlow + GPUs _(SOLD OUT)_
+June 10 -- New York -- Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-July 8 Spark + TensorFlow + GPUs _(SOLD OUT)_
+July 8 -- San Francisco -- Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[Aug 12 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-35387193047?discount=ADVANCEDTENSORFLOW20)
+Aug 12 -- Sydney Australia -- Spark + TensorFlow + GPUs _(SOLD OUT)_
 
-[Oct 28 Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-35387827946?discount=ADVANCEDTENSORFLOW20)
+[Sept 23 -- New York and Washington DC -- Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-37042725790?discount=ADVANCEDTENSORFLOW25)
+
+[Oct 28 -- London and Ireland -- Spark + TensorFlow + GPUs](https://www.eventbrite.com/e/pipelineai-distributed-spark-ml-tensorflow-ai-gpu-workshop-tickets-35387827946?discount=ADVANCEDTENSORFLOW25)
 
 {!contributing.md!}
