@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.48"
+__version__ = "0.49"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -26,71 +26,52 @@ import jinja2
 
 class PipelineCli(object):
 
-    _kube_deploy_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
-                            'jupyterhub': (['jupyterhub.ml/jupyterhub-deploy.yaml'], []),
-                            'spark': (['spark.ml/master-deploy.yaml'], ['spark-worker', 'metastore']),
-                            'spark-worker': (['spark.ml/worker-deploy.yaml'], []),
-                            'metastore': (['metastore.ml/metastore-deploy.yaml'], ['mysql']),
-                            'hdfs': (['hdfs.ml/namenode-deploy.yaml'], []),
-                            'redis': (['keyvalue.ml/redis-master-deploy.yaml'], []),
-                            'presto': (['presto.ml/master-deploy.yaml',
-                                        'presto.ml/worker-deploy.yaml'], ['metastore']),
-                            'presto-ui': (['presto.ml/ui-deploy.yaml'], ['presto']),
-                            'airflow': (['scheduler.ml/airflow-deploy.yaml'], ['mysql', 'redis']),
-                            'mysql': (['sql.ml/mysql-master-deploy.yaml'], []),
-                            'web-home': (['web.ml/home-deploy.yaml'], []),
-                            'zeppelin': (['zeppelin.ml/zeppelin-deploy.yaml'], []),
-                            'zookeeper': (['zookeeper.ml/zookeeper-deploy.yaml'], []),
-                            'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-deploy.yaml'], []),
-                            'kibana': (['kibana.ml/kibana-4-5-0-deploy.yaml'], ['elasticsearch'], []), 
-                            'kafka': (['stream.ml/kafka-0.11-deploy.yaml'], ['zookeeper']),
-                            'cassandra': (['cassandra.ml/cassandra-deploy.yaml'], []),
+    _kube_deploy_registry = {'jupyter': (['jupyterhub/jupyterhub-deploy.yaml'], []),
+                            'jupyterhub': (['jupyterhub/jupyterhub-deploy.yaml'], []),
+                            'spark': (['spark/master-deploy.yaml'], ['spark-worker', 'metastore']),
+                            'spark-worker': (['spark/worker-deploy.yaml'], []),
+                            'metastore': (['metastore/metastore-deploy.yaml'], ['mysql']),
+                            'hdfs': (['hdfs/namenode-deploy.yaml'], []),
+                            'redis': (['keyvalue/redis-master-deploy.yaml'], []),
+                            'presto': (['presto/master-deploy.yaml',
+                                        'presto/worker-deploy.yaml'], ['metastore']),
+                            'presto-ui': (['presto/ui-deploy.yaml'], ['presto']),
+                            'airflow': (['airflow/airflow-deploy.yaml'], ['mysql', 'redis']),
+                            'mysql': (['sql/mysql-master-deploy.yaml'], []),
+                            'web-home': (['web/home-deploy.yaml'], []),
+                            'zeppelin': (['zeppelin/zeppelin-deploy.yaml'], []),
+                            'zookeeper': (['zookeeper/zookeeper-deploy.yaml'], []),
+                            'elasticsearch': (['elasticsearch/elasticsearch-2-3-0-deploy.yaml'], []),
+                            'kibana': (['kibana/kibana-4-5-0-deploy.yaml'], ['elasticsearch'], []), 
+                            'kafka': (['stream/kafka-0.11-deploy.yaml'], ['zookeeper']),
+                            'cassandra': (['cassandra/cassandra-deploy.yaml'], []),
                             'jenkins': (['jenkins/jenkins-deploy.yaml'], []),
-                            'prediction-java': (['prediction.ml/java-deploy.yaml'], []),
-                            'prediction-python3': (['prediction.ml/python3-deploy.yaml'], []),
-                            'prediction-scikit': (['prediction.ml/scikit-deploy.yaml'], []),
-                            'prediction-pmml': (['prediction.ml/pmml-deploy.yaml'], []),
-                            'prediction-spark': (['prediction.ml/spark-deploy.yaml'], []),
-                            'prediction-tensorflow': (['prediction.ml/tensorflow-deploy.yaml'], []),
-                            'prediction-tensorflow-gpu': (['prediction.ml/tensorflow-gpu-deploy.yaml'], []),
-                            'turbine': (['dashboard.ml/turbine-deploy.yaml'], []),
-                            'hystrix': (['dashboard.ml/hystrix-deploy.yaml'], []),
-#                            'weave-scope-app': (['dashboard.ml/weavescope/scope-1.3.0.yaml'], []),
-#                            'kubernetes-dashboard': (['dashboard.ml/kubernetes-dashboard/v1.6.3.yaml'], []),
-#                            'heapster': (['metrics.ml/monitoring-standalone/v1.7.0.yaml'], []),
-#                            'route53-mapper': (['dashboard.ml/route53-mapper/v1.3.0.yml'], []), 
-#                            'kubernetes-logging': (['dashboard.ml/logging-elasticsearch/v1.5.0.yaml'], []),
+                            'turbine': (['dashboard/turbine-deploy.yaml'], []),
+                            'hystrix': (['dashboard/hystrix-deploy.yaml'], []),
                            }
 
-    _kube_svc_registry = {'jupyter': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'jupyterhub': (['jupyterhub.ml/jupyterhub-svc.yaml'], []),
-                         'spark': (['spark.ml/master-svc.yaml'], ['spark-worker', 'metastore']), 
-                         'spark-worker': (['spark.ml/worker-svc.yaml'], []),
-                         'metastore': (['metastore.ml/metastore-svc.yaml'], ['mysql']),
-                         'hdfs': (['hdfs.ml/namenode-svc.yaml'], []),
-                         'redis': (['keyvalue.ml/redis-master-svc.yaml'], []),
-                         'presto': (['presto.ml/master-svc.yaml',
-                                     'presto.ml/worker-svc.yaml'], ['metastore']),
-                         'presto-ui': (['presto.ml/ui-svc.yaml'], ['presto']),
-                         'airflow': (['scheduler.ml/airflow-svc.yaml'], ['mysql', 'redis']),
-                         'mysql': (['sql.ml/mysql-master-svc.yaml'], []),
-                         'web-home': (['web.ml/home-svc.yaml'], []),
-                         'zeppelin': (['zeppelin.ml/zeppelin-svc.yaml'], []),
-                         'zookeeper': (['zookeeper.ml/zookeeper-svc.yaml'], []),
-                         'elasticsearch': (['elasticsearch.ml/elasticsearch-2-3-0-svc.yaml'], []),
-                         'kibana': (['kibana.ml/kibana-4-5-0-svc.yaml'], ['elasticsearch'], []),
-                         'kafka': (['stream.ml/kafka-0.11-svc.yaml'], ['zookeeper']),
-                         'cassandra': (['cassandra.ml/cassandra-svc.yaml'], []),
+    _kube_svc_registry = {'jupyter': (['jupyterhub/jupyterhub-svc.yaml'], []),
+                         'jupyterhub': (['jupyterhub/jupyterhub-svc.yaml'], []),
+                         'spark': (['spark/master-svc.yaml'], ['spark-worker', 'metastore']), 
+                         'spark-worker': (['spark/worker-svc.yaml'], []),
+                         'metastore': (['metastore/metastore-svc.yaml'], ['mysql']),
+                         'hdfs': (['hdfs/namenode-svc.yaml'], []),
+                         'redis': (['keyvalue/redis-master-svc.yaml'], []),
+                         'presto': (['presto/master-svc.yaml',
+                                     'presto/worker-svc.yaml'], ['metastore']),
+                         'presto-ui': (['presto/ui-svc.yaml'], ['presto']),
+                         'airflow': (['airflow/airflow-svc.yaml'], ['mysql', 'redis']),
+                         'mysql': (['sql/mysql-master-svc.yaml'], []),
+                         'web-home': (['web/home-svc.yaml'], []),
+                         'zeppelin': (['zeppelin/zeppelin-svc.yaml'], []),
+                         'zookeeper': (['zookeeper/zookeeper-svc.yaml'], []),
+                         'elasticsearch': (['elasticsearch/elasticsearch-2-3-0-svc.yaml'], []),
+                         'kibana': (['kibana/kibana-4-5-0-svc.yaml'], ['elasticsearch'], []),
+                         'kafka': (['stream/kafka-0.11-svc.yaml'], ['zookeeper']),
+                         'cassandra': (['cassandra/cassandra-svc.yaml'], []),
                          'jenkins': (['jenkins/jenkins-svc.yaml'], []),
-                         'prediction-java': (['prediction.ml/java-svc.yaml'], []),
-                         'prediction-python3': (['prediction.ml/python3-svc.yaml'], []),
-                         'prediction-scikit': (['prediction.ml/scikit-svc.yaml'], []),
-                         'prediction-spark': (['prediction.ml/spark-svc.yaml'], []),
-                         'prediction-pmml': (['prediction.ml/pmml-svc.yaml'], []),
-                         'prediction-tensorflow': (['prediction.ml/tensorflow-svc.yaml'], []),
-                         'prediction-tensorflow-gpu': (['prediction.ml/tensorflow-gpu-svc.yaml'], []),
-                         'turbine': (['dashboard.ml/turbine-svc.yaml'], []),
-                         'hystrix': (['dashboard.ml/hystrix-svc.yaml'], []),
+                         'turbine': (['dashboard/turbine-svc.yaml'], []),
+                         'hystrix': (['dashboard/hystrix-svc.yaml'], []),
                         }
 
     _kube_deploy_template_registry = {'predict': (['predict-deploy.yaml.template'], [])}
@@ -113,7 +94,7 @@ class PipelineCli(object):
 
     # TODO: Pull ./templates/ into this cli project
     #       (or otherwise handle the location of templates outside of the cli)
-    def train_yaml(self,
+    def clustered_yaml(self,
                    model_type,
                    model_name,
                    model_tag,
@@ -1102,7 +1083,7 @@ class PipelineCli(object):
     Specifying --service-name will use the internally-configured deploy, svc, config, 
     and secret configs in the _kube_registry.  This will override *_yaml_path params passed.
     """
-    def service_create(self,
+    def service_start(self,
                        service_name,
                        git_home='https://github.com/fluxcapacitor/source.ml',
                        git_version='master',
@@ -1151,7 +1132,7 @@ class PipelineCli(object):
         print("")
 
 
-    def service_delete(self,
+    def service_stop(self,
                        service_name,
                        kube_namespace='default'):
 
