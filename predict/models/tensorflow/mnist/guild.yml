@@ -1,0 +1,71 @@
+name: MNIST
+description: Guild MNIST example
+sources: '*.py'
+
+flags:
+
+  datadir: ./data
+  rundir: $RUNDIR
+  batch_size: 100
+  epochs: 10
+
+models:
+
+  intro:
+    train: intro
+    prepare: intro --prepare
+    train_requires: ./data
+    evaluate: intro --test
+    default: true
+
+  expert:
+    train: expert
+    prepare: expert --prepare
+    train_requires: ./data
+    evaluate: expert --test
+
+resources:
+
+  samples:
+    prepare: samples --sample-dir samples
+    flags:
+      sample-count: 100
+
+train-fields:
+
+  - id: validation-accuracy
+    extends: accuracy-field
+    label: Validation Accuracy
+    source: series/tf/validation/accuracy
+
+  - id: train-accuracy
+    extends: accuracy-field
+    label: Training Accuracy
+    source: series/tf/train/accuracy
+
+  - id: train-steps
+    extends: steps-field
+
+  - id: train-time
+    extends: time-field
+
+train-series:
+
+  - extends: loss-series
+    source: series/tf/train/loss
+
+  - extends: accuracy-series
+    source: series/tf/.+/accuracy
+
+compare-fields:
+
+  - extends: validation-accuracy
+
+  - extends: train-accuracy
+
+  - label: Batch Size
+    source: flags/batch_size
+
+  - extends: steps-field
+
+  - extends: time-field
