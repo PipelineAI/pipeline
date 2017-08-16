@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from typing import Callable
 
-__version__ = "0.9"
+__version__ = "0.13"
 
 # TODO:  Handle batched inputs and outputs (using above custom fn's - match inputs to outputs!)
 # TODO:  Add Monitors around these calls!!

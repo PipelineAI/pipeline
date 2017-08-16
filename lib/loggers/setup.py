@@ -35,7 +35,7 @@ setup(
     long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
     author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/libs/loggers",
+    url = "https://github.com/fluxcapacitor/pipeline/lib/loggers",
     install_requires=requirements,
     dependency_links=[
     ]

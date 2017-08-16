@@ -1,0 +1,1 @@
+kafka-python>=1.3.4

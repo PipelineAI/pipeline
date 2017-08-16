@@ -3,7 +3,7 @@ from kafka.producer import SimpleProducer, KeyedProducer
 import logging
 
 
-class KafkaLoggingHandler(logging.Handler):
+class KafkaHandler(logging.Handler):
 
     def __init__(self, hosts_list, topic, **kwargs):
         logging.Handler.__init__(self)
@@ -24,7 +24,7 @@ class KafkaLoggingHandler(logging.Handler):
         try:
             # use default formatting
             msg = self.format(record)
-            if isinstance(msg, unicode):
+            if isinstance(msg, str):
                 msg = msg.encode("utf-8")
 
             # produce message
