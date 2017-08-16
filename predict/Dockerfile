@@ -263,18 +263,18 @@ RUN \
 
 # TODO:  Include this in the above if statement 
 RUN \
-  if [ -e "$PIPELINE_MODEL_PATH/pipeline_setup.sh" ]; then \  
+  if [ -e "$PIPELINE_MODEL_PATH/pipeline_install.sh" ]; then \  
      CONDA_ENV_ROOT_PATH=$(conda info --root) \ 
-       && echo "Setting Up Conda Environment with '$PIPELINE_MODEL_PATH/pipeline_setup.sh'..." \
+       && echo "Setting Up Conda Environment with '$PIPELINE_MODEL_PATH/pipeline_install.sh'..." \
        && conda info --root \
        && conda env list \
        && echo "" \
        && source activate $PIPELINE_CONDA_ENV_NAME \ 
-       && echo "Running '$PIPELINE_MODEL_PATH/pipeline_setup.sh':\n" \
-       && chmod a+x $PIPELINE_MODEL_PATH/pipeline_setup.sh \   
-       && $PIPELINE_MODEL_PATH/pipeline_setup.sh \
+       && echo "Running '$PIPELINE_MODEL_PATH/pipeline_install.sh':\n" \
+       && chmod a+x $PIPELINE_MODEL_PATH/pipeline_install.sh \   
+       && $PIPELINE_MODEL_PATH/pipeline_install.sh \
        && export \
-       && echo "...Conda Environment Successfully Setup at '$CONDA_ENV_ROOT_PATH/PIPELINE_CONDA_ENV_NAME/etc/conda/activate.d/pipeline_conda_environment_setup.sh'!" \
+       && echo "...Conda Environment Successfully Setup at '$PIPELINE_MODEL_PATH/pipeline_install.sh'!" \
        && echo ""; \
   fi 
 
