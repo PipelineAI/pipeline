@@ -5,7 +5,8 @@ import logging
 
 from pipeline_models import TensorFlowServingModel
 from pipeline_monitors import prometheus_monitor as monitor
-from pipeline_loggers import log, kafka
+from pipeline_loggers import log
+from pipeline_loggers.kafka import KafkaHandler
 
 _logger = logging.getLogger('model_logger')
 _logger.setLevel(logging.INFO)
@@ -13,7 +14,7 @@ _logger_stream_handler = logging.StreamHandler()
 _logger_stream_handler.setLevel(logging.INFO)
 _logger.addHandler(_logger_stream_handler)
 
-_logger_kafka_handler = kafka.KafkaHandler(hosts_list='localhost:9092', topic='prediction-inputs')
+_logger_kafka_handler = KafkaHandler(hosts_list='localhost:9092', topic='prediction-inputs')
 _logger.addHandler(_logger_kafka_handler)
 
 

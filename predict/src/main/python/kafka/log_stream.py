@@ -4,16 +4,20 @@ import tornado.ioloop
 from tornado.ioloop import PeriodicCallback
 import tornado.web
 from random import randint #Random generator
+from urllib.parse import urlparse
 
 #Config
 port = 5959 #Websocket Port
 timeInterval= 2000 #Milliseconds
 
 class WSHandler(tornado.websocket.WebSocketHandler):
-  #check_origin fixes an error 403 with Tornado
-  #http://stackoverflow.com/questions/24851207/tornado-403-get-warning-when-opening-websocket
+    #check_origin fixes an error 403 with Tornado
+    #http://stackoverflow.com/questions/24851207/tornado-403-get-warning-when-opening-websocket
     def check_origin(self, origin):
-        return True
+        CORS_ORIGINS = ['localhost']
+        parsed_origin = urlparse(origin)
+        # parsed_origin.netloc.lower() gives localhost:3333
+        return parsed_origin.hostname in CORS_ORIGINS
 
     def open(self):
     #Send message periodic via socket upon a time interval

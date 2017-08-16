@@ -1,6 +1,7 @@
 from pipeline_loggers import log
 import logging
 import json
+from pipeline_loggers.kafka import KafkaHandler
 
 _logger = logging.getLogger('test_logger')
 _logger.setLevel(logging.INFO)
