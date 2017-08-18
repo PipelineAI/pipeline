@@ -13,7 +13,7 @@ cd $PIPELINE_HOME/package/java/openjdk/1.8/ && pwd && sudo docker build $2 -q -t
 
 cd $PIPELINE_HOME/package/spark/2.1.0/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-spark-2.1.0:$1 .
 
-cd $PIPELINE_HOME/package/kafka/0.10/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-kafka-0.10:$1 .
+cd $PIPELINE_HOME/package/kafka/0.11/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-kafka-0.11:$1 .
 cd $PIPELINE_HOME/package/presto/0.167/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-presto-0.167:$1 .
 cd $PIPELINE_HOME/package/apache2/ && pwd && sudo docker build $2 -q -t fluxcapacitor/package-apache2:$1 .
 
