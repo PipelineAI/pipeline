@@ -79,12 +79,9 @@ RUN \
   apt-get update \
   && apt-get install -y python-qt4
 
-ENV \
-  TENSORFLOW_VERSION=1.0.1
-
 RUN \
   pip install --ignore-installed --upgrade pip setuptools \
-  && pip install --upgrade tensorflow==$TENSORFLOW_VERSION
+  && pip install --upgrade tensorflow==1.3.0
 
 RUN \
   conda install -c r r-essentials

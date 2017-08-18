@@ -26,11 +26,8 @@ RUN \
 COPY lib/ lib/
 COPY notebook/ notebook/
 
-ENV \
-  TENSORFLOW_VERSION=1.3.0-rc2
-
 RUN \
-  pip install tensorflow==$TENSORFLOW_VERSION
+  pip install tensorflow==1.3.0
 
 COPY config/zeppelin/ $ZEPPELIN_HOME/conf/
 

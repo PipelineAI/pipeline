@@ -1,4 +1,4 @@
-FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-cpu:master
+FROM fluxcapacitor/package-ubuntu-16.04:master
 
 WORKDIR /root
 
@@ -20,9 +20,41 @@ RUN \
 RUN \
   npm install -g configurable-http-proxy && rm -rf ~/.npm
 
+ENV \
+  TERM=xterm
 
-# Downgrade Python 3.6 (from the base FROM Docker image built with Python 3.6)
-#   to Python 3.5 since Spark doesn't like Python 3.6
+###################
+# Setup OpenJDK 1.8
+###################
+RUN \
+  apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre-headless \
+  && apt-get install -y apt-transport-https \
+  && apt-get install -y wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV \
+  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+# Install Anaconda with Python3
+RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
+    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
+    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
+    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
+    /opt/conda/bin/pip install --upgrade pip && \
+    rm /tmp/miniconda.sh
+
+ENV \
+  PATH=/opt/conda/bin:$PATH
+
+RUN \
+  pip install --upgrade pip
+
+# Downgrade Python 3.6 to Python 3.5 since Spark doesn't like Python 3.6
 RUN \
   conda update conda \
   && conda install python=3.5
@@ -140,13 +172,6 @@ RUN \
   pip install sklearn_pandas==1.4.0 \
   && pip install git+https://github.com/jpmml/sklearn2pmml.git@0.20.3
 
-RUN \
-#  apt-get update \
-  apt-get install -y default-jdk
-
-ENV \
-  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-
 COPY sysutils/ sysutils/
 
 ENV \
@@ -221,9 +246,6 @@ ENV \
 ENV \
   PATH=/root/scripts:$PATH
 
-ENV \
-  PATH=$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/graph_transforms:$TENSORFLOW_HOME/bazel-bin/tensorflow/python/tools:$TENSORFLOW_HOME/bazel-bin/tensorflow/tools/benchmark/:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/aot:$TENSORFLOW_HOME/bazel-bin/tensorflow/compiler/tests:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/word2vec:$TENSORFLOW_HOME/bazel-bin/tensorflow/examples/tutorials/mnist:/root/apache-jmeter-3.1/bin/:$PATH
-
 RUN \
   apt-get install -y ssh
 
@@ -269,10 +291,11 @@ ENV \
 
 # This will install tensorflow for Python 3.5 since we overrode the Python way up top.
 RUN \
-  pip install tensorflow==1.3.0-rc2
+  pip install tensorflow==1.3.0 \
+  && pip install tensorflow-tensorboard==0.1.4
 
 RUN \
-  pip install pipeline-ai-cli==0.44
+  pip install pipeline-ai-cli==0.49
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 

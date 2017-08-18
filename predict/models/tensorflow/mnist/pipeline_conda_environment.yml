@@ -4,5 +4,5 @@ dependencies:
   - pip:
     - grpcio>=0.15.0
     - grpcio-tools>=0.15.0
-    - tensorflow==1.2.1
+    - tensorflow==1.3.0
     - pipeline-runtimes>=0.10
