@@ -17,9 +17,9 @@ cd $PIPELINE_HOME/package/kafka/0.11/ && pwd && sudo docker push fluxcapacitor/p
 cd $PIPELINE_HOME/package/presto/0.167/ && pwd && sudo docker push fluxcapacitor/package-presto-0.167:$1
 cd $PIPELINE_HOME/package/apache2/ && pwd && sudo docker push fluxcapacitor/package-apache2:$1
 
-#cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-serving-cpu:$1f Dockerfile.serving-cpu .
-#cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-full-cpu:$1f Dockerfile.full-cpu .
-cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-cpu:$1f Dockerfile.cpu .
+cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-serving-cpu:$1f Dockerfile.serving-cpu .
+cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-full-cpu:$1f Dockerfile.full-cpu .
+cd $PIPELINE_HOME/package/tensorflow/16d39e9-d690fdd/ && pwd && sudo docker push fluxcapacitor/package-tensorflow-cpu:$1 Dockerfile.cpu .
 
 # apachespark
 cd $PIPELINE_HOME/spark/2.1.0/ && pwd && sudo docker push fluxcapacitor/spark-master-2.1.0:$1f Dockerfile.master .
