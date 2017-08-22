@@ -34,8 +34,8 @@ setup(
     description = "PipelineAI Runtimes",
     long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
-    author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/lib/runtimes",
+    author_email = "chris@pipeline.ai",
+    url = "https://github.com/fluxcapacitor/pipeline/tree/master/lib/runtimes",
     install_requires=requirements,
     dependency_links=[
     ]

@@ -283,7 +283,7 @@ COPY tests/ tests/
 COPY html/ html/
 
 RUN \
-  pip install pio-cli==0.71
+  pip install pio-cli==0.72
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
@@ -292,10 +292,10 @@ ENV \
 # This will install tensorflow for Python 3.5 since we overrode the Python way up top.
 RUN \
   pip install tensorflow==1.3.0 \
-  && pip install tensorflow-tensorboard==0.1.4
+  && pip install tensorflow-tensorboard==1.0.4
 
 RUN \
-  pip install pipeline-ai-cli==0.49
+  pip install pipeline-ai-cli==0.52
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 

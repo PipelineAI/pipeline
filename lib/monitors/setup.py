@@ -34,8 +34,8 @@ setup(
     description = "PipelineAI Monitors",
     long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
-    author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/lib/monitors",
+    author_email = "chris@pipeline.ai",
+    url = "https://github.com/fluxcapacitor/pipeline/tree/master/lib/monitors/",
     install_requires=requirements,
     dependency_links=[
     ]

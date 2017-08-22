@@ -34,8 +34,8 @@ setup(
     description = "PipelineAI Loggers",
     long_description = "%s\n\nRequirements:\n%s" % (long_description, requirements),
     author = "Chris Fregly",
-    author_email = "chris@pipeline.io",
-    url = "https://github.com/fluxcapacitor/pipeline/lib/loggers",
+    author_email = "chris@pipeline.ai",
+    url = "https://github.com/fluxcapacitor/pipeline/tree/master/lib/loggers/",
     install_requires=requirements,
     dependency_links=[
     ]

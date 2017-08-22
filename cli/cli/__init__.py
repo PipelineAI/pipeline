@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.51"
+__version__ = "0.52"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -150,10 +150,10 @@ class PipelineCli(object):
         return output.rstrip().decode('utf-8')
 
 
-    def service_proxy(self,
-                      service_name,
-                      local_port=None,
-                      service_port=None):
+    def service_connect(self,
+                        service_name,
+                        local_port=None,
+                        service_port=None):
 
         pod = self._get_pod_by_service_name(service_name)
         if not pod:

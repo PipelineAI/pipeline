@@ -1,7 +1,3 @@
-*secret.yaml
-github-oauth-secret.yaml
-notebooks/checkpoint/
-notebooks/model/
-.ipynb_checkpoints/
-nohup.out
-notebooks/
+*.png
+*.dot
+*-timeline.json
