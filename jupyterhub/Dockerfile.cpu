@@ -9,7 +9,6 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
   apt-get -y update \
-#  apt-get -y upgrade && \
   && apt-get -y install npm nodejs nodejs-legacy wget locales git
 
 # libav-tools for matplotlib anim
@@ -69,12 +68,8 @@ RUN \
      ipywidgets=7.0.0 \
      traittypes==0.0.6 \
      findspark==1.1.0 \
-     tabulate==0.7.7
-#  && pip install ipykernel==4.6.1 \
-#  && conda install -c conda-forge notebook==5.0.0 \
-#  && pip install ipywidgets==7.0.0 traittypes \
-#  && pip install findspark==1.1.0 \
-#  && pip install tabulate==0.7.7
+     tabulate==0.7.7 \
+  && conda clean -tipsy
 
 RUN \
   conda install --yes jupyterlab==0.27.0 \
@@ -306,10 +301,6 @@ RUN \
   && pip install tensorflow-tensorboard==0.1.4 \
   && pip install keras==2.0.7
 
-RUN \
-  pip install jupyter_tensorboard \
-  && jupyter tensorboard enable --sys-prefix
-#      --py jupyterlab
 RUN \
   pip install pipeline-ai-cli==0.52
 
