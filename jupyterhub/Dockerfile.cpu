@@ -80,21 +80,16 @@ RUN \
   conda install --yes jupyterlab==0.27.0 \
   && jupyter serverextension enable --py jupyterlab --sys-prefix
 
-RUN \
-  jupyter labextension install jupyterlab-git
-
 #RUN \
 #  git clone https://github.com/jupyterlab/jupyterlab-git.git \
-#  && cd jupyterlab-git \
-#  && pip install . \
-#  && jupyter serverextension enable --py jupyterlab_git
+#  && jupyter labextension install jupyterlab-git
 
 RUN \
-  pip install jupyterlab-widgets==7.0.0 
+  pip install jupyterlab-widgets==0.6.15 
 #  && pip install widgetslabextension==0.1.0
 
 RUN \
-  jupyter labextension install jupyterlab-hub 
+  jupyter labextension install @jupyterlab/hub-extension@0.4.1
 
 RUN \
   pip install jupyterhub-dummyauthenticator==0.3.1 \
@@ -108,7 +103,7 @@ RUN \
      nbconvert==5.2.1 \
      graphviz==2.38.0 \
      seaborn==0.8.0 \
-     bgplot==0.9.0 \
+     bqplot==0.9.0 \
      bokeh==0.12.6 \
   && conda clean -tipsy
 
@@ -132,7 +127,7 @@ RUN \
     'r-rcurl=1.95*' \
     'r-crayon=1.3*' \
     'r-randomforest=4.6*' \
-    'r-rbokeh=0.12*' \
+    'r-rbokeh=0.5*' \
     'r-xgboost=0.60*' \
   && conda clean -tipsy
 
@@ -291,7 +286,6 @@ RUN \
   mkdir /var/run/sshd
 
 COPY apache-jmeter-3.1/ apache-jmeter-3.1/
-
 COPY notebooks/ notebooks/
 COPY lib/ lib/
 COPY scripts/ scripts/
@@ -309,9 +303,13 @@ ENV \
 # This will install tensorflow for Python 3.5 since we overrode the Python way up top.
 RUN \
   pip install tensorflow==1.3.0 \
-  && pip install tensorflow-tensorboard==1.0.4 \
+  && pip install tensorflow-tensorboard==0.1.4 \
   && pip install keras==2.0.7
 
+RUN \
+  pip install jupyter_tensorboard \
+  && jupyter tensorboard enable --sys-prefix
+#      --py jupyterlab
 RUN \
   pip install pipeline-ai-cli==0.52
 

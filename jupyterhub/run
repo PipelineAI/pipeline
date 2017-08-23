@@ -26,8 +26,8 @@ source /root/sysutils/container-limits.sh
 export JAVA_MAX_MEM_RATIO=85
 export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
 
-#$SPARK_HOME/sbin/start-master.sh --webui-port 6060
-#$SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 spark://127.0.0.1:7077
+$SPARK_HOME/sbin/start-master.sh --webui-port 6060
+$SPARK_HOME/sbin/start-slave.sh --cores 4 --memory 4g --webui-port 6061 spark://127.0.0.1:7077
 
 /usr/sbin/sshd
 cd ~
