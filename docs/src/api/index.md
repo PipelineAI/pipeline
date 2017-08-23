@@ -10,7 +10,7 @@
 ## Setup `pipeline-ai-cli` 
 Note: This command line interface requires **Python3** and **Docker**. (See Pre-Requisites above.)
 
-```bash
+``` 
 pip install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 
@@ -33,27 +33,19 @@ cd pipeline/predict
 ## Build Model into Docker Image
 Note:  The `--model-path` currently must be **relative** to the `pipeline/predict` directory.
 ```
-pipeline model-build --model-type=tensorflow \
-                     --model-name=mnist \
-                     --model-tag=master \
-                     --model-path=./models/tensorflow/mnist
+pipeline model-build --model-type=tensorflow --model-name=mnist --model-tag=master --model-path=./models/tensorflow/mnist
 ```
 
 ## Start Docker-based Model
 ```
-pipeline model-start --model-type=tensorflow \
-                     --model-name=mnist \
-                     --model-tag=master \
-                     --memory-limit=2G
+pipeline model-start --model-type=tensorflow --model-name=mnist --model-tag=master --memory-limit=2G
 ```
 Note:  If you see `docker: Error response from daemon: ... failed: port is already allocated.`, you likely have another Docker container running.  Use `docker ps` to find the container-id, then `docker rm -f <container-id>` to remove the other Docker container.
 
 ## Monitor Model Training and Hyper-Parameter Tuning
 View the logs and wait for them to settle down.
 ```
-pipeline model-logs --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-tag=master
+pipeline model-logs --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
 ## View PipelineAI Model UI (TensorFlow Models Only)
@@ -74,21 +66,12 @@ http://localhost:6333/
 
 Note:  This first call will take 10-20x longer than subsequent calls.  Lazy init, warm-up, etc.
 ```
-pipeline model-predict --model-type=tensorflow \
-                       --model-name=mnist \
-                       --model-tag=master \
-                       --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json
+pipeline model-predict --model-type=tensorflow --model-name=mnist --model-tag=master --model-server-url=http://localhost:6969 --model-test-request-path=./models/tensorflow/mnist/data/test_request.json
 ```
 
 **Perform 100 Predictions in Parallel**
 ```
-pipeline model-predict --model-type=tensorflow \
-                       --model-name=mnist \
-                       --model-tag=master \
-                       --model-server-url=http://localhost:6969 \
-                       --model-test-request-path=./models/tensorflow/mnist/data/test_request.json \
-                       --model-test-request-concurrency=100
+pipeline model-predict --model-type=tensorflow --model-name=mnist --model-tag=master --model-server-url=http://localhost:6969 --model-test-request-path=./models/tensorflow/mnist/data/test_request.json --model-test-request-concurrency=100
 ```
 
 ### REST API
@@ -134,31 +117,23 @@ http://localhost:3000/
 
 ## Stop Docker-based Model 
 ```
-pipeline model-stop --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-tag=master
+pipeline model-stop --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
 ## Extras
 ## Shell into Docker-based Model 
 ```
-pipeline model-shell --model-type=tensorflow \
-                     --model-name=mnist \
-                     --model-tag=master
+pipeline model-shell --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
 ## Push Image to Docker
 ```
-pipeline model-push --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-tag=master
+pipeline model-push --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
 ## Create Kubernetes YAML for the Model
 ```
-pipeline model-yaml --model-type=tensorflow \
-                    --model-name=mnist \
-                    --model-tag=master
+pipeline model-yaml --model-type=tensorflow --model-name=mnist --model-tag=master
                        
 ### EXPECTED OUTPUT ###
 Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/templates'.

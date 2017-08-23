@@ -13,27 +13,24 @@ google_analytics:
   - 'auto'
 pages:
   - Home: index.md
-  - Take a Quick Tour!: tour/index.md  
-  - Train Your Model: model_train/index.md
-  - Optimize Your Model: model_optimize/index.md
-  - Deploy Your Model: model_deploy/index.md
-  - Monitor Your Model: model_monitor/index.md
-#  - Experiment With Your Models: model_experiment/index.md
-#  - Stream Your Models: model_stream/index.md
+  - PipelineAI Quick Tour: tour/index.md  
   - Try our Free Community Edition!: products/index.md
-#  - Hybrid Cloud: environments/index.md
-#  - Dashboards: model_monitor/index.md
+  - CLI and REST API: api/index.md
+  - Dashboards: model_monitor/index.md
   - GPUs: gpu/index.md
-  - APIs: api/index.md
-  - Releases: releases/index.md
-  - 24x7 Global Support: support/index.md
-  - Contact Us: contact/index.md
-  - Privacy and Terms: legal/index.md
-  - Upcoming Events and Training:
-    - Upcoming Events: events/index.md
-    - Training: training/index.md
+  - Hybrid Cloud and On-Prem: environments/index.md
+  - Events: events/index.md
+  - Workshops: training/index.md
+  - Model Experiments:
+    - Train Your Model: model_train/index.md
+    - Optimize Your Model: model_optimize/index.md
+    - Deploy Your Model: model_deploy/index.md
+    - Monitor Your Model: model_monitor/index.md
+    - Experiment With Your Models: model_experiment/index.md
+    - Stream Your Models: model_stream/index.md
   - Open Source: 
     - GitHub and DockerHub Repos: open_source/index.md 
+    - Releases: releases/index.md
     - Become a Committer!: contribute/index.md
     - Install PipelineAI Open Source: install/index.md
 theme_dir: mkdocs-material/material/
@@ -68,28 +65,31 @@ extra:
 markdown_extensions:
   - markdown_include.include:
       base_path: src 
-  - markdown.extensions.admonition
-  - markdown.extensions.codehilite(guess_lang=true)
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
-  - markdown.extensions.toc(permalink=true)
-  - pymdownx.arithmatex
-  - pymdownx.betterem(smart_enable=all)
-  - pymdownx.caret
-  - pymdownx.critic
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:pymdownx.emoji.to_svg
-  - pymdownx.inlinehilite
-  - pymdownx.magiclink
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
-  - pymdownx.tasklist(custom_checkbox=true)
-  - pymdownx.tilde
+  - codehilite
   - admonition
-  - codehilite(guess_lang=true)
   - toc(permalink=true)
+  - meta
+  - footnotes
+  - def_list
+#  - markdown.extensions.admonition
+#  - markdown.extensions.codehilite(guess_lang=true)
+#  - markdown.extensions.def_list
+#  - markdown.extensions.footnotes
+#  - markdown.extensions.meta
+#  - markdown.extensions.toc(permalink=true)
+#  - pymdownx.arithmatex
+#  - pymdownx.betterem(smart_enable=all)
+#  - pymdownx.caret
+#  - pymdownx.critic
+#  - pymdownx.emoji:
+#      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+#  - pymdownx.inlinehilite
+#  - pymdownx.magiclink
+#  - pymdownx.mark
+#  - pymdownx.smartsymbols
+#  - pymdownx.superfences
+#  - pymdownx.tasklist(custom_checkbox=true)
+#  - pymdownx.tilde
 extra_javascript:
   - js/d3.v2.min.js
   - js/jquery.min.js
