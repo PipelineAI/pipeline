@@ -105,7 +105,7 @@ RUN \
   mkdir -p ~/.kube
 
 ENV \
-  HELM_VERSION=2.5.1
+  HELM_VERSION=2.6.0
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -142,4 +142,4 @@ RUN \
   apt-get install -y docker-ce
 
 RUN \
-  pip install pipeline-ai-cli==0.48
+  pip install pipeline-ai-cli==0.52
