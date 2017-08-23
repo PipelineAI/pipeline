@@ -60,23 +60,41 @@ RUN \
   && conda install python=3.5
 
 RUN \
-  pip install jupyterhub==0.7.2 \
-  && pip install ipykernel==4.6.1 \
-  && pip install notebook==5.0.0 \
-  && pip install ipywidgets==6.0.0 \
-  && pip install findspark==1.1.0 \
-  && pip install tabulate==0.7.7
+  conda config --add channels conda-forge
+
+RUN \
+  conda install --yes \
+     jupyterhub==0.7.2 \
+     notebook==5.0.0 \
+     ipywidgets=7.0.0 \
+     traittypes==0.0.6 \
+     findspark==1.1.0 \
+     tabulate==0.7.7
+#  && pip install ipykernel==4.6.1 \
+#  && conda install -c conda-forge notebook==5.0.0 \
+#  && pip install ipywidgets==7.0.0 traittypes \
+#  && pip install findspark==1.1.0 \
+#  && pip install tabulate==0.7.7
+
+RUN \
+  conda install --yes jupyterlab==0.27.0 \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix
+
+RUN \
+  jupyter labextension install jupyterlab-git
 
 #RUN \
-#  pip install jupyterlab==0.26.0 
-#  && jupyter serverextension enable --py jupyterlab --sys-prefix
+#  git clone https://github.com/jupyterlab/jupyterlab-git.git \
+#  && cd jupyterlab-git \
+#  && pip install . \
+#  && jupyter serverextension enable --py jupyterlab_git
 
-#RUN \
-#  pip install jupyterlab_widgets==0.6.15 \
+RUN \
+  pip install jupyterlab-widgets==7.0.0 
 #  && pip install widgetslabextension==0.1.0
 
-#RUN \
-#  jupyter labextension install jupyterlab-hub 
+RUN \
+  jupyter labextension install jupyterlab-hub 
 
 RUN \
   pip install jupyterhub-dummyauthenticator==0.3.1 \
@@ -86,13 +104,18 @@ RUN \
   pip install git+https://github.com/jupyterhub/kubespawner
 
 RUN \
-  pip install nbconvert==5.2.1 \
-  && conda install --yes graphviz==2.38.0 \
-  && conda install --yes seaborn==0.7.1 \
-  && conda install --yes dill==0.2.5
+  conda install --yes \
+     nbconvert==5.2.1 \
+     graphviz==2.38.0 \
+     seaborn==0.8.0 \
+     bgplot==0.9.0 \
+     bokeh==0.12.6 \
+  && conda clean -tipsy
 
 RUN \
-  conda config --add channels r && \
+  conda config --add channels r
+
+RUN \
   conda install --quiet --yes \
     'r-base=3.3.2' \
     'r-irkernel=0.7*' \
@@ -108,7 +131,10 @@ RUN \
     'r-caret=6.0*' \
     'r-rcurl=1.95*' \
     'r-crayon=1.3*' \
-    'r-randomforest=4.6*' && conda clean -tipsy
+    'r-randomforest=4.6*' \
+    'r-rbokeh=0.12*' \
+    'r-xgboost=0.60*' \
+  && conda clean -tipsy
 
 RUN \
   mkdir -p /root/tensorboard
@@ -166,11 +192,8 @@ RUN \
   && pip install -e .
 
 RUN \
-  conda install -c conda-forge xgboost=0.6a2
-
-RUN \
   pip install sklearn_pandas==1.4.0 \
-  && pip install git+https://github.com/jpmml/sklearn2pmml.git@0.20.3
+  && pip install git+https://github.com/jpmml/sklearn2pmml.git@0.22.0
 
 COPY sysutils/ sysutils/
 
@@ -269,12 +292,6 @@ RUN \
 
 COPY apache-jmeter-3.1/ apache-jmeter-3.1/
 
-RUN \
-  pip install tensorboard
-
-RUN \
-  pip install keras==2.0.5
-
 COPY notebooks/ notebooks/
 COPY lib/ lib/
 COPY scripts/ scripts/
@@ -283,7 +300,7 @@ COPY tests/ tests/
 COPY html/ html/
 
 RUN \
-  pip install pio-cli==0.72
+  pip install pio-cli==0.87
 
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0 \
@@ -293,6 +310,7 @@ ENV \
 RUN \
   pip install tensorflow==1.3.0 \
   && pip install tensorflow-tensorboard==1.0.4
+  && pip install keras==2.0.7
 
 RUN \
   pip install pipeline-ai-cli==0.52
