@@ -309,7 +309,7 @@ ENV \
 # This will install tensorflow for Python 3.5 since we overrode the Python way up top.
 RUN \
   pip install tensorflow==1.3.0 \
-  && pip install tensorflow-tensorboard==1.0.4
+  && pip install tensorflow-tensorboard==1.0.4 \
   && pip install keras==2.0.7
 
 RUN \
