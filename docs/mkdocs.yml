@@ -16,6 +16,7 @@ pages:
   - PipelineAI Quick Tour: tour/index.md  
   - Try our Free Community Edition!: products/index.md
   - CLI and REST API: api/index.md
+  - Deployment Runbooks: runbooks/index.md
   - Dashboards: model_monitor/index.md
   - GPUs: gpu/index.md
   - Hybrid Cloud and On-Prem: environments/index.md
@@ -33,6 +34,9 @@ pages:
     - Releases: releases/index.md
     - Become a Committer!: contribute/index.md
     - Install PipelineAI Open Source: install/index.md
+  - Support: support/index.md
+  - Contact Us: contact/index.md
+  - Legal: legal/index.md
 theme_dir: mkdocs-material/material/
 site_favicon: 'img/favicon.png'
 extra:
