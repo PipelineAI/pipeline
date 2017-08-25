@@ -278,8 +278,6 @@ RUN \
        && echo ""; \
   fi 
 
-ENV SHELL=/bin/bash
-
 # TODO:  Clean up this logic
 # TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
 # TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
@@ -329,7 +327,53 @@ RUN \
 RUN \
   pip install tensorflow-tensorboard==0.1.4
 
-EXPOSE 6969 9876 9000 9040 9090 3000 9092 8082 8081 2181 5959 6006
+# Don't forget to update the pipeline cli if these ports change!
+EXPOSE \
+  # Nginx (80 is too common and could clash with local development)
+  6969 \
+  \
+  # Python-based Model Server (Primary Model)
+  9876 \
+  \
+  # Python-based Model Server (Canary Model)
+  9976 \
+  \
+  # TensorFlow-based Model Server (Primary Model)
+  9000 \
+  \
+  # TensorFlow-based Model Server (Canary Model)
+  9100 \
+  \
+  # JVM-based Model Server (Primary Model)
+  9040 \
+  \
+  # JVM-based Model Server (Canary Model)
+  9140 \
+  \
+  # Prometheus Metrics Server
+  9090 \
+  \
+  # Grafana Dashboards
+  3000 \
+  \
+  # Kafka Broker
+  9092 \
+  \
+  # Kafka REST API
+  8082 \
+  \
+  # Kafka Schema Manager
+  \
+  8081 \
+  \
+  # ZooKeeper
+  2181 \
+  \
+  # WebSocket-based Kafka Consumer
+  5959 \
+  \
+  # TensorBoard
+  6006 
   #10254 6333
 
 CMD ["supervise", "."]

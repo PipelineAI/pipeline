@@ -12,9 +12,9 @@ start_ui() {
 
     source activate $PIPELINE_CONDA_ENV_NAME
 
-    cd $PIPELINE_MODEL_PATH 
-    guild view &
-    cd /root
+#    cd $PIPELINE_MODEL_PATH 
+#    guild view &
+#    cd /root
 }
 
 start_model_serving_python () {
@@ -89,14 +89,20 @@ start_tensorflow_serving_in_background () {
 
 source sysutils/container-limits.sh
 
+# Start Nginx Server
 service nginx start
 
+# Start Prometheus Metrics Server
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
-cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
+# Start Grafana Dashboard Server
+cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web & && cd ~
 
-cd ~
+# Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry) 
 confluent start kafka-rest &
+
+# Start Python, WebSocket, Tornado--based Kafka Log Stream Server
+python src/main/python/kafka/ws_log_stream.py
 
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"

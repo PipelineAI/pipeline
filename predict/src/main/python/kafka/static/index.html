@@ -5,7 +5,7 @@ var ws = new WebSocket("ws://localhost:5959/ws");
 ws.onmessage = function(event) {
   // console.log(event);
   eventJson = JSON.parse(event.data)
-  document.body.innerHTML = document.body.innerHTML + '<p><b>Prediction: ' + eventJson.outputs + '</b><br/><br/>Image: ' + eventJson.inputs + '</p><hr/>';
+  document.body.innerHTML = '<p><b>Prediction: ' + eventJson.outputs + '</b><br/><br/>Image: ' + eventJson.inputs + '</p><hr/>';
 }
 </script>
 </head>

@@ -10,7 +10,7 @@ from kafka import KafkaConsumer
 
 #Config
 port = 5959 #Websocket Port
-timeInterval= 100 #Milliseconds
+timeInterval= 1000 #Milliseconds
 
 class WSHandler(tornado.websocket.WebSocketHandler):
     #check_origin fixes an error 403 with Tornado

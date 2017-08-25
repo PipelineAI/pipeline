@@ -326,7 +326,10 @@ RUN \
 RUN \
   pip install git+https://github.com/wintoncode/winton-kafka-streams.git
 
-EXPOSE 6969 9876 9000 9040 9090 3000 9092 8082 8081 2181 5959 
+RUN \
+  pip install tensorflow-tensorboard==0.1.4
+
+EXPOSE 6969 9876 9000 9040 9090 3000 9092 8082 8081 2181 5959 6006
   #10254 6333
 
 CMD ["supervise", "."]
