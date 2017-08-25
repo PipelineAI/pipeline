@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.52"
+__version__ = "0.53"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -399,7 +399,7 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 10254:10254 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 6333:6333 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9976:9976 -p 9000:9000 -p 9100:9100 -p 9040:9040 -p 9140:9140 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
