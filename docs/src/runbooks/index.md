@@ -1,16 +1,10 @@
 # AWS ECS Runbook
 
-## Build, Test, and Push your Model as a Docker Image
-```
-http://pipeline.io/api/
-```
+## [Build and Test](http://pipeline.io/api) Your Model as a Docker Image
 
-## Push the Model to Registry
-```
-http://pipeline.io/api/
-```
+## [Push](http://pipeline.io/api) Docker Image to Docker Registry
 
-## Create  
+## Setup ECS Cluster through AWS CLI 
 Configure Docker Image, RAM, and CPU
 
 ![AWS ECS Task Definition](/img/predict-aws-ecs-task-definition.png) 

@@ -71,10 +71,10 @@ markdown_extensions:
       base_path: src 
   - codehilite
   - admonition
-  - toc(permalink=true)
-  - meta
-  - footnotes
-  - def_list
+#  - toc(permalink=true)
+#  - meta
+#  - footnotes
+#  - def_list
 #  - markdown.extensions.admonition
 #  - markdown.extensions.codehilite(guess_lang=true)
 #  - markdown.extensions.def_list

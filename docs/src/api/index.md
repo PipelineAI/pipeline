@@ -1,4 +1,4 @@
-# PipelineAI APIs
+# PipelineAI CLI and REST APIs
 
 ## Install Pre-Requisites
 ### Docker
@@ -127,11 +127,19 @@ pipeline model-shell --model-type=tensorflow --model-name=mnist --model-tag=mast
 ```
 
 ## Push Image to Docker
+
+### Login to your Docker Image Repository.
+```
+docker login
+```
+
+### Push Docker Image
 ```
 pipeline model-push --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
-## Create Kubernetes YAML for the Model
+
+## (Optional) Create Kubernetes YAML for the Model
 ```
 pipeline model-yaml --model-type=tensorflow --model-name=mnist --model-tag=master
                        
@@ -144,7 +152,7 @@ Using templates in '/Users/cfregly/workspace-fluxcapacitor/pipeline/predict/temp
 ...
 ```
 
-## Deploy Model to Kubernetes Using Generated YAML Above
+## (Optional) Deploy Model to Kubernetes Using Generated YAML Above
 Create the Kubernetes Deployment
 ```
 pipeline kube-create ./tensorflow-mnist-cpu-master-deploy.yaml
