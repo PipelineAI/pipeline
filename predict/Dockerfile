@@ -327,53 +327,62 @@ RUN \
 RUN \
   pip install tensorflow-tensorboard==0.1.4
 
+# Bazel (Guild)
+RUN \
+  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
+  && curl https://bazel.build/bazel-release.pub.gpg | apt-key add - \
+  && apt-get update \
+  && apt-get install -y bazel
+
+# Guild
+RUN \
+  pip install psutil
+
+# Guild
+#RUN \
+#  git clone https://github.com/guildai/guild-python.git 
+#  && cd guild-python \
+#  && bazel build guild \
+#  && bazel-bin/guild/guild check \
+#  && bazel-bin/guild/guild check --all-tests
+
+# Guild
+#ENV \
+#  PATH=/root/guild-python/bazel-bin/guild:$PATH
+
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
   # Nginx (80 is too common and could clash with local development)
   6969 \
-  \
   # Python-based Model Server (Primary Model)
   9876 \
-  \
   # Python-based Model Server (Canary Model)
   9976 \
-  \
   # TensorFlow-based Model Server (Primary Model)
   9000 \
-  \
   # TensorFlow-based Model Server (Canary Model)
   9100 \
-  \
   # JVM-based Model Server (Primary Model)
   9040 \
-  \
   # JVM-based Model Server (Canary Model)
   9140 \
-  \
   # Prometheus Metrics Server
   9090 \
-  \
   # Grafana Dashboards
   3000 \
-  \
   # Kafka Broker
   9092 \
-  \
   # Kafka REST API
   8082 \
-  \
   # Kafka Schema Manager
-  \
   8081 \
-  \
   # ZooKeeper
   2181 \
-  \
   # WebSocket-based Kafka Consumer
   5959 \
-  \
   # TensorBoard
-  6006 
-  #10254 6333
+  6006 \
+  # TensorFlow Training UI (Guild)
+  6333
 
 CMD ["supervise", "."]

@@ -96,9 +96,10 @@ service nginx start
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
 # Start Grafana Dashboard Server
-cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web & && cd ~
+cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
-# Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry) 
+# Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
+cd ~
 confluent start kafka-rest &
 
 # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
