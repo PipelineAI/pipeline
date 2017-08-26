@@ -19,6 +19,6 @@ Headquartered in San Francisco, PipelineAI maintains offices in Chicago, Washing
 ## Who Uses PipelineAI?
 PipelineAI's list of 100's of beta customers are listed on [Crunchbase](https://www.crunchbase.com/organization/pipelineio/customers).  
 
-With 32,000+ users on our [Advanced Edition](/products/index.md) waitlist, we expect a 10-15x increase in customers by the end of the year.  We're moving as quickly as we can!
+With 50,000+ users on our [Advanced Edition](/products/index.md) waitlist, we expect a 10-15x increase in customers by the end of the year.  We're moving as quickly as we can!
 
 {!contributing.md!}
