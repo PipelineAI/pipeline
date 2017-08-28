@@ -103,7 +103,7 @@ cd ~
 confluent start kafka-rest &
 
 # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-python src/main/python/kafka/ws_log_stream.py
+python src/main/python/kafka/ws_log_stream.py & 
 
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
