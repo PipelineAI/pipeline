@@ -106,6 +106,12 @@ Digit  Confidence
 9      5.426473762781825e-06
 ```
 
+## View Live Predictions through Kafka Logger
+Re-run the predictions above while watching this url:
+```
+http://localhost:5959/
+```
+
 ## Monitor Model Predictions
 Note:  These dashboards will be rolled into the PipelineAI Model UI soon!
 Username/Password: **admin**/**admin**
