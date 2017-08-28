@@ -1,11 +1,15 @@
-![PipelineAI](/img/logo/pipelineai-split-black-flux-128x128.png)
+![PipelineAI](/img/logo/pipelineai-logo-dot-spacing.png)
 
 ## PipelineAI In The News!
-(July 2017) PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
+August 2017: PipelineAI is accepted to the O'Reilly <a href="https://conferences.oreilly.com/artificial-intelligence/ai-ca/public/cfp/580">AI Startup Showcase</a> in San Francisco!
+
+<img src="https://cdn.oreillystatic.com/en/assets/1/eventseries/41/aiconf_logo_300_reversed.svg"</img>
+
+July 2017: PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/gWgy3EdDObQ" frameborder="0" allowfullscreen></iframe>
 
-(June 2017) PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
+June 2017: PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
 
 ![PipelineAI @ Hotels.com](/img/pipelineai-spark-summit-annotated-700x394.png)
 

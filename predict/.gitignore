@@ -4,3 +4,4 @@
 target/
 *.tar.gz
 /eclipse-generated/
+object-detection-mod/
