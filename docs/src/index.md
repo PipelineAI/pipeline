@@ -1,9 +1,9 @@
-![PipelineAI](/img/logo/pipelineai-logo-dot-spacing.png)
+![PipelineAI](/img/logo/pipelineai-logo-250x214.png)
 
 ## PipelineAI In The News!
 August 2017: PipelineAI is accepted to the O'Reilly <a href="https://conferences.oreilly.com/artificial-intelligence/ai-ca/public/cfp/580">AI Startup Showcase</a> in San Francisco!
 
-<img src="https://cdn.oreillystatic.com/en/assets/1/eventseries/41/aiconf_logo_300_reversed.svg"</img>
+<img src="/img/oreilly-ai-conf-sf.png"</img>
 
 July 2017: PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
 
