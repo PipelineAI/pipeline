@@ -61,4 +61,4 @@ def _transform_request(request: bytes) -> np.array:
 
 @monitor(labels=_labels, name="transform_response")    
 def _transform_response(response: np.array) -> json:
-    return json.dumps({"outputs": response.tolist()[0]})
+    return json.dumps({"outputs": response.tolist()[0].decode('utf-8')})
