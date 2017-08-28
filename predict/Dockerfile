@@ -208,14 +208,14 @@ RUN \
 ENV \
   PIPELINE_MODEL_PATH=/root/model
 
-RUN \
-  pip install awscli
-
 COPY $model_path $PIPELINE_MODEL_PATH
 #RUN \
 #  if [[ $model_path == "http:"* ]] || [[ $model_path == "https:"* ]]; then \
 #    wget -r -e --no-parent -O $PIPELINE_MODEL_PATH $model_path; \
 #  fi 
+
+#RUN \
+#  pip install awscli
 
 #RUN \
 #  if [[ $model_path == "s3:"* ]]; then \
@@ -336,19 +336,19 @@ RUN \
 
 # Guild
 RUN \
-  pip install psutil
+  pip2 install psutil
 
 # Guild
-#RUN \
-#  git clone https://github.com/guildai/guild-python.git 
-#  && cd guild-python \
-#  && bazel build guild \
-#  && bazel-bin/guild/guild check \
-#  && bazel-bin/guild/guild check --all-tests
+RUN \
+  git clone https://github.com/guildai/guild-python.git \
+  && cd guild-python \
+  && bazel build guild \
+  && bazel-bin/guild/guild check \
+  && bazel-bin/guild/guild check --all-tests
 
 # Guild
-#ENV \
-#  PATH=/root/guild-python/bazel-bin/guild:$PATH
+ENV \
+  PATH=/root/guild-python/bazel-bin/guild:$PATH
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
