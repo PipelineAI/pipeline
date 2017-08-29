@@ -1,11 +1,11 @@
 # PipelineAI Training
 ## Community Edition
-Global [Events](/events/index.md) and [Workshops](/events/index.md#workshops)
+Global [*Events*](/events/index.md) and [*Workshops*](/events/index.md#workshops)
 
-Click [HERE](http://community.pipeline.io) to signup and start deploying models!
+Click [*HERE*](http://community.pipeline.io) to start using PipelineAI Community Edition!
 
-## Advanced Edition
-Custom, Advanced Training Available
+## Enterprise Edition
+Custom Training Available
 
 Access to JumpStart Program
 

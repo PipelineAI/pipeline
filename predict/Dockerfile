@@ -170,6 +170,24 @@ ENV \
 ENV \
   PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=true
 
+RUN \
+  echo "" \
+  && echo "Installing TensorFlow Serving..." \
+  && echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" | tee /etc/apt/sources.list.d/tensorflow-serving.list \
+  && curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | apt-key add - \
+  && apt-get update \
+  && apt-get install -y tensorflow-model-server;
+
+RUN \
+  pip install git+https://github.com/wintoncode/winton-kafka-streams.git
+
+ENV \
+  TENSORBOARD_VERSION=0.1.5 \
+  TENSORBOARD_LOGDIR=/root/tensorboard
+
+RUN \
+  pip install tensorflow-tensorboard==$TENSORBOARD_VERSION
+
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
@@ -227,128 +245,32 @@ COPY $model_path $PIPELINE_MODEL_PATH
 ENV \
   PIPELINE_CONDA_ENV_NAME=pipeline
 
+COPY scripts/ scripts/
 RUN \
-  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
-      echo "" \
-      && echo "Installing TensorFlow Serving..." \
-      && echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" | tee /etc/apt/sources.list.d/tensorflow-serving.list \
-      && curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | apt-key add - \
-      && apt-get update \
-      && apt-get install -y tensorflow-model-server; \ 
-  fi
-
-RUN \
-  if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "keras" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "scikit" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then \
-       echo "" \
-       && echo "Creating and Activating '$PIPELINE_CONDA_ENV_NAME' Conda Environment with '$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME' Model Dependencies with '$PIPELINE_MODEL_PATH/pipeline_conda_environment.yml'..." \
-       && echo "" \
-       && conda env create --name $PIPELINE_CONDA_ENV_NAME \
-           --file $PIPELINE_MODEL_PATH/pipeline_conda_environment.yml \
-       && echo "" \
-       && echo "...Created and Activated!" \
-       && echo "" \
-       && echo "" \
-       && echo "Installing Model Server Dependencies..." \
-       && echo "" \
-       && conda env update --name $PIPELINE_CONDA_ENV_NAME \ 
-           --file $PIPELINE_MODEL_SERVER_PATH/requirements/pipeline_model_server_conda_environment.yml \
-       && echo "" \
-       && echo "source activate $PIPELINE_CONDA_ENV_NAME" >> ~/.bashrc \
-       && echo "...Model Server Dependencies Installed!" \
-       && echo ""; \
-  fi
-
-# TODO:  Include this in the above if statement 
-RUN \
-  if [ -e "$PIPELINE_MODEL_PATH/pipeline_install.sh" ]; then \  
-     CONDA_ENV_ROOT_PATH=$(conda info --root) \ 
-       && echo "Setting Up Conda Environment with '$PIPELINE_MODEL_PATH/pipeline_install.sh'..." \
-       && conda info --root \
-       && conda env list \
-       && echo "" \
-       && source activate $PIPELINE_CONDA_ENV_NAME \ 
-       && echo "Running '$PIPELINE_MODEL_PATH/pipeline_install.sh':\n" \
-       && chmod a+x $PIPELINE_MODEL_PATH/pipeline_install.sh \   
-       && $PIPELINE_MODEL_PATH/pipeline_install.sh \
-       && export \
-       && echo "...Conda Environment Successfully Setup at '$PIPELINE_MODEL_PATH/pipeline_install.sh'!" \
-       && echo ""; \
-  fi 
-
-# TODO:  Clean up this logic
-# TODO:  The pipeline_train.py file is expected to place the saved model in the right directory
-# TODO:  If using TensorFlow Serving, ensure that $PIPELINE_MODEL_PATH/versions directory exists after training
-RUN \
-  if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.sh" ]; then \
-       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
-       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
-       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
-       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
-       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
-       && echo "" \
-       && echo "Starting TensorFlow-based Model Training..." \
-       && echo "" \
-       && source activate $PIPELINE_CONDA_ENV_NAME \
-       && cd $PIPELINE_MODEL_PATH \
-       && python pipeline_train.py \
-       && cd /root \
-       && echo "" \
-       && echo "...Training Complete!" \
-       && echo ""; \
-  fi
-
-RUN \
-  if [[ $PIPELINE_MODEL_TYPE == "python" ]] \
-     && [ -f "$PIPELINE_MODEL_PATH/pipeline_train.py" ]; then \
-       echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
-       && echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE" \
-       && echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME" \
-       && echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP" \
-       && echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH" \
-       && echo "" \
-       && echo "Starting Python-based Model Training..." \
-       && echo "" \
-       && source activate $PIPELINE_CONDA_ENV_NAME \
-       && cd $PIPELINE_MODEL_PATH \
-       && python pipeline_train.py \
-       && cd /root \
-       && echo "" \
-       && echo "...Training Complete!" \
-       && echo ""; \
-  fi
-
-RUN \
-  pip install git+https://github.com/wintoncode/winton-kafka-streams.git
-
-RUN \
-  pip install tensorflow-tensorboard==0.1.4
+  /root/scripts/setup-environment.sh 
 
 # Bazel (Guild)
-RUN \
-  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
-  && curl https://bazel.build/bazel-release.pub.gpg | apt-key add - \
-  && apt-get update \
-  && apt-get install -y bazel
+#RUN \
+#  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
+#  && curl https://bazel.build/bazel-release.pub.gpg | apt-key add - \
+#  && apt-get update \
+#  && apt-get install -y bazel
 
 # Guild
-RUN \
-  pip2 install psutil
+#RUN \
+#  pip2 install psutil
 
 # Guild
-RUN \
-  git clone https://github.com/guildai/guild-python.git \
-  && cd guild-python \
-  && bazel build guild \
-  && bazel-bin/guild/guild check \
-  && bazel-bin/guild/guild check --all-tests
+#RUN \
+#  git clone https://github.com/guildai/guild-python.git \
+#  && cd guild-python \
+#  && bazel build guild \
+#  && bazel-bin/guild/guild check \
+#  && bazel-bin/guild/guild check --all-tests
 
 # Guild
-ENV \
-  PATH=/root/guild-python/bazel-bin/guild:$PATH
+#ENV \
+#  PATH=/root/guild-python/bazel-bin/guild:$PATH
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \

@@ -4,7 +4,7 @@ site_author: PipelineAI
 site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
 repo_url: https://github.com/fluxcapacitor/pipeline/
 repo_name: fluxcapacitor/pipeline 
-edit_uri: edit/master/docs/src
+#edit_uri: edit/master/docs/src
 docs_dir: src 
 site_dir: generated
 strict: false 
@@ -71,29 +71,29 @@ markdown_extensions:
       base_path: src 
   - codehilite
   - admonition
-#  - toc(permalink=true)
-#  - meta
-#  - footnotes
-#  - def_list
-#  - markdown.extensions.admonition
-#  - markdown.extensions.codehilite(guess_lang=true)
-#  - markdown.extensions.def_list
-#  - markdown.extensions.footnotes
-#  - markdown.extensions.meta
-#  - markdown.extensions.toc(permalink=true)
-#  - pymdownx.arithmatex
-#  - pymdownx.betterem(smart_enable=all)
-#  - pymdownx.caret
-#  - pymdownx.critic
-#  - pymdownx.emoji:
-#      emoji_generator: !!python/name:pymdownx.emoji.to_svg
-#  - pymdownx.inlinehilite
-#  - pymdownx.magiclink
-#  - pymdownx.mark
-#  - pymdownx.smartsymbols
-#  - pymdownx.superfences
-#  - pymdownx.tasklist(custom_checkbox=true)
-#  - pymdownx.tilde
+  - toc(permalink=true)
+  - meta
+  - footnotes
+  - def_list
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite(guess_lang=true)
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc(permalink=true)
+  - pymdownx.arithmatex
+  - pymdownx.betterem(smart_enable=all)
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist(custom_checkbox=true)
+  - pymdownx.tilde
 extra_javascript:
   - js/d3.v2.min.js
   - js/jquery.min.js

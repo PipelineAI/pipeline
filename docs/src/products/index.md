@@ -1,13 +1,12 @@
-# Try our Free Community Edition!
+# Products
 
-## Products
-### Community Edition
+## [Community Edition](http://community.pipeline.io)
 * Free, Hosted PipelineAI Open Source 
 * Train and Deploy All Supported Model Types
 
-Click [HERE](http://community.pipeline.io) to signup and start deploying models!
+Click [**HERE**](http://community.pipeline.io) to start using PipelineAI Community Edition!
 
-### Advanced Edition 
+## Enterprise Edition (Invite-Only Beta)
 * Includes Everything from PipelineAI Community Edition
 * Advanced Admin UI including Cluster and Model Management
 * Continuous, Online Model Training and Deployment Pipelines with Full Audit Logging
@@ -27,7 +26,7 @@ Click [HERE](http://community.pipeline.io) to signup and start deploying models!
 * Automatic Model Optimizations 
 * Native CPU x86 and GPU NVPTX Code Generation
 * End-to-End, Real-time Pipeline Monitoring of all System and Prediction Metrics
-* Circuit Breakers Wrap All Services to Avoid Cascading Failures
+* Circuit Breakers Wrap All Services and Model Ensembles to Avoid Cascading Failures
 
 Contact [sales@pipeline.io](mailto:sales@pipeline.io) for demo and pricing information.
 

@@ -1,7 +1,5 @@
 # PipelineAI Releases
 
-## Advanced Edition (Coming Soon)
-
 ## Open Source
 ### [v1.2.0](https://github.com/fluxcapacitor/pipeline/releases/tag/v1.2.0)
 
