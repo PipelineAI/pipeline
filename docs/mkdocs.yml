@@ -1,5 +1,5 @@
 site_name: PipelineAI 
-site_url: http://pipeline.io
+site_url: http://pipeline.ai
 site_author: PipelineAI
 site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
 repo_url: https://github.com/fluxcapacitor/pipeline/
@@ -12,7 +12,7 @@ google_analytics:
   - 'UA-78551725-1'
   - 'auto'
 pages:
-  - Home: index.md
+  - Documentation Home: docs.md
   - PipelineAI Quick Tour: tour/index.md  
   - Try our Free Community Edition!: products/index.md
   - CLI and REST API: api/index.md
