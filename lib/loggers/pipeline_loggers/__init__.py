@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from typing import Callable
 
-__version__ = "0.13"
+__version__ = "0.14"
 
 # TODO:  Handle batched inputs and outputs (using above custom fn's - match inputs to outputs!)
 # TODO:  Add Monitors around these calls!!
@@ -26,21 +26,21 @@ class log(object):
 
         def wrapped_function(*args: bytes):
             log_dict = {
-                        'labels': self._labels,
-                        'inputs': str(args),
+                        'log_labels': self._labels,
+                        'log_inputs': args,
                        }            
  
             if self._custom_inputs_fn:
                  custom_inputs = self._custom_inputs_fn(*args),
-                 log_dict['custom_inputs'] = custom_inputs
+                 log_dict['log_custom_inputs'] = custom_inputs
 
             outputs = function(*args)
 
-            log_dict['outputs'] = outputs
+            log_dict['log_outputs'] = outputs
 
             if self._custom_outputs_fn:
                 custom_outputs = self._custom_outputs_fn(outputs)
-                log_dict['custom_outputs'] = custom_outputs
+                log_dict['log_custom_outputs'] = custom_outputs
 
             self._logger.info(json.dumps(log_dict))
 

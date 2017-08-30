@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
@@ -21,11 +23,10 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         # parsed_origin.netloc.lower() gives localhost:3333
         return parsed_origin.hostname in CORS_ORIGINS
 
-    def open(self):
+    def open(self, topic_name):
     #Send message periodic via socket upon a time interval
         # To consume latest messages and auto-commit offsets
-        self.consumer = KafkaConsumer('prediction-inputs',
-                         bootstrap_servers=['localhost:9092'])
+        self.consumer = KafkaConsumer(topic_name, bootstrap_servers=['localhost:9092'])
 
         self.callback = PeriodicCallback(self.send_values, timeInterval)
         self.callback.start()
@@ -49,13 +50,13 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.callback.stop()
 
 settings = {
-    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    'static_path': os.path.join(os.path.dirname(__file__), 'static'),
 }
 
 application = tornado.web.Application([
-    (r'/ws', WSHandler),
+    (r'/ws/kafka/([a-zA-Z\-0-9\.:,_]+)', WSHandler),
     (r'/(.*)', tornado.web.StaticFileHandler,
-       dict(path=settings['static_path'])),
+       dict(default_filename='index.html', path=settings['static_path'])),
 
 ])
 

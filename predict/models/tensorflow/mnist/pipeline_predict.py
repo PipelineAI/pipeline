@@ -43,15 +43,17 @@ _model = _initialize_upon_import()
 @log(labels=_labels, logger=_logger)
 def predict(request: bytes) -> bytes:
     '''Where the magic happens...'''
-    transformed_request = _transform_request(request)
+
+    with monitor(labels=_labels, name="transform_request"):
+        transformed_request = _transform_request(request)
 
     with monitor(labels=_labels, name="predict"):
         predictions = _model.predict(transformed_request)
 
-    return _transform_response(predictions)
+    with monitor(labels=_labels, name="transform_response"):
+        return _transform_response(predictions)
 
 
-@monitor(labels=_labels, name="transform_request")
 def _transform_request(request: bytes) -> np.array:
     request_str = request.decode('utf-8')
     request_json = json.loads(request_str)
@@ -59,6 +61,5 @@ def _transform_request(request: bytes) -> np.array:
     return request_np
          
 
-@monitor(labels=_labels, name="transform_response")    
 def _transform_response(response: np.array) -> json:
     return json.dumps({"outputs": response.tolist()[0]})

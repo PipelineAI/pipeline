@@ -7,7 +7,8 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
        echo ""
        echo "Deleting '$PIPELINE_CONDA_ENV_NAME' Conda Environment'..."
        echo ""
-       conda env remove -q --name $PIPELINE_CONDA_ENV_NAME
+       source activate root
+       conda env remove --yes --name $PIPELINE_CONDA_ENV_NAME
        echo ""
        echo "...Deleted!"
        echo ""

@@ -4,7 +4,7 @@ site_author: PipelineAI
 site_description: End-to-End ML and AI Model Training and Deployment Platform with GPUs 
 repo_url: https://github.com/fluxcapacitor/pipeline/
 repo_name: fluxcapacitor/pipeline 
-#edit_uri: edit/master/docs/src
+edit_uri: edit/master/docs/src
 docs_dir: src 
 site_dir: generated
 strict: false 

@@ -120,6 +120,7 @@ Use `http://localhost:9090` for the Prometheus data source within your Grafana D
 ```
 http://localhost:3000/
 ```
+![Prediction Dashboard](http://pipeline.io/img/istio-dashboard-600x284.png)
 
 ## Stop Docker-based Model 
 ```

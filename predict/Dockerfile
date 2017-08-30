@@ -183,7 +183,7 @@ RUN \
 
 ENV \
   TENSORBOARD_VERSION=0.1.5 \
-  TENSORBOARD_LOGDIR=/root/tensorboard
+  TENSORBOARD_LOGDIR=$LOGS_HOME/tensorboard
 
 RUN \
   pip install tensorflow-tensorboard==$TENSORBOARD_VERSION
@@ -248,6 +248,9 @@ ENV \
 COPY scripts/ scripts/
 RUN \
   /root/scripts/setup-environment.sh 
+
+RUN \
+  /root/scripts/train-model-if-requested.sh
 
 # Bazel (Guild)
 #RUN \

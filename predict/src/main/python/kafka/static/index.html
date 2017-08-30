@@ -1,11 +1,12 @@
 <html>
 <head>
+<title>PipelineAI Prediction Stream</title>
 <script type="text/javascript">
-var ws = new WebSocket("ws://localhost:5959/ws");
+var ws = new WebSocket("ws://localhost:5959/ws/kafka/predictions");
 ws.onmessage = function(event) {
   // console.log(event);
   eventJson = JSON.parse(event.data)
-  document.body.innerHTML = '<p><b>Prediction: ' + eventJson.outputs + '</b><br/><br/>Image: ' + eventJson.inputs + '</p><hr/>';
+  document.body.innerHTML = '<p/>Date: ' + new Date() + '<p/><b>Prediction: ' + eventJson.outputs + '</b><br/><br/>Image: ' + eventJson.inputs + '<p/><hr/>';
 }
 </script>
 </head>

@@ -77,6 +77,8 @@ start_tensorflow_serving_in_background () {
     echo ""
     echo "Starting TensorFlow Serving..."
     echo ""
+
+    source activate $PIPELINE_CONDA_ENV_NAME
     tensorflow_model_server --port=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT \
         --model_name=$PIPELINE_MODEL_NAME --model_base_path=$PIPELINE_MODEL_PATH/versions \
         --batching_parameters_file=/root/config/tfserving/batching_config.txt \
@@ -84,6 +86,23 @@ start_tensorflow_serving_in_background () {
         --file_system_poll_wait_seconds=5 &
     echo ""
     echo "...TensorFlow Serving Started!"
+    echo ""
+}
+
+start_tensorboard_in_background() {
+    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
+    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
+    echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
+    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
+    echo ""
+    echo "Starting TensorBoard..."
+    echo ""
+    source activate $PIPELINE_CONDA_ENV_NAME
+    tensorboard --reload_interval=30 --logdir=$TENSORBOARD_LOGDIR &
+    echo ""
+    echo "...TensorBoard Started!"
     echo ""
 }
 
@@ -100,10 +119,10 @@ cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
 # Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
 cd ~
-confluent start kafka-rest &
+confluent start kafka-rest 
 
 # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-python src/main/python/kafka/ws_log_stream.py & 
+python src/main/python/kafka/ws_kafka_topic_stream.py & 
 
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
@@ -127,7 +146,8 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
 fi;
 
 if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
-#  [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
+  [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
+    && start_tensorboard_in_background
 #    && [ -s $PIPELINE_MODEL_PATH/Guild ] \
 #    && start_ui
 
