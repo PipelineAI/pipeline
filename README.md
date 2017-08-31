@@ -16,8 +16,6 @@
 
 ![Xgboost](http://pipeline.ai/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/img/ensemble-logo-285x125.png)
 
-![PipelineAI Architecture](http://pipeline.ai/img/pipelineio-kubernetes.png)
-
 ![Jupyter Python Notebooks](http://pipeline.ai/img/deploy-model-jupyter-740x510.png)
 
 ### Click [HERE](http://pipeline.ai) for PipelineAI Home!
