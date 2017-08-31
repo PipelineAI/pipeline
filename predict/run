@@ -106,6 +106,24 @@ start_tensorboard_in_background() {
     echo ""
 }
 
+start_websocket_kafka_log_stream_in_background() {
+    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
+    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
+    echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
+    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
+    echo ""
+    echo "Starting WebSocket Kafka Log Stream Server..."
+    echo ""
+    source activate $PIPELINE_CONDA_ENV_NAME
+    # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
+    python src/main/python/kafka/ws_kafka_topic_stream.py &
+    echo ""
+    echo "...Server Started!"
+    echo ""
+}
+
 source sysutils/container-limits.sh
 
 # Start Nginx Server
@@ -119,10 +137,7 @@ cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
 # Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
 cd ~
-confluent start kafka-rest 
-
-# Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-python src/main/python/kafka/ws_kafka_topic_stream.py & 
+confluent start kafka-rest &
 
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
@@ -142,6 +157,8 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
    [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
 
+  start_websocket_kafka_log_stream_in_background
+
   start_model_serving_python
 fi;
 
@@ -153,6 +170,8 @@ if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
 
   [ -s $PIPELINE_MODEL_PATH/versions ] \
     && start_tensorflow_serving_in_background 
+
+  start_websocket_kafka_log_stream_in_background
 
   start_model_serving_python
 fi;
