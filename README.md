@@ -8,7 +8,7 @@
 
 ![PipelineAI UI 2](http://pipeline.ai/img/pipelineai-train-compare-ui-2.png)
 
-![Nvidia GPU](http://pipeline.io/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/img/tensorflow-logo-202x168.png) 
+![Nvidia GPU](http://pipeline.ai/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/img/tensorflow-logo-202x168.png) 
 
 ![Spark ML](http://pipeline.ai/img/spark-logo-254x163.png) ![Scikit-Learn](http://pipeline.ai/img/scikit-logo-277x150.png) 
 
