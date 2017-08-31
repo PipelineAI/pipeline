@@ -12,7 +12,7 @@ google_analytics:
   - 'UA-78551725-1'
   - 'auto'
 pages:
-  - Home: index.html
+#  - Home: index.html
   - Documentation: docs/index.md
   - PipelineAI Quick Tour: tour/index.md  
   - Try our Free Community Edition!: products/index.md
