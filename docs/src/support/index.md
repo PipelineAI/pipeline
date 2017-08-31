@@ -1,19 +1,19 @@
 # 24x7 Global Support 
 ## Products
 ### Community Edition
-Limited Support through [Support Forums](https://pipelineio.zendesk.com)
+Limited Support through [Support Forums](https://pipelineai.zendesk.com)
 
-Click [HERE](http://community.pipeline.io) to signup and start deploying models!
+Click [HERE](http://community.pipeline.ai) to signup and start deploying models!
 
 ### Enterprise Edition
 24x7 Global Support
 
 24 hour Response SLA
 
-[Support Forums](https://pipelineio.zendesk.com)
+[Support Forums](https://pipelineai.zendesk.com)
 
-[Email](mailto:help@pipeline.io)
+[Email](mailto:help@pipeline.ai)
 
-Contact [sales@pipeline.io](mailto:sales@pipeline.io) for more information.
+Contact [sales@pipeline.io](mailto:sales@pipeline.ai) for more information.
 
 {!contributing.md!}
