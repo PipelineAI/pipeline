@@ -14,6 +14,6 @@ Click [HERE](http://community.pipeline.ai) to signup and start deploying models!
 
 [Email](mailto:help@pipeline.ai)
 
-Contact [sales@pipeline.io](mailto:sales@pipeline.ai) for more information.
+Contact [sales@pipeline.ai](mailto:sales@pipeline.ai) for more information.
 
 {!contributing.md!}
