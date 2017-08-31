@@ -14,7 +14,7 @@ _logger_stream_handler = logging.StreamHandler()
 _logger_stream_handler.setLevel(logging.INFO)
 _logger.addHandler(_logger_stream_handler)
 
-_logger_kafka_handler = KafkaHandler(hosts_list='localhost:9092', topic='prediction-inputs')
+_logger_kafka_handler = KafkaHandler(hosts_list='localhost:9092', topic='predictions')
 _logger.addHandler(_logger_kafka_handler)
 
 
