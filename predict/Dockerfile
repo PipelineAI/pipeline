@@ -261,7 +261,8 @@ RUN \
 
 # Guild
 #RUN \
-#  pip2 install psutil
+#  conda install python=2.7.10 \
+#  && pip2 install psutil
 
 # Guild
 #RUN \
