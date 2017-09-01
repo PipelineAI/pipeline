@@ -1,16 +1,16 @@
 # Contact Us 
 
 ## Sales
-[sales@pipeline.io](mailto:sales@pipeline.io)
+[sales@pipeline.ai](mailto:sales@pipeline.ai)
 
 ## 24x7 Global Support
-[help@pipeline.io](mailto:help@pipeline.io)
+[help@pipeline.ai](mailto:help@pipeline.ai)
 
 ## Jobs
-Send us your LinkedIn URL @ [jobs@pipeline.io](mailto:jobs@pipeline.io)
+[jobs@pipeline.ai](mailto:jobs@pipeline.ai)
 
 ## General Info
-[contact@pipeline.io](mailto:contact@pipeline.io)
+[contact@pipeline.ai](mailto:contact@pipeline.ai)
 
 {!contributing.md!}
 
