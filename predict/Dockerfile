@@ -279,13 +279,16 @@ ENV \
 #RUN \
 #  git clone https://github.com/guildai/guild-python.git \
 #  && cd guild-python \
-#  && bazel build guild \
-#  && bazel-bin/guild/guild check \
-#  && bazel-bin/guild/guild check --all-tests
+#  && bazel build guild:guild-lite \
+#  && bazel-bin/guild/guild-lite check --all-tests 
 
 # Guild
 #ENV \
 #  PATH=/root/guild-python/bazel-bin/guild:$PATH
+
+# Guild
+#RUN \
+#  echo "alias guild=/root/guild-python/bazel-bin/guild/guild-lite" >> /root/.bashrc
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
