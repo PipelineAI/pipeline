@@ -63,55 +63,6 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
   
-  @RequestMapping(path=Array("/api/v1/model/deploy/java/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST)
-                  //produces=Array("application/json; charset=UTF-8")
-                  )
-  def deployJavaFile(@PathVariable("namespace") namespace: String, 
-                     @PathVariable("modelName") modelName: String,
-                     @PathVariable("version") version: String,
-                     @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
-
-    var inputStream: InputStream = null
-
-    try {
-      val parentDir = s"model_store/java/${namespace}/${modelName}/${version}/"
-      
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(parentDir)
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-      
-      // This buffer will store the data read from 'model' multipart file
-      inputStream = file.getInputStream()
-  
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()
-      
-      val zipFilename = s"${parentDir}/${filename}"
-      
-      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
-      
-      TarGzUtil.extract(zipFilename, parentDir)
-      
-      // TODO:  Make sure the bundle contains a file called model.java!
-      
-      Files.delete(Paths.get(zipFilename))      
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
-    } finally {
-      if (inputStream != null) {
-        inputStream.close()
-      }
-    }
-    
-    new ResponseEntity(HttpStatus.OK)
-  }
-  
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d '{"id":"21618"}' \
@@ -168,60 +119,6 @@ class PredictionService {
       }
       case Success(response) => response
     }   
-  }
-  
-  @RequestMapping(path=Array("/api/v1/model/deploy/pmml/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST)
-                  //produces=Array("application/json; charset=UTF-8")
-                  )
-  def deployPmmlFile(@PathVariable("modelName") modelName: String,
-                     @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
-
-    var inputStream: InputStream = null
-
-    try {
-      val parentDir = s"/root/model/"
-
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(parentDir)
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-
-      // This buffer will store the data read from 'model' multipart file
-      inputStream = file.getInputStream()
-
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()  
-
-      val zipFilename = s"${parentDir}/${filename}"
-      
-      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
-      
-      TarGzUtil.extract(zipFilename, parentDir)
-
-      // TODO:  Make sure the bundle contains a file called model.pmml!
-
-      val modelFilePath = s"${parentDir}/model.pmml"
-      
-      // TODO: Handle this failure
-      //if (Path.exists(pmmlFilePath)) {
-      //  throw new RuntimeException(s"""Invalid '.pmml' filename.  The filename must match model_name '${modelName}'.  Please re-deploy a directory/bundle that contains '${modelName}.pmml'.""")
-      //}
-      
-      Files.delete(Paths.get(zipFilename))      
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
-    } finally {
-      if (inputStream != null) {
-        inputStream.close()
-      }
-    }
-    
-    new ResponseEntity(HttpStatus.OK)
   }
  
   @RequestMapping(path=Array("/api/v1/model/predict/pmml/{modelName}"),
@@ -331,58 +228,7 @@ class PredictionService {
        }
     }
   }    
-  
-  @RequestMapping(path=Array("/api/v1/model/deploy/xgboost/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST)
-                  //produces=Array("application/json; charset=UTF-8")
-                  )
-  def deployXgboostFile(@PathVariable("namespace") namespace: String, 
-                        @PathVariable("modelName") modelName: String,
-                        @PathVariable("version") version: String,
-                        @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
-
-    var inputStream: InputStream = null
-
-    try {
-      val parentDir = s"model_store/xgboost/${namespace}/${modelName}/${version}/"
-  
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"${parentDir}")
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-  
-      // This buffer will store the data read from 'model' multipart file
-      inputStream = file.getInputStream()
-
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()  
-
-      val zipFilename = s"${parentDir}/${filename}"
-      
-      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
-      
-      TarGzUtil.extract(zipFilename, parentDir)
-
-      // TODO:  Make sure the bundle contains a file called model.xgboost!
-
-      val modelFilePath = s"${parentDir}/model.xgboost"
-      
-      Files.delete(Paths.get(zipFilename))      
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
-    } finally {
-      if (inputStream != null) {
-        inputStream.close()
-      }
-    }
-    
-    new ResponseEntity(HttpStatus.OK)
-  }
- 
+   
   @RequestMapping(path=Array("/api/v1/model/predict/xgboost/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
@@ -436,57 +282,7 @@ class PredictionService {
        }
     }
   }    
-  
-  // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-  //  -F "file=@bundle.tar.gz" \
-  //  http://[host]:[port]/api/v1/model/deploy/spark/[namespace]/[model_name]/[version]
-  @RequestMapping(path=Array("/api/v1/model/deploy/spark/{namespace}/{modelName}/{version}"),
-                  method=Array(RequestMethod.POST))
-  def deploySpark(@PathVariable("namespace") namespace: String,
-                  @PathVariable("modelName") modelName: String, 
-                  @PathVariable("version") version: String,
-                  @RequestParam("file") file: MultipartFile): ResponseEntity[HttpStatus] = {
-
-    var inputStream: InputStream = null
-
-    try {
-      val parentDir = s"model_store/spark/${namespace}/${modelName}/${version}/"
-
-      // Path where the uploaded file will be stored.
-      val filepath = new java.io.File(s"${parentDir}")
-      if (!filepath.isDirectory()) {
-        filepath.mkdirs()
-      }
-  
-      // This buffer will store the data read from 'model' multipart file
-      inputStream = file.getInputStream()
-      
-      // Get name of uploaded file.
-      val filename = file.getOriginalFilename()  
-
-      val zipFilename = s"${parentDir}/${filename}"
-      
-      Files.copy(inputStream, Paths.get(zipFilename), StandardCopyOption.REPLACE_EXISTING)
-      
-      TarGzUtil.extract(zipFilename, parentDir)
-
-      // TODO:  Find the actual model and rename it to `model.spark`
-      
-      Files.delete(Paths.get(zipFilename))      
-    } catch {
-      case e: Throwable => {
-        System.out.println(e)
-        throw e
-      }
-    } finally {
-      if (inputStream != null) {
-        inputStream.close()
-      }
-    }
-
-    new ResponseEntity(HttpStatus.OK)
-  }
-
+ 
   // curl -i -X POST -v -H "Transfer-Encoding: chunked" \
   //  http://[host]:[port]/api/v1/model/predict/spark/[namespace]/[model_name]/[version]
   @RequestMapping(path=Array("/api/v1/model/predict/spark/{modelName}"),
