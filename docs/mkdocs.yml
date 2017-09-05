@@ -8,13 +8,13 @@ edit_uri: edit/master/docs/src
 docs_dir: src 
 site_dir: generated
 strict: false 
-google_analytics:
-  - 'UA-78551725-1'
-  - 'auto'
+#google_analytics:
+#  - 'UA-78551725-1'
+#  - 'auto'
 pages:
-#  - Home: index.html
+#  - Home: / 
   - Documentation: docs/index.md
-  - Product Tour: tour/index.md  
+  - Product Tour: docstour/index.md
   - Features:
     - Train Your Model: model_train/index.md
     - Optimize Your Model: model_optimize/index.md

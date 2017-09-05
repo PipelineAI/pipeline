@@ -39,6 +39,15 @@ Click [**HERE**](/products/index.md) to start using PipelineAI Community Edition
 </script>
 <!-- End Google Analytics -->
 
+<!-- Start of Google AdSense script -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+   (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-7162267087851435",
+      enable_page_level_ads: true
+   });
+</script>
+
 ---
 ## More Resources
 <div class="more-resources">
