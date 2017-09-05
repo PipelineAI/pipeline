@@ -46,6 +46,24 @@ start_model_serving_python () {
     cd /root
 }
 
+start_drop_server_in_background () {
+    echo "PIPELINE_DROP_PATH=$PIPELINE_DROP_PATH"
+    echo "PIPELINE_DROP_SERVER_PATH=$PIPELINE_DROP_SERVER_PATH"
+    echo "PIPELINE_DROP_SERVER_PORT=$PIPELINE_DROP_SERVER_PORT"
+
+    echo ""
+    echo "Starting Python-based Drop Server..."
+    echo ""
+
+    source activate $PIPELINE_CONDA_ENV_NAME
+
+    $PIPELINE_DROP_SERVER_PATH/drop_server_python.py \
+      --PIPELINE_DROP_PATH=$PIPELINE_DROP_PATH \
+      --PIPELINE_DROP_SERVER_PORT=$PIPELINE_DROP_SERVER_PORT &
+
+    cd /root
+}
+
 start_model_serving_jvm () {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
@@ -137,7 +155,7 @@ cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
 # Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
 cd ~
-confluent start kafka-rest &
+confluent start kafka &
 
 echo "Required Environment Variables..."
 echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
@@ -159,6 +177,8 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
 
   start_websocket_kafka_log_stream_in_background
 
+  start_drop_server_in_background
+
   start_model_serving_python
 fi;
 
@@ -172,6 +192,8 @@ if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
     && start_tensorflow_serving_in_background 
 
   start_websocket_kafka_log_stream_in_background
+
+  start_drop_server_in_background
 
   start_model_serving_python
 fi;

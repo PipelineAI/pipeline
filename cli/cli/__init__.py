@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.54"
+__version__ = "0.55"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -399,7 +399,7 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9976:9976 -p 9000:9000 -p 9100:9100 -p 9040:9040 -p 9140:9140 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
 
         process = subprocess.call(cmd, shell=True)
 
@@ -1058,7 +1058,7 @@ class PipelineCli(object):
                     yaml_path,
                     kube_namespace='default'):
 
-        cmd = "kubectl --namespace %s create -f %s --record" % (kube_namespace, yaml_path)
+        cmd = "kubectl create --namespace %s -f %s --save_config --record" % (kube_namespace, yaml_path)
         self.kube(cmd)
 
 
@@ -1066,7 +1066,7 @@ class PipelineCli(object):
                     yaml_path,
                     kube_namespace='default'):
 
-        cmd = "kubectl --namespace %s delete -f %s" % (kube_namespace, yaml_path)
+        cmd = "kubectl delete --namespace %s -f %s" % (kube_namespace, yaml_path)
         self.kube(cmd) 
    
  
@@ -1111,7 +1111,7 @@ class PipelineCli(object):
         print("Kubernetes Deployments:")
         print("")
         for deploy_yaml_filename in deploy_yaml_filenames:
-            cmd = "kubectl create -f %s --record" % deploy_yaml_filename
+            cmd = "kubectl create --save-config -f %s --record" % deploy_yaml_filename
             print("Running '%s'." % cmd)
             print("")
             subprocess.call(cmd, shell=True)
@@ -1120,7 +1120,7 @@ class PipelineCli(object):
         print("Kubernetes Services:")
         print("")
         for svc_yaml_filename in svc_yaml_filenames:
-            cmd = "kubectl create -f %s --record" % svc_yaml_filename
+            cmd = "kubectl create --save-config -f %s --record" % svc_yaml_filename
             print("Running '%s'." % cmd)
             print("")
             subprocess.call(cmd, shell=True)

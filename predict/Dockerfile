@@ -252,6 +252,17 @@ RUN \
 RUN \
   /root/scripts/train-model-if-requested.sh
 
+ENV \
+  PIPELINE_DROP_SERVER_PATH=/root/src/main/python/drop
+
+ENV \
+  PIPELINE_DROP_PATH=/root/drop
+RUN \
+  mkdir -p $PIPELINE_DROP_PATH
+
+ENV \
+  PIPELINE_DROP_SERVER_PORT=9877
+
 # Bazel (Guild)
 #RUN \
 #  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
@@ -282,16 +293,10 @@ EXPOSE \
   6969 \
   # Python-based Model Server (Primary Model)
   9876 \
-  # Python-based Model Server (Canary Model)
-  9976 \
   # TensorFlow-based Model Server (Primary Model)
   9000 \
-  # TensorFlow-based Model Server (Canary Model)
-  9100 \
   # JVM-based Model Server (Primary Model)
   9040 \
-  # JVM-based Model Server (Canary Model)
-  9140 \
   # Prometheus Metrics Server
   9090 \
   # Grafana Dashboards
@@ -309,6 +314,8 @@ EXPOSE \
   # TensorBoard
   6006 \
   # TensorFlow Training UI (Guild)
-  6333
+  6333 \
+  # Drop Server
+  9877 
 
 CMD ["supervise", "."]
