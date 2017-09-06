@@ -15,7 +15,7 @@ pip install --ignore-installed --no-cache -U pipeline-ai-cli
 ```
 
 ## Supported Model Types 
-[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), [spark](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/spark/), [xgboost](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/xgboost/), r
+[scikit](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/scikit/), [tensorflow](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/tensorflow/), [python](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/python/), [keras](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/keras/), [pmml](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/pmml/), [spark](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/spark/), [java](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/java/)[xgboost](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/xgboost/), r
 
 More [samples](https://github.com/fluxcapacitor/pipeline/tree/master/predict/models/) coming soon for r.
 
