@@ -7,18 +7,18 @@
   margin-right:6px;
 }
 
-.hero-home {
+.hero-ta {
   background:url(../../assets/img/transamerica-building-800x400.png) no-repeat center;
   background-size:cover;
   border:none;
-  height:450px;
+  height:415px;
 }
 
-.hero-overview {
+.hero-gg {
   background:url(../../assets/img/san-francisco-golden-gate-bridge-600x375.png) no-repeat center;
   background-size:cover;
   border:none;
-  height:450px;
+  height:415px;
 }
 
 @media (min-width:992px) {

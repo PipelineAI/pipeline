@@ -14,15 +14,8 @@ strict: false
 pages:
 #  - Home: / 
   - Documentation: docs/index.md
-  - Product Tour: docstour/index.md
-  - Features:
-    - Train Your Model: model_train/index.md
-    - Optimize Your Model: model_optimize/index.md
-    - Deploy Your Model: model_deploy/index.md
-    - Monitor Your Model: model_monitor/index.md
-    - Experiment With Your Models: model_experiment/index.md
-    - Stream Your Models: model_stream/index.md
-  - Try our Free Community Edition!: products/index.md
+#  - Product Tour: docstour/index.md
+#  - Try our Free Community Edition!: products/index.md
   - CLI and REST API: api/index.md
   - Deployment Runbooks: runbooks/index.md
   - Dashboards: model_monitor/index.md
@@ -30,14 +23,21 @@ pages:
   - Hybrid Cloud and On-Prem: environments/index.md
   - Events: events/index.md
   - Workshops: training/index.md
+  - Features:
+    - Train Your Model: model_train/index.md
+    - Optimize Your Model: model_optimize/index.md
+    - Deploy Your Model: model_deploy/index.md
+    - Monitor Your Model: model_monitor/index.md
+    - Experiment With Your Models: model_experiment/index.md
+    - Stream Your Models: model_stream/index.md
   - Open Source: 
     - GitHub and DockerHub Repos: open_source/index.md 
     - Releases: releases/index.md
     - Become a Committer!: contribute/index.md
     - Install PipelineAI Open Source: install/index.md
-  - Support: support/index.md
-  - Contact Us: contact/index.md
-  - Legal: legal/index.md
+#  - Support: support/index.md
+#  - Contact Us: contact/index.md
+#  - Legal: legal/index.md
 theme_dir: mkdocs-material/material/
 site_favicon: 'img/favicon.png'
 extra:

@@ -1,8 +1,7 @@
 ---
-## Try our Free [Community Edition](/products/index.md)!
-Click [**HERE**](/products/index.md) to start using PipelineAI Community Edition! 
+## [PipelineAI Home](http://pipeline.ai)
 
-## Register for PipelineAI [Enterprise Edition](/products/index.md)
+## Register for PipelineAI [Enterprise Edition](/products/index.html)
 <!-- Begin MailChimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"> 
 <!--<link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">-->
@@ -38,15 +37,6 @@ Click [**HERE**](/products/index.md) to start using PipelineAI Community Edition
       ga('send', 'pageview');
 </script>
 <!-- End Google Analytics -->
-
-<!-- Start of Google AdSense script -->
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-   (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-7162267087851435",
-      enable_page_level_ads: true
-   });
-</script>
 
 ---
 ## More Resources
