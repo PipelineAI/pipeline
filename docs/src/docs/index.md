@@ -1,13 +1,13 @@
-![PipelineAI](/img/logo/pipelineai-logo-250x214.png)
+![PipelineAI](/assets/img/logo/pipelineai-logo-250x214.png)
 
 ## PipelineAI Features
-<img src="/img/pipelineai-features.png"</img>
+<img src="/assets/img/pipelineai-features.png"</img>
 
 ## PipelineAI In The News!
 ### August 2017
 PipelineAI is a finalist in the O'Reilly <a href="https://conferences.oreilly.com/artificial-intelligence/ai-ca/public/cfp/580">AI Startup Showcase</a> in San Francisco!
 
-<img src="/img/oreilly-ai-conf-sf.png"</img>
+<img src="/assets/img/oreilly-ai-conf-sf.png"</img>
 
 ### July 2017
 PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
@@ -17,7 +17,7 @@ PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end tra
 ### June 2017
 PipelineAI is featured by [Hotels.com](http://hotels.com) in the recent Spark Summit SF Keynote Presentation!
 
-![PipelineAI @ Hotels.com](/img/pipelineai-spark-summit-annotated-700x394.png)
+![PipelineAI @ Hotels.com](/assets/img/pipelineai-spark-summit-annotated-700x394.png)
 
 ## Who, What, and Where is PipelineAI?
 [PipelineAI](http://pipeline.ai/) is a standards-based, highly-scalable ML / AI  model deployment platform.
