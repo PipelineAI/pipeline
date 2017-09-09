@@ -7,7 +7,7 @@
 ### August 2017
 PipelineAI is a finalist in the O'Reilly <a href="https://conferences.oreilly.com/artificial-intelligence/ai-ca/public/cfp/580">AI Startup Showcase</a> in San Francisco!
 
-<img src="/assets/img/oreilly-ai-conf-sf.png"</img>
+<img src="/assets/img/oreilly-ai-conf-sf.png"></img>
 
 ### July 2017
 PipelineAI releases [demo video](https://youtu.be/gWgy3EdDObQ) of end-to-end training and deployment of TensorFlow AI Model.  From research to production, we provide full metrics and insight into all phases of the ML and AI Pipelines.
