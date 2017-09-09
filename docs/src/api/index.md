@@ -56,9 +56,9 @@ Note:  This UI currently works only with TensorFlow Models
 http://localhost:6333/
 ```
 
-![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui.png)
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
 
-![PipelineAI Model UI](http://pipeline.io/img/pipelineai-train-compare-ui-2.png)
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
 
 ## Predict Model
 ### CLI
@@ -120,7 +120,7 @@ Use `http://localhost:9090` for the Prometheus data source within your Grafana D
 ```
 http://localhost:3000/
 ```
-![Prediction Dashboard](http://pipeline.io/img/istio-dashboard-600x284.png)
+![Prediction Dashboard](http://pipeline.ai/assets/img/istio-dashboard-600x284.png)
 
 ## Stop Docker-based Model 
 ```
