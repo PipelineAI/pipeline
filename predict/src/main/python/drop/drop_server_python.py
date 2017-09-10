@@ -135,12 +135,12 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-                cmd = 'pipeline model-deploy --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
-                print(cmd)
-                completed_process = subprocess.run(cmd,
-                                                   timeout=1200,
-                                                   shell=True,
-                                                   stdout=subprocess.PIPE)
+#                cmd = 'pipeline model-deploy --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
+#                print(cmd)
+#                completed_process = subprocess.run(cmd,
+#                                                   timeout=1200,
+#                                                   shell=True,
+#                                                   stdout=subprocess.PIPE)
 
                 cmd = 'pipeline model-yaml --model-type={0} --model-name={1} --model-tag={2} --template-path=./drop/templates'.format(model_type, model_name, model_version)
                 print(cmd)

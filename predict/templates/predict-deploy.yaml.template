@@ -51,7 +51,7 @@ spec:
         - name: PIPELINE_MODEL_CHIP
           value: {{PIPELINE_MODEL_CHIP}}
         - name: PIPELINE_MODEL_TAG
-          value: {{PIPELINE_MODEL_TAG}}
+          value: "{{PIPELINE_MODEL_TAG}}"
         ports:
         - containerPort: 6969
         - containerPort: 9876
