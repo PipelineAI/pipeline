@@ -20,7 +20,7 @@ ENV \
 RUN \
   conda install --yes openblas scikit-learn numpy scipy ipython jupyter matplotlib pandas
 
-ENV KUBERNETES_VERSION=1.7.3
+ENV KUBERNETES_VERSION=1.7.5
 ENV KUBERNETES_HOME=/root/kubernetes/
 
 RUN \
@@ -53,7 +53,7 @@ ENV \
   PATH=$KOPS_HOME:$PATH
 
 ENV \
-  TERRAFORM_VERSION=0.10.0-rc1
+  TERRAFORM_VERSION=0.10.4
 
 ENV \
   TERRAFORM_HOME=/root/terraform
@@ -105,7 +105,7 @@ RUN \
   mkdir -p ~/.kube
 
 ENV \
-  HELM_VERSION=2.6.0
+  HELM_VERSION=2.6.1
 
 RUN \
   wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -113,7 +113,7 @@ RUN \
   && mv linux-amd64/helm /usr/local/bin/helm \
   && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz
 
-ENV MINIKUBE_VERSION=0.21.0
+ENV MINIKUBE_VERSION=0.22.0
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
@@ -142,4 +142,4 @@ RUN \
   apt-get install -y docker-ce
 
 RUN \
-  pip install pipeline-ai-cli==0.52
+  pip install pipeline-ai-cli==0.58
