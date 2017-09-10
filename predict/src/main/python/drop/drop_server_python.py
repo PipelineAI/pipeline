@@ -10,16 +10,16 @@ import tornado.httpserver
 import importlib.util
 import tarfile
 import subprocess
-import cloudpickle as pickle
+#import cloudpickle as pickle
 from tornado.options import define, options
-from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
+#from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 import json
 
 
 # Test
 #curl -i -X POST -v -H "Transfer-Encoding: chunked" \
-#   -F "file=@bundle.tar.gz" \
-#   http://[host]:[port]/api/v1/model/drop/<model_type>/<model_name>/<model_version?>
+#   -F "file=@pipeline.tar.gz" \
+#   http://[host]:[port]/api/v1/model/drop/<model_type>/<model_name>
 
 define('PIPELINE_DROP_PATH', default='', help='path to drop', type=str)
 define('PIPELINE_DROP_SERVER_PORT', default='', help='tornado http drop server listen port', type=int)
@@ -76,46 +76,93 @@ class HealthzHandler(tornado.web.RequestHandler):
 
 
 class ModelDropPython3Handler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header('Access-Control-Allow-Origin', '*')
+        self.set_header('Access-Control-Allow-Credentials', 'true')
+        self.set_header('Access-Control-Allow-Headers', 'Cache-Control, Origin, X-Requested-With, Content-Type, Accept, Authorization')
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS')
+
+    def options(self, *args, **kwargs):
+        self.set_status(204)
+        self.finish()
 
     def post(self, model_type, model_name):
         model_key_list = [model_type, model_name]
         model_key = '/'.join(model_key_list)
 
         fileinfo = self.request.files['file'][0]
-        model_file_source_bundle_path = fileinfo['filename']
-        (_, filename) = os.path.split(model_file_source_bundle_path)
+        model_file_source_drop_path = fileinfo['filename']
+        (_, filename) = os.path.split(model_file_source_drop_path)
 
-        model_base_path = self.settings['drop_path']
-        model_base_path = os.path.expandvars(model_base_path)
-        model_base_path = os.path.expanduser(model_base_path)
-        model_base_path = os.path.abspath(model_base_path)
+        drop_path = self.settings['drop_path']
+        drop_path = os.path.expandvars(drop_path)
+        drop_path = os.path.expanduser(drop_path)
+        drop_path = os.path.abspath(drop_path)
+        drop_path = os.path.join(drop_path, 'model_drops')
+        drop_path = os.path.join(drop_path, *model_key_list)
+        from datetime import datetime
+        model_version = datetime.now().strftime("%s")
+        drop_path = os.path.join(drop_path, model_version)
+        drop_path_filename = os.path.join(drop_path, filename)
 
-        bundle_path = os.path.join(model_base_path, *model_key_list) 
-        bundle_path_filename = os.path.join(bundle_path, filename)
-
-        os.makedirs(bundle_path, exist_ok=True)
-        with open(bundle_path_filename, 'wb+') as fh:
+        os.makedirs(drop_path, exist_ok=True)
+        with open(drop_path_filename, 'wb+') as fh:
             try:
                 fh.write(fileinfo['body'])
                 LOGGER.info('{0} uploaded {1}, saved as {2}'.format(str(self.request.remote_ip), str(filename),
-                                                                bundle_path_filename))
-                LOGGER.info('Extracting bundle {0} into {1}: begin'.format(filename, bundle_path))
-                with tarfile.open(bundle_path_filename, 'r:gz') as tar:
-                    tar.extractall(path=bundle_path)
-                LOGGER.info('Extracting bundle {0} into {1}: complete'.format(filename, bundle_path))
+                                                                drop_path_filename))
+                LOGGER.info('Extracting drop {0} into {1}: begin'.format(filename, drop_path_filename))
+                print(drop_path)
+                print(drop_path_filename)
+                with tarfile.open(drop_path_filename, 'r:gz') as tar:
+                    tar.extractall(path=drop_path)
+                LOGGER.info('Extracting drop {0} into {1}: complete'.format(filename, drop_path))
 
-                LOGGER.info('Dropping: begin')
-#                completed_process = subprocess.run('cd {0} && [ -s ./requirements_conda.txt ] && conda install --yes --file \
- #                                              ./requirements_conda.txt'.format(bundle_path),
- #                                              timeout=1200,
- #                                              shell=True,
- #                                              stdout=subprocess.PIPE)
- #               completed_process = subprocess.run('cd {0} && [ -s ./requirements.txt ] && pip install -r \
- #                                              ./requirements.txt'.format(bundle_path),
- #                                              timeout=1200,
- #                                              shell=True,
- #                                              stdout=subprocess.PIPE)
-                LOGGER.info('Dropping: complete')
+                LOGGER.info('Processing drop: begin')
+                # TODO:  Try tornado.subprocess to stream the results as they're happening!
+                cmd = 'pipeline model-build --model-type={0} --model-name={1} --model-tag={2} --model-path=./model_drops/{0}/{1}/{2} --build-path=/root/drop'.format(model_type, model_name, model_version)
+                LOGGER.info("Running command '%s'" % cmd)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+
+                cmd = 'pipeline model-push --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+
+                cmd = 'pipeline model-deploy --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+
+                cmd = 'pipeline model-yaml --model-type={0} --model-name={1} --model-tag={2} --template-path=./drop/templates'.format(model_type, model_name, model_version)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+
+                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-deploy.yaml'.format(model_type, model_name, model_version)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+
+                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-svc.yaml'.format(model_type, model_name, model_version)
+                print(cmd)
+                completed_process = subprocess.run(cmd,
+                                                   timeout=1200,
+                                                   shell=True,
+                                                   stdout=subprocess.PIPE)
+                LOGGER.info('Processing drop: complete')
 
                 LOGGER.info('"{0}" successfully deployed!'.format(model_key))
                 self.write('"{0}" successfully deployed!'.format(model_key))
@@ -123,7 +170,10 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
                 message = 'DropPython3Handler.post: Exception - {0} Error {1}'.format(model_key, str(e))
                 LOGGER.info(message)
                 logging.exception(message)
-
+            finally:
+                LOGGER.info('Removing drop {0} from {1}: complete'.format(filename, drop_path))
+                os.remove(drop_path_filename)
+                LOGGER.info('Removing drop {0} into {1}: complete'.format(filename, drop_path))
 
 def main():
     try:
@@ -146,4 +196,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

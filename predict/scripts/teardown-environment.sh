@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "keras" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "scikit" ]] || \
-     [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
+#if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
+#     [[ $PIPELINE_MODEL_TYPE == "keras" ]] || \
+#     [[ $PIPELINE_MODEL_TYPE == "scikit" ]] || \
+#     [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
        echo ""
        echo "Deleting '$PIPELINE_CONDA_ENV_NAME' Conda Environment'..."
        echo ""
@@ -12,4 +12,4 @@ if [[ $PIPELINE_MODEL_TYPE == "python" ]] || \
        echo ""
        echo "...Deleted!"
        echo ""
-fi
+#fi

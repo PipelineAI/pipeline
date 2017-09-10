@@ -1,6 +1,6 @@
 #!/bin/bash
 
-start_ui() {
+start_guild_ui() {
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
@@ -12,7 +12,7 @@ start_ui() {
 
     source activate $PIPELINE_CONDA_ENV_NAME
 
-#    cd $PIPELINE_MODEL_PATH 
+#    cd $PIPELINE_MODEL_PATH
 #    guild view &
 #    cd /root
 }
@@ -31,7 +31,7 @@ start_model_serving_python () {
     echo "Starting Python-based Model Serving..."
     echo ""
 
-    source activate $PIPELINE_CONDA_ENV_NAME 
+    source activate $PIPELINE_CONDA_ENV_NAME
 
     cd $PIPELINE_MODEL_PATH \
       && PYTHONPATH=$PIPELINE_MODEL_PATH:$PYTHONPATH \
@@ -46,7 +46,7 @@ start_model_serving_python () {
     cd /root
 }
 
-start_drop_server_in_background () {
+start_drop_server () {
     echo "PIPELINE_DROP_PATH=$PIPELINE_DROP_PATH"
     echo "PIPELINE_DROP_SERVER_PATH=$PIPELINE_DROP_SERVER_PATH"
     echo "PIPELINE_DROP_SERVER_PORT=$PIPELINE_DROP_SERVER_PORT"
@@ -59,9 +59,7 @@ start_drop_server_in_background () {
 
     $PIPELINE_DROP_SERVER_PATH/drop_server_python.py \
       --PIPELINE_DROP_PATH=$PIPELINE_DROP_PATH \
-      --PIPELINE_DROP_SERVER_PORT=$PIPELINE_DROP_SERVER_PORT &
-
-    cd /root
+      --PIPELINE_DROP_SERVER_PORT=$PIPELINE_DROP_SERVER_PORT
 }
 
 start_model_serving_jvm () {
@@ -85,7 +83,7 @@ start_model_serving_jvm () {
         "run-main io.pipeline.predict.jvm.PredictionServiceMain"
 }
 
-start_tensorflow_serving_in_background () {
+start_tensorflow_serving () {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
@@ -101,13 +99,13 @@ start_tensorflow_serving_in_background () {
         --model_name=$PIPELINE_MODEL_NAME --model_base_path=$PIPELINE_MODEL_PATH/versions \
         --batching_parameters_file=/root/config/tfserving/batching_config.txt \
         --enable_batching=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
-        --file_system_poll_wait_seconds=5 &
+        --file_system_poll_wait_seconds=5 
     echo ""
     echo "...TensorFlow Serving Started!"
     echo ""
 }
 
-start_tensorboard_in_background() {
+start_tensorboard() {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
@@ -118,13 +116,13 @@ start_tensorboard_in_background() {
     echo "Starting TensorBoard..."
     echo ""
     source activate $PIPELINE_CONDA_ENV_NAME
-    tensorboard --reload_interval=30 --logdir=$TENSORBOARD_LOGDIR &
+    tensorboard --reload_interval=30 --logdir=$TENSORBOARD_LOGDIR 
     echo ""
     echo "...TensorBoard Started!"
     echo ""
 }
 
-start_websocket_kafka_log_stream_in_background() {
+start_websocket_kafka_log_stream() {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
@@ -136,7 +134,7 @@ start_websocket_kafka_log_stream_in_background() {
     echo ""
     source activate $PIPELINE_CONDA_ENV_NAME
     # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-    python src/main/python/kafka/ws_kafka_topic_stream.py &
+    python src/main/python/kafka/ws_kafka_topic_stream.py 
     echo ""
     echo "...Server Started!"
     echo ""
@@ -147,12 +145,15 @@ source sysutils/container-limits.sh
 # Start Nginx Server
 service nginx start
 
+# TODO:  This is not needed for drop server
 # Start Prometheus Metrics Server
 prometheus -config.file=/root/prometheus-1.7.1.linux-amd64/prometheus.yml &
 
+# TODO:  This is not needed for drop server
 # Start Grafana Dashboard Server
 cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
+# TODO:  This is not needed for drop server
 # Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
 cd ~
 confluent start kafka &
@@ -171,38 +172,40 @@ echo "|    | |    |___ |___ | | \| |___    /~~\ |"
 echo "___________________________________________"
 echo ""
 
-if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
+#if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
 
-  start_websocket_kafka_log_stream_in_background
+  start_websocket_kafka_log_stream &
 
-  start_drop_server_in_background
+  start_model_serving_python &
+#fi;
 
-  start_model_serving_python
-fi;
+#if [[ $PIPELINE_MODEL_TYPE == "drop" ]]; then
 
-if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
+  start_drop_server &
+#fi;
+
+#if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
   [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
-    && start_tensorboard_in_background
-#    && [ -s $PIPELINE_MODEL_PATH/Guild ] \
-#    && start_ui
+    && start_tensorboard &
+
+#  [ -s $PIPELINE_MODEL_PATH/Guild ] \
+#    && start_guild_ui
 
   [ -s $PIPELINE_MODEL_PATH/versions ] \
-    && start_tensorflow_serving_in_background 
+    && start_tensorflow_serving &
 
-  start_websocket_kafka_log_stream_in_background
+  start_model_serving_python &
 
-  start_drop_server_in_background
+  start_websocket_kafka_log_stream &
+#fi;
 
-  start_model_serving_python
-fi;
-
-if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "pmml" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "java" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "xgboost" ]] ||
-   [[ $PIPELINE_MODEL_TYPE == "r" ]]; then
+#if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "pmml" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "java" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "xgboost" ]] ||
+#   [[ $PIPELINE_MODEL_TYPE == "r" ]]; then
 
   start_model_serving_jvm
-fi;
+#fi;

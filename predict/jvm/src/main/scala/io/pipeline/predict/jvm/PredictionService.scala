@@ -63,10 +63,43 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
   
+  @RequestMapping(path=Array("/api/v1/model/predict/{httpProtocol}/{httpHost}/{httpPort}/{modelType}/{modelName}"),
+                  method=Array(RequestMethod.POST),
+                  produces=Array("application/json; charset=UTF-8"))
+  def predictPython(@PathVariable("httpProtocol") httpProtocol: String,
+                    @PathVariable("httpHost") httpHost: String,
+                    @PathVariable("httpPort") httpPort: String,
+                    @PathVariable("modelType") modelType: String,
+                    @PathVariable("modelName") modelName: String, 
+                    @RequestBody inputJson: String): String = {
+    try {
+      val parsedInputOption = JSON.parseFull(inputJson)
+      val inputs: Map[String, Any] = parsedInputOption match {
+        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
+        case None => Map[String, Any]() 
+      }
+      
+      val results = new HttpEvaluationCommand(s"""${httpProtocol}://${httpHost}:${httpPort}/${modelType}/${modelName}""", 
+                                              modelType, 
+                                              modelName, 
+                                              inputs, 
+                                              "\"fallback\"", 
+                                              100, 
+                                              20, 
+                                              10).execute()
+
+      s"""{"outputs":${results}}"""
+    } catch {
+       case e: Throwable => {
+         throw e
+       }
+    }
+  }  
+
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
       -d '{"id":"21618"}' \
-      http://[hostname]:[port]/api/v1/model/predict/java/default/java_equals/v0
+      http://[hostname]:[port]/api/v1/model/predict/java/java_equals/v0
 */
   @RequestMapping(path=Array("/api/v1/model/predict/java/{modelName}"),
                   method=Array(RequestMethod.POST),
@@ -173,7 +206,7 @@ class PredictionService {
          throw e
        }
     }
-  }  
+  }
   
  @RequestMapping(path=Array("/api/v1/model/predict/r/{modelName}"),
                   method=Array(RequestMethod.POST),

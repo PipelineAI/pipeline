@@ -150,8 +150,6 @@ RUN \
 RUN \
   ldconfig
 
-COPY src/ src/
-
 ENV \
   PIPELINE_MODEL_SERVER_PATH=/root/src/main/python/model_server
 
@@ -191,6 +189,20 @@ RUN \
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
+# Drop
+RUN \
+  wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl \
+  && chmod a+x kubectl \
+  && mv kubectl /usr/local/bin/kubectl
+
+# Docker in Docker
+RUN \
+  curl -fsSL get.docker.com -o get-docker.sh \
+  && sh get-docker.sh
+
+RUN \
+  pip install pipeline-ai-cli==0.60
+
 COPY html/ /var/www/html/
 COPY run run
 
@@ -220,6 +232,7 @@ ARG model_tag
 RUN \
   echo $model_tag
 
+# TODO:  model_path (and copy) is not required for drop server
 ARG model_path
 RUN \
   echo $model_path
@@ -227,30 +240,9 @@ ENV \
   PIPELINE_MODEL_PATH=/root/model
 
 COPY $model_path $PIPELINE_MODEL_PATH
-#RUN \
-#  if [[ $model_path == "http:"* ]] || [[ $model_path == "https:"* ]]; then \
-#    wget -r -e --no-parent -O $PIPELINE_MODEL_PATH $model_path; \
-#  fi 
 
-#RUN \
-#  pip install awscli
-
-#RUN \
-#  if [[ $model_path == "s3:"* ]]; then \
-#    aws s3 cp --no-sign-request --recursive \
-#      $model_path \
-#      $PIPELINE_MODEL_PATH; \
-#  fi 
-
-ENV \
-  PIPELINE_CONDA_ENV_NAME=pipeline
-
-COPY scripts/ scripts/
-RUN \
-  /root/scripts/setup-environment.sh 
-
-RUN \
-  /root/scripts/train-model-if-requested.sh
+# Docker in Docker
+COPY / drop/
 
 ENV \
   PIPELINE_DROP_SERVER_PATH=/root/src/main/python/drop
@@ -263,6 +255,17 @@ RUN \
 ENV \
   PIPELINE_DROP_SERVER_PORT=9877
 
+ENV \
+  PIPELINE_CONDA_ENV_NAME=pipeline
+
+COPY scripts/ scripts/
+COPY src/ src/
+RUN \
+  /root/scripts/setup-environment.sh 
+
+RUN \
+  /root/scripts/train-model-if-requested.sh
+
 # Bazel (Guild)
 #RUN \
 #  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
@@ -273,52 +276,52 @@ ENV \
 # Guild
 #RUN \
 #  conda install python=2.7.10 \
-#  && pip2 install psutil
+#  pip2 install psutil
 
 # Guild
 #RUN \
 #  git clone https://github.com/guildai/guild-python.git \
 #  && cd guild-python \
-#  && bazel build guild:guild-lite \
-#  && bazel-bin/guild/guild-lite check --all-tests 
+#  && bazel build guild 
 
 # Guild
 #ENV \
-#  PATH=/root/guild-python/bazel-bin/guild:$PATH
+#  PATH=/root/guild-python/bazel-bin/guild:$PATH \
+#  PYTHONPATH=/root/guild-python/:$PYTHONPATH
 
 # Guild
 #RUN \
-#  echo "alias guild=/root/guild-python/bazel-bin/guild/guild-lite" >> /root/.bashrc
+#  guild check --tests
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
-  # Nginx (80 is too common and could clash with local development)
+  # Nginx (80 is too common and could clash with local development) \
   6969 \
-  # Python-based Model Server (Primary Model)
+  # Python-based Model Server (Primary Model) \
   9876 \
-  # TensorFlow-based Model Server (Primary Model)
+  # TensorFlow-based Model Server (Primary Model) \
   9000 \
-  # JVM-based Model Server (Primary Model)
+  # JVM-based Model Server (Primary Model) \
   9040 \
-  # Prometheus Metrics Server
+  # Prometheus Metrics Server \
   9090 \
-  # Grafana Dashboards
+  # Grafana Dashboards \
   3000 \
-  # Kafka Broker
+  # Kafka Broker \
   9092 \
-  # Kafka REST API
+  # Kafka REST API \
   8082 \
-  # Kafka Schema Manager
+  # Kafka Schema Manager \
   8081 \
-  # ZooKeeper
+  # ZooKeeper \
   2181 \
-  # WebSocket-based Kafka Consumer
+  # WebSocket-based Kafka Consumer \
   5959 \
-  # TensorBoard
+  # TensorBoard \
   6006 \
-  # TensorFlow Training UI (Guild)
+  # TensorFlow Training UI (Guild) \
   6333 \
-  # Drop Server
+  # Drop Server \
   9877 
 
 CMD ["supervise", "."]

@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.55"
+__version__ = "0.60"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -89,7 +89,6 @@ class PipelineCli(object):
     def version(self):
         print(__version__)
         self.config()
-
 
 
     # TODO: Pull ./templates/ into this cli project
@@ -267,7 +266,7 @@ class PipelineCli(object):
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_path=%s -f Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_path, build_path)
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_chip=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_chip, model_path, build_path, build_path)
 
             print(cmd)
             print("")
@@ -399,8 +398,10 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 --privileged -v /var/run/docker.sock:/var/run/docker.sock fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
 
+        print(cmd)
+        print("")
         process = subprocess.call(cmd, shell=True)
 
 
@@ -417,6 +418,9 @@ class PipelineCli(object):
 
         cmd = '%s rm -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
 
+        print(cmd)
+        print("")
+
         process = subprocess.call(cmd, shell=True)
 
 
@@ -432,6 +436,9 @@ class PipelineCli(object):
             docker_cmd = 'docker'
 
         cmd = '%s logs -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+
+        print(cmd)
+        print("")
 
         process = subprocess.call(cmd, shell=True)
 
@@ -1058,7 +1065,7 @@ class PipelineCli(object):
                     yaml_path,
                     kube_namespace='default'):
 
-        cmd = "kubectl create --namespace %s -f %s --save_config --record" % (kube_namespace, yaml_path)
+        cmd = "kubectl create --namespace %s -f %s --save-config --record" % (kube_namespace, yaml_path)
         self.kube(cmd)
 
 
