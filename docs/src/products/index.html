@@ -12,22 +12,45 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/user.css">
+    <link rel="stylesheet" href="../assets/css/Drag--Drop-Upload-Form.css">
     <link rel="stylesheet" href="../assets/css/dropzone.css">
     <link rel="stylesheet" href="../assets/css/Features-Clean.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
     <link rel="stylesheet" href="../assets/css/Newsletter-Subscription-Form.css">
     <link rel="stylesheet" href="../assets/css/Team-Boxed.css">
-<!-- Start Google Analytics -->
-<script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-78551725-1', 'auto');
-      ga('require', 'linkid');
-      ga('send', 'pageview');
+<!-- Google Code for Community Edition Conversion Page
+In your html page, add the snippet and call
+goog_report_conversion when someone clicks on the
+chosen link or button. -->
+<script type="text/javascript">
+  /* <![CDATA[ */
+  goog_snippet_vars = function() {
+    var w = window;
+    w.google_conversion_id = 852779082;
+    w.google_conversion_label = "TjmVCMSVmXQQysDRlgM";
+    w.google_remarketing_only = false;
+  }
+  // DO NOT CHANGE THE CODE BELOW.
+  goog_report_conversion = function(url) {
+    goog_snippet_vars();
+    window.google_conversion_format = "3";
+    var opt = new Object();
+    opt.onload_callback = function() {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  }
+  var conv_handler = window['google_trackConversion'];
+  if (typeof(conv_handler) == 'function') {
+    conv_handler(opt);
+  }
+}
+/* ]]> */
 </script>
-<!-- End Google Analytics -->
+<script type="text/javascript"
+  src="//www.googleadservices.com/pagead/conversion_async.js">
+</script>
+
 </head>
 
 <body style="padding:0px;">
@@ -61,48 +84,48 @@
                         <p class="description">Use Our Hosted Service</p>
                         <p class="description">CPU Only</p>
                         <p class="description">Public Models and Datasets Only</p>
-                        <p class="description">Shared Model Servers</p>
                         <p class="description">Offline Batch Model Training</p>
-                        <p class="description">No A/B Model Experiments</p>
+                        <p class="description">Public Model Prediction Servers</p>
                         <p class="description">Manual Model Deployments</p>
-                        <p class="description">Shared Dashboards</p>
-                        <p class="description">Shared File-based Logging</p>
+                        <p class="description">No A/B Model Experiments</p>
+                        <p class="description">Public Shared Dashboard</p>
+                        <p class="description">Public File-based Logging</p>
                         <p class="description"> OAuth Security</p>
-                        <p class="description">Community Support</p><a class="btn btn-success btn-lg" role="button" href="http://community.pipeline.ai" data-aos="fade-up" style="padding:10px;font-size:12px;">Try Community Edition</a></div>
+                        <p class="description">Public Community Support</p><a class="btn btn-success btn-lg" role="button" href="http://community.pipeline.ai" id="try-community-edition" style="padding:10px;font-size:12px;">Try Community Edition</a></div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-circle" src="../assets/img/jessica-poteet.png">
                         <h3 class="name">Standalone Edition</h3>
                         <p class="title"> single node, Self-Hosted</p>
-                        <p class="description">Install Directly In Your Cloud Account</p>
+                        <p class="description">Install Directly In Cloud or On-Prem</p>
                         <p class="description">CPU and GPU</p>
-                        <p class="description">Public + Private Models and Datasets</p>
-                        <p class="description">Standalone Model Server</p>
+                        <p class="description">Private Models and Datasets</p>
                         <p class="description">Offline Batch Model Training</p>
-                        <p class="description">Manual A/B Model Experiments</p>
+                        <p class="description">Standalone Model Prediction Servers</p>
                         <p class="description">Manual Model Deployments</p>
-                        <p class="description">Standalone Dashboards</p>
-                        <p class="description">Single-Node File-based Logging</p>
+                        <p class="description">Manual A/B Model Experiments</p>
+                        <p class="description"> Standalone Dashboard</p>
+                        <p class="description">Standalone File-based Logging</p>
                         <p class="description">OAuth Security</p>
-                        <p class="description">24 Hour SLA Support</p>
-                        <h3 class="name"> Register Below for Waitlist</h3></div>
+                        <p class="description">&lt;24 Hour SLA Support</p>
+                        <h3 class="name"> Register Below</h3></div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-circle" src="../assets/img/brent-dorsey-560x560.png">
                         <h3 class="name">Enterprise Edition</h3>
                         <p class="title">Multiple node, self-hosted</p>
-                        <p class="description">Install Directly In Your Cloud Account</p>
+                        <p class="description">Install Directly in Cloud or On-Prem</p>
                         <p class="description">CPU and GPU</p>
-                        <p class="description">Public + Private Models and Datasets</p>
-                        <p class="description">Clustered Autoscaled Model Servers</p>
-                        <p class="description">Online Continuous Model Training</p>
-                        <p class="description">Adaptive Bandit Model Experiments</p>
-                        <p class="description">Automated Model Deployments</p>
+                        <p class="description">Private Models and Datasets</p>
+                        <p class="description">Continuous Real-time Model Training</p>
+                        <p class="description">Autoscaled Model Prediction Cluster </p>
+                        <p class="description">Continuous Model Deployments</p>
+                        <p class="description">Adaptive A/B Model Experiments</p>
                         <p class="description">Centralized Enterprise Dashboards</p>
                         <p class="description">Centralized Enterprise Logging</p>
                         <p class="description"> Single-Sign On + Enterprise Security</p>
-                        <p class="description">8 Hour SLA Support</p>
-                        <h3 class="name">Register Below for Waitlist</h3></div>
+                        <p class="description">&lt;8 Hour SLA Support</p>
+                        <h3 class="name">Register Below</h3></div>
                 </div>
             </div>
         </div>
@@ -145,8 +168,14 @@
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/bs-animation.js"></script>
+    <script src="../assets/js/ga.js"></script>
     <script src="../assets/js/dropzone.js"></script>
+    <script src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
+    <script src="../assets/js/goog-report-community-conversion.js"></script>
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="../assets/js/google-ads.js"></script>
+    <script src="../assets/js/ws-kafka-topic-stream.js"></script>
+    <script src="../assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
 </body>
 

@@ -33,6 +33,7 @@ start_model_serving_python () {
 
     source activate $PIPELINE_CONDA_ENV_NAME
 
+    # TODO:  is this cd needed?
     cd $PIPELINE_MODEL_PATH \
       && PYTHONPATH=$PIPELINE_MODEL_PATH:$PYTHONPATH \
         $PIPELINE_MODEL_SERVER_PATH/model_server_python.py \
@@ -63,6 +64,7 @@ start_drop_server () {
 }
 
 start_model_serving_jvm () {
+    # TODO:  Log Relevant Stuff
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
@@ -80,7 +82,7 @@ start_model_serving_jvm () {
     cd $PIPELINE_JVM_MODEL_SERVER_PATH \
       && java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom \
         -jar /root/jvm/lib/sbt-launch.jar \
-        "run-main io.pipeline.predict.jvm.PredictionServiceMain"
+        "runMain io.pipeline.predict.jvm.PredictionServiceMain"
 }
 
 start_tensorflow_serving () {
@@ -99,7 +101,7 @@ start_tensorflow_serving () {
         --model_name=$PIPELINE_MODEL_NAME --model_base_path=$PIPELINE_MODEL_PATH/versions \
         --batching_parameters_file=/root/config/tfserving/batching_config.txt \
         --enable_batching=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
-        --file_system_poll_wait_seconds=5 
+        --file_system_poll_wait_seconds=5
     echo ""
     echo "...TensorFlow Serving Started!"
     echo ""
@@ -110,31 +112,33 @@ start_tensorboard() {
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIPELINE_TENSORBOARD_LOGGER=$PIPELINE_TENSORBOARD_LOGGER"
     echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
     echo ""
     echo "Starting TensorBoard..."
     echo ""
     source activate $PIPELINE_CONDA_ENV_NAME
-    tensorboard --reload_interval=30 --logdir=$TENSORBOARD_LOGDIR 
+    tensorboard --reload_interval=30 --logdir=$TENSORBOARD_LOGDIR
     echo ""
     echo "...TensorBoard Started!"
     echo ""
 }
 
 start_websocket_kafka_log_stream() {
+    # TODO:  Log relevant stuff
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
     echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
     echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
-    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
-    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
+    echo "PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH=$PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH"
+    echo "PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT=$PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT"
+    echo "PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=$PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL"
     echo ""
     echo "Starting WebSocket Kafka Log Stream Server..."
     echo ""
     source activate $PIPELINE_CONDA_ENV_NAME
     # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-    python src/main/python/kafka/ws_kafka_topic_stream.py 
+    python $PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH/ws_kafka_topic_stream.py --PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT=$PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT --PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=$PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL
     echo ""
     echo "...Server Started!"
     echo ""
@@ -196,9 +200,9 @@ echo ""
   [ -s $PIPELINE_MODEL_PATH/versions ] \
     && start_tensorflow_serving &
 
-  start_model_serving_python &
+#  start_model_serving_python &
 
-  start_websocket_kafka_log_stream &
+#  start_websocket_kafka_log_stream &
 #fi;
 
 #if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||

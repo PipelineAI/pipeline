@@ -10,9 +10,7 @@ import tornado.httpserver
 import importlib.util
 import tarfile
 import subprocess
-#import cloudpickle as pickle
 from tornado.options import define, options
-#from prometheus_client import CollectorRegistry, generate_latest, start_http_server, Summary, Counter, Histogram, Gauge
 import json
 
 
@@ -39,28 +37,6 @@ TORNADO_APPLICATION_LOGGER.setLevel(logging.ERROR)
 
 TORNADO_GENERAL_LOGGER = logging.getLogger('tornado.general')
 TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
-
-class Application(tornado.web.Application):
-    def __init__(self):
-        handlers = [
-            (r'/healthz', HealthzHandler),
-
-            # url: /api/v1/model/drop/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
-            (r'/api/v1/model/drop/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
-             ModelDropPython3Handler),
-        ]
-        settings = dict(
-            drop_path=options.PIPELINE_DROP_PATH,
-            model_server_port=options.PIPELINE_DROP_SERVER_PORT,
-            request_timeout=120,
-            debug=True,
-            autoescape=None,
-        )
-        tornado.web.Application.__init__(self, handlers, **settings)
-
-    def fallback(self):
-        LOGGER.warn('Model Server Application fallback: {0}'.format(self))
-        return 'fallback!'
 
 
 class HealthzHandler(tornado.web.RequestHandler):
@@ -94,7 +70,8 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
         model_file_source_drop_path = fileinfo['filename']
         (_, filename) = os.path.split(model_file_source_drop_path)
 
-        drop_path = self.settings['drop_path']
+        drop_path = options.PIPELINE_DROP_PATH
+            #self.settings['drop_path']
         drop_path = os.path.expandvars(drop_path)
         drop_path = os.path.expanduser(drop_path)
         drop_path = os.path.abspath(drop_path)
@@ -135,13 +112,6 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-#                cmd = 'pipeline model-deploy --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
-#                print(cmd)
-#                completed_process = subprocess.run(cmd,
-#                                                   timeout=1200,
-#                                                   shell=True,
-#                                                   stdout=subprocess.PIPE)
-
                 cmd = 'pipeline model-yaml --model-type={0} --model-name={1} --model-tag={2} --template-path=./drop/templates'.format(model_type, model_name, model_version)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
@@ -174,6 +144,23 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
                 LOGGER.info('Removing drop {0} from {1}: complete'.format(filename, drop_path))
                 os.remove(drop_path_filename)
                 LOGGER.info('Removing drop {0} into {1}: complete'.format(filename, drop_path))
+
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r'/healthz', HealthzHandler),
+
+            # url: /api/v1/model/drop/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
+            (r'/api/v1/model/drop/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+             ModelDropPython3Handler),
+        ]
+        tornado.web.Application.__init__(self, handlers,) 
+
+    def fallback(self):
+        LOGGER.warn('Model Server Application fallback: {0}'.format(self))
+        return 'fallback!'
+
 
 def main():
     try:

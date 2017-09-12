@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.60"
+__version__ = "0.61"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -100,7 +100,7 @@ class PipelineCli(object):
                    model_chip='cpu',
                    template_path='./templates/',
                    worker_memory_limit='2G',
-                   worker_cpu_limit='4000m',
+                   worker_cpu_limit='2000m',
                    ps_replicas='2',
                    worker_replicas='3'):
 
@@ -288,7 +288,7 @@ class PipelineCli(object):
                    model_chip='cpu',
                    template_path='./templates/',
                    memory_limit='2G',
-                   cpu_limit='4000m',
+                   cpu_limit='2000m',
                    target_cpu_util_percentage='75',
                    min_replicas='1',
                    max_replicas='2'):

@@ -12,22 +12,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/user.css">
+    <link rel="stylesheet" href="../assets/css/Drag--Drop-Upload-Form.css">
     <link rel="stylesheet" href="../assets/css/dropzone.css">
     <link rel="stylesheet" href="../assets/css/Features-Clean.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
     <link rel="stylesheet" href="../assets/css/Newsletter-Subscription-Form.css">
     <link rel="stylesheet" href="../assets/css/Team-Boxed.css">
-<!-- Start Google Analytics -->
-<script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-78551725-1', 'auto');
-      ga('require', 'linkid');
-      ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
 </head>
 
 <body style="padding:0px;">
@@ -58,18 +48,48 @@
                     <div class="box"><img class="img-rounded" src="../assets/img/scikit-logo-277x150.png">
                         <h3 class="name">Scikit-Learn</h3>
                         <p class="title">Tried and True</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/scikit/linear" id="drop-scikit-linear">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img src="../assets/img/spark-logo-254x163.png">
                         <h3 class="name">Spark ML</h3>
                         <p class="title">Dazed and Confused</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/spark/airbnb" id="drop-spark-airbnb">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-rounded" src="../assets/img/tensorflow-logo-202x168.png" style="height:100px;">
                         <h3 class="name">TensorFlow</h3>
                         <p class="title">Shiny and New</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/tensorflow/mnist" id="drop-tensorflow-mnist">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
             </div>
@@ -78,45 +98,72 @@
                     <div class="box"><img class="img-rounded" src="../assets/img/r-logo-280x212.png" style="height:100px;">
                         <h3 class="name">R </h3>
                         <p class="title">WTF and FML</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/r/census" id="drop-r-census">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img src="../assets/img/python.png">
                         <h3 class="name">Python</h3>
                         <p class="title">slow and Steady</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/python/zscore" id="drop-python-zscore">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-rounded" src="../assets/img/java-scala-300x154.png">
                         <h3 class="name">Java and Scala</h3>
                         <p class="title">Fast and Furious</p>
+                        <div class="wrapper">
+  <div class="drop">
+    <div class="cont">
+<!--      <i class="fa fa-cloud-upload"></i> -->
+      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/java/airbnb" id="drop-java-airbnb">
+          <input name="file" type="file" multiple />
+      </form>
+    </div>
+  </div>    
+</div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <script src="js/dropzone.js"></script>
-
-<div class="wrapper">
-    <div class="drop">
-      <div class="cont">
-        <i class="fa fa-cloud-upload"></i>
-      </div>
-        <form action="http://localhost:6969/api/v1/model/drop/scikit/linear" class="dropzone" id="deploy-model">
-           <div class="fallback">
-              <input name="file" type="file" multiple />
-           </div>
-        </form>
-   </div>
-</div>
             </div>
         </div>
     </div>
     <section style="padding:10px;">
-        <div class="embed-responsive embed-responsive-16by9" style="margin:20px;">
-            <iframe class="embed-responsive-item" src="http://hystrix.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fturbine.community.pipeline.io%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D"
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Compare Models (Response Times)</h2>
+        <div class="embed-responsive embed-responsive-16by9" style="margin:20px;height:800px;padding:0px;">
+            <iframe class="embed-responsive-item" src="http://hystrix.community.pipeline.io/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fturbine.community.pipeline.io%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D"
             allowfullscreen=""></iframe>
         </div>
     </section>
+    <section style="padding:10px;">
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Compare Models (Prediction Values)</h2></section>
+    <section style="padding:10px;">
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> View Prediction Samples</h2>
+        <div id="prediction-stream" name="prediction-stream" class="text-center">
+    <p/>
+    Waiting for Prediction Stream...
+    <p/>
+</div>
+    </section>
+    <section style="padding:10px;">
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Fix 50-50 Predictions</h2></section>
     <section class="features" style="padding:10px;">
         <div class="container">
             <div class="row icon-features" style="margin:0px 0px;">
@@ -152,10 +199,17 @@
             </div>
         </div>
     </footer>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/bs-animation.js"></script>
+    <script src="../assets/js/ga.js"></script>
     <script src="../assets/js/dropzone.js"></script>
+    <script src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
+    <script src="../assets/js/goog-report-community-conversion.js"></script>
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="../assets/js/google-ads.js"></script>
+    <script src="../assets/js/ws-kafka-topic-stream.js"></script>
+    <script src="../assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
 </body>
 

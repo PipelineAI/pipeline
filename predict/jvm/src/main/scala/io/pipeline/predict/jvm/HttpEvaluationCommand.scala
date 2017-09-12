@@ -3,7 +3,7 @@ package io.pipeline.predict.jvm
 import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.collection.JavaConverters.mapAsJavaMapConverter
 
-import org.jpmml.evaluator.Evaluator
+import org.apache.http.entity.ContentType
 
 import com.netflix.hystrix.HystrixCommand
 import com.netflix.hystrix.HystrixCommandGroupKey
@@ -15,10 +15,11 @@ import com.netflix.hystrix.HystrixThreadPoolProperties
 class HttpEvaluationCommand(modelUrl: String,
                             modelType: String,
                             modelName: String,
-                            inputs: Map[String, Any], 
-                            fallback: String, 
-                            timeout: Int, 
-                            concurrencyPoolSize: Int, 
+                            requestMethod: String,
+                            requestBody: String,
+                            fallback: String,
+                            timeout: Int,
+                            concurrencyPoolSize: Int,
                             rejectionThreshold: Int)
     extends HystrixCommand[String](
       HystrixCommand.Setter
@@ -40,24 +41,24 @@ class HttpEvaluationCommand(modelUrl: String,
     )
 {
   def run(): String = {
-    try{             
+    try{
+       // TODO:  Don't hard code RequestMethod/Post and ContentType/Json
        val results = org.apache.http.client.fluent.Request
-         .Get(modelUrl)
+         .Post(modelUrl)
+         .bodyString(requestBody, ContentType.APPLICATION_JSON)
          .execute()
          .returnContent();
-                                                                                
+
       s"""${results}"""
-    } catch { 
+    } catch {
        case e: Throwable => {
-         // System.out.println(e) 
+         // System.out.println(e)
          throw e
        }
     }
   }
 
   override def getFallback(): String = {
-    // System.out.println("PMML Evaluator is Down!  Fallback!!")
-
     s"""${fallback}"""
   }
 }

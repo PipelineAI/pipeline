@@ -1,24 +1,53 @@
 #!/usr/bin/env python3
 
+import os
+import logging
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
-from tornado.ioloop import PeriodicCallback
 import tornado.web
+from tornado.ioloop import PeriodicCallback
+from tornado.options import define, options
 from random import randint #Random generator
 from urllib.parse import urlparse
-import os
 from kafka import KafkaConsumer
 
-#Config
-port = 5959 #Websocket Port
-timeInterval= 1000 #Milliseconds
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.ERROR)
+
+CH = logging.StreamHandler()
+CH.setLevel(logging.ERROR)
+LOGGER.addHandler(CH)
+
+TORNADO_ACCESS_LOGGER = logging.getLogger('tornado.access')
+TORNADO_ACCESS_LOGGER.setLevel(logging.ERROR)
+
+TORNADO_APPLICATION_LOGGER = logging.getLogger('tornado.application')
+TORNADO_APPLICATION_LOGGER.setLevel(logging.ERROR)
+
+TORNADO_GENERAL_LOGGER = logging.getLogger('tornado.general')
+TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
+
+define('PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT', default='', help='tornado http websocket kafka server listen port', type=int)
+define('PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL', default='', help='interval to update from kafka topic', type=int)
+
+class HealthzHandler(tornado.web.RequestHandler):
+
+    @tornado.web.asynchronous
+    def get(self):
+        try:
+            self.set_status(200, None)
+            self.add_header('Content-Type', 'text/plain')
+            self.finish()
+        except Exception as e:
+            logging.exception('HealthzHandler.get: Exception {0}'.format(str(e)))
+
 
 class WSHandler(tornado.websocket.WebSocketHandler):
     #check_origin fixes an error 403 with Tornado
     #http://stackoverflow.com/questions/24851207/tornado-403-get-warning-when-opening-websocket
     def check_origin(self, origin):
-        CORS_ORIGINS = ['localhost']
+        CORS_ORIGINS = ['127.0.0.1', 'localhost', 'pipeline.ai', 'community.pipeline.ai']
         parsed_origin = urlparse(origin)
         # parsed_origin.netloc.lower() gives localhost:3333
         return parsed_origin.hostname in CORS_ORIGINS
@@ -28,7 +57,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         # To consume latest messages and auto-commit offsets
         self.consumer = KafkaConsumer(topic_name, bootstrap_servers=['localhost:9092'])
 
-        self.callback = PeriodicCallback(self.send_values, timeInterval)
+        self.callback = PeriodicCallback(self.send_values, options.PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL)
         self.callback.start()
 
     def send_values(self):
@@ -49,18 +78,42 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         self.callback.stop()
 
-settings = {
-    'static_path': os.path.join(os.path.dirname(__file__), 'static'),
-}
 
-application = tornado.web.Application([
-    (r'/ws/kafka/([a-zA-Z\-0-9\.:,_]+)', WSHandler),
-    (r'/(.*)', tornado.web.StaticFileHandler,
-       dict(default_filename='index.html', path=settings['static_path'])),
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r'/ws/kafka/([a-zA-Z\-0-9\.:,_]+)', WSHandler),
+                #dict(update_interval=options.PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL)),
+            (r'/(.*)', tornado.web.StaticFileHandler,
+                dict(default_filename='index.html',
+                     path=os.path.join(os.path.dirname(__file__), 'static'))),
+            (r'/healthz', HealthzHandler),
+        ]
+        tornado.web.Application.__init__(self, handlers,)
 
-])
+    def fallback(self):
+        LOGGER.warn('Model Server Application fallback: {0}'.format(self))
+        return 'fallback!'
 
-if __name__ == "__main__":
-    http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(port)
-    tornado.ioloop.IOLoop.instance().start()
+
+def main():
+    try:
+        tornado.options.parse_command_line()
+        if not options.PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT or not options.PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL:
+            LOGGER.error('--PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT and --PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL must be set')
+            return
+
+        LOGGER.info('WebSocket Kafka Server main: begin start tornado-based http server port {0}'.format(options.PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT))
+        http_server = tornado.httpserver.HTTPServer(Application())
+        http_server.listen(options.PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT)
+        LOGGER.info('WebSocket Kafka Server main: complete start tornado-based http server port {0}'.format(options.PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL))
+
+        tornado.ioloop.IOLoop.current().start()
+        print('...Python-based WebSocket Kafka Server Started!')
+    except Exception as e:
+        LOGGER.info('ws_kafka_topic_stream.main: Exception {0}'.format(str(e)))
+        logging.exception('ws_kafka_topic_stream.main: Exception {0}'.format(str(e)))
+
+
+if __name__ == '__main__':
+    main()

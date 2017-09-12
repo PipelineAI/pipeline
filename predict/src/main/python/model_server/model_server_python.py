@@ -7,7 +7,6 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.httpserver
-import cloudpickle as pickle
 from tornado.options import define, options
 from pipeline_monitors import prometheus_monitor as monitor
 from pipeline_monitors import prometheus_monitor_registry as monitor_registry
@@ -46,34 +45,6 @@ TORNADO_APPLICATION_LOGGER.setLevel(logging.ERROR)
 
 TORNADO_GENERAL_LOGGER = logging.getLogger('tornado.general')
 TORNADO_GENERAL_LOGGER.setLevel(logging.ERROR)
-
-class Application(tornado.web.Application):
-    def __init__(self):
-        settings = dict(
-            model_type=options.PIPELINE_MODEL_TYPE,
-            model_name=options.PIPELINE_MODEL_NAME,
-            model_path=options.PIPELINE_MODEL_PATH,
-            model_server_port=options.PIPELINE_MODEL_SERVER_PORT,
-            model_server_prometheus_server_port=options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT,
-            model_server_tensorflow_serving_host='127.0.0.1',
-            model_server_tensorflow_serving_port=options.PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT,
-            request_timeout=120,
-            debug=True,
-            autoescape=None,
-        )
-        handlers = [
-            (r'/healthz', HealthzHandler),
-            (r'/metrics', MetricsHandler),
-            (r'/environment', EnvironmentHandler),
-            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
-            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
-             ModelPredictPython3Handler, dict(model_path=settings['model_path'])),
-        ]
-        tornado.web.Application.__init__(self, handlers, **settings)
-
-    def fallback(self):
-        _logger.warn('Model Server Application fallback: {0}'.format(self))
-        return 'fallback!'
 
 
 class HealthzHandler(tornado.web.RequestHandler):
@@ -159,36 +130,48 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 
     def get_model_assets(self, model_key_list):
         model_key = '/'.join(model_key_list)
-        if model_key in ModelPredictPython3Handler._registry:
-            model = ModelPredictPython3Handler._registry[model_key]
-        else:
+        if model_key not in ModelPredictPython3Handler._registry:
             _logger.info('Model Server get_model_assets if: begin')
             _logger.info('Installing model bundle and updating environment: begin')
             try:
-                artifact_name = 'pipeline_predict'
-                spec = importlib.util.spec_from_file_location(artifact_name, '%s/pipeline_predict.py' % self.model_path) 
-                model = importlib.util.module_from_spec(spec)
-                # Note:  This will initialize all global vars inside of model
-                spec.loader.exec_module(model)
-
-                ModelPredictPython3Handler._registry[model_key] = model 
+                # Custom Import from $PIPELINE_MODEL_PATH/pipeline_predict.py
+                import pipeline_predict
+                ModelPredictPython3Handler._registry[model_key] = pipeline_predict
                 _logger.info('Installing model bundle and updating environment: complete')
             except Exception as e:
                 message = 'ModelPredictPython3Handler.get_model_assets: Exception - {0} Error {1}'.format(model_key, str(e))
                 _logger.info(message)
                 _logger.exception(message)
-                model = None
-        return model 
+                ModelPredictPython3Handler._registry[model_key] = None
+
+        return ModelPredictPython3Handler._registry[model_key]
+
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r'/healthz', HealthzHandler),
+            (r'/metrics', MetricsHandler),
+            (r'/environment', EnvironmentHandler),
+            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
+            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+             ModelPredictPython3Handler, dict(model_path=options.PIPELINE_MODEL_PATH)),
+        ]
+        tornado.web.Application.__init__(self, handlers)
+
+    def fallback(self):
+        _logger.warn('Model Server Application fallback: {0}'.format(self))
+        return 'fallback!'
 
 
 def main():
     try:
         tornado.options.parse_command_line()
         if not (options.PIPELINE_MODEL_TYPE
-                and options.PIPELINE_MODEL_NAME 
+                and options.PIPELINE_MODEL_NAME
                 and options.PIPELINE_MODEL_PATH
                 and options.PIPELINE_MODEL_SERVER_PORT
-                and options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT 
+                and options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT
                 and options.PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT):
             _logger.error('--PIPELINE_MODEL_TYPE and --PIPELINE_MODEL_NAME and --PIPELINE_MODEL_PATH \
                           --PIPELINE_MODEL_SERVER_PORT and --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT and \
@@ -200,10 +183,10 @@ def main():
         http_server.listen(options.PIPELINE_MODEL_SERVER_PORT)
         _logger.info('Model Server main: complete start tornado-based http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PORT))
 
-        _logger.info('Prometheus Server main: begin start prometheus http server port {0}'.format(
-            options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
-        start_http_server(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT)
-        _logger.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
+#        _logger.info('Prometheus Server main: begin start prometheus http server port {0}'.format(
+#            options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
+#        start_http_server(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT)
+#        _logger.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
 
         tornado.ioloop.IOLoop.current().start()
         _logger.info('...Python-based Model Server Started!')

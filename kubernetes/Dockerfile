@@ -142,4 +142,4 @@ RUN \
   apt-get install -y docker-ce
 
 RUN \
-  pip install pipeline-ai-cli==0.58
+  pip install pipeline-ai-cli==0.60

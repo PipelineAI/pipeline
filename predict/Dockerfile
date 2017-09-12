@@ -142,8 +142,14 @@ RUN \
   && make \
   && make install
 
-RUN \
-  pip install --upgrade confluent-kafka
+ENV \
+  PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH=/root/src/main/python/kafka
+
+ENV \
+  PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT=5959
+
+ENV \
+  PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=1000
 
 # Must run ths or you will see the following error:
 #   ImportError: librdkafka.so.1: cannot open shared object file: No such file or directory
@@ -159,6 +165,7 @@ ENV \
 # Note:  Port 9040 is used in 2 separate contexts:
 #        1) separate http server for prometheus running within the python-based model server
 #        2) the same port as the main JVM-based model server
+# Note:  This is only relevant to the JVM-based model server for now
 ENV \
   PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=9040
 
@@ -241,7 +248,7 @@ ENV \
 
 COPY $model_path $PIPELINE_MODEL_PATH
 
-# Docker in Docker
+# TODO:  This is only required for Drop
 COPY / drop/
 
 ENV \

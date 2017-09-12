@@ -40,8 +40,8 @@ spec:
             cpu: {{PIPELINE_CPU_LIMIT}}
             memory: {{PIPELINE_MEMORY_LIMIT}}
           requests:
-            cpu: 100m
-            memory: 100Mi 
+            cpu: 1000m
+            memory: 1000Mi 
         imagePullPolicy: "Always"
         env:
         - name: PIPELINE_MODEL_TYPE
@@ -56,12 +56,27 @@ spec:
         - containerPort: 6969
         - containerPort: 9876
         - containerPort: 9000
-        - containerPort: 9001
         - containerPort: 9040
         - containerPort: 9090
         - containerPort: 3000
+        - containerPort: 9092
+        - containerPort: 8082
+        - containerPort: 8081
+        - containerPort: 2181
+        - containerPort: 5959
+        - containerPort: 6006
         - containerPort: 6333
-      tolerations: 
+        - containerPort: 9877
+        volumeMounts:
+          - name: dockersocket
+            mountPath: /var/run/docker.sock
+        securityContext:
+          privileged: true
+      volumes:
+        - hostPath:
+            path: /var/run/docker.sock
+          name: dockersocket
+      tolerations:
         - key: "node.alpha.kubernetes.io/notReady"
           operator: "Exists"
           effect: "NoExecute"

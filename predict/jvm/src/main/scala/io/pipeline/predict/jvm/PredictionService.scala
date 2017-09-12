@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.multipart.MultipartFile
 import org.xml.sax.InputSource
 
@@ -39,7 +40,6 @@ import io.prometheus.client.spring.boot.EnablePrometheusEndpoint
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
-import org.springframework.web.bind.annotation.RequestMethod
 import java.nio.file.StandardCopyOption
 import java.nio.file.Path
 
@@ -63,29 +63,26 @@ class PredictionService {
 
   val responseHeaders = new HttpHeaders();
   
-  @RequestMapping(path=Array("/api/v1/model/predict/{httpProtocol}/{httpHost}/{httpPort}/{modelType}/{modelName}"),
+  @RequestMapping(path=Array("/api/v1/model/predict/{httpProtocol}/{httpRequestMethod}/{httpHost}/{httpPort}/{modelType}/{modelName}"),
                   method=Array(RequestMethod.POST),
                   produces=Array("application/json; charset=UTF-8"))
-  def predictPython(@PathVariable("httpProtocol") httpProtocol: String,
-                    @PathVariable("httpHost") httpHost: String,
-                    @PathVariable("httpPort") httpPort: String,
-                    @PathVariable("modelType") modelType: String,
-                    @PathVariable("modelName") modelName: String, 
-                    @RequestBody inputJson: String): String = {
+  def predictHttp(@PathVariable("httpProtocol") httpProtocol: String,
+                  @PathVariable("httpRequestMethod") httpRequestMethod: String,
+                  @PathVariable("httpHost") httpHost: String,
+                  @PathVariable("httpPort") httpPort: String,
+                  @PathVariable("modelType") modelType: String,
+                  @PathVariable("modelName") modelName: String,
+                  @RequestBody httpRequestBody: String): String = {
     try {
-      val parsedInputOption = JSON.parseFull(inputJson)
-      val inputs: Map[String, Any] = parsedInputOption match {
-        case Some(parsedInput) => parsedInput.asInstanceOf[Map[String, Any]]
-        case None => Map[String, Any]() 
-      }
-      
-      val results = new HttpEvaluationCommand(s"""${httpProtocol}://${httpHost}:${httpPort}/${modelType}/${modelName}""", 
-                                              modelType, 
-                                              modelName, 
-                                              inputs, 
-                                              "\"fallback\"", 
-                                              100, 
-                                              20, 
+      // Remove hard-coded POST
+      val results = new HttpEvaluationCommand(s"""${httpProtocol}://${httpHost}:${httpPort}/api/v1/model/predict/${modelType}/${modelName}""",
+                                              modelType,
+                                              modelName,
+                                              httpRequestMethod,
+                                              httpRequestBody,
+                                              "\"fallback\"",
+                                              5000,
+                                              20,
                                               10).execute()
 
       s"""{"outputs":${results}}"""
@@ -94,7 +91,7 @@ class PredictionService {
          throw e
        }
     }
-  }  
+  }
 
 /*
     curl -i -X POST -v -H "Content-Type: application/json" \
