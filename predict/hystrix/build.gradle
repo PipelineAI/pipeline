@@ -26,7 +26,7 @@ apply plugin: 'nebula.javadoc-jar'
 
 // QA plugins
 apply plugin: 'pmd'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 apply plugin: 'build-dashboard'
 
 group 'com.github.kennedyoliveira'

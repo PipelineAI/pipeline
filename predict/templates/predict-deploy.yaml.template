@@ -67,6 +67,7 @@ spec:
         - containerPort: 6006
         - containerPort: 6333
         - containerPort: 9877
+        - containerPort: 7979
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock

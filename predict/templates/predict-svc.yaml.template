@@ -51,6 +51,9 @@ spec:
 #  - name: drop-server
 #    port: 9877
 #    targetPort: 9877
+  - name: hystrix-dashboard
+    port: 7979
+    targetPort: 7979
   selector:
     app: predict-{{PIPELINE_MODEL_TYPE}}-{{PIPELINE_MODEL_NAME}}-{{PIPELINE_MODEL_CHIP}}-{{PIPELINE_MODEL_TAG}}
     hystrix.enabled: "true"
