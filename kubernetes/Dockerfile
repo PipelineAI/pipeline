@@ -113,7 +113,7 @@ RUN \
   && mv linux-amd64/helm /usr/local/bin/helm \
   && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz
 
-ENV MINIKUBE_VERSION=0.22.0
+ENV MINIKUBE_VERSION=0.22.1
 
 RUN \
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/v${MINIKUBE_VERSION}/minikube-linux-amd64 \
