@@ -1,0 +1,8 @@
+<FindBugsFilter>
+    <!-- Ignoring this report because is a false positive, i need to ignore the exception because i'm closing a client that can already be closed. -->
+    <Match>
+        <Class name="com.github.kennedyoliveira.hystrix.contrib.standalone.dashboard.HystrixDashboardProxyConnectionHandler"/>
+        <Method name="closeQuietlyHttpClient"/>
+        <Bug pattern="DE_MIGHT_IGNORE"/>
+    </Match>
+</FindBugsFilter>

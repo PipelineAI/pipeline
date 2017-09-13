@@ -208,7 +208,16 @@ RUN \
   && sh get-docker.sh
 
 RUN \
-  pip install pipeline-ai-cli==0.60
+  pip install pipeline-ai-cli==0.61
+
+COPY hystrix/ hystrix/
+
+RUN \
+  cd hystrix/ \
+  && ./gradlew fatJar
+
+ENV \
+  HYSTRIX_DASHBOARD_PORT=7979
 
 COPY html/ /var/www/html/
 COPY run run
@@ -248,7 +257,7 @@ ENV \
 
 COPY $model_path $PIPELINE_MODEL_PATH
 
-# TODO:  This is only required for Drop
+# TODO:  This is only required for Drop because Drop builds new models upon upload
 COPY / drop/
 
 ENV \
@@ -329,6 +338,8 @@ EXPOSE \
   # TensorFlow Training UI (Guild) \
   6333 \
   # Drop Server \
-  9877 
+  9877 \
+  # Hystrix Dashboard \
+  7979
 
 CMD ["supervise", "."]

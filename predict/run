@@ -85,6 +85,26 @@ start_model_serving_jvm () {
         "runMain io.pipeline.predict.jvm.PredictionServiceMain"
 }
 
+start_hystrix_dashboard () {
+    # TODO:  Log Relevant Stuff
+    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
+    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
+    echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
+    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+    echo "PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT"
+    echo "PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT"
+
+    export JAVA_MAX_MEM_RATIO=85
+    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    echo ""
+    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
+    echo ""
+    echo "Starting JVM-based Dashboard Server..."
+    echo ""
+
+    java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -DserverPort=$HYSTRIX_DASHBOARD_PORT -jar /root/hystrix/build/libs/standalone-hystrix-dashboard-all.jar
+}
+
 start_tensorflow_serving () {
     echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
     echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
@@ -138,7 +158,7 @@ start_websocket_kafka_log_stream() {
     echo ""
     source activate $PIPELINE_CONDA_ENV_NAME
     # Start Python, WebSocket, Tornado--based Kafka Log Stream Server
-    python $PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH/ws_kafka_topic_stream.py --PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT=$PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT --PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=$PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL
+    $PIPELINE_WEBSOCKET_KAFKA_SERVER_PATH/ws_kafka_topic_stream.py --PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT=$PIPELINE_WEBSOCKET_KAFKA_SERVER_PORT --PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=$PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL
     echo ""
     echo "...Server Started!"
     echo ""
@@ -204,6 +224,8 @@ echo ""
 
 #  start_websocket_kafka_log_stream &
 #fi;
+
+  start_hystrix_dashboard &
 
 #if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||
 #   [[ $PIPELINE_MODEL_TYPE == "pmml" ]] ||
