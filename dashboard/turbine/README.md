@@ -8,20 +8,12 @@ For example, Netflix uses [Hystrix](https://github.com/Netflix/Hystrix/wiki) whi
 
 Here is a snapshot of the dashboard being used to monitor several systems across the company.
 
-![Hytrix Dashboard](https://raw.githubusercontent.com/fluxcapacitor/pipeline/master/dashboard.ml/turbine/NetflixDash.jpg)
+![Hytrix Dashboard](https://raw.githubusercontent.com/fluxcapacitor/pipeline/master/dashboard/turbine/NetflixDash.jpg)
 
 User Guide
 ==============================
 
 turbine-server can be used to monitor Hystrix circuit breakers for applications running inside Kubernetes pods.
-
-Execute the following `kubectl` command to deploy this turbine-server docker image as a Kubernetes pod
-```
-echo '...Dashboard - Turbine...'
-kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/master/dashboard.ml/turbine-rc.yaml
-kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/master/dashboard.ml/turbine-svc.yaml
-kubectl describe svc turbine
-```
 
 
 Developer Guide
