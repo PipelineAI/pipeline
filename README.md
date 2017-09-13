@@ -1,6 +1,7 @@
 ### Click [HERE](http://pipeline.ai) for PipelineAI Home!
 
 ![PipelineAI](http://pipeline.ai/img/logo/pipelineai-logo-250x214.png) 
+![Docker + ML + AI](http://pipeline.ai/img/docker-gobbles-ml.png)
 
 ### PipelineAI Features
 ![PipelineAI Features](http://pipeline.ai/img/pipelineai-features.png) 
