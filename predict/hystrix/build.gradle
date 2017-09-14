@@ -1,218 +1,56 @@
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+    }
     dependencies {
-        classpath 'com.netflix.nebula:nebula-publishing-plugin:4.9.1'
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
     }
 }
 
 plugins {
-    id 'nebula.dependency-recommender' version '3.6.3'
-    id 'nebula.dependency-lock' version '4.3.0'
-    id 'nebula.release' version '4.1.0'
-    id 'nebula.contacts' version '3.0.1'
-    id 'nebula.info' version '3.2.1'
-    id 'nebula.nebula-bintray' version '3.5.0'
-    id 'nebula.provided-base' version '3.1.0'
-    id "org.standardout.versioneye" version '1.4.0'
+    id 'nebula.netflixoss' version '3.4.0'
+    id 'me.champeau.gradle.jmh' version '0.3.1'
+    id 'net.saliman.cobertura' version '2.2.8'
 }
-
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'nebula.maven-publish'
-apply plugin: 'nebula.nebula-bintray-publishing'
-apply plugin: 'nebula.info'
-apply plugin: 'nebula.source-jar'
-apply plugin: 'nebula.javadoc-jar'
-
-// QA plugins
-apply plugin: 'pmd'
-//apply plugin: 'findbugs'
-apply plugin: 'build-dashboard'
-
-group 'com.github.kennedyoliveira'
-description = 'Standalone Hystrix-Dashboard implementation.'
-
-contacts {
-    'kennedy.oliveira@outlook.com' {
-        moniker 'Kennedy Oliveira'
-        github 'kennedyoliveira'
-        roles 'owner', 'developer', 'notify'
-    }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
-
-// for the application plugin
-mainClassName = 'com.github.kennedyoliveira.hystrix.contrib.standalone.dashboard.HystrixDashboardLauncher'
 
 ext {
-    mainVerticleName = 'com.github.kennedyoliveira.hystrix.contrib.standalone.dashboard.HystrixDashboardVerticle'
+    githubProjectName = rootProject.name
 }
 
-distributions {
-    main {
-        contents {
-            exclude '**/*lombok*'
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    apply plugin: 'net.saliman.cobertura'
+}
+
+subprojects {
+    apply plugin: 'nebula.netflixoss'
+    apply plugin: 'java'
+    apply plugin: 'nebula.provided-base'
+	apply plugin: 'nebula.compile-api'
+	
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+
+
+    group = "com.netflix.${githubProjectName}"
+
+    eclipse {
+        classpath {
+            // include 'provided' dependencies on the classpath
+            plusConfigurations += [configurations.provided]
+            downloadSources = true
+            downloadJavadoc = true
         }
     }
-}
 
-repositories {
-    mavenCentral()
-}
-
-def recomendationsFile = rootProject.file('dependencies-version.properties')
-
-dependencyRecommendations {
-    propertiesFile file: recomendationsFile
-}
-
-configurations {
-    hystrixDashboard
-}
-
-dependencies {
-    hystrixDashboard('com.netflix.hystrix:hystrix-dashboard') {
-        transitive = false
-    }
-
-    provided group: 'org.projectlombok', name: 'lombok'
-
-    compile(group: 'io.vertx', name: 'vertx-web') {
-        // won't use it
-        exclude module: 'vertx-auth-common'
-    }
-
-    compile group: 'org.slf4j', name: 'slf4j-api'
-    compile group: 'ch.qos.logback', name: 'logback-classic'
-
-    testCompile group: 'junit', name: 'junit'
-    testCompile group: 'io.vertx', name: 'vertx-unit'
-    testCompile group: 'com.netflix.hystrix', name: 'hystrix-core'
-    testCompile group: 'com.github.kennedyoliveira', name: 'hystrix-vertx-metrics-stream'
-    testCompile group: 'org.mockito', name: 'mockito-core'
-    testCompile group: 'com.github.stefanbirkner', name: 'system-rules'
-}
-
-findbugs {
-    excludeFilter = file("$rootProject.projectDir/findbugs-exclusions.xml")
-}
-
-pmd {
-    toolVersion = '5.5.1'
-}
-
-// qa plugin configuration to export html instead of xml
-tasks.withType(FindBugs) {
-    reports {
-        html.enabled = true
-        xml.enabled = false
-    }
-}
-
-tasks.withType(Pmd) {
-    reports {
-        html.enabled = true
-        xml.enabled = false
-    }
-}
-
-publishing {
-    publications {
-        nebula(MavenPublication) {
-            pom.withXml {
-                asNode().appendNode('licenses').appendNode('license').with {
-                    appendNode('name', 'MIT License')
-                    appendNode('url', 'https://opensource.org/licenses/MIT')
-                    appendNode('distribution', 'repo')
-                }
-            }
-
-            // fat jar to be downloadable from binTray and maven central
-            artifact fatJar {
-                classifier 'all'
-            }
+    idea {
+        module {
+            // include 'provided' dependencies on the classpath
+            scopes.COMPILE.plus += [configurations.provided]
         }
     }
-}
-
-bintray {
-    pkg {
-        repo = 'maven'
-        userOrg = ''
-        licenses = ['MIT']
-        websiteUrl = 'https://github.com/kennedyoliveira/standalone-hystrix-dashboard'
-        issueTrackerUrl = 'https://github.com/kennedyoliveira/standalone-hystrix-dashboard/issues'
-        vcsUrl = 'https://github.com/kennedyoliveira/standalone-hystrix-dashboard.git'
-        labels = ['hyxtrix-dashboard', 'vertx3', 'standalone']
-        publicDownloadNumbers = true
-        version {
-            gpg {
-                if (project.hasProperty('bintraySignPass'))
-                    passphrase = project.property('bintraySignPass')
-            }
-            mavenCentralSync {
-                sync = false
-            }
-        }
-    }
-}
-
-jar {
-    manifest {
-        attributes('Implementation-Title': project.name,
-                'Implementation-Version': project.version,
-                'Main-Class': project.property('mainClassName'),
-                'Main-Verticle': project.property('mainVerticleName'))
-    }
-}
-
-/**
- * Extracts the hystrix-dashboard webapp content, removing WEB-INF and META-INF since it won't be used
- */
-task extractHystrixDashboard(type: Copy) {
-    from(configurations.hystrixDashboard.collect { zipTree(it).asFileTree }) {
-        // remove because it won't be used
-        exclude { it.relativePath.pathString.startsWith('WEB-INF') }
-        exclude { it.relativePath.pathString.startsWith('META-INF') }
-    }
-
-    into "$buildDir/resources/main/webroot"
-}
-
-tasks.processResources.dependsOn extractHystrixDashboard
-
-task('runDashboard', dependsOn: ['classes'], type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-
-    main = project.property('mainClassName')
-
-    jvmArgs = ['-Xmx2048m']
-}
-
-//create a single Jar with all dependencies
-task fatJar(type: Jar) {
-    manifest {
-        attributes('Implementation-Title': project.name,
-                'Implementation-Version': project.version,
-                'Main-Class': project.property('mainClassName'),
-                'Main-Verticle': project.property('mainVerticleName'))
-    }
-    baseName = project.name
-    from({ configurations.compile.collect { it.isDirectory() ? it : zipTree(it).asFileTree } }) {
-        // exclude { println it.relativePath }
-        exclude {
-            def path = it.relativePath.pathString
-            path.startsWith('io/vertx/groovy') || // groovy not using
-                    path.startsWith('io/vertx/groovy') || // groovy not using
-                    path.startsWith('io/vertx/rxjava') || // rx java not using
-                    path.startsWith('vertx-web-js') || // js not using
-                    path.startsWith('vertx-java') || // java templates not using
-                    path.startsWith('vertx-web') || // ruby classes not using
-                    path.contains("lombok") // lombok is provided
-        }
-    }
-    with jar
 }

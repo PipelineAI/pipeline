@@ -102,7 +102,8 @@ start_hystrix_dashboard () {
     echo "Starting JVM-based Dashboard Server..."
     echo ""
 
-    java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -DserverPort=$HYSTRIX_DASHBOARD_PORT -jar /root/hystrix/build/libs/standalone-hystrix-dashboard-all.jar
+    #java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -DserverPort=$HYSTRIX_DASHBOARD_PORT -jar /root/hystrix/build/libs/standalone-hystrix-dashboard-all.jar
+    cd /root/Hystrix/hystrix-dashboard/ && ../gradlew appRun
 }
 
 start_tensorflow_serving () {
@@ -225,13 +226,13 @@ echo ""
 #  start_websocket_kafka_log_stream &
 #fi;
 
-  start_hystrix_dashboard &
-
 #if [[ $PIPELINE_MODEL_TYPE == "spark" ]] ||
 #   [[ $PIPELINE_MODEL_TYPE == "pmml" ]] ||
 #   [[ $PIPELINE_MODEL_TYPE == "java" ]] ||
 #   [[ $PIPELINE_MODEL_TYPE == "xgboost" ]] ||
 #   [[ $PIPELINE_MODEL_TYPE == "r" ]]; then
 
-  start_model_serving_jvm
+  start_model_serving_jvm &
 #fi;
+
+  start_hystrix_dashboard

@@ -208,16 +208,15 @@ RUN \
   && sh get-docker.sh
 
 RUN \
-  pip install pipeline-ai-cli==0.61
+  pip install pipeline-ai-cli==0.62
+
+ENV \
+  HYSTRIX_DASHBOARD_PORT=7979
 
 COPY hystrix/ hystrix/
 
 RUN \
-  cd hystrix/ \
-  && ./gradlew fatJar
-
-ENV \
-  HYSTRIX_DASHBOARD_PORT=7979
+  cd hystrix/hystrix-dashboard && ../gradlew build -x test
 
 COPY html/ /var/www/html/
 COPY run run
