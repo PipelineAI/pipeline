@@ -30,26 +30,6 @@ RUN \
   && ln -s /bin/bash /bin/sh
 
 RUN \
-  echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
-  && apt-get update \
-  && apt-get install -y sbt
-
-# Install Anaconda with Python3
-RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
-    echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
-    bash /tmp/miniconda.sh -f -b -p /opt/conda && \
-    /opt/conda/bin/conda install --yes python=3.6 sqlalchemy tornado jinja2 traitlets requests pip && \
-    /opt/conda/bin/pip install --upgrade pip && \
-    rm /tmp/miniconda.sh
-
-ENV \
-  PATH=/opt/conda/bin:$PATH
-
-RUN \
-  pip install --upgrade pip
-
-RUN \
   mkdir -p /root/logs
 
 ENV \
@@ -64,17 +44,19 @@ COPY hystrix-contrib/ hystrix-contrib/
 COPY hystrix-core/ hystrix-core/
 COPY hystrix-dashboard/ hystrix-dashboard/
 COPY hystrix-serialization/ hystrix-serialization/
+COPY hystrix-examples-webapp/ hystrix-examples-webapp/
+COPY hystrix-examples/ hystrix-examples/
 COPY run run
 COPY settings.gradle settings.gradle
 COPY sysutils/ sysutils/
 COPY LICENSE-2.0.txt LICENSE-2.0.txt
-COPY OSSMETADATA/ OSSMETADATA/
+COPY OSSMETADATA OSSMETADATA
 
 ENV \
   HYSTRIX_DASHBOARD_PORT=7979
 
 RUN \
-  cd hystrix-dashboard && ../gradlew build -x test
+  cd hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
 
 EXPOSE \
   # Hystrix Dashboard \
