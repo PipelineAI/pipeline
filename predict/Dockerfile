@@ -113,7 +113,7 @@ ENV \
 COPY sysutils/ sysutils/
 
 RUN \
-  sbt cleanFiles
+  sbt -mem 1500 cleanFiles
 
 COPY jvm/ jvm/
 
@@ -211,11 +211,11 @@ ENV \
 
 COPY dashboard/ dashboard/
 
-RUN \
-  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
+#RUN \
+#  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
 
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
+#RUN \
+#  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
 
 COPY html/ /var/www/html/
 COPY run run
@@ -311,6 +311,12 @@ RUN \
 
 RUN \
   pip install pipeline-ai-cli==0.66
+
+RUN \
+  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
+
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
