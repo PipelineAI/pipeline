@@ -4,9 +4,6 @@ metadata:
   name: dashboard-hystrix
   labels:
     app: dashboard-hystrix 
-#    dns: route53
-#  annotations:
-#    domainName: "hystrix.your.domain.com"
 spec:
   type: LoadBalancer
   ports:
