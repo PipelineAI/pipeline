@@ -33,6 +33,11 @@ RUN \
   && chmod a+x kubectl \
   && mv kubectl /usr/local/bin/kubectl
 
+RUN \
+  wget https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubefed \
+  && chmod a+x kubefed \
+  && mv kubefed /usr/local/bin/kubefed
+
 #RUN \
 #  echo -en "\n" | $KUBERNETES_HOME/cluster/get-kube-binaries.sh
 
@@ -142,4 +147,4 @@ RUN \
   apt-get install -y docker-ce
 
 RUN \
-  pip install pipeline-ai-cli==0.60
+  pip install pipeline-ai-cli==0.66
