@@ -1,6 +1,7 @@
 #!/bin/bash
 
 start_hystrix_dashboard () {
+    source sysutils/container-limits.sh
     export JAVA_MAX_MEM_RATIO=85
     export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
     echo ""
@@ -9,7 +10,7 @@ start_hystrix_dashboard () {
     echo "Starting JVM-based Dashboard Server..."
     echo ""
 
-    cd /root/hystrix-dashboard/ && ../gradlew appRun
+    java -jar /root/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port 7979 /root/hystrix-dashboard/build/libs/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
 }
 
 start_hystrix_dashboard

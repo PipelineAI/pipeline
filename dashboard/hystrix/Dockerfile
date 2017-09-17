@@ -49,12 +49,13 @@ COPY settings.gradle settings.gradle
 COPY sysutils/ sysutils/
 COPY LICENSE-2.0.txt LICENSE-2.0.txt
 COPY OSSMETADATA OSSMETADATA
+COPY jetty-0.4.7.RC0.jar jetty-0.4.7.RC0.jar
 
 ENV \
   HYSTRIX_DASHBOARD_PORT=7979
 
 RUN \
-  cd hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
+  cd hystrix-dashboard && ../gradlew --no-daemon buildAllProducts assemble -x test
 
 EXPOSE \
   # Hystrix Dashboard \

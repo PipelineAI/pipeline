@@ -211,11 +211,11 @@ ENV \
 
 COPY dashboard/ dashboard/
 
-#RUN \
-#  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
+RUN \
+  cd dashboard/hystrix-dashboard && ../gradlew --no-daemon buildAllProducts assemble -x test
 
-#RUN \
-#  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
 
 COPY html/ /var/www/html/
 COPY run run
@@ -258,21 +258,21 @@ ENV \
 COPY $model_path $PIPELINE_MODEL_PATH
 
 # TODO:  This is only required for Drop because Drop builds new models upon upload
-COPY / drop/
+#COPY / drop/
+
+#ENV \
+#  PIPELINE_DROP_SERVER_PATH=/root/src/main/python/drop
+
+#ENV \
+#  PIPELINE_DROP_PATH=/root/drop
+#RUN \
+#  mkdir -p $PIPELINE_DROP_PATH
+
+#ENV \
+#  PIPELINE_DROP_SERVER_PORT=9877
 
 ENV \
-  PIPELINE_DROP_SERVER_PATH=/root/src/main/python/drop
-
-ENV \
-  PIPELINE_DROP_PATH=/root/drop
-RUN \
-  mkdir -p $PIPELINE_DROP_PATH
-
-ENV \
-  PIPELINE_DROP_SERVER_PORT=9877
-
-ENV \
-  PIPELINE_CONDA_ENV_NAME=pipeline
+  PIPELINE_CONDA_ENV_NAME=pipeline-$model_type-$model_name-$model_tag
 
 COPY scripts/ scripts/
 COPY src/ src/
@@ -310,13 +310,7 @@ RUN \
 #  guild check --tests
 
 RUN \
-  pip install pipeline-ai-cli==0.66
-
-RUN \
-  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
-
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
+  pip install pipeline-ai-cli==0.70
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
