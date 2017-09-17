@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.66"
+__version__ = "0.70"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -82,13 +82,9 @@ class PipelineCli(object):
     _pipeline_api_version = 'v1' 
 
 
-    def config(self):
-        print("api_version: '%s'" % PipelineCli._pipeline_api_version)
-
-
     def version(self):
-        print(__version__)
-        self.config()
+        print('cli_version: %s' % __version__)
+        print('api_version: %s' % PipelineCli._pipeline_api_version)
 
 
     # TODO: Pull ./templates/ into this cli project
@@ -312,6 +308,8 @@ class PipelineCli(object):
                    'PIPELINE_MIN_REPLICAS': min_replicas,
                    'PIPELINE_MAX_REPLICAS': max_replicas}
 
+        rendered_filenames = []
+
         model_predict_deploy_yaml_template_path = os.path.join(template_path, PipelineCli._kube_deploy_template_registry['predict'][0][0])
 
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
@@ -319,26 +317,28 @@ class PipelineCli(object):
         rendered_filename = './%s-%s-%s-%s-deploy.yaml' % (model_type, model_name, model_chip, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
-        model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
-        print("'%s' -> '%s'." % (filename, rendered_filename))
+            model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
+            print("'%s' -> '%s'." % (filename, rendered_filename))
+            rendered_filenames += [rendered_filename]
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
         rendered_filename = './%s-%s-%s-%s-svc.yaml' % (model_type, model_name, model_chip, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
-        print("'%s' -> '%s'." % (filename, rendered_filename)) 
+            print("'%s' -> '%s'." % (filename, rendered_filename)) 
+            rendered_filenames += [rendered_filename]
 
-        model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
+#        model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
 
-        path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
-        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
-        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
-        with open(rendered_filename, 'wt') as fh:
-            fh.write(rendered) 
-        print("'%s' -> '%s'." % (filename, rendered_filename))
+#        path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
+#        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
+#        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
+#        with open(rendered_filename, 'wt') as fh:
+#            fh.write(rendered) 
+#        print("'%s' -> '%s'." % (filename, rendered_filename))
 
-        return rendered_filename
+        return rendered_filenames
 
 
     def model_shell(self,
@@ -606,13 +606,14 @@ class PipelineCli(object):
         print('kube_namespace: %s' % kube_namespace)
         print('timeout: %s' % timeout)
 
-        rendered_yaml = self.model_yaml(model_type=model_type,
-                                        model_name=model_name,
-                                        model_tag=model_tag,
-                                        model_chip=model_chip)
+        rendered_yamls = self.model_yaml(model_type=model_type,
+                                         model_name=model_name,
+                                         model_tag=model_tag,
+                                         model_chip=model_chip)
 
-        self.kube_create(yaml=rendered_yaml,
-                         kube_namespace=kube_namespace)
+        for rendered_yaml in rendered_yamls:
+            self.kube_create(yaml_path=rendered_yaml,
+                             kube_namespace=kube_namespace)
 
 
     def model_drop(self,
