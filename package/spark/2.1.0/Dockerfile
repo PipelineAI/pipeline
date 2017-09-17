@@ -23,7 +23,7 @@ ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
 ENV \
-  HADOOP_VERSION=2.7.2
+  HADOOP_VERSION=2.7.4
 
 RUN \
  wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
