@@ -44,11 +44,11 @@
         </div>
     </nav>
     <section>
-        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Experiment Rapidly</h2>
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Deploy Models Easily</h2>
         <p class="text-center"><img src="../assets/img/deploy-model-jupyter-740x510.png" width="280px"></p>
     </section>
     <section>
-        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Deploy Safely</h2>
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Experiment Safely</h2>
         <p class="text-center"><img src="../assets/img/drop-dashboard.png" width="280px"></p>
     </section>
     <div class="team-boxed">
@@ -58,46 +58,18 @@
                     <div class="box"><img class="img-rounded" src="../assets/img/scikit-logo-277x150.png" data-bs-hover-animate="shake">
                         <h3 class="name">Scikit-Learn</h3>
                         <p class="title">Tried and True</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <form action="http://drop.community.pipeline.ai/api/v1/model/drop/scikit/linear" id="drop-scikit-linear">
-      <input name="file" type="file" multiple />
-    </form>
-  </div>    
-</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item" data-aos="fade-left">
                     <div class="box"><img src="../assets/img/spark-logo-254x163.png" data-bs-hover-animate="shake">
                         <h3 class="name">Spark ML</h3>
                         <p class="title">Dazed and Confused</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <div class="cont">
-<!--      <i class="fa fa-cloud-upload"></i> -->
-      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/spark/airbnb" id="drop-spark-airbnb">
-          <input name="file" type="file" multiple />
-      </form>
-    </div>
-  </div>    
-</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item" data-aos="fade-left">
                     <div class="box"><img class="img-rounded" src="../assets/img/tensorflow-logo-202x168.png" data-bs-hover-animate="shake" style="height:100px;">
                         <h3 class="name">TensorFlow</h3>
                         <p class="title">Shiny and New</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <div class="cont">
-      <i class="fa fa-cloud-upload"></i>
-      <form action="http://predict-tensorflow-mnist-cpu-master.community.pipeline.ai/api/v1/model/drop/tensorflow/mnist" 
-            id="drop-tensorflow-mnist">
-          <input name="file" type="file" multiple />
-      </form>
-    </div>
-  </div>    
-</div>
                     </div>
                 </div>
             </div>
@@ -106,55 +78,61 @@
                     <div data-aos="fade-left" class="box"><img class="img-rounded" src="../assets/img/r-logo-280x212.png" data-bs-hover-animate="shake" style="height:100px;">
                         <h3 class="name">R </h3>
                         <p class="title">WTF and FML</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <div class="cont">
-<!--      <i class="fa fa-cloud-upload"></i> -->
-      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/r/census" id="drop-r-census">
-          <input name="file" type="file" multiple />
-      </form>
-    </div>
-  </div>    
-</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item" data-aos="fade-right">
                     <div class="box"><img src="../assets/img/python.png" width="300px" data-bs-hover-animate="shake">
                         <h3 class="name">Python</h3>
                         <p class="title">slow and Steady</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <div class="cont">
-<!--      <i class="fa fa-cloud-upload"></i> -->
-      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/python/zscore" id="drop-python-zscore">
-          <input name="file" type="file" multiple />
-      </form>
-    </div>
-  </div>    
-</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 item" data-aos="fade-right">
                     <div class="box"><img class="img-rounded" src="../assets/img/java-scala-300x154.png" data-bs-hover-animate="shake">
                         <h3 class="name">Java and Scala</h3>
                         <p class="title">Fast and Furious</p>
-                        <div class="wrapper">
-  <div class="drop">
-    <div class="cont">
-<!--      <i class="fa fa-cloud-upload"></i> -->
-      <form action="http://drop.community.pipeline.ai/api/v1/model/drop/java/airbnb" id="drop-java-airbnb">
-          <input name="file" type="file" multiple />
-      </form>
-    </div>
-  </div>    
-</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <!-- HTML heavily inspired by http://blueimp.github.io/jQuery-File-Upload/ -->
+<div class="table table-striped" class="files" id="previews">
+
+  <div id="template" class="file-row">
+    <!-- This is used as the file preview template -->
+    <div>
+        <span class="preview"><img data-dz-thumbnail /></span>
+    </div>
+    <div>
+        <p class="name" data-dz-name></p>
+        <strong class="error text-danger" data-dz-errormessage></strong>
+    </div>
+    <div>
+        <p class="size" data-dz-size></p>
+        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+        </div>
+    </div>
+    <div>
+      <button class="btn btn-primary start">
+          <i class="glyphicon glyphicon-upload"></i>
+          <span>Start</span>
+      </button>
+      <button data-dz-remove class="btn btn-warning cancel">
+          <i class="glyphicon glyphicon-ban-circle"></i>
+          <span>Cancel</span>
+      </button>
+      <button data-dz-remove class="btn btn-danger delete">
+        <i class="glyphicon glyphicon-trash"></i>
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+</div>
+    </div>
     <section style="padding:10px;">
-        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Compare Extensively</h2>
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Evaluate Models Quickly</h2>
         <p class="text-center"><img src="../assets/img/prediction-dashboard.png"></p>
         <div class="embed-responsive embed-responsive-16by9" id="hystrix-dashboard" style="margin:20px;padding:0px;height:300px;">
             <iframe class="embed-responsive-item" src="http://predict-tensorflow-mnist-cpu-master.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A9040%2Fhystrix.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D"
@@ -166,12 +144,12 @@
         </div>
     </section>
     <section style="padding:10px;">
-        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Optimize Quickly</h2>
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Scale Models Adaptively</h2>
         <p class="text-center"><img src="../assets/img/multi-armed-bandit.png"><img src="../assets/img/bandit-shift.png"></p>
     </section>
     <p class="text-center"></p>
     <section style="padding:10px;">
-        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Learn Continuously</h2>
+        <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> Train Models Continually</h2>
         <p class="text-center"><img src="../assets/img/hotdog.png"></p>
         <p class="text-center">
             <div id="prediction-stream" name="prediction-stream" class="text-center">
@@ -230,6 +208,7 @@
     <script src="../assets/js/ws-kafka-topic-stream.js"></script>
     <script src="../assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+    <script src="../assets/js/jquery-dropzone.js"></script>
 </body>
 
 </html>

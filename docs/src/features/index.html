@@ -13,14 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/user.css">
     <link rel="stylesheet" href="../assets/css/Drag--Drop-Upload-Form.css">
-    <link rel="stylesheet" href="../assets/css/dropzone.css">
     <link rel="stylesheet" href="../assets/css/Features-Clean.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
+    <link rel="stylesheet" href="../assets/css/model-dropzone.css">
     <link rel="stylesheet" href="../assets/css/Newsletter-Subscription-Form.css">
     <link rel="stylesheet" href="../assets/css/Team-Boxed.css">
-<script src="/assets/js/dropzone.js"></script>
-
 </head>
 
 <body style="padding:0px;">
@@ -46,34 +45,40 @@
     <h2 class="text-center" data-aos="fade-up"><img src="../assets/img/logo/pipelineai-split-black-258x62.png"> <strong>Features</strong></h2>
     <div class="features-clean">
         <div class="container" data-aos="fade-up">
-            <div class="intro"></div>
+            <div class="intro">
+                <p class="text-center" style="color:white;margin:0px;font-size:20px;"><a class="btn btn-primary btn-lg" role="button" href="/tour" style="font-size:12px;padding:10px;">Take the Tour</a></p>
+            </div>
             <div class="row features">
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-time icon"></i>
-                    <h3 class="name">Experiment Rapidly</h3>
-                    <p class="description">Same Runtime from Laptop to Prod<img class="img-responsive" src="../assets/img/deploy-jupyter-dev-and-prod-docker-model-types.png" width="295px" height="185px" style="margin:10px 0px;height:142;"></p>
-                </div>
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-floppy-open icon"></i>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-time icon"></i>
+                    <h3 class="name">Experiment Quickly</h3>
+                    <p class="description">1-Click Deploy Models to Production</p><img class="img-responsive" src="../assets/img/deploy-model-jupyter-docker-gobbles.png" width="225px" height="185px" style="margin:10px 0px;height:140px;width:225px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-warning-sign icon"></i>
                     <h3 class="name">Deploy Safely</h3>
-                    <p class="description"> Deploy 'Canary' to 1-2% of Traffic<img class="img-responsive" src="../assets/img/drop-dashboard.png" style="margin:10px 0px;"></p>
-                </div>
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-dashboard icon"></i>
-                    <h3 class="name">Compare Extensively</h3>
-                    <p class="description">Compare Prediction + Time + Cost<img class="img-responsive" src="../assets/img/prediction-dashboard.png" style="margin:10px 0px;"></p>
-                </div>
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-signal icon"></i>
-                    <h3 class="name">Optimize Quickly</h3>
-                    <p class="description">Shift Live Traffic to Winning Model<img class="img-responsive" src="../assets/img/bandit-shift.png" style="margin:10px 0px;height:86px;"></p>
-                </div>
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-refresh icon"></i>
-                    <h3 class="name">Learn Continuously</h3>
-                    <p class="description">Fix Borderline Predictions Online<img class="img-responsive" src="../assets/img/hotdog.png" style="margin:10px 0px;"></p>
-                </div>
-                <div class="col-md-4 col-sm-6 item" style="height:257px;"><i class="glyphicon glyphicon-lock icon"></i>
-                    <h3 class="name">Host Privately</h3>
-                    <p class="description">Self-Host in Your Cloud + On-Prem<img class="img-responsive" src="../assets/img/aws-vpc.png" style="margin:10px 0px;height:86px;"></p>
-                </div>
+                    <p class="description">Test Models on 1-2% of Live Traffic</p><img class="img-responsive" src="../assets/img/drop-dashboard.png" width="225px" height="185px" style="margin:10px 0px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-random icon"></i>
+                    <h3 class="name">Migrate Consistently</h3>
+                    <p class="description">Same Environ. from Dev to Prod</p><img src="../assets/img/docker-gobbles-ml.png" style="width:225px;height:140px;margin:10px 0px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-refresh icon"></i>
+                    <h3 class="name">Compare Holistically</h3>
+                    <p class="description">Compare Models Offline + Online</p><img src="../assets/img/dashboard-batch-and-realtime.png" style="width:228px;margin:10px 0px;height:140px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-signal icon"></i>
+                    <h3 class="name">Auto-Scale Dynamically</h3>
+                    <p class="description">Shift Traffic to Winning Model</p><img class="img-responsive" src="../assets/img/bandit-shift.png" width="225px" height="185px" style="margin:10px 0px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-repeat icon"></i>
+                    <h3 class="name">Train Continuously</h3>
+                    <p class="description">Crowd-Source Model Improvements</p><img class="img-responsive" src="../assets/img/hotdog.png" width="225px" height="185px" style="margin:10px 0px;width:225px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-dashboard icon"></i>
+                    <h3 class="name">Monitor Deeply</h3>
+                    <p class="description">Measure Every Prediction</p><img class="img-responsive" src="../assets/img/dashboard-istio.png" width="225px" height="185px" style="margin:10px 0px;width:225px;height:140px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-road icon"></i>
+                    <h3 class="name">Optimize Natively</h3>
+                    <p class="description">Generate Native CPU + GPU Code</p><img class="img-responsive" src="../assets/img/unoptimized-tensorflow-linear.png" width="225px" height="140px" style="margin:10px 0px;width:225px;height:140px;"></div>
+                <div class="col-md-4 col-sm-6 item" style="height:225px;"><i class="glyphicon glyphicon-lock icon"></i>
+                    <h3 class="name">Host Securely</h3>
+                    <p class="description">Host in Your Own Cloud + On-Prem</p><img class="img-responsive" src="../assets/img/aws-vpc.png" width="225px" height="185px" style="margin:10px 0px;width:225px;"><img src="../assets/img/logo/pipelineai-split-black-258x62.png" style="width:225px;"></div>
             </div>
         </div>
+        <p class="text-center" style="color:white;margin:0px;font-size:20px;"><a class="btn btn-primary btn-lg" role="button" href="/tour" style="font-size:12px;padding:10px;">Take the Tour</a></p>
     </div>
     <div class="team-boxed"></div>
     <div></div>
@@ -87,7 +92,7 @@
                     <p>Real-Time Dashboards</p>
                 </div>
                 <div class="col-xs-4 icon-feature"><i class="fa fa-line-chart" style="width:60px;height:60px;font-size:60px;"></i>
-                    <p>Adaptive Optimizations</p>
+                    <p>Dynamic Optimizations</p>
                 </div>
             </div>
         </div>
@@ -115,7 +120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../assets/js/ga.js"></script>
-    <script src="../assets/js/dropzone.js"></script>
     <script src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
     <script src="../assets/js/goog-report-community-conversion.js"></script>
     <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -123,6 +127,7 @@
     <script src="../assets/js/ws-kafka-topic-stream.js"></script>
     <script src="../assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js"></script>
 </body>
 
 </html>

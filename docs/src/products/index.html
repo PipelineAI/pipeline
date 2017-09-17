@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/user.css">
     <link rel="stylesheet" href="../assets/css/Drag--Drop-Upload-Form.css">
-    <link rel="stylesheet" href="../assets/css/dropzone.css">
     <link rel="stylesheet" href="../assets/css/Features-Clean.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
+    <link rel="stylesheet" href="../assets/css/model-dropzone.css">
     <link rel="stylesheet" href="../assets/css/Newsletter-Subscription-Form.css">
     <link rel="stylesheet" href="../assets/css/Team-Boxed.css">
-<script src="/assets/js/dropzone.js"></script>
 <!-- Google Code for Community Edition Conversion Page
 In your html page, add the snippet and call
 goog_report_conversion when someone clicks on the
@@ -86,14 +86,16 @@ chosen link or button. -->
                         <p class="description">Use Our Hosted Service</p>
                         <p class="description">CPU Only</p>
                         <p class="description">Public Models and Datasets Only</p>
-                        <p class="description">Offline Batch Model Training</p>
+                        <p class="description">Batch Model Training</p>
                         <p class="description">Public Model Prediction Servers</p>
+                        <p class="description">Manual Scaling Model Cluster</p>
                         <p class="description">Manual Model Deployments</p>
-                        <p class="description">No A/B Model Experiments</p>
-                        <p class="description">Public Shared Dashboard</p>
+                        <p class="description">Manual A/B Model Experiments</p>
+                        <p class="description">Public Shared Kafka Cluster</p>
+                        <p class="description">Public Shared Dashboards</p>
                         <p class="description">Public File-based Logging</p>
                         <p class="description"> OAuth Security</p>
-                        <p class="description">Public Community Support</p><a class="btn btn-success btn-lg" role="button" href="http://community.pipeline.ai" id="try-community-edition" style="padding:10px;font-size:12px;">Try Community Edition</a></div>
+                        <p class="description">Public Community Support Only</p><a class="btn btn-success btn-lg" role="button" href="http://community.pipeline.ai" id="try-community-edition" style="padding:10px;font-size:12px;">Try Community Edition</a></div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-circle" src="../assets/img/jessica-poteet.png">
@@ -102,31 +104,35 @@ chosen link or button. -->
                         <p class="description">Install Directly In Cloud or On-Prem</p>
                         <p class="description">CPU and GPU</p>
                         <p class="description">Private Models and Datasets</p>
-                        <p class="description">Offline Batch Model Training</p>
+                        <p class="description">Batch Model Training</p>
                         <p class="description">Standalone Model Prediction Servers</p>
+                        <p class="description">Manual Scaling Model Servers</p>
                         <p class="description">Manual Model Deployments</p>
                         <p class="description">Manual A/B Model Experiments</p>
-                        <p class="description"> Standalone Dashboard</p>
+                        <p class="description">Standalone Kafka Cluster</p>
+                        <p class="description"> Standalone Dashboards</p>
                         <p class="description">Standalone File-based Logging</p>
                         <p class="description">OAuth Security</p>
-                        <p class="description">&lt;24 Hour SLA Support</p>
+                        <p class="description">Limited Support Options</p>
                         <h3 class="name"> Register Below</h3></div>
                 </div>
                 <div class="col-md-4 col-sm-6 item">
                     <div class="box"><img class="img-circle" src="../assets/img/brent-dorsey-560x560.png">
                         <h3 class="name">Enterprise Edition</h3>
-                        <p class="title">Multiple node, self-hosted</p>
+                        <p class="title">Multi-node, self-hosted</p>
                         <p class="description">Install Directly in Cloud or On-Prem</p>
                         <p class="description">CPU and GPU</p>
                         <p class="description">Private Models and Datasets</p>
-                        <p class="description">Continuous Real-time Model Training</p>
-                        <p class="description">Autoscaled Model Prediction Cluster </p>
+                        <p class="description">Batch + Real-Time Model Training</p>
+                        <p class="description">Clustered Model Prediction Servers </p>
+                        <p class="description">Auto-Scaling Model Servers</p>
                         <p class="description">Continuous Model Deployments</p>
                         <p class="description">Adaptive A/B Model Experiments</p>
-                        <p class="description">Centralized Enterprise Dashboards</p>
-                        <p class="description">Centralized Enterprise Logging</p>
+                        <p class="description">Enterprise Kafka Integration</p>
+                        <p class="description">Enterprise Dashboard Integration</p>
+                        <p class="description">Enterprise Logging Integration</p>
                         <p class="description"> Single-Sign On + Enterprise Security</p>
-                        <p class="description">&lt;8 Hour SLA Support</p>
+                        <p class="description">Enterprise Support Options</p>
                         <h3 class="name">Register Below</h3></div>
                 </div>
             </div>
@@ -143,7 +149,7 @@ chosen link or button. -->
                     <p>Real-Time Dashboards</p>
                 </div>
                 <div class="col-xs-4 icon-feature"><i class="fa fa-line-chart" style="width:60px;height:60px;font-size:60px;"></i>
-                    <p>Adaptive Optimizations</p>
+                    <p>Dynamic Optimizations</p>
                 </div>
             </div>
         </div>
@@ -171,7 +177,6 @@ chosen link or button. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../assets/js/ga.js"></script>
-    <script src="../assets/js/dropzone.js"></script>
     <script src="https://www.googleadservices.com/pagead/conversion_async.js"></script>
     <script src="../assets/js/goog-report-community-conversion.js"></script>
     <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -179,6 +184,7 @@ chosen link or button. -->
     <script src="../assets/js/ws-kafka-topic-stream.js"></script>
     <script src="../assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js"></script>
 </body>
 
 </html>
