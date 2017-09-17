@@ -205,7 +205,7 @@ ENV \
   PATH=${SPARK_HOME}/bin:$PATH
 
 ENV \
-  HADOOP_VERSION=2.7.2
+  HADOOP_VERSION=2.7.4
 
 RUN \
  wget http://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
@@ -302,7 +302,7 @@ RUN \
   && pip install keras==2.0.7
 
 RUN \
-  pip install pipeline-ai-cli==0.52
+  pip install pipeline-ai-cli==0.66
 
 EXPOSE 80 50070 39000 9000 9001 9002 9003 9004 6006 8754 7077 6066 6060 6061 4040 4041 4042 4043 4044 2222 10254
 
