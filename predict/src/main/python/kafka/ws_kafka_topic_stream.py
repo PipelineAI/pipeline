@@ -50,7 +50,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         CORS_ORIGINS = ['127.0.0.1', 'localhost', 'pipeline.ai', 'community.pipeline.ai']
         parsed_origin = urlparse(origin)
         # parsed_origin.netloc.lower() gives localhost:3333
-        return parsed_origin.hostname in CORS_ORIGINS
+        return (parsed_origin.hostname in CORS_ORIGINS) or parsed_origin.hostname.endswith('.pipeline.ai')
 
     def open(self, topic_name):
     #Send message periodic via socket upon a time interval

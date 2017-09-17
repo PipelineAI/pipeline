@@ -1,17 +1,16 @@
 # my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
-  # global or scrape_config specific
-  metrics_path: /prometheus
+  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
  
 # A scrape configuration containing exactly one endpoint to scrape:
 scrape_configs:
-  - job_name: 'model_server_jvm'
-    static_configs:
-      - targets: ['localhost:9040']
+#  - job_name: 'model_server_jvm'
+#     metrics_path: /prometheus
+#     static_configs:
+#      - targets: ['localhost:9040']
 
-#  - job_name: 'model_server_python'
-#    static_configs:
-#      - targets: ['localhost:10254']
+  - job_name: 'model_server_python'
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ['localhost:10254']

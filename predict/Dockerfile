@@ -112,13 +112,16 @@ ENV \
 
 COPY sysutils/ sysutils/
 
-ENV \
-  PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
+RUN \
+  sbt cleanFiles
 
 COPY jvm/ jvm/
 
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt cleanFiles package
+ENV \
+  PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
+
+#RUN \
+#  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
 
 ENV \
   CONFLUENT_VERSION=3.3.0 \
@@ -162,12 +165,8 @@ ENV \
 ENV \
   PIPELINE_MODEL_SERVER_PORT=9876
 
-# Note:  Port 9040 is used in 2 separate contexts:
-#        1) separate http server for prometheus running within the python-based model server
-#        2) the same port as the main JVM-based model server
-# Note:  This is only relevant to the JVM-based model server for now
 ENV \
-  PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=9040
+  PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=10254
 
 ENV \
   PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT=9000
@@ -196,7 +195,7 @@ RUN \
 ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
-# Drop
+# Drop Server
 RUN \
   wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl \
   && chmod a+x kubectl \
@@ -207,16 +206,16 @@ RUN \
   curl -fsSL get.docker.com -o get-docker.sh \
   && sh get-docker.sh
 
-RUN \
-  pip install pipeline-ai-cli==0.62
-
 ENV \
   HYSTRIX_DASHBOARD_PORT=7979
 
-COPY hystrix/ hystrix/
+COPY dashboard/ dashboard/
 
 RUN \
-  cd hystrix/hystrix-dashboard && ../gradlew build -x test
+  cd dashboard/hystrix-dashboard && ../gradlew buildAllProducts assemble -x test
+
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
 
 COPY html/ /var/www/html/
 COPY run run
@@ -246,13 +245,15 @@ RUN \
 ARG model_tag
 RUN \
   echo $model_tag
+ENV \
+  PIPELINE_MODEL_TAG=$model_tag
 
 # TODO:  model_path (and copy) is not required for drop server
 ARG model_path
 RUN \
   echo $model_path
 ENV \
-  PIPELINE_MODEL_PATH=/root/model
+  PIPELINE_MODEL_PATH=/root/model/$model_type/$model_name/$model_tag
 
 COPY $model_path $PIPELINE_MODEL_PATH
 
@@ -308,6 +309,9 @@ RUN \
 #RUN \
 #  guild check --tests
 
+RUN \
+  pip install pipeline-ai-cli==0.66
+
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
   # Nginx (80 is too common and could clash with local development) \
@@ -339,6 +343,8 @@ EXPOSE \
   # Drop Server \
   9877 \
   # Hystrix Dashboard \
-  7979
+  7979 \
+  # Prometheus Endpoint (Python)
+  10254
 
 CMD ["supervise", "."]

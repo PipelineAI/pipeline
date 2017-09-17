@@ -62,8 +62,8 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
         self.set_status(204)
         self.finish()
 
-    def post(self, model_type, model_name):
-        model_key_list = [model_type, model_name]
+    def post(self, model_type, model_name, model_tag):
+        model_key_list = [model_type, model_name, model_tag]
         model_key = '/'.join(model_key_list)
 
         fileinfo = self.request.files['file'][0]
@@ -78,8 +78,8 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
         drop_path = os.path.join(drop_path, 'model_drops')
         drop_path = os.path.join(drop_path, *model_key_list)
         from datetime import datetime
-        model_version = datetime.now().strftime("%s")
-        drop_path = os.path.join(drop_path, model_version)
+        #model_tag = datetime.now().strftime("%s")
+        drop_path = os.path.join(drop_path, model_tag)
         drop_path_filename = os.path.join(drop_path, filename)
 
         os.makedirs(drop_path, exist_ok=True)
@@ -97,7 +97,7 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
 
                 LOGGER.info('Processing drop: begin')
                 # TODO:  Try tornado.subprocess to stream the results as they're happening!
-                cmd = 'pipeline model-build --model-type={0} --model-name={1} --model-tag={2} --model-path=./model_drops/{0}/{1}/{2} --build-path=/root/drop'.format(model_type, model_name, model_version)
+                cmd = 'pipeline model-build --model-type={0} --model-name={1} --model-tag={2} --model-path=./model_drops/{0}/{1}/{2} --build-path=/root/drop'.format(model_type, model_name, model_tag)
                 LOGGER.info("Running command '%s'" % cmd)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
@@ -105,28 +105,28 @@ class ModelDropPython3Handler(tornado.web.RequestHandler):
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-                cmd = 'pipeline model-push --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_version)
+                cmd = 'pipeline model-push --model-type={0} --model-name={1} --model-tag={2}'.format(model_type, model_name, model_tag)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
                                                    timeout=1200,
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-                cmd = 'pipeline model-yaml --model-type={0} --model-name={1} --model-tag={2} --template-path=./drop/templates'.format(model_type, model_name, model_version)
+                cmd = 'pipeline model-yaml --model-type={0} --model-name={1} --model-tag={2} --template-path=./drop/templates'.format(model_type, model_name, model_tag)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
                                                    timeout=1200,
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-deploy.yaml'.format(model_type, model_name, model_version)
+                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-deploy.yaml'.format(model_type, model_name, model_tag)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
                                                    timeout=1200,
                                                    shell=True,
                                                    stdout=subprocess.PIPE)
 
-                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-svc.yaml'.format(model_type, model_name, model_version)
+                cmd = 'pipeline kube-create --yaml-path=./{0}-{1}-cpu-{2}-svc.yaml'.format(model_type, model_name, model_tag)
                 print(cmd)
                 completed_process = subprocess.run(cmd,
                                                    timeout=1200,
@@ -151,8 +151,8 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/healthz', HealthzHandler),
 
-            # url: /api/v1/model/drop/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
-            (r'/api/v1/model/drop/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+            # url: /api/v1/model/drop/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME/$PIPELINE_MODEL_TAG
+            (r'/api/v1/model/drop/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelDropPython3Handler),
         ]
         tornado.web.Application.__init__(self, handlers,) 

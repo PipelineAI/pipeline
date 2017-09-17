@@ -14,16 +14,17 @@ from prometheus_client import CollectorRegistry, generate_latest, start_http_ser
 
 define('PIPELINE_MODEL_TYPE', default='', help='model type', type=str)
 define('PIPELINE_MODEL_NAME', default='', help='model name', type=str)
+define('PIPELINE_MODEL_TAG', default='', help='model tag', type=str)
 define('PIPELINE_MODEL_PATH', default='', help='model path', type=str)
 define('PIPELINE_MODEL_SERVER_PORT', default='', help='tornado http server listen port', type=int)
 define('PIPELINE_MODEL_SERVER_PROMETHEUS_PORT', default=0, help='port to run the prometheus http metrics server on', type=int)
 define('PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT', default='', help='port to run the prometheus http metrics server on', type=int)
 
 # Create a metric to track time spent and requests made.
-REQUEST_TIME_SUMMARY = Summary('request_processing_time', 'Model Server: Time Spent Processing Request', ['method', 'model_type', 'model_name'])
-REQUESTS_IN_PROGRESS_GAUGE = Gauge('inprogress_requests', 'Model Server: Requests Currently In Progress', ['method', 'model_type', 'model_name'])
-REQUEST_COUNTER = Counter('http_requests_total', 'Model Server: Total Http Request Count Since Last Process Restart', ['method', 'model_type', 'model_name'])
-EXCEPTION_COUNTER = Counter('exceptions_total', 'Model Server: Total Exceptions', ['method', 'model_type', 'model_name'])
+REQUEST_TIME_SUMMARY = Summary('request_processing_time', 'Model Server: Time Spent Processing Request', ['method', 'model_type', 'model_name', 'model_tag'])
+REQUESTS_IN_PROGRESS_GAUGE = Gauge('inprogress_requests', 'Model Server: Requests Currently In Progress', ['method', 'model_type', 'model_name', 'model_tag'])
+REQUEST_COUNTER = Counter('http_requests_total', 'Model Server: Total Http Request Count Since Last Process Restart', ['method', 'model_type', 'model_name', 'model_tag'])
+EXCEPTION_COUNTER = Counter('exceptions_total', 'Model Server: Total Exceptions', ['method', 'model_type', 'model_name', 'model_tag'])
 
 monitor_registry.register(REQUEST_TIME_SUMMARY)
 monitor_registry.register(REQUESTS_IN_PROGRESS_GAUGE)
@@ -99,7 +100,7 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
         self.model_path = model_path
 
     @tornado.web.asynchronous
-    def get(self, model_name):
+    def get(self, model_name, model_tag):
         try:
             models = ModelPredictPython3Handler._registry
             self.write(models)
@@ -109,9 +110,9 @@ class ModelPredictPython3Handler(tornado.web.RequestHandler):
 
 
     @tornado.web.asynchronous
-    def post(self, model_type, model_name):
+    def post(self, model_type, model_name, model_tag):
         method = 'predict'
-        model_key_list = [model_type, model_name]
+        model_key_list = [model_type, model_name, model_tag]
         model_key = '/'.join(model_key_list)
         with EXCEPTION_COUNTER.labels(method, *model_key_list).count_exceptions(), \
           REQUESTS_IN_PROGRESS_GAUGE.labels(method, *model_key_list).track_inprogress():
@@ -153,8 +154,8 @@ class Application(tornado.web.Application):
             (r'/healthz', HealthzHandler),
             (r'/metrics', MetricsHandler),
             (r'/environment', EnvironmentHandler),
-            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME
-            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
+            # url: /api/v1/model/predict/$PIPELINE_MODEL_TYPE/$PIPELINE_MODEL_NAME/$PIPELINE_MODEL_TAG
+            (r'/api/v1/model/predict/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)/([a-zA-Z\-0-9\.:,_]+)',
              ModelPredictPython3Handler, dict(model_path=options.PIPELINE_MODEL_PATH)),
         ]
         tornado.web.Application.__init__(self, handlers)
@@ -169,13 +170,19 @@ def main():
         tornado.options.parse_command_line()
         if not (options.PIPELINE_MODEL_TYPE
                 and options.PIPELINE_MODEL_NAME
+                and options.PIPELINE_MODEL_TAG
                 and options.PIPELINE_MODEL_PATH
                 and options.PIPELINE_MODEL_SERVER_PORT
                 and options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT
                 and options.PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT):
-            _logger.error('--PIPELINE_MODEL_TYPE and --PIPELINE_MODEL_NAME and --PIPELINE_MODEL_PATH \
-                          --PIPELINE_MODEL_SERVER_PORT and --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT and \
-                          --PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT and must be set')
+            _logger.error('--PIPELINE_MODEL_TYPE \
+                           --PIPELINE_MODEL_NAME \
+                           --PIPELINE_MODEL_TAG \
+                           --PIPELINE_MODEL_PATH \
+                           --PIPELINE_MODEL_SERVER_PORT \
+                           --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT \
+                           --PIPELINE_MODEL_SERVER_TENSORFLOW_SERVING_PORT \
+                           must be set')
             return
 
         _logger.info('Model Server main: begin start tornado-based http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PORT))
@@ -183,10 +190,10 @@ def main():
         http_server.listen(options.PIPELINE_MODEL_SERVER_PORT)
         _logger.info('Model Server main: complete start tornado-based http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PORT))
 
-#        _logger.info('Prometheus Server main: begin start prometheus http server port {0}'.format(
-#            options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
-#        start_http_server(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT)
-#        _logger.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
+        _logger.info('Prometheus Server main: begin start prometheus http server port {0}'.format(
+            options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
+        start_http_server(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT)
+        _logger.info('Prometheus Server main: complete start prometheus http server port {0}'.format(options.PIPELINE_MODEL_SERVER_PROMETHEUS_PORT))
 
         tornado.ioloop.IOLoop.current().start()
         _logger.info('...Python-based Model Server Started!')

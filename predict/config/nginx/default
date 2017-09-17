@@ -40,11 +40,11 @@ server {
 
         server_name _;
 
-        location /prometheus {
+        location /prometheus/ {
           proxy_pass http://127.0.0.1:9090;
         }
 
-        location /metrics {
+        location /metrics/ {
           proxy_pass http://127.0.0.1:9040;
         }
 
@@ -56,11 +56,11 @@ server {
 
         # There will likely be an issue forwarding
         #   the websockets through nginx
-        location ~ /ws/kafka/predictions {
+        location ~ /ws/kafka/predictions/ {
           proxy_pass http://127.0.0.1:5959;
         }
 
-        location ~ /hystrix-dashboard {
+        location ~ /hystrix-dashboard/ {
           proxy_pass http://127.0.0.1:7979;
         }
 
