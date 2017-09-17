@@ -44,8 +44,6 @@ COPY hystrix-contrib/ hystrix-contrib/
 COPY hystrix-core/ hystrix-core/
 COPY hystrix-dashboard/ hystrix-dashboard/
 COPY hystrix-serialization/ hystrix-serialization/
-COPY hystrix-examples-webapp/ hystrix-examples-webapp/
-COPY hystrix-examples/ hystrix-examples/
 COPY run run
 COPY settings.gradle settings.gradle
 COPY sysutils/ sysutils/
