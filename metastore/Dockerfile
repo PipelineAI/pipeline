@@ -3,7 +3,7 @@ FROM fluxcapacitor/package-java-openjdk-1.8:master
 WORKDIR /root
 
 ENV \
-  HADOOP_VERSION=2.7.0 \
+  HADOOP_VERSION=2.7.4 \
   HIVE_VERSION=2.1.1 \
   HADOOP_USER_CLASSPATH_FIRST=true
 
