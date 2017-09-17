@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.61"
+__version__ = "0.66"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -94,15 +94,15 @@ class PipelineCli(object):
     # TODO: Pull ./templates/ into this cli project
     #       (or otherwise handle the location of templates outside of the cli)
     def clustered_yaml(self,
-                   model_type,
-                   model_name,
-                   model_tag,
-                   model_chip='cpu',
-                   template_path='./templates/',
-                   worker_memory_limit='2G',
-                   worker_cpu_limit='2000m',
-                   ps_replicas='2',
-                   worker_replicas='3'):
+                       model_type,
+                       model_name,
+                       model_tag,
+                       model_chip='cpu',
+                       template_path='./templates/',
+                       worker_memory_limit='2G',
+                       worker_cpu_limit='2000m',
+                       ps_replicas='2',
+                       worker_replicas='3'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
@@ -154,14 +154,14 @@ class PipelineCli(object):
                         local_port=None,
                         service_port=None):
 
-        pod = self._get_pod_by_service_name(service_name)
+        pod = self._get_pod_by_service_name(service_name=service_name)
         if not pod:
             print("")
             print("App '%s' is not running." % service_name)
             print("")
             return
         if not service_port:
-            svc = self._get_svc_by_service_name(service_name)
+            svc = self._get_svc_by_service_name(service_name=service_name)
             if not svc:
                 print("")
                 print("App '%s' proxy port cannot be found." % service_name)
@@ -194,7 +194,7 @@ class PipelineCli(object):
     def service_top(self,
                     service_name):
 
-        self._get_service_resources(service_name)
+        self._get_service_resources(service_name=service_name)
         self.cluster_resources()
 
 
@@ -210,7 +210,7 @@ class PipelineCli(object):
 
 
     def _get_service_resources(self,
-                              service_name):
+                               service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -251,14 +251,14 @@ class PipelineCli(object):
 
 
     def model_build(self,
-                   model_type,
-                   model_name,
-                   model_path,
-                   model_tag,
-                   model_chip='cpu',
-                   template_path='./templates/',
-                   build_type='docker',
-                   build_path='.'):
+                    model_type,
+                    model_name,
+                    model_tag,
+                    model_path,
+                    model_chip='cpu',
+                    template_path='./templates/',
+                    build_type='docker',
+                    build_path='.'):
 
         if build_type == 'docker':
             if model_chip == 'gpu':
@@ -266,17 +266,17 @@ class PipelineCli(object):
             else:
                 docker_cmd = 'docker'
 
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_chip=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_chip, model_path, build_path, build_path)
+            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_chip=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_chip, model_tag, model_path, build_path, build_path)
 
             print(cmd)
             print("")
             process = subprocess.call(cmd, shell=True)
         else:
-            self._model_build_tar(model_type,
-                                  model_name,
-                                  model_path,
-                                  model_tag,
-                                  build_path)  
+            self.model_bundle(model_type=model_type,
+                              model_name=model_name,
+                              model_path=model_path,
+                              model_tag=model_tag,
+                              build_path=build_path)  
 
 
     # TODO: Pull ./templates/ into this cli project 
@@ -338,6 +338,8 @@ class PipelineCli(object):
             fh.write(rendered) 
         print("'%s' -> '%s'." % (filename, rendered_filename))
 
+        return rendered_filename
+
 
     def model_shell(self,
                     model_type,
@@ -398,7 +400,7 @@ class PipelineCli(object):
         else:
             docker_cmd = 'docker'
 
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 --privileged -v /var/run/docker.sock:/var/run/docker.sock fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
+        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 -p 7979:7979 --privileged -v /var/run/docker.sock:/var/run/docker.sock fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
 
         print(cmd)
         print("")
@@ -540,7 +542,7 @@ class PipelineCli(object):
 
     def _filter_tar(self,
                     tarinfo):
-        # TODO:  Load this from .pipelineignore
+        # TODO:  Load this pipeline.yml 
         ignore_list = []
         for ignore in ignore_list:
             if ignore in tarinfo.name:
@@ -549,15 +551,25 @@ class PipelineCli(object):
         return tarinfo
 
 
-    def _model_build_tar(self,
-                           model_type,
-                           model_name,
-                           model_path,
-                           model_tag,
-                           tar_path,
-                           tar_name,
-                           filemode='w',
-                           compression='gz'):
+    def model_tar(self,
+                  model_type,
+                  model_name,
+                  model_tag,
+                  model_path,
+                  model_chip='cpu',
+                  tar_path='.',
+                  filemode='w',
+                  compression='gz'):
+
+        print('model_type: %s' % model_type)
+        print('model_name: %s' % model_name)
+        print('model_tag: %s' % model_tag)
+        print('model_path: %s' % model_path)
+        print('model_chip: %s' % model_chip)
+        print('tar_path: %s' % tar_path)
+        print('tar_name: %s' % tar_name)
+        print('filemode: %s' % filemode)
+        print('compression: %s' % compression)
 
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
@@ -566,59 +578,87 @@ class PipelineCli(object):
         tar_path = os.path.expandvars(tar_path)
         tar_path = os.path.expanduser(tar_path)
         tar_path = os.path.abspath(tar_path)
-       
-        tar_absolute_path = os.path.join(tar_path, tar_name) 
+     
+        tar_filename = '%s-%s-%s-%s.tar.gz' % (model_type, model_name, model_chip, model_tag)
+        tar_path = os.path.join(tar_path, tar_filename) 
+ 
+        print("")
+        print("Compressing model_path '%s' into tar_path '%s'." % (model_path, tar_path))
 
-        # TODO:  Incorporate model_tag if relevant
-        with tarfile.open(tar_absolute_path, '%s:%s' % (filemode, compression)) as tar:
+        with tarfile.open(tar_path, '%s:%s' % (filemode, compression)) as tar:
             tar.add(model_path, arcname='.', filter=self._filter_tar)
+        
+        return tar_path
 
 
-    def _model_deploy(self,
-                      model_type,
-                      model_name,
-                      model_path,
-                      model_tag,
-                      model_server_url,
-                      timeout=60):
+    def model_deploy(self,
+                     model_type,
+                     model_name,
+                     model_tag,
+                     model_chip='cpu',
+                     kube_namespace='default',
+                     timeout=1200):
+
+        print('model_type: %s' % model_type)
+        print('model_name: %s' % model_name)
+        print('model_tag: %s' % model_tag)
+        print('model_chip: %s' % model_chip)
+        print('kube_namespace: %s' % kube_namespace)
+        print('timeout: %s' % timeout)
+
+        rendered_yaml = self.model_yaml(model_type=model_type,
+                                        model_name=model_name,
+                                        model_tag=model_tag,
+                                        model_chip=model_chip)
+
+        self.kube_create(yaml=rendered_yaml,
+                         kube_namespace=kube_namespace)
+
+
+    def model_drop(self,
+                   model_server_url,
+                   model_type,
+                   model_name,
+                   model_tag,
+                   model_path,
+                   model_chip='cpu',
+                   timeout=1200):
+
+        print('model_type: %s' % model_type)
+        print('model_name: %s' % model_name)
+        print('model_tag: %s' % model_tag)
 
         model_path = os.path.expandvars(model_path)
         model_path = os.path.expanduser(model_path)
         model_path = os.path.abspath(model_path)
 
-        print('model_server_url: %s' % model_server_url)
-        print('model_type: %s' % model_type)
-        print('model_name: %s' % model_name)
         print('model_path: %s' % model_path)
-        print('model_tag: %s' % model_tag)
 
-        if (os.path.isdir(model_path)):
-            compressed_model_tar_filename = 'pipeline.tar.gz' 
+        print('model_server_url: %s' % model_server_url)
+        print('model_chip: %s' % model_chip)
+        print('timeout: %s' % timeout)
 
-            print("")
-            print("Compressing model tar '%s' into '%s'." % (model_path, compressed_model_tar_filename))  
-            self.model_build_tar(path_to_model=model_path,
-                                 tar_name=compressed_model_tar_filename,
-                                 filemode='w',
-                                 compression='gz')
-            model_file = compressed_model_tar_filename
-            upload_key = 'file'
-            upload_value = compressed_model_tar_filename
-        else:
-            print("")
-            print("Model path must be a directory.  All contents of the directory will be uploaded.")
-            return
+        tar_path = self.model_tar(model_type=model_type,
+                                  model_name=model_name,
+                                  model_tag=model_tag,
+                                  model_path=model_path,
+                                  model_chip=model_chip,
+                                  tar_path='.',
+                                  filemode='w',
+                                  compression='gz')
 
-        
-        full_model_url = "%s/api/%s/model/deploy/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name) 
+        upload_key = 'file'
+        upload_value = tar_path 
 
-        with open(model_file, 'rb') as fh:
+        full_model_deploy_url = "%s/api/%s/model/drop/%s/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name, model_tag) 
+
+        with open(tar_path, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
             print("")
-            print("Deploying model '%s' to '%s'." % (model_file, full_model_url))
+            print("Deploying model tar.gz '%s' to '%s'." % (tar_path, full_model_deploy_url))
             headers = {'Accept': 'application/json'}
             try:
-                response = requests.post(url=full_model_url, 
+                response = requests.post(url=full_model_deploy_url, 
                                          headers=headers, 
                                          files=files, 
                                          timeout=timeout)
@@ -632,7 +672,6 @@ class PipelineCli(object):
                     print("")
                     print("Success!")
                     print("")
-                    print("curl -X POST -H 'Content-Type: [request_mime_type]' -d '[request_body]' %s" % full_model_url.replace('/deploy/','/predict/'))
                 else:
                     response.raise_for_status()
                     print("")
@@ -643,22 +682,22 @@ class PipelineCli(object):
                 print("Error while deploying model.\nError: '%s'" % str(ioe))
                 print("")
  
-        if (os.path.isdir(model_path)):
+        if (os.path.isfile(tar_path)):
             print("")
-            #print("Cleaning up compressed model tar '%s'..." % model_file)
-            #print("")
-            os.remove(model_file)
+            print("Cleaning up temporary file tar '%s'..." % tar_path)
+            print("")
+            os.remove(tar_path)
 
 
     def _predict(self,
-                model_server_url,
-                model_type,
-                model_name,
-                model_tag,
-                model_test_request_path,
-                model_request_mime_type='application/json',
-                model_response_mime_type='application/json',
-                timeout=10):
+                 model_server_url,
+                 model_type,
+                 model_name,
+                 model_tag,
+                 model_test_request_path,
+                 model_request_mime_type='application/json',
+                 model_response_mime_type='application/json',
+                 timeout=15):
 
         model_test_request_path = os.path.expandvars(model_test_request_path)
         model_test_request_path = os.path.expanduser(model_test_request_path)
@@ -672,7 +711,7 @@ class PipelineCli(object):
         print('model_request_mime_type: %s' % model_request_mime_type)
         print('model_response_mime_type: %s' % model_response_mime_type)
 
-        full_model_url = "%s/api/%s/model/predict/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name)
+        full_model_url = "%s/api/%s/model/predict/%s/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name, model_tag)
         print("")
         print("Predicting with file '%s' using '%s'" % (model_test_request_path, full_model_url))
         print("")
@@ -718,13 +757,13 @@ class PipelineCli(object):
 
         with ThreadPoolExecutor(max_workers=model_test_request_concurrency) as executor:
             for _ in range(model_test_request_concurrency):
-                executor.submit(self._predict(model_server_url,
-                                              model_type,
-                                              model_name,
-                                              model_tag,
-                                              model_test_request_path,
-                                              model_request_mime_type,
-                                              model_response_mime_type))
+                executor.submit(self._predict(model_server_url=model_server_url,
+                                              model_type=model_type,
+                                              model_name=model_name,
+                                              model_tag=model_tag,
+                                              model_test_request_path=model_test_request_path,
+                                              model_request_mime_type=model_request_mime_type,
+                                              model_response_mime_type=model_response_mime_type))
 
 
     def services(self):
@@ -794,7 +833,7 @@ class PipelineCli(object):
 
 
     def _get_pod_by_service_name(self,
-                             service_name):
+                                 service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -816,7 +855,7 @@ class PipelineCli(object):
 
 
     def _get_svc_by_service_name(self,
-                             service_name):
+                                 service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -870,7 +909,7 @@ class PipelineCli(object):
 
 
     def service_shell(self,
-                     service_name):
+                      service_name):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
@@ -1053,8 +1092,10 @@ class PipelineCli(object):
             svc_yamls = []
        
         if len(dependencies) > 0:
-            for dependency in dependencies:
-                svc_yamls = svc_yamls + self._get_svc_yamls(dependency)
+            for dependency_service_name in dependencies:
+                svc_yamls = svc_yamls + self._get_svc_yamls(service_name=dependency_service_name,
+                                                            git_home=git_home,
+                                                            git_version=git_version)
 
         svc_yamls = ['%s/%s/%s' % (git_home, git_version, svc_yaml) for svc_yaml in svc_yamls]
 
@@ -1066,7 +1107,7 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl create --namespace %s -f %s --save-config --record" % (kube_namespace, yaml_path)
-        self.kube(cmd)
+        self.kube(cmd=cmd)
 
 
     def kube_delete(self,
@@ -1074,7 +1115,7 @@ class PipelineCli(object):
                     kube_namespace='default'):
 
         cmd = "kubectl delete --namespace %s -f %s" % (kube_namespace, yaml_path)
-        self.kube(cmd) 
+        self.kube(cmd=cmd) 
    
  
     def kube(self,
@@ -1091,19 +1132,23 @@ class PipelineCli(object):
     and secret configs in the _kube_registry.  This will override *_yaml_path params passed.
     """
     def service_start(self,
-                       service_name,
-                       git_home='https://github.com/fluxcapacitor/source.ml',
-                       git_version='master',
-                       kube_namespace='default'):
+                      service_name,
+                      git_home='https://github.com/fluxcapacitor/source.ml',
+                      git_version='master',
+                      kube_namespace='default'):
 
         deploy_yaml_filenames = []
         svc_yaml_filenames = []
 
-        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name, git_home, git_version)
+        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name=service_name, 
+                                                                               git_home=git_home, 
+                                                                               git_version=git_version)
         deploy_yaml_filenames = [deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for deploy_yaml_filename in deploy_yaml_filenames]
         print("Using '%s'" % deploy_yaml_filenames)
  
-        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name, git_home, git_version)
+        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name=service_name, 
+                                                                      git_home=git_home, 
+                                                                      git_version=git_version)
         svc_yaml_filenames = [svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for svc_yaml_filename in svc_yaml_filenames]
 
         print("Using '%s'" % svc_yaml_filenames)
@@ -1140,8 +1185,8 @@ class PipelineCli(object):
 
 
     def service_stop(self,
-                       service_name,
-                       kube_namespace='default'):
+                     service_name,
+                     kube_namespace='default'):
 
         kubeconfig.load_kube_config()
         kubeclient_v1 = kubeclient.CoreV1Api()
