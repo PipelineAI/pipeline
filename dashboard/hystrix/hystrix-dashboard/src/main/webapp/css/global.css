@@ -13,8 +13,8 @@ img {
 }
 
 #header {
-	background: #FFFFFF url(../images/hystrix-logo-tagline-tiny.png) no-repeat scroll 99% 0%;
-	height: 65px;
+	background: #FFFFFF url(../images/pipelineai-split-black-258x62.png) no-repeat scroll 99% 0%;
+	height: 62px;
 	margin-bottom: 5px;
 }
 
@@ -68,11 +68,11 @@ img {
 	}
 
 	#header {
-		background: #FFFFFF url(../images/hystrix-logo-tagline-tiny.png) no-repeat scroll 99% 50%;
-		height: 65px;
+		background: #FFFFFF url(../images/pipelineai-split-black-258x62.png) no-repeat scroll 99% 50%;
+		height: 62px;
 	}
 
 	#streamHeader {
-		height: 65px;
+		height: 62px;
 	}
 }

@@ -23,12 +23,17 @@
 	</div>
 
 	<div class="rate">
-		<a href="javascript://" title="Total Request Rate per Second per Reporting Host" class="tooltip rate"><span class="smaller">Host: </span><span class="ratePerSecondPerHost"><%= addCommas(roundNumber(ratePerSecondPerHost)) %></span>/s</a>
+		<a href="javascript://" title="Total Request Rate per Second per Reporting Host" class="tooltip rate"><span class="smaller">Host: </span><span class="ratePerSecondPerHost"><%= addCommas(roundNumber(ratePerSecondPerHost, 5)) %></span>/s</a>
 	</div>
-	<div class="rate">	
-		<a href="javascript://" title="Total Request Rate per Second for Cluster" class="tooltip rate"><span class="smaller">Cluster: </span><span class="ratePerSecond"><%= addCommas(roundNumber(ratePerSecond)) %></span>/s</a>
-	</div>
-		
+        <div class="rate">
+                <a href="javascript://" title="Total Cost per Prediction per Reporting Host" class="tooltip rate"><span class="smaller"></span><span class="costPerPredictionPerHost">$<%= addCommas(roundNumber(costPerPredictionPerHost, 5)) %></span>/p</a>
+        </div>
+        <div class="rate">
+                <a href="javascript://" title="Total Request Rate per Second for Cluster" class="tooltip rate"><span class="smaller">Cluster: </span><span class="ratePerSecond"><%= addCommas(roundNumber(ratePerSecond), 5) %></span>/s</a>
+        </div>
+        <div class="rate">
+                <a href="javascript://" title="Total Cost per Prediction for Cluster" class="tooltip rate"><span class="smaller"></span><span class="costPerPrediction">$<%= addCommas(roundNumber(costPerPrediction), 5) %></span>/p</a>
+        </div>		
 		<div class="circuitStatus">
 		<% if(propertyValue_circuitBreakerForceClosed) { %>
 			<span class="smaller">[ <font color="orange">Forced Closed</font> ]</span>

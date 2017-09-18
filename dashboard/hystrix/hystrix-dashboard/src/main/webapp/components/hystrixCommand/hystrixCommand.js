@@ -97,6 +97,7 @@
 			// do math
 			convertAllAvg(data);
 			calcRatePerSecond(data);
+                        calcCostPerPrediction(data);
 		}
 
 		function setIfMissing(data, key, defaultValue) {
@@ -140,9 +141,23 @@
 			if (totalRequests < 0) {
 				totalRequests = 0;
 			}
-			data["ratePerSecond"] =  roundNumber(totalRequests / numberSeconds);
-			data["ratePerSecondPerHost"] =  roundNumber(totalRequests / numberSeconds / data["reportingHosts"]) ;
+			data["ratePerSecond"] =  roundNumber(totalRequests / numberSeconds, 5);
+			data["ratePerSecondPerHost"] =  roundNumber(totalRequests / numberSeconds / data["reportingHosts"], 5) ;
 	    }
+
+                function calcCostPerPrediction(data) {
+                        var numberSeconds = data["propertyValue_metricsRollingStatisticalWindowInMilliseconds"] / 1000;
+                        
+                        // r3.2xlarge = $0.60/hr = $0.01/sec
+                        var costPerSecond = 0.01;
+
+                        var totalRequests = data["requestCount"];
+                        if (totalRequests < 0) {
+                                totalRequests = 0;
+                        }
+                        data["costPerPrediction"] = roundNumber(costPerSecond / totalRequests / numberSeconds, 5);
+                        data["costPerPredictionPerHost"] = roundNumber(costPerSecond / totalRequests / numberSeconds / data["reportingHosts"], 5) ;
+            }
 
 		function validateData(data) {
 			assertNotNull(data,"reportingHosts");
@@ -244,6 +259,10 @@
 			var ratePerSecond = data.ratePerSecond;
 			var ratePerSecondPerHost = data.ratePerSecondPerHost;
 			var ratePerSecondPerHostDisplay = ratePerSecondPerHost;
+                        var costPerPrediction = isNaN(data.costPerPrediction)? -1: data.costPerPrediction;
+                        var costPerPredictionPerHost = isNaN(data.costPerPredictionPerHost)? -1: data.costPerPredictionPerHost;
+                        var costPerPredictionPerHostDisplay = costPerPredictionPerHost;
+
 			var errorThenVolume = isNaN( ratePerSecond )? -1: (data.errorPercentage * 100000000) +  ratePerSecond;
 			// set the rates on the div element so it's available for sorting
 			$('#CIRCUIT_' + data.escapedName).attr('rate_value', ratePerSecond);
@@ -269,15 +288,18 @@
 		
 		/* round a number to X digits: num => the number to round, dec => the number of decimals */
 		/* private */ function roundNumber(num) {
-			var dec=1;
-			var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
-			var resultAsString = result.toString();
-			if(resultAsString.indexOf('.') == -1) {
-				resultAsString = resultAsString + '.0';
-			}
-			return resultAsString;
+			return roundNumber(num, 1);
 		};
-		
+	
+                /* round a number to X digits: num => the number to round, dec => the number of decimals */
+                /* private */ function roundNumber(num, dec) {
+                        var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+                        var resultAsString = result.toString();
+                        if(resultAsString.indexOf('.') == -1) {
+                                resultAsString = resultAsString + '.0';
+                        }
+                        return resultAsString;
+                };	
 		
 		
 		
