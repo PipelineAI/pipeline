@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.70"
+__version__ = "0.71"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -245,6 +245,40 @@ class PipelineCli(object):
 #            fh.write(rendered)
 #        print("'%s' -> '%s'." % (filename, rendered_Dockerfile))
 
+    def model_build_push_deploy(self,
+                                model_type,
+                                model_name,
+                                model_tag,
+                                model_path,
+                                model_chip='cpu',
+                                template_path='./templates/',
+                                build_type='docker',
+                                build_path='.',
+                                kube_namespace='default',
+                                timeout=1200,
+                                force_deploy=False):
+
+        self.model_build(model_type=model_type,
+                         model_name=model_name,
+                         model_tag=model_tag,
+                         model_path=model_path,
+                         model_chip=model_chip,
+                         template_path=template_path,
+                         build_type=build_type,
+                         build_path=build_path)
+
+        self.model_push(model_type=model_type,
+                        model_name=model_name,
+                        model_tag=model_tag,
+                        model_chip=model_chip)
+
+        self.model_deploy(model_type=model_type,
+                          model_name=model_name,
+                          model_tag=model_tag,
+                          model_chip=model_chip,
+                          kube_namespace=kube_namespace,
+                          timeout=timeout,
+                          force_deploy=force_deploy)
 
     def model_build(self,
                     model_type,
@@ -329,14 +363,15 @@ class PipelineCli(object):
             print("'%s' -> '%s'." % (filename, rendered_filename)) 
             rendered_filenames += [rendered_filename]
 
-#        model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
+        model_predict_autoscale_yaml_template_path = os.path.join(template_path, PipelineCli._kube_autoscale_template_registry['predict'][0][0])
 
-#        path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
-#        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
-#        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
-#        with open(rendered_filename, 'wt') as fh:
-#            fh.write(rendered) 
-#        print("'%s' -> '%s'." % (filename, rendered_filename))
+        path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
+        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
+        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
+        with open(rendered_filename, 'wt') as fh:
+            fh.write(rendered) 
+            print("'%s' -> '%s'." % (filename, rendered_filename))
+            rendered_filenames += [rendered_filename]
 
         return rendered_filenames
 
@@ -597,7 +632,8 @@ class PipelineCli(object):
                      model_tag,
                      model_chip='cpu',
                      kube_namespace='default',
-                     timeout=1200):
+                     timeout=1200,
+                     force_deploy=False):
 
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
@@ -605,6 +641,7 @@ class PipelineCli(object):
         print('model_chip: %s' % model_chip)
         print('kube_namespace: %s' % kube_namespace)
         print('timeout: %s' % timeout)
+        print('force_deploy: %s' % force_deploy)
 
         rendered_yamls = self.model_yaml(model_type=model_type,
                                          model_name=model_name,
@@ -612,8 +649,15 @@ class PipelineCli(object):
                                          model_chip=model_chip)
 
         for rendered_yaml in rendered_yamls:
-            self.kube_create(yaml_path=rendered_yaml,
-                             kube_namespace=kube_namespace)
+            # For now, only handle '-deploy' and '-svc' yaml's
+            if '-deploy' in rendered_yaml or '-svc' in rendered_yaml:
+                # For now, only force '-deploy' yaml's
+                if force_deploy and '-deploy' in rendered_yaml:
+                    self.kube_delete(yaml_path=rendered_yaml,
+                                     kube_namespace=kube_namespace)
+
+                self.kube_create(yaml_path=rendered_yaml,
+                                 kube_namespace=kube_namespace)
 
 
     def model_drop(self,
