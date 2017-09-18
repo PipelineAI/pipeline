@@ -112,6 +112,14 @@ ENV \
 
 COPY sysutils/ sysutils/
 
+ENV \
+  HYSTRIX_DASHBOARD_PORT=7979
+
+COPY dashboard/ dashboard/
+
+RUN \
+  cd dashboard/hystrix-dashboard && ../gradlew --no-daemon buildAllProducts assemble -x test
+
 RUN \
   sbt -mem 1500 cleanFiles
 
@@ -120,8 +128,8 @@ COPY jvm/ jvm/
 ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
 
-#RUN \
-#  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt package
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
 
 ENV \
   CONFLUENT_VERSION=3.3.0 \
@@ -196,26 +204,14 @@ ENV \
   TF_CPP_MIN_LOG_LEVEL=0
 
 # Drop Server
-RUN \
-  wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl \
-  && chmod a+x kubectl \
-  && mv kubectl /usr/local/bin/kubectl
-
-# Docker in Docker
-RUN \
-  curl -fsSL get.docker.com -o get-docker.sh \
-  && sh get-docker.sh
-
-ENV \
-  HYSTRIX_DASHBOARD_PORT=7979
-
-COPY dashboard/ dashboard/
-
-RUN \
-  cd dashboard/hystrix-dashboard && ../gradlew --no-daemon buildAllProducts assemble -x test
-
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
+#RUN \
+#  wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl \
+#  && chmod a+x kubectl \
+#  && mv kubectl /usr/local/bin/kubectl
+# Drop : Docker in Docker
+#RUN \
+#  curl -fsSL get.docker.com -o get-docker.sh \
+#  && sh get-docker.sh
 
 COPY html/ /var/www/html/
 COPY run run
