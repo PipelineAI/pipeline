@@ -1,5 +1,5 @@
 if ( $( "#prediction-stream" ).length ) {
-  var ws = new WebSocket("ws://admin.community.pipeline.ai:5959/ws/kafka/predictions");
+  var ws = new WebSocket("ws://predict-tensorflow-mnist-cpu-v1.community.pipeline.ai:5959/ws/kafka/predictions");
   ws.onmessage = function(event) {
   //        console.log(event);
     eventJson = JSON.parse(event.data)
