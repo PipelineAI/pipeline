@@ -306,7 +306,7 @@ RUN \
 #  guild check --tests
 
 RUN \
-  pip install pipeline-ai-cli==0.70
+  pip install pipeline-ai-cli==0.71
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
