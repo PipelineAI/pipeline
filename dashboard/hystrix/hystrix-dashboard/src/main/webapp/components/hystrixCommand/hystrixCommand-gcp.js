@@ -150,7 +150,7 @@
                         
                         // AWS r3.2xlarge = $0.665/hr = $0.01108333333/sec
                         // GCP n1-highmem-8 = $0.4736/hr = $0.007893333333/sec
-                        var costPerSecond = 0.01108333333;
+                        var costPerSecond = 0.007893333333;
 
                         var totalRequests = data["requestCount"];
                         if (totalRequests < 0) {
