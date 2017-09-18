@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: dashboard-turbine
+  name: dashboard-turbine-gcp
   labels:
-    app: dashboard-turbine
+    app: dashboard-turbine-gcp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dashboard-turbine
+      app: dashboard-turbine-gcp
   template:
     metadata:
       labels:
-        app: dashboard-turbine
+        app: dashboard-turbine-gcp
     spec:
       containers:
-      - name: dashboard-turbine
-        image: docker.io/fluxcapacitor/dashboard-turbine:master
+      - name: dashboard-turbine-gcp
+        image: docker.io/fluxcapacitor/dashboard-turbine-gcp:master
         imagePullPolicy: "Always"
         resources:
           limits:

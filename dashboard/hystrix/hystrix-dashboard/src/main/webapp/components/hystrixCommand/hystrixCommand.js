@@ -141,22 +141,23 @@
 			if (totalRequests < 0) {
 				totalRequests = 0;
 			}
-			data["ratePerSecond"] =  roundNumber(totalRequests / numberSeconds, 5);
-			data["ratePerSecondPerHost"] =  roundNumber(totalRequests / numberSeconds / data["reportingHosts"], 5) ;
+			data["ratePerSecond"] =  roundNumber(totalRequests / numberSeconds);
+			data["ratePerSecondPerHost"] =  roundNumber(totalRequests / numberSeconds / data["reportingHosts"]) ;
 	    }
 
                 function calcCostPerPrediction(data) {
                         var numberSeconds = data["propertyValue_metricsRollingStatisticalWindowInMilliseconds"] / 1000;
                         
-                        // r3.2xlarge = $0.60/hr = $0.01/sec
-                        var costPerSecond = 0.01;
+                        // r3.2xlarge = $0.665/hr = $0.01108333333/sec
+                        // n1-highmem-8 = $0.4736/hr = $0.007893333333/sec
+                        var costPerSecond = 0.0110833333;
 
                         var totalRequests = data["requestCount"];
                         if (totalRequests < 0) {
                                 totalRequests = 0;
                         }
                         data["costPerPrediction"] = roundNumber(costPerSecond / totalRequests / numberSeconds, 5);
-                        data["costPerPredictionPerHost"] = roundNumber(costPerSecond / totalRequests / numberSeconds / data["reportingHosts"], 5) ;
+                        data["costPerPredictionPerHost"] = roundNumber(costPerSecond / totalRequests / numberSeconds / data["reportingHosts"], 5);
             }
 
 		function validateData(data) {
@@ -295,13 +296,17 @@
                 /* private */ function roundNumber(num, dec) {
                         var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
                         var resultAsString = result.toString();
+                        
+                        if(resultAsString.indexOf('NaN') >= 0) {
+                                resultAsString = '0.0'
+                        }
+
                         if(resultAsString.indexOf('.') == -1) {
                                 resultAsString = resultAsString + '.0';
                         }
+                        
                         return resultAsString;
                 };	
-		
-		
 		
 		/* private */ function updateCircle(variablePrefix, cssTarget, rate, errorPercentage) {
 			var newXaxisForCircle = self[variablePrefix + 'CircleXaxis'](rate);
