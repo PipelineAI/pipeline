@@ -106,10 +106,8 @@ start_hystrix_dashboard () {
     echo ""
     echo "Starting JVM-based Dashboard Server..."
     echo ""
-
-    #java $JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom -DserverPort=$HYSTRIX_DASHBOARD_PORT -jar /root/hystrix/build/libs/standalone-hystrix-dashboard-all.jar
-#    cd /root/dashboard/hystrix-dashboard/ && ../gradlew --no-daemon appRun
-    java -jar /root/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port 7979 /root/hystrix-dashboard/build/libs/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
+    
+    java -jar /root/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port $HYSTRIX_DASHBOARD_PORT /root/hystrix-dashboard/build/libs/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
 }
 
 start_tensorflow_serving () {
@@ -189,37 +187,38 @@ cd /root/grafana-$GRAFANA_VERSION/ && bin/grafana-server web &
 
 # TODO:  This is not needed for drop server
 # Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
+    x
 cd ~
-confluent start kafka &
+    confluent start kafka &
 
-echo "Required Environment Variables..."
-echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
-echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
-echo "PIPELINE_MODEL_TAG=$PIPELINE_MODEL_TAG"
-echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
-echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+    echo "Required Environment Variables..."
+    echo "PIPELINE_MODEL_TYPE=$PIPELINE_MODEL_TYPE"
+    echo "PIPELINE_MODEL_NAME=$PIPELINE_MODEL_NAME"
+    echo "PIPELINE_MODEL_TAG=$PIPELINE_MODEL_TAG"
+    echo "PIPELINE_MODEL_CHIP=$PIPELINE_MODEL_CHIP"
+    echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
 
-echo ""
-echo "___________________________________________"
-echo " __     __   ___              ___          "
-echo "|__) | |__) |__  |    | |\ | |__      /\  |"
-echo "|    | |    |___ |___ | | \| |___    /~~\ |"
-echo "___________________________________________"
-echo ""
+    echo ""
+    echo "___________________________________________"
+    echo " __     __   ___              ___          "
+    echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+    echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+    echo "___________________________________________"
+    echo ""
 
-#if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
-#   [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
-#   [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
+    #if [[ $PIPELINE_MODEL_TYPE == "python" ]] ||
+    #   [[ $PIPELINE_MODEL_TYPE == "keras" ]] ||
+    #   [[ $PIPELINE_MODEL_TYPE == "scikit" ]]; then
 
-  start_websocket_kafka_log_stream &
+      start_websocket_kafka_log_stream &
 
-  start_model_serving_python &
-#fi;
+      start_model_serving_python &
+    #fi;
 
-#if [[ $PIPELINE_MODEL_TYPE == "drop" ]]; then
+    #if [[ $PIPELINE_MODEL_TYPE == "drop" ]]; then
 
-#  start_drop_server &
-#fi;
+    #  start_drop_server &
+    #fi;
 
 #if [[ $PIPELINE_MODEL_TYPE == "tensorflow" ]]; then
   [ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
