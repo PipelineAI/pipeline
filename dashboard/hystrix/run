@@ -10,7 +10,7 @@ start_hystrix_dashboard () {
     echo "Starting JVM-based Dashboard Server..."
     echo ""
 
-    java -jar /root/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port 7979 /root/hystrix-dashboard/build/libs/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
+    java -jar /root/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port $HYSTRIX_DASHBOARD_PORT /root/hystrix-dashboard/build/libs/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
 }
 
 start_hystrix_dashboard
