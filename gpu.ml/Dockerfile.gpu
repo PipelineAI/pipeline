@@ -245,12 +245,6 @@ RUN \
   chmod a+x /root
 
 RUN \
-  git clone https://github.com/BonsaiAI/nvidia-prometheus-stats \
-  && export LC_ALL=C \
-  && cd nvidia-prometheus-stats \
-  && pip install -r requirements.txt
-
-RUN \
   pip install keras==2.0.5
 
 RUN \
