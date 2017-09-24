@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.71"
+__version__ = "0.72"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -252,6 +252,11 @@ class PipelineCli(object):
                                 model_path,
                                 model_chip='cpu',
                                 template_path='./templates/',
+                                memory_limit='2G',
+                                cpu_limit='2000m',
+                                target_cpu_util_percentage='75',
+                                min_replicas='1',
+                                max_replicas='2',
                                 build_type='docker',
                                 build_path='.',
                                 kube_namespace='default',
@@ -263,7 +268,6 @@ class PipelineCli(object):
                          model_tag=model_tag,
                          model_path=model_path,
                          model_chip=model_chip,
-                         template_path=template_path,
                          build_type=build_type,
                          build_path=build_path)
 
@@ -276,6 +280,12 @@ class PipelineCli(object):
                           model_name=model_name,
                           model_tag=model_tag,
                           model_chip=model_chip,
+                          template_path=template_path,
+                          memory_limit=memory_limit,
+                          cpu_limit=cpu_limit,
+                          target_cpu_util_percentage=target_cpu_util_percentage,
+                          min_replicas=min_replicas,
+                          max_replicas=max_replicas,
                           kube_namespace=kube_namespace,
                           timeout=timeout,
                           force_deploy=force_deploy)
@@ -286,7 +296,6 @@ class PipelineCli(object):
                     model_tag,
                     model_path,
                     model_chip='cpu',
-                    template_path='./templates/',
                     build_type='docker',
                     build_path='.'):
 
@@ -311,17 +320,17 @@ class PipelineCli(object):
 
     # TODO: Pull ./templates/ into this cli project 
     #       (or otherwise handle the location of templates outside of the cli)
-    def model_yaml(self,
-                   model_type,
-                   model_name,
-                   model_tag,
-                   model_chip='cpu',
-                   template_path='./templates/',
-                   memory_limit='2G',
-                   cpu_limit='2000m',
-                   target_cpu_util_percentage='75',
-                   min_replicas='1',
-                   max_replicas='2'):
+    def _model_yaml(self,
+                    model_type,
+                    model_name,
+                    model_tag,
+                    model_chip='cpu',
+                    template_path='./templates/',
+                    memory_limit='2G',
+                    cpu_limit='2000m',
+                    target_cpu_util_percentage='75',
+                    min_replicas='1',
+                    max_replicas='2'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
@@ -631,6 +640,11 @@ class PipelineCli(object):
                      model_name,
                      model_tag,
                      model_chip='cpu',
+                     memory_limit='2G',
+                     cpu_limit='2000m',
+                     target_cpu_util_percentage='75',
+                     min_replicas='1',
+                     max_replicas='2',
                      kube_namespace='default',
                      timeout=1200,
                      force_deploy=False):
@@ -639,14 +653,24 @@ class PipelineCli(object):
         print('model_name: %s' % model_name)
         print('model_tag: %s' % model_tag)
         print('model_chip: %s' % model_chip)
+        print('memory_limit: %s' % memory_limit)
+        print('cpu_limit: %s' % cpu_limit)
+        print('target_cpu_util_percentage: %s' % target_cpu_util_percentage)
+        print('min_replicas: %s' % min_replicas)
+        print('max_replicas: %s' % max_replicas)
         print('kube_namespace: %s' % kube_namespace)
         print('timeout: %s' % timeout)
         print('force_deploy: %s' % force_deploy)
 
-        rendered_yamls = self.model_yaml(model_type=model_type,
-                                         model_name=model_name,
-                                         model_tag=model_tag,
-                                         model_chip=model_chip)
+        rendered_yamls = self._model_yaml(model_type=model_type,
+                                          model_name=model_name,
+                                          model_tag=model_tag,
+                                          model_chip=model_chip,
+                                          memory_limit=memory_limit,
+                                          cpu_limit=cpu_limit,
+                                          target_cpu_util_percentage=target_cpu_util_percentage,
+                                          min_replicas=min_replicas,
+                                          max_replicas=max_replicas)
 
         for rendered_yaml in rendered_yamls:
             # For now, only handle '-deploy' and '-svc' yaml's
@@ -660,14 +684,14 @@ class PipelineCli(object):
                                  kube_namespace=kube_namespace)
 
 
-    def model_drop(self,
-                   model_server_url,
-                   model_type,
-                   model_name,
-                   model_tag,
-                   model_path,
-                   model_chip='cpu',
-                   timeout=1200):
+    def model_http_deploy(self,
+                          model_server_url,
+                          model_type,
+                          model_name,
+                          model_tag,
+                          model_path,
+                          model_chip='cpu',
+                          timeout=1200):
 
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
@@ -695,7 +719,7 @@ class PipelineCli(object):
         upload_key = 'file'
         upload_value = tar_path 
 
-        full_model_deploy_url = "%s/api/%s/model/drop/%s/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name, model_tag) 
+        full_model_deploy_url = "%s/api/%s/model/deploy/%s/%s/%s" % (model_server_url.rstrip('/'), PipelineCli._pipeline_api_version, model_type, model_name, model_tag) 
 
         with open(tar_path, 'rb') as fh:
             files = [(upload_key, (upload_value, fh))]
