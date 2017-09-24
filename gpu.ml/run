@@ -31,11 +31,11 @@ a2ensite www.conf
 
 source /etc/apache2/envvars
 
-service apache2 start
-
-[ -s /root/nvidia/nvidia-prometheus-stats.py ] \
-  && cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py -u 1.0 -p 5050 &
+#[ -s /root/nvidia/nvidia-prometheus-stats.py ] \
+#  && cd ~/nvidia-prometheus-stats/ && nohup python2 nvidia-prometheus-stats.py -u 1.0 -p 5050 &
 
 cd ~
 export CLASSPATH=$(${HADOOP_HDFS_HOME}/bin/hadoop classpath --glob)
 CLASSPATH=$CLASSPATH jupyterhub --ip='' --config=config/jupyterhub/jupyterhub_config.py 2>&1 > /root/logs/tensorflow-jupyterhub.out
+
+service apache2 restart
