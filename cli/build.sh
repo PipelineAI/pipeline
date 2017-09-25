@@ -2,6 +2,6 @@
 
 pip uninstall .
 
-pip install -e .
+pip install --ignore-installed --no-cache -U -e .
 
 pipeline version
