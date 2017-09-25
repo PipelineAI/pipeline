@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.74"
+__version__ = "0.79"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -842,9 +842,9 @@ class PipelineCli(object):
         kubeclient_v1_beta1 = kubeclient.ExtensionsV1beta1Api()
 
         print("")
-        print("Config")
-        print("******")
-        self.config()
+        print("Versions")
+        print("********")
+        self.version()
 
         print("")
         print("Nodes")
@@ -1132,9 +1132,7 @@ class PipelineCli(object):
 
 
     def _get_deploy_yamls(self, 
-                          service_name,
-                          git_home,
-                          git_version):
+                          service_name):
         try:
             (deploy_yamls, dependencies) = PipelineCli._kube_deploy_registry[service_name]
         except:
@@ -1143,17 +1141,13 @@ class PipelineCli(object):
 
         if len(dependencies) > 0:
             for dependency in dependencies:
-                deploy_yamls = deploy_yamls + self._get_deploy_yamls(dependency)
-
-        deploy_yamls = ['%s/%s/%s' % (git_home, git_version, deploy_yaml) for deploy_yaml in deploy_yamls]
+                deploy_yamls = deploy_yamls + self._get_deploy_yamls(service_name=dependency)
 
         return deploy_yamls 
 
 
     def _get_svc_yamls(self, 
-                       service_name,
-                       git_home,
-                       git_version):
+                       service_name):
         try:
             (svc_yamls, dependencies) = PipelineCli._kube_svc_registry[service_name]
         except:
@@ -1162,11 +1156,7 @@ class PipelineCli(object):
        
         if len(dependencies) > 0:
             for dependency_service_name in dependencies:
-                svc_yamls = svc_yamls + self._get_svc_yamls(service_name=dependency_service_name,
-                                                            git_home=git_home,
-                                                            git_version=git_version)
-
-        svc_yamls = ['%s/%s/%s' % (git_home, git_version, svc_yaml) for svc_yaml in svc_yamls]
+                svc_yamls = svc_yamls + self._get_svc_yamls(service_name=dependency_service_name)
 
         return svc_yamls
 
@@ -1202,24 +1192,21 @@ class PipelineCli(object):
     """
     def service_start(self,
                       service_name,
-                      git_home='https://github.com/fluxcapacitor/source.ml',
+                      git_home='https://github.com/fluxcapacitor/pipeline',
                       git_version='master',
                       kube_namespace='default'):
 
         deploy_yaml_filenames = []
         svc_yaml_filenames = []
 
-        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name=service_name, 
-                                                                               git_home=git_home, 
-                                                                               git_version=git_version)
+        deploy_yaml_filenames = deploy_yaml_filenames + self._get_deploy_yamls(service_name=service_name)
+        deploy_yaml_filenames = ['%s/%s/%s' % (git_home, git_version, deploy_yaml_filename) for deploy_yaml_filename in deploy_yaml_filenames]
         deploy_yaml_filenames = [deploy_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for deploy_yaml_filename in deploy_yaml_filenames]
         print("Using '%s'" % deploy_yaml_filenames)
  
-        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name=service_name, 
-                                                                      git_home=git_home, 
-                                                                      git_version=git_version)
+        svc_yaml_filenames = svc_yaml_filenames + self._get_svc_yamls(service_name=service_name)
+        svc_yaml_filenames = ['%s/%s/%s' % (git_home, git_version, svc_yaml_filename) for svc_yaml_filename in svc_yaml_filenames]
         svc_yaml_filenames = [svc_yaml_filename.replace('github.com', 'raw.githubusercontent.com') for svc_yaml_filename in svc_yaml_filenames]
-
         print("Using '%s'" % svc_yaml_filenames)
 
         kubeconfig.load_kube_config()
