@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.80"
+__version__ = "0.83"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -93,7 +93,6 @@ class PipelineCli(object):
                        model_type,
                        model_name,
                        model_tag,
-                       model_chip='cpu',
                        template_path='./templates/',
                        worker_memory_limit='2G',
                        worker_cpu_limit='2000m',
@@ -111,7 +110,6 @@ class PipelineCli(object):
 
         context = {'PIPELINE_MODEL_TYPE': model_type,
                    'PIPELINE_MODEL_NAME': model_name,
-                   'PIPELINE_MODEL_CHIP': model_chip,
                    'PIPELINE_MODEL_TAG': model_tag,
                    'PIPELINE_WORKER_CPU_LIMIT': worker_cpu_limit,
                    'PIPELINE_WORKER_MEMORY_LIMIT': worker_memory_limit,
@@ -122,7 +120,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_clustered_template)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-        rendered_filename = './clustered-%s-%s-%s-%s.yaml' % (model_type, model_name, model_chip, model_tag)
+        rendered_filename = './clustered-%s-%s-%s.yaml' % (model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
         print("'%s' -> '%s'." % (filename, rendered_filename))
@@ -223,34 +221,11 @@ class PipelineCli(object):
         print("")
 
 
-#    def model_init(self,
-#                   model_type,
-#                   model_name,
-#                   model_tag,
-#                   model_path='.',
-#                   model_chip='cpu',
-#                   template_path='./templates/'):
-
-#        context = {'PIPELINE_MODEL_TYPE': model_type,
-#                   'PIPELINE_MODEL_NAME': model_name,
-#                   'PIPELINE_MODEL_CHIP': model_chip,
-#                   'PIPELINE_MODEL_TAG': model_tag}
-
-#        model_build_Dockerfile_template_path = os.path.join(template_path, 'predict-Dockerfile-tensorflow.template')
-
-#        path, filename = os.path.split(model_build_Dockerfile_template_path)
-#        rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-#        rendered_Dockerfile = 'Dockerfile-%s-%s-%s-%s' % (model_type, model_name, model_chip, model_tag)
-#        with open(rendered_Dockerfile, 'wt') as fh:
-#            fh.write(rendered)
-#        print("'%s' -> '%s'." % (filename, rendered_Dockerfile))
-
     def model_build_push_deploy(self,
                                 model_type,
                                 model_name,
                                 model_tag,
                                 model_path,
-                                model_chip='cpu',
                                 template_path='./templates/',
                                 memory_limit='2G',
                                 cpu_limit='2000m',
@@ -267,19 +242,16 @@ class PipelineCli(object):
                          model_name=model_name,
                          model_tag=model_tag,
                          model_path=model_path,
-                         model_chip=model_chip,
                          build_type=build_type,
                          build_path=build_path)
 
         self.model_push(model_type=model_type,
                         model_name=model_name,
-                        model_tag=model_tag,
-                        model_chip=model_chip)
+                        model_tag=model_tag)
 
         self.model_deploy(model_type=model_type,
                           model_name=model_name,
                           model_tag=model_tag,
-                          model_chip=model_chip,
                           template_path=template_path,
                           memory_limit=memory_limit,
                           cpu_limit=cpu_limit,
@@ -295,17 +267,11 @@ class PipelineCli(object):
                     model_name,
                     model_tag,
                     model_path,
-                    model_chip='cpu',
                     build_type='docker',
                     build_path='.'):
 
         if build_type == 'docker':
-            if model_chip == 'gpu':
-                docker_cmd = 'nvidia-docker'
-            else:
-                docker_cmd = 'docker'
-
-            cmd = '%s build -t fluxcapacitor/predict-%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_chip=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (docker_cmd, model_type, model_name, model_chip, model_tag, model_type, model_name, model_chip, model_tag, model_path, build_path, build_path)
+            cmd = 'docker build -t fluxcapacitor/predict-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (model_type, model_name, model_tag, model_type, model_name, model_tag, model_path, build_path, build_path)
 
             print(cmd)
             print("")
@@ -324,7 +290,6 @@ class PipelineCli(object):
                     model_type,
                     model_name,
                     model_tag,
-                    model_chip='cpu',
                     template_path='./templates/',
                     memory_limit='2G',
                     cpu_limit='2000m',
@@ -343,7 +308,6 @@ class PipelineCli(object):
  
         context = {'PIPELINE_MODEL_TYPE': model_type,
                    'PIPELINE_MODEL_NAME': model_name,
-                   'PIPELINE_MODEL_CHIP': model_chip,
                    'PIPELINE_MODEL_TAG': model_tag,
                    'PIPELINE_CPU_LIMIT': cpu_limit,
                    'PIPELINE_MEMORY_LIMIT': memory_limit,
@@ -357,7 +321,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-        rendered_filename = './%s-%s-%s-%s-deploy.yaml' % (model_type, model_name, model_chip, model_tag)
+        rendered_filename = './%s-%s-%s-deploy.yaml' % (model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
             model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
@@ -366,7 +330,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
-        rendered_filename = './%s-%s-%s-%s-svc.yaml' % (model_type, model_name, model_chip, model_tag)
+        rendered_filename = './%s-%s-%s-svc.yaml' % (model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
             print("'%s' -> '%s'." % (filename, rendered_filename)) 
@@ -376,7 +340,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
-        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_chip, model_tag)
+        rendered_filename = './%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered) 
             print("'%s' -> '%s'." % (filename, rendered_filename))
@@ -388,15 +352,9 @@ class PipelineCli(object):
     def model_shell(self,
                     model_type,
                     model_name,
-                    model_tag,
-                    model_chip='cpu'):
+                    model_tag):
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s exec -it predict-%s-%s-%s-%s bash' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker exec -it predict-%s-%s-%s bash' % (model_type, model_name, model_tag)
         print(cmd)
         print("")
         process = subprocess.call(cmd, shell=True)
@@ -405,30 +363,18 @@ class PipelineCli(object):
     def model_push(self,
                    model_type,
                    model_name,
-                   model_tag,
-                   model_chip='cpu'):
+                   model_tag):
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s push fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker push fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag)
         process = subprocess.call(cmd, shell=True)
 
 
     def model_pull(self,
                    model_type,
                    model_name,
-                   model_tag,
-                   model_chip='cpu'):
+                   model_tag):
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s pull fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker pull fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag)
         process = subprocess.call(cmd, shell=True)
 
 
@@ -436,15 +382,9 @@ class PipelineCli(object):
                     model_type,
                     model_name,
                     model_tag,
-                    model_chip='cpu',
                     memory_limit='2G'):
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s run -itd --name=predict-%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 9877:9877 -p 7979:7979 --privileged -v /var/run/docker.sock:/var/run/docker.sock fluxcapacitor/predict-%s-%s-%s:%s' % (docker_cmd, model_type, model_name, model_chip, model_tag, memory_limit, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker run -itd --name=predict-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 7979:7979 -p 10254:10254 fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag, memory_limit, model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -454,15 +394,9 @@ class PipelineCli(object):
     def model_stop(self,
                    model_type,
                    model_name,
-                   model_tag,
-                   model_chip='cpu'): 
+                   model_tag): 
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s rm -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker rm -f predict-%s-%s-%s' % (model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -473,15 +407,9 @@ class PipelineCli(object):
     def model_logs(self,
                    model_type,
                    model_name,
-                   model_tag,
-                   model_chip='cpu'):
+                   model_tag):
 
-        if model_chip == 'gpu':
-            docker_cmd = 'nvidia-docker'
-        else:
-            docker_cmd = 'docker'
-
-        cmd = '%s logs -f predict-%s-%s-%s-%s' % (docker_cmd, model_type, model_name, model_chip, model_tag)
+        cmd = 'docker logs -f predict-%s-%s-%s' % (model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -600,7 +528,6 @@ class PipelineCli(object):
                   model_name,
                   model_tag,
                   model_path,
-                  model_chip='cpu',
                   tar_path='.',
                   filemode='w',
                   compression='gz'):
@@ -609,7 +536,6 @@ class PipelineCli(object):
         print('model_name: %s' % model_name)
         print('model_tag: %s' % model_tag)
         print('model_path: %s' % model_path)
-        print('model_chip: %s' % model_chip)
         print('tar_path: %s' % tar_path)
         print('filemode: %s' % filemode)
         print('compression: %s' % compression)
@@ -622,7 +548,7 @@ class PipelineCli(object):
         tar_path = os.path.expanduser(tar_path)
         tar_path = os.path.abspath(tar_path)
      
-        tar_filename = '%s-%s-%s-%s.tar.gz' % (model_type, model_name, model_chip, model_tag)
+        tar_filename = '%s-%s-%s.tar.gz' % (model_type, model_name, model_tag)
         tar_path = os.path.join(tar_path, tar_filename) 
  
         print("")
@@ -638,7 +564,6 @@ class PipelineCli(object):
                      model_type,
                      model_name,
                      model_tag,
-                     model_chip='cpu',
                      template_path='./templates/',
                      memory_limit='2G',
                      cpu_limit='2000m',
@@ -652,7 +577,6 @@ class PipelineCli(object):
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
         print('model_tag: %s' % model_tag)
-        print('model_chip: %s' % model_chip)
         print('memory_limit: %s' % memory_limit)
         print('cpu_limit: %s' % cpu_limit)
         print('target_cpu_util_percentage: %s' % target_cpu_util_percentage)
@@ -665,7 +589,6 @@ class PipelineCli(object):
         rendered_yamls = self._model_yaml(model_type=model_type,
                                           model_name=model_name,
                                           model_tag=model_tag,
-                                          model_chip=model_chip,
                                           memory_limit=memory_limit,
                                           cpu_limit=cpu_limit,
                                           target_cpu_util_percentage=target_cpu_util_percentage,
@@ -690,7 +613,6 @@ class PipelineCli(object):
                           model_name,
                           model_tag,
                           model_path,
-                          model_chip='cpu',
                           timeout=1200):
 
         print('model_type: %s' % model_type)
@@ -704,14 +626,12 @@ class PipelineCli(object):
         print('model_path: %s' % model_path)
 
         print('model_server_url: %s' % model_server_url)
-        print('model_chip: %s' % model_chip)
         print('timeout: %s' % timeout)
 
         tar_path = self.model_tar(model_type=model_type,
                                   model_name=model_name,
                                   model_tag=model_tag,
                                   model_path=model_path,
-                                  model_chip=model_chip,
                                   tar_path='.',
                                   filemode='w',
                                   compression='gz')
