@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.72"
+__version__ = "0.74"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -611,7 +611,6 @@ class PipelineCli(object):
         print('model_path: %s' % model_path)
         print('model_chip: %s' % model_chip)
         print('tar_path: %s' % tar_path)
-        print('tar_name: %s' % tar_name)
         print('filemode: %s' % filemode)
         print('compression: %s' % compression)
 
@@ -640,6 +639,7 @@ class PipelineCli(object):
                      model_name,
                      model_tag,
                      model_chip='cpu',
+                     template_path='./templates/',
                      memory_limit='2G',
                      cpu_limit='2000m',
                      target_cpu_util_percentage='75',
