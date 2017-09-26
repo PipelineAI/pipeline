@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.83"
+__version__ = "0.84"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -234,6 +234,9 @@ class PipelineCli(object):
                                 max_replicas='2',
                                 build_type='docker',
                                 build_path='.',
+                                build_registry_url='docker.io',
+                                build_registry_repo='fluxcapacitor',
+                                build_prefix='predict',
                                 kube_namespace='default',
                                 timeout=1200,
                                 force_deploy=False):
@@ -243,11 +246,16 @@ class PipelineCli(object):
                          model_tag=model_tag,
                          model_path=model_path,
                          build_type=build_type,
-                         build_path=build_path)
+                         build_path=build_path,
+                         build_registry_repo=build_registry_repo,
+                         build_prefix=build_prefix)
 
         self.model_push(model_type=model_type,
                         model_name=model_name,
-                        model_tag=model_tag)
+                        model_tag=model_tag,
+                        build_registry_url=build_registry_url,
+                        build_registry_repo=build_registry_repo,
+                        build_prefix=build_prefix)
 
         self.model_deploy(model_type=model_type,
                           model_name=model_name,
@@ -258,6 +266,9 @@ class PipelineCli(object):
                           target_cpu_util_percentage=target_cpu_util_percentage,
                           min_replicas=min_replicas,
                           max_replicas=max_replicas,
+                          build_registry_url=build_registry_url,
+                          build_registry_repo=build_registry_repo,
+                          build_prefix=build_prefix,
                           kube_namespace=kube_namespace,
                           timeout=timeout,
                           force_deploy=force_deploy)
@@ -268,10 +279,12 @@ class PipelineCli(object):
                     model_tag,
                     model_path,
                     build_type='docker',
-                    build_path='.'):
+                    build_path='.',
+                    build_registry_repo='fluxcapacitor',
+                    build_prefix='predict'):
 
         if build_type == 'docker':
-            cmd = 'docker build -t fluxcapacitor/predict-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (model_type, model_name, model_tag, model_type, model_name, model_tag, model_path, build_path, build_path)
+            cmd = 'docker build -t $s/%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (build_registry_repo, build_prefix, model_type, model_name, model_tag, model_type, model_name, model_tag, model_path, build_path, build_path)
 
             print(cmd)
             print("")
@@ -295,7 +308,10 @@ class PipelineCli(object):
                     cpu_limit='2000m',
                     target_cpu_util_percentage='75',
                     min_replicas='1',
-                    max_replicas='2'):
+                    max_replicas='2',
+                    build_registry_url='docker.io',
+                    build_registry_repo='fluxcapacitor',
+                    build_prefix='predict'):
 
         template_path = os.path.expandvars(template_path)
         template_path = os.path.expanduser(template_path)
@@ -313,7 +329,10 @@ class PipelineCli(object):
                    'PIPELINE_MEMORY_LIMIT': memory_limit,
                    'PIPELINE_TARGET_CPU_UTIL_PERCENTAGE': target_cpu_util_percentage,
                    'PIPELINE_MIN_REPLICAS': min_replicas,
-                   'PIPELINE_MAX_REPLICAS': max_replicas}
+                   'PIPELINE_MAX_REPLICAS': max_replicas,
+                   'PIPELINE_BUILD_REGISTRY_URL': build_registry_url,
+                   'PIPELINE_BUILD_REGISTRY_REPO': build_registry_repo,
+                   'PIPELINE_BUILD_PREFIX': build_prefix}
 
         rendered_filenames = []
 
@@ -321,7 +340,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_deploy_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
-        rendered_filename = './%s-%s-%s-deploy.yaml' % (model_type, model_name, model_tag)
+        rendered_filename = './%s-%s-%s-%s-deploy.yaml' % (build_prefix, model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
             model_predict_svc_yaml_template_path = os.path.join(template_path, PipelineCli._kube_svc_template_registry['predict'][0][0])
@@ -330,7 +349,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_svc_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)    
-        rendered_filename = './%s-%s-%s-svc.yaml' % (model_type, model_name, model_tag)
+        rendered_filename = './%s-%s-%s-%s-svc.yaml' % (build_prefix, model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered)
             print("'%s' -> '%s'." % (filename, rendered_filename)) 
@@ -340,7 +359,7 @@ class PipelineCli(object):
 
         path, filename = os.path.split(model_predict_autoscale_yaml_template_path)
         rendered = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)                     
-        rendered_filename = './%s-%s-%s-autoscale.yaml' % (model_type, model_name, model_tag)
+        rendered_filename = './%s-%s-%s-%s-autoscale.yaml' % (build_prefix, model_type, model_name, model_tag)
         with open(rendered_filename, 'wt') as fh:
             fh.write(rendered) 
             print("'%s' -> '%s'." % (filename, rendered_filename))
@@ -352,9 +371,10 @@ class PipelineCli(object):
     def model_shell(self,
                     model_type,
                     model_name,
-                    model_tag):
+                    model_tag,
+                    build_prefix='predict'):
 
-        cmd = 'docker exec -it predict-%s-%s-%s bash' % (model_type, model_name, model_tag)
+        cmd = 'docker exec -it %s-%s-%s-%s bash' % (build_prefix, model_type, model_name, model_tag)
         print(cmd)
         print("")
         process = subprocess.call(cmd, shell=True)
@@ -363,18 +383,24 @@ class PipelineCli(object):
     def model_push(self,
                    model_type,
                    model_name,
-                   model_tag):
+                   model_tag,
+                   build_registry_url='docker.io',
+                   build_registry_repo='fluxcapacitor',
+                   build_prefix='predict'):
 
-        cmd = 'docker push fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag)
+        cmd = 'docker push %s/%s/%s-%s-%s:%s' % (build_registry_url, build_registry_repo, build_prefix, model_type, model_name, model_tag)
         process = subprocess.call(cmd, shell=True)
 
 
     def model_pull(self,
                    model_type,
                    model_name,
-                   model_tag):
+                   model_tag,
+                   build_registry_url='docker.io',
+                   build_registry_repo='fluxcapacitor',
+                   build_prefix='predict'):
 
-        cmd = 'docker pull fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag)
+        cmd = 'docker pull %s/%s/%s-%s-%s:%s' % (build_registry_url, build_registry_repo, build_prefix, model_type, model_name, model_tag)
         process = subprocess.call(cmd, shell=True)
 
 
@@ -382,9 +408,12 @@ class PipelineCli(object):
                     model_type,
                     model_name,
                     model_tag,
+                    build_registry_url='docker.io',
+                    build_registry_repo='fluxcapacitor',
+                    build_prefix='predict',
                     memory_limit='2G'):
 
-        cmd = 'docker run -itd --name=predict-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 7979:7979 -p 10254:10254 fluxcapacitor/predict-%s-%s:%s' % (model_type, model_name, model_tag, memory_limit, model_type, model_name, model_tag)
+        cmd = 'docker run -itd --name=%s-%s-%s-%s -m %s -p 6969:6969 -p 9876:9876 -p 9000:9000 -p 9040:9040 -p 9090:9090 -p 3000:3000 -p 9092:9092 -p 8082:8082 -p 8081:8081 -p 2181:2181 -p 5959:5959 -p 6006:6006 -p 6333:6333 -p 7979:7979 -p 10254:10254 %s/%s/%s-%s-%s:%s' % (build_prefix, model_type, model_name, model_tag, memory_limit, build_registry_url, build_registry_repo, build_prefix, model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -394,9 +423,10 @@ class PipelineCli(object):
     def model_stop(self,
                    model_type,
                    model_name,
-                   model_tag): 
+                   model_tag,
+                   build_prefix='predict'): 
 
-        cmd = 'docker rm -f predict-%s-%s-%s' % (model_type, model_name, model_tag)
+        cmd = 'docker rm -f %s-%s-%s-%s' % (build_prefix, model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -407,9 +437,10 @@ class PipelineCli(object):
     def model_logs(self,
                    model_type,
                    model_name,
-                   model_tag):
+                   model_tag,
+                   build_prefix='predict'):
 
-        cmd = 'docker logs -f predict-%s-%s-%s' % (model_type, model_name, model_tag)
+        cmd = 'docker logs -f %s-%s-%s-%s' % (build_prefix, model_type, model_name, model_tag)
 
         print(cmd)
         print("")
@@ -571,6 +602,9 @@ class PipelineCli(object):
                      min_replicas='1',
                      max_replicas='2',
                      kube_namespace='default',
+                     build_registry_url='docker.io',
+                     build_registry_repo='fluxcapacitor',
+                     build_prefix='predict',
                      timeout=1200,
                      force_deploy=False):
 
@@ -583,6 +617,9 @@ class PipelineCli(object):
         print('min_replicas: %s' % min_replicas)
         print('max_replicas: %s' % max_replicas)
         print('kube_namespace: %s' % kube_namespace)
+        print('build_registry_url: %s' % build_registry_url)
+        print('build_registry_repo: %s' % build_registry_repo)
+        print('build_prefix: %s' % build_prefix)
         print('timeout: %s' % timeout)
         print('force_deploy: %s' % force_deploy)
 
@@ -593,7 +630,10 @@ class PipelineCli(object):
                                           cpu_limit=cpu_limit,
                                           target_cpu_util_percentage=target_cpu_util_percentage,
                                           min_replicas=min_replicas,
-                                          max_replicas=max_replicas)
+                                          max_replicas=max_replicas,
+                                          build_registry_url=build_registry_url,
+                                          build_registry_repo=build_registry_repo,
+                                          build_prefix=build_prefix)
 
         for rendered_yaml in rendered_yamls:
             # For now, only handle '-deploy' and '-svc' yaml's
@@ -1107,8 +1147,8 @@ class PipelineCli(object):
 
 
     """
-    Specifying --service-name will use the internally-configured deploy, svc, config, 
-    and secret configs in the _kube_registry.  This will override *_yaml_path params passed.
+    Specifying --service-name will prefer the internally-configured deploy, svc, config, and secret configs in the _kube_registry.  
+    TODO:  Add support for specifying yaml.
     """
     def service_start(self,
                       service_name,
