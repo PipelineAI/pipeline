@@ -1,3 +1,0 @@
---ignore-dir=releases
---ignore-dir=build
---ignore-file=is:erl_crash.dump

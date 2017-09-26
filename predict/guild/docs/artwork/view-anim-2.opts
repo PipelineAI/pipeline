@@ -1,1 +1,0 @@
-fps=5,scale=500:-1:flags=lanczos,crop=500:172:0:54 [x]; [x][1:v]

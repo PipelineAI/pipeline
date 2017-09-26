@@ -1,7 +1,0 @@
-_site
-.jekyll-metadata
-Gemfile.lock
-*.bak
-src/assets/img/*.jpg
-src/assets/img/*.gif
-src/favicon.ico

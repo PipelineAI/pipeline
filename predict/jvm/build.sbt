@@ -11,7 +11,6 @@ lazy val settings = (project in file("."))
                     .settings(name := "prediction-jvm")
                     .settings(globalSettings:_*)
                     .settings(libraryDependencies ++= deps)
-//		            .settings(javaOptions += "-Xmx2G")
 
 val jblasVersion = "1.2.4" 
 val breezeVersion = "0.13.2"
@@ -51,7 +50,6 @@ lazy val deps = Seq(
   "org.springframework.cloud" % "spring-cloud-starter-spectator" % springCloudStarterSpectatorEurekaHystrixVersion,
   "org.springframework.cloud" % "spring-cloud-starter-eureka" % springCloudStarterSpectatorEurekaHystrixVersion,
   "org.springframework.cloud" % "spring-cloud-starter-hystrix" % springCloudStarterSpectatorEurekaHystrixVersion,
-// This must stay 1.1.1.RELEASE or jackson.xml errors happen at runtime
   "org.springframework.cloud" % "spring-cloud-starter-config" % springCloudStarterConfigVersion,
   "org.jpmml" % "pmml-model-metro" % pmmlMetroVersion,
   "org.jpmml" % "pmml-model" % pmmlModelVersion,

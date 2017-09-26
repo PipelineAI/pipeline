@@ -35,6 +35,9 @@ RUN \
   && apt-get update \
   && apt-get install -y sbt
 
+#RUN \
+#  sbt -mem 1500 cleanFiles
+
 # Install Anaconda with Python3
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
     echo 'c1c15d3baba15bf50293ae963abef853 */tmp/miniconda.sh' | md5sum -c - && \
@@ -51,7 +54,7 @@ RUN \
 
 # Anaconda's libgfortran=3.0 is not co-operating, so we use apt-get
 RUN \
-  apt-get install -y libgfortran3
+  apt-get update && apt-get install -y libgfortran3
 
 RUN \
   conda install -c anaconda openblas
@@ -110,26 +113,19 @@ RUN \
 ENV \
   LOGS_HOME=/root/logs
 
+ENV \
+  PIPELINE_TENSORBOARD_CONDA_ENV_NAME=pipeline_tensorboard \
+  PIPELINE_TENSORBOARD_LOGDIR=$LOGS_HOME/tensorboard \
+  PIPELINE_TENSORBOARD_TENSORFLOW_VERSION=1.3.0
+
+COPY scripts/setup-tensorboard-environment.sh scripts/setup-tensorboard-environment.sh
+RUN \
+  /root/scripts/setup-tensorboard-environment.sh
+
 COPY sysutils/ sysutils/
 
 ENV \
-  HYSTRIX_DASHBOARD_PORT=7979
-
-COPY dashboard/ dashboard/
-
-RUN \
-  cd dashboard/hystrix-dashboard && ../gradlew --no-daemon buildAllProducts assemble -x test
-
-RUN \
-  sbt -mem 1500 cleanFiles
-
-COPY jvm/ jvm/
-
-ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
-
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH && sbt -mem 1500 package
 
 ENV \
   CONFLUENT_VERSION=3.3.0 \
@@ -161,6 +157,9 @@ ENV \
 
 ENV \
   PIPELINE_WEBSOCKET_KAFKA_SERVER_UPDATE_INTERVAL=1000
+
+ENV \
+  PIPELINE_WEBSOCKET_KAFKA_CONDA_ENV_NAME=pipeline_websocket_kafka
 
 # Must run ths or you will see the following error:
 #   ImportError: librdkafka.so.1: cannot open shared object file: No such file or directory
@@ -194,119 +193,23 @@ RUN \
   pip install git+https://github.com/wintoncode/winton-kafka-streams.git
 
 ENV \
-  TENSORBOARD_VERSION=0.1.5 \
-  TENSORBOARD_LOGDIR=$LOGS_HOME/tensorboard
+  PIPELINE_HYSTRIX_DASHBOARD_PORT=7979
 
-RUN \
-  pip install tensorflow-tensorboard==$TENSORBOARD_VERSION
-
-ENV \
-  TF_CPP_MIN_LOG_LEVEL=0
-
-# Drop Server
-#RUN \
-#  wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl \
-#  && chmod a+x kubectl \
-#  && mv kubectl /usr/local/bin/kubectl
-# Drop : Docker in Docker
-#RUN \
-#  curl -fsSL get.docker.com -o get-docker.sh \
-#  && sh get-docker.sh
-
+COPY dashboard/jetty-0.4.7.RC0.jar dashboard/jetty-0.4.7.RC0.jar
+COPY dashboard/hystrix-dashboard-0.1.0-dev.0.uncommitted.war dashboard/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
 COPY html/ /var/www/html/
 COPY run run
-
-ARG model_type
-RUN \
-  echo $model_type
-ENV \
-  PIPELINE_MODEL_TYPE=$model_type
-
-ARG model_name
-RUN \
-  echo $model_name
-ENV \
-  PIPELINE_MODEL_NAME=$model_name
-
-ARG model_chip
-RUN \
-  echo $model_chip
-ENV \
-  PIPELINE_MODEL_CHIP=$model_chip
-
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH/lib/jni \
-  && ln -s libtensorflow_jni-$PIPELINE_MODEL_CHIP.so libtensorflow_jni.so
-
-ARG model_tag
-RUN \
-  echo $model_tag
-ENV \
-  PIPELINE_MODEL_TAG=$model_tag
-
-# TODO:  model_path (and copy) is not required for drop server
-ARG model_path
-RUN \
-  echo $model_path
-ENV \
-  PIPELINE_MODEL_PATH=/root/model/$model_type/$model_name/$model_tag
-
-COPY $model_path $PIPELINE_MODEL_PATH
-
-# TODO:  This is only required for Drop because Drop builds new models upon upload
-#COPY / drop/
-
-#ENV \
-#  PIPELINE_DROP_SERVER_PATH=/root/src/main/python/drop
-
-#ENV \
-#  PIPELINE_DROP_PATH=/root/drop
-#RUN \
-#  mkdir -p $PIPELINE_DROP_PATH
-
-#ENV \
-#  PIPELINE_DROP_SERVER_PORT=9877
-
-ENV \
-  PIPELINE_CONDA_ENV_NAME=pipeline-$model_type-$model_name-$model_tag
-
-COPY scripts/ scripts/
 COPY src/ src/
+
+COPY scripts/setup-websocket-kafka-environment.sh scripts/setup-websocket-kafka-environment.sh
 RUN \
-  /root/scripts/setup-environment.sh 
+  /root/scripts/setup-websocket-kafka-environment.sh
 
-RUN \
-  /root/scripts/train-model-if-requested.sh
-
-# Bazel (Guild)
-#RUN \
-#  echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
-#  && curl https://bazel.build/bazel-release.pub.gpg | apt-key add - \
-#  && apt-get update \
-#  && apt-get install -y bazel
-
-# Guild
-#RUN \
-#  conda install python=2.7.10 \
-#  pip2 install psutil
-
-# Guild
-#RUN \
-#  git clone https://github.com/guildai/guild-python.git \
-#  && cd guild-python \
-#  && bazel build guild 
-
-# Guild
-#ENV \
-#  PATH=/root/guild-python/bazel-bin/guild:$PATH \
-#  PYTHONPATH=/root/guild-python/:$PYTHONPATH
-
-# Guild
-#RUN \
-#  guild check --tests
+COPY scripts/setup-model-environment.sh scripts/setup-model-environment.sh
+COPY scripts/train-model-if-requested.sh scripts/train-model-if-requested.sh
 
 RUN \
-  pip install pipeline-ai-cli==0.71
+  pip install pipeline-ai-cli==0.85
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
@@ -336,11 +239,57 @@ EXPOSE \
   6006 \
   # TensorFlow Training UI (Guild) \
   6333 \
-  # Drop Server \
-  9877 \
   # Hystrix Dashboard \
   7979 \
   # Prometheus Endpoint (Python)
   10254
 
+# Executes the ./run script upon startup
 CMD ["supervise", "."]
+
+
+#######################
+# Embedded Model Mode #
+#######################
+ARG model_type
+RUN \
+  echo $model_type
+ENV \
+  PIPELINE_MODEL_TYPE=$model_type
+
+ARG model_name
+RUN \
+  echo $model_name
+ENV \
+  PIPELINE_MODEL_NAME=$model_name
+
+ARG model_tag
+RUN \
+  echo $model_tag
+ENV \
+  PIPELINE_MODEL_TAG=$model_tag
+
+ARG model_path
+RUN \
+  echo $model_path
+ENV \
+  PIPELINE_MODEL_PATH=/root/model/$model_type/$model_name/$model_tag
+
+COPY $model_path $PIPELINE_MODEL_PATH
+
+ENV \
+  PIPELINE_MODEL_CONDA_ENV_NAME=pipeline-$model_type-$model_name-$model_tag
+
+RUN \
+  /root/scripts/setup-model-environment.sh 
+
+RUN \
+  /root/scripts/train-model-if-requested.sh
+
+#COPY jvm/prediction-jvm_2.11-1.0.jar jvm/prediction-jvm_2.11-1.0.jar
+#COPY jvm/lib/sbt-launch.jar jvm/lib/sbt-launch.jar
+#COPY jvm/build.sh jvm/build.sh
+COPY jvm/ jvm/
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH \
+  && ./build.sh

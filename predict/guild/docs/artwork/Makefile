@@ -1,2 +1,0 @@
-artwork:
-	cd ..; make artwork

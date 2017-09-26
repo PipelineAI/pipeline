@@ -6,8 +6,12 @@ WORKDIR /root
 RUN \
  apt-get update \
  && apt-get install -y python-mysqldb \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
- && apt-get install -y mysql-client \
+ && add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe' \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt install -y mysql-server-5.6 \
+ && apt install -y mysql-client-5.6 \
+# && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
+# && apt-get install -y mysql-client \
  && apt-get install -y libmysql-java 
 
 RUN \
