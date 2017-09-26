@@ -123,9 +123,14 @@ RUN \
   /root/scripts/setup-tensorboard-environment.sh
 
 COPY sysutils/ sysutils/
+COPY jvm/ jvm/
 
 ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
+
+RUN \
+  cd $PIPELINE_JVM_MODEL_SERVER_PATH \
+  && ./build.sh
 
 ENV \
   CONFLUENT_VERSION=3.3.0 \
@@ -209,7 +214,7 @@ COPY scripts/setup-model-environment.sh scripts/setup-model-environment.sh
 COPY scripts/train-model-if-requested.sh scripts/train-model-if-requested.sh
 
 RUN \
-  pip install pipeline-ai-cli==0.85
+  pip install pipeline-ai-cli==0.86
 
 # Don't forget to update the pipeline cli if these ports change!
 EXPOSE \
@@ -285,11 +290,3 @@ RUN \
 
 RUN \
   /root/scripts/train-model-if-requested.sh
-
-#COPY jvm/prediction-jvm_2.11-1.0.jar jvm/prediction-jvm_2.11-1.0.jar
-#COPY jvm/lib/sbt-launch.jar jvm/lib/sbt-launch.jar
-#COPY jvm/build.sh jvm/build.sh
-COPY jvm/ jvm/
-RUN \
-  cd $PIPELINE_JVM_MODEL_SERVER_PATH \
-  && ./build.sh
