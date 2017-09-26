@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-__version__ = "0.84"
+__version__ = "0.86"
 
 # References:
 #   https://github.com/kubernetes-incubator/client-python/blob/master/kubernetes/README.md
@@ -284,7 +284,7 @@ class PipelineCli(object):
                     build_prefix='predict'):
 
         if build_type == 'docker':
-            cmd = 'docker build -t $s/%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (build_registry_repo, build_prefix, model_type, model_name, model_tag, model_type, model_name, model_tag, model_path, build_path, build_path)
+            cmd = 'docker build -t %s/%s-%s-%s:%s --build-arg model_type=%s --build-arg model_name=%s --build-arg model_tag=%s --build-arg model_path=%s -f %s/Dockerfile %s' % (build_registry_repo, build_prefix, model_type, model_name, model_tag, model_type, model_name, model_tag, model_path, build_path, build_path)
 
             print(cmd)
             print("")
@@ -647,13 +647,13 @@ class PipelineCli(object):
                                  kube_namespace=kube_namespace)
 
 
-    def model_http_deploy(self,
-                          model_server_url,
-                          model_type,
-                          model_name,
-                          model_tag,
-                          model_path,
-                          timeout=1200):
+    def model_tar_deploy(self,
+                         model_server_url,
+                         model_type,
+                         model_name,
+                         model_tag,
+                         model_path,
+                         timeout=1200):
 
         print('model_type: %s' % model_type)
         print('model_name: %s' % model_name)
