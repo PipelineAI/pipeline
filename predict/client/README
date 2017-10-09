@@ -1,9 +1,0 @@
-Derived from the following:
-  https://github.com/tobegit3hub/deep_recommend_system/tree/master/java_predict_client
-
-TODO:  Look into native integration with JavaCPP.
-
-Here are goods link with example protobuf's:
-  https://www.tensorflow.org/versions/r0.11/api_docs/python/io_ops/converting
-  https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/feature.proto
-  https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto

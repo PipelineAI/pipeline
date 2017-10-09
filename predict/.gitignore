@@ -1,7 +1,0 @@
-*-deploy.yaml
-*-svc.yaml
-*-autoscale.yaml
-target/
-*.tar.gz
-/eclipse-generated/
-object-detection-mod/
