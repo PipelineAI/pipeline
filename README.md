@@ -7,6 +7,11 @@ Every Model is burned into a separate Docker Image with its appropriate Python, 
 We use this same Docker Image from Local Laptop to Production.
 
 ## Supported Model Types 
+
+[scikit](https://github.com/PipelineAI/models/tree/master/scikit/), [tensorflow](https://github.com/PipelineAI/models/tree/master/tensorflow/), [python](https://github.com/PipelineAI/models/tree/master/python/), [keras](https://github.com/PipelineAI/models/tree/master/keras/), [pmml](https://github.com/PipelineAI/models/tree/master/pmml/), [spark](https://github.com/PipelineAI/models/tree/master/spark/), [java](https://github.com/PipelineAI/models/tree/master/java/), [xgboost](https://github.com/PipelineAI/models/tree/master/xgboost/), R
+
+More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
+
 ![Nvidia GPU](http://pipeline.ai/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/img/tensorflow-logo-202x168.png) 
 
 ![Spark ML](http://pipeline.ai/img/spark-logo-254x163.png) ![Scikit-Learn](http://pipeline.ai/img/scikit-logo-277x150.png) 
@@ -14,10 +19,6 @@ We use this same Docker Image from Local Laptop to Production.
 ![R](http://pipeline.ai/img/r-logo-280x212.png) ![PMML](http://pipeline.ai/img/pmml-logo-210x96.png)
 
 ![Xgboost](http://pipeline.ai/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/img/ensemble-logo-285x125.png)
-
-[scikit](https://github.com/PipelineAI/models/tree/master/scikit/), [tensorflow](https://github.com/PipelineAI/models/tree/master/tensorflow/), [python](https://github.com/PipelineAI/models/tree/master/python/), [keras](https://github.com/PipelineAI/models/tree/master/keras/), [pmml](https://github.com/PipelineAI/models/tree/master/pmml/), [spark](https://github.com/PipelineAI/models/tree/master/spark/), [java](https://github.com/PipelineAI/models/tree/master/java/), [xgboost](https://github.com/PipelineAI/models/tree/master/xgboost/), R
-
-More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 
 # Pre-Requisites
 ## Docker
@@ -29,7 +30,7 @@ More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.2.36 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.3.0 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -37,7 +38,7 @@ pip install cli-pipeline==1.2.36 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.2.36
+cli_version: 1.3.0
 api_version: v1
 capabilities_enabled: ['predict', 'server', 'version']
 capabilities_disabled: ['train', 'cluster', 'optimize']
