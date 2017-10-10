@@ -1,0 +1,3 @@
+[submodule "predict"]
+	path = predict
+	url = git@github.com:PipelineAI/predict.git
