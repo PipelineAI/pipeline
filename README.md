@@ -1,3 +1,26 @@
+### PipelineAI Open Source
+[Setup PipelineAI + Local](Setup-Pipeline-Mini)
+
+[Setup PipelineAI + AWS (CPU)](Setup-Pipeline-AWS)
+
+[Setup PipelineAI + AWS (GPU)](Setup-Pipeline-AWS-GPU)
+
+[Setup PipelineAI + Google](Setup-Pipeline-Google)
+
+[Setup PipelineAI + Azure](Setup-Pipeline-Azure)
+
+### Setup GPUs
+[Setup AWS + GPU](AWS-GPU-TensorFlow-Docker)
+
+[Setup Google + GPU](GCP-GPU-TensorFlow-Docker)
+
+### PipelineAI Products
+[Community Edition](http://pipeline.ai/products/)
+
+[Standalone Edition](http://pipeline.ai/products/)
+
+[Enterprise Edition](http://pipeline.ai/products/)
+
 # [PipelineAI](http://pipeline.ai) Core Features
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
