@@ -56,7 +56,7 @@ More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.3.0 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.3.2 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -64,7 +64,7 @@ pip install cli-pipeline==1.3.0 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.3.0
+cli_version: 1.3.2
 api_version: v1
 capabilities_enabled: ['predict', 'server', 'version']
 capabilities_disabled: ['train', 'cluster', 'optimize']
