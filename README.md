@@ -1,36 +1,33 @@
-# PipelineAI Open Source
-[Setup PipelineAI + Local](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Mini)
+# Useful PipelineAI Resources
+Click [HERE](https://github.com/PipelineAI/predict) for more info on PipelineAI Predict.
 
-[Setup PipelineAI + AWS (CPU)](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-AWS)
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/) for more info on PipelineAI + Kubernetes.
 
-[Setup PipelineAI + AWS (GPU)](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-AWS-GPU)
+Click [HERE](https://support.pipeline.ai/) for support.
 
-[Setup PipelineAI + Google](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Google)
+Click [HERE](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search) for our TensorFlow, Spark, and GPU workshops.
 
-[Setup PipelineAI + Azure](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Azure)
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker) to setup AWS + GPUs.
 
-# Setup GPUs
-[Setup AWS + GPU](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker)
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker) to setup Google Cloud + GPUs.
 
-[Setup Google + GPU](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker)
-
-# PipelineAI Products
+# PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
 
 [Standalone Edition](http://pipeline.ai/products/)
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# [PipelineAI](http://pipeline.ai) Core Features
+# [PipelineAI](http://pipeline.ai) Core [Features](http://pipeline.ai/features)
+
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
 
-Every Model is burned into a separate Docker Image with its appropriate Python, C++, and Java/Scala Runtime Libraries.  
+Each model is built into a separate Docker image with the appropriate Python, C++, and Java/Scala Runtime Libraries for training or prediction.
 
-We use this same Docker Image from Local Laptop to Production.
+Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
 ## Supported Model Types 
-
 [scikit](https://github.com/PipelineAI/predict/tree/r1.3/models/scikit/), [tensorflow](https://github.com/PipelineAI/predict/tree/r1.3/models/tensorflow/), [python](https://github.com/PipelineAI/predict/tree/r1.3/models/java/), [keras](https://github.com/PipelineAI/predict/tree/r1.3/models/keras/), [pmml](https://github.com/PipelineAI/predict/tree/r1.3/models/pmml/), [spark](https://github.com/PipelineAI/predict/tree/r1.3/models/spark/), [java](https://github.com/PipelineAI/predict/tree/r1.3/models/java/), [xgboost](https://github.com/PipelineAI/predict/tree/r1.3/models/xgboost/), R
 
 More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
@@ -339,9 +336,3 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
-
-# 24x7 Support
-Click [HERE](https://support.pipeline.ai/) for support.
-
-# PipelineAI Workshops
-[TensorFlow + Spark + GPU](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
