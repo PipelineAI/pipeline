@@ -1,18 +1,18 @@
 ## PipelineAI Open Source
-[Setup PipelineAI + Local](Setup-Pipeline-Mini)
+[Setup PipelineAI + Local](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Mini)
 
-[Setup PipelineAI + AWS (CPU)](Setup-Pipeline-AWS)
+[Setup PipelineAI + AWS (CPU)](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-AWS)
 
-[Setup PipelineAI + AWS (GPU)](Setup-Pipeline-AWS-GPU)
+[Setup PipelineAI + AWS (GPU)](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-AWS-GPU)
 
-[Setup PipelineAI + Google](Setup-Pipeline-Google)
+[Setup PipelineAI + Google](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Google)
 
-[Setup PipelineAI + Azure](Setup-Pipeline-Azure)
+[Setup PipelineAI + Azure](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Azure)
 
 ## Setup GPUs
-[Setup AWS + GPU](AWS-GPU-TensorFlow-Docker)
+[Setup AWS + GPU](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker)
 
-[Setup Google + GPU](GCP-GPU-TensorFlow-Docker)
+[Setup Google + GPU](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker)
 
 ## PipelineAI Products
 [Community Edition](http://pipeline.ai/products/)
@@ -342,3 +342,6 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
+
+## 24x7 Support
+Click [HERE](https://support.pipeline.ai/) for support.
