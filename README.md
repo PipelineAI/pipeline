@@ -5,7 +5,7 @@
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# [PipelineAI](http://pipeline.ai) Core [Features](http://pipeline.ai/features)
+# PipelineAI Core [Features](http://pipeline.ai/features)
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
