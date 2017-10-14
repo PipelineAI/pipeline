@@ -1,16 +1,3 @@
-# Useful PipelineAI Resources
-Click [HERE](https://github.com/PipelineAI/predict) for more info on PipelineAI Predict.
-
-Click [HERE](https://github.com/PipelineAI/pipeline/wiki/) for more info on PipelineAI + Kubernetes.
-
-Click [HERE](https://support.pipeline.ai/) for support.
-
-Click [HERE](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search) for our TensorFlow, Spark, and GPU workshops.
-
-Click [HERE](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker) to setup AWS + GPUs.
-
-Click [HERE](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker) to setup Google Cloud + GPUs.
-
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
 
@@ -336,3 +323,16 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
+
+# Useful PipelineAI Resources
+Click [HERE](https://github.com/PipelineAI/predict) for more info on PipelineAI Predict.
+
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/) for more info on PipelineAI + Kubernetes.
+
+Click [HERE](https://support.pipeline.ai/) for 24x7 PipelineAI Support.
+
+Click [HERE](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search) for our TensorFlow, Spark, and GPU workshops.
+
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker) to setup AWS + GPUs.
+
+Click [HERE](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker) to setup Google Cloud + GPUs.
