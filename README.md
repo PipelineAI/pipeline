@@ -1,9 +1,3 @@
-# 24x7 Support
-Click [HERE](https://support.pipeline.ai/) for support.
-
-# PipelineAI Workshops
-[TensorFlow + Spark + GPU](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-
 # PipelineAI Open Source
 [Setup PipelineAI + Local](https://github.com/PipelineAI/pipeline/wiki/Setup-Pipeline-Mini)
 
@@ -345,3 +339,9 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
+
+# 24x7 Support
+Click [HERE](https://support.pipeline.ai/) for support.
+
+# PipelineAI Workshops
+[TensorFlow + Spark + GPU](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
