@@ -252,13 +252,6 @@ Digit  Confidence
 9      5.426473762781825e-06
 ```
 
-## View Real-Time Prediction Stream
-Re-run the Prediction REST API while watching the following url:
-```
-http://localhost:6969/stream/kafka/
-```
-![Live Stream Predictions](http://pipeline.ai/assets/img/live-stream-predictions.png)
-
 ## Monitor Real-Time Prediction Metrics
 Re-run the Prediction REST API while watching the following dashboard URL:
 ```
@@ -311,6 +304,9 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Continuously Deploy Models to Clusters of PipelineAI Servers
 ![PipelineAI Weavescope Kubernetes Cluster](http://pipeline.ai/assets/img/weavescope-with-header.png)
+
+## View Real-Time Prediction Stream
+![Live Stream Predictions](http://pipeline.ai/assets/img/live-stream-predictions.png)
 
 ## Compare Both Offline (Batch) and Real-Time Model Performance
 ![PipelineAI Model Comparison](http://pipeline.ai/assets/img/dashboard-batch-and-realtime.png)
