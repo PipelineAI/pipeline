@@ -115,7 +115,6 @@ cat ./models/tensorflow/mnist/pipeline_predict.py
 import os
 import logging
 from pipeline_model import TensorFlowServingModel
-from pipeline_logger.kafka_handler import KafkaHandler
 from pipeline_monitor import prometheus_monitor as monitor
 from pipeline_logger import log
 
@@ -140,11 +139,6 @@ _labels = {'model_type': os.environ['PIPELINE_MODEL_TYPE'], <-- Optional.  Tag m
            'model_tag': os.environ['PIPELINE_MODEL_TAG']}
 
 _logger = logging.getLogger('predict-logger')               <-- Optional.  Standard Python logging.
-
-_logger_kafka_handler = KafkaHandler(host_list='localhost:9092', <-- Optional.  Expose prediction stream.
-                                     topic='predictions')
-
-_logger.addHandler(_logger_kafka_handler)
 
 @log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions.
 def predict(request: bytes) -> bytes:                         <-- Required.  Called on every prediction.
