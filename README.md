@@ -325,7 +325,7 @@ Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
 
 # Useful PipelineAI Resources
-Click [HERE](https://github.com/PipelineAI/predict) for more info on PipelineAI Predict.
+Click [HERE](https://github.com/PipelineAI/) for more info on PipelineAI Open Source.
 
 Click [HERE](https://github.com/PipelineAI/pipeline/wiki/) for more info on PipelineAI + Kubernetes.
 
