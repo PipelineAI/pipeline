@@ -176,7 +176,6 @@ pipeline server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1.3
 2017-10-10 03:56:00.695  INFO 121 --- [     run-main-0] i.p.predict.jvm.PredictionServiceMain$   : Started PredictionServiceMain. in 7.566 seconds (JVM running for 20.739)
 [debug] 	Thread run-main-0 exited.
 [debug] Waiting for thread container-0 to terminate.
-kafka is [UP]
 ...
 INFO[0050] Completed initial partial maintenance sweep through 4 in-memory fingerprints in 40.002264633s.  source="storage.go:1398"
 ...
