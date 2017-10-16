@@ -1,4 +1,5 @@
 # PipelineAI [Home](http://pipeline.ai)
+![PipelineAI Home](http://pipeline.ai/assets/img/pipelineai-home.png)
 
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/), [Standalone Edition](http://pipeline.ai/products/), [Enterprise Edition](http://pipeline.ai/products/)
