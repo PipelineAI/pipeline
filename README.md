@@ -1,9 +1,7 @@
+# PipelineAI [Home](http://pipeline.ai)
+
 # PipelineAI [Products](http://pipeline.ai/products/)
-[Community Edition](http://pipeline.ai/products/)
-
-[Standalone Edition](http://pipeline.ai/products/)
-
-[Enterprise Edition](http://pipeline.ai/products/)
+[Community Edition](http://pipeline.ai/products/), [Standalone Edition](http://pipeline.ai/products/), [Enterprise Edition](http://pipeline.ai/products/)
 
 # PipelineAI Core [Features](http://pipeline.ai/features)
 
