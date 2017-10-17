@@ -36,7 +36,7 @@ More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.3.2 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.3.6 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -44,10 +44,13 @@ pip install cli-pipeline==1.3.2 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.3.2
+cli_version: 1.3.6
 api_version: v1
-capabilities_enabled: ['predict', 'server', 'version']
-capabilities_disabled: ['train', 'cluster', 'optimize']
+
+capabilities_enabled: ['server', 'prediction', 'version']
+capabilities_disabled: ['cluster', 'optimizer', 'traffic']
+
+Email `upgrade@pipeline.ai` to enable the advanced capabilities.
 ```
 
 ## Review CLI Functionality
@@ -55,37 +58,47 @@ capabilities_disabled: ['train', 'cluster', 'optimize']
 pipeline
 
 ### EXPECTED OUTPUT ###
-Usage:       pipeline                    <-- This CLI Command
+Usage:       pipeline                     <-- This List of CLI Commands
 
-(Enterprise) pipeline cluster-describe   <-- Describe Model Cluster
-             pipeline cluster-logs       <-- View Cluster Logs 
-             pipeline cluster-proxy      <-- Secure Tunnel into Cluster 
-             pipeline cluster-quarantine <-- Remove Instance from Cluster for Forensics
-             pipeline cluster-rollback   <-- Rollback Cluster
-             pipeline cluster-route      <-- Route Traffic across Model Versions (ie. Canary)
-             pipeline cluster-scale      <-- Scale Cluster
-             pipeline cluster-shell      <-- Shell into Cluster
-             pipeline cluster-start      <-- Start Cluster 
-             pipeline cluster-stop       <-- Stop Model Cluster
-             pipeline cluster-upgrade    <-- Upgrade Cluster
+(Enterprise) pipeline cluster-connect     <-- Create Secure Tunnel to Model Server Cluster 
+             pipeline cluster-describe    <-- Describe Model Server Cluster
+             pipeline cluster-logs        <-- View Model Server Cluster Logs 
+             pipeline cluster-quarantine  <-- Remove Instance from Model Server Cluster (Forensic Debugging)
+             pipeline cluster-rollback    <-- Rollback Model Server Cluster (undo cluster-rollout)
+             pipeline cluster-rollout     <-- Rollout New Version of Model Server Cluster
+             pipeline cluster-scale       <-- Scale Model Server Cluster
+             pipeline cluster-shell       <-- Shell into Model Server Cluster
+             pipeline cluster-start       <-- Start Model Server Cluster (from Registry)
+             pipeline cluster-status      <-- Status of Model Server Cluster
+             pipeline cluster-stop        <-- Stop Model Server Cluster
+             pipeline cluster-train       <-- Train Model on Distributed Cluster of Servers
 
-(Standalone) pipeline optimize-model     <-- Optimize Model for Prediction
+(Standalone) pipeline optimizer-generate  <-- Generate Optimized Models for a Given Model
 
-(Community)  pipeline predict-model      <-- Predict with Model
- 
-(Community)  pipeline server-build       <-- Build Model Server
-             pipeline server-logs        <-- View Server Logs
-             pipeline server-shell       <-- Shell into Server
-             pipeline server-start       <-- Start Model Server
-             pipeline server-stop        <-- Stop Model Server
+(Community)  pipeline prediction-loadtest <-- Prediction Load Test on Model Server
+             pipeline prediction-test     <-- Prediction Test on Model Server
 
-(Standalone) pipeline train-model        <-- Train Model
+(Enterprise) pipeline traffic-deregister  <-- De-register a Model Server Cluster from Taking Traffic
+             pipeline traffic-describe    <-- Show Traffic Status of a Model Server Cluster
+             pipeline traffic-register    <-- Register a Model Server Cluster to Take Traffic
+             pipeline traffic-shadow      <-- Duplicate Traffic to Model Server Cluster (Shadow Canary)
+             pipeline traffic-split       <-- Split Traffic within Model Server Cluster (Split Canary)
+             pipeline traffic-status      <-- Show Traffic Status of all Model Server Clusters
 
-(Community)  pipeline version            <-- View CLI Version
+(Community)  pipeline server-build        <-- Build Model Server
+             pipeline server-logs         <-- View Model Server Logs
+             pipeline server-pull         <-- Pull Model Server from Registry (ie. docker pull)
+             pipeline server-push         <-- Push Model Server to Registry (ie. docker push)
+             pipeline server-shell        <-- Shell into Model Server (Forensic Debugging)
+             pipeline server-start        <-- Start Model Server
+             pipeline server-stop         <-- Stop Model Server
+             pipeline server-train        <-- Train Model on Single Server
+
+(Community)  pipeline version             <-- View This CLI Version
 ```
 
 # Prepare Model Samples
-## Clone the PipelineAI Models Repo
+## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/predict
 ```
@@ -101,56 +114,59 @@ cd predict
 ls -l ./models/tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
-pipeline_conda_environment.yml <-- Required.  Sets up the conda environment.
-pipeline_install.sh            <-- Optional.  If file exists, we run it.
-pipeline_predict.py            <-- Required.  `predict(request: bytes) -> bytes` is required.
-versions/                      <-- Optional.  If directory exists, we start TensorFlow Serving.
+pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_install.sh                <-- Optional.  If file exists, we run it
+pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
+pipeline_train.py                  <-- Optional.  `main()` to train the model
+versions/                          <-- Optional.  If directory exists, we start TensorFlow Serving
 ```
 
-## Inspect `./models/tensorflow/mnist/pipeline_predict.py`
+## Inspect PipelineAI Predict Module `./models/tensorflow/mnist/pipeline_predict.py`
 ```
 cat ./models/tensorflow/mnist/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
 import logging
-from pipeline_model import TensorFlowServingModel
-from pipeline_monitor import prometheus_monitor as monitor
-from pipeline_logger import log
+from pipeline_model import TensorFlowServingModel             <-- Optional.  Wraps TensorFlow Serving
+from pipeline_monitor import prometheus_monitor as monitor    <-- Optional.  Monitor runtime metrics
+from pipeline_logger import log                               <-- Optional.  Log to console, file, kafka
 
 ...
 
-__all__ = ['predict'] <-- Optional.  Nice to have as a good Python citizen.
+__all__ = ['predict']                                         <-- Optional.  Being a good Python citizen.
 
 ...
 
-def _initialize_upon_import() -> TensorFlowServingModel:    <-- Optional.  Called once upon server startup.
-    return TensorFlowServingModel(host='localhost',         <-- Optional.  TensorFlow Serving.
+def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Called once at server startup
+    return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
                                   port=9000,
-                                  model_name='mnist',
-                                  inputs_name='inputs',
-                                  outputs_name='outputs',
-                                  timeout=100)
+                                  model_name=os.environ['PIPELINE_MODEL_NAME'],
+                                  inputs_name='inputs',       <-- Optional.  TensorFlow SignatureDef inputs
+                                  outputs_name='outputs',     <-- Optional.  TensorFlow SignatureDef outputs
+                                  timeout=100)                <-- Optional.  TensorFlow Serving timeout
 
-_model = _initialize_upon_import()  <-- Optional.  Called once upon server startup. 
+_model = _initialize_upon_import()  <-- Optional.  Called once upon server startup
 
-_labels = {'model_type': os.environ['PIPELINE_MODEL_TYPE'], <-- Optional.  Tag metrics.
+_labels = {'model_type': os.environ['PIPELINE_MODEL_TYPE'],   <-- Optional.  Tag metrics
            'model_name': os.environ['PIPELINE_MODEL_NAME'],
            'model_tag': os.environ['PIPELINE_MODEL_TAG']}
 
-_logger = logging.getLogger('predict-logger')               <-- Optional.  Standard Python logging.
+_logger = logging.getLogger('predict-logger')                 <-- Optional.  Standard Python logging
 
-@log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions.
-def predict(request: bytes) -> bytes:                         <-- Required.  Called on every prediction.
+@log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions
+def predict(request: bytes) -> bytes:                         <-- Required.  Called on every prediction
 
-    with monitor(labels=_labels, name="transform_request"):   <-- Optional.  Expose fine-grained metrics.
-        transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor).
+    with monitor(labels=_labels, name="transform_request"):   <-- Optional.  Expose fine-grained metrics
+        transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor)
 
     with monitor(labels=_labels, name="predict"):
-        predictions = _model.predict(transformed_request)     <-- Optional.  Call predict() function.
+        predictions = _model.predict(transformed_request)       <-- Optional.  Calls _model.predict()
 
     with monitor(labels=_labels, name="transform_response"):
-        return _transform_response(predictions)               <-- Optional.  Transform TensorFlow (tensor) into output (json).
+        transformed_response = _transform_response(predictions) <-- Optional.  Transform TensorFlow (tensor) into output (json)
+
+    return transformed_response                                 <-- Required.  Returns the predicted value(s)
 ...
 ```
 
@@ -183,7 +199,7 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 _You need to `ctrl-c` out of the log viewing before proceeding._
 
 ## PipelineAI Prediction CLI
-### Perform 100 Predictions in Parallel
+### Perform Prediction
 _The first call takes 10-20x longer than subsequent calls (and may timeout causing a "fallback" message) due to lazy initialization and warm-up._
 
 _Try the call again if you see a "fallback" message._
@@ -269,7 +285,7 @@ _Click `Save & Test`_.
 
 _Click `Dashboards -> Import` upper-left menu drop-down_.
 
-_Copy and Paste [THIS](https://raw.githubusercontent.com/PipelineAI/predict/r1/dashboard/grafana/pipelineai-prediction-dashboard.json) raw json file into the `paste JSON` box_.
+_Copy and Paste [THIS](https://raw.githubusercontent.com/PipelineAI/predict/r1.3/dashboard/grafana/pipelineai-prediction-dashboard.json) raw json file into the `paste JSON` box_.
 
 _Select the Prometheus-based data source that you setup above and click `Import`_.
 
