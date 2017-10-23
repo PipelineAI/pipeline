@@ -8,7 +8,6 @@
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-
 # PipelineAI Resources
 [PipelineAI Open Source](https://github.com/PipelineAI/)
 
