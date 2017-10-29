@@ -138,9 +138,9 @@ git clone https://github.com/PipelineAI/predict
 cd predict 
 ```
 
-## Switch to Latest Release Branch (r1.3)
+## Switch to Master Branch
 ```
-git checkout r1.3
+git checkout master
 ```
 
 # Model Predictions
