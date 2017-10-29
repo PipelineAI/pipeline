@@ -207,20 +207,20 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./models/tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag="v1" --model-path=./models/tensorflow/mnist
 ```
 _`model-path` must be a relative path._
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag="v1" --memory-limit=2G
 ```
 _If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag="v1"
 
 ### EXPECTED OUTPUT ###
 ...
@@ -241,7 +241,7 @@ _The first call takes 10-20x longer than subsequent calls for lazy initializatio
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag="v1" --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json
 
 ### Expected Output ###
 {"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
@@ -263,7 +263,7 @@ Digit  Confidence
 
 ### Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag="v1" --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## PipelineAI Prediction REST API
@@ -331,7 +331,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 ## Stop Model Server
 ```
-pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag="v1"
 ```
 
 # [PipelineAI Standalone and Enterprise Features](http://pipeline.ai/features)
