@@ -132,15 +132,14 @@ Usage:       pipeline                             <-- This List of CLI Commands
 git clone https://github.com/PipelineAI/predict
 ```
 
-
 ## Change into `predict` Directory
 ```
 cd predict 
 ```
 
-## Switch to Master Branch
+## Switch to Latest Release Branch (r1.3)
 ```
-git checkout master
+git checkout r1.3
 ```
 
 # Model Predictions
