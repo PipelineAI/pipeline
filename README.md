@@ -136,7 +136,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
 # Prepare Sample Models
 ## Clone the PipelineAI Predict Repo
 ```
-git clone https://github.com/PipelineAI/pipeline/models
+git clone https://github.com/PipelineAI/models
 ```
 
 ## Change into `predict` Directory
@@ -150,10 +150,10 @@ _Note:  Master may be unstable.  See Releases Tab for stable releases._
 git checkout master
 ```
 
-# Train Models
+# Train a Model
 ## Inspect Model Directory
 ```
-ls -l ./models/tensorflow/mnist
+ls -l ./tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
 ...
@@ -164,7 +164,7 @@ pipeline_train.py                  <-- Required.  `main()` is required
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=master --model-path=./models/tensorflow/mnist
+pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=master --model-path=./tensorflow/mnist
 ```
 
 ## Start Training UI
@@ -192,10 +192,10 @@ _This UI sometimes requires a couple refreshes.  We are working to stabilize the
 pipeline train-server-stop --model-type=tensorflow --model-name=mnist --model-tag=master
 ```
 
-# Serve Model Predictions
+# Predict with Model
 ## Inspect Model Directory
 ```
-ls -l ./models/tensorflow/mnist
+ls -l ./tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
 ...
@@ -208,7 +208,7 @@ versions/                          <-- Optional.  If directory exists, we start 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./models/tensorflow/mnist/pipeline_predict.py
+cat ./tensorflow/mnist/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -258,7 +258,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./models/tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
 ```
 _`model-path` must be a relative path._
 
@@ -293,7 +293,7 @@ _You may see `502 Bad Gateway` if you predict too quickly.  Let the server start
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
@@ -321,7 +321,7 @@ Digit  Confidence
 
 ### Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## PipelineAI Prediction REST API
