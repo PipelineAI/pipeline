@@ -37,25 +37,25 @@ Use the same Docker Image from Local Laptop to Production to avoid dependency su
 
 More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 
-![Nvidia GPU](http://pipeline.ai/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/img/tensorflow-logo-202x168.png) 
+![Nvidia GPU](http://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
-![Spark ML](http://pipeline.ai/img/spark-logo-24x163.png) ![Scikit-Learn](http://pipeline.ai/img/scikit-logo-277x150.png) 
+![Spark ML](http://pipeline.ai/assets/img/spark-logo-254x163.png) ![Scikit-Learn](http://pipeline.ai/assets/img/scikit-logo-277x150.png) 
 
-![R](http://pipeline.ai/img/r-logo-280x212.png) ![PMML](http://pipeline.ai/img/pmml-logo-210x96.png)
+![R](http://pipeline.ai/assets/img/r-logo-280x212.png) ![PMML](http://pipeline.ai/img/pmml-logo-210x96.png)
 
-![Xgboost](http://pipeline.ai/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/img/ensemble-logo-285x125.png)
+![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
 # Pre-Requisites
 ## Docker
 * Install [Docker](https://www.docker.com/community-edition#/download)
 
-## Python3 (Conda is Optional)
-* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 Support
+## Python2 or Python3 (Conda is Optional)
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 (Preferred) Support
 
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.3.10 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.3.16 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -63,7 +63,7 @@ pip install cli-pipeline==1.3.10 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.3.10     <-- MAKE SURE YOU ARE ON THIS VERSION OR BAD THINGS MAY HAPPEN!
+cli_version: 1.3.16     <-- MAKE SURE YOU ARE ON THIS VERSION OR BAD THINGS MAY HAPPEN!
 api_version: v1
 
 capabilities_enabled: ['predict_server', 'predict', 'version']
@@ -73,6 +73,12 @@ Email `upgrade@pipeline.ai` to enable the advanced capabilities.
 ```
 
 ## Review CLI Functionality
+[Community Edition](http://pipeline.ai/products/)
+
+[Standalone Edition](http://pipeline.ai/products/)
+
+[Enterprise Edition](http://pipeline.ai/products/)
+
 ```
 pipeline
 
@@ -89,7 +95,8 @@ Usage:       pipeline                             <-- This List of CLI Commands
 
 (Community)  pipeline predict                     <-- Predict with Model Server or Cluster
              
-(Enterprise) pipeline predict-cluster-connect     <-- Create Secure Tunnel to Prediction Cluster 
+(Enterprise) pipeline predict-cluster-autoscale   <-- Configure AutoScaling for Prediction Cluster
+             pipeline predict-cluster-connect     <-- Create Secure Tunnel to Prediction Cluster 
              pipeline predict-cluster-describe    <-- Describe Prediction Cluster
              pipeline predict-cluster-logs        <-- View Prediction Cluster Logs 
              pipeline predict-cluster-scale       <-- Scale Prediction Cluster
@@ -113,7 +120,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline train-cluster-shell         <-- Shell into Training Cluster
              pipeline train-cluster-start         <-- Start Training Cluster from Docker Registry
              pipeline train-cluster-status        <-- Status of Training Cluster
-             pipeline train-cluster-stop          <-- Stop Traininhg Cluster
+             pipeline train-cluster-stop          <-- Stop Training Cluster
 
 (Standalone) pipeline train-server-build          <-- Build Prediction Server
              pipeline train-server-logs           <-- View Prediction Server Logs
@@ -126,34 +133,79 @@ Usage:       pipeline                             <-- This List of CLI Commands
 (Community)  pipeline version                     <-- View This CLI Version
 ```
 
-# Prepare Model Samples
+# Prepare Sample Models
 ## Clone the PipelineAI Predict Repo
 ```
-git clone https://github.com/PipelineAI/predict
+git clone https://github.com/PipelineAI/pipeline/models
 ```
 
 ## Change into `predict` Directory
 ```
-cd predict 
+cd models 
 ```
 
-## Switch to Latest Release Branch (r1.3)
+## Switch to Latest Branch (master)
+_Note:  Master may be unstable.  See Releases Tab for stable releases._
 ```
-git checkout r1.3
+git checkout master
 ```
 
-# Model Predictions
+# Train Models
 ## Inspect Model Directory
 ```
 ls -l ./models/tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
+...
+pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_train.py                  <-- Required.  `main()` is required
+...
+```
+
+## Build Training Server
+```
+pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=master --model-path=./models/tensorflow/mnist
+```
+
+## Start Training UI
+```
+pipeline train-server-start --model-type=tensorflow --model-name=mnist --model-tag=master
+```
+
+_Note:  If you see the error below, run `docker rm -f train-tensorflow-mnist-master` first._
+```
+docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-master" is already in use by container.
+```
+
+## View Training UI (TensorFlow Models Only)
+```
+http://localhost:6334
+```
+_This UI sometimes requires a couple refreshes.  We are working to stabilize the UI._
+
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
+
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
+
+## Stop Training UI
+```
+pipeline train-server-stop --model-type=tensorflow --model-name=mnist --model-tag=master
+```
+
+# Serve Model Predictions
+## Inspect Model Directory
+```
+ls -l ./models/tensorflow/mnist
+
+### EXPECTED OUTPUT ###
+...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
 versions/                          <-- Optional.  If directory exists, we start TensorFlow Serving
+...
 ```
 
-## Inspect PipelineAI Predict Module `./models/tensorflow/mnist/pipeline_predict.py`
+## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
 cat ./models/tensorflow/mnist/pipeline_predict.py
@@ -206,20 +258,20 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag="v1" --model-path=./models/tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./models/tensorflow/mnist
 ```
 _`model-path` must be a relative path._
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag="v1" --memory-limit=2G
+pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
 _If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag="v1"
+pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -232,17 +284,24 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 ```
 _You need to `ctrl-c` out of the log viewing before proceeding._
 
+
 ## PipelineAI Prediction CLI
 ### Perform Prediction
-_You may see `502 Bad Gateway` if you predict too quickly.  Let the server startup completely, then predict again._
-
 _The first call takes 10-20x longer than subsequent calls for lazy initialization and warm-up. Predict again if you see a "fallback" message._
+
+_You may see `502 Bad Gateway` if you predict too quickly.  Let the server startup completely, then predict again._
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag="v1" --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json
+
+### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
+...
+'<html>\r\n<head><title>502 Bad Gateway</title></head></html>
+...
 
 ### Expected Output ###
+...
 {"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
 
 ### Formatted Output ###
@@ -262,7 +321,7 @@ Digit  Confidence
 
 ### Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag="v1" --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./models/tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## PipelineAI Prediction REST API
@@ -330,7 +389,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 ## Stop Model Server
 ```
-pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag="v1"
+pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
 # [PipelineAI Standalone and Enterprise Features](http://pipeline.ai/features)
