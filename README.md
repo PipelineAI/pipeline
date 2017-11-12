@@ -31,7 +31,7 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
 ## Supported Model Types 
-[scikit](https://github.com/PipelineAI/predict/tree/master/models/scikit/), [tensorflow](https://github.com/PipelineAI/predict/tree/master/models/tensorflow/), [python](https://github.com/PipelineAI/predict/tree/master/models/java/), [keras](https://github.com/PipelineAI/predict/tree/master/models/keras/), [pmml](https://github.com/PipelineAI/predict/tree/master/models/pmml/), [spark](https://github.com/PipelineAI/predict/tree/master/models/spark/), [java](https://github.com/PipelineAI/predict/tree/master/models/java/), [xgboost](https://github.com/PipelineAI/predict/tree/master/models/xgboost/), R
+[scikit](https://github.com/PipelineAI/models/tree/master/scikit/), [tensorflow](https://github.com/PipelineAI/models/tree/master/tensorflow/), [python](https://github.com/PipelineAI/models/tree/master/java/), [keras](https://github.com/PipelineAI/models/tree/master/keras/), [pmml](https://github.com/PipelineAI/models/tree/master/pmml/), [spark](https://github.com/PipelineAI/models/tree/master/spark/), [java](https://github.com/PipelineAI/models/tree/master/java/), [xgboost](https://github.com/PipelineAI/models/tree/master/xgboost/), R
 
 More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 
