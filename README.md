@@ -15,11 +15,12 @@
 
 [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
 
-[TensorFlow + Spark + GPU Workshop](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
+[PipelineAI Workshop (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
-[AWS + GPU](https://github.com/PipelineAI/pipeline/wiki/AWS-GPU-TensorFlow-Docker)
+# PipelineAI GPU Resources
+[PipelineAI + AWS + GPU](https://github.com/PipelineAI/pipeline/wiki/)
 
-[Google Cloud + GPU](https://github.com/PipelineAI/pipeline/wiki/GCP-GPU-TensorFlow-Docker)
+[PipelineAI + Google Cloud + GPU](https://github.com/PipelineAI/pipeline/wiki/)
 
 # PipelineAI Core [Features](http://pipeline.ai/features)
 
