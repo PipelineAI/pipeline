@@ -30,10 +30,16 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
-## Supported Model Types 
-[scikit](https://github.com/PipelineAI/models/tree/master/scikit/), [tensorflow](https://github.com/PipelineAI/models/tree/master/tensorflow/), [python](https://github.com/PipelineAI/models/tree/master/java/), [keras](https://github.com/PipelineAI/models/tree/master/keras/), [pmml](https://github.com/PipelineAI/models/tree/master/pmml/), [spark](https://github.com/PipelineAI/models/tree/master/spark/), [java](https://github.com/PipelineAI/models/tree/master/java/), [xgboost](https://github.com/PipelineAI/models/tree/master/xgboost/), R
-
-More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
+## Supported [Model Types](https://github.com/PipelineAI/models)
+Click [*HERE*] to view model samples for the following:
+* Scikit-Learn
+* TensorFlow
+* Keras
+* Spark ML (formerly called Spark MLlib)
+* XgBoost
+* Ensembles
+* Java
+* Python
 
 ![Nvidia GPU](http://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
@@ -43,12 +49,19 @@ More [model samples](https://github.com/PipelineAI/models) coming soon (ie. R).
 
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
+## Supported Model Runtimes (CPU and GPU)
+* Python
+* Java
+* Scala
+* C++
+* Nvidia TensorRT
+
 # Pre-Requisites
 ## Docker
 * Install [Docker](https://www.docker.com/community-edition#/download)
 
 ## Python2 or Python3 (Conda is Optional)
-* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python3 (Preferred) Support
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 2 or 3 (Preferred) Support
 
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
