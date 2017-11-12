@@ -38,9 +38,9 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 * Keras
 * Spark ML (formerly called Spark MLlib)
 * XgBoost
+* Custom Java
+* Custom Python
 * Ensembles
-* Java
-* Python
 
 ![Nvidia GPU](http://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
