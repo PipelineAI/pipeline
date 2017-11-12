@@ -32,7 +32,7 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
 ## Supported [Model Types](https://github.com/PipelineAI/models)
-Click [*HERE*](https://github.com/PipelineAI/models) to view model samples for the following:
+Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for the following:
 * Scikit-Learn
 * TensorFlow
 * Keras
