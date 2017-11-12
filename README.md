@@ -170,26 +170,27 @@ ls -l ./tensorflow/mnist
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_setup.sh                  <-- Optional.  Sets up additional libraries (odbc, etc)
 pipeline_train.py                  <-- Required.  `main()` is required
 ...
 ```
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=master --model-path=./tensorflow/mnist
+pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
 ```
 
 ## Start Training UI
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=mnist --model-tag=master
+pipeline train-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
-_Note:  If you see the error below, run `docker rm -f train-tensorflow-mnist-master` first._
+_Note:  If you see the error below, run `docker rm -f train-tensorflow-mnist-v1` first._
 ```
-docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-master" is already in use by container.
+docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-f1" is already in use by container.
 ```
 
-## View Training UI (TensorFlow Models Only)
+## View Training UI (including TensorBoard for TensorFlow Models)
 ```
 http://localhost:6334
 ```
@@ -201,7 +202,7 @@ _This UI sometimes requires a couple refreshes.  We are working to stabilize the
 
 ## Stop Training UI
 ```
-pipeline train-server-stop --model-type=tensorflow --model-name=mnist --model-tag=master
+pipeline train-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
 # Predict with Model
