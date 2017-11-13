@@ -67,7 +67,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 ## Install PipelineCLI
 _Note: This command line interface requires **Python3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.3.17 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.0 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -75,13 +75,19 @@ pip install cli-pipeline==1.3.17 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.3.17    <-- MAKE SURE YOU ARE ON THIS VERSION OR BAD THINGS MAY HAPPEN!
+cli_version: 1.4.0    <-- MAKE SURE YOU ARE ON THIS VERSION OR BAD THINGS MAY HAPPEN!
 api_version: v1
 
-capabilities_enabled: ['predict_server', 'predict', 'version']
-capabilities_disabled: ['predict_cluster', 'train_cluster', 'train_server', 'optimize', 'experiment']
+default build type: docker
+default build context path: . => ...
 
-Email `upgrade@pipeline.ai` to enable the advanced capabilities.
+default train base image: docker.io/pipelineai/train:cpu-1.4.0
+default predict base image: docker.io/pipelineai/predict:cpu-1.4.0
+
+capabilities_enabled: ['train_server', 'predict_server', 'predict', 'version']
+capabilities_disabled: ['train_cluster', 'predict_cluster', 'optimize', 'experiment']
+
+Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
 
 ## Review CLI Functionality
@@ -162,53 +168,10 @@ _Note:  Master may be unstable.  See Releases Tab for stable releases._
 git checkout master
 ```
 
-# Train a Model
-## Inspect Model Directory
-```
-ls -l ./tensorflow/mnist
-
-### EXPECTED OUTPUT ###
-...
-pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_setup.sh                  <-- Optional.  Runs before `pipeline_train.py`. Must be executable (`chmod a+x`).  
-pipeline_train.py                  <-- Required.  `main()` is required
-...
-```
-
-## Build Training Server
-```
-pipeline train-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
-```
-
-## Start Training UI
-```
-pipeline train-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1
-```
-
-_Note:  If you see the error below, run `docker rm -f train-tensorflow-mnist-v1` first._
-```
-docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-f1" is already in use by container.
-```
-
-## View Training UI (including TensorBoard for TensorFlow Models)
-```
-http://localhost:6334
-```
-_This UI sometimes requires a couple refreshes.  We are working to stabilize the UI._
-
-![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
-
-![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
-
-## Stop Training UI
-```
-pipeline train-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
-```
-
 # Predict with Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist
+ls -l ./tensorflow/mnist-guild/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -221,7 +184,7 @@ versions/                          <-- Optional.  If directory exists, we start 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist/pipeline_predict.py
+cat ./tensorflow/mnist-guild/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -271,7 +234,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
 ```
 _`model-path` must be a relative path._
 
