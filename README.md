@@ -170,7 +170,7 @@ ls -l ./tensorflow/mnist
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_setup.sh                  <-- Optional.  Sets up additional libraries (odbc, etc)
+pipeline_setup.sh                  <-- Optional.  Runs before `pipeline_train.py`. Must be executable (`chmod a+x`).  
 pipeline_train.py                  <-- Required.  `main()` is required
 ...
 ```
