@@ -167,6 +167,63 @@ _Note:  Master may be unstable.  See Releases Tab for stable releases._
 ```
 git checkout master
 ```
+# Train a Model
+## Inspect Model Directory
+```
+ls -l ./tensorflow/census-distributed
+
+### EXPECTED OUTPUT ###
+...
+pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_setup.sh                  <-- Optional.  Must be executable (`chmod a+x`).  
+pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--hyper-params`
+...
+```
+
+## Build Training Server
+```
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census-distributed
+```
+
+## Start Training UI
+_Notes the escaped `\ ` characters in the `--train-args` argument and the `./model.tensorflow/census/v1/data/...` relative path._
+
+_We are working on making this more intuitive._
+
+```
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./runs"
+```
+
+_Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
+
+```
+docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-v1" is already in use by container.
+```
+
+## View Training Logs
+```
+pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=v1
+```
+
+## Shell into Training
+```
+pipeline train-server-shell --model-type=tensorflow --model-name=census --model-tag=v1
+```
+
+## View Training UI (including TensorBoard for TensorFlow Models)
+```
+http://localhost:6007
+```
+_This UI sometimes requires a couple refreshes.  We are working to stabilize the UI._
+
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
+
+![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
+
+## Stop Training UI
+```
+pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
+```
 
 # Predict with Model
 ## Inspect Model Directory
