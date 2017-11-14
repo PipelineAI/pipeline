@@ -65,7 +65,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 * Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 2 or 3 (Preferred) Support
 
 ## Install PipelineCLI
-_Note: This command line interface requires **Python3** and **Docker** as detailed above._
+_Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
 pip install cli-pipeline==1.4.1 --ignore-installed --no-cache -U
 ```
@@ -197,7 +197,7 @@ pipeline train-server-start --model-type=tensorflow --model-name=census --model-
 _Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
 
 ```
-docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-mnist-v1" is already in use by container.
+docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-census-v1" is already in use by container.
 ```
 
 ## View Training Logs
@@ -228,7 +228,7 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 # Predict with Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist-guild/
+ls -l ./tensorflow/mnist-guild
 
 ### EXPECTED OUTPUT ###
 ...
