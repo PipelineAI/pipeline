@@ -157,7 +157,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
 git clone https://github.com/PipelineAI/models
 ```
 
-## Change into `predict` Directory
+## Change into `models` Directory
 ```
 cd models 
 ```
