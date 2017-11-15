@@ -67,7 +67,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.1 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.2 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -75,14 +75,14 @@ pip install cli-pipeline==1.4.1 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.4.1    <-- MAKE SURE YOU ARE ON THIS VERSION OR BAD THINGS MAY HAPPEN!
+cli_version: 1.4.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 api_version: v1
 
 default build type: docker
 default build context path: . => ...
 
-default train base image: docker.io/pipelineai/train:cpu-1.4.0
-default predict base image: docker.io/pipelineai/predict:cpu-1.4.0
+default train base image: docker.io/pipelineai/train:cpu-1.4.0     <-- THIS VERSION CAN BE DIFFERENT!
+default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 <-- THIS VERSION CAN BE DIFFERENT!
 
 capabilities_enabled: ['train_server', 'predict_server', 'predict', 'version']
 capabilities_disabled: ['train_cluster', 'predict_cluster', 'optimize', 'experiment']
