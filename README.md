@@ -67,7 +67,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.2 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.3 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -81,8 +81,8 @@ api_version: v1
 default build type: docker
 default build context path: . => ...
 
-default train base image: docker.io/pipelineai/train:cpu-1.4.0     <-- THIS VERSION CAN BE DIFFERENT!
-default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 <-- THIS VERSION CAN BE DIFFERENT!
+default train base image: docker.io/pipelineai/train:cpu-1.4.0     
+default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
 capabilities_enabled: ['train_server', 'predict_server', 'predict', 'version']
 capabilities_disabled: ['train_cluster', 'predict_cluster', 'optimize', 'experiment']
@@ -193,7 +193,7 @@ Note the following 2 conventions:
 _We are working on making these more intuitive._
 
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./tensorboard/runs/\ --num-epochs=1"
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./tensorboard\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
@@ -216,18 +216,20 @@ pipeline train-server-shell --model-type=tensorflow --model-name=census --model-
 ```
 http://localhost:6007
 ```
-_This UI sometimes requires a couple refreshes.  We are working to stabilize the UI._
+![PipelineAI TensorBoard UI 0](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-0.png)
 
-![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
+![PipelineAI TensorBoard UI 1](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-1.png)
 
-![PipelineAI Model UI](http://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
+![PipelineAI TensorBoard UI 2](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-2.png)
+
+![PipelineAI TensorBoard UI 3](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-3.png)
 
 ## Stop Training UI
 ```
 pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
-# Build Model Server
+# Build Model Prediction Server
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/mnist-guild
