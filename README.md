@@ -230,6 +230,7 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 ```
 
 # Build Model Prediction Server
+
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/mnist-guild
