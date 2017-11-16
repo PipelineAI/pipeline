@@ -186,12 +186,14 @@ pipeline train-server-build --model-type=tensorflow --model-name=census --model-
 ```
 
 ## Start Training UI
-_Notes the escaped `\ ` characters in the `--train-args` argument and the `./model.tensorflow/census/v1/data/...` relative path._
+Note the following 2 conventions:
+* The escaped `\ ` characters in the `--train-args` argument
+* The `./model/tensorflow/census/v1/data/...` path relative to the build context
 
-_We are working on making this more intuitive._
+_We are working on making these more intuitive._
 
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./runs"
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./tensorboard/runs/\ --num-epochs=1"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
@@ -225,7 +227,7 @@ _This UI sometimes requires a couple refreshes.  We are working to stabilize the
 pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
-# Predict with Model
+# Build Model Server
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/mnist-guild
@@ -237,6 +239,19 @@ pipeline_predict.py                <-- Required.  `predict(request: bytes) -> by
 versions/                          <-- Optional.  If directory exists, we start TensorFlow Serving
 ...
 ```
+
+## Build the Model into a Runnable Docker Image
+This command bundles the TensorFlow runtime with the model.
+```
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
+```
+_`model-path` must be a relative path._
+
+## Start the Model Server
+```
+pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+```
+_If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
@@ -288,19 +303,6 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ...
 ```
 
-## Build the Model into a Runnable Docker Image
-This command bundles the TensorFlow runtime with the model.
-```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
-```
-_`model-path` must be a relative path._
-
-## Start the Model Server
-```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
-```
-_If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
-
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
@@ -318,8 +320,8 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 _You need to `ctrl-c` out of the log viewing before proceeding._
 
 
-## PipelineAI Prediction CLI
-### Perform Prediction
+# Predict with Model Server
+## Perform Prediction
 _The first call takes 10-20x longer than subsequent calls for lazy initialization and warm-up. Predict again if you see a "fallback" message._
 
 _You may see `502 Bad Gateway` if you predict too quickly.  Let the server startup completely, then predict again._
@@ -352,12 +354,12 @@ Digit  Confidence
 9      5.426473762781825e-06
 ```
 
-### Perform 100 Predictions in Parallel (Mini Load Test)
+## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
 pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
-## PipelineAI Prediction REST API
+## Predict with REST API
 Use the REST API to POST a JSON document representing the number 2.
 
 ![MNIST 2](http://pipeline.ai/assets/img/mnist-2-100x101.png)
