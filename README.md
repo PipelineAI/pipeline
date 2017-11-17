@@ -175,8 +175,8 @@ ls -l ./tensorflow/census-distributed
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_setup.sh                  <-- Optional.  Must be executable (`chmod a+x`).  
-pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--hyper-params`
+pipeline_setup.sh                  <-- Optional.  Must be executable (`chmod a+x`). 
+pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--train-args`
 ...
 ```
 
@@ -188,7 +188,7 @@ pipeline train-server-build --model-type=tensorflow --model-name=census --model-
 ## Start Training UI
 Note the following 2 conventions:
 * The escaped `\ ` characters in the `--train-args` argument
-* The `./model/tensorflow/census/v1/data/...` path relative to the build context
+* The `./model/tensorflow/census/v1/data/...` path is relative to the build context
 
 _We are working on making these more intuitive._
 
