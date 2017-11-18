@@ -175,14 +175,13 @@ ls -l ./tensorflow/census-distributed
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_setup.sh                  <-- Optional.  Must be executable (`chmod a+x`). 
 pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--train-args`
 ...
 ```
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census-distributed
+pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census-distributed
 ```
 
 ## Start Training UI
@@ -193,7 +192,7 @@ Note the following 2 conventions:
 _We are working on making these more intuitive._
 
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --job-dir=./tensorboard\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/model/tensorflow/census/v1/data/ --input-host-path=./tensorflow/census-distributed/data/ --output-path=/root/tensorboard/ --output-host-path=./tensorflow/census-distributed/versions --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
@@ -204,12 +203,12 @@ docker: Error response from daemon: Conflict.  The container name "/train-tensor
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 ## Shell into Training
 ```
-pipeline train-server-shell --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
@@ -226,7 +225,7 @@ http://localhost:6007
 
 ## Stop Training UI
 ```
-pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 # Build Model Prediction Server
@@ -239,20 +238,20 @@ ls -l ./tensorflow/mnist-guild
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
-versions/                          <-- Optional.  If directory exists, we start TensorFlow Serving
+versions/                          <-- Optional.  If directory exists, start TensorFlow Serving
 ...
 ```
 
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
+pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
 ```
 _`model-path` must be a relative path._
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
 _If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
@@ -284,7 +283,8 @@ def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Cal
 
 _model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
 
-_labels = {'model_type': os.environ['PIPELINE_MODEL_TYPE'],   <-- Optional.  Tag metrics
+_labels = {'model_runtime': os.environ['PIPELINE_MODEL_RUNTIME'],  <-- Optional.  Tag metrics
+           'model_type': os.environ['PIPELINE_MODEL_TYPE'],   
            'model_name': os.environ['PIPELINE_MODEL_NAME'],
            'model_tag': os.environ['PIPELINE_MODEL_TAG']}
 
@@ -309,7 +309,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -322,7 +322,6 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 ```
 _You need to `ctrl-c` out of the log viewing before proceeding._
 
-
 # Predict with Model Server
 ## Perform Prediction
 _The first call takes 10-20x longer than subsequent calls for lazy initialization and warm-up. Predict again if you see a "fallback" message._
@@ -331,7 +330,7 @@ _You may see `502 Bad Gateway` if you predict too quickly.  Let the server start
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
+pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist-guild/data/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
@@ -359,7 +358,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## Predict with REST API
