@@ -232,7 +232,7 @@ pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --m
 
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist-guild
+ls -l ./tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
 ...
@@ -245,7 +245,7 @@ versions/                          <-- Optional.  If directory exists, start Ten
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist-guild/
+pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/
 ```
 _`model-path` must be a relative path._
 
@@ -258,7 +258,7 @@ _If the port is already allocated, run `docker ps`, then `docker rm -f <containe
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-guild/pipeline_predict.py
+cat ./tensorflow/mnist/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -330,7 +330,7 @@ _You may see `502 Bad Gateway` if you predict too quickly.  Let the server start
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist-guild/data/test_request.json
+pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
@@ -358,7 +358,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist-guild/data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## Predict with REST API
