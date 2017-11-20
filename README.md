@@ -85,7 +85,7 @@ default train base image: docker.io/pipelineai/train:cpu-1.4.0
 default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
 capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'version']
-capabilities_disabled: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*', 'experiment-*']
+capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*', 'experiment-*']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -196,7 +196,7 @@ Note the following:
 (_We are working on making these more intuitive._)
 
 ```
-pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=./train/adult.data.csv\ --eval-files=./eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=./train/adult.data.csv\ --validate-files=./validate/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tfserving-tensorflow-census-v1` first._
@@ -236,7 +236,7 @@ pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --m
 
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist
+ls -l ./tensorflow/census
 
 ### EXPECTED OUTPUT ###
 ...
@@ -249,20 +249,20 @@ versions/                          <-- Optional.  If directory exists, start Ten
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/
+pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/
 ```
 _`model-path` must be a relative path._
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --memory-limit=2G
 ```
 _If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist/pipeline_predict.py
+cat ./tensorflow/census/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -313,7 +313,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -334,7 +334,7 @@ _You may see `502 Bad Gateway` if you predict too quickly.  Let the server start
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
+pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/census/data/test/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
@@ -362,7 +362,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/census/data/test/test_request.json --test-request-concurrency=100
 ```
 
 ## Predict with REST API
