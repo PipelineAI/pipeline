@@ -84,8 +84,8 @@ default build context path: . => ...
 default train base image: docker.io/pipelineai/train:cpu-1.4.0     
 default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
-capabilities_enabled: ['train_server', 'predict_server', 'predict', 'version']
-capabilities_disabled: ['train_cluster', 'predict_cluster', 'optimize', 'experiment']
+capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'version']
+capabilities_disabled: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*', 'experiment-*']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -105,31 +105,32 @@ Usage:       pipeline                             <-- This List of CLI Commands
 
 (Enterprise) pipeline experiment-add              <-- Add Cluster to Experiment
              pipeline experiment-start            <-- Start Experiment
-             pipeline experiment-status           <-- Experiment Status (ie. Bandit-based Rewards)
+             pipeline experiment-status           <-- Experiment Status (Bandit-based Rewards)
              pipeline experiment-stop             <-- Stop Experiment
-             pipeline experiment-update           <-- Update Experiment (ie. Bandit-based % Traffic Router)
+             pipeline experiment-update           <-- Update Experiment (Bandit-based Routing)
 
-(Standalone) pipeline optimize                    <-- Perform Model and Runtime Hyper-Parameter Tuning
+(Standalone) pipeline optimize                    <-- Perform Model and Runtime Optimizations
 
-(Community)  pipeline predict                     <-- Predict with Model Server or Cluster
+(Community)  pipeline predict-test-http           <-- Predict Http-based Model Server or Cluster
+             pipeline predict-test-stream         <-- Predict Kafka-based Model Server or Cluster
              
-(Enterprise) pipeline predict-cluster-autoscale   <-- Configure AutoScaling for Prediction Cluster
-             pipeline predict-cluster-connect     <-- Create Secure Tunnel to Prediction Cluster 
-             pipeline predict-cluster-describe    <-- Describe Prediction Cluster
-             pipeline predict-cluster-logs        <-- View Prediction Cluster Logs 
-             pipeline predict-cluster-scale       <-- Scale Prediction Cluster
-             pipeline predict-cluster-shell       <-- Shell into Prediction Cluster
-             pipeline predict-cluster-start       <-- Start Prediction Cluster from Docker Registry
-             pipeline predict-cluster-status      <-- Status of Predidction Cluster
-             pipeline predict-cluster-stop        <-- Stop Prediction Cluster
+(Enterprise) pipeline predict-cluster-autoscale   <-- Configure AutoScaling for Model Cluster
+             pipeline predict-cluster-connect     <-- Create Secure Tunnel to Model Cluster 
+             pipeline predict-cluster-describe    <-- Describe Model Cluster
+             pipeline predict-cluster-logs        <-- View Model Cluster Logs 
+             pipeline predict-cluster-scale       <-- Scale Model Cluster
+             pipeline predict-cluster-shell       <-- Shell into Model Cluster
+             pipeline predict-cluster-start       <-- Start Model Cluster from Docker Registry
+             pipeline predict-cluster-status      <-- Status of Model Cluster
+             pipeline predict-cluster-stop        <-- Stop Model Cluster
              
-(Community)  pipeline predict-server-build        <-- Build Prediction Server
-             pipeline predict-server-logs         <-- View Prediction Server Logs
-             pipeline predict-server-pull         <-- Pull Prediction Server from Docker Registry
-             pipeline predict-server-push         <-- Push Prediction Server to Docker Registry
-             pipeline predict-server-shell        <-- Shell into Prediction Server (Debugging)
-             pipeline predict-server-start        <-- Start Prediction Server
-             pipeline predict-server-stop         <-- Stop Prediction Server
+(Community)  pipeline predict-server-build        <-- Build Model Server
+             pipeline predict-server-logs         <-- View Model Server Logs
+             pipeline predict-server-pull         <-- Pull Model Server from Docker Registry
+             pipeline predict-server-push         <-- Push Model Server to Docker Registry
+             pipeline predict-server-shell        <-- Shell into Model Server (Debugging)
+             pipeline predict-server-start        <-- Start Model Server
+             pipeline predict-server-stop         <-- Stop Model Server
 
 (Enterprise) pipeline train-cluster-connect       <-- Create Secure Tunnel to Training Cluster
              pipeline train-cluster-describe      <-- Describe Training Cluster
@@ -140,13 +141,13 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline train-cluster-status        <-- Status of Training Cluster
              pipeline train-cluster-stop          <-- Stop Training Cluster
 
-(Standalone) pipeline train-server-build          <-- Build Prediction Server
-             pipeline train-server-logs           <-- View Prediction Server Logs
-             pipeline train-server-pull           <-- Pull Prediction Server from Docker Registry
-             pipeline train-server-push           <-- Push Prediction Server to Docker Registry
-             pipeline train-server-shell          <-- Shell into Prediction Server (Debugging)
-             pipeline train-server-start          <-- Start Prediction Server
-             pipeline train-server-stop           <-- Stop Prediction Server
+(Standalone) pipeline train-server-build          <-- Build Training Server
+             pipeline train-server-logs           <-- View Training Server Logs
+             pipeline train-server-pull           <-- Pull Training Server from Docker Registry
+             pipeline train-server-push           <-- Push Training Server to Docker Registry
+             pipeline train-server-shell          <-- Shell into Training Server (Debugging)
+             pipeline train-server-start          <-- Start Training Server
+             pipeline train-server-stop           <-- Stop Training Server
              
 (Community)  pipeline version                     <-- View This CLI Version
 ```
@@ -170,7 +171,7 @@ git checkout master
 # Train a Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/census-distributed
+ls -l ./tensorflow/census
 
 ### EXPECTED OUTPUT ###
 ...
@@ -181,24 +182,27 @@ pipeline_train.py                  <-- Required.  `main()` is required. Args pas
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census-distributed
+pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
 ```
 
 ## Start Training UI
-Note the following 2 conventions:
-* The escaped `\ ` characters in the `--train-args` argument
-* The `./model/tensorflow/census/v1/data/...` path is relative to the build context
+Note the following:
+* `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
+* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as internal directories inside the Docker container.
+* `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
+* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be outside the Docker container.
+* To prevent overwriting the output of a previous run, you should update the `--output-path` between calls - or create a new unique subfolder in your `pipeline_train.py` (ie. timestamp).  See examples below.
 
-_We are working on making these more intuitive._
-
-```
-pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/model/tensorflow/census/v1/data/ --input-host-path=./tensorflow/census-distributed/data/ --output-path=/root/tensorboard/ --output-host-path=./tensorflow/census-distributed/versions --train-args="--train-files=./model/tensorflow/census/v1/data/adult.data.csv\ --eval-files=./model/tensorflow/census/v1/data/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
-```
-
-_Note:  If you see the error below, run `docker rm -f train-tensorflow-census-v1` first._
+(_We are working on making these more intuitive._)
 
 ```
-docker: Error response from daemon: Conflict.  The container name "/train-tensorflow-census-v1" is already in use by container.
+pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=./train/adult.data.csv\ --eval-files=./eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
+```
+
+_Note:  If you see the error below, run `docker rm -f train-tfserving-tensorflow-census-v1` first._
+
+```
+docker: Error response from daemon: Conflict.  The container name "/train-tfserving-tensorflow-census-v1" is already in use by container.
 ```
 
 ## View Training Logs
@@ -213,7 +217,7 @@ pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 ```
-http://localhost:6007
+http://localhost:6906
 ```
 ![PipelineAI TensorBoard UI 0](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-0.png)
 
