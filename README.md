@@ -190,13 +190,13 @@ Note the following:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
 * `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as internal directories inside the Docker container.
 * `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
-* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be outside the Docker container.
-* To prevent overwriting the output of a previous run, you should update the `--output-path` between calls - or create a new unique subfolder in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
+* To prevent overwriting the output of a previous run, you should update the `--output-path` between calls - or create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 
 (_We are working on making these more intuitive._)
 
 ```
-pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=./train/adult.data.csv\ --validate-files=./validate/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tfserving-tensorflow-census-v1` first._
@@ -217,7 +217,7 @@ pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 ```
-http://localhost:6906
+http://localhost:6007
 ```
 ![PipelineAI TensorBoard UI 0](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-0.png)
 
