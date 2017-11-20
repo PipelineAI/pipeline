@@ -67,7 +67,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.5 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.6 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
