@@ -334,23 +334,24 @@ pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-
 INFO[0050] Completed initial partial maintenance sweep through 4 in-memory fingerprints in 40.002264633s.  source="storage.go:1398"
 ...
 ```
-_You need to `ctrl-c` out of the log viewing before proceeding._
+_You need to `Ctrl-C` out of the log viewing before proceeding._
 
 ## Perform Prediction
-_The first call takes 10-20x longer than subsequent calls for lazy initialization and warm-up. Predict again if you see a "fallback" message._
+_You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again._
 
-_You may see `502 Bad Gateway` if you predict too quickly.  Let the server startup completely, then predict again._
-
-_Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
+_Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
-'<html>\r\n<head><title>502 Bad Gateway</title></head></html>
+<html>\r\n<head><title>502 Bad Gateway</title></head></html>
+...
+...
+{"results":["fallback"]}
 ...
 
-### Expected Output ###
+### EXPECTED OUTPUT ###
 ...
 {"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
 
