@@ -1,7 +1,6 @@
 # Setup Docker + Kubernetes + PipelineAI
 
-## Step 1:  [Download Docker](https://www.docker.com/community-edition) v1.17+ for Mac, Windows, or Linux
-Note:  Docker must be at least v1.17
+## Step 1:  Download Latest [Docker Community Edition](https://www.docker.com/community-edition) for Mac, Windows, or Linux
 
 ## Step 2:  Pull Latest Docker Image with Kubernetes CLI Installed
 ```
@@ -20,10 +19,10 @@ sudo docker exec -it kubernetes bash
 ```
 
 ## Step 5:  Setup PipelineAI on Kubernetes
-* [Local Laptop](kubernetes-local.md)
-* [AWS CPU](kubernetes-aws-cpu.md)
-* [AWS GPU](kubernetes-aws-gpu.md)
-* [Google Cloud](kubernetes-gcp.md)
-* [Azure](kubernetes-azure.md)
+* [Local Laptop](deploy/local.md)
+* [AWS CPU](deploy/aws-cpu.md)
+* [AWS GPU](deploy/aws-gpu.md)
+* [Google Cloud](deploy/gcp.md)
+* [Azure](deploy/azure.md)
 
-Click [HERE](kubernetes-commands.md) for more Kubernetes commands.
+Click [HERE](deploy/kubernetes-commands.md) for more Kubernetes commands.
