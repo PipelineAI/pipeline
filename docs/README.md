@@ -28,3 +28,4 @@ sudo docker exec -it kubernetes bash
 Click [HERE](deploy/kubernetes-commands.md) for more Kubernetes commands.
 
 # PipelineAI + GPUs
+Click [HERE](gpu/README.md) for More Details on PipelineAI + GPUs.
