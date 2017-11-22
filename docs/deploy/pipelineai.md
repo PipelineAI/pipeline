@@ -1,4 +1,4 @@
-## Step 1: [Docker and the Kubernetes CLI](setup.md) 
+## Step 1: [Setup Docker and Kubernetes CLI](setup.md) 
 
 ### Pre-requisites
 * You are setup and running with the [Docker and the Kubernetes CLI](setup.md) mentioned above ^^^ 
