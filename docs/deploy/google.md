@@ -1,4 +1,4 @@
-## Step 1:  [Setup Docker and Kubernetes CLI](Setup-Docker-and-Kubernetes-CLI)
+## Step 1:  [Setup Docker and Kubernetes CLI](README.md)
 
 **Note:  All commands must be run within the Docker container started in Step 1!!**
 
