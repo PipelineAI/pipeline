@@ -1,4 +1,4 @@
-# Setup PipelineAI 
+# Setup Docker + Kubernetes + PipelineAI
 
 ## Step 1:  [Download Docker](https://www.docker.com/community-edition) v1.17+ for Mac, Windows, or Linux
 Note:  Docker must be at least v1.17
