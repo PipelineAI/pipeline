@@ -273,7 +273,7 @@ _`model-path` must be a relative path._
 ```
 pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
-_If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
+_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-census-v1`._
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
