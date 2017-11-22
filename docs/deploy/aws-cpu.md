@@ -1,4 +1,4 @@
-## Step 1:  [Setup Docker and Kubernetes CLI](README.md)
+## Step 1:  [Setup Docker and Kubernetes CLI](setup.md)
 
 ## Step 2:  Create Kubernetes Cluster on AWS
 
@@ -235,4 +235,4 @@ kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
 ```
 * Add `--yes` to the command above when you're ready to delete the cluster
 
-## [Setup PipelineAI on Kubernetes](Setup-Pipeline-on-Kubernetes)
+## [Setup PipelineAI on Kubernetes](pipelineai.md)
