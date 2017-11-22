@@ -1,11 +1,9 @@
-# YOU MUST BE RUNNING WITHIN THE FOLLOWING DOCKER CONTAINER: 
-
-## Step 0: [Docker and the Kubernetes CLI](Setup-Docker-and-Kubernetes-CLI) 
+## Step 1: [Docker and the Kubernetes CLI](setup.md) 
 
 ### Pre-requisites
-* You are setup and running with the [Docker and the Kubernetes CLI](Setup-Docker-and-Kubernetes-CLI) mentioned above ^^^ 
-* You are **inside** the running `fluxcapacitor/kubernetes:<suggested-tag>` Docker Container from the previous pre-req (this page will provide the <suggested-tag>)
-* You have created a Kubernetes Cluster with [AWS](Setup-Pipeline-AWS), [Google Cloud](Setup-Pipeline-Google), or [Azure](Setup-Pipeline-Azure), or [Local](Setup-Pipeline-Mini) Laptop.
+* You are setup and running with the [Docker and the Kubernetes CLI](setup.md) mentioned above ^^^ 
+* You are **inside** the running `pipelineai/kubernetes:<suggested-tag>` Docker Container from the previous pre-req (this page will provide the <suggested-tag>)
+* You have created a Kubernetes Cluster on [AWS CPU](aws-cpu.md), [AWS GPU](aws-gpu.md), [Google Cloud](google.md), [Azure](azure.md), or [Local](local.md) Laptop.
 
 ### Verify Environment
 Verify `kubectl` is Installed
@@ -21,17 +19,17 @@ kubectl config current-context
 # <your-cluster-name>
 ```
 
-## Step 1: Create PipelineIO Cluster
+## Step 2: Create PipelineAI Cluster
 ```
 export PIO_VERSION=v1.2.0
 
-wget -O - https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scripts/cluster/deploy | PIO_COMMAND=create bash
+wget -O - https://raw.githubusercontent.com/PipelineAI/pipeline/$PIO_VERSION/scripts/cluster/deploy | PIO_COMMAND=create bash
 
-wget -O - https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scripts/cluster/svc | PIO_COMMAND=create bash
+wget -O - https://raw.githubusercontent.com/PipelineAI/pipeline/$PIO_VERSION/scripts/cluster/svc | PIO_COMMAND=create bash
 ```
 * **These ^^^ may take some time as the Docker images download from DockerHub.**
 
-## Step 2: Verify Successful PipelineIO Deployment
+## Step 3: Verify Successful PipelineAI Deployment
 ```
 kubectl get pod
 ```
@@ -46,7 +44,7 @@ kubectl get svc
 ```
 kubectl get svc -w
 ```
-## Step 3: Navigate to Jupyter Notebook and Start Coding!
+## Step 4: Navigate to Jupyter Notebook and Start Coding!
 ### Get the Jupyter Service IP or Hostname
 ```
 kubectl describe svc jupyterhub
@@ -117,7 +115,7 @@ Copy/paste the `<external-ip-or-hostname>` for the Scikit-Learn [Prediction Serv
 
 ## [More Kubernetes Commands](Kubernetes-Commands)
 
-## Undeploy PipelineIO Services
+## Undeploy PipelineAI Services
 ```
-export PIO_VERSION=v1.2.0 && wget -O - https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/scripts/cluster/deploy | PIO_COMMAND=delete bash
+export PIO_VERSION=v1.2.0 && wget -O - https://raw.githubusercontent.com/PipelineAI/pipeline/$PIO_VERSION/scripts/cluster/deploy | PIO_COMMAND=delete bash
 ```
