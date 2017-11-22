@@ -88,7 +88,7 @@ default train base image: docker.io/pipelineai/train:cpu-1.4.0
 default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
 capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'version']
-capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*', 'experiment-*']
+capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -106,7 +106,7 @@ pipeline
 ### EXPECTED OUTPUT ###
 Usage:       pipeline                             <-- This List of CLI Commands
 
-(Standalone) pipeline optimize                    <-- Perform Model and Runtime Optimizations
+(Standalone) pipeline optimize-predict-server     <-- Perform Model and Runtime Optimizations
 
 (Community)  pipeline predict-test-http           <-- Predict Http-based Model Server or Cluster
              pipeline predict-test-stream         <-- Predict Kafka-based Model Server or Cluster
