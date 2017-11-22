@@ -1,7 +1,7 @@
-## Step 1: Setup [`kubectl`](http://kubernetes.io/docs/user-guide/prereqs/)
-Follow [**THESE**](https://kubernetes.io/docs/tasks/tools/install-kubectl/) instructions to setup the Kubernetes CLI.
+## Step 1: Setup Kubernetes CLI (`kubectl`)
+Follow [THESE](https://kubernetes.io/docs/tasks/tools/install-kubectl/) instructions to setup the Kubernetes CLI.
 
-### Verify Kubernetes CLI Installation
+## Step 2: Verify Kubernetes CLI Installation
 ```
 kubectl config view
 
@@ -15,16 +15,15 @@ preferences: {}
 users: []
 ```
 
-## Step 2: Setup Minikube Locally
-Follow [**THESE**](https://github.com/kubernetes/minikube/releases/) instructions to setup Minikube in your environment.
+## Step 3: Setup Minikube Locally
+Follow [THESE](https://github.com/kubernetes/minikube/releases/) instructions to setup Minikube in your environment.
 
-### Start Minikube
-Reset Any Existing Minikube VMs
+Remove Any Existing Minikube VMs
 ```
 minikube delete
 ```
 
-### Start New Minikube VM
+Start New Minikube VM
 ```
 minikube start --disk-size=100g --memory=8192 --kubernetes-version=v1.8.0
 
@@ -44,28 +43,33 @@ Setting up kubeconfig...
 Kubectl is now configured to use the cluster.
 ```
 
-### (Optional) Configure Minikube to [Use Existing Docker Daemon](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md)
+## Step 4: Verify Minikube Installation
+View Configuration
 ```
-eval $(minikube docker-env)
+kubectl config view
+
+### EXPECTED OUTPUT (OR SIMILAR) ###
+apiVersion: v1
+clusters: 
+- cluster:
+    certificate-authority: /Users/cfregly/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts: 
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+- name: minikube
+  user:
+    client-certificate: /Users/cfregly/.minikube/client.crt
+    client-key: /Users/cfregly/.minikube/client.key
 ```
 
-## Step 3: Setup [PipelineAI]on Local Minikube
-### Install JupyterHub
-```
-echo '...JupyterHub...'
-kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/v1.2.0/jupyterhub.ml/jupyterhub-deploy.yaml
-kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/v1.2.0/jupyterhub.ml/jupyterhub-svc.yaml
-```
-**^^^ IGNORE `runtime.Unknown` ERROR ^^^**
-
-**This may take a _long_ time as Docker images are downloaded from DockerHub.**
-
-### Model Predictions
-If you want to predict with PipelineAI Local, you will need to deploy the prediction services which will likely not fit on your local laptop.
-
-You can try to follow the instructions for the Distributed, Cloud-Based versions of PipelineAI to test [predictions](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-on-Kubernetes#model-predictions).
-
-### Get All Nodes
+View All Nodes
 ```
 kubectl get nodes
 
@@ -74,7 +78,7 @@ NAME       STATUS    AGE
 minikube   Ready     32m
 ```
 
-### Get Minikube IP 
+View Minikube IP Address 
 ```
 minikube ip
 
@@ -82,7 +86,7 @@ minikube ip
 192.168.99.100
 ```
 
-### Get All Services
+Get All Services
 ```
 minikube service list
 
@@ -90,27 +94,30 @@ minikube service list
 |-------------|----------------------|---------------------------|
 |  NAMESPACE  |         NAME         |              URL          |
 |-------------|----------------------|---------------------------|
-| default     | jupyterhub           | http://192.168.99.100:... | <- Jupyter 
-|             |                      | http://192.168.99.100:... | <- Tensorboard
-|             |                      |                           |
 | kube-system | kubernetes-dashboard | http://192.168.99.100:... | <- Dashboard
 |-------------|----------------------|---------------------------|
 ```
 
-### Open Kubernetes Dashboard
-* Navigate to the `kubernetes-dashboard` IP/Port from Table [Above](Pipeline-Mini#list-service-ipsports)
+Open Kubernetes Dashboard
+* Navigate to the `kubernetes-dashboard` IP/Port from the table above
 ```
 http://<ip-address>:<port>
 ```
-![Kubernetes Dashboard](https://s3.amazonaws.com/fluxcapacitor.com/img/kubernetes-dashboard-mini-2.png)
 
-### Open Jupyter Notebook
-* Navigate to the `juptyerhub` IP/Port from Table [Above](Pipeline-Mini#list-service-ipsports)
+## Step 5: Train and Serve ML/AI Models with PipelineAI
+Follow [THESE](https://github.com/PipelineAI/pipeline/) instructions to train and serve models with PipelineAI.
+
+## Step 6: (Optional) Configure Minikube to Use [Default Local Docker Registry](https://github.com/kubernetes/minikube/blob/master/docs/reusing_the_docker_daemon.md)
+_This will make building and deploying new Docker images much faster on a local machine._
 ```
-http://<ip-address>:<port>
-```
-![JupyterHub](https://s3.amazonaws.com/fluxcapacitor.com/img/jupyterhub-login-mini.png)
-```
-username:  <-- ANYTHING YOU WANT
-password:  <-- LEAVE EMPTY!
+eval $(minikube docker-env)
+
+docker ps
+
+### EXPECTED OUTPUT ###
+...
+e326c964b54a        gcr.io/google_containers/pause-amd64:3.0               "/pause"                 2 minutes ago       Up 2 minutes                            k8s_POD_jupyterhub-5f86f64bb7-jwncp_default_43f487db-cfc8-11e7-b5d6-08002759b1cb_0
+7d0151d66dd5        gcr.io/google_containers/k8s-dns-sidecar-amd64         "/sidecar --v=2 --lo…"   4 minutes ago       Up 4 minutes                            k8s_sidecar_kube-dns-6fc954457d-vkkv5_kube-system_e8d7da36-cfc7-11e7-b5d6-08002759b1cb_0
+c3b91ec1a94f        gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64   "/dnsmasq-nanny -v=2…"   4 minutes ago       Up 4 minutes                            k8s_dnsmasq_kube-dns-6fc954457d-vkkv5_kube-system_e8d7da36-cfc7-11e7-b5d6-08
+...
 ```
