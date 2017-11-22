@@ -27,8 +27,8 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
-## Supported Machine Learning and AI [Model Types](https://github.com/PipelineAI/models/tree/master)
-Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for the following:
+## Sample Machine Learning and AI Models
+Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model samples for the following:
 * Scikit-Learn
 * TensorFlow
 * Keras
@@ -46,12 +46,19 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
+Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
+
 ## Supported Model Runtimes (CPU and GPU)
 * Python
 * Java
 * Scala
 * C++
-* Nvidia TensorRT
+* Caffe2
+* Theano
+* TensorFlow Serving (TensorFlow Only)
+* Nvidia TensorRT (TensorFlow, Caffe2)
+
+Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 
 # Pre-Requisites
 ## Docker
@@ -148,7 +155,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
 (Community)  pipeline version                     <-- View This CLI Version
 ```
 
-# Prepare Sample Models
+# Step 1: Retrieve Sample Models
 ## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
@@ -164,7 +171,7 @@ _Note:  Master may be unstable.  See Releases Tab for stable releases._
 ```
 git checkout master
 ```
-# Train a Model
+# Step 2: Train a Model
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/census
@@ -237,7 +244,7 @@ http://localhost:6007
 pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
-# Build Model Prediction Server
+# Step 3: Predict with Model
 
 ## Inspect Model Directory
 ```
@@ -339,7 +346,6 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 ```
 _You need to `ctrl-c` out of the log viewing before proceeding._
 
-# Predict with Model Server
 ## Perform Prediction
 _The first call takes 10-20x longer than subsequent calls for lazy initialization and warm-up. Predict again if you see a "fallback" message._
 
@@ -446,8 +452,8 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
-# [PipelineAI Standalone and Enterprise Features](http://pipeline.ai/features)
-Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
+# Additional PipelineAI [Standalone](http://pipeline.ai/products) and [Enterprise](http://pipeline.ai/products) Features
+See below for feature details.  Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Drag N' Drop Model Deploy
 ![PipelineAI Drag n' Drop Model Deploy UI](http://pipeline.ai/assets/img/drag-n-drop-tri-color.png)
