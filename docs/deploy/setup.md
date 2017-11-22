@@ -15,3 +15,9 @@ Make sure you include the `kubernetes:master` tag as part of the DockerHub refer
 ```
 sudo docker exec -it kubernetes bash
 ```
+
+## Step 5:  Setup PipelineAI on AWS, Google Cloud, or Azure
+* [AWS CPU](aws-cpu.md)
+* [AWS GPU](aws-gpu.md)
+* [Google Cloud](google.md)
+* [Azure](azure.md)
