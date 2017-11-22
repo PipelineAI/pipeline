@@ -1,6 +1,6 @@
-## [Setup Docker and Kubernetes CLI](Setup-Docker-and-Kubernetes-CLI)
+## Step 1:  [Setup Docker and Kubernetes CLI](README.md)
 
-## Create Kubernetes Cluster on AWS
+## Step 2:  Create Kubernetes Cluster on AWS
 
 **Note:  ALL COMMANDS MUST BE RUN WITHIN THE DOCKER CONTAINER STARTED IN STEP 1!!**
 
@@ -12,7 +12,7 @@ aws configure
 ```
 Enter `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`, and Default Region (ie. `us-west-2`)
 
-### Create IAM Role for `kops`
+## Create IAM Role for `kops`
 ```
 aws iam create-group --group-name kops
 
@@ -180,7 +180,7 @@ kubectl config set-cluster ${CLUSTER_NAME} --insecure-skip-tls-verify=true
 kubectl get nodes
 ```
 
-## Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
+## Step 3: Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
 ### Kubernetes [Dashboard](https://github.com/kubernetes/dashboard) <-- HIGHLY RECOMMENDED
 ```
 kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.3.yaml
