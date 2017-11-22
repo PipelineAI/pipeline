@@ -9,22 +9,17 @@
 [Enterprise Edition](http://pipeline.ai/products/)
 
 # PipelineAI Resources
-[PipelineAI Open Source](https://github.com/PipelineAI/)
+[Deploy PipelineAI](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 
 [![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
-
-[PipelineAI + Kubernetes](https://github.com/PipelineAI/pipeline/wiki/)
 
 [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
 
 [PipelineAI Workshop (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
-# PipelineAI GPU Resources
-[PipelineAI + AWS + GPU](https://github.com/PipelineAI/pipeline/wiki/)
+[PipelineAI + GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
 
-[PipelineAI + Google Cloud + GPU](https://github.com/PipelineAI/pipeline/wiki/)
-
-# PipelineAI Core [Features](http://pipeline.ai/features)
+# PipelineAI [Features](http://pipeline.ai/features)
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
@@ -33,7 +28,7 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
-## Supported [Model Types](https://github.com/PipelineAI/models)
+## Supported [Model Types](https://github.com/PipelineAI/models/tree/master)
 Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for the following:
 * Scikit-Learn
 * TensorFlow
