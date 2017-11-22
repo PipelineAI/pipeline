@@ -8,14 +8,15 @@
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# PipelineAI Resources
-[Deploy PipelineAI](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
+# PipelineAI Setup and Support
+[PipelineAI Deployment](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 
 [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
 
-[PipelineAI Workshop (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
+[PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
-[PipelineAI + GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
+# PipelineAI + GPUs
+Click [HERE](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md) for details on PipelineAI + GPUs.
 
 # PipelineAI [Features](http://pipeline.ai/features)
 
@@ -26,7 +27,7 @@ Each model is built into a separate Docker image with the appropriate Python, C+
 
 Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
-## Supported [Model Types](https://github.com/PipelineAI/models/tree/master)
+## Supported Machine Learning and AI [Model Types](https://github.com/PipelineAI/models/tree/master)
 Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for the following:
 * Scikit-Learn
 * TensorFlow
