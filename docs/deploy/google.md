@@ -185,7 +185,10 @@ Navigate to the following:
 https://<url-from-previous-step>/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard/#/workload?namespace=default
 ```
 
-### Shutdown Kubernetes Cluster 
+## Step 3: Train and Serve ML/AI Models with PipelineAI
+Follow [THESE](https://github.com/PipelineAI/pipeline/) instructions to train and serve models with PipelineAI.
+
+## Step 4: (Optional) Delete the Cluster
 ```
 $KUBERNETES_HOME/cluster/kube-down.sh
 ```
