@@ -1,10 +1,8 @@
 **WARNING:  These instructions are highly experimental as Kubernetes + GPU is still under active development.**
 
-**We cannot support this GPU-based environment at this time.  Use at your own risk!**
+## Step 1: [Setup Docker and Kubernetes CLI](setup.md)
 
-## [Setup Docker and Kubernetes CLI](Setup-Docker-and-Kubernetes-CLI)
-
-## Create Kubernetes Cluster on AWS
+## Step 2: Create Kubernetes Cluster on AWS
 
 **Note:  ALL COMMANDS SHOULD BE RUN WITHIN THE DOCKER CONTAINER STARTED IN PREVIOUS STEP!!**
 
@@ -135,7 +133,7 @@ Copy the following at the *BOTTOM* of the `spec:`
 # TO HERE
 ```
 
-## Update Instance Groups
+## Step 3: Update Instance Groups
 ### List Current Instance Groups
 ```
 kops get ig --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
@@ -205,14 +203,14 @@ master-us-west-2b	Master	t2.medium	1	1	us-west-2b
 nodes			Node	r3.2xlarge	1	1	us-west-2b
 ```
 
-## Update and Create Cluster Config
+## Step 4: Update and Create Cluster Config
 ```
 kops update cluster --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME} --yes
 ```
 
 ** WAIT ABOUT 10-15 MINUTES BEFORE ATTEMPTING THESE NEXT STEPS!! **
 
-## Validate Successful Cluster Startup 
+## Step 5: Validate Successful Cluster Startup 
 Re-run this until cluster starts successfully.
 
 _If you have issues, either check the logs or the AWS Console (Autoscale Groups, etc)._
@@ -246,7 +244,7 @@ kubectl get nodes -o yaml | grep nvidia
   ...
 ```
 
-## Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
+## Step 6: Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
 ### Kubernetes [Dashboard](https://github.com/kubernetes/dashboard) <-- HIGHLY RECOMMENDED
 ```
 kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.1.yaml
@@ -277,6 +275,8 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addon
 kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.5.0.yaml
 ```
 
+## Step 7: [Setup PipelineAI on Kubernetes](pipelineai.md)
+
 ## Troubleshooting
 * If you see the following, you need to set the `CLUSTER_NAME` and `KOPS_STATE_STORE` environment variables in your shell before you can run any kops commands.
 ```
@@ -294,11 +294,9 @@ Error syncing pod, skipping: failed to "StartContainer" for "jupyterhub" with Er
 * Modify Cluster (`instanceType`, `nodeCount`, `rootVolumeSize`, `rootVolumeOptimization`)
 * Use AWS [Spot Instances](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md#converting-an-instance-group-to-use-spot-instances) (`maxPrice`)
 
-### Delete the Cluster
+## Step 8: (Optional) Delete the Cluster
 * Make sure these Environment Variables have been set up above
 ```
 kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
 ```
 * Add `--yes` to the command above when you're ready to delete the cluster
-
-## [Setup PipelineAI on Kubernetes](Setup-Pipeline-on-Kubernetes)
