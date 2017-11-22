@@ -211,6 +211,21 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addon
 kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.5.0.yaml
 ```
 
+## Step 4: Train and Serve ML/AI Models with PipelineAI
+Follow [THESE](https://github.com/PipelineAI/pipeline/) instructions to train and serve models with PipelineAI.
+
+## Step 5: (Optional) Delete the Cluster
+* Make sure these Environment Variables have been set up above
+```
+kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
+```
+* Add `--yes` to the command above when you're ready to delete the cluster
+
+## More Resources
+### More `kops` [Commands](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md)
+* Modify Cluster (`instanceType`, `nodeCount`, `rootVolumeSize`, `rootVolumeOptimization`)
+* Use AWS [Spot Instances](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md#converting-an-instance-group-to-use-spot-instances) (`maxPrice`)
+
 ## Troubleshooting
 * If you see the following, you need to set the `CLUSTER_NAME` and `KOPS_STATE_STORE` environment variables in your shell before you can run any kops commands.
 ```
@@ -222,17 +237,3 @@ State store "" is not cloud-reachable - please use an S3 bucket
 Failed to pull image "docker.io/fluxcapacitor/jupyterhub": image pull failed for docker.io/fluxcapacitor/jupyterhub:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device) 
 Error syncing pod, skipping: failed to "StartContainer" for "jupyterhub" with ErrImagePull: "image pull failed for docker.io/fluxcapacitor/jupyterhub:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device)"
 ```
-
-## Related Links
-### More `kops` [Commands](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md)
-* Modify Cluster (`instanceType`, `nodeCount`, `rootVolumeSize`, `rootVolumeOptimization`)
-* Use AWS [Spot Instances](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md#converting-an-instance-group-to-use-spot-instances) (`maxPrice`)
-
-### Delete the Cluster
-* Make sure these Environment Variables have been set up above
-```
-kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
-```
-* Add `--yes` to the command above when you're ready to delete the cluster
-
-## [Setup PipelineAI on Kubernetes](pipelineai.md)
