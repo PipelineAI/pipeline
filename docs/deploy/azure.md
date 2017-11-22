@@ -1,4 +1,4 @@
-## Step 1:  [Setup Docker and Kubernetes CLI](README.md)
+## Step 1:  [Setup Docker and Kubernetes CLI](setup.md)
 
 ## Step 2:  Setup Kubernetes 
 
@@ -218,4 +218,4 @@ kubectl config set-cluster <cluster-name-from-above> --insecure-skip-tls-verify=
 Cluster "<cluster-name-from-above>" set.
 ```
 
-## Step 3:  [Setup PipelineAI on Kubernetes](Setup-Pipeline-on-Kubernetes)
+## Step 3:  [Setup PipelineAI on Kubernetes](pipelineai.md)
