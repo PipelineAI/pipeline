@@ -146,7 +146,7 @@ kubectl config set-cluster <cluster-name-from-above> --insecure-skip-tls-verify=
 Cluster "<cluster-name-from-above>" set.
 ```
 
-## Step 3:  [Setup PipelineAI on Kubernetes](Setup-Pipeline-on-Kubernetes)
+## Step 3:  [Setup PipelineAI on Kubernetes](pipelineai.md)
 
 ## Reference
 ### Kubernetes Dashboard
