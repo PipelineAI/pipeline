@@ -207,7 +207,7 @@ docker: Error response from daemon: Conflict.  The container name "/train-tfserv
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 ## View Trained Model Output (Locally)
@@ -238,7 +238,7 @@ http://localhost:6007
 
 ## Stop Training UI
 ```
-pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 # Build Model Prediction Server
@@ -266,13 +266,13 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1511176731   <-- Serves the high
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/
 ```
 _`model-path` must be a relative path._
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
 _If the port is already allocated, run `docker ps`, then `docker rm -f <container-id>`._
 
@@ -330,7 +330,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -351,7 +351,7 @@ _You may see `502 Bad Gateway` if you predict too quickly.  Let the server start
 
 _Before proceeding, make sure you hit `ctrl-c` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
+pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
 ### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
 ...
@@ -379,7 +379,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-runtime=tfserving --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## Predict with REST API
