@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jupyterhub
-        image: docker.io/pipelineai/jupyterhub:master
+        image: docker.io/fluxcapacitor/jupyterhub:master
         resources:
           limits:
             cpu: 4000m
