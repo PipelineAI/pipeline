@@ -202,11 +202,8 @@ Note the following:
 pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
-_Note:  If you see the error below, run `docker rm -f train-tfserving-tensorflow-census-v1` first._
+_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and `docker rm -f train-tfserving-tensorflow-census-v1`._
 
-```
-docker: Error response from daemon: Conflict.  The container name "/train-tfserving-tensorflow-census-v1" is already in use by container.
-```
 
 ## View Training Logs
 ```
