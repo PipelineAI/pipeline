@@ -11,6 +11,8 @@
 # PipelineAI Resources
 [PipelineAI Open Source](https://github.com/PipelineAI/)
 
+[![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
+
 [PipelineAI + Kubernetes](https://github.com/PipelineAI/pipeline/wiki/)
 
 [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
