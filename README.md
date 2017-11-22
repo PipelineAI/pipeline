@@ -11,8 +11,6 @@
 # PipelineAI Resources
 [Deploy PipelineAI](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 
-[![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
-
 [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
 
 [PipelineAI Workshop (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
