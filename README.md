@@ -67,7 +67,7 @@ Click [**HERE**](https://github.com/PipelineAI/models) to view model samples for
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.6 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.7 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -182,21 +182,21 @@ pipeline_train.py                  <-- Required.  `main()` is required. Args pas
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
 ```
 
 ## Start Training UI
 Note the following:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
-* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as internal directories inside the Docker container.
+* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
 * `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should update the `--output-path` between calls - or create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 
 (_We are working on making these more intuitive._)
 
 ```
-pipeline train-server-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data/ --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see the error below, run `docker rm -f train-tfserving-tensorflow-census-v1` first._
@@ -236,14 +236,7 @@ http://localhost:6007
 
 ![PipelineAI TensorBoard UI 3](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-3.png)
 
-## (Optional) Shell into Training Server
-```
-pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
-```
-_Type `exit` to break out of the shell._
-
 ## Stop Training UI
-_Make sure you've exited the shell above._
 ```
 pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
