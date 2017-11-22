@@ -100,7 +100,7 @@ kubectl describe svc jupyterhub
 
 * Set the `<service-name>.<your-cluster-name-with-fully-qualified-DNS-name>` = `<jupyter-external-service-ip-or-hostname>`
 
-## Model Predictions
+## Step 5: Setup Model Prediction Servers
 Follow similar steps above to find the external `model-server-url` for the [Prediction Service](http://pipeline.io/model_deploy/) you are using in your cluster (ie. Scikit-Learn, R, Spark, TensorFlow, etc).
 
 For example, to find the `model-server-url` in your cluster for Scikit-Learn, you would do the following:
@@ -113,9 +113,11 @@ prediction-scikit          <internal-ip>   <external-ip-or-hostname>    80:30380
 
 Copy/paste the `<external-ip-or-hostname>` for the Scikit-Learn [Prediction Service](http://pipeline.io/model_deploy/) `model-server-url` in your cluster.
 
-## [More Kubernetes Commands](Kubernetes-Commands)
-
-## Undeploy PipelineAI Services
+## Step 6: (Optional) Undeploy PipelineAI Services
 ```
 export PIO_VERSION=v1.2.0 && wget -O - https://raw.githubusercontent.com/PipelineAI/pipeline/$PIO_VERSION/scripts/cluster/deploy | PIO_COMMAND=delete bash
 ```
+
+## Resources
+* [More Kubernetes Commands](kubernetes-commands.md)
+
