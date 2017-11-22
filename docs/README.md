@@ -1,4 +1,4 @@
-# Setup Docker + Kubernetes + PipelineAI
+# Deploy PipelineAI
 
 ## Step 1:  Download Latest [Docker Community Edition](https://www.docker.com/community-edition) for Mac, Windows, or Linux
 
@@ -26,3 +26,5 @@ sudo docker exec -it kubernetes bash
 * [Azure](deploy/azure.md)
 
 Click [HERE](deploy/kubernetes-commands.md) for more Kubernetes commands.
+
+# PipelineAI + GPUs
