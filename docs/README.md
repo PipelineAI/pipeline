@@ -22,7 +22,7 @@ sudo docker exec -it kubernetes bash
 * [Local Laptop](deploy/local.md)
 * [AWS CPU](deploy/aws-cpu.md)
 * [AWS GPU](deploy/aws-gpu.md)
-* [Google Cloud](deploy/gcp.md)
+* [Google Cloud](deploy/google.md)
 * [Azure](deploy/azure.md)
 
 Click [HERE](deploy/kubernetes-commands.md) for more Kubernetes commands.
