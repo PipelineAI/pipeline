@@ -106,12 +106,6 @@ pipeline
 ### EXPECTED OUTPUT ###
 Usage:       pipeline                             <-- This List of CLI Commands
 
-(Enterprise) pipeline experiment-add              <-- Add Cluster to Experiment
-             pipeline experiment-start            <-- Start Experiment
-             pipeline experiment-status           <-- Experiment Status (Bandit-based Rewards)
-             pipeline experiment-stop             <-- Stop Experiment
-             pipeline experiment-update           <-- Update Experiment (Bandit-based Routing)
-
 (Standalone) pipeline optimize                    <-- Perform Model and Runtime Optimizations
 
 (Community)  pipeline predict-test-http           <-- Predict Http-based Model Server or Cluster
