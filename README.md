@@ -210,10 +210,19 @@ docker: Error response from daemon: Conflict.  The container name "/train-tfserv
 pipeline train-server-logs --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
-## Shell into Training
+## View Trained Model Output (Locally)
+_Make sure you are no longer viewing the logs by hitting `Ctrl-C`._
 ```
-pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
+ls -l tensorflow/census/versions/
+
+### EXPECTED OUTPUT ###
+...
+drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:20 1511367633 <= Sub-directories of training output
+drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:21 1511367665
+drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765
+...
 ```
+_Multiple training runs will produce multiple subdirectories - 1 for each training run named after the timestamp of the run._
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 ```
@@ -227,7 +236,14 @@ http://localhost:6007
 
 ![PipelineAI TensorBoard UI 3](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-3.png)
 
+## (Optional) Shell into Training Server
+```
+pipeline train-server-shell --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
+```
+_Type `exit` to break out of the shell._
+
 ## Stop Training UI
+_Make sure you've exited the shell above._
 ```
 pipeline train-server-stop --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
