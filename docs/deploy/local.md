@@ -49,4 +49,68 @@ Kubectl is now configured to use the cluster.
 eval $(minikube docker-env)
 ```
 
-## Step 3: Setup [PipelineAI](https://github.com/fluxcapacitor/pipeline/wiki/PipelineIO-on-Local-Minikube) on Local Minikube
+## Step 3: Setup [PipelineAI]on Local Minikube
+### Install JupyterHub
+```
+echo '...JupyterHub...'
+kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/v1.2.0/jupyterhub.ml/jupyterhub-deploy.yaml
+kubectl create -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/v1.2.0/jupyterhub.ml/jupyterhub-svc.yaml
+```
+**^^^ IGNORE `runtime.Unknown` ERROR ^^^**
+
+**This may take a _long_ time as Docker images are downloaded from DockerHub.**
+
+### Model Predictions
+If you want to predict with PipelineAI Local, you will need to deploy the prediction services which will likely not fit on your local laptop.
+
+You can try to follow the instructions for the Distributed, Cloud-Based versions of PipelineAI to test [predictions](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-on-Kubernetes#model-predictions).
+
+### Get All Nodes
+```
+kubectl get nodes
+
+### EXPECTED OUTPUT ###
+NAME       STATUS    AGE
+minikube   Ready     32m
+```
+
+### Get Minikube IP 
+```
+minikube ip
+
+### EXPECTED OUTPUT ###
+192.168.99.100
+```
+
+### Get All Services
+```
+minikube service list
+
+## EXPECTED OUTPUT
+|-------------|----------------------|---------------------------|
+|  NAMESPACE  |         NAME         |              URL          |
+|-------------|----------------------|---------------------------|
+| default     | jupyterhub           | http://192.168.99.100:... | <- Jupyter 
+|             |                      | http://192.168.99.100:... | <- Tensorboard
+|             |                      |                           |
+| kube-system | kubernetes-dashboard | http://192.168.99.100:... | <- Dashboard
+|-------------|----------------------|---------------------------|
+```
+
+### Open Kubernetes Dashboard
+* Navigate to the `kubernetes-dashboard` IP/Port from Table [Above](Pipeline-Mini#list-service-ipsports)
+```
+http://<ip-address>:<port>
+```
+![Kubernetes Dashboard](https://s3.amazonaws.com/fluxcapacitor.com/img/kubernetes-dashboard-mini-2.png)
+
+### Open Jupyter Notebook
+* Navigate to the `juptyerhub` IP/Port from Table [Above](Pipeline-Mini#list-service-ipsports)
+```
+http://<ip-address>:<port>
+```
+![JupyterHub](https://s3.amazonaws.com/fluxcapacitor.com/img/jupyterhub-login-mini.png)
+```
+username:  <-- ANYTHING YOU WANT
+password:  <-- LEAVE EMPTY!
+```
