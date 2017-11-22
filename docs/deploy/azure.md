@@ -218,4 +218,13 @@ kubectl config set-cluster <cluster-name-from-above> --insecure-skip-tls-verify=
 Cluster "<cluster-name-from-above>" set.
 ```
 
-## Step 3:  [Setup PipelineAI on Kubernetes](pipelineai.md)
+
+## Step 3: Train and Serve ML/AI Models with PipelineAI
+Follow [THESE](https://github.com/PipelineAI/pipeline/) instructions to train and serve models with PipelineAI.
+
+## Step 4: (Optional) Delete the Cluster
+* Make sure these Environment Variables have been set up above
+```
+kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
+```
+* Add `--yes` to the command above when you're ready to delete the cluster
