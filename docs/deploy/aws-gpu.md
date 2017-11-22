@@ -275,7 +275,15 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addon
 kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.5.0.yaml
 ```
 
-## Step 7: [Setup PipelineAI on Kubernetes](pipelineai.md)
+## Step 7: Train and Serve ML/AI Models with PipelineAI
+Follow [THESE](https://github.com/PipelineAI/pipeline/) instructions to train and serve models with PipelineAI.
+
+## Step 8: (Optional) Delete the Cluster
+* Make sure these Environment Variables have been set up above
+```
+kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
+```
+* Add `--yes` to the command above when you're ready to delete the cluster
 
 ## Troubleshooting
 * If you see the following, you need to set the `CLUSTER_NAME` and `KOPS_STATE_STORE` environment variables in your shell before you can run any kops commands.
@@ -293,10 +301,3 @@ Error syncing pod, skipping: failed to "StartContainer" for "jupyterhub" with Er
 ### More `kops` [Commands](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md)
 * Modify Cluster (`instanceType`, `nodeCount`, `rootVolumeSize`, `rootVolumeOptimization`)
 * Use AWS [Spot Instances](https://github.com/kubernetes/kops/blob/master/docs/instance_groups.md#converting-an-instance-group-to-use-spot-instances) (`maxPrice`)
-
-## Step 8: (Optional) Delete the Cluster
-* Make sure these Environment Variables have been set up above
-```
-kops delete --state ${KOPS_STATE_STORE} cluster --name ${CLUSTER_NAME}
-```
-* Add `--yes` to the command above when you're ready to delete the cluster
