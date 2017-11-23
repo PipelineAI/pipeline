@@ -215,7 +215,7 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:21 1511367665
 drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765
 ...
 ```
-_Multiple training runs will produce multiple subdirectories - 1 for each training run named after the timestamp of the run._
+_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 ```
