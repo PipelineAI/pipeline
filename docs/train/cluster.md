@@ -1,4 +1,6 @@
 # Distributed TensorFlow Training on Kubernetes in 1-Click
+* These instructions are under active development
+* We assume you already have a running Kubernetes cluster
 
 ## Build To Docker Repo
 ```
