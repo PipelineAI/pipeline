@@ -2,12 +2,12 @@
 * These instructions are under active development
 * We assume you already have a running Kubernetes cluster
 
-## Build To Docker Repo
+## Build Docker Image
 ```
 pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/
 ```
 
-## Push To Docker Repo
+## Push Image To Docker Repo
 ```
 pipeline train-server-push --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
 ```
