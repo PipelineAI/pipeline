@@ -343,7 +343,7 @@ _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the pre
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
-### IGNORE THIS ERROR.  WAIT A MINUTE AND RE-RUN THE COMMAND ABOVE ###
+### IGNORE THESE ERRORS BELOW.  WAIT A MINUTE, THEN RE-RUN THE COMMAND ABOVE. ###
 ...
 <html>\r\n<head><title>502 Bad Gateway</title></head></html>
 ...
@@ -355,7 +355,7 @@ pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-ta
 ...
 {"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
 
-### Formatted Output ###
+### FORMATTED OUTPUT ###
 Digit  Confidence
 =====  ==========
 0      0.0022526539396494627
