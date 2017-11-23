@@ -70,7 +70,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.8 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.10 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
