@@ -1,4 +1,4 @@
-# TODO:  Actively working on this
+# Distributed TensorFlow Training on Kubernetes in 1-Click
 
 ## Build To Docker Repo
 ```
