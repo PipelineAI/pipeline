@@ -130,8 +130,13 @@ Copy the following at the *BOTTOM* of the `spec:`
   kubelet:
     featureGates:
       Accelerators: "true"
+  kubeAPIServer:
+    runtimeConfig:
+      batch/v2alpha1: "true"
+      apps/v1alpha1: "true"      
 # TO HERE
 ```
+Alpha feature configuration is described [HERE](https://github.com/kubernetes/kops/blob/master/docs/cluster_spec.md#runtimeconfig)
 
 ## Step 3: Update Instance Groups
 ### List Current Instance Groups
