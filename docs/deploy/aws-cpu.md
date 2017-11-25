@@ -114,6 +114,22 @@ Note 2:  You can switch to `flannel` for networking by adding `--networking flan
 
 Note 3:  Other images available [here](https://github.com/kubernetes/kops/tree/master/channels).
 
+### Edit Cluster Config
+```
+kops edit cluster --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
+``` 
+
+Copy the following at the *BOTTOM* of the `spec:`
+```
+# FROM HERE
+  kubeAPIServer:
+    runtimeConfig:
+      batch/v2alpha1: "true"
+      apps/v1alpha1: "true"      
+# TO HERE
+```
+Alpha feature configuration is described [HERE](https://github.com/kubernetes/kops/blob/master/docs/cluster_spec.md#runtimeconfig)
+
 ## Update Instance Groups
 ### List Current Instance Groups
 ```
