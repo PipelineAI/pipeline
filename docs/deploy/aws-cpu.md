@@ -123,9 +123,9 @@ kops get ig --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
 #
 Using cluster from kubectl context: <cluster-name>
 
-NAME			ROLE	MACHINETYPE	MIN	MAX	ZONES
+NAME			    ROLE	MACHINETYPE	MIN	MAX	ZONES
 master-us-west-2b	Master	t2.medium	1	1	us-west-2b
-nodes			Node	r3.2xlarge	1	1	us-west-2b
+nodes			    Node	r3.2xlarge	1	1	us-west-2b
 ```
 
 ### Edit `nodes` Instance Group
@@ -148,9 +148,9 @@ kops get ig --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
 
 ### EXPECTED OUTPUT ###
 #
-NAME			ROLE	MACHINETYPE	MIN	MAX	SUBNETS
+NAME			    ROLE	MACHINETYPE	MIN	MAX	SUBNETS
 master-us-west-2b	Master	t2.medium	1	1	us-west-2b
-nodes			Node	r3.2xlarge	1	1	us-west-2b
+nodes			    Node	r3.2xlarge	1	1	us-west-2b
 ```
 
 ## Update and Create Cluster Config
