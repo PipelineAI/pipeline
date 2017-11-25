@@ -116,7 +116,7 @@ Note 2:  You can switch to `flannel` for networking by adding `--networking flan
 
 Note 3:  Other images available [here](https://github.com/kubernetes/kops/tree/master/channels).
 
-Edit Cluster Config
+### Edit Cluster Config
 ```
 kops edit cluster --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
 ``` 
