@@ -144,6 +144,10 @@ master-us-west-2b	Master	t2.medium	1	1	us-west-2b
 nodes			    Node	r3.2xlarge	1	1	us-west-2b
 ```
 
+# Sometimes you need to use this
+```
+kops get ig --state s3://awsgpu.pipeline.ai --name awsgpu.pipeline.ai
+```
 ### Edit `nodes` Instance Group
 ```
 kops edit ig nodes --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
