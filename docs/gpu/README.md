@@ -1,5 +1,5 @@
 ## Setup PipelineAI + GPU + Hybrid-Cloud
-* Click [HERE](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy) to deploy PipelineAI on a GPU on all major cloud providers.
+* Click [HERE](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy) to deploy PipelineAI Locally - or on GPU's across all major cloud providers.
 
 ## Docker Images
 * [AWS GPU + Tensorflow + Spark + HDFS + Docker](aws-gpu.md)
