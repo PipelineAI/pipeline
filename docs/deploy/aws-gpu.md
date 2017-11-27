@@ -207,9 +207,9 @@ kops get ig --state ${KOPS_STATE_STORE} --name ${CLUSTER_NAME}
 ### EXPECTED OUTPUT ###
 #
 NAME			    ROLE	MACHINETYPE	MIN	MAX	SUBNETS
-gpunodes		    Node	g3.4xlarge	1	1	us-west-2b
-master-us-west-2b	Master	t2.medium	1	1	us-west-2b
-nodes			    Node	r3.2xlarge	1	1	us-west-2b
+gpunodes            Node	g3.4xlarge	1	1	us-west-2b
+master-us-west-2b   Master	t2.medium	1	1	us-west-2b
+nodes               Node	r3.2xlarge	1	1	us-west-2b
 ```
 
 ## Step 4: Update and Create Cluster Config
