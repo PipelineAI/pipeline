@@ -1,4 +1,13 @@
-## Step 1:  [Setup Docker and Kubernetes CLI](setup.md)
+## Step 1: Setup Pre-requisites
+* [Download and Install](setup.md) the pre-built PipelineAI Installation Docker Image
+
+-- OR -- 
+
+* Install [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+* Install [Docker Community Edition](https://www.docker.com/community-edition#/download)
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 3 Support
+* Install [Kubernetes CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
+* Install [KOPS](https://github.com/kubernetes/kops#installing)
 
 ## Step 2:  Create Kubernetes Cluster on AWS
 
