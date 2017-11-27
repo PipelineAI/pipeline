@@ -8,19 +8,13 @@
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# PipelineAI Open Source
-[Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
+# PipelineAI Deployments
+* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
+* [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
+* [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
+* [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
-# PipelineAI + GPUs
-Click [HERE](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md) for details on PipelineAI + GPUs.
-
-# PipelineAI Support
-[PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
-
-# PipelineAI Training
-[PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-
-# PipelineAI [Features](http://pipeline.ai/features)
+# PipelineAI [Feature Comparison](http://pipeline.ai/features)
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
@@ -72,7 +66,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.12 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.14 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
