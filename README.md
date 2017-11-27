@@ -8,15 +8,17 @@
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# PipelineAI Setup and Support
-[PipelineAI Deployment](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
-
-[PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
-
-[PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
+# PipelineAI Open Source
+[Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 
 # PipelineAI + GPUs
 Click [HERE](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md) for details on PipelineAI + GPUs.
+
+# PipelineAI Support
+[PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
+
+# PipelineAI Training
+[PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
 # PipelineAI [Features](http://pipeline.ai/features)
 
