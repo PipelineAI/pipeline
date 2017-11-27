@@ -100,7 +100,7 @@ kops create cluster \
     --node-count 1 \
     --node-size r3.2xlarge \
     --node-tenancy default \
-    --kubernetes-version 1.8.2 \
+    --kubernetes-version 1.8.4 \
     --image kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28 \
     --alsologtostderr \
     --log_dir logs \
@@ -158,7 +158,7 @@ Copy the following at the *BOTTOM* of the `spec:`
 # FROM HERE
   rootVolumeSize: 200
   rootVolumeType: gp2
-  kubernetesVersion: 1.8.2
+  kubernetesVersion: 1.8.4
 # TO HERE
 ```
 
@@ -203,7 +203,7 @@ kubectl get nodes
 ## Step 3: Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
 ### Kubernetes [Dashboard](https://github.com/kubernetes/dashboard) <-- HIGHLY RECOMMENDED
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.3.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.7.1.yaml
 ```
 
 Login to Kubernetes Dashboard
@@ -228,7 +228,7 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addon
 ```
 ### Logging (ElasticSearch) <-- HIGHLY OPTIONAL
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.5.0.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.6.0.yaml
 ```
 
 ## Step 4: Train and Serve ML/AI Models with PipelineAI
@@ -254,6 +254,6 @@ State store "" is not cloud-reachable - please use an S3 bucket
 
 * If you see the following error related to `no credentials` or `no space left`, you need to increase the `rootVolumeSize` of your EC2 instance per previous step.
 ```
-Failed to pull image "docker.io/fluxcapacitor/jupyterhub": image pull failed for docker.io/fluxcapacitor/jupyterhub:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device) 
-Error syncing pod, skipping: failed to "StartContainer" for "jupyterhub" with ErrImagePull: "image pull failed for docker.io/fluxcapacitor/jupyterhub:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device)"
+Failed to pull image "docker.io/fluxcapacitor/jupyterhub": image pull failed for docker.io/pipelineai/...:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device) 
+Error syncing pod, skipping: failed to "StartContainer" for "jupyterhub" with ErrImagePull: "image pull failed for docker.io/pipelineai/...:<tag>, this may be because there are no credentials on this request. details: (write /mnt/sda1/var/lib/docker/tmp/GetImageBlob871155766: no space left on device)"
 ```
