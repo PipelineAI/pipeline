@@ -1,8 +1,5 @@
 # Deploy PipelineAI
-## Depoy PipelineAI Locally
 * [Local Laptop](deploy/local.md)
-
-## Deploy PipelineAI on AWS, Google Cloud, or Azure
 * [AWS CPU](deploy/aws-cpu.md)
 * [AWS GPU](deploy/aws-gpu.md)
 * [Google Cloud](deploy/google.md)
