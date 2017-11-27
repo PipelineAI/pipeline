@@ -5,8 +5,8 @@
 * [Google Cloud](deploy/google.md)
 * [Azure](deploy/azure.md)
 
-# PipelineAI + GPUs
+# GPUs
 Click [HERE](gpu/README.md) for more details on PipelineAI + GPUs.
 
 # Troubleshooting
-Click [HERE](troubleshooting.md) for troubleshooting tips.
+Click [HERE](troubleshooting/README.md) for troubleshooting tips.
