@@ -239,8 +239,9 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 ## Change into Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-cd ./tensorflow/mnist
+cd ./models/tensorflow/mnist
 ```
+
 ## Inspect Model Directory
 ```
 ls -l .
