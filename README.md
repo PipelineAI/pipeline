@@ -237,6 +237,7 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 # Step 3: Predict with Model
 
 ## Change into Model Directory
+_Note:  This is relative to where you cloned the `models` repo above..._
 ```
 cd ./tensorflow/mnist
 ```
