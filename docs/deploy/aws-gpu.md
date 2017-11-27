@@ -1,6 +1,6 @@
 **WARNING:  These instructions are highly experimental as Kubernetes + GPU is still under active development.**
 
-## Step 0: Setup Pre-requisites
+## Step 1: Setup Pre-requisites
 * [Download and Install](setup.md) the pre-built PipelineAI Installation Docker Image
 
 -- OR -- 
@@ -11,7 +11,7 @@
 * Install [Kubernetes CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
 * Install [KOPS](https://github.com/kubernetes/kops#installing)
 
-## Step 1: Create Kubernetes Cluster on AWS
+## Step 2: Create Kubernetes Cluster on AWS
 ### Setup AWS CLI
 ```
 aws configure
