@@ -157,7 +157,7 @@ git clone https://github.com/PipelineAI/models
 
 ## Change into `models` Directory
 ```
-cd models/tensorflow/census 
+cd ./models/tensorflow/census 
 ```
 
 ## Switch to Latest Branch (master)
