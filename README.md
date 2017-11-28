@@ -153,7 +153,7 @@ git clone https://github.com/PipelineAI/models
 
 ## Change into `models` Directory
 ```
-cd ./models/tensorflow/census 
+cd ./models
 ```
 
 ## Switch to Latest Branch (master)
@@ -164,7 +164,7 @@ git checkout master
 # Step 2: Train a Model
 ## Inspect Model Directory
 ```
-ls -l .
+ls -l ./tensorflow/census
 
 ### EXPECTED OUTPUT ###
 ...
@@ -175,7 +175,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Args pas
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=.
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
 ```
 
 ## Start Training UI
@@ -189,7 +189,7 @@ Note the following:
 (_We are working on making these more intuitive._)
 
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./data --output-path=./versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 
 _Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-census-v1`._
@@ -199,16 +199,18 @@ _Note:  If you see `port is already allocated` or `already in use by container`,
 pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
+_Press `Ctrl-C` to exit out of the logs._
+
 ## View Trained Model Output (Locally)
-_Make sure you are no longer viewing the logs by hitting `Ctrl-C`._
+_Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./versions/
+ls -l ./tensorflow/census/versions/
 
 ### EXPECTED OUTPUT ###
 ...
-drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:20 1511367633 <= Sub-directories of training output
+drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:20 1511367633 
 drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:21 1511367665
-drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765
+drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765 <= Sub-directories of training output
 ...
 ```
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
@@ -232,15 +234,10 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 
 # Step 3: Predict with Model
 
-## Change into Model Directory
+## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-cd ./models/tensorflow/mnist
-```
-
-## Inspect Model Directory
-```
-ls -l .
+ls -l ./tensorflow/mnist
 
 ### EXPECTED OUTPUT ###
 ...
@@ -249,21 +246,21 @@ pipeline_predict.py                <-- Required.  `predict(request: bytes) -> by
 versions/                          <-- Optional.  TensorFlow Serving requires this directory
 ...
 ```
-
+Inspect Trained Models 
 ```
-ls -l ./versions/
+ls -l ./tensorflow/mnist/versions/
 
 ### EXPECTED OUTPUT ###
 ...
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:07 1511176042  
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1511176681
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1511176731   <-- Serves the highest (latest) version 
+
+drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:07 1510612525  
+drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1510612528   <-- Serves the highest (latest) version 
 ```
 
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=.
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
 ```
 _`model-path` must be a relative path._
 
@@ -271,7 +268,7 @@ _`model-path` must be a relative path._
 ```
 pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
-_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-census-v1`._
+_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-v1`._
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
@@ -341,11 +338,12 @@ INFO[0050] Completed initial partial maintenance sweep through 4 in-memory finge
 _You need to `Ctrl-C` out of the log viewing before proceeding._
 
 ## Perform Prediction
+_Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
+
 _You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again._
 
-_Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./data/test_request.json
+pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
 ### IGNORE THESE ERRORS BELOW.  WAIT A MINUTE, THEN RE-RUN THE COMMAND ABOVE. ###
 ...
@@ -376,7 +374,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
 
 ## Predict with REST API
@@ -411,7 +409,7 @@ Digit  Confidence
 ## Monitor Real-Time Prediction Metrics
 Re-run the Prediction REST API while watching the following dashboard URL:
 ```
-http://localhost:6969/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A6969%2Fhystrix.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
+http://localhost:6969/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A6969%2Fdashboard.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
