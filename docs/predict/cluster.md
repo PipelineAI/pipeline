@@ -21,7 +21,15 @@ pipeline predict-server-push --model-type=tensorflow --model-name=mnist --model-
 pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
+```
+TODO:  apply the generated ingress, deploy, and svc yaml
+```
+
+```
+TODO:  apply the routingrule
+```
+
 ## Scale Out the Model Server
 ```
-pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --replicas=3
+pipeline predict-cluster-scale --model-type=tensorflow --model-name=mnist --model-tag=v1 --replicas=3
 ```
