@@ -66,7 +66,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.14 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.16 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -169,6 +169,7 @@ ls -l ./tensorflow/census
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
 pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--train-args`
 ...
 ```
@@ -177,6 +178,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Args pas
 ```
 pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
 ```
+_Note:  If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document._
 
 ## Start Training UI
 Note the following:
@@ -259,10 +261,12 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1510612528   <-- Serves the high
 
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
+
+_Note:  `model-path` must be a relative path._
 ```
 pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
 ```
-_`model-path` must be a relative path._
+_Note:  If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document._
 
 ## Start the Model Server
 ```
