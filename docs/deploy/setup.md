@@ -1,19 +1,14 @@
 ## Step 1:  Download Latest [Docker Community Edition](https://www.docker.com/community-edition) for Mac, Windows, or Linux
 
-## Step 2:  Pull Latest Docker Image with Kubernetes CLI Installed
+## Step 2:  Start the PipelineAI CLI Docker Container
 ```
-sudo docker pull pipelineai/kubernetes:master
+docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock --name cli-pipeline -itd pipelineai/cli-pipeline:master
 ```
+Make sure you include the `cli-pipeline:master` tag as part of the DockerHub reference above. ^^
 
-## Step 3:  Start the Docker Container with Kubernetes CLI Installed
+## Step 3:  Shell into Docker Container to Setup Kubernetes Cluster
 ```
-sudo docker run -itd --name kubernetes pipelineai/kubernetes:master
-```
-Make sure you include the `kubernetes:master` tag as part of the DockerHub reference above. ^^
-
-## Step 4:  Shell into Docker Container to Setup Kubernetes Cluster
-```
-sudo docker exec -it kubernetes bash
+sudo docker exec -it cli-pipeline bash
 ```
 
 ## Step 5:  Setup PipelineAI on AWS, Google Cloud, or Azure
