@@ -244,6 +244,7 @@ ls -l ./tensorflow/mnist
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
 versions/                          <-- Optional.  TensorFlow Serving requires this directory
 ...
@@ -346,6 +347,7 @@ _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the pre
 
 _You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again._
 
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
@@ -377,6 +379,7 @@ Digit  Confidence
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
@@ -385,6 +388,8 @@ pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-ta
 Use the REST API to POST a JSON document representing the number 2.
 
 ![MNIST 2](http://pipeline.ai/assets/img/mnist-2-100x101.png)
+
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
 
 ```
 curl -X POST -H "Content-Type: application/json" \
@@ -412,6 +417,8 @@ Digit  Confidence
 
 ## Monitor Real-Time Prediction Metrics
 Re-run the Prediction REST API while watching the following dashboard URL:
+
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
 ```
 http://localhost:6969/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A6969%2Fdashboard.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
@@ -419,6 +426,8 @@ http://localhost:6969/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A
 
 ## Monitor Detailed Prediction Metrics
 Re-run the Prediction REST API while watching the following detailed metrics dashboard URL:
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
+
 ```
 http://localhost:3000/
 ```
@@ -427,6 +436,8 @@ http://localhost:3000/
 _Username/Password: **admin**/**admin**_
 
 _Set `Type` to `Prometheues`._
+
+_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
 
 _Set `Url` to `http://localhost:9090`._
 
