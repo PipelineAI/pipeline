@@ -23,6 +23,9 @@ pipeline train-cluster-start --model-type=tensorflow --model-name=census --model
 
 ## Local Testing
 ```
+cd ./tensorflow/census
+```
+```
 python $PIPELINE_MODEL_PATH/pipeline_train.py --train-files=/root/model/tfserving/tensorflow/census/v1/data/train/adult.data.csv --eval-files=/root/model/tfserving/tensorflow/census/v1/data/eval/adult.test.csv --num-epochs=2 --learning-rate=0.025
 ```
 
