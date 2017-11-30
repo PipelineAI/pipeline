@@ -175,7 +175,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Args pas
 ```
 
 ## Build Training Server
-_Note:  `--model-path` must be relative.  On Windows, be sure to use the Windows forward slash `\` for `--model-path`._
+_Note:  `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`._
 ```
 pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
 ```
@@ -191,7 +191,7 @@ Note the following:
 
 (_We are working on making these more intuitive._)
 
-_Note:  On Windows, be sure to use the Windows forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`)._
+_Note:  On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`)._
 ```
 pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
@@ -265,7 +265,7 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1510612528   <-- Serves the high
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 
-_Note:  `--model-path` must be relative.  On Windows, be sure to use the Windows forward slash `\` for `--model-path`._
+_Note:  `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`._
 ```
 pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
 ```
@@ -349,7 +349,7 @@ _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the pre
 
 _You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again._
 
-_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
+_Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7._
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
 
@@ -381,7 +381,7 @@ Digit  Confidence
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
-_Instead of `localhost`, you may need to use 192.168.99.100 (Docker Quick Terminal on Windows 7) or another IP/Host that maps to your local Docker host._
+_Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7._
 ```
 pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
 ```
