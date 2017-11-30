@@ -4,12 +4,12 @@
 
 ## Build Docker Image
 ```
-pipeline train-server-build --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/
 ```
 
 ## Push Image To Docker Repo
 ```
-pipeline train-server-push --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-push --model-type=tensorflow --model-name=census --model-tag=v1
 ```
 
 ## Start Distributed TensorFlow Training Cluster
