@@ -18,7 +18,7 @@ Notes:
 * `/root/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
 ```
-pipeline train-cluster-start --model-runtime=tfserving --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/model/tfserving/tensorflow/census/v1 --output-path=/root/model/tfserving/tensorflow/census/v1/versions --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/model/tfserving/tensorflow/census/v1/data/train/adult.data.csv --eval-files=/root/model/tfserving/tensorflow/census/v1/data/eval/adult.test.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-cluster-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/model/tfserving/tensorflow/census/v1 --output-path=/root/model/tfserving/tensorflow/census/v1/versions --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/model/tfserving/tensorflow/census/v1/data/train/adult.data.csv --eval-files=/root/model/tfserving/tensorflow/census/v1/data/eval/adult.test.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 ## Local Testing
