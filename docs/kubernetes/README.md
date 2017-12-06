@@ -22,13 +22,13 @@ pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --mode
 ```
 
 ```
-TODO:  apply the generated ingress, deploy, and svc yaml
+TODO:  apply the generated ingress, deploy, and svc yamls
 ```
 ```
 pipeline _traffic-router-split --model-type=tensorflow --model-name=mnist --model-tag-list=[v1,v2] --model-weight-list=[97,3]
 ```
 ```
-TODO:  apply the routingrule
+TODO:  apply the generated routingrule yaml(s)
 ```
 
 ## Scale Out the Model Server
