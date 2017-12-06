@@ -3,7 +3,7 @@
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
-# Using PipelineAI with AWS SageMaker
+# PipelineAI + AWS SageMaker
 PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
 
 Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
