@@ -1,5 +1,7 @@
 # PipelineAI [Home](http://pipeline.ai)
 [![PipelineAI Home](http://pipeline.ai/assets/img/pipelineai-home.png)](http://pipeline.ai)
+[![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
+[![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
@@ -478,13 +480,13 @@ Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker
 
 ![PipelineAI + AWS SageMaker Model Detail 2](http://pipeline.ai/assets/img/sagemaker-model-detail-2.png)
 
-![PipelineAI + AWS SageMaker Model Endpoint Configuration](http://pipeline.ai/assets/img/sagemaker-model-endpoint-configuration.png)
+![PipelineAI + AWS SageMaker Model Endpoint Configuration](http://pipeline.ai/assets/img/sagemaker-endpoint-configuration.png)
 
-![PipelineAI + AWS SageMaker Model Endpoint](http://pipeline.ai/assets/img/sagemaker-model-endpoint.png)
+![PipelineAI + AWS SageMaker Model Endpoint](http://pipeline.ai/assets/img/sagemaker-endpoint.png)
 
-![PipelineAI + AWS SageMaker Model Endpoint Detail 1](http://pipeline.ai/assets/img/sagemaker-model-endpoint-detail-1.png)
+![PipelineAI + AWS SageMaker Model Endpoint Detail 1](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-1.png)
 
-![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-model-endpoint-detail-2.png)
+![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-2.png)
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 _Note:  This step assumes you have setup your AWS credentials in your environment.  Follow [THESE](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) steps to setup your AWS credentials for this PipelineAI CLI command._
