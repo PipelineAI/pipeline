@@ -3,6 +3,17 @@
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
+# Using PipelineAI with AWS SageMaker
+PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+
+Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
+
+Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
+
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
+
+![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
+
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
 
@@ -460,11 +471,11 @@ pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-
 # Using PipelineAI with AWS SageMaker
 PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
 
+Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
+
 ![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
-
-Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
 
 ## Upload Docker Image to AWS SageMaker
 Follow [THESE](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html) steps to upload the `predict-mnist` Docker image above to AWS SageMaker.
