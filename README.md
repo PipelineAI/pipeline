@@ -66,7 +66,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.19 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.22 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -241,19 +241,19 @@ ls -l ./tensorflow/mnist/model
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
 pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
-pipeline_tfserving_config.txt      <-- Optional.  Only TensorFlow Serving requires this file
-/pipeline_tfserving_model_path     <-- Optional.  Only TensorFlow Serving requires this directory
+pipeline_tfserving/                <-- Optional.  Only TensorFlow Serving requires this directory
 ...
 ```
-Inspect Trained Models 
+Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist/model/pipeline_tfserving_model_path
+ls -l ./tensorflow/mnist/model/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:07 1510612525  
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1510612528   <-- Serves the latest (highest) version 
+pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
+1510612525/  
+1510612528/     <-- TensorFlow Serving finds the latest (highest) version 
+...
 ```
 
 ## Build the Model into a Runnable Docker Image
@@ -454,6 +454,53 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 ```
 pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
+
+# Using PipelineAI with AWS SageMaker
+PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
+
+![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
+
+Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
+
+## Upload Docker Image to AWS SageMaker
+Follow [THESE](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html) steps to upload the `predict-mnist` Docker image above to AWS SageMaker.
+
+## Create Model Endpoint
+Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker Image uploaded in the previous step.
+
+![PipelineAI + AWS SageMaker Model Dashboard](http://pipeline.ai/assets/img/sagemaker-model-dashboard.png)
+
+![PipelineAI + AWS SageMaker Model Detail 0](http://pipeline.ai/assets/img/sagemaker-model-detail-0.png)
+
+![PipelineAI + AWS SageMaker Model Detail 1](http://pipeline.ai/assets/img/sagemaker-model-detail-1.png)
+
+![PipelineAI + AWS SageMaker Model Detail 2](http://pipeline.ai/assets/img/sagemaker-model-detail-2.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Configuration](http://pipeline.ai/assets/img/sagemaker-model-endpoint-configuration.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint](http://pipeline.ai/assets/img/sagemaker-model-endpoint.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Detail 1](http://pipeline.ai/assets/img/sagemaker-model-endpoint-detail-1.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-model-endpoint-detail-2.png)
+
+## Perform 100 Predictions in Parallel (Mini Load Test)
+_Note:  This step assumes you have setup your AWS credentials in your environment.  Follow [THESE](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) steps to setup your AWS credentials for this PipelineAI CLI command._
+```
+pipeline predict-test-http pipeline predict-test-sage --model-endpoint-name=<your-endpoint-name> --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+
+### EXPECTED OUTPUT ###
+...
+Variant: 'default-variant-name'            <-- Variant name (ie. v1)
+
+('{"outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, '
+ '0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, '
+ '0.27867695689201355, 0.017851119861006737, 0.006651509087532759, '
+ '0.07679300010204315, 0.001954273320734501]}}')
+...
+``` 
 
 # Additional PipelineAI [Standalone](http://pipeline.ai/products) and [Enterprise](http://pipeline.ai/products) Features
 See below for feature details.  Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
