@@ -6,7 +6,7 @@ _Note:  These instructions apply only to the clustered, enterprise version of Pi
 ## Package Model + Runtime into Docker Image
 _This can run locally - or on a CI build server anywhere._
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/model
 ```
 
 ## Push Docker Image to Docker Repo
