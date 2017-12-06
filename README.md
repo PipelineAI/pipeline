@@ -172,7 +172,7 @@ _Note:  `--model-path` must be relative.  On Windows, be sure to use the forward
 ```
 pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/model
 ```
-_Note:  If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document._
+_Note:  If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document._
 
 ## Start Training UI
 Note the following:
@@ -247,7 +247,7 @@ pipeline_tfserving_config.txt      <-- Optional.  Only TensorFlow Serving requir
 ```
 Inspect Trained Models 
 ```
-ls -l ./tensorflow/mnist/model/pipeline_tfserving_model_path/
+ls -l ./tensorflow/mnist/model/pipeline_tfserving_model_path
 
 ### EXPECTED OUTPUT ###
 ...
