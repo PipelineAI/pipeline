@@ -79,7 +79,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.22 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.23 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -361,7 +361,7 @@ Notes:
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
+pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
@@ -396,7 +396,7 @@ Notes:
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
