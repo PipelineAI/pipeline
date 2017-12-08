@@ -4,7 +4,7 @@
 
 ## Build Docker Image
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/model/
 ```
 
 ## Push Image To Docker Repo
@@ -15,10 +15,10 @@ pipeline train-server-push --model-type=tensorflow --model-name=census --model-t
 ## Start Distributed TensorFlow Training Cluster
 Notes:
 * lack of `\ ` blank escapes
-* `/root/input/...` prepended to the `--train-files` and `--eval-files`
+* `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
 ```
-pipeline train-cluster-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/model/tfserving/tensorflow/census/v1 --output-path=/root/model/tfserving/tensorflow/census/v1/versions --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/model/tfserving/tensorflow/census/v1/data/train/adult.data.csv --eval-files=/root/model/tfserving/tensorflow/census/v1/data/eval/adult.test.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-cluster-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/ml/input --output-path=/root/ml/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/ml/input/training/adult.training.csv --eval-files=/root/ml/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 ## Local Testing
@@ -26,7 +26,7 @@ pipeline train-cluster-start --model-type=tensorflow --model-name=census --model
 cd ./tensorflow/census
 ```
 ```
-python $PIPELINE_MODEL_PATH/pipeline_train.py --train-files=/root/model/tfserving/tensorflow/census/v1/data/train/adult.data.csv --eval-files=/root/model/tfserving/tensorflow/census/v1/data/eval/adult.test.csv --num-epochs=2 --learning-rate=0.025
+python $PIPELINE_MODEL_PATH/pipeline_train.py --train-files=/root/ml/input/training/adult.training.csv --eval-files=/root/ml/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025
 ```
 
 ## Cleaning Up
