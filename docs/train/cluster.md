@@ -18,7 +18,7 @@ Notes:
 * `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
 ```
-pipeline train-cluster-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=/root/ml/input --output-path=/root/ml/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/ml/input/training/adult.training.csv --eval-files=/root/ml/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-cluster-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 ## Local Testing
