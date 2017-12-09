@@ -21,10 +21,6 @@ pipeline predict-server-push --model-type=tensorflow --model-name=mnist --model-
 pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
 
-TODO: Use `istioctl kube-inject` to apply the generated ingress, deploy, and svc yamls
-```
-kubectl apply -f <(istioctl kube-inject -f <your.yaml>) 
-```
 ## Generate Traffic Router Splits
 ```
 pipeline traffic-router-split --model-type=tensorflow --model-name=mnist --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
