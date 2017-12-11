@@ -16,6 +16,12 @@ sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda9.0_amd64.deb
 sudo dpkg -i libcudnn7-doc_7.0.5.15-1+cuda9.0_amd64.deb
 ```
 
+## PyCUDA
+```
+sudo apt-get -y install python-pycuda 
+sudo pip install -y pycuda
+```
+
 ## TensorRT Developer
 * Based on [THESE](http://developer2.download.nvidia.com/compute/machine-learning/tensorrt/secure/3.0/ga/TensorRT-Installation-Guide.pdf) instructions.
 * This assumes Python3
