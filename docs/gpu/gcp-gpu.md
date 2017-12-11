@@ -214,7 +214,7 @@ nvidia-smi
 http://<your-cloud-ip>:6006
 ```
 
-![Tensorboard](http://pipeline.io/img/tensorboard-2.png)
+![Tensorboard](http://pipeline.ai/assets/img/tensorboard-2.png)
 
 ### Navigate to Jupyter Notebooks
 ```
