@@ -16,7 +16,8 @@ sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda9.0_amd64.deb
 sudo dpkg -i libcudnn7-doc_7.0.5.15-1+cuda9.0_amd64.deb
 ```
 
-## TensorRT Developer 
+## TensorRT Developer
+Based on [THESE](http://developer2.download.nvidia.com/compute/machine-learning/tensorrt/secure/3.0/ga/TensorRT-Installation-Guide.pdf) instructions.
 ```
 wget .../nv-tensorrt-repo-ubuntu1604-ga-cuda9.0-trt3.0-20171128_1-1_amd64.deb
 
