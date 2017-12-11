@@ -36,3 +36,7 @@ sudo dpkg -l | grep TensorRT
 ```
 pip install tensorflow-gpu
 ```
+
+## TensorRT Examples
+Follow [THESE](https://github.com/parallel-forall/code-samples/blob/master/posts/TensorRT-3.0/convert.ipynb) instructions.
+
