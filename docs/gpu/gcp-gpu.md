@@ -225,10 +225,10 @@ Login to Jupyter Notebook
 
 **Use any username/password.**
 
-![Jupyter Login](http://pipeline.io/img/jupyter-0.png)
+![Jupyter Login](http://pipeline.ai/assets/img/jupyter-0.png)
 
 Run the Notebooks
-![Jupyter Login](http://pipeline.io/img/jupyter-1.png)
+![Jupyter Login](http://pipeline.ai/assets/img/jupyter-1.png)
 
 ### Stop and Start Cloud Instance (ie. Cost Savings)
 * To save money, you can stop/start the GCP instance as needed
@@ -237,7 +237,7 @@ Run the Notebooks
 ```
 sudo nvidia-docker start gpu-tensorflow-spark
 ```
-_Note: If you see an error related to `modprobe not running` or `Error looking up volume plugin nvidia-docker`, just re-install the CUDA 8.0 Toolkit and `nvidia-docker` plugin as you did [above](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker#install-cuda-80-toolkit-and-nvidia-docker-plugin).  We're not sure why... If anyone knows, let us know @ help@pipeline.io_
+_Note: If you see an error related to `modprobe not running` or `Error looking up volume plugin nvidia-docker`, just re-install the CUDA 8.0 Toolkit and `nvidia-docker` plugin as you did above._
 
 * Navigate to JupyterHub
 ```
