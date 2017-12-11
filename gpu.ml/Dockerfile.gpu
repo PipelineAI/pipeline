@@ -1,5 +1,8 @@
 FROM fluxcapacitor/package-tensorflow-16d39e9-d690fdd-full-gpu:master
 
+# ADD THIS!
+# TF_FP16_MATMUL_USE_FP32_COMPUTE=0
+
 WORKDIR /root
 
 # Based on the following:  https://github.com/jupyterhub/jupyterhub/blob/master/Dockerfile
