@@ -169,10 +169,10 @@ sudo nvidia-docker run --rm nvidia/cuda nvidia-smi
 +-----------------------------------------------------------------------------+
 ```
 
-### Download PipelineIO Standalone GPU Docker Image
+### Download PipelineAI Standalone GPU Docker Image
 This image contains JupyterHub, Spark, TensorFlow, Tensorboard, and HDFS - as well as many sample notebooks.
 
-### Run PipelineIO Standalone GPU Docker Container
+### Run PipelineAI Standalone GPU Docker Container
 * Start the Docker Container with a Jupyter/iPython notebook 
 * Note:  This Docker image is based on this [Dockerfile](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu),
  but contains many optimizations and installations for real-world ML and AI model training, optimizing, and deploying.
@@ -214,7 +214,7 @@ nvidia-smi
 http://<your-cloud-ip>:6006
 ```
 
-![Tensorboard](http://pipeline.io/img/tensorboard-2.png)
+![Tensorboard](http://pipeline.ai/assets/img/tensorboard-2.png)
 
 ### Navigate to Jupyter Notebooks
 ```
@@ -225,10 +225,10 @@ Login to Jupyter Notebook
 
 **Use any username/password.**
 
-![Jupyter Login](http://pipeline.io/img/jupyter-0.png)
+![Jupyter Login](http://pipeline.ai/assets/img/jupyter-0.png)
 
 Run the Notebooks
-![Jupyter Login](http://pipeline.io/img/jupyter-1.png)
+![Jupyter Login](http://pipeline.ai/assets/img/jupyter-1.png)
 
 ### Stop and Start Cloud Instance (ie. Cost Savings)
 * To save money, you can stop/start the GCP instance as needed
@@ -237,7 +237,7 @@ Run the Notebooks
 ```
 sudo nvidia-docker start gpu-tensorflow-spark
 ```
-_Note: If you see an error related to `modprobe not running` or `Error looking up volume plugin nvidia-docker`, just re-install the CUDA 8.0 Toolkit and `nvidia-docker` plugin as you did [above](https://github.com/fluxcapacitor/pipeline/wiki/GCP-GPU-Tensorflow-Docker#install-cuda-80-toolkit-and-nvidia-docker-plugin).  We're not sure why... If anyone knows, let us know @ help@pipeline.io_
+_Note: If you see an error related to `modprobe not running` or `Error looking up volume plugin nvidia-docker`, just re-install the CUDA 8.0 Toolkit and `nvidia-docker` plugin as you did above._
 
 * Navigate to JupyterHub
 ```
@@ -278,7 +278,9 @@ gcloud beta compute instances create pipeline-gpu \
     sudo curl -fsSL https://get.docker.com/gpg | sudo apt-key add -
     wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
     sudo dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
-    sudo nvidia-docker run -itd --name=gpu-tensorflow-spark -p 80:80 -p 50070:50070 -p 39000:39000 -p 9000:9000 -p 9001:9001 -p 9002:9002 -p 9003:9003 -p 9004:9004 -p 6006:6006 -p 8754:8754 -p 7077:7077 -p 6066:6066 -p 6060:6060 -p 6061:6061 -p 4040:4040 -p 4041:4041 -p 4042:4042 -p 4043:4043 -p 4044:4044 -p 2222:2222 -p 5050:5050 fluxcapacitor/gpu-tensorflow-spark:master'
+    sudo nvidia-docker run -itd --name=gpu-tensorflow-spark -p 80:80 -p 50070:50070 -p 39000:39000 -p 9000:9000 -p 9001:9001 -p 9002:9002 -p 9003:9003 -p 9004:9004 -p 6006:6006 -p 8754:8754 -p 7077:7077 -p 6066:6066 -p 6060:6060 -p 6061:6061 -p 4040:4040 -p 4041:4041 -p 4042:4042 -p 4043:4043 -p 4044:4044 -p 2222:2222 -p 5050:5050 fluxcapacitor/gpu-tensorflow-spark:master
+    sleep 15
+    sudo nvidia-docker exec -d gpu-tensorflow-spark service apache2 restart'
 ```
 
 ## References

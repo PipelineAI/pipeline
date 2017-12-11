@@ -1,5 +1,18 @@
 # PipelineAI [Home](http://pipeline.ai)
 [![PipelineAI Home](http://pipeline.ai/assets/img/pipelineai-home.png)](http://pipeline.ai)
+[![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
+[![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
+
+# PipelineAI + AWS SageMaker
+PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+
+Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
+
+Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
+
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
+
+![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
@@ -66,7 +79,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 ## Install PipelineCLI
 _Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
 ``` 
-pip install cli-pipeline==1.4.14 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.26 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -83,8 +96,8 @@ default build context path: . => ...
 default train base image: docker.io/pipelineai/train:cpu-1.4.0     
 default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
-capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'version']
-capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-*']
+capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http']
+capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-predict-*', 'optimize-train-*', 'traffic-router-*', 'spark-cluster-*', 'airflow-cluster-*', 'jupyter-cluster-*', 'kafka-cluster-*']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -100,12 +113,8 @@ Email upgrade@pipeline.ai to enable the advanced capabilities.
 pipeline
 
 ### EXPECTED OUTPUT ###
+...
 Usage:       pipeline                             <-- This List of CLI Commands
-
-(Standalone) pipeline optimize-predict-server     <-- Perform Model and Runtime Optimizations
-
-(Community)  pipeline predict-test-http           <-- Predict Http-based Model Server or Cluster
-             pipeline predict-test-stream         <-- Predict Kafka-based Model Server or Cluster
              
 (Enterprise) pipeline predict-cluster-autoscale   <-- Configure AutoScaling for Model Cluster
              pipeline predict-cluster-connect     <-- Create Secure Tunnel to Model Cluster 
@@ -125,6 +134,13 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline predict-server-start        <-- Start Model Server
              pipeline predict-server-stop         <-- Stop Model Server
 
+(Community)  pipeline predict-test-http           <-- Predict with Http-based Model Endpoint
+             pipeline predict-test-sage           <-- Predict with Sage-based Model Endpoint
+(Standalone) pipeline predict-test-stream         <-- Predict with Kafka-based Model Endpoint 
+
+(Enterprise) pipeline traffic-router-describe     <-- Describe Traffic Split and Shadow %
+             pipeline traffic-router-split        <-- Split Traffic Among Model Variants
+             
 (Enterprise) pipeline train-cluster-connect       <-- Create Secure Tunnel to Training Cluster
              pipeline train-cluster-describe      <-- Describe Training Cluster
              pipeline train-cluster-logs          <-- View Training Cluster Logs
@@ -134,7 +150,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline train-cluster-status        <-- Status of Training Cluster
              pipeline train-cluster-stop          <-- Stop Training Cluster
 
-(Standalone) pipeline train-server-build          <-- Build Training Server
+(Community)  pipeline train-server-build          <-- Build Training Server
              pipeline train-server-logs           <-- View Training Server Logs
              pipeline train-server-pull           <-- Pull Training Server from Docker Registry
              pipeline train-server-push           <-- Push Training Server to Docker Registry
@@ -143,6 +159,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline train-server-stop           <-- Stop Training Server
              
 (Community)  pipeline version                     <-- View This CLI Version
+...
 ```
 
 # Step 1: Retrieve Sample Models
@@ -156,43 +173,41 @@ git clone https://github.com/PipelineAI/models
 cd ./models
 ```
 
-## Switch to Latest Branch (master)
-_Note:  Master may be unstable.  See Releases Tab for stable releases._
-```
-git checkout master
-```
 # Step 2: Train a Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/census
+ls -l ./tensorflow/census/model
 
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_train.py                  <-- Required.  `main()` is required. Args passed through `--train-args`
+pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
+pipeline_train.py                  <-- Required.  `main()` is required. Pass args with `--train-args`
 ...
 ```
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/model
 ```
+Notes:  
+* `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
+* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
 
 ## Start Training UI
-Note the following:
+```
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+```
+Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
 * `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
 * `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-v1-tensorflow-tfserving-cpu`.
 
-(_We are working on making these more intuitive._)
-
-```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/data --output-path=./tensorflow/census/versions --train-args="--train-files=train/adult.data.csv\ --eval-files=eval/adult.test.csv\ --num-epochs=2\ --learning-rate=0.025"
-```
-
-_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-census-v1`._
+(_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
@@ -204,7 +219,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/census/versions/
+ls -l ./tensorflow/census/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -217,7 +232,7 @@ _Multiple training runs will produce multiple subdirectories - each with a diffe
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 ```
-http://localhost:6007
+http://localhost:6006
 ```
 ![PipelineAI TensorBoard UI 0](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-0.png)
 
@@ -237,43 +252,48 @@ pipeline train-server-stop --model-type=tensorflow --model-name=census --model-t
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist
+ls -l ./tensorflow/mnist/model
 
 ### EXPECTED OUTPUT ###
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
+pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
-versions/                          <-- Optional.  TensorFlow Serving requires this directory
+pipeline_tfserving/                <-- Optional.  Only TensorFlow Serving requires this directory
 ...
 ```
-Inspect Trained Models 
+Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist/versions/
+ls -l ./tensorflow/mnist/model/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:07 1510612525  
-drwxr-xr-x  11 cfregly  staff  352 Nov 20 12:18 1510612528   <-- Serves the highest (latest) version 
+pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
+1510612525/  
+1510612528/     <-- TensorFlow Serving finds the latest (highest) version 
+...
 ```
 
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/model
 ```
-_`model-path` must be a relative path._
+Notes:
+* `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
+* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
 
 ## Start the Model Server
 ```
 pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
-_Note:  If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-v1`._
+Notes:  
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-v1`.
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./pipeline_predict.py
+cat ./tensorflow/mnist/model/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -335,23 +355,13 @@ pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-
 INFO[0050] Completed initial partial maintenance sweep through 4 in-memory fingerprints in 40.002264633s.  source="storage.go:1398"
 ...
 ```
-_You need to `Ctrl-C` out of the log viewing before proceeding._
+Notes:
+* You need to `Ctrl-C` out of the log viewing before proceeding.
 
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
-
-_You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again._
-
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json
-
-### IGNORE THESE ERRORS BELOW.  WAIT A MINUTE, THEN RE-RUN THE COMMAND ABOVE. ###
-...
-<html>\r\n<head><title>502 Bad Gateway</title></head></html>
-...
-...
-{"results":["fallback"]}
-...
+pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
@@ -370,22 +380,36 @@ Digit  Confidence
 7      5.230629176367074e-05
 8      0.020996594801545143
 9      5.426473762781825e-06
+
+### IGNORE THESE ERRORS BELOW.  WAIT A MINUTE, THEN RE-RUN THE COMMAND ABOVE. ###
+...
+<html>\r\n<head><title>502 Bad Gateway</title></head></html>
+...
+...
+{"results":["fallback"]}
+...
 ```
+Notes:
+* You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
+
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-type=tensorflow --model-name=mnist --model-tag=v1 --predict-server-url=http://localhost:6969 --test-request-path=./tensorflow/mnist/data/test_request.json --test-request-concurrency=100
+pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
+Notes:
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+
 
 ## Predict with REST API
 Use the REST API to POST a JSON document representing the number 2.
 
 ![MNIST 2](http://pipeline.ai/assets/img/mnist-2-100x101.png)
-
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"image": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05098039656877518, 0.529411792755127, 0.3960784673690796, 0.572549045085907, 0.572549045085907, 0.847058892250061, 0.8156863451004028, 0.9960784912109375, 1.0, 1.0, 0.9960784912109375, 0.5960784554481506, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7882353663444519, 0.11764706671237946, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.988235354423523, 0.7921569347381592, 0.9450981020927429, 0.545098066329956, 0.21568629145622253, 0.3450980484485626, 0.45098042488098145, 0.125490203499794, 0.125490203499794, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.803921639919281, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6352941393852234, 0.9921569228172302, 0.803921639919281, 0.24705883860588074, 0.3490196168422699, 0.6509804129600525, 0.32156863808631897, 0.32156863808631897, 0.1098039299249649, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007843137718737125, 0.7529412508010864, 0.9921569228172302, 0.9725490808486938, 0.9686275124549866, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.8274510502815247, 0.29019609093666077, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2549019753932953, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.847058892250061, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5921568870544434, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7333333492279053, 0.44705885648727417, 0.23137256503105164, 0.23137256503105164, 0.4784314036369324, 0.9921569228172302, 0.9921569228172302, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5568627715110779, 0.9568628072738647, 0.7098039388656616, 0.08235294371843338, 0.019607843831181526, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.43137258291244507, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15294118225574493, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1882353127002716, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6705882549285889, 0.9921569228172302, 0.9921569228172302, 0.12156863510608673, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2392157018184662, 0.9647059440612793, 0.9921569228172302, 0.6274510025978088, 0.003921568859368563, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08235294371843338, 0.44705885648727417, 0.16470588743686676, 0.0, 0.0, 0.2549019753932953, 0.9294118285179138, 0.9921569228172302, 0.9333333969116211, 0.27450981736183167, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4941176772117615, 0.9529412388801575, 0.0, 0.0, 0.5803921818733215, 0.9333333969116211, 0.9921569228172302, 0.9921569228172302, 0.4078431725502014, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7411764860153198, 0.9764706492424011, 0.5529412031173706, 0.8784314393997192, 0.9921569228172302, 0.9921569228172302, 0.9490196704864502, 0.43529415130615234, 0.007843137718737125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6235294342041016, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9764706492424011, 0.6274510025978088, 0.1882353127002716, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18431372940540314, 0.5882353186607361, 0.729411780834198, 0.5686274766921997, 0.3529411852359772, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}' \
-  http://localhost:6969/api/v1/model/predict/tfserving/tensorflow/mnist/v1 \
+  http://localhost:8080/invocations \
   -w "\n\n"
 
 ### Expected Output ###
@@ -405,24 +429,35 @@ Digit  Confidence
 8      0.020996594801545143
 9      5.426473762781825e-06
 ```
+Notes:
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+
 
 ## Monitor Real-Time Prediction Metrics
 Re-run the Prediction REST API while watching the following dashboard URL:
 ```
-http://localhost:6969/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A6969%2Fdashboard.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
+http://localhost:8080/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Fdashboard.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
+Notes:
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
 ## Monitor Detailed Prediction Metrics
-Re-run the Prediction REST API while watching the following detailed metrics dashboard URL:
+Re-run the Prediction REST API while watching the following detailed metrics dashboard URL.
 ```
 http://localhost:3000/
 ```
+Notes:
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
 
 _Username/Password: **admin**/**admin**_
 
 _Set `Type` to `Prometheues`._
+
+_Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7._
 
 _Set `Url` to `http://localhost:9090`._
 
@@ -444,6 +479,53 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 ```
 pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
 ```
+
+# Using PipelineAI with AWS SageMaker
+PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+
+Specifically, you can upload PipelineAI-optimized Docker images to your private AWS Elastic Container Registry (ECR) for use with AWS SageMaker's Custom Docker image support.
+
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
+
+![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
+
+## Upload Docker Image to AWS SageMaker
+Follow [THESE](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html) steps to upload the `predict-mnist` Docker image above to AWS SageMaker.
+
+## Create Model Endpoint
+Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker Image uploaded in the previous step.
+
+![PipelineAI + AWS SageMaker Model Dashboard](http://pipeline.ai/assets/img/sagemaker-model-dashboard.png)
+
+![PipelineAI + AWS SageMaker Model Detail 0](http://pipeline.ai/assets/img/sagemaker-model-detail-0.png)
+
+![PipelineAI + AWS SageMaker Model Detail 1](http://pipeline.ai/assets/img/sagemaker-model-detail-1.png)
+
+![PipelineAI + AWS SageMaker Model Detail 2](http://pipeline.ai/assets/img/sagemaker-model-detail-2.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Configuration](http://pipeline.ai/assets/img/sagemaker-endpoint-configuration.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint](http://pipeline.ai/assets/img/sagemaker-endpoint.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Detail 1](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-1.png)
+
+![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-2.png)
+
+## Perform 100 Predictions in Parallel (Mini Load Test)
+_Note:  This step assumes you have setup your AWS credentials in your environment.  Follow [THESE](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) steps to setup your AWS credentials for this PipelineAI CLI command._
+```
+pipeline predict-test-http pipeline predict-test-sage --model-endpoint-name=<your-endpoint-name> --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+
+### EXPECTED OUTPUT ###
+...
+Variant: 'default-variant-name'            <-- Variant name (ie. v1)
+
+('{"outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, '
+ '0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, '
+ '0.27867695689201355, 0.017851119861006737, 0.006651509087532759, '
+ '0.07679300010204315, 0.001954273320734501]}}')
+...
+``` 
 
 # Additional PipelineAI [Standalone](http://pipeline.ai/products) and [Enterprise](http://pipeline.ai/products) Features
 See below for feature details.  Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
