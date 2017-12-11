@@ -30,12 +30,3 @@ sudo apt-get install uff-converter-tf
 
 sudo dpkg -l | grep TensorRT
 ```
-
-## TensorRT Runtime Only (Not Developer)
-```
-wget .../nv-tensorrt-repo-ubuntu1604-ga-cuda9.0-trt3.0-20171128_1-1_amd64.deb
-
-sudo dpkg -i nv-tensorrt-repo-ubuntu1604-ga-cuda9.0-trt3.0-20171128_1-1_amd64.deb
-sudo apt-get update
-sudo apt-get install libnvinfer
-```
