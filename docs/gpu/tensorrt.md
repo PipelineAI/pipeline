@@ -42,7 +42,25 @@ sudo dpkg -l | grep TensorRT
 ```
 pip install tensorflow-gpu
 ```
+## PyCUDA
+```
+sudo apt-get --yes install python-pycuda
+
+sudo apt-get -y install python-pycuda \
+
+pip install pycuda
+```
 
 ## TensorRT Examples
-Follow [THESE](https://github.com/parallel-forall/code-samples/blob/master/posts/TensorRT-3.0/convert.ipynb) instructions.
+* Follow [THESE](https://github.com/parallel-forall/code-samples/blob/master/posts/TensorRT-3.0/convert.ipynb) instructions.
+
+```
+cd /usr/lib/python3.5/dist-packages/
+
+python   <-- Inoke Python Shell
+
+import tensorrt as trt
+...
+
+```
 
