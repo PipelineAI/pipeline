@@ -31,3 +31,8 @@ sudo apt-get install uff-converter-tf
 
 sudo dpkg -l | grep TensorRT
 ```
+
+## TensorFlow
+```
+pip install tensorflow-gpu
+```
