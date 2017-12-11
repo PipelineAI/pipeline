@@ -169,10 +169,10 @@ sudo nvidia-docker run --rm nvidia/cuda nvidia-smi
 +-----------------------------------------------------------------------------+
 ```
 
-### Download PipelineIO Standalone GPU Docker Image
+### Download PipelineAI Standalone GPU Docker Image
 This image contains JupyterHub, Spark, TensorFlow, Tensorboard, and HDFS - as well as many sample notebooks.
 
-### Run PipelineIO Standalone GPU Docker Container
+### Run PipelineAI Standalone GPU Docker Container
 * Start the Docker Container with a Jupyter/iPython notebook 
 * Note:  This Docker image is based on this [Dockerfile](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/Dockerfile.devel-gpu),
  but contains many optimizations and installations for real-world ML and AI model training, optimizing, and deploying.
