@@ -514,7 +514,7 @@ Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 _Note:  This step assumes you have setup your AWS credentials in your environment.  Follow [THESE](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) steps to setup your AWS credentials for this PipelineAI CLI command._
 ```
-pipeline predict-test-http pipeline predict-test-sage --model-endpoint-name=<your-endpoint-name> --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-test-sage --model-endpoint-name=<your-endpoint-name> --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 
 ### EXPECTED OUTPUT ###
 ...
