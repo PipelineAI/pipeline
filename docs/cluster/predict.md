@@ -32,6 +32,12 @@ pipeline predict-server-push --model-type=tensorflow --model-name=mnist --model-
 ```
 pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=a
 ```
+```
+pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=b
+```
+```
+pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=c
+```
 
 ## Generate Traffic Router Splits
 ```
