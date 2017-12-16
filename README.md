@@ -84,7 +84,7 @@ Notes:
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
 * Windows Users:  Please install [PowerShell](https://github.com/PowerShell/PowerShell).
 ``` 
-pip install cli-pipeline==1.4.29 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.30 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
