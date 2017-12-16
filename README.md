@@ -103,7 +103,7 @@ default build context path: . => ...
 default train base image: docker.io/pipelineai/train:cpu-1.4.0     
 default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
 
-capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http']
+capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'predict-test-sage']
 capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-predict-*', 'optimize-train-*', 'traffic-router-*', 'spark-cluster-*', 'airflow-cluster-*', 'jupyter-cluster-*', 'kafka-cluster-*']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
