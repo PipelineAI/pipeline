@@ -15,7 +15,7 @@ Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
 # PipelineAI Slack Channel
-Join us on [Slack](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+Join us on [**SLACK**](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
 
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
@@ -67,10 +67,10 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 * C++
 * Caffe2
 * Theano
-* TensorFlow Serving (TensorFlow Only)
+* TensorFlow Serving (TensorFlow)
 * Nvidia TensorRT (TensorFlow, Caffe2)
 
-Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
+Coming Soon:  Amazon MXNet, Microsoft CNTK, Gluon, ONNX Support
 
 # Pre-Requisites
 ## Docker
@@ -80,9 +80,11 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 * Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 2 or 3 (Preferred) Support
 
 ## Install PipelineCLI
-_Note: This command line interface requires **Python 2 or 3** and **Docker** as detailed above._
+Notes: 
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
+* Windows Users:  Please install [PowerShell](https://github.com/PowerShell/PowerShell).
 ``` 
-pip install cli-pipeline==1.4.26 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.29 --ignore-installed --no-cache -U
 ```
 
 ## Verify Successful PipelineCLI Installation
@@ -185,6 +187,7 @@ ls -l ./tensorflow/census/model
 ...
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
 pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
+pipeline_setup.sh                  <-- Required.  Init script performed upon Docker build
 pipeline_train.py                  <-- Required.  `main()` is required. Pass args with `--train-args`
 ...
 ```
@@ -196,6 +199,7 @@ pipeline train-server-build --model-type=tensorflow --model-name=census --model-
 Notes:  
 * `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
 * If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
+* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
 
 ## Start Training UI
 ```
@@ -262,6 +266,7 @@ ls -l ./tensorflow/mnist/model
 pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
 pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
 pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
+pipeline_setup.sh                  <-- Required.  Init script performed upon Docker build
 pipeline_tfserving/                <-- Optional.  Only TensorFlow Serving requires this directory
 ...
 ```
@@ -285,6 +290,7 @@ pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model
 Notes:
 * `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
 * If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
+* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
 
 ## Start the Model Server
 ```
@@ -368,7 +374,12 @@ pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-req
 
 ### EXPECTED OUTPUT ###
 ...
-{"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
+('{"variant": "tfserving-cpu-tensorflow-mnist-v1", "outputs":{"outputs": '
+ '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
+ '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
+ '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
+ '0.001954273320734501]}}')
+ ...
 
 ### FORMATTED OUTPUT ###
 Digit  Confidence
@@ -416,7 +427,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"outputs": [0.0022526539396494627, 2.63791100074684e-10, 0.4638307988643646, 0.21909376978874207, 3.2985670372909226e-07, 0.29357224702835083, 0.00019597385835368186, 5.230629176367074e-05, 0.020996594801545143, 5.426473762781825e-06]}
+{"variant": "tfserving-cpu-tensorflow-mnist-v1", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
