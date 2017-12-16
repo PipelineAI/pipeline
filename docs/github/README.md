@@ -39,7 +39,7 @@ Enter passphrase for ~/.ssh/github_rsa: <your-passphrase>
 ```
 
 ## Troubleshooting
-* If you see the following error, start from [this](Github-Notes#start-your-ssh-authentication-agent) step.
+* If you see the following error, start from [this](#start-your-ssh-authentication-agent) step.
 ```
 Permission denied (publickey).
 fatal: Could not read from remote repository.
