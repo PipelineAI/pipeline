@@ -14,6 +14,9 @@ Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
+# PipelineAI Slack Channel
+Join us on [Slack](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
 
