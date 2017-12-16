@@ -14,8 +14,14 @@ Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
-# PipelineAI Slack Channel
-Join us on [**SLACK**](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+# PipelineAI Open Source
+* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
+* [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
+
+# PipelineAI Resources
+* Join us on [**SLACK**](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+* [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
+* [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
 # PipelineAI [Products](http://pipeline.ai/products/)
 [Community Edition](http://pipeline.ai/products/)
@@ -24,13 +30,7 @@ Join us on [**SLACK**](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg
 
 [Enterprise Edition](http://pipeline.ai/products/)
 
-# PipelineAI Deployments
-* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
-* [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
-* [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
-* [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-
-# PipelineAI [Feature Comparison](http://pipeline.ai/features)
+# PipelineAI [Features](http://pipeline.ai/features)
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
@@ -58,7 +58,7 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
-Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
+Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 
 ## Supported Model Runtimes (CPU and GPU)
 * Python
@@ -70,16 +70,17 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and Gluon
 * TensorFlow Serving (TensorFlow)
 * Nvidia TensorRT (TensorFlow, Caffe2)
 
-Coming Soon:  Amazon MXNet, Microsoft CNTK, Gluon, ONNX Support
+Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 
-# Pre-Requisites
-## Docker
+# Step 0: Install PipelineAI CLI
+## Pre-Requisites
+### Docker
 * Install [Docker](https://www.docker.com/community-edition#/download)
 
-## Python2 or Python3 (Conda is Optional)
+### Python2 or Python3 (Conda is Optional)
 * Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 2 or 3 (Preferred) Support
 
-## Install PipelineCLI
+### Install CLI
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
 * Windows Users:  Please install [PowerShell](https://github.com/PowerShell/PowerShell).
@@ -87,7 +88,7 @@ Notes:
 pip install cli-pipeline==1.4.30 --ignore-installed --no-cache -U
 ```
 
-## Verify Successful PipelineCLI Installation
+### Verify Successful PipelineAI CLI Installation
 ```
 pipeline version
 
@@ -107,13 +108,7 @@ capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-s
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
 
-## Review CLI Functionality
-[Community Edition](http://pipeline.ai/products/)
-
-[Standalone Edition](http://pipeline.ai/products/)
-
-[Enterprise Edition](http://pipeline.ai/products/)
-
+### PipelineAI CLI Overview
 ```
 pipeline
 
