@@ -80,10 +80,11 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 ### Python2 or Python3 (Conda is Optional)
 * Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 2 or 3 (Preferred) Support
 
+### (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell)
+
 ### Install CLI
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
-* Windows Users:  Please install [PowerShell](https://github.com/PowerShell/PowerShell).
 ``` 
 pip install cli-pipeline==1.4.30 --ignore-installed --no-cache -U
 ```
