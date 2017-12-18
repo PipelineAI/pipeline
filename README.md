@@ -86,7 +86,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
 ``` 
-pip install cli-pipeline==1.4.30 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.31 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
