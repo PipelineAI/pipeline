@@ -86,7 +86,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
 ``` 
-pip install cli-pipeline==1.4.31 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.4.32 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -95,16 +95,12 @@ pipeline version
 
 ### EXPECTED OUTPUT ###
 cli_version: 1.4.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
-api_version: v1
 
-default build type: docker
-default build context path: . => ...
+default train base image: docker.io/pipelineai/trai:wq!n-cpu:1.4.0     
+default predict base image: docker.io/pipelineai/predict-cpu:1.4.0 
 
-default train base image: docker.io/pipelineai/train:cpu-1.4.0     
-default predict base image: docker.io/pipelineai/predict:cpu-1.4.0 
-
-capabilities_enabled: ['train-server-*', 'predict-server-*', 'predict-test-http', 'predict-test-sage']
-capabilities_available: ['train-cluster-*', 'predict-cluster-*', 'predict-test-stream', 'optimize-predict-*', 'optimize-train-*', 'traffic-router-*', 'spark-cluster-*', 'airflow-cluster-*', 'jupyter-cluster-*', 'kafka-cluster-*']
+capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'jupyter-kube', 'jupyter-sage']
+capabilities_available: ['train-optimize', 'predict-optimize', 'spark-kube', 'airflow-kube', 'kafka-kube']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -117,41 +113,43 @@ pipeline
 ...
 Usage:       pipeline                             <-- This List of CLI Commands
              
-(Enterprise) pipeline predict-cluster-autoscale   <-- Configure AutoScaling for Model Cluster
-             pipeline predict-cluster-connect     <-- Create Secure Tunnel to Model Cluster 
-             pipeline predict-cluster-describe    <-- Describe Model Cluster
-             pipeline predict-cluster-logs        <-- View Model Cluster Logs 
-             pipeline predict-cluster-scale       <-- Scale Model Cluster
-             pipeline predict-cluster-shell       <-- Shell into Model Cluster
-             pipeline predict-cluster-start       <-- Start Model Cluster from Docker Registry
-             pipeline predict-cluster-status      <-- Status of Model Cluster
-             pipeline predict-cluster-stop        <-- Stop Model Cluster
-             
-(Community)  pipeline predict-server-build        <-- Build Model Server
+             pipeline predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
+             pipeline predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
+             pipeline predict-kube-describe       <-- Describe Model Cluster
+             pipeline predict-kube-logs           <-- View Model Cluster Logs 
+             pipeline predict-kube-route          <-- Route Live Traffic  
+             pipeline predict-kube-scale          <-- Scale Model Cluster
+             pipeline predict-kube-shell          <-- Shell into Model Cluster
+             pipeline predict-kube-start          <-- Start Model Cluster from Docker Registry
+             pipeline predict-kube-status         <-- Status of Model Cluster
+             pipeline predict-kube-stop           <-- Stop Model Cluster
+             pipeline predict-kube-test           <-- Test Model Cluster
+
+             pipeline predict-sage-route          <-- Route Live Traffic (SageMaker)
+             pipeline predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
+             pipeline predict-sage-test           <-- Test Model Cluster (SageMaker)
+
+             pipeline predict-server-build        <-- Build Model Server
              pipeline predict-server-logs         <-- View Model Server Logs
              pipeline predict-server-pull         <-- Pull Model Server from Docker Registry
              pipeline predict-server-push         <-- Push Model Server to Docker Registry
              pipeline predict-server-shell        <-- Shell into Model Server (Debugging)
              pipeline predict-server-start        <-- Start Model Server
              pipeline predict-server-stop         <-- Stop Model Server
-
-(Community)  pipeline predict-test-http           <-- Predict with Http-based Model Endpoint
-             pipeline predict-test-sage           <-- Predict with Sage-based Model Endpoint
-(Standalone) pipeline predict-test-stream         <-- Predict with Kafka-based Model Endpoint 
-
-(Enterprise) pipeline traffic-router-describe     <-- Describe Traffic Split and Shadow %
-             pipeline traffic-router-split        <-- Split Traffic Among Model Variants
+             pipeline predict-server-test         <-- Test Model Server
              
-(Enterprise) pipeline train-cluster-connect       <-- Create Secure Tunnel to Training Cluster
-             pipeline train-cluster-describe      <-- Describe Training Cluster
-             pipeline train-cluster-logs          <-- View Training Cluster Logs
-             pipeline train-cluster-scale         <-- Scale Training Cluster
-             pipeline train-cluster-shell         <-- Shell into Training Cluster
-             pipeline train-cluster-start         <-- Start Training Cluster from Docker Registry
-             pipeline train-cluster-status        <-- Status of Training Cluster
-             pipeline train-cluster-stop          <-- Stop Training Cluster
+             pipeline predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
 
-(Community)  pipeline train-server-build          <-- Build Training Server
+             pipeline train-kube-connect          <-- Create Secure Tunnel to Training Cluster
+             pipeline train-kube-describe         <-- Describe Training Cluster
+             pipeline train-kube-logs             <-- View Training Cluster Logs
+             pipeline train-kube-scale            <-- Scale Training Cluster
+             pipeline train-kube-shell            <-- Shell into Training Cluster
+             pipeline train-kube-start            <-- Start Training Cluster from Docker Registry
+             pipeline train-kube-status           <-- Status of Training Cluster
+             pipeline train-kube-stop             <-- Stop Training Cluster
+
+             pipeline train-server-build          <-- Build Training Server
              pipeline train-server-logs           <-- View Training Server Logs
              pipeline train-server-pull           <-- Pull Training Server from Docker Registry
              pipeline train-server-push           <-- Push Training Server to Docker Registry
@@ -159,7 +157,7 @@ Usage:       pipeline                             <-- This List of CLI Commands
              pipeline train-server-start          <-- Start Training Server
              pipeline train-server-stop           <-- Stop Training Server
              
-(Community)  pipeline version                     <-- View This CLI Version
+             pipeline version                     <-- View This CLI Version
 ...
 ```
 
