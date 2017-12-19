@@ -52,6 +52,8 @@ pipeline predict-kube-scale --model-name=mnist --model-tag=a --model-type=tensor
 
 # AWS SageMaker 
 ## Start the Model Server in the Kubernetes Cluster
+* `aws-iam-arn`: arn:aws:iam::...:role/service-role/AmazonSageMaker-ExecutionRole-...
+* `aws-instance-type`: Click [HERE](https://aws.amazon.com/sagemaker/pricing/instance-types/) for instance types.
 ```
 pipeline predict-sage-start --model-name=mnist --model-tag=a --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=<aws-instance-type>
 ```
