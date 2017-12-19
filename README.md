@@ -364,7 +364,7 @@ Notes:
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
@@ -404,7 +404,7 @@ Notes:
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
@@ -520,7 +520,7 @@ Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker
 ![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-2.png)
 
 ## Create SageMaker Prediction Endpoint
-* `aws-iam-arn`: arn:aws:iam::954636985443:role/service-role/AmazonSageMaker-ExecutionRole-20171130T103683
+* `aws-iam-arn`: arn:aws:iam::...:role/service-role/AmazonSageMaker-ExecutionRole-...
 * `aws-instance-type`: Click [HERE](https://aws.amazon.com/sagemaker/pricing/instance-types/) for instance types.
 ```
 pipeline predict-sage-start --model-name=mnist --model-type=tensorflow --model-tag=v1 --aws-iam-arn=<full-aws-iam-arn-SageMaker-ExecutionRole> --aws-instance-type=<aws-instance-type>
