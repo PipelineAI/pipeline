@@ -25,6 +25,13 @@ pipeline train-kube-start --model-name=census --model-tag=a --model-type=tensorf
 # AWS SageMaker
 ## Start Distributed TensorFlow Training Cluster
 # TODO: Coming Soon
+
+Sample Training and Validation Datasets
+* s3://datapalooza-us-west-2/tensorflow/census/input/training/adult.training.csv
+* s3://datapalooza-us-west-2/tensorflow/census/input/validation/adult.validation.csv
+
+_Note:  Paths below should be relative to `s3://datapalooza-us-west-2/tensorflow/census/input/` above.>_
+
 ```
 pipeline train-sage-start --model-name=census --model-tag=a --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
