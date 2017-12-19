@@ -4,12 +4,12 @@
 
 # Build Docker Image
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/model/
+pipeline train-server-build --model-name=census --model-tag=a --model-type=tensorflow --model-path=./tensorflow/census/model/
 ```
 
 # Push Image To Docker Repo
 ```
-pipeline train-server-push --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-push --model-name=census --model-tag=a --model-type=tensorflow 
 ```
 
 # Kubernetes
