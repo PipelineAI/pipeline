@@ -188,7 +188,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=v1 --model-path=./tensorflow/census/model
+pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=a --model-path=./tensorflow/census/model
 ```
 Notes:  
 * `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
@@ -197,7 +197,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=v1 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=a --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -206,13 +206,13 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-v1-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-a-tensorflow-tfserving-cpu`.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=a
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -245,7 +245,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=v1
+pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=a
 ```
 
 # Step 3: Predict with Model
@@ -279,7 +279,7 @@ pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-ba
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=v1 --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
 ```
 Notes:
 * `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
@@ -288,10 +288,10 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=a --memory-limit=2G
 ```
 Notes:  
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-v1`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-a`.
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
@@ -347,7 +347,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=a
 
 ### EXPECTED OUTPUT ###
 ...
@@ -368,7 +368,7 @@ pipeline predict-test-http --model-endpoint-url=http://localhost:8080 --test-req
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "tfserving-cpu-tensorflow-mnist-v1", "outputs":{"outputs": '
+('{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -421,7 +421,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "tfserving-cpu-tensorflow-mnist-v1", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
@@ -485,7 +485,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 ## Stop Model Server
 ```
-pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=v1
+pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=a
 ```
 
 # Using PipelineAI with AWS SageMaker
@@ -519,14 +519,22 @@ Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker
 
 ![PipelineAI + AWS SageMaker Model Endpoint Detail 2](http://pipeline.ai/assets/img/sagemaker-endpoint-detail-2.png)
 
+## Create SageMaker Prediction Endpoint
+* `aws-iam-arn`: arn:aws:iam::954636985443:role/service-role/AmazonSageMaker-ExecutionRole-20171130T103683
+* `aws-instance-type`: Click [HERE](https://aws.amazon.com/sagemaker/pricing/instance-types/) for instance types.
+```
+pipeline predict-sage-start --model-name=mnist --model-type=tensorflow --model-tag=v1 --aws-iam-arn=<full-aws-iam-arn-SageMaker-ExecutionRole> --aws-instance-type=<aws-instance-type>
+```
+
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 _Note:  This step assumes you have setup your AWS credentials in your environment.  Follow [THESE](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) steps to setup your AWS credentials for this PipelineAI CLI command._
+
 ```
-pipeline predict-test-sage --model-endpoint-name=<your-endpoint-name> --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 
 ### EXPECTED OUTPUT ###
 ...
-Variant: 'default-variant-name'            <-- Variant name (ie. v1)
+Variant: 'mnist-a-tensorflow-tfserving-cpu'            <-- Variant name (ie. a)
 
 ('{"outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, '
  '0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, '
