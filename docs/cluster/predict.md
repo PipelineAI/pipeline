@@ -39,13 +39,14 @@ pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --mode
 pipeline predict-cluster-start --model-type=tensorflow --model-name=mnist --model-tag=c
 ```
 
-## Generate Traffic Router Splits
+## Create/Update Traffic Routes
 ```
-pipeline traffic-router-split --model-type=tensorflow --model-name=mnist --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
+pipeline predict-cluster-route --model-type=tensorflow --model-name=mnist --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
 ```
-## Analyze Routers
+
+## Analyze Routes
 ```
-pipeline traffic-router-describe
+pipeline predict-cluster-describe
 ```
 
 ## Scale Out the Model Server
