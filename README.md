@@ -96,7 +96,7 @@ pipeline version
 ### EXPECTED OUTPUT ###
 cli_version: 1.4.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 
-default train base image: docker.io/pipelineai/trai:wq!n-cpu:1.4.0     
+default train base image: docker.io/pipelineai/train-cpu:1.4.0     
 default predict base image: docker.io/pipelineai/predict-cpu:1.4.0 
 
 capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'jupyter-kube', 'jupyter-sage']
