@@ -3,8 +3,8 @@ These instructions are under active development.
 # Prerequisites
 * Kubernetes Cluster
 * [Istio](https://istio.io/) installed in the Kubernetes Cluster
-* Latest `cli-pipeline` installed using `pip install`
-* if Windows, then [Powershell](https://github.com/PowerShell/PowerShell)
+* If using Windows locally, then install [Powershell](https://github.com/PowerShell/PowerShell)
+* Latest `cli-pipeline` installed locally using `pip install`
 
 # Package Model + Runtime into a Docker Image
 ```
