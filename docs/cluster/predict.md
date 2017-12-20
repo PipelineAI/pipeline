@@ -12,7 +12,9 @@ pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tens
 ```
 
 # Push Docker Image to Docker Repo
-_Note:  By default, we use DockerHub.  However, you can also specify a private, internal Docker repo._
+* By default, we use the following public DockerHub repo `docker.io/pipelineai`
+* By convention, we use `predict-` to namespace our model servers (ie. `predict-mnist`)
+* To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=a --model-type=tensorflow
 ```
