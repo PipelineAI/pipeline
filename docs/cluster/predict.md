@@ -1,5 +1,11 @@
 These instructions are under active development.
 
+# Prerequisites
+* Kubernetes Cluster
+* [Istio](https://istio.io/)
+* Latest `cli-pipeline` installed using `pip install`
+* if Windows, then [Powershell](https://github.com/PowerShell/PowerShell)
+
 # Package Model + Runtime into a Docker Image
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
@@ -37,27 +43,32 @@ pipeline predict-kube-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-kube-start --model-name=mnist --model-tag=c --model-type=tensorflow 
 ```
 
-## Create Traffic Routes
+## Test the Routes (a=33%, b=33%, c=33%)
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+```
+
+## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
 pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
 ```
 
-Test the Routes
+## Test the Routes (a=97%, b=2%, c=1%)
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
-## Update Traffic Routes
+## Update Traffic Routes (a=1%, b=2%, c=97%)
 ```
 pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
 ```
 
-Test the Routes
+## Test the Routes (a=1%, b=2%, c=97%)
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
-## Analyze theRoutes
+## Analyze the Routes
 ```
 pipeline predict-kube-describe
 ```
@@ -82,22 +93,22 @@ pipeline predict-sage-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=<aws-instance-type>
 ```
 
-## Create Traffic Routes
+## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
 pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
 ```
 
-Test the Routes
+## Test the Routes (a=97%, b=2%, c=1%)
 ```
 pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
-## Update Traffic Routes
+## Update Traffic Routes (a=1%, b=2%, c=97%)
 ```
 pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
 ```
 
-Test the Routes
+## Test the Routes (a=1%, b=2%, c=97%)
 ```
 pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
