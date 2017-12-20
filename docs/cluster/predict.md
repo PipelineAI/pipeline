@@ -2,7 +2,7 @@ These instructions are under active development.
 
 # Prerequisites
 * Kubernetes Cluster
-* [Istio](https://istio.io/)
+* [Istio](https://istio.io/) installed in the Kubernetes Cluster
 * Latest `cli-pipeline` installed using `pip install`
 * if Windows, then [Powershell](https://github.com/PowerShell/PowerShell)
 
