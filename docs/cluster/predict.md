@@ -35,17 +35,33 @@ pipeline predict-kube-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-kube-start --model-name=mnist --model-tag=c --model-type=tensorflow 
 ```
 
-## Create/Update Traffic Routes
+## Create Traffic Routes
 ```
 pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
 ```
 
-## Analyze Routes
+Test the Routes
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+```
+
+## Update Traffic Routes
+```
+pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
+```
+
+Test the Routes
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+```
+
+## Analyze theRoutes
 ```
 pipeline predict-kube-describe
 ```
 
 ## Scale Out the Model Server
+_Note: The distribution of traffic should remain the same despite scaling out a particular model version._
 ```
 pipeline predict-kube-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
 ```
@@ -64,9 +80,24 @@ pipeline predict-sage-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=<aws-instance-type>
 ```
 
-## Create/Update Traffic Routes
+## Create Traffic Routes
 ```
 pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
+```
+
+Test the Routes
+```
+pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+```
+
+## Update Traffic Routes
+```
+pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
+```
+
+Test the Routes
+```
+pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
 ## Analyze Routes
