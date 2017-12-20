@@ -1,8 +1,7 @@
 These instructions are under active development.
 
 # Prerequisites
-* Kubernetes Cluster
-* [Istio](https://istio.io/) installed in the Kubernetes Cluster
+* Kubernetes Cluster with [Istio](https://istio.io/) Installed *or* AWS SageMaker
 * If using Windows locally, then install [Powershell](https://github.com/PowerShell/PowerShell)
 * Latest `cli-pipeline` installed locally using `pip install`
 
