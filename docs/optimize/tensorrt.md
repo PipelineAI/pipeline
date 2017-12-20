@@ -1,5 +1,7 @@
 # Nvidia's TensorRT 3.0+
 
+![Docker Gobbles](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
+
 ## Convert TensorFlow Model into Optimized TensorRT File
 ```
 pipeline predict-server-optimize --model-path=./tensorflow/mnist/model/model.pb \
