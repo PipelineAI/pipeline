@@ -14,6 +14,7 @@ pipeline predict-server-optimize --model-path=./tensorflow/mnist/model/model.pb 
                                 
 
 ### EXPECTED OUTPUT ###
+
 model path: './tensorflow/mnist/model/model.pb
 model name: 'mnist'
 model tag: 'a'
@@ -40,6 +41,7 @@ pipeline predict-server-start --model-path=./tensorflow/mnist/model/optimized_mo
                               --model-output-list=[...]
 
 ### EXPECTED OUTPUT ###
+
 model path: './tensorflow/mnist/model/model.pb
 model name: 'mnist'
 model tag: 'a'
