@@ -10,7 +10,7 @@ Specifically, you can upload PipelineAI-optimized Docker images to your private 
 
 Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
-![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-dashboard-sm.png)
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
