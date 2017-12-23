@@ -1,6 +1,6 @@
 These instructions are under active development.
 
-# Prerequisites
+# Pre-requisites
 * Kubernetes Cluster with [Istio](https://istio.io/) Installed *or* AWS SageMaker
 * If using Windows locally, then install [Powershell](https://github.com/PowerShell/PowerShell)
 * Latest `cli-pipeline` installed locally using `pip install`
@@ -31,6 +31,10 @@ pipeline predict-server-push --model-name=mnist --model-tag=c --model-type=tenso
 ```
 
 # Kubernetes
+* Due to an Istio Ingress [design choice](https://github.com/istio/istio/issues/1752), we need to namespace our prediction calls with `model_name`/invocations instead of just `/invocations`.
+* We use Istio RouteRules to rewrite to `/invocations`.
+* This will cause issues if you hit the Ingress endpoint without setting up the RouteRules.
+
 ## Start the Model Server in the Kubernetes Cluster
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=a --model-type=tensorflow 
@@ -42,7 +46,12 @@ pipeline predict-kube-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-kube-start --model-name=mnist --model-tag=c --model-type=tensorflow 
 ```
 
-## Test the Routes (a=33%, b=33%, c=33%)
+## Create Traffic Route Rules (a=34%, b=33%, c=33%)
+```
+pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[34,33,33]
+```
+
+## Test the Routes (a=34%, b=33%, c=33%)
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
@@ -76,6 +85,13 @@ pipeline predict-kube-describe
 _Note: The distribution of traffic should remain the same despite scaling out a particular model version._
 ```
 pipeline predict-kube-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
+```
+
+## Test the Routes (a=1% with 3x Replicas, b=2%, c=97%)
+* Wait for the scale out (above) to complete before proceeding.
+* You should see the same distribution between a, b, and c as above - even with the scale out.  (This is a feature of Istio.)
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
 # AWS SageMaker 
