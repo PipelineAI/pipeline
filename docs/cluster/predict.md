@@ -123,3 +123,9 @@ pipeline predict-sage-describe
 ```
 pipeline predict-sage-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
 ```
+
+## Monitor Model Servers
+Navigate to the following url to see the models in action:
+```
+http://hystrix.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fturbine.community.pipeline.ai%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
+```
