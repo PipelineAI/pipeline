@@ -3,6 +3,11 @@
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
+# PipelineAI Videos
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs
+" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" 
+alt="PipelineAI + SageMaker" width="240" height="180" border="10" /></a>
+
 # PipelineAI + AWS SageMaker
 PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
 
