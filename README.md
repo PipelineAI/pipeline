@@ -90,7 +90,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
 ``` 
-pip install cli-pipeline==1.4.36 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.0 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -98,13 +98,13 @@ pip install cli-pipeline==1.4.36 --ignore-installed --no-cache -U
 pipeline version
 
 ### EXPECTED OUTPUT ###
-cli_version: 1.4.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
+cli_version: 1.5.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 
-default train base image: docker.io/pipelineai/train-cpu:1.4.0     
-default predict base image: docker.io/pipelineai/predict-cpu:1.4.0 
+default train base image: docker.io/pipelineai/train-cpu:1.5.0     
+default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
 
-capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'jupyter-kube', 'jupyter-sage']
-capabilities_available: ['train-optimize', 'predict-optimize', 'spark-kube', 'airflow-kube', 'kafka-kube']
+capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'predict-kafka']
+capabilities_available: ['optimize', 'jupyter', 'spark', 'airflow', 'kafka']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -117,6 +117,13 @@ pipeline
 ...
 Usage:       pipeline                             <-- This List of CLI Commands
              
+             pipeline predict-http-test           <-- Test Model Cluster (Http Endpoint)
+
+             pipeline predict-kafka-consume       <-- Consume Kafka Predictions
+             pipeline predict-kafka-describe      <-- Describe Kafka Prediction Cluster
+             pipeline predict-kafka-start         <-- Start Kafka Prediction Cluster
+             pipeline predict-kafka-test          <-- Test Model Cluster (Kafka Endpoint)
+
              pipeline predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
              pipeline predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
              pipeline predict-kube-describe       <-- Describe Model Cluster
@@ -528,7 +535,7 @@ Follow the steps below to create an AWS SageMaker Model Endpoint with the Docker
 * `aws-iam-arn`: arn:aws:iam::...:role/service-role/AmazonSageMaker-ExecutionRole-...
 * `aws-instance-type`: Click [HERE](https://aws.amazon.com/sagemaker/pricing/instance-types/) for instance types.
 ```
-pipeline predict-sage-start --model-name=mnist --model-type=tensorflow --model-tag=v1 --aws-iam-arn=<full-aws-iam-arn-SageMaker-ExecutionRole> --aws-instance-type=<aws-instance-type>
+pipeline predict-sage-start --model-name=mnist --model-type=tensorflow --model-tag=a --aws-iam-arn=<full-aws-iam-arn-SageMaker-ExecutionRole> --aws-instance-type=<aws-instance-type>
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
