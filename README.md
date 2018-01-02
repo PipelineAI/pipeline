@@ -91,7 +91,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.1 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.2 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -377,7 +377,7 @@ Notes:
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-server-test --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
@@ -401,14 +401,6 @@ Digit  Confidence
 7      5.230629176367074e-05
 8      0.020996594801545143
 9      5.426473762781825e-06
-
-### IGNORE THESE ERRORS BELOW.  WAIT A MINUTE, THEN RE-RUN THE COMMAND ABOVE. ###
-...
-<html>\r\n<head><title>502 Bad Gateway</title></head></html>
-...
-...
-{"results":["fallback"]}
-...
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
@@ -417,7 +409,7 @@ Notes:
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-server-test --model-endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
