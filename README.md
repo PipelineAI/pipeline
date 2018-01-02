@@ -91,7 +91,7 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.2 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.3 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -302,7 +302,8 @@ Notes:
 ```
 pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=a --memory-limit=2G
 ```
-Notes:  
+Notes:
+* Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-a`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
 
