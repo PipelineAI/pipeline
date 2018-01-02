@@ -49,10 +49,11 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * TensorFlow
 * Keras
 * Spark ML (formerly called Spark MLlib)
-* XgBoost
+* Xgboost
+* PMML/PFA
 * Custom Java
 * Custom Python
-* Ensembles
+* Model Ensembles
 
 ![Nvidia GPU](http://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
@@ -62,7 +63,7 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
-Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
+Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 
 ## Supported Model Runtimes (CPU and GPU)
 * Python
