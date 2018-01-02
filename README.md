@@ -87,12 +87,11 @@ Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
 ### (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell)
 
 ### Install CLI
-``` 
-pip install cli-pipeline==1.5.1 --ignore-installed --no-cache -U
-```
 Notes: 
-* This command line interface requires **Python 2 or 3** and **Docker** as detailed above.
-* If you see a `permission denied` error, you need to install as root using `sudo`.
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+``` 
+pip install cli-pipeline==1.5.1 --user --ignore-installed --no-cache -U
+```
 
 ### Verify Successful PipelineAI CLI Installation
 ```
