@@ -16,21 +16,21 @@ Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
-# PipelineAI Open Source
+# Open Source
 * [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 * [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
 
-# PipelineAI Resources
-* Join us on [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+# Support
+* [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
 * [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
+
+# Workshops
 * [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 
-# PipelineAI [Products](http://pipeline.ai/products/)
-[Community Edition](http://pipeline.ai/products/)
-
-[Standalone Edition](http://pipeline.ai/products/)
-
-[Enterprise Edition](http://pipeline.ai/products/)
+# [Products](http://pipeline.ai/products/)
+* [Community Edition](http://pipeline.ai/products/)
+* [Standalone Edition](http://pipeline.ai/products/)
+* [Enterprise Edition](http://pipeline.ai/products/)
 
 # PipelineAI [Features](http://pipeline.ai/features)
 
@@ -59,7 +59,7 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 ![R](http://pipeline.ai/assets/img/r-logo-280x212.png) ![PMML](http://pipeline.ai/img/pmml-logo-210x96.png)
 
-![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
+![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Model Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
 Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 
@@ -72,8 +72,9 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 * Theano
 * TensorFlow Serving (TensorFlow)
 * Nvidia TensorRT (TensorFlow, Caffe2)
-
-Coming Soon:  Amazon MXNet, Microsoft CNTK, and ONNX
+* MXNet
+* CNTK
+* ONNX
 
 # Step 0: Install PipelineAI CLI
 ## Pre-Requisites
@@ -413,7 +414,6 @@ pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocati
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
-
 
 ## Predict with REST API
 Use the REST API to POST a JSON document representing the number 2.
