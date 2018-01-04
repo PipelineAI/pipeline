@@ -198,14 +198,12 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 ```
 
 ## Build Training Server
-
-_If you have issues, see the comprehensive [**Troubleshooting**](#troubleshooting) section below._
-
 ```
 pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=a --model-path=./tensorflow/census/model
 ```
 Notes:  
 * `--model-path` must be relative.  
+* If you have issues, see the comprehensive [**Troubleshooting**](#troubleshooting) section below.
 
 ## Start Training Server
 ```
@@ -294,9 +292,8 @@ This command bundles the TensorFlow runtime with the model.
 pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
 ```
 Notes:
-* `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
-* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
-* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
+* `--model-path` must be relative.  
+* If you have issues, see the comprehensive [**Troubleshooting**](#troubleshooting) section below.
 
 ## Start the Model Server
 ```
