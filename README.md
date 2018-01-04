@@ -6,9 +6,7 @@
 # PipelineAI + AWS SageMaker
 PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs
-" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" 
-alt="PipelineAI + SageMaker" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" alt="PipelineAI + SageMaker" border="10" /></a>
 
 Specifically, you can upload PipelineAI-optimized Docker images to your public or private Docker Repo for use with AWS SageMaker's Custom Docker image support.
 
@@ -199,12 +197,14 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 ```
 
 ## Build Training Server
+
+_If you have issues, see the comprehensive [**Troubleshooting**](#troubleshooting) section below._
+
 ```
 pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=a --model-path=./tensorflow/census/model
 ```
 Notes:  
-* `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
-* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, see the [Troubleshooting](#Troubleshooting) section below.
+* `--model-path` must be relative.  
 
 ## Start Training Server
 ```
@@ -548,6 +548,23 @@ Variant: 'mnist-a-tensorflow-tfserving-cpu'            <-- Variant name (ie. a)
 ...
 ``` 
 
+# Troubleshooting
+
+## Paths
+* `--model-path` needs to be relative
+* On Windows, be sure to use the forward slash `\` for your paths.
+
+## Http/Https Proxies
+* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
+* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
+
+_Experimental (Covering As Many Cases as Possible)_
+
+* You may also need to set the lower-case version, as well:  `export http_proxy` and `export https_proxy`
+* And if your proxy server password uses special characters (ie. `@`, you may need to convert the characters to [ASCII](https://www.ascii-code.com/) (ie. `%40`).
+* You may need to remove the `!#/bin/bash`
+* Lastly, you may need to set shell-wide (`~/.bashrc`) and re-source (`. ~/.bashrc`) - or set them as system-wide environment variables (` `) per [THIS](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables) document.
+
 # Additional PipelineAI [Standalone](http://pipeline.ai/products) and [Enterprise](http://pipeline.ai/products) Features
 See below for feature details.  Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
@@ -579,12 +596,3 @@ See below for feature details.  Click [HERE](http://pipeline.ai/products) to com
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
-
-# Troubleshooting
-* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
-* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
-* You may also need to set the lower-case version, as well:  `export http_proxy` and `export https_proxy`
-* And if your proxy server password uses special characters (ie. `@`, you may need to convert the characters to [ASCII](https://www.ascii-code.com/) (ie. `%40`).
-* You may need to remove the `!#/bin/bash`
-* Lastly, you may need to set shell-wide (`~/.bashrc`) and re-source (`. ~/.bashrc`) - or set them as system-wide environment variables (` `) per [THIS](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables) document.
-
