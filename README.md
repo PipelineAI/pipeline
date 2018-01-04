@@ -204,12 +204,7 @@ pipeline train-server-build --model-type=tensorflow --model-name=census --model-
 ```
 Notes:  
 * `--model-path` must be relative.  On Windows, be sure to use the forward slash `\` for `--model-path`.
-* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
-* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
-* You may also need to set the lower-case version, as well:  `export http_proxy` and `export https_proxy`
-* And if your proxy server password uses special characters (ie. `@`, you may need to convert the characters to [ASCII](https://www.ascii-code.com/) (ie. `%40`).
-* You may need to remove the `!#/bin/bash`
-* Lastly, you may need to set shell-wide (`~/.bashrc`) and re-source (`. ~/.bashrc`) - or set them as system-wide environment variables (` `) per [THIS](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables) document.
+* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, see the [Troubleshooting](#Troubleshooting) section below.
 
 ## Start Training Server
 ```
@@ -584,3 +579,12 @@ See below for feature details.  Click [HERE](http://pipeline.ai/products) to com
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
+
+# Troubleshooting
+* If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
+* For `pip` installs, you may also need to `export HTTP_PROXY` and `export HTTPS_PROXY` within `./tensorflow/census/model/pipeline_setup.sh`
+* You may also need to set the lower-case version, as well:  `export http_proxy` and `export https_proxy`
+* And if your proxy server password uses special characters (ie. `@`, you may need to convert the characters to [ASCII](https://www.ascii-code.com/) (ie. `%40`).
+* You may need to remove the `!#/bin/bash`
+* Lastly, you may need to set shell-wide (`~/.bashrc`) and re-source (`. ~/.bashrc`) - or set them as system-wide environment variables (` `) per [THIS](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables) document.
+
