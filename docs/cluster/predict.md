@@ -13,7 +13,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tens
 pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tensorflow git p--model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tensorflow --model-path=./tensorflow/mnist/model
 ```
 
 # Push Docker Image to Docker Repo
