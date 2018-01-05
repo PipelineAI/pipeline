@@ -90,7 +90,7 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.3 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.7 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -297,7 +297,7 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-type=tensorflow --model-name=mnist --model-tag=a --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=a --memory-limit=2G
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -358,7 +358,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-type=tensorflow --model-name=mnist --model-tag=a
+pipeline predict-server-logs --model-name=mnist --model-tag=a
 
 ### EXPECTED OUTPUT ###
 ...
