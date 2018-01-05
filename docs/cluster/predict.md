@@ -7,13 +7,13 @@ These instructions are under active development.
 
 # Package Model + Runtime into a Docker Image
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=c --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tensorflow git p--model-path=./tensorflow/mnist/model
 ```
 
 # Push Docker Image to Docker Repo
