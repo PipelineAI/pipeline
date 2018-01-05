@@ -48,7 +48,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=c --model-type=tensor
 
 ## Create Traffic Route Rules (a=34%, b=33%, c=33%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[34,33,33]
+pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model_tag_and_weight_dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=34%, b=33%, c=33%)
