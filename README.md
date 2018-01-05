@@ -90,7 +90,7 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.7 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.8 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -111,64 +111,62 @@ Email upgrade@pipeline.ai to enable the advanced capabilities.
 
 ### PipelineAI CLI Overview
 ```
-pipeline
+pipeline help
 
 ### EXPECTED OUTPUT ###
 ...
-Usage:       pipeline                             <-- This List of CLI Commands
+             help                        <-- This List of CLI Commands
              
-             pipeline predict-http-test           <-- Test Model Cluster (Http Endpoint)
+             predict-http-test           <-- Test Model Cluster (Http Endpoint)
 
-             pipeline predict-kafka-consume       <-- Consume Kafka Predictions
-             pipeline predict-kafka-describe      <-- Describe Kafka Prediction Cluster
-             pipeline predict-kafka-start         <-- Start Kafka Prediction Cluster
-             pipeline predict-kafka-test          <-- Test Model Cluster (Kafka Endpoint)
+             predict-kafka-consume       <-- Consume Kafka Predictions
+             predict-kafka-describe      <-- Describe Kafka Prediction Cluster
+             predict-kafka-start         <-- Start Kafka Prediction Cluster
+             predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
 
-             pipeline predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
-             pipeline predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
-             pipeline predict-kube-describe       <-- Describe Model Cluster
-             pipeline predict-kube-logs           <-- View Model Cluster Logs 
-             pipeline predict-kube-route          <-- Route Live Traffic  
-             pipeline predict-kube-scale          <-- Scale Model Cluster
-             pipeline predict-kube-shell          <-- Shell into Model Cluster
-             pipeline predict-kube-start          <-- Start Model Cluster from Docker Registry
-             pipeline predict-kube-status         <-- Status of Model Cluster
-             pipeline predict-kube-stop           <-- Stop Model Cluster
-             pipeline predict-kube-test           <-- Test Model Cluster
+             predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
+             predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
+             predict-kube-describe       <-- Describe Model Cluster (Raw)
+             predict-kube-endpoint       <-- Retrieve Model Cluster Endpoint 
+             predict-kube-endpoints      <-- Retrieve All Model Cluster Endpoints
+             predict-kube-logs           <-- View Model Cluster Logs 
+             predict-kube-route          <-- Route Live Traffic  
+             predict-kube-scale          <-- Scale Model Cluster
+             predict-kube-shell          <-- Shell into Model Cluster
+             predict-kube-start          <-- Start Model Cluster from Docker Registry
+             predict-kube-stop           <-- Stop Model Cluster
+             predict-kube-test           <-- Test Model Cluster
 
-             pipeline predict-sage-route          <-- Route Live Traffic (SageMaker)
-             pipeline predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
-             pipeline predict-sage-test           <-- Test Model Cluster (SageMaker)
+             predict-sage-route          <-- Route Live Traffic (SageMaker)
+             predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
+             predict-sage-test           <-- Test Model Cluster (SageMaker)
 
-             pipeline predict-server-build        <-- Build Model Server
-             pipeline predict-server-logs         <-- View Model Server Logs
-             pipeline predict-server-pull         <-- Pull Model Server from Docker Registry
-             pipeline predict-server-push         <-- Push Model Server to Docker Registry
-             pipeline predict-server-shell        <-- Shell into Model Server (Debugging)
-             pipeline predict-server-start        <-- Start Model Server
-             pipeline predict-server-stop         <-- Stop Model Server
-             pipeline predict-server-test         <-- Test Model Server
+             predict-server-build        <-- Build Model Server
+             predict-server-logs         <-- View Model Server Logs
+             predict-server-pull         <-- Pull Model Server from Docker Registry
+             predict-server-push         <-- Push Model Server to Docker Registry
+             predict-server-shell        <-- Shell into Model Server (Debugging)
+             predict-server-start        <-- Start Model Server
+             predict-server-stop         <-- Stop Model Server
+             predict-server-test         <-- Test Model Server
              
-             pipeline predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
+             train-kube-connect          <-- Create Secure Tunnel to Training Cluster
+             train-kube-describe         <-- Describe Training Cluster
+             train-kube-logs             <-- View Training Cluster Logs
+             train-kube-scale            <-- Scale Training Cluster
+             train-kube-shell            <-- Shell into Training Cluster
+             train-kube-start            <-- Start Training Cluster from Docker Registry
+             train-kube-stop             <-- Stop Training Cluster
 
-             pipeline train-kube-connect          <-- Create Secure Tunnel to Training Cluster
-             pipeline train-kube-describe         <-- Describe Training Cluster
-             pipeline train-kube-logs             <-- View Training Cluster Logs
-             pipeline train-kube-scale            <-- Scale Training Cluster
-             pipeline train-kube-shell            <-- Shell into Training Cluster
-             pipeline train-kube-start            <-- Start Training Cluster from Docker Registry
-             pipeline train-kube-status           <-- Status of Training Cluster
-             pipeline train-kube-stop             <-- Stop Training Cluster
-
-             pipeline train-server-build          <-- Build Training Server
-             pipeline train-server-logs           <-- View Training Server Logs
-             pipeline train-server-pull           <-- Pull Training Server from Docker Registry
-             pipeline train-server-push           <-- Push Training Server to Docker Registry
-             pipeline train-server-shell          <-- Shell into Training Server (Debugging)
-             pipeline train-server-start          <-- Start Training Server
-             pipeline train-server-stop           <-- Stop Training Server
+             train-server-build          <-- Build Training Server
+             train-server-logs           <-- View Training Server Logs
+             train-server-pull           <-- Pull Training Server from Docker Registry
+             train-server-push           <-- Push Training Server to Docker Registry
+             train-server-shell          <-- Shell into Training Server (Debugging)
+             train-server-start          <-- Start Training Server
+             train-server-stop           <-- Stop Training Server
              
-             pipeline version                     <-- View This CLI Version
+             version                     <-- View This CLI Version
 ...
 ```
 
