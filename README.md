@@ -442,7 +442,6 @@ Digit  Confidence
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
-
 ## Monitor Real-Time Prediction Metrics
 Re-run the Prediction REST API while watching the following dashboard URL:
 ```
