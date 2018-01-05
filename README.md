@@ -90,7 +90,7 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.9 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.10 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -206,7 +206,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-type=tensorflow --model-name=census --model-tag=a --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=census --model-tag=a --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -221,7 +221,7 @@ Notes:
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-type=tensorflow --model-name=census --model-tag=a
+pipeline train-server-logs --model-name=census --model-tag=a
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -254,7 +254,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-type=tensorflow --model-name=census --model-tag=a
+pipeline train-server-stop --model-name=census --model-tag=a
 ```
 
 # Step 3: Predict with Model
