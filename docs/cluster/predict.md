@@ -7,13 +7,13 @@ These instructions are under active development.
 
 # Package Model + Runtime into a Docker Image
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=c --model-path=./tensorflow/mnist/model
 ```
 
 # Push Docker Image to Docker Repo
@@ -21,13 +21,13 @@ pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tens
 * By convention, we use `predict-` to namespace our model servers (ie. `predict-mnist`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=a --model-type=tensorflow
+pipeline predict-server-push --model-name=mnist --model-tag=a
 ```
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=b --model-type=tensorflow 
+pipeline predict-server-push --model-name=mnist --model-tag=b
 ```
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=c --model-type=tensorflow 
+pipeline predict-server-push --model-name=mnist --model-tag=c
 ```
 
 # Kubernetes
@@ -58,7 +58,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
+pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model_tag_and_weight_dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=97%, b=2%, c=1%)
@@ -68,7 +68,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ## Update Traffic Routes (a=1%, b=2%, c=97%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
+pipeline predict-kube-route --model-name=mnist --model_tag_and_weight_dict='{"a":1, "b":2, "c":97}'
 ```
 
 ## Test the Routes (a=1%, b=2%, c=97%)
@@ -94,6 +94,12 @@ pipeline predict-kube-scale --model-name=mnist --model-tag=a --model-type=tensor
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
 ```
 
+## Monitor Model Servers
+Navigate to the following url to see the models in action:
+```
+http://hystrix.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fturbine.community.pipeline.ai%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
+```
+
 # AWS SageMaker 
 ## Start the Model Server in the Kubernetes Cluster
 * `aws-iam-arn`: arn:aws:iam::...:role/service-role/AmazonSageMaker-ExecutionRole-...
@@ -110,7 +116,7 @@ pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensor
 
 ## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
-pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[97,2,1]
+pipeline predict-sage-route --model-name=mnist --model_tag_and_weight_dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=97%, b=2%, c=1%)
@@ -120,7 +126,7 @@ pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ## Update Traffic Routes (a=1%, b=2%, c=97%)
 ```
-pipeline predict-sage-route --model-name=mnist --model-type=tensorflow --model-tag-list=[a,b,c] --model-weight-list=[1,2,97]
+pipeline predict-sage-route --model-name=mnist --model_tag_and_weight_dict='{"a":1, "b":2, "c":97}'
 ```
 
 ## Test the Routes (a=1%, b=2%, c=97%)
@@ -138,10 +144,4 @@ pipeline predict-sage-describe
 # TODO:  Coming Soon
 ```
 pipeline predict-sage-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
-```
-
-## Monitor Model Servers
-Navigate to the following url to see the models in action:
-```
-http://hystrix.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fturbine.community.pipeline.ai%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
