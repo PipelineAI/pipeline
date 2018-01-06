@@ -212,7 +212,7 @@ kubectl get nodes
 ## Step 3: Setup Kubernetes [Add-Ons](https://github.com/kubernetes/kops/blob/master/docs/addons.md)
 ### Kubernetes [Dashboard](https://github.com/kubernetes/dashboard) <-- HIGHLY RECOMMENDED
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.7.1.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.8.1.yaml
 ```
 
 Login to Kubernetes Dashboard
