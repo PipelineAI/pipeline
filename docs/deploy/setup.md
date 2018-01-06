@@ -11,7 +11,7 @@ Make sure you include the `cli-pipeline:master` tag as part of the DockerHub ref
 sudo docker exec -it cli-pipeline bash
 ```
 
-## Step 5:  Setup PipelineAI on AWS, Google Cloud, or Azure
+## Step 4:  Setup PipelineAI on AWS, Google Cloud, or Azure
 * [AWS CPU](aws-cpu.md)
 * [AWS GPU](aws-gpu.md)
 * [Google Cloud](google.md)
