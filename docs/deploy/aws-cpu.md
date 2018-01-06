@@ -109,7 +109,7 @@ kops create cluster \
     --node-count 1 \
     --node-size r3.2xlarge \
     --node-tenancy default \
-    --kubernetes-version 1.8.4 \
+    --kubernetes-version 1.8.6 \
     --image kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2017-12-02 \
     --alsologtostderr \
     --log_dir logs \
@@ -167,7 +167,7 @@ Copy the following at the *BOTTOM* of the `spec:`
 # FROM HERE
   rootVolumeSize: 200
   rootVolumeType: gp2
-  kubernetesVersion: 1.8.4
+  kubernetesVersion: 1.8.6
 # TO HERE
 ```
 
