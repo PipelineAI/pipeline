@@ -110,7 +110,7 @@ kops create cluster \
     --node-size r3.2xlarge \
     --node-tenancy default \
     --kubernetes-version 1.8.4 \
-    --image kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28 \
+    --image kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2017-12-02 \
     --alsologtostderr \
     --log_dir logs \
     --v 5 \
