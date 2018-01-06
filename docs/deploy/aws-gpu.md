@@ -277,7 +277,7 @@ https://<kubernetes-dashboard-url-from-above>
 ### Heapster (ie. `top` for Kubernetes) <-- HIGHLY RECOMMENDED
 Heapster enables the Autoscaling features in Kubernetes
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.8.1.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.7.0.yaml
 ```
 ### Logging (ElasticSearch) <-- HIGHLY OPTIONAL
 ```
