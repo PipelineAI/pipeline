@@ -106,7 +106,7 @@ kops create cluster \
     --node-count 1 \
     --node-size r3.2xlarge \
     --node-tenancy default \
-    --kubernetes-version 1.8.4 \
+    --kubernetes-version 1.8.6 \
     --image kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28 \
     --alsologtostderr \
     --log_dir logs \
@@ -166,7 +166,7 @@ Copy the following at the *BOTTOM* of the `spec:`
 # FROM HERE
   rootVolumeSize: 200
   rootVolumeType: gp2
-  kubernetesVersion: 1.8.4
+  kubernetesVersion: 1.8.6
   nodeLabels:
     gpu: "false"
 # TO HERE
@@ -189,7 +189,7 @@ Copy the following at the BOTTOM of the `spec:`
   kubelet:
     featureGates:
       Accelerators: "true"
-  kubernetesVersion: 1.8.4
+  kubernetesVersion: 1.8.6
   nodeLabels:
     gpu: "true"
 # TO HERE
