@@ -107,7 +107,7 @@ kops create cluster \
     --node-size r3.2xlarge \
     --node-tenancy default \
     --kubernetes-version 1.8.6 \
-    --image kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28 \
+    --image kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2017-12-02 \
     --alsologtostderr \
     --log_dir logs \
     --v 5 \
@@ -277,7 +277,7 @@ https://<kubernetes-dashboard-url-from-above>
 ### Heapster (ie. `top` for Kubernetes) <-- HIGHLY RECOMMENDED
 Heapster enables the Autoscaling features in Kubernetes
 ```
-kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.7.0.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.8.1.yaml
 ```
 ### Logging (ElasticSearch) <-- HIGHLY OPTIONAL
 ```
