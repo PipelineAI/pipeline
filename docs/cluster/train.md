@@ -12,7 +12,7 @@ pipeline train-server-build --model-name=census --model-tag=a --model-type=tenso
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=a --model-type=tensorflow 
+pipeline train-server-push --model-name=census --model-tag=a
 ```
 
 # Kubernetes
