@@ -7,13 +7,13 @@ These instructions are under active development.
 
 # Package Model + Runtime into a Docker Image
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-path=./tensorflow/mnist/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=c --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=c --model-path=./tensorflow/mnist/model
 ```
 
 # Push Docker Image to Docker Repo
@@ -37,18 +37,18 @@ pipeline predict-server-push --model-name=mnist --model-tag=c
 
 ## Start the Model Server in the Kubernetes Cluster
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=a --model-type=tensorflow 
+pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=b --model-type=tensorflow 
+pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=c --model-type=tensorflow 
+pipeline predict-kube-start --model-name=mnist --model-tag=c
 ```
 
 ## Create Traffic Route Rules (a=34%, b=33%, c=33%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
+pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=34%, b=33%, c=33%)
@@ -58,7 +58,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-type=tensorflow --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
+pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=97%, b=2%, c=1%)
@@ -84,7 +84,7 @@ pipeline predict-kube-describe
 ## Scale Out the Model Server
 _Note: The distribution of traffic should remain the same despite scaling out a particular model version._
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
+pipeline predict-kube-scale --model-name=mnist --model-tag=a --replicas=3
 ```
 
 ## Test the Routes (a=1% with 3x Replicas, b=2%, c=97%)
@@ -143,5 +143,5 @@ pipeline predict-sage-describe
 ## Scale Out the Model Server
 # TODO:  Coming Soon
 ```
-pipeline predict-sage-scale --model-name=mnist --model-tag=a --model-type=tensorflow --replicas=3
+pipeline predict-sage-scale --model-name=mnist --model-tag=a --replicas=3
 ```
