@@ -197,7 +197,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-type=tensorflow --model-name=census --model-tag=a --model-path=./tensorflow/census/model
+pipeline train-server-build --model-name=census --model-tag=a --model-type=tensorflow --model-path=./tensorflow/census/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -288,7 +288,7 @@ pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-ba
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-type=tensorflow --model-name=mnist --model-tag=a --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
 ```
 Notes:
 * `--model-path` must be relative.
