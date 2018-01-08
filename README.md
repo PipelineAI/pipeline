@@ -486,7 +486,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 ## Stop Model Server
 ```
-pipeline predict-server-stop --model-type=tensorflow --model-name=mnist --model-tag=a
+pipeline predict-server-stop --model-name=mnist --model-tag=a
 ```
 
 # Using PipelineAI with AWS SageMaker
