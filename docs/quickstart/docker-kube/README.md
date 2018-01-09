@@ -22,20 +22,22 @@ https://www.docker.com/docker-mac
 
 ![Docker for Desktop Kubernetes Config](http://pipeline.ai/assets/img/docker-desktop-kubernetes-config.png?classes=border,shadow)
 
-**Configure Kubernetes CLI**
+**Configure Kubernetes CLI for Local Kubernetes Cluster**
 ```
 kubectl config use-context docker-for-desktop
 ```
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.14 --user --ignore-installed --no-cache -U 
+pip install cli-pipeline --user --ignore-installed --no-cache -U 
 ```
 
 ### Install Istio
 ```
 curl -L https://git.io/getLatestIstio | sh -
 ```
+
+**Deploy Istio into Local Kubernetes Cluster**
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
