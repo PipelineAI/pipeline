@@ -67,5 +67,25 @@ pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a"
 
 ### Run Load Test on Models A and B
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
+
+**Expected Output**
+
+Variant A
+```
+('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+ '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
+ '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
+ '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
+ '0.001954273320734501]}}')
+ ```
+ 
+ Variant B
+ ```
+ ('{"variant": "mnist-b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+ '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
+ '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
+ '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
+ '0.001954273320734501]}}')
+ ```
