@@ -116,7 +116,8 @@ pipeline predict-sage-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=<aws-instance-type>
 ```
 
-## TODO:  SageMaker + PipelineAI GPU Logs
+## AWS SageMaker + PipelineAI GPU
+CloudWatch Logs
 ```
 2018-01-09 06:07:51.114803: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:983] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10765 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0, compute capability: 3.7)
 2018-01-09 06:07:51.535492: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:159] Restoring SavedModel bundle.
@@ -125,6 +126,19 @@ pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensor
 2018-01-09 06:07:51.592443: I tensorflow_serving/servables/tensorflow/saved_model_bundle_factory.cc:93] Wrapping session to perform batch processing
 2018-01-09 06:07:51.592492: I tensorflow_serving/servables/tensorflow/bundle_factory_util.cc:153] Wrapping session to perform batch processing
 2018-01-09 06:07:51.593283: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
+```
+
+SageMaker Response
+```
+Variant: 'predict-mnist-e'
+
+('{"variant": "mnist-e-tensorflow-tfserving-gpu", "outputs":{"outputs": '
+ '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
+ '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
+ '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
+ '0.001954274717718363]}}')
+
+Request time: 243.282 milliseconds
 ```
 
 ## Create Traffic Routes (a=97%, b=2%, c=1%)
