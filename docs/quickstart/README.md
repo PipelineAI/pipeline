@@ -3,8 +3,9 @@
 https://www.docker.com/docker-mac
 ```
 
-![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
+Enable Kubernetes
 
+![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
 
 **Minimum Version**
 * Edge (Not Stable)
