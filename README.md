@@ -3,22 +3,7 @@
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
-# PipelineAI Quick Start
-* Click [HERE](docs/quickstart) to install PipelineAI.
-
-# PipelineAI Resources
-* [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
-* [PipelineAI 24x7 Email Support](https://support.pipeline.ai/)
-* [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-* [PipelineAI Products](http://pipeline.ai/products/)
-* [PipelineAI + GPUs](docs/gpu/README.md)
-* [PipelineAI + Kubernetes](docs/quickstart/)
-* [PipelineAI + AWS SageMaker](docs/quickstart/sagemaker/README.md)
-* [PipelineAI + TensorFlow](docs/quickstart/local/README.md)
-* [PipelineAI + Model Training](docs/quickstart/local/README.md)
-
 # PipelineAI [Features](http://pipeline.ai/features)
-
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
@@ -47,8 +32,6 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Model Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
-Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
-
 ## Supported Model Runtimes (CPU and GPU)
 * Python
 * Java
@@ -62,8 +45,21 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 * CNTK
 * ONNX
 
-# Additional PipelineAI [Standalone](http://pipeline.ai/products) and [Enterprise](http://pipeline.ai/products) Features
-See below for feature details.  Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
+# PipelineAI Quick Start
+* Click [HERE](docs/quickstart/local) to try PipelineAI.
+
+# PipelineAI Community Resources
+* [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
+* [PipelineAI 24x7 Email Support](https://support.pipeline.ai/)
+* [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
+* [PipelineAI + GPUs](docs/gpu/README.md)
+* [PipelineAI + Kubernetes](docs/quickstart/)
+* [PipelineAI + AWS SageMaker](docs/quickstart/sagemaker/README.md)
+* [PipelineAI + TensorFlow](docs/quickstart/local/README.md)
+* [PipelineAI + Model Training](docs/quickstart/local/README.md)
+
+# Advanced PipelineAI Product Features
+* Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Drag N' Drop Model Deploy
 ![PipelineAI Drag n' Drop Model Deploy UI](http://pipeline.ai/assets/img/drag-n-drop-tri-color.png)
