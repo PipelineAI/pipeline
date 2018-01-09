@@ -14,17 +14,18 @@ https://www.docker.com
 pip install cli-pipeline --user --ignore-installed --no-cache -U 
 ```
 
-### Pull PipelineAI Sample Models
+### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
 ```
 
 ### Build TensorFlow Models + TensorFlow Serving
-CPU
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
 ```
-GPU
+
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
@@ -33,16 +34,16 @@ pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=te
 Notes:  
 * This can be an AWS ECR Docker Repo - or any public Docker Repo (ie. DockerHub).
 
-Defaults:
+Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-CPU
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-GPU
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
@@ -57,12 +58,12 @@ Notes
 Examples
 * `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole...
 
-CPU
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
 ```
 
-GPU
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
 ```
@@ -82,7 +83,7 @@ pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/m
 
 **Expected Output**
 
-CPU
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 ('{"variant": "mnist-cpu-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
@@ -93,7 +94,7 @@ CPU
  Request time: 36.414 milliseconds
  ```
  
-GPU
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 ('{"variant": "mnist-gpu-tensorflow-tfserving-gpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
