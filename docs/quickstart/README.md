@@ -3,7 +3,7 @@
 https://www.docker.com/docker-mac
 ```
 
-Enable Kubernetes
+**Enable Kubernetes**
 
 ![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
 
