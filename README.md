@@ -11,8 +11,14 @@
 * [PipelineAI 24x7 Email Support](https://support.pipeline.ai/)
 * [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 * [PipelineAI Products](http://pipeline.ai/products/)
+* [PipelineAI + GPUs](docs/gpu/README.md)
+* [PipelineAI + Kubernetes](docs/quickstart/)
+* [PipelineAI + AWS SageMaker](docs/quickstart/sagemaker/README.md)
+* [PipelineAI + TensorFlow](docs/quickstart/local/README.md)
+* [PipelineAI + Model Training](docs/quickstart/local/README.md)
 
 # PipelineAI [Features](http://pipeline.ai/features)
+
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](http://pipeline.ai/assets/img/docker-gobbles-ml.png)
