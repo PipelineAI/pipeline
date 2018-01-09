@@ -77,6 +77,9 @@ pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tens
 pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 
+![AWS SageMaker Endpoint](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-endpoint.png) 
+
+
 ### Run Load Test on Models CPU and GPU
 Notes
 * We are testing with sample data from the CPU version of the model.  
@@ -111,6 +114,8 @@ Request time: 358.047 milliseconds
 
 ### Monitor Your Models
 ![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
+
+![AWS SageMaker CPU vs. GPU Latency](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-latency.png) 
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
