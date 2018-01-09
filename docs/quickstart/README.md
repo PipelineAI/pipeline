@@ -46,10 +46,10 @@ git clone https://github.com/PipelineAI/models
 
 ### Build Models A and B (TensorFlow-based)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-0.0025/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
 ```
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-0.0050/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-0.050/model
 ```
 
 ### Deploy Models A and B (TensorFlow-based)
