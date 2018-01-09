@@ -4,11 +4,10 @@
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
 # PipelineAI + AWS SageMaker
-PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+* PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
+* PipelineAI + AWS SageMaker [Quick Start](https://github.com/PipelineAI/pipeline/tree/master/docs/quickstart)
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" alt="PipelineAI + SageMaker" border="10" /></a>
-
-Specifically, you can upload PipelineAI-optimized Docker images to your public or private Docker Repo for use with AWS SageMaker's Custom Docker image support.
 
 Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
@@ -16,9 +15,12 @@ Click [HERE](#using-pipelineai-with-aws-sagemaker) for more details.
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
-# Open Source
-* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
+# PipelineAI + Docker + Kubernetes
+* PipelineAI + Docker + Kubernetes [Quick Start](https://github.com/PipelineAI/pipeline/tree/master/docs/quickstart)
+
+# PipelineAI + GPU
 * [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
+* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
 
 # Support
 * [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
@@ -90,7 +92,7 @@ Coming Soon:  Support for Amazon MXNet, Microsoft CNTK, and ONNX
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
-pip install cli-pipeline==1.5.14 --user --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.15 --user --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -115,59 +117,58 @@ pipeline help
 
 ### EXPECTED OUTPUT ###
 ...
-             help                        <-- This List of CLI Commands
-             
-             predict-http-test           <-- Test Model Cluster (Http Endpoint)
+help                        <-- This List of CLI Commands
 
-             predict-kafka-consume       <-- Consume Kafka Predictions
-             predict-kafka-describe      <-- Describe Kafka Prediction Cluster
-             predict-kafka-start         <-- Start Kafka Prediction Cluster
-             predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
+predict-http-test           <-- Test Model Cluster (Http Endpoint)
 
-             predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
-             predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
-             predict-kube-describe       <-- Describe Model Cluster (Raw)
-             predict-kube-endpoint       <-- Retrieve Model Cluster Endpoint 
-             predict-kube-endpoints      <-- Retrieve All Model Cluster Endpoints
-             predict-kube-logs           <-- View Model Cluster Logs 
-             predict-kube-route          <-- Route Live Traffic  
-             predict-kube-scale          <-- Scale Model Cluster
-             predict-kube-shell          <-- Shell into Model Cluster
-             predict-kube-start          <-- Start Model Cluster from Docker Registry
-             predict-kube-stop           <-- Stop Model Cluster
-             predict-kube-test           <-- Test Model Cluster
+predict-kafka-consume       <-- Consume Kafka Predictions
+predict-kafka-describe      <-- Describe Kafka Prediction Cluster
+predict-kafka-start         <-- Start Kafka Prediction Cluster
+predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
 
-             predict-sage-route          <-- Route Live Traffic (SageMaker)
-             predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
-             predict-sage-test           <-- Test Model Cluster (SageMaker)
+predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
+predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
+predict-kube-describe       <-- Describe Model Cluster (Raw)
+predict-kube-endpoint       <-- Retrieve Model Cluster Endpoint 
+predict-kube-endpoints      <-- Retrieve All Model Cluster Endpoints
+predict-kube-logs           <-- View Model Cluster Logs 
+predict-kube-route          <-- Route Live Traffic  
+predict-kube-scale          <-- Scale Model Cluster
+predict-kube-shell          <-- Shell into Model Cluster
+predict-kube-start          <-- Start Model Cluster from Docker Registry
+predict-kube-stop           <-- Stop Model Cluster
+predict-kube-test           <-- Test Model Cluster
 
-             predict-server-build        <-- Build Model Server
-             predict-server-logs         <-- View Model Server Logs
-             predict-server-pull         <-- Pull Model Server from Docker Registry
-             predict-server-push         <-- Push Model Server to Docker Registry
-             predict-server-shell        <-- Shell into Model Server (Debugging)
-             predict-server-start        <-- Start Model Server
-             predict-server-stop         <-- Stop Model Server
-             predict-server-test         <-- Test Model Server
-             
-             train-kube-connect          <-- Create Secure Tunnel to Training Cluster
-             train-kube-describe         <-- Describe Training Cluster
-             train-kube-logs             <-- View Training Cluster Logs
-             train-kube-scale            <-- Scale Training Cluster
-             train-kube-shell            <-- Shell into Training Cluster
-             train-kube-start            <-- Start Training Cluster from Docker Registry
-             train-kube-stop             <-- Stop Training Cluster
+predict-sage-route          <-- Route Live Traffic (SageMaker)
+predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
+predict-sage-test           <-- Test Model Cluster (SageMaker)
 
-             train-server-build          <-- Build Training Server
-             train-server-logs           <-- View Training Server Logs
-             train-server-pull           <-- Pull Training Server from Docker Registry
-             train-server-push           <-- Push Training Server to Docker Registry
-             train-server-shell          <-- Shell into Training Server (Debugging)
-             train-server-start          <-- Start Training Server
-             train-server-stop           <-- Stop Training Server
-             
-             version                     <-- View This CLI Version
-...
+predict-server-build        <-- Build Model Server
+predict-server-logs         <-- View Model Server Logs
+predict-server-pull         <-- Pull Model Server from Docker Registry
+predict-server-push         <-- Push Model Server to Docker Registry
+predict-server-shell        <-- Shell into Model Server (Debugging)
+predict-server-start        <-- Start Model Server
+predict-server-stop         <-- Stop Model Server
+predict-server-test         <-- Test Model Server
+
+train-kube-connect          <-- Create Secure Tunnel to Training Cluster
+train-kube-describe         <-- Describe Training Cluster
+train-kube-logs             <-- View Training Cluster Logs
+train-kube-scale            <-- Scale Training Cluster
+train-kube-shell            <-- Shell into Training Cluster
+train-kube-start            <-- Start Training Cluster from Docker Registry
+train-kube-stop             <-- Stop Training Cluster
+
+train-server-build          <-- Build Training Server
+train-server-logs           <-- View Training Server Logs
+train-server-pull           <-- Pull Training Server from Docker Registry
+train-server-push           <-- Push Training Server to Docker Registry
+train-server-shell          <-- Shell into Training Server (Debugging)
+train-server-start          <-- Start Training Server
+train-server-stop           <-- Stop Training Server
+
+version                     <-- View This CLI Version
 ```
 
 # Step 1: Retrieve Sample Models
