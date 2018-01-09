@@ -44,7 +44,7 @@ pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry
 
 GPU
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=docker.io --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
 ### Start TensorFlow Models on AWS SageMaker
