@@ -31,7 +31,7 @@ pip install cli-pipeline==1.5.12 --user --ignore-installed --no-cache -U
 
 ### Install Istio
 ```
-kubectl apply ...
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
 
 ### Pull PipelineAI Sample Models
@@ -98,4 +98,29 @@ pipeline predict-kube-scale --model-name=mnist --model-tag=a --replicas=2
 _You may need to wait 30 secs for the 2nd replica to start up completely._
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+```
+
+### Clean Up
+
+### Uninstall PipelineAI Models
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=a
+```
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=b
+```
+
+### Uninstall Istio Routes
+```
+kubectl delete routerule predict-mnist-dashboardstream
+kubectl delete routerule predict-mnist-denytherest
+kubectl delete routerule predict-mnist-invocations
+kubectl delete routerule predict-mnist-metrics
+kubectl delete routerule predict-mnist-ping
+kubectl delete routerule predict-mnist-prometheus
+```
+
+### Uninstall Istio
+```
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
