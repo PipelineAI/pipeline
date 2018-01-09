@@ -169,14 +169,15 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ...
 ```
 
+## Scale Out the Model Servers
+### TODO:  Coming Soon
+```
+pipeline predict-sage-scale --model-name=mnist --model-tag=a --replicas=3
+```
+
 ## Analyze Routes
-# TODO:  Coming Soon
+### TODO:  Coming Soon
 ```
 pipeline predict-sage-describe
 ```
 
-## Scale Out the Model Server
-# TODO:  Coming Soon
-```
-pipeline predict-sage-scale --model-name=mnist --model-tag=a --replicas=3
-```
