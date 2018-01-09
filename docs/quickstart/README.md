@@ -29,11 +29,6 @@ kubectl config use-context docker-for-desktop
 pip install cli-pipeline==1.5.12 --user --ignore-installed --no-cache -U 
 ```
 
-### Install Dashboards
-```
-kubectl apply ...
-```
-
 ### Install Istio
 ```
 kubectl apply ...
