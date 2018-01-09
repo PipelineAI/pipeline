@@ -116,34 +116,9 @@ pipeline predict-sage-start --model-name=mnist --model-tag=b --model-type=tensor
 pipeline predict-sage-start --model-name=mnist --model-tag=c --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=<aws-instance-type>
 ```
 
-## AWS SageMaker + PipelineAI GPU
-CloudWatch Logs
-```
-2018-01-09 06:07:51.114803: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:983] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10765 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0, compute capability: 3.7)
-2018-01-09 06:07:51.535492: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:159] Restoring SavedModel bundle.
-2018-01-09 06:07:51.591098: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:194] Running LegacyInitOp on SavedModel bundle.
-2018-01-09 06:07:51.592331: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:289] SavedModel load for tags { serve }; Status: success. Took 4909561 microseconds.
-2018-01-09 06:07:51.592443: I tensorflow_serving/servables/tensorflow/saved_model_bundle_factory.cc:93] Wrapping session to perform batch processing
-2018-01-09 06:07:51.592492: I tensorflow_serving/servables/tensorflow/bundle_factory_util.cc:153] Wrapping session to perform batch processing
-2018-01-09 06:07:51.593283: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
-```
-
-SageMaker Response
-```
-Variant: 'predict-mnist-e'
-
-('{"variant": "mnist-e-tensorflow-tfserving-gpu", "outputs":{"outputs": '
- '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
- '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
- '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
- '0.001954274717718363]}}')
-
-Request time: 243.282 milliseconds
-```
-
 ## Create Traffic Routes (a=97%, b=2%, c=1%)
 ```
-pipeline predict-sage-route --model-name=mnist --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"a":"ml.m4.xlarge", "b":"ml.m4.xlarge", "c":"ml.m4.xlarge"}' --model-tag-and-weight-dict='{"a":97, "b":2, "c":1}'
 ```
 
 ## Test the Routes (a=97%, b=2%, c=1%)
@@ -153,12 +128,45 @@ pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ## Update Traffic Routes (a=1%, b=2%, c=97%)
 ```
-pipeline predict-sage-route --model-name=mnist --model-tag-and-weight-dict='{"a":1, "b":2, "c":97}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"a":"ml.m4.xlarge", "b":"ml.m4.xlarge", "c":"ml.m4.xlarge"}' --model-tag-and-weight-dict='{"a":1, "b":2, "c":97}'
 ```
 
 ## Test the Routes (a=1%, b=2%, c=97%)
 ```
 pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+```
+
+## Monitor Models using AWS Cloud Watch
+
+![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
+
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+```
+2018-01-09 21:38:04.021915: I tensorflow_serving/model_servers/main.cc:147] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
+...
+2018-01-09 21:38:04.128440: I tensorflow_serving/core/loader_harness.cc:74] Loading servable version {name: mnist version: 1510612528}
+2018-01-09 21:38:04.134781: I external/org_tensorflow/tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+...
+2018-01-09 21:38:04.206946: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
+E0109 21:38:04.210768165 53 ev_epoll1_linux.c:1051] grpc epoll fd: 5
+2018-01-09 21:38:04.213992: I tensorflow_serving/model_servers/main.cc:288] Running ModelServer at 0.0.0.0:9000 ...
+```
+
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
+```
+2018-01-09 21:40:47.842724: I tensorflow_serving/model_servers/main.cc:148] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
+...
+2018-01-09 21:40:47.949612: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:240] Loading SavedModel with tags: { serve }; from: /root/ml/model/pipeline_tfserving/1510612528
+2018-01-09 21:40:48.217917: I external/org_tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-01-09 21:40:48.218607: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1202] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8755
+pciBusID: 0000:00:1e.0
+totalMemory: 11.17GiB freeMemory: 11.10GiB
+2018-01-09 21:40:48.218644: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1296] Adding visible gpu device 0
+2018-01-09 21:40:50.336216: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:983] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10765 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0, compute capability: 3.7)
+...
+2018-01-09 21:40:50.634043: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
+2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ...
 ```
 
 ## Analyze Routes
