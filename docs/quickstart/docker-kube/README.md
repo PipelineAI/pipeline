@@ -34,6 +34,9 @@ pip install cli-pipeline==1.5.14 --user --ignore-installed --no-cache -U
 
 ### Install Istio
 ```
+curl -L https://git.io/getLatestIstio | sh -
+```
+```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
 
