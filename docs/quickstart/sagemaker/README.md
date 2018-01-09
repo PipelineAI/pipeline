@@ -1,4 +1,4 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) + AWS SageMaker
 
 **Minimum System Requirements**
 * 8GB
@@ -29,7 +29,7 @@ GPU
 pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
 
-### TODO: Push TensorFlow Models to Docker Repo
+### Push TensorFlow Models to Docker Repo
 Notes:  
 * This can be an AWS ECR Docker Repo - or any public Docker Repo (ie. DockerHub).
 
@@ -51,6 +51,8 @@ pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry
 Notes
 * You may need to increase your quota limits for the specific instance type with AWS.
 * We are using the same instance type for both CPU and GPU model versions.  This is intentional for this demo, but it is not required.
+* These models take a LOOONG time to start up fully.
+* You can check the CloudWatch logs to monitor the startup process.
 
 Examples
 * `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole...
@@ -98,6 +100,9 @@ GPU
  
 Request time: 29.968 milliseconds
 ```
+
+### Monitor Your Models
+![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
 
 ### Clean Up through AWS SageMaker UI
 
