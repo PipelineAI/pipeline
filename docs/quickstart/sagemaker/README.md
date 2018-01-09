@@ -73,8 +73,11 @@ pipeline predict-sage-route --model-name=mnist --model-tag-and-weight-dict='{"cp
 ```
 
 ### Run Load Test on Models CPU and GPU
+Notes
+* We are testing with sample data from the CPU version of the model.  
+* This is OK since the sample data is the same for CPU and GPU.
 ```
-pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 
 **Expected Output**
