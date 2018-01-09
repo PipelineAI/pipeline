@@ -53,7 +53,7 @@ Notes
 * We are using the same instance type for both CPU and GPU model versions.  This is intentional for this demo, but it is not required.
 
 Examples
-* `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole-<timestamp>
+* `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole...
 
 CPU
 ```
