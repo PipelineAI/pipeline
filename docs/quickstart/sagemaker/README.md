@@ -1,17 +1,20 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
-+ 
+![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
 
-AWS SageMaker
+![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
 
-**Minimum System Requirements**
-* 8GB
-* 4 Cores
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" alt="PipelineAI + SageMaker" border="10" /></a>
+
+Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html) for more details on AWS SageMaker.
 
 ### Install Docker Community Edition (CE)
 ```
 https://www.docker.com
 ```
+**Minimum System Requirements**
+* 8GB
+* 4 Cores
 
 ### Install PipelineAI CLI
 ```
