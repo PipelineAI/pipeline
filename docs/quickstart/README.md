@@ -110,7 +110,7 @@ pipeline predict-kube-stop --model-name=mnist --model-tag=a
 pipeline predict-kube-stop --model-name=mnist --model-tag=b
 ```
 
-### Uninstall Istio Routes
+### Uninstall PipelineAI Traffic Routes
 ```
 kubectl delete routerule predict-mnist-dashboardstream
 kubectl delete routerule predict-mnist-denytherest
