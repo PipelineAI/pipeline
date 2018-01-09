@@ -52,7 +52,7 @@ Notes
 * You may need to increase your quota limits for the specific instance type with AWS.
 * We are using the same instance type for both CPU and GPU model versions.  This is intentional for this demo, but it is not required.
 * These models take a LOOONG time to start up fully.
-* You can check the CloudWatch logs to monitor the startup process.
+* You can check the CloudWatch [LOGS](#monitor-your-models) to monitor the startup process.
 
 Examples
 * `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole...
