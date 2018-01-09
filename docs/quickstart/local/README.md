@@ -1,11 +1,10 @@
-### Install [Docker](https://www.docker.com/community-edition#/download)
+# Step 0:  Pre-requisites
+## Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell)
 
-### Install Python 2 or 3 
-* [Conda](https://conda.io/docs/install/quick.html) is Preferred
-
-### (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell)
-
-### Install PipelineAI CLI
+## Install PipelineAI CLI
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 ``` 
@@ -88,7 +87,7 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-# Step 1: Retrieve Sample Models
+# Step 1: Retrieve Sample PipelineAI Models
 ## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
