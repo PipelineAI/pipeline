@@ -1,16 +1,17 @@
 ### Install Docker for Mac with Kubernetes
-Minimum Version:
+```
+https://www.docker.com/docker-mac
+```
+
+**Minimum Version**
 * Edge (Not Stable)
 * 17.12.0-ce-mac45 (21669)
-```
-https://download.docker.com/mac
-```
 
 ![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
 
 ![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
-Minimum Docker System Requirements
+**Minimum Docker System Requirements**
 * 8GB
 * 4 Cores
 
