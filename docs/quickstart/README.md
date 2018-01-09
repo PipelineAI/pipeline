@@ -55,10 +55,30 @@ pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
+```
+kubectl get pod
+
+### EXPECTED OUTPUT###
+NAME                                 READY     STATUS    RESTARTS   AGE
+predict-mnist-a-c7b7cfc6-fcpb5       2/2       Running   0          5m
+predict-mnist-b-5b9795f5-sz84h       2/2       Running   0          5m
+```
 
 ### Split Traffic Between Model A (50%) and Model B (50%)
 ```
 pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":50, "b":50}'
+```
+```
+kubectl get routerules
+
+### EXPECTED OUTPUT ###
+NAME                            KIND
+predict-mnist-dashboardstream   RouteRule.v1alpha2.config.istio.io
+predict-mnist-denytherest       RouteRule.v1alpha2.config.istio.io
+predict-mnist-invocations       RouteRule.v1alpha2.config.istio.io
+predict-mnist-metrics           RouteRule.v1alpha2.config.istio.io
+predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
+predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
 ### Run Load Test on Models A and B
@@ -93,6 +113,16 @@ Variant A
 ### Scale Model A to 2 Replicas
 ```
 pipeline predict-kube-scale --model-name=mnist --model-tag=a --replicas=2
+```
+```
+kubectl get pod
+
+### EXPECTED OUTPUT###
+
+NAME                                 READY     STATUS    RESTARTS   AGE
+predict-mnist-a-c7b7cfc6-8knqh       2/2       Running   0          8m
+predict-mnist-a-c7b7cfc6-fcpb5       2/2       Running   0          10m
+predict-mnist-b-5b9795f5-sz84h       2/2       Running   0          10m
 ```
 
 ### Re-Run Load Test on Models A and B
