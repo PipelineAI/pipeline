@@ -1,7 +1,24 @@
 ### Install Docker for Mac with Kubernetes
-Minimum Requirements
+Minimum Version:
+* Edge (Not Stable)
+* >= 17.12.0-ce-mac45 (21669)
+```
+https://download.docker.com/mac
+```
+
+![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
+
+![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
+
+Minimum Docker System Requirements
 * 8GB
 * 4 Cores
+
+![Docker for Desktop Kubernetes Config](http://pipeline.ai/assets/img/docker-desktop-kubernetes-config.png)
+
+```
+kubectl config use-context docker-for-desktop
+```
 
 ### Install PipelineCLI
 ```
@@ -10,7 +27,12 @@ pip install cli-pipeline==1.5.12 --user --ignore-installed --no-cache -U
 
 ### Install Dashboards
 ```
-...
+kubectl apply ...
+```
+
+### Install Istio
+```
+kubectl apply ...
 ```
 
 ### Pull PipelineAI Sample Models
@@ -43,5 +65,3 @@ pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a"
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=1000
 ```
-
-...
