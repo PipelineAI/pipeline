@@ -1,3 +1,5 @@
+![PipelineAI Logo](pipelineai-split-black-258x62.png)
+
 ### Install Docker for Mac with Kubernetes 
 ```
 https://www.docker.com/docker-mac
