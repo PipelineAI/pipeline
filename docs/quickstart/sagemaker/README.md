@@ -74,7 +74,7 @@ pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tens
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
 ```
-pipeline predict-sage-route --model-name=mnist --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 
 ### Run Load Test on Models CPU and GPU
