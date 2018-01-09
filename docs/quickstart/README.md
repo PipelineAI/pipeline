@@ -95,7 +95,7 @@ pipeline predict-kube-scale --model-name=mnist --model-tag=a --replicas=2
 ```
 
 ### Re-Run Load Test on Models A and B
-_You may need to wait a bit for the 2nd replica to start up completely._
+_You may need to wait 30 secs for the 2nd replica to start up completely._
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
