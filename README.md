@@ -3,36 +3,14 @@
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
 [![PipelineAI Home 2](http://pipeline.ai/assets/img/pipelineai-home-2.png)](http://pipeline.ai)
 
-# PipelineAI + AWS SageMaker
-* PipelineAI is fully compatible with [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html).
-* PipelineAI + AWS SageMaker [Quick Start](https://github.com/PipelineAI/pipeline/tree/master/docs/quickstart)
+# PipelineAI Quick Start
+* Click [HERE](docs/quickstart) to install PipelineAI.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=P5BWsyDwjYs" target="_blank"><img src="http://img.youtube.com/vi/P5BWsyDwjYs/0.jpg" alt="PipelineAI + SageMaker" border="10" /></a>
-
-Click [HERE](docs/quickstart) for more details on using PipelineAI with AWS SageMaker.
-
-![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
-
-![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
-
-# PipelineAI + Docker + Kubernetes
-* PipelineAI + Docker + Kubernetes [Quick Start](https://github.com/PipelineAI/pipeline/tree/master/docs/quickstart)
-
-# PipelineAI + GPU
-* [Deploy PipelineAI on GPUs](https://github.com/PipelineAI/pipeline/blob/master/docs/gpu/README.md)
-* [Deploy PipelineAI Across Clouds on CPU and GPU](https://github.com/PipelineAI/pipeline/tree/master/docs/deploy)
-
-# Support
+# PipelineAI Resources
 * [![SLACK](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)!
-* [PipelineAI 24x7 Global Support](https://support.pipeline.ai/)
-
-# Workshops
+* [PipelineAI 24x7 Email Support](https://support.pipeline.ai/)
 * [PipelineAI Workshops (TensorFlow + Spark + GPU)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-
-# [Products](http://pipeline.ai/products/)
-* [Community Edition](http://pipeline.ai/products/)
-* [Standalone Edition](http://pipeline.ai/products/)
-* [Enterprise Edition](http://pipeline.ai/products/)
+* [PipelineAI Products](http://pipeline.ai/products/)
 
 # PipelineAI [Features](http://pipeline.ai/features)
 
