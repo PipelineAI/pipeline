@@ -101,6 +101,8 @@ http://hystrix.community.pipeline.ai/hystrix-dashboard/monitor/monitor.html?stre
 ```
 
 # AWS SageMaker 
+_Note:  The following CLI commands use boto3 which expects your AWS credentials in `~/.aws/credentials`._
+
 ## Start the Model Server in the Kubernetes Cluster
 * `aws-iam-arn`: arn:aws:iam::...:role/service-role/AmazonSageMaker-ExecutionRole-...
 * `aws-instance-type`: Click [HERE](https://aws.amazon.com/sagemaker/pricing/instance-types/) for instance types.
