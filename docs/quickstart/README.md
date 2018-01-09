@@ -1,7 +1,7 @@
 ### Install Docker for Mac with Kubernetes
 Minimum Version:
 * Edge (Not Stable)
-* >= 17.12.0-ce-mac45 (21669)
+* 17.12.0-ce-mac45 (21669)
 ```
 https://download.docker.com/mac
 ```
