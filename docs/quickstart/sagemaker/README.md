@@ -1,4 +1,8 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) + AWS SageMaker
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
+
++ 
+
+AWS SageMaker
 
 **Minimum System Requirements**
 * 8GB
@@ -107,6 +111,35 @@ Request time: 358.047 milliseconds
 
 ### Monitor Your Models
 ![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
+
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+```
+2018-01-09 21:38:04.021915: I tensorflow_serving/model_servers/main.cc:147] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
+...
+2018-01-09 21:38:04.128440: I tensorflow_serving/core/loader_harness.cc:74] Loading servable version {name: mnist version: 1510612528}
+2018-01-09 21:38:04.134781: I external/org_tensorflow/tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+...
+2018-01-09 21:38:04.206946: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
+E0109 21:38:04.210768165 53 ev_epoll1_linux.c:1051] grpc epoll fd: 5
+2018-01-09 21:38:04.213992: I tensorflow_serving/model_servers/main.cc:288] Running ModelServer at 0.0.0.0:9000 ...
+```
+
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
+```
+2018-01-09 21:40:47.842724: I tensorflow_serving/model_servers/main.cc:148] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
+...
+2018-01-09 21:40:47.949612: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:240] Loading SavedModel with tags: { serve }; from: /root/ml/model/pipeline_tfserving/1510612528
+2018-01-09 21:40:48.217917: I external/org_tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-01-09 21:40:48.218607: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1202] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8755
+pciBusID: 0000:00:1e.0
+totalMemory: 11.17GiB freeMemory: 11.10GiB
+2018-01-09 21:40:48.218644: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1296] Adding visible gpu device 0
+2018-01-09 21:40:50.336216: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:983] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10765 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0, compute capability: 3.7)
+...
+2018-01-09 21:40:50.634043: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
+2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ..
+```
 
 ### Clean Up through AWS SageMaker UI
 
