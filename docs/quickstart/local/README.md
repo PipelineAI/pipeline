@@ -1,3 +1,5 @@
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
+
 # Step 0:  Pre-requisites
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
