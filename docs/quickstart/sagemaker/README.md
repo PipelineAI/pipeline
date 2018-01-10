@@ -18,7 +18,7 @@ https://www.docker.com
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline --user --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
