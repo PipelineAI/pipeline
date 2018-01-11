@@ -12,9 +12,7 @@ paths:
       requestBody:
         description: Prediction Inputs
         content:
-          application/json:
-            schema:
-              type: object
+          AnyValue
       responses:
         '200':
           description: Success
@@ -29,7 +27,7 @@ paths:
           content: 
             application/json:
               schema:
-                type: string
+                type: object
         '500':
           description: Internal Error
           content: 
@@ -52,7 +50,7 @@ paths:
           content: 
             application/json:
               schema:
-                type: string
+                type: object
         '500':
           description: Internal Error
           content: 
