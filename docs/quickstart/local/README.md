@@ -101,6 +101,8 @@ cd ./models
 ```
 
 # Step 2: Train a Model
+Already have a model?  Skip to [Step 3: Predict with Model](#step-3-predict-with-model)
+
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/census/model
