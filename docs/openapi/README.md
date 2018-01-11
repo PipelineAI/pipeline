@@ -58,3 +58,5 @@ paths:
               schema:
                 type: object
 ```
+
+Generated with http://editor.swagger.io/
