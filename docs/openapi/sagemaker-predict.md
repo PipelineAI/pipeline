@@ -1,4 +1,4 @@
-### AWS SageMaker [InvokeEndpoint](Derived from https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html) API
+### AWS SageMaker [InvokeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html) API
 
 ```
 openapi: 3.0.0
