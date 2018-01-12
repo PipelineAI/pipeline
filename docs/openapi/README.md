@@ -1,5 +1,5 @@
 ### Open API Specs
-* [PipelineAI Prediction API](predict.md)
-* [PipelineAI Training API](train.md)
+* [PipelineAI Predict API](predict.md)
+* [PipelineAI Train API](train.md)
 * [PipelineAI Admin API](admin.md)
 * [AWS SageMaker API](sagemaker.md)
