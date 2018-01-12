@@ -9,7 +9,7 @@
 * [Azure](deploy/azure.md)
 
 ## GPUs
-Click [HERE](gpu/README.md) for more details on PipelineAI + GPUs.
+* [PipelineAI + GPUs](gpu/README.md)
 
 ## Troubleshooting
-Click [HERE](troubleshooting/README.md) for troubleshooting tips.
+* [Troubleshooting Tips](troubleshooting/README.md)
