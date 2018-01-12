@@ -1,3 +1,6 @@
+## PipelineAI Quick Start
+* [Quick Start](quickstart)
+
 # Deploy PipelineAI
 * [Local Laptop](deploy/local.md)
 * [AWS CPU](deploy/aws-cpu.md)
