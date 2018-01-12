@@ -1,15 +1,15 @@
 ## PipelineAI Quick Start
 * [Quick Start](quickstart)
 
-# Deploy PipelineAI
+## Deploy PipelineAI
 * [Local Laptop](deploy/local.md)
 * [AWS CPU](deploy/aws-cpu.md)
 * [AWS GPU](deploy/aws-gpu.md)
 * [Google Cloud](deploy/google.md)
 * [Azure](deploy/azure.md)
 
-# GPUs
+## GPUs
 Click [HERE](gpu/README.md) for more details on PipelineAI + GPUs.
 
-# Troubleshooting
+## Troubleshooting
 Click [HERE](troubleshooting/README.md) for troubleshooting tips.
