@@ -46,7 +46,12 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * ONNX
 
 # PipelineAI Quick Start
-* [Quick Start](docs/quickstart)
+* [PipelineAI + Local Laptop](docs/quickstart/)
+* [PipelineAI + Kubernetes](docs/quickstart/)
+* [PipelineAI + AWS SageMaker](docs/quickstart/)
+* [PipelineAI + TensorFlow](docs/quickstart/)
+* [PipelineAI + Model Training](docs/quickstart/)
+* [PipelineAI + GPUs](docs/gpu/README.md)
 
 # PipelineAI 24x7 Support
 [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
@@ -58,13 +63,6 @@ https://support.pipeline.ai
 # PipelineAI Community Events
 * [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
 * [Advanced Spark and TensorFlow Meetup (Global)](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
-
-# PipelineAI Quick Start
-* [PipelineAI + GPUs](docs/gpu/README.md)
-* [PipelineAI + Kubernetes](docs/quickstart/)
-* [PipelineAI + AWS SageMaker](docs/quickstart/)
-* [PipelineAI + TensorFlow](docs/quickstart/)
-* [PipelineAI + Model Training](docs/quickstart/)
 
 # Advanced PipelineAI Product Features
 * Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
