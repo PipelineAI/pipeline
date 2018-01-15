@@ -46,10 +46,10 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * ONNX
 
 # PipelineAI Quick Start
-* [PipelineAI + Local Laptop (TensorFlow)](docs/quickstart/)
-* [PipelineAI + Kubernetes](docs/quickstart/)
-* [PipelineAI + AWS SageMaker](docs/quickstart/)
-* [PipelineAI + GPUs](docs/gpu/README.md)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Local (Docker)](local)
+* [Local (Kubernetes Cluster)](docker-kube)
+* [AWS SageMaker (CPU + GPU)](sagemaker)
 
 # Having Issues?  Use our 24x7 Support!
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
