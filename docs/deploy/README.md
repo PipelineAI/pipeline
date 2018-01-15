@@ -1,4 +1,5 @@
 # Deploy PipelineAI
+* [Local (Docker Kubernetes)](local-docker-kube.md)
 * [Local (Minikube)](local-minikube.md)
 * [AWS CPU](aws-cpu.md)
 * [AWS GPU](aws-gpu.md)
