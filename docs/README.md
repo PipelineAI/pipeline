@@ -1,21 +1,22 @@
 ### PipelineAI Quick Start
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Local (Docker)](local)
-* [Local (Kubernetes Cluster)](docker-kube)
-* [AWS SageMaker (CPU + GPU)](sagemaker)
+* [Local (Docker)](/docs/quickstart/local)
+* [Local (Docker Kubernetes)](/docs/quickstart/docker-kube)
+* [AWS SageMaker (CPU + GPU)](/docs/quickstart/sagemaker)
 
-### Deploy PipelineAI
-* [Local Laptop](deploy/local.md)
-* [AWS CPU](deploy/aws-cpu.md)
-* [AWS GPU](deploy/aws-gpu.md)
-* [Google Cloud](deploy/google.md)
-* [Azure](deploy/azure.md)
+### Setup Kubernetes for PipelineAI
+* [Local (Minikube)](/docs/kube-setup/local-minikube.md)
+* [Local (Docker Kubernetes)](/docs/kube-setup/local-docker-kube.md)
+* [AWS CPU](/docs/kube-setup/aws-cpu.md)
+* [AWS GPU](/docs/kube-setup/aws-gpu.md)
+* [Google Cloud](/docs/kube-setup/google.md)
+* [Azure](/docs/kube-setup/azure.md)
 
 ### GPUs
-* [PipelineAI + GPUs](gpu/README.md)
+* [PipelineAI + GPUs](/docs/gpu/README.md)
 
 ### Troubleshooting
-* [Troubleshooting Tips](troubleshooting/README.md)
+* [Troubleshooting Tips](/docs/troubleshooting/README.md)
 
 ### Having Issues?  Use our 24x7 Support!
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
