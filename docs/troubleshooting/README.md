@@ -26,6 +26,9 @@
 * Try `sudo pip install ...`
 
 ## Latest PipelineCLI Version is Not Installing Properly
+* You need Python 2 or 3 (Conda Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+
 ```
 pipeline version
 
