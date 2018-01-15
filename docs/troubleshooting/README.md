@@ -1,5 +1,10 @@
 # Troubleshooting
 
+## Installing PipelineAI CLI
+PermissionError: [Errno 13] Permission denied: '...'
+* Try `sudo pip install ...`
+* Try `pip install --user ...`
+
 ## Paths
 * `--model-path` needs to be relative
 * On Windows, be sure to use the forward slash `\` for your paths.
