@@ -2,7 +2,7 @@
 
 ## UnicodeDecodeError: 'ascii' codec can't decode byte 0xa0 in position 40: ordinal not in range(128)
 * You likely have a pickling issue.
-* Make sure that you are using Python 3.
+* Make sure that you are using Python 3.  We see issues when training on Python 2 (your environment), then unpickling with Python 3 (PipelineAI Model Runtime Environment)
 * Also, we've found the `cloudpickle` library to be the most stable (versus Python's default `pickle` and `dill`.)
 
 ## WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. (`*-start`)
