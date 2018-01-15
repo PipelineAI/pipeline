@@ -424,9 +424,9 @@ pipeline predict-server-stop --model-name=mnist --model-tag=025
 # Serving a Pickled Scikit-Learn Model
 Serving [THIS](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) Scikit-Learn Model
 ```
-pipeline predict-server-build --model-name=linear --model-tag=025 --model-type=scikit --model-path=./scikit/linear/model/
+pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
 
-pipeline predict-server-start --model-name=linear --model-tag=025
+pipeline predict-server-start --model-name=linear --model-tag=a
 
 pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
 ```
