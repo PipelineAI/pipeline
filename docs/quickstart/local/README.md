@@ -124,7 +124,7 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=census --model-tag=a --model-type=tensorflow --model-path=./tensorflow/census/model
+pipeline train-server-build --model-name=census --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/census/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -133,7 +133,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=census --model-tag=a --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=census --model-tag=025 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -148,7 +148,7 @@ Notes:
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=census --model-tag=a
+pipeline train-server-logs --model-name=census --model-tag=025
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -183,7 +183,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=census --model-tag=a
+pipeline train-server-stop --model-name=census --model-tag=025
 ```
 
 # Predict with Model
@@ -420,15 +420,15 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 # Stop Model Server
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=a
+pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
 # Serving a Pickled Scikit-Learn Model
 Serving [THIS](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) Scikit-Learn Model
 ```
-pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
+pipeline predict-server-build --model-name=linear --model-tag=025 --model-type=scikit --model-path=./scikit/linear/model/
 
-pipeline predict-server-start --model-name=linear --model-tag=a
+pipeline predict-server-start --model-name=linear --model-tag=025
 
 pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
 ```
