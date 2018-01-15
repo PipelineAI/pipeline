@@ -1,5 +1,9 @@
 # Troubleshooting
 
+## Gathering More Information
+* If your server starts, try running `pipeline predict-server-logs` or `pipeline train-server-logs` to collect the startup logs.
+* Please send all relevant information to PipelineAI [Support](#pipelineai-24x7-support) (Slack, Email, or Web).
+
 ## UnicodeDecodeError: 'ascii' codec can't decode byte 0xa0 in position 40: ordinal not in range(128)
 * You likely have a pickling issue.
 * Make sure that you are using Python 3.  We see issues when training on Python 2 (your environment), then unpickling with Python 3 (PipelineAI Model Runtime Environment)
@@ -69,7 +73,7 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 ## Fixing Docker No Space Left on Device Error
 http://phutchins.com/blog/2017/01/04/fixing-docker-no-space-left-on-device/
 
-## Having Issues?  Use our 24x7 Support!
+## PipelineAI 24x7 Support
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
 * Email:  help@pipeline.ai
 * Web:  https://support.pipeline.ai
