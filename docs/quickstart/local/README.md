@@ -240,7 +240,7 @@ Notes:
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist/model/pipeline_predict.py
+cat ./tensorflow/mnist-0.025/model/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -308,7 +308,7 @@ Notes:
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist/input/predict/test_request.json
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
@@ -339,7 +339,7 @@ Notes:
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
