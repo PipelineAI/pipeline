@@ -4,7 +4,7 @@
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* [PowerShell](https://github.com/PowerShell/PowerShell) (Windows Only)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ## Install PipelineAI CLI
 Notes: 
