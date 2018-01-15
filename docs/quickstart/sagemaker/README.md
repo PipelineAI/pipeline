@@ -1,5 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
+### AWS SageMaker Overview
 ![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
@@ -17,8 +18,9 @@ https://www.docker.com
 * 4 Cores
 
 ### Install PipelineAI CLI
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.16 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
