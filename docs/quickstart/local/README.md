@@ -10,7 +10,7 @@
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
-``` 
+``` f
 pip install cli-pipeline==1.5.18 --ignore-installed --no-cache -U
 ```
 
@@ -408,7 +408,7 @@ _Click `Save & Test`_.
 
 _Click `Dashboards -> Import` upper-left menu drop-down_.
 
-_Copy and Paste [THIS](https://raw.githubusercontent.com/PipelineAI/predict/master/dashboard/grafana/pipelineai-prediction-dashboard.json) raw json file into the `paste JSON` box_.
+_Copy and Paste [THIS](https://github.com/PipelineAI/pipeline/blob/master/docs/dashboard/grafana/pipelineai-predict.json) raw json file into the `paste JSON` box_.
 
 _Select the Prometheus-based data source that you setup above and click `Import`_.
 
