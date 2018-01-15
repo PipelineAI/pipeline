@@ -49,20 +49,42 @@ git clone https://github.com/PipelineAI/models
 ```
 
 ### Build Models A and B (TensorFlow-based)
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
 ```
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-0.050/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflowcd /mnist-0.050/model
+```
+
+### Push Models A and B (TensorFlow-based)
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
+```
+pipeline predict-server-push --model-name=mnist --model-tag=a
+```
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
+```
+pipeline predict-server-build --model-name=mnist --model-tag=b
 ```
 
 ### Deploy Models A and B (TensorFlow-based)
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
+
+### View Running Pods
 ```
 kubectl get pod
 
@@ -76,6 +98,8 @@ predict-mnist-b-5b9795f5-sz84h       2/2       Running   0          5m
 ```
 pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":50, "b":50}'
 ```
+
+### View Route Rules
 ```
 kubectl get routerules
 
@@ -90,13 +114,13 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
 ### Run Load Test on Models A and B
+The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
 
 **Expected Output**
-
-Variant A
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
 ('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
@@ -106,8 +130,8 @@ Variant A
  
  Request time: 36.414 milliseconds
  ```
- 
- Variant B
+
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
  ```
 ('{"variant": "mnist-b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
