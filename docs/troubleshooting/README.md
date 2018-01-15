@@ -1,5 +1,10 @@
 # Troubleshooting
 
+## Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation)
+
 ## Gathering More Information
 * If your server starts, try running `pipeline predict-server-logs` or `pipeline train-server-logs` to collect the startup logs.
 * Please send all relevant information to PipelineAI [Support](#pipelineai-24x7-support) (Slack, Email, or Web).
