@@ -1,5 +1,9 @@
 # Troubleshooting
 
+## Running Containers (`*-start`)
+WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
+* Ignore this
+
 ## `localhost:<port>` Not Working
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  
 * This usually happens when using Docker Quick Terminal on Windows 7.
