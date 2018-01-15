@@ -1,5 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
+### AWS SageMaker Overview
 ![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
 
 ![PipelineAI + AWS SageMaker Overview](http://pipeline.ai/assets/img/sagemaker-pipelineai-overview.png)
@@ -17,8 +18,9 @@ https://www.docker.com
 * 4 Cores
 
 ### Install PipelineAI CLI
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.18 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
@@ -26,7 +28,7 @@ pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U
 git clone https://github.com/PipelineAI/models
 ```
 
-### Build TensorFlow Models + TensorFlow Serving
+### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
@@ -67,21 +69,23 @@ Examples
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
+pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> 
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
+pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn>
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
+Notes:
+* You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
+* These are treated differently than regular `p2.xlarge` instances - and therefore require a separate quote.
 ```
 pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 
 ![AWS SageMaker Endpoint](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-endpoint.png) 
-
 
 ### Run Load Test on Models CPU and GPU
 Notes
@@ -116,6 +120,10 @@ Request time: 358.047 milliseconds
 ```
 
 ### Monitor Your Models
+Notes:
+* The logs below show that we are, indeed, using the GPU-based TensorFlow Serving runtime in the GPU model.
+* Click [HERE](https://github.com/PipelineAI/serving/blob/536d112b3144a72dec6a64abec67d84e72e455d5/tensorflow_serving/tools/docker/Dockerfile.devel-gpu) for the Dockerfile of the GPU version of TensorFlow Serving that we use below.
+
 ![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
 
 ![AWS SageMaker CPU vs. GPU Latency](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-latency.png) 

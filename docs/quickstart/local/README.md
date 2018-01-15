@@ -1,16 +1,17 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-# Step 0:  Pre-requisites
+# Pre-requisites
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* [PowerShell](https://github.com/PowerShell/PowerShell) (Windows Only)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ## Install PipelineAI CLI
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ``` 
-pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.18 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -89,7 +90,7 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-# Step 1: Retrieve Sample PipelineAI Models
+# Retrieve Sample PipelineAI Models
 ## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
@@ -100,9 +101,13 @@ git clone https://github.com/PipelineAI/models
 cd ./models
 ```
 
-# Step 2: Train a Model
+# Train a Model
 
-**Already have a trained model?  Skip to [Step 3: Predict with Model](#step-3-predict-with-model).**
+**Already have a trained model?**
+Skip to [Predict with Model](#predict-with-model).
+
+**Serving a Pickled Scikit-Learn Model?**
+Skip to [Pickled Scikit-Learn Model](#serving-a-pickled-scikit-learn-model).
 
 ## Inspect Model Directory
 ```
@@ -119,16 +124,16 @@ pipeline_train.py                  <-- Required.  `main()` is required. Pass arg
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=census --model-tag=a --model-type=tensorflow --model-path=./tensorflow/census/model
+pipeline train-server-build --model-name=census --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/census/model
 ```
 Notes:  
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
-* If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=census --model-tag=a --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=census --model-tag=025 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -137,13 +142,13 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-a-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-025-tensorflow-tfserving-cpu`.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=census --model-tag=a
+pipeline train-server-logs --model-name=census --model-tag=025
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -163,6 +168,8 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765 <= Sub-directories of
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
+* This usually happens when using Docker Quick Terminal on Windows 7.
 ```
 http://localhost:6006
 ```
@@ -176,10 +183,10 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=census --model-tag=a
+pipeline train-server-stop --model-name=census --model-tag=025
 ```
 
-# Step 3: Predict with Model
+# Predict with Model
 
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
@@ -210,20 +217,24 @@ pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-ba
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
 ```
 Notes:
 * `--model-path` must be relative.
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
 
+* `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**
+* `--model-runtime`: **jvm** (default for `--model-type==java|spark|xgboost|pmml`, **tfserving** (default for `--model-type==tensorflow`), **python** (default for `--model-type==scikit|python|keras`), **tensorrt** (only for Nvidia GPUs)
+* `--model-chip`: **cpu** (default), **gpu, **tpu**
+
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=a --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=025 --memory-limit=2G
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-a`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-025`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
 
 ## Inspect `pipeline_predict.py`
@@ -280,7 +291,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=a
+pipeline predict-server-logs --model-name=mnist --model-tag=025
 
 ### EXPECTED OUTPUT ###
 ...
@@ -301,7 +312,7 @@ pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocati
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": '
+('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -324,7 +335,6 @@ Digit  Confidence
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
-
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
@@ -345,7 +355,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
@@ -374,7 +384,7 @@ Notes:
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
-## Monitor Detailed Prediction Metrics
+# Monitor Model Prediction Metrics
 Re-run the Prediction REST API while watching the following detailed metrics dashboard URL.
 ```
 http://localhost:3000/
@@ -406,7 +416,17 @@ _Change the Date Range in the upper right to `Last 5m` and the Refresh Every to 
 
 _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus.io/docs/practices/histograms/#count-and-sum-of-observations) guide to the Prometheus Syntax._
 
-## Stop Model Server
+# Stop Model Server
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=a
+pipeline predict-server-stop --model-name=mnist --model-tag=025
+```
+
+# Serving a Pickled Scikit-Learn Model
+Serving [THIS](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) Scikit-Learn Model
+```
+pipeline predict-server-build --model-name=linear --model-tag=025 --model-type=scikit --model-path=./scikit/linear/model/
+
+pipeline predict-server-start --model-name=linear --model-tag=025
+
+pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
 ```
