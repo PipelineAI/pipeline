@@ -421,8 +421,29 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
+
 # Serving a Pickled Scikit-Learn Model
 Serving [THIS](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) Scikit-Learn Model
+
+## Clone the PipelineAI Predict Repo
+```
+git clone https://github.com/PipelineAI/models
+```
+
+## Change into `models` Directory
+```
+cd ./models
+```
+
+## View Model
+```
+ll ./scikit/linear/model/
+```
+```
+cat ./scikit/linear/model/pipeline_predict.py
+```
+
+## Build Scikit-Learn Model 
 ```
 pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
 
