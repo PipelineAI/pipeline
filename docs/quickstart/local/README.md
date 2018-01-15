@@ -421,8 +421,9 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
+# Build and Deploy a Scikit-Learn Model
+The following model server uses a pickled scikit-learn model file.
 
-# Serving a Scikit-Learn Model (Pickled)
 ## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
@@ -434,7 +435,7 @@ cd ./models
 ```
 
 ## View Model
-[THIS](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) is the Scikit-Learn Model.
+Click [HERE](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) to see the Scikit-Learn Model.
 ```
 ll ./scikit/linear/model/
 ```
@@ -442,13 +443,17 @@ ll ./scikit/linear/model/
 cat ./scikit/linear/model/pipeline_predict.py
 ```
 
-## Build Scikit-Learn Model 
+## Build the Scikit-Learn Model 
 ```
 pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
 ```
+
+## Start the Model Server
 ```
 pipeline predict-server-start --model-name=linear --model-tag=a
 ```
+
+## Predict with the Model 
 ```
 pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
 
