@@ -8,6 +8,9 @@ PermissionError: [Errno 13] Permission denied: '...'
 * Try `sudo pip install ...`
 * Try `pip install --user ...`
 
+Could not delete '/usr/local/lib/python3.5/dist-packages/markupsafe/_speedups.cpython-35m-x86_64-linux-gnu.so': Permission denied
+* Try `sudo pip install ...`
+
 Latest Version is Not Installing
 ```
 pipeline version
@@ -16,7 +19,7 @@ pipeline version
 cli_version: 1.5.xx <-- Exact Version You Are Expecting
 ```
 ```
-pip uninstall cli-pipeline
+sudo pip uninstall cli-pipeline
 ```
 ```
 which pipeline
@@ -26,13 +29,17 @@ which pipeline
 rm <bad-version-of-pipeline>
 ```
 ```
-ll /usr/local/lib/python3.5/dist-packages/cli-pipeline*
+ll /usr/local/lib/python3.6/dist-packages/cli-pipeline*
 ```
 ```
-rm -rf /usr/local/lib/python3.5/dist-packages/cli-pipeline*
+rm -rf /usr/local/lib/python3.6/dist-packages/cli-pipeline*
 ```
-
-
+```
+ll ~/.local/lib/python3.6/site-packages/cli_pipeline*
+```
+```
+rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
+```
 * Re-install `pip install cli-pipeline==...`
 
 
