@@ -28,7 +28,7 @@ pip install cli-pipeline==1.5.18 --ignore-installed --no-cache -U
 git clone https://github.com/PipelineAI/models
 ```
 
-### Build TensorFlow Models + TensorFlow Serving
+### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
@@ -78,12 +78,14 @@ pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tens
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
+Notes:
+* You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
+* These are treated differently than regular `p2.xlarge` instances - and therefore require a separate quote.
 ```
 pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 
 ![AWS SageMaker Endpoint](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-endpoint.png) 
-
 
 ### Run Load Test on Models CPU and GPU
 Notes
@@ -118,6 +120,10 @@ Request time: 358.047 milliseconds
 ```
 
 ### Monitor Your Models
+Notes:
+* The logs below show that we are, indeed, using the GPU-based TensorFlow Serving runtime in the GPU model.
+* Click [HERE](https://github.com/PipelineAI/serving/blob/536d112b3144a72dec6a64abec67d84e72e455d5/tensorflow_serving/tools/docker/Dockerfile.devel-gpu) for the Dockerfile of the GPU version of TensorFlow Serving that we use below.
+
 ![AWS SageMaker + CloudWatch Monitoring](http://pipeline.ai/assets/img/sagemaker-cloudwatch-links.png)
 
 ![AWS SageMaker CPU vs. GPU Latency](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-latency.png) 
@@ -150,9 +156,6 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 2018-01-09 21:40:50.634043: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
 2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ...
 ```
-
-Notes:
-* Click [HERE](https://github.com/PipelineAI/serving/blob/536d112b3144a72dec6a64abec67d84e72e455d5/tensorflow_serving/tools/docker/Dockerfile.devel-gpu) for the Dockerfile of the GPU version of TensorFlow Serving that we use below.
 
 ### Clean Up through AWS SageMaker UI
 
