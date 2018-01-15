@@ -28,8 +28,9 @@ kubectl config use-context docker-for-desktop
 ```
 
 ### Install PipelineAI CLI
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.15 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.16 --ignore-installed --no-cache -U 
 ```
 
 ### Install Istio
