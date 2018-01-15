@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-# Step 0:  Pre-requisites
+# Pre-requisites
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
@@ -90,7 +90,7 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-# Step 1: Retrieve Sample PipelineAI Models
+# Retrieve Sample PipelineAI Models
 ## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
@@ -101,7 +101,7 @@ git clone https://github.com/PipelineAI/models
 cd ./models
 ```
 
-# Step 2: Train a Model
+# Train a Model
 
 **Already have a trained model?  Skip to [Step 3: Predict with Model](#step-3-predict-with-model).**
 
@@ -182,7 +182,7 @@ http://localhost:6006
 pipeline train-server-stop --model-name=census --model-tag=a
 ```
 
-# Step 3: Predict with Model
+# Predict with Model
 
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
@@ -396,7 +396,7 @@ Notes:
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
-## Monitor Detailed Prediction Metrics
+# Monitor Model Prediction Metrics
 Re-run the Prediction REST API while watching the following detailed metrics dashboard URL.
 ```
 http://localhost:3000/
@@ -428,7 +428,7 @@ _Change the Date Range in the upper right to `Last 5m` and the Refresh Every to 
 
 _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus.io/docs/practices/histograms/#count-and-sum-of-observations) guide to the Prometheus Syntax._
 
-## Stop Model Server
+# Stop Model Server
 ```
 pipeline predict-server-stop --model-name=mnist --model-tag=a
 ```
