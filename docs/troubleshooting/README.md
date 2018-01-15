@@ -16,10 +16,12 @@ pipeline version
 cli_version: 1.5.xx <-- Exact Version You Are Expecting
 ```
 ```
+pip uninstall cli-pipeline
+```
+```
 which pipeline
 ``` 
-or otherwise find which `pipeline` binary is found.
-
+(or otherwise find which `pipeline` binary is being used.)
 ```
 rm <bad-version-of-pipeline>
 ```
