@@ -6,7 +6,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 
 ### Setup Kubernetes for PipelineAI
 * [Local (Minikube)](/docs/kube-setup/local-minikube.md)
-* [Local (Docker Kubernetes)](/docs/kube-setup/local-docker-kube.md)
+* [Local (Docker + Kubernetes)](/docs/kube-setup/local-docker-kube.md)
 * [AWS CPU](/docs/kube-setup/aws-cpu.md)
 * [AWS GPU](/docs/kube-setup/aws-gpu.md)
 * [Google Cloud](/docs/kube-setup/google.md)
