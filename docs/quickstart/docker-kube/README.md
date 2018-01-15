@@ -48,40 +48,40 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kub
 git clone https://github.com/PipelineAI/models
 ```
 
-### Build Models A and B (TensorFlow-based)
+### Build Models 025 and 050 (TensorFlow-based)
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
+pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
 ```
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflowcd /mnist-0.050/model
+pipeline predict-server-build --model-name=mnist --model-tag=050 --model-type=tensorflow --model-path=./tensorflowcd /mnist-0.050/model
 ```
 
-### Push Models A and B (TensorFlow-based)
+### Push Models 025 and 050 (TensorFlow-based)
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=a
+pipeline predict-server-push --model-name=mnist --model-tag=025
 ```
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b
+pipeline predict-server-build --model-name=mnist --model-tag=050
 ```
 
-### Deploy Models A and B (TensorFlow-based)
+### Deploy Models 025 and 050 (TensorFlow-based)
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=a
+pipeline predict-kube-start --model-name=mnist --model-tag=025
 ```
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=b
+pipeline predict-kube-start --model-name=mnist --model-tag=050
 ```
 
 ### View Running Pods
@@ -89,14 +89,14 @@ pipeline predict-kube-start --model-name=mnist --model-tag=b
 kubectl get pod
 
 ### EXPECTED OUTPUT###
-NAME                                 READY     STATUS    RESTARTS   AGE
-predict-mnist-a-c7b7cfc6-fcpb5       2/2       Running   0          5m
-predict-mnist-b-5b9795f5-sz84h       2/2       Running   0          5m
+NAME                            READY     STATUS    RESTARTS   AGE
+predict-mnist-025-...-...       2/2       Running   0          5m
+predict-mnist-050-...-...       2/2       Running   0          5m
 ```
 
-### Split Traffic Between Model A (50%) and Model B (50%)
+### Split Traffic Between Model 025 (50%) and Model 050 (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":50, "b":50}'
+pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"025":50, "050":50}'
 ```
 
 ### View Route Rules
@@ -113,7 +113,7 @@ predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
 predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
-### Run Load Test on Models A and B
+### Run Load Test on Models 025 and 050
 The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
@@ -122,7 +122,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 **Expected Output**
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
-('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -133,7 +133,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
  ```
-('{"variant": "mnist-b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-050-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
  '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
@@ -142,22 +142,22 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 Request time: 29.968 milliseconds
  ```
 
-### Scale Model A to 2 Replicas
+### Scale Model 025 to 2 Replicas
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=a --replicas=2
+pipeline predict-kube-scale --model-name=mnist --model-tag=025 --replicas=2
 ```
 ```
 kubectl get pod
 
 ### EXPECTED OUTPUT###
 
-NAME                                 READY     STATUS    RESTARTS   AGE
-predict-mnist-a-c7b7cfc6-8knqh       2/2       Running   0          8m
-predict-mnist-a-c7b7cfc6-fcpb5       2/2       Running   0          10m
-predict-mnist-b-5b9795f5-sz84h       2/2       Running   0          10m
+NAME                            READY     STATUS    RESTARTS   AGE
+predict-mnist-025-...-...       2/2       Running   0          8m
+predict-mnist-025-...-...       2/2       Running   0          10m
+predict-mnist-050-...-...       2/2       Running   0          10m
 ```
 
-### Re-Run Load Test on Models A and B
+### Re-Run Load Test on Models 025 and 050
 _You may need to wait 30 secs for the 2nd replica to start up completely._
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
@@ -167,10 +167,10 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 
 ### Uninstall PipelineAI Models
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=a
+pipeline predict-kube-stop --model-name=mnist --model-tag=025
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=b
+pipeline predict-kube-stop --model-name=mnist --model-tag=050
 ```
 
 ### Uninstall PipelineAI Traffic Routes
