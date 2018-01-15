@@ -69,12 +69,12 @@ Examples
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
+pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> 
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> --aws-instance-type=ml.p2.xlarge
+pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn>
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
@@ -150,6 +150,9 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 2018-01-09 21:40:50.634043: I tensorflow_serving/core/loader_harness.cc:86] Successfully loaded servable version {name: mnist version: 1510612528}
 2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ...
 ```
+
+Notes:
+* Click [HERE](https://github.com/PipelineAI/serving/blob/536d112b3144a72dec6a64abec67d84e72e455d5/tensorflow_serving/tools/docker/Dockerfile.devel-gpu) for the Dockerfile of the GPU version of TensorFlow Serving that we use below.
 
 ### Clean Up through AWS SageMaker UI
 
