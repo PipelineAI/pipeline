@@ -224,25 +224,11 @@ Notes:
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
 
-* `--model-type`:
-** tensorflow
-** scikit
-** python
-** keras
-** spark
-** java
-** xgboost
-** pmml
+* `--model-type`:tensorflow, scikit, python, keras, spark, java, xgboost, pmml
 
-* `--model-runtime`:
-** jvm (default for `--model-type==java|spark|xgboost|pmml`
-** tfserving (default for `--model-type==tensorflow`)
-** python (default for `--model-type==scikit|python|keras`) 
+* `--model-runtime`: jvm (default for `--model-type==java|spark|xgboost|pmml`, tfserving (default for `--model-type==tensorflow`), python (default for `--model-type==scikit|python|keras`) 
 
-* `--model-chip`:
-** cpu (default)
-** gpu
-** tpu
+* `--model-chip`: cpu (default), gpu, tpu
 
 ## Start the Model Server
 ```
