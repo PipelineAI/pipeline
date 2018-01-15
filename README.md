@@ -47,9 +47,9 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 # PipelineAI Quick Start
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Local (Docker)](local)
-* [Local (Kubernetes Cluster)](docker-kube)
-* [AWS SageMaker (CPU + GPU)](sagemaker)
+* [Local (Docker)](/docs/quickstart/local)
+* [Local (Kubernetes Cluster)](/docs/quickstart/docker-kube)
+* [AWS SageMaker (CPU + GPU)](/docs/quickstart/sagemaker)
 
 # Having Issues?  Use our 24x7 Support!
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
