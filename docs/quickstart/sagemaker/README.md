@@ -158,9 +158,8 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 ```
 
 ### Clean Up through AWS SageMaker UI
+* Delete Model
+* Delete Endpoint Config
+* Delete Endpoint
 
-Delete Model
-
-Delete Endpoint Config
-
-Delete Endpoint
+More details [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-cleanup.html)
