@@ -142,7 +142,7 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-a-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-025-tensorflow-tfserving-cpu`.
 
 (_We are working on making this more intuitive._)
 
@@ -217,14 +217,14 @@ pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-ba
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist/model
+pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
 ```
 Notes:
 * `--model-path` must be relative.
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
 
-* `--model-type`:tensorflow, scikit, python, keras, spark, java, xgboost, pmml
+* `--model-type`: tensorflow, scikit, python, keras, spark, java, xgboost, pmml
 
 * `--model-runtime`: jvm (default for `--model-type==java|spark|xgboost|pmml`, tfserving (default for `--model-type==tensorflow`), python (default for `--model-type==scikit|python|keras`) 
 
@@ -232,11 +232,11 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=a --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=025 --memory-limit=2G
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-a`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-025`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
 
 ## Inspect `pipeline_predict.py`
@@ -293,7 +293,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=a
+pipeline predict-server-logs --model-name=mnist --model-tag=025
 
 ### EXPECTED OUTPUT ###
 ...
@@ -314,7 +314,7 @@ pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocati
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": '
+('{"variant": "tfserving-cpu-tensorflow-mnist-025", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -357,7 +357,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "tfserving-cpu-tensorflow-mnist-a", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "tfserving-cpu-tensorflow-mnist-025", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
