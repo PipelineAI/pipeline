@@ -224,11 +224,9 @@ Notes:
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
 
-* `--model-type`: tensorflow, scikit, python, keras, spark, java, xgboost, pmml
-
-* `--model-runtime`: jvm (default for `--model-type==java|spark|xgboost|pmml`, tfserving (default for `--model-type==tensorflow`), python (default for `--model-type==scikit|python|keras`) 
-
-* `--model-chip`: cpu (default), gpu, tpu
+* `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**
+* `--model-runtime`: **jvm** (default for `--model-type==java|spark|xgboost|pmml`, **tfserving** (default for `--model-type==tensorflow`), **python** (default for `--model-type==scikit|python|keras`), **tensorrt** (only for Nvidia GPUs)
+* `--model-chip`: **cpu** (default), **gpu, **tpu**
 
 ## Start the Model Server
 ```
@@ -314,7 +312,7 @@ pipeline predict-server-test --model-endpoint-url=http://localhost:8080/invocati
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "tfserving-cpu-tensorflow-mnist-025", "outputs":{"outputs": '
+('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -357,7 +355,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "tfserving-cpu-tensorflow-mnist-025", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
