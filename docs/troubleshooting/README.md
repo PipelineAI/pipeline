@@ -1,9 +1,38 @@
 # Troubleshooting
 
 ## Installing PipelineAI CLI
+Pre-requisities
+* This cli requires Python 2 or 3 - preferably [Miniconda](https://conda.io/docs/user-guide/install/index.html#id2)
+
 PermissionError: [Errno 13] Permission denied: '...'
 * Try `sudo pip install ...`
 * Try `pip install --user ...`
+
+Latest Version is Not Installing
+```
+pipeline version
+
+### EXPECTED OUTPUT ###
+cli_version: 1.5.xx <-- Exact Version You Are Expecting
+```
+```
+which pipeline
+``` 
+or otherwise find which `pipeline` binary is found.
+
+```
+rm <bad-version-of-pipeline>
+```
+```
+ll /usr/local/lib/python3.5/dist-packages/cli-pipeline*
+```
+```
+rm -rf /usr/local/lib/python3.5/dist-packages/cli-pipeline*
+```
+
+
+* Re-install `pip install cli-pipeline==...`
+
 
 ## Paths
 * `--model-path` needs to be relative
