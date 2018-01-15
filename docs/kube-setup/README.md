@@ -1,4 +1,4 @@
-# Deploy PipelineAI
+# Setup Kubernetes for PipelineAI
 * [Local (Docker Kubernetes)](local-docker-kube.md)
 * [Local (Minikube)](local-minikube.md)
 * [AWS CPU](aws-cpu.md)
