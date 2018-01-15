@@ -103,7 +103,7 @@ cd ./models
 
 # Train a Model
 
-**Already have a trained model?  Skip to [Step 3: Predict with Model](#step-3-predict-with-model).**
+**Already have a trained model?  Skip to [Predict with Model](#predict-with-model).**
 
 ## Inspect Model Directory
 ```
