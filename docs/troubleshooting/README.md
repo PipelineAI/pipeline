@@ -1,25 +1,27 @@
 # Troubleshooting
 
-## Running Containers (`*-start`)
-WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
-* Ignore this
+## UnicodeDecodeError: 'ascii' codec can't decode byte 0xa0 in position 40: ordinal not in range(128)
+* You likely have a pickling issue.
+* Make sure that you are using Python 3.
+* Also, we've found the `cloudpickle` library to be the most stable (versus Python's default `pickle` and `dill`.)
+
+## WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. (`*-start`)
+* Just ignore this
 
 ## `localhost:<port>` Not Working
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  
 * This usually happens when using Docker Quick Terminal on Windows 7.
 
-## Installing PipelineAI CLI
-Pre-requisities
-* This cli requires Python 2 or 3 - preferably [Miniconda](https://conda.io/docs/user-guide/install/index.html#id2)
-
-PermissionError: [Errno 13] Permission denied: '...'
+## PermissionError: [Errno 13] Permission denied: '...'
+* Likely an issue installing the PipelineCLI 
+* The cli requires Python 2 or 3 - preferably [Miniconda](https://conda.io/docs/user-guide/install/index.html#id2)
 * Try `sudo pip install ...`
 * Try `pip install --user ...`
 
-Could not delete '/usr/local/lib/python3.5/dist-packages/markupsafe/_speedups.cpython-35m-x86_64-linux-gnu.so': Permission denied
+## Could not delete '/usr/local/lib/python3.5/dist-packages/markupsafe/_speedups.cpython-35m-x86_64-linux-gnu.so': Permission denied
 * Try `sudo pip install ...`
 
-Latest Version is Not Installing
+## Latest PipelineCLI Version is Not Installing Properly
 ```
 pipeline version
 
