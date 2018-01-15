@@ -164,6 +164,8 @@ drwxr-xr-x  11 cfregly  staff  352 Nov 22 11:22 1511367765 <= Sub-directories of
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
+* This usually happens when using Docker Quick Terminal on Windows 7.
 ```
 http://localhost:6006
 ```
@@ -325,7 +327,6 @@ Digit  Confidence
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
-
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
