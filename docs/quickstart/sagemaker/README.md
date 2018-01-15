@@ -78,22 +78,36 @@ pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tens
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
-Notes:
-* You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
-* These are treated differently than regular `p2.xlarge` instances - and therefore require a separate quote.
 ```
 pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
+Notes:
+* You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
+* `ml.p*.*` instances seem to be treated differently than regular `p*.*` instances - and therefore require a separate quota.
 
 ![AWS SageMaker Endpoint](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-endpoint.png) 
 
-### Run Load Test on Models CPU and GPU
-Notes
+### Wait for the Model Endpoint
+```
+pipeline predict-sage-describe --model-name=mnist
+
+### EXPECTED OUTPUT ###
+...
+InService
+...
+```
+Notes:
+* This will take 5-10 mins.  
+* (This is just how SageMaker works.)
+
+### Run Load Test on Models CPU and GPU (100 Predictions)
+```
+pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+```
+Notes:
 * We are testing with sample data from the CPU version of the model.  
 * This is OK since the sample data is the same for CPU and GPU.
-```
-pipeline predict-sage-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
-```
+* If the endpoint status (above) is not `InService`, this call won't work.  Please be patient.
 
 **Expected Output**
 
