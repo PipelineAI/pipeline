@@ -103,7 +103,11 @@ cd ./models
 
 # Train a Model
 
-**Already have a trained model?  Skip to [Predict with Model](#predict-with-model).**
+**Already have a trained model?**
+Skip to [Predict with Model](#predict-with-model).
+
+**Serving a Pickled Scikit-Learn Model?**
+Skip to [Pickled Scikit-Learn Model](#serving-a-pickled-scikit-learn-model).
 
 ## Inspect Model Directory
 ```
@@ -125,7 +129,7 @@ pipeline train-server-build --model-name=census --model-tag=a --model-type=tenso
 Notes:  
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
-* If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
 ```
