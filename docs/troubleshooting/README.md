@@ -1,5 +1,9 @@
 # Troubleshooting
 
+## `localhost:<port>` Not Working
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  
+* This usually happens when using Docker Quick Terminal on Windows 7.
+
 ## Installing PipelineAI CLI
 Pre-requisities
 * This cli requires Python 2 or 3 - preferably [Miniconda](https://conda.io/docs/user-guide/install/index.html#id2)
