@@ -98,7 +98,7 @@ pipeline predict-sage-describe --model-name=mnist
 ```
 Notes:
 * This will take 5-10 mins.  
-* (SageMaker is very slow when you deploy a new set of models.)
+* (SageMaker is very slow when deploying new models.)
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```
