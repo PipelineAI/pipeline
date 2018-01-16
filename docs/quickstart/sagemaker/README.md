@@ -93,12 +93,12 @@ pipeline predict-sage-describe --model-name=mnist
 
 ### EXPECTED OUTPUT ###
 ...
-InService
+'InService'  <-- WAIT UNTIL THIS IS 'InService' 
 ...
 ```
 Notes:
 * This will take 5-10 mins.  
-* (This is just how SageMaker works.)
+* (SageMaker is very slow when you deploy a new set of models.)
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```
@@ -171,7 +171,12 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 2018-01-09 21:40:50.640806: I tensorflow_serving/model_servers/main.cc:289] Running ModelServer at 0.0.0.0:9000 ...
 ```
 
-### Clean Up through AWS SageMaker UI
+### Stop Model Endpoint
+```
+pipeline predict-sage-stop --model-name=mnist
+```
+
+### Stop Model through AWS SageMaker UI
 * Delete Model
 * Delete Endpoint Config
 * Delete Endpoint
