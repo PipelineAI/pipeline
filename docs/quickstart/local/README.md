@@ -11,7 +11,7 @@ Notes:
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ``` f
-pip install cli-pipeline==1.5.18 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.19 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -58,8 +58,10 @@ predict-kube-start          <-- Start Model Cluster from Docker Registry
 predict-kube-stop           <-- Stop Model Cluster
 predict-kube-test           <-- Test Model Cluster
 
+predict-sage-describe       <-- Describe Model Cluster (SageMaker)
 predict-sage-route          <-- Route Live Traffic (SageMaker)
-predict-sage-start          <-- Start Model Cluster from Docker Registry (SageMaker)
+predict-sage-start          <-- Start Model Cluster (SageMaker)
+predict-sage-stop           <-- Stop Model Cluster (SageMaker)
 predict-sage-test           <-- Test Model Cluster (SageMaker)
 
 predict-server-build        <-- Build Model Server
