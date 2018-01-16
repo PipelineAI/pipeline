@@ -119,7 +119,7 @@ Notes:
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
  '0.001954273320734501]}}')
  
- Request time: 440.805 milliseconds
+ Request time: 240.805 milliseconds
  ```
  
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
@@ -130,7 +130,7 @@ Notes:
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
  '0.001954274717718363]}}')
 
-Request time: 358.047 milliseconds
+Request time: 158.047 milliseconds
 ```
 
 ### Monitor Your Models
