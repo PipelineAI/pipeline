@@ -1,3 +1,5 @@
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
+
 ### PipelineAI Quick Start
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Local (Docker)](/docs/quickstart/local)
