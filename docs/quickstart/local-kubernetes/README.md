@@ -304,11 +304,24 @@ Notes:
 ### Clean Up
 
 **Uninstall PipelineAI Models**
+
+Notes:
+* Each of these will remove the `predict-mnist` service and ingress - which is OK!
 ```
 pipeline predict-kube-stop --model-name=mnist --model-tag=025
 ```
 ```
 pipeline predict-kube-stop --model-name=mnist --model-tag=050
+```
+
+**Remove PipelineAI Dashboards**
+```
+kubectl delete deploy dashboard-turbine
+kubectl delete deploy dashboard-hystrix
+```
+```
+kubectl delete svc dashboard-turbine
+kubectl delete svc dashboard-hystrix
 ```
 
 **Remove PipelineAI Traffic Routes**
