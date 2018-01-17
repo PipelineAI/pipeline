@@ -202,6 +202,10 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kub
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
 ```
+Verify `prometheus-...` pod is running
+```
+kubectl get pod --namespace=istio-system
+```
 ```
 http://localhost:9090/graph 
 ```
@@ -209,6 +213,11 @@ http://localhost:9090/graph
 **Grafana**
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
+```
+
+Verify `grafana-...` pod is running
+```
+kubectl get pod --namespace=istio-system
 ```
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
@@ -221,6 +230,11 @@ http://localhost:3000/dashboard/db/istio-dashboard
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
 ```
+
+Verify `grafana-...` pod is running
+```
+kubectl get pod --namespace=istio-system
+```
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
 ```
@@ -229,12 +243,29 @@ http://localhost:8088/dotviz
 ```
 
 **PipelineAI Real-Time Dashboard**
+
+Install the dashboards
 ```
-http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B"name"%3A""%2C"stream"%3A"http%2F%2Flocalhost%3A8989%2Fturbine.stream"%2C"auth"%3A""%2C"delay"%3A""%7D%5D
+kubectl create -f ...hystrix-local-svc.yaml
+```
+```
+kubectl create -f ...turbine-local-svc.yaml
+```
+```
+kubectl create -f ...hystrix-deploy.yaml
+```
+```
+kubectl create -f ...turbine-deploy.yaml
+```
+
+View the dashboards
+```
+http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fdashboard-turbine%3A8989%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
 
 ### Re-Run Load Test on Models 025 and 050
-_You may need to wait 30 secs for the 2nd replica to start up completely._
+Notes:
+* You may need to wait 30 secs for the 2nd replica to start up completely.
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
