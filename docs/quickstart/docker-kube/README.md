@@ -121,10 +121,11 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
 ### Run Load Test on Models 025 and 050
-The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
+* The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
+* If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
 
 **Expected Output**
 
