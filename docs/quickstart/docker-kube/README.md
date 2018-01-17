@@ -33,16 +33,6 @@ kubectl config use-context docker-for-desktop
 pip install cli-pipeline==1.5.19 --ignore-installed --no-cache -U 
 ```
 
-### Install Istio
-```
-curl -L https://git.io/getLatestIstio | sh -
-```
-
-**Deploy Istio into Local Kubernetes Cluster**
-```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
-```
-
 ### Pull PipelineAI Sample Models
 ```
 git clone https://github.com/PipelineAI/models
@@ -70,6 +60,16 @@ pipeline predict-server-push --model-name=mnist --model-tag=025
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=050
+```
+
+### Install Istio
+```
+curl -L https://git.io/getLatestIstio | sh -
+```
+
+**Deploy Istio Service Mesh**
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
 
 ### Deploy Models 025 and 050 (TensorFlow-based)
@@ -143,9 +143,12 @@ Request time: 29.968 milliseconds
  ```
 
 ### Scale Model 025 to 2 Replicas
+Scale the Model Server
 ```
 pipeline predict-kube-scale --model-name=mnist --model-tag=025 --replicas=2
 ```
+
+Verify Scale Event
 ```
 kubectl get pod
 
@@ -155,6 +158,22 @@ NAME                            READY     STATUS    RESTARTS   AGE
 predict-mnist-025-...-...       2/2       Running   0          8m
 predict-mnist-025-...-...       2/2       Running   0          10m
 predict-mnist-050-...-...       2/2       Running   0          10m
+```
+
+### Install Dashboards
+Prometheus
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/prometheus.yaml
+```
+
+Grafana
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
+```
+
+Service Graph
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
 ```
 
 ### Re-Run Load Test on Models 025 and 050
@@ -183,7 +202,13 @@ kubectl delete routerule predict-mnist-ping
 kubectl delete routerule predict-mnist-prometheus
 ```
 
-### Uninstall Istio
+### Uninstall Istio Components
 ```
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/prometheus.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
 ```
