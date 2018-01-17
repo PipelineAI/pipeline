@@ -180,19 +180,37 @@ predict-mnist-050-...-...       2/2       Running   0          10m
 ```
 
 ### Install Dashboards
-Prometheus
+**Prometheus**
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/prometheus.yaml
 ```
+```
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
+```
+```
+http://localhost:9090/graph 
+```
 
-Grafana
+**Grafana**
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
 ```
+```
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+```
+```
+http://localhost:3000/dashboard/db/istio-dashboard
+```
 
-Service Graph
+**Service Graph**
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
+```
+```
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
+```
+```
+http://localhost:8088/dotviz
 ```
 
 ### Re-Run Load Test on Models 025 and 050
