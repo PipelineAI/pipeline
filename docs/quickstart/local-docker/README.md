@@ -103,7 +103,12 @@ git clone https://github.com/PipelineAI/models
 cd ./models
 ```
 
-# Train a Model
+# Examples
+* [Train a TensorFlow Model](#train-a-tensorflow-model)
+* [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
+* [Deploy a Scikit-Learn Model](#deploy-a-scikit--learn-model)
+
+# Train a TensorFlow Model
 
 **Already have a trained model?**
 Skip to [Predict with Model](#predict-with-model).
@@ -188,7 +193,7 @@ http://localhost:6006
 pipeline train-server-stop --model-name=census --model-tag=025
 ```
 
-# Predict with Model
+# Deploy a TensorFlow Model
 
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
@@ -423,7 +428,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
-# Build and Deploy a Scikit-Learn Model
+# Deploy a Scikit-Learn Model
 The following model server uses a pickled scikit-learn model file.
 
 ## Clone the PipelineAI Predict Repo
