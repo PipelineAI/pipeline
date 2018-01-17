@@ -59,17 +59,17 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.025)
+[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=025 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
+[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-### Install Istio Service Mesh CLI
+### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
 curl -L https://git.io/getLatestIstio | sh -
 ```
@@ -82,12 +82,12 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kub
 ### Deploy Models 025 and 050 (TensorFlow-based)
 _Make sure you install Istio.  See above!_
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
+[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=025
 ```
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
+[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=050
 ```
@@ -121,16 +121,20 @@ predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
 predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
-### Run Load Test on Models 025 and 050
+### Run LoadTest on Models 025 and 050
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
+Notes:
+* If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 * The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 * If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
+* If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
+* See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
+[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
 ```
 ('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
@@ -141,7 +145,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
  Request time: 36.414 milliseconds
  ```
 
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
+[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
  ```
 ('{"variant": "mnist-050-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
@@ -204,13 +208,18 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=se
 http://localhost:8088/dotviz
 ```
 
+**PipelineAI Real-Time Dashboard**
+```
+http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B"name"%3A""%2C"stream"%3A"http%2F%2Flocalhost%3A8989%2Fturbine.stream"%2C"auth"%3A""%2C"delay"%3A""%7D%5D
+```
+
 ### Re-Run Load Test on Models 025 and 050
 _You may need to wait 30 secs for the 2nd replica to start up completely._
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
 
-### TODO: Predict with REST API
+### Predict with REST API
 Use the REST API to POST a JSON document representing the number 2.
 
 ![MNIST 2](http://pipeline.ai/assets/img/mnist-2-100x101.png)
@@ -239,6 +248,7 @@ Digit  Confidence
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+
 
 ### Clean Up
 
