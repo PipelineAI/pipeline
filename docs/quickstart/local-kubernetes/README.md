@@ -86,7 +86,9 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kub
 ```
 
 ### Deploy Models 025 and 050 (TensorFlow-based)
-_Make sure you install Istio.  See above!_
+Notes:
+* Make sure you install Istio.  See above!
+* Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 
 [**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
 ```
@@ -188,6 +190,8 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 ```
 Notes:
 * If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
+* You should still see a 50/50 split between Model 025 and Model 050 - even after scaling out Model 025!
+
 
 ### Install Dashboards
 **Prometheus**
