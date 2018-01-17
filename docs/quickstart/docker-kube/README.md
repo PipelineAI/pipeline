@@ -73,7 +73,7 @@ pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry
 curl -L https://git.io/getLatestIstio | sh -
 ```
 
-### Deploy Istio Service Mesh Components**
+### Deploy Istio Service Mesh Components
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
