@@ -38,8 +38,14 @@ pip install cli-pipeline==1.5.19 --ignore-installed --no-cache -U
 git clone https://github.com/PipelineAI/models
 ```
 
-### Build Models 025 and 050 (TensorFlow-based)
+**Change into the new `models/` directory**
+```
+cd models
+```
 
+### Build Models 025 and 050 (TensorFlow-based)
+Notes:
+* You must be in the `models/` directory created from the `git clone` above.
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
@@ -126,6 +132,7 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
+* You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
 * If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 * The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 * If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
@@ -133,6 +140,7 @@ Notes:
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
+* You should see a 50/50 split between Model 025 and Model 050.
 
 [**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
 ```
@@ -173,6 +181,13 @@ predict-mnist-025-...-...       2/2       Running   0          8m
 predict-mnist-025-...-...       2/2       Running   0          10m
 predict-mnist-050-...-...       2/2       Running   0          10m
 ```
+
+**Re-run LoadTest**
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+```
+Notes:
+* If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 
 ### Install Dashboards
 **Prometheus**
