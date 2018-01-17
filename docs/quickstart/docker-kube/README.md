@@ -58,14 +58,14 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.025)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=025 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
+[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
 ### Install Istio Service Mesh CLI
