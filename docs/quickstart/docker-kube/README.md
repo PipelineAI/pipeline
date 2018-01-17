@@ -68,18 +68,6 @@ pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry
 pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-
-
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
-```
-pipeline predict-server-push --model-name=mnist --model-tag=025
-```
-
-[CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
-```
-pipeline predict-server-push --model-name=mnist --model-tag=050
-```
-
 ### Install Istio Service Mesh CLI
 ```
 curl -L https://git.io/getLatestIstio | sh -
