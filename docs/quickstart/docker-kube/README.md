@@ -192,7 +192,7 @@ pipeline predict-kube-stop --model-name=mnist --model-tag=025
 pipeline predict-kube-stop --model-name=mnist --model-tag=050
 ```
 
-### Uninstall PipelineAI Traffic Routes
+### Remove PipelineAI Traffic Routes
 ```
 kubectl delete routerule predict-mnist-dashboardstream
 kubectl delete routerule predict-mnist-denytherest
@@ -204,11 +204,5 @@ kubectl delete routerule predict-mnist-prometheus
 
 ### Uninstall Istio Components
 ```
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/prometheus.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
+kubectl delete namespace istio-system
 ```
