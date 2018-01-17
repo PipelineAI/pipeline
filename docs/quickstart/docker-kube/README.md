@@ -53,6 +53,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=050 --model-type=te
 ### Push Models 025 and 050 to Docker Repo
 Notes:  
 * This can be any Docker Repo including DockerHub and internal repos
+* You must already be logged in to the Docker Repo using `docker login`
 
 Defaults
 * `--image-registry-url`:  docker.io
