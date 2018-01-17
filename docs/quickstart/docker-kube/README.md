@@ -127,6 +127,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 ```
 
 **Expected Output**
+
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
 ('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
@@ -155,7 +156,7 @@ Scale the Model Server
 pipeline predict-kube-scale --model-name=mnist --model-tag=025 --replicas=2
 ```
 
-Verify Scale Event
+**Verify Scaling Event**
 ```
 kubectl get pod
 
@@ -237,10 +238,9 @@ Digit  Confidence
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
-
 ### Clean Up
 
-### Uninstall PipelineAI Models
+**Uninstall PipelineAI Models**
 ```
 pipeline predict-kube-stop --model-name=mnist --model-tag=025
 ```
@@ -248,7 +248,7 @@ pipeline predict-kube-stop --model-name=mnist --model-tag=025
 pipeline predict-kube-stop --model-name=mnist --model-tag=050
 ```
 
-### Remove PipelineAI Traffic Routes
+**Remove PipelineAI Traffic Routes**
 ```
 kubectl delete routerule predict-mnist-dashboardstream
 kubectl delete routerule predict-mnist-denytherest
@@ -258,7 +258,7 @@ kubectl delete routerule predict-mnist-ping
 kubectl delete routerule predict-mnist-prometheus
 ```
 
-### Uninstall Istio Components
+**Uninstall Istio Components**
 ```
 kubectl delete namespace istio-system
 ```
