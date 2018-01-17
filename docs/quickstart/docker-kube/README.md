@@ -50,7 +50,25 @@ pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=te
 pipeline predict-server-build --model-name=mnist --model-tag=050 --model-type=tensorflow --model-path=./tensorflow/mnist-0.050/model
 ```
 
-### Push Models 025 and 050 (TensorFlow-based)
+### Push Models 025 and 050 to Docker Repo
+Notes:  
+* This can be any Docker Repo including DockerHub and internal repos
+
+Defaults
+* `--image-registry-url`:  docker.io
+* `--image-registry-repo`:  pipelineai
+
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+```
+pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+```
+
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
+```
+pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+```
+
+
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
