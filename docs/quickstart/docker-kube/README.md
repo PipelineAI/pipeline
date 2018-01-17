@@ -59,7 +59,7 @@ pipeline predict-server-push --model-name=mnist --model-tag=025
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050) (Learning Rate = 0.050)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=050
+pipeline predict-server-push --model-name=mnist --model-tag=050
 ```
 
 ### Install Istio Service Mesh CLI
@@ -73,6 +73,7 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kub
 ```
 
 ### Deploy Models 025 and 050 (TensorFlow-based)
+_Make sure you install Istio.  See above!_
 
 [CPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025) (Learning Rate = 0.025)
 ```
