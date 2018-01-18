@@ -247,9 +247,9 @@ Open localhost proxy
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
 ```
 
-View Dashboard
+View dashboard (30s history)
 ```
-http://localhost:8088/dotviz?filter_empty=true
+http://localhost:8088/dotviz?filter_empty=true&time_horizon=30s
 ```
 
 **PipelineAI Real-Time Dashboard**
