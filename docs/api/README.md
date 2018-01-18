@@ -14,10 +14,7 @@ These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI
 * Type in `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/<yaml-file>` and click OK
 
 ### PipelineAI OpenAPI Specs
-* [PipelineAI Predict API](predict.md)
-* [PipelineAI Train API](train.md)
-* [PipelineAI Admin API](admin.md)
+* [PipelineAI Predict API](pipeline-predict.yaml)
 
 ### AWS SageMaker OpenAPI Specs
-* [AWS SageMaker Predict API](sagemaker-predict.md)
-* [AWS SageMaker Train API](sagemaker-train.md)
+* [AWS SageMaker Predict API](sagemaker-predict.yaml)
