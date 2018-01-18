@@ -15,5 +15,6 @@ These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI
 
 URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/pipeline-predict.yaml`
 
-[**AWS SageMaker OpenAPI Specs**]
+[**AWS SageMaker OpenAPI Specs**](sagemaker-predict.yaml)
+
 URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/sagemaker-predict.yaml`
