@@ -9,10 +9,11 @@ Train and Deploy your ML and AI Models in the Following Environments:
 ## Exploring the OpenAPI documentation
 These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI.
 * Head over to the [**editor**](http://editor.swagger.io/)
-* Now click **File -> Import URL**
+* Now click **File -> Import URL** (below)
 
-### [PipelineAI Predict API](pipeline-predict.yaml)
-* Type in `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/pipeline-predict.yaml` or  and click OK
+[**PipelineAI Predict API**](pipeline-predict.yaml)
 
-### AWS SageMaker OpenAPI Specs
-* Type in `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/sagemaker-predict.yaml` or  and click OK
+URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/pipeline-predict.yaml`
+
+[**AWS SageMaker OpenAPI Specs**]
+URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/sagemaker-predict.yaml`
