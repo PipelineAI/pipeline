@@ -247,9 +247,9 @@ Open localhost proxy
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
 ```
 
-View dashboard (30s history)
+View dashboard (60s window)
 ```
-http://localhost:8088/dotviz?filter_empty=true&time_horizon=30s
+http://localhost:8088/dotviz?filter_empty=true&time_horizon=60s
 ```
 
 **PipelineAI Real-Time Dashboard**
@@ -268,7 +268,7 @@ kubectl create -f ...hystrix-deploy.yaml
 kubectl create -f ...turbine-deploy.yaml
 ```
 
-View the dashboards
+View the dashboard (60s window)
 ```
 http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fdashboard-turbine%3A8989%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
