@@ -103,19 +103,12 @@ git clone https://github.com/PipelineAI/models
 cd ./models
 ```
 
-# Examples
+# Train and Deploy Models
 * [Train a TensorFlow Model](#train-a-tensorflow-model)
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
-* [Deploy a Scikit-Learn Model](#deploy-a-scikit--learn-model)
+* [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
 
 # Train a TensorFlow Model
-
-**Already have a trained model?**
-Skip to [Predict with Model](#predict-with-model).
-
-**Serving a Pickled Scikit-Learn Model?**
-Skip to [Pickled Scikit-Learn Model](#serving-a-pickled-scikit-learn-model).
-
 ## Inspect Model Directory
 ```
 ls -l ./tensorflow/census/model
@@ -430,16 +423,6 @@ pipeline predict-server-stop --model-name=mnist --model-tag=025
 
 # Deploy a Scikit-Learn Model
 The following model server uses a pickled scikit-learn model file.
-
-## Clone the PipelineAI Predict Repo
-```
-git clone https://github.com/PipelineAI/models
-```
-
-## Change into `models` Directory
-```
-cd ./models
-```
 
 ## View Model
 Click [HERE](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) to see the Scikit-Learn Model.
