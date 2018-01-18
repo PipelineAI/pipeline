@@ -12,7 +12,7 @@ These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI
 * Click **File -> Import URL**.
 * See below for the appropriate URL to import.
 
-![OpenAPI/Swagger Editor](http://pipeline.ai/assets/img/openapi-spec-editor.png)
+[![OpenAPI/Swagger Editor](http://pipeline.ai/assets/img/openapi-spec-editor.png)](http://editor.swagger.io)
 
 [**PipelineAI Predict API**](pipeline-predict.yaml)
 
