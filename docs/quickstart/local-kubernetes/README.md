@@ -221,9 +221,13 @@ Verify `grafana-...` pod is running
 ```
 kubectl get pod --namespace=istio-system
 ```
+
+Open localhost proxy
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
+
+View dashboard
 ```
 http://localhost:3000/dashboard/db/istio-dashboard
 ```
@@ -237,11 +241,15 @@ Verify `grafana-...` pod is running
 ```
 kubectl get pod --namespace=istio-system
 ```
+
+Open localhost proxy
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
 ```
+
+View Dashboard
 ```
-http://localhost:8088/dotviz
+http://localhost:8088/dotviz?filter_empty=true
 ```
 
 **PipelineAI Real-Time Dashboard**
