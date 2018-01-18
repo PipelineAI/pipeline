@@ -1,3 +1,19 @@
+# PipelineAI Quick Start
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Local (Docker)](/docs/quickstart/local-docker)
+* [Local (Kubernetes)](/docs/quickstart/local-kubernetes)
+* [AWS SageMaker (CPU + GPU)](/docs/quickstart/aws-sagemaker)
+
+# Having Issues?  Use our 24x7 Support!
+* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
+* Email:  help@pipeline.ai
+* Web:  https://support.pipeline.ai
+* Troubleshooting:  [Guide](/docs/troubleshooting)
+
+# PipelineAI Community Events
+* [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
+* [Advanced Spark and TensorFlow Meetup (Global)](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
+
 # PipelineAI [Home](http://pipeline.ai)
 [![PipelineAI Home](http://pipeline.ai/assets/img/pipelineai-home.png)](http://pipeline.ai)
 [![PipelineAI Home 1](http://pipeline.ai/assets/img/pipelineai-home-1.png)](http://pipeline.ai)
@@ -44,22 +60,6 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * MXNet
 * CNTK
 * ONNX
-
-# PipelineAI Quick Start
-Train and Deploy your ML and AI Models in the Following Environments:
-* [Local (Docker)](/docs/quickstart/local-docker)
-* [Local (Kubernetes)](/docs/quickstart/local-kubernetes)
-* [AWS SageMaker (CPU + GPU)](/docs/quickstart/aws-sagemaker)
-
-# Having Issues?  Use our 24x7 Support!
-* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
-* Email:  help@pipeline.ai
-* Web:  https://support.pipeline.ai
-* Troubleshooting:  [Guide](/docs/troubleshooting)
-
-# PipelineAI Community Events
-* [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-* [Advanced Spark and TensorFlow Meetup (Global)](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
 
 # Advanced PipelineAI Product Features
 * Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
