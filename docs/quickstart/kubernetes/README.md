@@ -30,7 +30,7 @@ kubectl config use-context docker-for-desktop
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.21 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI Sample Models
