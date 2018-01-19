@@ -138,7 +138,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 ```
 Notes:
 * You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
-* If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
+* If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 * The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 * If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
 * If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
@@ -220,7 +220,7 @@ predict-mnist-050-...-...       2/2       Running   0          10m
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
-* If you see '502 Bad Gateway', this is OK!  You just need to wait 1-2 mins for the model servers to startup.
+* If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 * You should still see a 50/50 split between Model 025 and Model 050 - even after scaling out Model 025!
 
 
