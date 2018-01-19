@@ -35,7 +35,7 @@ For simplicity the default configuration uses NodePorts (rather than an IngressC
 **Create `localhost` Proxies to the OpenFaaS API Gateway**
 (The `_` at the beginning of `_service_connect` is not a typo.  Just work with us, for now!)
 ```
-pipeline _service_connect --service-name=gateway --namespace=openfaas
+pipeline _service_connect --service-name=gateway
 ```
 
 ### Install PipelineAI CLI
