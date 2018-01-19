@@ -143,3 +143,9 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 
 ### Stop Model through OpenFaaS UI
 * Delete Function
+
+### Remove OpenFaaS
+```
+kubectl delete namespace openfaas-fn
+kubectl delete namespace openfaas
+```
