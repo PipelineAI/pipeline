@@ -11,7 +11,7 @@ Notes:
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ``` f
-pip install cli-pipeline==1.5.19 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.20 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -115,10 +115,10 @@ ls -l ./tensorflow/census/model
 
 ### EXPECTED OUTPUT ###
 ...
-pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
-pipeline_setup.sh                  <-- Required.  Init script performed upon Docker build
-pipeline_train.py                  <-- Required.  `main()` is required. Pass args with `--train-args`
+pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_condarc                   <-- Required, but Empty is OK. Configure Conda proxy servers (.condarc)
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_train.py                  <-- Required. `main()` is required. Pass args with `--train-args`
 ...
 ```
 
@@ -195,11 +195,12 @@ ls -l ./tensorflow/mnist/model
 
 ### EXPECTED OUTPUT ###
 ...
-pipeline_conda_environment.yml     <-- Required.  Sets up the conda environment
-pipeline_condarc                   <-- Required.  Configure Conda proxy servers (.condarc)
-pipeline_predict.py                <-- Required.  `predict(request: bytes) -> bytes` is required
-pipeline_setup.sh                  <-- Required.  Init script performed upon Docker build
-pipeline_tfserving/                <-- Optional.  Only TensorFlow Serving requires this directory
+pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_condarc                   <-- Required, but Empty is OK.  Configure Conda proxy servers (.condarc)
+pipeline_modelserver.properties    <-- Optional. Overrides default model server fallbacks and timeouts
+pipeline_predict.py                <-- Required. `predict(request: bytes) -> bytes` is required
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_tfserving/                <-- Optional. Only TensorFlow Serving requires this directory
 ...
 ```
 Inspect TensorFlow Serving Model 
@@ -336,6 +337,7 @@ Digit  Confidence
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+* If you continue to see `fallback` even after a minute or two, you may need to increase the value of `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare.)
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
