@@ -5,6 +5,7 @@
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+* [Kubernetes Cluster](/docs/kube-setup)
 
 ### [OpenFaaS](https://github.com/openfaas/faas)
 
@@ -22,14 +23,6 @@ kubectl apply -f ./namespaces.yml
 kubectl apply -f ./yaml
 ```
 or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.
-
-### Install Docker Community Edition (CE)
-```
-https://www.docker.com
-```
-**Minimum System Requirements**
-* 8GB
-* 4 Cores
 
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
