@@ -335,9 +335,10 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 Notes:
-* You may see `502 Bad Gateway` or `'{"results":["fallback"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
+* You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
+* You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
+* If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
-* If you continue to see `fallback` even after a minute or two, you may need to increase the value of `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare.)
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
