@@ -1,6 +1,12 @@
-## Step 1:  [Setup Docker and Kubernetes CLI](setup.md)
+## Step 1: Setup Pre-requisites
+* [Download and Install](setup.md) the pre-built PipelineAI Installation Docker Image
 
-**Note:  All commands must be run within the Docker container started in Step 1!!**
+-- OR -- 
+
+* Install [Google Cloud CLI](https://cloud.google.com/sdk/downloads)
+* Install [Docker Community Edition](https://www.docker.com/community-edition#/download)
+* Install [Miniconda](https://conda.io/docs/install/quick.html) with Python 3 Support
+* Install [Kubernetes CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
 
 ## Step 2:  Create Kubernetes Cluster on GCP
 * Update `NUM_NODES`, `MACHINE_TYPE`, and autoscale config params accordingly
