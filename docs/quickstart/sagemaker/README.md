@@ -18,7 +18,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.24 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
@@ -67,12 +67,12 @@ Examples
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> 
+pipeline predict-sage-start --model-name=mnist --model-tag=cpu --aws-iam-arn=<aws-iam-arn> 
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn>
+pipeline predict-sage-start --model-name=mnist --model-tag=gpu --aws-iam-arn=<aws-iam-arn>
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
