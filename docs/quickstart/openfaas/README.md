@@ -2,7 +2,7 @@
 
 ### [OpenFaaS](https://github.com/openfaas/faas)
 
-[**Install OpenFaaS on Kubernetes**](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes)
+**Install OpenFaaS on Kubernetes**
 ```
 git clone https://github.com/openfaas/faas-netes
 ```
@@ -15,6 +15,7 @@ kubectl apply -f ./namespaces.yml
 ```
 kubectl apply -f ./yaml
 ```
+(or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.)
 
 ### Install Docker Community Edition (CE)
 ```
