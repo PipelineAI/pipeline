@@ -9,13 +9,11 @@
 
 Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html) for more details on AWS SageMaker.
 
-### Install Docker Community Edition (CE)
-```
-https://www.docker.com
-```
-**Minimum System Requirements**
-* 8GB
-* 4 Cores
+# Pre-requisites
+## Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
