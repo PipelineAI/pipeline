@@ -11,7 +11,7 @@ Notes:
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ``` f
-pip install cli-pipeline==1.5.21 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.22 --ignore-installed --no-cache -U
 ```
 
 ### Verify Successful PipelineAI CLI Installation
@@ -25,7 +25,7 @@ default train base image: docker.io/pipelineai/train-cpu:1.5.0
 default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
 
 capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'predict-kafka']
-capabilities_available: ['optimize', 'jupyter', 'spark', 'airflow', 'kafka']
+capabilities_available: ['jupyter-server', 'jupyter-kube', 'jupyter-sage', 'spark', 'airflow', 'kafka']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -197,7 +197,7 @@ ls -l ./tensorflow/mnist/model
 ...
 pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
 pipeline_condarc                   <-- Required, but Empty is OK.  Configure Conda proxy servers (.condarc)
-pipeline_modelserver.properties    <-- Optional. Overrides default model server fallbacks and timeouts
+pipeline_modelserver.properties    <-- Required, but Empty is OK.  Configure timeouts and fallbacks
 pipeline_predict.py                <-- Required. `predict(request: bytes) -> bytes` is required
 pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
 pipeline_tfserving/                <-- Optional. Only TensorFlow Serving requires this directory
