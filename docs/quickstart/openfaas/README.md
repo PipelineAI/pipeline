@@ -15,7 +15,7 @@ kubectl apply -f ./namespaces.yml
 ```
 kubectl apply -f ./yaml
 ```
-(or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.)
+or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.
 
 ### Install Docker Community Edition (CE)
 ```
