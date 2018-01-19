@@ -227,7 +227,7 @@ Notes:
 
 * `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**
 * `--model-runtime`: **jvm** (default for `--model-type==java|spark|xgboost|pmml`, **tfserving** (default for `--model-type==tensorflow`), **python** (default for `--model-type==scikit|python|keras`), **tensorrt** (only for Nvidia GPUs)
-* `--model-chip`: **cpu** (default), **gpu, **tpu**
+* `--model-chip`: **cpu** (default), **gpu**, **tpu**
 
 ## Start the Model Server
 ```
