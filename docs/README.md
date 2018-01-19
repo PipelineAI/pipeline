@@ -2,9 +2,10 @@
 
 ### PipelineAI Quick Start
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Local (Docker)](/docs/quickstart/local-docker)
-* [Local (Kubernetes)](/docs/quickstart/local-kubernetes)
+* [Docker](/docs/quickstart/local-docker)
+* [Kubernetes](/docs/quickstart/local-kubernetes)
 * [AWS SageMaker (CPU + GPU)](/docs/quickstart/aws-sagemaker)
+* [OpenFaaS (CPU + GPU)](/docs/quickstart/openfaas)
 
 ### Setup Kubernetes for PipelineAI
 * [Local (Minikube)](/docs/kube-setup/local-minikube.md)
