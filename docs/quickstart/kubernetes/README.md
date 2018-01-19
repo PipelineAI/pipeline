@@ -5,7 +5,7 @@
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-* [Kubernetes](/docs/deploy/) Cluster
+* [Kubernetes Cluster](/docs/kube-setup/)
 
 ### (Optional) Install Docker for Mac with Kubernetes
 Docker for Windows with Kubernetes is coming soon!
