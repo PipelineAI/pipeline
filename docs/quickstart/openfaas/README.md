@@ -24,10 +24,24 @@ kubectl apply -f ./yaml
 ```
 or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.
 
+### View OpenFaaS UIs
+For simplicity the default configuration uses NodePorts (rather than an IngressController.)
+
+| Service           | TCP port |
+--------------------|----------|
+| API Gateway / UI  | 31112    |
+| Prometheus        | 31119    |
+
+**Create `localhost` Proxies to the OpenFaaS API Gateway**
+(The `_` at the beginning of `_service_connect` is not a typo.  Just work with us, for now!)
+```
+pipeline _service_connect --service-name=gateway --namespace=openfaas
+```
+
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.24 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
