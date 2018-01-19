@@ -1,5 +1,11 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
+## Pre-requisites
+### Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+
 ### [OpenFaaS](https://github.com/openfaas/faas)
 
 **Install OpenFaaS on Kubernetes**
