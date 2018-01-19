@@ -1,11 +1,16 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-### Install Docker for Mac with Kubernetes 
-```
-https://www.docker.com/docker-mac
-```
+# Pre-requisites
+## Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+* [Kubernetes](/docs/deploy/) Cluster
 
-**Enable Kubernetes**
+### (Optional) Install Docker for Mac with Kubernetes
+Docker for Windows with Kubernetes is coming soon!
+
+**Enable Kubernetes Locally**
 
 ![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png?classes=border,shadow)
 
@@ -14,17 +19,26 @@ https://www.docker.com/docker-mac
 * 17.12.0-ce
 * Kubernetes v1.8.2
 
-![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png?classes=border,shadow)
+![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
 **Minimum Docker System Requirements**
 * 8GB
 * 4 Cores
 
-![Docker for Desktop Kubernetes Config](http://pipeline.ai/assets/img/docker-desktop-kubernetes-config.png?classes=border,shadow)
+![Docker for Desktop Kubernetes Config](http://pipeline.ai/assets/img/docker-desktop-kubernetes-config.png)
 
 **Configure Kubernetes CLI for Local Kubernetes Cluster**
 ```
 kubectl config use-context docker-for-desktop
+```
+
+
+## Install PipelineAI CLI
+Notes: 
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+``` f
+pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U
 ```
 
 ### Install PipelineAI CLI
