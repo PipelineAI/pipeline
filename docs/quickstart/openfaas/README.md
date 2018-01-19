@@ -9,7 +9,7 @@
 
 ### [OpenFaaS](https://github.com/openfaas/faas)
 
-**Install OpenFaaS on Kubernetes**
+**Install [OpenFaaS-netes](https://github.com/openfaas/faas-netes) on Kubernetes**
 ```
 git clone https://github.com/openfaas/faas-netes
 ```
