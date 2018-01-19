@@ -4,7 +4,6 @@
 ```
 docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock --name cli-pipeline -itd pipelineai/cli-pipeline:1.5.0
 ```
-Make sure you include the `cli-pipeline:master` tag as part of the DockerHub reference above. ^^
 
 ## Step 3:  Shell into Docker Container to Setup Kubernetes Cluster
 ```
