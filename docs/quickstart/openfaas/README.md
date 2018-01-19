@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
-### [OpenFaaS Overview](https://github.com/openfaas/faas)
+### [OpenFaaS](https://github.com/openfaas/faas)
 
 [**Install OpenFaaS on Kubernetes**](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes)
 ```
