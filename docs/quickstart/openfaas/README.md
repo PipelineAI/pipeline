@@ -82,12 +82,12 @@ pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --namespace=openfaas-fn
+pipeline predict-faas-start --model-name=mnist --model-tag=cpu
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --namespapce=openfaas-fn
+pipeline predict-faas-start --model-name=mnist --model-tag=gpu
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
@@ -156,9 +156,3 @@ totalMemory: 11.17GiB freeMemory: 11.10GiB
 
 ### Stop Model through OpenFaaS UI
 * Delete Function
-
-### Remove OpenFaaS
-```
-kubectl delete namespace openfaas-fn
-kubectl delete namespace openfaas
-```
