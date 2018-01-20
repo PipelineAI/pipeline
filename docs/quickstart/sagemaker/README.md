@@ -18,7 +18,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 ### Install PipelineAI CLI
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
-pip install cli-pipeline==1.5.25 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.26 --ignore-installed --no-cache -U 
 ```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
