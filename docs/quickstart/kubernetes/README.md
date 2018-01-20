@@ -129,11 +129,11 @@ predict-mnist-050-...-...       2/2       Running   0          5m
 ```
 
 ### Split Traffic Between Model 025 (50%) and Model 050 (50%)
-Notes:
-* If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 ```
 pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"025":50, "050":50}'
 ```
+Notes:
+* If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
 ### View Route Rules
 ```
