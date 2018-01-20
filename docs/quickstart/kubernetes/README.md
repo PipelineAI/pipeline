@@ -87,10 +87,20 @@ pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry
 ```
 curl -L https://git.io/getLatestIstio | sh -
 ```
+```
+export PATH="$PATH:/root/istio-<version>/bin"
+```
+Verify Successful Install
+```
+which istioctl
+
+### EXPECTED OUTPUT ###
+/root/istio-<version>/bin/istioctl
+```
 
 ### Deploy Istio Service Mesh Components
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install/kubernetes/istio.yaml
 ```
 
 ### Deploy Models 025 and 050 (TensorFlow-based)
