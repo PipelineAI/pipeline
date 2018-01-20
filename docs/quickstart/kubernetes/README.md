@@ -389,10 +389,10 @@ kubectl delete namespace istio-system
 
 **Build**
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
 
 **Start**
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=025 --model-chip=gpu
+pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
