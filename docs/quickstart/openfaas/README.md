@@ -78,6 +78,26 @@ pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry
 pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
+### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
+```
+curl -L https://git.io/getLatestIstio | sh -
+```
+```
+export PATH="$PATH:/root/istio-<version>/bin"
+```
+Verify Successful Install
+```
+which istioctl
+
+### EXPECTED OUTPUT ###
+/root/istio-<version>/bin/istioctl
+```
+
+### Deploy Istio Service Mesh Components
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install/kubernetes/istio.yaml
+```
+
 ### Start TensorFlow Models on OpenFaaS
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
