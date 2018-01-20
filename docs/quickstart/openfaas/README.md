@@ -106,12 +106,12 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=cpu --model-chip=cpu
+pipeline predict-kube-start --model-name=mnist --model-tag=cpu --model-chip=cpu
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=gpu --model-chip=gpu
+pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
@@ -127,7 +127,6 @@ Notes:
 ```
 pipeline predict-http-test --model-endpoint-url=<openfaas-gateway-url>/function/predict-mnist-gpu --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
 ```
-
 
 **Expected Output**
 
