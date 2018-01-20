@@ -48,6 +48,7 @@ pip install cli-pipeline==1.5.26 --ignore-installed --no-cache -U
 ```
 git clone https://github.com/PipelineAI/models
 ```
+**Change into the new `models/` directory**
 ```
 cd models
 ```
