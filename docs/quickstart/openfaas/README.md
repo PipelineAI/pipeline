@@ -53,7 +53,7 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
+### Build CPU and GPU Models (TensorFlow + TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
@@ -112,6 +112,11 @@ pipeline predict-kube-start --model-name=mnist --model-tag=cpu --model-chip=cpu
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
+```
+
+### Route Traffic to CPU (50%) and GPU (50%)
+```
+pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
