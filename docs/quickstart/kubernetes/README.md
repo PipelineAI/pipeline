@@ -385,16 +385,14 @@ kubectl delete namespace istio-system
 ```
 
 ### (Optional) GPUs
-**Build GPU-based Model Server**
-```
-[**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
+[GPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
+
+**Build**
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
 
-**Start GPU-based Model Server**
-```
-[**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
+**Start**
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=025 --model-chip=gpu
 ```
