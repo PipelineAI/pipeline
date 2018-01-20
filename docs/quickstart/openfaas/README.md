@@ -48,6 +48,9 @@ pip install cli-pipeline==1.5.26 --ignore-installed --no-cache -U
 ```
 git clone https://github.com/PipelineAI/models
 ```
+```
+cd models
+```
 
 ### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
@@ -102,22 +105,28 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=cpu
+pipeline predict-faas-start --model-name=mnist --model-tag=cpu --model-chip=cpu
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=gpu
+pipeline predict-faas-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```
-pipeline predict-http-test --model-endpoint-url=<openfaas-gateway-url> --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * We are testing with sample data from the CPU version of the model.  
 * This is OK since the sample data is the same for CPU and GPU.
 * If the endpoint status (above) is not `InService`, this call won't work.  Please be patient.
+
+**(Optional)Http Test**
+```
+pipeline predict-http-test --model-endpoint-url=<openfaas-gateway-url>/function/predict-mnist-gpu --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+```
+
 
 **Expected Output**
 
