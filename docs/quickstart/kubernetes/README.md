@@ -155,7 +155,7 @@ pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/m
 ```
 Notes:
 * You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
-* If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
+* If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
 * The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 * If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
 * If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
