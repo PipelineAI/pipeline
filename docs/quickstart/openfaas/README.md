@@ -39,10 +39,12 @@ pipeline _service_connect --service-name=gateway
 ```
 
 ### Install PipelineAI CLI
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 ```
 pip install cli-pipeline==1.5.43 --ignore-installed --no-cache -U 
 ```
+Notes:
+* You may need to specify `--user`
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
