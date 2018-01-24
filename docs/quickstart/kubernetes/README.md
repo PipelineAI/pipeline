@@ -33,12 +33,13 @@ kubectl config use-context docker-for-desktop
 ```
 
 ## Install PipelineAI CLI
-Notes: 
-* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
-``` f
+```
 pip install cli-pipeline==1.5.43 --ignore-installed --no-cache -U
 ```
+Notes: 
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+* You may need to specify `--user`.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ### Pull PipelineAI Sample Models
 ```
