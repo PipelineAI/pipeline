@@ -130,7 +130,7 @@ Notes:
 
 **(Optional)Http Test**
 ```
-pipeline predict-http-test --model-endpoint-url=<openfaas-gateway-url>/function/predict-mnist-gpu --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-http-test --endpoint-url=<openfaas-gateway-url>/function/predict-mnist-gpu --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json
 ```
 
 **Expected Output**
