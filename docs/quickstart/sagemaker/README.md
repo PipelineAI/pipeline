@@ -181,3 +181,11 @@ pipeline predict-sage-stop --model-name=mnist
 * Delete Endpoint
 
 More details [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-cleanup.html)
+
+
+### Distributed TensorFlow Training (Coming Soon!)
+_Note:  The paths below should be relative to the sample datasets located here:  `s3://datapalooza-us-west-2/tensorflow/census/input/`._
+
+```
+pipeline train-sage-start --model-name=census --model-tag=a --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+```
