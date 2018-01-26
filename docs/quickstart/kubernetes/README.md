@@ -356,45 +356,6 @@ Digit  Confidence
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
-
-### Clean Up
-
-**Uninstall PipelineAI Models**
-
-Notes:
-* Each of these will remove the `predict-mnist` service and ingress - which is OK!
-```
-pipeline predict-kube-stop --model-name=mnist --model-tag=025
-```
-```
-pipeline predict-kube-stop --model-name=mnist --model-tag=050
-```
-
-**Remove PipelineAI Dashboards**
-```
-kubectl delete deploy dashboard-turbine
-kubectl delete deploy dashboard-hystrix
-```
-```
-kubectl delete svc dashboard-turbine
-kubectl delete svc dashboard-hystrix
-```
-
-**Remove PipelineAI Traffic Routes**
-```
-kubectl delete routerule predict-mnist-dashboardstream
-kubectl delete routerule predict-mnist-denytherest
-kubectl delete routerule predict-mnist-invocations
-kubectl delete routerule predict-mnist-metrics
-kubectl delete routerule predict-mnist-ping
-kubectl delete routerule predict-mnist-prometheus
-```
-
-**Uninstall Istio Components**
-```
-kubectl delete namespace istio-system
-```
-
 ### (Optional) GPUs
 [**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
 
@@ -459,3 +420,42 @@ Notes:
 * lack of `\ ` blank escapes
 * `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
+
+
+### Clean Up
+
+**Uninstall PipelineAI Models**
+
+Notes:
+* Each of these will remove the `predict-mnist` service and ingress - which is OK!
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=025
+```
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=050
+```
+
+**Remove PipelineAI Dashboards**
+```
+kubectl delete deploy dashboard-turbine
+kubectl delete deploy dashboard-hystrix
+```
+```
+kubectl delete svc dashboard-turbine
+kubectl delete svc dashboard-hystrix
+```
+
+**Remove PipelineAI Traffic Routes**
+```
+kubectl delete routerule predict-mnist-dashboardstream
+kubectl delete routerule predict-mnist-denytherest
+kubectl delete routerule predict-mnist-invocations
+kubectl delete routerule predict-mnist-metrics
+kubectl delete routerule predict-mnist-ping
+kubectl delete routerule predict-mnist-prometheus
+```
+
+**Uninstall Istio Components**
+```
+kubectl delete namespace istio-system
+```
