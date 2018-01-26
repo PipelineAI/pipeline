@@ -424,16 +424,81 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
+# Train a TensorFlow Model
+## Inspect Model Directory
+```
+ls -l ./scikit/linear/model
+
+### EXPECTED OUTPUT ###
+...
+pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_condarc                   <-- Required, but Empty is OK. Configure Conda proxy servers (.condarc)
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_train.py                  <-- Required. `main()` is required. Pass args with `--train-args`
+...
+```
+
+## Build Training Server
+```
+pipeline train-server-build --model-name=linear --model-tag=a --model-type=tensorflow --model-path=./scikit/linear/model
+```
+Notes:  
+* `--model-path` must be relative.  
+* Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
+
+## Start Training Server
+```
+pipeline train-server-start --model-name=linear --model-tag=a
+```
+Notes:
+* `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
+* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
+* `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
+* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-linear-a-scikit-python-cpu`.
+
+(_We are working on making this more intuitive._)
+
+## View Training Logs
+```
+pipeline train-server-logs --model-name=linear --model-tag=a
+```
+
+_Press `Ctrl-C` to exit out of the logs._
+
+## View Trained Model Output (Locally)
+_Make sure you pressed `Ctrl-C` to exit out of the logs._
+```
+ls -l ./scikit/linear/model/
+
+### EXPECTED OUTPUT ###
+...
+model.pkl   <-- Pickled Model File
+...
+```
+_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
+
+## View Training UI (including TensorBoard for TensorFlow Models)
+* TODO:  Add PipelineAI `tensorboard_logger` training-side metrics to scikit linear demo
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
+* This usually happens when using Docker Quick Terminal on Windows 7.
+```
+http://localhost:6006
+```
+
 # Deploy a Scikit-Learn Model
 The following model server uses a pickled scikit-learn model file.
 
-## View Model
+## View Training Code
 Click [HERE](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) to see the Scikit-Learn Model.
 ```
-ll ./scikit/linear/model/
+ls -al ./scikit/linear/model/
 ```
 ```
-cat ./scikit/linear/model/pipeline_predict.py
+cat ./scikit/linear/model/pipeline_train.py
 ```
 
 ## Build the Scikit-Learn Model 
