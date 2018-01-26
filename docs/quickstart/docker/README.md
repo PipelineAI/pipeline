@@ -107,6 +107,7 @@ cd ./models
 # Train and Deploy Models
 * [Train a TensorFlow Model](#train-a-tensorflow-model)
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
+* [Train a Scikit-Learn Model](#train-a-scikit-learn-model)
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
 
 # Train a TensorFlow Model
@@ -424,7 +425,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 pipeline predict-server-stop --model-name=mnist --model-tag=025
 ```
 
-# Train a TensorFlow Model
+# Train a Scikit-Learn Model
 ## Inspect Model Directory
 ```
 ls -l ./scikit/linear/model
