@@ -86,18 +86,24 @@ pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://git.io/getLatestIstio | sh -
+curl -L https://github.com/istio/istio/releases/download/0.4.0/istio-0.4.0-linux.tar.gz | tar xz
+export PATH=$PATH:./istio-0.4.0/bin
 ```
-Verify Successful Install
+
+**Verify Successful CLI Install**
 ```
 which istioctl
 ```
 
-### Deploy Istio Service Mesh Components
+### Deploy Istio to Cluster
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install/kubernetes/istio.yaml
+kubectl apply -f ./istio-0.4.0/install/kubernetes/istio.yaml
 ```
 
+**Verify Istio Components**
+```
+kubectl get all --namespace=istio-system
+```
 ### Deploy Models 025 and 050 (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
