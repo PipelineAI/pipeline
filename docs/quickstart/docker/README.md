@@ -495,7 +495,7 @@ The following model server uses a pickled scikit-learn model file.
 ## View Training Code
 Click [HERE](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) to see the Scikit-Learn Model.
 ```
-ls -al ./scikit/linear/model/
+ls -l ./scikit/linear/model/
 ```
 ```
 cat ./scikit/linear/model/pipeline_train.py
