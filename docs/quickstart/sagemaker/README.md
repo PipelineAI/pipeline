@@ -183,7 +183,9 @@ pipeline predict-sage-stop --model-name=mnist
 More details [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-cleanup.html)
 
 
-### Distributed TensorFlow Training (Coming Soon!)
+### Distributed TensorFlow Training
+* These instructions are under active development
+
 _Note:  The paths below should be relative to the sample datasets located here:  `s3://datapalooza-us-west-2/tensorflow/census/input/`._
 
 ```
