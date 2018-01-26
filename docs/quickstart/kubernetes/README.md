@@ -407,9 +407,12 @@ pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=te
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
+
 ### Distributed TensorFlow Training
 * These instructions are under active development
 * We assume you already have a running Kubernetes cluster
+
+[**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census)
 
 **Build Docker Image**
 ```
@@ -428,7 +431,30 @@ pipeline train-server-push --model-name=census --model-tag=a
 ```
 pipeline train-kube-start --model-name=census --model-tag=a --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
+Notes:
+* lack of `\ ` blank escapes
+* `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
+* different `.../data/...` dir structure than what would be on the host
 
+[**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
+
+**Build Docker Image**
+```
+pipeline train-server-build --model-name=census --model-tag=a --model-type=tensorflow --model-path=./tensorflow/census/model/ --model-chip=gpu
+```
+
+**Push Image To Docker Repo**
+* By default, we use the following public DockerHub repo `docker.io/pipelineai`
+* By convention, we use `train-` to namespace our model servers (ie. `train-census`)
+* To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
+```
+pipeline train-server-push --model-name=census --model-tag=a --model-chip=gpu
+```
+
+**Start Distributed TensorFlow Training Cluster**
+```
+pipeline train-kube-start --model-name=census --model-tag=a --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
+```
 Notes:
 * lack of `\ ` blank escapes
 * `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
