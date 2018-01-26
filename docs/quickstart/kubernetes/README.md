@@ -34,7 +34,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.47 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.48 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -88,15 +88,9 @@ pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry
 ```
 curl -L https://git.io/getLatestIstio | sh -
 ```
-```
-export PATH="$PATH:/root/istio-<version>/bin"
-```
 Verify Successful Install
 ```
 which istioctl
-
-### EXPECTED OUTPUT ###
-/root/istio-<version>/bin/istioctl
 ```
 
 ### Deploy Istio Service Mesh Components
