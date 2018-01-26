@@ -40,7 +40,7 @@ pipeline _service_connect --service-name=gateway
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.45 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.47 --ignore-installed --no-cache -U 
 ```
 Notes:
 * You may need to specify `--user`
