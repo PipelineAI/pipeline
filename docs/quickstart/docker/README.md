@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.45 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.47 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
