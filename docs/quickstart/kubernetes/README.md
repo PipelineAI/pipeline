@@ -396,7 +396,7 @@ kubectl delete namespace istio-system
 ```
 
 ### (Optional) GPUs
-[GPU](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
+[**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
 
 **Build**
 ```
