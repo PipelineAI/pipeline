@@ -355,6 +355,7 @@ Digit  Confidence
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ### (Optional) GPUs
 [**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
