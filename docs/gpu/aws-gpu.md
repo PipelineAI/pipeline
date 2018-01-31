@@ -1,7 +1,7 @@
 ## Setup AWS Cloud Instance
 ### Choose Ubuntu 16.04 as the EC2 Host Instance OS
 
-![Ubuntu 16.04](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-ec2-step-1-16-04.png)
+![Ubuntu 16.04](http://pipeline.ai/assets/img/aws-ec2-step-1-16-04.png)
 
 _You must choose an AMI with a version of Ubuntu 16.04 that is compatible with the Nvidia drivers specified below! Otherwise, the Nvidia drivers won't install properly._
 
@@ -9,13 +9,13 @@ _GPU's are not available in all regions and zones.  Please check with the cloud 
 
 ### Modify the Default ROOT VOLUME SIZE from 8GB to 100GB
 
-![AWS Root Volume](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-ec2-step-4.png)
+![AWS Root Volume](http://pipeline.ai/assets/img/aws-ec2-step-4.png)
 
 ### Create `p2` or `g2` GPU-based EC2 Host Instance
 
-![GPU P-Series EC2 Instances](https://s3.amazonaws.com/fluxcapacitor.com/img/aws-p2-series-gpu-instances.png)
+![GPU P-Series EC2 Instances](https://pipeline.ai/assets/img/aws-p2-series-gpu-instances.png)
 
-![GPU G-Series EC2 Instances](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-gpu-instances.png)
+![GPU G-Series EC2 Instances](http://pipeline.ai/assets/img/aws-gpu-instances.png)
 
 ### `ssh` into the EC2 Host Instance
 ```
@@ -180,19 +180,19 @@ nvidia-smi
 
 * `g2.2xlarge` EC2 Instance (1 Nvidia K520 GPU)
 
-![AWS GPU Nvidia Docker](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-docker-gpu-verify-0.png)
+![AWS GPU Nvidia Docker](http://pipeline.ai/assets/img/aws-docker-gpu-verify-0.png)
 
 * `g2.8xlarge` EC2 Instance (4 Nvidia K520 GPUs)
 
-![AWS 4 GPU Nvidia Docker](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-4-gpu-instances-0.png)
+![AWS 4 GPU Nvidia Docker](http://pipeline.ai/assets/img/aws-4-gpu-instances-0.png)
 
 * `p2.xlarge` EC2 Instance (1 Nvidia K80 GPU)
 
-![AWS P2 xlarge GPU Nvidia Docker](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-docker-p2-xlarge-gpu-verify-0.png)
+![AWS P2 xlarge GPU Nvidia Docker](http://pipeline.ai/assets/img/aws-docker-p2-xlarge-gpu-verify-0.png)
 
 * `p2.16xlarge` EC2 Instance (16 Nvidia K80 GPU)
 
-![AWS P2 xlarge GPU Nvidia Docker](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/aws-docker-p2-16xlarge-gpu-verify.png)
+![AWS P2 xlarge GPU Nvidia Docker](http://pipeline.ai/assets/img/aws-docker-p2-16xlarge-gpu-verify.png)
 
 ### Verify Running Processes
 ```
@@ -236,7 +236,7 @@ Starting TensorBoard on port 6006
 http://<your-cloud-ip>:6006
 ```
 
-![Tensorboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/tensorboard-0.png)
+![Tensorboard](http://pipeline.ai/assets/img/tensorboard-0.png)
 
 ### Single-GPU Tensorflow Training Example
 * Note:  The first operation on *each* GPU will incur a significant performance overhead during [PTX assembly compilation](http://stackoverflow.com/questions/40410210/tensorflow-2-gpu-slower-then-single-gpu/40430717#40430717).
@@ -256,7 +256,7 @@ python /root/tensorflow/tensorflow/models/image/cifar10/cifar10_multi_gpu_train.
 * This will only work if your EC2 instance has >1 GPU (ie. p2.16xlarge, g2.8xlarge)
 * Note:  The first operation on *each* GPU will incur a significant performance overhead during [PTX assembly compilation](http://stackoverflow.com/questions/40410210/tensorflow-2-gpu-slower-then-single-gpu/40430717#40430717).
 
-![Multi-GPU Training](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/multiple-gpu.png)
+![Multi-GPU Training](http://pipeline.ai/assets/img/multiple-gpu.png)
 
 *Step 1*:  CPU transfers model to each GPU 
 
@@ -297,14 +297,14 @@ python /root/tensorflow/tensorflow/models/image/cifar10/cifar10_multi_gpu_train.
 2016-12-27 17:15:23.486812: step 990, loss = 2.30 (2401.1 examples/sec; 0.053 sec/batch)
 ```
 
-![AWS P2 xlarge GPU Nvidia Docker](https://s3-us-west-2.amazonaws.com/advancedspark.com/img/aws-docker-p2-16xlarge-training-0.png)
+![AWS P2 xlarge GPU Nvidia Docker](https://pipeline.ai/assets/img/aws-docker-p2-16xlarge-training-0.png)
 
 * Navigate your browser to the TensorBoard UI
 ```
 http://<your-cloud-ip>:6006
 ```
 
-![Tensorboard](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/tensorboard-2.png)
+![Tensorboard](http://pipeline.ai/assets/img/tensorboard-2.png)
 
 ### Run TensorFlow Jupyter/iPython Notebooks 
 * Run example notebooks
@@ -315,7 +315,7 @@ http://<your-cloud-ip>:8754
 * Login to Jupyter Notebook (Use Any Username/Password)
 
 * Run the Examples Notebooks
-![Jupyter Login](http://advancedspark.com.s3-website-us-west-2.amazonaws.com/img/jupyter-1.png)
+![Jupyter Login](http://pipeline.ai/assets/img/jupyter-1.png)
 
 ### Stop and Start Cloud Instance (ie. Cost Savings)
 * To save money, you can stop the EC2 instance when you are done experimenting
@@ -333,5 +333,5 @@ sudo nvidia-docker exec -it gpu-tensorflow-spark bash
 ```
 
 ## References
-* [Dockerfile](https://github.com/fluxcapacitor/pipeline/tree/master/gpu.ml)
-* [DockerHub Image](https://hub.docker.com/r/fluxcapacitor/)
+* [Dockerfile](https://github.com/PipelineAI/pipeline/tree/master/gpu.ml)
+* [DockerHub Image](https://hub.docker.com/r/pipelineai/)
