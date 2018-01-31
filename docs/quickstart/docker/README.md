@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.51 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.54 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -502,7 +502,26 @@ ls -l ./scikit/linear/model/
 cat ./scikit/linear/model/pipeline_train.py
 ```
 
-## Build the Scikit-Learn Model 
+## Build the Scikit-Learn Training Server
+```
+pipeline train-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
+```
+
+## Start the Training Server
+```
+pipeline train-server-start --model-name=linear --model-tag=a --output-path=./scikit/linear/model/
+```
+
+## View the Training Logs
+```
+pipeline train-server-logs --model-name=linear --model-tag=a
+
+### EXPECTED OUTPUT ###
+
+Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-path above
+```
+
+## Build the Scikit-Learn Model Server
 ```
 pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
 ```
