@@ -40,7 +40,7 @@ pipeline _service_connect --service-name=gateway
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.51 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.54 --ignore-installed --no-cache -U 
 ```
 Notes:
 * You may need to specify `--user`
@@ -86,22 +86,13 @@ pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://git.io/getLatestIstio | sh -
+curl -L https://github.com/istio/istio/releases/download/0.4.0/istio-0.4.0-linux.tar.gz | tar xz
 ```
-```
-export PATH="$PATH:/root/istio-<version>/bin"
-```
-Verify Successful Install
-```
-which istioctl
-
-### EXPECTED OUTPUT ###
-/root/istio-<version>/bin/istioctl
-```
+Add `istio-0.4.0/bin` to your PATH
 
 ### Deploy Istio Service Mesh Components
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/<version>/install/kubernetes/istio.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
 ```
 
 ### Start TensorFlow Models on OpenFaaS
