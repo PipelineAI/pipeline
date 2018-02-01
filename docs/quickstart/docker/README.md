@@ -535,6 +535,11 @@ pipeline predict-server-build --model-name=linear --model-tag=a --model-type=sci
 pipeline predict-server-start --model-name=linear --model-tag=a
 ```
 
+## View the Model Server Logs
+```
+pipeline predict-server-logs --model-name=linear --model-tag=a
+```
+
 ## Predict with the Model 
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
