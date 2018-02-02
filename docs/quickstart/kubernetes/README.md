@@ -12,11 +12,11 @@
 
 Mac
 
-![Docker for Desktop Kubernetes Mac](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
+![Docker for Desktop Kubernetes Mac](http://pipeline.ai/assets/img/docker-for-desktop-mac.png)
 
 Windows
 
-![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-desktop-kubernetes-windows.png)
+![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
 
 **Minimum Version**
 * Edge (Not Stable)
