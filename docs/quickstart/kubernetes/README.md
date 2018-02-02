@@ -304,18 +304,18 @@ http://localhost:8088/dotviz?filter_empty=true&time_horizon=60s
 
 **PipelineAI Real-Time Dashboard**
 
-Install the dashboards
+Install the dashboards (powered by [NetflixOSS](https://github.com/netflix/hystrix)
 ```
-kubectl create -f ...hystrix-local-svc.yaml
-```
-```
-kubectl create -f ...turbine-local-svc.yaml
+kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-deploy.yaml
 ```
 ```
-kubectl create -f ...hystrix-deploy.yaml
+kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-svc.yaml
 ```
 ```
-kubectl create -f ...turbine-deploy.yaml
+kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-deploy.yaml
+```
+```
+kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-svc.yaml
 ```
 
 View the dashboard (60s window)
