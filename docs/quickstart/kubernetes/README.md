@@ -304,13 +304,20 @@ http://localhost:8088/dotviz?filter_empty=true&time_horizon=60s
 
 **PipelineAI Real-Time Dashboard**
 
-Install the dashboards powered by [NetflixOSS](https://github.com/netflix/hystrix)
+Deploy PipelineAI-specific [NetflixOSS Hystrix](https://github.com/netflix/hystrix)
 ```
 kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-deploy.yaml
 ```
 ```
 kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-svc.yaml
 ```
+Open up permissions for turbine to talk with hystrix
+```
+kubectl create clusterrolebinding serviceaccounts-view \
+  --clusterrole=view \
+  --group=system:serviceaccounts
+```
+Deploy PipelineAI-specific [NetflixOSS Turbine](https://github.com/netflix/turbine)
 ```
 kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-deploy.yaml
 ```
@@ -318,7 +325,7 @@ kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/
 kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-svc.yaml
 ```
 
-View the dashboard (60s window)
+View the model server dashboard (60s window)
 ```
 http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fdashboard-turbine%3A8989%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
