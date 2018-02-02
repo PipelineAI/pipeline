@@ -7,16 +7,20 @@
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * [Kubernetes Cluster](/docs/kube-setup/)
 
-### (Optional) Install Docker for Mac with Kubernetes
-Docker for Windows with Kubernetes is coming soon!
-
+### (Optional) Install Docker for Mac|Windows with Kubernetes!
 **Enable Kubernetes Locally**
 
-![Docker for Desktop Kubernetes](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png?classes=border,shadow)
+Mac
+
+![Docker for Desktop Kubernetes Mac](http://pipeline.ai/assets/img/docker-desktop-kubernetes.png)
+
+Windows
+
+![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-desktop-kubernetes-windows.png)
 
 **Minimum Version**
 * Edge (Not Stable)
-* 17.12.0-ce
+* 18.02-ce
 * Kubernetes v1.8.2
 
 ![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
