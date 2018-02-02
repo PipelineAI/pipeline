@@ -541,6 +541,19 @@ pipeline predict-server-logs --model-name=linear --model-tag=a
 ```
 
 ## Predict with the Model 
+### Curl Predict
+```
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"feature0": 0.03807590643342410180}' \
+  http://localhost:8080  \
+  -w "\n\n"
+
+### Expected Output ###
+
+{"variant": "linear-a-scikit-python-cpu", "outputs":[188.6431188435]}
+````
+
+### PipelineCLI Predict
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
 
