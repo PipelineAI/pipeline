@@ -1,11 +1,11 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-### PipelineAI Quick Start
+### PipelineAI Quick Start (CPU and GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
-* [AWS SageMaker (CPU + GPU)](/docs/quickstart/sagemaker)
-* [OpenFaaS (CPU + GPU)](/docs/quickstart/openfaas)
+* [AWS SageMaker](/docs/quickstart/sagemaker)
+* [OpenFaaS](/docs/quickstart/openfaas)
 
 ### Exploring the OpenAPI documentation
 These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI.
