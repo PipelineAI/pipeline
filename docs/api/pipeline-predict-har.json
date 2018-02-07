@@ -1,7 +1,7 @@
 
 {
   "method": "POST",
-  "url": "http://community.pipeline.ai:8080/mnist/invocations",
+  "url": "http://community.pipeline.ai::31400",
   "httpVersion": "HTTP/1.1",
   "queryString": [
   ],
