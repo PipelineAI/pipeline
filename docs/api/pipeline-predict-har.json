@@ -1,10 +1,7 @@
 {
   "method": "POST",
-  "url": "http://community.pipeline.ai",
-  "port": "31400",
+  "url": "http://community.pipeline.ai:31400",
   "httpVersion": "HTTP/1.1",
-  "queryString": [
-  ],
   "headers": [
     {
       "name": "accept",
@@ -14,8 +11,6 @@
       "name": "content-type",
       "value": "application/json"
     }
-  ],
-  "cookies":  [
   ],
   "postData": {
     "mimeType": "application/json",
