@@ -21,7 +21,7 @@ Windows
 **Minimum Version**
 * Edge (Not Stable)
 * 18.02-ce
-* Kubernetes v1.8.2
+* Kubernetes v1.9.2
 
 ![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
