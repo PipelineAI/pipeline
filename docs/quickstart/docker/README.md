@@ -575,7 +575,7 @@ Notes:
 # Train a PyTorch Model
 ## Inspect Model Directory
 ```
-ls -l ./pytorch/mnist/model
+ls -l ./pytorch/mnist-cpu/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -588,7 +588,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model
+pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -621,7 +621,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./pytorch/linear/model/
+ls -l ./pytorch/mnist-cpu/model/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -644,20 +644,20 @@ The following model server uses a pickled pytorch model file.
 ## View Training Code
 Click [HERE](https://github.com/PipelineAI/models/tree/796f553/pytorch/mnist/model) to see the Model.
 ```
-ls -l ./pytorch/mnist/model/
+ls -l ./pytorch/mnist/model-cpu/
 ```
 ```
-cat ./pytorch/mnist/model/pipeline_train.py
+cat ./pytorch/mnist/model-cpu/pipeline_train.py
 ```
 
 ## Build the PyTorch Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model/
+pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
 ```
 
 ## Start the Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=pytorch --output-path=./pytorch/mnist/model/
+pipeline train-server-start --model-name=mnist --model-tag=pytorch --output-path=./pytorch/mnist-cpu/model/
 ```
 
 ## View the Training Logs
@@ -671,7 +671,7 @@ Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps
 
 ## Build the PyTorch Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model/
+pipeline predict-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
 ```
 
 ## Start the PyTorch Model Server
