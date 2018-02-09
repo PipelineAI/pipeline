@@ -588,7 +588,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./scikit/linear/model
+pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model
 ```
 Notes:  
 * `--model-path` must be relative.  
