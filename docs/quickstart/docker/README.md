@@ -109,8 +109,9 @@ cd ./models
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
 * [Train a Scikit-Learn Model](#train-a-scikit-learn-model)
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
-* [Train a PyTorch Model](#train-a-pytorch-learn-model)
-* [Deploy a PyTorch Model](#deploy-a-pytorch-learn-model)
+* [Train a PyTorch Model](#train-a-pytorch-model)
+* [Deploy a PyTorch Model](#deploy-a-pytorch-model)
+
 
 # Train a TensorFlow Model
 ## Inspect Model Directory
