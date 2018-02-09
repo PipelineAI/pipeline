@@ -109,6 +109,8 @@ cd ./models
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
 * [Train a Scikit-Learn Model](#train-a-scikit-learn-model)
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
+* [Train a PyTorch Model](#train-a-pytorch-learn-model)
+* [Deploy a PyTorch Model](#deploy-a-pytorch-learn-model)
 
 # Train a TensorFlow Model
 ## Inspect Model Directory
@@ -560,6 +562,147 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --
 ### EXPECTED OUTPUT ###
 
 '{"variant": "linear-a-scikit-python-cpu", "outputs":[188.6431188435]}'
+```
+Notes:
+* You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
+* You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
+* If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+
+
+# Train a PyTorch Model
+## Inspect Model Directory
+```
+ls -l ./pytorch/mnist/model
+
+### EXPECTED OUTPUT ###
+...
+pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_condarc                   <-- Required, but Empty is OK. Configure Conda proxy servers (.condarc)
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_train.py                  <-- Required. `main()` is required. Pass args with `--train-args`
+...
+```
+
+## Build Training Server
+```
+pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./scikit/linear/model
+```
+Notes:  
+* `--model-path` must be relative.  
+* Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
+
+## Start Training Server
+```
+pipeline train-server-start --model-name=mnist --model-tag=pytorch
+```
+Notes:
+* `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
+* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
+* `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
+* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-pytorch-pytorch-python-cpu`.
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+
+(_We are working on making this more intuitive._)
+
+## View Training Logs
+```
+pipeline train-server-logs --model-name=mnist --model-tag=pytorch
+```
+
+_Press `Ctrl-C` to exit out of the logs._
+
+## View Trained Model Output (Locally)
+_Make sure you pressed `Ctrl-C` to exit out of the logs._
+```
+ls -l ./pytorch/linear/model/
+
+### EXPECTED OUTPUT ###
+...
+model.pkl   <-- Pickled Model File
+...
+```
+_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
+
+## View Training UI (including TensorBoard for TensorFlow Models)
+* TODO:  Add PipelineAI `tensorboard_logger` training-side metrics to pytorch linear demo
+* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
+* This usually happens when using Docker Quick Terminal on Windows 7.
+```
+http://localhost:6006
+```
+
+# Deploy a PyTorch Model
+The following model server uses a pickled pytorch model file.
+
+## View Training Code
+Click [HERE](https://github.com/PipelineAI/models/tree/796f553/pytorch/mnist/model) to see the Model.
+```
+ls -l ./pytorch/mnist/model/
+```
+```
+cat ./pytorch/mnist/model/pipeline_train.py
+```
+
+## Build the PyTorch Training Server
+```
+pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model/
+```
+
+## Start the Training Server
+```
+pipeline train-server-start --model-name=mnist --model-tag=pytorch --output-path=./pytorch/mnist/model/
+```
+
+## View the Training Logs
+```
+pipeline train-server-logs --model-name=mnist --model-tag=pytorch
+
+### EXPECTED OUTPUT ###
+
+Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-path above
+```
+
+## Build the PyTorch Model Server
+```
+pipeline predict-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist/model/
+```
+
+## Start the PyTorch Model Server
+```
+pipeline predict-server-start --model-name=mnist --model-tag=pytorch
+```
+
+## View the PyTorch Model Server Logs
+```
+pipeline predict-server-logs --model-name=mnist --model-tag=pytorch
+```
+
+## Predict with the Model 
+### Curl Predict
+```
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"feature0": 0.03807590643342410180}' \
+  http://localhost:8080  \
+  -w "\n\n"
+
+### Expected Output ###
+
+{"variant": "mnist-pytorch-pytorch-python-cpu", "outputs":[188.6431188435]}
+````
+
+### PipelineCLI Predict
+```
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./pytorch/mnist/input/predict/test_request.json
+
+### EXPECTED OUTPUT ###
+
+'{"variant": "mnist-pytorch-pytorch-python-cpu", "outputs":[188.6431188435]}'
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
