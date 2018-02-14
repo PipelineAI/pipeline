@@ -90,8 +90,8 @@ pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://github.com/istio/istio/releases/download/0.4.0/istio-0.4.0-linux.tar.gz | tar xz
-export PATH=$PATH:./istio-0.4.0/bin
+curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
+export PATH=$PATH:./istio-0.5.1/bin
 ```
 
 **Verify Successful CLI Install**
@@ -101,7 +101,7 @@ which istioctl
 
 ### Deploy Istio to Cluster
 ```
-kubectl apply -f ./istio-0.4.0/install/kubernetes/istio.yaml
+kubectl apply -f ./istio-0.5.1/install/kubernetes/istio.yaml
 ```
 
 **Verify Istio Components**
@@ -249,7 +249,7 @@ Notes:
 ### Install Dashboards
 **Prometheus**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/prometheus.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/prometheus.yaml
 ```
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
@@ -264,7 +264,7 @@ http://localhost:9090/graph
 
 **Grafana**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/grafana.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/grafana.yaml
 ```
 
 Verify `grafana-...` pod is running
@@ -284,7 +284,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
 
 **Service Graph**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/addons/servicegraph.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/servicegraph.yaml
 ```
 
 Verify `grafana-...` pod is running
