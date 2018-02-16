@@ -116,7 +116,7 @@ cd ./models
 # Train a TensorFlow Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/census-cpu/model
+ls -l ./tensorflow/mnist-cpu/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -129,7 +129,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -138,23 +138,22 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=census --model-tag=cpu --input-path=./tensorflow/census-cpu/input --output-path=./tensorflow/census-cpu/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=mnist --model-tag=cpu --input-path=./tensorflow/mnist-cpu/input --output-path=./tensorflow/mnist-cpu/output --train-args="--train-epochs=2\ --batch-size=100"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
-* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
-* `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
+* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-cpu-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=census --model-tag=cpu
+pipeline train-server-logs --model-name=mnist --model-tag=cpu
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -162,7 +161,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/census-cpu/output/
+ls -l ./tensorflow/mnist-cpu/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -188,7 +187,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=census --model-tag=cpu
+pipeline train-server-stop --model-name=mnist --model-tag=cpu
 ```
 
 # Deploy a TensorFlow Model
@@ -205,7 +204,8 @@ pipeline_condarc                   <-- Required, but Empty is OK.  Configure Con
 pipeline_modelserver.properties    <-- Required, but Empty is OK.  Configure timeouts and fallbacks
 pipeline_predict.py                <-- Required. `predict(request: bytes) -> bytes` is required
 pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
-pipeline_tfserving/                <-- Optional. Only TensorFlow Serving requires this directory
+pipeline_tfserving.config          <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
+pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains the TF SavedModel
 ...
 ```
 Inspect TensorFlow Serving Model 
@@ -214,7 +214,6 @@ ls -l ./tensorflow/mnist-cpu/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
 1510612525/  
 1510612528/                <-- TensorFlow Serving finds the latest (highest) version 
 ...
@@ -303,9 +302,6 @@ pipeline predict-server-logs --model-name=mnist --model-tag=cpu
 2017-10-10 03:56:00.695  INFO 121 --- [     run-main-0] i.p.predict.jvm.PredictionServiceMain$   : Started PredictionServiceMain. in 7.566 seconds (JVM running for 20.739)
 [debug] 	Thread run-main-0 exited.
 [debug] Waiting for thread container-0 to terminate.
-...
-INFO[0050] Completed initial partial maintenance sweep through 4 in-memory fingerprints in 40.002264633s.  source="storage.go:1398"
-...
 ```
 Notes:
 * You need to `Ctrl-C` out of the log viewing before proceeding.
