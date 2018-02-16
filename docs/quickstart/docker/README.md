@@ -196,7 +196,7 @@ pipeline train-server-stop --model-name=census --model-tag=cpu
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist-0.025/model
+ls -l ./tensorflow/mnist-cpu/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -210,7 +210,7 @@ pipeline_tfserving/                <-- Optional. Only TensorFlow Serving require
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist-0.025/pipeline_tfserving/
+ls -l ./tensorflow/mnist-cpu/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -223,7 +223,7 @@ pipeline_tfserving.config  <-- Required by TensorFlow Serving. Custom request-ba
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 Notes:
 * `--model-path` must be relative.
@@ -236,18 +236,18 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=025 --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=cpu --memory-limit=2G
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-025`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-cpu`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-0.025/model/pipeline_predict.py
+cat ./tensorflow/mnist-cpu/model/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -296,7 +296,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=025
+pipeline predict-server-logs --model-name=mnist --model-tag=cpu
 
 ### EXPECTED OUTPUT ###
 ...
@@ -313,11 +313,11 @@ Notes:
 ## Perform Prediction
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-cpu-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -347,7 +347,7 @@ Notes:
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
@@ -363,7 +363,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-cpu-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### FORMATTED OUTPUT ###
 Digit  Confidence
@@ -426,7 +426,7 @@ _Create additional PipelineAI Prediction widgets using [THIS](https://prometheus
 
 # Stop Model Server
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=025
+pipeline predict-server-stop --model-name=mnist --model-tag=cpu
 ```
 
 # Train a Scikit-Learn Model
