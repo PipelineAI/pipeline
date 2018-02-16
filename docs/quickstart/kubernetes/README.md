@@ -55,21 +55,21 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-### Build Models 025 and 050 (TensorFlow-based)
+### Build Model Versions a and b (TensorFlow-based)
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
-[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/mnist-0.025/model
-```
-
-[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
-```
-pipeline predict-server-build --model-name=mnist --model-tag=050 --model-type=tensorflow --model-path=./tensorflow/mnist-0.050/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 
-### Push Models 025 and 050 to Docker Repo
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+```
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
+```
+
+### Push Model Versions a and b to Docker Repo
 Notes:  
 * This can be any Docker Repo including DockerHub and internal repos
 * You must already be logged in to the Docker Repo using `docker login`
@@ -78,14 +78,14 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=025 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=a --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
-[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=050 --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=b --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
@@ -108,19 +108,19 @@ kubectl apply -f ./istio-0.5.1/install/kubernetes/istio.yaml
 ```
 kubectl get all --namespace=istio-system
 ```
-### Deploy Models 025 and 050 (TensorFlow-based)
+### Deploy Model Versions a and b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 
-[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=025
+pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
 
-[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=050
+pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
 
 ### View Running Pods
@@ -128,14 +128,14 @@ pipeline predict-kube-start --model-name=mnist --model-tag=050
 kubectl get pod
 
 ### EXPECTED OUTPUT###
-NAME                            READY     STATUS    RESTARTS   AGE
-predict-mnist-025-...-...       2/2       Running   0          5m
-predict-mnist-050-...-...       2/2       Running   0          5m
+NAME                          READY     STATUS    RESTARTS   AGE
+predict-mnist-a-...-...       2/2       Running   0          5m
+predict-mnist-a-...-...       2/2       Running   0          5m
 ```
 
-### Split Traffic Between Model 025 (50%) and Model 050 (50%)
+### Split Traffic Between Model Version a (50%) and Model Version b (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"025":50, "050":50}'
+pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":50, "b":50}'
 ```
 Notes:
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
@@ -154,24 +154,23 @@ predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
 predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
-### Run LoadTest on Models 025 and 050
+### Run LoadTest on Model Versions a and b
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
 * If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
-* The input data is the same across both models, so we just use the data from [mnist-0.025](https://github.com/PipelineAI/models/blob/6c9a2a0c6f132e07fad54783ae71180a01eb146a/tensorflow/mnist-0.025/input/predict/test_request.json).
 * If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
 * If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
-* You should see a 50/50 split between Model 025 and Model 050.
+* You should see a 50/50 split between Model Version a and Version b.
 
-[**CPU (Learning Rate = 0.025)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.025)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/a)
 ```
-('{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -194,9 +193,9 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 
-[**CPU (Learning Rate = 0.050)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-0.050)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
  ```
-('{"variant": "mnist-050-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
  '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
@@ -219,10 +218,10 @@ Digit  Confidence
 9      0.00195427471771836
  ```
 
-### Scale Model 025 to 2 Replicas
+### Scale Model Version b to 2 Replicas
 Scale the Model Server
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=025 --replicas=2
+pipeline predict-kube-scale --model-name=mnist --model-tag=b --replicas=2
 ```
 
 **Verify Scaling Event**
@@ -231,19 +230,19 @@ kubectl get pod
 
 ### EXPECTED OUTPUT###
 
-NAME                            READY     STATUS    RESTARTS   AGE
-predict-mnist-025-...-...       2/2       Running   0          8m
-predict-mnist-025-...-...       2/2       Running   0          10m
-predict-mnist-050-...-...       2/2       Running   0          10m
+NAME                          READY     STATUS    RESTARTS   AGE
+predict-mnist-b-...-...       2/2       Running   0          8m
+predict-mnist-b-...-...       2/2       Running   0          10m
+predict-mnist-a-...-...       2/2       Running   0          10m
 ```
 
 **Re-run LoadTest**
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
-* You should still see a 50/50 split between Model 025 and Model 050 - even after scaling out Model 025!
+* You should still see a 50/50 split between Model Version a and Model Version b - even after scaling out Model Version b!
 
 
 ### Install Dashboards
@@ -330,11 +329,11 @@ View the model server dashboard (60s window)
 http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fdashboard-turbine%3A8989%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
 
-### Re-Run Load Test on Models 025 and 050
+### Re-Run Load Test on Model Version a and Version b
 Notes:
 * You may need to wait 30 secs for the 2nd replica to start up completely.
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-0.025/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 
 ### Predict with REST API
@@ -348,7 +347,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-025-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
@@ -441,10 +440,10 @@ Notes:
 Notes:
 * Each of these will remove the `predict-mnist` service and ingress - which is OK!
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=025
+pipeline predict-kube-stop --model-name=mnist --model-tag=a
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=050
+pipeline predict-kube-stop --model-name=mnist --model-tag=b
 ```
 
 **Remove PipelineAI Dashboards**
