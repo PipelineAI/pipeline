@@ -86,13 +86,13 @@ pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://github.com/istio/istio/releases/download/0.4.0/istio-0.4.0-linux.tar.gz | tar xz
+curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
 ```
-Add `istio-0.4.0/bin` to your PATH
+Add `istio-0.5.1/bin` to your PATH
 
 ### Deploy Istio Service Mesh Components
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.4.0/install/kubernetes/istio.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/istio.yaml
 ```
 
 ### Start TensorFlow Models on OpenFaaS
