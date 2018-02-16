@@ -116,7 +116,7 @@ cd ./models
 # Train a TensorFlow Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/census/model
+ls -l ./tensorflow/census-cpu/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -129,7 +129,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=census --model-tag=025 --model-type=tensorflow --model-path=./tensorflow/census/model
+pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -138,7 +138,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=census --model-tag=025 --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=census --model-tag=cpu --input-path=./tensorflow/census/input --output-path=./tensorflow/census-cpu/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -147,14 +147,14 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-025-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-cpu-tensorflow-tfserving-cpu`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=census --model-tag=025
+pipeline train-server-logs --model-name=census --model-tag=cpu
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -162,7 +162,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/census/output/
+ls -l ./tensorflow/census-cpu/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -188,7 +188,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=census --model-tag=025
+pipeline train-server-stop --model-name=census --model-tag=cpu
 ```
 
 # Deploy a TensorFlow Model
@@ -196,7 +196,7 @@ pipeline train-server-stop --model-name=census --model-tag=025
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist/model
+ls -l ./tensorflow/mnist-0.025/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -210,7 +210,7 @@ pipeline_tfserving/                <-- Optional. Only TensorFlow Serving require
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist/model/pipeline_tfserving/
+ls -l ./tensorflow/mnist-0.025/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -266,8 +266,6 @@ def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Cal
     return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
                                   port=9000,
                                   model_name=os.environ['PIPELINE_MODEL_NAME'],
-                                  inputs_name='inputs',       <-- Optional.  TensorFlow SignatureDef inputs
-                                  outputs_name='outputs',     <-- Optional.  TensorFlow SignatureDef outputs
                                   timeout=100)                <-- Optional.  TensorFlow Serving timeout
 
 _model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
@@ -447,7 +445,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=a --model-type=tensorflow --model-path=./scikit/linear/model
+pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=tensorflow --model-path=./scikit/linear/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -456,7 +454,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=a
+pipeline train-server-start --model-name=linear --model-tag=cpu
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -465,14 +463,14 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-linear-a-scikit-python-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-linear-cpu-scikit-python-cpu`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=linear --model-tag=a
+pipeline train-server-logs --model-name=linear --model-tag=cpu
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -511,17 +509,17 @@ cat ./scikit/linear/model/pipeline_train.py
 
 ## Build the Scikit-Learn Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
+pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
 ```
 
 ## Start the Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=a --output-path=./scikit/linear/model/
+pipeline train-server-start --model-name=linear --model-tag=cpu --output-path=./scikit/linear/model/
 ```
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=linear --model-tag=a
+pipeline train-server-logs --model-name=linear --model-tag=cpu
 
 ### EXPECTED OUTPUT ###
 
@@ -530,17 +528,17 @@ Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=linear --model-tag=a --model-type=scikit --model-path=./scikit/linear/model/
+pipeline predict-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
 ```
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=linear --model-tag=a
+pipeline predict-server-start --model-name=linear --model-tag=cpu
 ```
 
 ## View the Model Server Logs
 ```
-pipeline predict-server-logs --model-name=linear --model-tag=a
+pipeline predict-server-logs --model-name=linear --model-tag=cpu
 ```
 
 ## Predict with the Model 
@@ -588,7 +586,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -597,7 +595,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=pytorch
+pipeline train-server-start --model-name=mnist --model-tag=cpu
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
@@ -606,14 +604,14 @@ Notes:
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-pytorch-pytorch-python-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-pytorch-python-cpu`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=pytorch
+pipeline train-server-logs --model-name=mnist --model-tag=cpu
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -642,27 +640,27 @@ http://localhost:6006
 The following model server uses a pickled pytorch model file.
 
 ## View Training Code
-Click [HERE](https://github.com/PipelineAI/models/tree/796f553/pytorch/mnist/model) to see the Model.
+Click [HERE](https://github.com/PipelineAI/models/tree/master/pytorch/mnist-cpu/model) to see the Model.
 ```
-ls -l ./pytorch/mnist/model-cpu/
+ls -l ./pytorch/mnist-cpu/model/
 ```
 ```
-cat ./pytorch/mnist/model-cpu/pipeline_train.py
+cat ./pytorch/mnist-cpu/model/pipeline_train.py
 ```
 
 ## Build the PyTorch Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
 ```
 
 ## Start the Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=pytorch --output-path=./pytorch/mnist-cpu/model/
+pipeline train-server-start --model-name=mnist --model-tag=cpu --output-path=./pytorch/mnist-cpu/model/
 ```
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=pytorch
+pipeline train-server-logs --model-name=mnist --model-tag=cpu
 
 ### EXPECTED OUTPUT ###
 
@@ -671,17 +669,17 @@ Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps
 
 ## Build the PyTorch Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=pytorch --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
 ```
 
 ## Start the PyTorch Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=pytorch
+pipeline predict-server-start --model-name=mnist --model-tag=cpu
 ```
 
 ## View the PyTorch Model Server Logs
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=pytorch
+pipeline predict-server-logs --model-name=mnist --model-tag=cpu
 ```
 
 ## Predict with the Model 
@@ -694,7 +692,7 @@ curl -X POST -H "Content-Type: application/json" \
   
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-pytorch-pytorch-python-cpu", ...}'
+'{"variant": "mnist-cpu-pytorch-python-cpu", ...}'
 ```
 
 ### PipelineCLI Predict
@@ -703,7 +701,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-pytorch-pytorch-python-cpu", ...}'
+'{"variant": "mnist-cpu-pytorch-python-cpu", ...}'
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
