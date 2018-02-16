@@ -446,9 +446,14 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ...
 ```
 
+## View Training Code
+```
+cat ./scikit/linear/model/pipeline_train.py
+```
+
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=tensorflow --model-path=./scikit/linear/model
+pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -457,23 +462,16 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=cpu
+pipeline train-server-start --model-name=linear --model-tag=cpu --output-path=./scikit/linear/model
 ```
-Notes:
-* `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
-* `--input-path` and `--output-path` are relative to the current working directory (outside the Docker container) and will be mapped as directories inside the Docker container from `/root`.
-* `--train-files` and `--eval-files` are relative to `--input-path` inside the Docker container.
-* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).  See examples below.
-* On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-linear-cpu-scikit-python-cpu`.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
-(_We are working on making this more intuitive._)
-
-## View Training Logs
+## View the Training Logs
 ```
 pipeline train-server-logs --model-name=linear --model-tag=cpu
+
+### EXPECTED OUTPUT ###
+
+Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-path above
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -488,45 +486,11 @@ ls -l ./scikit/linear/model/
 model.pkl   <-- Pickled Model File
 ...
 ```
-_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
-
-## View Training UI (including TensorBoard for TensorFlow Models)
-* TODO:  Add PipelineAI `tensorboard_logger` training-side metrics to scikit linear demo
-* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
-* This usually happens when using Docker Quick Terminal on Windows 7.
-```
-http://localhost:6006
-```
 
 # Deploy a Scikit-Learn Model
-The following model server uses a pickled scikit-learn model file.
-
-## View Training Code
-Click [HERE](https://github.com/PipelineAI/models/tree/90ab808f0135e61af3e3ab14a5f3f4293f69e601/scikit/linear) to see the Scikit-Learn Model.
+## View Predictin Code
 ```
-ls -l ./scikit/linear/model/
-```
-```
-cat ./scikit/linear/model/pipeline_train.py
-```
-
-## Build the Scikit-Learn Training Server
-```
-pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
-```
-
-## Start the Training Server
-```
-pipeline train-server-start --model-name=linear --model-tag=cpu --output-path=./scikit/linear/model/
-```
-
-## View the Training Logs
-```
-pipeline train-server-logs --model-name=linear --model-tag=cpu
-
-### EXPECTED OUTPUT ###
-
-Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-path above
+cat ./scikit/linear/model/pipeline_predict.py
 ```
 
 ## Build the Scikit-Learn Model Server
@@ -554,7 +518,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ### Expected Output ###
 
-{"variant": "linear-a-scikit-python-cpu", "outputs":[188.6431188435]}
+{"variant": "linear-cpu-scikit-python-cpu", "outputs":[188.6431188435]}
 ```
 
 ### PipelineCLI Predict
@@ -563,7 +527,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "linear-a-scikit-python-cpu", "outputs":[188.6431188435]}'
+'{"variant": "linear-cpu-scikit-python-cpu", "outputs":[188.6431188435]}'
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
@@ -587,6 +551,11 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ...
 ```
 
+## View Training Code
+```
+cat ./pytorch/mnist-cpu/model/pipeline_train.py
+```
+
 ## Build Training Server
 ```
 pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
@@ -598,12 +567,16 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu
+pipeline train-server-start --model-name=mnist --model-tag=cpu --output-path=./pytorch/mnist-cpu/model
 ```
 
-## View Training Logs
+## View the Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=cpu
+pipeline train-server-logs --model-name=linear --model-tag=cpu
+
+### EXPECTED OUTPUT ###
+
+Pickled model to "/opt/ml/output/model.pth"   <-- This docker-internal path maps to --output-path above
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -615,48 +588,14 @@ ls -l ./pytorch/mnist-cpu/model/
 
 ### EXPECTED OUTPUT ###
 ...
-model.pkl   <-- Pickled Model File
+model.pth   <-- Trained Model File
 ...
-```
-_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
-
-## View Training UI (including TensorBoard for TensorFlow Models)
-* TODO:  Add PipelineAI `tensorboard_logger` training-side metrics to pytorch linear demo
-* Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
-* This usually happens when using Docker Quick Terminal on Windows 7.
-```
-http://localhost:6006
 ```
 
 # Deploy a PyTorch Model
-The following model server uses a pickled pytorch model file.
-
-## View Training Code
-Click [HERE](https://github.com/PipelineAI/models/tree/master/pytorch/mnist-cpu/model) to see the Model.
+## View Prediction Code
 ```
-ls -l ./pytorch/mnist-cpu/model/
-```
-```
-cat ./pytorch/mnist-cpu/model/pipeline_train.py
-```
-
-## Build the PyTorch Training Server
-```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
-```
-
-## Start the Training Server
-```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --output-path=./pytorch/mnist-cpu/model/
-```
-
-## View the Training Logs
-```
-pipeline train-server-logs --model-name=mnist --model-tag=cpu
-
-### EXPECTED OUTPUT ###
-
-Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-path above
+cat ./pytorch/mnist-cpu/model/pipeline_predict.py
 ```
 
 ## Build the PyTorch Model Server
