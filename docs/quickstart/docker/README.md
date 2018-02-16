@@ -138,7 +138,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=census --model-tag=cpu --input-path=./tensorflow/census/input --output-path=./tensorflow/census-cpu/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
+pipeline train-server-start --model-name=census --model-tag=cpu --input-path=./tensorflow/census-cpu/input --output-path=./tensorflow/census-cpu/output --train-args="--train-files=training/adult.training.csv\ --eval-files=validation/adult.validation.csv\ --num-epochs=2\ --learning-rate=0.025"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
