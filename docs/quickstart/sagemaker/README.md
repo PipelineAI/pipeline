@@ -17,7 +17,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.65 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U 
 ```
 * You may need to specify `--user`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -78,7 +78,7 @@ pipeline predict-sage-start --model-name=mnist --model-tag=gpu --aws-iam-arn=<aw
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
 ```
-pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-split-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 Notes:
 * You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
