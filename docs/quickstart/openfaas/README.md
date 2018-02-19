@@ -40,7 +40,7 @@ pipeline _service_connect --service-name=gateway
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.54 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U 
 ```
 Notes:
 * You may need to specify `--user`
@@ -109,7 +109,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 
 ### Route Traffic to CPU (50%) and GPU (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"cpu":50, "gpu":50}' --model-shadow-tag-list='[]'
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
