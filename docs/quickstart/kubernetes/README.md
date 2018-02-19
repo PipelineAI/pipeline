@@ -63,11 +63,14 @@ Notes:
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
+
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Push Model Versions a and b to Docker Repo
 Notes:  
@@ -406,6 +409,7 @@ Notes:
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Start**
 ```
