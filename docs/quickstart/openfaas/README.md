@@ -60,11 +60,13 @@ cd models
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Push TensorFlow Models to Docker Repo
 Notes:  
@@ -99,13 +101,15 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kub
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=cpu --model-chip=cpu
+pipeline predict-kube-start --model-name=mnist --model-tag=cpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
+pipeline predict-kube-start --model-name=mnist --model-tag=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Route Traffic to CPU (50%) and GPU (50%)
 ```
