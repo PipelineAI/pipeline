@@ -38,7 +38,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.54 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -135,7 +135,7 @@ predict-mnist-a-...-...       2/2       Running   0          5m
 
 ### Split Traffic Between Model Version a (50%) and Model Version b (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-tag-and-weight-dict='{"a":50, "b":50}'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":50, "b":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
@@ -244,6 +244,38 @@ Notes:
 * If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
 * You should still see a 50/50 split between Model Version a and Model Version b - even after scaling out Model Version b!
 
+### Shadow Traffic from Model Version a (100% Live) to Model Version b (0% Live, Only Shadow Traffic)
+```
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":100, "b":0}' --model-shadow-tag-list='["b"]'
+```
+Notes:
+* If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
+
+
+### Run LoadTest on Model Versions a and b
+```
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+```
+Notes:
+* You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
+* If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
+* If you see a `404` error related to `No message found /mnist/invocations`, the route rules above were not applied.
+* If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
+* See [Troubleshooting](/docs/troubleshooting) for more debugging info.
+
+**Expected Output**
+* You should see a 100% traffic to Model Version a, however Model Version b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
+
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/a)
+```
+('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+ '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
+ '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
+ '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
+ '0.001954273320734501]}}')
+ 
+Request time: 36.414 milliseconds
+``` 
 
 ### Install Dashboards
 **Prometheus**
