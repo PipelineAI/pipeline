@@ -120,11 +120,13 @@ Notes:
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### View Running Pods
 ```
@@ -415,6 +417,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=te
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Distributed TensorFlow Training
 * These instructions are under active development
@@ -443,6 +446,7 @@ Notes:
 * lack of `\ ` blank escapes
 * `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
 
@@ -450,6 +454,7 @@ Notes:
 ```
 pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
@@ -467,7 +472,7 @@ Notes:
 * lack of `\ ` blank escapes
 * `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
 * different `.../data/...` dir structure than what would be on the host
-
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Clean Up
 
