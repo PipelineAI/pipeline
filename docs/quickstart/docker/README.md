@@ -456,12 +456,16 @@ pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=sci
 Notes:  
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* For GPU-based models, make sure you specify `--model-chip=gpu`
+
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
 ```
 pipeline train-server-start --model-name=linear --model-tag=cpu --output-path=./scikit/linear/model
 ```
+Notes:
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
 ```
@@ -495,11 +499,13 @@ cat ./scikit/linear/model/pipeline_predict.py
 ```
 pipeline predict-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
 ```
 pipeline predict-server-start --model-name=linear --model-tag=cpu
 ```
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
 ```
