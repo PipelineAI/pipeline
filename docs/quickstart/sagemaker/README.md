@@ -9,19 +9,18 @@
 
 Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html) for more details on AWS SageMaker.
 
-### Install Docker Community Edition (CE)
-```
-https://www.docker.com
-```
-**Minimum System Requirements**
-* 8GB
-* 4 Cores
+# Pre-requisites
+## Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ### Install PipelineAI CLI
+```
+pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U 
+```
+* You may need to specify `--user`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
-```
-pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U 
-```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
@@ -69,17 +68,17 @@ Examples
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn> 
+pipeline predict-sage-start --model-name=mnist --model-tag=cpu --aws-iam-arn=<aws-iam-arn> 
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --aws-iam-arn=<aws-iam-arn>
+pipeline predict-sage-start --model-name=mnist --model-tag=gpu --aws-iam-arn=<aws-iam-arn>
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
 ```
-pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-tag-and-weight-dict='{"cpu":50, "gpu":50}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-split-tag-and-weight-dict='{"cpu":50, "gpu":50}'
 ```
 Notes:
 * You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
@@ -182,3 +181,13 @@ pipeline predict-sage-stop --model-name=mnist
 * Delete Endpoint
 
 More details [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-cleanup.html)
+
+
+### Distributed TensorFlow Training
+* These instructions are under active development
+
+_Note:  The paths below are relative to the sample datasets located here:  `s3://datapalooza-us-west-2/tensorflow/census/input/`._
+
+```
+pipeline train-sage-start --model-name=census --model-tag=a --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+```

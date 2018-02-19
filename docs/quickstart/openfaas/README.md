@@ -1,8 +1,15 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
+## Pre-requisites
+### Install Tools
+* [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+* [Kubernetes Cluster](/docs/kube-setup)
+
 ### [OpenFaaS](https://github.com/openfaas/faas)
 
-**Install OpenFaaS on Kubernetes**
+**Install [OpenFaaS-netes](https://github.com/openfaas/faas-netes) on Kubernetes**
 ```
 git clone https://github.com/openfaas/faas-netes
 ```
@@ -17,26 +24,38 @@ kubectl apply -f ./yaml
 ```
 or try [THIS](https://github.com/openfaas/faas/blob/master/guide/deployment_k8s.md#kubernetes) link.
 
-### Install Docker Community Edition (CE)
+### View OpenFaaS UIs
+For simplicity the default configuration uses NodePorts (rather than an IngressController.)
+
+| Service           | TCP port |
+--------------------|----------|
+| API Gateway / UI  | 31112    |
+| Prometheus        | 31119    |
+
+**Create `localhost` Proxies to the OpenFaaS API Gateway**
+(The `_` at the beginning of `_service_connect` is not a typo.  Just work with us, for now!)
 ```
-https://www.docker.com
+pipeline _service_connect --service-name=gateway
 ```
-**Minimum System Requirements**
-* 8GB
-* 4 Cores
 
 ### Install PipelineAI CLI
+```
+pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U 
+```
+Notes:
+* You may need to specify `--user`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
-```
-pip install cli-pipeline==1.5.23 --ignore-installed --no-cache -U 
-```
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
 ```
+**Change into the new `models/` directory**
+```
+cd models
+```
 
-### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
+### Build CPU and GPU Models (TensorFlow + TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
@@ -65,26 +84,47 @@ pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry
 pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
 
+### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
+```
+curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
+```
+Add `istio-0.5.1/bin` to your PATH
+
+### Deploy Istio Service Mesh Components
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/istio.yaml
+```
+
 ### Start TensorFlow Models on OpenFaaS
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=cpu --model-type=tensorflow --namespace=openfaas-fn
+pipeline predict-kube-start --model-name=mnist --model-tag=cpu --model-chip=cpu
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-faas-start --model-name=mnist --model-tag=gpu --model-type=tensorflow --namespapce=openfaas-fn
+pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
+```
+
+### Route Traffic to CPU (50%) and GPU (50%)
+```
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"cpu":50, "gpu":50}' --model-shadow-tag-list='[]'
 ```
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```
-pipeline predict-http-test --model-endpoint-url=<openfaas-gateway-url> --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * We are testing with sample data from the CPU version of the model.  
 * This is OK since the sample data is the same for CPU and GPU.
 * If the endpoint status (above) is not `InService`, this call won't work.  Please be patient.
+
+**(Optional)Http Test**
+```
+pipeline predict-http-test --endpoint-url=<openfaas-gateway-url>/function/predict-mnist-gpu --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json
+```
 
 **Expected Output**
 
