@@ -421,7 +421,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 
 ### Distributed TensorFlow Training
 * These instructions are under active development
-* We assume you already have a running Kubernetes cluster
+* We assume you already have 1) a running Kubernetes cluster and 2) access to a shared file system like S3 or GCS
 
 [**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census)
 
@@ -429,6 +429,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
 pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census/model/
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
