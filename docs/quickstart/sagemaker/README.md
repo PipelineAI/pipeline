@@ -32,11 +32,13 @@ git clone https://github.com/PipelineAI/models
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Push TensorFlow Models to Docker Repo
 Notes:  
@@ -50,11 +52,13 @@ Defaults
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
 pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Start TensorFlow Models on AWS SageMaker
 Notes
