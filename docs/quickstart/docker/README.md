@@ -134,6 +134,7 @@ pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tens
 Notes:  
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
@@ -150,6 +151,7 @@ Notes:
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
@@ -235,6 +237,7 @@ Notes:
 * `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**
 * `--model-runtime`: **jvm** (default for `--model-type==java|spark|xgboost|pmml`, **tfserving** (default for `--model-type==tensorflow`), **python** (default for `--model-type==scikit|python|keras`), **tensorrt** (only for Nvidia GPUs)
 * `--model-chip`: **cpu** (default), **gpu**, **tpu**
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
 ```
@@ -244,6 +247,7 @@ Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-cpu`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ## Inspect `pipeline_predict.py`
@@ -566,12 +570,14 @@ pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pyto
 Notes:  
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
 ```
 pipeline train-server-start --model-name=mnist --model-tag=cpu --output-path=./pytorch/mnist-cpu/model
 ```
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
 ```
@@ -605,11 +611,13 @@ cat ./pytorch/mnist-cpu/model/pipeline_predict.py
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/
 ```
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the PyTorch Model Server
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=cpu
 ```
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the PyTorch Model Server Logs
 ```
