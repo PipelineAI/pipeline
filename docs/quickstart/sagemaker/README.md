@@ -96,7 +96,7 @@ pipeline predict-sage-describe --model-name=mnist
 
 ### EXPECTED OUTPUT ###
 ...
-'InService'  <-- WAIT UNTIL THIS IS 'InService' 
+Endpoint Status 'InService'  <-- WAIT UNTIL THIS GOES FROM 'Creating' to 'InService' 
 ...
 ```
 Notes:
