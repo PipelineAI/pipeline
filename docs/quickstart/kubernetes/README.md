@@ -429,6 +429,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
 pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census/model/
 ```
+* `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
