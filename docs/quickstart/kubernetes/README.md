@@ -451,7 +451,8 @@ Notes:
 * Therefore, PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `--input-path` and `--output-path` respectively
 * Inside the model, you should use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * `--train-files` and `--eval-files` are relative to PIPELINE_INPUT_PATH
-* We automatically mount `https://github.com/PipelineAI/models` as PIPELINE_INPUT_PATH/samples/models for your convenience
+* We automatically mount `https://github.com/PipelineAI/models` as /root/samples/models for your convenience
+* You can use our samples by setting `--input-path` to `/root/samples/models/tensorflow/mnist-cpu/input` or equivalent
 * `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
