@@ -444,9 +444,10 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 Notes:
-* lack of `\ ` blank escapes
-* `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
-* different `.../data/...` dir structure than what would be on the host
+* `--input-path` and `--output-path` are host paths that are mounted inside the container at `/opt/ml/input` and `/opt/ml/output` respectively
+* Inside the host `/opt/ml/input/...` is prepended to the `--train-files` and `--eval-files`
+* `--train-files` and `--eval-files` come from `--train-args`.  These are used by the model, itself
+* You can pass any parameter into `--train-args` to be used by the model
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
