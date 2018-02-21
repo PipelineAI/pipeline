@@ -132,7 +132,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 Notes:  
-* `--model-path` must be relative.  
+* `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
