@@ -38,7 +38,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.72 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.73 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -473,9 +473,6 @@ Notes:
 **Build Docker Image**
 ```
 pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
-```
-```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
