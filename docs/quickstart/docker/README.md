@@ -139,19 +139,23 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --input-path=./tensorflow/mnist-cpu/input/ --output-path=./tensorflow/mnist-cpu/model/pipeline_tfserving/ --train-args="--train-epochs=2\ --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=cpu --input-path=./tensorflow/mnist-cpu/input/ --output-path=./tensorflow/mnist-cpu/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 Notes:
 * `--train-args` is a single argument passed into the `pipeline_train.py`.  Therefore, you must escape spaces (`\ `) between arguments. 
 * `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
-* `--input-path` and `--output-path` are mapped as directories inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
-* `--input-path` and `--output-path` are relative to the current working directory 
+* `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
 * `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
+* Inside the host, `/opt/ml/input/` is prepended to the `--train-files` and `--eval-files`
+* `--train-files` and `--eval-files` come from `--train-args`
+* `--train-files` and `--eval-files` are used by the model, itself
+* You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
 * Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).
 * On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
