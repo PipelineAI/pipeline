@@ -142,10 +142,10 @@ Notes:
 pipeline train-server-start --model-name=mnist --model-tag=cpu --input-path=./tensorflow/mnist-cpu/input/ --output-path=./tensorflow/mnist-cpu/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 Notes:
-* `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
 * `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
 * `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
-* Inside the host, `/opt/ml/input/` is prepended to the `--train-files` and `--eval-files`
+* `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
+* Inside the model, use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
