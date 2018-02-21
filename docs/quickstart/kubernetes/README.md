@@ -38,7 +38,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.72 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -453,21 +453,24 @@ Notes:
 
 **Build Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu
+pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
+```
+```
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
-* By convention, we use `train-` to namespace our model servers (ie. `train-census`)
+* By convention, we use `train-` to namespace our models (ie. `train-census-cpu`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=gpu
+pipeline train-server-push --model-name=census --model-tag=cpu
 ```
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
+pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=./tensorflow/census-cpu/input --output-path=./tensorflow/census-cpu/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 Notes:
 * lack of `\ ` blank escapes
