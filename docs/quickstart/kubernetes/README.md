@@ -444,10 +444,10 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 Notes:
-* `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
 * `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
 * `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
-* Inside the host, `/opt/ml/input/` is prepended to the `--train-files` and `--eval-files`
+* `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
+* Inside the model, use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
@@ -459,6 +459,8 @@ Notes:
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+
+(_We are working on making this more intuitive._)
 
 [**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
 
