@@ -144,8 +144,12 @@ pipeline train-server-start --model-name=mnist --model-tag=cpu --input-path=./te
 Notes:
 * `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
 * `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
-* `--input-path` and `--output-path` become the environment variables PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH inside the Docker container
-* Inside the model, use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `/opt/ml/input` and `/opt/ml/output` respectively.
+* Therefore, PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `--input-path` and `--output-path` respectively
+* Inside the model, you should use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
+* `--train-files` and `--eval-files` are relative to PIPELINE_INPUT_PATH
+* We automatically mount `https://github.com/PipelineAI/models` as PIPELINE_INPUT_PATH/samples/models for your convenience
 * `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
