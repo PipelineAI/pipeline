@@ -423,11 +423,11 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 * These instructions are under active development
 * We assume you already have 1) a running Kubernetes cluster and 2) access to a shared file system like S3 or GCS
 
-[**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census)
+[**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-cpu)
 
 **Build Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census/model/
+pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
 ```
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
@@ -442,10 +442,14 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=./tensorflow/census/input --output-path=./tensorflow/census/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=/root/samples/models/tensorflow/census-cpu/input --output-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
+
 Notes:
 * `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
+* `--input-path` and `--output-path` should be absolute paths that are valid on the host of the kubernetes node
+* `--input-path` and `--output-path` will be expanded to the absolute path of the filesystem where the command is run - this is likely not the same path as the kubernetes node
+* Avoid relative paths for * `--input-path` and `--output-path` unless you're sure the same path exists on the kubernetes node 
 * `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `/opt/ml/input` and `/opt/ml/output` respectively.
@@ -472,26 +476,23 @@ Notes:
 
 **Build Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
+pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
-* By convention, we use `train-` to namespace our models (ie. `train-census-cpu`)
+* By convention, we use `train-` to namespace our models (ie. `train-census-gpu`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=cpu
+pipeline train-server-push --model-name=census --model-tag=gpu
 ```
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=./tensorflow/census-cpu/input --output-path=./tensorflow/census-cpu/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-path=/root/samples/models/tensorflow/census-gpu/input --output-path=/root/samples/models/tensorflow/census-gpu/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
 ```
 Notes:
-* lack of `\ ` blank escapes
-* `/root/ml/input/...` prepended to the `--train-files` and `--eval-files`
-* different `.../data/...` dir structure than what would be on the host
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Clean Up
