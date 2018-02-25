@@ -39,12 +39,7 @@ pipeline help
 ...
 help                        <-- This List of CLI Commands
 
-predict-http-test           <-- Test Model Cluster (Http Endpoint)
-
-predict-kafka-consume       <-- Consume Kafka Predictions
-predict-kafka-describe      <-- Describe Kafka Prediction Cluster
-predict-kafka-start         <-- Start Kafka Prediction Cluster
-predict-kafka-test          <-- Predict with Kafka-based Model Endpoint 
+predict-http-test           <-- Test Model Cluster (Http-based)
 
 predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
 predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
@@ -72,7 +67,14 @@ predict-server-push         <-- Push Model Server to Docker Registry
 predict-server-shell        <-- Shell into Model Server (Debugging)
 predict-server-start        <-- Start Model Server
 predict-server-stop         <-- Stop Model Server
-predict-server-test         <-- Test Model Server
+predict-server-test         <-- Test Model Server (Http-based)
+
+predict-stream-test         <-- Test Model Server (Stream-based)
+
+stream-kube-consume         <-- Consume Messages from Stream
+stream-kube-describe        <-- Describe Stream
+stream-kube-produce         <-- Produce Messages to Stream
+stream-kube-start           <-- Start Stream (Kafka, MQTT)
 
 train-kube-connect          <-- Create Secure Tunnel to Training Cluster
 train-kube-describe         <-- Describe Training Cluster
@@ -154,15 +156,16 @@ Notes:
 * Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * We automatically mount `https://github.com/PipelineAI/models` as `/root/samples/models` for your convenience
 * You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
+* You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
+* Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
 * `--train-files` and `--eval-files` can be relative to PIPELINE_INPUT_PATH (`/opt/ml/input`), but remember that PIPELINE_INPUT_PATH is mapped to PIPELINE_HOST_INPUT_PATH which must exist on the Kubernetes Node where this container is placed (anywhere)
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
 * `--train-args` is a single argument passed into the `pipeline_train.py`
 * Models, logs, and event are written to `--output-host-path` (or a subdirectory within it).  These paths are available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder with `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
+* Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
 * On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
-* You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
-* Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
