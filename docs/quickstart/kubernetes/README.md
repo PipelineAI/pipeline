@@ -12,7 +12,7 @@
 
 Mac
 
-![Docker for Desktop Kubernetes Mac](http://pipeline.ai/assets/img/docker-for-desktop-mac.png)
+![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
 Windows
 
@@ -29,8 +29,6 @@ Windows
 * 8GB
 * 4 Cores
 
-![Docker for Desktop Kubernetes Config](http://pipeline.ai/assets/img/docker-desktop-kubernetes-config.png)
-
 **Configure Kubernetes CLI for Local Kubernetes Cluster**
 ```
 kubectl config use-context docker-for-desktop
@@ -38,7 +36,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.73 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.77 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
