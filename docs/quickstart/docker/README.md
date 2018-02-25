@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.77 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.79 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -25,8 +25,8 @@ cli_version: 1.5.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 default train base image: docker.io/pipelineai/train-cpu:1.5.0     
 default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
 
-capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'predict-kafka']
-capabilities_available: ['jupyter-server', 'jupyter-kube', 'jupyter-sage', 'spark', 'airflow', 'kafka']
+capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'stream-kube']
+capabilities_available: ['jupyter', 'spark', 'airflow']
 
 Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
@@ -134,6 +134,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 Notes:  
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
@@ -145,6 +146,7 @@ pipeline train-server-start --model-name=mnist --model-tag=cpu --input-host-path
 ```
 
 Notes:
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
