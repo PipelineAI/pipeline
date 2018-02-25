@@ -36,7 +36,7 @@ kubectl config use-context docker-for-desktop
 
 ## Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.77 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.79 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -456,19 +456,20 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Distributed TensorFlow Training
-* These instructions are under active development
-* We assume you already have 1) a running Kubernetes cluster and 2) access to a shared file system like S3 or GCS
+We assume you already have the following:
+* Kubernetes Cluster running anywhere! 
+* Access to a shared file system like S3 or GCS
 
 [**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-cpu)
 
-**Build Docker Image**
+**Build Training Docker Image**
 ```
 pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
 ```
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-**Push Image To Docker Repo**
+**Push Training Docker Image To Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
@@ -478,7 +479,7 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-host-path=/root/samples/models/tensorflow/census-cpu/input --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
@@ -528,7 +529,7 @@ pipeline train-server-push --model-name=census --model-tag=gpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
- pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-host-path=/root/samples/models/tensorflow/census-gpu/input --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
+ pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
 ```
 Notes:
 * For GPU-based models, make sure you specify `--model-chip=gpu`
