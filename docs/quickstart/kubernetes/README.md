@@ -172,6 +172,7 @@ predict-mnist-b-...-...       2/2       Running   0          5m
 pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":50, "b":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
+* If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
 ### View Route Rules
@@ -289,8 +290,8 @@ Notes:
 pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":100, "b":0}' --model-shadow-tag-list='["b"]'
 ```
 Notes:
+* If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
-
 
 ### Run LoadTest on Model Versions a and b
 ```
