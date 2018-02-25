@@ -479,29 +479,28 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-path=/root/samples/models/tensorflow/census-cpu/input --output-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-host-path=/root/samples/models/tensorflow/census-cpu/input --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
-* `--input-path` and `--output-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` and `/opt/ml/output` respectively.
-* `--input-path` and `--output-path` should be absolute paths that are valid on the host of the kubernetes node
-* `--input-path` and `--output-path` will be expanded to the absolute path of the filesystem where the command is run - this is likely not the same path as the kubernetes node
-* Avoid relative paths for * `--input-path` and `--output-path` unless you're sure the same path exists on the kubernetes node 
-* `--input-path` and `--output-path` are available outside of the Docker container as Docker volumes
+* `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
-* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `/opt/ml/input` and `/opt/ml/output` respectively.
-* Therefore, PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are `--input-path` and `--output-path` respectively
-* Inside the model, you should use PIPELINE_INPUT_PATH as the base path for the subpaths defined in `--train-files` and `--eval-files`
-* `--train-files` and `--eval-files` are relative to PIPELINE_INPUT_PATH
-* We automatically mount `https://github.com/PipelineAI/models` as /root/samples/models for your convenience
-* You can use our samples by setting `--input-path` to `/root/samples/models/tensorflow/mnist-cpu/input` or equivalent
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
+* `--input-host-path` and `--output-host-path` should be absolute paths that are valid on the HOST Kubernetes Node
+* Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
+* If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!
+* `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
+* Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
+* We automatically mount `https://github.com/PipelineAI/models` as `/root/samples/models` for your convenience
+* You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files` and `--eval-files` referenced by your model
+* `--train-files` and `--eval-files` can be relative to PIPELINE_INPUT_PATH (`/opt/ml/input`), but remember that PIPELINE_INPUT_PATH is mapped to PIPELINE_HOST_INPUT_PATH which must exist on the Kubernetes Node where this container is placed (anywhere)
 * `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
 * `--train-args` is a single argument passed into the `pipeline_train.py`
-* Models, logs, and event are written to `--output-path` (or a subdirectory within).  These will be available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should either 1) change the `--output-path` between calls or 2) create a new unique subfolder with `--output-path` in your `pipeline_train.py` (ie. timestamp).
-* On Windows, be sure to use the forward slash `\` for `--input-path` and `--output-path` (not the args inside of `--train-args`).
+* Models, logs, and event are written to `--output-host-path` (or a subdirectory within it).  These paths are available outside of the Docker container.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder with `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
+* On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
@@ -527,7 +526,7 @@ pipeline train-server-push --model-name=census --model-tag=gpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-path=/root/samples/models/tensorflow/census-gpu/input --output-path=/root/samples/models/tensorflow/census-gpu/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
+ pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-host-path=/root/samples/models/tensorflow/census-gpu/input --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
 ```
 Notes:
 * For GPU-based models, make sure you specify `--model-chip=gpu`
