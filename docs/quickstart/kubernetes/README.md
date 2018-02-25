@@ -94,13 +94,18 @@ pipeline predict-server-push --model-name=mnist --model-tag=b --image-registry-u
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
 curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
-export PATH=$PATH:./istio-0.5.1/bin
+
+export PATH=./istio-0.5.1/bin:$PATH
 ```
 
 **Verify Successful CLI Install**
 ```
 which istioctl
+
+### EXPECTED OUTPUT ###
+./istio-0.5.1/bin/istioctl
 ```
+Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/local/bin`
 
 ### Deploy Istio to Cluster
 ```
@@ -110,7 +115,33 @@ kubectl apply -f ./istio-0.5.1/install/kubernetes/istio.yaml
 **Verify Istio Components**
 ```
 kubectl get all --namespace=istio-system
+
+### EXPECTED OUTPUT ###
+NAME                                READY     STATUS    RESTARTS   AGE
+po/istio-ca-797dfb66c5-wxlbk        1/1       Running   0          10d
+po/istio-ingress-67ff757554-zjzz2   1/1       Running   0          10d
+po/istio-mixer-5bf5b5b94c-w5xnp     3/3       Running   0          10d
+po/istio-pilot-676d495bf8-mzch5     2/2       Running   0          10d
+NAME                CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         
+                   AGE
+svc/istio-ingress   10.110.118.75    <pending>     80:31202/TCP,443:30654/TCP                      
+                   10d
+svc/istio-mixer     10.100.187.229   <none>        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,91
+25/UDP,42422/TCP   10d
+svc/istio-pilot     10.96.104.118    <none>        15003/TCP,8080/TCP,9093/TCP,443/TCP             
+                   10d
+NAME                   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/istio-ca        1         1         1            1           10d
+deploy/istio-ingress   1         1         1            1           10d
+deploy/istio-mixer     1         1         1            1           10d
+deploy/istio-pilot     1         1         1            1           10d
+NAME                          DESIRED   CURRENT   READY     AGE
+rs/istio-ca-797dfb66c5        1         1         1         10d
+rs/istio-ingress-67ff757554   1         1         1         10d
+rs/istio-mixer-5bf5b5b94c     1         1         1         10d
+rs/istio-pilot-676d495bf8     1         1         1         10d
 ```
+
 ### Deploy Model Versions a and b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
@@ -135,7 +166,7 @@ kubectl get pod
 ### EXPECTED OUTPUT###
 NAME                          READY     STATUS    RESTARTS   AGE
 predict-mnist-a-...-...       2/2       Running   0          5m
-predict-mnist-a-...-...       2/2       Running   0          5m
+predict-mnist-b-...-...       2/2       Running   0          5m
 ```
 
 ### Split Traffic Between Model Version a (50%) and Model Version b (50%)
@@ -162,6 +193,12 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ### Run LoadTest on Model Versions a and b
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+```
+Http
+```
+pipeline predict-http-test --endpoint-
+url=http://community.pipeline.ai/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/tes
+t_request.json --test-request-concurrency=1000
 ```
 Notes:
 * You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
@@ -273,11 +310,11 @@ Notes:
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/a)
 ```
-('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
- '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
- '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
- '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
- '0.001954273320734501]}}')
+('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
+ '"probabilities": [[2.353575155211729e-06, 3.998300599050708e-06, '
+ '0.00912125688046217, 0.9443341493606567, 3.8211437640711665e-06, '
+ '0.0003914404078386724, 5.226673920333269e-07, 2.389515998402203e-07, '
+ '0.04614224657416344, 8.35775360030766e-09]]}}')
  
 Request time: 36.414 milliseconds
 ``` 
