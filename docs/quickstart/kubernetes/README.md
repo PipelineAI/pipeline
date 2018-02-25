@@ -490,17 +490,19 @@ Notes:
 * Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
 * If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!
 * `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
+* `--train-args` is used to specify `--train-files` and `--eval-files` and other arguments used inside your model 
 * Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * We automatically mount `https://github.com/PipelineAI/models` as `/root/samples/models` for your convenience
-* You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files` and `--eval-files` referenced by your model
+* You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
 * `--train-files` and `--eval-files` can be relative to PIPELINE_INPUT_PATH (`/opt/ml/input`), but remember that PIPELINE_INPUT_PATH is mapped to PIPELINE_HOST_INPUT_PATH which must exist on the Kubernetes Node where this container is placed (anywhere)
-* `--train-files` and `--eval-files` come from `--train-args`
 * `--train-files` and `--eval-files` are used by the model, itself
 * You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
 * `--train-args` is a single argument passed into the `pipeline_train.py`
 * Models, logs, and event are written to `--output-host-path` (or a subdirectory within it).  These paths are available outside of the Docker container.
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder with `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
 * On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
+* You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
+* Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
