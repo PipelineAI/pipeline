@@ -53,7 +53,15 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-### Build Model Versions a and b (TensorFlow-based)
+TensorFlow + Kubernetes
+* [Build and Deploy New Model Prediction Server Variant]()
+* [Split Live Traffic to New Model Prediction Server Variant]()
+* [Shadow Live Traffic to New Model Prediction Server Variant]()
+* [Install Model Prediction Server Dashboards](#install-dashboards)
+* [Distributed Model Training (CPU)](#distributed-tensorflow-training-cpu)
+* [Distributed Model Training (GPU)](#distributed-tensorflow-training-gpu)
+
+### Build Model Prediction Servers - Versions a and b (TensorFlow-based)
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
@@ -63,14 +71,13 @@ pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tens
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Push Model Versions a and b to Docker Repo
+### Push Model Prediction Server - Versions a and b to Docker Repo
 Notes:  
 * This can be any Docker Repo including DockerHub and internal repos
 * You must already be logged in to the Docker Repo using `docker login`
@@ -140,7 +147,7 @@ rs/istio-mixer-5bf5b5b94c     1         1         1         10d
 rs/istio-pilot-676d495bf8     1         1         1         10d
 ```
 
-### Deploy Model Versions a and b (TensorFlow-based)
+### Deploy Model Prediction Servers - Versions a and b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
@@ -189,7 +196,7 @@ predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
 predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
-### Run LoadTest on Model Versions a and b
+### Load Test Model Prediction Servers - Versions a and b
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
@@ -259,7 +266,7 @@ Digit  Confidence
 9      0.00195427471771836
  ```
 
-### Scale Model Version b to 2 Replicas
+### Scale Model Prediction Servers - Version b to 2 Replicas
 Scale the Model Server
 ```
 pipeline predict-kube-scale --model-name=mnist --model-tag=b --replicas=2
@@ -293,7 +300,7 @@ Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
-### Run LoadTest on Model Versions a and b
+### Run LoadTest on Model Prediction Servers - Versions a and b
 ```
 pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
@@ -455,7 +462,7 @@ pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Distributed TensorFlow Training
+### Distributed TensorFlow Training (CPU)
 We assume you already have the following:
 * Kubernetes Cluster running anywhere! 
 * Access to a shared file system like S3 or GCS
@@ -513,6 +520,8 @@ Notes:
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
+
+### Distributed TensorFlow Training (GPU)
 
 [**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
 
