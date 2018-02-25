@@ -466,6 +466,8 @@ We assume you already have the following:
 ```
 pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
 ```
+Notes:
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -483,6 +485,7 @@ pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tenso
 ```
 
 Notes:
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
@@ -517,6 +520,8 @@ Notes:
 ```
 pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu
 ```
+Notes:
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Push Image To Docker Repo**
@@ -532,6 +537,7 @@ pipeline train-server-push --model-name=census --model-tag=gpu
  pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
 ```
 Notes:
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Clean Up
