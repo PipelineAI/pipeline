@@ -54,10 +54,12 @@ cd models
 ```
 
 TensorFlow + Kubernetes
-* [Build and Deploy New Model Prediction Server Variant]()
-* [Split Live Traffic to New Model Prediction Server Variant]()
-* [Shadow Live Traffic to New Model Prediction Server Variant]()
+* [Build and Deploy New Model Prediction Server Variant](#build-model-prediction-servers---versions-a-and-b-tensorflow-based)
+* [Split Live Traffic to New Model Prediction Server Variant](#split-traffic-between-model-version-a-50-and-model-version-b-50)
+* [Scale Model Prediction Servers](#scale-model-prediction-servers---version-b-to-2-replicas)
+* [Shadow Live Traffic to New Model Prediction Server Variant](#shadow-traffic-from-model-version-a-100-live-to-model-version-b-0-live-only-shadow-traffic)
 * [Install Model Prediction Server Dashboards](#install-dashboards)
+* [Prediction with REST API](#predict-with-rest-api)
 * [Distributed Model Training (CPU)](#distributed-tensorflow-training-cpu)
 * [Distributed Model Training (GPU)](#distributed-tensorflow-training-gpu)
 
