@@ -490,7 +490,7 @@ pipeline train-server-push --model-name=census --model-tag=cpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --model-type=tensorflow --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=cpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
@@ -545,7 +545,7 @@ pipeline train-server-push --model-name=census --model-tag=gpu
 
 **Start Distributed TensorFlow Training Cluster**
 ```
- pipeline train-kube-start --model-name=census --model-tag=gpu --model-type=tensorflow --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
+ pipeline train-kube-start --model-name=census --model-tag=gpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
