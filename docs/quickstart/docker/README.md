@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.79 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.88 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -265,7 +265,10 @@ pipeline predict-server-start --model-name=mnist --model-tag=cpu --memory-limit=
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-cpu`.
-* You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9001`, `--grafana-port=3001`.  (Be sure to change the ports in the examples below to match your new ports.)
+* You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
+* If you change the ports, be sure to change the ports in the examples below to match your new ports.
+* Also, your nginx and prometheus configs will need to be adjusted.
+* In other words, try not to change the ports!
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
@@ -333,7 +336,7 @@ Notes:
 * You need to `Ctrl-C` out of the log viewing before proceeding.
 
 ## Predict with REST API
-Use the REST API to POST a JSON document representing the number 2.
+Use the REST API to POST a JSON document representing a number.
 
 ![MNIST 8](http://pipeline.ai/assets/img/mnist-8-100x95.png)
 ```
