@@ -17,7 +17,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.69 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.77 --ignore-installed --no-cache -U 
 ```
 * You may need to specify `--user`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -86,22 +86,21 @@ pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":
 ```
 Notes:
 * You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
-* `ml.p*.*` instances seem to be treated differently than regular `p*.*` instances - and therefore require a separate quota.
+* From an Instance Limit standpoint, `ml.p*.*` instances are different than regular `p*.*` instances.  They require a separate quota increase.
 
 ![AWS SageMaker Endpoint](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-endpoint.png) 
 
-### Wait for the Model Endpoint
+### Wait for the Model Endpoint to Start
 ```
 pipeline predict-sage-describe --model-name=mnist
 
 ### EXPECTED OUTPUT ###
 ...
-'InService'  <-- WAIT UNTIL THIS IS 'InService' 
+Endpoint Status 'InService'  <-- WAIT UNTIL THIS GOES FROM 'Creating' to 'InService' 
 ...
 ```
 Notes:
-* This will take 5-10 mins.  
-* (SageMaker is very slow when deploying new models.)
+* This may take 5-10 mins.  SageMaker is *very* slow when deploying new models.
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```

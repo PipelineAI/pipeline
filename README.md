@@ -53,6 +53,7 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * Python
 * Java
 * Scala
+* Spark ML
 * C++
 * Caffe2
 * Theano
@@ -61,6 +62,17 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * MXNet
 * CNTK
 * ONNX
+* Clipper
+* DeepDetect
+* MLeap
+
+## Supported Streaming Engines
+* Kafka
+* Kinesis
+* Flink
+* Spark Streaming
+* Heron
+* Storm
 
 # Advanced PipelineAI Product Features
 * Click [HERE](http://pipeline.ai/products) to compare PipelineAI Products.
