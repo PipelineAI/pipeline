@@ -14,19 +14,19 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.0.0-beta2"
+      "version": "5.0.0-beta5"
     },
     {
       "type": "panel",
       "id": "graph",
       "name": "Graph",
-      "version": ""
+      "version": "5.0.0"
     },
     {
       "type": "datasource",
       "id": "prometheus",
       "name": "Prometheus",
-      "version": "1.0.0"
+      "version": "5.0.0"
     }
   ],
   "annotations": {
@@ -56,7 +56,7 @@
       "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 12,
         "w": 24,
         "x": 0,
         "y": 0
@@ -139,10 +139,10 @@
       "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 12
       },
       "id": 2,
       "legend": {
@@ -242,8 +242,8 @@
     "list": []
   },
   "time": {
-    "from": "2017-10-10T04:12:58.625Z",
-    "to": "2017-10-10T04:14:58.625Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
