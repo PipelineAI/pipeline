@@ -90,12 +90,12 @@ Defaults
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=a --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=a [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=b --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=b [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
@@ -492,7 +492,7 @@ Notes:
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=cpu
+pipeline train-server-push --model-name=census --model-tag=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 **Start Distributed TensorFlow Training Cluster**
@@ -547,7 +547,7 @@ Notes:
 * By convention, we use `train-` to namespace our models (ie. `train-census-gpu`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=gpu
+pipeline train-server-push --model-name=census --model-tag=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 **Start Distributed TensorFlow Training Cluster**
