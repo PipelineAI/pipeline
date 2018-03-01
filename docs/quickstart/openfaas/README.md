@@ -58,13 +58,13 @@ cd models
 ### Build CPU and GPU Models (TensorFlow + TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -78,12 +78,12 @@ Defaults
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=cpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu --image-registry-url=<your-registry> --image-registry-repo=<your-repo>
+pipeline predict-server-push --model-name=mnist --model-tag=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
