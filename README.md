@@ -105,3 +105,4 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](http://pipeline.ai/assets/img/fix-slack.png)
+
