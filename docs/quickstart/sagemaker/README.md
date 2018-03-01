@@ -17,7 +17,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.77 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.91 --ignore-installed --no-cache -U 
 ```
 * You may need to specify `--user`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -30,13 +30,13 @@ git clone https://github.com/PipelineAI/models
 ### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
