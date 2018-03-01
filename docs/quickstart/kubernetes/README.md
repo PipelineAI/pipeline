@@ -69,13 +69,13 @@ Notes:
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -461,7 +461,7 @@ Notes:
 
 **Build**
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -480,7 +480,7 @@ We assume you already have the following:
 
 **Build Training Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/
+pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/ [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -536,7 +536,7 @@ Notes:
 
 **Build Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu
+pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
