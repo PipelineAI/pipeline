@@ -100,7 +100,14 @@ Endpoint Status 'InService'  <-- WAIT UNTIL THIS GOES FROM 'Creating' to 'InServ
 ...
 ```
 Notes:
-* This may take 5-10 mins.  SageMaker is *very* slow when deploying new models.
+* This may take 5-10 mins.  
+* To decrease the start time, make sure your Docker images are available in AWS ECR (Elastc Container Registry)
+* DockerHub is *very* slow - especially on larger images
+* DockerHub will time out often - especially on larger images
+* If anything in your Docker image lineage is pulling from DockerHub (ie. FROM docker.io/pipelineai/predict-cpu:1.5.0), you will see 3-5x longer Docker download times
+* 3-5x longer docker Download times will cause 3-5x longer SageMaker startup times.  
+* *This is not SageMaker's fault*
+* Again, using AWS ECR will put the Docker images closer to SageMaker - enabling faster SageMaker startup times
 
 ### Run Load Test on Models CPU and GPU (100 Predictions)
 ```
