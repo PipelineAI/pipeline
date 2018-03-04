@@ -100,9 +100,9 @@ pipeline predict-server-push --model-name=mnist --model-tag=b [--image-registry-
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-linux.tar.gz | tar xz
 
-export PATH=./istio-0.5.1/bin:$PATH
+export PATH=./istio-0.6.0/bin:$PATH
 ```
 
 **Verify Successful CLI Install**
@@ -110,13 +110,13 @@ export PATH=./istio-0.5.1/bin:$PATH
 which istioctl
 
 ### EXPECTED OUTPUT ###
-./istio-0.5.1/bin/istioctl
+./istio-0.6.0/bin/istioctl
 ```
 Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/local/bin`
 
 ### Deploy Istio to Cluster
 ```
-kubectl apply -f ./istio-0.5.1/install/kubernetes/istio.yaml
+kubectl apply -f ./istio-0.6.0/install/kubernetes/istio.yaml
 ```
 
 **Verify Istio Components**
@@ -337,7 +337,7 @@ Request time: 36.414 milliseconds
 ### Install Dashboards
 **Prometheus**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/prometheus.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.6.0/install/kubernetes/addons/prometheus.yaml
 ```
 ```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
@@ -352,7 +352,7 @@ http://localhost:9090/graph
 
 **Grafana**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/grafana.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.6.0/install/kubernetes/addons/grafana.yaml
 ```
 
 Verify `grafana-...` pod is running
@@ -372,7 +372,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
 
 **Service Graph**
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/addons/servicegraph.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.6.0/install/kubernetes/addons/servicegraph.yaml
 ```
 
 Verify `grafana-...` pod is running
