@@ -98,11 +98,26 @@ pipeline predict-server-push --model-name=mnist --model-tag=a [--image-registry-
 pipeline predict-server-push --model-name=mnist --model-tag=b [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
 ```
 
-### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
+### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
+**Mac**
+```
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-osx.tar.gz | tar xz
+
+export PATH=./istio-0.6.0/bin:$PATH
+```
+
+**Linux**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-linux.tar.gz | tar xz
 
 export PATH=./istio-0.6.0/bin:$PATH
+```
+
+**Windows**
+```
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio_0.6.0_win.zip
+
+# Unzip and Set PATH...
 ```
 
 **Verify Successful CLI Install**
