@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.91 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.96 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -401,6 +401,12 @@ Digit  Confidence
 7      0.00010466964886290
 8      0.98193389177322390   <-- Prediction
 9      0.00000471303883387
+```
+
+## View Prediction Server Logs
+_If you have any issues, you can review the logs as follows:_
+```
+pipeline predict-server-logs --model-name=mnist --model-tag=cpu
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
