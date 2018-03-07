@@ -302,7 +302,8 @@ _model = _initialize_upon_import()                            <-- Optional.  Cal
 _labels = {'model_runtime': os.environ['PIPELINE_MODEL_RUNTIME'],  <-- Optional.  Tag metrics
            'model_type': os.environ['PIPELINE_MODEL_TYPE'],   
            'model_name': os.environ['PIPELINE_MODEL_NAME'],
-           'model_tag': os.environ['PIPELINE_MODEL_TAG']}
+           'model_tag': os.environ['PIPELINE_MODEL_TAG'],
+           'model_chip': os.environ['PIPELINE_MODEL_CHIP']}
 
 _logger = logging.getLogger('predict-logger')                 <-- Optional.  Standard Python logging
 
