@@ -69,13 +69,13 @@ Notes:
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -90,12 +90,12 @@ Defaults
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=a [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-push --model-name=mnist --model-tag=a 
 ```
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=b [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-push --model-name=mnist --model-tag=b 
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
@@ -476,7 +476,7 @@ Notes:
 
 **Build**
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -495,7 +495,7 @@ We assume you already have the following:
 
 **Build Training Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/ [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/ 
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -507,7 +507,7 @@ Notes:
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-push --model-name=census --model-tag=cpu 
 ```
 
 **Start Distributed TensorFlow Training Cluster**
@@ -551,7 +551,7 @@ Notes:
 
 **Build Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu 
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -562,7 +562,7 @@ Notes:
 * By convention, we use `train-` to namespace our models (ie. `train-census-gpu`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-push --model-name=census --model-tag=gpu 
 ```
 
 **Start Distributed TensorFlow Training Cluster**
