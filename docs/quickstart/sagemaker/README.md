@@ -30,13 +30,13 @@ git clone https://github.com/PipelineAI/models
 ### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model --model-chip=cpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -50,13 +50,13 @@ Defaults
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=cpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-push --model-name=mnist --model-tag=cpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-push --model-name=mnist --model-tag=gpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
