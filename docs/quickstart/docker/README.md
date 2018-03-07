@@ -8,7 +8,7 @@
 
 ## Install PipelineAI CLI
 ``` f
-pip install cli-pipeline==1.5.96 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.97 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -132,7 +132,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ## Build Training Server
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
 ```
 Notes:  
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -247,7 +247,7 @@ ls -l ./tensorflow/mnist-cpu/pipeline_tfserving/
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
 ```
 Notes:
 * `--model-path` must be relative.
@@ -484,7 +484,7 @@ cat ./scikit/linear/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model 
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -530,7 +530,7 @@ cat ./scikit/linear/model/pipeline_predict.py
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/ [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -594,7 +594,7 @@ cat ./pytorch/mnist-cpu/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -638,7 +638,7 @@ cat ./pytorch/mnist-cpu/model/pipeline_predict.py
 
 ## Build the PyTorch Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/ [--image-registry-url=<your-docker-registry-url> --image-registry-repo=<your-docker-repo-name>]
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
