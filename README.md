@@ -7,7 +7,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 
 # Having Issues?  Use Our 24x7 Support!  We Never Sleep.
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](http://joinslack.pipeline.ai)
-* Email:  help@pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
 * Web:  https://support.pipeline.ai
 * YouTube:  http://youtube.pipeline.ai
 * Slideshare:  http://slideshare.pipeline.ai
@@ -37,11 +37,11 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * TensorFlow
 * Keras
 * Spark ML (formerly called Spark MLlib)
-* Xgboost
+* XGBoost
+* PyTorch
+* Caffe
 * PMML/PFA
-* Custom Java
-* Custom Python
-* Model Ensembles
+* Custom Java/Python/C++ Ensembles
 
 ![Nvidia GPU](http://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](http://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
@@ -52,14 +52,14 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 ![Xgboost](http://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Model Ensembles](http://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
 ## Supported Model Runtimes (CPU and GPU)
-* Python
+* Python (Scikit, TensorFlow, etc)
 * Java
 * Scala
 * Spark ML
 * C++
 * Caffe2
 * Theano
-* TensorFlow Serving (TensorFlow)
+* TensorFlow Serving
 * Nvidia TensorRT (TensorFlow, Caffe2)
 * MXNet
 * CNTK
