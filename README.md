@@ -5,10 +5,12 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 * [OpenFaaS](/docs/quickstart/openfaas)
 
-# Having Issues?  Use our 24x7 Support!
+# Having Issues?  Use Our 24x7 Support!  We Never Sleep.
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](http://joinslack.pipeline.ai)
 * Email:  help@pipeline.ai
 * Web:  https://support.pipeline.ai
+* YouTube:  http://youtube.pipeline.ai
+* Slideshare:  http://slideshare.pipeline.ai
 * Troubleshooting:  [Guide](/docs/troubleshooting)
 
 # PipelineAI Community Events
