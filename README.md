@@ -39,7 +39,9 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * Spark ML (formerly called Spark MLlib)
 * XGBoost
 * PyTorch
-* Caffe
+* Caffe/2
+* Theano
+* MXNet
 * PMML/PFA
 * Custom Java/Python/C++ Ensembles
 
@@ -65,7 +67,6 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * CNTK
 * ONNX
 * Clipper
-* DeepDetect
 * MLeap
 
 ## Supported Streaming Engines
