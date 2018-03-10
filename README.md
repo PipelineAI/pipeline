@@ -66,8 +66,6 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * MXNet
 * CNTK
 * ONNX
-* Clipper
-* MLeap
 
 ## Supported Streaming Engines
 * Kafka
