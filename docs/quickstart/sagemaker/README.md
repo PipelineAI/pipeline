@@ -17,7 +17,7 @@ Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hostin
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.91 --ignore-installed --no-cache -U 
+pip install cli-pipeline==1.5.97 --ignore-installed --no-cache -U 
 ```
 * You may need to specify `--user`.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -64,7 +64,6 @@ pipeline predict-server-push --model-name=mnist --model-tag=gpu
 Notes
 * You may need to increase your quota limits for the specific instance type with AWS.
 * We are using the same instance type for both CPU and GPU model versions.  This is intentional for this demo, but it is not required.
-* These models take a LOOONG time to start up fully.
 * You can check the CloudWatch [LOGS](#monitor-your-models) to monitor the startup process.
 
 Examples
