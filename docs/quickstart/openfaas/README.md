@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
 
-## Pre-requisites
+## Pre-Requisites
 ### Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
@@ -38,8 +38,7 @@ For simplicity the default configuration uses NodePorts (rather than an IngressC
 pipeline _service_connect --service-name=gateway
 ```
 
-# Pre-Requisites
-## Install PipelineAI CLI
+### Install PipelineAI CLI
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
