@@ -2,7 +2,7 @@
 
 # Pre-requisites
 ## Install PipelineAI CLI
-* Click [HERE](../README.md#install-pipelinecli) to install the PipelineAI CLI
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 # Retrieve Sample PipelineAI Models
 ## Clone the PipelineAI Predict Repo
