@@ -42,6 +42,8 @@ pipeline help
 
 ### EXPECTED OUTPUT ###
 ...
+env-conda-switch            <-- Switch to a New Model (Updates Conda Environment)
+
 help                        <-- This List of CLI Commands
 
 predict-http-test           <-- Test Model Cluster (Http-based)
@@ -53,6 +55,7 @@ predict-kube-endpoint       <-- Retrieve Model Cluster Endpoint
 predict-kube-endpoints      <-- Retrieve All Model Cluster Endpoints
 predict-kube-logs           <-- View Model Cluster Logs 
 predict-kube-route          <-- Route Live Traffic  
+predict-kube-routes         <-- Describe Routes
 predict-kube-scale          <-- Scale Model Cluster
 predict-kube-shell          <-- Shell into Model Cluster
 predict-kube-start          <-- Start Model Cluster from Docker Registry
