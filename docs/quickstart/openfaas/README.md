@@ -68,7 +68,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Push TensorFlow Models to Docker Repo
+### Register TensorFlow Model Server with Docker Repo
 Notes:  
 * This can be an AWS ECR Docker Repo - or any public Docker Repo (ie. DockerHub).
 
@@ -78,23 +78,23 @@ Defaults
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=cpu 
+pipeline predict-server-register --model-name=mnist --model-tag=cpu 
 ```
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu 
+pipeline predict-server-register --model-name=mnist --model-tag=gpu 
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
 ```
-curl -L https://github.com/istio/istio/releases/download/0.5.1/istio-0.5.1-linux.tar.gz | tar xz
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-linux.tar.gz | tar xz
 ```
-Add `istio-0.5.1/bin` to your PATH
+Add `istio-0.6.0/bin` to your PATH
 
 ### Deploy Istio Service Mesh Components
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.5.1/install/kubernetes/istio.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.6.0/install/kubernetes/istio.yaml
 ```
 
 ### Start TensorFlow Models on OpenFaaS
