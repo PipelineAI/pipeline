@@ -7,7 +7,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 * [OpenFaaS](/docs/quickstart/openfaas)
 
-## Install PipelineAI CLI
+### Install PipelineAI CLI
 **Pre-requisites**
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
