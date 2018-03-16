@@ -40,7 +40,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Push TensorFlow Models to Docker Repo
+### Register TensorFlow Model Server with Docker Repo
 Notes:  
 * This can be an AWS ECR Docker Repo - or any public Docker Repo (ie. DockerHub).
 
@@ -50,13 +50,13 @@ Defaults
 
 [CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=cpu 
+pipeline predict-server-register --model-name=mnist --model-tag=cpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-gpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=gpu 
+pipeline predict-server-register --model-name=mnist --model-tag=gpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
