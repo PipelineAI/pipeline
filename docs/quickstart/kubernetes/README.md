@@ -79,7 +79,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tens
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Push Model Prediction Server - Versions a and b to Docker Repo
+### Register Model Prediction Server with Docker Repo - Versions a and b
 Notes:  
 * This can be any Docker Repo including DockerHub and internal repos
 * You must already be logged in to the Docker Repo using `docker login`
@@ -90,12 +90,12 @@ Defaults
 
 [**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=a 
+pipeline predict-server-register --model-name=mnist --model-tag=a 
 ```
 
 [**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-cpu)
 ```
-pipeline predict-server-push --model-name=mnist --model-tag=b 
+pipeline predict-server-register --model-name=mnist --model-tag=b 
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
@@ -502,12 +502,12 @@ Notes:
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-**Push Training Docker Image To Docker Repo**
+**Register Training Docker Image with Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=cpu 
+pipeline train-server-register --model-name=census --model-tag=cpu 
 ```
 
 **Start Distributed TensorFlow Training Cluster**
@@ -557,12 +557,12 @@ Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-**Push Image To Docker Repo**
+**Register Image with Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
 * By convention, we use `train-` to namespace our models (ie. `train-census-gpu`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-push --model-name=census --model-tag=gpu 
+pipeline train-server-register --model-name=census --model-tag=gpu 
 ```
 
 **Start Distributed TensorFlow Training Cluster**
