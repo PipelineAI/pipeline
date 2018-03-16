@@ -4,15 +4,13 @@
 ## Install PipelineAI CLI
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-# Retrieve Sample PipelineAI Models
-## Clone the PipelineAI Predict Repo
+## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
 ```
-
-## Change into `models` Directory
+**Change into the new `models/` directory**
 ```
-cd ./models
+cd models
 ```
 
 # Train and Deploy Models
