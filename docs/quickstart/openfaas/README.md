@@ -86,15 +86,70 @@ pipeline predict-server-register --model-name=mnist --model-tag=cpu
 pipeline predict-server-register --model-name=mnist --model-tag=gpu 
 ```
 
-### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html)
+### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
+**Mac**
+```
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-osx.tar.gz | tar xz
+
+export PATH=./istio-0.6.0/bin:$PATH
+```
+
+**Linux**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.6.0/istio-0.6.0-linux.tar.gz | tar xz
-```
-Add `istio-0.6.0/bin` to your PATH
 
-### Deploy Istio Service Mesh Components
+export PATH=./istio-0.6.0/bin:$PATH
 ```
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/0.6.0/install/kubernetes/istio.yaml
+
+**Windows**
+```
+curl -L https://github.com/istio/istio/releases/download/0.6.0/istio_0.6.0_win.zip
+
+# Unzip and Set PATH...
+```
+
+**Verify Successful CLI Install**
+```
+which istioctl
+
+### EXPECTED OUTPUT ###
+./istio-0.6.0/bin/istioctl
+```
+Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/local/bin`
+
+### Deploy Istio to Cluster
+```
+kubectl apply -f ./istio-0.6.0/install/kubernetes/istio.yaml
+```
+
+**Verify Istio Components**
+```
+kubectl get all --namespace=istio-system
+
+### EXPECTED OUTPUT ###
+NAME                                READY     STATUS    RESTARTS   AGE
+po/istio-ca-797dfb66c5-wxlbk        1/1       Running   0          10d
+po/istio-ingress-67ff757554-zjzz2   1/1       Running   0          10d
+po/istio-mixer-5bf5b5b94c-w5xnp     3/3       Running   0          10d
+po/istio-pilot-676d495bf8-mzch5     2/2       Running   0          10d
+NAME                CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         
+                   AGE
+svc/istio-ingress   10.110.118.75    <pending>     80:31202/TCP,443:30654/TCP                      
+                   10d
+svc/istio-mixer     10.100.187.229   <none>        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,91
+25/UDP,42422/TCP   10d
+svc/istio-pilot     10.96.104.118    <none>        15003/TCP,8080/TCP,9093/TCP,443/TCP             
+                   10d
+NAME                   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/istio-ca        1         1         1            1           10d
+deploy/istio-ingress   1         1         1            1           10d
+deploy/istio-mixer     1         1         1            1           10d
+deploy/istio-pilot     1         1         1            1           10d
+NAME                          DESIRED   CURRENT   READY     AGE
+rs/istio-ca-797dfb66c5        1         1         1         10d
+rs/istio-ingress-67ff757554   1         1         1         10d
+rs/istio-mixer-5bf5b5b94c     1         1         1         10d
+rs/istio-pilot-676d495bf8     1         1         1         10d
 ```
 
 ### Start TensorFlow Models on OpenFaaS
