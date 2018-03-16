@@ -38,13 +38,9 @@ For simplicity the default configuration uses NodePorts (rather than an IngressC
 pipeline _service_connect --service-name=gateway
 ```
 
-### Install PipelineAI CLI
-```
-pip install cli-pipeline==1.5.97 --ignore-installed --no-cache -U 
-```
-Notes:
-* You may need to specify `--user`
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+# Pre-Requisites
+## Install PipelineAI CLI
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
