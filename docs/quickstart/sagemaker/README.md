@@ -9,22 +9,16 @@
 
 Click [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-hosting.html) for more details on AWS SageMaker.
 
-# Pre-requisites
-## Install Tools
-* [Docker](https://www.docker.com/community-edition#/download)
-* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-
 ### Install PipelineAI CLI
-```
-pip install cli-pipeline==1.5.97 --ignore-installed --no-cache -U 
-```
-* You may need to specify `--user`.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 ### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
+```
+**Change into the new `models/` directory**
+```
+cd models
 ```
 
 ### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
