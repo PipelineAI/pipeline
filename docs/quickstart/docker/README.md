@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-# Pre-requisites
+# Pre-Requisites
 ## Install PipelineAI CLI
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
