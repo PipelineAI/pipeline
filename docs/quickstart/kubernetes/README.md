@@ -7,17 +7,6 @@
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * [Kubernetes Cluster](/docs/kube-setup/)
 
-### (Optional) Install Docker for Mac|Windows with Kubernetes!
-**Enable Kubernetes Locally**
-
-Mac
-
-![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
-
-Windows
-
-![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
-
 **Minimum Version**
 * Edge (Not Stable)
 * 18.02-ce
@@ -29,28 +18,35 @@ Windows
 * 8GB
 * 4 Cores
 
-**Configure Kubernetes CLI for Local Kubernetes Cluster**
+### (Optional) Install Docker for Mac|Windows with Kubernetes!
+
+**Enable Kubernetes Locally**
+
+Mac
+
+![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
+
+Windows
+
+![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
+
+### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
 kubectl config use-context docker-for-desktop
 ```
 
-## Install PipelineAI CLI
-```
-pip install cli-pipeline==1.5.97 --ignore-installed --no-cache -U
-```
-Notes: 
-* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
-* You may need to specify `--user`.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+### Install PipelineAI CLI
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-### Pull PipelineAI Sample Models
+# Retrieve Sample PipelineAI Models
+## Clone the PipelineAI Predict Repo
 ```
 git clone https://github.com/PipelineAI/models
 ```
 
-**Change into the new `models/` directory**
+## Change into `models` Directory
 ```
-cd models
+cd ./models
 ```
 
 TensorFlow + Kubernetes
