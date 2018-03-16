@@ -63,7 +63,7 @@ predict-sage-test           <-- Test Model Cluster (SageMaker)
 predict-server-build        <-- Build Model Server
 predict-server-logs         <-- View Model Server Logs
 predict-server-pull         <-- Pull Model Server from Docker Registry
-predict-server-push         <-- Push Model Server to Docker Registry
+predict-server-register     <-- Register Model Server with Docker Registry
 predict-server-shell        <-- Shell into Model Server (Debugging)
 predict-server-start        <-- Start Model Server
 predict-server-stop         <-- Stop Model Server
@@ -87,7 +87,7 @@ train-kube-stop             <-- Stop Training Cluster
 train-server-build          <-- Build Training Server
 train-server-logs           <-- View Training Server Logs
 train-server-pull           <-- Pull Training Server from Docker Registry
-train-server-push           <-- Push Training Server to Docker Registry
+train-server-register       <-- Register Training Server with Docker Registry
 train-server-shell          <-- Shell into Training Server (Debugging)
 train-server-start          <-- Start Training Server
 train-server-stop           <-- Stop Training Server
