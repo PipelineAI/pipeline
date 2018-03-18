@@ -1,6 +1,18 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
 # Pre-Requisites
+## Install PipelineAI CLI
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
+
+## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
+```
+git clone https://github.com/PipelineAI/models
+```
+**Change into the new `models/` directory**
+```
+cd models
+```
+
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
@@ -33,18 +45,6 @@ Windows
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
 kubectl config use-context docker-for-desktop
-```
-
-### Install PipelineAI CLI
-* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
-
-### Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
-```
-git clone https://github.com/PipelineAI/models
-```
-**Change into the new `models/` directory**
-```
-cd models
 ```
 
 TensorFlow + Kubernetes
