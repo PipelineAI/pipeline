@@ -29,11 +29,6 @@ cli_version: 1.5.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 
 default train base image: docker.io/pipelineai/train-cpu:1.5.0     
 default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
-
-capabilities_enabled: ['train-server', 'train-kube', 'train-sage', 'predict-server', 'predict-kube', 'predict-sage', 'stream-kube']
-capabilities_available: ['jupyter', 'spark', 'airflow']
-
-Email upgrade@pipeline.ai to enable the advanced capabilities.
 ```
 
 ### PipelineAI CLI Overview
@@ -42,7 +37,7 @@ pipeline help
 
 ### EXPECTED OUTPUT ###
 ...
-env-conda-switch            <-- Switch to a New Model (Updates Conda Environment)
+env-conda-activate          <-- Switch to a New Model (Updates Conda Environment)
 
 help                        <-- This List of CLI Commands
 
@@ -69,15 +64,24 @@ predict-sage-stop           <-- Stop Model Cluster (SageMaker)
 predict-sage-test           <-- Test Model Cluster (SageMaker)
 
 predict-server-build        <-- Build Model Server
+predict-server-init         <-- Initialize Directory for Model Server Dev
 predict-server-logs         <-- View Model Server Logs
 predict-server-pull         <-- Pull Model Server from Docker Registry
 predict-server-register     <-- Register Model Server with Docker Registry
 predict-server-shell        <-- Shell into Model Server (Debugging)
 predict-server-start        <-- Start Model Server
 predict-server-stop         <-- Stop Model Server
+predict-server-tar          <-- Create Tar File for Model Server
+predict-server-tarupload    <-- Tar and Upload Model Server
 predict-server-test         <-- Test Model Server (Http-based)
+predict-server-untar        <-- Untar Model Server Tar File
+predict-server-upload       <-- Upload Model Server Tar File
 
 predict-stream-test         <-- Test Model Server (Stream-based)
+
+stream-http-consume         <-- Consume Stream Messages (REST API)
+stream-http-describe        <-- Describe Stream (REST API)
+stream-http-produce         <-- Produce Stream Messages (REST API)
 
 stream-kube-consume         <-- Consume Messages from Stream
 stream-kube-describe        <-- Describe Stream
