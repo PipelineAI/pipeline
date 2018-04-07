@@ -344,27 +344,15 @@ Notes:
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
 
-_Username/Password: **admin**/**admin**_
+![Dashboard Setup](http://pipeline.ai/assets/img/grafana-2-prometheus-datasource.png)
 
-_Set `Type` to `Prometheues`._
-
-_Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7._
+_Set `Type` to `Prometheus`._
 
 _Set `Url` to `http://localhost:9090`._
 
-_Set `Access` to `direct`._
+(_Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7._)
 
-_Click `Save & Test`_.
-
-_Click `Dashboards -> Import` upper-left menu drop-down_.
-
-_Copy and Paste [THIS](https://github.com/PipelineAI/pipeline/blob/master/docs/dashboard/grafana/pipelineai-predict.json) raw json file into the `paste JSON` box_.
-
-_Select the Prometheus-based data source that you setup above and click `Import`_.
-
-_Change the Date Range in the upper right to `Last 5m` and the Refresh Every to `5s`._
-
-_Create additional PipelineAI Prediction widgets using [THIS](https://prometheus.io/docs/practices/histograms/#count-and-sum-of-observations) guide to the Prometheus Syntax._
+_Create additional PipelineAI metric widgets using [THIS](https://prometheus.io/docs/practices/histograms/#count-and-sum-of-observations) guide to the Prometheus Syntax._
 
 # Stop Model Server
 ```
