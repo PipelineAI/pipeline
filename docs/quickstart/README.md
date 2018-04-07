@@ -12,7 +12,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 ```
-pip install cli-pipeline==1.5.101 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.102 --ignore-installed --no-cache -U
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
