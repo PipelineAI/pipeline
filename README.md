@@ -3,7 +3,6 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
-* [OpenFaaS](/docs/quickstart/openfaas)
 
 # Having Issues?  Use Our 24x7 Support!  We Never Sleep.
 * Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](http://joinslack.pipeline.ai)
