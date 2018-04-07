@@ -5,7 +5,6 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
-* [OpenFaaS](/docs/quickstart/openfaas)
 
 ### Setup Kubernetes for PipelineAI
 * [Local (Docker + Kubernetes)](/docs/kube-setup/local-docker-kube.md)
