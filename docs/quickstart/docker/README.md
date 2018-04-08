@@ -1,9 +1,5 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-# Pre-Requisites
-## Install PipelineAI CLI
-* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
-
 ## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
@@ -12,6 +8,14 @@ git clone https://github.com/PipelineAI/models
 ```
 cd models
 ```
+
+### Requirements
+* 8GB
+* 4 Cores
+* Install [PipelineAI CLI](../README.md#install-pipelinecli) to install the PipelineAI CLI
+* Install [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 # Train and Deploy Models
 * [Train a TensorFlow Model](#train-a-tensorflow-model)
