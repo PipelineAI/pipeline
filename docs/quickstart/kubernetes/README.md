@@ -14,15 +14,12 @@ cd models
 ```
 
 ## Install Docker with Kubernetes
+**Requirements**
+* 8GB
+* 4 Cores
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-* [Kubernetes Cluster](/docs/kube-setup/)
-
-**Minimum Docker System Requirements**
-* 8GB
-* 4 Cores
-* Docker with Kubernetes (18.02-ce+)
 
 **Docker for MacOS with Local Kubernetes**
 
