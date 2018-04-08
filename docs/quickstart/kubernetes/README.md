@@ -14,23 +14,20 @@ cd models
 ```
 
 ## Install Docker with Kubernetes
-**Requirements**
+### Requirements
 * 8GB
 * 4 Cores
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
-**Docker for MacOS with Local Kubernetes**
-
+### Docker for MacOS with Local Kubernetes
 ![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
-**Docker for Windows with Local Kubernetes**
-
+### Docker for Windows with Local Kubernetes
 ![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
 
-**Docker for Linux with Kubernetes (Server or Cluster)**
-
+### Docker for Linux with Kubernetes (Server or Cluster)
 You know what to do.
 
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
@@ -38,7 +35,7 @@ You know what to do.
 kubectl config use-context docker-for-desktop
 ```
 
-**TensorFlow + Kubernetes*
+## TensorFlow + Kubernetes Examples
 * [Build and Deploy New Model Prediction Server Variant](#build-model-prediction-servers---versions-a-and-b-tensorflow-based)
 * [Split Live Traffic to New Model Prediction Server Variant](#split-traffic-between-model-version-a-50-and-model-version-b-50)
 * [Scale Model Prediction Servers](#scale-model-prediction-servers---version-b-to-2-replicas)
@@ -48,7 +45,7 @@ kubectl config use-context docker-for-desktop
 * [Distributed Model Training (CPU)](#distributed-tensorflow-training-cpu)
 * [Distributed Model Training (GPU)](#distributed-tensorflow-training-gpu)
 
-### Build Model Prediction Servers - Versions a and b (TensorFlow-based)
+### Build Model Prediction Servers - Versions a and b (TensorFlow-Based)
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
