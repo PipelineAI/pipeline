@@ -1,5 +1,12 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
+### Requirements
+* 8GB
+* 4 Cores
+* Install [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+
 ### PipelineAI Quick Start (CPU and GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
@@ -7,10 +14,6 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
 ### Install PipelineAI CLI
-**Pre-requisites**
-* [Docker](https://www.docker.com/community-edition#/download)
-* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation)
 ```
 pip install cli-pipeline==1.5.103 --ignore-installed --no-cache -U
 ```
