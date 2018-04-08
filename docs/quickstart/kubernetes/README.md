@@ -339,6 +339,8 @@ Request time: 36.414 milliseconds
 
 **PipelineAI Real-Time Dashboard**
 
+![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
+
 Deploy PipelineAI-specific [NetflixOSS Hystrix](https://github.com/netflix/hystrix)
 ```
 kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-deploy.yaml
