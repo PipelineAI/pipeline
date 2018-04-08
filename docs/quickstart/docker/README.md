@@ -247,6 +247,8 @@ Notes:
 ## Predict with REST API
 Use the REST API to POST a JSON document representing a number.
 
+![PipelineAI REST API](http://pipeline.ai/assets/img/api-embed-har-localhost.png)
+
 ![MNIST 8](http://pipeline.ai/assets/img/mnist-8-100x95.png)
 ```
 curl -X POST -H "Content-Type: application/json" \
