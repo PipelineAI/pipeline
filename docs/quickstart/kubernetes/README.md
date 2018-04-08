@@ -13,41 +13,35 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-## Install Tools
+## Install Docker with Kubernetes
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * [Kubernetes Cluster](/docs/kube-setup/)
 
-**Minimum Version**
-* Edge (Not Stable)
-* 18.02-ce
-* Kubernetes v1.9.2
-
-![Docker for Desktop Kubernetes About](http://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
-
 **Minimum Docker System Requirements**
 * 8GB
 * 4 Cores
+* Docker with Kubernetes (18.02-ce+)
 
-### (Optional) Install Docker for Mac|Windows with Kubernetes!
-
-**Enable Kubernetes Locally**
-
-Mac
+**Docker for MacOS with Local Kubernetes**
 
 ![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
 
-Windows
+**Docker for Windows with Local Kubernetes**
 
 ![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
+
+**Docker for Linux with Kubernetes (Server or Cluster)**
+
+You know what to do.
 
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
 kubectl config use-context docker-for-desktop
 ```
 
-TensorFlow + Kubernetes
+**TensorFlow + Kubernetes*
 * [Build and Deploy New Model Prediction Server Variant](#build-model-prediction-servers---versions-a-and-b-tensorflow-based)
 * [Split Live Traffic to New Model Prediction Server Variant](#split-traffic-between-model-version-a-50-and-model-version-b-50)
 * [Scale Model Prediction Servers](#scale-model-prediction-servers---version-b-to-2-replicas)
