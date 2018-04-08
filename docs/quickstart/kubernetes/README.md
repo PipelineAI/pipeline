@@ -487,16 +487,6 @@ pipeline predict-kube-stop --model-name=mnist --model-tag=a
 pipeline predict-kube-stop --model-name=mnist --model-tag=b
 ```
 
-**Remove PipelineAI Dashboards**
-```
-kubectl delete deploy dashboard-turbine
-kubectl delete deploy dashboard-hystrix
-```
-```
-kubectl delete svc dashboard-turbine
-kubectl delete svc dashboard-hystrix
-```
-
 **Remove PipelineAI Traffic Routes**
 ```
 kubectl delete routerule predict-mnist-dashboardstream
