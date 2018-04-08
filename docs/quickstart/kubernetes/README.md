@@ -118,29 +118,40 @@ kubectl apply -f ./istio-0.7.1/install/kubernetes/istio.yaml
 kubectl get all --namespace=istio-system
 
 ### EXPECTED OUTPUT ###
+NAME                   AGE
+deploy/grafana         20h
+deploy/istio-ca        1d
+deploy/istio-ingress   1d
+deploy/istio-mixer     1d
+deploy/istio-pilot     1d
+deploy/prometheus      20h
+deploy/servicegraph    1d
+
+NAME                          AGE
+rs/grafana-d6bc494bc          20h
+rs/istio-ca-75fb7dc8d5        1d
+rs/istio-ingress-577d7b7fc7   1d
+rs/istio-mixer-859796c6bf     1d
+rs/istio-pilot-65648c94fb     1d
+rs/prometheus-c79598676       20h
+rs/servicegraph-64567d6467    1d
+
 NAME                                READY     STATUS    RESTARTS   AGE
-po/istio-ca-797dfb66c5-wxlbk        1/1       Running   0          10d
-po/istio-ingress-67ff757554-zjzz2   1/1       Running   0          10d
-po/istio-mixer-5bf5b5b94c-w5xnp     3/3       Running   0          10d
-po/istio-pilot-676d495bf8-mzch5     2/2       Running   0          10d
-NAME                CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         
-                   AGE
-svc/istio-ingress   10.110.118.75    <pending>     80:31202/TCP,443:30654/TCP                      
-                   10d
-svc/istio-mixer     10.100.187.229   <none>        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,91
-25/UDP,42422/TCP   10d
-svc/istio-pilot     10.96.104.118    <none>        15003/TCP,8080/TCP,9093/TCP,443/TCP             
-                   10d
-NAME                   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deploy/istio-ca        1         1         1            1           10d
-deploy/istio-ingress   1         1         1            1           10d
-deploy/istio-mixer     1         1         1            1           10d
-deploy/istio-pilot     1         1         1            1           10d
-NAME                          DESIRED   CURRENT   READY     AGE
-rs/istio-ca-797dfb66c5        1         1         1         10d
-rs/istio-ingress-67ff757554   1         1         1         10d
-rs/istio-mixer-5bf5b5b94c     1         1         1         10d
-rs/istio-pilot-676d495bf8     1         1         1         10d
+po/grafana-d6bc494bc-fwj67          1/1       Running   0          20h
+po/istio-ca-75fb7dc8d5-s25m5        1/1       Running   0          1d
+po/istio-ingress-577d7b7fc7-bgvfk   1/1       Running   1          1d
+po/istio-mixer-859796c6bf-8qzdn     3/3       Running   0          1d
+po/istio-pilot-65648c94fb-rsztg     2/2       Running   5          1d
+po/prometheus-c79598676-7pcjm       1/1       Running   0          20h
+po/servicegraph-64567d6467-fjv5v    1/1       Running   0          1d
+
+NAME                TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                             AGE
+svc/grafana         NodePort       10.109.208.179   <none>        3000:31995/TCP                                                      20h
+svc/istio-ingress   LoadBalancer   10.97.87.61      <pending>     80:31634/TCP,443:31847/TCP                                          1d
+svc/istio-mixer     ClusterIP      10.110.157.188   <none>        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,9125/UDP,42422/TCP    1d
+svc/istio-pilot     ClusterIP      10.97.140.244    <none>        15003/TCP,15005/TCP,15007/TCP,15010/TCP,8080/TCP,9093/TCP,443/TCP   1d
+svc/prometheus      NodePort       10.102.73.33     <none>        9090:31994/TCP                                                      20h
+svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 ```
 
 ### Deploy Model Prediction Servers - Versions a and b (TensorFlow-based)
@@ -193,25 +204,23 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
 ### Load Test Model Prediction Servers - Versions a and b
-Kube-native (Requires LoadBalancer)
+* Note: you need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
+
+**Setup `PREDICT_HOST` and `PREDICT_PORT`**
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+# Ingress Host IP>
+PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
+
+# Ingress Port
+PREDICT_PORT=$(kubectl get svc -n istio-system istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
 ```
 
-Http (See Notes Below)
+**REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://<ingress-controller-ip>:<ingress-controller-port>/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
-* Use the following to get the `<ingress-controller-ip>` and `<ingress-controller-port>`:
-```
-# <ingress-controller-ip>
-$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
-
-# <ingress-controller-port>
-$(kubectl get svc -n istio-system istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
-```
-* You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
+* Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
 * If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
 * If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were not applied.
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
@@ -287,13 +296,15 @@ predict-mnist-b-...-...       2/2       Running   0          10m
 predict-mnist-a-...-...       2/2       Running   0          10m
 ```
 
-**Re-run LoadTest**
+**Re-Run REST-Based Http Load Test**
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
-* If you see `502 Bad Gateway`, this is OK!  You just need to wait 1-2 mins for the model servers to startup.
-* You should still see a 50/50 split between Model Version a and Model Version b - even after scaling out Model Version b!
+* Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
+* If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
+* If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were not applied.
+* See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 ### Shadow Traffic from Model Version a (100% Live) to Model Version b (0% Live, Only Shadow Traffic)
 ```
@@ -303,15 +314,14 @@ Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
-### Run LoadTest on Model Prediction Servers - Versions a and b
+**REST-Based Http Load Test**
 ```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
-* You need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
+* Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
 * If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
-* If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were likely not applied.
-* If you see `Endpoint for model_name 'mnist' cannot be found.`, this is OK!  We will try `localhost` instead.
+* If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were not applied.
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
@@ -332,47 +342,14 @@ Request time: 36.414 milliseconds
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
-Deploy PipelineAI-specific [NetflixOSS Hystrix](https://github.com/netflix/hystrix)
-```
-kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-deploy.yaml
-```
-```
-kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/hystrix-svc.yaml
-```
-Open up permissions for turbine to talk with hystrix
-```
-kubectl create clusterrolebinding serviceaccounts-view \
-  --clusterrole=view \
-  --group=system:serviceaccounts
-```
-Deploy PipelineAI-specific [NetflixOSS Turbine](https://github.com/netflix/turbine)
-```
-kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-deploy.yaml
-```
-```
-kubectl create -f https://raw.githubusercontent.com/PipelineAI/dashboards/1.5.0/turbine-svc.yaml
-```
-
-View the model server dashboard (60s window)
-```
-http://localhost:7979/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Fdashboard-turbine%3A8989%2Fturbine.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
-```
-
-### Re-Run Load Test on Model Version a and Version b
-Notes:
-* You may need to wait 30 secs for the 2nd replica to start up completely.
-```
-pipeline predict-kube-test --model-name=mnist --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
-```
-
-### Predict with REST API
+### Predict with Curl
 Use the REST API to POST a JSON document representing the number 2.
 
 ![MNIST 2](http://pipeline.ai/assets/img/mnist-2-100x101.png)
 ```
 curl -X POST -H "Content-Type: application/json" \
   -d '{"image": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05098039656877518, 0.529411792755127, 0.3960784673690796, 0.572549045085907, 0.572549045085907, 0.847058892250061, 0.8156863451004028, 0.9960784912109375, 1.0, 1.0, 0.9960784912109375, 0.5960784554481506, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7882353663444519, 0.11764706671237946, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.988235354423523, 0.7921569347381592, 0.9450981020927429, 0.545098066329956, 0.21568629145622253, 0.3450980484485626, 0.45098042488098145, 0.125490203499794, 0.125490203499794, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.803921639919281, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6352941393852234, 0.9921569228172302, 0.803921639919281, 0.24705883860588074, 0.3490196168422699, 0.6509804129600525, 0.32156863808631897, 0.32156863808631897, 0.1098039299249649, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007843137718737125, 0.7529412508010864, 0.9921569228172302, 0.9725490808486938, 0.9686275124549866, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.8274510502815247, 0.29019609093666077, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2549019753932953, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.847058892250061, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5921568870544434, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7333333492279053, 0.44705885648727417, 0.23137256503105164, 0.23137256503105164, 0.4784314036369324, 0.9921569228172302, 0.9921569228172302, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5568627715110779, 0.9568628072738647, 0.7098039388656616, 0.08235294371843338, 0.019607843831181526, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.43137258291244507, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15294118225574493, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1882353127002716, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6705882549285889, 0.9921569228172302, 0.9921569228172302, 0.12156863510608673, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2392157018184662, 0.9647059440612793, 0.9921569228172302, 0.6274510025978088, 0.003921568859368563, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08235294371843338, 0.44705885648727417, 0.16470588743686676, 0.0, 0.0, 0.2549019753932953, 0.9294118285179138, 0.9921569228172302, 0.9333333969116211, 0.27450981736183167, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4941176772117615, 0.9529412388801575, 0.0, 0.0, 0.5803921818733215, 0.9333333969116211, 0.9921569228172302, 0.9921569228172302, 0.4078431725502014, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7411764860153198, 0.9764706492424011, 0.5529412031173706, 0.8784314393997192, 0.9921569228172302, 0.9921569228172302, 0.9490196704864502, 0.43529415130615234, 0.007843137718737125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6235294342041016, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9764706492424011, 0.6274510025978088, 0.1882353127002716, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18431372940540314, 0.5882353186607361, 0.729411780834198, 0.5686274766921997, 0.3529411852359772, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}' \
-  http://localhost:80/predict/mnist/invocations \
+  http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations \
   -w "\n\n"
 
 ### Expected Output ###
