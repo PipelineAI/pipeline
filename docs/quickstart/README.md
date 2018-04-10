@@ -15,9 +15,10 @@ Train and Deploy your ML and AI Models in the Following Environments:
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.104 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.105 --ignore-installed --no-cache -U
 ```
 Notes: 
+* You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * You may need to specify `--user` if you have issues.
 * If you're having trouble, use one of our support channels [**HERE**](#24x7-support) to let us know!
