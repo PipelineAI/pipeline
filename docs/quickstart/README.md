@@ -7,21 +7,22 @@
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
+### Install PipelineAI CLI
+```
+pip install cli-pipeline==1.5.106 --ignore-installed --no-cache -U
+```
+Notes: 
+* If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
+* You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+* You may need to specify `--user` if you have issues.
+* If you're having trouble, use one of our support channels [**HERE**](#24x7-support) to let us know!
+
 ### PipelineAI Quick Start (CPU and GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
-
-### Install PipelineAI CLI
-```
-pip install cli-pipeline==1.5.105 --ignore-installed --no-cache -U
-```
-Notes: 
-* You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
-* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
-* You may need to specify `--user` if you have issues.
-* If you're having trouble, use one of our support channels [**HERE**](#24x7-support) to let us know!
 
 ### Verify Successful PipelineAI CLI Installation
 ```
