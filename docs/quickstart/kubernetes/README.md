@@ -174,7 +174,7 @@ predict-mnist-v2-...-...       2/2       Running   0          5m
 
 ### Split Traffic Between Model Version v1 (50%) and Model Version v2 (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v2":50, "v2":50}' --model-shadow-tag-list='[]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1":50, "v2":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
