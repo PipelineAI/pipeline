@@ -46,15 +46,15 @@ kubectl config use-context docker-for-desktop
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
+pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
+pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -67,12 +67,12 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-server-register --model-name=mnist --model-tag=a 
 ```
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-cpu)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-v1)
 ```
 pipeline predict-server-register --model-name=mnist --model-tag=b 
 ```
@@ -159,13 +159,13 @@ Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=a
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=b
 ```
@@ -217,7 +217,7 @@ PREDICT_PORT=$(kubectl get svc -n istio-system istio-ingress -o jsonpath='{.spec
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -228,9 +228,9 @@ Notes:
 **Expected Output**
 * You should see a 50/50 split between Model Version a and Version b.
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/a)
+[**CPU (version v1)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -253,9 +253,9 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-cpu)
+[**CPU (version v2)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
  ```
-('{"variant": "mnist-b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-v2-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
  '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
@@ -288,7 +288,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-v2-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
@@ -308,10 +308,10 @@ Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
-### Scale Model Prediction Servers - Version b to 2 Replicas
+### Scale Model Prediction Servers - Version v2 to 2 Replicas
 Scale the Model Server
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=b --replicas=2
+pipeline predict-kube-scale --model-name=mnist --model-tag=v2 --replicas=2
 ```
 
 **Verify Scaling Event**
@@ -328,7 +328,7 @@ predict-mnist-a-...-...       2/2       Running   0          10m
 
 **Re-Run REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -336,39 +336,7 @@ Notes:
 * If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were not applied.
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
-### Shadow Traffic from Model Version a (100% Live) to Model Version b (0% Live, Only Shadow Traffic)
-```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":100, "b":0}' --model-shadow-tag-list='["b"]'
-```
-Notes:
-* If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
-* If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
-
-**REST-Based Http Load Test**
-```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
-```
-Notes:
-* Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
-* If you see `no healthy upstream` or `502 Bad Gateway`, just wait 1-2 mins for the model servers to startup.
-* If you see a `404` error related to `No message found /predict/mnist/invocations`, the route rules above were not applied.
-* See [Troubleshooting](/docs/troubleshooting) for more debugging info.
-
-**Expected Output**
-* You should see a 100% traffic to Model Version a, however Model Version b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
-
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/a)
-```
-('{"variant": "mnist-a-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
- '"probabilities": [[2.353575155211729e-06, 3.998300599050708e-06, '
- '0.00912125688046217, 0.9443341493606567, 3.8211437640711665e-06, '
- '0.0003914404078386724, 5.226673920333269e-07, 2.389515998402203e-07, '
- '0.04614224657416344, 8.35775360030766e-09]]}}')
- 
-Request time: 36.414 milliseconds
-``` 
-
-**PipelineAI Real-Time Dashboard**
+### PipelineAI Real-Time Dashboard
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
@@ -377,26 +345,26 @@ Request time: 36.414 milliseconds
 
 **Build**
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/mnist-gpu/model --model-chip=gpu 
+pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model --model-chip=gpu 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 **Start**
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=gpu --model-chip=gpu
+pipeline predict-kube-start --model-name=mnist --model-tag=v3 --model-chip=gpu
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Distributed TensorFlow Training (CPU)
+### Distributed TensorFlow Training 
 We assume you already have the following:
 * Kubernetes Cluster running anywhere! 
 * Access to a shared file system like S3 or GCS
 
-[**CPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-cpu)
+[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-v1)
 
 **Build Training Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/census-cpu/model/ 
+pipeline train-server-build --model-name=census --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/census-v1/model/ 
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -408,12 +376,12 @@ Notes:
 * By convention, we use `train-` to namespace our model servers (ie. `train-census`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-register --model-name=census --model-tag=cpu 
+pipeline train-server-register --model-name=census --model-tag=v1
 ```
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-cpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-cpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-cpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=cpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-v1/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
@@ -439,52 +407,30 @@ Notes:
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
 * Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
 * On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-census-v1-tensorflow-tfserving-cpu`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
 
-### Distributed TensorFlow Training (GPU)
-
-[**GPU**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-gpu)
-
-**Build Docker Image**
-```
-pipeline train-server-build --model-name=census --model-tag=gpu --model-type=tensorflow --model-path=./tensorflow/census-gpu/model/ --model-chip=gpu 
-```
-Notes:
-* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
-* For GPU-based models, make sure you specify `--model-chip=gpu`
-
 **Register Image with Docker Repo**
 * By default, we use the following public DockerHub repo `docker.io/pipelineai`
-* By convention, we use `train-` to namespace our models (ie. `train-census-gpu`)
+* By convention, we use `train-` to namespace our models (ie. `train-census-v1`)
 * To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
 ```
-pipeline train-server-register --model-name=census --model-tag=gpu 
+pipeline train-server-register --model-name=census --model-tag=v1 
 ```
 
-**Start Distributed TensorFlow Training Cluster**
-```
-pipeline train-kube-start --model-name=census --model-tag=gpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-gpu/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/samples/models/tensorflow/census-gpu/input/training/adult.training.csv --eval-files=/root/samples/models/tensorflow/census-gpu/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025" --model-chip=gpu
-```
-Notes:
-* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
-* For GPU-based models, make sure you specify `--model-chip=gpu`
-
-### Clean Up
-
-**Uninstall PipelineAI Models**
+### Uninstall PipelineAI Models
 
 Notes:
-* Each of these will remove the `predict-mnist` service and ingress - which is OK!
+* Each of these will remove the `predict-mnist`
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=a
+pipeline predict-kube-stop --model-name=mnist --model-tag=v1
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=b
+pipeline predict-kube-stop --model-name=mnist --model-tag=v2
 ```
 
 **Remove PipelineAI Traffic Routes**
@@ -495,9 +441,4 @@ kubectl delete routerule predict-mnist-invocations
 kubectl delete routerule predict-mnist-metrics
 kubectl delete routerule predict-mnist-ping
 kubectl delete routerule predict-mnist-prometheus
-```
-
-**Uninstall Istio Components**
-```
-kubectl delete namespace istio-system
 ```
