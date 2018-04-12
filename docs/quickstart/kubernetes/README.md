@@ -32,7 +32,7 @@ You know what to do.
 kubectl config use-context docker-for-desktop
 ```
 
-### Build Model Prediction Servers - Versions a and b (TensorFlow-Based)
+### Build Model Prediction Servers - Versions v1 and v2 (TensorFlow-Based)
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
