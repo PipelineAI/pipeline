@@ -32,29 +32,19 @@ You know what to do.
 kubectl config use-context docker-for-desktop
 ```
 
-## TensorFlow + Kubernetes Examples
-* [Build and Deploy New Model Prediction Server Variant](#build-model-prediction-servers---versions-a-and-b-tensorflow-based)
-* [Split Live Traffic to New Model Prediction Server Variant](#split-traffic-between-model-version-a-50-and-model-version-b-50)
-* [Scale Model Prediction Servers](#scale-model-prediction-servers---version-b-to-2-replicas)
-* [Shadow Live Traffic to New Model Prediction Server Variant](#shadow-traffic-from-model-version-a-100-live-to-model-version-b-0-live-only-shadow-traffic)
-* [Install Model Prediction Server Dashboards](#install-dashboards)
-* [Prediction with REST API](#predict-with-rest-api)
-* [Distributed Model Training (CPU)](#distributed-tensorflow-training-cpu)
-* [Distributed Model Training (GPU)](#distributed-tensorflow-training-gpu)
-
 ### Build Model Prediction Servers - Versions a and b (TensorFlow-Based)
 Notes:
 * You must be in the `models/` directory created from the `git clone` above.
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=a --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=b --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
+pipeline predict-server-build --model-name=mnist --model-tag=v2 --model-type=tensorflow --model-path=./tensorflow/mnist-v2/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -67,14 +57,14 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-register --model-name=mnist --model-tag=a 
+pipeline predict-server-register --model-name=mnist --model-tag=v1
 ```
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-v1)
+[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
-pipeline predict-server-register --model-name=mnist --model-tag=b 
+pipeline predict-server-register --model-name=mnist --model-tag=v2
 ```
 
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
@@ -159,15 +149,16 @@ Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 
-[**CPU (version a)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=a
+pipeline predict-kube-start --model-name=mnist --model-tag=v1
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**CPU (version b)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+
+[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=b
+pipeline predict-kube-start --model-name=mnist --model-tag=v2
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -177,13 +168,13 @@ kubectl get pod
 
 ### EXPECTED OUTPUT###
 NAME                          READY     STATUS    RESTARTS   AGE
-predict-mnist-a-...-...       2/2       Running   0          5m
-predict-mnist-b-...-...       2/2       Running   0          5m
+predict-mnist-v1-...-...       2/2       Running   0          5m
+predict-mnist-v2-...-...       2/2       Running   0          5m
 ```
 
-### Split Traffic Between Model Version a (50%) and Model Version b (50%)
+### Split Traffic Between Model Version v1 (50%) and Model Version v2 (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"a":50, "b":50}' --model-shadow-tag-list='[]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v2":50, "v2":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -203,7 +194,7 @@ predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
 predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 ```
 
-### Load Test Model Prediction Servers - Versions a and b
+### Load Test Model Prediction Servers - Versions v1 and v2
 * Note: you need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
 
 **Setup `PREDICT_HOST` and `PREDICT_PORT`**
@@ -226,9 +217,9 @@ Notes:
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
-* You should see a 50/50 split between Model Version a and Version b.
+* You should see a 50/50 split between Model Version v1 and Version v2
 
-[**CPU (version v1)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 ('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
@@ -253,7 +244,7 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 
-[**CPU (version v2)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
  ```
 ('{"variant": "mnist-v2-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
@@ -277,6 +268,7 @@ Digit  Confidence
 8      0.07679297775030136
 9      0.00195427471771836
  ```
+
 ### Predict with Curl
 Use the REST API to POST a JSON document representing the number 2.
 
@@ -321,9 +313,9 @@ kubectl get pod
 ### EXPECTED OUTPUT###
 
 NAME                          READY     STATUS    RESTARTS   AGE
-predict-mnist-b-...-...       2/2       Running   0          8m
-predict-mnist-b-...-...       2/2       Running   0          10m
-predict-mnist-a-...-...       2/2       Running   0          10m
+predict-mnist-v2-...-...       2/2       Running   0          8m
+predict-mnist-v2-...-...       2/2       Running   0          10m
+predict-mnist-v1-...-...       2/2       Running   0          10m
 ```
 
 **Re-Run REST-Based Http Load Test**
@@ -340,20 +332,6 @@ Notes:
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
-### (Optional) GPUs
-[**GPU**](https://github.com/PipelineAI/models/tree/f559987d7c889b7a2e82528cc72d003ef3a34573/tensorflow/mnist-gpu)
-
-**Build**
-```
-pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model --model-chip=gpu 
-```
-* For GPU-based models, make sure you specify `--model-chip=gpu`
-
-**Start**
-```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3 --model-chip=gpu
-```
-* For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### Distributed TensorFlow Training 
 We assume you already have the following:
@@ -381,7 +359,7 @@ pipeline train-server-register --model-name=census --model-tag=v1
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=cpu --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-v1/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=v1 --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-v1/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
