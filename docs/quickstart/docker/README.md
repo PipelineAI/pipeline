@@ -29,7 +29,7 @@ cd models
 # Train a TensorFlow Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist-cpu/model
+ls -l ./tensorflow/mnist-v1/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -43,7 +43,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ## Build Training Server
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model 
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 Notes:  
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -54,7 +54,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --input-host-path=./tensorflow/mnist-cpu/input/ --output-host-path=./tensorflow/mnist-cpu/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=cpu --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 
 Notes:
@@ -80,7 +80,7 @@ Notes:
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
 * Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
 * On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-cpu-tensorflow-tfserving-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -97,7 +97,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-cpu/output/
+ls -l ./tensorflow/mnist-v1/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -131,7 +131,7 @@ pipeline train-server-stop --model-name=mnist --model-tag=cpu
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist-cpu/model
+ls -l ./tensorflow/mnist-v1/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -146,7 +146,7 @@ pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains 
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist-cpu/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -158,7 +158,7 @@ ls -l ./tensorflow/mnist-cpu/pipeline_tfserving/
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-cpu/model
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
 ```
 Notes:
 * `--model-path` must be relative.
@@ -176,7 +176,7 @@ pipeline predict-server-start --model-name=mnist --model-tag=cpu --memory-limit=
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-tfserving-tensorflow-mnist-cpu`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
 * Also, your nginx and prometheus configs will need to be adjusted.
@@ -187,7 +187,7 @@ Notes:
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-cpu/model/pipeline_predict.py
+cat ./tensorflow/mnist-v1/model/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -261,7 +261,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-('{"variant": "mnist-cpu-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -291,11 +291,11 @@ Notes:
 ## Predict with CLI
 _Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step._
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "mnist-cpu-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -325,7 +325,7 @@ pipeline predict-server-logs --model-name=mnist --model-tag=cpu
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
@@ -457,7 +457,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ### Expected Output ###
 
-{"variant": "linear-cpu-scikit-python-cpu", "outputs":[188.6431188435]}
+{"variant": "linear-v1-scikit-python-cpu", "outputs":[188.6431188435]}
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
@@ -472,13 +472,13 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "linear-cpu-scikit-python-cpu", "outputs":[188.6431188435]}'
+'{"variant": "linear-v1-scikit-python-cpu", "outputs":[188.6431188435]}'
 ```
 
 # Train a PyTorch Model
 ## Inspect Model Directory
 ```
-ls -l ./pytorch/mnist-cpu/model
+ls -l ./pytorch/mnist-v1/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -491,12 +491,12 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## View Training Code
 ```
-cat ./pytorch/mnist-cpu/model/pipeline_train.py
+cat ./pytorch/mnist-v1/model/pipeline_train.py
 ```
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model
+pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-v1/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -506,7 +506,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --output-host-path=./pytorch/mnist-cpu/model
+pipeline train-server-start --model-name=mnist --model-tag=cpu --output-host-path=./pytorch/mnist-v1/model
 ```
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
@@ -524,7 +524,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./pytorch/mnist-cpu/model/
+ls -l ./pytorch/mnist-v1/model/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -535,12 +535,12 @@ model.pth   <-- Trained Model File
 # Deploy a PyTorch Model
 ## View Prediction Code
 ```
-cat ./pytorch/mnist-cpu/model/pipeline_predict.py
+cat ./pytorch/mnist-v1/model/pipeline_predict.py
 ```
 
 ## Build the PyTorch Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-cpu/model/ 
+pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
@@ -565,7 +565,7 @@ curl -X POST -H "Content-Type: application/json" \
   
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-cpu-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1-pytorch-python-cpu", ...}'
 ```
 Notes:
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
@@ -577,9 +577,9 @@ Notes:
 
 ### Predict with CLI
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./pytorch/mnist-cpu/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./pytorch/mnist-v1/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-cpu-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1-pytorch-python-cpu", ...}'
 ```
