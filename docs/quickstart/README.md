@@ -9,7 +9,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.112 --ignore-installed --no-cache -U
+pip install cli-pipeline==1.5.114 --ignore-installed --no-cache --upgrade --user
 ```
 Notes: 
 * If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
