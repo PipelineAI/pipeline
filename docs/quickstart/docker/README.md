@@ -43,7 +43,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ## Build Training Server
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 Notes:  
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -54,7 +54,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 
 Notes:
@@ -89,7 +89,7 @@ Notes:
 
 ## View Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=cpu
+pipeline train-server-logs --model-name=mnist --model-tag=v1
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -123,7 +123,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=mnist --model-tag=cpu
+pipeline train-server-stop --model-name=mnist --model-tag=v1
 ```
 
 # Deploy a TensorFlow Model
@@ -158,7 +158,7 @@ ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
 ## Build the Model into a Runnable Docker Image
 This command bundles the TensorFlow runtime with the model.
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
 ```
 Notes:
 * `--model-path` must be relative.
@@ -172,7 +172,7 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=cpu --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=v1 --memory-limit=2G
 ```
 Notes:
 * Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -237,7 +237,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ## Monitor Runtime Logs
 Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=cpu
+pipeline predict-server-logs --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -320,7 +320,7 @@ Digit  Confidence
 ## View Prediction Server Logs
 _If you have any issues, you can review the logs as follows:_
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=cpu
+pipeline predict-server-logs --model-name=mnist --model-tag=v1
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
@@ -362,7 +362,7 @@ _Create additional PipelineAI metric widgets using [THIS](https://prometheus.io/
 
 # Stop Model Server
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=cpu
+pipeline predict-server-stop --model-name=mnist --model-tag=v1
 ```
 
 # Train a Scikit-Learn Model
@@ -386,7 +386,7 @@ cat ./scikit/linear/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model 
+pipeline train-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model 
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -397,14 +397,14 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=cpu --output-host-path=./scikit/linear/model
+pipeline train-server-start --model-name=linear --model-tag=v1 --output-host-path=./scikit/linear/model
 ```
 Notes:
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=linear --model-tag=cpu
+pipeline train-server-logs --model-name=linear --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 
@@ -432,19 +432,19 @@ cat ./scikit/linear/model/pipeline_predict.py
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=linear --model-tag=cpu --model-type=scikit --model-path=./scikit/linear/model/
+pipeline predict-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=linear --model-tag=cpu
+pipeline predict-server-start --model-name=linear --model-tag=v1
 ```
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
 ```
-pipeline predict-server-logs --model-name=linear --model-tag=cpu
+pipeline predict-server-logs --model-name=linear --model-tag=v1
 ```
 
 ## Predict with the Model 
@@ -496,7 +496,7 @@ cat ./pytorch/mnist-v1/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-v1/model
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -506,13 +506,13 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=cpu --output-host-path=./pytorch/mnist-v1/model
+pipeline train-server-start --model-name=mnist --model-tag=v1 --output-host-path=./pytorch/mnist-v1/model
 ```
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=linear --model-tag=cpu
+pipeline train-server-logs --model-name=linear --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 
@@ -540,19 +540,19 @@ cat ./pytorch/mnist-v1/model/pipeline_predict.py
 
 ## Build the PyTorch Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=cpu --model-type=pytorch --model-path=./pytorch/mnist-v1/model/ 
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the PyTorch Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=cpu
+pipeline predict-server-start --model-name=mnist --model-tag=v1
 ```
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the PyTorch Model Server Logs
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=cpu
+pipeline predict-server-logs --model-name=mnist --model-tag=v1
 ```
 
 ## Model Predict
