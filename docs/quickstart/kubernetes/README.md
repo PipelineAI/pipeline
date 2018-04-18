@@ -9,14 +9,16 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-## Install Docker with Kubernetes
-### Requirements
+# Requirements
+## System
 * 8GB
 * 4 Cores
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+
+## Installs
 * Install [Docker](https://www.docker.com/community-edition#/download)
-* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+* Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 ### Docker for MacOS with Local Kubernetes
 ![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
