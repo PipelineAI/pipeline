@@ -45,7 +45,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=ten
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**Mnist v2 (CNN) **](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**Mnist v2 (CNN)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v2 --model-type=tensorflow --model-path=./tensorflow/mnist-v2/model 
 ```
@@ -60,12 +60,12 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1 (Softmax)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-server-register --model-name=mnist --model-tag=v1
 ```
 
-[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**Mnist v2 (CNN)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
 pipeline predict-server-register --model-name=mnist --model-tag=v2
 ```
@@ -149,14 +149,14 @@ Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1 (Softmax)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=v1
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 
-[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**Mnist v2 (CNN)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
 pipeline predict-kube-start --model-name=mnist --model-tag=v2
 ```
@@ -219,7 +219,7 @@ Notes:
 **Expected Output**
 * You should see a 50/50 split between Model Version v1 and Version v2
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1 (Softmax)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 ('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
@@ -244,7 +244,7 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 
-[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**Mnist v2 (CNN)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
  ```
 ('{"variant": "mnist-v2-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
@@ -331,7 +331,6 @@ Notes:
 ### PipelineAI Real-Time Dashboard
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
-
 
 ### Distributed TensorFlow Training 
 We assume you already have the following:
