@@ -9,12 +9,12 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-# Requirements
-## System
+# Install PipelineAI
+## System Requirements
 * 8GB
 * 4 Cores
 
-## Installs
+## Requirements
 * Install [Docker](https://www.docker.com/community-edition#/download)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
@@ -27,7 +27,6 @@ cd models
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
 * [Train a PyTorch Model](#train-a-pytorch-model)
 * [Deploy a PyTorch Model](#deploy-a-pytorch-model)
-
 
 # Train a TensorFlow Model
 ## Inspect Model Directory
