@@ -25,7 +25,7 @@ cd models
 ![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
 
 ### Docker for Linux with Kubernetes (Server or Cluster)
-You know what to do.
+You know what to do, Linux folks!  :)
 
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
@@ -34,15 +34,16 @@ kubectl config use-context docker-for-desktop
 
 ### Build Model Prediction Servers - Versions v1 and v2 (TensorFlow-Based)
 Notes:
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * You must be in the `models/` directory created from the `git clone` above.
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1 (Softmax)**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**v2**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
+[**Mnist v2 (CNN) **](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v2)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v2 --model-type=tensorflow --model-path=./tensorflow/mnist-v2/model 
 ```
@@ -71,22 +72,19 @@ pipeline predict-server-register --model-name=mnist --model-tag=v2
 **Mac**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-osx.tar.gz | tar xz
-
 export PATH=./istio-0.7.1/bin:$PATH
 ```
 
 **Linux**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-linux.tar.gz | tar xz
-
 export PATH=./istio-0.7.1/bin:$PATH
 ```
 
 **Windows**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.7.1/istio_0.7.1_win.zip
-
-# Unzip and Set PATH...
+# Unzip and Set PATH or whatever Windows folks do.
 ```
 
 **Verify Successful CLI Install**
