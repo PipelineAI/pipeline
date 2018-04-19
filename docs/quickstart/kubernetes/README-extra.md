@@ -8,7 +8,7 @@ Notes:
 
 ### Shadow Traffic from Model Version v1 (100% Live) to Model Version v1 (0% Live, Only Shadow Traffic)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1":100, "v2":0}' --model-shadow-tag-list='["b"]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1":100, "v2":0}' --model-shadow-tag-list='["v2]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -16,7 +16,7 @@ Notes:
 
 ### View Route Rules
 ```
-kubectl get routerules
+kubectl get routerules1
 
 ### EXPECTED OUTPUT ###
 NAME                            KIND
@@ -30,7 +30,7 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-cpu/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -52,7 +52,7 @@ Notes:
 Request time: 36.414 milliseconds
 ``` 
 
-### Remove PipelineAI Traffic Routes
+### Remove Pipeline"I Traffic Routes
 ```
 kubectl delete routerule predict-mnist-dashboardstream
 kubectl delete routerule predict-mnist-denytherest
