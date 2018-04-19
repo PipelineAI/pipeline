@@ -9,7 +9,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.118 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.119 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -82,6 +82,8 @@ predict-server-untar        <-- Untar Model Server Tar File
 predict-server-upload       <-- Upload Model Server Tar File
 
 predict-stream-test         <-- Test Model Server (Stream-based)
+
+spark-kube-scale            <-- Scale Spark Cluster
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 stream-http-describe        <-- Describe Stream (REST API)
