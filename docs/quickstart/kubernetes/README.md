@@ -172,28 +172,6 @@ predict-mnist-v1-...-...       2/2       Running   0          5m
 predict-mnist-v2-...-...       2/2       Running   0          5m
 ```
 
-### Split Traffic Between Model Version v1 (50%) and Model Version v2 (50%)
-```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1":50, "v2":50}' --model-shadow-tag-list='[]'
-```
-Notes:
-* If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
-* If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
-
-### View Route Rules
-```
-kubectl get routerules
-
-### EXPECTED OUTPUT ###
-NAME                            KIND
-predict-mnist-dashboardstream   RouteRule.v1alpha2.config.istio.io
-predict-mnist-denytherest       RouteRule.v1alpha2.config.istio.io
-predict-mnist-invocations       RouteRule.v1alpha2.config.istio.io
-predict-mnist-metrics           RouteRule.v1alpha2.config.istio.io
-predict-mnist-ping              RouteRule.v1alpha2.config.istio.io
-predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
-```
-
 ### Load Test Model Prediction Servers - Versions v1 and v2
 * Note: you need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
 
