@@ -19,7 +19,7 @@ Notes:
 **Expected Output**
 * You should see a 100% traffic to Model Version v1, however Model Version b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 ('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
  '"probabilities": [[2.353575155211729e-06, 3.998300599050708e-06, '
@@ -29,3 +29,13 @@ Notes:
  
 Request time: 36.414 milliseconds
 ``` 
+
+### Remove PipelineAI Traffic Routes
+```
+kubectl delete routerule predict-mnist-dashboardstream
+kubectl delete routerule predict-mnist-denytherest
+kubectl delete routerule predict-mnist-invocations
+kubectl delete routerule predict-mnist-metrics
+kubectl delete routerule predict-mnist-ping
+kubectl delete routerule predict-mnist-prometheus
+```
