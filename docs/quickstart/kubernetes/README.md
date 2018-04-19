@@ -337,7 +337,7 @@ We assume you already have the following:
 * Kubernetes Cluster running anywhere! 
 * Access to a shared file system like S3 or GCS
 
-[**v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-v1)
+[**Census v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/census-v1)
 
 **Build Training Docker Image**
 ```
@@ -408,14 +408,4 @@ pipeline predict-kube-stop --model-name=mnist --model-tag=v1
 ```
 ```
 pipeline predict-kube-stop --model-name=mnist --model-tag=v2
-```
-
-**Remove PipelineAI Traffic Routes**
-```
-kubectl delete routerule predict-mnist-dashboardstream
-kubectl delete routerule predict-mnist-denytherest
-kubectl delete routerule predict-mnist-invocations
-kubectl delete routerule predict-mnist-metrics
-kubectl delete routerule predict-mnist-ping
-kubectl delete routerule predict-mnist-prometheus
 ```
