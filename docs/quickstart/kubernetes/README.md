@@ -190,7 +190,7 @@ Notes:
 
 ### View Route Rules
 ```
-kubectl get routerules1
+kubectl get routerules
 
 ### EXPECTED OUTPUT ###
 NAME                            KIND
@@ -204,7 +204,7 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
