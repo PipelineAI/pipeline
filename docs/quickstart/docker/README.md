@@ -21,10 +21,15 @@ cd models
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 # Train and Deploy Models
+## TensorFlow
 * [Train a TensorFlow Model](#train-a-tensorflow-model)
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
+
+## Scikit-Learn 
 * [Train a Scikit-Learn Model](#train-a-scikit-learn-model)
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
+
+## PyTorch
 * [Train a PyTorch Model](#train-a-pytorch-model)
 * [Deploy a PyTorch Model](#deploy-a-pytorch-model)
 
