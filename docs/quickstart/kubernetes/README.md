@@ -422,32 +422,3 @@ Notes:
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
-
-**Register Image with Docker Repo**
-* By default, we use the following public DockerHub repo `docker.io/pipelineai`
-* By convention, we use `train-` to namespace our models (ie. `train-census-v1`)
-* To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
-```
-pipeline train-server-register --model-name=census --model-tag=v1 
-```
-
-### Uninstall PipelineAI Models
-
-Notes:
-* Each of these will remove the `predict-mnist`
-```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v1
-```
-```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v2
-```
-
-### Remove Pipeline"I Traffic Routes
-```
-kubectl delete routerule predict-mnist-dashboardstream
-kubectl delete routerule predict-mnist-denytherest
-kubectl delete routerule predict-mnist-invocations
-kubectl delete routerule predict-mnist-metrics
-kubectl delete routerule predict-mnist-ping
-kubectl delete routerule predict-mnist-prometheus
-```
