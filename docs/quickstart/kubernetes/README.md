@@ -364,6 +364,27 @@ Notes:
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
+### Uninstall PipelineAI Models
+
+Notes:
+* Each of these will remove the `predict-mnist`
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=v1
+```
+```
+pipeline predict-kube-stop --model-name=mnist --model-tag=v2
+```
+
+### Remove Pipeline" Traffic Routes
+```
+kubectl delete routerule predict-mnist-dashboardstream
+kubectl delete routerule predict-mnist-denytherest
+kubectl delete routerule predict-mnist-invocations
+kubectl delete routerule predict-mnist-metrics
+kubectl delete routerule predict-mnist-ping
+kubectl delete routerule predict-mnist-prometheus
+```
+
 ### Distributed TensorFlow Training 
 We assume you already have the following:
 * Kubernetes Cluster running anywhere! 
