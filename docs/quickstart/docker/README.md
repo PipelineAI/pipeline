@@ -71,6 +71,7 @@ pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=
 
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
@@ -194,7 +195,7 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1 --memory-limit=2
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
-* Ignore the following warning:  `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
@@ -435,6 +436,7 @@ pipeline train-server-start --model-name=linear --model-tag=v1 --output-host-pat
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
@@ -477,6 +479,7 @@ pipeline predict-server-build --model-name=linear --model-tag=v1 --model-type=sc
 ```
 pipeline predict-server-start --model-name=linear --model-tag=v1
 ```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
@@ -499,6 +502,7 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
 * If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
@@ -551,6 +555,7 @@ Notes:
 ```
 pipeline train-server-start --model-name=mnist --model-tag=v1 --output-host-path=./pytorch/mnist-v1/model
 ```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Training Logs
@@ -594,6 +599,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=pyt
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1
 ```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the PyTorch Model Server Logs
