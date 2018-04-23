@@ -9,7 +9,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.119 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -44,6 +44,11 @@ pipeline help
 env-conda-activate          <-- Switch to a New Model (Updates Conda Environment)
 
 help                        <-- This List of CLI Commands
+
+model-init                  <-- Initialize New Model in Empty Directory
+model-tar                   <-- Tar Model Before Uploading to PipelineAI
+model-untar                 <-- Untar Model After Uploading to PipelineAI
+model-upload                <-- Upload to PipelineAI
 
 predict-http-test           <-- Test Model Cluster (Http-based)
 
