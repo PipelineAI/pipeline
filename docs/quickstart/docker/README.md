@@ -36,7 +36,7 @@ cd models
 # Train a TensorFlow Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist-v1/model
+ls -l ./tensorflow/mnist-v3/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -52,7 +52,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
+pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model 
 ```
 Notes:  
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -66,7 +66,7 @@ Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 
 Notes:
@@ -94,7 +94,7 @@ Notes:
 * To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
 * Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
 * On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
@@ -104,7 +104,7 @@ Notes:
 ## View Training Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v3
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -112,7 +112,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-v1/output/
+ls -l ./tensorflow/mnist-v3/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -139,7 +139,7 @@ http://localhost:6006
 ## Stop Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-stop --model-name=mnist --model-tag=v1
+pipeline train-server-stop --model-name=mnist --model-tag=v3
 ```
 
 # Deploy a TensorFlow Model
@@ -147,7 +147,7 @@ pipeline train-server-stop --model-name=mnist --model-tag=v1
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist-v1/model
+ls -l ./tensorflow/mnist-v3/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -162,7 +162,7 @@ pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains 
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -176,7 +176,7 @@ ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
 * This command bundles the TensorFlow runtime with the model.
 
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
+pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -191,12 +191,12 @@ Notes:
 ## Start the Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v1 --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
 * Also, your nginx and prometheus configs will need to be adjusted.
@@ -207,7 +207,7 @@ Notes:
 ## Inspect `pipeline_predict.py`
 _Note:  Only the `predict()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-v1/model/pipeline_predict.py
+cat ./tensorflow/mnist-v3/model/pipeline_predict.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -258,7 +258,7 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-name=mnist --model-tag=v3
 
 ### EXPECTED OUTPUT ###
 ...
@@ -283,7 +283,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v3-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -315,11 +315,11 @@ Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "mnist-v1-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v3-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -345,13 +345,13 @@ Digit  Confidence
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * If you have any issues, you can review the logs as follows:
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-name=mnist --model-tag=v3
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -394,7 +394,7 @@ _Create additional PipelineAI metric widgets using [THIS](https://prometheus.io/
 # Stop Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=v1
+pipeline predict-server-stop --model-name=mnist --model-tag=v3
 ```
 
 # Train a Scikit-Learn Model
