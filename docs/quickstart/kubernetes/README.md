@@ -231,7 +231,7 @@ Request time: 36.414 milliseconds
 
 **Setup `PREDICT_HOST` and `PREDICT_PORT`**
 ```
-# Ingress Host IP>
+# Ingress Host IP
 PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
 
 # Ingress Port
