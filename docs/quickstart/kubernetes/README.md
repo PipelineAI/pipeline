@@ -51,7 +51,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v3b --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Register Model Prediction Server with Docker Repo - Versions a and b
+### (Optional) Register Model Prediction Server with Docker Repo - Versions 3a and 3b
 **Notes:**
 * You will need your own Docker repo
 * This can be DockerHub - or any private/public Docker Repo
@@ -141,7 +141,7 @@ svc/prometheus      NodePort       10.102.73.33     <none>        9090:31994/TCP
 svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 ```
 
-### Deploy Model Prediction Servers - Versions a and b (TensorFlow-based)
+### Deploy Model Prediction Servers - Versions 3a and 3b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
