@@ -1,5 +1,11 @@
 # Troubleshooting
 
+## PipelineAI 24x7 Support
+* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack.png)](https://joinslack.pipeline.ai)
+* Email:  help@pipeline.ai
+* Web:  https://support.pipeline.ai
+* Troubleshooting:  [Guide](/docs/troubleshooting)
+
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
