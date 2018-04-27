@@ -34,7 +34,7 @@ You know what to do, Linux folks!  :)
 kubectl config use-context docker-for-desktop
 ```
 
-### Build Model Prediction Servers - Versions v1 and v2 (TensorFlow-Based)
+### Build Model Prediction Servers - Versions v3a and v3b (TensorFlow-Based)
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * You must be in the `models/` directory created from the `git clone` above.
