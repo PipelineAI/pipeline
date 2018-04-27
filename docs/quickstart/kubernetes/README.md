@@ -141,7 +141,7 @@ svc/prometheus      NodePort       10.102.73.33     <none>        9090:31994/TCP
 svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 ```
 
-### Deploy Model Prediction Servers - Versions 3a and 3b (TensorFlow-based)
+### Deploy Model Prediction Servers - Versions v3a and v3b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
@@ -169,7 +169,7 @@ predict-mnist-v3a-...-...       2/2       Running   0          5m
 predict-mnist-v3b-...-...       2/2       Running   0          5m
 ```
 
-### Split Traffic Between Model Version v1 (50%) and Model Version v2 (50%)
+### Split Traffic Between Model Version v3a (50%) and Model Version v3b (50%)
 ```
 pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]'
 ```
@@ -177,7 +177,7 @@ Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
-### Shadow Traffic from Model Version v1 (100% Live) to Model Version v1 (0% Live, Only Shadow Traffic)
+### Shadow Traffic from Model Version v3a (100% Live) to Model Version v3b (0% Live, Only Shadow Traffic)
 ```
 pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]'
 ```
@@ -237,7 +237,7 @@ PREDICT_PORT=$(kubectl get svc -n istio-system istio-ingress -o jsonpath='{.spec
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invocations --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
