@@ -51,6 +51,22 @@ pipeline predict-server-build --model-name=mnist --model-tag=v3b --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
+### Register Model Prediction Server with Docker Repo - Versions a and b
+**Notes:**
+* You will need your own Docker repo
+* This can be DockerHub - or any private/public Docker Repo
+* You must be logged into your own Docker Repo using `docker login`
+
+[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+```
+pipeline predict-server-register --model-name=mnist --model-tag=v3a --image-registry-url=docker.io --image-registry-repo=<YOUR-DOCKER-REPO>
+```
+
+[**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+```
+pipeline predict-server-register --model-name=mnist --model-tag=v3b --image-registry-url=docker.io --image-registry-repo=<YOUR-DOCKER-REPO>
+```
+
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
 **Mac**
 ```
@@ -196,7 +212,7 @@ Notes:
 **Expected Output**
 * You should see a 100% traffic to Model Version v3a, however Model Version v3b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
 
-[**Mnist v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
 ('{"variant": "mnist-v3a-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
  '"probabilities": [[2.353575155211729e-06, 3.998300599050708e-06, '
