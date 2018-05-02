@@ -50,14 +50,12 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 ```
 
 ## Build Training Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 Arguments between `[` `]` are optional 
 ```
 pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model 
 ```
 Notes:  
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
@@ -65,14 +63,12 @@ Notes:
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 ```
 pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
@@ -104,7 +100,6 @@ Notes:
 (_We are working on making this more intuitive._)
 
 ## View Training Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline train-server-logs --model-name=mnist --model-tag=v3
 ```
@@ -139,7 +134,6 @@ http://localhost:6006
 ![PipelineAI TensorBoard UI 3](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-3.png)
 
 ## Stop Training Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline train-server-stop --model-name=mnist --model-tag=v3
 ```
@@ -174,14 +168,12 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 ```
 
 ## Build the Model into a Runnable Docker Image
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * This command bundles the TensorFlow runtime with the model.
 
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * `--model-path` must be relative.
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
@@ -191,12 +183,10 @@ Notes:
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
@@ -306,7 +296,6 @@ Digit  Confidence
 9      0.00000471303883387
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
 * If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
@@ -314,7 +303,6 @@ Notes:
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 ## Predict with CLI
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json
@@ -344,41 +332,34 @@ Digit  Confidence
 ```
 
 ## View Prediction Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * If you have any issues, you can review the logs as follows:
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v3
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=100
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ## Monitor Real-Time Prediction Metrics
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Re-run the Prediction REST API while watching the following dashboard URL:
 ```
 http://localhost:8080/dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Fdashboard.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ![Real-Time Throughput and Response Time](http://pipeline.ai/assets/img/hystrix-mini.png)
 
 # Monitor Model Prediction Metrics
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Re-run the Prediction REST API while watching the following detailed metrics dashboard URL.
 ```
 http://localhost:3000/
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
@@ -394,7 +375,6 @@ _Set `Url` to `http://localhost:9090`._
 _Create additional PipelineAI metric widgets using [THIS](https://prometheus.io/docs/practices/histograms/#count-and-sum-of-observations) guide to the Prometheus Syntax._
 
 # Stop Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-stop --model-name=mnist --model-tag=v3
 ```
@@ -419,12 +399,10 @@ cat ./scikit/linear/model/pipeline_train.py
 ```
 
 ## Build Training Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline train-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model 
 ```
 Notes:  
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * `--model-path` must be relative.  
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * For GPU-based models, make sure you specify `--model-chip=gpu`
@@ -432,12 +410,10 @@ Notes:
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline train-server-start --model-name=linear --model-tag=v1 --output-host-path=./scikit/linear/model
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
@@ -470,14 +446,12 @@ cat ./scikit/linear/model/pipeline_predict.py
 ```
 
 ## Build the Scikit-Learn Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=linear --model-tag=v1
 ```
@@ -485,7 +459,6 @@ pipeline predict-server-start --model-name=linear --model-tag=v1
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=linear --model-tag=v1
 ```
@@ -503,7 +476,6 @@ curl -X POST -H "Content-Type: application/json" \
 {"variant": "linear-v1-scikit-python-cpu", "outputs":[188.6431188435]}
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
