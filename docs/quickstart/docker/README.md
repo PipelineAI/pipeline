@@ -18,7 +18,9 @@ cd models
 * Install [Docker](https://www.docker.com/community-edition#/download)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+
+## Install [PipelineAI CLI](../README.md#install-pipelinecli)
+* Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 # Train and Deploy Models
 ## TensorFlow
@@ -255,7 +257,6 @@ def predict(request: bytes) -> bytes:                         <-- Required.  Cal
 ```
 
 ## Monitor Runtime Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Wait for the model runtime to settle...
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v3
@@ -269,10 +270,11 @@ pipeline predict-server-logs --model-name=mnist --model-tag=v3
 Notes:
 * You need to `Ctrl-C` out of the log viewing before proceeding.
 
-## Predict with REST API
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+## Predict in Any Language
 * Use the REST API to POST a JSON document representing a number.
-
+```
+http://localhost:8080
+```
 ![PipelineAI REST API](http://pipeline.ai/assets/img/api-embed-har-localhost.png)
 
 ![MNIST 8](http://pipeline.ai/assets/img/mnist-8-100x95.png)
