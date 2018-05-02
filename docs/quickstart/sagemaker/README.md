@@ -30,14 +30,14 @@ cd models
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
 ### Build CPU and GPU Models (TensorFlow-based with TensorFlow Serving)
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model --model-chip=cpu
+pipeline predict-server-build --model-name=mnist --model-tag=v3cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model --model-chip=cpu
 ```
 
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1gpu --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model --model-chip=gpu
+pipeline predict-server-build --model-name=mnist --model-tag=v3gpu --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model --model-chip=gpu
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -49,14 +49,14 @@ Defaults
 * `--image-registry-url`:  docker.io
 * `--image-registry-repo`:  pipelineai
 
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-server-register --model-name=mnist --model-tag=v1cpu
+pipeline predict-server-register --model-name=mnist --model-tag=v3cpu
 ```
 
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-1)
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-server-register --model-name=mnist --model-tag=v1gpu
+pipeline predict-server-register --model-name=mnist --model-tag=v3gpu
 ```
 
 ### Start TensorFlow Models on AWS SageMaker
@@ -68,19 +68,19 @@ Notes
 Examples
 * `--aws-iam-arn`: arn:aws:iam::<account-number>:role/service-role/AmazonSageMaker-ExecutionRole...
 
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=v1cpu --aws-iam-arn=<aws-iam-arn> 
+pipeline predict-sage-start --model-name=mnist --model-tag=v3cpu --aws-iam-arn=<aws-iam-arn> 
 ```
 
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-sage-start --model-name=mnist --model-tag=v1gpu --aws-iam-arn=<aws-iam-arn>
+pipeline predict-sage-start --model-name=mnist --model-tag=v3gpu --aws-iam-arn=<aws-iam-arn>
 ```
 
 ### Split Traffic Between CPU Model (50%) and GPU Model (50%)
 ```
-pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"cpu":"ml.p2.xlarge", "gpu":"ml.p2.xlarge"}' --model-split-tag-and-weight-dict='{"cpu":50, "gpu":50}'
+pipeline predict-sage-route --model-name=mnist --aws-instance-type-dict='{"v3cpu":"ml.p2.xlarge", "v3gpu":"ml.p2.xlarge"}' --model-split-tag-and-weight-dict='{"v3cpu":50, "v3gpu":50}'
 ```
 Notes:
 * You may need to increase your AWS EC2 quotas for the special `ml.p2.xlarge` instance (note the `ml.` prefix).
@@ -118,9 +118,9 @@ Notes:
 
 **Expected Output**
 
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-('{"variant": "mnist-v1cpu-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-v3cpu-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -129,9 +129,9 @@ Notes:
  Request time: 240.805 milliseconds
  ```
  
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-('{"variant": "mnist-v1gpu-tensorflow-tfserving-gpu", "outputs":{"outputs": '
+('{"variant": "mnist-v3gpu-tensorflow-tfserving-gpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
  '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
@@ -149,7 +149,7 @@ Notes:
 
 ![AWS SageMaker CPU vs. GPU Latency](http://pipeline.ai/assets/img/sagemaker-cpu-gpu-latency.png) 
 
-[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[CPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
 2018-01-09 21:38:04.021915: I tensorflow_serving/model_servers/main.cc:147] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
 ...
@@ -161,7 +161,7 @@ E0109 21:38:04.210768165 53 ev_epoll1_linux.c:1051] grpc epoll fd: 5
 2018-01-09 21:38:04.213992: I tensorflow_serving/model_servers/main.cc:288] Running ModelServer at 0.0.0.0:9000 ...
 ```
 
-[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
 2018-01-09 21:40:47.842724: I tensorflow_serving/model_servers/main.cc:148] Building single TensorFlow model file config: model_name: mnist model_base_path: /root/ml/model/pipeline_tfserving
 ...
@@ -192,7 +192,7 @@ More details [HERE](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-cleanup.
 
 
 ### Distributed TensorFlow Training
-* These instructions are under active development
+_Note: These instructions are under active development._
 
 _Note:  The paths below are relative to the sample datasets located here:  `s3://datapalooza-us-west-2/tensorflow/census/input/`._
 
