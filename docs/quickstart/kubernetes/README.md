@@ -27,7 +27,7 @@ cd models
 ![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
 
 ### Docker for Linux with Kubernetes (Server or Cluster)
-You know what to do, Linux folks!  :)
+You know what to do, Linux friends!
 
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
