@@ -45,6 +45,16 @@ env-conda-activate          <-- Switch to a New Model (Updates Conda Environment
 
 help                        <-- This List of CLI Commands
 
+model-archive-tar           <-- Create Tar Archive for Model Server
+model-archive-untar         <-- Untar Model Server Archive
+model-archive-upload        <-- Upload Model Server Archive
+
+model-source-get            <-- Retrieve file within Model Directory
+model-source-init           <-- Initialize Model Directory to Prepare for New Model
+
+model-source-list           <-- List Model Source Directories 
+model-source-set            <-- Update file within a Model Source Directory
+
 predict-http-test           <-- Test Model Cluster (Http-based)
 
 predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
@@ -61,7 +71,7 @@ predict-kube-start          <-- Start Model Cluster from Docker Registry
 predict-kube-stop           <-- Stop Model Cluster
 predict-kube-test           <-- Test Model Cluster
 
-predict-sage-status         <-- Describe of SageMaker Mode Cluster
+predict-sage-describe       <-- Describe of SageMaker Model Predict Cluster
 predict-sage-route          <-- Route Live Traffic in SageMaker
 predict-sage-start          <-- Start Model Cluster in SageMaker
 predict-sage-stop           <-- Stop Model Cluster in SageMaker
@@ -69,25 +79,21 @@ predict-sage-test           <-- Test Model Cluster in SageMaker
 
 predict-server-build        <-- Build Model Server
 predict-server-describe     <-- Describe Model Server
-predict-server-init         <-- Initialize Directory for Model Server Dev
 predict-server-logs         <-- View Model Server Logs
 predict-server-pull         <-- Pull Model Server from Docker Registry
 predict-server-register     <-- Register Model Server with Docker Registry
 predict-server-shell        <-- Shell into Model Server (Debugging)
 predict-server-start        <-- Start Model Server
 predict-server-stop         <-- Stop Model Server
-predict-server-tar          <-- Create Tar File for Model Server
-predict-server-tarupload    <-- Tar and Upload Model Server
+predict-server-tar          <-- Tar Model Server
 predict-server-test         <-- Test Model Server (Http-based)
 predict-server-untar        <-- Untar Model Server Tar File
-predict-server-upload       <-- Upload Model Server Tar File
 
 predict-stream-test         <-- Test Stream-based Model Server
 
-spark-kube-describe         <-- Describe Spark Job Cluster (Coming Soon)
-spark-kube-scale            <-- Scale Spark Job Cluster
-spark-kube-start            <-- Start Spark Job Cluster (Coming Soon)
-spark-kube-stop             <-- Stop Spark Job Cluster (Coming Soon)
+predict-tensorflow-describe <-- Describe TensorFlow Model Server (saved_model_cli)
+
+spark-kube-scale          <-- Scale Spark Cluster on Kubernetes
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 stream-http-describe        <-- Describe Stream (REST API)
