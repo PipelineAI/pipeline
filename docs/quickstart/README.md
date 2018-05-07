@@ -45,11 +45,6 @@ env-conda-activate          <-- Switch to a New Model (Updates Conda Environment
 
 help                        <-- This List of CLI Commands
 
-model-init                  <-- Initialize New Model in Empty Directory
-model-tar                   <-- Tar Model Before Uploading to PipelineAI
-model-untar                 <-- Untar Model After Uploading to PipelineAI
-model-upload                <-- Upload to PipelineAI
-
 predict-http-test           <-- Test Model Cluster (Http-based)
 
 predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
@@ -66,13 +61,14 @@ predict-kube-start          <-- Start Model Cluster from Docker Registry
 predict-kube-stop           <-- Stop Model Cluster
 predict-kube-test           <-- Test Model Cluster
 
-predict-sage-describe       <-- Describe Model Cluster (SageMaker)
-predict-sage-route          <-- Route Live Traffic (SageMaker)
-predict-sage-start          <-- Start Model Cluster (SageMaker)
-predict-sage-stop           <-- Stop Model Cluster (SageMaker)
-predict-sage-test           <-- Test Model Cluster (SageMaker)
+predict-sage-status         <-- Describe of SageMaker Mode Cluster
+predict-sage-route          <-- Route Live Traffic in SageMaker
+predict-sage-start          <-- Start Model Cluster in SageMaker
+predict-sage-stop           <-- Stop Model Cluster in SageMaker
+predict-sage-test           <-- Test Model Cluster in SageMaker
 
 predict-server-build        <-- Build Model Server
+predict-server-describe     <-- Describe Model Server
 predict-server-init         <-- Initialize Directory for Model Server Dev
 predict-server-logs         <-- View Model Server Logs
 predict-server-pull         <-- Pull Model Server from Docker Registry
@@ -86,9 +82,12 @@ predict-server-test         <-- Test Model Server (Http-based)
 predict-server-untar        <-- Untar Model Server Tar File
 predict-server-upload       <-- Upload Model Server Tar File
 
-predict-stream-test         <-- Test Model Server (Stream-based)
+predict-stream-test         <-- Test Stream-based Model Server
 
-spark-kube-scale            <-- Scale Spark Cluster
+spark-kube-describe         <-- Describe Spark Job Cluster (Coming Soon)
+spark-kube-scale            <-- Scale Spark Job Cluster
+spark-kube-start            <-- Start Spark Job Cluster (Coming Soon)
+spark-kube-stop             <-- Stop Spark Job Cluster (Coming Soon)
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 stream-http-describe        <-- Describe Stream (REST API)
@@ -98,6 +97,7 @@ stream-kube-consume         <-- Consume Messages from Stream
 stream-kube-describe        <-- Describe Stream
 stream-kube-produce         <-- Produce Messages to Stream
 stream-kube-start           <-- Start Stream (Kafka, MQTT)
+stream-kube-stop            <-- Stop Stream
 
 train-kube-connect          <-- Create Secure Tunnel to Training Cluster
 train-kube-describe         <-- Describe Training Cluster
