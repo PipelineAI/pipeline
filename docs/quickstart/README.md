@@ -1,23 +1,28 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
+### Requirements
+* 8GB
+* 4 Cores
+* Install [Docker](https://www.docker.com/community-edition#/download)
+* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
+
+### Install PipelineAI CLI
+```
+pip install cli-pipeline==1.5.134 --ignore-installed --no-cache --upgrade
+```
+Notes: 
+* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
+* If you're having trouble, use one of our support channels [**HERE**](/docs/troubleshooting) to let us know!
+* If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
+* You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
+* You may need to specify `--user` if you have issues.
+
 ### PipelineAI Quick Start (CPU and GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
-
-### Install PipelineAI CLI
-**Pre-requisites**
-* [Docker](https://www.docker.com/community-edition#/download)
-* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
-* (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-```
-pip install cli-pipeline==1.5.102 --ignore-installed --no-cache -U
-```
-Notes: 
-* This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
-* You may need to specify `--user` if you have issues.
-* If you're having trouble, use one of our support channels [**HERE**](#24x7-support) to let us know!
 
 ### Verify Successful PipelineAI CLI Installation
 ```
@@ -40,6 +45,16 @@ env-conda-activate          <-- Switch to a New Model (Updates Conda Environment
 
 help                        <-- This List of CLI Commands
 
+model-archive-tar           <-- Create Tar Archive for Model Server
+model-archive-untar         <-- Untar Model Server Archive
+model-archive-upload        <-- Upload Model Server Archive
+
+model-source-get            <-- Retrieve file within Model Directory
+model-source-init           <-- Initialize Model Directory to Prepare for New Model
+
+model-source-list           <-- List Model Source Directories 
+model-source-set            <-- Update file within a Model Source Directory
+
 predict-http-test           <-- Test Model Cluster (Http-based)
 
 predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
@@ -56,27 +71,29 @@ predict-kube-start          <-- Start Model Cluster from Docker Registry
 predict-kube-stop           <-- Stop Model Cluster
 predict-kube-test           <-- Test Model Cluster
 
-predict-sage-describe       <-- Describe Model Cluster (SageMaker)
-predict-sage-route          <-- Route Live Traffic (SageMaker)
-predict-sage-start          <-- Start Model Cluster (SageMaker)
-predict-sage-stop           <-- Stop Model Cluster (SageMaker)
-predict-sage-test           <-- Test Model Cluster (SageMaker)
+predict-sage-describe       <-- Describe of SageMaker Model Predict Cluster
+predict-sage-route          <-- Route Live Traffic in SageMaker
+predict-sage-start          <-- Start Model Cluster in SageMaker
+predict-sage-stop           <-- Stop Model Cluster in SageMaker
+predict-sage-test           <-- Test Model Cluster in SageMaker
 
 predict-server-build        <-- Build Model Server
-predict-server-init         <-- Initialize Directory for Model Server Dev
+predict-server-describe     <-- Describe Model Server
 predict-server-logs         <-- View Model Server Logs
 predict-server-pull         <-- Pull Model Server from Docker Registry
 predict-server-register     <-- Register Model Server with Docker Registry
 predict-server-shell        <-- Shell into Model Server (Debugging)
 predict-server-start        <-- Start Model Server
 predict-server-stop         <-- Stop Model Server
-predict-server-tar          <-- Create Tar File for Model Server
-predict-server-tarupload    <-- Tar and Upload Model Server
+predict-server-tar          <-- Tar Model Server
 predict-server-test         <-- Test Model Server (Http-based)
 predict-server-untar        <-- Untar Model Server Tar File
-predict-server-upload       <-- Upload Model Server Tar File
 
-predict-stream-test         <-- Test Model Server (Stream-based)
+predict-stream-test         <-- Test Stream-based Model Server
+
+predict-tensorflow-describe <-- Describe TensorFlow Model Server (saved_model_cli)
+
+spark-kube-scale          <-- Scale Spark Cluster on Kubernetes
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 stream-http-describe        <-- Describe Stream (REST API)
@@ -86,6 +103,7 @@ stream-kube-consume         <-- Consume Messages from Stream
 stream-kube-describe        <-- Describe Stream
 stream-kube-produce         <-- Produce Messages to Stream
 stream-kube-start           <-- Start Stream (Kafka, MQTT)
+stream-kube-stop            <-- Stop Stream
 
 train-kube-connect          <-- Create Secure Tunnel to Training Cluster
 train-kube-describe         <-- Describe Training Cluster
@@ -106,8 +124,10 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-### 24x7 Support
-* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack-logo.png)](https://join.slack.com/t/pipelineai/shared_invite/enQtMjg3MTYzNjg1OTY5LWQxM2E5MDFhYTAzMDdkYmU2NjEyMmIxYTg5MjcyZGE3N2JiMWM4OWQxMzI2NzVlNTk3Y2JlMjQ1MWM3M2M0Mjc)
-* Email:  help@pipeline.ai
+# Having Issues?  Contact Us 24x7.  We Never Sleep.
+* Slack:  http://joinslack.pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
 * Web:  https://support.pipeline.ai
+* YouTube:  http://youtube.pipeline.ai
+* Slideshare:  http://slideshare.pipeline.ai
 * Troubleshooting:  [Guide](/docs/troubleshooting)
