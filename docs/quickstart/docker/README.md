@@ -53,7 +53,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model 
+pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
 ```
 Notes:  
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -65,7 +65,7 @@ Notes:
 ## Start Training Server
 
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --runs-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
 ```
 
 Notes:
